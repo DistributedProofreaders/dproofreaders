@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'smoothread' table...\n";
 $sql = "
@@ -15,7 +14,7 @@ $sql = "
        )  COMMENT='Each row represents an association between a user and a project regarding smoothreading.'
        ";
 
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 ?>

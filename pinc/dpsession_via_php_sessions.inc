@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
 
 ini_set( 'session.name',            "{$site_abbreviation}_Session" );
 ini_set( 'session.use_cookies',     1 );
@@ -58,7 +57,7 @@ function dpsession_set_preferences_from_db()
 {
     global $pguser;
 
-    $users_res = mysql_query("
+    $users_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             u_id, u_profile, email_updates,
             u_plist, u_top10, u_neigh, u_align,
@@ -69,9 +68,9 @@ function dpsession_set_preferences_from_db()
         FROM users
         WHERE username='$pguser'
         ");
-    $users_data = mysql_fetch_assoc($users_res);
+    $users_data = mysqli_fetch_assoc($users_res);
 
-    $user_profiles_res = mysql_query("
+    $user_profiles_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             profilename,
             i_res, i_type, i_layout, i_toolbar, i_statusbar, i_newwin,
@@ -80,7 +79,7 @@ function dpsession_set_preferences_from_db()
         FROM user_profiles
         WHERE u_ref='{$users_data['u_id']}' AND id='{$users_data['u_profile']}'
         ");
-    $user_profiles_data = mysql_fetch_assoc($user_profiles_res);
+    $user_profiles_data = mysqli_fetch_assoc($user_profiles_res);
 
     $prefsChanged_data = array("prefschanged" => 0);
 
@@ -161,14 +160,14 @@ function mysql_session_close()
 function mysql_session_select($sid)
 {
     $result = do_session_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."");
-    $row = mysql_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
     if($row)
     {
         return $row["value"];
     }
     else
     {
-        return false;
+        return "";
     }
 }
 
@@ -176,7 +175,7 @@ function mysql_session_write($sid, $value)
 {
     $expiration = time() + ini_get("session.cookie_lifetime");
     $result = do_session_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
-    $row = mysql_fetch_row($result);
+    $row = mysqli_fetch_row($result);
     $SessionExists = $row[0];
     // The table has a uniqueness constraint on 'sid',
     // so $SessionExists must be 0 or 1.
@@ -184,7 +183,7 @@ function mysql_session_write($sid, $value)
     // $value is a string (constructed by PHP's built-in session
     // code) that might contain apostrophes (or backslashes?),
     // which will screw up the SQL queries unless we escape them.
-    $value = mysql_real_escape_string($value);
+    $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
 
     if ( $SessionExists == 0 )
     {
@@ -224,7 +223,7 @@ function mysql_session_garbage_collect($lifetime)
 function do_session_query( $query )
 {
     // write_to_session_log( $query );
-    $result = mysql_query($query) or die(mysql_error());
+    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
     return $result;
 }
 

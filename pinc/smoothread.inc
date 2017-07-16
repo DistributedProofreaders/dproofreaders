@@ -35,14 +35,14 @@ include_once($relPath.'misc.inc');  // attr_safe()
 
 function sr_user_is_committed($projectid, $username)
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM smoothread
         WHERE projectid = '$projectid' 
         AND user = '$username'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
+    $row = mysqli_fetch_assoc($res);
     if(!$row)
         return false;
 
@@ -73,10 +73,10 @@ function sr_user_is_committed($projectid, $username)
 
 function sr_commit($projectid, $username)
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO smoothread
         SET projectid='$projectid',  user='$username', committed='1'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
 }
 
@@ -96,11 +96,11 @@ function sr_commit($projectid, $username)
 
 function sr_withdraw_commitment($projectid, $username)
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         DELETE FROM smoothread
         WHERE projectid = '$projectid' 
         AND user = '$username'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
 }
 
@@ -120,20 +120,20 @@ function sr_get_committed_users($projectid)
 {
     $list = array();
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM smoothread
         WHERE projectid = '$projectid' 
         AND committed <> '0'
         ORDER BY user
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    if (mysql_num_rows($res) == 0)
+    if (mysqli_num_rows($res) == 0)
     {
         return $list;
     }
 
-    while ($row = mysql_fetch_assoc($res))
+    while ($row = mysqli_fetch_assoc($res))
     {
         //array_push($list, $row['user']);
         $list[] = $row['user'];
@@ -158,15 +158,15 @@ function sr_number_users_committed($projectid)
 {
     $number = 0;
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT count(user)
         FROM smoothread
         WHERE projectid = '$projectid' 
         AND committed <> '0'
         ORDER BY user
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_row($res);
+    $row = mysqli_fetch_row($res);
     if(!$row)
         return 0;
 

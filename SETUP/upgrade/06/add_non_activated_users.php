@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'non_activated_users' table...\n";
 $sql = "
@@ -18,7 +17,7 @@ $sql = "
     )
     COMMENT='Each row represents a not-yet-activated user, user_password is md5-hashed'
 ";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 ?>

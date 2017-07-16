@@ -3,9 +3,8 @@
 // One-time script to create 'image_sources' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 // -----------------------------------------------
 // Create 'image_sources' table.

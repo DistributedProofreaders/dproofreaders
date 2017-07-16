@@ -38,7 +38,7 @@ class DpTable
      *
      */
 
-    function DpTable( $pagenumber = 1, $rowsperpage = 0 ) {
+    function __construct( $pagenumber = 1, $rowsperpage = 0 ) {
         $this->_page_number     = $pagenumber ;
         $this->_rows_per_page   = $rowsperpage ;
     }
@@ -227,7 +227,7 @@ class DpTableCaption
     var $_align;
     var $_sort;
 
-    function DpTableCaption( $caption, $colcount = 1 ) {
+    function __construct( $caption, $colcount = 1 ) {
         $this->_caption = $caption ;
         $this->_colcount = $colcount ;
         $this->_set_align( $caption ) ;
@@ -294,7 +294,7 @@ class DpTableColumn
         Public.
      */
 
-    function DpTableColumn(
+    function __construct(
                 $caption, 
                 $colname, 
                 $template = null, 

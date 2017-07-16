@@ -27,7 +27,7 @@ function project_allow_pages( $projectid )
         ";
     }
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         CREATE TABLE $projectid
         (
             fileid        varchar(20) NOT NULL default '', UNIQUE (fileid),
@@ -46,7 +46,7 @@ function project_allow_pages( $projectid )
                 ) NOT NULL default ''
         ) ENGINE = MYISAM
     ");
-    return ( $res ? '' : mysql_error() );
+    return ( $res ? '' : mysqli_error(DPDatabase::get_connection()) );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -55,10 +55,10 @@ function project_drop_pages( $projectid )
 {
     global $writeBIGtable;
 
-    $result = mysql_query("DROP TABLE $projectid");
+    $result = mysqli_query(DPDatabase::get_connection(), "DROP TABLE $projectid");
 
     if ($writeBIGtable) {
-        $result = mysql_query("DELETE FROM project_pages WHERE projectid = '$projectid'");
+        $result = mysqli_query(DPDatabase::get_connection(), "DELETE FROM project_pages WHERE projectid = '$projectid'");
     }
 
     _project_adjust_n_pages( $projectid, 'NONE' );
@@ -85,7 +85,7 @@ function Pages_prepForRound( $projectid, $round_number )
 
         $timestamp = time();
 
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             UPDATE $projectid
             SET
                 state = '{$round->page_avail_state}',
@@ -94,7 +94,7 @@ function Pages_prepForRound( $projectid, $round_number )
     
         if ($writeBIGtable)
         {
-            $result = mysql_query("
+            $result = mysqli_query(DPDatabase::get_connection(), "
                 UPDATE project_pages
                 SET
                     state = '{$round->page_avail_state}',
@@ -136,10 +136,10 @@ function project_add_page(
             state       = '$page_state'
     ";
     // echo $sql, "\n";
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if (!$res)
     {
-        $errs .= mysql_error();
+        $errs .= mysqli_error(DPDatabase::get_connection());
     }
 
     if ($writeBIGtable)
@@ -154,11 +154,11 @@ function project_add_page(
                     round1_time = $now,
                     state       = '$page_state'
             ";
-        $res = mysql_query($sql);
+        $res = mysqli_query(DPDatabase::get_connection(), $sql);
         if (!$res)
         {
             if ($errs) $errs .= "\n";
-            $errs .= mysql_error();
+            $errs .= mysqli_error(DPDatabase::get_connection());
         }
     }
 
@@ -185,7 +185,7 @@ function file_content_expr( $file_path )
             return 'NULL';
         }
         $txt = _normalize_page_text($txt);
-        return sprintf("'%s'", mysql_real_escape_string($txt));
+        return sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $txt));
 }
 
 // -----------------------------------------------------------------------------
@@ -194,20 +194,20 @@ function Page_delete( $projectid, $image, $user )
 {
     global $writeBIGtable;
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT COUNT(*)
         FROM $projectid
         WHERE image = '$image' AND state LIKE '%avail%'
     ");
-    list($page_was_available) = mysql_fetch_row($res); // either 0 or 1
+    list($page_was_available) = mysqli_fetch_row($res); // either 0 or 1
 
     $sql = "DELETE FROM $projectid WHERE image = '$image'";
-    mysql_query($sql);
+    mysqli_query(DPDatabase::get_connection(), $sql);
 
     if ($writeBIGtable)
     {
         $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND image = '$image'";
-        mysql_query($sql);
+        mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
     _log_page_event( $projectid, $image, 'delete', $user, NULL, FALSE );
@@ -250,7 +250,7 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
     $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, sprintf("
         $text_column='%s'
-    ", mysql_real_escape_string($page_text)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
     _log_page_event( $projectid, $image, 'modifyText', $user, NULL, FALSE );
 }
@@ -296,7 +296,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user',
         {$round->text_column_name}='%s'
-    ", mysql_real_escape_string($page_text)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
     _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round, TRUE );
 
@@ -320,7 +320,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user',
         {$round->text_column_name}='%s'
-    ", mysql_real_escape_string($page_text)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
     _log_page_event( $projectid, $image, 'saveAsDone', $user, $round, TRUE );
 
@@ -476,17 +476,17 @@ function _Page_require(
 {
     $user_item = ( is_null($allowed_user_colname) ? '0' : $allowed_user_colname );
     $sql = "SELECT state, $user_item FROM $projectid WHERE image='$image'";
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ( !$res )
     {
         echo "The following mysql query:<br>\n";
         echo $sql, "<br>\n";
         echo "raised the following error:<br>\n";
-        echo mysql_error(), "<br>\n";
+        echo mysqli_error(DPDatabase::get_connection()), "<br>\n";
         exit;
     }
 
-    list( $curr_page_state, $curr_page_owner ) = mysql_fetch_row($res);
+    list( $curr_page_state, $curr_page_owner ) = mysqli_fetch_row($res);
     if ( !in_array( $curr_page_state, $allowed_states ) )
     {
         $err = "\n"
@@ -532,20 +532,20 @@ function _Page_UPDATE( $projectid, $image, $settings )
     global $writeBIGtable;
 
     $sql = "UPDATE $projectid SET $settings WHERE image='$image'";
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ( !$res )
     {
         echo "The following mysql query:<br>\n";
         echo $sql, "<br>\n";
         echo "raised the following error:<br>\n";
-        echo mysql_error(), "<br>\n";
+        echo mysqli_error(DPDatabase::get_connection()), "<br>\n";
         exit;
     }
 
     if ($writeBIGtable)
     {
         $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND image='$image'";
-        $res = mysql_query($sql) or die(mysql_error());
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 
@@ -592,7 +592,7 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round, $i
 
     $round_id_setting = ( is_null($round) ? 'NULL' : "'$round->id'" );
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO page_events
         SET
             timestamp    = UNIX_TIMESTAMP(),
@@ -601,7 +601,7 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round, $i
             event_type   = '$event_type',
             username     = '$username',
             round_id     = $round_id_setting
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     if ( $is_prooferly ) // as opposed to a PM-ish or Auto event
     {
@@ -613,11 +613,11 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round, $i
 
 function _project_set_t_last_page_done( $projectid, $timestamp )
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET t_last_page_done = $timestamp
         WHERE projectid = '$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function _project_adjust_n_pages( $projectid, $adjustment )
@@ -631,11 +631,11 @@ function _project_adjust_n_pages( $projectid, $adjustment )
         $expr = "n_pages + $adjustment";
     }
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET n_pages = $expr
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function _project_adjust_n_available_pages( $projectid, $adjustment )
@@ -666,17 +666,17 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
         }
     }
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET n_available_pages = $expr
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function project_recalculate_page_counts( $projectid )
 // Calculate the project's n_pages and n_available_pages from scratch.
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT COUNT(*), SUM(state LIKE '%.page_avail')
         FROM $projectid
     ");
@@ -692,7 +692,7 @@ function project_recalculate_page_counts( $projectid )
     }
     else
     {
-        list($n_pages,$n_available_pages) = mysql_fetch_row($res);
+        list($n_pages,$n_available_pages) = mysqli_fetch_row($res);
 
         // If pages table exists, but is empty,
         // COUNT(*) will be 0, but SUM(...) will be NULL.
@@ -701,11 +701,11 @@ function project_recalculate_page_counts( $projectid )
         $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages";
     }
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET $settings
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // vim: sw=4 ts=4 expandtab

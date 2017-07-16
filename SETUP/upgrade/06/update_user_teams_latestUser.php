@@ -1,9 +1,8 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Adding 'latestUser' column to 'user_teams' table...\n";
-$result = mysql_query("ALTER TABLE `user_teams` ADD `latestUser` MEDIUMINT DEFAULT 0 NOT NULL") or die(mysql_error());
+$result = mysqli_query(DPDatabase::get_connection(), "ALTER TABLE `user_teams` ADD `latestUser` MEDIUMINT DEFAULT 0 NOT NULL") or die(mysqli_error(DPDatabase::get_connection()));
 echo "\nDone!\n";
 ?>

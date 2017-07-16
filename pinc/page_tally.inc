@@ -94,13 +94,13 @@ function user_get_ELR_page_tally( $username )
 {
     global $joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column;
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
         WHERE username='$username'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_row($res);
+    $row = mysqli_fetch_row($res);
 
     if(!$row)
     {
@@ -174,7 +174,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
+    function __construct( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
     {
         $this->tallyboard = $tallyboard;
         $this->is_anonymized = $is_anonymized;
@@ -289,13 +289,13 @@ function get_site_page_tally_summary( $tally_name )
 
 function get_site_tally_goal_summed( $tally_name, $date_condition )
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT SUM(goal)
         FROM site_tally_goals
         WHERE tally_name = '$tally_name' AND ($date_condition)
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_row($res);
+    $row = mysqli_fetch_row($res);
     return $row[0];
 }
 

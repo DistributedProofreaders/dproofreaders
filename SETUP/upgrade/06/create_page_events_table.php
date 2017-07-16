@@ -1,12 +1,11 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect;
+include_once($relPath.'base.inc');
 
 header( 'Content-type: text/plain' );
 
 echo "Creating 'page_events' table...\n";
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     CREATE TABLE page_events (
         event_id      INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 
@@ -22,7 +21,7 @@ mysql_query("
         INDEX (projectid,image,round_id),
         INDEX (username,round_id)
     )
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 

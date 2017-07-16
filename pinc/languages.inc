@@ -74,6 +74,9 @@ function proj_lang_code($proj_lang,$which="all")
 
 // Given a 2-letter language code, return the language name in that
 // language.
+// NOTE: When the site moves to UTF-8, this function can be replaced with:
+//       locale_get_display_language($langcode, $langcode);
+//       And iso_639_loc_list.inc can be removed.
 function lang_name($langcode)
 {
     global $relPath, $lang_name_data;
@@ -87,6 +90,8 @@ function lang_name($langcode)
 }
 
 // Given a 2-letter language code, return the language name in English.
+// NOTE: When the site moves to UTF-8, this function can be replaced with:
+//       locale_get_display_language($langcode, 'en');
 function eng_name($langcode)
 {
     global $relPath, $eng_name_data;
@@ -207,16 +212,9 @@ function get_installed_locale_translations($state="all")
 
     include($relPath.'iso_639_list.inc');
 
-    // replace with "$files = scandir($dyn_locales_dir) for PHP >= 5.3
-    $dh = opendir($dyn_locales_dir);
-    if(!$dh)
+    $files = scandir($dyn_locales_dir);
+    if(!$files)
         return $translation_cache[$state];
-
-    while(false !== ($filename = readdir($dh))) {
-        $files[] = $filename;
-    }
-    closedir($dh);
-    sort($files);
 
     foreach($files as $file)
     {
@@ -247,13 +245,8 @@ function is_locale_translation_enabled($locale)
     if($locale == 'en_US')
         return TRUE;
 
-    $translation_base = "$dyn_locales_dir/$locale";
-    $enabled_file = "$translation_base/enabled";
-
-    if(!is_dir($translation_base))
-        return NULL;
-
-    return is_file($enabled_file);
+    $enabled_locales = get_installed_locale_translations("enabled");
+    return in_array($locale, $enabled_locales);
 }
 
 function set_locale_translation_enabled($locale, $enable)
@@ -345,6 +338,19 @@ function massage_browser_lang_code_to_locale($browser_lang_code)
         $lang_code = strtolower(substr($browser_lang_code, 0, 2));
         $region_code = strtoupper(substr($browser_lang_code, 3, 2));
         return "{$lang_code}_{$region_code}";
+    }
+
+    // The following makes the rash, and horribly wrong, assumption that
+    // a language's region will match that of the language. This holds true
+    // for some common cases (it -> it_IT, br -> br_BR) but fails at one
+    // of the most common (en -> en_US, en_CA, en_GB, ?). In fact, it's
+    // impossible to derive this and it really requires a human to define
+    // what locale should be presented as the default if just a language
+    // is supplied. In the meantime, we're just going to special-case
+    // en_EN to en_US since that's what the strings are natively :(
+    if($browser_lang_code == "en")
+    {
+        return "en_US";
     }
 
     if(strlen($browser_lang_code) == 2)

@@ -3,20 +3,19 @@ set_time_limit(0);
 error_reporting(0);
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-$db_Connection=new dbConnect();
 
-$result = mysql_query("SELECT projectid FROM projects");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT projectid FROM projects");
 
-$numProjs = mysql_num_rows($result);
+$numProjs = mysqli_num_rows($result);
 $numOK = 0;
 $numBad = 0;
 $numPartial = 0;
 
-while ($row = mysql_fetch_assoc($result)) {
-    $result1 = mysql_query("SELECT * FROM ".$row['projectid']."");
-    $numPages = mysql_num_rows($result1);
+while ($row = mysqli_fetch_assoc($result)) {
+    $result1 = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM ".$row['projectid']."");
+    $numPages = mysqli_num_rows($result1);
     if ($result1 == FALSE || $numPages == 0) {
         echo $row['projectid']." -- Not moved due to either missing table or 0 rows\n";
         $numBad++;
@@ -35,7 +34,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 {$round->text_column_name} ,
             ";
         }
-        $result2 = mysql_query( 
+        $result2 = mysqli_query(DPDatabase::get_connection(),
             "INSERT project_pages 
             SELECT '".$projectid."', fileid , image , master_text ,
             $columns_for_rounds

@@ -31,12 +31,12 @@ echo "
 }
 
 $page_image_names = array();
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT image
     FROM $projectid
     ORDER BY image
-") or die(mysql_error());
-while ( list($image) = mysql_fetch_row($res) )
+") or die(mysqli_error(DPDatabase::get_connection()));
+while ( list($image) = mysqli_fetch_row($res) )
 {
     $page_image_names[] = $image;
 }

@@ -22,7 +22,7 @@ function showstartexts($etext_limit,$type) {
         $description =  _("These books have been processed through our site and posted to the Project Gutenberg archive.");
     }
 
-    $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
+    $total = mysqli_num_rows(mysqli_query(DPDatabase::get_connection(), "SELECT projectid FROM projects WHERE $state"));
 
     // Display star graphic
     echo "<img src='$code_url/graphics/{$type}_star.jpg' height='38' width='40' alt='$type star'>\n";

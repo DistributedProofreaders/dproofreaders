@@ -88,13 +88,13 @@ foreach ( array('open', 'close') as $which )
     ";
     echo $specials_query, "\n";
 
-    $res = mysql_query($specials_query) or die(mysql_error());
-    $n = mysql_num_rows($res);
+    $res = mysqli_query(DPDatabase::get_connection(), $specials_query) or die(mysqli_error(DPDatabase::get_connection()));
+    $n = mysqli_num_rows($res);
     echo "
         Found $n special events which '$which' now.
     ";
 
-    while ( list($spec_code) = mysql_fetch_row($res) )
+    while ( list($spec_code) = mysqli_fetch_row($res) )
     {
         echo "
             Looking for queues that deal with special event '$spec_code'...
@@ -111,9 +111,9 @@ foreach ( array('open', 'close') as $which )
 
         if (!$testing_this_script)
         {    
-            mysql_query($update_query) or die(mysql_error());
+            mysqli_query(DPDatabase::get_connection(), $update_query) or die(mysqli_error(DPDatabase::get_connection()));
 
-            $n = mysql_affected_rows();
+            $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo "
                 $n queues $which'd.
             ";

@@ -1,15 +1,14 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'user_filters' table...\n";
-$result = mysql_query("CREATE TABLE `user_filters` (
+$result = mysqli_query(DPDatabase::get_connection(), "CREATE TABLE `user_filters` (
 `username` varchar(25) NOT NULL default '',
 `filtertype` varchar(25) NOT NULL default '',
 `value` text NOT NULL default '',
 PRIMARY KEY  (`username`,`filtertype`)
-)") or die(mysql_error());
+)") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 ?>

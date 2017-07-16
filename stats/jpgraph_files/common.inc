@@ -384,8 +384,10 @@ function draw_pie_graph(
 
     // Add the plot
     $plot=new PiePlot($datay);
-    $plot->SetSize(175);
-    $plot->SetCenter(0.33);
+    $plot->SetSize(0.34);
+    // SetCenter() doesn't work because the theme overrides it:
+    // https://stackoverflow.com/questions/27745187/jpgraph-setcenter-does-not-work
+    // $plot->SetCenter(0.4);
     $plot->SetLegends($datax);
     if (0)
     {
@@ -407,6 +409,7 @@ function draw_pie_graph(
 
     $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
     $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->legend->SetPos(0.01, 0.05, 'right', 'top');
     $graph->legend->SetColumns(1);
     $graph->legend->SetShadow();
 
@@ -642,12 +645,12 @@ function get_round_backlog_stats($interested_phases)
         $sql = "SELECT SUM(n_pages) as num_pages
                 FROM projects
                 WHERE $where_state";
-        $res = mysql_query($sql);
-        while( $result = mysql_fetch_assoc($res) )
+        $res = mysqli_query(DPDatabase::get_connection(), $sql);
+        while( $result = mysqli_fetch_assoc($res) )
         {
             $stats[$phase]=$result["num_pages"];
         }
-        mysql_free_result($res);
+        mysqli_free_result($res);
     }
 
     // Pop off any trailing phases that have no pages.

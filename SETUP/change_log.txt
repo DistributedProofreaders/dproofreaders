@@ -134,10 +134,16 @@
 
     * MAJOR: New Format Preview functionality (rp31)
     * MAJOR: Removed dependency on magic quotes allowing PHP 5.4 and later support (cpeel)
+    * See `git log R201601 R201701` for full set of changes.
 
-== Changes from R201701 to ??????? ==
+== Changes from R201701 to R201707 ==
 (Scripts supporting this upgrade are in SETUP/upgrade/10)
 
     * MAJOR: Support phpBB versions 3.1 and 3.2 (cpeel)
+    * MAJOR: Support jpgraph version 4.0.2 (cpeel)
+    * MAJOR: Moved to mysqli extention (cpeel)
+             This should allow the code to run on PHP 7.x but that has not been tested.
+    * MAJOR: Full French translation of the UI (srjfoo and other volunteers)
+    * See `git log R201701 R201707` for full set of changes.
 
 # vim: sw=4 ts=4 expandtab

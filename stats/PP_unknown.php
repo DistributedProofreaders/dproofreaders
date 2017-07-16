@@ -18,12 +18,13 @@ echo sprintf( _("We don't know for sure who PPd these books; if you do know, or 
 
 //get projects that have been PPd but we don't know by whom
 $psd = get_project_status_descriptor('PPd');
-$result = mysql_query("SELECT nameofwork, authorsname, username, 
-                       projectid , from_unixtime(modifieddate) as 'LMDate'
-                       FROM projects WHERE
-                       $psd->state_selector
-                       AND postproofer = 'No Known PPer' 
-                       ORDER BY $order ASC");
+$result = mysqli_query(DPDatabase::get_connection(), "
+    SELECT nameofwork, authorsname, username, projectid,
+           from_unixtime(modifieddate) as 'LMDate'
+    FROM projects
+    WHERE $psd->state_selector AND postproofer = 'No Known PPer'
+    ORDER BY $order ASC
+");
 
 $rownum = 0;
 
@@ -37,7 +38,7 @@ echo "<th><a href='?order=projectid'>" . _("Project ID") . "</a></th>";
 echo "<th><a href='?order=modifieddate'>" . _("Date Last Modified") . "</a></th>";
 echo "</tr>";
 
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
     $nameofwork = $row["nameofwork"];
     $author = $row["authorsname"];
     $username = $row["username"];

@@ -1,10 +1,9 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'tasks' table...\n";
-$result = mysql_query("CREATE TABLE `tasks` (
+$result = mysqli_query(DPDatabase::get_connection(), "CREATE TABLE `tasks` (
   `task_id` mediumint(9) NOT NULL auto_increment,
   `task_summary` varchar(80) NOT NULL default '',
   `task_type` tinyint(3) unsigned NOT NULL default '0',
@@ -27,15 +26,15 @@ $result = mysql_query("CREATE TABLE `tasks` (
   `percent_complete` tinyint(3) NOT NULL default '0',
   `related_tasks` mediumtext NOT NULL,
   KEY `task_id` (`task_id`)
-) TYPE=MyISAM AUTO_INCREMENT=1") or die(mysql_error());
+) TYPE=MyISAM AUTO_INCREMENT=1") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "Creating 'tasks_comments' table...\n";
-$result = mysql_query("CREATE TABLE `tasks_comments` (
+$result = mysqli_query(DPDatabase::get_connection(), "CREATE TABLE `tasks_comments` (
   `task_id` mediumint(9) NOT NULL default '0',
   `u_id` mediumint(9) NOT NULL default '0',
   `comment_date` int(11) NOT NULL default '0',
   `comment` mediumtext NOT NULL
-) TYPE=MyISAM") or die(mysql_error());
+) TYPE=MyISAM") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 ?>

@@ -142,9 +142,9 @@ function that_user_is_over_PP_checked_out_limit($username)
         FROM projects
         WHERE checkedoutby LIKE '%s'
             AND state = 'proj_post_first_checked_out'
-    ", mysql_real_escape_string($username));
-    $result = mysql_query( $query );
-    $row =  mysql_fetch_row($result);
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+    $result = mysqli_query(DPDatabase::get_connection(),  $query );
+    $row =  mysqli_fetch_row($result);
     $number_out = $row[0];
 
     // a limit of zero counts as no limit

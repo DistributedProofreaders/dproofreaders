@@ -105,12 +105,12 @@ if ( isset($_REQUEST['action']) &&
         }
         else
         {
-            $result = mysql_query("SELECT * FROM uber_projects WHERE up_projectid = '$up_projectid'") or die(mysql_error());
-            if (mysql_num_rows($result))
+            $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM uber_projects WHERE up_projectid = '$up_projectid'") or die(mysqli_error(DPDatabase::get_connection()));
+            if (mysqli_num_rows($result))
             {
                 // check that user has permission to edit this UP
 
-                $up_info = mysql_fetch_assoc($result);
+                $up_info = mysqli_fetch_assoc($result);
 
                 $up_nameofwork = $up_info['up_nameofwork'];
                 $up_description = $up_info['up_description'];
@@ -248,8 +248,8 @@ function saveUberProject()
     if (!empty($_POST['up_topic_id']))
     {
         $up_topic_id = $_POST['up_topic_id'];
-        $result = mysql_query("SELECT forum_id FROM phpbb_topics WHERE topic_id = '$up_topic_id'");
-        if (mysql_num_rows($result) == 0)
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT forum_id FROM phpbb_topics WHERE topic_id = '$up_topic_id'");
+        if (mysqli_num_rows($result) == 0)
         {
             $errormsg .= "Uber Project Topic must already exist - check topic id.<br>";
         }
@@ -325,7 +325,7 @@ function saveUberProject()
     if (isset($_POST['up_projectid']))
     {
         //Update the uber project database table with the updated info
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             UPDATE uber_projects
             SET
                 up_nameofwork='{$_POST['up_nameofwork']}',
@@ -357,7 +357,7 @@ function saveUberProject()
         global $up_projectid;
 
         //Insert a new row into the uber projects table
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO uber_projects
                 (up_nameofwork, up_topic_id, up_contents_post_id, up_modifieddate, up_enabled, up_description,
                 d_nameofwork, d_authorsname, d_language, d_comments, d_special, d_checkedoutby, d_scannercredit,
@@ -388,7 +388,7 @@ function saveUberProject()
             )
         ");
 
-        $up_projectid = mysql_insert_id();
+        $up_projectid = mysqli_insert_id(DPDatabase::get_connection());
 
         // if topic / post IDs are blank :
         // create the auto uber post and/or the auto contents post ?

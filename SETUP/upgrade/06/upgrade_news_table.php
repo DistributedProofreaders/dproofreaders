@@ -3,9 +3,8 @@
 // One-time script to create 'news_pages' table and modify news_table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 header('Content-type: text/plain');
 

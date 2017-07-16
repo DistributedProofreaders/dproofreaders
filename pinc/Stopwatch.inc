@@ -9,7 +9,7 @@ class Stopwatch
     // The time between a 'start' ('resume') and the subsequent 'stop' ('pause')
     // is called a "run" (when the watch is running).
 
-    function Stopwatch()
+    function __construct()
     {
         $this->running = FALSE;
         $this->seconds_from_completed_runs = 0;

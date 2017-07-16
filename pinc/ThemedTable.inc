@@ -7,7 +7,7 @@
 
 class ThemedTable
 {
-    function ThemedTable( $n_cols, $title, $options=array() )
+    function __construct( $n_cols, $title, $options=array() )
     {
         $this->n_cols = $n_cols;
 

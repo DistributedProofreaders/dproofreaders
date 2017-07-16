@@ -21,15 +21,15 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
     echo project_states_text($proj_state);
     echo ":</h3>\n";
 
-    $rows = mysql_query( "SELECT projectid, nameofwork, authorsname, language FROM projects WHERE state='$proj_state'") or die(mysql_error());
+    $rows = mysqli_query(DPDatabase::get_connection(),  "SELECT projectid, nameofwork, authorsname, language FROM projects WHERE state='$proj_state'") or die(mysqli_error(DPDatabase::get_connection()));
 
-    if ( mysql_num_rows($rows) == 0 )
+    if ( mysqli_num_rows($rows) == 0 )
     {
         echo "none<br>\n";
     }
     else
     {
-        while( $row = mysql_fetch_array( $rows ) )
+        while( $row = mysqli_fetch_array( $rows ) )
         {
             $projectid   = $row['projectid'];
             $nameofwork  = $row['nameofwork'];

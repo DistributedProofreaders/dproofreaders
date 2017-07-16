@@ -19,7 +19,7 @@ if (!isset($tid)) {
 }
 
 $result = select_from_teams("id = $tid");
-$curTeam = mysql_fetch_assoc($result);
+$curTeam = mysqli_fetch_assoc($result);
 
 // Allow team owner and site administrators to edit the team
 if (($userP['u_id'] != $curTeam['owner']) && (!user_is_a_sitemanager()))
@@ -62,14 +62,14 @@ elseif (isset($_POST['edPreview']))
 }
 elseif (isset($_POST['edMake']))
 {
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT id
         FROM user_teams
         WHERE id != %s
             AND teamname = '%s'
     ", $tid,
-        mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
-    if (mysql_num_rows($result) > 0 || trim($_POST['teamname']) == '')
+        mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname'])))));
+    if (mysqli_num_rows($result) > 0 || trim($_POST['teamname']) == '')
     {
         $preview = _("Preview");
         output_header($preview, SHOW_STATSBAR, $theme_extra_args);
@@ -91,8 +91,8 @@ elseif (isset($_POST['edMake']))
                 UPDATE user_teams
                 SET avatar='%s'
                 WHERE id = $tid
-            ", mysql_real_escape_string($_POST['tavatar']));
-            mysql_query($sql);
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['tavatar']));
+            mysqli_query(DPDatabase::get_connection(), $sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
@@ -104,24 +104,24 @@ elseif (isset($_POST['edMake']))
                 UPDATE user_teams
                 SET icon='%s'
                 WHERE id = $tid
-            ", mysql_real_escape_string($_POST['ticon']));
-            mysql_query($sql);
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['ticon']));
+            mysqli_query(DPDatabase::get_connection(), $sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {
             uploadImages(0,$tid,"icon");
         }
 
-        mysql_query(sprintf("
+        mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE user_teams
             SET
                 teamname='%s',
                 team_info='%s',
                 webpage='%s'
             WHERE id='%s'
-        ", mysql_real_escape_string(stripAllString(trim($_POST['teamname']))),
-            mysql_real_escape_string(stripAllString($_POST['text_data'])),
-            mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
+            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
+            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
             $tid));
 
         $title = _("Saving Team Update");

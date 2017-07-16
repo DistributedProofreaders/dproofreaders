@@ -12,7 +12,7 @@ function mentor_banner($round)
 
     // We store the name of the project's language in the 'language' column
     // in its English form, hence the use of $eng_lang_name below.
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT max(round((unix_timestamp() - modifieddate)/(24 * 60 * 60)))
             FROM projects
             WHERE
@@ -21,7 +21,7 @@ function mentor_banner($round)
                 AND language = '$eng_lang_name'
         "));
 
-    $row = mysql_fetch_row($result);
+    $row = mysqli_fetch_row($result);
     $oldest = $row[0];
 
     if(is_null($oldest))

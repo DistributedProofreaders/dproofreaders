@@ -42,8 +42,8 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 break;
         }
         $data = '';
-        $result = mysql_query("SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
-        while ($row = mysql_fetch_array($result)) {
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
+        while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r",($row['modifieddate']));
             if (isset($_GET['type'])) {
                 $data .= "<item>
@@ -95,8 +95,8 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
 
     if ($content == "news") {
         $data = '';
-        $result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
-        while ($news_item = mysql_fetch_array($result)) {
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
+        while ($news_item = mysqli_fetch_array($result)) {
             $posteddate = date("l, F jS, Y",($news_item['date_posted']));
             $data .= "<item>
                 <title>".xmlencode(sprintf( _("News Update for %1\$s."), $posteddate))."</title>

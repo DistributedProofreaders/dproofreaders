@@ -72,28 +72,28 @@ $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
 
 // For transition events (event_type = 'transition'), details2 gives
 // the project's new state.
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT details2, count(distinct projectid)
     FROM project_events
     WHERE event_type = 'transition' AND timestamp >= $t_start_of_today
     GROUP BY details2
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 $n_projects_transitioned_to_state_ = array();
-while ( list($project_state,$count) = mysql_fetch_row($res) )
+while ( list($project_state,$count) = mysqli_fetch_row($res) )
 {
     $n_projects_transitioned_to_state_[$project_state] = $count;
 }
 
 // Get the current count for the number of projects in their current state
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT state, COUNT(*)
     FROM projects
     GROUP BY state
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 $n_projects_in_state_ = array();
-while ( list($project_state,$count) = mysql_fetch_row($res) )
+while ( list($project_state,$count) = mysqli_fetch_row($res) )
 {
     $n_projects_in_state_[$project_state] = $count;
 }
@@ -364,15 +364,15 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
                 $n_projects_in_state_by_filter_[$desired_state] = _("N/A");
         }
 
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT state, COUNT(*)
             FROM projects
             WHERE state IN ($states_list) $project_filter
             GROUP BY state
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
         $total_projects = 0;
-        while ( list($project_state,$count) = mysql_fetch_row($res) )
+        while ( list($project_state,$count) = mysqli_fetch_row($res) )
         {
             $n_projects_in_state_by_filter_[$project_state] = $count;
             $total_projects += $count;

@@ -33,13 +33,13 @@ if (!table_exists('authors') || !table_exists('biographies')) {
     exit;
 }
 
-$result = mysql_query('SELECT * FROM authors');
-if (mysql_num_rows($result) > 0) {
+$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM authors');
+if (mysqli_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
     exit;
 }
-$result = mysql_query('SELECT * FROM biographies');
-if (mysql_num_rows($result) > 0) {
+$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM biographies');
+if (mysqli_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
     exit;
 }
@@ -99,11 +99,11 @@ else {
 
     // Get all the project comments that contain a biography
 
-    $result = mysql_query("SELECT projectID, comments FROM projects WHERE comments LIKE '%<!-- begin bio%'");
-    echo sprintf('Found %d projects with biographies in them. Processing....', mysql_num_rows($result)) . "\n";
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT projectID, comments FROM projects WHERE comments LIKE '%<!-- begin bio%'");
+    echo sprintf('Found %d projects with biographies in them. Processing....', mysqli_num_rows($result)) . "\n";
 
     // Loop through, extracting all bios
-    while ($row = mysql_fetch_row($result)) {
+    while ($row = mysqli_fetch_row($result)) {
         // get all the data with a regex, store matches in $matches
         $matches = array();
         $count = preg_match_all("/<!-- begin bio: (.*?) (\((.*?)\))? -->(.*?)<!-- end bio/is", $row[1], $matches, PREG_SET_ORDER);
@@ -197,37 +197,37 @@ else {
                         dyear, dmonth, dday,
                         bcomments, dcomments, enabled)
                 VALUES ('%s', '%s', $date_fields_str '', '', 'no')
-            ", mysql_real_escape_string($last_name),
-                mysql_real_escape_string($other_names));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names));
             if ($simulating) {
                 echo "<font color='red'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
                 $author_id='#new author id#';
             }
             else {
-                $store_result = mysql_query($query);
+                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the author:") . ' ' . mysql_error() . "\n";
+                    echo '    ' . _("An error occurred while saving the author:") . ' ' . mysqli_error(DPDatabase::get_connection()) . "\n";
                     exit;
                 }
-                $author_id = mysql_insert_id();
+                $author_id = mysqli_insert_id(DPDatabase::get_connection());
                 echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
             }
             $query = sprintf("
                 INSERT INTO biographies
                     (author_id, bio)
                 VALUES(%s, '%s')
-            ", $author_id, mysql_real_escape_string($bio));
+            ", $author_id, mysqli_real_escape_string(DPDatabase::get_connection(), $bio));
             if ($simulating)
                 echo "<font color='blue'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
             else {
-                $store_result = mysql_query($query);
+                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . mysql_error() . "\n";
+                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . mysqli_error(DPDatabase::get_connection()) . "\n";
                     exit;
                 }
-                echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysql_insert_id()) . "\n\n";
+                echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysqli_insert_id(DPDatabase::get_connection())) . "\n\n";
             }
         }
     }
@@ -242,7 +242,7 @@ echo_menu();
 
 // Returns true if the table exists in the current database, false otherwise.
 function table_exists($tableName) {
-    return ( mysql_query("DESCRIBE $tableName") != FALSE );
+    return ( mysqli_query(DPDatabase::get_connection(), "DESCRIBE $tableName") != FALSE );
 }
 
 // vim: sw=4 ts=4 expandtab

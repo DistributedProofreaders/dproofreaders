@@ -17,7 +17,7 @@ $PAGE_STATES_IN_ORDER   = array();
 class Round extends Stage
 // A container for various constants relating to a particular round of proofreading.
 {
-    function Round(
+    function __construct(
         $round_id,
         $round_name,
         $access_minima,
@@ -50,7 +50,7 @@ class Round extends Stage
             // (Needn't be in a particular order.)
     )
     {
-        $this->Stage(
+        parent::__construct(
             $round_id,
             $round_name,
             $access_minima,

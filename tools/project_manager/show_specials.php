@@ -21,14 +21,14 @@ output_header($title, NO_STATSBAR, $theme_args);
 echo "<br><h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
 
-$result = mysql_query("SELECT * FROM special_days ORDER BY open_month, open_day");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
 
 echo "<br>\n";
 echo "<table class='listing'>";
 
 $current_month = -1;
 
-while ( $row = mysql_fetch_assoc($result) )
+while ( $row = mysqli_fetch_assoc($result) )
 {
     $month = $row['open_month'];
 

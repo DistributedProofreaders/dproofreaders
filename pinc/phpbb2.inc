@@ -66,13 +66,13 @@ function phpbb2_create_topic(
     {
         assert($poster_is_real);
         $poster_id = $post_result['poster_id'];
-         mysql_query("
+         mysqli_query(DPDatabase::get_connection(), "
              INSERT INTO phpbb_topics_watch
              SET
                  user_id = $poster_id,
                  topic_id = $topic_id,
                  notify_status = 0
-         ") or die_nz(mysql_error());
+         ") or die_nz(mysqli_error(DPDatabase::get_connection()));
     }
 
     return $topic_id;
@@ -89,12 +89,12 @@ function phpbb2_add_post(
 )
 {
     // Which forum is the topic in?
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT forum_id
         FROM phpbb_topics
         WHERE topic_id = $topic_id
-    ") or die_nz(mysql_error());
-    $row = mysql_fetch_assoc($res);
+    ") or die_nz(mysqli_error(DPDatabase::get_connection()));
+    $row = mysqli_fetch_assoc($res);
     if (!$row)
     {
         die_nz("no such topic: '$topic_id'\n");
@@ -130,13 +130,13 @@ function _insert_post(
     if ( $poster_is_real )
     {
         // determine user_id and signature preference of poster
-        $id_result = mysql_query("
+        $id_result = mysqli_query(DPDatabase::get_connection(), "
             SELECT user_id, user_attachsig
             FROM phpbb_users
             WHERE username = '$poster_name'
-        ") or die_nz(mysql_error());
+        ") or die_nz(mysqli_error(DPDatabase::get_connection()));
 
-        $row = mysql_fetch_row($id_result);
+        $row = mysqli_fetch_row($id_result);
         if (!$row)
         {
             die_nz("no user named '$poster_name'");
@@ -146,7 +146,7 @@ function _insert_post(
         // The 'user_attachsig' column is defined as "tinyint(1) default NULL",
         // so its possible values are 0, 1, and NULL,
         // and the possible values of $poster_attachsig are '0', '1', and NULL.
-        // (Note that mysql_fetch_* always returns values as string or null.)
+        // (Note that mysqli_fetch_* always returns values as string or null.)
         // It turns out that insert_post()'s $user_attach_sig parameter
         // can't handle a NULL, so we have to deal with that here.
         //

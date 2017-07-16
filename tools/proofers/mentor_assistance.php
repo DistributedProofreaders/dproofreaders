@@ -406,11 +406,11 @@ function _project_link( $projectid, $title )
 function _sql_rows( $sql )
 {
     $a = array();
-    $result = mysql_query($sql);
-    if(mysql_error()) {
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    if(mysqli_error(DPDatabase::get_connection())) {
         die("<pre>MySQL Error in $sql</pre>");
     }
-    while($r = mysql_fetch_array($result)) {
+    while($r = mysqli_fetch_array($result)) {
         $a[] = $r;
     }
     return $a;
@@ -419,16 +419,16 @@ function _sql_rows( $sql )
 function _sql_objects( $sql ) 
 {
     $a = array();
-    $result = mysql_query($sql);
-    if(mysql_error()) {
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    if(mysqli_error(DPDatabase::get_connection())) {
         die("<pre>MySQL Error in $sql</pre>");
     }
 
-    while($o = mysql_fetch_object($result)) {
+    while($o = mysqli_fetch_object($result)) {
         $a[] = $o;
     }
 
-    mysql_free_result($result);
+    mysqli_free_result($result);
     return $a;
 }
 

@@ -65,7 +65,7 @@ class User
     {
         if(in_array($field, $this->string_fields))
         {
-            $escaped_value = sprintf("'%s'", mysql_real_escape_string($value));
+            $escaped_value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $value));
         }
         else
         {
@@ -78,26 +78,26 @@ class User
             WHERE $field=$escaped_value
         ";
 
-        $result = mysql_query($sql);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysql_error());
+            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
         }
-        elseif(mysql_num_rows($result) == 0)
+        elseif(mysqli_num_rows($result) == 0)
         {
             throw new NonexistentUserException(sprintf(
                 _('No user found with %1$s = %2$s'),
                     $field, $value)
             );
         }
-        elseif(mysql_num_rows($result) > 1)
+        elseif(mysqli_num_rows($result) > 1)
         {
             throw new NonuniqueUserException(sprintf(
                 _('Multiple users found with %1$s = %2$s'),
                     $field, $value)
             );
         }
-        $this->table_row = mysql_fetch_assoc($result);
+        $this->table_row = mysqli_fetch_assoc($result);
 
         # MySQL does case-insensitive matches for strings, as well as
         # ignores trailing whitespace. If $strict is TRUE, and the field
@@ -112,7 +112,7 @@ class User
             );
         }
 
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
 
     public function save()
@@ -128,9 +128,9 @@ class User
             SELECT username
             FROM users
             WHERE username='%s'
-        ", mysql_real_escape_string($username));
-        $result = mysql_query($sql);
-        if(mysql_num_rows($result) == 0)
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        if(mysqli_num_rows($result) == 0)
         {
             $is_valid = FALSE;
         }
@@ -142,7 +142,7 @@ class User
             # and whitespace by doing a PHP string compare.
             if($strict)
             {
-                list($existing_username) = mysql_fetch_row($result);
+                list($existing_username) = mysqli_fetch_row($result);
                 if($username != $existing_username)
                 {
                     $is_valid = FALSE;
@@ -158,7 +158,7 @@ class User
             }
         }
 
-        mysql_free_result($result);
+        mysqli_free_result($result);
         return $is_valid;
     }
 

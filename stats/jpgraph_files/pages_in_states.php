@@ -9,13 +9,13 @@ $graph = new Graph(800, 500, get_image_cache_filename(), 60);
 
 $n_pages_ = array();
 $n_available_pages_ = array();
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT state, SUM(n_pages), SUM(n_available_pages)
     FROM projects
     WHERE state != 'proj_submit_pgposted' AND state != 'project_delete'
     GROUP BY state
-") or die(mysql_error());
-while (list($state,$sum_n_pages,$sum_n_available_pages) = mysql_fetch_row($res) )
+") or die(mysqli_error(DPDatabase::get_connection()));
+while (list($state,$sum_n_pages,$sum_n_available_pages) = mysqli_fetch_row($res) )
 {
     $n_pages_[$state] = $sum_n_pages;
     $n_available_pages_[$state] = $sum_n_available_pages;

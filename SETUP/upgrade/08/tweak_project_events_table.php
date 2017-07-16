@@ -3,8 +3,7 @@
 // Where appropriate, prepend 'via_q:' to project_events.details3
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 header('Content-type: text/plain');
 
@@ -21,8 +20,8 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
-echo "\n", mysql_affected_rows(), " rows affected.\n";
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
+echo "\n", mysqli_affected_rows(DPDatabase::get_connection()), " rows affected.\n";
 
 echo "\nDone!\n";
 

@@ -95,11 +95,11 @@ function _update_user_activity_time( $update_login_time_too )
         $additional_where = "";
     }
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE users
         SET $settings
         WHERE username='$pguser' $additional_where
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // vim: sw=4 ts=4 expandtab

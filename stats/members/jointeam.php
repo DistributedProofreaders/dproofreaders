@@ -12,19 +12,19 @@ $tid  = get_integer_param( $_GET, 'tid', null, 0, null );
 
 if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != $tid) {
     if ($userP['team_1'] == 0 || $otid == 1) {
-        $teamResult = mysql_query("UPDATE users SET team_1 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
-        mysql_query("UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
-        if ($otid != 0) { mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_1'].""); }
+        $teamResult = mysqli_query(DPDatabase::get_connection(), "UPDATE users SET team_1 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
+        mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
+        if ($otid != 0) { mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_1'].""); }
         $redirect_team = 1;
     } elseif ($userP['team_2'] == 0 || $otid == 2) {
-        $teamResult = mysql_query("UPDATE users SET team_2 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
-        mysql_query("UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
-        if ($otid != 0) { mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_2'].""); }
+        $teamResult = mysqli_query(DPDatabase::get_connection(), "UPDATE users SET team_2 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
+        mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
+        if ($otid != 0) { mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_2'].""); }
         $redirect_team = 1;
     } elseif ($userP['team_3'] == 0 || $otid == 3) {
-        $teamResult = mysql_query("UPDATE users SET team_3 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
-        mysql_query("UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
-        if ($otid != 0) { mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_3'].""); }
+        $teamResult = mysqli_query(DPDatabase::get_connection(), "UPDATE users SET team_3 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
+        mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET latestUser = ".$userP['u_id'].", member_count = member_count+1, active_members = active_members+1 WHERE id = $tid");
+        if ($otid != 0) { mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET active_members = active_members-1 WHERE id = ".$userP['team_3'].""); }
         $redirect_team = 1;
     } else {
         include_once($relPath.'theme.inc');
@@ -33,16 +33,16 @@ if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != 
         echo "<h1>$title</h1>\n";
         echo "<p>" . _("You have already joined three teams.<br>Which team would you like to replace?") . "</p>";
         echo "<ul>";
-        $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_1']."'");
-        $row = mysql_fetch_assoc($teamR);
+        $teamR=mysqli_query(DPDatabase::get_connection(), "SELECT teamname FROM user_teams WHERE id='".$userP['team_1']."'");
+        $row = mysqli_fetch_assoc($teamR);
         $teamname = $row["teamname"];
         echo "<li><a href='jointeam.php?tid=$tid&otid=1'>$teamname</a></li>";
-        $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_2']."'");
-        $row = mysql_fetch_assoc($teamR);
+        $teamR=mysqli_query(DPDatabase::get_connection(), "SELECT teamname FROM user_teams WHERE id='".$userP['team_2']."'");
+        $row = mysqli_fetch_assoc($teamR);
         $teamname = $row["teamname"];
         echo "<li><a href='jointeam.php?tid=$tid&otid=2'>$teamname</a></li>";
-        $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_3']."'");
-        $row = mysql_fetch_assoc($teamR);
+        $teamR=mysqli_query(DPDatabase::get_connection(), "SELECT teamname FROM user_teams WHERE id='".$userP['team_3']."'");
+        $row = mysqli_fetch_assoc($teamR);
         $teamname = $row["teamname"];
         echo "<li><a href='jointeam.php?tid=$tid&otid=3'>$teamname</a></li>";
         echo "</ul>";

@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
 
@@ -8,7 +7,7 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
 // List the specified projects,
 // giving very brief information about each.
 {
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT nameofwork, authorsname, language, postednum
         FROM projects
         WHERE $where_condition
@@ -18,7 +17,7 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
 
     echo "<ul>\n";
 
-    while (list($title,$author,$language,$postednum) = mysql_fetch_row($result))
+    while (list($title,$author,$language,$postednum) = mysqli_fetch_row($result))
     {
         echo "<li><span class='title-listing'>";
 
@@ -63,12 +62,12 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         $order_clause
         LIMIT $per_page OFFSET $offset
     ";
-    $result = mysql_query($sql) or die(mysql_error() . $sql);
+    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()) . $sql);
 
-    $numrows = mysql_num_rows($result);
+    $numrows = mysqli_num_rows($result);
 
-    $res_found = mysql_query("SELECT FOUND_ROWS()");
-    $row = mysql_fetch_row($res_found);
+    $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
+    $row = mysqli_fetch_row($res_found);
     $num_found_rows = $row[0];
 
     if ($num_found_rows == 0) {
@@ -120,7 +119,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     }
     
     echo "<ol start='$first'>";
-    while ($project = mysql_fetch_array($result))
+    while ($project = mysqli_fetch_array($result))
     {
         $projectid = $project['projectid'];
         $author    = $project['authorsname'];

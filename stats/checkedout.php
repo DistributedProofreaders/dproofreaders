@@ -79,7 +79,7 @@ echo "</tr>\n";
 
 // Body
 
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         nameofwork,
              postproofer,
@@ -94,7 +94,7 @@ $result = mysql_query("
 ");
 
 $rownum = 0;
-while ( $project = mysql_fetch_object( $result ) )
+while ( $project = mysqli_fetch_object( $result ) )
 {
     $rownum++;
 

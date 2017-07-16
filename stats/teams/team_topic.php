@@ -13,9 +13,9 @@ $team_id = get_integer_param( $_GET, 'team', null, 0, null );
 
 // Get info about team
 
-$team_result = mysql_query("SELECT teamname,team_info, webpage, createdby, owner, topic_id FROM user_teams WHERE id=$team_id");
+$team_result = mysqli_query(DPDatabase::get_connection(), "SELECT teamname,team_info, webpage, createdby, owner, topic_id FROM user_teams WHERE id=$team_id");
 
-$row = mysql_fetch_array($team_result);
+$row = mysqli_fetch_array($team_result);
 
 $topic_id = $row['topic_id'];
 
@@ -52,7 +52,7 @@ Use this area to have a discussion with your fellow teammates! :-D
                 FALSE );
 
     //Update user_teams with topic_id so it won't be created again
-    $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
+    $update_team = mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
 
 }
 

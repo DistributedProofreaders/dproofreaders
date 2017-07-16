@@ -8,7 +8,7 @@ include_once('common.inc');
 // Last argument to init_pie_graph is the cache timeout in minutes.
 $graph = init_pie_graph(640, 400, 58);
 
-$res=mysql_query("
+$res=mysqli_query(DPDatabase::get_connection(), "
     SELECT
         SUBSTRING_INDEX(email,'.',-1) AS domain,
         COUNT(*) AS num
@@ -20,7 +20,7 @@ $res=mysql_query("
 
 $x=array(); $y=array();
 
-while($r=mysql_fetch_assoc($res)) {
+while($r=mysqli_fetch_assoc($res)) {
         array_push($x,$r['domain']);
         array_push($y,$r['num']);
 }

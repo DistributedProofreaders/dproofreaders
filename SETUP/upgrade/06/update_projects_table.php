@@ -1,9 +1,7 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 
@@ -11,61 +9,61 @@ echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Obsoleting 'link' columns...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE projects
         CHANGE txtlink  txtlink_obsolete  VARCHAR(200) DEFAULT NULL,
         CHANGE ziplink  ziplink_obsolete  VARCHAR(200) DEFAULT NULL,
         CHANGE htmllink htmllink_obsolete VARCHAR(200) DEFAULT NULL
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Altering 'postednum' column...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE projects
         MODIFY COLUMN postednum SMALLINT(5) UNSIGNED DEFAULT NULL
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 // default used to be 6000
 echo "Changing postednum=6000 to postednum=NULL for non-posted projects...\n";
 $psd = get_project_status_descriptor( 'posted' );
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     UPDATE projects
     SET postednum=NULL
     WHERE postednum=6000 AND NOT($psd->state_selector)
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Adding 'special_code' column...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE projects
         ADD special_code VARCHAR(20) NOT NULL DEFAULT '' AFTER projectid
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\n";
 echo "----------------------------------\n";
 echo "Populating 'special_code' column by extracting info from 'comments' column...\n";
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT projectid, comments
     FROM projects
     WHERE LEFT(comments,8) = 'special:'
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-while ( list($projectid,$comments) = mysql_fetch_row($res) )
+while ( list($projectid,$comments) = mysqli_fetch_row($res) )
 {
     move_special_info( $projectid, $comments );
 }
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT COUNT(*)
     FROM projects
     WHERE LEFT(comments,8) = 'special:'
-") or die(mysql_error());
-$row = mysql_fetch_row($res);
+") or die(mysqli_error(DPDatabase::get_connection()));
+$row = mysqli_fetch_row($res);
 $num_left = $row[0];
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
@@ -73,21 +71,21 @@ echo "\n";
 echo "----------------------------------\n";
 echo "Changing queue_defns.project_selector to look for special info in projects.special_code rather than projects.comments...\n";
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT ordering, project_selector
     FROM queue_defns
     WHERE INSTR(project_selector,'special:')
-") or die(mysql_error());
-while ( list($ordering,$project_selector) = mysql_fetch_row($res) )
+") or die(mysqli_error(DPDatabase::get_connection()));
+while ( list($ordering,$project_selector) = mysqli_fetch_row($res) )
 {
     tweak_queue_defn( $ordering, $project_selector );
 }
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT COUNT(*)
     FROM queue_defns
     WHERE INSTR(project_selector,'special:')
-") or die(mysql_error());
-$row = mysql_fetch_row($res);
+") or die(mysqli_error(DPDatabase::get_connection()));
+$row = mysqli_fetch_row($res);
 $num_left = $row[0];
 echo "There are $num_left queue_defns left whose project_selector mentions 'SPECIAL:'.\n";
 
@@ -98,18 +96,18 @@ echo "Deleting 'Refer to the Guidelines' from project comments...\n";
 
 $text_to_delete = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     UPDATE projects
     SET comments=REPLACE(comments,'$text_to_delete','')
-") or die(mysql_error());
-echo mysql_affected_rows(), " project comments changed.\n";
+") or die(mysqli_error(DPDatabase::get_connection()));
+echo mysqli_affected_rows(DPDatabase::get_connection()), " project comments changed.\n";
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT COUNT(*)
     FROM projects
     WHERE INSTR(comments,'document.php')
-") or die(mysql_error());
-$row = mysql_fetch_row($res);
+") or die(mysqli_error(DPDatabase::get_connection()));
+$row = mysqli_fetch_row($res);
 $num_left = $row[0];
 echo "There are still $num_left project comments left that mention document.php in some way.\n";
 
@@ -120,29 +118,29 @@ echo "Inserting transitional warning into project comments of in-rounds projects
 $R1_msg = "This project was in R1 at the cutover from the old 2-round system. It may contain formatting that was added in R1.";
 $R2_msg = "This project was in R2 at the cutover from the old 2-round system. It may contain formatting that was added in R1 and may need additional proofreading in F1.";
 
-$R1_msg = mysql_real_escape_string("<p><font color='red'>$R1_msg</font></p>\n");
-$R2_msg = mysql_real_escape_string("<p><font color='red'>$R2_msg</font></p>\n");
+$R1_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p><font color='red'>$R1_msg</font></p>\n");
+$R2_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p><font color='red'>$R2_msg</font></p>\n");
 
 // Use old and new state strings, so that there's no ordering depdency
 // between this script and update_project_states.php
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     UPDATE projects
     SET comments=CONCAT('$R1_msg',comments)
     WHERE state IN ('avail_1','P1.proj_avail')
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     UPDATE projects
     SET comments=CONCAT('$R2_msg',comments)
     WHERE state IN ('avail_2','P2.proj_avail')
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Adding various fields to `projects` table...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE projects
         ADD n_pages             SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
         ADD n_available_pages   SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
@@ -154,7 +152,7 @@ mysql_query("
         ADD smoothread_deadline INT(20)     DEFAULT '0' NOT NULL,
         ADD up_projectid        INT(10)     DEFAULT '0',
         ADD INDEX (special_code)
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "Addition of fields is complete!\n";
 
@@ -162,16 +160,16 @@ echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Now, filling in n_pages and n_available_pages. This could take a while...\n";
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT projectid
     FROM projects
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-$n = mysql_num_rows($res);
+$n = mysqli_num_rows($res);
 echo "$n projects...\n";
 
 $i = 0;
-while ( list($projectid) = mysql_fetch_row($res) )
+while ( list($projectid) = mysqli_fetch_row($res) )
 {
     $i++;
     flush();
@@ -180,7 +178,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
     // "state LIKE '%avail%'" works before and after update_page_tables.php has run,
     // so we don't have an ordering dependency.
 
-    $res2 = mysql_query("
+    $res2 = mysqli_query(DPDatabase::get_connection(), "
         SELECT COUNT(*), SUM(state LIKE '%avail%')
         FROM $projectid
     ");
@@ -190,17 +188,17 @@ while ( list($projectid) = mysql_fetch_row($res) )
         continue;
     }
 
-    list($n_pages,$n_available_pages) = mysql_fetch_row($res2);
+    list($n_pages,$n_available_pages) = mysqli_fetch_row($res2);
 
     if ( is_null($n_available_pages) ) $n_available_pages = 0;
 
     echo "pages: $n_pages, $n_available_pages\n";
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET n_pages=$n_pages, n_available_pages=$n_available_pages
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 echo "\nDone!\n";
@@ -239,13 +237,13 @@ function move_special_info( $projectid, $comments )
             // echo "special code: ", $special_code, "\n";
 
             $c = strlen($special_comment);
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 UPDATE projects
                 SET
                     special_code = '$special_code',
                     comments = SUBSTRING(comments,$c+1)
                 WHERE projectid='$projectid'
-            ") or die(mysql_error());
+            ") or die(mysqli_error(DPDatabase::get_connection()));
             return;
         }
         else
@@ -286,12 +284,12 @@ function tweak_queue_defn( $ordering, $project_selector )
     }
     else
     {
-        $new_project_selector = mysql_real_escape_string($new_project_selector);
-        mysql_query("
+        $new_project_selector = mysqli_real_escape_string(DPDatabase::get_connection(), $new_project_selector);
+        mysqli_query(DPDatabase::get_connection(), "
             UPDATE queue_defns
             SET project_selector='$new_project_selector'
             WHERE ordering='$ordering'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 

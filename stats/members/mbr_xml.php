@@ -77,7 +77,7 @@ if ($user->u_privacy == PRIVACY_PUBLIC)
     $result = select_from_teams("id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})");
     echo "
         <teaminfo>";
-    while ($row = mysql_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         echo "
             <team>
             <name>".xmlencode($row['teamname'])."</name>

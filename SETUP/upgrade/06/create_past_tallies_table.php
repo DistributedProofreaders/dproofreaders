@@ -4,9 +4,8 @@
 // and populate them from 'member_stats' and 'user_teams_stats'.
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 header( 'Content-type: text/plain');
 
@@ -34,7 +33,7 @@ $res = dpsql_query("
     WHERE rank > 0
 ") or die("Aborting.");
 
-while ( list($u_id) = mysql_fetch_row($res) )
+while ( list($u_id) = mysqli_fetch_row($res) )
 {
     dpsql_query("
         INSERT INTO best_tally_rank
@@ -55,7 +54,7 @@ $res = dpsql_query("
     WHERE rank > 0
 ") or die("Aborting.");
 
-while ( list($team_id) = mysql_fetch_row($res) )
+while ( list($team_id) = mysqli_fetch_row($res) )
 {
     dpsql_query("
         INSERT INTO best_tally_rank
@@ -168,7 +167,7 @@ function check_uniqueness(
         ORDER BY $timestamp_column_name, $holder_id_column_name
     ") or die("Aborting");
 
-    if ( mysql_num_rows($res) == 0 )
+    if ( mysqli_num_rows($res) == 0 )
     {
         $satisfies_uniqueness = TRUE;
     }
@@ -180,7 +179,7 @@ function check_uniqueness(
         echo "\n";
         $n_cleaned_cases = 0;
         $n_uncleanable_cases = 0;
-        while ( list($holder_id, $timestamp, $c) = mysql_fetch_row($res) )
+        while ( list($holder_id, $timestamp, $c) = mysqli_fetch_row($res) )
         {
             echo "$holder_id_column_name=$holder_id $timestamp_column_name=$timestamp #rows=$c: ";
             $res2 = dpsql_query("
@@ -188,7 +187,7 @@ function check_uniqueness(
                 FROM $table_name
                 WHERE $holder_id_column_name=$holder_id AND $timestamp_column_name=$timestamp
             ");
-            assert( mysql_num_rows($res2) == $c );
+            assert( mysqli_num_rows($res2) == $c );
             if ( all_rows_the_same($res2) )
             {
                 echo "All rows the same. Deleting all but one.\n";
@@ -232,8 +231,8 @@ function check_uniqueness(
 
 function all_rows_the_same($res)
 {
-    $row1 = mysql_fetch_row($res);
-    while ( $rowx = mysql_fetch_row($res) )
+    $row1 = mysqli_fetch_row($res);
+    while ( $rowx = mysqli_fetch_row($res) )
     {
         if ( $rowx !== $row1 )
         {

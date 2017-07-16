@@ -1,8 +1,7 @@
 <?php
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 header('Content-type: text/plain');
 
@@ -15,7 +14,7 @@ $sql = "
         CHANGE COLUMN modifieddate t_last_change INT NOT NULL
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\n";
 echo "----------------------------------------------------------------------\n";
@@ -26,7 +25,7 @@ $sql = "
         ADD PRIMARY KEY (news_page_id)
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\n";
 echo "----------------------------------------------------------------------\n";
@@ -36,7 +35,7 @@ $sql = "
         DROP COLUMN news_type
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 

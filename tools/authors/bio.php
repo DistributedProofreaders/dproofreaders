@@ -24,8 +24,8 @@ else {
 }
 
 // try to get bio
-$result = mysql_query("SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
-$row = mysql_fetch_assoc($result);
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
+$row = mysqli_fetch_assoc($result);
 if (!$row) {
     output_header(_('Invalid biography-id specified'));
     echo _('An error occurred.') . ' ' . _('The specified biography-id was invalid.') . ' ';
@@ -38,8 +38,8 @@ $bio = $row["bio"];
 $bio = preg_replace("/å/", "&aring;", $bio);
 
 // the author
-$result = mysql_query("SELECT last_name, other_names FROM authors WHERE author_id=$author_id;");
-$row = mysql_fetch_assoc($result);
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT last_name, other_names FROM authors WHERE author_id=$author_id;");
+$row = mysqli_fetch_assoc($result);
 $last_name = $row["last_name"];
 $other_names = $row["other_names"];
 

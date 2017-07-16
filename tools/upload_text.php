@@ -319,8 +319,8 @@ else
             SET $smoothread_deadline
                 postcomments = CONCAT(postcomments, '%s')
             WHERE projectid = '$projectid'
-        ", mysql_real_escape_string($postcomments));
-        $qry =  mysql_query($qstring);
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
+        $qry =  mysqli_query(DPDatabase::get_connection(), $qstring);
 
         if ( $weeks == "replace" )
         {

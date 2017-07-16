@@ -1,14 +1,27 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'connect.inc');
-// connect.inc include()s udb_user.php but only in a local scope, so we
+// We can't include base.inc because it tries to connect to the database
+// before we've created it.
+include_once($relPath.'DPDatabase.inc');
+// DPDatabase.inc include()s udb_user.php but only in a local scope, so we
 // need to include it again to place $db_name in this scope.
 include($relPath.'udb_user.php'); // $db_name
 
-new dbConnect();
+try {
+    DPDatabase::connect();
+} catch(Exception $e) {
+    // Ignore DB select failure since the DB hasn't been created yet.
+}
+if (!DPDatabase::get_connection()) {
+    die("Unable to connect to database");
+}
 
-mysql_query("CREATE DATABASE IF NOT EXISTS $db_name") or die(mysql_error());
-mysql_query("USE $db_name") or die(mysql_error());
+mysqli_query(DPDatabase::get_connection(), "
+    CREATE DATABASE IF NOT EXISTS $db_name
+") or die(mysqli_error(DPDatabase::get_connection()));
+mysqli_query(DPDatabase::get_connection(), "
+    USE $db_name
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 // Declare all variables
 $db_schema = "db_schema.sql";
@@ -41,8 +54,8 @@ $array = explode(';',$sql_create_tables);
 
 // Loop through the array/substrings and add them to the database
 while ($lines = array_shift($array)) {
-    $result = mysql_query("$lines");
-    echo mysql_error() . "\n";
+    $result = mysqli_query(DPDatabase::get_connection(), "$lines");
+    echo mysqli_error(DPDatabase::get_connection()) . "\n";
 }
 
 echo "Tables have been created.";

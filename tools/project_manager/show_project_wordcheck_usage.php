@@ -71,8 +71,8 @@ foreach($Round_for_round_id_ as $round) {
 $roundColumns=implode(", ",$roundColumns);
 
 // cycle through all pages, creating rows as we go
-$res = mysql_query( "SELECT image, state, $roundColumns FROM $projectid ORDER BY image ASC" ) or die(mysql_error());
-while($result = mysql_fetch_assoc($res)) {
+$res = mysqli_query(DPDatabase::get_connection(),  "SELECT image, state, $roundColumns FROM $projectid ORDER BY image ASC" ) or die(mysqli_error(DPDatabase::get_connection()));
+while($result = mysqli_fetch_assoc($res)) {
     $page = $result["image"];
     echo "<tr>";
     echo "<td>" . recycle_window_link("displayimage.php?project=$projectid&amp;imagefile=$page",$page,"pageView") . "</td>";
@@ -133,7 +133,7 @@ while($result = mysql_fetch_assoc($res)) {
 
     echo "</tr>\n";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

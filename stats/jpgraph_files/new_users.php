@@ -30,12 +30,12 @@ $title = $time_interval_options[$time_interval]['title'];
 
 $graph = init_simple_bar_graph(640, 400, 60);
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT FROM_UNIXTIME(date_created,'$date_format'), COUNT(*)
     FROM users
     GROUP BY 1
     ORDER BY date_created
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 list($datax, $datay) = dpsql_fetch_columns($res);
 

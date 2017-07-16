@@ -37,14 +37,14 @@ echo "projectid: $projectid\n";
 echo "title    : $title\n";
 echo "\n";
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT fileid, image
     FROM $projectid
     ORDER BY image
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 $current_image_for_fileid_ = array();
-while ( list($fileid,$image) = mysql_fetch_row($res) )
+while ( list($fileid,$image) = mysqli_fetch_row($res) )
 {
     $current_image_for_fileid_[$fileid] = $image;
 }
@@ -366,8 +366,8 @@ switch ( $submit_button )
                 echo $query;
                 if ($for_real)
                 {
-                    mysql_query($query) or die(mysql_error());
-                    $n = mysql_affected_rows();
+                    mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+                    $n = mysqli_affected_rows(DPDatabase::get_connection());
                     echo "
                         $n rows affected.
                     ";

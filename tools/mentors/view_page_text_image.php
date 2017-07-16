@@ -54,8 +54,8 @@ if(!count($error_messages)) {
 // See if the requested page (if any) exists in the project table
 if(!count($error_messages)) {
     if($page) {
-        $res2 = mysql_query(sprintf("SELECT 1 FROM $projectid WHERE image = '%s'", mysql_real_escape_string($page))) or die(mysql_error());
-        if (mysql_num_rows($res2) == 0) {
+        $res2 = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT 1 FROM $projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $page))) or die(mysqli_error(DPDatabase::get_connection()));
+        if (mysqli_num_rows($res2) == 0) {
             $error_messages[] = sprintf(_("no page '%1\$s' in project with projectID '%2\$s'"),
                 html_safe($page),
                 html_safe($projectid));
@@ -63,7 +63,7 @@ if(!count($error_messages)) {
             $is_valid_page = true;
         }
 
-        mysql_free_result($res2);
+        mysqli_free_result($res2);
     } else {
         $error_messages[] = _("select a project page");
     }
@@ -102,8 +102,8 @@ elseif ($frame=="top") {
     slim_header($page);
 
     if (!count($error_messages)) {
-        $myresult = mysql_query(sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysql_real_escape_string($projectid)));
-        $row = mysql_fetch_assoc($myresult);
+        $myresult = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)));
+        $row = mysqli_fetch_assoc($myresult);
         $project_name = $row['nameofwork'];
         echo "<h3>".sprintf(_("Viewing %1\$s text for %2\$s in '%3\$s'"),$round_id,$page,$project_name)."</h3>\n";
     } else {
@@ -130,15 +130,15 @@ elseif ($frame=="top") {
     {
         $prev_image = "";
         $next_image = "";
-        $res = mysql_query( "SELECT image FROM $projectid ORDER BY image ASC") or die(mysql_error());
+        $res = mysqli_query(DPDatabase::get_connection(),  "SELECT image FROM $projectid ORDER BY image ASC") or die(mysqli_error(DPDatabase::get_connection()));
         if($res) {
             // load all images into an array
             $images = array();
-            while($row = mysql_fetch_assoc($res))
+            while($row = mysqli_fetch_assoc($res))
             {
                 $images[] = $row["image"];
             }
-            mysql_free_result($res);
+            mysqli_free_result($res);
 
             echo "<select name='page'>\n";
             echo "<option value=''></option>\n";
@@ -233,8 +233,8 @@ elseif ($frame=="text") {
             $text_column_name = $round->text_column_name;
         }
 
-        $result = mysql_query(sprintf("SELECT $text_column_name FROM $projectid WHERE image = '%s'",mysql_real_escape_string($page))); 
-        $row = mysql_fetch_assoc($result);
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $text_column_name FROM $projectid WHERE image = '%s'",mysqli_real_escape_string(DPDatabase::get_connection(), $page))); 
+        $row = mysqli_fetch_assoc($result);
         $data = $row[$text_column_name];
 
         // Use the font and wrap prefs for the user's default interface layout, 

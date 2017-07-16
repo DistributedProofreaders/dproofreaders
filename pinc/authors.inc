@@ -1,7 +1,7 @@
 <?php
   function get_biography($id) {
-    $result = mysql_query("SELECT bio FROM biographies WHERE bio_id = $id;");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT bio FROM biographies WHERE bio_id = $id;");
+    $row = mysqli_fetch_assoc($result);
     if (!$row)
     {
       // not found!

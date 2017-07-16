@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
 
 $server_name = ( isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "" );
 define( 'COOKIE_DOMAIN', substr_count($server_name, ".") > 0 ?  $server_name : "" );
@@ -116,8 +115,8 @@ function dpsession_set_preferences_from_db()
         FROM users
         WHERE username='$pguser'
         ";
-    $users_res = mysql_query($users_q);
-    $users_data = mysql_fetch_assoc($users_res);
+    $users_res = mysqli_query(DPDatabase::get_connection(), $users_q);
+    $users_data = mysqli_fetch_assoc($users_res);
 
     $user_profiles_q = "
         SELECT
@@ -128,8 +127,8 @@ function dpsession_set_preferences_from_db()
         FROM user_profiles
         WHERE u_ref='{$users_data['u_id']}' AND id='{$users_data['u_profile']}'
         ";
-    $user_profiles_res = mysql_query($user_profiles_q);
-    $user_profiles_data = mysql_fetch_assoc($user_profiles_res);
+    $user_profiles_res = mysqli_query(DPDatabase::get_connection(), $user_profiles_q);
+    $user_profiles_data = mysqli_fetch_assoc($user_profiles_res);
 
     $user_prefs_string = implode("|",$users_data)."|".implode("|",$user_profiles_data)."|0";
     prefs_cookie_send( $user_prefs_string );

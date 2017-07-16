@@ -35,7 +35,7 @@ if ($action == 'default') {
 }
 else if ($action == 'list_all') {
     $order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', array('username', 'real_name', 'email', 'date_created DESC'));
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             username,
             real_name,
@@ -44,7 +44,7 @@ else if ($action == 'list_all') {
         FROM non_activated_users
         ORDER BY $order_by
     ");
-    if (mysql_num_rows($result) == 0)
+    if (mysqli_num_rows($result) == 0)
         echo "<p>", _("No user accounts are awaiting activation."), "</p>";
     else {
         echo "<p>", _("The following accounts are awaiting activation."), "
@@ -58,7 +58,7 @@ else if ($action == 'list_all') {
             echo "<th><a href='?action=list_all&order_by=date_created+DESC'>", _("Date registered"), "</a></th>\n";
             echo "</tr>\n";
         }
-        while ($row = mysql_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>\n";
             echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
             echo "<td>{$row['real_name']}</td>\n";
@@ -72,13 +72,13 @@ else if ($action == 'list_all') {
 else if ($action == 'get_user') {
     $username = @$_GET['username'];
     if (check_username($username) != '') die("Invalid parameter username.");
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT email
         FROM non_activated_users
         WHERE username='%s'
-    ", mysql_real_escape_string($username)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
 
-    $row = mysql_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
 
     if (!$row) {
         printf(_("No user '%s' was was found in the list of non-validated users."),
@@ -110,17 +110,17 @@ else if ($action == 'set_email') {
     if (check_username($username) != '') die("Invalid parameter username.");
     if (check_email_address($email) != '') die("Invalid parameter email.");
     
-    mysql_query(sprintf("
+    mysqli_query(DPDatabase::get_connection(), sprintf("
         UPDATE non_activated_users
         SET email='%s'
         WHERE username='%s'
-    ", mysql_real_escape_string($email), mysql_real_escape_string($username)));
-    $result = mysql_query(sprintf("
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT id, real_name, u_intlang
         FROM non_activated_users
         WHERE username='%s'
-    ", mysql_real_escape_string($username)));
-    $row = mysql_fetch_assoc($result);
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
+    $row = mysqli_fetch_assoc($result);
 
     maybe_activate_mail($email, $row['real_name'], $row['id'], $username, $row['u_intlang']);
 

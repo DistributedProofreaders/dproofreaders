@@ -49,23 +49,21 @@ if(!headers_sent())
 }
 
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'connect.inc');
+include_once($relPath.'DPDatabase.inc');
 
-$db_Connection=new dbConnect();
-if ($db_Connection->error != '')
-{
+try {
+    DPDatabase::connect();
+} catch (Exception $e) {
     // If we're in maintenance mode, don't die here - we'll more gracefully
     // error out later
     if(!$maintenance)
-        die('Error: Unable to connect to database.');
-
-    $db_Connection=False;
+        die("Error: $e");
 }
 
 include_once($relPath.'dpsession.inc');
 
 // If we don't have a database connection, don't try to resume the session.
-if($db_Connection)
+if(DPDatabase::get_connection())
     $user_is_logged_in = dpsession_resume();
 
 configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
@@ -131,13 +129,13 @@ function undo_all_magic_quotes()
 // outputting variables in SQL and HTML. ie:
 // Code like the following relies on magic_quotes_gpc being on:
 //    $x = $_GET['x'];
-//    $res = mysql_query("... WHERE x = '$x'");
+//    $res = mysqli_query(DPDatabase::get_connection(), "... WHERE x = '$x'");
 // Whereas the following works the same regardless of how magic_quotes_gpc
 // is set...
 //    undo_all_magic_quotes();
 //    $x = $_GET['x'];
-//    $res = mysql_query(
-//               sprintf("... WHERE x = '%s'", mysql_real_escape_string($x))
+//    $res = mysqli_query(DPDatabase::get_connection(),
+//               sprintf("... WHERE x = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $x))
 //    );
 {
     static $already_undone = FALSE;

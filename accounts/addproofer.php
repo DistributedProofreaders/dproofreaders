@@ -134,12 +134,12 @@ if ($password=="proofer") {
         $digested_password = forum_password_hash($userpass);
 
         $intlang = get_desired_language();
-        $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($email_updates), mysql_real_escape_string($intlang), mysql_real_escape_string($digested_password));
+        $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysqli_real_escape_string(DPDatabase::get_connection(), $ID), mysqli_real_escape_string(DPDatabase::get_connection(), $real_name), mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $email_updates), mysqli_real_escape_string(DPDatabase::get_connection(), $intlang), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
 
-        $result = mysql_query ($query);
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
 
         if (!$result) {
-            if ( mysql_errno() == 1062 ) // ER_DUP_ENTRY
+            if ( mysqli_errno(DPDatabase::get_connection()) == 1062 ) // ER_DUP_ENTRY
             {
                 // The attempted INSERT violated a uniqueness constraint.
                 // The non_activated_users table has only one such constraint,

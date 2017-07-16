@@ -23,16 +23,16 @@ $t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 
 
 // how many bars in the graph?
-$result0 = mysql_query("
+$result0 = mysqli_query(DPDatabase::get_connection(), "
     SELECT max($user_ELR_page_tally_column) as maxpages FROM users $joined_with_user_ELR_page_tallies 
 ");
-$row = mysql_fetch_assoc($result0);
+$row = mysqli_fetch_assoc($result0);
 $maxpages = $row["maxpages"];
 
 
 
 //query db and put results into arrays
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         $user_ELR_page_tally_column        AS pagescompleted,
         COUNT(*)                         AS n_all,
@@ -62,7 +62,7 @@ for ($pagescompleted_i = 0; $pagescompleted_i <= $maxpages; $pagescompleted_i++ 
 // For each pagescompleted value in the result-set,
 // add the corresponding n_* values to the arrays of Y-axis data.
 //
-while ($row = mysql_fetch_object($result))
+while ($row = mysqli_fetch_object($result))
 {
     if ($row->pagescompleted >= 0)
     {

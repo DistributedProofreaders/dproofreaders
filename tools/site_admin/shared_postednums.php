@@ -27,7 +27,7 @@ $res = dpsql_query("
     HAVING c > 1
     ORDER BY postednum
 ");
-while( list($postednum,$count) = mysql_fetch_row($res) )
+while( list($postednum,$count) = mysqli_fetch_row($res) )
 {
     if ( is_null($postednum) ) continue;
 
@@ -41,7 +41,7 @@ while( list($postednum,$count) = mysql_fetch_row($res) )
             ORDER BY nameofwork
         ");
         $titles=array();
-        while ( list($title) = mysql_fetch_row($res2) )
+        while ( list($title) = mysqli_fetch_row($res2) )
         {
             $titles[] = $title;
         }

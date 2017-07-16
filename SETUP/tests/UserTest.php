@@ -11,10 +11,10 @@ class UserTest extends PHPUnit_Framework_TestCase
         // We need one with an alphabetic character in it for the user
         // validation tests.
         $sql = "SELECT username FROM users WHERE username like '%a%' LIMIT 1";
-        $result = mysql_query($sql);
-        $row = mysql_fetch_assoc($result);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $row = mysqli_fetch_assoc($result);
         $this->EXISTENT_USERNAME = $row['username'];
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
 
     public function testEmptyConstructor()

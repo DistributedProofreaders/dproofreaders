@@ -11,12 +11,12 @@ function log_access_change( $subject_username, $modifier_username, $activity_id,
             action = '%s',
             activity = '%s'
     ", time(),
-        mysql_real_escape_string($subject_username),
-        mysql_real_escape_string($modifier_username),
-        mysql_real_escape_string($action_type),
-        mysql_real_escape_string($activity_id));
+        mysqli_real_escape_string(DPDatabase::get_connection(), $subject_username),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $modifier_username),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $action_type),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $activity_id));
 
-    return mysql_query($sql);
+    return mysqli_query(DPDatabase::get_connection(), $sql);
 }
 
 function get_first_granted_date($username, $stage)
@@ -29,12 +29,12 @@ function get_first_granted_date($username, $stage)
             AND action = 'grant'
         ORDER BY timestamp ASC
         LIMIT 1
-    ", mysql_real_escape_string($username),
-        mysql_real_escape_string($stage));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $stage));
 
-    $result = mysql_query($sql);
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
-    $row = mysql_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
 
     return $row["timestamp"];
 }

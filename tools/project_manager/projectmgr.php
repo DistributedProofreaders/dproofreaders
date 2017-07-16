@@ -22,7 +22,7 @@ require_login();
 
 class Widget
 {
-    function Widget( $properties )
+    function __construct( $properties )
     {
         foreach ( $properties as $property => $value )
         {
@@ -120,7 +120,11 @@ class Widget
                         if ( in_array( '', $values ) ) return NULL;
                     }
 
-                    $values = array_map("mysql_real_escape_string", $values);
+                    function escape_callback($value)
+                    {
+                        return mysqli_real_escape_string(DPDatabase::get_connection(), $value);
+                    }
+                    $values = array_map("escape_callback", $values);
 
                     if ( $comparator == '=' )
                     {
@@ -135,7 +139,7 @@ class Widget
                 }
                 else
                 {
-                    $value = mysql_real_escape_string($value);
+                    $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
                     if ( $comparator == '=' )
                     {
                         $contribution = "$column_name = '$value'";
@@ -161,7 +165,7 @@ class Widget
 
 $special_day_options = array();
 $special_day_options[''] = _('Any day');
-$special_day_res = mysql_query("        
+$special_day_res = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         spec_code,
         display_name,
@@ -170,7 +174,7 @@ $special_day_res = mysql_query("
     WHERE enable = 1
     ORDER BY open_month, open_day
 ");
-while ( list($s_code, $s_display_name, $s_start) = mysql_fetch_row($special_day_res) )
+while ( list($s_code, $s_display_name, $s_start) = mysqli_fetch_row($special_day_res) )
 {
     $special_day_options[$s_code] = "$s_display_name ($s_start)";
 }
@@ -474,19 +478,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $up_projectid = $_GET['up_projectid'];
         $can_see_this_uber = TRUE;
         if (!$can_see_this_uber) {
-            $UP_ok_qry = mysql_query("
+            $UP_ok_qry = mysqli_query(DPDatabase::get_connection(), "
             SELECT * FROM uber_projects up, usersettings us
             WHERE us.username = '$pguser' AND
                 us.setting  = 'up_manager' AND
                 us.value = up.up_projectid AND
                 up.up_projectid > 0
             ");
-            $can_see_this_uber = mysql_num_rows($UP_ok_qry);
+            $can_see_this_uber = mysqli_num_rows($UP_ok_qry);
         }
         if ($can_see_this_uber) {
             $condition .= sprintf(
                 " AND up_projectid = '%s'
-            ", mysql_real_escape_string($up_projectid));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $up_projectid));
         }
     }
 
@@ -504,12 +508,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         LIMIT $n_results_per_page OFFSET $results_offset
     ";
     // echo "<pre>\n$sql\n</pre>\n";
-    $result = mysql_query($sql) or die(mysql_error());
+    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $numrows = mysql_num_rows($result);
+    $numrows = mysqli_num_rows($result);
 
-    $res_found = mysql_query("SELECT FOUND_ROWS()");
-    $row = mysql_fetch_row($res_found);
+    $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
+    $row = mysqli_fetch_row($res_found);
     $num_found_rows = $row[0];
 
     echo "<h1>", _("Search Results"), "</h1>\n";
@@ -527,14 +531,14 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         global $result;
 
         $projectids = array();
-        while ( $project_assoc = mysql_fetch_assoc($result) )
+        while ( $project_assoc = mysqli_fetch_assoc($result) )
         {
             if ( $project_assoc['state'] == $curr_state )
             {
                 $projectids[] = $project_assoc['projectid'];
             }
         }
-        mysql_data_seek($result, 0);
+        mysqli_data_seek($result, 0);
 
         if ( count($projectids) > 0 )
         {
@@ -638,7 +642,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 
     $tr_num = 0;
-    while ($project_assoc = mysql_fetch_assoc($result)) {
+    while ($project_assoc = mysqli_fetch_assoc($result)) {
         $project = new Project($project_assoc);
         $projectid = $project->projectid;
 
@@ -853,7 +857,7 @@ function list_uber_projects( $can_see_all )
 
     if ($can_see_all) {
 
-        $UPs = mysql_query("
+        $UPs = mysqli_query(DPDatabase::get_connection(), "
             SELECT * FROM uber_projects WHERE up_enabled = 1
         ");
 
@@ -864,7 +868,7 @@ function list_uber_projects( $can_see_all )
         // note that the Settings class can't handle lists of values, nor joins to other tables,
         // so we go directly to the user_settings table instead
 
-        $UPs = mysql_query("
+        $UPs = mysqli_query(DPDatabase::get_connection(), "
             SELECT * FROM uber_projects up, usersettings us
             WHERE us.username = '$pguser' AND
                 us.setting  = 'up_manager' AND
@@ -873,7 +877,7 @@ function list_uber_projects( $can_see_all )
 
     }
 
-    if (mysql_num_rows($UPs)) {
+    if (mysqli_num_rows($UPs)) {
 
         $tr_num = 0;
 
@@ -892,7 +896,7 @@ function list_uber_projects( $can_see_all )
         echo_header_cell( 30,  _("Options") );
         echo "</tr>";
 
-        while ($UPinfo = mysql_fetch_assoc($UPs)) {
+        while ($UPinfo = mysqli_fetch_assoc($UPs)) {
 
             $up_projid = $UPinfo['up_projectid'];
             $up_name = $UPinfo['up_nameofwork'];
@@ -902,7 +906,7 @@ function list_uber_projects( $can_see_all )
             // so these next few queries shouldn't be too expensive
             // in absolute terms, even though they are in a loop
 
-            $num_active_proj_res = mysql_fetch_assoc(mysql_query("
+            $num_active_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
                 AND $PROJECT_IS_ACTIVE_sql
@@ -910,27 +914,27 @@ function list_uber_projects( $can_see_all )
             "));
             $num_active_proj = $num_active_proj_res['num'];
 
-            $num_all_active_proj_res = mysql_fetch_assoc(mysql_query("
+            $num_all_active_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
                 AND $PROJECT_IS_ACTIVE_sql
             "));
             $num_all_active_proj = $num_all_active_proj_res['num'];
 
-            $num_proj_res = mysql_fetch_assoc(mysql_query("
+            $num_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
                 AND username = '".$pguser."'
             "));
             $num_proj = $num_proj_res['num'];
 
-            $num_all_proj_res = mysql_fetch_assoc(mysql_query("
+            $num_all_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
             "));
             $num_all_proj = $num_all_proj_res['num'];
 
-            $num_PM_res = mysql_fetch_assoc(mysql_query("
+            $num_PM_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
                 SELECT count(*) as num
                 FROM usersettings WHERE setting = 'up_manager' and value = '$up_projid'
             "));

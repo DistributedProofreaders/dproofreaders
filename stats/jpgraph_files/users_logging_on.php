@@ -69,7 +69,7 @@ $graph = init_simple_bar_graph(640, 400, $cache_timeout);
 ///////////////////////////////////////////////////
 //query db and put results into arrays
 
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format'), $column_name
     FROM user_active_log 
     WHERE time_stamp >= $min_timestamp

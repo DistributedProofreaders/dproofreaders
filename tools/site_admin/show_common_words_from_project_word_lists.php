@@ -46,13 +46,13 @@ if($display_list)
     echo "<td>" . _("Project Languages:") . "</td>";
     echo "<td><select name='language'>";
     // load all project languages
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT language, count(language)
         FROM projects
         GROUP BY language
     ");
     $used_languages = array();
-    while( list($language,$language_count) = mysql_fetch_row($res) )
+    while( list($language,$language_count) = mysqli_fetch_row($res) )
     {
         if(strpos($language," with "))
         {
@@ -72,7 +72,7 @@ if($display_list)
         $option_value = urlencode($language);
         echo "<option value='$option_value'>$option_string</option>";
     }
-    mysql_free_result($res);
+    mysqli_free_result($res);
     echo "</select>";
     echo "</td>";
     echo "</tr>";
@@ -160,12 +160,12 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             }
 
             // loop through all projects that use $language
-            $res = mysql_query("
+            $res = mysqli_query(DPDatabase::get_connection(), "
                 SELECT projectid
                 FROM projects
                 WHERE $where_clause
             ");
-            while( list($projectid) = mysql_fetch_row($res) )
+            while( list($projectid) = mysqli_fetch_row($res) )
             {
                 if($list_type == "good")
                     $words = load_project_good_words($projectid);
@@ -182,7 +182,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 
                 $total_projects++;
             }
-            mysql_free_result($res);
+            mysqli_free_result($res);
 
             // sort the results
             arsort($word_freq);

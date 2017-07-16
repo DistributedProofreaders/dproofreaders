@@ -83,7 +83,7 @@ if ($pagesproofed >= 10)
 
 
     $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
-    $rule = mysql_fetch_assoc($result);
+    $rule = mysqli_fetch_assoc($result);
     echo "<i>".$rule['subject']."</i><br>";
     echo "<p>".$rule['rule']."</p>";
     // TRANSLATORS: %1$s is the linked name of a random Guideline section.
@@ -122,7 +122,7 @@ else
         FROM queue_defns
         WHERE round_id='{$round->id}'
     ");
-    list($n_queues) = mysql_fetch_row($res);
+    list($n_queues) = mysqli_fetch_row($res);
     if ( $n_queues == 0 )
     {
         echo sprintf(

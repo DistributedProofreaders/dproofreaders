@@ -60,9 +60,9 @@ foreach($stats as $phase => $pages)
                 FROM project_state_stats
                 WHERE $where_state AND
                 date >= FROM_UNIXTIME($after) AND date < FROM_UNIXTIME($before)";
-        $res = mysql_query($sql);
-        list($pages) = mysql_fetch_row($res);
-        mysql_free_result($res);
+        $res = mysqli_query(DPDatabase::get_connection(), $sql);
+        list($pages) = mysqli_fetch_row($res);
+        mysqli_free_result($res);
 
         @$pages_per_days_ago[$before][$phase]=$pages / 7;
     }

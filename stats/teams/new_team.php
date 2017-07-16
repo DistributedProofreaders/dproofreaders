@@ -34,12 +34,12 @@ if (isset($_POST['mkPreview']))
 }
 else if (isset($_POST['mkMake']))
 {
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT id
         FROM user_teams
         WHERE teamname = '%s'
-    ", mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
-    if (mysql_num_rows($result) > 0 || trim($_POST['teamname']) == "")
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname'])))));
+    if (mysqli_num_rows($result) > 0 || trim($_POST['teamname']) == "")
     {
         $name = _("Create Team");
         output_header($name);
@@ -55,23 +55,23 @@ else if (isset($_POST['mkMake']))
     }
     else
     {
-        mysql_query(sprintf("
+        mysqli_query(DPDatabase::get_connection(), sprintf("
             INSERT INTO user_teams
                 (teamname, team_info, webpage, createdby, owner, created)
             VALUES('%s', '%s', '%s', '%s', %s, %s)
-        ", mysql_real_escape_string(stripAllString(trim($_POST['teamname']))),
-            mysql_real_escape_string(stripAllString($_POST['text_data'])),
-            mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
+            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
+            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
             $pguser, $userP['u_id'], time()));
-        $tid = mysql_insert_id($db_Connection->db_lk);
+        $tid = mysqli_insert_id(DPDatabase::get_connection());
         if (!empty($_POST['tavatar']))
         {
             $sql = sprintf("
                 UPDATE user_teams
                 SET avatar='%s'
                 WHERE id = $tid
-            ", mysql_real_escape_string($_POST['tavatar']));
-            mysql_query($sql);
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['tavatar']));
+            mysqli_query(DPDatabase::get_connection(), $sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
@@ -83,8 +83,8 @@ else if (isset($_POST['mkMake']))
                 UPDATE user_teams
                 SET icon='%s'
                 WHERE id = $tid
-            ", mysql_real_escape_string($_POST['ticon']));
-            mysql_query($sql);
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['ticon']));
+            mysqli_query(DPDatabase::get_connection(), $sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {

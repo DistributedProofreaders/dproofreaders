@@ -54,22 +54,22 @@ if (isset($last_name)) {
         // insert into the database
         if ($author_id) {
             // edit existing author
-            $result = mysql_query(sprintf("
+            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
                 UPDATE authors
                 SET last_name='%s', other_names='%s',
                     byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='%s',
                     dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$%s'
                 WHERE author_id = $author_id
-            ", mysql_real_escape_string($last_name),
-                mysql_real_escape_string($other_names),
-                mysql_real_escape_string($bcomments),
-                mysql_real_escape_string($dcomments)
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $bcomments),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $dcomments)
             ));
             $msg = _('The author was successfully updated in the database!');
         }
         else {
             // add new author to database
-            $result = mysql_query(sprintf("
+            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
                 INSERT INTO authors
                     (last_name, other_names,
                         byear, bmonth, bday, bcomments,
@@ -78,13 +78,13 @@ if (isset($last_name)) {
                     ('%s', '%s',
                         $byear, $bmonth, $bday, '%s',
                         $dyear, $dmonth, $dday, '%s', 'yes')
-            ", mysql_real_escape_string($last_name),
-                mysql_real_escape_string($other_names),
-                mysql_real_escape_string($bcomments),
-                mysql_real_escape_string($dcomments)
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $bcomments),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $dcomments)
             ));
             $msg = _('The author was successfully entered into the database!');
-            $author_id = mysql_insert_id();
+            $author_id = mysqli_insert_id(DPDatabase::get_connection());
         }
         if ($result) {
             // success
@@ -121,7 +121,7 @@ else {
     if ($author_id) {
         // edit specified author
         // get the values from the database
-        $result = mysql_query("SELECT * FROM authors WHERE author_id = $author_id;");
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors WHERE author_id = $author_id;");
         if (!$result) {
             echo "That author doesn't exist!";
             exit();
@@ -129,7 +129,7 @@ else {
         $vars = array( 'last_name', 'other_names',
                        'byear', 'bmonth', 'bday', 'bcomments',
                        'dyear', 'dmonth', 'dday', 'dcomments'  );
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
         foreach ($vars as $var)
             $$var = $row[$var];
         // select the correct year-radio-button

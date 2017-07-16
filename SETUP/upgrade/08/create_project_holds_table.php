@@ -3,8 +3,7 @@
 // Create the 'project_holds' table (initially empty).
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 header('Content-type: text/plain');
 
@@ -19,7 +18,7 @@ $sql = "
     )
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 

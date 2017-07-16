@@ -14,8 +14,8 @@ function user_can_edit_project( $projectid )
 {
     global $pguser;
 
-    $res = mysql_query("SELECT username FROM projects WHERE projectid = '$projectid' LIMIT 1");
-    $row = mysql_fetch_assoc($res);
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT username FROM projects WHERE projectid = '$projectid' LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
     if(!$row)
     {
         return PROJECT_DOES_NOT_EXIST;

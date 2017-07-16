@@ -3,9 +3,8 @@
 // One-time script to create 'uber_projects' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 // -----------------------------------------------
 // Create 'uber_projects' table.

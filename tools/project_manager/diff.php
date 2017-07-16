@@ -67,8 +67,8 @@ $query = "
     FROM $projectid
     WHERE image='$image'";
 
-$res = mysql_query($query) or die(mysql_error());
-list($L_text, $R_text, $L_user, $R_user) = mysql_fetch_row($res);
+$res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+list($L_text, $R_text, $L_user, $R_user) = mysqli_fetch_row($res);
 $can_see_names_for_this_page = can_see_names_for_page($projectid, $image);
 if ( $can_see_names_for_this_page) {
     $L_label .= " ($L_user)";
@@ -130,7 +130,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
-    $res = mysql_query( $query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(),  $query) or die(mysqli_error(DPDatabase::get_connection()));
     $prev_image = "";
     $next_image = "";
     $prev_from_proofer = "";
@@ -138,7 +138,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $got_there = FALSE;
     $got_to_next = FALSE;
     // construct the dropdown; work out where previous and next buttons should take us
-    while ( list($this_val, $this_user) = mysql_fetch_row($res) )
+    while ( list($this_val, $this_user) = mysqli_fetch_row($res) )
     {
         $navigation_text .= "\n<option value='$this_val'";
         if ($this_val == $image)
@@ -220,8 +220,8 @@ function can_see_names_for_page($projectid, $image)
             $fields .= $round->user_column_name;
         }
         $query = "SELECT $fields from $projectid WHERE image = '$image'";
-        $res = mysql_query($query) or die(mysql_error());
-        $page_res = mysql_fetch_array($res);
+        $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+        $page_res = mysqli_fetch_array($res);
         foreach ($page_res as $page_user) {
             if ($page_user == $pguser) {
                 $answer = TRUE;

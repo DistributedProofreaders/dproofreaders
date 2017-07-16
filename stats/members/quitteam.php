@@ -15,8 +15,8 @@ if ($userP['team_1'] == $tid || $userP['team_2'] == $tid || $userP['team_3'] == 
     if ($userP['team_2'] == $tid) { $quitQuery .= "team_2 = '0'"; }
     if ($userP['team_3'] == $tid) { $quitQuery .= "team_3 = '0'"; }
     $quitQuery.=" WHERE username='$pguser' AND u_id='".$userP['u_id']."'";
-    $teamResult=mysql_query($quitQuery);
-    mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id='".$tid."'");
+    $teamResult=mysqli_query(DPDatabase::get_connection(), $quitQuery);
+    mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET active_members = active_members-1 WHERE id='".$tid."'");
     dpsession_set_preferences_from_db();
     $title = _("Quit the Team");
     $desc = _("Quitting the team....");

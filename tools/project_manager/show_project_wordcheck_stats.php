@@ -38,7 +38,7 @@ $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
 
 // get the entire text
 $page_texts = get_page_texts($pages_res);
-mysql_free_result($pages_res);
+mysqli_free_result($pages_res);
 
 // now run it through WordCheck
 list($bad_words_w_freq,$languages,$messages) =
@@ -80,7 +80,7 @@ while( list($page_text,$page,$proofer_names) = page_info_fetch($pages_res) ) {
             $page_stats[$page]["flagged"]+=$freq;
     }
 }
-mysql_free_result($pages_res);
+mysqli_free_result($pages_res);
 
 $total["flagged_min"]=1000000;
 $total["flagged_max"]=0;

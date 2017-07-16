@@ -32,12 +32,12 @@ else {
 header("Content-Type: text/xml");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$result = mysql_query("SELECT * FROM authors $clause");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors $clause");
 
 if ($wrap_in_big_tag)
     echo "<authors>\n";
 
-while ($row = mysql_fetch_array($result))
+while ($row = mysqli_fetch_array($result))
     echo create_author_data($row);
 
 if ($wrap_in_big_tag)

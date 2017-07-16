@@ -15,9 +15,9 @@ $testing_this_script=@$_GET['mytesting'];
 
 
 // See if this has been run once today or not
-$res = mysql_query( 'SELECT MAX(date) as max_date FROM project_state_stats WHERE num_projects != 0' )
-    or die(mysql_error());
-$row = mysql_fetch_assoc($res);
+$res = mysqli_query(DPDatabase::get_connection(),  'SELECT MAX(date) as max_date FROM project_state_stats WHERE num_projects != 0' )
+    or die(mysqli_error(DPDatabase::get_connection()));
+$row = mysqli_fetch_assoc($res);
 $X_date = NULL;
 if($row)
     $X_date = $row["max_date"];
@@ -49,9 +49,9 @@ foreach ( $PROJECT_STATES_IN_ORDER as $state )
 }
 
 // Get the number of projects in each (currently-occupied) state.
-$result = mysql_query ("SELECT state, count(*), sum(n_pages) FROM projects GROUP BY state ORDER BY state");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT state, count(*), sum(n_pages) FROM projects GROUP BY state ORDER BY state");
 
-while (list ($state, $num_projects, $num_pages) = mysql_fetch_row ($result)) {
+while (list ($state, $num_projects, $num_pages) = mysqli_fetch_row($result)) {
     $num_projects_in_state_[$state] = $num_projects;
     $num_pages_in_state_[$state] = $num_pages;
 }
@@ -81,7 +81,7 @@ foreach ( array_keys($num_projects_in_state_) as $state )
     }
     else
     {
-        mysql_query($insert_query) or die(mysql_error());
+        mysqli_query(DPDatabase::get_connection(), $insert_query) or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 

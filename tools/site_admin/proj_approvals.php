@@ -36,7 +36,7 @@ if (isset($projectid))
         $statuschange = 'project_new_unapp';     
     }
 
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         UPDATE projects
         SET state = '$statuschange'
         WHERE projectid = '$projectid'
@@ -56,13 +56,13 @@ echo "<table class='themed'>\n";
         </tr>
     ";
 
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT projectid, nameofwork, authorsname, clearance, state
         FROM projects
         WHERE state = 'project_new_waiting_app'
     ");
 
-    while ($row = mysql_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $projectid = $row["projectid"];
         $state = $row["state"];
         $name = $row["nameofwork"];

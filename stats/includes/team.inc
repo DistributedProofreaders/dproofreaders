@@ -32,8 +32,8 @@ function select_from_teams( $where_body, $other_clauses='' )
         WHERE $where_body
         $other_clauses
     ";
-    $res = mysql_query($q);
-    if (!$res) die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $q);
+    if (!$res) die(mysqli_error(DPDatabase::get_connection()));
     return $res;
 }
 
@@ -203,13 +203,13 @@ function showTeamProfile($curTeam, $preview=FALSE)
 
 function team_get_member_count_rank( $team_id )
 {
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT id
         FROM user_teams
         ORDER BY member_count DESC
     ");
     $i = 1;
-    while ( list($id) = mysql_fetch_row($result) ) {
+    while ( list($id) = mysqli_fetch_row($result) ) {
         if ($id == $team_id) { return $i; }
         $i++;
     }
@@ -301,8 +301,8 @@ function showTeamMbrs($curTeam, $tally_name) {
     $req_team_id = get_integer_param($_GET, 'tid', null, 0, null);
 
     $subtitle = null;
-    $latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
-    $row = mysql_fetch_assoc($latestMbr);
+    $latestMbr = mysqli_query(DPDatabase::get_connection(), "SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
+    $row = mysqli_fetch_assoc($latestMbr);
     if ($row) {
         if ($row["Privacy"] == PRIVACY_PUBLIC || ($row["Privacy"] == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
             $subtitle = sprintf(_("Please welcome <b>%s</b> as the latest member to join this team!"), $row["Username"]);
@@ -367,7 +367,7 @@ function showTeamMbrs($curTeam, $tally_name) {
     list( $joined_with_user_tallies, $user_tally_column ) =
         $users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
-    $mbrQuery = mysql_query("
+    $mbrQuery = mysqli_query(DPDatabase::get_connection(), "
         SELECT *, $user_tally_column AS current_tally
         FROM users $joined_with_user_tallies
         WHERE {$req_team_id} IN (team_1, team_2, team_3)
@@ -376,7 +376,7 @@ function showTeamMbrs($curTeam, $tally_name) {
 
     $totalAnonUsers = 0;
     $totalPagesAnonUsers = 0;
-    while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
+    while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
         if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS)
         {
             $totalAnonUsers++;
@@ -512,8 +512,8 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
         echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
-        $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
-        while ($row = mysql_fetch_assoc($teamQuery)) {
+        $teamQuery = mysqli_query(DPDatabase::get_connection(), "SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
+        while ($row = mysqli_fetch_assoc($teamQuery)) {
             echo "<option value='".$row['id']."'>".html_safe($row['teamname'])."</option>";
         }
         echo "</select>";
@@ -559,7 +559,7 @@ function uploadImages($preview,$tid,$type)
             $upload_avatar_dir = "$team_avatars_dir/$avatarID";
             move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
             if ($preview != 1) {
-                mysql_query("UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(mysql_error());
+                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(mysqli_error(DPDatabase::get_connection()));
             }
             $teamimages['avatar'] = $avatarID;
         } else {
@@ -578,7 +578,7 @@ function uploadImages($preview,$tid,$type)
             $upload_icon_dir = "$team_icons_dir/$iconID";
             move_uploaded_file($_FILES['teamicon']['tmp_name'], $upload_icon_dir);
             if ($preview != 1) {
-                mysql_query("UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
+                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
             }
             $teamimages['icon'] = $iconID;
         } else {
@@ -606,8 +606,8 @@ function deleteImages()
     );
 
     // Delete unused avatars
-    $result = mysql_query("SELECT id,avatar FROM user_teams");
-    while ($row = mysql_fetch_assoc($result)) {
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT id,avatar FROM user_teams");
+    while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $activeAvatars[$id] = $row['avatar'];
     }
@@ -623,8 +623,8 @@ function deleteImages()
     }
 
     //Delete unused icons
-    $result = mysql_query("SELECT id,icon FROM user_teams");
-    while ($row = mysql_fetch_assoc($result)) {
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT id,icon FROM user_teams");
+    while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $activeIcons[$id] = $row['icon'];
     }

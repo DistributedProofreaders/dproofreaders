@@ -59,11 +59,11 @@ if (isset($_POST["swProfile"]))
     // User clicked "Switch profile"
     // get profile from database
     $c_profile=get_integer_param($_POST, "c_profile", NULL, 0, NULL);
-    mysql_query(sprintf("
+    mysqli_query(DPDatabase::get_connection(), sprintf("
         UPDATE users
         SET u_profile='$c_profile'
         WHERE u_id=$uid  AND username='%s'",
-        mysql_real_escape_string($pguser))
+        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser))
     );
     dpsession_set_preferences_from_db();
     $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
@@ -117,20 +117,20 @@ if (array_get($_POST, "insertdb", "") != "") {
     $del_target_profile_id =$userP['u_profile'];
     $del_target_profile_name = $userP['profilename'];
     echo sprintf(_("Deleting usersettings profile: %1\$s (id=%2\$d)..."),$del_target_profile_name,$del_target_profile_id) . "\n<br>\n";
-    mysql_query("delete from user_profiles WHERE u_ref = '$uid' AND id = '$del_target_profile_id'");
+    mysqli_query(DPDatabase::get_connection(), "delete from user_profiles WHERE u_ref = '$uid' AND id = '$del_target_profile_id'");
 
     // Set the first remaining available profile to be active.
-    $result=mysql_query("SELECT * FROM user_profiles WHERE  u_ref=$uid");
-    $row = mysql_fetch_assoc($result);
+    $result=mysqli_query(DPDatabase::get_connection(), "SELECT * FROM user_profiles WHERE  u_ref=$uid");
+    $row = mysqli_fetch_assoc($result);
     $new_profile_name = $row["profilename"];
     $new_profile_id = $row["id"];
     echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
     
-    mysql_query(sprintf("
+    mysqli_query(DPDatabase::get_connection(), sprintf("
         UPDATE users
         SET u_profile='$new_profile_id'
         WHERE u_id='$uid' AND username='%s'",
-        mysql_real_escape_string($pguser))
+        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser))
     );
     // Reload preferences to reflect changed active profile.
     dpsession_set_preferences_from_db();
@@ -288,8 +288,8 @@ function echo_general_tab() {
         array( 1 => _("Yes"), 0 => _("No") )
     );
     $theme_options = array();
-    $result = mysql_query("SELECT * FROM themes");
-    while ($row = mysql_fetch_array($result)) {
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM themes");
+    while ($row = mysqli_fetch_array($result)) {
         $option_value = $row['unixname'];
         $option_label = $row['name'];
         $theme_options[$option_value] = $option_label;
@@ -370,8 +370,8 @@ function save_general_tab() {
         UPDATE users
         SET $update_string
         WHERE u_id=$uid AND username='%s'",
-        mysql_real_escape_string($pguser));
-    mysql_query($users_query);
+        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+    mysqli_query(DPDatabase::get_connection(), $users_query);
 
     // Opt-out of credits when Content-Providing (deprecated), Image Preparing, 
     // Text Preparing, Project-Managing and/or Post-Processing.
@@ -385,7 +385,7 @@ function save_general_tab() {
     if (isset($_POST["credit_other"]))
         $userSettings->set_value('credit_other', $_POST["credit_other"]);
 
-    echo mysql_error();
+    echo mysqli_error(DPDatabase::get_connection());
     dpsession_set_preferences_from_db();
 
 }
@@ -399,8 +399,8 @@ function echo_proofreading_tab() {
     global $userSettings;
 
     // see if they already have 10 profiles, etc.
-    $pf_query=mysql_query("SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
-    $pf_num=mysql_num_rows($pf_query);
+    $pf_query=mysqli_query(DPDatabase::get_connection(), "SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
+    $pf_num=mysqli_num_rows($pf_query);
 
     echo "<tr>\n";
     show_blank();
@@ -430,7 +430,7 @@ function echo_proofreading_tab() {
     echo "<td bgcolor='#ffffff' colspan='2' align='center'>";
     // show all profiles
     echo "<select name='c_profile' ID='c_profile'>";
-    while ($row = mysql_fetch_assoc($pf_query))
+    while ($row = mysqli_fetch_assoc($pf_query))
     {
         $pf_Dex = $row["id"];
         $pf_Val = $row["profilename"];
@@ -684,19 +684,19 @@ function save_proofreading_tab() {
         $prefs_query="UPDATE user_profiles SET $update_string WHERE u_ref='$uid' AND id='{$userP['u_profile']}'";
     }
 
-    mysql_query($prefs_query);
-    echo mysql_error();
+    mysqli_query(DPDatabase::get_connection(), $prefs_query);
+    echo mysqli_error(DPDatabase::get_connection());
 
     // set users values
     if ($create_new_profile)
     {
         $users_query=sprintf("
             UPDATE users
-            SET u_profile=".mysql_insert_id()."
+            SET u_profile=".mysqli_insert_id(DPDatabase::get_connection())."
             WHERE u_id=$uid AND username='%s'",
-            mysql_real_escape_string($pguser));
-        mysql_query($users_query);
-        echo mysql_error();
+            mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+        mysqli_query(DPDatabase::get_connection(), $users_query);
+        echo mysqli_error(DPDatabase::get_connection());
     }
 
     $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
@@ -765,9 +765,9 @@ function save_pm_tab() {
         UPDATE users
         SET $update_string
         WHERE u_id=$uid AND username='%s'",
-        mysql_real_escape_string($pguser));
-    mysql_query($users_query);
-    echo mysql_error();
+        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+    mysqli_query(DPDatabase::get_connection(), $users_query);
+    echo mysqli_error(DPDatabase::get_connection());
 
     // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads
@@ -992,7 +992,7 @@ function _create_mysql_update_string($source_array, $string_fields = array(), $n
     {
         if(in_array($field, $string_fields))
         {
-            $value = "'" . mysql_real_escape_string( array_get( $source_array, $field, "" ) ) . "'";
+            $value = "'" . mysqli_real_escape_string(DPDatabase::get_connection(),  array_get( $source_array, $field, "" ) ) . "'";
         }
         else
         {
