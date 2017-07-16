@@ -108,16 +108,16 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
 
     $intlang = get_desired_language();
 
-    if(isset($extra_args['frameset']))
-    {
-        echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">\n";
-    }
+    // HTML 5 dictates that ISO-8859-1 documents should declare their charset
+    // as windows-1252 (which is what web browsers actually treat ISO-8859-1 as).
+    if(strcasecmp($charset, 'ISO-8859-1') == 0)
+        $output_charset = 'windows-1252';
     else
-    {
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    }
+        $output_charset = $charset;
+
+    echo "<!DOCTYPE html>"; // HTML 5
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
+    echo "<meta charset='$output_charset'>\n";
 
     # iOS and Android icons
     echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
@@ -986,11 +986,9 @@ function show_donation_stuff()
     echo "</p>\n";
     echo "<br>\n";
 
-    echo "<a href='$DPF_donor_url'>";
-    echo "<button type='button' style='margin-top: 0.25em; border-color: darkblue; border-radius: 6px; background-color: white; color: darkblue; font-size: 1em; font-weight: bold; font-style: italic;'>";
+    echo "<button type='button' onclick='window.open(\"$DPF_donor_url\");' style='margin-top: 0.25em; border-color: darkblue; border-radius: 6px; background-color: white; color: darkblue; font-size: 1em; font-weight: bold; font-style: italic;'>";
     echo _("Donate");
     echo "</button>";
-    echo "</a>";
 
     echo "</div>\n";
 }
