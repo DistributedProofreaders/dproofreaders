@@ -117,11 +117,7 @@ class Widget
                         if ( in_array( '', $values ) ) return NULL;
                     }
 
-                    function escape_callback($value)
-                    {
-                        return mysqli_real_escape_string(DPDatabase::get_connection(), $value);
-                    }
-                    $values = array_map("escape_callback", $values);
+                    $values = array_map("escape_value", $values);
 
                     if ( $comparator == '=' )
                     {
@@ -1004,6 +1000,11 @@ function list_uber_projects( $can_see_all )
 
         echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     }
+}
+
+function escape_value($value)
+{
+    return mysqli_real_escape_string(DPDatabase::get_connection(), $value);
 }
 
 // vim: sw=4 ts=4 expandtab
