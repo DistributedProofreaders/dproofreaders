@@ -167,7 +167,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
     $webpage = $curTeam['webpage'];
     $t->row(
         _("Website"),
-        "<a href='" . attr_safe($webpage) . "' target='_new'>" . html_safe($webpage) . "</a>"
+        "<a href='" . attr_safe($webpage) . "' target='_blank'>" . html_safe($webpage) . "</a>"
     );
 
     $topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
@@ -338,11 +338,7 @@ function showTeamMbrs($curTeam, $tally_name) {
             $orderby = $cd_dbcolumn;
 
             // Mark this column-header with a direction-indicator.
-            $arrow = ($direction == "asc") ? 'down' : 'up';
-            $dir_indicator = " <img src='$code_url/graphics/$arrow.gif'>";
-            // (You might think that if the column is sorted in ascending
-            // order, we should use an up-arrow. But I'm following the
-            // Netscape/Mozilla convention, which is the opposite.)
+            $dir_indicator = ($direction == "asc") ? '&#9650;' : '&#9660;'; // up and down symbols
 
             // And provide a link to sort by this column in the opposite direction.
             $dir = ($direction == "asc") ? "desc" : "asc";
@@ -437,7 +433,7 @@ function showTeamHistory($curTeam, $tally_name) {
 
     $t->row(
         "<p style='text-align: center;'>$choices_str</p>" .
-        "<p style='text-align: center;'><img src='$image_url' style='width: 600px; height: 300px;'></p>"
+        "<p style='text-align: center;'><img src='$image_url' alt='Statistics graph' style='width: 600px; height: 300px;'></p>"
     );
 
     $t->end();

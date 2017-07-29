@@ -37,14 +37,14 @@ while ( $row = mysqli_fetch_assoc($result) )
     if ($month == 0 && $current_month != 0)
     {
         $current_month = $month;
-        echo "<tr class='month'><td><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
+        echo "<tr class='month'><td colspan='4'><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
         output_column_headers();
     }
 
     if ($month != $current_month)
     {
         $current_month = $month;
-        echo "<tr class='month'><td><h2>";
+        echo "<tr class='month'><td colspan='4'><h2>";
         echo strftime("%B", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
         output_column_headers();
     }
