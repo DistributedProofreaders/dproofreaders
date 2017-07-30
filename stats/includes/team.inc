@@ -133,7 +133,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
 
     $t = new ThemedTable(
         2,
-        $curTeam['teamname'] . "&nbsp;$xml_button$editlink$joinquitlink",
+        html_safe($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
         array( 'width' => 100 )
     );
     $t->set_column_widths( 25, 75 );
