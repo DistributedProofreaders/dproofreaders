@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'metarefresh.inc');
-include_once('../includes/team.inc');
+include_once('../includes/team.inc'); // showEdit()
 
 require_login();
 
@@ -26,11 +26,11 @@ if (isset($_POST['mkPreview']))
     $curTeam['member_count'] = 0;
     $curTeam['active_members'] = 0;
     $curTeam['avatar'] = $teamimages['avatar'];
-    echo "<center><br>";
+    echo "<div class='center-align'><br>";
     showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
     echo "<br>";
     showTeamProfile($curTeam, TRUE /* $preview */);
-    echo "</center><br>";
+    echo "</div><br>";
 }
 else if (isset($_POST['mkMake']))
 {
@@ -46,12 +46,12 @@ else if (isset($_POST['mkMake']))
         $teamimages = uploadImages(1,"","both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if(trim($_POST['teamname']) == "")
-            echo "<center><br>" . _("The team name must not be empty.") . "<br>";
+            echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
         else
-            echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+            echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
 
         showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
-        echo "<br></center><br>";
+        echo "<br></div><br>";
     }
     else
     {
@@ -126,9 +126,9 @@ else
 {
     $name = _("Create a New Team");
     output_header($name, SHOW_STATSBAR, $theme_extra_args);
-    echo "<center><br>";
+    echo "<div class='center-align'><br>";
     showEdit("","","",1,0);
-    echo "</center>";
+    echo "</div>";
 }
 
 // vim: sw=4 ts=4 expandtab

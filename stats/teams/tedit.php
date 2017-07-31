@@ -34,9 +34,9 @@ if (isset($_GET['tid']))
 {
     $edit = _("Edit");
     output_header($edit." ".$curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
-    echo "<center><br>";
+    echo "<div class='center-align'><br>";
     showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], 0, $tid);
-    echo "</center>";
+    echo "</div>";
 }
 elseif (isset($_POST['edQuit']))
 {
@@ -54,11 +54,11 @@ elseif (isset($_POST['edPreview']))
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
     $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
     $curTeam['avatar'] = $teamimages['avatar'];
-    echo "<center><br>";
+    echo "<div class='center-align'><br>";
     showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
     echo "<br>";
     showTeamProfile($curTeam, TRUE /*$preview*/);
-    echo "</center><br>";
+    echo "</div><br>";
 }
 elseif (isset($_POST['edMake']))
 {
@@ -76,12 +76,12 @@ elseif (isset($_POST['edMake']))
         $teamimages = uploadImages(1,$tid,"both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if(trim($_POST['teamname']) == "")
-            echo "<center><br>" . _("The team name must not be empty.") . "<br>";
+            echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
         else
-            echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+            echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
 
         showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
-        echo "<br></center><br>";
+        echo "<br></div><br>";
     }
     else
     {
