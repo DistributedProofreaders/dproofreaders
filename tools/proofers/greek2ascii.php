@@ -11,7 +11,6 @@ $greek_contents = @$_GET['textbox'];
 
 $title = _("Greek to Latin-1 Transliteration");
 $header_args = array(
-    "css_data" => "p.info { font-size: 12px; }",
     "js_data" => "
         function clearBox() {
             document.greek.textbox.value = '';
@@ -79,7 +78,6 @@ echo attr_safe(_("Italic"))?>" title="<?php echo attr_safe(_("Italic Glyphs"))?>
 
 <tr>
 <td colspan="3">
-<p class="info">
 <?php
 echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
 // TRANSLATORS: %s is an image of a rough-breathing mark.
@@ -87,7 +85,6 @@ echo sprintf(_("Diacritical marks may be ignored except for the rough-breathing 
     "<img src='gfx/greekrough.png' height='12' width='10'>") . "<br>";
 echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the word begins with '<code>r</code>'. For those, put '<code>h</code>' <em>after</em> the '<code>r</code>'.");
 ?>
-</p>
 </td>
 </tr>
 

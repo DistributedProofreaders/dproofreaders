@@ -141,7 +141,7 @@ EOS;
             _('Greek Transliterator'),
             'greek2ascii.php',
             'gkasciiWin',
-            640, 210
+            640, 250
         );
         if ($wikihiero_dir)
         {
