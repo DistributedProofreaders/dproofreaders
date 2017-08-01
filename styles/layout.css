@@ -623,6 +623,31 @@ table.dirlist caption {
   background-color: #FFF8DC;
 }
 /* ------------------------------------------------------------------------ */
+/* WordCheck Interface */
+#wordcheck_interface {
+  text-align: center;
+  background-color: #CDCDC1;
+  overflow: auto;
+}
+#wordcheck_interface #tbtext {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000000;
+  padding: 10px;
+}
+#wordcheck_interface #tdtop {
+  border: 1px solid #000000;
+  background-color: #CDC0B0;
+  padding: 2px;
+}
+#wordcheck_interface #tdtext {
+  vertical-align: top;
+  text-align: left;
+  border: 1px solid #000000;
+  background-color: #FFF8DC;
+  padding: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 #toolbox {
   margin: 0;

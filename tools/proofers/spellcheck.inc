@@ -16,14 +16,13 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 $header_args = array(
     "js_data" => spellcheck_get_js() . get_page_js($userP['i_type']==1 ? 2 : 3),
-    "css_data" => get_spellcheck_page_styles(),
-    "body_attributes" => 'onload="ldAll()"',
+    "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
 );
 
 if($userP['i_type']==1)
 {
     $header_args["js_data"] .= ibe_get_js();
-    $header_args["css_data"] .= ibe_get_styles();
+    $header_args["css_data"] = ibe_get_styles();
 }
 
 slim_header(_("WordCheck"), $header_args);
@@ -133,7 +132,7 @@ if ($userP['i_type']==1) {
     // here ends the div for the WordCheck header
 
 ?>
-<table id="tbtext" cellpadding="10" align="center">
+<table id="tbtext">
 <tr><td id="tdtop">
 <?php echo _("Resize image:"); ?>
     <input title="<?php echo attr_safe(_("Zoom Out 25%")); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
@@ -146,9 +145,7 @@ if ($userP['i_type']==1) {
 ?>
 </td></tr>
 <tr>
-<td 
-  id="tdtext" 
-  valign="top">
+<td id="tdtext">
 <?php
     $ppage->echo_hidden_fields();
     echo $page_contents;
@@ -222,37 +219,6 @@ function get_page_js($interface_type_init_value)
             return false;
         }
 PAGE_JS;
-}
-
-function get_spellcheck_page_styles()
-{
-    return <<<PAGE_STYLES
-        body {
-            font-family: verdana, arial, helvetica, sans-serif;
-            font-size: 12px;
-            color:#000000;
-            background-color:#CDCDC1;
-            text-align:center;
-            overflow:auto;
-            margin-top: 0;
-            }
-        #tbtext {
-            border:1px solid #000000;
-            text-align:left;
-            }
-        #tdtop {
-            font-size:12px;
-            border:1px solid #000000;
-            background-color:#CDC0B0;
-            text-align:left;
-            padding:2px;
-            }
-        #tdtext {
-            border:1px solid #000000;
-            background-color:#FFF8DC;
-            padding:2px;
-            }
-PAGE_STYLES;
 }
 
 // vim: sw=4 ts=4 expandtab
