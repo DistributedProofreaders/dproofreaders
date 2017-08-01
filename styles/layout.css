@@ -580,6 +580,45 @@ table.dirlist caption {
   border: 1px solid black;
 }
 /* ------------------------------------------------------------------------ */
+/* Enhanced Editing Interface */
+#enhanced_interface {
+  text-align: center;
+  overflow: hidden;
+  background-color: #CDCDC1;
+}
+#enhanced_interface #tbtext {
+  text-align: center;
+  border: 1px solid #000000;
+  overflow: auto;
+}
+#enhanced_interface #tdtop {
+  border: 1px solid #000000;
+  background-color: #CDC0B0;
+  padding: 2px;
+}
+#enhanced_interface #tdtext {
+  border: 1px solid #000000;
+  background-color: #CDCDC1;
+  padding: 2px;
+}
+#enhanced_interface #tdbottom {
+  border: 1px solid #000000;
+  background-color: #EEDFCC;
+  padding: 2px;
+}
+#enhanced_interface #text_data {
+  padding: 2px;
+  background-color: #FFF8DC;
+  color: #000000;
+}
+#enhanced_interface .dropsmall {
+  font-size: 75%;
+  background-color: #FFF8DC;
+}
+#enhanced_interface .boxnormal {
+  background-color: #FFF8DC;
+}
+/* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 #toolbox {
   margin: 0;

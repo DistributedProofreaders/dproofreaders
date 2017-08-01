@@ -20,8 +20,8 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/preview_strings.php",
         ),
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
-        "css_data" => ibe_get_styles() . get_proof_frame_styles(),
-        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
+        "css_data" => ibe_get_styles(),
+        "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
     );
 
     slim_header(_("Proofreading Page"), $header_args);
@@ -66,54 +66,6 @@ function echo_proof_frame_enh( $ppage )
               </div>
             </div>
     <?php
-}
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function get_proof_frame_styles()
-{
-    return <<<STYLES
-        body {
-            margin-top: 0;
-            font-family: verdana, arial, helvetica, sans-serif;
-            font-size: 12px;
-            color:#000000;
-            background-color:#CDCDC1;
-            text-align:center;
-            overflow:hidden;
-        }
-        #tbtext {
-            border:1px solid #000000;
-            text-align:center;
-            overflow:auto;
-        }
-        #tdtop {
-            border:1px solid #000000;
-            background-color:#CDC0B0;
-            padding:2px;
-        }
-        #tdtext {
-            border:1px solid #000000;
-            background-color:#CDCDC1;
-            padding:2px;
-        }
-        #tdbottom {
-            border:1px solid #000000;
-            background-color:#EEDFCC;
-            padding:2px;
-        }
-        #text_data {
-            padding:2px;
-            background-color:#FFF8DC;
-            color:#000000;
-        }
-        .dropsmall {
-            font-size: 75%;
-            background-color:#FFF8DC;
-        }
-        .boxnormal {
-            background-color:#FFF8DC;
-        }
-STYLES;
 }
 
 // vim: sw=4 ts=4 expandtab
