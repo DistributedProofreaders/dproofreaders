@@ -10,8 +10,8 @@ include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
 
 $header_args = array(
     'js_files' => array(
-        "../../tools/proofers/dp_proof.js?2015122901",
-        "../../tools/proofers/dp_scroll.js?1.18",
+        "$code_url/tools/proofers/dp_proof.js",
+        "$code_url/tools/proofers/dp_scroll.js",
     ),
 );
 

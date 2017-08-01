@@ -130,25 +130,26 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
     if (isset($nameofpage)) { echo ": $nameofpage"; }
     echo "</title>\n";
 
-    // Global theme CSS
+    // Global CSS
     $theme_name = array_get($userP, 'i_theme', "project_gutenberg");
-    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/themes/$theme_name.css'>\n";
-
-    // Global layout CSS
-    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>\n";
-    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/global.css'>\n";
+    $css_files = array(
+        "$code_url/styles/themes/$theme_name.css",
+        "$code_url/styles/layout.css",
+        "$code_url/styles/global.css",
+    );
 
     // Statsbar CSS
     if ($show_statsbar)
-    {
-        echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/statsbar.css'>\n";
-    }
+        $css_files[] = "$code_url/styles/statsbar.css";
 
     // Per-page CSS
     if (isset($extra_args['css_files']))
+        $css_files = array_merge($css_files, $extra_args['css_files']);
+
+    foreach($css_files as $css_file)
     {
-        foreach($extra_args['css_files'] as $css_file)
-            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>\n";
+        $cache_fixer = get_local_file_browser_cache_key($css_file);
+        echo "<link type='text/css' rel='Stylesheet' href='$css_file$cache_fixer'>\n";
     }
 
     // Any additional style definitions requested by the caller
@@ -162,7 +163,10 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
     if(isset($extra_args['js_files']))
     {
         foreach($extra_args['js_files'] as $js_file)
-            echo "<script language=\"JavaScript\" type=\"text/javascript\" src=\"$js_file\"></script>\n";
+        {
+            $cache_fixer = get_local_file_browser_cache_key($js_file);
+            echo "<script language='JavaScript' type='text/javascript' src='$js_file$cache_fixer'></script>\n";
+        }
     }
 
     // Per-page Javascript
@@ -1133,6 +1137,28 @@ function get_translated_graphic_or_text($directory, $image, $text)
         return sprintf("<img src='$dyn_url' alt='%s'>", attr_safe($text));
     else
         return $text;
+}
+
+// Browser caches are great, but they are a real PITA when we want to change
+// CSS/JS and it's still serving up the older version. This is particularly bad
+// when we're doing things like changing page editing interfaces.
+// To address that, append the file's timestamp as a query parameter to the file.
+// Apache will ignore this but when the value changes the browser will reread
+// the file. PHP's statcache should make this fast.
+function get_local_file_browser_cache_key($url)
+{
+    global $code_url, $code_dir;
+
+    $cache_fixer = "";
+    if(strpos($url, $code_url) !== FALSE)
+    {
+        $local_file = $code_dir . substr($url, strlen($code_url));
+        $stats = stat($local_file);
+        if($stats)
+            $cache_fixer = "?" . strftime("%Y%m%d%H%M", $stats["mtime"]);
+    }
+
+    return $cache_fixer;
 }
 
 // vim: sw=4 ts=4 expandtab

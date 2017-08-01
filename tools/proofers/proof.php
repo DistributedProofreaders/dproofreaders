@@ -72,20 +72,10 @@ if ( $code != $project->CBP_OKAY )
 $round = get_Round_for_project_state($project->state);
 $nameofwork = "[" . $round->id . "] " . $project->nameofwork;
 
-// Re src="dp_foo.js?YYMMDD##" in the following <script> tags:
-// When a JS script file changes, the browser should note this and update its
-// cached version. However, it appears that some browsers are not very good
-// at this, and continue to use a cached version after it is out of date.
-// To thwart this, we add a query string to the src reference, and update it
-// when the JS script file changes. (The query string can be anything, but
-// it makes sense to use the date that the JS file was changed.)
-// The browser sees that the src URL no longer matches that of its cached
-// script, and so fetches the new version. (Of course, the JS script doesn't
-// do anything with the query string, but the browser doesn't know that.)
 $header_args = array(
     "js_files" => array(
-        "dp_proof.js?2015122901",
-        "dp_scroll.js?1.18",
+        "$code_url/tools/proofers/dp_proof.js",
+        "$code_url/tools/proofers/dp_scroll.js",
     )
 );
 slim_header_frameset($nameofwork." - "._("Proofreading Interface"), $header_args);
