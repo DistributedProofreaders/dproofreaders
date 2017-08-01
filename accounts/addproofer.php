@@ -199,7 +199,7 @@ if ($password=="proofer") {
     {
         echo "<p class='test_warning'>";
         echo _("Because this is a test site, you <strong>don't</strong> need to provide an email address and an email <strong>won't</strong> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <strong>Your account won't be created until you access the confirmation link.</strong>");
-        echo "</p>";
+        echo "</p>\n";
     }
 
     // If the user filled out the form but there was an error during the
@@ -209,7 +209,6 @@ if ($password=="proofer") {
         echo "<p class='error'>$error</p>";
     }
 
-    echo "<center>";
     echo "<form method='post' action='addproofer.php'>\n";
     foreach($form_data_inserters as $func)
         $func();
@@ -242,9 +241,8 @@ if ($password=="proofer") {
     echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
     echo "  </td>";
     echo "</tr>\n<tr>";
-    echo "  <td id='footer' colspan='2' align='center'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
+    echo "<td class='bar center-align' colspan='2'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
     echo "</tr></table></form>";
-    echo "</center>";
 
     include($relPath.'/../faq/privacy.php');
 

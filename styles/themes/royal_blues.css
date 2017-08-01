@@ -219,6 +219,9 @@ table.image_source_listing td.title {
 }
 /* ------------------------------------------------------------------------ */
 /* Registration table */
+table.register td.bar {
+  background-color: #000099;
+}
 table.register td.label {
   background-color: #99ccff;
 }
