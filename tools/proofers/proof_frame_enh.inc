@@ -26,45 +26,40 @@ function echo_proof_frame_enh( $ppage )
 
     slim_header(_("Proofreading Page"), $header_args);
 
-                if ($userP['i_layout']==1)
-                    {$iWidth=$userP['v_zoom'];}
-                else {$iWidth=$userP['h_zoom'];}
-                $iWidth=round((1000*$iWidth)/100);
+    if ($userP['i_layout']==1)
+        $iWidth=$userP['v_zoom'];
+    else
+        $iWidth=$userP['h_zoom'];
+    $iWidth=round((1000*$iWidth)/100);
 
-                ibe_echo_block( $ppage->url_for_image(), $iWidth );
+    ibe_echo_block( $ppage->url_for_image(), $iWidth );
 
-            ?>
-            <div id="controlframe" align="center">
-            <?php output_preview_div(); ?>
-              <div id = 'proofdiv'>
-                <form
-                    name="editform" id="editform"
-                    method="POST"
-                    action="processtext.php">
-                    <?php $ppage->echo_hidden_fields(); ?>
-                    <table
-                        id="tbtext"
-                        cellspacing="0"
-                        align="center">
-                        <tr>
-                            <td id="tdtop" valign="middle">
-                                <?php echo_button_menu( $ppage ); ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="tdtext" valign="top">
-                                <?php $ppage->echo_proofing_textarea(); ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="tdbottom" valign="top">
-                                <?php $ppage->echo_info(); ?>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-              </div>
-            </div>
+    ?>
+    <div id="controlframe">
+        <?php output_preview_div(); ?>
+        <div id='proofdiv'>
+            <form name="editform" id="editform" method="POST" action="processtext.php">
+                <?php $ppage->echo_hidden_fields(); ?>
+                <table id="tbtext">
+                    <tr>
+                        <td id="tdtop">
+                            <?php echo_button_menu( $ppage ); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="tdtext">
+                            <?php $ppage->echo_proofing_textarea(); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="tdbottom">
+                            <?php $ppage->echo_info(); ?>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
     <?php
 }
 
