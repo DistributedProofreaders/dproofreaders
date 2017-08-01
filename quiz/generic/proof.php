@@ -47,7 +47,6 @@ else
 }
 
 $header_args = array(
-    'css_data' => 'body { background-color: #ffffff; }',
     'body_attributes' => "onload='top.initializeStuff(1)'",
 );
 
