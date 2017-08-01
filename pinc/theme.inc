@@ -12,7 +12,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe()
+include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -1153,9 +1153,21 @@ function get_local_file_browser_cache_key($url)
     if(strpos($url, $code_url) !== FALSE)
     {
         $local_file = $code_dir . substr($url, strlen($code_url));
-        $stats = stat($local_file);
-        if($stats)
-            $cache_fixer = "?" . strftime("%Y%m%d%H%M", $stats["mtime"]);
+
+        // PHP files should never be cached
+        if(endswith($local_file, ".php"))
+        {
+            $timestamp = time();
+        }
+        else
+        {
+            $stats = stat($local_file);
+            if($stats)
+                $timestamp = $stats["mtime"];
+        }
+
+        if($timestamp)
+            $cache_fixer = "?" . strftime("%Y%m%d%H%M%S", $timestamp);
     }
 
     return $cache_fixer;
