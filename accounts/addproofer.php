@@ -152,13 +152,12 @@ if ($password=="proofer") {
                 $error = _("Can not initiate user registration.");
             }
         } else {
-            // Send them an activation e-mail
-            maybe_activate_mail($email, $real_name, $ID, $username, $intlang);
-
             // Page shown when account is successfully created
-
             $header = sprintf(_("User %s Registered Successfully"), $username);
             output_header($header);
+
+            // Send them an activation e-mail
+            maybe_activate_mail($email, $real_name, $ID, $username, $intlang);
 
             echo sprintf(
                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
