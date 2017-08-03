@@ -47,7 +47,6 @@ show_news_for_page("STATS");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
-echo "<center>";
 $table = new ThemedTable(
     3,
     _('General Site Statistics'),
@@ -157,7 +156,6 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     );
 
 $table->end();
-echo "</center>";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Miscellaneous Statistics

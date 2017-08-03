@@ -69,7 +69,7 @@ foreach ( $colspecs as $col_order => $col_header )
     // except for the header of the column that we're already sorting on.
     if ( $col_order != $order && $col_order != 'bogus' )
     {
-        $s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
+        $s = "<a href='checkedout.php?state=$state&amp;order=$col_order'>$s</a>";
     }
     echo "<th>$s</th>";
 }
