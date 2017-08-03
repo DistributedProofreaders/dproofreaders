@@ -460,7 +460,7 @@ function draw_simple_bar_graph(
 
     // Adjust the margin a bit to make more room for titles
     // left, right, top, bottom
-    $graph->img->SetMargin(70,30,20,100);
+    $graph->img->SetMargin(70,30,20,110);
 
     // Set title
     $graph->title->Set($title);
