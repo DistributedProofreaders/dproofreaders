@@ -16,6 +16,8 @@ if ( !user_is_a_sitemanager() )
 $theme_args['css_data'] = "
 table.listing { border-collapse: collapse; width: 80%; margin: auto; }
 table.listing td { border: 1px solid #999; padding: 5px; }
+table.listing td.codecell { vertical-align:middle; text-align:center; }
+table.listing th.headers { padding-top:1em; }
 table.listing tr.e { background-color: #eee; }
 table.listing tr.o { background-color: #ddd; }
 table.listing td.enabled { background-color: #9f9; text-align: center; }
@@ -95,7 +97,7 @@ if ($action == 'update_oneshot')
 if ($action == 'show_specials')
 {
     output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
-    $table_summary = _("Special Days Listing");
+    echo "<h1>", attr_safe(_("Special Days Listing")), "</h1>\n";
 
     show_sd_toolbar($action);
 
@@ -104,7 +106,7 @@ if ($action == 'show_specials')
         ORDER BY open_month, open_day");
 
     echo "<br>\n\n";
-    echo "<table class='listing' summary='" . attr_safe($table_summary) . "'>\n";
+    echo "<table class='listing'>\n";
     $count=0;
     $current_month=-1;
     while ( list($source_name) = mysqli_fetch_row($result) )
@@ -198,8 +200,8 @@ class SpecialDay
             output_table_headers();
         }
 
-        echo "\n\n<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows' valign='middle' align='center'>";
+        echo "\n\n<tr class='$row_class' id='$usid'>";
+        echo "<td class='codecell' rowspan='$listing_rows'>";
         echo $sid . "\n";
         echo "<form method='post' action='$page_url#$usid '>\n";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
@@ -208,7 +210,7 @@ class SpecialDay
         echo "</form>\n";
         echo "</td>\n";
         echo "<td style='background-color: #". $this->color . ";'>";
-        echo "<a name='$usid'></a>" . html_safe($this->display_name) . "</td>";
+        echo html_safe($this->display_name) . "</td>";
         echo "<td>" . $this->color . "</td>\n";
         echo $this->_get_status_cell($this->enable,' pb') . "\n";
         echo "<td class='right'>" . $this->open_month . "</td>";
@@ -246,21 +248,24 @@ class SpecialDay
     function show_edit_form()
     {
         global $page_url;
-        echo "<table class='source'><form method='post' action='$page_url'>";
-        echo "<input type='hidden' name='action' value='update_oneshot'>\n";
+        echo "<form method='post' action='$page_url'>
+        <input type='hidden' name='action' value='update_oneshot'>\n";
+        
 
         if($this->new_source)
         {
+            echo "<table class='source'>";
             $this->_show_edit_row('spec_code',_('Special Day ID'),false,20);
         }
         else
         {
             echo "<input type='hidden' name='editing' value='true'>" .
-                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."'>";
+                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."'>
+                <table class='source'>";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
-        echo "  <tr><td class='pa'>Enable</th><td><input type='checkbox' name='enable'";
+        echo "  <tr><td class='pa'>Enable</td><td><input type='checkbox' name='enable'";
         if ( $this->enable )
             echo " value='1' checked";
         echo "></td></tr>\n";
@@ -276,7 +281,7 @@ class SpecialDay
 
         echo "<tr><td colspan='2' style='text-align:center;'>
             <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."'>
-            </td> </tr> </form> </table>\n\n";
+            </td></tr></table>\n</form>\n";
     }
 
     function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
@@ -412,14 +417,11 @@ function make_link($url,$label)
     $label = html_safe($label);
     if ($url == '')
         return '';
-    if ($start == 'htt')
+    if ($start != 'htt')
     {
-        return "<a href='$url'>$label</a>";
+        $url = "http://" . $url;
     }
-    else
-    {
-        return "<a href='http://$url'>$label</a>";
-    }
+    return "<a href='". attr_safe($url). "'>$label</a>";
 }
 
 function show_sd_toolbar($action)
@@ -445,16 +447,15 @@ function show_sd_toolbar($action)
 
 function output_table_headers()
 {
-    echo "<tr><th>&nbsp;</th></tr>";
     echo "<tr>";
-    echo "<th>" . _("Special Day Code") . "</th>";
-    echo "<th>" . _("Display Name") . "</th>";
-    echo "<th>" . _("Color") . "</th>";
-    echo "<th>" . _("Enable") . "</th>";
-    echo "<th>" . _("Open Month") . "</th>";
-    echo "<th>" . _("Open Day") . "</th>";
-    echo "<th>" . _("Close Month") . "</th>";
-    echo "<th>" . _("Close Day") . "</th>";
+    echo "<th class='headers'>" . _("Special Day Code") . "</th>";
+    echo "<th class='headers'>" . _("Display Name") . "</th>";
+    echo "<th class='headers'>" . _("Color") . "</th>";
+    echo "<th class='headers'>" . _("Enable") . "</th>";
+    echo "<th class='headers'>" . _("Open Month") . "</th>";
+    echo "<th class='headers'>" . _("Open Day") . "</th>";
+    echo "<th class='headers'>" . _("Close Month") . "</th>";
+    echo "<th class='headers'>" . _("Close Day") . "</th>";
     echo "</tr>";
 }
 
