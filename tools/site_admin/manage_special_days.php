@@ -97,7 +97,7 @@ if ($action == 'update_oneshot')
 if ($action == 'show_specials')
 {
     output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
-    echo "<h1>", attr_safe(_("Special Days Listing")), "</h1>\n";
+    echo "<h1>", html_safe(_("Special Days Listing")), "</h1>\n";
 
     show_sd_toolbar($action);
 

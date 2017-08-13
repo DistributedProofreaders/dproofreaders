@@ -59,8 +59,6 @@ switch ($preceding)
     default:
         die("bad value for 'preceding'");
 }
-        $cache_timeout = 1;
-
 
 // Initialize the graph before making database call.
 // This makes use of the jpgraph cache if enabled.
