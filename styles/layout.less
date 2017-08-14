@@ -624,5 +624,65 @@ table.dirlist {
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* Special days tables */
+table.list_special_days {
+    width: 90%; margin: auto;
+    td,th {
+        border: 1px solid #999;
+        padding: 3px; 
+        }
+    td.codecell {
+        vertical-align:middle;
+        text-align:center;
+    }
+    th.headers {
+        padding:0.5em; 
+    }
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
+    td.enabled {
+        background-color: #9f9;
+        text-align: center;
+    }
+    td.disabled {
+        background-color: #ddd;
+        text-align: center;
+    }
+    td.center {
+        text-align: center;
+    }
+    tr.month > * {
+        border: none;
+        border-bottom: solid 2px black;
+    }
+    td.right, th.right {
+        text-align: right; font-weight: normal;
+    }
+    h2 {
+        margin: 1em auto auto auto; text-align: left;
+    }
+}
+
+table.show_special_days {
+    th {
+        background-color: #eeeeee;
+    }
+}
+
+table.edit_special_day {
+    width: 90%;
+    margin: auto;
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
+        background-color: #eeeeee;
+    }
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

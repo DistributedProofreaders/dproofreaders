@@ -8,23 +8,15 @@ require_login();
 
 $title = _("Details of Special Days/Weeks/Months");
 
-$theme_args['css_data'] = "
-table.listing { border-collapse: collapse; width: 90%; margin: auto; }
-table.listing td,th { border: 1px solid #999; padding: 2px; }
-table.listing td.center { text-align: center; }
-table.listing th { border-top: solid black 2px; background-color: #eeeeee; }
-table.listing tr.month > td { border: none; }
-table.listing h2 { margin: 1em auto auto auto; text-align: left; }";
-
-output_header($title, NO_STATSBAR, $theme_args);
+output_header($title, NO_STATSBAR);
 
 echo "<br><h1>$title</h1>\n";
-echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
+echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br>";
 
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
 
 echo "<br>\n";
-echo "<table class='listing'>";
+echo "<table class='list_special_days show_special_days'>";
 
 $current_month = -1;
 
