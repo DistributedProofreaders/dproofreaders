@@ -127,7 +127,10 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
     echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
 
     echo "<title>$site_abbreviation";
-    if (isset($nameofpage)) { echo ": $nameofpage"; }
+    if (isset($nameofpage))
+    {
+        echo ": ", html_safe($nameofpage);
+    }
     echo "</title>\n";
 
     // Global CSS

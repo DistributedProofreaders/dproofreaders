@@ -189,7 +189,7 @@ class Quiz
             echo "
                 <tr><td colspan='$n_columns' style='background-color: $bgcolor; font-weight: bold; text-align: center;'>$text</td></tr>";
         }
-        echo "</table></p>\n";
+        echo "</table>\n";
     }
 }
 

@@ -8,23 +8,15 @@ require_login();
 
 $title = _("Details of Special Days/Weeks/Months");
 
-$theme_args['css_data'] = "
-table.listing { border-collapse: collapse; width: 90%; margin: auto; }
-table.listing td,th { border: 1px solid #999; padding: 2px; }
-table.listing td.center { text-align: center; }
-table.listing th { border-top: solid black 2px; background-color: #eeeeee; }
-table.listing tr.month > td { border: none; }
-table.listing h2 { margin: 1em auto auto auto; text-align: left; }";
-
-output_header($title, NO_STATSBAR, $theme_args);
+output_header($title, NO_STATSBAR);
 
 echo "<br><h1>$title</h1>\n";
-echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
+echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br>";
 
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
 
 echo "<br>\n";
-echo "<table class='listing'>";
+echo "<table class='list_special_days show_special_days'>";
 
 $current_month = -1;
 
@@ -37,14 +29,14 @@ while ( $row = mysqli_fetch_assoc($result) )
     if ($month == 0 && $current_month != 0)
     {
         $current_month = $month;
-        echo "<tr class='month'><td><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
+        echo "<tr class='month'><td colspan='4'><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
         output_column_headers();
     }
 
     if ($month != $current_month)
     {
         $current_month = $month;
-        echo "<tr class='month'><td><h2>";
+        echo "<tr class='month'><td colspan='4'><h2>";
         echo strftime("%B", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
         output_column_headers();
     }
@@ -66,7 +58,7 @@ while ( $row = mysqli_fetch_assoc($result) )
         echo _("N/A"); // Translators: N/A = "Not applicable"
     echo "</td>\n";
     echo "<td>";
-    echo "<a href='" . urlencode($row['info_url']) . "'>";
+    echo "<a href='" . attr_safe($row['info_url']) . "'>";
     echo html_safe($row['info_url']) . "</a></td>\n";
     echo "</tr>\n";
 }

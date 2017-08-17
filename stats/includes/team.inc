@@ -133,10 +133,11 @@ function showTeamProfile($curTeam, $preview=FALSE)
 
     $t = new ThemedTable(
         2,
-        $curTeam['teamname'] . "&nbsp;$xml_button$editlink$joinquitlink",
+        html_safe($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
         array( 'width' => 100 )
     );
     $t->set_column_widths( 25, 75 );
+    $t->set_column_alignments('left', 'left');
 
     $t->row(
         _("Created"),
@@ -167,7 +168,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
     $webpage = $curTeam['webpage'];
     $t->row(
         _("Website"),
-        "<a href='" . attr_safe($webpage) . "' target='_new'>" . html_safe($webpage) . "</a>"
+        "<a href='" . attr_safe($webpage) . "' target='_blank'>" . html_safe($webpage) . "</a>"
     );
 
     $topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
@@ -338,11 +339,7 @@ function showTeamMbrs($curTeam, $tally_name) {
             $orderby = $cd_dbcolumn;
 
             // Mark this column-header with a direction-indicator.
-            $arrow = ($direction == "asc") ? 'down' : 'up';
-            $dir_indicator = " <img src='$code_url/graphics/$arrow.gif'>";
-            // (You might think that if the column is sorted in ascending
-            // order, we should use an up-arrow. But I'm following the
-            // Netscape/Mozilla convention, which is the opposite.)
+            $dir_indicator = ($direction == "asc") ? '&#9650;' : '&#9660;'; // up and down symbols
 
             // And provide a link to sort by this column in the opposite direction.
             $dir = ($direction == "asc") ? "desc" : "asc";
@@ -483,32 +480,32 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     echo "</th></tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: right;'><b>"._("Team Name")."</b>:</td>";
-    echo "<td><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "<td class='right-align'><b>"._("Team Name")."</b>:</td>";
+    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: right;'><b>"._("Team Webpage")."</b>:</td>";
-    echo "<td><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
+    echo "<td class='right-align'><b>"._("Team Webpage")."</b>:</td>";
+    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: right;'><b>"._("Team Avatar")."</b>:</td>";
-    echo "<td><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td>";
+    echo "<td class='right-align'><b>"._("Team Avatar")."</b>:</td>";
+    echo "<td class='left-align'><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: right;'><b>"._("Team Icon")."</b>:</td>";
-    echo "<td><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td>";
+    echo "<td class='right-align'><b>"._("Team Icon")."</b>:</td>";
+    echo "<td class='left-align'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: right; vertical-align: top;'><b>"._("Team Description")."</b></td>";
-    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
+    echo "<td  class='right-align' style='vertical-align: top;'><b>"._("Team Description")."</b></td>";
+    echo "<td  class='left-align' style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td style='text-align: center;' colspan='2'>";
+    echo "<td class='center-align' colspan='2'>";
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
         echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";

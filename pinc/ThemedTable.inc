@@ -135,7 +135,7 @@ class ThemedTable
 
             if ($is_header)
             {
-                $cell_content = "<b><u><i>$cell_content</i></u></b>";
+                $cell_content = "<b><i>$cell_content</i></b>";
             }
 
             $style = '';

@@ -18,7 +18,7 @@ switch ($past)
 {
     case 'year':
         $min_timestamp = time() - 366 * $seconds_per_day;
-        $date_format = '%Y-%b-%d %H';
+        $date_format = '%Y-%b-%d';
         break;
 
     case 'day':
@@ -59,7 +59,6 @@ switch ($preceding)
     default:
         die("bad value for 'preceding'");
 }
-
 
 // Initialize the graph before making database call.
 // This makes use of the jpgraph cache if enabled.

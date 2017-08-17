@@ -678,5 +678,66 @@ table.dirlist caption {
   padding-top: 1px;
   cursor: pointer;
 }
+/* ------------------------------------------------------------------------ */
+/* Special days tables */
+table.list_special_days {
+  width: 90%;
+  margin: auto;
+}
+table.list_special_days td,
+table.list_special_days th {
+  border: 1px solid #999;
+  padding: 3px;
+}
+table.list_special_days td.codecell {
+  vertical-align: middle;
+  text-align: center;
+}
+table.list_special_days th.headers {
+  padding: 0.5em;
+}
+table.list_special_days tr.e {
+  background-color: #eee;
+}
+table.list_special_days tr.o {
+  background-color: #ddd;
+}
+table.list_special_days td.enabled {
+  background-color: #9f9;
+  text-align: center;
+}
+table.list_special_days td.disabled {
+  background-color: #ddd;
+  text-align: center;
+}
+table.list_special_days td.center {
+  text-align: center;
+}
+table.list_special_days tr.month > * {
+  border: none;
+  border-bottom: solid 2px black;
+}
+table.list_special_days td.right,
+table.list_special_days th.right {
+  text-align: right;
+  font-weight: normal;
+}
+table.list_special_days h2 {
+  margin: 1em auto auto auto;
+  text-align: left;
+}
+table.show_special_days th {
+  background-color: #eeeeee;
+}
+table.edit_special_day {
+  width: 90%;
+  margin: auto;
+}
+table.edit_special_day th,
+table.edit_special_day td {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #eeeeee;
+}
 /* vim: sw=4 ts=4 expandtab
 */
