@@ -114,7 +114,7 @@ Log into the $site_name Site
    the screen. This bar has links to the major areas of the site, including
    {$ELR_round->id} (the first proofreading round), SR (the Smooth Reading pool where you
    can access pre-released books), Forums, Wiki (documentation), and Prefs,
-   (your personal preferences). Near the bottom of the right-hand side of
+   (your personal preferences). Near the top of the right-hand side of
    the screen is a list of Key Help Documents.
 
 
