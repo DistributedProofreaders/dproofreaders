@@ -66,7 +66,7 @@ while ( $row = mysqli_fetch_assoc($result) )
         echo _("N/A"); // Translators: N/A = "Not applicable"
     echo "</td>\n";
     echo "<td>";
-    echo "<a href='" . urlencode($row['info_url']) . "'>";
+    echo "<a href='" . attr_safe($row['info_url']) . "'>";
     echo html_safe($row['info_url']) . "</a></td>\n";
     echo "</tr>\n";
 }
