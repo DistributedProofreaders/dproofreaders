@@ -127,7 +127,7 @@ if (!isset($_GET['name']))
         }
 
         if (!is_null($row['url']))
-            $link_name = "<br><a class='sourcelink' href='" . urlencode($row['url']) . "'>{$row['url']}</a>";
+            $link_name = "<br><a class='sourcelink' href='" . attr_safe($row['url']) . "'>{$row['url']}</a>";
         else
             $link_name = "";
 
