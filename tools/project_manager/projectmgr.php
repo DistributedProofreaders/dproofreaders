@@ -329,7 +329,7 @@ $widgets = array(
 
 // -----------------------------------------------------------------------------
 
-if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
+if (user_is_PM() && empty($_GET['show'])) {
     if ($userP['i_pmdefault'] == 0) {
         metarefresh(0,"projectmgr.php?show=user_all","","");
         exit();
@@ -343,9 +343,7 @@ output_header(_("Project Search"), NO_STATSBAR);
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
-if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
-    $_GET['show'] == 'search_form' ||
-    ($_GET['show'] == '' && $_GET['up_projectid'] == '' )) {
+if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
 
     echo_manager_header();
 
@@ -453,35 +451,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
     } elseif ($_GET['show'] == "site_active") {
         $condition = $PROJECT_IS_ACTIVE_sql;
-    } elseif ($_GET['show'] == "allfor" && isset($_GET['up_projectid'])) {
-        $condition = " 1 ";
     } elseif ($_GET['show'] == "user_all") {
         $condition = "username = '$pguser'";
     } else {
         // ($_GET['show'] == "user_active")
         // plus some corner cases
         $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
-    }
-
-
-    if (isset($_GET['up_projectid'])) {
-        $up_projectid = $_GET['up_projectid'];
-        $can_see_this_uber = TRUE;
-        if (!$can_see_this_uber) {
-            $UP_ok_qry = mysqli_query(DPDatabase::get_connection(), "
-            SELECT * FROM uber_projects up, usersettings us
-            WHERE us.username = '$pguser' AND
-                us.setting  = 'up_manager' AND
-                us.value = up.up_projectid AND
-                up.up_projectid > 0
-            ");
-            $can_see_this_uber = mysqli_num_rows($UP_ok_qry);
-        }
-        if ($can_see_this_uber) {
-            $condition .= sprintf(
-                " AND up_projectid = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $up_projectid));
-        }
     }
 
     $n_results_per_page = intval(@$_GET['n_results_per_page']);
@@ -513,48 +488,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo _("<b>No projects matched the search criteria.</b>");
         return;
     }
-
-    // -------------------------------------------------------------
-
-    function option_to_move( $curr_state, $new_state )
-    {
-        global $result;
-
-        $projectids = array();
-        while ( $project_assoc = mysqli_fetch_assoc($result) )
-        {
-            if ( $project_assoc['state'] == $curr_state )
-            {
-                $projectids[] = $project_assoc['projectid'];
-            }
-        }
-        mysqli_data_seek($result, 0);
-
-        if ( count($projectids) > 0 )
-        {
-            $curr_blurb = get_medium_label_for_project_state($curr_state);
-            $new_blurb  = get_medium_label_for_project_state($new_state);
-            $projectids_str = implode( ',', $projectids );
-
-            echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
-            // TRANSLATORS: both values are project states
-            printf(_("Move all %1\$s projects on this page to %2\$s"),
-                "<b>$curr_blurb</b>", "<b>$new_blurb</b>");
-            echo "</a>";
-            echo "<br>";
-            echo "<br>";
-            echo "\n";
-        }
-    }
-
-    // Formerly, a user's search results could only contain projects
-    // that the user could manage. Now that we've opened up the search page,
-    // this is no longer true. E.g., the results may contain New projects
-    // that the user does not have the authority to push to P1.unavail.
-    // Thus, these links would be confusing/misleading. So comment them out.
-    //
-    // option_to_move( PROJ_NEW, PROJ_P1_UNAVAILABLE );
-    // option_to_move( PROJ_P1_UNAVAILABLE, PROJ_P1_WAITING_FOR_RELEASE );
 
     // -------------------------------------------------------------
 
@@ -770,9 +703,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     if (!$userSettings->get_boolean('hide_special_colors')) {
         echo_special_legend(" 1 = 1");
     }
-
-    // Commented out until it's working.
-    // list_uber_projects( TRUE );
 }
 echo "<br>";
 
@@ -844,163 +774,6 @@ function echo_project_state_option($project_state,$selected)
 }
 
 // -----------------------------------------------------------------------------
-
-function list_uber_projects( $can_see_all )
-{
-    global $pguser, $theme, $PROJECT_IS_ACTIVE_sql;
-
-    // site managers and project facilitators can see all uber projects
-
-    if ($can_see_all) {
-
-        $UPs = mysqli_query(DPDatabase::get_connection(), "
-            SELECT * FROM uber_projects WHERE up_enabled = 1
-        ");
-
-    } else {
-
-        // if the user is currently the UP_manager of any Uber Projects, display them
-
-        // note that the Settings class can't handle lists of values, nor joins to other tables,
-        // so we go directly to the user_settings table instead
-
-        $UPs = mysqli_query(DPDatabase::get_connection(), "
-            SELECT * FROM uber_projects up, usersettings us
-            WHERE us.username = '$pguser' AND
-                us.setting  = 'up_manager' AND
-                us.value = up.up_projectid
-        ");
-
-    }
-
-    if (mysqli_num_rows($UPs)) {
-
-        $tr_num = 0;
-
-        echo "<br><center><h3>"._("Uber Projects to which you have access")."</h3></center><br>";
-
-        echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border: 1px solid #111; border-collapse: collapse'>";
-
-        echo "<tr>";
-        echo_header_cell( 300, _("Overall Name of Uber Project") );
-        echo_header_cell( 75,  _("Your Active Related Projects") );
-        echo_header_cell( 55,  _("All Your Related Projects") );
-        echo_header_cell( 75,  _("All Active Related Projects") );
-        echo_header_cell( 55,  _("All Related Projects") );
-        echo_header_cell( 55,  _("Project Managers") );
-        echo_header_cell( 30,  _("Forum Thread") );
-        echo_header_cell( 30,  _("Options") );
-        echo "</tr>";
-
-
-        if (!$can_see_all) {
-            $limit_to_user = " ";
-        } else {
-            $limit_to_user = " ";
-        }
-
-        while ($UPinfo = mysqli_fetch_assoc($UPs)) {
-
-            $up_projid = $UPinfo['up_projectid'];
-            $up_name = $UPinfo['up_nameofwork'];
-
-            // no one will have specific access to a large number of UPs,
-            // and SA/PFs only see the list when they request it,
-            // so these next few queries shouldn't be too expensive
-            // in absolute terms, even though they are in a loop
-
-            $num_active_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
-                SELECT count(*) as num
-                FROM projects WHERE up_projectid = '$up_projid'
-                AND $PROJECT_IS_ACTIVE_sql
-                AND username = '".$pguser."'
-            "));
-            $num_active_proj = $num_active_proj_res['num'];
-
-            $num_all_active_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
-                SELECT count(*) as num
-                FROM projects WHERE up_projectid = '$up_projid'
-                AND $PROJECT_IS_ACTIVE_sql
-            "));
-            $num_all_active_proj = $num_all_active_proj_res['num'];
-
-            $num_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
-                SELECT count(*) as num
-                FROM projects WHERE up_projectid = '$up_projid'
-                AND username = '".$pguser."'
-            "));
-            $num_proj = $num_proj_res['num'];
-
-            $num_all_proj_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
-                SELECT count(*) as num
-                FROM projects WHERE up_projectid = '$up_projid'
-            "));
-            $num_all_proj = $num_all_proj_res['num'];
-
-            $num_PM_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
-                SELECT count(*) as num
-                FROM usersettings WHERE setting = 'up_manager' and value = '$up_projid'
-            "));
-            $num_PM = $num_PM_res['num'];
-
-            if ($tr_num % 2 ) {
-                $bgcolor = $theme['color_mainbody_bg'];
-            } else {
-                $bgcolor = $theme['color_navbar_bg'];
-            }
-
-            echo "<tr bgcolor=$bgcolor>\n";
-
-            // Name
-            echo "<td>$up_name</td>\n";
-
-            // Number of THIS USER'S active related projects  (NB SA/PFs are users too!)
-            echo "<td align=\"center\"><a href='projectmgr.php?up_projectid=$up_projid'>$num_active_proj</a></td>\n";
-
-            // Number of all of THIS USER'S related projects
-            echo "<td align=\"center\"><a href='projectmgr.php?show=user_all&up_projectid=$up_projid'>$num_proj</a></td>\n";
-
-            // Number of ALL active related projects
-            // For SA/PFs this is a link to them, others just see the total
-            if ($can_see_all) {
-                $link_top = "<a href='projectmgr.php?show=site_active&up_projectid=".$up_projid."'>";
-                $link_tail = "</a>";
-            } else {
-                $link_top = "";
-                $link_tail = "";
-            }
-            echo "<td align=\"center\">".$link_top.$num_all_active_proj.$link_tail."</td>\n";
-
-            // Number of ALL related projects
-            // For SA/PFs this is a link to them, others just see the total
-            if ($can_see_all) {
-                $link_top = "<a href='projectmgr.php?show=allfor&up_projectid=".$up_projid."'>";
-                $link_tail = "</a>";
-            } else {
-                $link_top = "";
-                $link_tail = "";
-            }
-            echo "<td align=\"center\">".$link_top.$num_all_proj.$link_tail."</td>\n";
-
-            // Number of project managers
-            // could in a fancy future show SA/PFs a drop down list of PMs with
-            // projects related to this UP, and let selection show the list
-            // filtered by PM...
-            echo "<td align=\"center\">$num_PM</td>\n";
-
-            // link to Forum thread
-            echo "<td>Click here</td>\n";
-
-            // Options
-            echo "<td>Edit / Create New</td>\n";
-            echo "</tr>\n";
-
-            $tr_num++;
-        }
-
-        echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
-    }
-}
 
 function escape_value($value)
 {
