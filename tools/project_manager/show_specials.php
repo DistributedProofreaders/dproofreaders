@@ -10,7 +10,7 @@ $title = _("Details of Special Days/Weeks/Months");
 
 output_header($title, NO_STATSBAR);
 
-echo "<br><h1>$title</h1>\n";
+echo "<h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br>";
 
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
