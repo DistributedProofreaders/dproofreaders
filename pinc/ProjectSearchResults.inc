@@ -8,7 +8,7 @@ include_once($relPath.'wordcheck_engine.inc');
 
 class ProjectSearchResults
 {
-    public function __construct($page_size)
+    public function __construct($page_size=100)
     {
         $this->page_size = $page_size;
     }
