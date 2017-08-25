@@ -333,7 +333,7 @@ function html_navbar()
 
         $links[] = array('text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php");
 
-        $links[] = array('text' => _("Project Search"), 'url' => "tools/search.php?show=search_form");
+        $links[] = array('text' => _("Project Search"), 'url' => "tools/search.php");
 
         echo headerbar_text_array($links);
 
@@ -604,21 +604,7 @@ function get_activity_links()
 
     if (user_is_PM())
     {
-        // if the PM has a default PM Page defined, use it
-        if ($userP['i_pmdefault'] == 0)
-        {
-            $default_pm_page="?show=user_all";
-        }
-        elseif ($userP['i_pmdefault'] == 1)
-        {
-            $default_pm_page="?show=user_active";
-        }
-        else
-        {
-            $default_pm_page="";
-        }
-
-        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects'));
+        $links[] = array('url' => "tools/project_manager/projectmgr.php", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects'));
     }
 
     // Get all stages the user has access to
