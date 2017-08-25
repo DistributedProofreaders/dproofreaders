@@ -176,9 +176,9 @@ class ProjectSearchResults
                 {
                     echo _("Edit") . ":";
                     echo " ";
-                    echo "<a href=\"editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
+                    echo "<a href=\"$code_url/tools/project_manager/editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
                     echo " | ";
-                    echo "<a href=\"edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
+                    echo "<a href=\"$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
 
                     // Should we show an "attention" icon?
                     // Currently, we only do this if suggestions have been added since
