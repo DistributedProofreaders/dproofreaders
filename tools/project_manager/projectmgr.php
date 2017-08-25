@@ -8,11 +8,9 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'ProjectTransition.inc');
-include_once($relPath.'genres.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
@@ -20,7 +18,10 @@ include_once('projectmgr.inc');
 
 require_login();
 
-class Widget
+define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
+
+include_once($relPath.'iso_lang_list.inc');
+class ProjectSearchWidget
 {
     function __construct( $properties )
     {
@@ -154,178 +155,286 @@ class Widget
 
 }
 
-// -------------------------------------------------------------------
-
-$special_day_options = array();
-$special_day_options[''] = _('Any day');
-$special_day_res = mysqli_query(DPDatabase::get_connection(), "
-    SELECT
-        spec_code,
-        display_name,
-        DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')
-    FROM special_days
-    WHERE enable = 1
-    ORDER BY open_month, open_day
-");
-while ( list($s_code, $s_display_name, $s_start) = mysqli_fetch_row($special_day_res) )
+class ProjectSearchForm
 {
-    $special_day_options[$s_code] = "$s_display_name ($s_start)";
+    public function __construct()
+    {
+        $this->define_form_widgets();
+    }
+
+    private function _get_options_special_day()
+    {
+        $special_day_options = array();
+        $special_day_options[''] = _('Any day');
+        $special_day_res = mysqli_query(DPDatabase::get_connection(), "
+            SELECT
+                spec_code,
+                display_name,
+                DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')
+            FROM special_days
+            WHERE enable = 1
+            ORDER BY open_month, open_day
+        ");
+        while ( list($s_code, $s_display_name, $s_start) = mysqli_fetch_row($special_day_res) )
+        {
+            $special_day_options[$s_code] = "$s_display_name ($s_start)";
+        }
+        return $special_day_options;
+    }
+
+    private function _get_options_lang()
+    {
+        global $lang_list;
+
+        $lang_options[''] = _('Any');
+        foreach($lang_list as $k=>$v)
+        {
+            $lang_options[$v['lang_name']] = $v['lang_name'];
+        }
+        return $lang_options;
+    }
+
+    private function _get_options_genre()
+    {
+        global $relPath;
+        include($relPath.'genres.inc');
+
+        return array_merge( array( '' => _('any') ), $GENRES );
+    }
+
+    private function _get_options_difficulty()
+    {
+        return array(
+            ''         => _('any'),
+            'beginner' => _('Beginner'),
+            'easy'     => _('Easy'),
+            'average'  => _('Average'),
+            'hard'     => _('Hard'),
+        );
+    }
+
+    private function _get_options_state()
+    {
+        global $PROJECT_STATES_IN_ORDER;
+
+        $state_options[''] = _('any state');
+        foreach ($PROJECT_STATES_IN_ORDER as $proj_state)
+        {
+            $state_options[$proj_state] = project_states_text($proj_state);
+        }
+        return $state_options;
+    }
+
+    public function define_form_widgets()
+    {
+        $this->widgets = array(
+            new ProjectSearchWidget( array(
+                'id'         => 'title',
+                'label'      => _('Title'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('nameofwork', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'author',
+                'label'      => _('Author'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('authorsname', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'language',
+                'label'      => _('Language'),
+                'type'       => 'select',
+                'options'    => $this->_get_options_lang(),
+                'can_be_multiple' => TRUE,
+                'initial_value'   => '',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('language', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'genre',
+                'label'      => _('Genre'),
+                'type'       => 'select',
+                'options'    => $this->_get_options_genre(),
+                'can_be_multiple' => TRUE,
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('genre', '='),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'difficulty',
+                'label'      => _('Difficulty'),
+                'type'       => 'select',
+                'options'    => $this->_get_options_difficulty(),
+                'can_be_multiple' => TRUE,
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('difficulty', '='),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'special_day',
+                'label'      => _('Special day'),
+                'type'       => 'select',
+                'options'    => $this->_get_options_special_day(),
+                'can_be_multiple' => TRUE,
+                'initial_value'   => '',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('special_code', '='),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'projectid',
+                'label'      => _('Project ID'),
+                'type'       => 'text',
+                'size'       => 45, // big enough to show two projectids without scrolling.
+                'can_be_multiple' => TRUE,
+                'separator'  => '[\s,;]+',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('projectid', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'project_manager',
+                'label'      => _('Project Manager'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('username', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'checkedoutby',
+                'label'      => _('Checked Out By'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('checkedoutby', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'pp_er',
+                'label'      => _('Post-processor'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('postproofer', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'         => 'ppv_er',
+                'label'      => _('Post-processing Verifier'),
+                'type'       => 'text',
+                'q_part'     => 'WHERE',
+                'q_contrib'  => array('ppverifier', 'LIKE'),
+            )),
+            new ProjectSearchWidget( array(
+                'id'           => 'postednum',
+                'label'        => _('PG etext number'),
+                'type'         => 'text',
+                'can_be_multiple' => TRUE,
+                'separator'  => '[\s,;]+',
+                'q_part'       => 'WHERE',
+                'q_contrib'    => array('postednum', '='),
+            )),
+            new ProjectSearchWidget( array(
+                'id'           => 'state',
+                'label'        => pgettext('project state', 'State'),
+                'type'         => 'select',
+                'options'      => $this->_get_options_state(),
+                'can_be_multiple' => TRUE,
+                'q_part'       => 'WHERE',
+                'q_contrib'    => array('state', '='),
+            )),
+            new ProjectSearchWidget( array(
+                'id'           => 'n_results_per_page',
+                'label'        => _('Number of results per page'),
+                'type'         => 'select',
+                'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
+                'can_be_multiple' => FALSE,
+                'initial_value'   => DEFAULT_N_RESULTS_PER_PAGE,
+                'q_part'       => 'LIMIT',
+                'q_contrib'    => '{VALUE}',
+            )),
+        );
+    }
+
+    public function render($page)
+    {
+        echo "<form method='get' action='$page'>";
+        echo "<input type='hidden' name='show' value='search'>";
+        echo "<table>";
+
+        foreach ( $this->widgets as $widget )
+        {
+            if ( @$widget->can_be_multiple )
+            {
+                if ( $widget->type == 'text' )
+                {
+                    $help = _('list ok');
+                }
+                elseif ( $widget->type == 'select' )
+                {
+                    $help = _('multi-select');
+                }
+                $help = "<br>($help)";
+            }
+            else
+            {
+                $help = '';
+            }
+            echo "
+                <tr>
+                    <td align='right'>{$widget->label}$help</td>
+                    <td>".$widget->get_html_control()."</td>
+                </tr>
+            ";
+        }
+
+        echo "
+            <tr>
+                <td></td>
+                <td>
+                    <table width='100%'>
+                    <tr>
+                        <td align='left'><input type='submit' value='", attr_safe(_("Search")), "'></td>
+                        <td align='right'><input type='reset' value='", attr_safe(_("Clear form")), "'></td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+            </table>
+            </form>
+        ";
+
+        echo _("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.");
+        echo "<br><br>";
+        echo _('"(list ok)": You can search by multiple ProjectIDs or PG etext numbers at once: enter the list of ProjectIDs or PG etext numbers, separated by commas, semicolons, or spaces.');
+        echo "<br><br>";
+        echo _('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).');
+    }
+
+    public function get_widget_contribution()
+    {
+        $condition = '1';
+        foreach ( $this->widgets as $widget )
+        {
+            $contribution = $widget->get_sql_contribution();
+            if ( $contribution == '' ) continue;
+
+            if ( $widget->q_part == 'WHERE' )
+            {
+                $condition .= "\nAND $contribution";
+            }
+            else if ( $widget->q_part == 'LIMIT' )
+            {
+                // n_results_per_page is handled below
+            }
+            else
+            {
+                assert(FALSE);
+            }
+        }
+        return $condition;
+    }
+
+    public function get_page_size()
+    {
+        $n_results_per_page = intval(@$_GET['n_results_per_page']);
+        if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
+        return $n_results_per_page;
+    }
 }
-
-// ---------
-
-$lang_options[''] = _('Any');
-foreach($lang_list as $k=>$v)
-{
-    $lang_options[$v['lang_name']] = $v['lang_name'];
-}
-
-// ---------
-
-$genre_options = array_merge( array( '' => _('any') ), $GENRES );
-
-// ---------
-
-$difficulty_options = array(
-    ''         => _('any'),
-    'beginner' => _('Beginner'),
-    'easy'     => _('Easy'),
-    'average'  => _('Average'),
-    'hard'     => _('Hard'),
-);
-
-// ---------
-
-$state_options[''] = _('any state');
-foreach ($PROJECT_STATES_IN_ORDER as $proj_state)
-{
-    $state_options[$proj_state] = project_states_text($proj_state);
-}
-
-// ---------
-
-define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
-
-$widgets = array(
-    new Widget( array(
-        'id'         => 'title',
-        'label'      => _('Title'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('nameofwork', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'author',
-        'label'      => _('Author'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('authorsname', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'language',
-        'label'      => _('Language'),
-        'type'       => 'select',
-        'options'    => $lang_options,
-        'can_be_multiple' => TRUE,
-        'initial_value'   => '',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('language', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'genre',
-        'label'      => _('Genre'),
-        'type'       => 'select',
-        'options'    => $genre_options,
-        'can_be_multiple' => TRUE,
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('genre', '='),
-    )),
-    new Widget( array(
-        'id'         => 'difficulty',
-        'label'      => _('Difficulty'),
-        'type'       => 'select',
-        'options'    => $difficulty_options,
-        'can_be_multiple' => TRUE,
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('difficulty', '='),
-    )),
-    new Widget( array(
-        'id'         => 'special_day',
-        'label'      => _('Special day'),
-        'type'       => 'select',
-        'options'    => $special_day_options,
-        'can_be_multiple' => TRUE,
-        'initial_value'   => '',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('special_code', '='),
-    )),
-    new Widget( array(
-        'id'         => 'projectid',
-        'label'      => _('Project ID'),
-        'type'       => 'text',
-        'size'       => 45, // big enough to show two projectids without scrolling.
-        'can_be_multiple' => TRUE,
-        'separator'  => '[\s,;]+',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('projectid', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'project_manager',
-        'label'      => _('Project Manager'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('username', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'checkedoutby',
-        'label'      => _('Checked Out By'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('checkedoutby', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'pp_er',
-        'label'      => _('Post-processor'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('postproofer', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'         => 'ppv_er',
-        'label'      => _('Post-processing Verifier'),
-        'type'       => 'text',
-        'q_part'     => 'WHERE',
-        'q_contrib'  => array('ppverifier', 'LIKE'),
-    )),
-    new Widget( array(
-        'id'           => 'postednum',
-        'label'        => _('PG etext number'),
-        'type'         => 'text',
-        'can_be_multiple' => TRUE,
-        'separator'  => '[\s,;]+',
-        'q_part'       => 'WHERE',
-        'q_contrib'    => array('postednum', '='),
-    )),
-    new Widget( array(
-        'id'           => 'state',
-        'label'        => pgettext('project state', 'State'),
-        'type'         => 'select',
-        'options'      => $state_options,
-        'can_be_multiple' => TRUE,
-        'q_part'       => 'WHERE',
-        'q_contrib'    => array('state', '='),
-    )),
-    new Widget( array(
-        'id'           => 'n_results_per_page',
-        'label'        => _('Number of results per page'),
-        'type'         => 'select',
-        'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
-        'can_be_multiple' => FALSE,
-        'initial_value'   => DEFAULT_N_RESULTS_PER_PAGE,
-        'q_part'       => 'LIMIT',
-        'q_contrib'    => '{VALUE}',
-    )),
-);
 
 // -----------------------------------------------------------------------------
 
@@ -340,6 +449,8 @@ if (user_is_PM() && empty($_GET['show'])) {
 }
 
 output_header(_("Project Search"), NO_STATSBAR);
+
+$search_form = new ProjectSearchForm();
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
@@ -371,84 +482,18 @@ if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
     echo "
         <center>
         <h1>", _("Search for Projects"), "</h1>
-        "._("Search for projects matching the following criteria:")."<br>
-        <form method=get action='projectmgr.php'>
-        <input type='hidden' name='show' value='search'>
-        <table>
-    ";
+        "._("Search for projects matching the following criteria:")."<br>";
 
-    foreach ( $widgets as $widget )
-    {
-        if ( @$widget->can_be_multiple )
-        {
-            if ( $widget->type == 'text' )
-            {
-                $help = _('list ok');
-            }
-            elseif ( $widget->type == 'select' )
-            {
-                $help = _('multi-select');
-            }
-            $help = "<br>($help)";
-        }
-        else
-        {
-            $help = '';
-        }
-        echo "
-            <tr>
-                <td align='right'>{$widget->label}$help</td>
-                <td>".$widget->get_html_control()."</td>
-            </tr>
-        ";
-    }
+    $search_form->render('projectmgr.php');
 
-    echo "
-        <tr>
-            <td></td>
-            <td>
-                <table width='100%'>
-                <tr>
-                    <td align='left'><input type='submit' value='", attr_safe(_("Search")), "'></td>
-                    <td align='right'><input type='reset' value='", attr_safe(_("Clear form")), "'></td>
-                </tr>
-                </table>
-            </td>
-        </tr>
-        </table>
-        </form>
-        "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
-        <br><br>
-        "._('"(list ok)": You can search by multiple ProjectIDs or PG etext numbers at once: enter the list of ProjectIDs or PG etext numbers, separated by commas, semicolons, or spaces.')."
-        <br><br>
-        "._('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
-        </center>
-    ";
+    echo "</center>";
 } else {
     echo_manager_header();
 
     // Construct and submit the search query.
 
     if ($_GET['show'] == 'search') {
-        $condition = '1';
-        foreach ( $widgets as $widget )
-        {
-            $contribution = $widget->get_sql_contribution();
-            if ( $contribution == '' ) continue;
-
-            if ( $widget->q_part == 'WHERE' )
-            {
-                $condition .= "\nAND $contribution";
-            }
-            else if ( $widget->q_part == 'LIMIT' )
-            {
-                // n_results_per_page is handled below
-            }
-            else
-            {
-                assert(FALSE);
-            }
-        }
+        $condition = $search_form->get_widget_contribution();
     } elseif ($_GET['show'] == "site_active") {
         $condition = $PROJECT_IS_ACTIVE_sql;
     } elseif ($_GET['show'] == "user_all") {
@@ -459,8 +504,7 @@ if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
         $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
     }
 
-    $n_results_per_page = intval(@$_GET['n_results_per_page']);
-    if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
+    $n_results_per_page = $search_form->get_page_size();
 
     $results_offset = intval(@$_GET['results_offset']);
 
