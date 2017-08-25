@@ -1,9 +1,7 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'gradual.inc');
@@ -15,8 +13,6 @@ require_login();
 output_header(_("Project Search"), NO_STATSBAR);
 
 $search_form = new ProjectSearchForm();
-
-$PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
 if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
 
@@ -52,17 +48,7 @@ if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
 } else {
     // Construct and submit the search query.
 
-    if ($_GET['show'] == 'search') {
-        $condition = $search_form->get_widget_contribution();
-    } elseif ($_GET['show'] == "site_active") {
-        $condition = $PROJECT_IS_ACTIVE_sql;
-    } elseif ($_GET['show'] == "user_all") {
-        $condition = "username = '$pguser'";
-    } else {
-        // ($_GET['show'] == "user_active")
-        // plus some corner cases
-        $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
-    }
+    $condition = $search_form->get_widget_contribution();
 
     // Determine whether to use special colors or not
     // (this does not affect the alternating between two
