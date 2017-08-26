@@ -200,8 +200,8 @@ else {
             ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
                 mysqli_real_escape_string(DPDatabase::get_connection(), $other_names));
             if ($simulating) {
-                echo "<font color='red'>    " . _("The following query would have been run:") . "\n      " .
-                     str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
+                echo "<span style='color: red'>    " . _("The following query would have been run:") . "\n      " .
+                     str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
                 $author_id='#new author id#';
             }
             else {
@@ -219,8 +219,8 @@ else {
                 VALUES(%s, '%s')
             ", $author_id, mysqli_real_escape_string(DPDatabase::get_connection(), $bio));
             if ($simulating)
-                echo "<font color='blue'>    " . _("The following query would have been run:") . "\n      " .
-                     str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
+                echo "<span style='color: blue'>    " . _("The following query would have been run:") . "\n      " .
+                     str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
             else {
                 $store_result = mysqli_query(DPDatabase::get_connection(), $query);
                 if (!$store_result) {

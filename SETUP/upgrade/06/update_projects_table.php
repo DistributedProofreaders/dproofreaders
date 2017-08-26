@@ -118,8 +118,8 @@ echo "Inserting transitional warning into project comments of in-rounds projects
 $R1_msg = "This project was in R1 at the cutover from the old 2-round system. It may contain formatting that was added in R1.";
 $R2_msg = "This project was in R2 at the cutover from the old 2-round system. It may contain formatting that was added in R1 and may need additional proofreading in F1.";
 
-$R1_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p><font color='red'>$R1_msg</font></p>\n");
-$R2_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p><font color='red'>$R2_msg</font></p>\n");
+$R1_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p style='color: red'>$R1_msg</p>\n");
+$R2_msg = mysqli_real_escape_string(DPDatabase::get_connection(), "<p style='color: red'>$R2_msg</p>\n");
 
 // Use old and new state strings, so that there's no ordering depdency
 // between this script and update_project_states.php

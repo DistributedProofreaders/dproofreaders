@@ -43,7 +43,7 @@ function showChangeInRank( $previous_rank, $current_rank )
             $sign  = '-';
             $abs   = $current_rank - $previous_rank;
         }
-        $snippet = "&nbsp;<font color='$color'>(<img src='".$GLOBALS['code_url']."/graphics/$arrow.gif' border='0' alt='$sign$abs'>&nbsp;".number_format($abs).")</font>";
+        $snippet = "&nbsp;<span style='color: $color'>(<img src='".$GLOBALS['code_url']."/graphics/$arrow.gif' border='0' alt='$sign$abs'>&nbsp;".number_format($abs).")</span>";
     }
 
     return $snippet;
