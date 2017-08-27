@@ -182,7 +182,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Overall Name of Uber Project"),      'text_field',        $up_nameofwork,  'up_nameofwork' );
     row( _("Brief Description of Uber Project"), 'description_field', $up_description, 'up_description' );
 
-    echo "<tr><td colspan='2'><center><b>"._("Default Values for Projects to be Created from this Uber Project")."</b></center></td></tr>\n";
+    echo "<tr><td colspan='2'><b>"._("Default Values for Projects to be Created from this Uber Project")."</b></td></tr>\n";
 
     row( _("Default Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
     row( _("Default Author's Name"),         'text_field',          $authorsname,     'authorsname' );

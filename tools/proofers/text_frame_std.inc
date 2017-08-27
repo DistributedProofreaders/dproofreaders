@@ -20,10 +20,9 @@ function echo_text_frame_std( $ppage )
         );
     slim_header(_("Text Frame"), $header_args);
     ?>
-    <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
     <?php output_preview_div(); ?>
-    <div id = 'proofdiv'>
+    <div id = 'proofdiv' class='center-align'>
         <?php
 
         $ppage->echo_proofing_textarea();
@@ -71,7 +70,6 @@ function echo_text_frame_std( $ppage )
 
       </div> <!-- proofdiv -->
     </form>
-    </center>
     <?php
 }
 // vim: sw=4 ts=4 expandtab

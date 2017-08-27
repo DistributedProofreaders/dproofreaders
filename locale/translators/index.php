@@ -189,8 +189,8 @@ else if ($func == "xgettext")
     exec("$xgettext_executable `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/ -o messages.pot --keyword=_ -L PHP --keyword=\"pgettext:1c,2\" --add-comments=TRANSLATORS 2>&1", $exec_out, $ret_var);
     if ($ret_var)
     {
-        echo "<center>" . _("Strings <b>not</b> rebuilt!") . "</center><br>"
-            . _("This is the <code>xgettext</code> output:") . "<br><br>";
+        echo "<p class='center-align'>" . _("Strings <b>not</b> rebuilt!") . "<br>"
+            . _("This is the <code>xgettext</code> output:") . "</p>";
         echo "<pre>";
         foreach($exec_out as $v)
             echo html_safe($v)."\n";

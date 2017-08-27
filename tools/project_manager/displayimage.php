@@ -96,12 +96,9 @@ if($showreturnlink) {
 }
 echo "<br>\n";
 echo "<img src='$projects_url/$projectid/$imagefile' width='$width' border='1'>";
-?>
-<center>
-<?php
+
+echo "<p class='center-align'>";
 prevnext_buttons();
-?>
-</center>
-</form>
-<?php
+echo "</p>";
+echo "</form>";
 // vim: sw=4 ts=4 expandtab

@@ -79,7 +79,7 @@ else
     if ($reason == 0) {
         include_once($relPath.'theme.inc');
         output_header(_("Incomplete Form!"), NO_STATSBAR);
-        echo "<br><center>"._("You have not completely filled out this form!  Please hit the <a href='javascript:history.back()'>back</a> button on your browser & fill out all fields.")."</center>";
+        echo "<p class='error'>"._("You have not completely filled out this form!  Please hit the <a href='javascript:history.back()'>back</a> button on your browser & fill out all fields.")."</p>";
         exit();
     }
 

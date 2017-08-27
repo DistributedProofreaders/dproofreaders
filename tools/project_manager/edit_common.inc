@@ -271,10 +271,9 @@ function proj_comments_field($comments)
 {
     $enc_comments = html_safe($comments);
 
-    echo "<center>";
     echo "<textarea name='comments' cols='74' rows='16' style='width: 100%'>$enc_comments</textarea>";
     echo "<br>";
-    echo "<b>";
+    echo "<p class='bold center-align' style='margin: 0'>";
     echo "[";
     echo new_help_window_link( 'template', _("How To Use A Template") );
     echo "]";
@@ -282,8 +281,7 @@ function proj_comments_field($comments)
     echo "[";
     echo new_help_window_link( 'biography', _("How To Use A Biography") );
     echo "]";
-    echo "</b>";
-    echo "</center>";
+    echo "</p>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -301,9 +299,7 @@ function extra_credits_field($extra_credits)
 {
     $enc_credits = html_safe($extra_credits);
 
-    echo "<center>";
     echo "<textarea name='extra_credits' cols='74' rows='4' style='width: 100%'>$enc_credits</textarea>";
-    echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -314,9 +310,7 @@ function description_field( $description, $field_name )
 {
     $enc_description = html_safe($description);
 
-    echo "<center>";
     echo "<textarea name='$field_name' cols='74' rows='6'>$enc_description</textarea>";
-    echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

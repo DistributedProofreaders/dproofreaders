@@ -172,7 +172,7 @@ echo "<h1>$header</h1>";
 
 echo "<p>" . _("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.");
 echo "<br>" . _("Click the ? for help on that specific preference.") . "</p>";
-echo "<br><center>";
+echo "<br>";
 
 echo "<form action='userprefs.php' method='post'>";
 echo "<table class='preferences'>";
@@ -197,7 +197,7 @@ echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
 
 echo "</table></form>\n";
-echo "<br></center>";
+echo "<br>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
 echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";

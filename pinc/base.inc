@@ -87,10 +87,10 @@ if ($maintenance)
         if($maintenance_message)
             $message .= "<br>$maintenance_message";
         slim_header($title);
-        echo "<center><h2>";
+        echo "<h2 style='text-align: center'>";
         if (isset($pguser))
             echo "$pguser ";
-        echo "$message</h2></center>";
+        echo "$message</h2>";
         exit();
     }
 }

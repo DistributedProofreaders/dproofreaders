@@ -228,7 +228,7 @@ class ImageSource
         echo "</td>";
 
         echo "<td>";
-        echo "<big>" . html_safe($this->full_name) . "</big><br>";
+        echo "<span style='font-size: large'>" . html_safe($this->full_name) . "</span><br>";
         if ($this->url == "")
             echo "<span class='error'>" . _("Missing URL") . "</span>";
         else

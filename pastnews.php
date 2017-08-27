@@ -27,10 +27,6 @@ if (isset($_GET['news_page_id'])) {
 }
 
 
-// echo "<center>Feeds: <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-// echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-// echo "</center>";
-
 $num = get_integer_param($_GET, 'num', 0, 0, NULL);
 if ($num == 0)
 {

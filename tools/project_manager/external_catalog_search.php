@@ -234,7 +234,7 @@ function do_search_and_show_hits()
 
     // -----------------------------------------------------
 
-    echo "</table><br><center>";
+    echo "</table><p class='center-align'>";
     if (yaz_hits($id) != 0)
     {
         echo "<input type='submit' value='", attr_safe(_("Create the Project")), "'>&nbsp;";
@@ -254,8 +254,8 @@ function do_search_and_show_hits()
     $url = "projectmgr.php";
     echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
 
+    echo "</p>";
     echo "</form>";
-    echo "</center>";
     yaz_close($id);
 }
 

@@ -126,7 +126,7 @@ window.onload = test_and_enable_nonregex;
 <input type="checkbox" name="is_regex" id='is_regex' checked disabled>
 </td></tr>
 </table>
-<center>
+<p class='center-align'>
     <input type="button" value="<?php echo attr_safe(_("Replace all.")); ?>" onClick="do_replace()">
     <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled>
 </center>

@@ -28,8 +28,7 @@ function echo_manager_header()
                            : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form"
                            );
 
-    echo "<p>";
-    echo "<center>\n";
+    echo "<p class='center-align'>";
 
     // ---------------------------------------
     // Links that aren't related to project searches.
@@ -93,8 +92,6 @@ function echo_manager_header()
     echo "\n";
 
     // --------------------------
-
-    echo "</center>";
 
     if ( user_is_PM() )
     {

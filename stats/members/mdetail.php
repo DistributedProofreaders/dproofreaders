@@ -34,8 +34,6 @@ output_header($desc);
 
 echo "<h1>$desc</h1>";
 
-echo "<center>";
-
 if ( $can_reveal )
 {
     if ( $user->u_privacy == PRIVACY_ANONYMOUS )
@@ -50,7 +48,5 @@ else
     $brushoff = _("This user has requested that their statistics remain private.");
     echo "<p>$brushoff</p>";
 }
-
-echo "</center>";
 
 // vim: sw=4 ts=4 expandtab

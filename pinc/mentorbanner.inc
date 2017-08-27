@@ -45,8 +45,8 @@ function mentor_banner($round)
             break;
     }
 
-    echo "<br><center>";
-    echo "<p style='color: $font_col; font-weight: bold; font-size: $font_boost'>";
+    echo "<br>";
+    echo "<p style='color: $font_col; font-weight: bold; font-size: $font_boost; text-align: center'>";
     printf(ngettext(
             /* TRANSLATORS: %4 is the name of the user's UI language in their language;
             %1 is a URL; %2 is the round ID; %3 is the number of days. */
@@ -58,5 +58,5 @@ function mentor_banner($round)
         $oldest,
         $lang_name);
     echo "</p>";
-    echo "</center><br>";
+    echo "<br>";
 }
