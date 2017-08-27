@@ -140,8 +140,8 @@ div.faqheader {
 }
 /* ------------------------------------------------------------------------ */
 /* User Preferences */
-table.preferences td.label,
-table.preferences td.longlabel {
+table.preferences th.label,
+table.preferences th.longlabel {
   background-color: #e0e8dd;
   color: #000000;
 }

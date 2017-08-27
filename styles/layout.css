@@ -376,15 +376,11 @@ table.preferences td.tabbar {
   padding: 0;
   margin: 0;
 }
-table.preferences td {
+table.preferences td,
+table.preferences th {
   border: solid thin black;
 }
-table.preferences td.label {
-  font-weight: bold;
-  text-align: right;
-}
-table.preferences td.longlabel {
-  font-weight: bold;
+table.preferences th.longlabel {
   text-align: center;
 }
 #tabs {

@@ -416,7 +416,7 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    td_label_long( 6, _('Profiles') );
+    th_label_long( 6, _('Profiles') );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -427,7 +427,7 @@ function echo_proofreading_tab() {
         array( '20', '' )
         // About 99.96% of pgdp.net's user_profiles have length(profilename) <= 20
     );
-    echo "<td bgcolor='#ffffff' colspan='2' align='center'>";
+    echo "<td colspan='2' class='center-align'>";
     // show all profiles
     echo "<select name='c_profile' ID='c_profile'>";
     while ($row = mysqli_fetch_assoc($pf_query))
@@ -493,10 +493,10 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    td_label_long( 2,
+    th_label_long( 2,
         "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences") );
     td_pophelp( 'vertprefs' );
-    td_label_long( 2,
+    th_label_long( 2,
         "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences") );
     td_pophelp( 'horzprefs' );
     echo "</tr>\n";
@@ -628,7 +628,7 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     // buttons
-    echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
+    echo "<tr><td colspan='6' class='center-align'>";
     if ($userP['prefschanged']==1)
     {
         echo "<input type='submit' value='" 
@@ -745,7 +745,7 @@ function echo_pm_tab() {
     ); 
     echo "</tr>\n"; 
 
-    echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
+    echo "<tr><td colspan='6' class='center-align'>";
     echo_bottom_button_row();
     echo "</td></tr>\n";
 }
@@ -786,7 +786,7 @@ function save_pm_tab() {
 
 function echo_bottom_button_row()
 {
-    echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
+    echo "<tr><td colspan='6' class='center-align'>";
     echo "<input type='submit' value='".attr_safe(_("Save Preferences"))."' name='change'> &nbsp;";
     echo "<input type='submit' value='".attr_safe(_("Save Preferences and Quit"))."' name='saveAndQuit'> &nbsp;";
     echo "<input type='submit' value='".attr_safe(_("Quit"))."' name='quitnc'>";
@@ -801,9 +801,9 @@ function show_preference(
     $type,
     $extras )
 {
-    td_label( "$label:" );
+    th_label($label);
 
-    echo "<td bgcolor='#ffffff' align='left'>";
+    echo "<td>";
     // This is a bit sneaky, calling a function via a non-static name.
     // (Be careful if you want to rename a function whose name starts with '_show_'.)
     $function_name = '_show_' . $type;
@@ -936,8 +936,8 @@ function show_link_as_if_preference(
     $link_url,
     $link_text )
 {
-    td_label( "$label:" );
-    echo "<td bgcolor='#ffffff' align='left'>";
+    th_label($label);
+    echo "<td>";
     echo "<a href='$link_url'>$link_text</a>";
     echo "</td>";
     td_pophelp( $pophelp_name );
@@ -945,26 +945,26 @@ function show_link_as_if_preference(
 
 function show_blank()
 {
-    td_label( "&nbsp;" );
-    echo "<td bgcolor='#ffffff' align='left'>&nbsp;</td>";
-    echo "<td bgcolor='#ffffff' align='center'>&nbsp;</td>\n";
+    th_label( "&nbsp;" );
+    echo "<td>&nbsp;</td>";
+    echo "<td>&nbsp;</td>\n";
 }
 
 // ---------------------------------------------------------
 
-function td_label( $label )
+function th_label( $label )
 {
-    echo "<td class='label'>$label</td>";
+    echo "<th class='label'>$label</th>";
 }
 
-function td_label_long( $colspan, $label )
+function th_label_long( $colspan, $label )
 {
-    echo "<td class='longlabel' colspan='$colspan'>$label</td>";
+    echo "<th class='longlabel' colspan='$colspan'>$label</th>";
 }
 
 function td_pophelp( $pophelp_name )
 {
-    echo "<td bgcolor='#ffffff' align='center'>";
+    echo "<td class='center-align'>";
     echo "<b>&nbsp;<a href=\"javascript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
     echo "</td>\n";
 }
