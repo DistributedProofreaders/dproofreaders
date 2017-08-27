@@ -68,7 +68,7 @@ foreach($syntax as $v)
 	echo "<option value=\"$v\"> $v ".WH_Text($v)."</option>";
 ?>
 </select>
-</td><td align="right">
+</td><td class="right-align">
 <input type="submit" value="Submit">
 <input type="button" value="Reset" onClick="hierobox.value='';">
 </td></tr>

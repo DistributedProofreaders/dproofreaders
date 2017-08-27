@@ -254,7 +254,7 @@ class ProjectWordListHolder
         // The space between buttons ensures that very long (translated) button
         // labels do not force the display to be wider than the screen.
         echo "<tr>";
-        echo   "<th colspan='2' align='center' style='padding: 0.5em;'>";
+        echo   "<th colspan='2' class='center-align' style='padding: 0.5em;'>";
         // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndPM' value='", attr_safe(_("Save and Go To PM Page")), "'> ";
         echo     "<input type='submit' name='saveAndProject' value='", attr_safe(_("Save and Go To Project")), "'> ";
@@ -367,7 +367,7 @@ class ProjectWordListHolder
             echo "<table width='100%'>";
 
             echo "<tr>";
-            echo "<td style='width: 50%; text-align: center;' valign='top'>";
+            echo "<td style='width: 50%; text-align: center;' class='top-align'>";
 
             echo "<p>";
             echo "<b>" . _("Words that WordCheck would currently flag:") . "</b><br>";
@@ -394,7 +394,7 @@ class ProjectWordListHolder
             }
 
             echo "</td>";
-            echo "<td style='width: 50%; text-align: center;' valign='top'>";
+            echo "<td style='width: 50%; text-align: center;' class='top-align'>";
 
             // see if the site has Possible Bad Word files
             $possible_bad_words = load_site_possible_bad_words_given_project($this->projectid);

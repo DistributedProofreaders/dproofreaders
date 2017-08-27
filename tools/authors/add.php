@@ -389,7 +389,7 @@ echo_date_fields('b');
 echo_date_fields('d');
 ?>
 </td></tr>
-<tr><td colspan="2" bgcolor='#CCCCCC' align="center">
+<tr><td colspan="2" bgcolor='#CCCCCC' class="center-align">
 <input type="submit" name="Preview" value="<?php echo _('Preview'); ?>">
 <input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>">
 <input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>">

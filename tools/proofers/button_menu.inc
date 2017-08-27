@@ -68,7 +68,7 @@ type="text" value="<?php
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
-?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="<?php 
+?>" name="zmSize" ID="zmSize" class="boxnormal bottom-align" size="3" title="<?php 
     # xgettext:no-php-format
     echo attr_safe(_("Input Zoom %"));
 ?>" onkeydown="return refuseNonNumeric(event)"><?php

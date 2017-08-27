@@ -12,7 +12,7 @@ class CharacterSelector
     {
         global $utf8_site;
     
-        echo '<td align="right">';
+        echo '<td class="right-align">';
         $title_safe = attr_safe($title);
         echo <<<EOS
     <select
@@ -52,7 +52,7 @@ EOS;
     
     public function echo_block()
     {
-        echo "<table>\n";
+        echo "<table style='margin-left: auto; margin-right: 0;'>\n";
     
         // START OF ROW 1
         echo "<tr>\n";
@@ -149,7 +149,7 @@ EOS;
         global $utf8_site;
     
         ?>
-            <td valign="top" <?php if($utf8_site) echo "rowspan='2'"; ?>>
+            <td class="top-align" <?php if($utf8_site) echo "rowspan='2'"; ?>>
                 <input
                     TYPE="text"
                     VALUE=""

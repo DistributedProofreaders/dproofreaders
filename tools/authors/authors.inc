@@ -36,7 +36,7 @@ if ($author_id) {
         echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'),$bio_id) . "</a></td></tr>\n";
       }
       elseif ($numrow > 1) {
-        echo "<tr><th rowspan=\"$numrow\" valign=\"top\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
+        echo "<tr><th rowspan=\"$numrow\" class=\"top-align\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
         while($row = mysqli_fetch_assoc($result)) {
           $bio_id = $row["bio_id"];
           echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a></td></tr>\n";
@@ -140,7 +140,7 @@ if ($author_id) {
     if (!user_is_authors_db_manager()) {
       if ($echo_header)
         output_header(_('Sorry!'));
-      echo "<h2 align='center'>" . _('Sorry!') . "</h2>";
+      echo "<h2 class='center-align'>" . _('Sorry!') . "</h2>";
       echo _('You do not have permission to access this page.
               If you believe you should, please contact a system administrator.');
       exit();
@@ -151,7 +151,7 @@ if ($author_id) {
     if (!user_is_authors_db_editor()) {
       if ($echo_header)
         output_header(_('Sorry!'));
-      echo "<h2 align='center'>" . _('Sorry!') . "</h2>";
+      echo "<h2 class='center-align'>" . _('Sorry!') . "</h2>";
       echo _('You do not have permission to access this page.
               If you believe you should, please contact a system administrator.');
       exit();

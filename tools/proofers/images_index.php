@@ -80,18 +80,18 @@ else
 {
     echo "<table border='1'>\n";
     echo "<tr>\n";
-    echo "<td valign='top'>\n";
+    echo "<td class='top-align'>\n";
     list_images( $project, $page_image_names, $existing_image_names, TRUE);
     echo "</td>\n";
-    echo "<td valign='top'>\n";
+    echo "<td class='top-align'>\n";
     list_images( $project, $nonpage_image_names, $existing_image_names, FALSE);
     echo "</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-    echo "<td align='center'>\n";
+    echo "<td class='center-align'>\n";
     show_dl_link( $projectid, $page_image_names, TRUE );
     echo "</td>\n";
-    echo "<td align='center'>\n";
+    echo "<td class='center-align'>\n";
     show_dl_link( $projectid, $nonpage_image_names, FALSE );
     echo "</td>\n";
     echo "</tr>\n";
@@ -114,7 +114,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
     {
         $header = _('Non-Page Images (Illustrations)');
     }
-    echo "<h4 align='center'>$header</h4>";
+    echo "<h4 class='center-align'>$header</h4>";
 
     $show_replace_links = $project->can_be_managed_by_current_user;
 
@@ -158,7 +158,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
                     $units = "MB";
                 }
             }
-            echo "<td align='right'>" . sprintf("%0.2f", $size) . " $units</td>\n";
+            echo "<td class='right-align'>" . sprintf("%0.2f", $size) . " $units</td>\n";
         }
 
         if ( $show_replace_links )

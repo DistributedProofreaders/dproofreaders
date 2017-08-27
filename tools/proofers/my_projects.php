@@ -189,12 +189,6 @@ while ( $row = mysqli_fetch_object($res) )
     echo get_medium_label_for_project_state( $state );
     echo "</td>\n";
 
-    /*
-    echo "<td align='center'>";
-    echo $row->round_id;
-    echo "</td>\n";
-    */
-
     echo "<td nowrap>";
     echo strftime( '%Y-%m-%d %H:%M:%S', $row->max_timestamp );
     echo "</td>\n";
@@ -286,7 +280,7 @@ if($num_projects > 0)
         echo "<a href='$code_url/project.php?id=$row->projectid'>$row->nameofwork</a>";
         echo "</td>\n";
 
-        echo "<td align='center'>";
+        echo "<td class='center-align'>";
         echo $row->username;
         echo "</td>\n";
 

@@ -58,7 +58,7 @@ else
 {
     while($news_item = mysqli_fetch_array($result)) {
         $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-        echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr align='center' width='75%'><br>";
+        echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr class='center-align' style='width: 75%'><br>";
     }
 }
 // vim: sw=4 ts=4 expandtab

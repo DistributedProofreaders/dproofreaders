@@ -110,17 +110,17 @@ window.onload = test_and_enable_nonregex;
 </style>
 <form>
 <table id="tbl">
-<tr><td align="right">
+<tr><td class="right-align">
 <?php echo _("Search"); ?>:
 </td><td>
 <input type="text" name="search" id='search'>
 </td></tr>
-<tr><td align="right">
+<tr><td class="right-align">
 <?php echo _("Replace"); ?>:
 </td><td>
 <input type="text" name="replace" id='replace'>
 </td></tr>
-<tr><td align="right">
+<tr><td class="right-align">
 <label for='is_regex'><?php echo _("Regular Expression?"); ?></label>
 </td><td>
 <input type="checkbox" name="is_regex" id='is_regex' checked disabled>

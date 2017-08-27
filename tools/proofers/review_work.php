@@ -312,9 +312,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     echo get_medium_label_for_project_state( $state );
     echo "</td>";
     echo "<td>$time_of_latest_save</td>";
-    echo "<td align='center'>$n_saved</td>";
-    echo "<td align='center' $n_latered_bg>$n_latered</td>";
-    echo "<td align='center' $n_w_diff_bg>$n_with_diff ($n_with_diff_percent%)</td>";
+    echo "<td class='center-align'>$n_saved</td>";
+    echo "<td class='center-align' $n_latered_bg>$n_latered</td>";
+    echo "<td class='center-align' $n_w_diff_bg>$n_with_diff ($n_with_diff_percent%)</td>";
     echo "<td $n_w_diff_bg>$diffLinkString</td>";
     echo "</tr>";
     echo "\n";
@@ -333,9 +333,9 @@ echo "<tr>";
 echo "<th>$total_valid_projects</th>";
 echo "<th></th>";
 echo "<th></th>";
-echo "<th align='center'>$total_n_saved</th>";
-echo "<th align='center'>$total_n_latered</th>";
-echo "<th align='center'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
+echo "<th class='center-align'>$total_n_saved</th>";
+echo "<th class='center-align'>$total_n_latered</th>";
+echo "<th class='center-align'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
 echo "</tr>";
 
 echo "</table>";

@@ -90,7 +90,7 @@ if (!empty($mRows)) {
             echo "<td style='text-align: center;'><b>---</b></td>";
             echo "<td>" . _("Anonymous") . "</td>";
             echo "<td style='text-align: center;'>---</td>";
-            echo "<td style='text-align='center;'>---</td>";
+            echo "<td style='text-align: center;'>---</td>";
 
         }
 

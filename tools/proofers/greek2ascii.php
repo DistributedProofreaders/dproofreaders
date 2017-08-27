@@ -49,17 +49,17 @@ else
 </tr>
 
 <tr>
-<td valign="top">
+<td class="top-align">
 <form name="greek" action="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>">
 <input type="text" name="textbox" length="65" size="65"
 <?php echo "value=\"" . attr_safe($greek_contents) . "\""; ?>
 >
 </td>
-<td align="right" valign="top">
+<td class="right-align top-align">
 <input type=button value="<?php echo attr_safe(_("Clear"))?>" title="<?php
 echo attr_safe(_("Clear"))?>" onClick="clearBox();">
 </td>
-<td align="right" valign="top">
+<td class="right-align top-align">
 
 <!-- Pretty little mode buttons, all in a row -->
 <table cellspacing="0" cellpadding="0" border=0 >

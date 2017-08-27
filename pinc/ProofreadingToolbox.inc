@@ -20,12 +20,12 @@ class ProofreadingToolbox
         echo "<div id='toolbox'>";
         echo '<a href="#" accesskey="=" onfocus="top.focusText()"></a>';
         echo '<form name="markform" id="markform" onsubmit="return(false);" action="ctrl_frame.php">';
-        echo '<table style="width: 100%;" align="center">';
+        echo '<table style="width: 100%;" class="center-align">';
         echo "<tr>";
-        echo '<td valign="top" align="right">';
+        echo '<td class="top-align right-align">';
         $this->character_selector->echo_block();
         echo '</td>';
-        echo '<td valign="top" align="center">';
+        echo '<td class="top-align center-align">';
         echo <<<EOS
         <input
             accesskey="["
@@ -50,7 +50,7 @@ EOS;
         $this->echo_tool_buttons( $round->pi_tools['tool_buttons'] );
 
         echo '</td>';
-        echo '<td align="right" valign="top">';
+        echo '<td class="top-align right-align">';
         $help = _("Help");
         echo "<b><span style='color: red;'>$help---&gt;</span></b>";
         echo "<a href='../../faq/" . lang_dir() . "/prooffacehelp.php' accesskey='1' target='helpNewWin'>";
@@ -60,7 +60,7 @@ EOS;
             width="18"
             height="18"
             border="0"
-            align="top"
+            class="top-align"
             alt="$help"
             title="$help"
         >
@@ -70,7 +70,7 @@ EOS;
         echo '</tr>';
 
         echo '<tr>';
-        echo '<td valign="top" colspan="3" align="center">';
+        echo '<td class="top-align center-align" colspan="3">';
         echo "<span class='small'>\n";
 
         echo "<i>"._("Markup shortcuts").":</i>\n";
@@ -176,9 +176,8 @@ EOS;
         <button
             onclick="$onclick"
             accesskey="$accesskey"
-            class='proofbutton'
+            class='proofbutton top-align'
             style='padding-left: $lr_padding; padding-right: $lr_padding;'
-            align="top"
             title="$title_safe"
         >$label</button>
 EOS;

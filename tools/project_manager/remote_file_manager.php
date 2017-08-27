@@ -875,8 +875,8 @@ function show_content()
             <tr>
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
-                <td align='left'><span class='mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
-                <td align='right'><span class='mono'>".humanize_bytes(filesize($item_path))."</span></td>
+                <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
+                <td class='right-align mono'>".humanize_bytes(filesize($item_path))."</td>
             </tr>
             ";
         } elseif (is_dir($item_path)) {
@@ -893,7 +893,7 @@ function show_content()
             <tr>
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
-                <td align='left'><span class='mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
+                <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
                 <td></td>
             </tr>
             ";

@@ -18,7 +18,7 @@ else
 $iWidth=round((1000*$iWidth)/100);
 ?>
 
-<div align="center" id="imagedisplay">
+<div class="center-align" id="imagedisplay">
 <img name="scanimage" id="scanimage" title="" alt=""
     src="<?php echo $ppage->url_for_image(); ?>"
     width="<?php echo $iWidth; ?>"

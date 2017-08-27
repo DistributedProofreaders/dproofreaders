@@ -740,12 +740,12 @@ class Loader
                     $action = $row[$toi]['action'];
 
                     // pre-existing
-                    echo "<td align='center'>";
+                    echo "<td class='center-align'>";
                     if ( $db_exts ) echo implode( ' ', $db_exts );
                     echo "</td>";
 
                     // new
-                    echo "<td align='center'>";
+                    echo "<td class='center-align'>";
                     if ( $src_exts ) echo implode( ' ', $src_exts );
                     echo "</td>";
 
@@ -765,7 +765,7 @@ class Loader
                         'error'   => _('Error'),
                     );
                     $action_bgcolor = $bgcolors[$action];
-                    echo "<td align='center' bgcolor='$action_bgcolor'>";
+                    echo "<td class='center-align' style='background-color: $action_bgcolor'>";
                     echo $action_labels[$action];
                     echo "</td>";
                 }
