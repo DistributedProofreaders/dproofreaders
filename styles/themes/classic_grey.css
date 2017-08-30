@@ -17,7 +17,7 @@ body a:active {
 }
 header,
 #header {
-  background-color: #ffffff;
+  background-color: #dddddd;
   color: #000000;
 }
 /* Navbar */
@@ -27,7 +27,7 @@ nav,
 #navbar-left,
 #navbar-right,
 #navbar-login {
-  background-color: #999999;
+  background-color: #444444;
   font-family: Verdana, Helvetica, sans-serif;
 }
 nav a:link,
@@ -48,7 +48,7 @@ nav a:active,
 #navbar-left a:active,
 #navbar-right a:active,
 #navbar-login a:active {
-  color: #000000;
+  color: #ffffff;
 }
 nav label,
 #navbar-outer label,
@@ -68,7 +68,7 @@ nav span.currentpage,
 #navbar-left span.currentpage,
 #navbar-right span.currentpage,
 #navbar-login span.currentpage {
-  color: #000000;
+  color: #ffffff;
 }
 nav input,
 #navbar-outer input,
@@ -81,7 +81,7 @@ nav input,
 }
 /* Layout */
 #page-container {
-  background-color: #cccccc;
+  background-color: #dddddd;
 }
 #content-container {
   background-color: #ffffff;
@@ -92,7 +92,7 @@ nav input,
 }
 #sidebar,
 #statsbar {
-  background-color: #cccccc;
+  background-color: #dddddd;
   color: #000000;
 }
 footer,
@@ -116,7 +116,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #999999;
+  color: #333333;
   font-family: Verdana, Helvetica, sans-serif;
 }
 /* Attention-getting structures */
@@ -135,18 +135,18 @@ h6 {
 /* FAQ */
 div.faqheader {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: #999999;
-  color: #000000;
+  background-color: #444444;
+  color: #ffffff;
 }
 /* ------------------------------------------------------------------------ */
 /* User Preferences */
 table.preferences th.label,
 table.preferences th.longlabel {
-  background-color: #ffffff;
+  background-color: #dddddd;
   color: #000000;
 }
 #tabs li {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 #tabs a {
   color: #000000;
@@ -155,7 +155,7 @@ table.preferences th.longlabel {
   color: #000000;
 }
 #tabs #current {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 #tabs #current a {
   color: #000000;
@@ -163,19 +163,19 @@ table.preferences th.longlabel {
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed tr {
-  background-color: #ffffff;
+  background-color: #dddddd;
   color: #000000;
 }
 table.themed tr th {
-  background-color: #999999;
-  color: #000000;
+  background-color: #444444;
+  color: #ffffff;
 }
 table.themed tr th a:link,
 table.themed tr th a:visited {
-  color: #000000;
+  color: #ffffff;
 }
 table.theme_striped tr:nth-child(even) {
-  background-color: #cccccc;
+  background-color: #dddddd;
 }
 table.theme_striped tr:nth-child(odd) {
   background-color: #ffffff;
@@ -204,7 +204,7 @@ table.ppv_reportcard th {
   border: solid thin black;
 }
 table.ppv_reportcard th.major_section {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 table.ppv_reportcard th.minor_section {
   background-color: #99ff99;
@@ -215,20 +215,20 @@ table.ppv_reportcard th.heading {
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
 table.image_source_listing td.title {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 /* ------------------------------------------------------------------------ */
 /* Registration table */
 table.register td.bar {
-  background-color: #999999;
+  background-color: #444444;
 }
 table.register td.label {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */
 table.snapshottable th {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 /* ------------------------------------------------------------------------ */
 /* WordCheck pages */
