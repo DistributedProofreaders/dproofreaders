@@ -66,7 +66,7 @@ echo "<tr>";
 if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 echo "<th style='width: 5%; text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=u_id&amp;direction=$newdirection'>"._("ID")."</a></th>";
 if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-echo "<th style='text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=username&amp;direction=$newdirection'>"._("Username")."</a></th>";
+echo "<th><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=username&amp;direction=$newdirection'>"._("Username")."</a></th>";
 if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 echo "<th style='text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=date_created&amp;direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></th>";
 echo "<th style='text-align: center;'>"._("Options")."</th>";

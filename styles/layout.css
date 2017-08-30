@@ -13,7 +13,6 @@ table {
   border-collapse: collapse;
 }
 table th {
-  text-align: center;
   font-weight: bold;
 }
 table th.label {
