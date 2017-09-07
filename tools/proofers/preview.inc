@@ -12,10 +12,49 @@ function shared_strings($escape_function="html_safe")
         "font_change" => $escape_function(_("Font change")),
     );
 }
-    
+
+$msg = array(
+    "noStartTag" => (_("No start tag for this end tag")),
+    "noEndTag" => (_("No end tag for this start tag")),
+    "noEndTagInPara" => (_("No corresponding end tag in paragraph")),
+    "misMatchTag" => (_("End tag does not match start tag")),
+    "nestedTag" => (_("Tag nested within same tag")),
+    "unRecTag" => (_("Unrecognized tag")),
+    "tabChar" => (_("Tab should not be used")),
+    "charBefore" => (_("No characters should precede this")),
+    "blankBefore" => (_("A blank line should precede this")),
+    "blankAfter" => (_("A blank line should follow %s")),
+    "NWinNW" => (_("No-wrap inside no-wrap")),
+    "BQinNW" => (_("Block quote inside no-wrap")),
+    "aloneTag" => (_("This tag should be alone on its line")),
+    "OolPrev" => (_("Out-of-line start tag should not be preceded by normal text")),
+    "OolNext" => (_("Out-of-line end tag should not be followed by normal text")),
+    "blankLines124" => (_("Only 1, 2 or 4 blank lines should be used")),
+    "puncAfterStart" => (_("Punctuation after start tag")),
+    "spaceAfterStart" => (_("Space after start tag")),
+    "nlAfterStart" => (_("Newline after start tag")),
+    "nlBeforeEnd" => (_("Newline before end tag")),
+    "spaceBeforeEnd" => (_("Space before end tag")),
+    "noBold" => (_("Heading should not be entirely bold")),
+    "scNoCap" => (_("Small caps must contain at least one upper case character")),
+    "charBeforeStart" => (_("Character or punctuation before inline start tag")),
+    "charAfterEnd" => (_("Character after inline end tag")),
+    "puncBEnd" => (_(",; or : before end tag")),
+    "noCloseBrack" => (_("No matching closing bracket")),
+    "footnoteId" => (_("Footnote identifier should be a letter or number")),
+    "starAnchor" => (_("Footnote anchor should be an upper-case letter")),
+    "noFootnote" => (_("No corresponding footnote on this page")),
+    "noAnchor" => (_("No anchor for this footnote")),
+    "noColon" => (_("Footnote must have a colon")),
+    "colonNext" => (_("The colon should immediately follow *[Footnote")),
+    "spaceNext" => (_("Footnote should be followed by one space and identifier")),
+    "dupNote" => (_("Duplicate footnote identifier")),
+    "continueFirst" => (_("Continuation footnote should precede others"))
+);
+
 function output_preview_strings()
 {
-    global $charset;
+    global $msg, $charset;
 
     $plain = javascript_safe(_("Plain text"));
     $superscript = javascript_safe(_("superscript"));
@@ -23,52 +62,14 @@ function output_preview_strings()
 
     $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>^{" . "$superscript}";
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
-    
-    $msg = array(
-        "noStartTag" => javascript_safe(_("No start tag for this end tag")),
-        "noEndTag" => javascript_safe(_("No end tag for this start tag")),
-        "noEndTagInPara" => javascript_safe(_("No corresponding end tag in paragraph")),
-        "misMatchTag" => javascript_safe(_("End tag does not match start tag")),
-        "nestedTag" => javascript_safe(_("Tag nested within same tag")),
-        "unRecTag" => javascript_safe(_("Unrecognized tag")),
-        "tabChar" => javascript_safe(_("Tab should not be used")),
-        "charBefore" => javascript_safe(_("No characters should precede this")),
-        "blankBefore" => javascript_safe(_("A blank line should precede this")),
-        "blankAfter" => javascript_safe(_("A blank line should follow %s")),
-        "NWinNW" => javascript_safe(_("No-wrap inside no-wrap")),
-        "BQinNW" => javascript_safe(_("Block quote inside no-wrap")),
-        "aloneTag" => javascript_safe(_("This tag should be alone on its line")),
-        "OolPrev" => javascript_safe(_("Out-of-line start tag should not be preceded by normal text")),
-        "OolNext" => javascript_safe(_("Out-of-line end tag should not be followed by normal text")),
-        "blankLines124" => javascript_safe(_("Only 1, 2 or 4 blank lines should be used")),
-        "puncAfterStart" => javascript_safe(_("Punctuation after start tag")),
-        "spaceAfterStart" => javascript_safe(_("Space after start tag")),
-        "nlAfterStart" => javascript_safe(_("Newline after start tag")),
-        "nlBeforeEnd" => javascript_safe(_("Newline before end tag")),
-        "spaceBeforeEnd" => javascript_safe(_("Space before end tag")),
-        "noBold" => javascript_safe(_("Heading should not be entirely bold")),
-        "scNoCap" => javascript_safe(_("Small caps must contain at least one upper case character")),
-        "charBeforeStart" => javascript_safe(_("Character or punctuation before inline start tag")),
-        "charAfterEnd" => javascript_safe(_("Character after inline end tag")),
-        "puncBEnd" => javascript_safe(_(",; or : before end tag")),
-        "noCloseBrack" => javascript_safe(_("No matching closing bracket")),
-        "footnoteId" => javascript_safe(_("Footnote identifier should be a letter or number")),
-        "starAnchor" => javascript_safe(_("Footnote anchor should be an upper-case letter")),
-        "noFootnote" => javascript_safe(_("No corresponding footnote on this page")),
-        "noAnchor" => javascript_safe(_("No anchor for this footnote")),
-        "noColon" => javascript_safe(_("Footnote must have a colon")),
-        "colonNext" => javascript_safe(_("The colon should immediately follow *[Footnote")),
-        "spaceNext" => javascript_safe(_("Footnote should be followed by one space and identifier")),
-        "dupNote" => javascript_safe(_("Duplicate footnote identifier")),
-        "continueFirst" => javascript_safe(_("Continuation footnote should precede others"))
 
-    );
 
     // json_encode() assumes everything is in UTF-8, but we may not be so
     // just build the JSON object ourselves
     $json_entries = [];
     foreach($msg as $key => $value)
     {
+        $value = javascript_safe($value);
         $json_entries[] = "\"$key\": \"$value\"";
     }
     $preview_msg = "{" . implode(",", $json_entries) . "}";
@@ -78,12 +79,15 @@ function output_preview_strings()
 
 function output_preview_div()
 {
+    global $msg;
+
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
     $add_font = attr_safe(_("Add Font"));
     $remove_font = attr_safe(_("Remove Font"));
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
+    $some_suppressed = attr_safe(_('some issue types are suppressed'));
 
     $color_markup = html_safe(_("Color markup"));
     $image =  html_safe(_("Image"));
@@ -100,7 +104,8 @@ function output_preview_div()
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow underline"));
-
+    $suppress_cbs = html_safe($msg['charBeforeStart']);
+    $suppress_warnings = html_safe(_('Suppress warnings'));
     echo <<<END
 <div id='prevdiv' class='no_display'>
   <div id="id_controls">
@@ -122,6 +127,7 @@ function output_preview_div()
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
+    <span id='id_some_supp' title='$some_suppressed'>!!</span>
     <input type='button' onclick="previewControl.configure()" value="$configure">
   </div>
   <div id="id_tp_outer">
@@ -158,6 +164,12 @@ function output_preview_div()
    </div>
   <div class="box2">
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
+  </div>
+  <fieldset>
+   <legend>$suppress_warnings</legend>
+   <input type="checkbox" id="id_cbs">$suppress_cbs
+  </fieldset>
+  <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
   </div>
