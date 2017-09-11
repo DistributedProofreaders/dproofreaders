@@ -58,9 +58,10 @@ function output_preview_strings()
 
     $plain = javascript_safe(_("Plain text"));
     $superscript = javascript_safe(_("superscript"));
+    $subscript = javascript_safe(_("subscript"));
     $ss = shared_strings("javascript_safe");
 
-    $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>^{" . "$superscript}";
+    $demo_string = "$plain _{{$subscript}} <i>$ss[italic]</i> ^{{$superscript}} <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>";
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
 
 
@@ -87,7 +88,7 @@ function output_preview_div()
     $remove_font = attr_safe(_("Remove Font"));
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
-    $some_suppressed = attr_safe(_('some issue types are suppressed'));
+    $some_suppressed = attr_safe(_('Some issue types are suppressed'));
 
     $color_markup = html_safe(_("Color markup"));
     $image =  html_safe(_("Image"));
@@ -103,8 +104,8 @@ function output_preview_div()
     $ss = shared_strings("html_safe");
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
-    $allow_underine = html_safe(_("Allow underline"));
-    $suppress_cbs = html_safe($msg['charBeforeStart']);
+    $allow_underine = html_safe(_("Allow <u> for underline"));
+    $char_before_start = html_safe($msg['charBeforeStart']);
     $suppress_warnings = html_safe(_('Suppress warnings'));
     echo <<<END
 <div id='prevdiv' class='no_display'>
@@ -167,7 +168,7 @@ function output_preview_div()
   </div>
   <fieldset>
    <legend>$suppress_warnings</legend>
-   <input type="checkbox" id="id_cbs">$suppress_cbs
+   <input type="checkbox" id="id_cbs">$char_before_start
   </fieldset>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
