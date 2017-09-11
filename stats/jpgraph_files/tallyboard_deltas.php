@@ -33,7 +33,7 @@ if (empty($datax) || empty($datay))
         $error = _("This user has not completed any pages in this round.");
     else
         $error = _("This team has not completed any pages in this round.");
-    dpgraph_error($error);
+    dpgraph_error($error, 600, 300);
     die;
 }
 

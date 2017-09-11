@@ -66,7 +66,7 @@ function display_graph($d)
 
     if($total_pages == 0)
     {
-        dpgraph_error(_("No pages saved in specified range"));
+        dpgraph_error(_("No pages saved in specified range"), 660, 400);
     }
 
     draw_pie_graph( $graph, $labels, $data, $title );

@@ -31,7 +31,7 @@ $stats_total = array_sum($stats);
 // If this is a new system there won't be any stats so don't divide by zero
 if($stats_total == 0)
 {
-    dpgraph_error(_("No pages found."));
+    dpgraph_error(_("No pages found."), $width, $height);
 }
 
 // Generate the date ranges
