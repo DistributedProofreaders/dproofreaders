@@ -369,7 +369,7 @@ class ProjectSearchForm
             }
             echo "
                 <tr>
-                    <td class='right-align'>{$widget->label}$help</td>
+                    <th class='right-align'>{$widget->label}$help</th>
                     <td>".$widget->get_html_control()."</td>
                 </tr>
             ";

@@ -38,13 +38,10 @@ if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
     }
 
     echo "
-        <center>
-        <h1>", _("Search for Projects"), "</h1>
-        "._("Search for projects matching the following criteria:")."<br>";
+        <h1>", _("Search for Projects"), "</h1>";
+        echo "<p>" . _("Search for projects matching the following criteria:") . "</p>";
 
     $search_form->render('search.php');
-
-    echo "</center>";
 } else {
     // Construct and submit the search query.
 
