@@ -17,9 +17,15 @@ $tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
 
 if ($tname) {
     if ($texact)
-        $where_body = "teamname='$tname'";
+    {
+        $where_body = sprintf("teamname='%s'",
+            mysqli_real_escape_string(DPDatabase::get_connection(), $tname));
+    }
     else
-        $where_body = "teamname LIKE '%$tname%'";
+    {
+        $where_body = sprintf("teamname LIKE '%%%s%%'",
+            mysqli_real_escape_string(DPDatabase::get_connection(), $tname));
+    }
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
     $tRows = mysqli_num_rows($tResult);

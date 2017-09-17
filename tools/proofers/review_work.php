@@ -4,11 +4,20 @@ include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 include_once($relPath.'User.inc');
 
 require_login();
+
+# SITE-SPECIFIC
+# Redirect users to the version of ths script in noncvs that isn't a resource hog
+if(strpos($code_url, '://www.pgdp.'))
+{
+    $url = "/noncvs/review_work_instrumented3.php";
+    metarefresh(0, $url);
+}
 
 define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
