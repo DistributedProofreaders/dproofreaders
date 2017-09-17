@@ -115,9 +115,8 @@ else
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    do_pm_header();
-
     echo "<h1>$title</h1>\n";
+    do_pm_header($project);
 
     do_detail_level_switch();
     do_expected_state();
@@ -186,12 +185,11 @@ function do_update_pp_activity()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_pm_header()
+function do_pm_header($project)
 {
-    global $project;
-    if (!$project->can_be_managed_by_current_user) return;
-
-    echo_manager_header();
+    if (!$project->can_be_managed_by_current_user)
+        return;
+    echo_manager_header($project);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
