@@ -14,7 +14,22 @@ output_header(_("Project Search"), NO_STATSBAR);
 
 $search_form = new ProjectSearchForm();
 
-if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
+try {
+    $show_view = get_enumerated_param($_GET, 'show', 'blank_search_form',
+        array('search_form', 'search', 'blank_search_form'));
+} catch(Exception $e) {
+    $show_view = 'blank_search_form';
+}
+
+if($show_view == 'blank_search_form')
+{
+    unset($_SESSION['search_data']);
+    $show_view = 'search_form';
+}
+
+if ($show_view == 'search_form')
+{
+    echo "<h1>", _("Search for Projects"), "</h1>";
 
     // New proofreaders are having a hard time finding stuff because they
     // end up on the Project Search page instead of the starting round page.
@@ -37,41 +52,34 @@ if (!isset($_GET['show']) || $_GET['show'] == 'search_form') {
         echo "</div>";
     }
 
-    echo "
-        <h1>", _("Search for Projects"), "</h1>";
-        echo "<p>" . _("Search for projects matching the following criteria:") . "</p>";
-
-    $search_form->render('search.php');
-} else {
-    // Construct and submit the search query.
-
-    $condition = $search_form->get_widget_contribution();
-
-    // Determine whether to use special colors or not
-    // (this does not affect the alternating between two
-    // background colors) in the project listing.
-    $userSettings =& Settings::get_Settings($pguser);
-    $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
-
-    echo "<h1>", _("Search Results"), "</h1>\n";
-
-    $search_results = new ProjectSearchResults($search_form->get_page_size());
-    $results_offset = intval(@$_GET['results_offset']);
-    $search_results->render($condition, $results_offset, $show_special_colors);
-
-    // special colours legend
-    // Don't display if the user has selected the
-    // setting "Show Special Colors: No".
-    // The legend has been put at the bottom of the page
-    // because the use of colors is presumably mostly
-    // useful as a check that no typo was made. The
-    // exact color probably doesn't matter and,
-    // furthermore, the PM 'knows' the project and
-    // what's so special about it.
-    if (!$userSettings->get_boolean('hide_special_colors')) {
-        echo_special_legend(" 1 = 1");
-    }
+    $search_form->render();
+    exit();
 }
+
+// show must be search
+if(empty($_POST))
+{
+    $condition = array_get($_SESSION, 'search_condition', "1");
+}
+else
+{
+    // Construct the search query.
+    $condition = $search_form->get_widget_contribution($_POST);
+    // save the condition to use for paging or changing configuration or sorting
+    $_SESSION['search_condition'] = $condition;
+    // save the POST data to use to initialise the search form if refining
+    $_SESSION['search_data'] = $_POST;
+}
+
+echo "<h1>", _("Search Results"), "</h1>\n";
+echo_refine_search();
+
 echo "<br>";
+
+$search_results = new ProjectSearchResults('search');
+$search_results->render($condition);
+
+//---------------------------------------------------------------------------
+
 
 // vim: sw=4 ts=4 expandtab

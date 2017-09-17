@@ -5,237 +5,136 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'ProjectSearchResultsConfig.inc');
 
-class ProjectSearchResults
+class Column
 {
-    public function __construct($page_size=100)
+    public function __construct($id, $label, $long_label, $align, $default_display, $sortable, $db_column, $print_data)
     {
-        $this->page_size = $page_size;
+        $this->id = $id;
+        $this->label = $label;
+        $this->long_label = $long_label;
+        $this->align = $align;
+        $this->default_display = $default_display;
+        $this->sortable = $sortable;
+        $this->db_column = $db_column;
+        $this->print_data = $print_data;
     }
 
-    private function results_navigator($numrows, $num_found_rows, $results_offset)
+    public function get_long_label()
     {
-        // The REQUEST_URI must have at least one query-string parameter,
-        // otherwise the response would have been just the search form,
-        // and this function wouldn't have been called.
-        $url_base = $_SERVER['REQUEST_URI'] . '&';
-        $url_base = preg_replace('/results_offset=[^&]*&/', '', $url_base);
+        // can also be overridden
+        if(empty($this->long_label))
+            return $this->label;
+        return $this->long_label;
+    }
 
-        if ( $results_offset > 0 )
+    public function get_sort_sql()
+    {
+        return $this->db_column; // overridden by state column
+    }
+
+    public function is_active($userSettings)
+    {
+        switch ($userSettings->get_value("PM$this->id"))
         {
-            $t = _('Previous');
-            $prev_offset = max(0, $results_offset - $this->page_size);
-            $url = $url_base . "results_offset=$prev_offset";
-            echo "<a href='$url'>$t</a> | ";
+        case "yes":
+            return true;
+        case "no":
+            return false;
+        default:
+            return $this->default_display;
         }
+    }
 
-        echo sprintf(
-            // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
-            _("Projects %1\$d to %2\$d of %3\$d"),
-            $results_offset + 1,
-            $results_offset + $numrows,
-            $num_found_rows
+    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param)
+    {
+        $label = $this->label;
+        if($this->sortable)
+        {
+            if($sort_column_id == $this->id)
+            {
+                // The header-link reverses the current sort direction.
+                if($sql_sort_dir == "asc")
+                {
+                    $dir_code = "D";
+                    $marker = "&#9650;";
+                }
+                else
+                {
+                    $dir_code = "A";
+                    $marker = "&#9660;";
+                }
+            }
+            else
+            { // sort ascending
+                $dir_code = "A";
+                $marker = "";
+            }
+            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker";
+        }
+        echo "<th class='$this->align'>$label</th>\n";
+    }
+
+    public function echo_data_cell($project)
+    {
+        echo "<td class='$this->align'>",  $this->print_cell_data($project), "</td>\n";
+    }
+
+    public function print_cell_data($project)
+    {
+        $key = $this->db_column;
+        call_user_func($this->print_data, $project->$key);
+    }
+}
+
+class TitleColumn extends Column
+{
+    public function print_cell_data($project)
+    {
+        global $code_url;
+        echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a>";
+    }
+}
+
+class GenreColumn extends Column
+{
+    public function get_long_label()
+    {
+        return _('Difficulty') . " + " . $this->label;
+    }
+
+    public function print_cell_data($project)
+    {
+        $diff_prefix = array(
+            "beginner"  => _("BEGINNERS"),
+            "average"   => "",
+            "easy"      => _("EASY"),
+            "hard"      => _("HARD")
         );
-        echo "\n";
-
-        if ( $results_offset + $numrows < $num_found_rows )
-        {
-            $t = _('Next');
-            $next_offset = $results_offset + $this->page_size;
-            $url = $url_base . "results_offset=$next_offset";
-            echo " | <a href='$url'>$t</a>";
-        }
+        $genre = $project->genre;
+        $prefix = $diff_prefix[$project->difficulty];
+        if($prefix != "")
+            $genre = $prefix." ".$genre;
+        echo $genre;
     }
+}
 
-    private function _search($where_condition, $results_offset)
+class StateColumn extends Column
+{
+    public function get_sort_sql()
     {
-        $state_collater = sql_collater_for_project_state('state');
-        $sql = "
-            SELECT SQL_CALC_FOUND_ROWS *
-            FROM projects
-            WHERE $where_condition
-            ORDER BY $state_collater, nameofwork asc
-            LIMIT $this->page_size OFFSET $results_offset
-        ";
-        // echo "<pre>\n$sql\n</pre>\n";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-        return $result;
+        return sql_collater_for_project_state('state');
     }
 
-    public function render($where_condition, $results_offset, $show_special_colors=False)
-    {
-        global $pguser, $theme, $code_url;
-        $result = $this->_search($where_condition, $results_offset);
-
-        $numrows = mysqli_num_rows($result);
-
-        $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
-        $row = mysqli_fetch_row($res_found);
-        $num_found_rows = $row[0];
-
-        if ( $numrows == 0 )
-        {
-            echo _("<b>No projects matched the search criteria.</b>");
-            return;
-        }
-
-        $this->results_navigator($numrows, $num_found_rows, $results_offset);
-
-        $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
-        $show_options_column = $user_can_see_download_links || user_is_PM();
-
-        echo "<table class='themed theme_striped'>";
-
-        echo "<tr>";
-        $this->_echo_header_cell(_("Title"), 'left-align');
-        $this->_echo_header_cell(_("Author"), 'left-align');
-        // TRANSLATORS: Abbreviation for difficulty
-        $this->_echo_header_cell(_("Diff."), 'center-align');
-        $this->_echo_header_cell(_("Avail. Pages"), 'right-align');
-        $this->_echo_header_cell(_("Total Pages"), 'right-align');
-        // TRANSLATORS: Abbreviation for Project Manager
-        $this->_echo_header_cell(pgettext("project manager", "PM"), 'left-align');
-        $this->_echo_header_cell(_("Checked Out By"), 'left-align');
-        $this->_echo_header_cell(_("Project Status"), 'left-align');
-        if ( $show_options_column )
-        {
-            $this->_echo_header_cell(_("Options"), 'left-align');
-        }
-        echo "</tr>";
-
-        while ($project_assoc = mysqli_fetch_assoc($result)) {
-            $project = new Project($project_assoc);
-            $projectid = $project->projectid;
-
-            $bgcolor = '';
-
-            // Special colours for special books of various types
-            if ($show_special_colors)
-            {
-                $special_color = get_special_color_for_project($project_assoc);
-                if (!is_null($special_color)) {
-                    $bgcolor = $special_color;
-                }
-            }
-
-            $cell_style = '';
-            if($bgcolor)
-                $cell_style = "style='background-color: $bgcolor;'";
-
-            echo "<tr>";
-
-            // Title
-            echo "<td $cell_style><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a></td>\n";
-
-            // Author
-            echo "<td $cell_style>" . html_safe($project->authorsname) . "</td>\n";
-
-            // Difficulty
-            $diff = strtoupper(substr($project->difficulty,0,1));
-            echo "<td $cell_style class='center-align'>$diff</td>\n";
-
-
-            // Avail. Pages
-            echo "<td $cell_style class='right-align'>{$project->n_available_pages}</td>\n";
-
-            // Total Pages
-            echo "<td $cell_style class='right-align'>{$project->n_pages}</td>\n";
-
-
-            // PM
-            echo "<td $cell_style>";
-            if ( $project->username != '' )
-            {
-                $contact_url = attr_safe(get_url_to_compose_message_to_user($project->username));
-                print "<a href='$contact_url'>{$project->username}</a>";
-            }
-            echo "</td>\n";
-
-            // Checked Out By
-            echo "<td $cell_style>";
-            if ($project->checkedoutby != "") {
-                // Maybe we should get this info via a
-                // left outer join in the big select query.
-                // (Actually, I tried it in a few cases and the left outer join was always slower.)
-                $contact_url = attr_safe(get_url_to_compose_message_to_user($project->checkedoutby));
-                print "<a href='$contact_url'>{$project->checkedoutby}</a>";
-            }
-            echo "</td>\n";
-
-            // Project Status
-
-            echo "<td $cell_style>";
-            $this->_echo_project_state_changer($project);
-            echo "</td>\n";
-
-            // Options
-            if ( $show_options_column )
-            {
-                echo "<td $cell_style>";
-                if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
-                {
-                    echo _("Edit") . ":";
-                    echo " ";
-                    echo "<a href=\"$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid\">" . _("Info") . "</a>";
-                    echo " | ";
-                    echo "<a href=\"$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
-
-                    // Should we show an "attention" icon?
-                    // Currently, we only do this if suggestions have been added since
-                    // the Good Words file was last modified.
-                    // In future, there might be various reasons to do so.
-                    // (But then what would we put in the tooltip?)
-                    $f_g  = get_project_word_file( $projectid, 'good' );
-                    $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
-                    if ( $count >= 1 )
-                    {
-                        $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
-                        echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
-                        echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'>";
-                        echo "</a>";
-                    }
-
-                    echo "<br>";
-                }
-                if ( $user_can_see_download_links )
-                {
-                    if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
-                        $project->state == PROJ_POST_FIRST_AVAILABLE ||
-                        $project->state == PROJ_POST_FIRST_CHECKED_OUT)
-                    {
-                        echo " <a href=\"$projects_url/$projectid/$projectid.zip\">", _("D/L"), "</a>";
-                    }
-                    if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
-                        $project->state == PROJ_POST_COMPLETE)
-                    {
-                        echo " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">", _("D/L"), "</a>";
-                    }
-                }
-                echo "</td>\n";
-            }
-
-            echo "</tr>\n";
-        }
-
-        echo "</table>";
-
-        $this->results_navigator($numrows, $num_found_rows, $results_offset);
-    }
-
-    private function _echo_header_cell($text, $class='')
-    {
-        echo "<th class='$class'>$text</th>\n";
-    }
-
-    private function _echo_project_state_changer($project)
+    public function print_cell_data($project)
     {
         global $pguser, $code_url;
 
         $transitions = get_valid_transitions( $project, $pguser );
-
         if ( count($transitions) > 0 )
         {
-            $here = $_SERVER['REQUEST_URI'];
+            $here = attr_safe($_SERVER['REQUEST_URI']);
             echo "
                 <form
                     name='$project->projectid'
@@ -291,6 +190,332 @@ class ProjectSearchResults
         }
         echo "</option>\n";
     }
+}
+
+class OptionsColumn extends Column
+{
+    public function print_cell_data($project)
+    {
+        global $pguser, $projects_url, $code_url;
+        $projectid = $project->projectid;
+
+        if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
+        {
+            echo _("Edit") . ":";
+            echo " ";
+            echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid'>" . _("Info") . "</a>";
+            echo " | ";
+            echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid'>" . _("Word&nbsp;Lists") . "</a>";
+
+            // Should we show an "attention" icon?
+            // Currently, we only do this if suggestions have been added since
+            // the Good Words file was last modified.
+            // In future, there might be various reasons to do so.
+            // (But then what would we put in the tooltip?)
+            $f_g  = get_project_word_file( $projectid, 'good' );
+            $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
+            if ( $count >= 1 )
+            {
+                $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
+                echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
+                echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'>";
+                echo "</a>";
+            }
+            echo "<br>";
+        }
+        if(user_can_work_in_stage($pguser, 'PP'))
+        {
+            if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
+                $project->state == PROJ_POST_FIRST_AVAILABLE ||
+                $project->state == PROJ_POST_FIRST_CHECKED_OUT)
+            {
+                echo " <a href=\"$projects_url/$projectid/$projectid.zip\">", _("D/L"), "</a>";
+            }
+            if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
+                $project->state == PROJ_POST_COMPLETE)
+            {
+                echo " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">", _("D/L"), "</a>";
+            }
+        }
+    }
+}
+
+function print_safe($data)
+{
+    echo html_safe($data);
+}
+
+function print_plain($data)
+{
+   echo $data;
+}
+
+function print_float($data)
+{
+    echo sprintf("%.1f", $data);
+}
+
+function print_date($data)
+{
+    // TRANSLATORS: This is a strftime-formatted string for the date with year
+    echo strftime(_("%B %e, %Y"), $data);
+}
+
+function print_hold($data)
+{
+    if($data)
+        echo "&#x2714;"; // heavy check mark
+}
+
+function make_link($name)
+{
+    if($name != '')
+    {
+        $contact_url = attr_safe(get_url_to_compose_message_to_user($name));
+        echo "<a href='$contact_url'>$name</a>";
+    }
+}
+
+class ColumnData
+{
+    public function __construct()
+    {
+        global $pguser;
+
+        $this->columns = array(
+            new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork', ''),
+            new Column("author", _('Author'), '', 'left-align', true, true, 'authorsname', 'print_safe'),
+            new Column("projectid", _('Project ID'), '', 'left-align', false, true, 'projectid', 'print_plain'),
+            new Column("language", _("Language"), '', 'left-align', false, true, 'language', 'print_plain'),
+            new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'genre', ""),
+            new Column("project_manager", pgettext("project manager", "PM"), _('Project Manager'), 'left-align', true, true, 'username', 'make_link'),
+            new Column("checkedoutby", _('Checked Out By'), '', 'left-align', false, true, 'checkedoutby', 'make_link'),
+            // TRANSLATORS: Abbreviation for Post Processor
+            new Column("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer', 'make_link'),
+            // TRANSLATORS: Abbreviation for Post-processing Verifier
+            new Column("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier', 'make_link'),
+            new Column("days_avail", _('Days'), '', 'right-align', true, true, 'days_avail', 'print_float'),
+            new Column("last_proof", _('Last proofing'), '', 'right-align', true, true, 't_last_page_done', 'print_date'),
+            new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
+            new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
+            new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages', 'print_plain'),
+            new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state', ''),
+            new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
+        );
+        if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
+            $this->columns[] = new OptionsColumn('options', _('Options'), '', 'left-align', true, false, '', '');
+    }
+}
+
+class ProjectSearchResults extends ColumnData
+{
+    public function __construct($show_param)
+    {
+        global $pguser;
+
+        parent::__construct();
+        $option_value = new OptionValue;
+        $this->show_param = $show_param;
+        $userSettings =& Settings::get_Settings($pguser);
+        $this->page_size = $option_value->get_value($userSettings);
+        // Determine whether to use special colors or not
+        // (this does not affect the alternating between two
+        // background colors) in the project listing.
+        $this->show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+        $this->get_sorting($userSettings);
+
+        // construct active columns array so we don't have to keep checking
+        // whether the column is active (these are references)
+        foreach($this->columns as $column)
+        {
+            if($column->is_active($userSettings))
+                $this->active_columns[] = $column;
+        }
+    }
+
+
+    private function results_navigator($numrows, $num_found_rows, $results_offset)
+    {
+        $url_base = $_SERVER['PHP_SELF'] . "?show=$this->show_param&amp;";
+
+        if ( $results_offset > 0 )
+        {
+            $text = _('Previous');
+            $prev_offset = max(0, $results_offset - $this->page_size);
+            $url = $url_base . "results_offset=$prev_offset";
+            echo "<a href='$url'>$text</a> | ";
+        }
+        echo sprintf(
+            // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
+            _("Projects %1\$d to %2\$d of %3\$d"),
+            $results_offset + 1,
+            $results_offset + $numrows,
+            $num_found_rows
+        );
+        echo "\n";
+
+        if ( $results_offset + $numrows < $num_found_rows )
+        {
+            $text = _('Next');
+            $next_offset = $results_offset + $this->page_size;
+            $url = $url_base . "results_offset=$next_offset";
+            echo " | <a href='$url'>$text</a>";
+        }
+    }
+
+    private function get_sorting($userSettings)
+    {
+        // if sort parameter is given, use it
+        // else do same as last time if stored
+        // else default to 'state'
+        // store for next time
+        if(isset($_GET['sort']))
+            $sort_param = $_GET['sort'];
+        else
+            $sort_param = $userSettings->get_value("PMSort", " "); // could be invalid if we change this file
+
+        // parse and check if valid
+        // remove terminating char A or D
+        $this->sort_column_id = substr($sort_param, 0, -1);
+        $sort_dir = substr($sort_param, -1); // last char A or D
+        $valid = false;
+
+        foreach($this->columns as $column)
+        {
+            if($column->sortable && ($column->id == $this->sort_column_id))
+            {
+                $valid = true;
+                $this->sort_sql = $column->get_sort_sql();
+                break;
+            }
+        }
+        if($valid)  // check direction D is ok else assume A
+        {
+            if($sort_dir == "D")
+                $this->sql_sort_dir = "desc";
+            else // A or not
+                $this->sql_sort_dir = "asc";
+        }
+        else // use default
+        {
+            $sort_param = "statusA";
+            $this->sort_column_id = 'state';
+            $this->sql_sort_dir = "asc";
+            $this->sort_sql = sql_collater_for_project_state('state');
+        }
+        if($sort_param != $userSettings->get_value("PMSort", " "))
+        {
+            $userSettings->set_value("PMSort", $sort_param);
+        }
+        $this->sort_sql .= " $this->sql_sort_dir";
+        if($this->sort_column_id != "title")  // secondary sort on title
+            $this->sort_sql .= ", nameofwork asc";
+    }
+
+    private function _search($where_condition, $results_offset)
+    {
+        global $testing;
+        $state_collater = sql_collater_for_project_state('state');
+        $sql = "
+            SELECT SQL_CALC_FOUND_ROWS projects.*,
+            (unix_timestamp() - modifieddate)/(24 * 60 * 60) AS days_avail,
+            project_holds.projectid IS NOT NULL AS hold
+            FROM projects
+            LEFT JOIN project_holds
+            USING (projectid, state)
+            WHERE $where_condition
+            ORDER BY $this->sort_sql
+            LIMIT $this->page_size OFFSET $results_offset
+        ";
+        if ($testing)
+            echo_html_comment($sql);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        return $result;
+    }
+
+    public function render($where_condition)
+    {
+        global $pguser, $theme, $code_url;
+
+        $results_offset = intval(@$_GET['results_offset']);
+
+        $qtime = microtime(true);
+        $result = $this->_search($where_condition, $results_offset);
+        $qtime = microtime(true) - $qtime;
+
+        $numrows = mysqli_num_rows($result);
+
+        $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
+        $row = mysqli_fetch_row($res_found);
+        $num_found_rows = $row[0];
+        if ( $numrows == 0 )
+        {
+            echo "<b>", _("No projects matched the search criteria."), "</b>";
+            return;
+        }
+
+        echo "<div style='margin:0.3em 0;'>";
+        $this->results_navigator($numrows, $num_found_rows, $results_offset);
+        echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
+        echo_configure_button();
+        echo "</div>";
+
+        echo "\n<table class='themed theme_striped'>\n";
+        echo "<tr>\n";
+        foreach($this->active_columns as $column)
+        {
+            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param);
+        }
+        echo "</tr>\n";
+
+        while ($project_assoc = mysqli_fetch_assoc($result)) {
+            $project = new Project($project_assoc);
+            $projectid = $project->projectid;
+
+            $bgcolor = '';
+            // Special colours for special books of various types
+            if ($this->show_special_colors)
+            {
+                $special_color = get_special_color_for_project($project_assoc);
+                if (!is_null($special_color)) {
+                    $bgcolor = $special_color;
+                }
+            }
+
+            $row_style = '';
+            if($bgcolor)
+                $row_style = "style='background-color: $bgcolor;'";
+            echo "<tr $row_style>\n";
+            foreach($this->active_columns as $column)
+            {
+                $column->echo_data_cell($project);
+            }
+            echo "</tr>\n";
+        }
+        echo "</table>\n";
+
+        echo "<div style='margin:0.3em 0;'>";
+        $this->results_navigator($numrows, $num_found_rows, $results_offset);
+        echo "</div>";
+        // special colours legend
+        // Don't display if the user has selected the
+        // setting "Show Special Colors: No".
+        // The legend has been put at the bottom of the page
+        // because the use of colors is presumably mostly
+        // useful as a check that no typo was made. The
+        // exact color probably doesn't matter and,
+        // furthermore, the PM 'knows' the project and
+        // what's so special about it.
+        if ($this->show_special_colors)
+        {
+            echo_special_legend(" 1 = 1");
+        }
+    }
+}
+
+function echo_refine_search()
+{
+    echo "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>", _("Refine search"), "</a>";
 }
 
 // vim: sw=4 ts=4 expandtab

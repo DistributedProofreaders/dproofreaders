@@ -1,10 +1,12 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
 
-define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
-
 class ProjectSearchWidget
 {
+    public $can_be_multiple = false;
+    public $initial_value = '';
+    public $has_invert = false;
+
     function __construct( $properties )
     {
         foreach ( $properties as $property => $value )
@@ -13,7 +15,7 @@ class ProjectSearchWidget
         }
     }
 
-    function get_html_control()
+    function get_html_control($search_data)
     {
         # make all widgets 100% width
         $size_attr = "style='width: 100%;'";
@@ -22,7 +24,7 @@ class ProjectSearchWidget
         // browsers vary widely in what they use for a default.
         // (e.g., Firefox 1.0 uses 20, IE 5.5 and Opera 8 use 4, Opera 9 uses 1.)
         // To avoid this, set a reasonable size.
-        if ( $this->type == 'select' && !isset($this->size) )
+        if ($this->type == 'select')
         {
             $co = count($this->options);
             $this->size = ( $co <= 6 ? $co : 4 );
@@ -31,17 +33,13 @@ class ProjectSearchWidget
 
         if ( $this->type == 'text' )
         {
-            if ( isset($_GET[$this->id]) )
+            if ( isset($search_data[$this->id]) )
             {
-                $value_attr = "value='" . attr_safe($_GET[$this->id]) . "'";
+                $value_attr = "value='" . attr_safe($search_data[$this->id]) . "'";
             }
-            else if ( isset($this->initial_value) )
+            else // initial_value is set for base class widget
             {
                 $value_attr = "value='" . attr_safe($this->initial_value) . "'";
-            }
-            else
-            {
-                $value_attr = '';
             }
             return "<input type='text' name='{$this->id}' $size_attr $value_attr>";
         }
@@ -53,91 +51,128 @@ class ProjectSearchWidget
             }
             else
             {
-                $r = "<select name='{$this->id}' $size_attr>\n";
+                $r = "<select name='$this->id' $size_attr>\n";
             }
             foreach ( $this->options as $option_value => $option_label )
             {
-                $selected_attr = ( 
-                    ( isset($this->initial_value) && $option_value == $this->initial_value )
-                    ? 'selected'
-                    : ''
-                );
+                if(isset($search_data[$this->id]))
+                {
+                    if(($this->can_be_multiple) && is_array($search_data[$this->id]))
+                        $selected = in_array($option_value, $search_data[$this->id]);
+                    else
+                        $selected = ($option_value == $search_data[$this->id]);
+                }
+                else
+                    $selected = ($option_value == $this->initial_value);
+                $selected_attr = $selected ? 'selected' : '';
                 $r .= "<option value='" . attr_safe($option_value) . "' $selected_attr>" . html_safe($option_label) . "</option>\n";
             }
             $r .= "</select>\n";
+            if($this->has_invert)
+            {
+                $check = isset($search_data[$this->id . "_inv"]) ? " checked" : "";
+                $r .= "<br>Invert filter <input type='checkbox' name='{$this->id}_inv'$check>";
+            }
             return $r;
         }
     }
 
-    function get_sql_contribution()
+    function echo_search_item($search_data)
     {
-        $value = @$_GET[$this->id];
-        if ( $value == '' ) return NULL;
-
-        $contrib_template = $this->q_contrib;
-        if ( is_string($contrib_template) && function_exists($contrib_template) )
+        if ( $this->can_be_multiple )
         {
-            $contribution = $contrib_template( $value );
+            if ( $this->type == 'text' )
+            {
+                $help = _('list ok');
+            }
+            elseif ( $this->type == 'select' )
+            {
+                $help = _('multi-select');
+            }
+            $help = "<br>($help)";
         }
         else
         {
-            if ( $this->q_part == 'WHERE' )
-            {
-                list($column_name,$comparator) = $this->q_contrib;
-                if ( @$this->can_be_multiple )
-                {
-                    if ( $this->type == 'text' )
-                    {
-                        $values = preg_split( "($this->separator)",  trim($value) );
-                    }
-                    elseif ( $this->type == 'select' )
-                    {
-                        $values = $value;
-
-                        // If $value isn't an array, someone is mucking with
-                        // the URL -- return instead of erroring out below.
-                        if( !is_array($values) ) return NULL;
-
-                        // If the user picks the 'any' option as well as some others,
-                        // it's as if they'd just picked the 'any' option.
-                        if ( in_array( '', $values ) ) return NULL;
-                    }
-
-                    $values = array_map("escape_value", $values);
-
-                    if ( $comparator == '=' )
-                    {
-                        $values_list = surround_and_join( $values, "'", "'", "," );
-                        $contribution = "$column_name IN ($values_list)";
-                    }
-                    elseif ( $comparator == 'LIKE' )
-                    {
-                        $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
-                        $contribution = "($likes_str)";
-                    }
-                }
-                else
-                {
-                    $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
-                    if ( $comparator == '=' )
-                    {
-                        $contribution = "$column_name = '$value'";
-                    }
-                    elseif ( $comparator == 'LIKE' )
-                    {
-                        $contribution = "$column_name LIKE '%$value%'";
-                    }
-                }
-            }
-            else
-            {
-                $contribution = str_replace('{VALUE}', $value, $contrib_template);
-            }
+            $help = '';
         }
-
-        return $contribution;
+        // fix width of heading cells so they line up when 2nd table is below
+        echo "
+            <tr>
+                <th class='right-align top-align' style='width:8em'>$this->label$help</th>
+                <td class='top-align left-align'>".$this->get_html_control($search_data)."</td>
+            </tr>";
     }
 
+    function get_sql_contribution($search_data)
+    {
+        $value = $search_data[$this->id];
+        if ( $value == '' ) return NULL;
+
+        list($column_name,$comparator) = $this->q_contrib;
+        if ( @$this->can_be_multiple )
+        {
+            if ( $this->type == 'text' )
+            {
+                $values = preg_split( "($this->separator)",  trim($value) );
+            }
+            elseif ( $this->type == 'select' )
+            {
+                $values = $value;
+
+                // If $value isn't an array, someone is mucking with
+                // the URL -- return instead of erroring out below.
+                if( !is_array($values) ) return NULL;
+
+                // If the user picks the 'any' option as well as some others,
+                // it's as if they'd just picked the 'any' option.
+                if ( in_array( '', $values ) ) return NULL;
+            }
+
+            $values = array_map("escape_value", $values);
+
+            $inv = isset($search_data[$this->id . "_inv"]) ? " NOT " : "";
+            if ( $comparator == '=' )
+            {
+                $values_list = surround_and_join( $values, "'", "'", "," );
+                $contribution = "$column_name$inv IN ($values_list)";
+            }
+            elseif ( $comparator == 'LIKE' )
+            {
+                $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
+                $contribution = "$inv($likes_str)";
+            }
+        }
+        else
+        {
+            $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
+            if ( $comparator == '=' )
+            {
+                $contribution = "$column_name = '$value'";
+            }
+            elseif ( $comparator == 'LIKE' )
+            {
+                $contribution = "$column_name LIKE '%$value%'";
+            }
+        }
+        return $contribution;
+    }
+}
+
+class HoldWidget extends ProjectSearchWidget
+{
+    public function get_html_control($search_data)
+    {
+        $check = isset($search_data[$this->id]) ? " checked" : "";
+        return "<input type='checkbox' name='$this->id'$check>";
+    }
+
+    public function get_sql_contribution($search_data)
+    {
+        if(isset($search_data[$this->id])) // can only be 'on'
+            return 'project_holds.projectid IS NOT NULL';
+        else
+            return '';
+    }
 }
 
 class ProjectSearchForm
@@ -184,13 +219,13 @@ class ProjectSearchForm
         global $relPath;
         include($relPath.'genres.inc');
 
-        return array_merge( array( '' => _('any') ), $GENRES );
+        return array_merge( array( '' => _('Any') ), $GENRES );
     }
 
     private function _get_options_difficulty()
     {
         return array(
-            ''         => _('any'),
+            ''         => _('Any'),
             'beginner' => _('Beginner'),
             'easy'     => _('Easy'),
             'average'  => _('Average'),
@@ -202,7 +237,7 @@ class ProjectSearchForm
     {
         global $PROJECT_STATES_IN_ORDER;
 
-        $state_options[''] = _('any state');
+        $state_options[''] = _('Any state');
         foreach ($PROJECT_STATES_IN_ORDER as $proj_state)
         {
             $state_options[$proj_state] = project_states_text($proj_state);
@@ -217,14 +252,12 @@ class ProjectSearchForm
                 'id'         => 'title',
                 'label'      => _('Title'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('nameofwork', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'author',
                 'label'      => _('Author'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('authorsname', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
@@ -233,35 +266,30 @@ class ProjectSearchForm
                 'type'       => 'text',
                 'can_be_multiple' => TRUE,
                 'separator'  => '[\s,;]+',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('projectid', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'project_manager',
                 'label'      => _('Project Manager'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('username', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'checkedoutby',
                 'label'      => _('Checked Out By'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('checkedoutby', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'pp_er',
                 'label'      => _('Post-processor'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('postproofer', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'ppv_er',
                 'label'      => _('Post-processing Verifier'),
                 'type'       => 'text',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('ppverifier', 'LIKE'),
             )),
             new ProjectSearchWidget( array(
@@ -270,7 +298,6 @@ class ProjectSearchForm
                 'type'         => 'text',
                 'can_be_multiple' => TRUE,
                 'separator'  => '[\s,;]+',
-                'q_part'       => 'WHERE',
                 'q_contrib'    => array('postednum', '='),
             )),
             new ProjectSearchWidget( array(
@@ -280,8 +307,8 @@ class ProjectSearchForm
                 'options'    => $this->_get_options_lang(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('language', 'LIKE'),
+                'has_invert' => true,
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'genre',
@@ -289,7 +316,6 @@ class ProjectSearchForm
                 'type'       => 'select',
                 'options'    => $this->_get_options_genre(),
                 'can_be_multiple' => TRUE,
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('genre', '='),
             )),
             new ProjectSearchWidget( array(
@@ -298,7 +324,6 @@ class ProjectSearchForm
                 'type'       => 'select',
                 'options'    => $this->_get_options_difficulty(),
                 'can_be_multiple' => TRUE,
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('difficulty', '='),
             )),
             new ProjectSearchWidget( array(
@@ -308,7 +333,6 @@ class ProjectSearchForm
                 'options'    => $this->_get_options_special_day(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
-                'q_part'     => 'WHERE',
                 'q_contrib'  => array('special_code', '='),
             )),
             new ProjectSearchWidget( array(
@@ -317,74 +341,45 @@ class ProjectSearchForm
                 'type'         => 'select',
                 'options'      => $this->_get_options_state(),
                 'can_be_multiple' => TRUE,
-                'q_part'       => 'WHERE',
                 'q_contrib'    => array('state', '='),
+                'has_invert' => true,
             )),
-            new ProjectSearchWidget( array(
-                'id'           => 'n_results_per_page',
-                'label'        => _('Results per page'),
-                'type'         => 'select',
-                'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
-                'can_be_multiple' => FALSE,
-                'initial_value'   => DEFAULT_N_RESULTS_PER_PAGE,
-                'q_part'       => 'LIMIT',
-                'q_contrib'    => '{VALUE}',
+            new HoldWidget( array(
+                'id'        => 'hold',
+                'label'     => _('Projects on Hold'),
             )),
         );
     }
 
-    public function render($page)
+    public function render()
     {
-        echo "<form method='get' action='$page'>";
-        echo "<input type='hidden' name='show' value='search'>";
-
-        # split the widgets across two columns using tables within divs
-        $div_table_header = "
-            <div style='width: 49%; float: left;'>
-            <table style='width: 90%;'>
-        ";
+        if(isset($_SESSION['search_data']))
+            $search_data = $_SESSION['search_data'];
+        else
+            $search_data = array(); // empty array to avoid problems
+        echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
+        // query data can be too big for GET so use POST
+        echo "<div class='center-align' style='clear: both;'>
+            <form style='display: inline;' method='POST' action='{$_SERVER['PHP_SELF']}?show=search'>";
+        // split the widgets into two tables which can be side-by-side if there
+        // is enough room
+        $widget_index = 0;
+        $widget_count = count($this->widgets);
+        $div_table_header = "<table style='width:auto; float:left;'>";
         echo $div_table_header;
-
-        foreach ( $this->widgets as $widget )
-        {
-
-            if( $widget->id == 'genre')
-                echo "</table></div>$div_table_header";
-
-            if ( @$widget->can_be_multiple )
-            {
-                if ( $widget->type == 'text' )
-                {
-                    $help = _('list ok');
-                }
-                elseif ( $widget->type == 'select' )
-                {
-                    $help = _('multi-select');
-                }
-                $help = "<br>($help)";
-            }
-            else
-            {
-                $help = '';
-            }
-            echo "
-                <tr>
-                    <th class='right-align'>{$widget->label}$help</th>
-                    <td>".$widget->get_html_control()."</td>
-                </tr>
-            ";
-        }
-
+        while($widget_index < 9)
+            $this->widgets[$widget_index++]->echo_search_item($search_data);
+        echo "</table>$div_table_header";
+        while($widget_index < $widget_count)
+            $this->widgets[$widget_index++]->echo_search_item($search_data);
         echo "
             </table>
-            </div>
-            <div class='center-align' style='clear: both;'>
+            <div class='center-align' style='clear: both;'></div>
             <input type='submit' value='", attr_safe(_("Search")), "'>
-            <input type='reset' value='", attr_safe(_("Clear form")), "'>
-            </div>
-            </form>
-        ";
-
+            <input type='button' onclick=\"window.location.assign('{$_SERVER['PHP_SELF']}?show=blank_search_form');\" value='", attr_safe(_("Clear form")), "'>
+            </form>";
+        echo_configure_button();
+        echo "</div>";
         echo "<p>
             "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
             <br><br>
@@ -395,35 +390,17 @@ class ProjectSearchForm
         ";
     }
 
-    public function get_widget_contribution()
+    public function get_widget_contribution($search_data)
     {
         $condition = '1';
         foreach ( $this->widgets as $widget )
         {
-            $contribution = $widget->get_sql_contribution();
-            if ( $contribution == '' ) continue;
-
-            if ( $widget->q_part == 'WHERE' )
-            {
-                $condition .= "\nAND $contribution";
-            }
-            else if ( $widget->q_part == 'LIMIT' )
-            {
-                // n_results_per_page is handled below
-            }
-            else
-            {
-                assert(FALSE);
-            }
+            $contribution = $widget->get_sql_contribution($search_data);
+            if ( $contribution == '' )
+                continue;
+            $condition .= "\nAND $contribution";
         }
         return $condition;
-    }
-
-    public function get_page_size()
-    {
-        $n_results_per_page = intval(@$_GET['n_results_per_page']);
-        if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
-        return $n_results_per_page;
     }
 }
 
