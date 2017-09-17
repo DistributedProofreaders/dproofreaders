@@ -119,6 +119,9 @@ h6 {
   color: #336633;
   font-family: Verdana, Helvetica, sans-serif;
 }
+.sidebar-color {
+  background-color: #e0e8dd;
+}
 /* Attention-getting structures */
 .error {
   color: red;
