@@ -934,7 +934,7 @@ function do_edit_above()
     if (!$project->can_be_managed_by_current_user) return;
 
     echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
     echo _("Edit the above information");
     echo "</a>";
     echo " | ";
@@ -946,7 +946,7 @@ function do_edit_above()
     if (! user_has_project_loads_disabled() )
     {
         echo "<p>";
-        echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
+        echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&amp;project=$project->projectid'>";
         echo _("Clone this project");
         echo "</a>";
         echo "</p>";
@@ -2088,7 +2088,7 @@ function do_change_state()
         echo "<input type='hidden' name='curr_state' value='{$project->state}'>\n";
         echo "<input type='hidden' name='next_state' value='{$transition->to_state}'>\n";
         echo "<input type='hidden' name='confirmed'  value='yes'>\n";
-        echo "<input type='hidden' name='return_uri' value='$here'>\n";
+        echo "<input type='hidden' name='return_uri' value='", attr_safe($here), "'>\n";
 
         $question = $transition->confirmation_question;
         if ( is_null($question) )
