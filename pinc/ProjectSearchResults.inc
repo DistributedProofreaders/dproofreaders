@@ -294,7 +294,7 @@ class ColumnData
             new Column("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer', 'make_link'),
             // TRANSLATORS: Abbreviation for Post-processing Verifier
             new Column("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier', 'make_link'),
-            new Column("days_avail", _('Days'), '', 'right-align', true, true, 'days_avail', 'print_float'),
+            new Column("days_avail", _('Days'), _('Days available'), 'right-align', true, true, 'days_avail', 'print_float'),
             new Column("last_proof", _('Last proofing'), '', 'right-align', true, true, 't_last_page_done', 'print_date'),
             new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
             new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
