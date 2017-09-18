@@ -198,14 +198,15 @@ class OptionsColumn extends Column
     {
         global $pguser, $projects_url, $code_url;
         $projectid = $project->projectid;
+        $actions = '';
 
         if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
         {
-            echo _("Edit") . ":";
-            echo " ";
-            echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid'>" . _("Info") . "</a>";
-            echo " | ";
-            echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid'>" . _("Word&nbsp;Lists") . "</a>";
+            $actions = "<a href='$code_url/../noncvs/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a>
+            <br><a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a>
+            <br><a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a>
+            <br><a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a>
+            <br><a href='$code_url/../noncvs/send_email.php?to=dp-format&amp;subject=$projectid' target='_blank'>"._("Email dp-format")."</a>\n";
 
             // Should we show an "attention" icon?
             // Currently, we only do this if suggestions have been added since
@@ -217,11 +218,9 @@ class OptionsColumn extends Column
             if ( $count >= 1 )
             {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
-                echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
-                echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'>";
-                echo "</a>";
+                $actions .= "<br><a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>\n
+                <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a>\n";
             }
-            echo "<br>";
         }
         if(user_can_work_in_stage($pguser, 'PP'))
         {
@@ -229,13 +228,21 @@ class OptionsColumn extends Column
                 $project->state == PROJ_POST_FIRST_AVAILABLE ||
                 $project->state == PROJ_POST_FIRST_CHECKED_OUT)
             {
-                echo " <a href=\"$projects_url/$projectid/$projectid.zip\">", _("D/L"), "</a>";
+                $actions .="<br><a href=\"$projects_url/$projectid/$projectid.zip\">" . _("D/L") . "</a>\n";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
                 $project->state == PROJ_POST_COMPLETE)
             {
-                echo " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">", _("D/L"), "</a>";
+                $actions .="<br><a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("D/L") . "</a>\n";
             }
+        }
+        if(!empty($actions))
+        {
+            // identify the buttons by projectid
+            echo "<div class='dropdown'>
+                <button class='dropbtn' onclick='toggleList(\"$projectid\")'>", _("Actions"), "</button>
+                <div id='$projectid' class='dropdown-content'>\n$actions</div>
+            </div>";
         }
     }
 }

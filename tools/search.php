@@ -10,7 +10,11 @@ include_once($relPath.'ProjectSearchResults.inc');
 
 require_login();
 
-output_header(_("Project Search"), NO_STATSBAR);
+$header_args = array(
+    "css_files" => array("$code_url/styles/dropdown.css"),
+    "js_files" => array("$code_url/tools/dropdown.js"));
+
+output_header(_("Project Search"), NO_STATSBAR, $header_args);
 
 $search_form = new ProjectSearchForm();
 

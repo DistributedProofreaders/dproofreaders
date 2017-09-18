@@ -48,7 +48,10 @@ if(!user_is_PM())
     die(_("Your user permissions do not allow access to this script."));
 }
 
-$header_args = array("css_files" => array("$code_url/styles/statsbar.css"));
+$header_args = array(
+    "css_files" => array("$code_url/styles/statsbar.css", "$code_url/styles/dropdown.css"),
+    "js_files" => array("$code_url/tools/dropdown.js"));
+
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
 
 $search_form = new ProjectSearchForm();
