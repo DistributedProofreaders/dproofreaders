@@ -200,6 +200,7 @@ function do_detail_level_switch()
 {
     global $project, $detail_level, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL;
 
+    echo "<p>";
     echo sprintf(
         _('This page is being presented at detail level %d.'),
         $detail_level
@@ -214,7 +215,7 @@ function do_detail_level_switch()
             echo "<a href='$url'>$v</a>\n";
         }
     }
-    echo "<br>\n";
+    echo "</p>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -2121,13 +2122,12 @@ function do_page_summary()
 
     if ( !$project->pages_table_exists ) return;
 
-    echo "<div class='center-align'>";
-    echo "<h3>"._("Page Summary")."</h3>\n";
+    echo "<h2>"._("Page Summary")."</h2>\n";
 
     // page counts by state.
     $total_num_pages = Project_getNumPages($projectid);
 
-    echo "<table style='display:inline-table'>\n";
+    echo "<table>\n";
     global $PAGE_STATES_IN_ORDER;
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
@@ -2139,9 +2139,8 @@ function do_page_summary()
         }
     }
     echo "<tr><td colspan='2'><hr></td></tr>\n";
-    echo "<tr><td class='right-align'>$total_num_pages</td><td class='center-align'>"._("Pages Total")."</td></tr>\n";
+    echo "<tr><td class='right-align'>$total_num_pages</td><td>"._("Pages Total")."</td></tr>\n";
     echo "</table>\n";
-    echo "</div>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
