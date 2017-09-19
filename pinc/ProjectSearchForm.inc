@@ -79,17 +79,10 @@ class ProjectSearchWidget
 
     function echo_search_item($search_data)
     {
-        if ( $this->can_be_multiple )
+        if(($this->can_be_multiple) && ($this->type == 'text'))
         {
-            if ( $this->type == 'text' )
-            {
-                $help = _('list ok');
-            }
-            elseif ( $this->type == 'select' )
-            {
-                $help = _('multi-select');
-            }
-            $help = "<br>($help)";
+            $help = _('list ok');
+            $help = " ($help)";
         }
         else
         {
@@ -382,10 +375,10 @@ class ProjectSearchForm
         echo "</div>";
         echo "<p>
             "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
-            <br><br>
+            </p><p>
             "._('"(list ok)": You can search by multiple ProjectIDs or PG etext numbers at once: enter the list of ProjectIDs or PG etext numbers, separated by commas, semicolons, or spaces.')."
-            <br><br>
-            "._('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
+            </p><p>
+            "._('If desired, you can select multiple values for Language, Genre, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
         </p>
         ";
     }
