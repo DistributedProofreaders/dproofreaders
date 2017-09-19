@@ -129,6 +129,9 @@
 #key-help-documents li {
   list-style-type: none;
 }
+#key-help-documents li {
+  margin-top: 5px;
+}
 #about-dp {
   font-size: small;
 }
