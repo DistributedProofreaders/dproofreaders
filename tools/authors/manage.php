@@ -16,7 +16,7 @@ require_login();
 abort_if_not_authors_db_manager();
 
 $title=_("Manage authors");
-output_header($title);
+output_header($title, NO_STATSBAR);
 echo "<h1>$title</h1>";
 
 echo_menu();
