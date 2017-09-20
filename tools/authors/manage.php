@@ -480,20 +480,24 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
 
     // csl with the bio-ids
     $bios_for_this_author = '';
+    if($bio_count > 1)
+        $rowspan = "rowspan='$bio_count'";
+    else
+        $rowspan = "";
 
     echo "<tr>";
-    echo "<td rowspan='$bio_count'>" .
+    echo "<td $rowspan>" .
          "<input type='hidden' name='old_enabled_author_$id' value='$enabled'>" .
          "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . "></td>\n";
-    echo "<td rowspan='$bio_count'><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);'></td>\n";
-    echo "<td rowspan='$bio_count'><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);'></td>\n";
-    echo "<td rowspan='$bio_count'>$id</td>\n";
-    echo "<td rowspan='$bio_count'><a href=\"author.php?author_id=$id\">" . $author['last_name'] . "</a></td>\n";
-    echo "<td rowspan='$bio_count'>" .  $author['other_names'] . "</td>\n";
-    echo "<td rowspan='$bio_count'>" .  format_date_from_array($author, 'b') . "</td>\n";
-    echo "<td rowspan='$bio_count'>" .  format_date_from_array($author, 'd') . "</td>\n";
-    echo "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n";
-    echo "<td rowspan='$bio_count'></td>\n";
+    echo "<td $rowspan><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);'></td>\n";
+    echo "<td $rowspan><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);'></td>\n";
+    echo "<td $rowspan>$id</td>\n";
+    echo "<td $rowspan><a href=\"author.php?author_id=$id\">" . $author['last_name'] . "</a></td>\n";
+    echo "<td $rowspan>" .  $author['other_names'] . "</td>\n";
+    echo "<td $rowspan>" .  format_date_from_array($author, 'b') . "</td>\n";
+    echo "<td $rowspan>" .  format_date_from_array($author, 'd') . "</td>\n";
+    echo "<td $rowspan><a href=\"add.php?author_id=$id&amp;mode=manage\">" . _('Edit') . "</a></td>\n";
+    echo "<td $rowspan></td>\n";
     for ($j = 0; $j < $bio_count; $j++) {
         $row = mysqli_fetch_assoc($bioresult);
         $bio_id = $row["bio_id"];
@@ -501,9 +505,8 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
             echo "<tr>";
         write_bio_links($id, $bio_id);
     }
-    if($bio_count == 0) {
-        echo "<td></td><td></td><td></td>";
-    }
+    if($bio_count == 0)
+        echo "<td></td><td></td><td></td></tr>";
     $javascript_to_build_bios_array .= "bios[$id] = new Array($bios_for_this_author);\n";
 }
 
