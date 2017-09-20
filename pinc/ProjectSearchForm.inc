@@ -91,7 +91,7 @@ class ProjectSearchWidget
         // fix width of heading cells so they line up when 2nd table is below
         echo "
             <tr>
-                <th class='right-align top-align' style='width:8em'>$this->label$help</th>
+                <th class='right-align top-align'>$this->label$help</th>
                 <td class='top-align left-align'>".$this->get_html_control($search_data)."</td>
             </tr>";
     }
@@ -358,11 +358,11 @@ class ProjectSearchForm
         // is enough room
         $widget_index = 0;
         $widget_count = count($this->widgets);
-        $div_table_header = "<table style='width:auto; float:left;'>";
-        echo $div_table_header;
+        $table_header = "<table style='width:50%; min-width:25em; float:left;'>";
+        echo $table_header;
         while($widget_index < 9)
             $this->widgets[$widget_index++]->echo_search_item($search_data);
-        echo "</table>$div_table_header";
+        echo "</table>$table_header";
         while($widget_index < $widget_count)
             $this->widgets[$widget_index++]->echo_search_item($search_data);
         echo "
