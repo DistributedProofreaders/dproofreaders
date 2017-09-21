@@ -61,19 +61,7 @@ if ($show_view == 'search_form')
 }
 
 // show must be search
-if(empty($_POST))
-{
-    $condition = array_get($_SESSION, 'search_condition', "1");
-}
-else
-{
-    // Construct the search query.
-    $condition = $search_form->get_widget_contribution($_POST);
-    // save the condition to use for paging or changing configuration or sorting
-    $_SESSION['search_condition'] = $condition;
-    // save the POST data to use to initialise the search form if refining
-    $_SESSION['search_data'] = $_POST;
-}
+$condition = $search_form->get_condition();
 
 echo "<h1>", _("Search Results"), "</h1>\n";
 echo_refine_search();

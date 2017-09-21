@@ -106,16 +106,7 @@ elseif ($show_view == "user_active")
 }
 else // ($show_view == 'search')
 {
-    if(empty($_POST))
-        $condition = array_get($_SESSION, 'search_condition', "1");
-    else
-    {
-        // Construct the search query.
-        $condition = $search_form->get_widget_contribution($_POST);
-        $_SESSION['search_condition'] = $condition;
-        // save the POST data to use to initialise the search form
-        $_SESSION['search_data'] = $_POST;
-    }
+    $condition = $search_form->get_condition();
     $sub_title = _("Search Results");
 }
 
