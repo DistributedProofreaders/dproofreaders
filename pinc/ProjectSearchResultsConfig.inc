@@ -165,9 +165,13 @@ class ConfigSaver extends ColumnData
 function echo_configure_button()
 {
     global $code_url;
+//    $origin = $_SERVER['REQUEST_URI'];
+    // set re_search if not already set
+    $_GET['re_search'] = 1;
+    $origin = $_SERVER['PHP_SELF'] . "?" . http_build_query($_GET);
     echo "\n<form style='display: inline;' method='GET' action='$code_url/tools/search_options.php'>
     <input type='submit' value='", attr_safe(_("Configure Results")), "'>
-    <input type='hidden' name='origin' value='", attr_safe($_SERVER['REQUEST_URI']), "'>
+    <input type='hidden' name='origin' value='", attr_safe($origin), "'>
     </form>
     ";
 }

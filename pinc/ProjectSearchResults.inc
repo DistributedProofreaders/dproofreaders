@@ -71,7 +71,7 @@ class Column
                 $dir_code = "A";
                 $marker = "";
             }
-            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker";
+            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker";
         }
         echo "<th class='$this->align'>$label</th>\n";
     }
@@ -343,7 +343,7 @@ class ProjectSearchResults extends ColumnData
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
-        $url_base = $_SERVER['PHP_SELF'] . "?show=$this->show_param&amp;";
+        $url_base = $_SERVER['PHP_SELF'] . "?show=$this->show_param&amp;re_search&amp;";
 
         if ( $results_offset > 0 )
         {

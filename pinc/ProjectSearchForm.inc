@@ -98,6 +98,8 @@ class ProjectSearchWidget
 
     function get_sql_contribution($search_data)
     {
+        if (!isset($search_data[$this->id]))
+            return NULL;
         $value = $search_data[$this->id];
         if ( $value == '' ) return NULL;
 
@@ -398,18 +400,18 @@ class ProjectSearchForm
 
     public function get_condition()
     {
-        if(empty($_POST))
+        if(isset($_GET['re_search']))
         {
             $condition = array_get($_SESSION, 'search_condition', "1");
         }
         else
         {
             // Construct the search query.
-            $condition = $this->get_widget_contribution($_POST);
+            $condition = $this->get_widget_contribution($_REQUEST);
             // save the condition to use for paging or changing configuration or sorting
             $_SESSION['search_condition'] = $condition;
             // save the POST data to use to initialise the search form if refining
-            $_SESSION['search_data'] = $_POST;
+            $_SESSION['search_data'] = $_REQUEST;
         }
         return $condition;
     }

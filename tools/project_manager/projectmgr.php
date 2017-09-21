@@ -35,16 +35,15 @@ try {
     $show_view = 'blank';
 }
 
-// Redirect to the new search page for bookmarked URLs
-if($show_view == "search")
-{
-    // pull out everything after the ? and redirect
-    $url = "$code_url/tools/search.php" . substr($_SERVER['REQUEST_URI'], stripos($_SERVER['REQUEST_URI'], '?'));
-    metarefresh(0, $url);
-}
-
 if(!user_is_PM())
 {
+    // Redirect to the new search page for bookmarked URLs
+    if($show_view == "search")
+    {
+        // pull out everything after the ? and redirect
+        $url = "$code_url/tools/search.php" . substr($_SERVER['REQUEST_URI'], stripos($_SERVER['REQUEST_URI'], '?'));
+        metarefresh(0, $url);
+    }
     die(_("Your user permissions do not allow access to this script."));
 }
 
