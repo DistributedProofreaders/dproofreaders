@@ -202,11 +202,11 @@ class OptionsColumn extends Column
 
         if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
         {
-            $actions = "<a href='$code_url/../noncvs/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a>
-            <br><a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a>
-            <br><a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a>
-            <br><a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a>
-            <br><a href='$code_url/../noncvs/send_email.php?to=dp-format&amp;subject=$projectid' target='_blank'>"._("Email dp-format")."</a>\n";
+            $actions = "<a href='$code_url/../noncvs/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a><br>
+            <a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a><br>
+            <a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a><br>
+            <a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a><br>
+            <a href='$code_url/../noncvs/send_email.php?to=dp-format&amp;subject=$projectid' target='_blank'>"._("Email dp-format")."</a><br>\n";
 
             // Should we show an "attention" icon?
             // Currently, we only do this if suggestions have been added since
@@ -218,7 +218,7 @@ class OptionsColumn extends Column
             if ( $count >= 1 )
             {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
-                $actions .= "<br><a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>\n
+                $actions .= "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'><br>\n
                 <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a>\n";
             }
         }
@@ -228,12 +228,12 @@ class OptionsColumn extends Column
                 $project->state == PROJ_POST_FIRST_AVAILABLE ||
                 $project->state == PROJ_POST_FIRST_CHECKED_OUT)
             {
-                $actions .="<br><a href=\"$projects_url/$projectid/$projectid.zip\">" . _("D/L") . "</a>\n";
+                $actions .="<a href=\"$projects_url/$projectid/$projectid.zip\">" . _("Download") . "</a><br>\n";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
                 $project->state == PROJ_POST_COMPLETE)
             {
-                $actions .="<br><a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("D/L") . "</a>\n";
+                $actions .="<a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("Download") . "</a><br>\n";
             }
         }
         if(!empty($actions))
