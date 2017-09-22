@@ -385,7 +385,7 @@ class ProjectSearchForm
         ";
     }
 
-    public function get_widget_contribution($search_data)
+    private function get_widget_contribution($search_data)
     {
         $condition = '1';
         foreach ( $this->widgets as $widget )
