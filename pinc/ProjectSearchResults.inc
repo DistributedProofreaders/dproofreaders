@@ -343,7 +343,7 @@ class ProjectSearchResults extends ColumnData
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
-        $url_base = $_SERVER['PHP_SELF'] . "?show=$this->show_param&amp;re_search&amp;";
+        $url_base = "{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;";
 
         if ( $results_offset > 0 )
         {
@@ -464,7 +464,7 @@ class ProjectSearchResults extends ColumnData
         echo "<div style='margin:0.3em 0;'>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
         echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
-        echo_configure_button();
+        echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
         echo "</div>";
 
         echo "\n<table class='themed theme_striped'>\n";

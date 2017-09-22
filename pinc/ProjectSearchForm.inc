@@ -373,7 +373,7 @@ class ProjectSearchForm
             <input type='submit' value='", attr_safe(_("Search")), "'>
             <input type='button' onclick=\"window.location.assign('{$_SERVER['PHP_SELF']}?show=blank_search_form');\" value='", attr_safe(_("Clear form")), "'>
             </form>";
-        echo_configure_button();
+        echo_configure_button("{$_SERVER['PHP_SELF']}?show=search_form");
         echo "</div>";
         echo "<p>
             "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
