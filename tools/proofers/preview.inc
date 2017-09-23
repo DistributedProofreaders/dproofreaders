@@ -13,49 +13,53 @@ function shared_strings($escape_function="html_safe")
     );
 }
 
-$msg = array(
-    "noStartTag" => (_("No start tag for this end tag")),
-    "noEndTag" => (_("No end tag for this start tag")),
-    "noEndTagInPara" => (_("No corresponding end tag in paragraph")),
-    "misMatchTag" => (_("End tag does not match start tag")),
-    "nestedTag" => (_("Tag nested within same tag")),
-    "unRecTag" => (_("Unrecognized tag")),
-    "tabChar" => (_("Tab should not be used")),
-    "charBefore" => (_("No characters should precede this")),
-    "blankBefore" => (_("A blank line should precede this")),
-    "blankAfter" => (_("A blank line should follow %s")),
-    "NWinNW" => (_("No-wrap inside no-wrap")),
-    "BQinNW" => (_("Block quote inside no-wrap")),
-    "aloneTag" => (_("This tag should be alone on its line")),
-    "OolPrev" => (_("Out-of-line start tag should not be preceded by normal text")),
-    "OolNext" => (_("Out-of-line end tag should not be followed by normal text")),
-    "blankLines124" => (_("Only 1, 2 or 4 blank lines should be used")),
-    "puncAfterStart" => (_("Punctuation after start tag")),
-    "spaceAfterStart" => (_("Space after start tag")),
-    "nlAfterStart" => (_("Newline after start tag")),
-    "nlBeforeEnd" => (_("Newline before end tag")),
-    "spaceBeforeEnd" => (_("Space before end tag")),
-    "noBold" => (_("Heading should not be entirely bold")),
-    "scNoCap" => (_("Small caps must contain at least one upper case character")),
-    "charBeforeStart" => (_("Character or punctuation before inline start tag")),
-    "charAfterEnd" => (_("Character after inline end tag")),
-    "puncBEnd" => (_(",; or : before end tag")),
-    "noCloseBrack" => (_("No matching closing bracket")),
-    "footnoteId" => (_("Footnote identifier should be a letter or number")),
-    "starAnchor" => (_("Footnote anchor should be an upper-case letter")),
-    "noFootnote" => (_("No corresponding footnote on this page")),
-    "noAnchor" => (_("No anchor for this footnote")),
-    "noColon" => (_("Footnote must have a colon")),
-    "colonNext" => (_("The colon should immediately follow *[Footnote")),
-    "spaceNext" => (_("Footnote should be followed by one space and identifier")),
-    "dupNote" => (_("Duplicate footnote identifier")),
-    "continueFirst" => (_("Continuation footnote should precede others"))
-);
+function get_preview_strings()
+{
+    return array(
+        "noStartTag" => _("No start tag for this end tag"),
+        "noEndTag" => _("No end tag for this start tag"),
+        "noEndTagInPara" => _("No corresponding end tag in paragraph"),
+        "misMatchTag" => _("End tag does not match start tag"),
+        "nestedTag" => _("Tag nested within same tag"),
+        "unRecTag" => _("Unrecognized tag"),
+        "tabChar" => _("Tab should not be used"),
+        "charBefore" => _("No characters should precede this"),
+        "blankBefore" => _("A blank line should precede this"),
+        "blankAfter" => _("A blank line should follow %s"),
+        "NWinNW" => _("No-wrap inside no-wrap"),
+        "BQinNW" => _("Block quote inside no-wrap"),
+        "aloneTag" => _("This tag should be alone on its line"),
+        "OolPrev" => _("Out-of-line start tag should not be preceded by normal text"),
+        "OolNext" => _("Out-of-line end tag should not be followed by normal text"),
+        "blankLines124" => _("Only 1, 2 or 4 blank lines should be used"),
+        "puncAfterStart" => _("Punctuation after start tag"),
+        "spaceAfterStart" => _("Space after start tag"),
+        "nlAfterStart" => _("Newline after start tag"),
+        "nlBeforeEnd" => _("Newline before end tag"),
+        "spaceBeforeEnd" => _("Space before end tag"),
+        "noBold" => _("Heading should not be entirely bold"),
+        "scNoCap" => _("Small caps must contain at least one upper case character"),
+        "charBeforeStart" => _("Character or punctuation before inline start tag"),
+        "charAfterEnd" => _("Character after inline end tag"),
+        "puncBEnd" => _(",; or : before end tag"),
+        "noCloseBrack" => _("No matching closing bracket"),
+        "footnoteId" => _("Footnote identifier should be a letter or number"),
+        "starAnchor" => _("Footnote anchor should be an upper-case letter"),
+        "noFootnote" => _("No corresponding footnote on this page"),
+        "noAnchor" => _("No anchor for this footnote"),
+        "noColon" => _("Footnote must have a colon"),
+        "colonNext" => _("The colon should immediately follow *[Footnote"),
+        "spaceNext" => _("Footnote should be followed by one space and identifier"),
+        "dupNote" => _("Duplicate footnote identifier"),
+        "continueFirst" => _("Continuation footnote should precede others")
+    );
+}
 
 function output_preview_strings()
 {
-    global $msg, $charset;
+    global $charset;
 
+    $messages = get_preview_strings();
     $plain = javascript_safe(_("Plain text"));
     $superscript = javascript_safe(_("superscript"));
     $subscript = javascript_safe(_("subscript"));
@@ -68,7 +72,7 @@ function output_preview_strings()
     // json_encode() assumes everything is in UTF-8, but we may not be so
     // just build the JSON object ourselves
     $json_entries = [];
-    foreach($msg as $key => $value)
+    foreach($messages as $key => $value)
     {
         $value = javascript_safe($value);
         $json_entries[] = "\"$key\": \"$value\"";
@@ -80,8 +84,7 @@ function output_preview_strings()
 
 function output_preview_div()
 {
-    global $msg;
-
+    $messages = get_preview_strings();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
     $add_font = attr_safe(_("Add Font"));
@@ -89,7 +92,6 @@ function output_preview_div()
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
     $some_suppressed = attr_safe(_('Some issue types are suppressed'));
-
     $color_markup = html_safe(_("Color markup"));
     $image =  html_safe(_("Image"));
     $text = html_safe(_("Text"));
@@ -105,7 +107,7 @@ function output_preview_div()
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
-    $char_before_start = html_safe($msg['charBeforeStart']);
+    $char_before_start = html_safe($messages['charBeforeStart']);
     $suppress_warnings = html_safe(_('Suppress warnings'));
     echo <<<END
 <div id='prevdiv' class='no_display'>
