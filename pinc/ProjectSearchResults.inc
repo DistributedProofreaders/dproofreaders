@@ -47,13 +47,14 @@ class Column
         }
     }
 
-    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param)
+    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort)
     {
         $label = $this->label;
         if($this->sortable)
         {
             if($sort_column_id == $this->id)
             {
+                $sec_sorter = "";
                 // The header-link reverses the current sort direction.
                 if($sql_sort_dir == "asc")
                 {
@@ -70,8 +71,12 @@ class Column
             { // sort ascending
                 $dir_code = "A";
                 $marker = "";
+                if($sec_sort == $this->id)
+                    $sec_sorter = "&nbsp;^";
+                else
+                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sec_sort=$this->id&amp;results_offset=0'>^</a>";
             }
-            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker";
+            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker$sec_sorter";
         }
         echo "<th class='$this->align'>$label</th>\n";
     }
@@ -370,8 +375,22 @@ class ProjectSearchResults extends ColumnData
         }
     }
 
+    private function get_sort_sql($col_id)
+    {
+        foreach($this->columns as $column)
+        {
+            if($column->sortable && ($column->id == $col_id))
+            {
+                $valid = true;
+                return $column->get_sort_sql();
+            }
+        }
+        return NULL;
+    }
+
     private function get_sorting($userSettings)
     {
+        // sets $this->sort_column_id, sort_sql and sql_sort_dir
         // if sort parameter is given, use it
         // else do same as last time if stored
         // else default to 'state'
@@ -385,18 +404,10 @@ class ProjectSearchResults extends ColumnData
         // remove terminating char A or D
         $this->sort_column_id = substr($sort_param, 0, -1);
         $sort_dir = substr($sort_param, -1); // last char A or D
-        $valid = false;
 
-        foreach($this->columns as $column)
-        {
-            if($column->sortable && ($column->id == $this->sort_column_id))
-            {
-                $valid = true;
-                $this->sort_sql = $column->get_sort_sql();
-                break;
-            }
-        }
-        if($valid)  // check direction D is ok else assume A
+        $this->sort_sql = $this->get_sort_sql($this->sort_column_id);
+
+        if($this->sort_sql)  // check direction D is ok else assume A
         {
             if($sort_dir == "D")
                 $this->sql_sort_dir = "desc";
@@ -405,7 +416,7 @@ class ProjectSearchResults extends ColumnData
         }
         else // use default
         {
-            $sort_param = "statusA";
+            $sort_param = "stateA";
             $this->sort_column_id = 'state';
             $this->sql_sort_dir = "asc";
             $this->sort_sql = sql_collater_for_project_state('state');
@@ -415,8 +426,24 @@ class ProjectSearchResults extends ColumnData
             $userSettings->set_value("PMSort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
-        if($this->sort_column_id != "title")  // secondary sort on title
-            $this->sort_sql .= ", nameofwork asc";
+        
+        // get secondary sorting
+        if(isset($_GET['sec_sort']))
+            $this->sec_sort = $_GET['sec_sort'];
+        else
+            $this->sec_sort = $userSettings->get_value("PMSecSort", " ");
+        $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
+        if(NULL == $sec_sort_sql)
+        {
+            $this->sec_sort = 'title';
+            $sec_sort_sql = 'nameofwork';
+        }
+        if($this->sec_sort != $userSettings->get_value("PMSecSort", " "))
+        {
+            $userSettings->set_value("PMSecSort", $this->sec_sort);
+        }
+
+        $this->sort_sql .= ", $sec_sort_sql asc";
     }
 
     private function _search($where_condition, $results_offset)
@@ -465,13 +492,14 @@ class ProjectSearchResults extends ColumnData
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
         echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
         echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
+        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.";
         echo "</div>";
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
         foreach($this->active_columns as $column)
         {
-            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param);
+            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param, $this->sec_sort);
         }
         echo "</tr>\n";
 
