@@ -262,17 +262,20 @@ function print_plain($data)
    echo $data;
 }
 
-function print_float($data)
+function print_days($data)
 {
-    echo sprintf("%.1f", $data);
+    if(0 == $data)
+        echo _("never");
+    else
+        echo sprintf("%.1f", (time() + $data)/86400);
 }
-
+/*
 function print_date($data)
 {
     // TRANSLATORS: This is a strftime-formatted string for the date with year
-    echo strftime(_("%B %e, %Y"), $data);
+    echo strftime(_("%b&nbsp;%e,&nbsp;%Y"), $data);
 }
-
+*/
 function print_hold($data)
 {
     if($data)
@@ -306,8 +309,8 @@ class ColumnData
             new Column("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer', 'make_link'),
             // TRANSLATORS: Abbreviation for Post-processing Verifier
             new Column("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier', 'make_link'),
-            new Column("days_avail", _('Days'), _('Days available'), 'right-align', true, true, 'days_avail', 'print_float'),
-            new Column("last_proof", _('Last proofing'), '', 'right-align', true, true, 't_last_page_done', 'print_date'),
+            new Column("days_avail", _('Days'), _('Days in State'), 'right-align', true, true, 'time_avail', 'print_days'),
+            new Column("last_proof", _('Last proofing'), '', 'right-align', true, true, 't_lpd', 'print_days'),
             new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
             new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages', 'print_plain'),
@@ -452,7 +455,8 @@ class ProjectSearchResults extends ColumnData
         $state_collater = sql_collater_for_project_state('state');
         $sql = "
             SELECT SQL_CALC_FOUND_ROWS projects.*,
-            (unix_timestamp() - modifieddate)/(24 * 60 * 60) AS days_avail,
+            (0 - modifieddate) AS time_avail,
+            (0 - t_last_page_done) AS t_lpd,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
             LEFT JOIN project_holds
@@ -489,10 +493,10 @@ class ProjectSearchResults extends ColumnData
         }
 
         echo "<div style='margin:0.3em 0;'>";
+        echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
+        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.<br>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
         echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
-        echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
-        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.";
         echo "</div>";
 
         echo "\n<table class='themed theme_striped'>\n";

@@ -101,8 +101,8 @@ class ProjectSearchWidget
         if (!isset($search_data[$this->id]))
             return NULL;
         $value = $search_data[$this->id];
-        if ( $value == '' ) return NULL;
-
+        if ( $value == '' )
+            return NULL;
         list($column_name,$comparator) = $this->q_contrib;
         if ( @$this->can_be_multiple )
         {
@@ -116,11 +116,14 @@ class ProjectSearchWidget
 
                 // If $value isn't an array, someone is mucking with
                 // the URL -- return instead of erroring out below.
-                if( !is_array($values) ) return NULL;
-
+                if( !is_array($values) )
+                    return NULL;
                 // If the user picks the 'any' option as well as some others,
-                // it's as if they'd just picked the 'any' option.
-                if ( in_array( '', $values ) ) return NULL;
+                // remove the any option.
+                if (($key = array_search('', $values)) !== false)
+                    unset($values[$key]);
+                if(empty($values))
+                    return NULL;
             }
 
             $values = array_map("escape_value", $values);
