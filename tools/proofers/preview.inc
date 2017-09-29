@@ -84,6 +84,8 @@ function output_preview_strings()
 
 function output_preview_div()
 {
+    global $code_url;
+
     $messages = get_preview_strings();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
@@ -130,7 +132,7 @@ function output_preview_div()
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
-    <span id='id_some_supp' title='$some_suppressed'>!!</span>
+    <img src='$code_url/graphics/exclamation.gif' id='id_some_supp' title='$some_suppressed'>
     <input type='button' onclick="previewControl.configure()" value="$configure">
   </div>
   <div id="id_tp_outer">
