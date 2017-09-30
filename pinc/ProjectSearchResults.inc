@@ -329,10 +329,10 @@ class ProjectSearchResults extends ColumnData
         global $pguser;
 
         parent::__construct();
-        $option_value = new OptionValue;
+        $option_data = new OptionData();
         $this->show_param = $show_param;
         $userSettings =& Settings::get_Settings($pguser);
-        $this->page_size = $option_value->get_value($userSettings);
+        $this->page_size = $option_data->results_per_page->get_value($userSettings);
         // Determine whether to use special colors or not
         // (this does not affect the alternating between two
         // background colors) in the project listing.
