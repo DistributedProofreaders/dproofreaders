@@ -38,7 +38,7 @@ class OptionSelector extends Selector
 
     function get_html_control($userSettings)
     {
-        echo "<select name='$this->id' size='3'>\n";
+        echo "<select name='$this->id'>\n";
         $selected_item = $this->get_value($userSettings);
         foreach ( $this->options as $option_value => $option_label )
         {
@@ -64,6 +64,15 @@ class OptionData
             100,
             array( 30 => 30, 100 => 100, 300 => 300 )
         );
+
+        $this->time_format = new OptionSelector(
+            'tim_form',
+            _("Time format"),
+            'days',
+            array('days' => _('Days ago'), 'date' => _('Date'))
+        );
+
+        $this->options = array($this->results_per_page, $this->time_format);
     }
 }
 
@@ -109,7 +118,8 @@ class ConfigForm extends ColumnData
         echo "</table></div>$div_table_header";
         while($index < $count)
             $this->column_selectors[$index++]->echo_select_item($userSettings);
-        $this->option_data->results_per_page->echo_select_item($userSettings);
+        foreach($this->option_data->options as $option)
+            $option->echo_select_item($userSettings);
         echo "
             </table>
             </div>
@@ -151,11 +161,14 @@ class ConfigSaver extends ColumnData
             // force title to be on
             $userSettings->set_value("PMtitle", "yes");
         }
-        // get the results per page value
-        $id = $option_data->results_per_page->id;
-        $value = $_GET[$id];
-        if($value != $option_data->results_per_page->get_value($userSettings))
-            $userSettings->set_value("PM$id", $value);
+        // get the option values
+        foreach($option_data->options as $option)
+        {
+            $id = $option->id;
+            $value = $_GET[$id];
+            if($value != $option->get_value($userSettings))
+                $userSettings->set_value("PM$id", $value);
+        }
     }
 }
 
