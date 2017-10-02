@@ -67,7 +67,9 @@ function get_special_color_for_project($book) {
 // specified by $projects_where_clause (WHERE keyword NOT needed)
 // for use as a legend.
 
-function echo_special_legend( $projects_where_clause) {
+function echo_special_legend( $projects_where_clause)
+{
+    global $code_url;
 
     $legend_text = _("Legend for Special Day Colors:");
 
@@ -100,7 +102,7 @@ function echo_special_legend( $projects_where_clause) {
     $common_array[] = array('color' => "FFFF66", 'display_name' => "Other Special");
 
     $specs_count = count($common_array);
-    echo "<h3> $legend_text </h3>";
+    echo "<a href='$code_url/tools/project_manager/show_specials.php'><h3>$legend_text</h3></a>";
     echo "<table class='basic'>\n";
     $day_index = 0;
     $table_columns = min($specs_count, 4);
