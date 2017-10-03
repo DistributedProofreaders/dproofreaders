@@ -3,11 +3,11 @@ toggle between hiding and showing the dropdown content
 if off close all the others before turning on */
 function toggleList(id) {
     console.log(id);
-    var thisButton = document.getElementById(id);
-    var turnOn = !thisButton.classList.contains('show');
+    var thisDropdown = document.getElementById(id);
+    var turnOn = !thisDropdown.classList.contains('show');
     closeAll();
     if(turnOn) {
-        thisButton.classList.add('show');
+        thisDropdown.classList.add('show');
     }
 }
 
