@@ -102,7 +102,7 @@ function echo_special_legend( $projects_where_clause)
     $common_array[] = array('color' => "FFFF66", 'display_name' => "Other Special");
 
     $specs_count = count($common_array);
-    echo "<a href='$code_url/tools/project_manager/show_specials.php'><h3>$legend_text</h3></a>";
+    echo "<h3><a href='$code_url/tools/project_manager/show_specials.php'>$legend_text</a></h3>";
     echo "<table class='basic'>\n";
     $day_index = 0;
     $table_columns = min($specs_count, 4);
