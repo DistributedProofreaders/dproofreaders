@@ -240,8 +240,8 @@ class OptionsColumn extends Column
             if ( $count >= 1 )
             {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
-                $actions .= "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'><br>\n
-                <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a>\n";
+                $actions .= "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>\n
+                <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a><br>\n";
             }
         }
         if(user_can_work_in_stage($pguser, 'PP'))
@@ -339,7 +339,7 @@ class ColumnData
             new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
         );
         if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
-            $this->columns[] = new OptionsColumn('options', _('Options'), '', 'left-align', true, false, '', '');
+            $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align', true, false, '', '');
     }
 }
 
