@@ -2,6 +2,7 @@
 
 .dropdown {
     position: relative;
+    display: inline;
 }
 
 .dropdown-content {
@@ -20,6 +21,7 @@
 /* button looking like a link */
 .dropbtn {
     border: none;
+    padding: 1px;
     background-color: transparent;
     cursor: pointer;
     font-family: initial;
