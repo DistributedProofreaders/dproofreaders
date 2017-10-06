@@ -9,12 +9,12 @@ include_once($relPath.'ProjectSearchResultsConfig.inc');
 
 class Column
 {
-    public function __construct($id, $label, $long_label, $align, $default_display, $sortable, $db_column, $print_data)
+    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data)
     {
         $this->id = $id;
         $this->label = $label;
         $this->long_label = $long_label;
-        $this->align = $align;
+        $this->css_class = $css_class;
         $this->default_display = $default_display;
         $this->sortable = $sortable;
         $this->db_column = $db_column;
@@ -83,12 +83,12 @@ class Column
             }
             $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker$sec_sorter";
         }
-        echo "<th class='$this->align'>$label</th>\n";
+        echo "<th class='$this->css_class'>$label</th>\n";
     }
 
     public function echo_data_cell($project, $time_format)
     {
-        echo "<td class='$this->align'>",  $this->print_cell_data($project, $time_format), "</td>\n";
+        echo "<td class='$this->css_class'>",  $this->print_cell_data($project, $time_format), "</td>\n";
     }
 
     public function print_cell_data($project, $time_format)
@@ -240,11 +240,8 @@ class OptionsColumn extends Column
             if ( $count >= 1 )
             {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
-//                $actions .= "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>\n
-  //              <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a><br>\n";
-                echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
-                echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'>";
-                echo "</a>";
+                echo "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>
+                    <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a>";
             }
         }
         if(user_can_work_in_stage($pguser, 'PP'))
@@ -267,7 +264,7 @@ class OptionsColumn extends Column
             echo "<div class='dropdown'>
                 <button class='dropbtn' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
                 <div id='$projectid' class='dropdown-content'>$actions</div>
-            </div>";
+                </div>";
         }
     }
 }
@@ -342,7 +339,7 @@ class ColumnData
             new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
         );
         if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
-            $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align', true, false, '', '');
+            $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '', '');
     }
 }
 
