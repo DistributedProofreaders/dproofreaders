@@ -65,7 +65,8 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     function reportIssue(start, len, code) {
-        reportIssueLong(start, len, previewMessages[code], issueType[code]);
+        if(!(styler.suppress[code]))
+            reportIssueLong(start, len, previewMessages[code], issueType[code]);
     }
 
     function makeColourStyle(s) {
