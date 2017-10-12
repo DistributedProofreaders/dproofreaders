@@ -354,7 +354,7 @@ $pg->add_entry(new FAQEntry(
     array(
         "en" => $PG_faq_url,
     ),
-    sprintf(_("The <i>massive</i> FAQ from <a href='%s''>Project Gutenberg</a>."), $PG_home_url)
+    sprintf(_("The <i>massive</i> FAQ from <a href='%s'>Project Gutenberg</a>."), $PG_home_url)
 ));
 
 
