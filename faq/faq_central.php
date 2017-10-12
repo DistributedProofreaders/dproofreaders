@@ -42,10 +42,10 @@ table#faqtable td.column {
 ");
 output_header($title, NO_STATSBAR, $theme_args);
 
-echo "<h1>$title</h1>";
+echo "<h1>$title</h1>\n\n";
 
 // TRANSLATORS: %s is the site name
-echo "<p>" . sprintf(_("This page contains links to all the Documentation and FAQ (Frequently Asked Questions) files about the %s website."), $site_name) . "</p>";
+echo "<p>" . sprintf(_("This page contains links to all the Documentation and FAQ (Frequently Asked Questions) files about the %s website."), $site_name) . "</p>\n";
 
 show_news_for_page("FAQ");
 
@@ -400,7 +400,7 @@ class FAQ
                 echo "<td class='column'>";
                 continue;
             }
-            echo "<div class='faqheader'>$section->title</div>";
+            echo "\n<div class='faqheader'>$section->title</div>\n";
 
             $section->output();
         }
@@ -434,6 +434,7 @@ class FAQSection
             // the user's language, don't include a link in the title and
             // instead just show all available language options.
 
+            echo "\n";
             echo "<p>";
             if(isset($entry->urls['all']))
                 echo "<a href='" . $entry->urls['all'] . "'>" . html_safe($entry->title) . "</a>";
@@ -441,7 +442,7 @@ class FAQSection
                 echo "<a href='" . $entry->urls[$user_iso] . "'>" . html_safe($entry->title) . "</a>";
             else
                 echo html_safe($entry->title);
-            echo "<br>";
+            echo "<br>\n";
             echo "<span style='font-size: 0.8em;'>";
             $links = array();
             foreach($entry->urls as $iso => $url)
@@ -461,18 +462,18 @@ class FAQSection
                 if(isset($entry->urls[$user_iso]))
                 {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
-                    echo sprintf(_("Also available in: %s"), implode(", ", $links));
+                    echo sprintf(_("Also available in: %s"), implode(",\n ", $links));
                 }
                 else
                 {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
-                    echo sprintf(_("Available in: %s"), implode(", ", $links));
+                    echo sprintf(_("Available in: %s"), implode(",\n ", $links));
                 }
 
-                echo "<br>";
+                echo "<br>\n";
             }
             echo $entry->text;
-            echo "</span></p>";
+            echo "</span></p>\n";
         }
     }
 }
