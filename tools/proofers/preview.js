@@ -464,7 +464,7 @@ var makePreview = function (txt, viewMode, styler) {
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
-        var etcstr; // for out-of-line tags, tb, sub- and super-scripts
+        var etcstr0, etcstr; // for out-of-line tags, tb, sub- and super-scripts
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
@@ -509,14 +509,13 @@ var makePreview = function (txt, viewMode, styler) {
         var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
-        etcstr = makeColourStyle('etc');
-        if (viewMode === "show_tags") {
-            etcstr += '>$&</span>';
-        } else {
-            etcstr += '>$1</span>';
-        }
+        etcstr0 = makeColourStyle('etc');
+        etcstr = etcstr0 + '>$&</span>';
         if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
-            txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
+            txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + etcstr);
+        }
+        if (viewMode !== "show_tags") {
+            etcstr = etcstr0 + '>$1</span>';
         }
         // sub- and super-scripts
         txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + etcstr);
