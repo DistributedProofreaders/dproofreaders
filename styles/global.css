@@ -36,6 +36,9 @@
 .really-small {
   font-size: x-small;
 }
+.nowrap {
+  white-space: nowrap;
+}
 .full-width {
   width: 100%;
 }
