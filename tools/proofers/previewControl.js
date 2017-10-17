@@ -42,7 +42,10 @@ function initPrev() {
     var fontName = document.getElementById("id_font_name");
     var removeFontSelector = document.getElementById("id_remove_sel");
     var allowUnderlineCheckbox = document.getElementById("id_underline");
+    var suppressCBSCheckbox = document.getElementById("id_cbs");
+    var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
+
     var selTag;
     var viewMode = "no_tags";    // always start with this
 
@@ -69,7 +72,8 @@ function initPrev() {
         color: true, // colour the markup or not
         allowUnderline: false,
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
-        defFont: "serif"
+        defFont: "serif",
+        suppress: {charBeforeStart: false}
     };
     // stores the size of the bottom frame so it can be restored on exit
     var old_rows;
@@ -89,6 +93,9 @@ function initPrev() {
             tagon.checked = true;
             viewMode = "show_tags";
         }
+        // if any issues are suppressed show warning
+        var warn = Object.values(previewStyles.suppress).some(function(x) {return x;});
+        someSupp.style.display = warn ? "inline" : "none";
     }
 
     function setViewColors(win) { // sets background and plain text colours
@@ -172,7 +179,7 @@ function initPrev() {
 
     // functions for setting up the configuration screen
     function testDraw() {
-        preview = makePreview(previewDemo, 'T', tempStyle);
+        preview = makePreview(previewDemo, 'no_tags', tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
@@ -285,6 +292,7 @@ function initPrev() {
             defaultTextRadio.checked = true;
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
+            suppressCBSCheckbox.checked = tempStyle.suppress.charBeforeStart;
         },
 
         enableColor: function (en) {
@@ -299,6 +307,7 @@ function initPrev() {
         },
 
         OKConfig: function () {
+            tempStyle.suppress.charBeforeStart = suppressCBSCheckbox.checked;
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();

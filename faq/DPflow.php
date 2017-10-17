@@ -8,7 +8,7 @@ include_once($relPath.'metarefresh.inc');
 # Redirect users to this document in the wiki
 if(strpos($code_url, '://www.pgdp.'))
 {
-    $url = 'http://www.pgdp.org/wiki/DP_Official_Documentation:General/General_Workflow_Diagram';
+    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:General/General_Workflow_Diagram';
     metarefresh(0, $url);
 }
 

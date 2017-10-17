@@ -126,7 +126,8 @@ eBook&lt;/title&gt;)</li>
 and &lt;/html&gt; tags each on its own line and correctly use them. (This is required by the WWers)</li>
 <li>Use of tables for things that are not tables</li>
 <li>Used CSS other than CSS 2.1 or below (except for the dropcap
-&quot;transparent&quot; element)</li>
+&quot;transparent&quot; element
+and other CSS 3 code permitted by <a href="http://upload.pglaf.org/">PGLAF</a>)</li>
 <li>Used HTML version other than XHTML 1.0 Strict or 1.1</li>
 <li>Failure to use &lt;div class=&quot;chapter&quot;&gt; or &lt;div class= &quot;section&quot;&gt; at chapter breaks
 to enable proper page breaks for e-readers
@@ -163,7 +164,9 @@ inconsistencies between the text and the HTML versions</li>
 <li>The W3C Markup Validation Service generates errors or warning messages
 (Please enter number of errors)</li>
 <li>The W3C CSS Validation Service generates errors or warning messages
-other than for the dropcap &quot;transparent&quot; element (Please
+other than for the dropcap &quot;transparent&quot; element
+and other CSS 3 code permitted by <a href = "http://upload.pglaf.org/">PGLAF</a>
+(Please
 enter number of errors). Certain errors can generate other errors that will be automatically corrected when the original errors are fixed. Therefore, to count the number of real errors, simply run the Validator and count the errors that follow the message that includes "start tag was here". That will give you the real errors to enter into the PPV Form.</li>
 <li>Non-working links within HTML or to images. (Either broken or link to wrong
 place/file)</li>
