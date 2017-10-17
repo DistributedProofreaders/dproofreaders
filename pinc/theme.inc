@@ -1003,9 +1003,9 @@ function show_key_help_links()
     $items = array(
         "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
-        "<a href='{$ldu['p_guide']}'>"._("Proofreading Guidelines")."</a>".
+        "<a href='{$ldu['p_guide']}'>"._("Proofreading Guidelines")."</a>",
 
-        "<a href='{$ldu['f_guide']}'>"._("Formatting Guidelines")."</a>".
+        "<a href='{$ldu['f_guide']}'>"._("Formatting Guidelines")."</a>",
 
         "<a href='{$ldu['main']}'>"._("Other Official Documentation")."</a>",
 
