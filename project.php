@@ -2110,6 +2110,7 @@ function do_change_state()
         }
 
         echo "</form>\n";
+        echo "<br>";
     }
 }
 
