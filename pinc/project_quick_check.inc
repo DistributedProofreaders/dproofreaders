@@ -28,7 +28,7 @@ function _test_project_for_large_page_images($projectid)
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
     
-        $details = "<table>";
+        $details = "<table class='basic striped>";
         $details .= "<tr>";
         $details .= "<th>" . _("Image") . "</th>";
         $details .= "<th>" . _("Size") . "</th>";
@@ -198,19 +198,6 @@ function _test_project_for_credited_source($projectid)
     return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
 }
 
-// This file 'exports':
-//     $css_for_bad_bytes_tables
-//     _test_project_for_bad_bytes()
-//     tds_for_bad_bytes()
-
-$css_for_bad_bytes_tables = "
-    table.bb { border-collapse: collapse; }
-    table.bb th, table.bb td { padding: 0.1em 0.2em; border: 1px solid grey; }
-    .rj { text-align: right; }
-    .top { vertical-align: top; }
-    .hex { white-space: nowrap; font-family: monospace; font-size: smaller; }
-";
-
 function _test_project_for_bad_bytes($projectid)
 {
     global $bad_byte_sequences, $code_url;
@@ -240,7 +227,7 @@ function _test_project_for_bad_bytes($projectid)
     $details_for_this_project = "
         <p><a href='$page_details_url'>Page Details</a></p>
         <p><small>For more detail about this table, see <a href='bad_bytes_explainer.php'>here</a>.</small></p>
-        <table class='bb'>
+        <table class='basic striped'>
         <tr>
             <th>image</th>
             <th>text</th>
@@ -277,15 +264,15 @@ function _test_project_for_bad_bytes($projectid)
                 $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
                 $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0";
                 $details_for_this_page = "<tr>\n";
-                $details_for_this_page .= "<td class='top' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-                $details_for_this_page .= "<td class='top' rowspan='$rowspan'><a href='$text_url'>ocr</a></td>\n";
+                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
+                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>ocr</a></td>\n";
             }
             else
             {
                 $details_for_this_page .= "<tr>\n";
             }
 
-            $details_for_this_page .= "<td class='rj'>$n_occurrences</td>\n";
+            $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
 
             $details_for_this_page .= tds_for_bad_bytes($raw);
 
@@ -332,7 +319,7 @@ function tds_for_bad_bytes($raw)
     else
     {
         $hex = string_to_hex($raw);
-        $tds .= "<td class='hex'>$hex</td>";
+        $tds .= "<td class='mono'>$hex</td>";
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);

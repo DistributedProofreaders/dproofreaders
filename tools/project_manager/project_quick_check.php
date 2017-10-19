@@ -18,8 +18,7 @@ $projectid = validate_projectID("projectid", @$_REQUEST['projectid'], true);
 $title = _("Project Quick Check");
 $page_text = _("This page tests the project in an attempt to uncover some common errors.");
 
-$theme_args['css_data'] = _get_stylesheet();
-output_header($title, False, $theme_args);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -30,7 +29,7 @@ echo "<form method='GET'>";
 echo "<table>";
 echo  "<tr>"; 
 echo   "<td>" . _("Project ID") . "</td>";
-echo   "<td><input name='projectid' type='text' value='$projectid'></td>";
+echo   "<td><input name='projectid' type='text' value='$projectid' size='40'></td>";
 echo  "</tr>";
 echo "</table>";
 echo "<input type='submit' value='Test'>";
@@ -48,10 +47,27 @@ echo "<hr>";
 
 $project = new Project($projectid);
 
-echo "<p>" . sprintf(_("Project ID: %s"), $projectid) . "</p>";
-echo "<p><b>" . html_safe($project->nameofwork) . "</b></p>\n";
-echo "<p>" . _("Author") . ": " . html_safe($project->authorsname) . "</p>\n";
-echo "<p>" . _("Project Manager") . ": " . html_safe($project->username) . "</p>\n";
+echo "<h1>" . _("Project Summary") . "</h1>";
+
+echo "<table class='basic'>";
+echo "<tr>";
+echo    "<th>" . _("Title") . "</th>";
+echo    "<td>" . html_safe($project->nameofwork) . "</td>";
+echo "</tr>";
+echo "<tr>";
+echo    "<th>" . _("Project ID") . "</th>";
+echo    "<td>$projectid</td>";
+echo "</tr>";
+echo "<tr>";
+echo    "<th>" . _("Author") . "</th>";
+echo    "<td>" . html_safe($project->authorsname) . "</td>";
+echo "</tr>";
+echo "<tr>";
+echo    "<th>" . _("Project Manager") . "</th>";
+echo    "<td>" . html_safe($project->username) . "</td>";
+echo "</tr>";
+echo "</table>";
+
 echo "<p>";
 echo "<a href='$code_url/project.php?id=$projectid'>" . _("Project Page") . "</a>";
 if($project->pages_table_exists)
@@ -77,7 +93,7 @@ foreach($test_functions as $function)
 }
 
 echo "<h1>" . _("Result Summary") . "</h1>";
-echo "<table>";
+echo "<table class='basic striped'>";
 echo "<tr>";
 echo "<th>" . _("Test") . "</th>";
 echo "<th>" . _("Status") . "</th>";
@@ -103,19 +119,5 @@ foreach($test_functions as $function)
     echo $result[$function]["details"];
 }
 
-
-//---------------------------------------------------------------------------
-// supporting page functions
-
-function _get_stylesheet() {
-    global $css_for_bad_bytes_tables;
-    return "
-        p.error { color: red; }
-        p.warning { color: blue; }
-        table th { background-color: black; color: white; }
-        table td { padding-right: 0.5em; }
-        $css_for_bad_bytes_tables
-    ";
-}
 
 // vim: sw=4 ts=4 expandtab

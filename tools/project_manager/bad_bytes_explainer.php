@@ -1,12 +1,12 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'slim_header.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // startswith str_contains
 include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences string_to_hex
 include_once($relPath.'project_quick_check.inc'); // $css_for_bad_bytes_tables tds_for_bad_bytes
 
-slim_header(_("Bad Bytes Explainer"), array("css_data" => $css_for_bad_bytes_tables));
+output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
 
 ?>
 
@@ -229,7 +229,7 @@ echo "
 function show_a_table_of_bads($desired_badness)
 {
     echo "
-        <table class='bb'>
+        <table class='basic striped'>
         <tr>
         <th>raw</th>
         <th>bytes</th>
