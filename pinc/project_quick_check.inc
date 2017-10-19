@@ -200,7 +200,7 @@ function _test_project_for_credited_source($projectid)
 
 function _test_project_for_bad_bytes($projectid)
 {
-    global $bad_byte_sequences, $code_url;
+    global $code_url;
 
     $r['name'] = 'Bad Bytes in Page Text';
     $r['description'] = "This test checks the project's latest page-texts for bad byte-sequences.";
@@ -226,16 +226,16 @@ function _test_project_for_bad_bytes($projectid)
     $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
     $details_for_this_project = "
         <p><a href='$page_details_url'>Page Details</a></p>
-        <p><small>For more detail about this table, see <a href='bad_bytes_explainer.php'>here</a>.</small></p>
+        <p><small>" . sprintf(_("For more detail about this table, see %s"), "<a href='bad_bytes_explainer.php'>here</a>") . "</small></p>
         <table class='basic striped'>
         <tr>
-            <th>image</th>
-            <th>text</th>
-            <th>#</th>
-            <th>raw</th>
-            <th>bytes</th>
-            <th>likely intended character</th>
-            <th>why bad</th>
+            <th>" . _("Image") . "</th>
+            <th>" . _("Text") . "</th>
+            <th>" . _("#") . "</th>
+            <th>" . _("Raw") . "</th>
+            <th>" . _("Bytes") . "</th>
+            <th>" . _("Likely intended character") . "</th>
+            <th>" . _("Why bad") . "</th>
         </tr>
     ";
 

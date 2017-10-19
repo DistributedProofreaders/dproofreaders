@@ -21,12 +21,12 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
 
 <ul>
 
-    <li><b>image</b>:
+    <li><b>Image</b>:
         The image-name of page where the bad bytes were found.
         The link will take you to the "Display Image" screen for that page.
     </li>
 
-    <li><b>text</b>:
+    <li><b>Text</b>:
         The link will take you to the OCR text,
         regardless of the round from which the page-text was taken.
         To see the text from subsequent rounds,
@@ -40,7 +40,7 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
         The number of occurrences (on this page) of the byte-sequence identified on this row.
     </li>
 
-    <li><b>raw</b>:
+    <li><b>Raw</b>:
         The raw bytes in question.
         Generally, your browser should render them the same here as in the page-text,
         except that:
@@ -55,18 +55,18 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
         e.g., tab, no-break space, or soft hyphen.
     </li>
 
-    <li><b>bytes</b>:
+    <li><b>Bytes</b>:
         If the byte-sequence is an HTML character-reference,
         this column just shows the reference.
         Otherwise, it shows the values of the bytes, written in hexadecimal.
     </li>
 
-    <li><b>likely intended character</b>:
+    <li><b>Likely intended character</b>:
         An identification of the original character that probably resulted in the byte-sequence.
         (The character's Unicode code point and description.)
     </li>
 
-    <li><b>why bad</b>:
+    <li><b>Why bad</b>:
         A brief comment indicating why the byte-sequence is considered bad.
         For a fuller explanation, see below.
     </li>
@@ -231,10 +231,10 @@ function show_a_table_of_bads($desired_badness)
     echo "
         <table class='basic striped'>
         <tr>
-        <th>raw</th>
-        <th>bytes</th>
-        <th>likely intended character</th>
-        <th>why bad</th>
+            <th>" . _("Raw") . "</th>
+            <th>" . _("Bytes") . "</th>
+            <th>" . _("Likely intended character") . "</th>
+            <th>" . _("Why bad") . "</th>
         </tr>
     ";
     global $_bad_byte_sequences;
