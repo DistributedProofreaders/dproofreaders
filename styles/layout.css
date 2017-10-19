@@ -429,7 +429,6 @@ table.basic {
 }
 table.basic th {
   background-color: #CCC;
-  text-align: center;
 }
 table.basic th.label {
   text-align: left;
