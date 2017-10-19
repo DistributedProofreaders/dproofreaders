@@ -63,7 +63,7 @@ if ($show_view == 'search_form')
 // show must be search
 $condition = $search_form->get_condition();
 
-echo "<h1>", _("Search Results"), "</h1>\n";
+echo "<h1 id='head'>", _("Search Results"), "</h1>\n";
 echo_refine_search();
 
 echo "<br>";

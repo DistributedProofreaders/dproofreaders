@@ -119,7 +119,7 @@ echo "<h1>", _("Project Management"), "</h1>\n";
 // possibly show message, but don't exit
 check_user_can_load_projects(false);
 show_news_for_page('PM');
-echo "\n<h2>$sub_title</h2>\n";
+echo "\n<h2 id='head'>$sub_title</h2>\n";
 echo_shortcut_links($show_view);
 if($show_view != "blank")
     echo_refine_search();

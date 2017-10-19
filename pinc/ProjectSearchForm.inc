@@ -71,7 +71,7 @@ class ProjectSearchWidget
             if($this->has_invert)
             {
                 $check = isset($search_data[$this->id . "_inv"]) ? " checked" : "";
-                $r .= "<br>Invert filter <input type='checkbox' name='{$this->id}_inv'$check>";
+                $r .= "<br><span title='Exclude the selected options'>Invert filter <input type='checkbox' name='{$this->id}_inv'$check></span>";
             }
             return $r;
         }

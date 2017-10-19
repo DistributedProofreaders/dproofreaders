@@ -79,9 +79,9 @@ class Column
                 if($sec_sort == $this->id)
                     $sec_sorter = "&nbsp;^";
                 else
-                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sec_sort=$this->id&amp;results_offset=0'>^</a>";
+                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sec_sort=$this->id&amp;results_offset=0#head'>^</a>";
             }
-            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0'>$label</a>$marker$sec_sorter";
+            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
         }
         echo "<th class='$this->css_class'>$label</th>\n";
     }
@@ -379,7 +379,7 @@ class ProjectSearchResults extends ColumnData
         {
             $text = _('Previous');
             $prev_offset = max(0, $results_offset - $this->page_size);
-            $url = $url_base . "results_offset=$prev_offset";
+            $url = $url_base . "results_offset=$prev_offset#head";
             echo "<a href='$url'>$text</a> | ";
         }
         echo sprintf(
@@ -395,7 +395,7 @@ class ProjectSearchResults extends ColumnData
         {
             $text = _('Next');
             $next_offset = $results_offset + $this->page_size;
-            $url = $url_base . "results_offset=$next_offset";
+            $url = $url_base . "results_offset=$next_offset#head";
             echo " | <a href='$url'>$text</a>";
         }
     }
@@ -512,12 +512,11 @@ class ProjectSearchResults extends ColumnData
             return;
         }
 
-        echo "<div style='margin:0.3em 0;'>";
+        echo "<p>";
         echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
-        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.<br>";
+        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.<br></p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
         echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
-        echo "</div>";
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
@@ -553,9 +552,7 @@ class ProjectSearchResults extends ColumnData
         }
         echo "</table>\n";
 
-        echo "<div style='margin:0.3em 0;'>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
-        echo "</div>";
         // special colours legend
         // Don't display if the user has selected the
         // setting "Show Special Colors: No".
