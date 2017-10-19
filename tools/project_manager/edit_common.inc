@@ -275,11 +275,11 @@ function proj_comments_field($comments)
     echo "<br>";
     echo "<p class='bold center-align' style='margin: 0'>";
     echo "[";
-    echo new_help_window_link( 'template', _("How To Use A Template") );
+    echo new_help_window_link('template.html', _("How To Use A Template"));
     echo "]";
     echo " ";
     echo "[";
-    echo new_help_window_link( 'biography', _("How To Use A Biography") );
+    echo new_help_window_link('biography.html', _("How To Use A Biography"));
     echo "]";
     echo "</p>";
 }

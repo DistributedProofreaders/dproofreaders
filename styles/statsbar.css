@@ -24,7 +24,7 @@
 #statsbar .more-link {
   text-align: center;
   font-size: x-small;
-  padding: 0;
+  padding: 0 0 1em 0;
 }
 #content-container.left-statsbar,
 #content-container.right-statsbar {
@@ -58,7 +58,7 @@
 }
 #completed-titles li,
 #recent-titles li {
-  padding-bottom: 1em;
+  margin-top: 1em;
 }
 #completed-titles .book-title,
 #recent-titles .book-title {
@@ -128,6 +128,9 @@
 }
 #key-help-documents li {
   list-style-type: none;
+}
+#key-help-documents li {
+  margin-top: 5px;
 }
 #about-dp {
   font-size: small;

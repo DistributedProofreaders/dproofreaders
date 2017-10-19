@@ -1,60 +1,43 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 
 # SITE-SPECIFIC
-# pgdp.net/org have some documents in the wiki.
+# Redirect users to this document in the wiki
 if(strpos($code_url, '://www.pgdp.'))
 {
-    $use_pgdp_urls = TRUE;
-}
-else
-{
-    $use_pgdp_urls = FALSE;
+    $lang = get_desired_language();
+    if(startswith($lang, "fr"))
+    {
+        $url = 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ';
+    }
+    else
+    {
+        $url = 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central';
+    }
+    metarefresh(0, $url);
 }
 
 $title = _("FAQ Central");
 
 output_header($title, NO_STATSBAR);
 
-echo "<h1>$title</h1>";
+echo "<h1>$title</h1>\n\n";
 
 // TRANSLATORS: %s is the site name
-echo "<p>" . sprintf(_("This page contains links to all the Documentation and FAQ (Frequently Asked Questions) files about the %s website."), $site_name) . "</p>";
+echo "<p>" . sprintf(_("This page contains links to all the Documentation and FAQ (Frequently Asked Questions) files about the %s website."), $site_name) . "</p>\n";
 
 show_news_for_page("FAQ");
 
 // Introduction section
 $intro = new FAQSection(_("Introductory Information"));
-if($use_pgdp_urls)
-{
-    $intro->add_entry(new FAQEntry(
-        _("Code of Conduct"),
-        array(
-            "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Code_of_Conduct",
-            "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Code_de_la_Conduite",
-            "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/German/Verhaltenskodex",
-            "es" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Spanish/C%C3%B3digo_de_Conducta",
-        ),
-        _("All volunteers must abide by our Code of Conduct.")
-    ));
-}
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
-        "fr" => 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Aper%C3%A7u_de_DP',
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "ProoferFAQ.php",
-    );
-}
+$urls = array(
+    "en" => "ProoferFAQ.php",
+);
 $intro->add_entry(new FAQEntry(
     _("Beginning Proofreader's FAQ"),
     $urls,
@@ -87,30 +70,15 @@ $intro->add_entry(new FAQEntry(
 
 // Proofreading
 $proofing = new FAQSection(_("Proofreading"));
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
-        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Directives_de_Relecture_et_de_Correction",
-        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o",
-        "es" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n",
-        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Dutch/Proeflees-Richtlijnen",
-        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien",
-        "it" => "proofreading_guidelines_italian.php",
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "proofreading_guidelines.php",
-        "fr" => "proofreading_guidelines_francaises.php",
-        "pt" => "proofreading_guidelines_portuguese.php",
-        "es" => "proofreading_guidelines_spanish.php",
-        "nl" => "proofreading_guidelines_dutch.php",
-        "de" => "proofreading_guidelines_german.php",
-        "it" => "proofreading_guidelines_italian.php",
-    );
-}
+$urls = array(
+    "en" => "proofreading_guidelines.php",
+    "fr" => "proofreading_guidelines_francaises.php",
+    "pt" => "proofreading_guidelines_portuguese.php",
+    "es" => "proofreading_guidelines_spanish.php",
+    "nl" => "proofreading_guidelines_dutch.php",
+    "de" => "proofreading_guidelines_german.php",
+    "it" => "proofreading_guidelines_italian.php",
+);
 $proofing->add_entry(new FAQEntry(
     _("Proofreading Guidelines"),
     $urls,
@@ -135,39 +103,17 @@ $proofing->add_entry(new FAQEntry(
 
 // Creating and Managing Projects
 $cp_pm = new FAQSection(_("Creating and Managing Projects"));
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
-        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/FAQ_gestion_de_projet",
-        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Gest%C3%A3o_de_Projectos",
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "pm-faq.php",
-    );
-}
+$urls = array(
+    "en" => "pm-faq.php",
+);
 $cp_pm->add_entry(new FAQEntry(
     _("Project Managers' FAQ"),
     $urls,
     _("Information for new or aspiring Project Managers. Project Managers are people who manage the progress of a particular project (\"book\") through this site.")
 ));
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
-        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/FAQ_fourniture_de_contenu",
-        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Fornecimento_de_Conte%C3%BAdos",
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "cp.php",
-    );
-}
+$urls = array(
+    "en" => "cp.php",
+);
 $cp_pm->add_entry(new FAQEntry(
     _("Content Providers' FAQ"),
     $urls,
@@ -184,28 +130,14 @@ $cp_pm->add_entry(new FAQEntry(
 
 // Formatting
 $formatting = new FAQSection(_("Formatting"));
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
-        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/French/Directives_de_Formatage",
-        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
-        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
-        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/German/Formatierungsrichtlinien",
-        "it" => "formatting_guidelines_italian.php",
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "document.php",
-        "fr" => "formatting_guidelines_francaises.php",
-        "pt" => "formatting_guidelines_portuguese.php",
-        "nl" => "formatting_guidelines_dutch.php",
-        "de" => "formatting_guidelines_german.php",
-        "it" => "formatting_guidelines_italian.php",
-    );
-}
+$urls = array(
+    "en" => "document.php",
+    "fr" => "formatting_guidelines_francaises.php",
+    "pt" => "formatting_guidelines_portuguese.php",
+    "nl" => "formatting_guidelines_dutch.php",
+    "de" => "formatting_guidelines_german.php",
+    "it" => "formatting_guidelines_italian.php",
+);
 $formatting->add_entry(new FAQEntry(
     _("Formatting Guidelines"),
     $urls,
@@ -273,19 +205,9 @@ $mentoring->add_entry(new FAQEntry(
 
 // PP & PPV
 $ppv = new FAQSection(_("Post-Processing and Verification"));
-if($use_pgdp_urls)
-{
-    $urls = array(
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
-        "fr" => "https://www.pgdp.net/wiki/French/FAQ_post-processing",
-    );
-}
-else
-{
-    $urls = array(
-        "en" => "post_proof.php",
-    );
-}
+$urls = array(
+    "en" => "post_proof.php",
+);
 $ppv->add_entry(new FAQEntry(
     _("Post-Processing FAQ"),
     $urls,
@@ -332,7 +254,7 @@ $pg->add_entry(new FAQEntry(
     array(
         "en" => $PG_faq_url,
     ),
-    sprintf(_("The <i>massive</i> FAQ from <a href='%s''>Project Gutenberg</a>."), $PG_home_url)
+    sprintf(_("The <i>massive</i> FAQ from <a href='%s'>Project Gutenberg</a>."), $PG_home_url)
 ));
 
 
@@ -378,7 +300,7 @@ class FAQ
                 echo "<td class='column'>";
                 continue;
             }
-            echo "<div class='faqheader'>$section->title</div>";
+            echo "\n<div class='faqheader'>$section->title</div>\n";
 
             $section->output();
         }
@@ -412,6 +334,7 @@ class FAQSection
             // the user's language, don't include a link in the title and
             // instead just show all available language options.
 
+            echo "\n";
             echo "<p>";
             if(isset($entry->urls['all']))
                 echo "<a href='" . $entry->urls['all'] . "'>" . html_safe($entry->title) . "</a>";
@@ -439,12 +362,12 @@ class FAQSection
                 if(isset($entry->urls[$user_iso]))
                 {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
-                    echo sprintf(_("Also available in: %s"), implode(", ", $links));
+                    echo sprintf(_("Also available in: %s"), implode(",\n ", $links));
                 }
                 else
                 {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
-                    echo sprintf(_("Available in: %s"), implode(", ", $links));
+                    echo sprintf(_("Available in: %s"), implode(",\n ", $links));
                 }
 
                 echo "</span>";

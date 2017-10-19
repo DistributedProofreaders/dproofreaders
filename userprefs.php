@@ -167,7 +167,7 @@ $theme_extra_args["js_data"] =
         }
     }";
     
-output_header($header, NO_STATSBAR, $theme_extra_args);
+output_header($header, SHOW_STATSBAR, $theme_extra_args);
 echo "<h1>$header</h1>";
 
 echo "<p>" . _("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.");
