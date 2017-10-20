@@ -140,11 +140,11 @@ $search_results->render($condition);
 
 function set_session_user_active()
 {
-    global $pguser;
+    global $pguser, $PROJECT_STATES_IN_ORDER;
+
     $_SESSION['search_data'] = array(
         'project_manager' => $pguser,
-        'state' => array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE),
-        'state_inv' => 'on'
+        'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE)),
     );
 }
 
