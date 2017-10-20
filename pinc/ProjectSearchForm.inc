@@ -5,7 +5,6 @@ class ProjectSearchWidget
 {
     public $can_be_multiple = false;
     public $initial_value = '';
-    public $has_invert = false;
 
     function __construct( $properties )
     {
@@ -68,11 +67,6 @@ class ProjectSearchWidget
                 $r .= "<option value='" . attr_safe($option_value) . "' $selected_attr>" . html_safe($option_label) . "</option>\n";
             }
             $r .= "</select>\n";
-            if($this->has_invert)
-            {
-                $check = isset($search_data[$this->id . "_inv"]) ? " checked" : "";
-                $r .= "<br><span title='Exclude the selected options'>Invert filter <input type='checkbox' name='{$this->id}_inv'$check></span>";
-            }
             return $r;
         }
     }
@@ -128,16 +122,15 @@ class ProjectSearchWidget
 
             $values = array_map("escape_value", $values);
 
-            $inv = isset($search_data[$this->id . "_inv"]) ? " NOT " : "";
             if ( $comparator == '=' )
             {
                 $values_list = surround_and_join( $values, "'", "'", "," );
-                $contribution = "$column_name$inv IN ($values_list)";
+                $contribution = "$column_name IN ($values_list)";
             }
             elseif ( $comparator == 'LIKE' )
             {
                 $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
-                $contribution = "$inv($likes_str)";
+                $contribution = "($likes_str)";
             }
         }
         else
@@ -306,7 +299,6 @@ class ProjectSearchForm
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
                 'q_contrib'  => array('language', 'LIKE'),
-                'has_invert' => true,
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'genre',
@@ -340,7 +332,6 @@ class ProjectSearchForm
                 'options'      => $this->_get_options_state(),
                 'can_be_multiple' => TRUE,
                 'q_contrib'    => array('state', '='),
-                'has_invert' => true,
             )),
             new HoldWidget( array(
                 'id'        => 'hold',
