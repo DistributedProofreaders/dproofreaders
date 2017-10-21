@@ -262,7 +262,7 @@ class OptionsColumn extends Column
         {
             // identify the buttons by projectid
             echo "<div class='dropdown'>
-                <button class='dropbtn' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
+                <button class='dropdown-button' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
                 <div id='$projectid' class='dropdown-content'>$actions</div>
                 </div>";
         }

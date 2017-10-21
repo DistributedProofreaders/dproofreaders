@@ -4,10 +4,10 @@ if off close all the others before turning on */
 function toggleList(id) {
     console.log(id);
     var thisDropdown = document.getElementById(id);
-    var turnOn = !thisDropdown.classList.contains('show');
+    var turnOn = !thisDropdown.classList.contains('dropdown-show');
     closeAll();
     if(turnOn) {
-        thisDropdown.classList.add('show');
+        thisDropdown.classList.add('dropdown-show');
     }
 }
 
@@ -16,15 +16,15 @@ function closeAll() {
     var i;
     for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
+        if (openDropdown.classList.contains('dropdown-show')) {
+            openDropdown.classList.remove('dropdown-show');
         }
     }
 }
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
+    if (!event.target.matches('.dropdown-button')) {
         closeAll();
   }
 }

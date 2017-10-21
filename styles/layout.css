@@ -734,5 +734,36 @@ table.edit_special_day td {
   padding: 5px;
   background-color: #eeeeee;
 }
+/* ------------------------------------------------------------------------ */
+/* Search Results drop-down */
+.dropdown {
+  position: relative;
+  display: inline;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 1.5em;
+  right: 0;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+  padding: 0.3em;
+  margin: 0 0 0 -15em;
+  border-radius: 0.3em;
+  z-index: 1;
+}
+/* button looking like a link */
+.dropdown-button {
+  border: none;
+  padding: 1px;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: initial;
+  font-size: initial;
+  text-decoration: underline;
+}
+.dropdown-show {
+  display: block;
+}
 /* vim: sw=4 ts=4 expandtab
 */

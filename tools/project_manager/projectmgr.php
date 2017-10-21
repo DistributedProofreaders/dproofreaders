@@ -48,7 +48,7 @@ if(!user_is_PM())
 }
 
 $header_args = array(
-    "css_files" => array("$code_url/styles/statsbar.css", "$code_url/styles/dropdown.css"),
+    "css_files" => array("$code_url/styles/statsbar.css"),
     "js_files" => array("$code_url/tools/dropdown.js"));
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
