@@ -172,14 +172,21 @@ class ConfigSaver extends ColumnData
     }
 }
 
-function echo_configure_button($url)
+function get_search_configure_button($url)
 {
     global $code_url;
-    echo "\n<form style='display: inline;' method='GET' action='$code_url/tools/search_options.php'>
-    <input type='submit' value='", attr_safe(_("Configure Results")), "'>
-    <input type='hidden' name='origin' value='", attr_safe($url), "'>
-    </form>
-    ";
+    return "
+        <form style='display: inline;' method='GET' action='$code_url/tools/search_options.php'>
+        <input type='submit' value='" . attr_safe(_("Configure Results")) . "'>
+        <input type='hidden' name='origin' value='" . attr_safe($url) . "'>
+        </form>";
+}
+
+function get_search_configure_link($url)
+{
+    global $code_url;
+    $origin = urlencode($url);
+    return "<a href='$code_url/tools/search_options.php?origin=$origin'>" . html_safe(_("Configure Result")) . "</a>";
 }
 
 // vim: sw=4 ts=4 expandtab

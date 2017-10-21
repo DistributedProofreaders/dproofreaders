@@ -64,11 +64,10 @@ if ($show_view == 'search_form')
 $condition = $search_form->get_condition();
 
 echo "<h1 id='head'>", _("Search Results"), "</h1>\n";
-echo get_refine_search_link();
-
-echo "<br>";
 
 $search_results = new ProjectSearchResults('search');
+echo "<p>" . get_refine_search_link() . " | " . $search_results->get_search_configure_link() . "</p>";
+
 $search_results->render($condition);
 
 //---------------------------------------------------------------------------

@@ -100,6 +100,8 @@ else // ($show_view == 'search')
     $sub_title = _("Search Results");
 }
 
+$search_results = new ProjectSearchResults($show_view);
+
 // In order to create the sidebar, wrap everything in some divs
 echo "<div style='display: table; margin:-.5em'>
     <div class='sidebar-color' style='display:table-row;'>";
@@ -111,7 +113,7 @@ echo "<h1>", _("Project Management"), "</h1>\n";
 check_user_can_load_projects(false);
 show_news_for_page('PM');
 echo "\n<h2 id='head'>$sub_title</h2>\n";
-echo_shortcut_links($show_view);
+echo_shortcut_links($show_view, $search_results);
 echo "</div>";
 
 // Sidebar content
@@ -124,7 +126,6 @@ echo "</div></div>";
 if($show_view == "blank")
     exit();
 
-$search_results = new ProjectSearchResults($show_view);
 $search_results->render($condition);
 
 function set_session_user_active()
@@ -145,7 +146,7 @@ function create_shortcut_link($text, $url, $show_view="")
         return $text;
 }
 
-function echo_shortcut_links($show_view)
+function echo_shortcut_links($show_view, $search_results)
 {
     $links = array(
         // TRANSLATORS: Abbreviation for Project Manager
@@ -158,6 +159,8 @@ function echo_shortcut_links($show_view)
 
     if($show_view != "blank")
         $links[] = get_refine_search_link();
+
+    $links[] = $search_results->get_search_configure_link();
 
     echo implode(" | ", $links);
 }

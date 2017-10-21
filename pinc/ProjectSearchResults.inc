@@ -491,6 +491,12 @@ class ProjectSearchResults extends ColumnData
         return $result;
     }
 
+    public function get_search_configure_link()
+    {
+        $results_offset = intval(@$_GET['results_offset']);
+        return get_search_configure_link("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
+    }
+
     public function render($where_condition)
     {
         global $pguser, $theme, $code_url;
@@ -512,9 +518,7 @@ class ProjectSearchResults extends ColumnData
             return;
         }
 
-        echo "<p>";
-        echo_configure_button("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
-        echo "To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.<br></p>";
+        echo "<p>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
         echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
 
@@ -571,7 +575,7 @@ class ProjectSearchResults extends ColumnData
 
 function get_refine_search_link()
 {
-    return "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>" . _("Refine search") . "</a>";
+    return "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>" . _("Refine Search") . "</a>";
 }
 
 // vim: sw=4 ts=4 expandtab
