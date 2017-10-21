@@ -462,6 +462,57 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
+    // There is a potential difficulty with v used to indicate caron since
+    // there exist [v.] and [~v]. So deal with these before cosidering caron.
+    // Circumflex ^ can also be used as a superscript indicator.
+    // To avoid this translate diacritics before superscripts.
+    function transDiacritic(colorString) {
+        function replacer(match) {
+            var diacrits = [
+                {mark: "=", above: "&#x0304", below: "&#x0331"}, // macron
+                {mark: ":", above: "&#x0308", below: "&#x0324"}, // diaeresis
+                {mark: ".", above: "&#x0307", below: "&#x0323"}, // dot
+                {mark: "`", above: "&#x0300", below: "&#x0316"}, // grave
+                {mark: "'", above: "&#x0301", below: "&#x0317"}, // acute
+                {mark: "^", above: "&#x0302", below: "&#x032D"}, // circumflex
+                {mark: ")", above: "&#x0306", below: "&#x032E"}, // breve
+                {mark: "~", above: "&#x0303", below: "&#x0330"}, // tilde
+                {mark: ",", above: "&#x0327", below: "&#x0327"}, // cedilla
+                {mark: "v", above: "&#x030C", below: "&#x032C"} // caron
+            ];
+            var m1 = match.charAt(1);
+            var m2 = match.charAt(2);
+            var diacrit, code = false, i;
+            for (i = 0; i < diacrits.length; i += 1) {
+                diacrit = diacrits[i];
+                if (m1 === diacrit.mark) {
+                    code = m2 + diacrit.above;
+                    break;
+                }
+                if (m2 === diacrit.mark) {
+                    code = m1 + diacrit.below;
+                    break;
+                }
+            }
+            if (code) {
+                return colorString + code + '</span>';
+            }
+            return match;
+        }
+        txt = txt.replace(/\[..\]/g, replacer);
+    }
+
+    function transLigature(colorString) {
+        var ligatures = {"OE": "&#x0152", "oe": "&#x0153"};
+        function replacer(match, p1) {
+            if (ligatures.hasOwnProperty(p1)) {
+                return colorString + ligatures[p1] + '</span>';
+            }
+            return match;
+        }
+        txt = txt.replace(/\[(..)\]/g, replacer);
+    }
+
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
@@ -518,6 +569,10 @@ var makePreview = function (txt, viewMode, styler) {
         if (viewMode !== "show_tags") {
             colorString = colorString0 + '>$1</span>';
         }
+        // do this before superscripts so ^ not misinterpreted
+        colorString0 = '<span' + colorString0 + '>';
+        transDiacritic(colorString0);
+        transLigature(colorString0);
         // sub- and super-scripts
         txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
         txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
