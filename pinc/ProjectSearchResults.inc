@@ -569,9 +569,9 @@ class ProjectSearchResults extends ColumnData
     }
 }
 
-function echo_refine_search()
+function get_refine_search_link()
 {
-    echo "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>", _("Refine search"), "</a>";
+    return "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>" . _("Refine search") . "</a>";
 }
 
 // vim: sw=4 ts=4 expandtab

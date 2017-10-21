@@ -112,8 +112,6 @@ check_user_can_load_projects(false);
 show_news_for_page('PM');
 echo "\n<h2 id='head'>$sub_title</h2>\n";
 echo_shortcut_links($show_view);
-if($show_view != "blank")
-    echo_refine_search();
 echo "</div>";
 
 // Sidebar content
@@ -139,37 +137,29 @@ function set_session_user_active()
     );
 }
 
-class ShortCutLink
+function create_shortcut_link($text, $url, $show_view="")
 {
-    public function __construct($txt, $code, $show_view = " ")
-    {
-        $this->text = $txt;
-        $this->url = $code;
-        $this->active = ($show_view != $code);
-    }
-
-    function echo_link()
-    {
-        if($this->active)
-            echo "<a href='{$_SERVER['PHP_SELF']}?show=$this->url'>$this->text</a>&ensp;\n";
-        else
-            echo "$this->text&ensp;\n";
-    }
+    if($show_view != $url)
+        return "<a href='{$_SERVER['PHP_SELF']}?show=$url'>$text</a>";
+    else
+        return $text;
 }
 
 function echo_shortcut_links($show_view)
 {
     $links = array(
         // TRANSLATORS: Abbreviation for Project Manager
-        new ShortCutLink(_("View your Active PM Projects"), "user_active", $show_view),
+        create_shortcut_link(_("View your Active PM Projects"), "user_active", $show_view),
         // TRANSLATORS: Abbreviation for Project Manager
-        new ShortCutLink(_("View All your PM Projects"), "user_all", $show_view),
+        create_shortcut_link(_("View All your PM Projects"), "user_all", $show_view),
         // TRANSLATORS: Abbreviation for Project Manager
-        new ShortCutLink(_("Search your Active PM Projects"), "ua_search_form")
+        create_shortcut_link(_("Search your Active PM Projects"), "ua_search_form")
     );
 
-    foreach($links as $link)
-        $link->echo_link();
+    if($show_view != "blank")
+        $links[] = get_refine_search_link();
+
+    echo implode(" | ", $links);
 }
 
 // vim: sw=4 ts=4 expandtab
