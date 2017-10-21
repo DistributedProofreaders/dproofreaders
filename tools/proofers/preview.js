@@ -65,8 +65,9 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     function reportIssue(start, len, code) {
-        if(!(styler.suppress[code]))
+        if (!(styler.suppress[code])) {
             reportIssueLong(start, len, previewMessages[code], issueType[code]);
+        }
     }
 
     function makeColourStyle(s) {
@@ -464,7 +465,7 @@ var makePreview = function (txt, viewMode, styler) {
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
-        var etcstr0, etcstr; // for out-of-line tags, tb, sub- and super-scripts
+        var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
@@ -509,20 +510,20 @@ var makePreview = function (txt, viewMode, styler) {
         var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
-        etcstr0 = makeColourStyle('etc');
-        etcstr = etcstr0 + '>$&</span>';
+        colorString0 = makeColourStyle('etc');
+        colorString = colorString0 + '>$&</span>';
         if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
-            txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + etcstr);
+            txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString);
         }
         if (viewMode !== "show_tags") {
-            etcstr = etcstr0 + '>$1</span>';
+            colorString = colorString0 + '>$1</span>';
         }
         // sub- and super-scripts
-        txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + etcstr);
-        txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + etcstr);
+        txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
+        txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
         // single char superscript -  any char except {
         // do not allow < incase it's a tag which would screw up
-        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + etcstr);
+        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + colorString);
     }
 
     // attempt to make an approximate representation of formatted text
