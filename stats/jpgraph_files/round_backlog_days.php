@@ -1,7 +1,7 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');
+include_once($relPath.'stages.inc');
 include_once('common.inc');
 
 // This image shows how many days it would take to complete all pages in
