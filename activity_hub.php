@@ -428,7 +428,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     {
         echo "<td>{$round_stats->curr_day_goal}</td>";
         echo "<td>{$round_stats->curr_day_actual}</td>";
-        echo "<td><div class='progressbar' style='background-color: $progress_bar_color; width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin-top: 0;'>$percent_complete%</p></td>";
+        echo "<td><div class='progressbar' style='background-color: $progress_bar_color; width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
     }
     else
     {
