@@ -200,17 +200,15 @@ div.calloutheader {
 }
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
-table.filter {
+#filter_form {
   border: 1px solid gray;
+  padding: 0 0.5em 0.5em 0.5em;
 }
-table.filter caption {
-  font-size: 120%;
-  margin: 0;
-  padding: 0;
+table.filter {
+  width: 100%;
 }
 table.filter td {
   padding: .25em 0.25em 0em .25em;
-  text-align: center;
   vertical-align: top;
   white-space: nowrap;
 }

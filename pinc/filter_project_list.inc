@@ -64,8 +64,8 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         <form id='filter_form' method='post' action='#filter_form'>
         <input type='hidden' name='filter_action' value='update'>";
 
+    echo "<p>" . sprintf(_("Filter available %s books by:"),$filter_label) . "</p>";
     echo "<table class='filter'>\n";
-    echo "<caption>" . sprintf(_("Filter available %s books by:"),$filter_label) . "</caption>";
 
     // create the row for listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
     echo "<tr>\n";
@@ -77,21 +77,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // action that would deselect the "All" option if another option was
     // selected.
 
-    // Firefox/Opera/IE6 and IE7 display calculates the width of the <td> and
-    // <select> in different ways if the width is set to 100% on the select.
-    // Firefox/Opera/IE6 determines the width of the <td>s first without regard
-    // to the content of the <select>s and then increases the size of the
-    // <select> to match. IE7 determines the size of the <td>s based on the
-    // names of the column headers, ignoring the widths of the <option>s in
-    // the <select>, and then increases the size of the <select> to match.
-    // This makes the Project Manager field very big (because Project Manager
-    // is a long label) and Genre field very small (because Genre is a short
-    // label). Instead we'd prefer the Firefox/Opera/IE6 method to give
-    // the shorter labeled <select>s more room. To do this we'll set the
-    // widths of the <td>s all to the same percentage based on how many <td>s
-    // there are in the row.
-
-    $display_fields_on_first_line = array("genre", "username", "checkedoutby", "special_code");
+    $display_fields_on_first_line = array("genre", "username", "checkedoutby", "special_code", "language");
     foreach($display_fields_on_first_line as $field)
     {
         if(@$display_fields[$field])
@@ -134,23 +120,21 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, @$data["special_code"], $td_width, TRUE);
     }
 
-    echo "</tr>\n";
-
     // if enabled, the language selection will be on a row by itself
     if($display_fields["language"])
     {
-        echo "<tr>";
         $language_options=_load_project_filter_field_values("language", $state_sql);
         echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, @$data["language"], "auto", FALSE, $filter_column_count);
-        echo "</tr>";
     }
+
+    echo "</tr>\n";
 
     // if enabled, the difficulty selection will be on a row by itself
     if($display_fields["difficulty"])
     {
         echo "<tr><td colspan='$filter_column_count'>";
 
-        echo "<p style='white-space: pre;'><b>" . _("Difficulty") . ":</b> ";
+        echo "<b>" . _("Difficulty") . ":</b> ";
         echo _("All") . "<input type='checkbox' name='difficulty[]' value=''";
         $difficulty = @$data["difficulty"];
         if(!count($difficulty) || (count($difficulty)==1 && $difficulty[0]==""))
@@ -164,7 +148,6 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
                 echo " checked";
             echo ">   ";
         }
-        echo "</p>";
         echo "</td></tr>\n";
     }
 
@@ -178,11 +161,6 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     echo "<input type='submit' value='".
         attr_safe(_("Apply Selections"))
          ."'>";
-
-    // usage notes
-    echo "<p>\n";
-    echo _("If desired, you can select multiple values for each (e.g., by holding down Ctrl).");
-    echo "</p>\n";
 
     echo "</table>\n";
 
@@ -332,7 +310,7 @@ function display_current_project_filter_settings($username, $filter_type)
 
     $display_filter = get_project_filter_display($username, $filter_type);
 
-    echo "<p>", _("Current settings:"), " <b>";
+    echo "<p>", _("Current filter:"), " <b>";
 
     if(!empty($display_filter))
         echo $display_filter;

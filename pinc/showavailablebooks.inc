@@ -172,9 +172,12 @@ function show_projects_for_stage(
 {
     global $pguser;
 
+    $title = _('Projects Currently Available');
+    echo "\n<h2>$title</h2>";
+    echo "\n<p>{$stage->description}</p>";
+
     if ($show_filter_block)
     {
-        echo "<hr class='divider'>\n";
         process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
     }
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
@@ -185,9 +188,6 @@ function show_projects_for_stage(
     $default_ext_sort = 'DaysA';
 
     $anchor = $stage->id;
-    $title = _('Projects Currently Available');
-    echo "\n<h2 id='$anchor'>$title</h2>";
-    echo "\n<p>{$stage->description}</p>";
 
     show_project_listing(
         $filtered_project_selector,
@@ -385,7 +385,7 @@ function show_project_listing(
     }
 
     // Start the table.
-    echo "\n<table class='availprojectlisting'>";
+    echo "\n<table id='$anchor' class='availprojectlisting'>";
     echo "<tr class='center-align' style='background-color: {$stage->listing_bgcolors[1]};'>";
 
     // Print out the header row with links.
@@ -568,7 +568,7 @@ function show_project_listing(
         $rownum++;
     }
 
-    echo "</table>\n<br>";
+    echo "</table>";
 
     // Free the search results.
     mysqli_free_result($result);
