@@ -41,7 +41,9 @@ function output_small_header($quiz)
         array('text' => "<span class='currentpage'>$quiz_name</span>"),
     );
 
+    echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
+
     echo "<span id='navbar-left'>";
     echo headerbar_text_array($links);
     echo "</span>";
@@ -55,6 +57,9 @@ function output_small_header($quiz)
     echo headerbar_text_array($links);
     echo "</span>";
     echo "</div>";
+    echo "</div>";
+
+    echo "<div id='content-container'>";
 
     // Call output_small_footer when the main page content has been emitted so
     // we can emit the footer
@@ -63,6 +68,7 @@ function output_small_header($quiz)
 
 function output_small_footer()
 {
+    echo "</div>\n";
     echo "</body>\n";
     echo "</html>\n";
 }
