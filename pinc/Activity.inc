@@ -458,7 +458,7 @@ function show_user_access_chart( $username )
         $n_criteria = count($ACCESS_CRITERIA);
         echo "<tr>";
         echo "<th></th>";
-        echo "<th colspan='$n_criteria'>" . _("Criteria") . "</th>";
+        echo "<th colspan='$n_criteria' class='center-align'>" . _("Criteria") . "</th>";
         // TRANSLATORS: abbreviation for "all satisfied?"
         echo "<th rowspan='3'>" . _("all sat?") . "</th>";
         echo "<th rowspan='3'>" . _("request") . "</th>";

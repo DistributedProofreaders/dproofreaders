@@ -1,0 +1,336 @@
+<?php
+include_once('stages.inc'); // $Round_for_round_id_
+include_once('wordcheck_engine.inc'); // $word_characters $puncCharacters get_file_info_object()
+include_once('links.inc'); // new_window_link()
+include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
+include_once('bad_bytes.inc');
+
+$test_functions  = array(
+    "_test_project_for_bad_bytes",
+    "_test_project_for_large_page_images",
+    "_test_project_for_illo_images",
+    "_test_project_for_credited_source",
+    "_test_project_for_correct_genre_and_language",
+    "_test_project_for_missing_pages"
+);
+
+function _test_project_for_large_page_images($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+
+    $test_name = _("Large Page Image Files");
+    $test_desc = _("This test checks to see if there are any unusually large image files within a project.");
+
+    $project = new Project($projectid);
+    if($project->pages_table_exists)
+    {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+    
+        $details = "<table class='basic striped>";
+        $details .= "<tr>";
+        $details .= "<th>" . _("Image") . "</th>";
+        $details .= "<th>" . _("Size") . "</th>";
+        $details .= "</tr>";
+
+        $page_image_size_limit = 100; // kb
+
+        $num_large_images = 0;
+        while(list($image) = mysqli_fetch_row($result_res)) {
+            // the the file's info
+            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+
+            // check to see if the file is > $page_image_size_limit kb
+            if($file_info->size > ($page_image_size_limit * 1024))
+            {
+                $details .= "<tr>";
+                $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
+                $details .= "<td>" . sprintf(_("Image > %dkb: %dkb"), $page_image_size_limit, $file_info->size / 1024) . "</td>";
+                $details .= "</tr>";
+    
+                $num_large_images++;
+            }
+        }
+
+        mysqli_free_result($result_res);
+
+        $details .= "</table>";
+
+        if($num_large_images==0)
+        {
+            $status = _("Success");
+            $summary = sprintf(_("No pages with images > %dkb."), $page_image_size_limit);
+            $details = "";
+        }
+        else
+        {
+            $status = _("Warning");
+            $summary = sprintf(_("%d pages had images > %dkb, see detail."), $num_large_images, $page_image_size_limit);
+        }
+    }
+    else
+    {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_illo_images($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+    global $code_url;
+
+    $test_name = _("Illustration Image Files");
+    $test_desc = _("This test checks to see if there are any non-page (probably illustration) files within a project. Even for books without illustrations, adding a high-res image of the cover and/or title page is encouraged, where at all possible.");
+
+    $project = new Project($projectid);
+    if($project->pages_table_exists)
+    {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $page_image_names = array();
+        while ( list($image) = mysqli_fetch_row($result_res) )
+        {
+            $page_image_names[] = $image;
+        }
+        mysqli_free_result($result_res);
+
+        chdir("$projects_dir/$projectid");
+        $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+        // That returns a sorted list of the .png files
+        // followed by a sorted list of the .jpg files,
+        // but we want the two lists interleaved...
+        sort($existing_image_names);
+
+        $nonpage_image_names = array_diff($existing_image_names, $page_image_names);
+
+        $num_nonpage_image_files = count($nonpage_image_names);
+        if ($num_nonpage_image_files > 0)
+        {
+            $status = _("Success");
+            $summary = sprintf(_("%d illustration files found"), $num_nonpage_image_files);
+        }
+        else
+        {
+            $status = _("Warning");
+            $summary = _("No illustration files found");
+        }
+
+        $details = "
+            <p><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>" . _("Image Index") . "</a></p>
+            <p>$summary</p>
+        ";
+    }
+    else
+    {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_missing_pages($projectid)
+{
+    global $code_url;
+
+    $display_image_link = new_window_link(
+        "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=001.png&amp;showreturnlink=0&amp;preload=next&amp;percent=50",
+        _("Display Image")
+    );
+
+    $test_name = _("Missing Pages");
+    $test_desc = sprintf(_("This manual test requires looking through each page of a project to see if there are missing pages. This is done by looking for missing page numbers, eg: image 100.png says it's page 80 and image 101.png says it's page 82. To perform this check, you can look at the pages online from the <a href='%s'>Page Details</a> page or download the project files from the project page and check them offline. Please check to make sure all illustration images are also loaded."),
+        "$code_url/tools/project_manager/page_detail.php?project=$projectid");
+
+    $status = _("Manual");
+    $summary = _("This is a manual test.");
+    $details = "";
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_correct_genre_and_language($projectid)
+{
+    global $code_url;
+
+    $page_details_link = new_window_link(
+        "$code_url/tools/project_manager/page_detail.php?project=$projectid",
+        _("Page Details")
+    );
+
+    $test_name = _("Correct Genre and Language");
+    $test_desc = sprintf(_("This manual test requires looking at a few pages to confirm that the project's Genre and Language are set correctly. The %s page is very useful for this purpose."), $page_details_link);
+
+    $project = new Project($projectid);
+    $genre = $project->genre;
+    $language = $project->language;
+
+    $status = _("Manual");
+    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>"), $page_details_link, $genre, $language);
+    $details = "";
+    $details .= "<p><b>" . _("Genre") . "</b>: $genre</p>";
+    $details .= "<p><b>" . _("Language") . "</b>: $language</p>";
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_credited_source($projectid)
+{
+    $project = new Project($projectid);
+    $image_source = $project->image_source_name;
+
+    $test_name = _("Credited Source");
+    $test_desc = _("This manual test confirms if a valid source has been credited for the images.");
+
+    $status = _("Manual");
+    $summary = sprintf(_("This is a manual test. Image Source: <b>%s</b>"), $image_source);
+    $details = "";
+    $details .= "<p><b>" . _("Image Source") . "</b>: $image_source</p>";
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_bad_bytes($projectid)
+{
+    global $code_url;
+
+    $r['name'] = 'Bad Bytes in Page Text';
+    $r['description'] = "This test checks the project's latest page-texts for bad byte-sequences.";
+
+    $project = new Project($projectid);
+    if(!$project->pages_table_exists)
+    {
+        $r['status'] = _("Skipped");
+        $r['details'] = '';
+        $r['summary'] = _("Page table does not exist.");
+        return $r;
+    }
+
+    $pages_res = page_info_query($projectid, 'F2', 'LE');
+    if ( $pages_res === FALSE )
+    {
+        echo "!page_info_query returned FALSE!\n";
+        return NULL;
+    }
+
+    global $unanchored_bad_bytes_regex;
+
+    $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
+    $details_for_this_project = "
+        <p><a href='$page_details_url'>Page Details</a></p>
+        <p><small>" . sprintf(_("For more detail about this table, see %s"), "<a href='bad_bytes_explainer.php'>here</a>") . "</small></p>
+        <table class='basic striped'>
+        <tr>
+            <th>" . _("Image") . "</th>
+            <th>" . _("Text") . "</th>
+            <th>" . _("#") . "</th>
+            <th>" . _("Raw") . "</th>
+            <th>" . _("Bytes") . "</th>
+            <th>" . _("Likely intended character") . "</th>
+            <th>" . _("Why bad") . "</th>
+        </tr>
+    ";
+
+    $n_bad_pages = 0;
+    while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
+    {
+        $occurrences = find_bad_byte_sequences_in_text($text);
+
+        if (count($occurrences) == 0)
+        {
+            // Nothing bad on this page!
+            continue;
+        }
+
+        // page had at least one bad byte-sequence
+        $n_bad_pages += 1;
+
+        $details_for_this_page = "";
+
+        ksort( $occurrences );
+        foreach ($occurrences as $raw => $n_occurrences)
+        {
+            if ($details_for_this_page == "")
+            {
+                $rowspan = count($occurrences);
+                $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
+                $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0";
+                $details_for_this_page = "<tr>\n";
+                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
+                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>ocr</a></td>\n";
+            }
+            else
+            {
+                $details_for_this_page .= "<tr>\n";
+            }
+
+            $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
+
+            $details_for_this_page .= tds_for_bad_bytes($raw);
+
+            $details_for_this_page .= "</tr>\n";
+        }
+
+        $details_for_this_project .= $details_for_this_page;
+    }
+
+    $details_for_this_project .= "</table>";
+
+    if ($n_bad_pages == 0)
+    {
+        $r['status'] = _('Success');
+        $r['summary'] = _('No pages with bad characters.');
+        $r['details'] = "";
+    }
+    else
+    {
+        $r['status'] = _('Warning');
+        $r['summary'] = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
+        $r['details'] = $details_for_this_project;
+    }
+
+    return $r;
+}
+
+function tds_for_bad_bytes($raw)
+// Returns a string containing TD elements
+// that present the byte-sequence $raw in various ways,
+// and say why it's bad.
+{
+    $tds = "";
+
+    $tds .= "<td>$raw</td>";
+
+    if (startswith($raw,'&'))
+    {
+        // It's a named or numeric character reference
+        // so just show the reference itself,
+        // rather than converting it to hex.
+        $tds .= "<td>" . htmlspecialchars($raw) . "</td>";
+    }
+    else
+    {
+        $hex = string_to_hex($raw);
+        $tds .= "<td class='mono'>$hex</td>";
+    }
+
+    list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
+
+    $tds .= "<td>" . htmlspecialchars($intended_character) . "</td>";
+
+    $tds .= "<td>" . htmlspecialchars($why_bad) . "</td>";
+
+    return $tds;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// vim: sw=4 ts=4 expandtab

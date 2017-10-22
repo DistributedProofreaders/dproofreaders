@@ -120,12 +120,12 @@ h6 {
   font-family: Verdana, Arial, sans-serif;
 }
 /* Attention-getting structures */
-.error {
+.error,
+test_warning {
   color: red;
 }
-.warning,
-.test_warning {
-  color: red;
+.warning {
+  color: blue;
 }
 .highlight {
   background-color: yellow;
