@@ -180,21 +180,6 @@ function show_projects_for_stage(
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
     $filtered_project_selector = "$initial_project_selector $projects_filter";
 
-    // special colors legend
-    if ($allow_special_colors_legend )
-    {
-        // Show the special colors legend if
-        // the requestor is a guest (not logged in),
-        // or is logged in and hasn't opted to suppress it
-        // via the preference "Show Special Colors: No".
-        $userSettings =& Settings::get_Settings($pguser);
-        if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
-        {
-            echo "<hr class='divider'>\n";
-            echo_special_legend($initial_project_selector);
-        }
-    }
-
     $ext_sort_param_name = "order{$stage->id}";
     $ext_sort_setting_name = "{$stage->id}_order";
     $default_ext_sort = 'DaysA';
@@ -214,6 +199,21 @@ function show_projects_for_stage(
         $stage,
         $optional_join_clause
     );
+
+    // special colors legend
+    if ($allow_special_colors_legend )
+    {
+        // Show the special colors legend if
+        // the requestor is a guest (not logged in),
+        // or is logged in and hasn't opted to suppress it
+        // via the preference "Show Special Colors: No".
+        $userSettings =& Settings::get_Settings($pguser);
+        if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
+        {
+            echo_special_legend($initial_project_selector);
+        }
+    }
+
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

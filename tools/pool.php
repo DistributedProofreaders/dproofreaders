@@ -45,29 +45,21 @@ echo implode( "\n", $pool->blather );
 echo "<br><p>" . _("If there's a project you're interested in, you can get to a page about that project by clicking on the title of the work. (We strongly recommend you right-click and open this project-specific page in a new window or tab.) The page will let you see the project comments and check the project in or out as well as download the associated text and image files.") . "</p>";
 
 
+
+// --------------------------------------------------------------
+
+show_projects_for_pool( $pool, 'checkedout' );
+
+// --------------------------------------------------------------
+
+show_projects_for_pool( $pool, 'available' );
+
 // special colours legend
 // Don't display if the user has selected the
 // setting "Show Special Colors: No".
 if (!$userSettings->get_boolean('hide_special_colors'))
 {
-    echo "<hr class='divider'>\n";
     echo_special_legend(" 1 = 1");
 }
-
-// --------------------------------------------------------------
-echo "<hr>\n";
-
-show_projects_for_pool( $pool, 'checkedout' );
-
-echo "<br>";
-echo "<br>";
-
-// --------------------------------------------------------------
-echo "<hr>\n";
-
-show_projects_for_pool( $pool, 'available' );
-
-echo "<br>";
-echo "<br>";
 
 // vim: sw=4 ts=4 expandtab
