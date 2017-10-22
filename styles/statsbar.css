@@ -98,12 +98,6 @@
 #birthdays li {
   list-style-type: none;
 }
-#teams-nav ul {
-  padding: 0;
-}
-#teams-nav li {
-  list-style-type: none;
-}
 #tally-stats {
   border: 1px solid #111111;
   margin-top: 1em;
@@ -123,13 +117,16 @@
   font-weight: bold;
   font-style: italic;
 }
-#key-help-documents ul {
+#key-help-documents ul,
+#teams-nav ul {
   padding: 0;
 }
-#key-help-documents li {
+#key-help-documents li,
+#teams-nav li {
   list-style-type: none;
 }
-#key-help-documents li {
+#key-help-documents li,
+#teams-nav li {
   margin-top: 5px;
 }
 #about-dp {
