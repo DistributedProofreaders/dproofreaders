@@ -78,10 +78,9 @@ function thoughts_re_mentor_feedback( $pagesproofed )
 
     if ($pagesproofed >= 15 && $pagesproofed < 200)
     {
-        echo "<hr width='75%'>\n";
-
+        echo "<p>";
         echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), "$forums_url/viewtopic.php?t=6651");
-        echo "<br><br>";
+        echo "</p>";
     }
 }
 

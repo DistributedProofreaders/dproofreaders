@@ -28,7 +28,6 @@ $round->page_top( $uao );
 // show user how to access this round
 if ( !$uao->can_access )
 {
-    echo "<hr class='divider'>\n";
     show_user_access_object( $uao );
 }
 
@@ -46,8 +45,6 @@ show_news_for_page($round_id);
 
 if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
 {
-    echo "<hr class='divider'>\n";
-
     if ($pagesproofed > 80)
     {
         echo "<p class='small italic'>";
@@ -64,7 +61,9 @@ $round_doc_url = "$code_url/faq/$round->document";
 
 if ($pagesproofed >= 10)
 {
-    echo "<hr class='divider'>\n";
+    echo "<h2>";
+    echo _("Random Rule");
+    echo "</h2>";
 
     if ($pagesproofed < 40)
     {
@@ -77,10 +76,6 @@ if ($pagesproofed >= 10)
     }
 
     echo "<div id='random-rule'>";
-    echo "<p class='bold sans-serif'>";
-    echo _("Random Rule");
-    echo "</p>";
-
 
     $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
     $rule = mysqli_fetch_assoc($result);
@@ -90,7 +85,7 @@ if ($pagesproofed >= 10)
     printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
         "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>",
         $round_doc_url);
-    echo "<br><br></div>";
+    echo "</div>";
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
@@ -101,22 +96,10 @@ if ( $round->is_a_mentor_round() )
         mentor_banner($round);
 }
 
-if ($pagesproofed <= 20)
-{
-    if ($uao->can_access)
-    {
-        echo "<hr class='divider'>\n";
-
-        echo "<p class='bold sans-serif'>";
-        echo _("Click on the title of a book in the list below to start proofreading.");
-        echo "</p>\n";
-    }
-}
-else
+if ($pagesproofed > 20)
 {
     // Link to queues.
-    echo "<hr class='divider'>\n";
-    echo "<p class='bold center-align sans-serif'>", _('Release Queues'), "</p>";
+    echo "<h2>", _('Release Queues'), "</h2>";
     $res = dpsql_query("
         SELECT COUNT(*)
         FROM queue_defns

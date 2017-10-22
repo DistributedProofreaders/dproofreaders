@@ -249,8 +249,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $initial_project_selector = "state = '{$pool->project_available_state}'";
         process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector);
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
-
-        echo "<b>$header</b>";
     }
     else
     {
