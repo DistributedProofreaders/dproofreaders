@@ -564,7 +564,6 @@ table.dirlist td {
 }
 table.dirlist th.actions {
   text-align: center!important;
-  padding: 0 1 0 1em;
 }
 table.dirlist caption {
   font-size: 111%;
