@@ -105,28 +105,43 @@ $search_results = new ProjectSearchResults($show_view);
 // In order to create the sidebar, wrap everything in some divs
 echo "<div style='display: table; margin:-.5em'>
     <div class='sidebar-color' style='display:table-row;'>";
-
-// Main page content
-echo "<div style='display: table-cell; padding:.5em; background-color: #ffffff; width: 75%; border-top-right-radius: 1.2em'>";
-echo "<h1>", _("Project Management"), "</h1>\n";
-// possibly show message, but don't exit
-check_user_can_load_projects(false);
-show_news_for_page('PM');
-echo "\n<h2 id='head'>$sub_title</h2>\n";
-echo_shortcut_links($show_view, $search_results);
-echo "</div>";
-
-// Sidebar content
-echo "<div id='statsbar'>\n";
-echo_manager_links();
-echo "</div>";
-
+if($userP['u_align']) // statsbar at left
+{
+    echo_sidebar();
+    echo_main_content('left-statsbar');
+}
+else
+{
+    echo_main_content('right-statsbar');
+    echo_sidebar();
+}
 echo "</div></div>";
 
 if($show_view == "blank")
     exit();
 
 $search_results->render($condition);
+
+function echo_main_content($bar_class)
+{
+    global $sub_title, $show_view, $search_results;
+
+    echo "<div id='pm_content' class='$bar_class'>";
+    echo "<h1>", _("Project Management"), "</h1>\n";
+    // possibly show message, but don't exit
+    check_user_can_load_projects(false);
+    show_news_for_page('PM');
+    echo "\n<h2 id='head'>$sub_title</h2>\n";
+    echo_shortcut_links($show_view, $search_results);
+    echo "</div>";
+}
+
+function echo_sidebar()
+{
+    echo "<div id='statsbar'>\n";
+    echo_manager_links();
+    echo "</div>";
+}
 
 function set_session_user_active()
 {
