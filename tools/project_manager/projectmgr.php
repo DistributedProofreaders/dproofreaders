@@ -103,7 +103,7 @@ else // ($show_view == 'search')
 $search_results = new ProjectSearchResults($show_view);
 
 // In order to create the sidebar, wrap everything in some divs
-echo "<div style='display: table; margin:-.5em'>
+echo "<div style='display: table; margin:-.5em -.5em 0 -.5em'>
     <div class='sidebar-color' style='display:table-row;'>";
 if($userP['u_align']) // statsbar at left
 {

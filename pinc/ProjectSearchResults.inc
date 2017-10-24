@@ -482,7 +482,6 @@ class ProjectSearchResults extends ColumnData
     private function _search($where_condition, $results_offset)
     {
         global $testing;
-        $state_collater = sql_collater_for_project_state('state');
         $sql = "
             SELECT SQL_CALC_FOUND_ROWS projects.*,
             project_holds.projectid IS NOT NULL AS hold
