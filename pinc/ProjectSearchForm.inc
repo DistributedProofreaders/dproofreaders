@@ -40,7 +40,8 @@ class ProjectSearchWidget
             {
                 $value_attr = "value='" . attr_safe($this->initial_value) . "'";
             }
-            return "<input type='text' name='{$this->id}' $size_attr $value_attr>";
+            $placeholder = $this->can_be_multiple ? "placeholder = 'list ok'" : "";
+            return "<input type='text' $placeholder name='{$this->id}' $size_attr $value_attr>";
         }
         else if ( $this->type == 'select' )
         {
@@ -73,19 +74,10 @@ class ProjectSearchWidget
 
     function echo_search_item($search_data)
     {
-        if(($this->can_be_multiple) && ($this->type == 'text'))
-        {
-            $help = _('list ok');
-            $help = " ($help)";
-        }
-        else
-        {
-            $help = '';
-        }
-        // fix width of heading cells so they line up when 2nd table is below
+        // could fix width of heading cells so they line up when 2nd table is below
         echo "
             <tr>
-                <th class='right-align top-align'>$this->label$help</th>
+                <th class='right-align top-align'>$this->label</th>
                 <td class='top-align left-align'>".$this->get_html_control($search_data)."</td>
             </tr>";
     }
