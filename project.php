@@ -116,7 +116,7 @@ else
     // the project in its current state.
 
     echo "<h1>$title</h1>\n";
-    do_pm_header($project);
+//    do_pm_header($project);
 
     do_detail_level_switch();
     do_expected_state();
@@ -363,7 +363,7 @@ function do_blurb_box( $blurb )
 {
     if ( is_null($blurb) ) return;
 
-    echo "<br>";
+//    echo "<br>";
     echo "<table style='width: 630px; background-color: #DDDDDD;'>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
@@ -940,6 +940,7 @@ function do_edit_above()
     echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
     echo _("Edit project word lists");
     echo "</a>";
+    echo " | <a href='$code_url/../noncvs/project_quick_check.php?projectid=$project->projectid'>"._("Project Quick Check")."</a>\n";
     echo "</p>";
 
     if (! user_has_project_loads_disabled() )
