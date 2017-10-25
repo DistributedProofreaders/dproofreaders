@@ -94,7 +94,11 @@ function initPrev() {
             viewMode = "show_tags";
         }
         // if any issues are suppressed show warning
-        var warn = Object.values(previewStyles.suppress).some(function(x) {return x;});
+        var warn = false;
+        var issue;
+        for (issue in previewStyles.suppress) {
+            warn |= previewStyles.suppress[issue];
+        }
         someSupp.style.display = warn ? "inline" : "none";
     }
 
