@@ -278,7 +278,7 @@ function decide_blurbs()
 
     {
         // If there's any proofreading to be done, this is the link to use.
-        $url = url_for_pi_do_whichever_page( $projectid, $state );
+        $url = url_for_pi_do_whichever_page( $projectid, $state, TRUE );
         $label = _("Start Proofreading");
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
@@ -910,7 +910,7 @@ function recentlyproofed( $wlist )
             $timestamp = $row[$round->time_column_name];
             $pagestate = $row["state"];
             $eURL = url_for_pi_do_particular_page(
-                $projectid, $state, $imagefile, $pagestate );
+                $projectid, $state, $imagefile, $pagestate, TRUE );
             echo "<td class='center-align'>";
             echo "<A HREF=\"$eURL\">";
             // TRANSLATORS: This is an strftime-formatted string

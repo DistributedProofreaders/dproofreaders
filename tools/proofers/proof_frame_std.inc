@@ -19,7 +19,7 @@ function echo_proof_frame_std( $ppage )
         $rows_or_cols = "ROWS='*,{$userP['h_tframe']}%'";
     }
 
-    $params = $ppage->urlencoded();
+    $params = $ppage->urlencoded(TRUE);
 
     if ( ($userP['i_layout']=='1' && $userP['v_tscroll']==0)
         ||

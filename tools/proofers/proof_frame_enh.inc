@@ -32,7 +32,7 @@ function echo_proof_frame_enh( $ppage )
         $iWidth=$userP['h_zoom'];
     $iWidth=round((1000*$iWidth)/100);
 
-    ibe_echo_block( $ppage->url_for_image(), $iWidth );
+    ibe_echo_block( $ppage->url_for_image(TRUE), $iWidth );
 
     ?>
     <div id="controlframe">

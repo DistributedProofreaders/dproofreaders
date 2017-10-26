@@ -15,28 +15,32 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 // "pi" = "proofing interface"
 
-function url_for_pi_do_whichever_page( $projectid, $proj_state )
+function url_for_pi_do_whichever_page( $projectid, $proj_state, $escape_amp=FALSE )
 {
     global $code_url;
+    if($escape_amp) $amp = '&amp;';
+    else $amp = '&';
     return "$code_url/tools/proofers/proof.php"
         . "?"
         . "projectid=$projectid"
-        . "&amp;"
+        . $amp
         . "proj_state=$proj_state"
     ;
 }
 
-function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $page_state )
+function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $page_state, $escape_amp=FALSE )
 {
     global $code_url;
+    if($escape_amp) $amp = '&amp;';
+    else $amp = '&';
     return "$code_url/tools/proofers/proof.php"
         . "?"
         . "projectid=$projectid"
-        . "&amp;"
+        . $amp
         . "imagefile=$imagefile"
-        . "&amp;"
+        . $amp
         . "proj_state=$proj_state"
-        . "&amp;"
+        . $amp
         . "page_state=$page_state"
     ;
 }
@@ -77,37 +81,43 @@ class PPage
 
     // -----------------------------------------------------
 
-    function url_for_image()
+    function url_for_image($escape_amp=FALSE)
     {
         global $projects_url;
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
-    function url_for_do_another_page()
+    function url_for_do_another_page($escape_amp=FALSE)
     {
         global $code_url;
+        if($escape_amp) $amp = '&amp;';
+        else $amp = '&';
         return "$code_url/tools/proofers/proof_frame.php"
             . "?"
             . "projectid={$this->lpage->projectid}"
-            . "&amp;"
+            . $amp
             . "proj_state={$this->proj_state}";
     }
 
-    function url_for_project_comments()
+    function url_for_project_comments($escape_amp=FALSE)
     {
         global $code_url;
+        if($escape_amp) $amp = '&amp;';
+        else $amp = '&';
         return "$code_url/project.php"
             . "?"
             . "id={$this->lpage->projectid}"
-            . "&amp;"
+            . $amp
             . "expected_state={$this->proj_state}"
-            . "&amp;"
+            . $amp
             . "detail_level=1";
     }
 
-    function urlencoded()
+    function urlencoded($escape_amp=FALSE)
     {
-        return implode( '&amp;',
+        if($escape_amp) $amp = '&amp;';
+        else $amp = '&';
+        return implode( $amp,
             array(
                 'projectid='  . $this->lpage->projectid,
                 'proj_state=' . $this->proj_state,
