@@ -227,7 +227,7 @@ class OptionsColumn extends Column
         if (!empty($topic_id))
         {
             $details = get_topic_details($topic_id);
-            $url = get_url_to_view_topic($details["topic_id"]);
+            $url = get_url_to_view_topic($details["topic_id"]) . "&amp;view=unread#unread";
             $actions .= "<a href='$url' target='_blank'>" . _("View Forum") . "</a><br>\n";
         }
         if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
