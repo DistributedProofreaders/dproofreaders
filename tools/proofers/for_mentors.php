@@ -17,7 +17,10 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 require_login();
 
 // Display page header.
-output_header(_("For Mentors"));
+$title = _("For Mentors");
+output_header($title);
+
+echo "<h1>$title</h1>";
 
 // ---------------------------------------------------------------
 
@@ -80,25 +83,28 @@ foreach ( $Round_for_round_id_ as $round )
 }
 if ( count($other_mentoring_rounds) > 0 )
 {
-    echo "<p>(" . _('Show this page for:');
+    echo "<p>" . _('Show this page for:');
 
+    $links = array();
     foreach( $other_mentoring_rounds as $other_round )
     {
         $url = "$code_url/tools/proofers/for_mentors.php?round_id={$other_round->id}";
-        echo " <a href='$url'>{$other_round->id}</a>";
+        $links[] = "<a href='$url'>{$other_round->id}</a>";
     }
-    echo ")</p>";
+    echo implode(" | ", $links);
+    echo "</p>";
 }
 
 // ---------------------------------------------------------------
 
 if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
 {
+    echo "<p class='warning'>";
     echo sprintf(
             _("You do not have access to 'Mentors Only' projects in %s."),
             $mentoring_round->id
         );
-    echo "\n";
+    echo "</p>\n";
     exit;
 }
 
@@ -108,31 +114,34 @@ if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
 // show a summary (one line per mentee)
 // and then a listing (one line per page).
 
-echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
-echo "<br>" . _("Oldest project listed first.") . "<br>";
+echo "<p>";
+echo sprintf(_("Pages available to Mentors in round %s."), "<b>" . $mentoring_round->id . "</b>");
+echo " ";
+echo _("Oldest project listed first.");
+echo "</p>";
+
 
 $mentored_round = $mentoring_round->mentee_round;
 $result = mysqli_query(DPDatabase::get_connection(), project_sql($mentoring_round));
 while ($proj =  mysqli_fetch_object($result))
 {
+    echo "<hr>";
+
     // Display project summary info
-    echo "<br>" ;
     $proj_url = "$code_url/project.php?id=$proj->projectid";
+    echo "<p>";
     // TRANSLATORS: format is <title> by <author>.
-    echo "<b>" . sprintf("%1\$s by %2\$s", 
-        "<a href='$proj_url'>$proj->nameofwork</a>",
-        $proj->authorsname) . "</b>";
-    echo "<br>" ;
+    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>$proj->nameofwork</a>", $proj->authorsname) . "</b>";
+    echo "</p>" ;
 
     dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
 
-    echo "<br>" ;
+    echo "<p>" ;
     echo _('Which proofreader did each page...') ;
+    echo "</p>";
 
     dpsql_dump_query(page_list_sql($mentored_round, $proj->projectid));
 }
-
-echo "<br><br><br><hr>\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -176,7 +185,7 @@ function page_summary_sql($mentored_round, $projectid)
                 // TRANSLATORS: %s is a round ID
                 mysqli_real_escape_string(DPDatabase::get_connection(), 
                     sprintf(_("Total %s Pages"), $mentored_round->id)) . "',
-            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS '" .
+            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%Y %b %d %H:%i') AS '" .
                 mysqli_real_escape_string(DPDatabase::get_connection(), _("Joined")) . "'
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
@@ -203,7 +212,7 @@ function page_list_sql($mentored_round, $projectid)
     return "
         SELECT
             p.fileid AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Page")) . "',
-            FROM_UNIXTIME(p.{$mentored_round->time_column_name}) AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved")) . "',
+            DATE_FORMAT(FROM_UNIXTIME(p.{$mentored_round->time_column_name}),'%Y %b %d %H:%i') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved")) . "',
             CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN '" .
                 mysqli_real_escape_string(DPDatabase::get_connection(), _("Anonymous")) . "'
             ELSE p.{$mentored_round->user_column_name}
