@@ -1120,6 +1120,8 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
     if($goal > 0)
     { 
         $percent_complete = ceil(($actual / $goal) * 100);
+        if($percent_complete < 0)
+            $percent_complete = 0;
         $progress_bar_width = min($percent_complete, 100);
     }
     else
