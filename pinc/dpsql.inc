@@ -64,7 +64,7 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 	$n_cols = mysqli_num_fields($result);
 	$n_curr_row = $start_at;
 
-	print "<table style='border-width: 1px;'>\n";
+	print "<table class='basic striped'>\n";
 
 	print "<tr>\n";
 	if ($show_rank)
