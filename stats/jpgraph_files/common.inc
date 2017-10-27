@@ -608,6 +608,8 @@ function add_graph_timestamp(&$graph)
 
 function dpgraph_error($error, $width=660, $height=400)
 {
+    global $jpgraph_FF, $jpgraph_FS;
+
     $graph = new CanvasGraph($width, $height, get_image_cache_filename());
     $graph->SetMargin(12,22,12,22);
     $graph->SetShadow();
