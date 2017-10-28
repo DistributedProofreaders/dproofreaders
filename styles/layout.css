@@ -587,7 +587,8 @@ table.dirlist caption {
   background-color: #CDCDC1;
 }
 #enhanced_interface #tbtext {
-  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   border-collapse: collapse;
   border: 1px solid #000000;
   overflow: auto;
