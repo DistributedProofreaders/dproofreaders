@@ -657,6 +657,7 @@ table.dirlist caption {
 }
 #toolbox a {
   text-decoration: none;
+  color: #000000;
 }
 #toolbox .dropchars {
   font-size: 1em;
