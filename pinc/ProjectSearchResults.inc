@@ -21,7 +21,7 @@ class Column
         $this->db_column = $db_column;
         $this->print_data = $print_data;
     }
-    
+
     public function get_label($time_format)
     {
         return $this->label;
@@ -105,7 +105,7 @@ class TimeColumn extends Column
     {
         $label = $this->label;
         if($time_format == 'days')
-            // TRANSLATORS: e.g. 'Last proofed (days ago)' 
+            // TRANSLATORS: e.g. 'Last proofed (days ago)'
             $label = sprintf(_("%s (days&nbsp;ago)"), $label);
         return $label;
     }
@@ -459,7 +459,7 @@ class ProjectSearchResults extends ColumnData
             $userSettings->set_value("PMSort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
-        
+
         // get secondary sorting
         if(isset($_GET['sec_sort']))
             $this->sec_sort = $_GET['sec_sort'];

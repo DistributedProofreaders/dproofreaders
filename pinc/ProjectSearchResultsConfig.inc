@@ -47,7 +47,7 @@ class OptionSelector extends Selector
         }
         echo "</select>\n";
     }
-    
+
     function get_value($userSettings)
     {
         return $userSettings->get_value("PM$this->id", $this->def_value);
