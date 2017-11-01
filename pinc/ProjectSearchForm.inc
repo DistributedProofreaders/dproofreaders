@@ -78,7 +78,7 @@ class ProjectSearchWidget
         echo "
             <tr>
                 <th class='right-align top-align'>$this->label</th>
-                <td class='top-align left-align'>".$this->get_html_control($search_data)."</td>
+                <td class='search-input top-align left-align'>".$this->get_html_control($search_data)."</td>
             </tr>";
     }
 
@@ -340,13 +340,13 @@ class ProjectSearchForm
             $search_data = array(); // empty array to avoid problems
         echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
         // query data can be too big for GET so use POST
-        echo "<div class='center-align' style='clear: both;'>
+        echo "<div class='search-columns'>
             <form style='display: inline;' method='POST' action='{$_SERVER['PHP_SELF']}?show=search'>";
         // split the widgets into two tables which can be side-by-side if there
         // is enough room
         $widget_index = 0;
         $widget_count = count($this->widgets);
-        $table_header = "<table style='width:50%; min-width:25em; float:left;'>";
+        $table_header = "<table class='search-column'>";
         echo $table_header;
         while($widget_index < 9)
             $this->widgets[$widget_index++]->echo_search_item($search_data);

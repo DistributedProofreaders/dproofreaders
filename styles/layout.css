@@ -735,6 +735,33 @@ table.edit_special_day td {
   background-color: #eeeeee;
 }
 /* ------------------------------------------------------------------------ */
+/* Search Form */
+/* Container to wrap the search columns */
+div.search-columns {
+  width: 99%;
+  overflow: auto;
+  text-align: center;
+  clear: both;
+}
+/* This sets everything into one column... */
+table.search-column {
+  width: 99%;
+  /* Set the size of the row label to be consistent */
+}
+table.search-column tr th {
+  width: 8em;
+}
+/* ... and this says if the screen is >800px, make it two columns. */
+@media only screen and (min-width: 800px) {
+  table.search-column {
+    width: 50%;
+    float: left;
+  }
+  table.search-column tr th {
+    width: auto;
+  }
+}
+/* ------------------------------------------------------------------------ */
 /* Search Results drop-down */
 .dropdown {
   position: relative;
