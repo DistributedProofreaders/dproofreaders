@@ -130,11 +130,11 @@ _DYN_URL=$base_url/d
 # phpBB forum configuration
 # -------------------------
 
-# The DP code requires phpBB for authentication. phpBB versions 2.x and 3.0
-# are currently supported.
+# The DP code requires phpBB for authentication. phpBB versions 3.0, 3.1,
+# and 3.2 are currently supported.
 
-_PHPBB_VERSION=2
-# Valid values: 2 (for phpBB 2.x) and 3 (for phpBB 3.0.x)
+_PHPBB_VERSION=3
+# Valid values: 3 (for phpBB 3.x)
 
 _PHPBB_TABLE_PREFIX=phpbb
 # Upon installation, phpBB tables are prefixed with a specific string.
@@ -146,8 +146,8 @@ _PHPBB_TABLE_PREFIX=phpbb
 # were using the 'phpbb3db' database and a prefix of 'phpbb', set this
 # value to phpbb3db.phpbb
 
-_FORUMS_DIR=$base_dir/phpBB2
-_FORUMS_URL=$base_url/phpBB2
+_FORUMS_DIR=$base_dir/phpBB3
+_FORUMS_URL=$base_url/phpBB3
 # Locations of the phpBB code via filesystem path and URL.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

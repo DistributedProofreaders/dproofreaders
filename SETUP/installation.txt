@@ -34,13 +34,8 @@ MySQL
     ** NOTICE **
 
 phpBB
-    phpBB 2.x, 3.0, 3.1, and 3.2 are supported.
+    phpBB 3.0, 3.1, and 3.2 are supported.
     Version 3.2 is recommended.
-
-    ** NOTICE **
-    This is the last DP release to support phpBB 2.x.
-    Future versions will require phpBB 3.0 or later.
-    ** NOTICE **
 
     In order to use versions > 3.0, you must disable superglobal checking.
     In the phpBB code edit:
@@ -101,7 +96,6 @@ assuming it isn't already.
             register_long_arrays
                 The DP codes does not rely on these features and they can
                 be turned off if no other code on the server uses them.
-                Note that phpBB2 requires register_long_arrays to be On.
 
 --- Install MySQL.
         In the examples in this document, we will assume that the MySQL server
@@ -482,8 +476,8 @@ newer release of the DP code.
 
 --- At this point, your DP site should be functional again.
 
---- (optional) If your prior version was running phpBB2, consider upgrading to
-    phpBB3. See phpbb3-conversion.txt for steps on how to do this.
+--- If your prior version was running phpBB2, upgrade to phpBB3.
+    See phpbb3-conversion.txt for steps on how to do this.
 
 --- Install the modified dp.cron.
 

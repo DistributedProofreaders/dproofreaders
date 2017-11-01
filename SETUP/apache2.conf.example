@@ -56,7 +56,7 @@ DirectoryIndex index.php default.php index.html default.html
     # For /c we can include a blanket statement on images since
     # they are coming from source control and updated infrequently.
     # Similarly for phpBB images.
-    <LocationMatch "/(c|phpBB2|phpBB3)/">
+    <LocationMatch "/(c|phpBB3)/">
         # Enable expirations
         ExpiresActive On
 
