@@ -62,18 +62,5 @@ function echo_manager_links()
     echo "</div>\n";
 }
 
-function echo_manager_header($project)
-{
-    global $code_url;
-
-    if ( user_is_PM() )
-    {
-        $projectid = $project->projectid;
-        // TRANSLATORS: PM = project manager
-        echo "<h2>", _("PM Links"), "</h2>";
-        echo "<a href='$code_url/../noncvs/project_quick_check.php?projectid=$projectid'>"._("Project Quick Check")."</a>\n<br><br>\n";
-    }
-}
-
 // vim: sw=4 ts=4 expandtab
 ?>
