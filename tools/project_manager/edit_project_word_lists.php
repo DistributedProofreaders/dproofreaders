@@ -364,7 +364,7 @@ class ProjectWordListHolder
             echo "<tr>";
             echo "<td colspan='2'>";
     
-            echo "<table width='100%'>";
+            echo "<table style='width: 100%;'>";
 
             echo "<tr>";
             echo "<td style='width: 50%; text-align: center;' class='top-align'>";
@@ -444,7 +444,7 @@ class ProjectWordListHolder
         echo "<tr>";
         echo "<td colspan='2'>";
 
-        echo "<table width='100%'>";
+        echo "<table style='width: 100%;'>";
         echo "<tr>";
         echo "<th class='label' style='text-align: center;'>" . _("Good Words") . "</th>";
         echo "<th class='label' style='text-align: center;'>" . _("Bad Words") . "</th>";

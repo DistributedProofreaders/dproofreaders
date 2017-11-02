@@ -338,7 +338,7 @@ function _var($bd, $name) {
 }
 function echo_date_fields($bd) {
 ?>
-<table>
+<table class='no-border'>
 <tr><td><?php echo _('Month'); ?>:</td><td>
 <?php echo write_months_list($bd, _var($bd, 'month')); ?></td></tr>
 <tr><td><?php echo _('Day'); ?>:</td><td>
@@ -376,20 +376,20 @@ echo '<p>' .
      . '</p>';
 
 ?>
-<table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo attr_safe($last_name); ?>"></td></tr>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo attr_safe($other_names); ?>"></td></tr>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Born'); ?></th><td>
+<table class='basic' style='width: 90%'>
+<tr><th><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo attr_safe($last_name); ?>"></td></tr>
+<tr><th><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo attr_safe($other_names); ?>"></td></tr>
+<tr><th><?php echo _('Born'); ?></th><td>
 <?php
 echo_date_fields('b');
 ?>
 </td></tr>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Deceased'); ?></th><td>
+<tr><th><?php echo _('Deceased'); ?></th><td>
 <?php
 echo_date_fields('d');
 ?>
 </td></tr>
-<tr><td colspan="2" bgcolor='#CCCCCC' class="center-align">
+<tr><td colspan="2" class="center-align">
 <input type="submit" name="Preview" value="<?php echo _('Preview'); ?>">
 <input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>">
 <input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>">

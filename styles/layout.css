@@ -445,6 +445,10 @@ table.basic td.not_satisfied {
 table.basic textarea {
   width: 100%;
 }
+table.no-border td,
+table.no-border th {
+  border: none;
+}
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
 p.inline_input {

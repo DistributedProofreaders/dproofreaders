@@ -138,7 +138,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         if ( $these_are_page_images && !in_array( $image_name, $existing_image_names ) )
         {
             echo "<td>$image_name</td>\n";
-            echo "<td bgcolor='#ff9999'>" . _("missing") . "</td>\n";
+            echo "<td class='error'>" . _("missing") . "</td>\n";
         }
         else
         {

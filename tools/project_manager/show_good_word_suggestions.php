@@ -128,7 +128,7 @@ echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<input type='hidden' name='format' value='$format'>";
 echo _("Change the results to show:") . " ";
 echo "<select name='timeCutoff'>";
-echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
+echo "<option value='0' "; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
 echo "<option value='$fileObject->mod_time'"; if($timeCutoff==$fileObject->mod_time) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
 $timeCutoffOptions=array(1,2,3,4,5,6,7,14,21);
 foreach($timeCutoffOptions as $timeCutoffOption) {
