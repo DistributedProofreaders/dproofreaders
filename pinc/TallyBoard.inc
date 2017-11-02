@@ -59,44 +59,21 @@ class TallyBoard
 
     function add_to_tally( $holder_id, $amount )
     {
-        // In MySQL 4.1.0, we could use ON DUPLICATE KEY UPDATE to do this
-        // in one query.
-
         $sql = sprintf("
-            UPDATE current_tallies
-            SET tally_value = tally_value + $amount
-            WHERE
-                tally_name      = '%s'
-                AND holder_type = '%s'
-                AND holder_id   = %d
+            INSERT INTO current_tallies
+            SET
+                tally_name  = '%s',
+                holder_type = '%s',
+                holder_id   = %d,
+                tally_value = %d
+            ON DUPLICATE KEY UPDATE
+                tally_value = tally_value + %d
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
-            intval($holder_id));
+            intval($holder_id),
+            intval($amount),
+            intval($amount));
         mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-
-        $n = mysqli_affected_rows(DPDatabase::get_connection());
-        if ( $n > 1 )
-        {
-            // Key constraint should prevent this.
-            die( "add_to_tally: query affected $n rows" );
-        }
-        else if ( $n == 0 )
-        {
-            // No row matched the WHERE condition.
-            // Ensure that one exists.
-            $sql = sprintf("
-                INSERT INTO current_tallies
-                SET
-                    tally_name  = '%s',
-                    holder_type = '%s',
-                    holder_id   = %d,
-                    tally_value = %d
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
-                intval($holder_id),
-                intval($amount));
-            mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-        }
     }
 
     // -------------------------------------------------------------------------

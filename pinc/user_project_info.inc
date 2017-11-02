@@ -3,45 +3,29 @@ include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address()
 
-function upi_ensure_row( $username, $projectid )
-// There may not yet be a row for this ($username,$projectid) pair
-// in the user_project_info table. Ensure that one exists.
-{
-    mysqli_query(DPDatabase::get_connection(), "
-        INSERT IGNORE INTO user_project_info
-        SET
-            username    = '$username',
-            projectid   = '$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
-    // If there's already a row for this ($username,$projectid) pair,
-    // the insertion doesn't happen; it would raise a duplicate-key error,
-    // except that the IGNORE causes the error to be downgraded to a warning.
-
-    // Note that if we were assuming MySQL 4.1.0 or higher, we probably wouldn't
-    // need this function.
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
 {
-    upi_ensure_row( $username, $projectid );
-
     mysqli_query(DPDatabase::get_connection(), "
-        UPDATE user_project_info
-        SET t_latest_home_visit = $timestamp
-        WHERE username='$username' AND projectid='$projectid'
+        INSERT INTO user_project_info
+        SET
+            username            = '$username',
+            projectid           = '$projectid',
+            t_latest_home_visit = $timestamp
+        ON DUPLICATE KEY UPDATE
+            t_latest_home_visit = $timestamp
     ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
 {
-    upi_ensure_row( $username, $projectid );
-
     mysqli_query(DPDatabase::get_connection(), "
-        UPDATE user_project_info
-        SET t_latest_page_event = $timestamp
-        WHERE username='$username' AND projectid='$projectid'
+        INSERT INTO user_project_info
+        SET
+            username            = '$username',
+            projectid           = '$projectid',
+            t_latest_page_event = $timestamp
+        ON DUPLICATE KEY UPDATE
+            t_latest_page_event = $timestamp
     ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
@@ -87,26 +71,16 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
     $event_label = get_label_for_event( $event );
     // Just to ensure that $event is valid; we don't use $event_label.
 
-    upi_ensure_row( $username, $projectid );
-
     // Now that we're sure the row exists, we can update it.
     $res = mysqli_query(DPDatabase::get_connection(), "
-        UPDATE user_project_info
-        SET iste_$event = $bit
-        WHERE username    = '$username'
-            AND projectid = '$projectid'
+        INSERT INTO user_project_info
+        SET
+            username    = '$username',
+            projectid   = '$projectid',
+            iste_$event = $bit
+        ON DUPLICATE KEY UPDATE
+            iste_$event = $bit
     ") or die(mysqli_error(DPDatabase::get_connection()));
-
-    /*
-        In MySQL 4.1.0 or higher, we could replace those two queries with one:
-            INSERT INTO user_project_info
-            SET
-                username    = '$username',
-                projectid   = '$projectid',
-                iste_$event = $bit
-            ON DUPLICATE KEY UPDATE
-                iste_$event = $bit
-    */
 }
 
 function user_is_subscribed_to_project_event( $username, $projectid, $event )

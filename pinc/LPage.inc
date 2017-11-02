@@ -65,8 +65,6 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
                 {$round->mentee_round->user_column_name},
                 image
             ";
-            // Note that this uses a subquery (in an ORDER clause),
-            // which I believe requires at least MySQL 4.1.
     }
 
     // The page to be retrieved must be an available page, of course.
