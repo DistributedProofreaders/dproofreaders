@@ -57,7 +57,12 @@ $title = _("Ad Hoc Word Details");
 $page_text = _("Insert words, one per line, in the box below and click the Show details button to get frequency and context details for them.");
 $page_text2 = _("The results list below shows how many times each word occurs in the most recent project text.");
 
-output_header($title, NO_STATSBAR);
+// how many instances (ie: frequency sections) are there?
+$instances = 1;
+// what are the cutoff options?
+$cutoffOptions = array(1,2,3,4,5,10,25,50);
+
+output_header($title, NO_STATSBAR, array("js_data" => get_cutoff_script($cutoffOptions,$instances)));
 
 echo_page_header($title,$projectid);
 
@@ -72,16 +77,9 @@ if(count($queryWords)) {
     echo "<hr>";
 
     list($words_w_freq ,$messages) = _get_word_list($projectid, $queryWords);
-    // how many instances (ie: frequency sections) are there?
-    $instances=1;
 
-    // what are the cutoff options?
-    $cutoffOptions = array(1,2,3,4,5,10,25,50);
     // what is the intial cutoff frequecny?
     $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions,$words_w_freq);
-
-    // echo page support text, like JS and stylesheets
-    echo_cutoff_script($cutoffOptions,$instances);
 
     echo_any_warnings_errors( $messages );
 

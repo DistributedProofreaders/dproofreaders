@@ -81,8 +81,6 @@ if($frame=="left") {
 
     $submitLabel = _("Add selected words to Good Words List");
 
-    slim_header(_("Manage Suggestions"));
-
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;
     // what are the cutoff options?
@@ -90,8 +88,7 @@ if($frame=="left") {
     // what is the initial cutoff frequency?
     $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions);
 
-    // echo page support text, like JS and stylesheets
-    echo_cutoff_script($cutoffOptions,$instances);
+    slim_header(_("Manage Suggestions"), array("js_data" => get_cutoff_script($cutoffOptions,$instances)));
 
     echo "<h1>" . _("Manage Suggestions") . "</h1>";
 

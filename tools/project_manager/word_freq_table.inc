@@ -19,23 +19,22 @@ function get_cutoff_string($cutoffOptions,$labelSuffix="") {
     return $cutoffString;
 }
 
-// echo_cutoff_script
+// get_cutoff_script
 // Arguments:
 //   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
 //   instances     - number of word frequency tables to support
 //                   (required for hiding/showing items of the correct table)
 //
 // Outputs the javascript used to show/hide parts of the word frequency tables
-function echo_cutoff_script($cutoffOptions,$instances) {
+function get_cutoff_script($cutoffOptions,$instances) {
     $cutoffJSArray = "";
     foreach($cutoffOptions as $cutoff)
         $cutoffJSArray .= "$cutoff,";
     $cutoffJSArray = preg_replace("/,$/","",$cutoffJSArray);
-?>
-<script language="javascript">
+    return <<<EOS
     function setCutoff(newCutoff) {
-        var cutoffArray = new Array(<?php echo $cutoffJSArray; ?>);
-        var instances = <?php echo $instances; ?>;
+        var cutoffArray = new Array($cutoffJSArray);
+        var instances = $instances;
         for(cutoffIndex in cutoffArray.reverse()) {
             cutoff = cutoffArray[cutoffIndex];
             for(instance = instances; instance>=0; instance--) {
@@ -91,9 +90,8 @@ function echo_cutoff_script($cutoffOptions,$instances) {
 
         return false;
     }
-
-</script>
-<?php } // end of echo_cutoff_script
+EOS;
+} // end of get_cutoff_script
 
 // given the list of cutoff options and the word count
 // make sure the initial cutoff shows something
@@ -130,7 +128,7 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
 //   wordCount     - a table containing the word/frequency pairs already
 //                   sorted and ready for display
 //   instance      - number uniquely identifying this instance, must be less
-//                   than the $instances passed into echo_cutoff_script
+//                   than the $instances passed into get_cutoff_script
 //   auxData       - array with one or more of the following:
 //                       array($word => $data)
 //   checkbox      - array containing checkbox form elements for each word

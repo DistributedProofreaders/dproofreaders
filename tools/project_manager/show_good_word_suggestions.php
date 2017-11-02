@@ -100,18 +100,16 @@ if($format == "file") {
     assert(false);
 }
 
-output_header($title, NO_STATSBAR);
-echo_page_header($title,$projectid);
-
 // how many instances (ie: frequency sections) are there?
-$instances=count( $rounds ) + 1;
+$instances = count( $rounds ) + 1;
 // what are the cutoff options?
 $cutoffOptions = array(1,2,3,4,5,10,25,50);
+
+output_header($title, NO_STATSBAR, array("js_data" => get_cutoff_script($cutoffOptions,$instances)));
+echo_page_header($title,$projectid);
+
 // what is the initial cutoff frequency?
 $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions,$all_suggestions_w_freq);
-
-// echo page support text, like JS and stylesheets
-echo_cutoff_script($cutoffOptions,$instances);
 
 echo "<p>$page_text</p>";
 
