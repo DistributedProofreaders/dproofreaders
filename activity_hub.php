@@ -158,14 +158,13 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
         echo "<p>" . sprintf(_("See the <a href='%s'>workflow diagram</a> for more information about the overall process."),"faq/DPflow.php") . "</p>";
     }
 
-    echo "<div style='width: 100%;'>";
     echo "<table class='snapshottable'>";
 
     // Loop through the stages three times, once each for Round, Pool, and
     // everything else.
 
     // Round headers
-    echo "<thead>\n<tr>";
+    echo "\n<tr>";
     $img_alt = attr_safe(_("Proofreading/Formatting Activities"));
     echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='4'>" .  _("Projects") . " - ";
@@ -186,14 +185,14 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "</tr>\n";
 
     echo "<tr>";
-    echo "<th style='width: 5%;'>" . _("Total") . "</th>";
-    echo "<th style='width: 10%;'>" . _("Waiting") . "</th>";
-    echo "<th style='width: 10%;'>" . _("Available") . "</th>";
-    echo "<th style='width: 10%;'>" . _("Completed<br>Today") . "</th>";
-    echo "<th style='width: 5%;'>" . _("Goal") . "</th>";
-    echo "<th style='width: 10%;'>" . _("Completed") . "</th>";
-    echo "<th style='width: 15%;'>" . _("Status") . "</th>";
-    echo "</tr>\n</thead>\n<tbody>\n";
+    echo "<th>" . _("Total") . "</th>";
+    echo "<th>" . _("Waiting") . "</th>";
+    echo "<th>" . _("Available") . "</th>";
+    echo "<th>" . _("Completed<br>Today") . "</th>";
+    echo "<th>" . _("Goal") . "</th>";
+    echo "<th>" . _("Completed") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
+    echo "</tr>\n";
 
     // Round rows
     foreach ( $Stage_for_id_ as $stage )
@@ -206,11 +205,8 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
         summarize_stage($stage, $desired_states, $show_filtered_projects, $stage->id);
     }
 
-    echo "</tbody>\n</table>\n";
-
     // Pool and Stage headers
-    echo "<table class='snapshottable'>\n";
-    echo "<thead>\n<tr>";
+    echo "\n<tr>";
     $img_alt = attr_safe(_("Post-Processing Activities"));
     echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='3'>" . _("Projects") . " - ";
@@ -227,15 +223,15 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
             echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
     }
     echo "</th>";
-    echo "<td class='nocell'></td>";
+    echo "<td colspan='4' class='nocell'></td>";
     echo "</tr>\n";
 
     echo "<tr>";
-    echo "<th style='width: 5%;'>" . _("Total") . "</th>";
-    echo "<th style='width: 10%;'>" . _("Available") . "</th>";
-    echo "<th style='width: 10%;'>" . _("In Progress") . "</th>";
-    echo "<td class='nocell' style='width: 40%;'></td>";
-    echo "</tr>\n</thead>\n<tbody>\n";
+    echo "<th>" . _("Total") . "</th>";
+    echo "<th>" . _("Available") . "</th>";
+    echo "<th>" . _("In Progress") . "</th>";
+    echo "<td colspan='4' class='nocell'></td>";
+    echo "</tr>\n";
 
     // Pool rows
     foreach ( $Stage_for_id_ as $stage )
@@ -258,17 +254,9 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
         summarize_stage($stage, $desired_states);
     }
-    echo "</tbody>\n<tfoot>\n";
-    echo "<tr>";
-    echo "<td class='nocell' style='text-align: right;' colspan='7'>";
+    echo "\n</table>\n";
     echo "<a href='faq/site_progress_snapshot_legend.php' target='_blank'>" . _("Information about this table") . "</a>";
-    echo "</td>";
-    echo "</tr>";
-
-    echo "</tfoot>\n</table>\n";
-    echo "</div>";
 }
-
 
 function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE, $filter_type="")
 // Prints out an activity summary table row for a specific stage (be it a
@@ -437,9 +425,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         // tweak is to ensure that if we show the filter that the filter
         // cell has a border all the way around it.
         if($show_filtered_projects)
-            echo "<td class='nocell' style='border-bottom: 1px solid black;'></td>";
+            echo "<td colspan='4' class='nocell' style='border-bottom: 1px solid black;'></td>";
         else
-            echo "<td class='nocell'></td>";
+            echo "<td colspan='4' class='nocell'></td>";
     }
 
     echo "</tr>\n";
