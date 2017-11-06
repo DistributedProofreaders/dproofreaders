@@ -343,13 +343,17 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
             if (user_is_a_sitemanager() || user_is_proj_facilitator())
             {
-                // User is exempt from 11-pages-per-project restriction.
+                // User is exempt from N-pages-per-beginner-project restriction.
             }
             else
             {
                 // When a beginner project is in a mentored round,
-                // any given user can work on at most 11 pages
+                // any given user can work on at most N pages
                 // from that project in that round.
+
+                // (For a while, N was 11 for all beginner projects.
+                // Then we reduced it to 6 for English beginner projects.)
+                $max_n_pages_per_project = ($project->language == 'English' ? 6 : 11);
 
                 $result = mysqli_query(DPDatabase::get_connection(), "
                     SELECT COUNT(*) as pagesdone
@@ -357,7 +361,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     WHERE {$round->user_column_name} = '$username'
                 "); 
                 $row = mysqli_fetch_assoc($result);
-                if ($row["pagesdone"] >= 11)
+                if ($row["pagesdone"] >= $max_n_pages_per_project)
                 {
                     return
                         _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
