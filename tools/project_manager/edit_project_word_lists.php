@@ -21,16 +21,16 @@ if ( !user_is_PM() )
 
 $pwlh = new ProjectWordListHolder;
 
-$errors = array();
+$fatal_errors = $errors = array();
 $good_word_conflict = $bad_word_conflict = false;
 
 if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POST['save']) )
 {
-    $errors = $pwlh->set_from_post();
-    if (count($errors)==0)
+    $fatal_errors = $pwlh->set_from_post();
+    if (!$fatal_errors)
     {
         list($good_word_conflict,$bad_word_conflict,$errors) = $pwlh->save_to_files();
-        if (count($errors)==0)
+        if (!$errors)
         {
             if (isset($_POST['saveAndProject']))
             {
@@ -51,7 +51,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
     }
     else
     {
-        // Errors.
+        // fatal Errors.
         // fall through
     }
 } elseif(isset($_POST['quit'])) {
@@ -67,14 +67,28 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
     // fall through
 }
 
-$pwlh->set_from_db();
+if(!$fatal_errors)
+{
+    $fatal_errors = $pwlh->set_from_db();
+}
 
-$pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict);
+if(!$fatal_errors)
+{
+    $errors = array_merge($errors, $pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict));
+}
 
 $page_title = _("Edit project word lists");
 
 output_header($page_title, NO_STATSBAR);
 echo "<h1>$page_title</h1>\n";
+
+if($fatal_errors)
+{
+    foreach($fatal_errors as $error) {
+        echo "<p class='error'>$error</p>";
+    }
+    exit();
+}
 
 foreach($errors as $error) {
     echo "<p class='error'>$error</p>";
@@ -235,7 +249,7 @@ class ProjectWordListHolder
             save_project_bad_words($this->projectid, $bad_words);
         }
 
-        
+
         return array($good_word_conflict,$bad_word_conflict,$messages);
     }
 
@@ -363,7 +377,7 @@ class ProjectWordListHolder
 
             echo "<tr>";
             echo "<td colspan='2'>";
-    
+
             echo "<table width='100%'>";
 
             echo "<tr>";
