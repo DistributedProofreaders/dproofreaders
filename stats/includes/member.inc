@@ -327,7 +327,7 @@ function showForumProfile($username) {
         array(
             "Google+",
             @$bb_user["googleplus"],
-            "https://plus.google.com/+" . @$bb_user["googleplus"],
+            "https://plus.google.com/" . (preg_match('/^\d{20,}$/', trim(@$bb_user["googleplus"])) ? "" : "+") . @$bb_user["googleplus"],
             "_new"
         ),
         array(
