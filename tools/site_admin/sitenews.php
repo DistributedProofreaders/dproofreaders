@@ -27,25 +27,26 @@ $status_options = array(
 $item_status = get_enumerated_param($_POST, 'status', null, array_keys($status_options), true);
 
 if (isset($news_page_id)) {
-    if (isset($NEWS_PAGES[$news_page_id]))
-    {
-        $news_subject = get_news_subject($news_page_id);
-        $title = sprintf(_('News Desk for %s'), $news_subject );
-        output_header($title, False);
-        echo "<br>";
-        echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
-        echo "<h1>$title</h1>";
-        handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status);
-        show_item_editor($news_page_id, $action, $item_id);
-        show_all_news_items_for_page($news_page_id);
-    } else {
-        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
-    }
+    handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status);
+
+    $news_subject = get_news_subject($news_page_id);
+    $title = sprintf(_('News Desk for %s'), $news_subject );
+    output_header($title, NO_STATSBAR);
+    output_page_links($news_page_id);
+    echo "<h1>$title</h1>";
+
+    $date_changed = get_news_page_last_modified_date( $news_page_id );
+    // TRANSLATORS: this is a strftime-formatted string
+    $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
+    echo "<p>" . _("Last modified") . ": ".$last_modified . "</p>";
+
+    show_item_editor($news_page_id, $action, $item_id);
+    show_all_news_items_for_page($news_page_id);
 } else {
 
-    output_header(_("Site News Central"), True);
-
-    echo "<h1>"._("Site News Central")."</h1>";
+    $title = _("Site News Central");
+    output_header($title, True);
+    echo "<h1>$title</h1>";
     echo "<ul>";
     echo "\n";
     foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
@@ -70,6 +71,22 @@ if (isset($news_page_id)) {
 }
 
 // Everything else is just function declarations.
+
+function output_page_links($current_page_id)
+{
+    global $NEWS_PAGES;
+
+    $links = array();
+    $links[] = "<a href='sitenews.php'>" . _("Site News Central") . "</a>";
+    foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
+    {
+        if($news_page_id == $current_page_id)
+            $links[] = $news_page_id;
+        else
+            $links[] = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_page_id</a>";
+    }
+    echo "<p>" . implode(" | ", $links) . "</p>";
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -189,6 +206,7 @@ function show_item_editor($news_page_id, $action, $item_id)
         $item_status = $row['status'];
         $action_to_request = "edit_update";
         $submit_button_label = _("Save News Item");
+        $title = _("Edit News Item");
     } else {
         $item_id = 0;
         $initial_content = "";
@@ -196,7 +214,10 @@ function show_item_editor($news_page_id, $action, $item_id)
         $item_status = 'current';
         $action_to_request = "add";
         $submit_button_label = _("Add News Item");
+        $title = _("Add News Item");
     }
+
+    echo "<h2>$title</h2>";
 
     echo "<form action='sitenews.php?news_page_id=$news_page_id&action=$action_to_request' method='post'>";
     echo "<input type='hidden' name='item_id' value='$item_id'>";
@@ -279,13 +300,6 @@ function show_all_news_items_for_page( $news_page_id )
         if (mysqli_num_rows($result) == 0) continue;
 
         echo "<h2>{$category['title']}</h2>";
-        if ($status == 'current')
-        {
-            $date_changed = get_news_page_last_modified_date( $news_page_id );
-            // TRANSLATORS: this is a strftime-formatted string
-            $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo _("Last modified") . ": ".$last_modified . "<br>";
-        }
         echo "<p>" . $category['blurb'] . "</p>\n";
 
         $actions = $category['actions'] +
