@@ -38,13 +38,13 @@ try {
 if(!user_is_PM())
 {
     // Redirect to the new search page for bookmarked URLs
+    $url = "$code_url/tools/search.php";
     if($show_view == "search")
     {
         // pull out everything after the ? and redirect
-        $url = "$code_url/tools/search.php" . substr($_SERVER['REQUEST_URI'], stripos($_SERVER['REQUEST_URI'], '?'));
-        metarefresh(0, $url);
+        $url .= substr($_SERVER['REQUEST_URI'], stripos($_SERVER['REQUEST_URI'], '?'));
     }
-    die(_("Your user permissions do not allow access to this script."));
+    metarefresh(0, $url);
 }
 
 $header_args = array(
