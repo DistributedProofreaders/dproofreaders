@@ -146,4 +146,10 @@
     * MAJOR: Full French translation of the UI (srjfoo and other volunteers)
     * See `git log R201701 R201707` for full set of changes.
 
+== Changes from R201707 to R?????? ==
+(Scripts supporting this upgrade are in SETUP/upgrade/11)
+
+    * MAJOR: Theming moved entirely to CSS, standardized look-and-feel across site, site is largely HTML5 compliant (Happy5214, rp31, cpeel)
+    * MAJOR: New PM page separate from Search page (rp31, cpeel)
+
 # vim: sw=4 ts=4 expandtab
