@@ -9,6 +9,7 @@ $NEWS_PAGES = array(
     'STATS'   => _('Stats Central'),
     'SR'      => _('Smooth Reading'),
     'SR_PREV' => _('Smooth Reading Preview'),
+    'PM'      => _('Project Management'),
 );
 foreach ( $Stage_for_id_ as $stage_id => $stage )
 {

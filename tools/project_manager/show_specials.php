@@ -43,7 +43,7 @@ while ( $row = mysqli_fetch_assoc($result) )
 
     echo "<tr>";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
-    echo "<a href=\"projectmgr.php?show=search&amp;special_day%5B%5D=";
+    echo "<a href=\"$code_url/tools/search.php?show=search&amp;special_day%5B%5D=";
     echo urlencode($row['spec_code']) ."&amp;n_results_per_page=100\" title=\"";
     echo urlencode($row['display_name']) ."\">\n";
     echo html_safe($row['display_name']) . "</a>";

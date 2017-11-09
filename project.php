@@ -12,7 +12,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
-include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
@@ -115,8 +114,6 @@ else
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    do_pm_header();
-
     echo "<h1>$title</h1>\n";
 
     do_detail_level_switch();
@@ -182,16 +179,6 @@ function do_update_pp_activity()
       mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
       $project->modifieddate = $now;
     }
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function do_pm_header()
-{
-    global $project;
-    if (!$project->can_be_managed_by_current_user) return;
-
-    echo_manager_header();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -365,7 +352,7 @@ function do_blurb_box( $blurb )
 {
     if ( is_null($blurb) ) return;
 
-    echo "<br>";
+//    echo "<br>";
     echo "<table style='width: 630px; background-color: #DDDDDD;'>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
@@ -429,13 +416,13 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
     // Information about the work itself (independent of DP)
-    
+
     // the array below should guarantee that the strings 'beginner',
     // 'easy', 'average' and 'hard' reach the po file, so that using
     // later _($project->difficulty) should translate the project
     // difficulty, if regularly formed, or display the (irregular)
     // english project difficulty.
-    if (0) 
+    if (0)
     {
         $difficulty_labels = array(
             'beginner' => _('beginner'),
@@ -759,7 +746,7 @@ function do_project_info_table()
         // PPVer should be able to read the PPer's comments without checking out the project.
         // Likewise, when it's available for PPing, a prospective PPer should be able
         // to read them
-        elseif ( $project->PPer_is_current_user || 
+        elseif ( $project->PPer_is_current_user ||
                  $project->PPVer_is_current_user ||
                  $project->can_be_managed_by_current_user ||
                  $state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser,'PP') ||
@@ -935,25 +922,26 @@ function do_edit_above()
     if (!$project->can_be_managed_by_current_user) return;
 
     echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
     echo _("Edit the above information");
     echo "</a>";
     echo " | ";
     echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
     echo _("Edit project word lists");
     echo "</a>";
+    echo " | <a href='$code_url/../noncvs/project_quick_check.php?projectid=$project->projectid'>"._("Project Quick Check")."</a>\n";
     echo "</p>";
 
     if (! user_has_project_loads_disabled() )
     {
         echo "<p>";
-        echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
+        echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&amp;project=$project->projectid'>";
         echo _("Clone this project");
         echo "</a>";
         echo "</p>";
     }
     // possibly print a message, which will appear where the clone project
-    // link would otherwise be, and near where the add/replace files 
+    // link would otherwise be, and near where the add/replace files
     // section would be.
     check_user_can_load_projects(false); // keep going, even if they can't
 }
@@ -994,7 +982,7 @@ function do_early_uploads()
     // Can do this if it's a new project (as measured by the state it's in)
     // If the user is disabled from uploading new projects, they can only
     // do this if the project already has some pages loaded, but there is
-    // no need to display a message reminding them that they can't, as 
+    // no need to display a message reminding them that they can't, as
     // there will already be one instead of the clone project link, just above.
     if(user_can_add_project_pages($projectid, "normal"))
     {
@@ -1025,8 +1013,8 @@ function do_early_uploads()
             echo "<br>";
             echo sprintf(
                 _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
-                "<b>$uploads_host</b>", 
-                "<b>$uploads_account</b>", 
+                "<b>$uploads_host</b>",
+                "<b>$uploads_account</b>",
                 "<i><span style='color: #DDD'>$uploads_password</span></i>" );
             }
 
@@ -1246,7 +1234,7 @@ function do_history()
     }
 
     $events2 = fill_gaps_in_events( $events );
-    
+
     // The project history is only partially translated right now.
     $event_type_labels = array(
         "archive" => _("archive"),
@@ -1613,7 +1601,7 @@ function do_post_downloads()
         echo "<h2>";
         echo _("Post Downloads");
         echo "</h2>\n";
-        
+
         echo "<ul>";
 
         echo_download_zip( _("Download Zipped Images"), 'images' );
@@ -1654,7 +1642,7 @@ function do_post_downloads()
     }
     // regenerate post files. Only for site managers.
     // or download concatenated text, for all. Do we want to limit
-    // this to people allowed to work in PP? If so, we should definitely 
+    // this to people allowed to work in PP? If so, we should definitely
     // include the PM of this project.
 
     global $Round_for_round_id_, $code_url;
@@ -1935,7 +1923,7 @@ function do_smooth_reading()
             if (!$project->PPer_is_current_user)
             {
                 echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
-                
+
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
@@ -2089,7 +2077,7 @@ function do_change_state()
         echo "<input type='hidden' name='curr_state' value='{$project->state}'>\n";
         echo "<input type='hidden' name='next_state' value='{$transition->to_state}'>\n";
         echo "<input type='hidden' name='confirmed'  value='yes'>\n";
-        echo "<input type='hidden' name='return_uri' value='$here'>\n";
+        echo "<input type='hidden' name='return_uri' value='", attr_safe($here), "'>\n";
 
         $question = $transition->confirmation_question;
         if ( is_null($question) )
@@ -2098,7 +2086,7 @@ function do_change_state()
         }
         else
         {
-            $onClick_condition = "return confirm(\"" 
+            $onClick_condition = "return confirm(\""
                 . javascript_safe($question, $charset) . "\");";
         }
         $onclick_attr = "onClick='$onClick_condition'";

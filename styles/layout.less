@@ -785,5 +785,72 @@ table.edit_special_day {
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* Search Form */
+
+/* Container to wrap the search columns */
+div.search-columns {
+    width: 99%;
+    overflow: auto;
+    .center-align;
+    clear: both;
+}
+
+/* This sets everything into one column... */
+table.search-column {
+    width: 99%;
+    /* Set the size of the row label to be consistent */
+    tr th {
+        width: 8em;
+    }
+}
+
+/* ... and this says if the screen is >800px, make it two columns. */
+@media only screen and (min-width: 800px) {
+    table.search-column {
+        width: 50%;
+        float: left;
+        tr th {
+            width: auto;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Search Results drop-down */
+
+.dropdown {
+    position: relative;
+    display: inline;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 1.5em;
+    right: 0;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    padding: 0.3em;
+    margin: 0 0 0 -15em;
+    border-radius: 0.3em;
+    z-index: 1;
+}
+
+/* button looking like a link */
+.dropdown-button {
+    border: none;
+    padding: 1px;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: initial;
+    font-size: initial;
+    text-decoration: underline;
+}
+
+.dropdown-show {
+    display:block;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

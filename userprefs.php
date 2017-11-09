@@ -711,7 +711,7 @@ function echo_pm_tab() {
     global $userP;
     global $userSettings;
 
-    $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
+    $i_pm= array(_("All Projects"), _("Active Projects"), _("Basic Page"));
 
     echo "<tr>\n";
     show_preference(

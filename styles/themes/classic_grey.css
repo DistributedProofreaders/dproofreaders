@@ -119,6 +119,9 @@ h6 {
   color: #333333;
   font-family: Verdana, Helvetica, sans-serif;
 }
+.sidebar-color {
+  background-color: #dddddd;
+}
 /* Attention-getting structures */
 .error,
 test_warning {

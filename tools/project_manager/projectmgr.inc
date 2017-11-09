@@ -7,7 +7,7 @@ function abort_if_not_manager()
 {
     global $site_manager_email_addr, $code_url;
 
-    if ( !user_is_PM()) 
+    if ( !user_is_PM())
     {
         echo "<p>".sprintf(_("You are not listed as a project manager.
             Please contact the <a href='%s'>site manager</a>
@@ -19,85 +19,47 @@ function abort_if_not_manager()
     }
 }
 
-function echo_manager_header()
+function echo_manager_links()
 {
-    global $pguser, $code_url, $external_catalog_locator;
+    global $theme, $code_url, $external_catalog_locator, $db_requests_email_addr;
 
     $create_project_url = (empty($external_catalog_locator)
                            ? "$code_url/tools/project_manager/editproject.php?action=createnew"
-                           : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form"
-                           );
+                           : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form");
 
-    echo "<p class='center-align'>";
-
-    // ---------------------------------------
-    // Links that aren't related to project searches.
-
-    echo "<a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a>";
-    echo "\n|\n";
-    if ( user_is_a_sitemanager() )
+    echo "<div id='key-help-documents'>";
+    // TRANSLATORS: PM = project manager
+    echo "<h2>", _("PM Links"), "</h2>
+    <ul>\n";
+    if(user_is_PM())
     {
-        echo "<a href='$code_url/tools/site_admin/manage_special_days.php'>"._("Manage Special Days")."</a>";
-        echo "\n|\n";
+        echo "<li><a href='$code_url/tools/project_manager/remote_file_manager.php'>"._("Manage uploads")."</a></li>\n";
+        if (! user_has_project_loads_disabled())
+        {
+            echo "<li><a href='$create_project_url'>"._("Create Project")."</a></li>\n";
+        }
+        echo "<li><a href='$code_url/../noncvs/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
+        echo "<li><a href='$code_url/../noncvs/send_email.php?to=db-req'>"._("Email db-req")."</a></li>\n";
+        echo "<li><a href='$code_url/../noncvs/send_email.php?to=dp-format'>"._("Email dp-format")."</a></li>\n";
+        echo "<li><a href='$code_url/tools/project_manager/show_all_good_word_suggestions.php'>"._("Manage proofreaders' Suggestions")."</a></li>\n";
     }
-    echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a>";
+    echo "<li><a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a></li>\n";
     if (user_is_image_sources_manager())
     {
-        echo "\n|\n";
-        echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
+        echo "<li><a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a></li>\n";
     }
-    else if ( user_is_PM() )
+    echo "<li><a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a></li>\n";
+    if(user_is_a_sitemanager())
     {
-        echo "\n|\n";
-        echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
+        echo "<li><a href='$code_url/tools/site_admin/manage_special_days.php'>"._("Manage Special Days")."</a></li>\n";
     }
-    echo "\n";
+    echo "<li><a href='$code_url/stats/release_queue.php'>"._("Show All Release Queues")."</a></li>\n";
+    echo "<li><a href='$code_url/faq/pm-faq.php'>"._("PM Official Documentation")."</a></li>\n";
+    echo "<li><a href='$code_url/faq/proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a></li>\n";
+    echo "<li><a href='$code_url/faq/document.php'>"._("Formatting Guidelines")."</a></li>\n";
 
-    echo "<br>\n";
-    // ---------------------------------------
-    // Links for everyone
-
-    {
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'><b>"._("Search for Projects")."</b></a>";
-        echo "\n|\n";
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
-        echo "\n|\n";
-        echo "<a href='$code_url/stats/release_queue.php'>"._("Show All Release Queues")."</a>"; 
-    }
-    echo "\n";
-
-    // ---------------------------------------
-    // Links for PMs only
-
-    if ( user_is_PM() )
-    {
-        echo "<br>\n";
-        // TRANSLATORS: PM = project manager
-        echo _("PM links"), ": ";
-        $enc_pguser = urlencode($pguser);
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&amp;project_manager=$enc_pguser'><b>"._("Search Your Projects")."</b></a>"; 
-        echo "\n|\n";
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
-        echo "\n|\n";
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
-        echo "\n|\n";
-        // is this PM allowed to upload projects?
-        if ( ! user_has_project_loads_disabled() )
-        {
-            echo "<a href='$create_project_url'>"._("Create Project")."</a>";
-            echo "\n|\n";
-        }
-        echo "<a href='$code_url/tools/project_manager/show_all_good_word_suggestions.php'>"._("Manage All Proofreaders' Suggestions")."</a>";
-    }
-    echo "\n";
-
-    // --------------------------
-
-    if ( user_is_PM() )
-    {
-        // possibly show message, but don't exit
-        check_user_can_load_projects(false);
-    }
+    echo "</ul>\n";
+    echo "</div>\n";
 }
 
 // vim: sw=4 ts=4 expandtab
