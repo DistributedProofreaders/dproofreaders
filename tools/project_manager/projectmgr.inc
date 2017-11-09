@@ -38,7 +38,8 @@ function echo_manager_links()
         {
             echo "<li><a href='$create_project_url'>"._("Create Project")."</a></li>\n";
         }
-        echo "<li><a href='$code_url/../noncvs/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
+        echo "<li><a href='$code_url/tools/project_manager/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
+        # SITE-SPECIFIC
         echo "<li><a href='$code_url/../noncvs/send_email.php?to=db-req'>"._("Email db-req")."</a></li>\n";
         echo "<li><a href='$code_url/../noncvs/send_email.php?to=dp-format'>"._("Email dp-format")."</a></li>\n";
         echo "<li><a href='$code_url/tools/project_manager/show_all_good_word_suggestions.php'>"._("Manage proofreaders' Suggestions")."</a></li>\n";
@@ -54,7 +55,7 @@ function echo_manager_links()
         echo "<li><a href='$code_url/tools/site_admin/manage_special_days.php'>"._("Manage Special Days")."</a></li>\n";
     }
     echo "<li><a href='$code_url/stats/release_queue.php'>"._("Show All Release Queues")."</a></li>\n";
-    echo "<li><a href='$code_url/faq/pm-faq.php'>"._("PM Official Documentation")."</a></li>\n";
+    echo "<li><a href='https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM'>"._("PM Official Documentation")."</a></li>\n";
     echo "<li><a href='$code_url/faq/proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a></li>\n";
     echo "<li><a href='$code_url/faq/document.php'>"._("Formatting Guidelines")."</a></li>\n";
 
