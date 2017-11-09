@@ -232,7 +232,7 @@ class OptionsColumn extends Column
         }
         if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
         {
-            $actions .= "<a href='$code_url/../noncvs/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a><br>
+            $actions .= "<a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a><br>
             <a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a><br>
             <a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a><br>
             <a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a><br>
