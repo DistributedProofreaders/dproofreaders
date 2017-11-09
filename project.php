@@ -279,9 +279,7 @@ function decide_blurbs()
         $the_link_appears_below = _("The 'Start Proofreading' link appears below the Project Comments");
         $comments_have_changed =
             "<p class='error'>"
-            . "<b>"
             . _("Project Comments have changed!")
-            . "</b>"
             . "</p>";
 
         // ---
@@ -322,7 +320,6 @@ function decide_blurbs()
                 // The user probably hasn't seen the revised project comments.
                 $top_blurb =
                     $comments_have_changed
-                    . "<br>"
                     . $please_scroll_down
                     . "<br>"
                     . $comments_last_modified_blurb
