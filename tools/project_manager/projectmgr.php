@@ -29,8 +29,8 @@ switch ($userP['i_pmdefault'])
 
 try {
     $show_view = get_enumerated_param($_GET, 'show', $default_view,
-        array('search_form', 'search', 'blank_search_form', 'user_all', 'user_active',
-              'blank', 'ua_search_form'));
+        array('search_form', 'p_search', 'blank_search_form', 'user_all', 'user_active',
+              'blank', 'ua_search_form'));  // not 'search'
 } catch(Exception $e) {
     $show_view = 'blank';
 }
@@ -94,7 +94,7 @@ elseif ($show_view == "user_active")
     // TRANSLATORS: Abbreviation for Project Manager
     $sub_title = sprintf(_("Active PM projects: %s"), $pguser);
 }
-else // ($show_view == 'search')
+else // ($show_view == 'p_search')
 {
     $condition = $search_form->get_condition();
     $sub_title = _("Search Results");
