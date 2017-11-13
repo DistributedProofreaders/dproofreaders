@@ -28,7 +28,7 @@ function _test_project_for_large_page_images($projectid)
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
     
-        $details = "<table class='basic striped>";
+        $details = "<table class='basic striped'>";
         $details .= "<tr>";
         $details .= "<th>" . _("Image") . "</th>";
         $details .= "<th>" . _("Size") . "</th>";
