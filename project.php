@@ -926,7 +926,7 @@ function do_edit_above()
     echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
     echo _("Edit project word lists");
     echo "</a>";
-    echo " | <a href='$code_url/../noncvs/project_quick_check.php?projectid=$project->projectid'>"._("Project Quick Check")."</a>\n";
+    echo " | <a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$project->projectid'>"._("Project Quick Check")."</a>\n";
     echo "</p>";
 
     if (! user_has_project_loads_disabled() )
