@@ -384,9 +384,9 @@ class ProjectSearchForm
         return $condition;
     }
 
-    public function get_condition()
+    public function get_condition($show_view)
     {
-        if(($_GET['show'] =='p_search') && !$_POST)
+        if(($show_view == 'p_search') && !$_POST)
         {
             $condition = array_get($_SESSION, 'search_condition', "1");
         }

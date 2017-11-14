@@ -59,7 +59,7 @@ if ($show_view == 'search_form')
 }
 
 // show must be search or p_search
-$condition = $search_form->get_condition();
+$condition = $search_form->get_condition($show_view);
 
 echo "<h1 id='head'>", _("Search Results"), "</h1>\n";
 
