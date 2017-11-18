@@ -14,7 +14,7 @@ $graph_flags_per_page = unserialize(file_get_contents($data_filename));
 unlink($data_filename);
 
 draw_simple_bar_graph(
-   init_simple_bar_graph(600, 300, -1),
+   init_simple_bar_graph(600, 300, 0.001), // ignore any cached graph image
    $graph_flags_per_page["graph_x"],
    $graph_flags_per_page["graph_y"],
    ceil(count($graph_flags_per_page["graph_x"])/40),
