@@ -80,9 +80,9 @@ class Column
                 if($sec_sort == $this->id)
                     $sec_sorter = "&nbsp;^";
                 else
-                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sec_sort=$this->id&amp;results_offset=0#head'>^</a>";
+                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sec_sort=$this->id&amp;results_offset=0#head'>^</a>";
             }
-            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;re_search&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
+            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
         }
         echo "<th class='$this->css_class'>$label</th>\n";
     }
@@ -381,7 +381,7 @@ class ProjectSearchResults extends ColumnData
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
-        $url_base = "{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;";
+        $url_base = "{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;";
 
         if ( $results_offset > 0 )
         {
@@ -501,7 +501,7 @@ class ProjectSearchResults extends ColumnData
     public function get_search_configure_link()
     {
         $results_offset = intval(@$_GET['results_offset']);
-        return get_search_configure_link("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;re_search&amp;results_offset=$results_offset");
+        return get_search_configure_link("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;results_offset=$results_offset");
     }
 
     public function render($where_condition)

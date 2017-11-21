@@ -341,7 +341,7 @@ class ProjectSearchForm
         echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
         // query data can be too big for GET so use POST
         echo "<div class='search-columns'>
-            <form style='display: inline;' method='POST' action='{$_SERVER['PHP_SELF']}?show=search'>";
+            <form style='display: inline;' method='POST' action='{$_SERVER['PHP_SELF']}?show=p_search'>";
         // split the widgets into two tables which can be side-by-side if there
         // is enough room
         $widget_index = 0;
@@ -384,13 +384,13 @@ class ProjectSearchForm
         return $condition;
     }
 
-    public function get_condition()
+    public function get_condition($show_view)
     {
-        if(isset($_GET['re_search']))
+        if(($show_view == 'p_search') && !$_POST)
         {
             $condition = array_get($_SESSION, 'search_condition', "1");
         }
-        else
+        else // (p_search && have POST) or search with GET data
         {
             // Construct the search query.
             $condition = $this->get_widget_contribution($_REQUEST);
