@@ -95,7 +95,7 @@ if($showreturnlink) {
     echo "<a href='$code_url/project.php?id=$projectid'>$label</a>";
 }
 echo "<br>\n";
-echo "<img src='$projects_url/$projectid/$imagefile' width='$width' border='1'>";
+echo "<img src='$projects_url/$projectid/$imagefile' style='width: ${width}px; border: solid thin black;'>";
 
 echo "<p class='center-align'>";
 prevnext_buttons();
