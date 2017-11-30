@@ -149,6 +149,8 @@
 == Changes from R201707 to R?????? ==
 (Scripts supporting this upgrade are in SETUP/upgrade/11)
 
+    * MAJOR: Remove support for phpBB 2.x and MySQL 5.1 (cpeel)
+    * MAJOR: Support jpgraph version 4.1.0 (cpeel)
     * MAJOR: Theming moved entirely to CSS, standardized look-and-feel across site, site is largely HTML5 compliant (Happy5214, rp31, cpeel)
     * MAJOR: New PM page separate from Search page (rp31, cpeel)
 
