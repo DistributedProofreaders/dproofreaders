@@ -465,28 +465,34 @@ function get_reserve_length($project, $round)
 // If so, return the length of the reserve in days.
 // If not, return 0.
 {
-    if ( $round->id == 'P1' and
+    // We only reserve-for-newbies in P1.
+    if ($round->id != 'P1') return 0;
 
-        ($project->language == 'English' or $project->language == 'French') and
+    // Missing page(s) projects are exempted from being reserved
+    // because we want them to catch up to their "parent" project
+    // as quickly as possible.
+    if (str_contains($project->nameofwork, '[missing page')) return 0;
 
-        // Missing page(s) projects are exempted from being reserved
-        // because we want them to catch up to their "parent" project
-        // as quickly as possible.
-        !str_contains($project->nameofwork, '[missing page') and
+    // *->P1 projects are exempted, because they were already reserved
+    // for inexperienced users on their first pass through P1.
+    if (str_contains($project->nameofwork, '->P1}')) return 0;
 
-        // *->P1 projects are exempted, because they were already reserved
-        // for inexperienced users on their first pass through P1.
-        !str_contains($project->nameofwork, '->P1}')
+    if ($project->language == 'English' or $project->language == 'French')
+    {
 
         // The 15th anniversary projects are exempted.
-        and ($project->special_code != '15thDPAnniversary')
+        if ($project->special_code == '15thDPAnniversary') return 0;
+
         // so are Children's Book Week projects (in 2017)
-        and ($project->special_code != 'ChBookWk')
-    )
-    {
+        if ($project->special_code == 'ChBookWk') return 0;
+
+        // Otherwise, reserve for 7 days.
         return 7;
     }
 
+    // Anything not covered above
+    // (i.e., language other than 'English' or 'French')
+    // is not reserved.
     return 0;
 }
 
