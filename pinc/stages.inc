@@ -400,6 +400,8 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
         // The 15th anniversary projects are exempted.
         and ($project->special_code != '15thDPAnniversary')
+        // so are Children's Book Week projects (in 2017)
+        and ($project->special_code != 'ChBookWk')
     )
     {
         $n_days_before_make_generally_available = 7;
