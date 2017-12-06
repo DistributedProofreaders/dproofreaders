@@ -385,26 +385,9 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
     // In P1, English and French projects, for a while after their release,
     // are reserved for inexperienced users.
-    if ( $round->id == 'P1' and
-
-        ($project->language == 'English' or $project->language == 'French') and
-
-        // Missing page(s) projects are exempted from being reserved
-        // because we want them to catch up to their "parent" project
-        // as quickly as possible.
-        !str_contains($project->nameofwork, '[missing page') and
-
-        // *->P1 projects are exempted, because they were already reserved
-        // for inexperienced users on their first pass through P1.
-        !str_contains($project->nameofwork, '->P1}')
-
-        // The 15th anniversary projects are exempted.
-        and ($project->special_code != '15thDPAnniversary')
-        // so are Children's Book Week projects (in 2017)
-        and ($project->special_code != 'ChBookWk')
-    )
+    $n_days_of_reserve = get_reserve_length($project, $round);
+    if ($n_days_of_reserve > 0)
     {
-        $n_days_of_reserve = 7;
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
@@ -474,6 +457,37 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
     // None of the above restrictions apply.
     return NULL;
+}
+
+function get_reserve_length($project, $round)
+// Should $project be temporarily reserved for inexperienced users
+// after becoming available in $round?
+// If so, return the length of the reserve in days.
+// If not, return 0.
+{
+    if ( $round->id == 'P1' and
+
+        ($project->language == 'English' or $project->language == 'French') and
+
+        // Missing page(s) projects are exempted from being reserved
+        // because we want them to catch up to their "parent" project
+        // as quickly as possible.
+        !str_contains($project->nameofwork, '[missing page') and
+
+        // *->P1 projects are exempted, because they were already reserved
+        // for inexperienced users on their first pass through P1.
+        !str_contains($project->nameofwork, '->P1}')
+
+        // The 15th anniversary projects are exempted.
+        and ($project->special_code != '15thDPAnniversary')
+        // so are Children's Book Week projects (in 2017)
+        and ($project->special_code != 'ChBookWk')
+    )
+    {
+        return 7;
+    }
+
+    return 0;
 }
 
 // -------------------------------------------------------------------
