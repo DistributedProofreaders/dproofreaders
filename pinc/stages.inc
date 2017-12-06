@@ -404,7 +404,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
         and ($project->special_code != 'ChBookWk')
     )
     {
-        $n_days_before_make_generally_available = 7;
+        $n_days_of_reserve = 7;
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
@@ -413,7 +413,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
         $t_release = $project->modifieddate;
         $t_generally_available =
-            $t_release + $n_days_before_make_generally_available * 24 * 60 * 60;
+            $t_release + $n_days_of_reserve * 24 * 60 * 60;
         $t_now = time();
 
         // echo "t_release = $t_release<br>\n";
