@@ -27,6 +27,11 @@ class Column
         return $this->label;
     }
 
+    public function get_warning()
+    {
+        return '';
+    }
+
     public function get_long_label()
     {
         // can also be overridden
@@ -84,7 +89,7 @@ class Column
             }
             $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
         }
-        echo "<th class='$this->css_class'>$label</th>\n";
+        echo "<th class='$this->css_class' title='", $this->get_long_label(), "'>$label</th>\n";
     }
 
     public function echo_data_cell($project, $time_format)
@@ -140,6 +145,14 @@ class GenreColumn extends Column
         if($prefix != "")
             $genre = $prefix." ".$genre;
         echo $genre;
+    }
+}
+
+class StateChangeColumn extends TimeColumn
+{
+    public function get_warning()
+    {
+        return _("The 'Last State Change' column tracks forward progress through the proofing and formatting rounds well, but otherwise may not do what you expect");
     }
 }
 
@@ -342,7 +355,7 @@ class ColumnData
             new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
             new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages', 'print_plain'),
-            new TimeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', 'print_time'),
+            new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', 'print_time'),
             new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state', ''),
             new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
         );
@@ -524,6 +537,13 @@ class ProjectSearchResults extends ColumnData
             echo "<b>", _("No projects matched the search criteria."), "</b>";
             return;
         }
+
+        $warning = '';
+        foreach($this->active_columns as $column)
+        {
+            $warning .= $column->get_warning();
+        }
+        echo "\n<p>$warning</p>\n";
 
         echo "<p>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
