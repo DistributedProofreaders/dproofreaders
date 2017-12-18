@@ -523,9 +523,7 @@ class ProjectSearchResults extends ColumnData
 
         $results_offset = intval(@$_GET['results_offset']);
 
-        $qtime = microtime(true);
         $result = $this->_search($where_condition, $results_offset);
-        $qtime = microtime(true) - $qtime;
 
         $numrows = mysqli_num_rows($result);
 
@@ -547,7 +545,6 @@ class ProjectSearchResults extends ColumnData
 
         echo "<p>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
-        echo " (", sprintf(_("%.2f milliseconds"), $qtime * 1000), ")";
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
