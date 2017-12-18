@@ -65,7 +65,7 @@ echo "<h1 id='head'>", _("Search Results"), "</h1>\n";
 
 // use p_search so it will use saved results if needed
 $search_results = new ProjectSearchResults('p_search');
-echo "<p>" . get_refine_search_link() . " | " . $search_results->get_search_configure_link() . "</p>";
+echo "<p><a href='{$_SERVER['PHP_SELF']}?show=blank_search_form'>" . _("Start New Search") . "</a> | " . get_refine_search_link() . " | " . $search_results->get_search_configure_link() . "</p>";
 
 $search_results->render($condition);
 
