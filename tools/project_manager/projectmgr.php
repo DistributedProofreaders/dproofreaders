@@ -171,8 +171,6 @@ function echo_shortcut_links($show_view, $search_results)
         create_shortcut_link(_("View your Active PM Projects"), "user_active", $show_view),
         // TRANSLATORS: Abbreviation for Project Manager
         create_shortcut_link(_("View All your PM Projects"), "user_all", $show_view),
-        // TRANSLATORS: Abbreviation for Project Manager
-        create_shortcut_link(_("Search your Active PM Projects"), "ua_search_form")
     );
 
     if($show_view != "blank")
