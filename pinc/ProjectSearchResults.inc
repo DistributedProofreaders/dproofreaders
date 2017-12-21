@@ -40,6 +40,11 @@ class Column
         return $this->long_label;
     }
 
+    public function get_tooltip()
+    {
+        return $this->get_long_label();
+    }
+
     public function get_sort_sql()
     {
         return $this->db_column; // overridden by state column
@@ -89,7 +94,7 @@ class Column
             }
             $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
         }
-        echo "<th class='$this->css_class' title='", $this->get_long_label(), "'>$label</th>\n";
+        echo "<th class='$this->css_class' title='", $this->get_tooltip(), "'>$label</th>\n";
     }
 
     public function echo_data_cell($project, $time_format)
@@ -152,7 +157,12 @@ class StateChangeColumn extends TimeColumn
 {
     public function get_warning()
     {
-        return _("The 'Last State Change' column tracks forward progress through the proofing and formatting rounds well, but otherwise may not do what you expect");
+        return _("The 'Last State Change' column tracks forward progress through the proofing and formatting rounds well, but does not reflect Post-processing state changes or state changes to Unavailable accurately.");
+    }
+
+    public function get_tooltip()
+    {
+        return _("Last State Change (see note above)");
     }
 }
 
