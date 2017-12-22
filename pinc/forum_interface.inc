@@ -6,7 +6,11 @@
 // using an entirely different forum software, this is one of the
 // few files that would require changes.
 //
-// Currently only phpBB versions 2 and 3 are supported.
+// Currently only phpBB versions 3.0, 3.1, and 3.2 (PHPBB_VERSION==3)
+//
+// The PHPBB_VERSION checks have been left in this file after phpBB2
+// support was removed to handle the possible future case where other
+// version conditionals are needed.
 
 /*
 Important notes about using phpBB code within DP
@@ -16,7 +20,7 @@ and the phpBB code separate, that is to not include phpBB code directly
 in the DP code.
 
 For example, to create a topic, we invoke call_phpbb_function(), which
-spawns a separate PHP-CLI process to run either phpbb2.inc or phpbb3.inc,
+spawns a separate PHP-CLI process to run phpbb3.inc,
 which executes phpBB code to create the topic. The reason for all of this
 effort is to reduce namespace and variable collisions between DP and phpBB.
 
@@ -30,7 +34,7 @@ login_forum_user() and logout_forum_user() should make every effort to reduce
 the amount of DP code included in those pages.
 */
 
-assert("PHPBB_VERSION == 2 || PHPBB_VERSION == 3 /* Only phpBB versions 2 and 3 are supported */");
+assert("PHPBB_VERSION == 3 /* Only phpBB version 3 is supported */");
 
 function phpbb_lang($langcode=FALSE)
 // Return the language string phpbb uses for $langcode for languages
@@ -39,16 +43,6 @@ function phpbb_lang($langcode=FALSE)
 {
     if($langcode===FALSE)
         $langcode=@$GLOBALS['locale'];
-
-    if(PHPBB_VERSION == 2) {
-        global $relPath;
-        include($relPath."lang_data.inc"); // $phpbb2langs
-
-        if(@$phpbb2langs[$langcode])
-            return $phpbb2langs[$langcode];
-        else
-            return "english";
-    }
 
     if(PHPBB_VERSION == 3) {
         $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -66,44 +60,12 @@ function phpbb_lang($langcode=FALSE)
     }
 }
 
-function is_username_password_valid($username, $password)
-// NOTE: This function is only used for phpBB2 and can be removed
-//       when support for that version is removed.
-// Check to see if the given username/password pair is valid.
-// Returns:
-//     TRUE  - is valid (user exists with specified password)
-//     FALSE - invalid (username/password pair were not found)
-{
-    assert(PHPBB_VERSION == 2);
-
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    $digested_password = forum_password_hash($password);
-
-    $query = sprintf("
-        SELECT *
-        FROM {$phpbb_table_prefix}_users
-        WHERE username='%s' AND user_password='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
-
-    $valid = (mysqli_num_rows($res) == 1);
-
-    mysqli_free_result($res);
-
-    return $valid;
-}
-
 function forum_password_hash($password)
 // Implement or call the hashing function used by the forum to hash
 // the password stored in the database. This is required because we
 // store the hashed password in the non_activated_users table and use
 // it directly when creating the account post-activation.
 {
-    if(PHPBB_VERSION == 2) {
-        return md5($password);
-    }
-
     if(PHPBB_VERSION == 3) {
         // phpBB3 hashing function is involved, so we'll call it directly
         // instead of duplicating it here, but we don't want to pollute
@@ -125,23 +87,6 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 {
     global $forums_dir;
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    if(PHPBB_VERSION == 2) {
-        $digested_password = ($password_is_digested ? $password : forum_password_hash($password) );
-
-        // Code primarily lifted from bb_register.php
-        $sql = "SELECT max(user_id) FROM {$phpbb_table_prefix}_users";
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-        list($max_user_id) = mysqli_fetch_array($res);
-        mysqli_free_result($res);
-
-        $max_user_id += 1; 
-        $currtime = time();
-        $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysqli_real_escape_string(DPDatabase::get_connection(), $username), phpbb_lang(), mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
-        mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-
-        return TRUE;
-    }
 
     if(PHPBB_VERSION == 3) {
         // Use the phpBB3 API to create the user, but do so via phpbb3.inc
@@ -192,31 +137,6 @@ function login_forum_user($username, $password)
     // declarations for the phpbb3 variables, so that when the
     // variable-assignment occurs at function-scope, it affects the global
     // variable.
-
-    if(PHPBB_VERSION == 2) {
-        if(!is_username_password_valid($username, $password))
-            return FALSE;
-
-        $user_id = get_forum_user_id($username);
-
-        // these globals are pulled from:
-        // phpBB2/includes/sessions.php:session_end()
-        global $db, $board_config;
-        global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
-
-        define('IN_PHPBB', true);
-
-        $phpbb_root_path = $forums_dir."/";
-        include($phpbb_root_path.'extension.inc');
-        include($phpbb_root_path.'common.php');
-        include($phpbb_root_path.'config.php');
-
-        session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
-
-        define('IN_PHPBB', false);
-
-        return TRUE;
-    }
 
     if(PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
@@ -273,27 +193,6 @@ function logout_forum_user()
     // See login_forum_user() for about the need for the global
     // declarations below.
 
-    if(PHPBB_VERSION == 2) {
-        $user_id = get_forum_user_id($pguser);
-
-        // these globals are pulled from
-        // phpBB2/includes/sessions.php:session_end()
-        global $db, $lang, $board_config, $userdata;
-        global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
-
-        define('IN_PHPBB', true);
-
-        $phpbb_root_path = $forums_dir."/";
-        include($phpbb_root_path.'extension.inc');
-        include($phpbb_root_path.'common.php');
-        include($phpbb_root_path.'config.php');
-
-        $session_id = $_COOKIE['phpbb2mysql_sid'];
-        session_end($session_id, $user_id);
-
-        define('IN_PHPBB', false);
-    }
-
     if(PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
         $phpbb_root_path = $forums_dir."/";
@@ -323,10 +222,6 @@ function logout_forum_user()
 function get_reset_password_url()
 {
     global $forums_url;
-
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/profile.php?mode=sendpassword";
-    }
 
     if(PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?mode=sendpassword";
@@ -488,10 +383,6 @@ function get_url_to_compose_message_to_user($username)
 
     $userid = get_forum_user_id($username);
 
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/privmsg.php?mode=post&u=$userid";
-    }
-
     if(PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?i=pm&mode=compose&u=$userid";
     }
@@ -532,10 +423,6 @@ function get_url_for_user_avatar($username)
     if(empty($user_details["avatar"]))
         return NULL;
 
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/images/avatars/" . $user_details["avatar"];
-    }
-
     if(PHPBB_VERSION == 3) {
         return "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
     }
@@ -545,10 +432,6 @@ function get_url_to_edit_profile()
 // Return a URL that can be used to edit the current user's profile.
 {
     global $forums_url;
-
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/profile.php?mode=editprofile";
-    }
 
     if(PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php";
@@ -560,10 +443,6 @@ function get_url_to_view_profile($user_id)
 {
     global $forums_url;
 
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
-    }
-
     if(PHPBB_VERSION == 3) {
         return "$forums_url/memberlist.php?mode=viewprofile&u=$user_id";
     }
@@ -574,10 +453,6 @@ function get_url_for_inbox()
 {
     global $forums_url;
     
-    if(PHPBB_VERSION == 2) {
-        return "$forums_url/privmsg.php?folder=inbox";
-    }
-
     if(PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?i=pm&folder=inbox";
     }
@@ -592,14 +467,6 @@ function get_number_of_unread_messages($username)
 
     if($forum_userid == NULL)
         return NULL;
-
-    if(PHPBB_VERSION == 2) {
-        $query = "
-            SELECT COUNT(*)
-            FROM {$phpbb_table_prefix}_privmsgs
-            WHERE privmsgs_to_userid = $forum_userid and (privmsgs_type = 1 or privmsgs_type = 5)
-            ";
-    }
 
     if(PHPBB_VERSION == 3) {
         # from: includes/functions_privmsgs.php:get_folder($user_id)
@@ -794,9 +661,6 @@ function call_phpbb_function( $func_name, $args )
     // (cd into the pinc directory, so the script doesn't
     // have to guess where it's being invoked from.)
     global $code_dir, $php_cli_executable;
-    if(PHPBB_VERSION == 2) {
-        $phpbb_include_file = "phpbb2.inc";
-    }
     if(PHPBB_VERSION == 3) {
         $phpbb_include_file = "phpbb3.inc";
     }
@@ -839,44 +703,6 @@ function topic_change_forum( $topic_id, $to_forum_id )
 {
     assert( $topic_id != '' );
 
-    if(PHPBB_VERSION == 2) {
-        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-        $result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT forum_id
-            FROM {$phpbb_table_prefix}_topics
-            WHERE topic_id=$topic_id
-        ");
-
-        $row = mysqli_fetch_assoc($result);
-
-        // If no rows were returned (because the topic_id doesn't exist), stop.
-        if(!$row)
-            return;
-
-        $from_forum_id = $row["forum_id"];
-
-        if ($from_forum_id != $to_forum_id)
-        {
-            // move posts to new forum
-            mysqli_query(DPDatabase::get_connection(), "
-                UPDATE {$phpbb_table_prefix}_posts
-                SET forum_id = $to_forum_id
-                WHERE topic_id = $topic_id
-            ");
-
-            // move topic to new forum
-            mysqli_query(DPDatabase::get_connection(), "
-                UPDATE {$phpbb_table_prefix}_topics
-                SET forum_id = $to_forum_id
-                WHERE topic_id = $topic_id
-            ");
-
-            forum_resynch( $from_forum_id );
-            forum_resynch( $to_forum_id );
-        }
-    }
-
     if(PHPBB_VERSION == 3) {
         call_phpbb_function( 'move_topic', array($topic_id, $to_forum_id) );
     }
@@ -886,44 +712,6 @@ function topic_change_forum( $topic_id, $to_forum_id )
 
 function forum_resynch( $forum_id )
 {
-    if(PHPBB_VERSION == 2) {
-        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-        // Count the number of topics in the forum
-        $res1 = mysqli_query(DPDatabase::get_connection(), "
-            SELECT COUNT(*)
-            FROM {$phpbb_table_prefix}_topics
-            WHERE forum_id = $forum_id
-        ");
-        list($forum_topics) = mysqli_fetch_row($res1);
-
-        // Count the number of posts in the forum,
-        // and get the id of most recent post in the forum,
-        // which might have changed when we moved the topic(s).
-        $res2 = mysqli_query(DPDatabase::get_connection(), "
-            SELECT COUNT(*), MAX(post_id)
-            FROM {$phpbb_table_prefix}_posts
-            WHERE forum_id = $forum_id
-        ");
-        list($forum_posts, $last_post) = mysqli_fetch_row($res2);
-        if ( $forum_posts == 0 )
-        {
-            // $last_post is NULL
-            $last_post = 0;
-        }
-
-        // adjust total posts and topics and last post for forum
-
-        $update_count = mysqli_query(DPDatabase::get_connection(), "
-            UPDATE {$phpbb_table_prefix}_forums
-            SET
-                forum_posts  = $forum_posts,
-                forum_topics = $forum_topics,
-                forum_last_post_id = $last_post
-            WHERE forum_id = $forum_id
-        ");
-    }
-
     if(PHPBB_VERSION == 3) {
         call_phpbb_function( 'sync_forum', array($forum_id) );
     }

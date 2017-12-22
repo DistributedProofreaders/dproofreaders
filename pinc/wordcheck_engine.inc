@@ -480,12 +480,6 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
 // (This is used for instance when splitting or rejoining
 // project parts.)
 {
-    // MySQL version NOTE:
-    //     "Prior to MySQL 4.0.14, the target table of the INSERT 
-    //     statement cannot appear in the FROM clause of the SELECT 
-    //     part of the query."
-    // thus the code below requires version 4.0.14 or later.
-  
     $sql = sprintf("
         INSERT INTO wordcheck_events
             (projectid, timestamp, image, round_id, username, suggestions, corrections)

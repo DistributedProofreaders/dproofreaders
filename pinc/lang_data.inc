@@ -19,12 +19,6 @@ $lang_dir_data=array(
 $lang_forum_data=array(
 );
 
-// List of phpBB2 interface languages installed (not needed for phpBB3).
-// Note that currently this is only used to set the default forum
-// language when a new user is created.
-$phpbb2langs=array(
-);
-
 // Language names in the language's native form. This overrides the ones
 // set in pinc/iso_639_loc_list.inc. Consult that file for array syntax
 // and coding restrictions.
