@@ -524,7 +524,7 @@ class ProjectSearchResults extends ColumnData
     public function get_search_configure_link()
     {
         $results_offset = intval(@$_GET['results_offset']);
-        return get_search_configure_link("{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;results_offset=$results_offset");
+        return get_search_configure_link("show=$this->show_param&amp;results_offset=$results_offset");
     }
 
     public function render($where_condition)

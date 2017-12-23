@@ -2,6 +2,7 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'gradual.inc');
@@ -10,24 +11,27 @@ include_once($relPath.'ProjectSearchResults.inc');
 
 require_login();
 
-$header_args = array("js_files" => array("$code_url/tools/dropdown.js"));
-
-output_header(_("Project Search"), NO_STATSBAR, $header_args);
-
-$search_form = new ProjectSearchForm();
-
 try {
     $show_view = get_enumerated_param($_GET, 'show', 'blank_search_form',
-        array('search_form', 'search', 'p_search', 'blank_search_form'));
+        array('search_form', 'search', 'p_search', 'blank_search_form', 'set_columns', 'config'));
 } catch(Exception $e) {
     $show_view = 'blank_search_form';
 }
+
+// exits if handled
+handle_set_cols($show_view);
 
 if($show_view == 'blank_search_form')
 {
     unset($_SESSION['search_data']);
     $show_view = 'search_form';
 }
+
+$header_args = array("js_files" => array("$code_url/tools/dropdown.js"));
+output_header(_("Project Search"), NO_STATSBAR, $header_args);
+$search_form = new ProjectSearchForm();
+
+handle_config($show_view);
 
 if ($show_view == 'search_form')
 {

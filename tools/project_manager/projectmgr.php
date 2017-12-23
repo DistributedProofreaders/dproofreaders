@@ -30,7 +30,7 @@ switch ($userP['i_pmdefault'])
 try {
     $show_view = get_enumerated_param($_GET, 'show', $default_view,
         array('search_form', 'p_search', 'search', 'blank_search_form', 'user_all', 'user_active',
-              'blank', 'ua_search_form'));
+              'blank', 'ua_search_form', 'set_columns', 'config'));
 } catch(Exception $e) {
     $show_view = 'blank';
 }
@@ -47,13 +47,16 @@ if(!user_is_PM())
     metarefresh(0, $url);
 }
 
+// exits if handled
+handle_set_cols($show_view);
+
 $header_args = array(
     "css_files" => array("$code_url/styles/statsbar.css"),
     "js_files" => array("$code_url/tools/dropdown.js"));
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
 
-$search_form = new ProjectSearchForm();
+handle_config($show_view);
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
@@ -70,6 +73,7 @@ elseif($show_view == 'ua_search_form')
 
 if ($show_view == 'search_form')
 {
+    $search_form = new ProjectSearchForm();
     echo "<h1>", _("Project Management"), "</h1>";
     $search_form->render();
     exit();
@@ -96,6 +100,7 @@ elseif ($show_view == "user_active")
 }
 else // $show_view == 'p_search' or 'search'
 {
+    $search_form = new ProjectSearchForm();
     $condition = $search_form->get_condition($show_view);
     // change search to p_search to use saved data if needed later
     // since we are not re-using GET data

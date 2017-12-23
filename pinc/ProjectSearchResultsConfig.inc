@@ -95,14 +95,14 @@ class ConfigForm extends ColumnData
 
         $userSettings =& Settings::get_Settings($pguser);
         echo "<h1>", _("Configure Search Results"), "</h1>\n";
-        if(isset($_GET['origin']))
-            $origin = $_GET['origin'];
+        if(isset($_GET['params']))
+            $params = $_GET['params'];
         else
             $origin = "$code_url/activity_hub.php";
         echo "<div style='clear: both;'>
-            <form method='GET' action='search_options.php'>
+            <form method='GET'>
             <input type='hidden' name='show' value='set_columns'>
-            <input type='hidden' name='origin' value='", $origin , "'>
+            <input type='hidden' name='params' value='", $params , "'>
         ";
         // split the controls across two columns using tables within divs
         $index = 0;
@@ -172,21 +172,43 @@ class ConfigSaver extends ColumnData
     }
 }
 
-function get_search_configure_button($url)
+function get_search_configure_button($params)
 {
     global $code_url;
     return "
-        <form style='display: inline;' method='GET' action='$code_url/tools/search_options.php'>
-        <input type='submit' value='" . attr_safe(_("Configure Results")) . "'>
-        <input type='hidden' name='origin' value='" . attr_safe($url) . "'>
+        <form style='display: inline;' method='GET'>
+        <input type='submit' value='" . attr_safe(_("Configure Result")) . "'>
+        <input type='hidden' name='show' value='config'>
+        <input type='hidden' name='params' value='" . attr_safe($params) . "'>
         </form>";
 }
 
-function get_search_configure_link($url)
+function get_search_configure_link($params)
 {
     global $code_url;
-    $origin = urlencode($url);
-    return "<a href='$code_url/tools/search_options.php?origin=$origin'>" . html_safe(_("Configure Result")) . "</a>";
+    $params = urlencode($params);
+    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;params=$params'>" . html_safe(_("Configure Result")) . "</a>";
+}
+
+function handle_set_cols($show_view)
+{
+    if ($show_view == 'set_columns')
+    {
+        $config_saver = new ConfigSaver();
+        $config_saver->store_data();
+        $params = array_get($_GET, 'params', '' );
+        metarefresh(0, $_SERVER['PHP_SELF'] . "?$params");
+    }
+}
+
+function handle_config($show_view)
+{
+    if($show_view == 'config')
+    {
+        $config_form = new ConfigForm();
+        $config_form->render();
+        exit();
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
