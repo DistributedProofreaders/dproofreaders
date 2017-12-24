@@ -1,12 +1,12 @@
 <?php
 class Selector
 {
-    function echo_select_item($userSettings)
+    function echo_select_item($userSettings, $prefix)
     {
         echo "
             <tr>
                 <th class='right-align top-align'>$this->label</th>
-                <td class='top-align'>", $this->get_html_control($userSettings), "</td>
+                <td class='top-align'>", $this->get_html_control($userSettings, $prefix), "</td>
             </tr>
         ";
     }
@@ -19,9 +19,9 @@ class ColumnSelector extends Selector
         $this->label = $column->get_long_label();
     }
 
-    function get_html_control($userSettings)
+    function get_html_control($userSettings, $prefix)
     {
-        $check = $this->column->is_active($userSettings) ? " checked" : "";
+        $check = $this->column->is_active($userSettings, $prefix) ? " checked" : "";
         return "<input type='checkbox' name='{$this->column->id}'$check>";
     }
 }
@@ -36,10 +36,10 @@ class OptionSelector extends Selector
         $this->options = $options;
     }
 
-    function get_html_control($userSettings)
+    function get_html_control($userSettings, $prefix)
     {
         echo "<select name='$this->id'>\n";
-        $selected_item = $this->get_value($userSettings);
+        $selected_item = $this->get_value($userSettings, $prefix);
         foreach ( $this->options as $option_value => $option_label )
         {
             $selected_attr = ($option_value == $selected_item) ? 'selected' : '';
@@ -48,9 +48,9 @@ class OptionSelector extends Selector
         echo "</select>\n";
     }
 
-    function get_value($userSettings)
+    function get_value($userSettings, $prefix)
     {
-        return $userSettings->get_value("PM$this->id", $this->def_value);
+        return $userSettings->get_value("$prefix$this->id", $this->def_value);
     }
 }
 
@@ -89,7 +89,7 @@ class ConfigForm extends ColumnData
         $this->option_data = new OptionData();
     }
 
-    public function render()
+    public function render($prefix)
     {
         global $code_url, $pguser;
 
@@ -114,12 +114,12 @@ class ConfigForm extends ColumnData
 
         echo $div_table_header;
         while($index < 9)
-            $this->column_selectors[$index++]->echo_select_item($userSettings);
+            $this->column_selectors[$index++]->echo_select_item($userSettings, $prefix);
         echo "</table></div>$div_table_header";
         while($index < $count)
-            $this->column_selectors[$index++]->echo_select_item($userSettings);
+            $this->column_selectors[$index++]->echo_select_item($userSettings, $prefix);
         foreach($this->option_data->options as $option)
-            $option->echo_select_item($userSettings);
+            $option->echo_select_item($userSettings, $prefix);
         echo "
             </table>
             </div>
@@ -139,7 +139,7 @@ class ConfigSaver extends ColumnData
         parent::__construct();
     }
 
-    public function store_data()
+    public function store_data($prefix)
     {
         global $pguser;
 
@@ -153,21 +153,21 @@ class ConfigSaver extends ColumnData
             $value = isset($_GET[$id]); // can only be 'on'
             if($value)
                 $none_selected = false;
-            if($value != $column->is_active($userSettings))
-                $userSettings->set_value("PM$id", $value ? "yes" : "no");
+            if($value != $column->is_active($userSettings, $prefix))
+                $userSettings->set_value("$prefix$id", $value ? "yes" : "no");
         }
         if($none_selected)
         {
             // force title to be on
-            $userSettings->set_value("PMtitle", "yes");
+            $userSettings->set_value("{$prefix}title", "yes");
         }
         // get the option values
         foreach($option_data->options as $option)
         {
             $id = $option->id;
             $value = $_GET[$id];
-            if($value != $option->get_value($userSettings))
-                $userSettings->set_value("PM$id", $value);
+            if($value != $option->get_value($userSettings, $prefix))
+                $userSettings->set_value("$prefix$id", $value);
         }
     }
 }
@@ -190,23 +190,23 @@ function get_search_configure_link($params)
     return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;params=$params'>" . html_safe(_("Configure Result")) . "</a>";
 }
 
-function handle_set_cols($show_view)
+function handle_set_cols($show_view, $prefix)
 {
     if ($show_view == 'set_columns')
     {
         $config_saver = new ConfigSaver();
-        $config_saver->store_data();
+        $config_saver->store_data($prefix);
         $params = array_get($_GET, 'params', '' );
         metarefresh(0, $_SERVER['PHP_SELF'] . "?$params");
     }
 }
 
-function handle_config($show_view)
+function handle_config($show_view, $prefix)
 {
     if($show_view == 'config')
     {
         $config_form = new ConfigForm();
-        $config_form->render();
+        $config_form->render($prefix);
         exit();
     }
 }

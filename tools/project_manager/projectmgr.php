@@ -48,7 +48,7 @@ if(!user_is_PM())
 }
 
 // exits if handled
-handle_set_cols($show_view);
+handle_set_cols($show_view, "PM");
 
 $header_args = array(
     "css_files" => array("$code_url/styles/statsbar.css"),
@@ -56,7 +56,7 @@ $header_args = array(
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
 
-handle_config($show_view);
+handle_config($show_view, "PM");
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
@@ -108,7 +108,7 @@ else // $show_view == 'p_search' or 'search'
     $sub_title = _("Search Results");
 }
 
-$search_results = new ProjectSearchResults($show_view);
+$search_results = new ProjectSearchResults($show_view, "PM");
 
 // In order to create the sidebar, wrap everything in some divs
 echo "<div style='display: table; margin:-.5em -.5em 0 -.5em'>
