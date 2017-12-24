@@ -31,7 +31,7 @@ $header_args = array("js_files" => array("$code_url/tools/dropdown.js"));
 output_header(_("Project Search"), NO_STATSBAR, $header_args);
 $search_form = new ProjectSearchForm();
 
-handle_config($show_view, "PS");
+handle_config($show_view, "PS", _("Configure Search Results"));
 
 if ($show_view == 'search_form')
 {

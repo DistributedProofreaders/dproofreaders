@@ -89,12 +89,12 @@ class ConfigForm extends ColumnData
         $this->option_data = new OptionData();
     }
 
-    public function render($prefix)
+    public function render($prefix, $title)
     {
         global $code_url, $pguser;
 
         $userSettings =& Settings::get_Settings($pguser);
-        echo "<h1>", _("Configure Search Results"), "</h1>\n";
+        echo "<h1>$title</h1>\n";
         if(isset($_GET['params']))
             $params = $_GET['params'];
         else
@@ -201,12 +201,12 @@ function handle_set_cols($show_view, $prefix)
     }
 }
 
-function handle_config($show_view, $prefix)
+function handle_config($show_view, $prefix, $title)
 {
     if($show_view == 'config')
     {
         $config_form = new ConfigForm();
-        $config_form->render($prefix);
+        $config_form->render($prefix, $title);
         exit();
     }
 }
