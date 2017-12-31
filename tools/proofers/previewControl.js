@@ -17,6 +17,8 @@ var previewControl;
 // of previewControl
 function initPrev() {
     "use strict";
+    var i;
+    var supp_set = ['charBeforeStart', 'sideNoteBlank'];
     // this is a wrapper round text_preview which enables the padding
     // on the right to appear correctly
     var outerPrev = document.getElementById("id_tp_outer");
@@ -42,9 +44,10 @@ function initPrev() {
     var fontName = document.getElementById("id_font_name");
     var removeFontSelector = document.getElementById("id_remove_sel");
     var allowUnderlineCheckbox = document.getElementById("id_underline");
-    var suppressCBSCheckbox = document.getElementById("id_cbs");
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
+
+    var suppCheckBox = [];
 
     var selTag;
     var viewMode = "no_tags";    // always start with this
@@ -73,8 +76,12 @@ function initPrev() {
         allowUnderline: false,
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif",
-        suppress: {charBeforeStart: false}
+        suppress: {}
     };
+    for (i = 0; i < supp_set.length; i++) {
+        previewStyles.suppress[supp_set[i]] = false;
+        suppCheckBox[i] = document.getElementById(supp_set[i]);
+    }
     // stores the size of the bottom frame so it can be restored on exit
     var old_rows;
     var font_size;
@@ -109,7 +116,6 @@ function initPrev() {
 
     // set up a font selector
     function initSelector(selector, optionSet, def) {
-        var i;
         var opt;
         var optionList = [];
         // remove all incase revisiting, last first
@@ -147,7 +153,6 @@ function initPrev() {
     // This implies that if one of the default font options is deleted
     // it will re-appear next time
     function deepCopy(dest, source, keep) {
-        var i;
         if (source && typeof source === 'object') {
             if (!keep) {
                 dest = Array.isArray(source) ? [] : {};
@@ -296,7 +301,10 @@ function initPrev() {
             defaultTextRadio.checked = true;
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
-            suppressCBSCheckbox.checked = tempStyle.suppress.charBeforeStart;
+
+            for (i = 0; i < supp_set.length; i++) {
+                suppCheckBox[i].checked = tempStyle.suppress[supp_set[i]];
+            }
         },
 
         enableColor: function (en) {
@@ -311,7 +319,9 @@ function initPrev() {
         },
 
         OKConfig: function () {
-            tempStyle.suppress.charBeforeStart = suppressCBSCheckbox.checked;
+            for (i = 0; i < supp_set.length; i++) {
+                tempStyle.suppress[supp_set[i]] = suppCheckBox[i].checked;
+            }
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
