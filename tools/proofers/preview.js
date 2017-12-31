@@ -27,7 +27,7 @@ var makePreview = function (txt, viewMode, styler) {
         blankAfter: 0,
         NWinNW: 1,
         BQinNW: 1,
-        aloneTag: 1,
+        charAfter: 1,
         OolPrev: 1,
         OolNext: 1,
         blankLines124: 1,
@@ -193,16 +193,24 @@ var makePreview = function (txt, viewMode, styler) {
     function chkAfter(start, len, str1, type) {
         var ix = start + len;
         var end = findEnd(ix);
-        if (nonComment(txt.slice(ix, end)) || (/./.test(txt.charAt(end + 1)))) {
+        if (nonComment(txt.slice(ix, end))) {
+            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), type);
+            return;
+        }
+        if (/./.test(txt.charAt(end + 1))) {
             reportIssueLong(start, len, previewMessages.blankAfter.replace("%s", str1), type);
         }
     }
 
     // check that no other characters are on the same line
-    function chkAlone(start, len) {
+    function chkAlone(start, len, str1) {
         var ix = start + len;
-        if (nonComment(txt.slice(ix, findEnd(ix))) || (/./.test(txt.charAt(start - 1)))) {
-            reportIssue(start, len, "aloneTag");
+        if (nonComment(txt.slice(ix, findEnd(ix)))) {
+            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), 1);
+            return;
+        }
+        if (/./.test(txt.charAt(start - 1))) {
+            reportIssue(start, len, "charBefore");
         }
     }
 
@@ -237,7 +245,7 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             tagString = result[0];
 
-            chkAlone(start, 2);
+            chkAlone(start, 2, tagString);
             // for an opening tag check previous line is blank
             // or an opening block quote tag possibly with a comment
             // allow also an opening no-wrap to avoid giving a misleading message

@@ -28,7 +28,7 @@ function get_preview_strings()
         "blankAfter" => _("A blank line should follow %s"),
         "NWinNW" => _("No-wrap inside no-wrap"),
         "BQinNW" => _("Block quote inside no-wrap"),
-        "aloneTag" => _("This tag should be alone on its line"),
+        "charAfter" => _("No characters should follow %s"),
         "OolPrev" => _("Out-of-line start tag should not be preceded by normal text"),
         "OolNext" => _("Out-of-line end tag should not be followed by normal text"),
         "blankLines124" => _("Only 1, 2 or 4 blank lines should be used"),
