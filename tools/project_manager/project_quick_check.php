@@ -27,7 +27,7 @@ echo "<p>$page_text</p>";
 // show the form
 echo "<form method='GET'>";
 echo "<table>";
-echo  "<tr>"; 
+echo  "<tr>";
 echo   "<td>" . _("Project ID") . "</td>";
 echo   "<td><input name='projectid' type='text' value='$projectid' size='40'></td>";
 echo  "</tr>";
@@ -74,11 +74,7 @@ if($project->pages_table_exists)
     echo " | <a href='$code_url/tools/proofers/images_index.php?project=$projectid'>" . _("Image Index") . "</a>";
 echo "</p>";
 
-if ($project->can_be_managed_by_current_user || $project->PPer_is_current_user)
-{
-    // good, proceed.
-}
-else
+if (!$project->user_can_do_quick_check())
 {
     echo "<p class='error'>" . _("You are not authorized to run this script on that project.") . "</p>";
     exit;

@@ -130,10 +130,10 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    function PPer_is_user($username) 
+    function PPer_is_user($username)
     {
         if ( is_null($username) ) return FALSE;
-        return 
+        return
             ($this->postproofer == $username
              ||
              (
@@ -153,7 +153,7 @@ class Project
     function PPVer_is_user($username)
     {
         if ( is_null($username) ) return FALSE;
-        return 
+        return
             ( $this->state == 'proj_post_first_checked_out'
               || $this->state == 'proj_post_second_checked_out' )
             && $this->checkedoutby == $username
@@ -283,6 +283,13 @@ class Project
         );
     }
 
+    function user_can_do_quick_check()
+    {
+        // used in PQC itself and to enable links to PQC
+        // in project.php and ProjectSearchResults.inc
+        return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
+    }
+
     // -------------------------------------------------------------------------
 
     private function _create_credit_line()
@@ -305,9 +312,9 @@ class Project
         foreach ($creditables as $role => $name)
         {
             if ( $name == '' ) continue;
-    
+
             $credit = NULL;
-    
+
             if ($role == 'cp')
             {
                 // $name ($project->scannercredit) could be
@@ -328,21 +335,21 @@ class Project
             {
                 // $name ($project->extra_credits) should not be a username;
                 // It is just a typed-in string, and will be presented as is,
-                // as part of the list. 
+                // as part of the list.
                 $credit = $name;
             }
-    
+
             if ( is_null($credit) )
             {
                 // $name is a username.
                 $username = $name;
-    
+
                 if (!wants_anonymity($username, $role))
                 {
                     $credit = get_credit_name($username);
                 }
             }
-    
+
             if ( !is_null($credit) )
             {
                 if (!in_array($credit, $credits))
@@ -585,7 +592,7 @@ function project_get_auto_PPer( $projectid )
     else
     {
         // The project does not have a reserved PPer.
-      
+
         $settings =& Settings::get_Settings($username);
         if ($settings->get_boolean('send_to_post'))
         {
@@ -599,11 +606,11 @@ function project_get_auto_PPer( $projectid )
         }
     }
     // now see if the possible PPer is allowed to check projects out
-    // when the relevant bit is uncommented, 
+    // when the relevant bit is uncommented,
     // note that it will mean that the send_to_post setting has no effect
     // if the PM does not have PPer status
     if ( $possible_PPer == ''
-         || ! user_can_work_in_stage($possible_PPer, 'PP') 
+         || ! user_can_work_in_stage($possible_PPer, 'PP')
          || that_user_is_over_PP_checked_out_limit($possible_PPer) )
     {
         return NULL;
