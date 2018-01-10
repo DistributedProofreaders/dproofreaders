@@ -1,17 +1,6 @@
 @import (reference) "global.less";
 
 /* ------------------------------------------------------------------------ */
-/* Mix-ins */
-.plain-list {
-    ul {
-        .no-padding;
-    }
-    li {
-        list-style-type: none;
-    }
-}
-
-/* ------------------------------------------------------------------------ */
 /* Statsbar */
 
 #statsbar {
@@ -47,19 +36,6 @@
 
 #rounded-corner {
     width: 1%;
-    display: table-cell;
-    &.left-statsbar {
-        border-top-left-radius: 20px;
-    }
-    &.right-statsbar {
-        border-top-right-radius: 20px;
-    }
-}
-
-#pm_content {
-    padding:.5em;
-    background-color: #ffffff;
-    width: 75%;
     display: table-cell;
     &.left-statsbar {
         border-top-left-radius: 20px;

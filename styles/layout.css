@@ -793,5 +793,29 @@ table.search-column tr th {
 .dropdown-show {
   display: block;
 }
+/* ------------------------------------------------------------------------ */
+/* PM link box */
+#pm_links {
+  text-align: left;
+  vertical-align: top;
+  padding: 0 1em;
+  float: right;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid black;
+}
+#pm_links ul {
+  padding: 0;
+}
+#pm_links li {
+  list-style-type: none;
+}
+#pm_links h2 {
+  text-align: center;
+  font-size: 1em;
+}
+#pm_links li {
+  margin-top: 3px;
+}
 /* vim: sw=4 ts=4 expandtab
 */

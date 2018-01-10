@@ -135,14 +135,14 @@ function check_user_can_load_projects($exit_if_not)
     if (user_has_project_loads_disabled())
     {
         echo "
-              <div class='callout'>"
+              <div class='display-flex'><div class='callout'>"
             ._("You are not currently permitted to create new projects, or move projects out of the unavailable state.")
             ."<br>\n"
             .sprintf(_("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
                      "mailto:$site_manager_email_addr"
                      )
             ."
-              </div>\n";
+              </div></div>\n";
         if ($exit_if_not) 
         {
             exit;

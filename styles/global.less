@@ -79,12 +79,25 @@
     }
 }
 
+.plain-list {
+    ul {
+        .no-padding;
+    }
+    li {
+        list-style-type: none;
+    }
+}
+
 .unicolor-link(@color) {
     a {
         &:link, &:visited, &:active {
             color: @color;
         }
     }
+}
+
+.display-flex {
+    display: flex;
 }
 
 /* vim: sw=4 ts=4 expandtab

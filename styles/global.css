@@ -61,5 +61,14 @@
 .no-cellpadding th {
   padding: 0;
 }
+.plain-list ul {
+  padding: 0;
+}
+.plain-list li {
+  list-style-type: none;
+}
+.display-flex {
+  display: flex;
+}
 /* vim: sw=4 ts=4 expandtab
 */
