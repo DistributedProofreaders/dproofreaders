@@ -340,6 +340,13 @@ class Project
                 if (!wants_anonymity($username, $role))
                 {
                     $credit = get_credit_name($username);
+
+                    // If the user has specified a Credit Name of "other" but used
+                    // an empty string we should treat it as no credit wanted.
+                    if($credit === "")
+                    {
+                        $credit = NULL;
+                    }
                 }
             }
     
@@ -647,7 +654,7 @@ function get_credit_name( $login_name )
     }
     else if ($credit == 'other')
     {
-        $name = $settings->get_value('credit_other');
+        $name = trim($settings->get_value('credit_other'));
     }
     else // default: real_name
     {
