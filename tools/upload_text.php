@@ -11,13 +11,11 @@ include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
 require_login();
 
-// use:
-// $code_url/tools/upload_text.php?project=projectid&curr_state=...
-
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
+$postcomments = @$_POST['postcomments'];
 
 $project = new Project($projectid);
 
@@ -197,7 +195,7 @@ else
 
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
-    $path_to_file = "$projects_dir/$projectid";
+    $path_to_file = "$projects_dir/$projectid/";
 
     $files = $_FILES['files'];
 
@@ -233,12 +231,6 @@ else
         }  
     }
     
-    // this is ridiculous, why not just include the "/" to start with?
-    if (!endswith($path_to_file, "/"))
-    {
-        $path_to_file = $path_to_file."/";
-    }
-
     function ensure_path_is_unused( $path )
         // Ensure that nothing exists at $path.
         // (If something's there, rename it.)
@@ -284,7 +276,6 @@ else
     // if we're returning to available, and the user hasn't loaded a file, and not
     // entered any comments, we don't bother.
     // Otherwise, we add a divider, time stamp, user name, and the name of the file
-    $postcomments = @$_POST['postcomments'];
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
         $divider .= "  ".$name." "._("uploaded by")." ";
