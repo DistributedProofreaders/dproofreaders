@@ -314,25 +314,21 @@ function validate_uploaded_file($stage)
     $need_file = !$returning_to_pool;    // in future, may be other conditions for this
     $file_count = count($files['name']);
     if ($file_count > 1) {
-        echo _("You may only upload one file");
-        exit();
+        die( _("You may only upload one file") );
     }
     // file_count never seems to be 0, but we keep the check in, just in case
     $have_file = (1 == $file_count && strlen($files['name'][0]) > 0);
 
     if ($need_file && ! $have_file) {
-        echo _("You must upload a file");
-        exit();
+        die( _("You must upload a file") );
     }
 
     if ($have_file) {       // we have a file now. do some more checks.
         if (substr($files['name'][0], -4) != ".zip") {
-            echo _("Invalid Filename");
-            exit();
+            die( _("Invalid Filename") );
         }
         if (0 == $files['size'][0]) {
-            echo _("File is empty");
-            exit();
+            die( _("File is empty") );
         }
         return $files['tmp_name'][0];
     }
@@ -358,10 +354,9 @@ function ensure_path_is_unused( $path )
             if (!$success)
             {
                 // It will already have printed a warning.
-                echo sprintf(
+                die( sprintf(
                     _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-                    $db_requests_email_addr );
-                exit;
+                    $db_requests_email_addr) );
             }
         } else {
 
