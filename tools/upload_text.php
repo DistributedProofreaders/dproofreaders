@@ -9,6 +9,18 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
+// Detect if the file uploaded was larger than post_max_size and show
+// an error instead of failing silently. We do this here because if the
+// POST failed, $_REQUEST and $_POST are empty and we have no data to even
+// route them through the do_upload() function at all.
+// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
+    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
+{
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
+}
+
 require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
@@ -303,6 +315,23 @@ else
 function validate_uploaded_file($stage)
 {
     $files = $_FILES['files'];
+
+    // Some of the following logic was pulled from remote_file_manager.php.
+
+    // If a user hits the "Upload" button without first selecting a file,
+    // it appears that most browsers send a request containing a file whose
+    // name and content are empty. But I think it's also legal for a browser
+    // to send a request that doesn't contain a file at all (in which case
+    // $files would be null.  Check both possibilities.
+    if (is_null($files) || $files['name'] == '') {
+        die( _("You must select a file to upload.") );
+    }
+
+    // $files has 'name' 'type' 'size' 'tmp_name' 'error'
+
+    if ($files['error'] != UPLOAD_ERR_OK) {
+        die( get_upload_err_msg($files['error']) );
+    }
 
     // do some checks. File must exist (except if we are returning to PP
     // or PPV available.
