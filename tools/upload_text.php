@@ -197,79 +197,19 @@ else
     set_time_limit(14400);
     $path_to_file = "$projects_dir/$projectid/";
 
-    $files = $_FILES['files'];
+    $uploaded_file = validate_uploaded_file($stage);
 
-    // do some checks. File must exist (except if we are returning to PP 
-    // or PPV available.
-    // if we have a file, we need its name to end in .zip, and we need
-    // it to have non zero size.
-    // and there must be only one file.
-
-    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
-    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
-    $file_count = count($files['name']);
-    if ($file_count > 1) {
-        echo _("You may only upload one file");
-        exit();
-    }
-    // file_count never seems to be 0, but we keep the check in, just in case
-    $have_file = (1 == $file_count && strlen($files['name'][0]) > 0);
-
-    if ($need_file && ! $have_file) {
-        echo _("You must upload a file");
-        exit();
-    }
-
-    if ($have_file) {       // we have a file now. do some more checks.
-        if (substr($files['name'][0], -4) != ".zip") {
-            echo _("Invalid Filename");
-            exit();
-        }
-        if (0 == $files['size'][0]) {
-            echo _("File is empty");
-            exit();
-        }  
-    }
-    
-    function ensure_path_is_unused( $path )
-        // Ensure that nothing exists at $path.
-        // (If something's there, rename it.)
-        // EXCEPT: let people overwrite their finished SR files as often as they want
-        {
-            global $stage, $db_requests_email_addr;
-            
-            if ( file_exists($path) )
-            {
-
-                if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
-
-                    $bak = "$path.bak";
-                    ensure_path_is_unused( $bak );
-                    $success = rename( $path, $bak );
-                    if (!$success)
-                    {
-                        // It will already have printed a warning.
-                        echo sprintf(
-                            _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-                            $db_requests_email_addr );
-                        exit;
-                    }
-                } else {
-
-                    unlink($path);
-                }
-            }
-        }
-
-    if ($have_file) {
+    if (is_file($uploaded_file))
+    {
         // replace filename
         $zipext = ".zip";
         $name = $projectid.$indicator.$zipext;
         $location = $path_to_file.$name;
         ensure_path_is_unused( $location );
-        copy($files['tmp_name'][0],$location);
-        unlink($files['tmp_name'][0]);
+        copy($uploaded_file, $location);
+        unlink($uploaded_file);
     }
+
     // we've put the file in the right place.
     // now let's deal with the postcomments.
     // we construct the bit that's going to be added on to the existing postcomments.
@@ -356,6 +296,78 @@ else
         $msg = _("This shouldn't happen. No file upload and not returning to pool.");
     }
     metarefresh(1, $back_url, $msg, $msg);
+}
+
+#----------------------------------------------------------------------------
+
+function validate_uploaded_file($stage)
+{
+    $files = $_FILES['files'];
+
+    // do some checks. File must exist (except if we are returning to PP
+    // or PPV available.
+    // if we have a file, we need its name to end in .zip, and we need
+    // it to have non zero size.
+    // and there must be only one file.
+
+    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
+    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
+    $file_count = count($files['name']);
+    if ($file_count > 1) {
+        echo _("You may only upload one file");
+        exit();
+    }
+    // file_count never seems to be 0, but we keep the check in, just in case
+    $have_file = (1 == $file_count && strlen($files['name'][0]) > 0);
+
+    if ($need_file && ! $have_file) {
+        echo _("You must upload a file");
+        exit();
+    }
+
+    if ($have_file) {       // we have a file now. do some more checks.
+        if (substr($files['name'][0], -4) != ".zip") {
+            echo _("Invalid Filename");
+            exit();
+        }
+        if (0 == $files['size'][0]) {
+            echo _("File is empty");
+            exit();
+        }
+        return $files['tmp_name'][0];
+    }
+
+    return NULL;
+}
+
+// Ensure that nothing exists at $path.
+// (If something's there, rename it.)
+// EXCEPT: let people overwrite their finished SR files as often as they want
+function ensure_path_is_unused( $path )
+{
+    global $stage, $db_requests_email_addr;
+
+    if ( file_exists($path) )
+    {
+
+        if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
+
+            $bak = "$path.bak";
+            ensure_path_is_unused( $bak );
+            $success = rename( $path, $bak );
+            if (!$success)
+            {
+                // It will already have printed a warning.
+                echo sprintf(
+                    _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
+                    $db_requests_email_addr );
+                exit;
+            }
+        } else {
+
+            unlink($path);
+        }
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
