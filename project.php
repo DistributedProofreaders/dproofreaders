@@ -694,7 +694,13 @@ function do_project_info_table()
                 $blurb = _("Images, Pages Proofread, & Differences");
                 $url2 = "$url&amp;select_by_user";
                 $blurb2 = _("Just my pages");
-                $detail = "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;";
+                $detail = "<a href='$url'>$blurb</a> | <a href='$url2'>$blurb2</a>";
+                if($project->has_entered_formatting_round())
+                {
+                    $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
+                    $blurb3 = _("Compare without formatting");
+                    $detail .= " | <a href='$url3'>$blurb3</a>";
+                }
             }
             else
             {
@@ -2160,4 +2166,3 @@ function do_page_table()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab
-?>

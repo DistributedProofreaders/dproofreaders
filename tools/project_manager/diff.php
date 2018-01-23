@@ -7,6 +7,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe()
 include_once($relPath."DifferenceEngineWrapper.inc");
+include_once($relPath."DPage.inc"); // remove_formatting()
 
 require_login();
 
@@ -14,6 +15,7 @@ $projectid   = validate_projectID('project', @$_GET['project']);
 $image       = validate_page_image_filename('image', @$_GET['image'], true);
 $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
+$format = get_enumerated_param($_GET, "format", null, array("keep", "remove"), true);
 
 $project = new Project( $projectid );
 $state = $project->state;
@@ -38,6 +40,7 @@ if ( $L_round_num == 0 )
     $L_text_column_name = 'master_text';
     $L_user_column_name = "'none'";  // string literal, not column name
     $L_label = _('OCR');
+    $L_format = false;
 }
 else
 {
@@ -45,6 +48,7 @@ else
     $L_text_column_name = $L_round->text_column_name;
     $L_user_column_name = $L_round->user_column_name;
     $L_label = $L_round->id;
+    $L_format = is_formatting_round($L_round);
 }
 
 if ( $R_round_num == 0 )
@@ -52,6 +56,7 @@ if ( $R_round_num == 0 )
     $R_text_column_name = 'master_text';
     $R_user_column_name = "'none'";  // string literal, not column name
     $R_label = _('OCR');
+    $R_format = false;
 }
 else
 {
@@ -59,6 +64,22 @@ else
     $R_text_column_name = $R_round->text_column_name;
     $R_user_column_name = $R_round->user_column_name;
     $R_label = $R_round->id;
+    $R_format = is_formatting_round($R_round);
+}
+
+
+switch($format)
+{
+    case "keep":
+        $remove_format = false;
+        break;
+    case "remove":
+        $remove_format = true;
+        break;
+    default:
+        // remove format if only one of the rounds is formatting
+        $remove_format = ($L_format xor $R_format);
+        break;
 }
 
 $query = "
@@ -74,12 +95,25 @@ if ( $can_see_names_for_this_page) {
     $L_label .= " ($L_user)";
     $R_label .= " ($R_user)";
 }
+
+if($remove_format)
+{
+    // also remove blank lines and leading and trailing spaces
+    $L_text = remove_formatting($L_text, false);
+    $R_text = remove_formatting($R_text, false);
+    $link_text = _('Difference for page %s with formatting removed');
+}
+else
+{
+    $link_text = _('Difference for page %s');
+}
+
 // now have the image, users, labels etc all set up
 // -----------------------------------------------------------------------------
 
 $title = sprintf( _('Difference for page %s'), $image );
 $image_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$image";
-$image_link = sprintf( _('Difference for page %s'), new_window_link($image_url, $image));
+$image_link = sprintf($link_text, new_window_link($image_url, $image));
 $extra_args = array(
     "css_files" => get_DifferenceEngine_css_files(),
     "css_data"  => get_DifferenceEngine_css_data(),
@@ -96,7 +130,26 @@ echo $navigation_text;
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
 $label = _("Go to Project Page");
 
-echo "\n<p><a href='$url'>$label</a></p>\n";
+echo "\n<p><a href='$url'>$label</a>\n";
+
+if($L_format || $R_format)
+{
+    // show option to change compare method
+    if($remove_format)
+    {
+        $format_label = _("Compare with formatting");
+        $_GET["format"] = "keep";
+    }
+    else
+    {
+        $format_label = _("Compare without formatting");
+        $_GET["format"] = "remove";
+    }
+    $format_url = "?" . attr_safe(http_build_query($_GET));
+    echo "| <a href='$format_url'>$format_label</a>\n";
+}
+
+echo "</p>\n";
 
 // ---------------------------------------------------------
 

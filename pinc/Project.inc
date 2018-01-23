@@ -6,6 +6,7 @@ include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
+include_once($relPath.'stages.inc'); // is_formatting_round()
 
 class NonexistentProjectException extends Exception { }
 
@@ -565,6 +566,22 @@ XML;
         $updated_record->load_yaz_array(unserialize(base64_decode($row["updated_array"])));
 
         return $updated_record;
+    }
+
+    // check if project has entered a formatting round
+    public function has_entered_formatting_round()
+    {
+        global $PROJECT_STATES_IN_ORDER;
+        $state_index = array_search($this->state, $PROJECT_STATES_IN_ORDER);
+        for($i=$state_index; $i>=0; $i--)
+        {
+            $round = get_Round_for_project_state($PROJECT_STATES_IN_ORDER[$i]);
+            if($round && is_formatting_round($round))
+            {
+                return TRUE;
+            }
+        }
+        return FALSE;
     }
 }
 
