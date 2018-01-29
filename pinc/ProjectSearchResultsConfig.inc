@@ -5,7 +5,7 @@ class Selector
     {
         echo "
             <tr>
-                <th class='right-align top-align'>$this->label</th>
+                <th class='right-align top-align'>", html_safe($this->label), "</th>
                 <td class='top-align'>", $this->get_html_control($userSettings, $prefix), "</td>
             </tr>
         ";

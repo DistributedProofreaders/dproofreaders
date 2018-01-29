@@ -94,7 +94,7 @@ class Column
             }
             $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
         }
-        echo "<th class='$this->css_class' title='", $this->get_tooltip(), "'>$label</th>\n";
+        echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
 
     public function echo_data_cell($project, $time_format)
