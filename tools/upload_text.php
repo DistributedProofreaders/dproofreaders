@@ -103,7 +103,7 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
 else if ($stage == 'smooth_avail')
 {
     $title = _("Upload file for smooth reading");
-    $intro_blurb = _("This page allows you to upload a fully post-processed file for smooth reading.");
+    $intro_blurb = _("This page allows you to upload a fully post-processed file for smooth reading. Uploading another version will overwrite the previously uploaded file.");
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
@@ -118,7 +118,7 @@ else if ($stage == 'smooth_avail')
 else if ($stage == 'smooth_done')
 {
     $title = _("Upload smooth read version");
-    $intro_blurb = _("This page allows you to upload a smooth read version of the project.");
+    $intro_blurb = _("This page allows you to upload a smooth read version of the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
