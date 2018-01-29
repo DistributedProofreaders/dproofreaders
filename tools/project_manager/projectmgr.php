@@ -48,7 +48,6 @@ if(!user_is_PM())
 }
 
 $header_args = array(
-    "css_files" => array("$code_url/styles/statsbar.css"),
     "js_files" => array("$code_url/tools/dropdown.js"));
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
@@ -105,46 +104,18 @@ else // $show_view == 'p_search' or 'search'
 
 $search_results = new ProjectSearchResults($show_view);
 
-// In order to create the sidebar, wrap everything in some divs
-echo "<div style='display: table; margin:-.5em -.5em 0 -.5em'>
-    <div class='sidebar-color' style='display:table-row;'>";
-if($userP['u_align']) // statsbar at left
-{
-    echo_sidebar();
-    echo_main_content('left-statsbar');
-}
-else
-{
-    echo_main_content('right-statsbar');
-    echo_sidebar();
-}
-echo "</div></div>";
+echo_manager_links();
+echo "<h1>", _("Project Management"), "</h1>\n";
+// possibly show message, but don't exit
+check_user_can_load_projects(false);
+show_news_for_page('PM');
+echo "\n<h2 id='head'>$sub_title</h2>\n";
+echo_shortcut_links($show_view, $search_results);
 
 if($show_view == "blank")
     exit();
 
 $search_results->render($condition);
-
-function echo_main_content($bar_class)
-{
-    global $sub_title, $show_view, $search_results;
-
-    echo "<div id='pm_content' class='$bar_class'>";
-    echo "<h1>", _("Project Management"), "</h1>\n";
-    // possibly show message, but don't exit
-    check_user_can_load_projects(false);
-    show_news_for_page('PM');
-    echo "\n<h2 id='head'>$sub_title</h2>\n";
-    echo_shortcut_links($show_view, $search_results);
-    echo "</div>";
-}
-
-function echo_sidebar()
-{
-    echo "<div id='statsbar'>\n";
-    echo_manager_links();
-    echo "</div>";
-}
 
 function set_session_user_active()
 {

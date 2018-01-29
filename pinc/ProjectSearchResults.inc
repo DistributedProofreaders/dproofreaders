@@ -524,7 +524,7 @@ class ProjectSearchResults extends ColumnData
         $num_found_rows = $row[0];
         if ( $numrows == 0 )
         {
-            echo "<b>", _("No projects matched the search criteria."), "</b>";
+            echo "<p><b>", _("No projects matched the search criteria."), "</b></p>";
             return;
         }
 

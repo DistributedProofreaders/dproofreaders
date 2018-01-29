@@ -1,12 +1,4 @@
 /* ------------------------------------------------------------------------ */
-/* Mix-ins */
-.plain-list ul {
-  padding: 0;
-}
-.plain-list li {
-  list-style-type: none;
-}
-/* ------------------------------------------------------------------------ */
 /* Statsbar */
 #statsbar {
   text-align: left;
@@ -44,18 +36,6 @@
   border-top-left-radius: 20px;
 }
 #rounded-corner.right-statsbar {
-  border-top-right-radius: 20px;
-}
-#pm_content {
-  padding: .5em;
-  background-color: #ffffff;
-  width: 75%;
-  display: table-cell;
-}
-#pm_content.left-statsbar {
-  border-top-left-radius: 20px;
-}
-#pm_content.right-statsbar {
   border-top-right-radius: 20px;
 }
 /* ------------------------------------------------------------------------ */
