@@ -192,7 +192,7 @@ if (!isset($action))
         echo _("Select a zipped file to upload:");
     }
     echo "<br>\n";
-    echo "<input type='file' name='files[]' size='25' maxsize='50'>\n";
+    echo "<input type='file' name='uploaded_file' size='25' maxsize='50'>\n";
     echo "<p>$standard_blurb</p>";
     echo "<p>$big_upload_blurb</p>\n";
     echo "</li>\n";
@@ -224,24 +224,30 @@ else
 {
     // Handle a submission from the upload page.
 
-    // if files have been uploaded, process them
-    // mangle the postcomments
-
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
-    $path_to_file = "$projects_dir/$projectid/";
 
-    $uploaded_file = validate_uploaded_file($stage);
+    // if files have been uploaded, process them and mangle the postcomments
+    $uploaded_file = validate_uploaded_file();
 
+    $have_file = FALSE;
     if (is_file($uploaded_file))
     {
         // replace filename
         $zipext = ".zip";
         $name = $projectid.$indicator.$zipext;
+        $path_to_file = "$projects_dir/$projectid/";
         $location = $path_to_file.$name;
         ensure_path_is_unused( $location );
         copy($uploaded_file, $location);
         unlink($uploaded_file);
+        $have_file = TRUE;
+    }
+
+    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
+    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
+    if ($need_file && ! $have_file) {
+        die( _("You must upload a file") );
     }
 
     // we've put the file in the right place.
@@ -334,9 +340,9 @@ else
 
 #----------------------------------------------------------------------------
 
-function validate_uploaded_file($stage)
+function validate_uploaded_file()
 {
-    $files = $_FILES['files'];
+    $uploaded_file = $_FILES['uploaded_file'];
 
     // Some of the following logic was pulled from remote_file_manager.php.
 
@@ -344,44 +350,34 @@ function validate_uploaded_file($stage)
     // it appears that most browsers send a request containing a file whose
     // name and content are empty. But I think it's also legal for a browser
     // to send a request that doesn't contain a file at all (in which case
-    // $files would be null.  Check both possibilities.
-    if (is_null($files) || $files['name'] == '') {
+    // $uploaded_file would be null.  Check both possibilities.
+    if (is_null($uploaded_file) || $uploaded_file['name'] == '') {
         die( _("You must select a file to upload.") );
     }
 
-    // $files has 'name' 'type' 'size' 'tmp_name' 'error'
+    // $uploaded_file has 'name' 'type' 'size' 'tmp_name' 'error'
 
-    if ($files['error'] != UPLOAD_ERR_OK) {
-        die( get_upload_err_msg($files['error']) );
+    if ($uploaded_file['error'] != UPLOAD_ERR_OK) {
+        die( get_upload_err_msg($uploaded_file['error']) );
     }
 
-    // do some checks. File must exist (except if we are returning to PP
-    // or PPV available.
+    // do some checks.
     // if we have a file, we need its name to end in .zip, and we need
-    // it to have non zero size.
-    // and there must be only one file.
+    // it to have non zero size and there must be only one file.
 
-    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
-    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
-    $file_count = count($files['name']);
+    $file_count = count($uploaded_file['name']);
     if ($file_count > 1) {
         die( _("You may only upload one file") );
     }
-    // file_count never seems to be 0, but we keep the check in, just in case
-    $have_file = (1 == $file_count && strlen($files['name'][0]) > 0);
 
-    if ($need_file && ! $have_file) {
-        die( _("You must upload a file") );
-    }
-
-    if ($have_file) {       // we have a file now. do some more checks.
-        if (substr($files['name'][0], -4) != ".zip") {
+    if ($uploaded_file['name']) {       // we have a file now. do some more checks.
+        if (substr($uploaded_file['name'], -4) != ".zip") {
             die( _("Invalid Filename") );
         }
-        if (0 == $files['size'][0]) {
+        if (0 == $uploaded_file['size']) {
             die( _("File is empty") );
         }
-        return $files['tmp_name'][0];
+        return $uploaded_file['tmp_name'];
     }
 
     return NULL;
