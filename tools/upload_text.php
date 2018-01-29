@@ -24,7 +24,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
 require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
-$stage   = $_REQUEST['stage'];
+$valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
+$stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
@@ -118,7 +119,7 @@ else if ($stage == 'smooth_done')
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
 }
-else if (!isset($stage))
+else if(!$stage)
 {
     // this may be due to a timeout when uploading big files.
     include_once($relPath.'slim_header.inc');
@@ -133,12 +134,6 @@ else if (!isset($stage))
         "javascript:history.back()") . "</p>";
     
     exit;
-}
-
-else
-{
-    echo "Don't know how to handle stage='$stage'<br>\n";
-    return;
 }
 
 if (!isset($action))
