@@ -805,7 +805,7 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
 
-    echo "</table>";
+    echo "</table>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -916,18 +916,28 @@ function recentlyproofed( $wlist )
 function do_edit_above()
 {
     global $project, $code_url;
-    if (!$project->can_be_managed_by_current_user) return;
 
-    echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
-    echo _("Edit the above information");
-    echo "</a>";
-    echo " | ";
-    echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" . urlencode($_SERVER["REQUEST_URI"]) . "'>";
-    echo _("Edit project word lists");
-    echo "</a>";
-    echo " | <a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$project->projectid'>"._("Project Quick Check")."</a>\n";
-    echo "</p>";
+    $links = array();
+    if($project->can_be_managed_by_current_user)
+    {
+        $links[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" .
+            urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit the above information") . "</a>";
+        $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
+            urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
+    }
+
+    if($project->user_can_do_quick_check())
+    {
+        $links[] = "<a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$project->projectid'>" .
+            _("Project Quick Check") . "</a>";
+    }
+
+    if($links)
+    {
+        echo "<p>" . implode(" | ", $links) . "</p>";
+    }
+
+    if(!$project->can_be_managed_by_current_user) return;
 
     if (! user_has_project_loads_disabled() )
     {
