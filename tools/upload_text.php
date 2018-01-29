@@ -47,6 +47,8 @@ if ($stage == 'post_1')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_second";
+    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
@@ -59,6 +61,8 @@ else if ($stage == 'return_1')
     $submit_button = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_first_in_prog_".$pguser;
+    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
@@ -71,6 +75,8 @@ else if ($stage == 'return_2')
     $submit_button = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_second_in_prog_".$pguser;
+    $valid_current_project_states = array(PROJ_POST_SECOND_CHECKED_OUT);
+    $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
@@ -83,6 +89,8 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_corrections";
+    $valid_current_project_states = array(PROJ_SUBMIT_PG_POSTED);
+    $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
@@ -99,6 +107,8 @@ else if ($stage == 'smooth_avail')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
+    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
@@ -112,6 +122,8 @@ else if ($stage == 'smooth_done')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
+    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
@@ -144,6 +156,21 @@ if (!isset($action))
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
+
+    // validate the project is in the correct state
+    if(!in_array($project->state, $valid_current_project_states))
+    {
+        echo "<p class='error'>" . _("The project is not in the correct state for this action.") . "</p>";
+        exit;
+    }
+
+    // validate the user has the ability to do this action
+    if(!$user_is_able_to_perform_action)
+    {
+        echo "<p class='error'>" . _("You do not have permission to perform this action.") . "</p>";
+        exit;
+    }
+
     echo "<p>$intro_blurb</p>";
     if(isset($pre_step_instructions))
         echo "<p>$pre_step_instructions</p>";
