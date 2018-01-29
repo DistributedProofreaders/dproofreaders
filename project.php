@@ -1890,6 +1890,7 @@ function do_smooth_reading()
         {
             echo "<li>";
             echo _("But you can make it available.");
+            echo " ";
             echo _('Choose how long you want to make it available for.');
             $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
             echo "<ul>";
