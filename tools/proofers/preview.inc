@@ -28,7 +28,7 @@ function get_preview_strings()
         "blankAfter" => _("A blank line should follow %s"),
         "NWinNW" => _("No-wrap inside no-wrap"),
         "BQinNW" => _("Block quote inside no-wrap"),
-        "aloneTag" => _("This tag should be alone on its line"),
+        "charAfter" => _("No characters should follow %s"),
         "OolPrev" => _("Out-of-line start tag should not be preceded by normal text"),
         "OolNext" => _("Out-of-line end tag should not be followed by normal text"),
         "blankLines124" => _("Only 1, 2 or 4 blank lines should be used"),
@@ -51,7 +51,8 @@ function get_preview_strings()
         "colonNext" => _("The colon should immediately follow *[Footnote"),
         "spaceNext" => _("Footnote should be followed by one space and identifier"),
         "dupNote" => _("Duplicate footnote identifier"),
-        "continueFirst" => _("Continuation footnote should precede others")
+        "continueFirst" => _("Continuation footnote should precede others"),
+        "sideNoteBlank" => _("A blank line should precede and follow Sidenote")
     );
 }
 
@@ -109,8 +110,15 @@ function output_preview_div()
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
-    $char_before_start = html_safe($messages['charBeforeStart']);
     $suppress_warnings = html_safe(_('Suppress warnings'));
+
+    $supp_set = array('charBeforeStart', 'sideNoteBlank');
+    $supp_item_string = "";
+    foreach($supp_set as $supp_item)
+    {
+        $supp_item_string .= ("<label><input type='checkbox' id='$supp_item'>" . html_safe($messages[$supp_item]) . "</label><br>\n");
+    }
+
     echo <<<END
 <div id='prevdiv' class='no_display'>
   <div id="id_controls">
@@ -172,13 +180,12 @@ function output_preview_div()
   </div>
   <fieldset>
    <legend>$suppress_warnings</legend>
-   <input type="checkbox" id="id_cbs">$char_before_start
-  </fieldset>
+   $supp_item_string
+</fieldset>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
   </div>
 </div>
-
 END;
 }

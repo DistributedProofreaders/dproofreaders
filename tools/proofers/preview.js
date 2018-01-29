@@ -27,7 +27,7 @@ var makePreview = function (txt, viewMode, styler) {
         blankAfter: 0,
         NWinNW: 1,
         BQinNW: 1,
-        aloneTag: 1,
+        charAfter: 1,
         OolPrev: 1,
         OolNext: 1,
         blankLines124: 1,
@@ -181,28 +181,44 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     // check for chars before tag or on previous line
-    function chkBefore(start, len) {
+    function chkBefore(start, len, checkBlank) {
         if (/./.test(txt.charAt(start - 1))) {
             reportIssue(start, len, "charBefore");
-        } else if (/./.test(txt.charAt(start - 2))) {
+        } else if (checkBlank && (/./.test(txt.charAt(start - 2)))) {
             reportIssue(start, len, "blankBefore");
         }
     }
 
+    // true if find */ or \n or eot
+    function endNWorBlank(pc) {
+        if (txt.slice(pc, pc + 2) === "*/") {
+            return true;
+        }
+        return !(/./).test(txt.charAt(pc));
+    }
+
     // check no non-comment chars follow on same line and next line is blank
-    function chkAfter(start, len, str1, type) {
+    function chkAfter(start, len, str1, type, checkBlank) {
         var ix = start + len;
         var end = findEnd(ix);
-        if (nonComment(txt.slice(ix, end)) || (/./.test(txt.charAt(end + 1)))) {
+        if (nonComment(txt.slice(ix, end))) {
+            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), type);
+            return;
+        }
+        if (checkBlank && !endNWorBlank(end + 1)) {
             reportIssueLong(start, len, previewMessages.blankAfter.replace("%s", str1), type);
         }
     }
 
     // check that no other characters are on the same line
-    function chkAlone(start, len) {
+    function chkAlone(start, len, str1) {
         var ix = start + len;
-        if (nonComment(txt.slice(ix, findEnd(ix))) || (/./.test(txt.charAt(start - 1)))) {
-            reportIssue(start, len, "aloneTag");
+        if (nonComment(txt.slice(ix, findEnd(ix)))) {
+            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), 1);
+            return;
+        }
+        if (/./.test(txt.charAt(start - 1))) {
+            reportIssue(start, len, "charBefore");
         }
     }
 
@@ -237,7 +253,7 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             tagString = result[0];
 
-            chkAlone(start, 2);
+            chkAlone(start, 2, tagString);
             // for an opening tag check previous line is blank
             // or an opening block quote tag possibly with a comment
             // allow also an opening no-wrap to avoid giving a misleading message
@@ -814,10 +830,13 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-    // check blank lines before and after footnote etc.
     function checkBlankLines() {
+    // check blank lines before and after footnote, sidenote, illustration
+    // & <tb>. Do separately since different special cases for each
+    // possible issue if there is an unmatched ] in the text
+    // message includes "Footnote" etc. to clarify the problem
         var result, start, len, end, end1;
-        var re = /\*?\[(Footnote|Sidenote|Illustration)/g;
+        var re = /\*?\[(Footnote)/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
@@ -826,7 +845,7 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             len = result[0].length;
             end = start + len;
-            chkBefore(start, len);
+            chkBefore(start, len, true);
 
             end1 = findClose(end);
             if (0 === end1) { // no ] found
@@ -834,13 +853,51 @@ var makePreview = function (txt, viewMode, styler) {
             } else {
                 end = end1 + 1;
                 len = 1;
-                if (txt.charAt(end) === "*") { // allow * after
+                if (txt.charAt(end) === "*") { // allow * after Footnote
                     end += 1;
                     len += 1;
                 }
-                // possible issue if there is an unmatched ] in the text
-                // message includes "Footnote" etc. to clarify the problem
-                chkAfter(end1, len, result[1], 0);
+                chkAfter(end1, len, result[1], 0, true);
+            }
+        }
+        re = /\*?\[(Illustration)/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            end = start + len;
+            chkBefore(start, len, true);
+
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
+                reportIssue(start, len, "noCloseBrack");
+            } else {
+                end = end1 + 1;
+                len = 1;
+                chkAfter(end1, len, result[1], 0, true);
+            }
+        }
+        re = /\*?\[(Sidenote)/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            end = start + len;
+            chkBefore(start, len, !styler.suppress.sideNoteBlank);
+
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
+                reportIssue(start, len, "noCloseBrack");
+            } else {
+                end = end1 + 1;
+                len = 1;
+                chkAfter(end1, len, result[1], 0, !styler.suppress.sideNoteBlank);
             }
         }
         re = /<tb>/g;
@@ -851,9 +908,9 @@ var makePreview = function (txt, viewMode, styler) {
             }
             start = result.index;
             len = result[0].length;
-            chkBefore(start, len);
+            chkBefore(start, len, true);
             // always an issue to avoid conflict with marking the tag
-            chkAfter(start, len, "&lt;tb&gt;", 1);
+            chkAfter(start, len, "&lt;tb&gt;", 1, true);
         }
     }
 
