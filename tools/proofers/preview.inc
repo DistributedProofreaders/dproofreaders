@@ -110,10 +110,14 @@ function output_preview_div()
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
-//    $char_before_start = html_safe($messages['charBeforeStart']);
     $suppress_warnings = html_safe(_('Suppress warnings'));
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
+    $supp_item_string = "";
+    foreach($supp_set as $supp_item)
+    {
+        $supp_item_string .= ("<label><input type='checkbox' id='$supp_item'>" . html_safe($messages[$supp_item]) . "</label><br>\n");
+    }
 
     echo <<<END
 <div id='prevdiv' class='no_display'>
@@ -176,12 +180,7 @@ function output_preview_div()
   </div>
   <fieldset>
    <legend>$suppress_warnings</legend>
-END;
-    foreach($supp_set as $supp_item)
-    {
-        echo "<label><input type='checkbox' id='$supp_item'>", html_safe($messages[$supp_item]), "</label><br>\n";
-    }
-    echo <<<END
+   $supp_item_string
 </fieldset>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">

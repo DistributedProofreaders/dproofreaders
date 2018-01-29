@@ -78,10 +78,10 @@ function initPrev() {
         defFont: "serif",
         suppress: {}
     };
-    for (i = 0; i < supp_set.length; i++) {
-        previewStyles.suppress[supp_set[i]] = false;
-        suppCheckBox[i] = document.getElementById(supp_set[i]);
-    }
+    supp_set.forEach(function (msg, i) {
+        previewStyles.suppress[msg] = false;
+        suppCheckBox[i] = document.getElementById(msg);
+    });
     // stores the size of the bottom frame so it can be restored on exit
     var old_rows;
     var font_size;
@@ -104,7 +104,7 @@ function initPrev() {
         var warn = false;
         var issue;
         for (issue in previewStyles.suppress) {
-            warn |= previewStyles.suppress[issue];
+            warn = warn || previewStyles.suppress[issue];
         }
         someSupp.style.display = warn ? "inline" : "none";
     }
@@ -302,9 +302,9 @@ function initPrev() {
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
 
-            for (i = 0; i < supp_set.length; i++) {
-                suppCheckBox[i].checked = tempStyle.suppress[supp_set[i]];
-            }
+            supp_set.forEach(function (msg, i)  {
+                suppCheckBox[i].checked = tempStyle.suppress[msg];
+            });
         },
 
         enableColor: function (en) {
@@ -319,9 +319,9 @@ function initPrev() {
         },
 
         OKConfig: function () {
-            for (i = 0; i < supp_set.length; i++) {
-                tempStyle.suppress[supp_set[i]] = suppCheckBox[i].checked;
-            }
+            supp_set.forEach(function (msg, i) {
+                tempStyle.suppress[msg] = suppCheckBox[i].checked;
+            });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
