@@ -144,6 +144,12 @@ your user name in the message.
 Start Proofreading
 ------------------
 
+Note: If you use iOS 11 or later to proofread and haven't already disabled
+"Smart" punctuation, you may inadvertently save your pages with characters
+that are not valid at $site_name for proofreading.
+To correct this problem, please go to Preferences -> General -> Keyboard
+and turn off Smart Punctuation.
+
 1. Before proofreading, please review the Proofreading Guidelines Summary
    $code_url/faq/proofing_summary.pdf
 
