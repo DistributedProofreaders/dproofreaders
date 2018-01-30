@@ -22,7 +22,7 @@ class Column
         $this->print_data = $print_data;
     }
 
-    public function get_label($time_format)
+    public function get_label()
     {
         return $this->label;
     }
@@ -63,9 +63,9 @@ class Column
         }
     }
 
-    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort, $time_format)
+    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort)
     {
-        $label = $this->get_label($time_format);
+        $label = $this->get_label();
         if($this->sortable)
         {
             if($sort_column_id == $this->id)
@@ -97,35 +97,60 @@ class Column
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
 
-    public function echo_data_cell($project, $time_format)
+    public function echo_data_cell($project)
     {
         echo "<td class='$this->css_class'>";
-        $this->print_cell_data($project, $time_format);
+        $this->print_cell_data($project);
         echo "</td>\n";
     }
 
-    public function print_cell_data($project, $time_format)
+    public function print_cell_data($project)
     {
         $key = $this->db_column;
-        call_user_func($this->print_data, $project->$key, $time_format);
+        call_user_func($this->print_data, $project->$key);
     }
 }
 
 class TimeColumn extends Column
 {
-    public function get_label($time_format)
+    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data, $time_format)
+    {
+        parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data);
+        $this->time_format = $time_format;
+    }
+
+    public function get_label()
     {
         $label = $this->label;
-        if($time_format == 'days')
+        if($this->time_format == 'days')
             // TRANSLATORS: e.g. 'Last proofed (days ago)'
             $label = sprintf(_("%s (days&nbsp;ago)"), $label);
         return $label;
+    }
+
+    public function print_cell_data($project)
+    {
+        $data = $project->{$this->db_column};
+        if(0 == $data)
+            echo _("never");
+        else
+        {
+            switch($this->time_format) {
+            case 'days':
+                echo sprintf(_("%.1f"), (time() - $data)/86400);
+                break;
+            default: // case 'date':
+                // TRANSLATORS: This is a strftime-formatted string for the date with year
+                echo "<span class='nowrap'>" . strftime(_("%b %e, %Y"), $data) . "</span>";
+                break;
+            }
+        }
     }
 }
 
 class TitleColumn extends Column
 {
-    public function print_cell_data($project, $time_format)
+    public function print_cell_data($project)
     {
         global $code_url;
         echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a>";
@@ -139,7 +164,7 @@ class GenreColumn extends Column
         return _('Difficulty') . " + " . $this->label;
     }
 
-    public function print_cell_data($project, $time_format)
+    public function print_cell_data($project)
     {
         $diff_prefix = array(
             "beginner"  => _("BEGINNERS"),
@@ -175,7 +200,7 @@ class StateColumn extends Column
         return sql_collater_for_project_state('state');
     }
 
-    public function print_cell_data($project, $time_format)
+    public function print_cell_data($project)
     {
         global $pguser, $code_url;
 
@@ -242,7 +267,7 @@ class StateColumn extends Column
 
 class OptionsColumn extends Column
 {
-    public function print_cell_data($project, $time_format)
+    public function print_cell_data($project)
     {
         global $pguser, $projects_url, $code_url;
         $projectid = $project->projectid;
@@ -312,24 +337,6 @@ function print_plain($data)
    echo $data;
 }
 
-function print_time($data, $time_format)
-{
-    if(0 == $data)
-        echo _("never");
-    else
-    {
-        switch($time_format) {
-        case 'days':
-            echo sprintf(_("%.1f"), (time() - $data)/86400);
-            break;
-        default: // case 'date':
-            // TRANSLATORS: This is a strftime-formatted string for the date with year
-            echo "<span class='nowrap'>" . strftime(_("%b %e, %Y"), $data) . "</span>";
-            break;
-        }
-    }
-}
-
 function print_hold($data)
 {
     if($data)
@@ -347,7 +354,7 @@ function make_link($name)
 
 class ColumnData
 {
-    public function __construct()
+    public function __construct($time_format = '')
     {
         global $pguser;
 
@@ -363,11 +370,11 @@ class ColumnData
             new Column("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer', 'make_link'),
             // TRANSLATORS: Abbreviation for Post-processing Verifier
             new Column("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier', 'make_link'),
-            new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', 'print_time'),
+            new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', '', $time_format),
             new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
             new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages', 'print_plain'),
-            new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', 'print_time'),
+            new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', '', $time_format),
             new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state', ''),
             new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
         );
@@ -376,31 +383,31 @@ class ColumnData
     }
 }
 
-class ProjectSearchResults extends ColumnData
+class ProjectSearchResults
 {
     public function __construct($show_param, $prefix)
     {
         global $pguser;
 
-        parent::__construct();
         $option_data = new OptionData();
         $this->show_param = $show_param;
         $userSettings =& Settings::get_Settings($pguser);
         $this->page_size = $option_data->results_per_page->get_value($userSettings, $prefix);
-        $this->time_format = $option_data->time_format->get_value($userSettings, $prefix);
+        $time_format = $option_data->time_format->get_value($userSettings, $prefix);
+        $column_data = new ColumnData($time_format);
         // Determine whether to use special colors or not
         // (this does not affect the alternating between two
         // background colors) in the project listing.
         $this->show_special_colors = !$userSettings->get_boolean('hide_special_colors');
-        $this->get_sorting($userSettings, $prefix);
 
         // construct active columns array so we don't have to keep checking
         // whether the column is active (these are references)
-        foreach($this->columns as $column)
+        foreach($column_data->columns as $column)
         {
             if($column->is_active($userSettings, $prefix))
                 $this->active_columns[] = $column;
         }
+        $this->get_sorting($userSettings, $prefix);
     }
 
 
@@ -435,7 +442,7 @@ class ProjectSearchResults extends ColumnData
 
     private function get_sort_sql($col_id)
     {
-        foreach($this->columns as $column)
+        foreach($this->active_columns as $column)
         {
             if($column->sortable && ($column->id == $col_id))
             {
@@ -562,7 +569,7 @@ class ProjectSearchResults extends ColumnData
         echo "<tr>\n";
         foreach($this->active_columns as $column)
         {
-            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param, $this->sec_sort, $this->time_format);
+            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param, $this->sec_sort);
         }
         echo "</tr>\n";
 
@@ -586,7 +593,7 @@ class ProjectSearchResults extends ColumnData
             echo "<tr $row_style>\n";
             foreach($this->active_columns as $column)
             {
-                $column->echo_data_cell($project, $this->time_format);
+                $column->echo_data_cell($project);
             }
             echo "</tr>\n";
         }
