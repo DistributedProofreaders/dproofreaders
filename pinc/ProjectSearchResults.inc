@@ -99,7 +99,9 @@ class Column
 
     public function echo_data_cell($project, $time_format)
     {
-        echo "<td class='$this->css_class'>",  $this->print_cell_data($project, $time_format), "</td>\n";
+        echo "<td class='$this->css_class'>";
+        $this->print_cell_data($project, $time_format);
+        echo "</td>\n";
     }
 
     public function print_cell_data($project, $time_format)
