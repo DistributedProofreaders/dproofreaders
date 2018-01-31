@@ -26,7 +26,8 @@ require_login();
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 $valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
-$weeks   = @$_REQUEST['weeks'];
+$valid_weeks = array('replace', '1', '2', '4');
+$weeks = get_enumerated_param($_REQUEST, 'weeks', '1', $valid_weeks);
 $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
 
