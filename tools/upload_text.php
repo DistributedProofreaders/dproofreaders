@@ -41,6 +41,7 @@ $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     and the upload does not succeed, upload a small placeholder zip file 
     instead and email %s for assistance."), $db_requests_email_addr);
 
+$error_messages = array();
 if ($stage == 'post_1')
 {
     $title = _("Upload post-processed file for verification");
@@ -48,7 +49,7 @@ if ($stage == 'post_1')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_second";
-    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -62,7 +63,7 @@ else if ($stage == 'return_1')
     $submit_button = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_first_in_prog_".$pguser;
-    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
@@ -76,7 +77,7 @@ else if ($stage == 'return_2')
     $submit_button = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_second_in_prog_".$pguser;
-    $valid_current_project_states = array(PROJ_POST_SECOND_CHECKED_OUT);
+    $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -90,7 +91,7 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_corrections";
-    $valid_current_project_states = array(PROJ_SUBMIT_PG_POSTED);
+    $project_is_in_valid_state = PROJ_SUBMIT_PG_POSTED == $project->state;
     $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
@@ -108,7 +109,7 @@ else if ($stage == 'smooth_avail')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
-    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -123,7 +124,15 @@ else if ($stage == 'smooth_done')
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
-    $valid_current_project_states = array(PROJ_POST_FIRST_CHECKED_OUT);
+    // This requirement is in project.php as well
+    $project_is_in_valid_state = (
+        (PROJ_POST_FIRST_CHECKED_OUT == $project->state) && (time() < $project->smoothread_deadline)
+    );
+    if(time() >= $project->smoothread_deadline)
+    {
+        // This string matches one in project.php
+        $error_messages[] = _('The Smooth Reading deadline for this project has passed.');
+    }
     $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -159,9 +168,11 @@ if (!isset($action))
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
     // validate the project is in the correct state
-    if(!in_array($project->state, $valid_current_project_states))
+    if(!$project_is_in_valid_state)
     {
         echo "<p class='error'>" . _("The project is not in the correct state for this action.") . "</p>";
+        foreach($error_messages as $message)
+            echo "<p class='error'>$message</p>";
         exit;
     }
 
@@ -169,6 +180,8 @@ if (!isset($action))
     if(!$user_is_able_to_perform_action)
     {
         echo "<p class='error'>" . _("You do not have permission to perform this action.") . "</p>";
+        foreach($error_messages as $message)
+            echo "<p class='error'>$message</p>";
         exit;
     }
 
