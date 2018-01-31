@@ -346,13 +346,9 @@ function validate_uploaded_file()
 
     // Some of the following logic was pulled from remote_file_manager.php.
 
-    // If a user hits the "Upload" button without first selecting a file,
-    // it appears that most browsers send a request containing a file whose
-    // name and content are empty. But I think it's also legal for a browser
-    // to send a request that doesn't contain a file at all (in which case
-    // $uploaded_file would be null.  Check both possibilities.
+    // If there is no file uploaded, that might be OK so just return.
     if (is_null($uploaded_file) || $uploaded_file['name'] == '') {
-        die( _("You must select a file to upload.") );
+        return NULL;
     }
 
     // $uploaded_file has 'name' 'type' 'size' 'tmp_name' 'error'
