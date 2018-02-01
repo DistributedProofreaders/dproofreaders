@@ -1,4 +1,6 @@
 <?php
+include_once($relPath.'metarefresh.inc');
+
 class Selector
 {
     function echo_select_item($userSettings, $prefix)

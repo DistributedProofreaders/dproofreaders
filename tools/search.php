@@ -2,7 +2,6 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'gradual.inc');
