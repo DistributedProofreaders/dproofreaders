@@ -49,9 +49,9 @@ class Column
         return $this->db_column; // overridden by state column
     }
 
-    public function is_active($userSettings, $prefix)
+    public function is_active($userSettings, $search_origin)
     {
-        switch ($userSettings->get_value("$prefix$this->id"))
+        switch ($userSettings->get_value("$search_origin$this->id"))
         {
         case "yes":
             return true;
@@ -380,15 +380,17 @@ class ColumnData
 
 class ProjectSearchResults
 {
-    public function __construct($show_param, $prefix)
+    public function __construct($show_param, $search_origin)
     {
         global $pguser;
+
+        assert(($search_origin === 'PM') || ($search_origin === 'PS'));
 
         $option_data = new OptionData();
         $this->show_param = $show_param;
         $userSettings =& Settings::get_Settings($pguser);
-        $this->page_size = $option_data->results_per_page->get_value($userSettings, $prefix);
-        $time_format = $option_data->time_format->get_value($userSettings, $prefix);
+        $this->page_size = $option_data->results_per_page->get_value($userSettings, $search_origin);
+        $time_format = $option_data->time_format->get_value($userSettings, $search_origin);
         $column_data = new ColumnData($time_format);
         // Determine whether to use special colors or not
         // (this does not affect the alternating between two
@@ -399,10 +401,10 @@ class ProjectSearchResults
         // whether the column is active (these are references)
         foreach($column_data->columns as $column)
         {
-            if($column->is_active($userSettings, $prefix))
+            if($column->is_active($userSettings, $search_origin))
                 $this->active_columns[] = $column;
         }
-        $this->get_sorting($userSettings, $prefix);
+        $this->get_sorting($userSettings, $search_origin);
     }
 
 
@@ -448,7 +450,7 @@ class ProjectSearchResults
         return NULL;
     }
 
-    private function get_sorting($userSettings, $prefix)
+    private function get_sorting($userSettings, $search_origin)
     {
         // sets $this->sort_column_id, sort_sql and sql_sort_dir
         // if sort parameter is given, use it
@@ -458,7 +460,7 @@ class ProjectSearchResults
         if(isset($_GET['sort']))
             $sort_param = $_GET['sort'];
         else
-            $sort_param = $userSettings->get_value("{$prefix}Sort", " "); // could be invalid if we change this file
+            $sort_param = $userSettings->get_value("{$search_origin}Sort", " "); // could be invalid if we change this file
 
         // parse and check if valid
         // remove terminating char A or D
@@ -481,9 +483,9 @@ class ProjectSearchResults
             $this->sql_sort_dir = "asc";
             $this->sort_sql = sql_collater_for_project_state('state');
         }
-        if($sort_param != $userSettings->get_value("{$prefix}Sort", " "))
+        if($sort_param != $userSettings->get_value("{$search_origin}Sort", " "))
         {
-            $userSettings->set_value("{$prefix}Sort", $sort_param);
+            $userSettings->set_value("{$search_origin}Sort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
 
@@ -491,16 +493,16 @@ class ProjectSearchResults
         if(isset($_GET['sec_sort']))
             $this->sec_sort = $_GET['sec_sort'];
         else
-            $this->sec_sort = $userSettings->get_value("{$prefix}SecSort", " ");
+            $this->sec_sort = $userSettings->get_value("{$search_origin}SecSort", " ");
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
         if(NULL == $sec_sort_sql)
         {
             $this->sec_sort = 'title';
             $sec_sort_sql = 'nameofwork';
         }
-        if($this->sec_sort != $userSettings->get_value("{$prefix}SecSort", " "))
+        if($this->sec_sort != $userSettings->get_value("{$search_origin}SecSort", " "))
         {
-            $userSettings->set_value("{$prefix}SecSort", $this->sec_sort);
+            $userSettings->set_value("{$search_origin}SecSort", $this->sec_sort);
         }
 
         $this->sort_sql .= ", $sec_sort_sql asc";
