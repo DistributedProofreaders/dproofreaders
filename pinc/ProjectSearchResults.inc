@@ -10,7 +10,7 @@ include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_t
 
 class Column
 {
-    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data)
+    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column)
     {
         $this->id = $id;
         $this->label = $label;
@@ -19,7 +19,6 @@ class Column
         $this->default_display = $default_display;
         $this->sortable = $sortable;
         $this->db_column = $db_column;
-        $this->print_data = $print_data;
     }
 
     public function get_label()
@@ -106,16 +105,15 @@ class Column
 
     public function print_cell_data($project)
     {
-        $key = $this->db_column;
-        call_user_func($this->print_data, $project->$key);
+        echo $project->{$this->db_column};
     }
 }
 
 class TimeColumn extends Column
 {
-    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data, $time_format)
+    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $time_format)
     {
-        parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $print_data);
+        parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column);
         $this->time_format = $time_format;
     }
 
@@ -154,6 +152,19 @@ class TitleColumn extends Column
     {
         global $code_url;
         echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a>";
+    }
+}
+
+class LinkColumn extends Column
+{
+    public function print_cell_data($project)
+    {
+        $name = $project->{$this->db_column};
+        if($name != '')
+        {
+            $contact_url = attr_safe(get_url_to_compose_message_to_user($name));
+            echo "<a href='$contact_url'>$name</a>";
+        }
     }
 }
 
@@ -327,28 +338,12 @@ class OptionsColumn extends Column
     }
 }
 
-function print_safe($data)
+class HoldColumn extends Column
 {
-    echo html_safe($data);
-}
-
-function print_plain($data)
-{
-   echo $data;
-}
-
-function print_hold($data)
-{
-    if($data)
-        echo "&#x2714;"; // heavy check mark
-}
-
-function make_link($name)
-{
-    if($name != '')
+    public function print_cell_data($project)
     {
-        $contact_url = attr_safe(get_url_to_compose_message_to_user($name));
-        echo "<a href='$contact_url'>$name</a>";
+        if($project->hold)
+            echo "&#x2714;"; // heavy check mark
     }
 }
 
@@ -359,27 +354,27 @@ class ColumnData
         global $pguser;
 
         $this->columns = array(
-            new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork', ''),
-            new Column("author", _('Author'), '', 'left-align', true, true, 'authorsname', 'print_safe'),
-            new Column("projectid", _('Project ID'), '', 'left-align', false, true, 'projectid', 'print_plain'),
-            new Column("language", _("Language"), '', 'left-align', false, true, 'language', 'print_plain'),
-            new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'genre', ""),
-            new Column("project_manager", pgettext("project manager", "PM"), _('Project Manager'), 'left-align', true, true, 'username', 'make_link'),
-            new Column("checkedoutby", _('Checked Out By'), '', 'left-align', false, true, 'checkedoutby', 'make_link'),
+            new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork'),
+            new Column("author", _('Author'), '', 'left-align', true, true, 'authorsname'),
+            new Column("projectid", _('Project ID'), '', 'left-align', false, true, 'projectid'),
+            new Column("language", _("Language"), '', 'left-align', false, true, 'language'),
+            new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'genre'),
+            new LinkColumn("project_manager", pgettext("project manager", "PM"), _('Project Manager'), 'left-align', true, true, 'username'),
+            new LinkColumn("checkedoutby", _('Checked Out By'), '', 'left-align', false, true, 'checkedoutby'),
             // TRANSLATORS: Abbreviation for Post Processor
-            new Column("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer', 'make_link'),
+            new LinkColumn("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer'),
             // TRANSLATORS: Abbreviation for Post-processing Verifier
-            new Column("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier', 'make_link'),
-            new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', '', $time_format),
-            new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum', 'print_plain'),
-            new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages', 'print_plain'),
-            new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages', 'print_plain'),
-            new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', '', $time_format),
-            new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state', ''),
-            new Column('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold', 'print_hold')
+            new LinkColumn("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier'),
+            new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', $time_format),
+            new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum'),
+            new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages'),
+            new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages'),
+            new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', $time_format),
+            new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state'),
+            new HoldColumn('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold')
         );
         if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
-            $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '', '');
+            $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '');
     }
 }
 
