@@ -555,7 +555,8 @@ class ProjectSearchResults
         {
             $warning .= $column->get_warning();
         }
-        echo "\n<p>$warning</p>\n";
+        if(!empty($warning))
+            echo "\n<p class='warning'>$warning</p>\n";
 
         echo "<p>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
