@@ -57,7 +57,7 @@ $header_args = array(
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
 
 // exits if handled
-handle_config($show_view, "PM", _("Configure PM Page"));
+handle_config($show_view, "PM", _("Configure Project Management Page"));
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
