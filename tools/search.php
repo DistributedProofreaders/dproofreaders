@@ -10,24 +10,27 @@ include_once($relPath.'ProjectSearchResults.inc');
 
 require_login();
 
-$header_args = array("js_files" => array("$code_url/tools/dropdown.js"));
-
-output_header(_("Project Search"), NO_STATSBAR, $header_args);
-
-$search_form = new ProjectSearchForm();
-
 try {
     $show_view = get_enumerated_param($_GET, 'show', 'blank_search_form',
-        array('search_form', 'search', 'p_search', 'blank_search_form'));
+        array('search_form', 'search', 'p_search', 'blank_search_form', 'set_columns', 'config'));
 } catch(Exception $e) {
     $show_view = 'blank_search_form';
 }
+
+// exits if handled
+handle_set_cols($show_view, "PS");
 
 if($show_view == 'blank_search_form')
 {
     unset($_SESSION['search_data']);
     $show_view = 'search_form';
 }
+
+$header_args = array("js_files" => array("$code_url/tools/dropdown.js"));
+output_header(_("Project Search"), NO_STATSBAR, $header_args);
+$search_form = new ProjectSearchForm();
+
+handle_config($show_view, "PS", _("Configure Search Results"));
 
 if ($show_view == 'search_form')
 {
@@ -64,8 +67,8 @@ $condition = $search_form->get_condition($show_view);
 echo "<h1 id='head'>", _("Search Results"), "</h1>\n";
 
 // use p_search so it will use saved results if needed
-$search_results = new ProjectSearchResults('p_search');
-echo "<p>" . get_refine_search_link() . " | " . $search_results->get_search_configure_link() . "</p>";
+$search_results = new ProjectSearchResults('p_search', "PS");
+echo "<p><a href='{$_SERVER['PHP_SELF']}?show=blank_search_form'>" . _("Start New Search") . "</a> | " . get_refine_search_link() . " | " . $search_results->get_search_configure_link() . "</p>";
 
 $search_results->render($condition);
 
