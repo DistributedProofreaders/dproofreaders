@@ -7,7 +7,7 @@ class Selector
     {
         echo "
             <tr>
-                <th class='right-align top-align'>", html_safe($this->label), "</th>
+                <th class='right-align top-align'>$this->label</th>
                 <td class='top-align'>", $this->get_html_control($userSettings, $search_origin), "</td>
             </tr>
         ";
@@ -189,7 +189,7 @@ function get_search_configure_link($params)
 {
     global $code_url;
     $params = urlencode($params);
-    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;params=$params'>" . html_safe(_("Configure Result")) . "</a>";
+    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;params=$params'>" . _("Configure Result") . "</a>";
 }
 
 function handle_set_cols($show_view, $search_origin)
