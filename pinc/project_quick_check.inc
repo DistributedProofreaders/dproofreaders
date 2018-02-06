@@ -7,6 +7,7 @@ include_once('bad_bytes.inc');
 
 $test_functions  = array(
     "_test_project_for_bad_bytes",
+    "_test_project_for_corrupt_pngs",
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
     "_test_project_for_credited_source",
@@ -67,6 +68,84 @@ function _test_project_for_large_page_images($projectid)
         {
             $status = _("Warning");
             $summary = sprintf(_("%d pages had images > %dkb, see detail."), $num_large_images, $page_image_size_limit);
+        }
+    }
+    else
+    {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+}
+
+function _test_project_for_corrupt_pngs($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+
+    $test_name = _("Corrupt page PNGs");
+    $test_desc = _("This test checks to see if any page PNGs are corrupt or have internal errors.");
+
+    $project = new Project($projectid);
+
+    // see if pngcheck is installed
+    exec('pngcheck', $output, $return_code);
+    if($return_code != 2)
+    {
+        $status = _("Skipped");
+        $summary = _("pngcheck program not available on this system.");
+        $details = "";
+    }
+    else if($project->pages_table_exists)
+    {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $details = "<table class='basic striped'>";
+        $details .= "<tr>";
+        $details .= "<th>" . _("Image") . "</th>";
+        $details .= "<th>" . _("Status") . "</th>";
+        $details .= "</tr>";
+
+        $error_pngs = 0;
+        while(list($image) = mysqli_fetch_row($result_res)) {
+            // the the file's info
+            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+
+            $path_info = pathinfo($file_info->abs_path);
+
+            if(strtolower($path_info["extension"]) == "png")
+            {
+                $output = "";
+                exec('pngcheck -q ' . escapeshellarg($file_info->abs_path), $output, $return_code);
+                if($return_code != 0)
+                {
+                    $details .= "<tr>";
+                    $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
+                    $details .= "<td>" . str_replace($file_info->abs_path, "", $output[0]) . "</td>";
+                    $details .= "</tr>";
+
+                    $error_pngs++;
+                }
+            }
+        }
+
+        mysqli_free_result($result_res);
+
+        $details .= "</table>";
+
+        if($error_pngs == 0)
+        {
+            $status = _("Success");
+            $summary = _("No corrupt PNGs.");
+            $details = "";
+        }
+        else
+        {
+            $status = _("Error");
+            $summary = _("Some pages images have corrupt PNGs.");
         }
     }
     else
