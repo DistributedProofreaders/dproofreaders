@@ -17,7 +17,7 @@ class Column
         $this->label = $label;
         $this->long_label = $long_label;
         $this->css_class = $css_class;
-        $this->display = $default_display;
+        $this->default_display = $default_display;
         $this->sortable = $sortable;
         $this->db_column = $db_column;
     }
@@ -50,17 +50,34 @@ class Column
         return $this->db_column; // overridden by state column
     }
 
+    public function set_datastore($userSettings, $search_origin)
+    {
+        $this->userSettings = $userSettings;
+        $this->search_origin = $search_origin;
+    }
+
     public function set_active($setting)
     {
-        if(!$setting)
-            return;
+        // We can't use set_boolean() because this actually has three states, not two:
+        // * true
+        // * false
+        // * undefined (in which case we use the default)
+        if($setting)
+            $value = "yes";
+        else
+            $value = "no";
 
-        $this->display = $setting == "yes" ? true : false;
+        $this->userSettings->set_value("$this->search_origin$this->id", $value);
     }
 
     public function is_active()
     {
-        return $this->display;
+        // See comment in set_active() for why we can't use get/set_boolean()
+        $value = $this->userSettings->get_value("$this->search_origin$this->id");
+        if($value === NULL)
+            return $this->default_display;
+
+        return $value === 'yes';
     }
 
     public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort)
@@ -383,10 +400,10 @@ class ColumnData
         if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
             $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '');
 
-        // Update columns based on user settings
+        // Set column datastore
         foreach($this->columns as $column)
         {
-            $column->set_active($this->userSettings->get_value("$this->search_origin$column->id"));
+            $column->set_datastore($this->userSettings, $this->search_origin);
         }
     }
 }

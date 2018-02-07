@@ -60,6 +60,12 @@ class OptionSelector extends Selector
     {
         return $this->userSettings->get_value("$this->search_origin$this->id", $this->def_value);
     }
+
+    function save_value($value)
+    {
+        if($this->get_value() != $value)
+            $this->userSettings->set_value("$this->search_origin$this->id", $value);
+    }
 }
 
 class OptionData
@@ -157,25 +163,28 @@ class ConfigSaver extends ColumnData
         $none_selected = true; // check for this case
         foreach ($this->columns as $column)
         {
-            $id = $column->id;
-            $value = isset($_GET[$id]); // can only be 'on'
+            $value = isset($_GET[$column->id]); // can only be 'on'
             if($value)
                 $none_selected = false;
-            if($value != $column->is_active())
-                $this->userSettings->set_value("$this->search_origin$id", $value ? "yes" : "no");
+            $column->set_active($value);
         }
         if($none_selected)
         {
             // force title to be on
-            $this->userSettings->set_value("{$this->search_origin}title", "yes");
+            foreach($this->columns as $column)
+            {
+                if($column->id == "title")
+                {
+                    $column->set_active(true);
+                    break;
+                }
+            }
         }
         // get the option values
         foreach($option_data->options as $option)
         {
-            $id = $option->id;
-            $value = $_GET[$id];
-            if($value != $option->get_value())
-                $this->userSettings->set_value("$this->search_origin$id", $value);
+            $value = $_GET[$option->id];
+            $option->save_value($value);
         }
     }
 }
