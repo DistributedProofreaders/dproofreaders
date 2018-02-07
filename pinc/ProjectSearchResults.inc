@@ -16,7 +16,7 @@ class Column
         $this->label = $label;
         $this->long_label = $long_label;
         $this->css_class = $css_class;
-        $this->default_display = $default_display;
+        $this->display = $default_display;
         $this->sortable = $sortable;
         $this->db_column = $db_column;
     }
@@ -49,17 +49,17 @@ class Column
         return $this->db_column; // overridden by state column
     }
 
-    public function is_active($userSettings, $search_origin)
+    public function set_active($setting)
     {
-        switch ($userSettings->get_value("$search_origin$this->id"))
-        {
-        case "yes":
-            return true;
-        case "no":
-            return false;
-        default:
-            return $this->default_display;
-        }
+        if(!$setting)
+            return;
+
+        $this->display = $setting == "yes" ? true : false;
+    }
+
+    public function is_active()
+    {
+        return $this->display;
     }
 
     public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort)
@@ -352,9 +352,12 @@ class HoldColumn extends Column
 
 class ColumnData
 {
-    public function __construct($time_format = '')
+    public function __construct($userSettings, $search_origin, $time_format = '')
     {
         global $pguser;
+
+        $this->userSettings = $userSettings;
+        $this->search_origin = $search_origin;
 
         $this->columns = array(
             new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork'),
@@ -378,6 +381,12 @@ class ColumnData
         );
         if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
             $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '');
+
+        // Update columns based on user settings
+        foreach($this->columns as $column)
+        {
+            $column->set_active($this->userSettings->get_value("$this->search_origin$column->id"));
+        }
     }
 }
 
@@ -389,25 +398,29 @@ class ProjectSearchResults
 
         assert(($search_origin === 'PM') || ($search_origin === 'PS'));
 
-        $option_data = new OptionData();
+        $this->userSettings =& Settings::get_Settings($pguser);
+        $this->search_origin = $search_origin;
         $this->show_param = $show_param;
-        $userSettings =& Settings::get_Settings($pguser);
-        $this->page_size = $option_data->results_per_page->get_value($userSettings, $search_origin);
-        $time_format = $option_data->time_format->get_value($userSettings, $search_origin);
-        $column_data = new ColumnData($time_format);
+
+        $option_data = new OptionData($this->userSettings, $this->search_origin);
+        $this->page_size = $option_data->results_per_page->get_value();
+        $time_format = $option_data->time_format->get_value();
+
+        $column_data = new ColumnData($this->userSettings, $this->search_origin, $time_format);
+
         // Determine whether to use special colors or not
         // (this does not affect the alternating between two
         // background colors) in the project listing.
-        $this->show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+        $this->show_special_colors = !$this->userSettings->get_boolean('hide_special_colors');
 
         // construct active columns array so we don't have to keep checking
         // whether the column is active (these are references)
         foreach($column_data->columns as $column)
         {
-            if($column->is_active($userSettings, $search_origin))
+            if($column->is_active())
                 $this->active_columns[] = $column;
         }
-        $this->get_sorting($userSettings, $search_origin);
+        $this->get_sorting();
     }
 
 
@@ -453,7 +466,7 @@ class ProjectSearchResults
         return NULL;
     }
 
-    private function get_sorting($userSettings, $search_origin)
+    private function get_sorting()
     {
         // sets $this->sort_column_id, sort_sql and sql_sort_dir
         // if sort parameter is given, use it
@@ -463,7 +476,7 @@ class ProjectSearchResults
         if(isset($_GET['sort']))
             $sort_param = $_GET['sort'];
         else
-            $sort_param = $userSettings->get_value("{$search_origin}Sort", " "); // could be invalid if we change this file
+            $sort_param = $this->userSettings->get_value("{$this->search_origin}Sort", " "); // could be invalid if we change this file
 
         // parse and check if valid
         // remove terminating char A or D
@@ -486,9 +499,9 @@ class ProjectSearchResults
             $this->sql_sort_dir = "asc";
             $this->sort_sql = sql_collater_for_project_state('state');
         }
-        if($sort_param != $userSettings->get_value("{$search_origin}Sort", " "))
+        if($sort_param != $this->userSettings->get_value("{$this->search_origin}Sort", " "))
         {
-            $userSettings->set_value("{$search_origin}Sort", $sort_param);
+            $this->userSettings->set_value("{$this->search_origin}Sort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
 
@@ -496,16 +509,16 @@ class ProjectSearchResults
         if(isset($_GET['sec_sort']))
             $this->sec_sort = $_GET['sec_sort'];
         else
-            $this->sec_sort = $userSettings->get_value("{$search_origin}SecSort", " ");
+            $this->sec_sort = $this->userSettings->get_value("{$this->search_origin}SecSort", " ");
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
         if(NULL == $sec_sort_sql)
         {
             $this->sec_sort = 'title';
             $sec_sort_sql = 'nameofwork';
         }
-        if($this->sec_sort != $userSettings->get_value("{$search_origin}SecSort", " "))
+        if($this->sec_sort != $this->userSettings->get_value("{$this->search_origin}SecSort", " "))
         {
-            $userSettings->set_value("{$search_origin}SecSort", $this->sec_sort);
+            $this->userSettings->set_value("{$this->search_origin}SecSort", $this->sec_sort);
         }
 
         $this->sort_sql .= ", $sec_sort_sql asc";
