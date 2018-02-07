@@ -58,13 +58,13 @@ class OptionSelector extends Selector
 
     function get_value()
     {
-        return $this->userSettings->get_value("$this->search_origin$this->id", $this->def_value);
+        return $this->userSettings->get_value("search:{$this->search_origin}.option:$this->id", $this->def_value);
     }
 
     function save_value($value)
     {
         if($this->get_value() != $value)
-            $this->userSettings->set_value("$this->search_origin$this->id", $value);
+            $this->userSettings->set_value("search:{$this->search_origin}.option:$this->id", $value);
     }
 }
 

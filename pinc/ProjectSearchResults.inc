@@ -67,13 +67,13 @@ class Column
         else
             $value = "no";
 
-        $this->userSettings->set_value("$this->search_origin$this->id", $value);
+        $this->userSettings->set_value("search:{$this->search_origin}.column:$this->id", $value);
     }
 
     public function is_active()
     {
         // See comment in set_active() for why we can't use get/set_boolean()
-        $value = $this->userSettings->get_value("$this->search_origin$this->id");
+        $value = $this->userSettings->get_value("search:{$this->search_origin}.column:$this->id");
         if($value === NULL)
             return $this->default_display;
 
@@ -491,7 +491,7 @@ class ProjectSearchResults
         // else do same as last time if stored
         // else default to 'state'
         // store for next time
-        $saved_sort = $this->userSettings->get_value("{$this->search_origin}Sort", " ");
+        $saved_sort = $this->userSettings->get_value("search:{$this->search_origin}.sort", " ");
         $sort_param = array_get($_GET, "sort", $saved_sort);
 
         // parse and check if valid
@@ -517,13 +517,13 @@ class ProjectSearchResults
         }
         if($sort_param != $saved_sort)
         {
-            $this->userSettings->set_value("{$this->search_origin}Sort", $sort_param);
+            $this->userSettings->set_value("search:{$this->search_origin}.sort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
 
 
         // get secondary sorting
-        $saved_sec_sort = $this->userSettings->get_value("{$this->search_origin}SecSort", " ");
+        $saved_sec_sort = $this->userSettings->get_value("search:{$this->search_origin}.sort_sec", " ");
         $this->sec_sort = array_get($_GET, "sec_sort", $saved_sec_sort);
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
         if(NULL == $sec_sort_sql)
@@ -533,7 +533,7 @@ class ProjectSearchResults
         }
         if($this->sec_sort != $saved_sec_sort)
         {
-            $this->userSettings->set_value("{$this->search_origin}SecSort", $this->sec_sort);
+            $this->userSettings->set_value("search:{$this->search_origin}.sort_sec", $this->sec_sort);
         }
 
         $this->sort_sql .= ", $sec_sort_sql asc";
