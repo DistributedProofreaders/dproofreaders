@@ -422,6 +422,7 @@ newer release of the DP code.
             c/SETUP/upgrade/08/
             c/SETUP/upgrade/09/
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
         (in that order!)
 
     --- If your old installation was release 1.5:
@@ -431,6 +432,7 @@ newer release of the DP code.
             c/SETUP/upgrade/08/
             c/SETUP/upgrade/09/
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
 
     --- If your old installation was release 1.6:
         You need to run the scripts in
@@ -438,21 +440,29 @@ newer release of the DP code.
             c/SETUP/upgrade/08/
             c/SETUP/upgrade/09/
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
 
     --- If your old installation was release R200609
         You need to run the scripts in
             c/SETUP/upgrade/08/
             c/SETUP/upgrade/09/
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
 
     --- If your old installation was release R201601
         You need to run the scripts in
             c/SETUP/upgrade/09/
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
 
     --- If your old installation was release R201701
         You need to run the scripts in
             c/SETUP/upgrade/10/
+            c/SETUP/upgrade/11/
+
+    --- If your old installation was release R201707
+        You need to run the scripts in
+            c/SETUP/upgrade/11/
 
     To run the upgrade scripts, you must cd into the directory and invoke the
     scripts from there. E.g.:
