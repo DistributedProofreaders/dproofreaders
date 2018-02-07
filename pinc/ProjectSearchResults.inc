@@ -7,6 +7,7 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_to_view_topic()
+include_once($relPath.'misc.inc'); // array_get()
 
 class Column
 {
@@ -473,10 +474,8 @@ class ProjectSearchResults
         // else do same as last time if stored
         // else default to 'state'
         // store for next time
-        if(isset($_GET['sort']))
-            $sort_param = $_GET['sort'];
-        else
-            $sort_param = $this->userSettings->get_value("{$this->search_origin}Sort", " "); // could be invalid if we change this file
+        $saved_sort = $this->userSettings->get_value("{$this->search_origin}Sort", " ");
+        $sort_param = array_get($_GET, "sort", $saved_sort);
 
         // parse and check if valid
         // remove terminating char A or D
@@ -499,24 +498,23 @@ class ProjectSearchResults
             $this->sql_sort_dir = "asc";
             $this->sort_sql = sql_collater_for_project_state('state');
         }
-        if($sort_param != $this->userSettings->get_value("{$this->search_origin}Sort", " "))
+        if($sort_param != $saved_sort)
         {
             $this->userSettings->set_value("{$this->search_origin}Sort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
 
+
         // get secondary sorting
-        if(isset($_GET['sec_sort']))
-            $this->sec_sort = $_GET['sec_sort'];
-        else
-            $this->sec_sort = $this->userSettings->get_value("{$this->search_origin}SecSort", " ");
+        $saved_sec_sort = $this->userSettings->get_value("{$this->search_origin}SecSort", " ");
+        $this->sec_sort = array_get($_GET, "sec_sort", $saved_sec_sort);
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
         if(NULL == $sec_sort_sql)
         {
             $this->sec_sort = 'title';
             $sec_sort_sql = 'nameofwork';
         }
-        if($this->sec_sort != $this->userSettings->get_value("{$this->search_origin}SecSort", " "))
+        if($this->sec_sort != $saved_sec_sort)
         {
             $this->userSettings->set_value("{$this->search_origin}SecSort", $this->sec_sort);
         }
