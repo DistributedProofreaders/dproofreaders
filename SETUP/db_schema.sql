@@ -826,7 +826,7 @@ CREATE TABLE `users` (
 
 CREATE TABLE `usersettings` (
   `username` varchar(25) NOT NULL default '',
-  `setting` varchar(25) NOT NULL default '',
+  `setting` varchar(64) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
   KEY `username_setting_val` (`username`,`setting`,`value`),
   KEY `setting` (`setting`,`value`),
