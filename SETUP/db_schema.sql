@@ -795,8 +795,6 @@ CREATE TABLE `users` (
   `sitemanager` tinytext NOT NULL,
   `active` tinytext NOT NULL,
   `email_updates` tinyint(1) default '1',
-  `u_plist` tinyint(1) default '3',
-  `u_top10` tinyint(1) NOT NULL default '0',
   `u_neigh` tinyint(4) NOT NULL default '0',
   `u_align` tinyint(1) NOT NULL default '0',
   `i_prefs` tinyint(1) default '0',

@@ -125,8 +125,8 @@ mysqli_query(DPDatabase::get_connection(), "
 $query = sprintf("
     INSERT INTO users (id, real_name, username, email, manager, date_created,
                        postprocessor, sitemanager, active,
-                       email_updates, u_plist, u_top10, u_neigh, u_intlang)
-    VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, '', '', '', $email_updates, 3, 1, 10, '%s')
+                       email_updates, u_neigh, u_intlang)
+    VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, '', '', '', $email_updates, 10, '%s')
     ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
         mysqli_real_escape_string(DPDatabase::get_connection(), $real_name),
         mysqli_real_escape_string(DPDatabase::get_connection(), $username),
