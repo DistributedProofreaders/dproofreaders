@@ -58,9 +58,6 @@ function dpsession_resume_()
     @$userP['i_theme'      ] = $user_pref_values[$i++];
     @$userP['i_pmdefault'  ] = $user_pref_values[$i++];
     @$userP['user_id'      ] = $user_pref_values[$i++];
-    @$userP['manager'      ] = $user_pref_values[$i++];
-    @$userP['postprocessor'] = $user_pref_values[$i++];
-    @$userP['sitemanager'  ] = $user_pref_values[$i++];
     @$userP['team_1'       ] = $user_pref_values[$i++];
     @$userP['team_2'       ] = $user_pref_values[$i++];
     @$userP['team_3'       ] = $user_pref_values[$i++];
@@ -106,8 +103,7 @@ function dpsession_set_preferences_from_db()
         SELECT
             u_id, u_profile, email_updates,
             u_neigh, u_align,
-            i_prefs, i_theme, i_pmdefault,
-            id, manager, postprocessor, sitemanager,
+            i_prefs, i_theme, i_pmdefault, id,
             team_1, team_2, team_3,
             u_intlang, u_privacy, last_login
         FROM users
