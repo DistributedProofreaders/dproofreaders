@@ -15,18 +15,13 @@ if ( !user_is_a_sitemanager() )
 
 // --------------------------------------
 
-// These settings are set in the users table, not in the usersettings
-// table, although the Settings class provides a view into them.
-$user_table_settings = array(
+$boolean_user_settings = array(
 // Creating site managers can be done here too, although given how
 // infrequently that will happen, it's probably best to leave it commented
 // out to prevent accidental usage when they're really just trying to
 // create a PM.
 //    'sitemanager'             => _("Grants site administrator privileges"),
     'manager'                 => _("Grants project management (PM) privileges"),
-);
-
-$boolean_user_settings = array_merge($user_table_settings, array(
     'proj_facilitator'        => _("Grants project facilitator (PF) privileges"),
     'access_request_reviewer' => _("Creates level evaluators; gives access to special reviewer-only scripts; <b>must</b> be combined with PF access"),
     'image_sources_manager'   => _("Grants ability to create new image source listings and manage existing records"),
@@ -36,7 +31,7 @@ $boolean_user_settings = array_merge($user_table_settings, array(
     'authors_db_manager'      => _("Grants ability to manage author records"),
     'send_to_post'            => _("Send user's projects to the PP pool"),
     'disable_project_loads'   => _("Revoke user's ability to load projects"),
-));
+);
 
 $value_user_settings = array(
     'remote_file_manager' => array(
@@ -171,7 +166,7 @@ function show_toggles_form($username, $user_settings)
 
 function update_settings($username, $user_settings)
 {
-    global $boolean_user_settings, $value_user_settings, $user_table_settings,
+    global $boolean_user_settings, $value_user_settings,
            $freeform_user_settings;
 
     $disposition = array(
@@ -269,26 +264,12 @@ function update_settings($username, $user_settings)
 
     foreach ( $disposition['turn on'] as $setting_name )
     {
-        if(isset($user_table_settings[$setting_name]))
-        {
-            update_user_table($username, $setting_name, 'yes');
-        }
-        else
-        {
-            $user_settings->set_true($setting_name);
-        }
+        $user_settings->set_true($setting_name);
     }
 
     foreach ( $disposition['turn off'] as $setting_name )
     {
-        if(isset($user_table_settings[$setting_name]))
-        {
-            update_user_table($username, $setting_name, 'no');
-        }
-        else
-        {
-            $user_settings->set_value($setting_name, NULL);
-        }
+        $user_settings->set_value($setting_name, NULL);
     }
 
     foreach ( $disposition['set'] as $setting_name => $value )
@@ -300,17 +281,6 @@ function update_settings($username, $user_settings)
     }
 
     echo "<p>" . _("Done.") . "</p>";
-}
-
-function update_user_table($username, $field, $value)
-{
-    $sql = sprintf("
-        UPDATE users
-        SET $field = '%s'
-        WHERE username = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // vim: sw=4 ts=4 expandtab
