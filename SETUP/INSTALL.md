@@ -23,6 +23,7 @@ The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
 * GD - php-gd
 * Internationalization - php-intl
+* mbstring - php-mbstring
 * MySQL - php-mysql
 * zip - php-zip
 
@@ -32,10 +33,9 @@ and using InnoDB as the default engine (which are the defaults for that
 version and later). Non-project tables will be created with the default engine
 and InnoDB tables are easier to manage in their own files.
 
-Version 5.5 will also work but consider setting your default engine to MyISAM
-rather than have all of the InnoDB tables created in your system tablespace.
-
-Versions below 5.5, down to 5.1, may work but are untested.
+A minimum version of 5.5 is required to support UTF-8 using the utf8mb4
+encoding, but consider setting your default engine to MyISAM rather than have
+all of the InnoDB tables created in your system tablespace.
 
 MariaDB version 5.5 and later should also work but has not been tested.
 
@@ -186,7 +186,7 @@ mysql -h localhost -u root -p
 
 Create the database.
 ```
-CREATE DATABASE dp_db CHARACTER SET LATIN1;
+CREATE DATABASE dp_db CHARACTER SET utf8mb4;
 ```
 
 Create the user. (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
@@ -196,7 +196,7 @@ GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 
 Similarly for the archive database (if you want one):
 ```
-CREATE DATABASE dp_archive CHARACTER SET LATIN1;
+CREATE DATABASE dp_archive CHARACTER SET utf8mb4;
 GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 ```
 
