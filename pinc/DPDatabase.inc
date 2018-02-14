@@ -43,6 +43,25 @@ final class DPDatabase
         return self::$_connection;
     }
 
+    static public function is_table_utf8($table_name)
+    {
+        $sql = sprintf("
+            SELECT table_collation
+            FROM information_schema.tables
+            WHERE table_schema='%s' AND table_name='%s'
+        ", self::$_db_name, $table_name);
+
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        if(!$result)
+            throw new DBQueryError(mysqli_error(DPDatabase::get_connection()));
+
+        $row = mysqli_fetch_assoc($result);
+        $table_encoding = $row['table_collation'];
+        mysqli_free_result($result);
+
+        return $table_encoding == 'utf8mb4_general_ci';
+    }
+
     // Prevent this class from being instantiated
     protected function __construct() {}
     protected function __clone() {}
