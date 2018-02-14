@@ -28,6 +28,9 @@ final class DPDatabase
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
         if(!mysqli_query(self::$_connection, $sql))
             throw new DBConnectionError("Unable to set sql_mode");
+
+        // set character set to UTF8
+        mysqli_set_charset(self::$_connection, "utf8mb4");
     }
 
     static public function close()
