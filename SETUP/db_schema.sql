@@ -13,7 +13,7 @@ CREATE TABLE `access_log` (
   `action` varchar(16) NOT NULL default '',
   `activity` varchar(32) NOT NULL default '',
   KEY `subject_username` (`subject_username`,`timestamp`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -38,7 +38,7 @@ CREATE TABLE `authors` (
   `enabled` tinytext NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`author_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -55,7 +55,7 @@ CREATE TABLE `best_tally_rank` (
   `best_rank` int(6) NOT NULL default '0',
   `best_rank_timestamp` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -71,7 +71,7 @@ CREATE TABLE `biographies` (
   `bio` text NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`bio_id`)
-) DEFAULT CHARSET=latin1 COMMENT='Contains biographies (see authors)';
+) COMMENT='Contains biographies (see authors)';
 # --------------------------------------------------------
 
 #
@@ -87,7 +87,7 @@ CREATE TABLE `current_tallies` (
   `holder_id` int(6) unsigned NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
   PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -111,7 +111,7 @@ CREATE TABLE `image_sources` (
   `internal_comment` text,
   UNIQUE KEY `code_name` (`code_name`),
   UNIQUE KEY `display_name` (`display_name`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -126,7 +126,7 @@ CREATE TABLE `job_logs` (
   `tracetime` int(12) unsigned NOT NULL default '0',
   `event` varchar(20) NOT NULL default ''' ''',
   `comments` varchar(255) default NULL
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -141,7 +141,7 @@ CREATE TABLE `marc_records` (
   `original_array` text NOT NULL,
   `updated_array` text NOT NULL,
   PRIMARY KEY  (`projectid`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -161,7 +161,7 @@ CREATE TABLE `news_items` (
   `locale` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `pageid_locale` (`news_page_id`,`locale`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -175,7 +175,7 @@ CREATE TABLE `news_pages` (
   `news_page_id` varchar(8) NOT NULL default '',
   `t_last_change` int(11) NOT NULL default '0',
   PRIMARY KEY  (`news_page_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -197,7 +197,7 @@ CREATE TABLE `non_activated_users` (
   `u_intlang` varchar(25) default '',
   `user_password` varchar(128) NOT NULL default '',
   PRIMARY KEY  (`username`)
-) DEFAULT CHARSET=latin1 COMMENT='Each row represents a not-yet-activated user, user_password ';
+) COMMENT='Each row represents a not-yet-activated user, user_password ';
 # --------------------------------------------------------
 
 #
@@ -220,7 +220,7 @@ CREATE TABLE `page_events` (
   KEY `username` (`username`,`round_id`),
   KEY `projectid_username` (`projectid`,`username`),
   KEY `username_projectid_round_time` (`username`,`projectid`,`round_id`,`timestamp`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -239,7 +239,7 @@ CREATE TABLE `past_tallies` (
   `tally_value` int(8) NOT NULL default '0',
   PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`,`timestamp`),
   KEY `tallyboard_time` (`tally_name`,`holder_type`,`timestamp`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -253,7 +253,7 @@ CREATE TABLE `pg_books` (
   `etext_number` int(10) unsigned NOT NULL,
   `formats` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY  (`etext_number`)
-) DEFAULT CHARSET=latin1 COMMENT='Each row represents a different PG etext';
+) COMMENT='Each row represents a different PG etext';
 # --------------------------------------------------------
 
 #
@@ -275,7 +275,7 @@ CREATE TABLE `project_events` (
   PRIMARY KEY  (`event_id`),
   KEY `project` (`projectid`),
   KEY `timestamp` (`timestamp`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -289,7 +289,7 @@ CREATE TABLE `project_holds` (
   `projectid` varchar(22) NOT NULL,
   `state` varchar(50) NOT NULL,
   PRIMARY KEY (`projectid`,`state`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -307,7 +307,7 @@ CREATE TABLE `project_state_stats` (
   `comments` varchar(255) default NULL,
   KEY `date` (`date`),
   KEY `state` (`state`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -358,7 +358,7 @@ CREATE TABLE `projects` (
   KEY `special_code` (`special_code`),
   KEY `projectid_archived_state` (`projectid`,`archived`,`state`),
   KEY `state_moddate` (`state`,`modifieddate`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -378,7 +378,7 @@ CREATE TABLE `queue_defns` (
   `comment` text,
   UNIQUE KEY `ordering` (`round_id`,`ordering`),
   UNIQUE KEY `name` (`round_id`,`name`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -394,7 +394,7 @@ CREATE TABLE `quiz_passes` (
   `quiz_page` varchar(15) NOT NULL default '',
   `result` varchar(10) NOT NULL default '',
   KEY `username` (`username`,`quiz_page`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -411,7 +411,7 @@ CREATE TABLE `rules` (
   `subject` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,
   PRIMARY KEY  (`id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -427,7 +427,7 @@ CREATE TABLE `sessions` (
   `value` text NOT NULL,
   PRIMARY KEY  (`sid`),
   KEY `expiration` (`expiration`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -442,7 +442,7 @@ CREATE TABLE `site_tally_goals` (
   `tally_name` char(2) NOT NULL default '',
   `goal` int(6) NOT NULL default '0',
   PRIMARY KEY  (`date`,`tally_name`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -458,7 +458,7 @@ CREATE TABLE `smoothread` (
   `committed` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`projectid`,`user`),
   KEY `user` (`user`)
-) DEFAULT CHARSET=latin1 COMMENT='Each row represents an association between a user and a proj';
+) COMMENT='Each row represents an association between a user and a proj';
 # --------------------------------------------------------
 
 #
@@ -482,7 +482,7 @@ CREATE TABLE `special_days` (
   `info_url` varchar(255) default NULL,
   `image_url` varchar(255) default NULL,
   UNIQUE KEY `spec_code` (`spec_code`)
-) DEFAULT CHARSET=latin1 COMMENT='definitions of SPECIAL days';
+) COMMENT='definitions of SPECIAL days';
 # --------------------------------------------------------
 
 #
@@ -516,7 +516,7 @@ CREATE TABLE `tasks` (
   `related_tasks` mediumtext NOT NULL,
   `related_postings` mediumtext NOT NULL,
   KEY `task_id` (`task_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -532,7 +532,7 @@ CREATE TABLE `tasks_comments` (
   `comment_date` int(11) NOT NULL default '0',
   `comment` mediumtext NOT NULL,
   PRIMARY KEY (`task_id`,`u_id`,`comment_date`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -547,7 +547,7 @@ CREATE TABLE `tasks_related_tasks` (
   `task_id_2` mediumint(9) NOT NULL,
   PRIMARY KEY (`task_id_1`,`task_id_2`),
   KEY `task_id_2` (`task_id_2`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -565,7 +565,7 @@ CREATE TABLE `tasks_votes` (
   `vote_browser` tinyint(1) NOT NULL default '0',
   UNIQUE KEY `id` (`id`),
   KEY `task_id` (`task_id`,`u_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -581,7 +581,7 @@ CREATE TABLE `themes` (
   `unixname` varchar(100) NOT NULL default '',
   `created_by` varchar(25) NOT NULL default '',
   KEY `theme_id` (`theme_id`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -632,7 +632,7 @@ CREATE TABLE `uber_projects` (
   `d_text_preparer` varchar(25) default NULL,
   `d_extra_credits` tinytext,
   PRIMARY KEY  (`up_projectid`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -658,7 +658,7 @@ CREATE TABLE `user_active_log` (
   `A_4wks` mediumint(8) unsigned default NULL,
   `comments` varchar(255) default NULL,
   KEY `timestamp_ndx` (`time_stamp`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -673,7 +673,7 @@ CREATE TABLE `user_filters` (
   `filtertype` varchar(25) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (`username`,`filtertype`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -713,7 +713,7 @@ CREATE TABLE `user_profiles` (
   `h_twrap` tinyint(1) default '0',
   PRIMARY KEY  (`id`),
   KEY `u_ref` (`u_ref`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -738,7 +738,7 @@ CREATE TABLE `user_project_info` (
   `iste_sr_reported` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`username`,`projectid`),
   KEY `projectid` (`projectid`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -765,7 +765,7 @@ CREATE TABLE `user_teams` (
   `latestUser` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `teamname` (`teamname`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -803,7 +803,7 @@ CREATE TABLE `users` (
   KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
   KEY `t_last_activity` (`t_last_activity`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -820,7 +820,7 @@ CREATE TABLE `usersettings` (
   KEY `username_setting_val` (`username`,`setting`,`value`),
   KEY `setting` (`setting`,`value`),
   KEY `value` (`value`,`setting`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
 #
@@ -841,6 +841,6 @@ CREATE TABLE `wordcheck_events` (
   `corrections` text,
   PRIMARY KEY  (`check_id`),
   KEY `pc_compound` (`projectid`,`timestamp`,`image`)
-) DEFAULT CHARSET=latin1;
+);
 # --------------------------------------------------------
 
