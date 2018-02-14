@@ -11,6 +11,7 @@ include_once($relPath.'project_events.inc'); // log_project_event
 
 class NonexistentProjectException extends Exception { }
 class InvalidProjectIDException extends Exception { }
+class UTF8ConversionException extends Exception { }
 
 class Project
 {
@@ -65,6 +66,8 @@ class Project
 
         switch($name)
         {
+            case "is_utf8":
+                return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
                 return is_dir($this->dir);
             case "pages_table_exists":
@@ -133,6 +136,43 @@ class Project
             $credits_line = "$credits_line ({$this->image_source_credit})";
         }
         return $credits_line;
+    }
+
+    // -------------------------------------------------------------------------
+
+    function convert_to_utf8($force=False)
+    {
+        // nothing to do if the project table doesn't exist
+        if(!$this->check_pages_table_exists($message))
+        {
+            return false;
+        }
+
+        // and nothing to do if it is already UTF-8
+        if($this->is_utf8)
+        {
+            return false;
+        }
+
+        // and don't convert tables that have been posted unless
+        // $force is True
+        if(!$force && ($this->state == PROJ_SUBMIT_PG_POSTED))
+        {
+            return false;
+        }
+
+        $sql = "
+            ALTER TABLE $this->projectid CONVERT TO CHARACTER SET utf8mb4;
+        ";
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        if(!$result)
+        {
+            throw new UTF8ConversionException(
+                "Database error converting $this->projectid to utf8mb4"
+            );
+        }
+
+        return true;
     }
 
     // -------------------------------------------------------------------------
