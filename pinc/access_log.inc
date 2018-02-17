@@ -38,3 +38,23 @@ function get_first_granted_date($username, $stage)
 
     return $row["timestamp"];
 }
+
+function get_latest_access_change_entry($username, $activity_id)
+{
+    $sql = sprintf("
+        SELECT *
+        FROM access_log
+        WHERE subject_username = '%s'
+            AND activity = '%s'
+        ORDER BY timestamp DESC
+        LIMIT 1
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $activity_id));
+
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+
+    if($result)
+        return mysqli_fetch_assoc($result);
+    else
+        return NULL;
+}

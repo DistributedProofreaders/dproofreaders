@@ -11,7 +11,7 @@ CREATE TABLE `access_log` (
   `subject_username` varchar(25) NOT NULL default '',
   `modifier_username` varchar(25) NOT NULL default '',
   `action` varchar(16) NOT NULL default '',
-  `activity` varchar(10) NOT NULL default '',
+  `activity` varchar(32) NOT NULL default '',
   KEY `subject_username` (`subject_username`,`timestamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
