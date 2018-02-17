@@ -8,12 +8,12 @@ header('Content-type: text/plain');
 
 // ------------------------------------------------------------
 
-echo "Migrating manager, postprocessor, and sitemanager columns from users to usersettings...\n";
+echo "Migrating manager and sitemanager columns from users to usersettings...\n";
 
 $sql = "
-    SELECT username, manager, postprocessor, sitemanager
+    SELECT username, manager, sitemanager
     FROM users
-    WHERE manager = 'yes' or postprocessor = 'yes' or sitemanager = 'yes';
+    WHERE manager = 'yes' or sitemanager = 'yes';
 ";
 
 echo "$sql\n";
@@ -25,8 +25,6 @@ while($row = mysqli_fetch_assoc($result))
     $userSetting =& Settings::get_settings($row['username']);
     if($row['manager'] == "yes")
         $userSetting->set_boolean("manager", true);
-    if($row['postprocessor'] == "yes")
-        $userSetting->set_boolean("postprocessor", true);
     if($row['sitemanager'] == "yes")
         $userSetting->set_boolean("sitemanager", true);
 }
