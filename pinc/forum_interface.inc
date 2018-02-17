@@ -36,27 +36,36 @@ the amount of DP code included in those pages.
 
 assert("PHPBB_VERSION == 3 /* Only phpBB version 3 is supported */");
 
-function phpbb_lang($langcode=FALSE)
+function phpbb_lang($locale=FALSE)
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
 // is not installed on the system.
 {
-    if($langcode===FALSE)
-        $langcode=@$GLOBALS['locale'];
+    if($locale === FALSE)
+        $locale = get_desired_language();
 
     if(PHPBB_VERSION == 3) {
+        // We're given a locale (eg: fr_FR) but phpBB languages are different.
+        // Some samples: en, en_us, de, es_x_tu, es-mx, pt_br, pt
+        // We can only do so much, so try for an exact match in lowercase
+        // first, fall back to just the two-letter language code, and then
+        // just fall back to English (which phpBB comes with by default).
         $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-        $query = sprintf("
-            SELECT *
-            FROM ${phpbb_table_prefix}_lang
-            WHERE lang_iso='%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
-        $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+        $lang_attempts = array(strtolower($locale), substr($locale, 0, 2));
+        foreach($lang_attempts as $lang)
+        {
+            $query = sprintf("
+                SELECT *
+                FROM ${phpbb_table_prefix}_lang
+                WHERE lang_iso='%s'
+                ", mysqli_real_escape_string(DPDatabase::get_connection(), $lang));
+            $res = mysqli_query(DPDatabase::get_connection(), $query) or
+                die(mysqli_error(DPDatabase::get_connection()));
 
-        if (mysqli_num_rows($res) == 1)
-            return $langcode;
-        else
-            return "en";
+            if (mysqli_num_rows($res) == 1)
+                return $lang;
+        }
+        return "en";
     }
 }
 
