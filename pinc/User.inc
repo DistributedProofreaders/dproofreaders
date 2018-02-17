@@ -1,5 +1,7 @@
 <?php
 include_once($relPath.'misc.inc');
+include_once($relPath.'access_log.inc');
+include_once($relPath.'SettingsClass.inc');
 
 class NonexistentUserException extends Exception { }
 
@@ -118,6 +120,31 @@ class User
     public function save()
     {
         throw new NotImplementedException();
+    }
+
+    public function grant_access($activity, $requester)
+    {
+        $this->_change_access("grant", $activity, $requester);
+    }
+
+    public function revoke_access($activity, $requester)
+    {
+        $this->_change_access("revoke", $activity, $requester);
+    }
+
+    public function request_access($activity)
+    {
+        $this->_change_access("request", $activity, 'n/a');
+    }
+
+    private function _change_access($action_type, $activity, $requester)
+    {
+        $userSettings =& Settings::get_Settings($this->username);
+        if($action_type == "request")
+            $userSettings->set_value($activity, "requested");
+        else
+            $userSettings->set_boolean($activity, $action_type == 'grant');
+        log_access_change($this->username, $requester, $activity, $action_type);
     }
 
     // Static function to determine if the specified username is associated

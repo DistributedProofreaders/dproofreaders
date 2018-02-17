@@ -4,8 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'access_log.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 
 require_login();
 
@@ -59,12 +58,10 @@ else
             break;
 
         case 'sat-available':
+            $user = new User($pguser);
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
-                $userSettings =& Settings::get_Settings($pguser);
-                $userSettings->set_true("$stage_id.access");
-
-                log_access_change( $pguser, 'AUTO-GRANTED', $stage_id, 'grant' );
+                $user->grant_access("$stage_id.access", 'AUTO_GRANTED');
                 echo _('Access has been granted!');
             }
             elseif ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
@@ -77,11 +74,7 @@ else
 
                 maybe_mail( $email_addr, $title, $body );
 
-                $userSettings =& Settings::get_Settings($pguser);
-                $userSettings->set_value("$stage_id.access", "requested");
-
-                log_access_change( $pguser, 'n/a', $stage_id, 'request' );
-
+                $user->request_access("$stage_id.access");
                 echo _('Your request has been submitted and logged.');
             }
             else

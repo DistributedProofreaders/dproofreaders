@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'maybe_mail.inc');
-include_once($relPath.'access_log.inc');
-include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'slim_header.inc');
 
@@ -14,8 +12,7 @@ require_login();
 $subject_username = array_get($_POST, 'subject_username', null);
 $notify_user = array_get($_POST, 'notify_user', null);
 
-if (check_username($subject_username) != '')
-    die("Invalid parameter subject_username.");
+$user = new User($subject_username);
 
 list($can_grant,$can_revoke) = user_can_modify_access_of($subject_username);
 if ( !$can_grant && !$can_revoke )
@@ -145,12 +142,11 @@ foreach ( $actions as $activity_id => $action_type )
 {
     echo "<br>\n";
     echo "$action_type $activity_id ...<br>\n";
-    $yesno = ( $action_type == 'grant' ? 'yes' : 'no' );
 
-    $userSettings =& Settings::get_Settings($subject_username);
-    $userSettings->set_value("$activity_id.access", $yesno);
-
-    log_access_change( $subject_username, $pguser, $activity_id, $action_type );
+    if($action_type == 'grant')
+        $user->grant_access("$activity_id.access", $pguser);
+    else
+        $user->revoke_access("$activity_id.access", $pguser);
 }
 
 echo "<br>\n";
@@ -161,10 +157,9 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 
 // -----------------------------------------------------------------------------
 
-function notify_user($username,$actions)
+function notify_user($username, $actions)
 {
     global $site_name, $site_signoff;
-    $user = new User($username);
     if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
     {
         // Special case: If the user has been granted access to
