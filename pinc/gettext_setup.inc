@@ -2,54 +2,59 @@
 // Localization setup
 include_once($relPath.'languages.inc');
 
-/*
-If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr) and
-requested language is installed, then use that language and set language cookie
-so that after clicking on links user would remain in the language. This is
-useful for external linking to a localised version.
-
-If user is logged in, and has set language in user preferences, use that
-language.
-
-If user is not logged in, use language cookie, if there is one.
-
-If there is no cookie try to guess an appropriate language from browser's
-settings. There is no need to set the cookie because browser remains the same.
-
-If everything else fails, default to English.
-*/
+// Return a locale that best matches the language that the user wants and
+// that we have a site translation for. "Best" is tricky, because there are
+// multiple ways that a user could indicate (either explicitly or implicitly)
+// what language they want a page returned in. We walk through the following
+// possibilities in this order:
+// * If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr)
+//   and requested language is installed, then use that language and set
+//   language cookie so that after clicking on links user would remain in the
+//   language. This is useful for external linking to a localised version.
+// * If user is logged in, and has set language in user preferences, use that
+//   language.
+// * If user is not logged in, use language cookie, if there is one.
+// * If there is no cookie try to guess an appropriate language from browser's
+//   settings. There is no need to set the cookie because browser remains the
+//   same.
+// * If everything else fails, default to en_US.
 function get_desired_language()
 {
     global $pguser, $userP, $use_secure_cookies;
 
     // This function maybe called multiple times within a page load.
-    // Only do the calculations to determine the desired language once.
-    static $intlang = NULL;
-    if($intlang)
-        return $intlang;
+    // Only do the calculations to determine the locale once.
+    static $locale = NULL;
+    if($locale)
+        return $locale;
 
     // If the below logic changes, update locale/debug_ui_language.php too
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
-        $intlang = lang_code($_GET['lang']);
-        setcookie("language", $intlang, time()+31536000, "/", "", $use_secure_cookies);
+        // User requested a specific language for this page
+        $locale = lang_code($_GET['lang']);
+        setcookie("language", $locale, time()+31536000, "/", "", $use_secure_cookies);
     } else if (isset($userP)  && $userP['u_intlang']){
-        $intlang = $userP['u_intlang'];
+        // User is logged in and has set their language preference
+        $locale = $userP['u_intlang'];
     } else if (!$pguser &&
                isset($_COOKIE['language']) && $_COOKIE['language']) {
-        $intlang=$_COOKIE['language'];
+        // User is not logged in but we have a language cookie
+        $locale=$_COOKIE['language'];
     } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        // Attempt to guess locale based on browser settings
         $test_locale = \
             get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE']);
         if($test_locale)
-            $intlang = $test_locale;
+            $locale = $test_locale;
     }
 
-    // Fall back to English
-    if (!@$intlang || !is_locale_translation_enabled($intlang)) {
-        $intlang = "en_US";
+    // Fall back to en_US (English) if we weren't able to determine a locale
+    // or we don't have a translation for that locale.
+    if (!@$locale || !is_locale_translation_enabled($locale)) {
+        $locale = "en_US";
     }
 
-    return $intlang;
+    return $locale;
 }
 
 function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir)
