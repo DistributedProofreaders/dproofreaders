@@ -1,29 +1,48 @@
 # Distributed Proofreaders
 
-Preserving history, one page at a time.
+_Preserving history, one page at a time._
 
 This repository contains the code that powers http://www.pgdp.net and other
 sister DP sites world-wide.
 
-The master repository is hosted on SourceForge at: 
-https://sourceforge.net/p/dproofreaders/git/
+## About
+
+Distributed Proofreaders is a web application (written in PHP and backed by a
+MySQL database) that is intended to ease the process of converting public
+domain books and other printed materials into e-texts.
+The main site is at http://www.pgdp.net
+
+By breaking the work into individual pages, many proofreaders can be working
+on the same book at the same time. This significantly speeds up the
+proofreading/E-Text creation process.
+
+When a proofer elects to proofread a page for a particular project, the text
+and image file are displayed on a single webpage. This allows the text file
+to be easily reviewed and compared to the image file, thus assisting the
+proofreading of the text file. The edited text is then submitted back to the
+site via the same webpage that it was edited on.
+
+Once all pages for a particular book have been processed, a concatenated text
+file is made available for final clean-up and submitted to a
+[Project Gutenberg](https://en.wikipedia.org/wiki/Project_Gutenberg#Affiliated_projects)
+site.
 
 ## Installation
 
-See `SETUP/installation.txt` for information on system pre-requisites and
-installation instructions. This file also has information on upgrading from
-an earlier release of the code.
+See the [installation guide](SETUP/installation.txt) for information on system
+pre-requisites and installation instructions. This file also has information on
+upgrading from an earlier release of the code.
 
 If you need assistance with the code, inquire within the
-[DP Site Code](http://www.pgdp.net/phpBB3/viewforum.php?f=32) forum at pgdp.net.
+[DP Site Code](https://www.pgdp.net/phpBB3/viewforum.php?f=32) forum at pgdp.net.
 
 ## Code development
 
 To get involved with development on this code base, see
-[DP Code Development](http://www.pgdp.net/wiki/DP_Code_Development) in the
+[DP Code Development](https://www.pgdp.net/wiki/DP_Code_Development) in the
 pgdp.net wiki.
 
 ## License
 
-All source code published here is available under the terms of the GNU General
-Public License, version 2. See `license.txt` for more information.
+All source code published here is available under the terms of the
+[GNU General Public License, version 2](license.txt).
