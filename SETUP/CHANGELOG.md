@@ -3,6 +3,12 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
+## Deprecation notice
+The `project_pages` table and the `$writeBIGtable` variable in site_vars.php
+that controls writing to it are deprecated and will be removed in a future
+release. This table is not used anywhere within the code, but external code
+might rely on it.
+
 
 ## R201802
 Scripts supporting this upgrade are in `SETUP/upgrade/11`
