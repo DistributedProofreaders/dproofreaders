@@ -7,48 +7,48 @@ see the git history.
 ## R201802
 Scripts supporting this upgrade are in `SETUP/upgrade/11`
 
-* MAJOR: Remove support for phpBB 2.x and MySQL 5.1 (cpeel)
-* MAJOR: Support jpgraph version 4.1.0 (cpeel)
-* MAJOR: Theming moved entirely to CSS, standardized look-and-feel across
-         site, site is largely HTML5 compliant (Happy5214, rp31, cpeel)
-* MAJOR: New PM page separate from Search page (rp31, cpeel)
-* MAJOR: Project Quick Check code brought over from noncvs (cpeel)
+* Remove support for phpBB 2.x and MySQL 5.1 (cpeel)
+* Support jpgraph version 4.1.0 (cpeel)
+* Theming moved entirely to CSS, standardized look-and-feel across site, site
+  is largely HTML5 compliant (Happy5214, rp31, cpeel)
+* New PM page separate from Search page (rp31, cpeel)
+* Project Quick Check code brought over from noncvs (cpeel)
 * See `git log R201707 R201802` for full set of changes.
 
 
 ## R201707
 Scripts supporting this upgrade are in `SETUP/upgrade/10`
 
-* MAJOR: Support phpBB versions 3.1 and 3.2 (cpeel)
-* MAJOR: Support jpgraph version 4.0.2 (cpeel)
-* MAJOR: Moved to mysqli extention (cpeel)
-         This should allow the code to run on PHP 7.x but that has not been
-         tested.
-* MAJOR: Full French translation of the UI (srjfoo and other volunteers)
+* Support phpBB versions 3.1 and 3.2 (cpeel)
+* Support jpgraph version 4.0.2 (cpeel)
+* Moved to mysqli extention (cpeel)
+  This should allow the code to run on PHP 7.x but that has not been tested.
+* Full French translation of the UI (srjfoo and other volunteers)
 * See `git log R201701 R201707` for full set of changes.
 
 
 ## R201701
 Scripts supporting this upgrade are in `SETUP/upgrade/09`
 
-* MAJOR: New Format Preview functionality (rp31)
-* MAJOR: Removed dependency on magic quotes allowing PHP 5.4 and later
-         support (cpeel)
+* New Format Preview functionality (rp31)
+* Removed dependency on magic quotes allowing PHP 5.4 and later support (cpeel)
 * See `git log R201601 R201701` for full set of changes.
 
 
 ## R201601
 Scripts supporting this upgrade are in `SETUP/upgrade/08`
 
-* MAJOR: phpBB 3.0 is supported in addition to 2.x (cpeel)
-* MAJOR: Replace spellcheck with WordCheck; lots of functionality
-         (mainly cpeel, some jmdyck)
-* MAJOR: remote_file_manager.php replaces FTP for uploading project
-         images/texts (bfoley, Donovan, jmdyck, cpeel)
-* MAJOR: Redesigned translation center; see faq/translate.php (lvl, cpeel)
-* MAJOR: Ability for site-specific protection against bot registrations;
-         see site_registration_protection.php.example (cpeel)
+### Major changes
+* phpBB 3.0 is supported in addition to 2.x (cpeel)
+* Replace spellcheck with WordCheck; lots of functionality
+  (mainly cpeel, some jmdyck)
+* remote_file_manager.php replaces FTP for uploading project images/texts
+  (bfoley, Donovan, jmdyck, cpeel)
+* Redesigned translation center; see faq/translate.php (lvl, cpeel)
+* Ability for site-specific protection against bot registrations;
+  see site_registration_protection.php.example (cpeel)
 
+### Other changes
 * numerous places: use new config variables SITE_NAME, SITE_ABBREVIATION, SITE_SIGNOFF (mike_cie)
 * review_work.php: Allow members at large to review their own work. (mike_cie)
 * LPage.inc: use new config variable: PRECEDING_PROOFER_RESTRICTION (mike_cie)
