@@ -77,8 +77,7 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
 
 // If the gettext extension is compiled into PHP, then the function named '_'
 // (an alias for 'gettext') will be defined.
-// If it's not defined (e.g., on dproofreaders.sourceforge.net),
-// define it to simply return its argument.
+// If it's not defined, define it to simply return its argument.
 if (! function_exists('_') )
 {
     function _($str) { return $str; }

@@ -16,7 +16,7 @@
 # particular, don't put it (or leave it) under your server's doc root.
 
 # This file (or rather, your edited copy of it) is sourced by the scripts
-# 'update_from_sf' and 'configure'.  Those are Bourne Shell scripts,
+# 'update_from_github' and 'configure'.  Those are Bourne Shell scripts,
 # so you can use any syntax that /bin/bash allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 

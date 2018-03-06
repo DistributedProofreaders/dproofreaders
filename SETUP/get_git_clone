@@ -2,7 +2,7 @@
 
 # usage: get_git_clone <TAG> <GROUP> <root_dir>
 #
-# Get a clone of the DP code from SourceForge:
+# Get a clone of the DP code from github.com:
 # 1) Create $root_dir
 # 2) Clone the git repo
 # 3) Check out the $TAG code (be it a tag or a branch)
@@ -48,15 +48,15 @@ fi
 # ------------------------------------------------------------------------------
 # Extract the latest source from the git repository.
 
-sf_userid=`cat ~/.sourceforge_id 2>/dev/null`
-if [ "$sf_userid" != "" ]; then
-    echo "~/.sourceforge_id says you are $sf_userid at SourceForge"
+github_userid=`cat ~/.github_id 2>/dev/null`
+if [ "$github_userid" != "" ]; then
+    echo "~/.github_id says you are $github_userid at github.com"
     echo "(If this is incorrect, please abort and edit the file.)"
     echo "Getting read-write git clone via SSH"
-    clone_location=ssh://$sf_userid@git.code.sf.net/p/dproofreaders/git
+    clone_location=ssh://git@github.com:$github_userid/dproofreaders.git
 else
     echo "Getting read-only git clone"
-    clone_location=git://git.code.sf.net/p/dproofreaders/git
+    clone_location=https://github.com/DistributedProofreaders/dproofreaders.git
 fi
 
 git clone $clone_location $root_dir

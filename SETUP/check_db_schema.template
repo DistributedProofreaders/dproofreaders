@@ -63,7 +63,7 @@ echo "
 " > $testing_dir/config.sh
 
 echo "Getting a test copy of the '$curr_tag' code..."
-$setup_dir/update_from_sf $testing_dir/config.sh
+$setup_dir/update_from_github $testing_dir/config.sh
 
 echo ""
 echo "Getting db_schema.sql from the '$prev_tag' release..."

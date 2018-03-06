@@ -1,8 +1,8 @@
 Instructions for installing/upgrading the Distributed Proofreaders website code
 
 The instructions in this file assume that you're using a release tarball from
-DP's Project Page on SourceForge:
-    http://sourceforge.net/projects/dproofreaders/
+DP's Project Page on github.com:
+    https://github.com/DistributedProofreaders/dproofreaders
 If you're installing/upgrading from source control, it's trickier.
 
 In case of problems, please post to the "DP Site Code" forum at the primary
