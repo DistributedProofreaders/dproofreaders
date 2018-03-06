@@ -524,14 +524,14 @@ function round_project_listing_presort( $round )
 // If you don't want any criteria to take precedence over column-sorts,
 // return NULL or the empty string.
 {
-    if ( startswith($round->id, 'P') )
+    if(is_proofreading_round($round))
     {
         return "
             (difficulty = 'beginner') DESC,
             (nameofwork LIKE '%Newcomers Only%' OR nameofwork LIKE '%Rapid Review%') DESC
         ";
     }
-    else if ( startswith($round->id, 'F') )
+    else if(is_formatting_round($round))
     {
         return "
             (
@@ -545,6 +545,16 @@ function round_project_listing_presort( $round )
     {
         assert( FALSE );
     }
+}
+
+function is_proofreading_round($round)
+{
+    return startswith($round->id, 'P');
+}
+
+function is_formatting_round($round)
+{
+    return startswith($round->id, 'F');
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
