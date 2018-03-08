@@ -260,7 +260,7 @@ _ARCHIVE_PROJECTS_DIR=$base_dir/archive
 
 # ----------------------------------------------------------------------
 
-_EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
+_EXTERNAL_CATALOG_LOCATOR='lx2.loc.gov:210/LCDB'
 
 # When you Create a Project, you have the option of searching an
 # external (Z39.50-enabled) catalog for bibliographic information.
@@ -271,6 +271,9 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 
 # To disable external search at project-creation time, leave this
 # variable empty.
+
+# See http://www.loc.gov/z3950/lcserver.html for US Library of Congress
+# server addresses and URLs.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
