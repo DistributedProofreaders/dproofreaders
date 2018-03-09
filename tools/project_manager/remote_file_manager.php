@@ -253,7 +253,10 @@ function do_showupload()
     // the first part of this blurb is used in upload_text.php
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
     $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
-    $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
+
+    $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload")) . "</p>";
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    $submit_blurb .= "<p class='warning'>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</p>\n";
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
     $extra_args = array(
@@ -270,7 +273,7 @@ function do_showupload()
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
 
     $form_content .= "<div id='old_uploader'>";
-    $form_content .= "<p>$submit_blurb</p>\n";
+    $form_content .= $submit_blurb;
     $form_content .= _("File to upload") . ":&nbsp;";
     $form_content .= "<input type='file' name='the_file' size='50' maxsize='50'>";
     $form_content .= "</div>";
@@ -1293,13 +1296,10 @@ function show_form($action, $cdrp, $form_content, $submit_label)
 
 function show_caveats()
 {
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-
     echo "<p><b>" . _("Current file and directory management features") . ":</b></p>\n";
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";
-    echo   "<li>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</li>\n";
     echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
     echo "</ul>";
     echo "</li>\n";
