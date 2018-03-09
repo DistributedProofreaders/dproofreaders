@@ -134,6 +134,9 @@ test_warning {
   background-color: yellow;
   color: black;
 }
+.button {
+  font-family: Verdana, Arial, sans-serif;
+}
 /* ------------------------------------------------------------------------ */
 /* FAQ */
 div.faqheader {
