@@ -1,0 +1,5 @@
+language: php
+install: true
+script:
+    # linting is SUCH a low bar, but it is a bar!
+    ./SETUP/lint_php_files.sh
