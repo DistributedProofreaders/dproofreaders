@@ -13,3 +13,6 @@ install:
 script:
     # linting is SUCH a low bar, but it is a bar!
     - ./SETUP/lint_php_files.sh
+    # now lets get crazy and run our meager unit tests...
+    - cd SETUP/tests
+    - phpunit --bootstrap phpunit_bootstrap.php --verbose .
