@@ -733,8 +733,8 @@ CREATE TABLE `user_profiles` (
 #
 
 CREATE TABLE `user_project_info` (
-  `username` varchar(25) NOT NULL default '',
-  `projectid` varchar(22) NOT NULL default '',
+  `username` varchar(25) NOT NULL,
+  `projectid` varchar(22) NOT NULL,
   `t_latest_home_visit` int(10) unsigned NOT NULL default '0',
   `t_latest_page_event` int(10) unsigned NOT NULL default '0',
   `iste_round_available` tinyint(1) NOT NULL default '0',
@@ -843,11 +843,11 @@ CREATE TABLE `usersettings` (
 
 CREATE TABLE `wordcheck_events` (
   `check_id` int(10) unsigned NOT NULL auto_increment,
-  `projectid` varchar(22) NOT NULL default '',
-  `timestamp` int(10) unsigned NOT NULL default '0',
-  `image` varchar(12) NOT NULL default '',
-  `round_id` char(2) NOT NULL default '',
-  `username` varchar(25) NOT NULL default '',
+  `projectid` varchar(22) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL,
+  `image` varchar(12) NOT NULL,
+  `round_id` char(2) NOT NULL,
+  `username` varchar(25) NOT NULL,
   `suggestions` text,
   `corrections` text,
   PRIMARY KEY  (`check_id`),
