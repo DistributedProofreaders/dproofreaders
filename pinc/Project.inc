@@ -583,6 +583,29 @@ XML;
         }
         return FALSE;
     }
+    
+    public function check_pages_table_exists()
+    {
+        if (!$this->pages_table_exists)
+        {
+            echo "<p class='warning'>";
+            if ($this->archived != 0)
+            {
+                echo _("The project has been archived, so page details are not available.");
+            }
+            elseif ($this->state == PROJ_DELETE)
+            {
+                echo _("The project has been deleted, so page details are not available.");
+            }
+            else
+            {
+                echo _("Page details are not available for this project.");
+            }
+            echo "</p>";
+            return false;
+        }
+        return true;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

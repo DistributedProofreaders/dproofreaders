@@ -69,7 +69,7 @@ $label = _("Return to Project Page");
 
 echo "<p><a href='$url'>$label</a></p>\n";
 
-if ($project->pages_table_exists)
+if($project->check_pages_table_exists())
 {
     echo_detail_legend();
 
@@ -101,16 +101,6 @@ if ($project->pages_table_exists)
     echo "</p>";
 
     echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection, $round_for_page_selection );
-} else {
-    echo "<p>";
-    if ($project->archived != 0) {
-        echo _("The project has been archived, so page details are not available.");
-    } elseif ($project->state == PROJ_DELETE) {
-        echo _("The project has been deleted, so page details are not available.");
-    } else {
-        echo _("Page details are not available for this project.");
-    }
-    echo "</p>";
 }
 echo "<br>";
 
