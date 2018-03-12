@@ -694,12 +694,12 @@ function do_project_info_table()
                 $blurb = _("Images, Pages Proofread, & Differences");
                 $url2 = "$url&amp;select_by_user";
                 $blurb2 = _("Just my pages");
-                $detail = "<a href='$url'>$blurb</a> | <a href='$url2'>$blurb2</a>";
+                $detail = "<a href='$url'>$blurb</a> &middot; <a href='$url2'><b>$blurb2</b></a>";
                 if($project->has_entered_formatting_round())
                 {
                     $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
                     $blurb3 = _("Compare without formatting");
-                    $detail .= " | <a href='$url3'>$blurb3</a>";
+                    $detail .= " &middot; <a href='$url3'>$blurb3</a>";
                 }
             }
             else
