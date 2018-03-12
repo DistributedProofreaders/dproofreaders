@@ -688,7 +688,7 @@ function do_project_info_table()
         }
         else
         {
-            if ($project->pages_table_exists)
+            if($project->check_pages_table_exists($detail))
             {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
                 $blurb = _("Images, Pages Proofread, & Differences");
@@ -700,16 +700,6 @@ function do_project_info_table()
                     $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
                     $blurb3 = _("Compare without formatting");
                     $detail .= " &middot; <a href='$url3'>$blurb3</a>";
-                }
-            }
-            else
-            {
-                if ($project->archived != 0) {
-                    $detail = _("The project has been archived, so page details are not available.");
-                } elseif ($project->state == PROJ_DELETE) {
-                    $detail = _("The project has been deleted, so page details are not available.");
-                } else {
-                    $detail = _("Page details are not available for this project.");
                 }
             }
             echo_row_a( _("Page Detail"), $detail);

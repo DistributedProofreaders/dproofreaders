@@ -69,7 +69,7 @@ $label = _("Return to Project Page");
 
 echo "<p><a href='$url'>$label</a></p>\n";
 
-if($project->check_pages_table_exists())
+if($project->check_pages_table_exists($warn_message))
 {
     echo_detail_legend();
 
@@ -102,6 +102,11 @@ if($project->check_pages_table_exists())
 
     echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection, $round_for_page_selection );
 }
+else
+{
+    echo "<p class='warning'>$warn_message</p>\n";
+}
+
 echo "<br>";
 
 // vim: sw=4 ts=4 expandtab

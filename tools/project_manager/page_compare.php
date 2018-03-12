@@ -51,8 +51,9 @@ class Comparator
         $label = _("Return to Project Page");
         echo "<p><a href='$project_url'>$label</a></p>\n";
 
-        if(!$this->project->check_pages_table_exists())
+        if(!$this->project->check_pages_table_exists($warn_message))
         {
+            echo "<p class='warning'>$warn_message</p>\n";
             exit();
         }
 
