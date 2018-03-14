@@ -126,12 +126,22 @@ function project_add_page(
 
     $errs = '';
 
+    $columns_for_rounds = "";
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $round = get_Round_for_round_number($rn);
+        $columns_for_rounds .= "
+            {$round->text_column_name} = '',
+        ";
+    }
+
     $sql = "
         INSERT INTO $projectid
         SET
             fileid      = '$fileid',
             image       = '$image_file_name',
             master_text = $txt_expr,
+            $columns_for_rounds
             round1_time = $now,
             state       = '$page_state'
     ";
