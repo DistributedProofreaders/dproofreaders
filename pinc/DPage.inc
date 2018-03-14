@@ -465,7 +465,7 @@ function Page_eraseBadMark( $projectid, $image, $round, $user )
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         b_user='',
-        b_code='',
+        b_code=0,
         {$round->user_column_name}=''
     " );
 
