@@ -1,0 +1,18 @@
+language: php
+services:
+    - mysql
+before_install:
+    - mysql -e "CREATE DATABASE dp_db CHARACTER SET LATIN1;"
+    - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';"
+    - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
+install:
+    # install the database schema
+    - cd SETUP
+    - php install_db.php
+    - cd ..
+script:
+    # linting is SUCH a low bar, but it is a bar!
+    - ./SETUP/lint_php_files.sh
+    # now lets get crazy and run our meager unit tests...
+    - cd SETUP/tests
+    - phpunit --bootstrap phpunit_bootstrap.php --verbose .

@@ -2,7 +2,7 @@
 
 class SettingsTest extends PHPUnit_Framework_TestCase
 {
-    private $TEST_USERNAME;
+    private $TEST_USERNAME = 'SettingsTest_php';
     private $PREFIX = 'STU_';
     private $NONEXISTENT_USERNAME = 'SettingsTestUser';
 
@@ -10,12 +10,38 @@ class SettingsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // Load a valid username from the database for use during the tests
-        $sql = "SELECT username FROM usersettings LIMIT 1";
+        // Attempt to load our test user, if it exists don't create it
+        $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         $row = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
-        $this->TEST_USERNAME = $row['username'];
+        if(!$row)
+        {
+            $sql = "
+                INSERT INTO users
+                SET id = '$this->TEST_USERNAME',
+                    real_name = '$this->TEST_USERNAME',
+                    username = '$this->TEST_USERNAME',
+                    email = '$this->TEST_USERNAME@localhost',
+                    manager = 'no',
+                    postprocessor = 'no',
+                    sitemanager = 'no',
+                    active = 0
+            ";
+            $result = mysqli_query(DPDatabase::get_connection(), $sql)
+                or die("Unable to create test user");
+        }
+        else
+        {
+            mysqli_free_result($result);
+        }
+
+        // Now create the usersettings record
+        $sql = sprintf("
+            INSERT INTO usersettings
+            SET username='%s', setting = '%ssetting', value = 'blah'
+        ", $this->TEST_USERNAME, $this->PREFIX);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql)
+            or die("Unable to create test usersetting");
     }
 
     protected function tearDown()
@@ -25,6 +51,12 @@ class SettingsTest extends PHPUnit_Framework_TestCase
             WHERE username='%s' AND setting like '%s%%'
         ", $this->TEST_USERNAME, $this->PREFIX);
         mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $sql = "
+            DELETE FROM users
+            WHERE id = '$this->TEST_USERNAME'
+        ";
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
     public function testExisting()
