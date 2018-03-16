@@ -34,7 +34,7 @@ login_forum_user() and logout_forum_user() should make every effort to reduce
 the amount of DP code included in those pages.
 */
 
-assert("PHPBB_VERSION == 3 /* Only phpBB version 3 is supported */");
+assert(PHPBB_VERSION == 3, "Only phpBB version 3 is supported");
 
 function phpbb_lang($locale=FALSE)
 // Return the language string phpbb uses for $langcode for languages
