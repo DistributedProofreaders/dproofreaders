@@ -248,8 +248,8 @@ CREATE TABLE `past_tallies` (
 #
 
 CREATE TABLE `pg_books` (
-  `etext_number` smallint(5) unsigned NOT NULL default '0',
-  `formats` tinytext NOT NULL,
+  `etext_number` int(10) unsigned NOT NULL,
+  `formats` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY  (`etext_number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a different PG etext';
 # --------------------------------------------------------
