@@ -89,7 +89,7 @@ function Pages_prepForRound( $projectid, $round_number )
             UPDATE $projectid
             SET
                 state = '{$round->page_avail_state}',
-                {$round->time_column_name} = '$timestamp'
+                {$round->time_column_name} = $timestamp
         ");
     
         if ($writeBIGtable)
@@ -98,7 +98,7 @@ function Pages_prepForRound( $projectid, $round_number )
                 UPDATE project_pages
                 SET
                     state = '{$round->page_avail_state}',
-                    {$round->time_column_name} = '$timestamp'
+                    {$round->time_column_name} = $timestamp
                 WHERE projectid = '$projectid'
             ");
         }
@@ -278,7 +278,7 @@ function Page_checkout( $projectid, $image, $round, $user )
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_out_state}',
-        {$round->time_column_name}='$timestamp',
+        {$round->time_column_name}=$timestamp,
         {$round->user_column_name}='$user'
     " );
 
@@ -303,7 +303,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
     $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_temp_state}',
-        {$round->time_column_name}='$timestamp',
+        {$round->time_column_name}=$timestamp,
         {$round->user_column_name}='$user',
         {$round->text_column_name}='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
@@ -327,7 +327,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
     $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_save_state}',
-        {$round->time_column_name}='$timestamp',
+        {$round->time_column_name}=$timestamp,
         {$round->user_column_name}='$user',
         {$round->text_column_name}='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
@@ -352,7 +352,7 @@ function Page_reopen( $projectid, $image, $round, $user )
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_temp_state}',
-        {$round->time_column_name}='$timestamp',
+        {$round->time_column_name}=$timestamp,
         {$round->user_column_name}='$user'
     " );
 
@@ -374,7 +374,7 @@ function Page_returnToRound( $projectid, $image, $round, $user )
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
-        {$round->time_column_name}='$timestamp',
+        {$round->time_column_name}=$timestamp,
         {$round->user_column_name}='$user'
     " );
 
@@ -396,7 +396,7 @@ function Page_reclaim( $projectid, $image, $round, $user )
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
-        {$round->time_column_name}=''
+        {$round->time_column_name}=0
     " );
 
     _log_page_event( $projectid, $image, 'reclaim', $user, $round, FALSE );
@@ -415,7 +415,7 @@ function Page_clearRound( $projectid, $image, $round, $user )
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
-        {$round->time_column_name}='',
+        {$round->time_column_name}=0,
         {$round->user_column_name}='',
         {$round->text_column_name}=''
     ");
