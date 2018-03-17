@@ -41,10 +41,9 @@ phpBB
     https://www.phpbb.com/downloads/
 
 jpgraph
-    jpgraph versions 3.5.0b1, 4.0.2, and 4.1.0 will work after applying the
-    included patches (4.0.2 patch will work with 4.1.0).
-    Version 4.1.0 is recommended.
-    Version 1.27.1 should also work.
+    jpgraph versions 3.5.0b1, 4.0.2, 4.1.0, and 4.2.0 will work after applying
+    the included patches (4.0.2 patch will work with 4.1.0 and 4.2.0).
+    Version 4.2.0 is recommended.
 
     http://jpgraph.net/download/
 
