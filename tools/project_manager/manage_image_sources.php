@@ -448,17 +448,16 @@ class ImageSource
             die;
         }
 
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $esc_code_name = mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name);
+        $esc_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->url);
+        mysqli_query(DPDatabase::get_connection(), "
             REPLACE INTO image_sources
             SET
-                code_name = '%s',
+                code_name = '$esc_code_name',
                 $std_fields_sql
-                url = '%s',
+                url = '$esc_url',
                 is_active = '$this->is_active'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->url))
-        ) or die("Couldn't add/edit source: ".mysqli_error(DPDatabase::get_connection()));
-
+        ") or die("Couldn't add/edit source: ".mysqli_error(DPDatabase::get_connection()));
     }
 
     function enable()
