@@ -1362,7 +1362,7 @@ $(document).ready(function() {
         testTarget: '$code_url/tools/project_manager/remote_file_manager.php',
         forceChunkSize: true,
         maxFiles: 1,
-        fileType: ['application/zip'],
+        fileType: ['zip'], // use extension not mime type since zips have many
         maxFileSize: 1024*1024*1024  // 1GB
     });
 
