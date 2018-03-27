@@ -9,7 +9,7 @@ header('Content-type: text/plain');
 echo "Increasing size of access_log.activity column..\n";
 $sql = "
     ALTER TABLE access_log
-        CHANGE COLUMN activity activity VARCHAR(32) NOT NULL DEFAULT '';
+        MODIFY COLUMN activity VARCHAR(32) NOT NULL DEFAULT '';
 ";
 
 echo "$sql\n";

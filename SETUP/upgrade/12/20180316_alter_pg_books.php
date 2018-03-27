@@ -9,8 +9,8 @@ header('Content-type: text/plain');
 echo "Updating column types for pg_books...\n";
 $sql = "
     ALTER TABLE pg_books
-        CHANGE COLUMN etext_number etext_number int unsigned NOT NULL,
-        CHANGE COLUMN formats formats varchar(255) NOT NULL DEFAULT ''
+        MODIFY COLUMN etext_number int unsigned NOT NULL,
+        MODIFY COLUMN formats varchar(255) NOT NULL DEFAULT ''
 ";
 
 echo "$sql\n";
