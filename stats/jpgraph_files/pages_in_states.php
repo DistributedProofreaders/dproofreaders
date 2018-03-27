@@ -1,6 +1,7 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'stages.inc');
 include_once('common.inc');
 
 require_login();
@@ -65,7 +66,7 @@ $progordone_n_pages[] = @$n_pages_[PROJ_POST_SECOND_CHECKED_OUT];
 $graph->SetScale("textlin");
 
 $graph->SetShadow();
-$graph->img->SetMargin(50,230,30,40);
+$graph->img->SetMargin(75, 50, 50, 100);
 
 // ------------------------
 

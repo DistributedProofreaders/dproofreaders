@@ -19,6 +19,15 @@ final class DPDatabase
 
         if(!mysqli_select_db(self::$_connection, $db_name))
             throw new DBConnectionError("Unable to locate database.");
+
+        // Update the sql_mode to disable ONLY_FULL_GROUP_BY
+        // Several places in the code, many in the stats pages, use GROUP BY
+        // in a way that breaks if ONLY_FULL_GROUP_BY is enforced by MySQL.
+        // We disable it here at the session level rather than in my.cnf
+        // to not impact other database users (forum, wiki, etc).
+        $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+        if(!mysqli_query(self::$_connection, $sql))
+            throw new DBConnectionError("Unable to set sql_mode");
     }
 
     static public function close()

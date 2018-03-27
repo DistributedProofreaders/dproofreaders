@@ -36,6 +36,7 @@ $display_mapping = array(
     'application/x-qioo-ebook' => 'QiOO',
     'application/x-tomeraider-ebook' => 'TomeRaider eBook',
     'application/xml'          => 'XML',
+    'application/rdf+xml'      => 'RDF',
     'audio/midi'               => 'MIDI',
     'audio/mp4'                => 'MP4 Audio',
     'audio/mpeg'               => 'MPEG Audio',
@@ -122,7 +123,12 @@ foreach (scandir($local_catalog_dir) as $filename)
 {
     if ($filename == '.' || $filename == '..') continue;
 
-    assert( preg_match('/^pg(\d+)\.rdf$/', $filename, $matches) );
+    if(preg_match('/^pg(\d+)\.rdf$/', $filename, $matches) === FALSE)
+    {
+        echo "Skipping unrecognized PG RDF file: $filename\n";
+        continue;
+    }
+
     $etext_number = $matches[1];
 
     $display_formats = array();
@@ -223,7 +229,11 @@ foreach (scandir($local_catalog_dir) as $filename)
         $display_formats[$display_format] = 1;
     }
 
-    assert( !isset($etexts[$etext_number]) );
+    if(isset($etexts[$etext_number]))
+    {
+        echo "Error: Found duplicate etext_number $etext_number, skipping duplicate record\n";
+        continue;
+    }
     $etexts[$etext_number] = $display_formats;
     $n_rdf_files_processed += 1;
     if ($trace && $n_rdf_files_processed % 1000 == 0) echo ".";
