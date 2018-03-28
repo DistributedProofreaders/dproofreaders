@@ -144,9 +144,9 @@ foreach ( $actions as $activity_id => $action_type )
     echo "$action_type $activity_id ...<br>\n";
 
     if($action_type == 'grant')
-        $user->grant_access("$activity_id.access", $pguser);
+        $user->grant_access($activity_id, $pguser);
     else
-        $user->revoke_access("$activity_id.access", $pguser);
+        $user->revoke_access($activity_id, $pguser);
 }
 
 echo "<br>\n";

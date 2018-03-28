@@ -122,28 +122,44 @@ class User
         throw new NotImplementedException();
     }
 
-    public function grant_access($activity, $requester)
+    //
+    // Activity access functions
+    //
+    // When we grant or revoke access to an activity we set a value in
+    // the usersettings table as well as log the event to the access_log.
+    // For historical reasons, Stage activities (proofreading rounds, etc)
+    // include an .access suffix in the usersettings table (eg: P3.access)
+    // whereas other activities do not (eg: manager). The $use_access_suffix
+    // allows the caller to specify if the suffix should be included
+    // without forcing the logic of what needs it into this class.
+
+    public function grant_access($activity, $requester, $use_access_suffix=TRUE)
     {
-        $this->_change_access("grant", $activity, $requester);
+        $this->_change_access("grant", $activity, $requester, $use_access_suffix);
     }
 
-    public function revoke_access($activity, $requester)
+    public function revoke_access($activity, $requester, $use_access_suffix=TRUE)
     {
-        $this->_change_access("revoke", $activity, $requester);
+        $this->_change_access("revoke", $activity, $requester, $use_access_suffix);
     }
 
-    public function request_access($activity)
+    public function request_access($activity, $use_access_suffix=TRUE)
     {
-        $this->_change_access("request", $activity, 'n/a');
+        $this->_change_access("request", $activity, 'n/a', $use_access_suffix);
     }
 
-    private function _change_access($action_type, $activity, $requester)
+    private function _change_access($action_type, $activity, $requester, $use_access_suffix)
     {
+        if($use_access_suffix)
+            $suffix = '.access';
+        else
+            $suffix = '';
+
         $userSettings =& Settings::get_Settings($this->username);
         if($action_type == "request")
-            $userSettings->set_value($activity, "requested");
+            $userSettings->set_value("$activity$suffix", "requested");
         else
-            $userSettings->set_boolean($activity, $action_type == 'grant');
+            $userSettings->set_boolean("$activity$suffix", $action_type == 'grant');
         log_access_change($this->username, $requester, $activity, $action_type);
     }
 

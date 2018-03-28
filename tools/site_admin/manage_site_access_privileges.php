@@ -278,12 +278,12 @@ function update_settings($user, $user_settings)
 
     foreach ( $disposition['turn on'] as $setting_name )
     {
-        $user->grant_access($setting_name, $pguser);
+        $user->grant_access($setting_name, $pguser, FALSE);
     }
 
     foreach ( $disposition['turn off'] as $setting_name )
     {
-        $user->revoke_access($setting_name, $pguser);
+        $user->revoke_access($setting_name, $pguser, FALSE);
     }
 
     foreach ( $disposition['set'] as $setting_name => $value )

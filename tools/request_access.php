@@ -61,7 +61,7 @@ else
             $user = new User($pguser);
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
-                $user->grant_access("$stage_id.access", 'AUTO_GRANTED');
+                $user->grant_access($stage_id, 'AUTO_GRANTED');
                 echo _('Access has been granted!');
             }
             elseif ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
@@ -74,7 +74,7 @@ else
 
                 maybe_mail( $email_addr, $title, $body );
 
-                $user->request_access("$stage_id.access");
+                $user->request_access($stage_id);
                 echo _('Your request has been submitted and logged.');
             }
             else
