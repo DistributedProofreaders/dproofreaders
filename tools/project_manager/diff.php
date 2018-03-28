@@ -67,19 +67,10 @@ else
     $R_format = is_formatting_round($R_round);
 }
 
-
-switch($format)
+if(!$format) // no parameter passed
 {
-    case "keep":
-        $remove_format = false;
-        break;
-    case "remove":
-        $remove_format = true;
-        break;
-    default:
-        // remove format if only one of the rounds is formatting
-        $remove_format = ($L_format xor $R_format);
-        break;
+    // default to remove format if only one of the rounds is formatting
+    $format = ($L_format xor $R_format) ? "remove" : "keep";
 }
 
 $query = "
@@ -96,7 +87,7 @@ if ( $can_see_names_for_this_page) {
     $R_label .= " ($R_user)";
 }
 
-if($remove_format)
+if($format == "remove")
 {
     // also remove blank lines and leading and trailing spaces
     $L_text = remove_formatting($L_text, false);
@@ -124,7 +115,7 @@ echo "<h1>$project_title</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
 do_navigation($projectid, $image, $L_round_num, $R_round_num, 
-              $L_user_column_name, $L_user);
+              $L_user_column_name, $L_user, $format);
 echo $navigation_text;
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
@@ -135,7 +126,7 @@ echo "\n<p><a href='$url'>$label</a>\n";
 if($L_format || $R_format)
 {
     // show option to change compare method
-    if($remove_format)
+    if($format == "remove")
     {
         $format_label = _("Compare with formatting");
         $_GET["format"] = "keep";
@@ -170,7 +161,7 @@ if ($L_text != $R_text)
 // build up the text for the navigation bit, so we can repeat it
 // again at the bottom of the page
 function do_navigation($projectid, $image, $L_round_num, $R_round_num, 
-                       $L_user_column_name, $L_user) 
+                       $L_user_column_name, $L_user, $format) 
 {
     global $navigation_text;
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
@@ -180,6 +171,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .= "\n<input type='hidden' name='image' value='$image'>";
     $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
     $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
+    $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
