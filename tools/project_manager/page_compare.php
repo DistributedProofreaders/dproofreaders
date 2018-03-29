@@ -59,16 +59,18 @@ class Comparator
 
         // draw the round selectors
         echo "<form action='page_compare.php' method='GET'>
-            <input type='hidden' name='project' value='$this->projectid'>\n
-            <input type='hidden' name='compare'>\n";
-        // TRANSLATORS: %1$s and %2$s are selectors e.g. P3, %3$s etc. are radio button options
-        echo '<p>', sprintf(_('Compare %1$s to %2$s for %3$s %4$s %5$s'),
-            $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options),
-            $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options),
-            $this->radio_string('all', _("All pages")),
-            $this->radio_string('left', _("My first")),
-            $this->radio_string('right', _("My second")));
-        echo "<input type='submit' value=", attr_safe(_('Go')), "></p></form>\n";
+            <input type='hidden' name='project' value='$this->projectid'>
+            <input type='hidden' name='compare'>",
+            "<div>", _("Compare rounds:"), "</div>\n",
+            "<div class='grid-wrapper'>\n",
+            // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
+            "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
+            "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
+            "<p>", _("Show:"), "<br>\n",
+            $this->radio_string('all', _("All pages")), "<br>\n",
+            $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
+            $this->radio_string('right', _("Pages I worked on in Round 2")), "</p>\n",
+            "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
 
         // if this is first entry don't do anything else
         if(!$this->go_compare)
@@ -166,14 +168,14 @@ class Comparator
             }
             $sel_str .= ">$round</option>";
         }
-        $sel_str .= "</select>\n";
+        $sel_str .= "</select>";
         return $sel_str;
     }
 
     function radio_string($value, $label)
     {
         $checked = ($this->page_set === $value) ? " checked" : "";
-        return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label) ."\n";
+        return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
     }
 
     function has_project_started_round($round_id)
