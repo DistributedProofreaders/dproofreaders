@@ -335,17 +335,17 @@ class SpecialDay
             die;
         }
 
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $esc_spec_code = mysqli_real_escape_string(DPDatabase::get_connection(), $this->spec_code);
+        $esc_info_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->info_url);
+        $esc_image_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_url);
+        mysqli_query(DPDatabase::get_connection(), "
             REPLACE INTO special_days
             SET
-                spec_code = '%s',
+                spec_code = '$esc_spec_code',
                 $std_fields_sql
-                info_url  = '%s',
-                image_url = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->spec_code),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->info_url),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_url)))
-        or die(_("Couldn't add/edit special day:") . " " . mysqli_error(DPDatabase::get_connection()));
+                info_url  = '$esc_info_url',
+                image_url = '$esc_image_url'
+            ") or die(_("Couldn't add/edit special day:") . " " . mysqli_error(DPDatabase::get_connection()));
     }
 
     function _set_field($field,$value)
