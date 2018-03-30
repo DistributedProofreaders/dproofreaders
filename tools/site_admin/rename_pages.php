@@ -357,7 +357,6 @@ switch ( $submit_button )
 
                 // database
                 echo "    database:";
-                // This ignores $writeBIGtable
                 $query = "
                     UPDATE $projectid
                     SET fileid='$new_fileid', image='$new_image'

@@ -291,48 +291,6 @@ CREATE TABLE `project_holds` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `project_pages`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `project_pages` (
-  `projectid` varchar(25) NOT NULL default '',
-  `fileid` varchar(20) NOT NULL default '',
-  `image` varchar(8) NOT NULL default '',
-  `master_text` longtext NOT NULL,
-  `round1_text` longtext NOT NULL,
-  `round2_text` longtext NOT NULL,
-  `round1_user` varchar(25) NOT NULL default '',
-  `round2_user` varchar(25) NOT NULL default '',
-  `round1_time` int(20) NOT NULL default '0',
-  `round2_time` int(20) NOT NULL default '0',
-  `state` varchar(50) NOT NULL default '',
-  `b_user` varchar(25) NOT NULL default '',
-  `b_code` int(1) NOT NULL default '0',
-  `metadata` set('frontmatter','backmatter','division','verse','poetry','letter','toc','footnote','sidenote','epigraph','table','list','math','drawing','badscan','blank','illustration','missing') NOT NULL default '',
-  `orig_page_num` varchar(6) NOT NULL default '',
-  `round3_time` int(20) NOT NULL default '0',
-  `round3_user` varchar(25) NOT NULL default '',
-  `round3_text` longtext NOT NULL,
-  `round4_time` int(20) NOT NULL default '0',
-  `round4_user` varchar(25) NOT NULL default '',
-  `round4_text` longtext NOT NULL,
-  `round5_time` int(20) NOT NULL default '0',
-  `round5_user` varchar(25) NOT NULL default '',
-  `round5_text` longtext NOT NULL,
-  PRIMARY KEY  (`projectid`,`fileid`),
-  KEY `round1_user` (`round1_user`),
-  KEY `round2_user` (`round2_user`),
-  KEY `round1_time` (`round1_time`),
-  KEY `round2_time` (`round2_time`),
-  KEY `state` (`state`),
-  KEY `ProjectidStateIdx` (`projectid`,`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
 # Table structure for table `project_state_stats`
 #
 # Creation:

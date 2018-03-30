@@ -587,7 +587,6 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             array("'$c_dst_image'","'$c_dst_fileid'"),
             $items_list_template );
 
-        // This ignores $writeBIGtable
         $query = sprintf("
             INSERT INTO %s
             SELECT %s
