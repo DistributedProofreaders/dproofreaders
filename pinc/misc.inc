@@ -593,6 +593,18 @@ function get_upload_err_msg($upload_error_code)
     }
 }
 
+// Represent $n bytes as a  $m kB-- $m PB string
+function humanize_bytes($n)
+{
+    $fmt   = "%d B";
+    $units = array("PB", "TB", "GB", "MB", "kB");
+    while($n >= 1024) {
+        $n   /= 1024.0;
+        $fmt  = "%.2f " . array_pop($units);
+    }
+    return sprintf($fmt, $n);
+}
+
 // -----------------------------------------------------------------------------
 
 function factor_strings( $strings )

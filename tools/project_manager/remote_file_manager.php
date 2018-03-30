@@ -151,6 +151,9 @@ $hce_curr_displaypath = html_safe($curr_displaypath);
 
 // Decide what to do based on the action parameter
 
+if(isset($_REQUEST["resumableIdentifier"]))
+    $_REQUEST["action"] = "resumable_chunk";
+
 $action = @$_REQUEST['action'];
 if (is_null($action)) {
     // Two possibilities:
@@ -175,6 +178,8 @@ switch ($action) {
     case 'showdir':    do_showdir();    break;
     case 'showupload': do_showupload(); break;
     case 'upload':     do_upload();     break;
+    case 'resumable_chunk':  do_resumable_chunk(); break;
+    case 'resumable_final':  do_resumable_final(); break;
     case 'showmkdir':  do_showmkdir();  break;
     case 'mkdir':      do_mkdir();      break;
     case 'showrename': do_showrename(); break;
@@ -248,10 +253,17 @@ function do_showupload()
     // the first part of this blurb is used in upload_text.php
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
     $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
-    $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
+
+    $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload")) . "</p>";
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    $submit_blurb .= "<p class='warning'>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</p>\n";
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
-    output_header($page_title);
+    $extra_args = array(
+        'js_files' => array("../../pinc/3rdparty/resumablejs/resumable.js"),
+        'js_data' => get_resumablejs_loader($curr_relpath),
+    );
+    output_header($page_title, SHOW_STATSBAR, $extra_args);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
@@ -259,9 +271,22 @@ function do_showupload()
         $form_content .= get_message('info', $autoprefix_message);
     }
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
-    $form_content .= "<p>$submit_blurb</p>\n";
+
+    $form_content .= "<div id='old_uploader'>";
+    $form_content .= $submit_blurb;
     $form_content .= _("File to upload") . ":&nbsp;";
     $form_content .= "<input type='file' name='the_file' size='50' maxsize='50'>";
+    $form_content .= "</div>";
+
+    $form_content .= "<div id='resumable_uploader' style='display: none;'>";
+    $form_content .= "<input type='hidden' name='resumable_filename' value=''>";
+    $form_content .= "<p>" . _("Your browser supports uploading large files (up to 1GB) via javascript. If the download fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off.") . "</p>";
+    $form_content .= "<p>" . _("File to upload") . ": <span id='resumable_selected_file'></span> &nbsp; ";
+    $form_content .= "<span id='resumable_browse' class='button'>" . _("Choose File") . "</span>";
+    $form_content .= "</p>";
+    $form_content .= "<p><span id='resumable_submit' class='button'>" . _("Upload") . "</span></p>";
+    $form_content .= "<p>" . _("Progress") . ": <span id='resumable_progress'></span></p>";
+    $form_content .= "</div>";
 
     show_form(
         'upload',
@@ -275,6 +300,29 @@ function do_showupload()
 
 function do_upload()
 {
+    return handle_file_upload(@$_FILES['the_file']);
+}
+
+function do_resumable_final()
+{
+    // staging directory for resumable uploads
+    $root_staging_dir = "/tmp/resumable_uploads";
+    $filename = array_get($_POST, "resumable_filename", "");
+    $hashed_filename = md5($filename);
+    $uploaded_path = "$root_staging_dir/$hashed_filename/$hashed_filename";
+
+    $file_info = array(
+        "error" => UPLOAD_ERR_OK,
+        "tmp_name" => $uploaded_path,
+        "size" => filesize($uploaded_path),
+        "name" => $filename,
+        "source" => "resumable",
+    );
+    return handle_file_upload($file_info);
+}
+
+function handle_file_upload($file_info)
+{
     global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
     global $pguser, $despecialed_username;
 
@@ -284,8 +332,6 @@ function do_upload()
     // in the process to give the user some progress details. Not that this
     // doesn't necessarily work for all browsers.
     apache_setenv('no-gzip', '1');
-
-    $file_info = @$_FILES['the_file'];
 
     // If a user hits the "Upload" button without first selecting a file,
     // it appears that most browsers send a request containing a file whose
@@ -388,7 +434,17 @@ function do_upload()
     // If there's already something at $temporary_path,
     // this will silently overwrite it.
     // That might or might not be the user's intent.
-    if (! @move_uploaded_file($temporary_path, $target_path) ) {
+    if($file_info["source"] == "resumable")
+    {
+        $move_result = rename($temporary_path, $target_path);
+        rmdir(dirname($temporary_path));
+    }
+    else
+    {
+        $move_result = @move_uploaded_file($temporary_path, $target_path);
+    }
+
+    if(!$move_result) {
         fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
 
@@ -400,6 +456,88 @@ function do_upload()
     error_log($reporting_string);
 
     show_return_link();
+}
+
+function do_resumable_chunk()
+{
+    // This function is only called for asynchronous uploads via JS -- nothing
+    // printed here will ever be exposed to the user.
+
+    // staging directory for resumable uploads
+    $root_staging_dir = "/tmp/resumable_uploads";
+
+    $identifier = array_get($_REQUEST, "resumableIdentifier", "");
+    $filename = array_get($_REQUEST, "resumableFilename", "");
+    $hashed_filename = md5($filename);
+    $chunk_number = array_get($_REQUEST, "resumableChunkNumber", "");
+    $total_chunks = array_get($_REQUEST, "resumableTotalChunks", 0);
+    $chunk_size = array_get($_REQUEST, "resumableChunkSize", 0);
+    $total_size = array_get($_REQUEST, "resumableTotalSize", 0);
+
+    $staging_dir = "$root_staging_dir/$hashed_filename";
+    $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
+
+    // handle testChunks request, this allows uploads to be restarted by
+    // allowing the browser to query for which parts have been uploaded
+    // successfully
+    if($_SERVER['REQUEST_METHOD'] === 'GET')
+    {
+        if(file_exists($chunk_filename))
+            header("HTTP/1.0 200 Ok");
+        else
+            header("HTTP/1.0 404 Not Found");
+    }
+
+    // handle a file upload request
+    foreach($_FILES as $file)
+    {
+        if($file["error"] != UPLOAD_ERR_OK)
+        {
+            error_log( get_upload_err_msg($file_info['error']));
+            exit;
+        }
+
+        if(!is_dir($staging_dir))
+        {
+            mkdir($staging_dir, 0777, true);
+        }
+
+        if(!move_uploaded_file($file['tmp_name'], $chunk_filename))
+        {
+            error_log("Error saving chunk $chunk_filename for $filename");
+            exit;
+        }
+    }
+
+    if(!is_dir($staging_dir))
+        return;
+
+    // attempt to assemble any completed files; this needs to run both for
+    // testChunks and uploads to handle edge failure cases where all of the
+    // parts have been uploaded but not reassembled
+    $size_on_server = 0;
+    foreach(scandir($staging_dir) as $filename)
+    {
+        $size_on_server = $size_on_server + filesize("$staging_dir/$filename");
+    }
+
+    if($size_on_server >= $total_size)
+    {
+        if(($fp = fopen("$staging_dir/$hashed_filename", "w")) !== FALSE)
+        {
+            for($i=1; $i<=$total_chunks; $i++)
+            {
+                $chunk_name = "$staging_dir/$hashed_filename.part.$i";
+                fwrite($fp, file_get_contents($chunk_name));
+                unlink($chunk_name);
+            }
+            fclose($fp);
+        }
+        else
+        {
+            error_log("Unable to create $staging_dir/$hashed_filename");
+        }
+    }
 }
 
 function do_showmkdir()
@@ -996,18 +1134,6 @@ function get_actions_block( $item_name, $valid_actions )
     return $form;
 }
 
-// Represent $n bytes as a  $m kB-- $m PB string
-function humanize_bytes($n)
-{
-    $fmt   = "%d B";
-    $units = array("PB", "TB", "GB", "MB", "kB");
-    while($n >= 1024) {
-        $n   /= 1024.0;
-        $fmt  = "%.2f " . array_pop($units);
-    }
-    return sprintf($fmt, $n);
-}
-
 function confirm_is_local_file($filename)
 // If $filename is a valid filename parameter,
 // and names a file in the current directory, return.
@@ -1147,24 +1273,21 @@ function show_form($action, $cdrp, $form_content, $submit_label)
 {
     // Display a div with a form containing action and cdrp hidden inputs; some content,
     // which can be abritrary HTML/other inputs; and finally a labeled submit button
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
+    echo "<div id='$action' style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
+    echo "<form id='${action}_form' style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='action' value='" . attr_safe($action) . "'>\n";
     echo "<input type='hidden' name='cdrp' value='" . attr_safe($cdrp) . "'>\n";
-    echo "$form_content&nbsp;<input type='submit' value='$submit_label'>\n";
+    echo "$form_content&nbsp;<input id='${action}_submit' type='submit' value='$submit_label'>\n";
     echo "</form>\n";
     echo "</div>\n";
 }
 
 function show_caveats()
 {
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-
     echo "<p><b>" . _("Current file and directory management features") . ":</b></p>\n";
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";
-    echo   "<li>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</li>\n";
     echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
     echo "</ul>";
     echo "</li>\n";
@@ -1213,5 +1336,72 @@ function return_bytes($size_str)
     }
 }
 
+function get_resumablejs_loader($cdrp)
+{
+    global $code_url;
+
+    $upload_failed = javascript_safe(_("Upload failed"));
+    $finalizing_upload = javascript_safe(_("Upload complete. Running file checks, please wait..."));
+
+    return <<<EOS
+$(document).ready(function() {
+    var r = new Resumable({
+        target: '$code_url/tools/project_manager/remote_file_manager.php',
+        testTarget: '$code_url/tools/project_manager/remote_file_manager.php',
+        forceChunkSize: true,
+        maxFiles: 1,
+        fileType: ['zip'], // use extension not mime type since zips have many
+        maxFileSize: 1024*1024*1024  // 1GB
+    });
+
+    // Check to see if the browser supports resumable, and if so expose it
+    if(r.support) {
+        r.assignBrowse($(resumable_browse));
+        r.assignDrop($(upload));
+
+        // Show the resumable div
+        $(resumable_uploader).show();
+
+        // Hide the old uploader and submit button
+        $(old_uploader).hide();
+        $(upload_submit).hide();
+    }
+
+    // Before we start the upload, prevent the user from selecting another
+    // file or hitting upload again.
+    $(resumable_submit).click(function() {
+        $(resumable_browse).hide();
+        $(resumable_submit).hide();
+        r.upload();
+    });
+
+    // After a file has been selected, display its name
+    r.on('fileAdded', function(file, event) {
+        $(resumable_selected_file).text(file.fileName);
+    });
+
+    // After a file has been successfully uploaded, we update the form
+    // and submit it for final validation (AV scan, etc).
+    r.on('fileSuccess', function(file, message) {
+        $('input[name="resumable_filename"]').val(file.fileName);
+        $('input[name="action"]').val("resumable_final");
+        $(resumable_progress).text("$finalizing_upload");
+        $(upload_form).submit();
+    });
+
+    // If an error occured, re-enable the upload form and show a message
+    r.on('fileError', function(file, message) {
+        $(resumable_browse).show();
+        $(resumable_submit).show();
+        $(resumable_progress).text("$upload_failed<br>" + message);
+    });
+
+    // As the file upload progresses, show a percentage complete
+    r.on('progress', function() {
+        $(resumable_progress).text( (r.progress() * 100).toFixed(2) + '%');
+    });
+});
+EOS;
+}
+
 // vim: sw=4 ts=4 expandtab
-?>

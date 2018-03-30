@@ -1,3 +1,5 @@
+# MediaWiki
+
 Files in this directory are lifted from MediaWiki 1.26.2 (f46552)
 and support PHP 5.3 through 5.6.
 
@@ -7,6 +9,8 @@ They are sourced from the following directories in the mediawiki git repo:
         DifferenceEngine.php
     mediawiki/resources/src/mediawiki.action
         mediawiki.action.history.diff.css
+
+## Modifications
 
 The following modifications were made to the files because the DP code does
 not support UTF-8:
@@ -19,6 +23,8 @@ not support UTF-8:
 
 To use them, see ../DifferenceEngineWrapper.inc
 
+## Updating
+
 To update the files from MediaWiki:
 1. Check out MediaWiki code from git
   `git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git mediawiki`
@@ -26,8 +32,7 @@ To update the files from MediaWiki:
   `git tags`
 3. Change to the release you want to use
   `git checkout <tag_name>`
-4. Copy updated files from locations mentioned above to
-   dproofreaders/pinc/mediawiki_diff
+4. Copy updated files from locations mentioned above to this directory
 5. Unless the code has been fully converted to UTF-8:
    1. Update TableDiffFormatter.php::deletedLine() to change the endash to
       the ASCII hyphen-minus.
