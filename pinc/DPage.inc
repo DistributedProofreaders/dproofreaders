@@ -718,5 +718,40 @@ function project_recalculate_page_counts( $projectid )
     ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
+function remove_formatting($text, $unwrap)
+{
+    $text = str_replace( "\r\n", "\n", $text);
+    // remove out-of-line tags [Illustration] (without text), users' notes
+    // these can leave blank lines so do first
+    $text = preg_replace("/\/[\*#]|[\*#]\/|\[Illustration\]|\[\*\*[^\]]+\]/", "", $text);
+    // remove inline tags and <tb>
+    $text = preg_replace("/<\/?(?:[ibfgu]|sc|tb)>/", "", $text);
+    // change alphabetic footnote anchors to *
+    $text = preg_replace("/\[[A-Z]\]/", "[*]", $text);
+    // Adjust footnotes
+    $text = preg_replace("/\[Footnote (\d+):([^\]]+)\]/", "$1$2", $text);
+    $text = preg_replace("/\[Footnote [A-Z]:([^\]]+)\]/", "*$1", $text);
+    // Ilustration with text, Sidenote
+    $text = preg_replace("/\[(?:Illustration|Sidenote): ([^\]]+)\]/", "$1", $text);
+    if($unwrap)
+    {
+        // change one or more newlines or spaces to a single space
+        $text = preg_replace("/\s+/", " ", $text);
+        // remove space at beginning or end
+        return preg_replace("/^ | $/", "", $text);
+    }
+    else
+    {
+        // remove leading spaces
+        $text = preg_replace("/(?<=\n|^)\ +/", "", $text);
+        // remove trailing spaces
+        $text = preg_replace("/\ +(?=\n|$)/", "", $text);
+        // remove blank lines - one or more \n -> one \n
+        $text = preg_replace("/\n+/", "\n", $text);
+        // remove blank line at beginning or end
+        return preg_replace("/^\n|\n$/", "", $text);
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
