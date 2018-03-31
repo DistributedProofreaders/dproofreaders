@@ -1,5 +1,8 @@
 <?php
 $relPath='../../../pinc/';
+// To enable DB conversion from Latin-1, we need to bypass the encoding check.
+include_once($relPath.'DPDatabase.inc');
+DPDatabase::$skip_encoding_check = True;
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 // We need to include udb_user to get the database name ($db_name)
@@ -14,17 +17,7 @@ header('Content-type: text/plain');
 echo "This script will migrate all non-project tables in $db_name from latin1 to utf8mb4.\n";
 
 // First confirm the user has changed the default database character set
-
-$sql = "
-    SELECT *
-    FROM information_schema.schemata
-    WHERE schema_name='$db_name';
-";
-
-$result = mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
-
-$row = mysqli_fetch_assoc($result);
-$default_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
+$default_charset = DPDatabase::get_default_db_charset();
 if($default_charset != 'utf8mb4')
 {
     echo <<<EOF
