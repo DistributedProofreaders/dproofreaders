@@ -38,9 +38,8 @@ if (isset($_POST) && count($_POST)>0) {
     $moveTo = get_integer_param($_POST, 'move_to_author', null, null, null, TRUE);
 
     // loop through posted data, see what the field names start with, save ids in arrays
-    reset($_POST);
-    while (list($key, $val) = each($_POST)) {
-
+    foreach($_POST as $key => $val)
+    {
         if (strpos($key, 'delete_bio_') !== false)
             array_push($delete_bios, intval(substr($key, 11)));
 
