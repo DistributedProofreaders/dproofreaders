@@ -484,7 +484,7 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     else
         $rowspan = "";
 
-    echo "<tr>";
+    echo "<tr class='top-align'>";
     echo "<td $rowspan>" .
          "<input type='hidden' name='old_enabled_author_$id' value='$enabled'>" .
          "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . "></td>\n";
