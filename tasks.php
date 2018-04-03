@@ -909,7 +909,8 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 function dropdown_select($field_name, $current_value, $array)
 {
     echo "<select size='1' name='$field_name' ID='$field_name' class='taskselect'>\n";
-    while (list($key, $val) = each($array)) {
+    foreach($array as $key => $val)
+    {
         echo "<option value='$key'";
         if ($current_value == $key) {
             echo " SELECTED";
@@ -1600,7 +1601,8 @@ function RelatedTasks($tid)
     echo "</form>";
     $related_tasks = decode_array($related_tasks);
     asort($related_tasks);
-    while (list($key, $val) = each($related_tasks)) {
+    foreach($related_tasks as $val)
+    {
         $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
         ") or die(mysqli_error(DPDatabase::get_connection()));
@@ -1645,7 +1647,8 @@ function RelatedPostings($tid)
     echo "</form>";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
-    while (list($key, $val) = each($related_postings)) {
+    foreach($related_postings as $val)
+    {
         $row = get_topic_details($val);
         $forum_url = get_url_to_view_forum($row["forum_id"]);
         $topic_url = get_url_to_view_topic($row["topic_id"]);
