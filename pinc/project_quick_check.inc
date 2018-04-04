@@ -4,15 +4,19 @@ include_once('wordcheck_engine.inc'); // $word_characters $puncCharacters get_fi
 include_once('links.inc'); // new_window_link()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
+include_once('wordcheck_engine.inc');
 
 $test_functions  = array(
+    // Automatic tests
     "_test_project_for_bad_bytes",
     "_test_project_for_corrupt_pngs",
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
+    "_test_project_for_word_lists",
+    // Manual tests
     "_test_project_for_credited_source",
     "_test_project_for_correct_genre_and_language",
-    "_test_project_for_missing_pages"
+    "_test_project_for_missing_pages",
 );
 
 function _test_project_for_large_page_images($projectid)
@@ -409,6 +413,40 @@ function tds_for_bad_bytes($raw)
 
     return $tds;
 }
+
+function _test_project_for_word_lists($projectid)
+{
+    $num_good_words = count(load_project_good_words($projectid));
+    $num_bad_words = count(load_project_bad_words($projectid));
+
+    $test_name = _("Good/Bad Wordlists");
+    $test_desc = _("This test checks if the project good and bad word lists are populated.");
+
+    $details = "<p><ul>";
+    $details .= "<li>" . _("Number of good words") . ": $num_good_words</li>";
+    $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
+    $details .= "</ul></p>";
+
+    if($num_good_words && $num_bad_words)
+    {
+        $status = _("Success");
+        $summary = _("Both the good and bad word lists have entries.");
+    }
+    else
+    {
+        $status = _("Warning");
+        $summary = _("One or both of the word lists are empty.");
+    }
+
+    return array(
+        "name" => $test_name,
+        "description" => $test_desc,
+        "status" => $status,
+        "summary" => $summary,
+        "details" => $details
+    );
+}
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
