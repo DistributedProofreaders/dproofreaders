@@ -118,6 +118,10 @@ function _test_project_for_corrupt_pngs($projectid)
             // the the file's info
             $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
 
+            // if the file doesn't exist, skip it -- we're not testing for that
+            if(!$file_info->exists)
+                continue;
+
             $path_info = pathinfo($file_info->abs_path);
 
             if(strtolower($path_info["extension"]) == "png")
