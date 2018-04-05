@@ -8,6 +8,7 @@ include_once('wordcheck_engine.inc');
 
 $test_functions  = array(
     // Automatic tests
+    "_test_project_has_all_page_images",
     "_test_project_for_bad_bytes",
     "_test_project_for_corrupt_pngs",
     "_test_project_for_large_page_images",
@@ -448,6 +449,66 @@ function _test_project_for_word_lists($projectid)
         "status" => $status,
         "summary" => $summary,
         "details" => $details
+    );
+}
+
+function _test_project_has_all_page_images($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+
+    $test_name = _("Page images exist");
+    $test_desc = _("This test validates that all page images exist on the server.");
+
+    $project = new Project($projectid);
+
+    if($project->pages_table_exists)
+    {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $details = "<p>" . _("The following page images do not exist on the server.") . "</p>";
+        $details .= "<ul>";
+        $error_images = 0;
+        while(list($image) = mysqli_fetch_row($result_res)) {
+            // the the file's info
+            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+
+            if(!$file_info->exists)
+            {
+                $details .= "<li>$image</li>";
+                $error_images++;
+            }
+        }
+        $details .= "</ul>";
+
+        mysqli_free_result($result_res);
+
+        if($error_images == 0)
+        {
+            $status = _("Success");
+            $summary = _("All images exist on the server.");
+            $details = "";
+        }
+        else
+        {
+            $status = _("Error");
+            $summary = _("Some images are missing on the server.");
+        }
+    }
+    else
+    {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return array(
+        "name" => $test_name,
+        "description" => $test_desc,
+        "status" => $status,
+        "summary" => $summary,
+        "details" => $details,
     );
 }
 
