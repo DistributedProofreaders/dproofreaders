@@ -107,6 +107,7 @@ function output_preview_div()
     $poss_iss = html_safe(_("Poss. Issues"));
     $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
+    $chars = _("Characters");
     $ss = shared_strings("html_safe");
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
@@ -134,7 +135,7 @@ function output_preview_div()
       <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
     </span>
     <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
-    <span class='ilb'>
+    <span class='ilb format-only'>
       <label><input type="radio" name="viewSel" onclick="previewControl.write('show_tags')" id="id_tags">$tags</label>
       <label><input type="radio" name="viewSel" onclick="previewControl.write('no_tags')" checked>$no_tags</label>
       <label><input type="radio" name="viewSel" onclick="previewControl.write('re_wrap')">$re_wrap</label>
@@ -156,6 +157,7 @@ function output_preview_div()
   <div class="clearfix box1">
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('ch')"> $chars<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $ss[bold]<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $ss[gesperrt]<br>

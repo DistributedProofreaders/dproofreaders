@@ -11,7 +11,7 @@ viewMode determines if the inline tags are to be shown or hidden and whether to
 re-wrap the text.
 styler is an object containing colour and font options.
 */
-var makePreview = function (txt, viewMode, styler) {
+var makePreview = function (txt, viewMode, styler, formatRound) {
     "use strict";
     // 1 means a definite issue, 0 a possible issue
     var issueType = {
@@ -75,6 +75,10 @@ var makePreview = function (txt, viewMode, styler) {
         var style = styler[s];
         var have_style = false;
         var str = "";
+        if(!style) {
+            // s is not key for style
+            return str;
+        }
         // style issues always even if coloring turned off
         if (!styler.color && (s !== "err") && (s !== "hlt")) {
             return str;
@@ -482,10 +486,61 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
+    // There is a potential difficulty with v used to indicate caron since
+    // there exist [v.] and [~v]. So deal with these before cosidering caron.
+    // Circumflex ^ can also be used as a superscript indicator.
+    // To avoid this translate diacritics before superscripts.
+    function transDiacritic(colorString) {
+        function replacer(match) {
+            var diacrits = [
+                {mark: "=", above: "\u0304", below: "\u0331"}, // macron
+                {mark: ":", above: "\u0308", below: "\u0324"}, // diaeresis
+                {mark: ".", above: "\u0307", below: "\u0323"}, // dot
+                {mark: "`", above: "\u0300", below: "\u0316"}, // grave
+                {mark: "'", above: "\u0301", below: "\u0317"}, // acute
+                {mark: "^", above: "\u0302", below: "\u032D"}, // circumflex
+                {mark: ")", above: "\u0306", below: "\u032E"}, // breve
+                {mark: "~", above: "\u0303", below: "\u0330"}, // tilde
+                {mark: ",", above: "\u0327", below: "\u0327"}, // cedilla
+                {mark: "v", above: "\u030C", below: "\u032C"} // caron
+            ];
+            var m1 = match.charAt(1);
+            var m2 = match.charAt(2);
+            var diacrit, code = false, i;
+            for (i = 0; i < diacrits.length; i += 1) {
+                diacrit = diacrits[i];
+                if (m1 === diacrit.mark) {
+                    code = m2 + diacrit.above;
+                    break;
+                }
+                if (m2 === diacrit.mark) {
+                    code = m1 + diacrit.below;
+                    break;
+                }
+            }
+            if (code) {
+                return colorString + code + '</span>';
+            }
+            return match;
+        }
+        txt = txt.replace(/\[..\]/g, replacer);
+    }
+
+    function transLigature(colorString) {
+        var ligatures = {"OE": "\u0152", "oe": "\u0153"};
+        function replacer(match, p1) {
+            if (ligatures.hasOwnProperty(p1)) {
+                return colorString + ligatures[p1] + '</span>';
+            }
+            return match;
+        }
+        txt = txt.replace(/\[(..)\]/g, replacer);
+    }
+
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
-        var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
+        var colorString0, colorString; // for out-of-line tags and tb
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
@@ -532,14 +587,22 @@ var makePreview = function (txt, viewMode, styler) {
         var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
-        colorString0 = makeColourStyle('etc');
-        colorString = colorString0 + '>$&</span>';
+        colorString = makeColourStyle('etc') + '>$&</span>';
         if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
             txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString);
         }
-        if (viewMode !== "show_tags") {
-            colorString = colorString0 + '>$1</span>';
-        }
+    }
+
+    function showCharStyle() {
+        // diacriticals, sub- and super-scripts
+        var colorString0, colorString;
+        colorString0 = makeColourStyle('ch');
+        colorString = colorString0 + '>$1</span>';
+        colorString0 = '<span' + colorString0 + '>';
+
+        // do this before superscripts so ^ not misinterpreted
+        transDiacritic(colorString0);
+        transLigature(colorString0);
         // sub- and super-scripts
         txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
         txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
@@ -973,21 +1036,23 @@ var makePreview = function (txt, viewMode, styler) {
 
     // return true if no errors which would cause showstyle() or reWrap() to fail
     function check() {
-        parseInLine();
-        var parseOK = (0 === issueCount[1]);
-        // if inline parse fails then checkSC might not work
-        checkBlankNumber();
-        if (0 === issueCount[1]) {
-            boldHeading(); // only do this is parseOK and blank lines ok
+        if (formatRound) {
+            parseInLine();
+            var parseOK = (0 === issueCount[1]);
+            // if inline parse fails then checkSC might not work
+            checkBlankNumber();
+            if (0 === issueCount[1]) {
+                boldHeading(); // only do this is parseOK and blank lines ok
+            }
+            if (parseOK) {
+                checkSC();
+            }
+            parseOol();
+            checkFootnotes();
+            unRecog();
+            checkBlankLines();
         }
-        if (parseOK) {
-            checkSC();
-        }
-        parseOol();
-        checkFootnotes();
-        unRecog();
         checkTab();
-        checkBlankLines();
         return (issueCount[1] === 0);
     }
 
@@ -1004,9 +1069,14 @@ var makePreview = function (txt, viewMode, styler) {
     addMarkUp();
     restoreCommentLines();
     if (ok) {
-        showStyle();
-        if (viewMode === "re_wrap") {
-            reWrap();
+        if (formatRound) {
+            showStyle();
+            showCharStyle();
+            if (viewMode === "re_wrap") {
+                reWrap();
+            }
+        } else {
+            showCharStyle();
         }
     }
 

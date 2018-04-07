@@ -5,7 +5,7 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'misc.inc');
 include_once('PPage.inc');
 
-function echo_button_menu( $ppage )
+function echo_button_menu($ppage, $format_round)
 {
     global $userP;
     global $proofreading_font_faces, $proofreading_font_sizes;
@@ -101,7 +101,17 @@ echo "\n";
 
 ?>
 <a href="#" onclick="top.showNW()"><?php echo_img(SHOW_ALL_TEXT,'a'); ?></a>
-<a href="#" onclick="previewControl.show()"><?php echo_img(PREVIEW,'a'); ?></a>
+<a href="#" onclick="previewControl.show()">
+<?php
+if($format_round)
+{
+    echo_img(PREVIEW,'a');
+}
+else
+{
+    echo_img(P_CHECK,'a');
+}
+?></a>
 <a
 href="<?php echo $ppage->url_for_project_comments(TRUE); ?>" TARGET="viewcomments"><?php echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?php

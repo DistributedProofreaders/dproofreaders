@@ -21,6 +21,7 @@ define('REVERT_TO_LAST_SAVE_DISABLED','O');
 define('SHOW_ALL_TEXT',               'P');
 define('CONVERT_UTF8',                'R');
 define('PREVIEW',                     'S');
+define('P_CHECK',                     'T');
 
 function echo_button( $button_id, $which_interface )
 {
@@ -218,6 +219,15 @@ function echo_button( $button_id, $which_interface )
                 'src'       => "gfx/bt20.png?16092302",
             );
             break;
+        case P_CHECK:
+            $attrs = array(
+                'name'      => "button15",
+                $label      => attr_safe(_("Character Check")),
+                'title'     => attr_safe(_("Character Check")),
+                'onclick'   => "previewControl.show(0); return false;",
+                'src'       => "gfx/bt21.png",
+            );
+            break;
     }
     if ($which_interface == 's')
     {
@@ -283,6 +293,13 @@ function echo_img( $id )
                 'src'       => "gfx/bt20.png?16092302",
                 'alt'       => attr_safe(_("Format preview")),
                 'title'     => attr_safe(_("Format preview")),
+            );
+            break;
+        case P_CHECK:
+            $attrs = array(
+                'src'       => "gfx/bt21.png",
+                'alt'       => attr_safe(_("Character Check")),
+                'title'     => attr_safe(_("Character Check")),
             );
             break;
     }
