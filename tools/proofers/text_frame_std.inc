@@ -7,7 +7,9 @@ include_once('preview.inc');
 function echo_text_frame_std( $ppage )
 {
     global $code_url;
-    
+
+    // use 1 or 0 instead of boolean so works in js
+    $format_round = is_formatting_round(get_Round_for_project_state($ppage->proj_state)) ? 1 : 0;
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
@@ -15,7 +17,7 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
         ),
-        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',
+        "js_data" => "function ldAll() {top.initializeStuff(0); previewControl = initPrev($format_round);}",
         "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
         );
     slim_header(_("Text Frame"), $header_args);
@@ -46,7 +48,15 @@ function echo_text_frame_std( $ppage )
         echo "<br>\n";
 
         echo_button(SPELL_CHECK,'s');
-        echo_button(PREVIEW, 's');
+
+        if($format_round)
+        {
+            echo_button(PREVIEW, 's');
+        }
+        else
+        {
+            echo_button(P_CHECK, 's');
+        }
 
         echo "<br>\n";
 

@@ -12,6 +12,8 @@ function echo_proof_frame_enh( $ppage )
 {
     global $code_url, $userP;
 
+    // use 1 or 0 instead of boolean so works in js
+    $format_round = is_formatting_round(get_Round_for_project_state($ppage->proj_state)) ? 1 : 0;
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
@@ -19,7 +21,7 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
         ),
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
+        "js_data" => ibe_get_js() . "function ldAll() {top.initializeStuff(1); previewControl = initPrev($format_round);}",
         "css_data" => ibe_get_styles(),
         "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
     );
@@ -43,7 +45,7 @@ function echo_proof_frame_enh( $ppage )
                 <table id="tbtext">
                     <tr>
                         <td id="tdtop">
-                            <?php echo_button_menu( $ppage ); ?>
+                            <?php echo_button_menu($ppage, $format_round); ?>
                         </td>
                     </tr>
                     <tr>

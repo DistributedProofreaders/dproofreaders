@@ -15,9 +15,8 @@ var previewControl;
 // this is called (in proof_frame_enh.inc or text_frame_std.inc) when the
 // preview button is pressed, the returned functions are then members
 // of previewControl
-function initPrev() {
+function initPrev(fRound) {
     "use strict";
-    var i;
     var supp_set = ['charBeforeStart', 'sideNoteBlank'];
     // this is a wrapper round text_preview which enables the padding
     // on the right to appear correctly
@@ -63,6 +62,7 @@ function initPrev() {
     // the values have no significance
     var previewStyles = {
         t: {bg: "#fffcf4", fg: "#000000"},
+        ch: {bg: "#f0f080", fg: ""},
         i: {bg: "", fg: "#0000ff"},
         b: {bg: "", fg: "#c55a1b"},
         g: {bg: "", fg: "#8a2be2"},
@@ -89,8 +89,8 @@ function initPrev() {
 
     function writePreviewText() {
         // makePreview is defined in preview.js
-        preview = makePreview(txtarea.value, viewMode, previewStyles);
-        prevWin.style.whiteSpace = (preview.ok && (viewMode === "re_wrap")) ? "normal" : "pre";
+        preview = makePreview(txtarea.value, viewMode, previewStyles, fRound);
+        prevWin.style.whiteSpace = (preview.ok && (viewMode === "re_wrap") && fRound) ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
@@ -116,7 +116,7 @@ function initPrev() {
 
     // set up a font selector
     function initSelector(selector, optionSet, def) {
-        var opt;
+        var opt, i;
         var optionList = [];
         // remove all incase revisiting, last first
         for (i = selector.length - 1; i >= 0; i -= 1) {
@@ -153,6 +153,7 @@ function initPrev() {
     // This implies that if one of the default font options is deleted
     // it will re-appear next time
     function deepCopy(dest, source, keep) {
+        var i;
         if (source && typeof source === 'object') {
             if (!keep) {
                 dest = Array.isArray(source) ? [] : {};
@@ -183,12 +184,23 @@ function initPrev() {
         setViewColors(outerPrev);
     }
 
+    function hideFormatControls() {
+        var i;
+        var fOnlyElements = document.getElementsByClassName('format-only');
+        for (i = 0; i < fOnlyElements.length; i++) {
+            fOnlyElements[i].style.display = "none";
+        }
+    }
+
     initStyle();
     initView();
+    if (!fRound) {
+        hideFormatControls();
+    }
 
     // functions for setting up the configuration screen
     function testDraw() {
-        preview = makePreview(previewDemo, 'no_tags', tempStyle);
+        preview = makePreview(previewDemo, 'no_tags', tempStyle, true);
         testDiv.innerHTML = preview.txtout;
     }
 
@@ -302,7 +314,7 @@ function initPrev() {
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
 
-            supp_set.forEach(function (msg, i)  {
+            supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
             });
         },
