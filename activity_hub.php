@@ -171,12 +171,12 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     if($show_filtered_projects)
     {
         if($show_filtering_links)
-            echo "<a href='?show_filtered=0#progress_snapshot'>" . _("All") . "</a> | ";
+            echo "<a href='?show_filtered=0#progress_snapshot'>" . pgettext("all projects", "All") . "</a> | ";
         echo "<b>" . _("Filtered") . "</b>";
     }
     else
     {
-        echo "<b>" . _("All") . "</b>";
+        echo "<b>" . pgettext("all projects", "All") . "</b>";
         if($show_filtering_links)
             echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
     }
@@ -213,12 +213,12 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     if($show_filtered_projects)
     {
         if($show_filtering_links)
-            echo "<a href='?show_filtered=0#progress_snapshot'>" . _("All") . "</a> | ";
+            echo "<a href='?show_filtered=0#progress_snapshot'>" . pgettext("all projects", "All") . "</a> | ";
         echo "<b>" . _("Filtered") . "</b>";
     }
     else
     {
-        echo "<b>" . _("All") . "</b>";
+        echo "<b>" . pgettext("all projects", "All") . "</b>";
         if($show_filtering_links)
             echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
     }

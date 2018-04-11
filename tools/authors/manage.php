@@ -405,9 +405,9 @@ else
 $links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('Disabled') . '</a>';
 $links_and_buttons .= " | ";
 if ($view == 'all')
-$links_and_buttons .= _('All');
+$links_and_buttons .= pgettext("all authors", "All");
 else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . _('All') . '</a>';
+$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . pgettext("all authors", "All") . '</a>';
 
 $links_and_buttons .= ' &nbsp; &nbsp; &nbsp; &nbsp; <input type="submit" value="Process">';
 

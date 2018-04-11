@@ -268,7 +268,7 @@ if (!isset($_GET['name']))
     if ($can_see) {
 
         $base_link = "<a href='show_image_sources.php?name=%s&amp;which=%s'>%s</a>";
-        $all_link = sprintf($base_link, $imso_code, "ALL", _("All"));
+        $all_link = sprintf($base_link, $imso_code, "ALL", pgettext("all sources", "All"));
         $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In Progress"));
         $done_link = sprintf($base_link, $imso_code, "DONE", _("Completed"));
 
