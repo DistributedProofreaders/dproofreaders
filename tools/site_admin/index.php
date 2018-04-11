@@ -22,7 +22,7 @@ $sections = array(
     _("User") => array(
         "manage_site_access_privileges.php" => _("Manage Site Access Privileges"),
         "../pending_access_requests.php" => _("Pending Access Requests"),
-        "edit_mail_address_for_non_activated_user.php" => _("Send activation email for new user"),
+        "edit_mail_address_for_non_activated_user.php" => _("Resend Account Activation Email"),
     ),
     _("Project") => array(
         "copy_pages.php" => _("Copy Pages from One Project to Another"),

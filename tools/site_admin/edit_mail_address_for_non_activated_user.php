@@ -10,20 +10,25 @@ include_once($relPath.'email_address.inc');
 
 require_login();
 
-output_header(_('Edit mail-address for non-activated user'));
+if (!user_is_a_sitemanager())
+    die(_('You are not authorized to invoke this script.'));
 
-if (!user_is_a_sitemanager()) {
-    echo _('You are not authorized to invoke this script.');
-    exit;
-}
+$title = _("Resend Account Activation Email");
+output_header($title);
+
+echo "<h1>$title</h1>";
 
 $action   = get_enumerated_param($_GET, 'action', 'default', array('list_all', 'get_user', 'set_email', 'default'));
 
 if ($action == 'default') {
+    echo "<p>";
     echo _("This form should be used when a mail has been received from a user who has not received
     his or her welcome email due to entering a bad email address when registering.");
+    echo "</p>";
+    echo "<p>";
     printf(_("To change the address, please enter the name of the user below or
     <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
+    echo "</p>";
     ?>
     <br>
     <form method='get'><input type='hidden' name='action' value='get_user'>
@@ -49,7 +54,7 @@ else if ($action == 'list_all') {
     else {
         echo "<p>", _("The following accounts are awaiting activation."), "
             ", _("(Click on a column header to sort by that column.)"), "</p>\n";
-        echo "<table border='1'>\n";
+        echo "<table class='basic striped'>\n";
         {
             echo "<tr>\n";
             echo "<th><a href='?action=list_all&order_by=username'>", _("Username"), "</a></th>\n";
@@ -89,7 +94,9 @@ else if ($action == 'get_user') {
     }
     else {
         $email = $row["email"];
+        echo "<p>";
         echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
+        echo "</p>";
         ?>
         <br>
         <form method='get'>
@@ -97,7 +104,7 @@ else if ($action == 'get_user') {
         <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
         <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
         <br>
-        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo attr_safe($email); ?>'>
+        <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($email); ?>'>
         <br>
         <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
         </form>
