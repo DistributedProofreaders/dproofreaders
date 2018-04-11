@@ -493,7 +493,7 @@ function do_resumable_chunk()
     {
         if($file["error"] != UPLOAD_ERR_OK)
         {
-            error_log( get_upload_err_msg($file_info['error']));
+            error_log(get_upload_err_msg($file['error']));
             exit;
         }
 
