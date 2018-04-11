@@ -18,29 +18,39 @@ echo "<h1>$title</h1>";
 
 echo "<p>" . _("This page provides access to site administration utilities.") . "</p>";
 
-$pages = array(
-    "edit_mail_address_for_non_activated_user.php" => _("Send activation email for new user"),
-    "manage_site_access_privileges.php" => _("Manage Site Access Privileges"),
-    "manage_special_days.php" => _("Manage Special Days"),
-    "sitenews.php" => _("Manage Site News"),
-// This is a "metadata rounds" file, and unused. Don't provide link.
-//    "proj_approvals.php" => _("Manage copyright clearance approvals"),
-    "copy_pages.php" => _("Copy Pages from One Project to Another"),
-    "rename_pages.php" => _("Rename pages"),
-    "shared_postednums.php" => _("Detect duplicate postednum"),
-    "displayrandrules.php" => _("Display Random Rules"),
-    "manage_site_word_lists.php" => _("Manage site word lists"),
-    "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
+$sections = array(
+    _("User") => array(
+        "manage_site_access_privileges.php" => _("Manage Site Access Privileges"),
+        "edit_mail_address_for_non_activated_user.php" => _("Send activation email for new user"),
+    ),
+    _("Project") => array(
+        "copy_pages.php" => _("Copy Pages from One Project to Another"),
+        "rename_pages.php" => _("Rename pages"),
+    ),
+    _("Site") => array(
+        "sitenews.php" => _("Manage Site News"),
+        "displayrandrules.php" => _("Display Random Rules"),
+        "manage_special_days.php" => _("Manage Special Days"),
+        "shared_postednums.php" => _("Detect duplicate postednum"),
+        "manage_site_word_lists.php" => _("Manage site word lists"),
+        "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
+    ),
 );
 
 if($site_supports_metadata)
 {
-    $pages["proj_approvals.php"] = _("Copyright approvals");
+    $sections[_("Site")]["proj_approvals.php"] = _("Copyright approvals");
 }
 
-echo "<ul>";
-foreach($pages as $page => $label)
-    echo "<li><a href='$page'>$label</a></li>";
-echo "</ul>";
+foreach($sections as $section => $pages)
+{
+    echo "<h2>$section</h2>";
+    echo "<ul>";
+    foreach($pages as $page => $label)
+    {
+        echo "<li><a href='$page'>$label</a></li>";
+    }
+    echo "</ul>";
+}
 
 // vim: sw=4 ts=4 expandtab
