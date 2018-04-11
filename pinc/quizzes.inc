@@ -13,6 +13,8 @@ new QuizLevel(
     "proof",
     "<p>" . _("This section is designed as an overview of the most important and frequently used <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages cover items that you are likely to see when proofreading BEGINNERS ONLY and EASY projects.") .
         "</p>\n<p>" .
+        _("These tutorials and quizzes only address the standard guidelines. Some projects have special instructions, particularly for books in non-English languages or with unusual features, so be sure to read the Project Comments carefully on each project you proofread.") .
+        "</p>\n<p>" .
         _("The \"extra practice\" pages do not cover any additional guidelines beyond the standard five pages; they are included to allow you to try the same skills on a new page.") .
         "</p>",
     array(
