@@ -698,7 +698,8 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         {
             echo "\n<p class='error'>\n";
             echo sprintf(
-                    _("%1\$s value '%2\$s' has bad direction part: '%3\$s'"),
+                    // TRANSLATORS: "sort direction" refers to the sort order direction (ascending vs descending)
+                    _("%1\$s value '%2\$s' has bad sort direction: '%3\$s'"),
                     $provider_noun, $curr_ext_sort, $curr_ext_sort_dir );
 
             // We could skip to the next provider via 'continue',

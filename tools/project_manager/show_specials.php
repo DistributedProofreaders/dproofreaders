@@ -72,6 +72,7 @@ function output_column_headers()
     echo "<tr>";
     echo "<th>" . _("Name") . "</th>";
     echo "<th>" . _("Comment") . "</th>";
+    // TRANSLATORS: Start Day is the day of the month that the special day occurs, such as 1 for New Year's Day
     echo "<th>" . _("Start Day") . "</th>";
     echo "<th>" . _("More Info") . "</th>";
     echo "</tr>\n";

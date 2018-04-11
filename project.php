@@ -917,8 +917,10 @@ function do_edit_above()
     if($project->can_be_managed_by_current_user)
     {
         $links[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit the above information") . "</a>";
         $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
     }
 
@@ -1602,7 +1604,7 @@ function do_post_downloads()
     if ( user_can_work_in_stage($pguser, 'PP') )
     {
         echo "<h2>";
-        echo _("Post Downloads");
+        echo _("Post-Processing Downloads");
         echo "</h2>\n";
 
         echo "<ul>";
@@ -1673,7 +1675,7 @@ function do_post_downloads()
     echo "<li>";
     if ( user_is_a_sitemanager() )
     {
-        echo _("Generate Post Files (This will overwrite existing post files, if any.)"), "\n";
+        echo _("Generate Post-Processing Files (This will overwrite existing post-processing files, if any.)"), "\n";
     }
     else
     {
