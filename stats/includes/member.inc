@@ -237,7 +237,7 @@ function showForumProfile($username) {
 
     if ($avatar == NULL)
     {
-        $rhs = _("(none)");
+        $rhs = "<i>" . pgettext("no avatar", "none") . "</i>";
     }
     else
     {

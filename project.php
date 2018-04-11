@@ -1087,7 +1087,7 @@ function do_waiting_queues()
         }
         if ( $n_queues == 0 )
         {
-            echo "<li>" . _("(none)") . "</li>\n";
+            echo "<li><i>" . pgettext("no queues", "none") . "</i></li>\n";
         }
         echo "</ul>\n";
     }
@@ -1340,7 +1340,7 @@ function do_history()
 
                 if ( $changed_fields == 'NONE' )
                 {
-                    $list_of_changed_fields = _("none");
+                    $list_of_changed_fields = pgettext("no changes", "none");
                 }
                 else
                 {
@@ -1378,7 +1378,7 @@ function do_history()
                     if ( count($labels) == 0 )
                     {
                         // This shouldn't happen.
-                        $list_of_changed_fields = _("none");
+                        $list_of_changed_fields = pgettext("no changes", "none");
                     }
                     else
                     {
@@ -1541,7 +1541,7 @@ function do_extra_files()
 
     if ( $n_extra_files == 0 )
     {
-        echo "<li>", _("(none)"), "</li>\n";
+        echo "<li><i>", pgettext("no files", "none"), "</i></li>\n";
     }
 
     echo "</ul>";

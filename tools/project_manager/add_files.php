@@ -675,7 +675,7 @@ class Loader
         echo "<h2>" . _("Ignored Files") . "</h2>\n";
         if ( count($this->ignored_files) == 0 )
         {
-            echo "<i>" . _("none") . "</i>";
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
@@ -698,7 +698,7 @@ class Loader
         echo "<h2>" . _("Non-page files") . "</h2>\n";
         if ( count($this->non_page_files) == 0 )
         {
-            echo "<i>" . _("none") . "</i>";
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
@@ -719,7 +719,7 @@ class Loader
         echo "<h2>", _("Page files"), "</h2>\n";
         if ( count($this->page_file_table) == 0 )
         {
-            echo "<i>" . _("none") . "</i>";
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
