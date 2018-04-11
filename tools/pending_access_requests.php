@@ -9,7 +9,7 @@ require_login();
 
 if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("permission denied");
 
-$title = _('Pending Requests for Access');
+$title = _('Pending Access Requests');
 
 output_header($title);
 
@@ -79,7 +79,7 @@ foreach ( $activity_ids as $activity_id )
     if ( mysqli_num_rows($res) == 0 )
     {
         $word = _('none');
-        echo "($word)";
+        echo "<i>$word</i>";
     }
     else
     {
@@ -102,18 +102,18 @@ foreach ( $activity_ids as $activity_id )
             $can_review_work = FALSE;
         }
 
-        echo "<table border='1'>\n";
+        echo "<table class='basic striped'>\n";
 
         {
             echo "<tr>";
-            echo "<th>"._("username (link to member stats)")."</th>";
+            echo "<th>"._("Username")."</th>";
             if ( $can_review_work )
             {
-                echo "<th>"._("link to review work")."</th>";
+                echo "<th>"._("Review Work")."</th>";
             }
-            echo "<th>"._("this request")."</th>";
-            echo "<th>"._("prev denial")."</th>";
-            echo "<th>"._("last on site")."</th>";
+            echo "<th>"._("Requested")."</th>";
+            echo "<th>"._("Last denied")."</th>";
+            echo "<th>"._("User Last on Site")."</th>";
             echo "</tr>";
             echo "\n";
         }
@@ -136,22 +136,22 @@ foreach ( $activity_ids as $activity_id )
             $t_last_on_site_d = round(($now - $t_last_on_site) / $seconds);
 
             echo "<tr>";
-            echo   "<td class='center-align'>";
+            echo   "<td>";
             echo     "<a href='$member_stats_url'>$username</a>";
             echo   "</td>";
             if ( $can_review_work )
             {
                 $review_work_url = "$code_url/tools/proofers/review_work.php?username=$username&amp;$round_params";
-                echo   "<td class='center-align'>";
-                echo     "<a href='$review_work_url'>", _("review"), "</a>";
+                echo   "<td>";
+                echo     "<a href='$review_work_url'>", _("Review Work"), "</a>";
                 echo   "</td>";
             }
-            echo   "<td class='left-align'>";
+            echo   "<td>";
             echo     $t_latest_request_f;
             echo " <span style='white-space: nowrap'>(",
                 sprintf(_("%s days"), $t_latest_request_d), ")</span>";
             echo   "</td>";
-            echo   "<td class='left-align'>";
+            echo   "<td>";
             echo     $t_latest_deny_f;
             if ($t_latest_deny_d >= 0) 
             {
@@ -159,7 +159,7 @@ foreach ( $activity_ids as $activity_id )
                     sprintf(_("%s days"), $t_latest_deny_d), ")</span>";
             }
             echo   "</td>";
-            echo   "<td class='left-align'>";
+            echo   "<td>";
             echo     $t_last_on_site_f;
             echo " <span style='white-space: nowrap'>(",
                 sprintf(_("%s days"), $t_last_on_site_d), ")</span>";
