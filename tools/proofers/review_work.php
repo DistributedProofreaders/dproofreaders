@@ -205,7 +205,7 @@ echo "<p>";
 echo sprintf( _("These projects are (or have been) available in <b>%s</b>."), $review_round->id );
 echo "</p>\n";
 
-echo "<table border='1'>";
+echo "<table class='basic striped'>";
 
 echo "<tr>";
 echo "<th>" . _("Title") . "</th>";
@@ -465,7 +465,7 @@ echo "</table>";
 $total_invalid_projects = count($messages); 
 if($total_invalid_projects) {
     echo "<h2>" . _("Other projects") . "</h2>";
-    echo "<table border='1'>";
+    echo "<table class='basic striped'>";
     echo "<tr>";
     echo    "<th>" . _("Project") . "</th>";
     echo    "<th>" . _("Current State") . "</th>";
