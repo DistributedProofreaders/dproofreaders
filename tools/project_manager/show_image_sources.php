@@ -70,7 +70,7 @@ if (!isset($_GET['name']))
     echo "<tr>\n";
     echo "<th style='width: 15%'>" . _("Name in Dropdown") . "</th>";
     echo "<th colspan='2'>" . _("Image Source Details") . "</th>\n";
-    echo "<th style='width: 15%'>" . _("Works: In-Progress / Completed / Total") . "</th>\n";
+    echo "<th style='width: 15%'>" . _("Works: In Progress / Completed / Total") . "</th>\n";
     echo "</tr>\n";
 
     while ( $row = mysqli_fetch_assoc($query) )
@@ -269,7 +269,7 @@ if (!isset($_GET['name']))
 
         $base_link = "<a href='show_image_sources.php?name=%s&amp;which=%s'>%s</a>";
         $all_link = sprintf($base_link, $imso_code, "ALL", _("All"));
-        $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In-Progress"));
+        $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In Progress"));
         $done_link = sprintf($base_link, $imso_code, "DONE", _("Completed"));
 
         switch ($which)
@@ -281,7 +281,7 @@ if (!isset($_GET['name']))
                 break;
             case 'INPROG':
                 $where_cls = " AND state != 'project_delete' AND state != 'proj_submit_pgposted'";
-                $title = sprintf( _("In-Progress Ebooks being produced with images from %s"), $imso['full_name'] );
+                $title = sprintf( _("In Progress Ebooks being produced with images from %s"), $imso['full_name'] );
                 $links_list = $all_link . ", " . $done_link . ".";
                 break;
             case 'DONE':
@@ -359,7 +359,7 @@ if (!isset($_GET['name']))
             echo $row['language'];
             echo "</td>";
 
-            // For In-Progress, suppress final column since it conveys no info
+            // For In Progress, suppress final column since it conveys no info
             if ($which != "INPROG")
             {
                 echo "<td class='center-align'>";

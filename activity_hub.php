@@ -191,7 +191,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "<th>" . _("Completed<br>Today") . "</th>";
     echo "<th>" . _("Goal") . "</th>";
     echo "<th>" . _("Completed") . "</th>";
-    echo "<th>" . _("Status") . "</th>";
+    echo "<th>" . _("Progress") . "</th>";
     echo "</tr>\n";
 
     // Round rows

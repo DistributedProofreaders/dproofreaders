@@ -43,7 +43,7 @@ if($username && !User::is_valid_user($username))
 }
 
 // start the page
-$title = _('Reviewing work');
+$title = _('Review Work');
 
 output_header($title, NO_STATSBAR);
 
