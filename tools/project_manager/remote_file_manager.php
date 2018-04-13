@@ -434,7 +434,7 @@ function handle_file_upload($file_info)
     // If there's already something at $temporary_path,
     // this will silently overwrite it.
     // That might or might not be the user's intent.
-    if($file_info["source"] == "resumable")
+    if(array_get($file_info, "source", "upload") == "resumable")
     {
         $move_result = rename($temporary_path, $target_path);
         rmdir(dirname($temporary_path));
