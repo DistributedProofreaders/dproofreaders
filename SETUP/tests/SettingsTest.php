@@ -22,9 +22,6 @@ class SettingsTest extends PHPUnit_Framework_TestCase
                     real_name = '$this->TEST_USERNAME',
                     username = '$this->TEST_USERNAME',
                     email = '$this->TEST_USERNAME@localhost',
-                    manager = 'no',
-                    postprocessor = 'no',
-                    sitemanager = 'no',
                     active = 0
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
