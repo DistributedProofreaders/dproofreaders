@@ -25,69 +25,6 @@ else
     $form_validators = array("_validate_fields");
 }
 
-function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
-// Validate the user input fields
-// Returns an empty string upon success and an error message upon failure
-{
-    global $testing;
-    
-    // Make sure that password and confirmed password are equal.
-    if ($userpass != $userpass2)
-    {
-        return _("The passwords you entered were not equal.");
-    }
-
-    // Make sure that email and confirmed email are equal.
-    if ($email != $email2)
-    {
-        return _("The e-mail addresses you entered were not equal.");
-    }
-
-    // Do some validity-checks on inputted username, password, e-mail and real name
-
-    $err = check_username( $username, TRUE );
-    if ( $err != '' )
-    {
-        return $err;
-    }
-
-    // In testing mode, a fake email address is constructed using
-    // 'localhost' as the domain. check_email_address() incorrectly
-    // thinks the domain should end in a 2-4 character top level
-    // domain, so disable the address check for testing.
-    if (!$testing) {
-        $err = check_email_address( $email );
-        if ( $err != '' )
-        {
-            return $err;
-        }
-    }
-
-    if (empty($userpass) || empty($real_name))
-    {
-        return _("You did not completely fill out the form.");
-    }
-
-    // Make sure that the requested username is not already taken.
-    // Use non-strict validation, which will return TRUE if the username
-    // is the same as an existing one, or differs only by case or trailing
-    // whitespace.
-    if(User::is_valid_user($username, FALSE))
-    {
-        return _("That user name already exists, please try another.");
-    }
-
-    // TODO: The above check only validates against users in the DP database.
-    // It's possible that there are usernames already registered with the
-    // underlying forum software (like 'Anonymous') or are disallowed in the
-    // forum software which, if used, will cause account creation to fail in
-    // activate.php.
-
-    return '';
-}
-
-// ---------------------------------------------------------------------------
-
 // assume there is no error
 $error = "";
 
@@ -122,7 +59,7 @@ if ($password=="proofer") {
         if(!empty($error))
             break;
     }
-    
+
     // if all fields validated, create the registration
     if(empty($error))
     {
@@ -258,5 +195,70 @@ echo "<td class='bar center-align' colspan='2'><input type='submit' value='" . a
 echo "</tr></table></form>";
 
 include($relPath.'/../faq/privacy.php');
+
+
+//---------------------------------------------------------------------------
+
+
+// Validate the user input fields
+// Returns an empty string upon success and an error message upon failure
+function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
+{
+    global $testing;
+
+    // Make sure that password and confirmed password are equal.
+    if ($userpass != $userpass2)
+    {
+        return _("The passwords you entered were not equal.");
+    }
+
+    // Make sure that email and confirmed email are equal.
+    if ($email != $email2)
+    {
+        return _("The e-mail addresses you entered were not equal.");
+    }
+
+    // Do some validity-checks on inputted username, password, e-mail and real name
+
+    $err = check_username( $username, TRUE );
+    if ( $err != '' )
+    {
+        return $err;
+    }
+
+    // In testing mode, a fake email address is constructed using
+    // 'localhost' as the domain. check_email_address() incorrectly
+    // thinks the domain should end in a 2-4 character top level
+    // domain, so disable the address check for testing.
+    if (!$testing) {
+        $err = check_email_address( $email );
+        if ( $err != '' )
+        {
+            return $err;
+        }
+    }
+
+    if (empty($userpass) || empty($real_name))
+    {
+        return _("You did not completely fill out the form.");
+    }
+
+    // Make sure that the requested username is not already taken.
+    // Use non-strict validation, which will return TRUE if the username
+    // is the same as an existing one, or differs only by case or trailing
+    // whitespace.
+    if(User::is_valid_user($username, FALSE))
+    {
+        return _("That user name already exists, please try another.");
+    }
+
+    // TODO: The above check only validates against users in the DP database.
+    // It's possible that there are usernames already registered with the
+    // underlying forum software (like 'Anonymous') or are disallowed in the
+    // forum software which, if used, will cause account creation to fail in
+    // activate.php.
+
+    return '';
+}
 
 // vim: sw=4 ts=4 expandtab
