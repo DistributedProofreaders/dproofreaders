@@ -80,7 +80,7 @@ if ($password=="proofer") {
             mysqli_real_escape_string(DPDatabase::get_connection(), $real_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $username),
             mysqli_real_escape_string(DPDatabase::get_connection(), $email),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $email_updates),
+            (int)$email_updates,
             mysqli_real_escape_string(DPDatabase::get_connection(), $intlang),
             mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
 

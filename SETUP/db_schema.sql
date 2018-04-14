@@ -191,7 +191,7 @@ CREATE TABLE `non_activated_users` (
   `username` varchar(25) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
   `date_created` int(20) NOT NULL default '0',
-  `email_updates` varchar(4) NOT NULL default '',
+  `email_updates` tinyint(1) NOT NULL default 0,
   `u_intlang` varchar(25) default '',
   `user_password` varchar(128) NOT NULL default '',
   PRIMARY KEY  (`username`)
