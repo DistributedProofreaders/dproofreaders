@@ -223,13 +223,24 @@ table.register {
   border-collapse: separate;
   border: 1px solid black;
 }
-table.register td.label {
+table.register th,
+table.register td {
+  padding: 3px;
+}
+table.register th {
   text-align: right;
   font-weight: bold;
-  padding: 0px 3px;
 }
-table.register td.field {
+table.register td {
   text-align: left;
+}
+table.register td input[type=text],
+table.register td input[type=password],
+table.register td input[type=select] {
+  width: 98%;
+}
+table.register td.bar {
+  text-align: center;
 }
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */

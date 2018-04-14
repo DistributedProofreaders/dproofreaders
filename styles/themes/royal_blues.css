@@ -124,7 +124,7 @@ h6 {
 }
 /* Attention-getting structures */
 .error,
-test_warning {
+.test_warning {
   color: red;
 }
 .warning {
@@ -228,7 +228,7 @@ table.image_source_listing td.title {
 table.register td.bar {
   background-color: #000099;
 }
-table.register td.label {
+table.register th {
   background-color: #99ccff;
 }
 /* ------------------------------------------------------------------------ */
