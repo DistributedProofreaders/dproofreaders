@@ -134,7 +134,18 @@ if ($password=="proofer") {
         $digested_password = forum_password_hash($userpass);
 
         $intlang = get_desired_language();
-        $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysqli_real_escape_string(DPDatabase::get_connection(), $ID), mysqli_real_escape_string(DPDatabase::get_connection(), $real_name), mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $email_updates), mysqli_real_escape_string(DPDatabase::get_connection(), $intlang), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
+        $query = sprintf("
+            INSERT INTO non_activated_users
+                (id, real_name, username, email, date_created, email_updates,
+                 u_intlang, user_password)
+            VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $real_name),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $username),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $email),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $email_updates),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $intlang),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
 
         $result = mysqli_query(DPDatabase::get_connection(), $query);
 
@@ -175,76 +186,77 @@ if ($password=="proofer") {
     $email_updates = 1;
 }
 
+
 // This is the portion that shows up when no parameters are given to the file
 // or an error occurs during registration.
 //
 // When users fill the form out below, it will submit the information back
 // to this file & run the above commands.
 
-    $header = _("Create An Account");
-    output_header($header);
+$header = _("Create An Account");
+output_header($header);
 
-    echo "<h1>" . _("Account Registration") . "</h1>";
-    echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
+echo "<h1>" . _("Account Registration") . "</h1>";
+echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
 
-    echo "<h2>" . _("Registration Hints") . "</h2>";
-    echo "<ul>";
-    echo "<li>" . _("Please choose your User Name carefully. It will be visible to other users and cannot be changed. We suggest that you don't use your e-mail address as a User Name since e-mail addresses can change, and you may not want to make that address viewable.") . "</li>";
-    echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), $site_name) . "</li>";
-    echo "<li>" . sprintf(_("<strong>Before</strong> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), $general_help_email_addr) . "</li>";
-    echo "</ul>";
+echo "<h2>" . _("Registration Hints") . "</h2>";
+echo "<ul>";
+echo "<li>" . _("Please choose your User Name carefully. It will be visible to other users and cannot be changed. We suggest that you don't use your e-mail address as a User Name since e-mail addresses can change, and you may not want to make that address viewable.") . "</li>";
+echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), $site_name) . "</li>";
+echo "<li>" . sprintf(_("<strong>Before</strong> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), $general_help_email_addr) . "</li>";
+echo "</ul>";
 
-    if ( $testing )
-    {
-        echo "<p class='test_warning'>";
-        echo _("Because this is a test site, you <strong>don't</strong> need to provide an email address and an email <strong>won't</strong> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <strong>Your account won't be created until you access the confirmation link.</strong>");
-        echo "</p>\n";
-    }
+if ( $testing )
+{
+    echo "<p class='test_warning'>";
+    echo _("Because this is a test site, you <strong>don't</strong> need to provide an email address and an email <strong>won't</strong> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <strong>Your account won't be created until you access the confirmation link.</strong>");
+    echo "</p>\n";
+}
 
-    // If the user filled out the form but there was an error during the
-    // data validation, print out the error here and let them resubmit.
-    if(!empty($error))
-    {
-        echo "<p class='error'>$error</p>";
-    }
+// If the user filled out the form but there was an error during the
+// data validation, print out the error here and let them resubmit.
+if(!empty($error))
+{
+    echo "<p class='error'>$error</p>";
+}
 
-    echo "<form method='post' action='addproofer.php'>\n";
-    foreach($form_data_inserters as $func)
-        $func();
-    echo "<input type='hidden' name='password' value='proofer'>\n";
-    echo "<table class='register'>";
+echo "<form method='post' action='addproofer.php'>\n";
+foreach($form_data_inserters as $func)
+    $func();
+echo "<input type='hidden' name='password' value='proofer'>\n";
+echo "<table class='register'>";
+echo "<tr>";
+echo "  <th>" . _("Real Name") . ":</th>";
+echo "  <td><input type='text' name='real_name' value='". attr_safe($real_name) ."'></td>";
+echo "</tr>\n<tr>";
+echo "  <th>" . _("User Name") . ":</th>";
+echo "  <td><input type='text' name='userNM' value='" . attr_safe($username) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
+echo "</tr>\n<tr>";
+echo "  <th>" . _("Password") . ":</th>";
+echo "  <td><input type='password' name='userPW'></td>";
+echo "</tr>\n<tr>";
+echo "  <th>" . _("Confirm Password") . ":</th>";
+echo "  <td><input type='password' name='userPW2'></td>";
+echo "</tr>\n";
+if (!$testing) {
     echo "<tr>";
-    echo "  <th>" . _("Real Name") . ":</th>";
-    echo "  <td><input type='text' name='real_name' value='". attr_safe($real_name) ."'></td>";
+    echo "  <th>" . _("E-mail Address") . ":</th>";
+    echo "  <td><input type='text' name='email' value='". attr_safe($email) . "'></td>";
     echo "</tr>\n<tr>";
-    echo "  <th>" . _("User Name") . ":</th>";
-    echo "  <td><input type='text' name='userNM' value='" . attr_safe($username) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
-    echo "</tr>\n<tr>";
-    echo "  <th>" . _("Password") . ":</th>";
-    echo "  <td><input type='password' name='userPW'></td>";
-    echo "</tr>\n<tr>";
-    echo "  <th>" . _("Confirm Password") . ":</th>";
-    echo "  <td><input type='password' name='userPW2'></td>";
+    echo "  <th>" . _("Confirm E-mail Address") . ":</th>";
+    echo "  <td><input type='text' name='email2' value='" . attr_safe($email2) . "'></td>";
     echo "</tr>\n";
-    if (!$testing) {
-        echo "<tr>";
-        echo "  <th>" . _("E-mail Address") . ":</th>";
-        echo "  <td><input type='text' name='email' value='". attr_safe($email) . "'></td>";
-        echo "</tr>\n<tr>";
-        echo "  <th>" . _("Confirm E-mail Address") . ":</th>";
-        echo "  <td><input type='text' name='email2' value='" . attr_safe($email2) . "'></td>";
-        echo "</tr>\n";
-    }
-    echo "<tr>";
-    echo "  <th>" . _("E-mail Updates") . ":</th>";
-    echo "  <td>";
-    echo "    <input type='radio' name='email_updates' value='1' "; if($email_updates) echo "checked"; echo ">" . _("Yes") . "&nbsp;&nbsp;";
-    echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
-    echo "  </td>";
-    echo "</tr>\n<tr>";
-    echo "<td class='bar center-align' colspan='2'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
-    echo "</tr></table></form>";
+}
+echo "<tr>";
+echo "  <th>" . _("E-mail Updates") . ":</th>";
+echo "  <td>";
+echo "    <input type='radio' name='email_updates' value='1' "; if($email_updates) echo "checked"; echo ">" . _("Yes") . "&nbsp;&nbsp;";
+echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
+echo "  </td>";
+echo "</tr>\n<tr>";
+echo "<td class='bar center-align' colspan='2'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
+echo "</tr></table></form>";
 
-    include($relPath.'/../faq/privacy.php');
+include($relPath.'/../faq/privacy.php');
 
 // vim: sw=4 ts=4 expandtab
