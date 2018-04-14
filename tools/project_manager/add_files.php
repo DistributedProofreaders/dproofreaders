@@ -7,13 +7,19 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
+include_once($relPath.'slim_header.inc');
 
 require_login();
+
+$title = _("Add files");
+slim_header($title);
 
 $projectid    = validate_projectID('project', @$_GET['project']);
 $loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project( $projectid );
+
+echo "<h1>$title</h1>";
 
 if(!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal"))
 {
@@ -145,6 +151,7 @@ else
     {
         $loader->display();
 
+        echo "<p>";
         if ( $loader->has_errors() )
         {
             echo _("Please fix errors and try again.");
@@ -158,23 +165,30 @@ else
             $url = "?project=$projectid&amp;rel_source=$rel_source&amp;confirmed=1";
             echo "<a href='$url'>" . _('Proceed with load') . "</a>";
         }
+        echo "</p>";
     }
     else
     {
         if ( $loader->has_errors() )
         {
             $loader->display();
+            echo "<p>";
             echo _("Please fix errors and try again.");
+            echo "</p>";
         }
         elseif ( $loader->would_do_nothing() )
         {
             $loader->display();
+            echo "<p>";
             echo _("Nothing to do.");
+            echo "</p>";
         }
         else
         {
             $loader->execute();
+            echo "<p>";
             echo _("Done.");
+            echo "</p>";
         }
     }
 }
@@ -641,13 +655,13 @@ class Loader
     function display()
     {
         global $code_url, $projectid;
-        echo "<h2>";
+        echo "<p><b>";
         echo sprintf(
             _('Loading files from %1$s into project %2$s'),
             $this->source_project_dir,
             $this->projectid
         );
-        echo "</h2>\n";
+        echo "</b></p>\n";
         echo "<p>\n";
         echo _("Here's a list of the files that have been found, and what will happen to them.");
         echo "<br>\n";
@@ -658,14 +672,14 @@ class Loader
 
         // --------------
 
-        echo "<h3>Ignored Files</h3>\n";
+        echo "<h2>" . _("Ignored Files") . "</h2>\n";
         if ( count($this->ignored_files) == 0 )
         {
-            echo _("none");
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
-            echo "<table border='1'>";
+            echo "<table class='basic striped'>";
 
             echo "<tr>";
             echo "<th>" . _('Filename') . "</th>";
@@ -681,17 +695,18 @@ class Loader
 
         // --------------
 
-        echo "<h3>Non-page files</h3>\n";
+        echo "<h2>" . _("Non-page files") . "</h2>\n";
         if ( count($this->non_page_files) == 0 )
         {
-            echo _("none");
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
+            echo "<p>";
             echo "(", _("Usually these are illustrations."), ")\n";
             echo _("They will simply be copied into the project directory."), 
-                "<br>\n";
-            echo "<table border='1'>";
+                "</p>\n";
+            echo "<table class='basic striped'>";
             foreach ( $this->non_page_files as $filename )
             {
                 echo "<tr><td>$filename</td></tr>\n";
@@ -701,14 +716,14 @@ class Loader
 
         // --------------
 
-        echo "<h3>", _("Page files"), "</h3>\n";
+        echo "<h2>", _("Page files"), "</h2>\n";
         if ( count($this->page_file_table) == 0 )
         {
-            echo _("none");
+            echo "<i>" . pgettext("no files", "none") . "</i>";
         }
         else
         {
-            echo "<table border='1'>\n";
+            echo "<table class='basic striped'>\n";
             {
                 echo "<tr>";
                 echo "<th rowspan='2'>", _("Base"), "</th>";

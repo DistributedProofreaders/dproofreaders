@@ -136,7 +136,7 @@ removing duplicates and enabling or disabling the view of a specific author.') .
 echo '<p>' . _('The directives you give below are processed \'right to left\', i.e. first biographies are removed,
 then biographies are moved, then authors are deleted, and finally authors are (un-)checked as enabled.') . '</p>';
 
-echo '<p>' . _('You should not be able to mark a biography for removal <b>and</b> moval, nor should you be able to
+echo '<p>' . _('You should not be able to mark a biography for removal <b>and</b> moving, nor should you be able to
 delete an author without first (or simultaneously) deleting or moving all biographies connected to it. The site is
 supposed to prevent you from doing so, but please don\'t try.') . '</p>';
 
@@ -405,9 +405,9 @@ else
 $links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('Disabled') . '</a>';
 $links_and_buttons .= " | ";
 if ($view == 'all')
-$links_and_buttons .= _('All');
+$links_and_buttons .= pgettext("all authors", "All");
 else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . _('All') . '</a>';
+$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . pgettext("all authors", "All") . '</a>';
 
 $links_and_buttons .= ' &nbsp; &nbsp; &nbsp; &nbsp; <input type="submit" value="Process">';
 

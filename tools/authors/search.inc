@@ -66,7 +66,7 @@ function prepare_search() {
     if ($sql_what_to_list == '') {
         // acts as an else, but also catches those cases where there's an empty search
         $last_name = $other_names = '';
-        $human_what_to_list = _('All');
+        $human_what_to_list = pgettext("all authors", "All");
         $sql_what_to_list = "1";
         $query = '';
     }

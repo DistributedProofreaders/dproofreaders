@@ -917,8 +917,10 @@ function do_edit_above()
     if($project->can_be_managed_by_current_user)
     {
         $links[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit the above information") . "</a>";
         $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
     }
 
@@ -1087,7 +1089,7 @@ function do_waiting_queues()
         }
         if ( $n_queues == 0 )
         {
-            echo "<li>" . _("(none)") . "</li>\n";
+            echo "<li><i>" . pgettext("no queues", "none") . "</i></li>\n";
         }
         echo "</ul>\n";
     }
@@ -1340,7 +1342,7 @@ function do_history()
 
                 if ( $changed_fields == 'NONE' )
                 {
-                    $list_of_changed_fields = _("none");
+                    $list_of_changed_fields = pgettext("no changes", "none");
                 }
                 else
                 {
@@ -1378,7 +1380,7 @@ function do_history()
                     if ( count($labels) == 0 )
                     {
                         // This shouldn't happen.
-                        $list_of_changed_fields = _("none");
+                        $list_of_changed_fields = pgettext("no changes", "none");
                     }
                     else
                     {
@@ -1541,7 +1543,7 @@ function do_extra_files()
 
     if ( $n_extra_files == 0 )
     {
-        echo "<li>", _("(none)"), "</li>\n";
+        echo "<li><i>", pgettext("no files", "none"), "</i></li>\n";
     }
 
     echo "</ul>";
@@ -1602,7 +1604,7 @@ function do_post_downloads()
     if ( user_can_work_in_stage($pguser, 'PP') )
     {
         echo "<h2>";
-        echo _("Post Downloads");
+        echo _("Post-Processing Downloads");
         echo "</h2>\n";
 
         echo "<ul>";
@@ -1673,7 +1675,7 @@ function do_post_downloads()
     echo "<li>";
     if ( user_is_a_sitemanager() )
     {
-        echo _("Generate Post Files (This will overwrite existing post files, if any.)"), "\n";
+        echo _("Generate Post-Processing Files (This will overwrite existing post-processing files, if any.)"), "\n";
     }
     else
     {

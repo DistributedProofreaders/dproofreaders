@@ -46,7 +46,7 @@ function _html_ul( $header, $items )
     }
     else
     {
-        echo "<li>(" . _("none") . ")</li>\n";
+        echo "<li><i>" . pgettext("no subscriptions", "none") . "</i></li>\n";
     }
     echo "</ul>\n";
 }

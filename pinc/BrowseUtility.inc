@@ -156,7 +156,7 @@ class BrowseUtility {
     foreach ($list as $option) {
         $selected = ($option == $this->_count) ? ' SELECTED' : '';
       if ($option == 0)
-        $dropdown .= "<option value='0'$selected>" . _('All') . "</option>\n";
+        $dropdown .= "<option value='0'$selected>" . pgettext("all items", "All") . "</option>\n";
       else
         $dropdown .= "<option value='$option'$selected>$option</option>\n";
     }

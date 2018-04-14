@@ -179,7 +179,7 @@ class PPage
                     {
                         // e.g., the project might have skipped $other_round,
                         // or it could be a future round.
-                        echo _("[none]");
+                        echo "<i>" . pgettext("no user", "none") . "</i>";
                     }
                     else
                         echo $username;

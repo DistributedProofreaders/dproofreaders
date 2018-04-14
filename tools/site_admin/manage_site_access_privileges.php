@@ -250,7 +250,7 @@ function update_settings($username, $user_settings)
 
         if ( !count($setting_names) )
         {
-            echo "<li>(none)</li>\n";
+            echo "<li><i>" . pgettext("no changes", "none") . "</i></li>\n";
         }
         echo "</ul>\n";
     }

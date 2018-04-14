@@ -1411,7 +1411,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
         array(
             'project_restriction'   => null,
             'action_name'           => _('Delete Project'),
-            'confirmation_question' => _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
+            'confirmation_question' => _('You should only delete a project that is beyond repair. Are you sure you want to delete this project?'),
             'detour'                => null,
             'settings_template'     => "modifieddate='<TIMESTAMP>'",
             'collateral_actions'    => null,

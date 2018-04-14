@@ -215,7 +215,7 @@ if (born != "") {
     }
 }
 else if (form.bbc.checked) {
-    alert("<?php echo _('No birth year entered, but B. C. checked. Inconsecvent.'); ?>");
+    alert("<?php echo _('No birth year entered, but B. C. checked.'); ?>");
     return false;
 }
 if (form.bbc.checked)
@@ -229,7 +229,7 @@ if (dead != "") {
     }
 }
 else if (form.dbc.checked) {
-    alert("<?php echo _('No death year entered, but B. C. checked. Inconsecvent.'); ?>");
+    alert("<?php echo _('No death year entered, but B. C. checked.'); ?>");
     return false;
 }
 if (form.dbc.checked)

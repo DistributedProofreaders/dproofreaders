@@ -323,7 +323,7 @@ _("<p>This setting specifies if the proofreading interface will launch in a new 
 
 'set_statusbar' =>
     array (
-    'title' => _("Show Statusbar"),
+    'title' => _("Show Status Bar"),
     'content' =>
 _("<p>This setting specifies if the standard browser status bar should be displayed when 'Launch in New Window' is set to Yes.</p>")
     ),
