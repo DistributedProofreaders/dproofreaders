@@ -4,15 +4,20 @@ include_once('wordcheck_engine.inc'); // $word_characters $puncCharacters get_fi
 include_once('links.inc'); // new_window_link()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
+include_once('wordcheck_engine.inc');
 
 $test_functions  = array(
+    // Automatic tests
+    "_test_project_has_all_page_images",
     "_test_project_for_bad_bytes",
     "_test_project_for_corrupt_pngs",
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
+    "_test_project_for_word_lists",
+    // Manual tests
     "_test_project_for_credited_source",
     "_test_project_for_correct_genre_and_language",
-    "_test_project_for_missing_pages"
+    "_test_project_for_missing_pages",
 );
 
 function _test_project_for_large_page_images($projectid)
@@ -113,6 +118,10 @@ function _test_project_for_corrupt_pngs($projectid)
         while(list($image) = mysqli_fetch_row($result_res)) {
             // the the file's info
             $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+
+            // if the file doesn't exist, skip it -- we're not testing for that
+            if(!$file_info->exists)
+                continue;
 
             $path_info = pathinfo($file_info->abs_path);
 
@@ -409,6 +418,100 @@ function tds_for_bad_bytes($raw)
 
     return $tds;
 }
+
+function _test_project_for_word_lists($projectid)
+{
+    $num_good_words = count(load_project_good_words($projectid));
+    $num_bad_words = count(load_project_bad_words($projectid));
+
+    $test_name = _("Good/Bad Wordlists");
+    $test_desc = _("This test checks if the project good and bad word lists are populated.");
+
+    $details = "<p><ul>";
+    $details .= "<li>" . _("Number of good words") . ": $num_good_words</li>";
+    $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
+    $details .= "</ul></p>";
+
+    if($num_good_words && $num_bad_words)
+    {
+        $status = _("Success");
+        $summary = _("Both the good and bad word lists have entries.");
+    }
+    else
+    {
+        $status = _("Warning");
+        $summary = _("One or both of the word lists are empty.");
+    }
+
+    return array(
+        "name" => $test_name,
+        "description" => $test_desc,
+        "status" => $status,
+        "summary" => $summary,
+        "details" => $details
+    );
+}
+
+function _test_project_has_all_page_images($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+
+    $test_name = _("Page images exist");
+    $test_desc = _("This test validates that all page images exist on the server.");
+
+    $project = new Project($projectid);
+
+    if($project->pages_table_exists)
+    {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $details = "<p>" . _("The following page images do not exist on the server.") . "</p>";
+        $details .= "<ul>";
+        $error_images = 0;
+        while(list($image) = mysqli_fetch_row($result_res)) {
+            // the the file's info
+            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+
+            if(!$file_info->exists)
+            {
+                $details .= "<li>$image</li>";
+                $error_images++;
+            }
+        }
+        $details .= "</ul>";
+
+        mysqli_free_result($result_res);
+
+        if($error_images == 0)
+        {
+            $status = _("Success");
+            $summary = _("All images exist on the server.");
+            $details = "";
+        }
+        else
+        {
+            $status = _("Error");
+            $summary = _("Some images are missing on the server.");
+        }
+    }
+    else
+    {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return array(
+        "name" => $test_name,
+        "description" => $test_desc,
+        "status" => $status,
+        "summary" => $summary,
+        "details" => $details,
+    );
+}
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

@@ -104,8 +104,8 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
 
     $nextCutoff = $idealCutoff;
 
-    // find the biggest freq
-    list($word,$freq) = each($wordCount);
+    // find the biggest freq, in the first element
+    $freq = current($wordCount);
 
     // if the idealCutoff is smaller than the biggest freq
     // there's nothing to do so continue

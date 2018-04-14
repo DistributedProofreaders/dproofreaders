@@ -163,13 +163,19 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
              "</style>\n";
     }
 
-    if(isset($extra_args['js_files']))
+    // Global JS
+    $js_files = array(
+        "$code_url/pinc/3rdparty/jquery/jquery-3.3.1.js",
+    );
+
+    // Per-page JS
+    if (isset($extra_args['js_files']))
+        $js_files = array_merge($js_files, $extra_args['js_files']);
+
+    foreach($js_files as $js_file)
     {
-        foreach($extra_args['js_files'] as $js_file)
-        {
-            $cache_fixer = get_local_file_browser_cache_key($js_file);
-            echo "<script language='JavaScript' type='text/javascript' src='$js_file$cache_fixer'></script>\n";
-        }
+        $cache_fixer = get_local_file_browser_cache_key($js_file);
+        echo "<script language='JavaScript' type='text/javascript' src='$js_file$cache_fixer'></script>\n";
     }
 
     // Per-page Javascript

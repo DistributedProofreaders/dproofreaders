@@ -16,11 +16,11 @@
 // needs to look at the contents of several DifferenceEngine methods
 // and see if they need updating in the DifferenceEngineWrapper class.
 //
-// See mediawiki_diff/README.md for which MediaWiki version this maps to.
+// See 3rdparty/mediawiki/README.md for which MediaWiki version this maps to.
 include_once($relPath."misc.inc"); // html_safe() in following includes
-include_once($relPath."mediawiki_diff/DiffFormatter.php");
-include_once($relPath."mediawiki_diff/TableDiffFormatter.php");
-include_once($relPath."mediawiki_diff/DairikiDiff.php");
+include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
+include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
+include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");
 
 class DifferenceEngineWrapper {
     private $oldText;
@@ -147,7 +147,7 @@ if(!class_exists("Xml")) {
 // Return URL to main CSS file
 function get_DifferenceEngine_css_files() {
     global $code_url;
-    return array("$code_url/pinc/mediawiki_diff/mediawiki.action.history.diff.css");
+    return array("$code_url/pinc/3rdparty/mediawiki/mediawiki.action.history.diff.css");
 }
 
 // Override default css for DP customizations

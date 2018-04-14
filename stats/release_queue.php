@@ -51,7 +51,8 @@ if (!isset($name))
     echo "<table class='themed theme_striped'>\n";
     {
         echo "<tr>";
-        echo "<th>", _("Ordering"), "</th>\n";
+        // TRANSLATORS: "Order" refers to a number used to sort items in a specific order
+        echo "<th>", _("Order"), "</th>\n";
         echo "<th>", _("Enabled"), "</th>\n";
         echo "<th>", _("Name"), "</th>\n";
         echo "<th>", _("Current<br>length"), "</th>\n";

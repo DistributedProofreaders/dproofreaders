@@ -135,7 +135,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         echo "<tr><td colspan='$filter_column_count'>";
 
         echo "<b>" . _("Difficulty") . ":</b> ";
-        echo _("All") . "<input type='checkbox' name='difficulty[]' value=''";
+        echo pgettext("all difficulties", "All") . "<input type='checkbox' name='difficulty[]' value=''";
         $difficulty = @$data["difficulty"];
         if(!count($difficulty) || (count($difficulty)==1 && $difficulty[0]==""))
             echo " checked";

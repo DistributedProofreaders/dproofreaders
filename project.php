@@ -688,22 +688,18 @@ function do_project_info_table()
         }
         else
         {
-            if ($project->pages_table_exists)
+            if($project->check_pages_table_exists($detail))
             {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
                 $blurb = _("Images, Pages Proofread, & Differences");
                 $url2 = "$url&amp;select_by_user";
                 $blurb2 = _("Just my pages");
-                $detail = "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;";
-            }
-            else
-            {
-                if ($project->archived != 0) {
-                    $detail = _("The project has been archived, so page details are not available.");
-                } elseif ($project->state == PROJ_DELETE) {
-                    $detail = _("The project has been deleted, so page details are not available.");
-                } else {
-                    $detail = _("Page details are not available for this project.");
+                $detail = "<a href='$url'>$blurb</a> &middot; <a href='$url2'><b>$blurb2</b></a>";
+                if($project->has_entered_formatting_round())
+                {
+                    $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
+                    $blurb3 = _("Compare without formatting");
+                    $detail .= " &middot; <a href='$url3'>$blurb3</a>";
                 }
             }
             echo_row_a( _("Page Detail"), $detail);
@@ -921,8 +917,10 @@ function do_edit_above()
     if($project->can_be_managed_by_current_user)
     {
         $links[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit the above information") . "</a>";
         $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
+            // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
     }
 
@@ -1091,7 +1089,7 @@ function do_waiting_queues()
         }
         if ( $n_queues == 0 )
         {
-            echo "<li>" . _("(none)") . "</li>\n";
+            echo "<li><i>" . pgettext("no queues", "none") . "</i></li>\n";
         }
         echo "</ul>\n";
     }
@@ -1344,7 +1342,7 @@ function do_history()
 
                 if ( $changed_fields == 'NONE' )
                 {
-                    $list_of_changed_fields = _("none");
+                    $list_of_changed_fields = pgettext("no changes", "none");
                 }
                 else
                 {
@@ -1382,7 +1380,7 @@ function do_history()
                     if ( count($labels) == 0 )
                     {
                         // This shouldn't happen.
-                        $list_of_changed_fields = _("none");
+                        $list_of_changed_fields = pgettext("no changes", "none");
                     }
                     else
                     {
@@ -1545,7 +1543,7 @@ function do_extra_files()
 
     if ( $n_extra_files == 0 )
     {
-        echo "<li>", _("(none)"), "</li>\n";
+        echo "<li><i>", pgettext("no files", "none"), "</i></li>\n";
     }
 
     echo "</ul>";
@@ -1606,7 +1604,7 @@ function do_post_downloads()
     if ( user_can_work_in_stage($pguser, 'PP') )
     {
         echo "<h2>";
-        echo _("Post Downloads");
+        echo _("Post-Processing Downloads");
         echo "</h2>\n";
 
         echo "<ul>";
@@ -1677,7 +1675,7 @@ function do_post_downloads()
     echo "<li>";
     if ( user_is_a_sitemanager() )
     {
-        echo _("Generate Post Files (This will overwrite existing post files, if any.)"), "\n";
+        echo _("Generate Post-Processing Files (This will overwrite existing post-processing files, if any.)"), "\n";
     }
     else
     {
@@ -2160,4 +2158,3 @@ function do_page_table()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab
-?>

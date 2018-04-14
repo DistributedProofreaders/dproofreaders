@@ -20,7 +20,7 @@ if (!file_exists($filename)) {
     output_header(_("Download Stealth Scannos"));
     echo "<h1>"._("Download Stealth Scannos")."</h1>
           <p>"._("The following scanno lists are available in .rc format:")."</p>
-          <table border='1'>
+          <table class='basic striped'>
           <tr><th>"._("Language")."</th><th></th><th></th><th></th></tr>
           <tr><td>"._("English")."</td><td><a href='$this_url?language=eng&amp;type=common'>"._("Common")."</a></td>
                                        <td><a href='$this_url?language=eng&amp;type=suspect'>"._("Suspect")."</a></td>

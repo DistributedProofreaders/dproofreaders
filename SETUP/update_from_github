@@ -8,7 +8,8 @@ fi
 this_script_file=$0
 site_config_file=$1
 
-script_dir=`dirname $this_script_file`
+export script_dir=`dirname $this_script_file`
+export config_dir=`dirname $site_config_file`
 
 # ------------------------------------------------------------------------------
 
@@ -92,6 +93,14 @@ check "get_git_clone"
 
 configure_script_file=$script_dir/configure
 $configure_script_file $site_config_file $_CODE_DIR.new
+
+# ------------------------------------------------------------------------------
+# Apply any local customizations.
+
+if [ -e $config_dir/customize_deployment ]; then
+    echo "Running local deployment customization script..."
+    . $config_dir/customize_deployment
+fi
 
 # ------------------------------------------------------------------------------
 
