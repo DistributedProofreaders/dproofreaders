@@ -10,6 +10,14 @@ release. This table is not used anywhere within the code, but external code
 might rely on it.
 
 
+## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/12`
+
+* Support Ubuntu 16.04 middleware (cpeel)
+* Support jpgraph version 4.2.0 (cpeel)
+* Move manager and sitemanager columns to usersettings (cpeel)
+
+
 ## R201802
 Scripts supporting this upgrade are in `SETUP/upgrade/11`
 

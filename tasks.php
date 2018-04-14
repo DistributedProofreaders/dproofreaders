@@ -299,15 +299,10 @@ $percent_complete_array = array(
 );
 
 $task_assignees_array = array();
-$result = mysqli_query(DPDatabase::get_connection(), "
-        SELECT username, u_id
-        FROM users
-        WHERE sitemanager = 'yes'
-    ");
-while ($row = mysqli_fetch_assoc($result)) {
-    $task_assignees_array[$row['u_id']] = $row['username'];
-}
-$taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
+$taskcenter_managers = array_unique(array_merge(
+    Settings::get_users_with_setting('sitemanager', 'yes'),
+    Settings::get_users_with_setting('task_center_mgr', 'yes')
+));
 foreach($taskcenter_managers as $taskcenter_manager) {
     $user = new User($taskcenter_manager);
     $task_assignees_array[$user->u_id] = $taskcenter_manager;

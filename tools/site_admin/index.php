@@ -8,7 +8,7 @@ require_login();
 
 if ( !user_is_a_sitemanager() )
 {
-    die("You are not authorized to access this page.");
+    die(_("You are not authorized to access this page."));
 }
 
 $title=_("Site Administration");
@@ -22,6 +22,7 @@ $sections = array(
     _("User") => array(
         "manage_site_access_privileges.php" => _("Manage Site Access Privileges"),
         "../pending_access_requests.php" => _("Pending Access Requests"),
+        "show_access_log.php" => _("Show Access Log"),
         "edit_mail_address_for_non_activated_user.php" => _("Resend Account Activation Email"),
     ),
     _("Project") => array(

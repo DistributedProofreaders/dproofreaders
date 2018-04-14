@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'access_log.inc');
 
 require_login();
 
@@ -15,18 +16,13 @@ if ( !user_is_a_sitemanager() )
 
 // --------------------------------------
 
-// These settings are set in the users table, not in the usersettings
-// table, although the Settings class provides a view into them.
-$user_table_settings = array(
+$boolean_user_settings = array(
 // Creating site managers can be done here too, although given how
 // infrequently that will happen, it's probably best to leave it commented
 // out to prevent accidental usage when they're really just trying to
 // create a PM.
 //    'sitemanager'             => _("Grants site administrator privileges"),
     'manager'                 => _("Grants project management (PM) privileges"),
-);
-
-$boolean_user_settings = array_merge($user_table_settings, array(
     'proj_facilitator'        => _("Grants project facilitator (PF) privileges"),
     'access_request_reviewer' => _("Creates level evaluators; gives access to special reviewer-only scripts; <b>must</b> be combined with PF access"),
     'image_sources_manager'   => _("Grants ability to create new image source listings and manage existing records"),
@@ -36,7 +32,7 @@ $boolean_user_settings = array_merge($user_table_settings, array(
     'authors_db_manager'      => _("Grants ability to manage author records"),
     'send_to_post'            => _("Send user's projects to the PP pool"),
     'disable_project_loads'   => _("Revoke user's ability to load projects"),
-));
+);
 
 $value_user_settings = array(
     'remote_file_manager' => array(
@@ -55,7 +51,7 @@ $username = array_get($_POST, 'username', array_get($_GET, 'username', NULL));
 $action = get_enumerated_param($_POST, 'action', NULL, array('update'), TRUE);
 
 $title = _("Manage Site Access Privileges");
-output_header($title);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 echo "<p>" . _("This page allows you to grant or revoke various site access permissions for a user and adjust some limits. Round accesses are managed from the user's statistics page.") . "</p>";
@@ -81,7 +77,7 @@ if($username)
 
     if($action == "update")
     {
-        update_settings($username, $user_settings);
+        update_settings($user, $user_settings);
     }
     else
     {
@@ -110,10 +106,11 @@ function show_toggles_form($username, $user_settings)
     echo "<form method='POST'>\n";
     echo "<input type='hidden' name='username' value='$username'>\n";
     echo "<input type='hidden' name='action' value='update'>\n";
-    echo "<table>\n";
+    echo "<table class='basic'>\n";
     {
         echo "<tr>\n";
         echo "<th>" . _("Enable") . "</th>\n";
+        echo "<th>" . _("Changed") . "</th>\n";
         echo "<th>" . _("Setting") . "</th>\n";
         echo "<th>" . _("Description") . "</th>\n";
         echo "</tr>\n";
@@ -121,9 +118,17 @@ function show_toggles_form($username, $user_settings)
     foreach ( $boolean_user_settings as $setting_name => $setting_description )
     {
         $user_current_value = $user_settings->get_boolean($setting_name);
-        $checked_attr = ($user_current_value == 'yes' ? 'checked' : '');
+        $checked_attr = ($user_current_value ? 'checked' : '');
+
+        $access_log_entry = get_latest_access_change_entry($username, $setting_name);
+        if($access_log_entry)
+            $changed = strftime('%Y-%m-%d %H:%M', $access_log_entry["timestamp"]);
+        else
+            $changed = "<i>" . _("unknown") . "</i>";
+
         echo "<tr>\n";
         echo "<td><input name='$setting_name' type='checkbox' $checked_attr></td>\n";
+        echo "<td>$changed</td>";
         echo "<td>$setting_name</td>\n";
         echo "<td>$setting_description</td>\n";
         echo "</tr>\n";
@@ -132,6 +137,7 @@ function show_toggles_form($username, $user_settings)
     foreach ( $value_user_settings as $setting_name => $options )
     {
         echo "<tr>\n";
+        echo "<td></td>";
         echo "<td></td>";
         echo "<td>$setting_name</td>\n";
         echo "<td>";
@@ -155,6 +161,7 @@ function show_toggles_form($username, $user_settings)
         $user_current_value = $user_settings->get_value($setting_name);
         echo "<tr>";
         echo "<td></td>";
+        echo "<td></td>";
         echo "<td>$setting_name</td>\n";
         echo "<td>$setting_description<br>\n";
         echo "<input type='text' name='$setting_name' value='" . attr_safe($user_current_value) . "'>";
@@ -169,10 +176,12 @@ function show_toggles_form($username, $user_settings)
 
 // -----------------------------------------------------------------------------
 
-function update_settings($username, $user_settings)
+function update_settings($user, $user_settings)
 {
-    global $boolean_user_settings, $value_user_settings, $user_table_settings,
-           $freeform_user_settings;
+    global $boolean_user_settings, $value_user_settings,
+           $freeform_user_settings, $pguser;
+
+    $username = $user->username;
 
     $disposition = array(
         'turn on'  => array(),
@@ -269,26 +278,12 @@ function update_settings($username, $user_settings)
 
     foreach ( $disposition['turn on'] as $setting_name )
     {
-        if(isset($user_table_settings[$setting_name]))
-        {
-            update_user_table($username, $setting_name, 'yes');
-        }
-        else
-        {
-            $user_settings->set_true($setting_name);
-        }
+        $user->grant_access($setting_name, $pguser, FALSE);
     }
 
     foreach ( $disposition['turn off'] as $setting_name )
     {
-        if(isset($user_table_settings[$setting_name]))
-        {
-            update_user_table($username, $setting_name, 'no');
-        }
-        else
-        {
-            $user_settings->set_value($setting_name, NULL);
-        }
+        $user->revoke_access($setting_name, $pguser, FALSE);
     }
 
     foreach ( $disposition['set'] as $setting_name => $value )
@@ -300,17 +295,6 @@ function update_settings($username, $user_settings)
     }
 
     echo "<p>" . _("Done.") . "</p>";
-}
-
-function update_user_table($username, $field, $value)
-{
-    $sql = sprintf("
-        UPDATE users
-        SET $field = '%s'
-        WHERE username = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -145,9 +145,7 @@ function showMbrRoles($user)
         $roles[] = array( 'proofer', _("Proofreader"), 25 );
     }
 
-    // Formatter
-
-    if ($user->manager == "yes")
+    if ($settings->get_boolean('manager'))
     {
         $roles[] = array( 'pm', _("Project Manager"), 50 );
     }
@@ -186,7 +184,7 @@ function showMbrRoles($user)
         $roles[] = array( 'pf', _("Project Facilitator"), 25 );
     }
 
-    if ($user->sitemanager == "yes")
+    if ($settings->get_boolean('sitemanager'))
     {
         $roles[] = array( 'sa', _("Site Administrator"), 25 );
     }

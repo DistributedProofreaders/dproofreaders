@@ -9,11 +9,6 @@
         that should remain encapsulated inside the class.
 
  This class provides access to user settings.
-     ******
-     Implementation: Initially limited to those stored in the usersettings table.
-                     Subsequently expanded to cover "manager", "postprocessor",
-                     and "sitemanager" from the "users" table. 
-     ******
 
  There are three setting types:
 
@@ -50,9 +45,6 @@ Example setting: "taskctr_notice", value "1018"
      ******
     Implementation:
         Setting and Getting: Set and get exactly what's provided.
-
-12/30/04 (DAK) Removed last vestige of a preference for/default of the logged on user.
-               The constructor now requires a username argument.
 */
         
 
@@ -84,53 +76,18 @@ class Settings
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
         $sql = sprintf("
-            SELECT u.sitemanager,
-                   u.manager,
-                   u.postprocessor,
-                   us.*
-            FROM users AS u
-            LEFT OUTER JOIN usersettings AS us ON u.username = us.username
-            WHERE u.username = '%s'
+            SELECT *
+            FROM usersettings
+            WHERE username = '%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->username));
 
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         // To know whether we've populated fields from 'users' table yet:
-        $isUserVals = false;
         while ($row = mysqli_fetch_assoc($result))
         {
-            // get the onesies from the first row
-            // yes, this is more efficient than two separate queries.
-            if(!$isUserVals)
-            {
-                $isUserVals = true;
-                if ($row['sitemanager'] == 'yes')
-                    $this->_load_value('sitemanager', 'yes');
-                if ($row['manager'] == 'yes')
-                    $this->_load_value('manager', 'yes');
-                if ($row['postprocessor'] == 'yes')
-                    $this->_load_value('postprocessor', 'yes');
-            }
-            // now continue to add values from usersettings table.
-            // This could be null values if the outer join matched nothing
-            // so check there is something in the "setting" column.
-            if($row['setting'])
-                $this->_load_value($row['setting'], $row['value']);
+            $this->_load_value($row['setting'], $row['value']);
         }
         mysqli_free_result($result);
-    }
-
-    // check if this is an updateable setting in this context.
-    private function _isSettable($settingCode)
-    {
-        switch($settingCode)
-        {
-            default:
-                return true;
-            case 'sitemanager':
-            case 'manager':
-            case 'postprocessor':
-                return false;
-        }
     }
 
     // whom do I describe?
@@ -206,11 +163,6 @@ class Settings
             // to the database. A likely cause of this would be that the
             // current http-requestor is a "guest", not a logged-in user.
             return;
-        }
-
-        if(!$this->_isSettable($settingCode))
-        {
-            throw new InvalidArgumentException("Error: cannot set '$settingCode'");
         }
 
         $this->_clear_setting($settingCode);

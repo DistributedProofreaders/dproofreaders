@@ -6,11 +6,10 @@ header('Content-type: text/plain');
 
 // ------------------------------------------------------------
 
-echo "Updating column types for pg_books...\n";
+echo "Increasing size of access_log.activity column..\n";
 $sql = "
-    ALTER TABLE pg_books
-        MODIFY COLUMN etext_number int unsigned NOT NULL,
-        MODIFY COLUMN formats varchar(255) NOT NULL DEFAULT ''
+    ALTER TABLE access_log
+        MODIFY COLUMN activity VARCHAR(32) NOT NULL DEFAULT '';
 ";
 
 echo "$sql\n";

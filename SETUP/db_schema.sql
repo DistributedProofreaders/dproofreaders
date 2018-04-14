@@ -11,7 +11,7 @@ CREATE TABLE `access_log` (
   `subject_username` varchar(25) NOT NULL default '',
   `modifier_username` varchar(25) NOT NULL default '',
   `action` varchar(16) NOT NULL default '',
-  `activity` varchar(10) NOT NULL default '',
+  `activity` varchar(32) NOT NULL default '',
   KEY `subject_username` (`subject_username`,`timestamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -787,16 +787,11 @@ CREATE TABLE `users` (
   `real_name` varchar(100) NOT NULL default '',
   `username` varchar(25) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
-  `manager` varchar(5) NOT NULL default '',
   `date_created` int(20) NOT NULL default '0',
   `last_login` int(20) NOT NULL default '0',
   `t_last_activity` int(10) unsigned NOT NULL default '0',
-  `postprocessor` tinytext NOT NULL,
-  `sitemanager` tinytext NOT NULL,
   `active` tinytext NOT NULL,
   `email_updates` tinyint(1) default '1',
-  `u_plist` tinyint(1) default '3',
-  `u_top10` tinyint(1) NOT NULL default '0',
   `u_neigh` tinyint(4) NOT NULL default '0',
   `u_align` tinyint(1) NOT NULL default '0',
   `i_prefs` tinyint(1) default '0',

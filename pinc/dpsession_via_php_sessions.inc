@@ -60,9 +60,8 @@ function dpsession_set_preferences_from_db()
     $users_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             u_id, u_profile, email_updates,
-            u_plist, u_top10, u_neigh, u_align,
-            i_prefs, i_theme, i_pmdefault,
-            id, manager, postprocessor, sitemanager,
+            u_neigh, u_align,
+            i_prefs, i_theme, i_pmdefault, id,
             team_1, team_2, team_3,
             u_intlang, u_privacy, last_login
         FROM users

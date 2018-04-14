@@ -353,12 +353,12 @@ assuming it isn't already.
         The code is based on users having particular roles. To manage these,
         a site administrator is needed. Assuming you are administering the
         site and have registered yourself as a new user, sign into mysql (or
-        use the phpMyAdmin interface) to set sitemanager = "yes" for the
-        username you registered as.
+        use the phpMyAdmin interface) and add a usersetting entry for the
+        username you registered with setting='sitemanager' and value='yes';
 
         From the mysql command line, this would be:
-
-        mysql> UPDATE users SET sitemanager = "yes" WHERE username = "your_username";
+        mysql> INSERT INTO usersettings
+               SET username='your_username', setting='sitemanager', value='yes';
 
 --- Do various things described in ./site_admin_notes.txt
 
