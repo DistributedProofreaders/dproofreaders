@@ -24,8 +24,9 @@ class UserTest extends PHPUnit_Framework_TestCase
                     sitemanager = 'no',
                     active = 0
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql)
-                or die("Unable to create test user 1");
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            if(!$result)
+                throw new Exception("Unable to create test user 1");
 
             $sql = "
                 INSERT INTO users
@@ -38,8 +39,9 @@ class UserTest extends PHPUnit_Framework_TestCase
                     sitemanager = 'no',
                     active = 0
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql)
-                or die("Unable to create test user 2");
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            if(!$result)
+                throw new Exception("Unable to create test user 2");
         }
         else
         {
