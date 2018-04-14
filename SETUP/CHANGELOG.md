@@ -12,7 +12,12 @@ Scripts supporting this upgrade are in `SETUP/upgrade/12`
 * Move manager and sitemanager columns to usersettings (cpeel)
 * `$writeBIGtable` support, including `project_pages` table, has been
   removed (cpeel)
+* Large file uploads in `remote_file_manager.php` (cpeel)
+* View page differences without formatting (70ray)
 
+
+_Usernames below this point refer to SourceForge usernames, rather than
+GitHub usernames._
 
 ## R201802
 Scripts supporting this upgrade are in `SETUP/upgrade/11`
