@@ -9,6 +9,14 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'User.inc');
 
+$real_name = array_get($_POST, 'real_name', '');
+$username = array_get($_POST, 'userNM', '');
+$userpass = array_get($_POST, 'userPW', '');
+$userpass2 = array_get($_POST, 'userPW2', '');
+$email = array_get($_POST, 'email', '');
+$email2 = array_get($_POST, 'email2', '');
+$email_updates = array_get($_POST, 'email_updates', 1);
+
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
 {
@@ -28,19 +36,8 @@ else
 // assume there is no error
 $error = "";
 
-$password = isset($_POST['password'])? $_POST['password']: '';
-if ($password=="proofer") {
-
-    // From the form filled out at the end of this file
-
-    $real_name = $_POST['real_name'];
-    $username = $_POST['userNM'];
-    $userpass = $_POST['userPW'];
-    $email = @$_POST['email'];
-    $userpass2 = $_POST['userPW2'];
-    $email2 = @$_POST['email2'];
-    $email_updates = $_POST['email_updates'];
-
+if(count($_POST))
+{
     // When in testing mode, to avoid leaking private email addresses,
     // create a fake but distinct email address based on the username.
     // DP usernames allow [0-9A-Za-z@._ -]. '@' and ' ' are not valid
@@ -113,14 +110,6 @@ if ($password=="proofer") {
             exit();
         }
     }
-} else {
-    // Initialize variables referenced by the form.
-    $real_name = '';
-    $username = '';
-    $email = '';
-    $email2 = '';
-
-    $email_updates = 1;
 }
 
 
@@ -160,7 +149,6 @@ if(!empty($error))
 echo "<form method='post' action='addproofer.php'>\n";
 foreach($form_data_inserters as $func)
     $func();
-echo "<input type='hidden' name='password' value='proofer'>\n";
 echo "<table class='register'>";
 echo "<tr>";
 echo "  <th>" . _("Real Name") . ":</th>";
