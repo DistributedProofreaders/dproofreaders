@@ -22,13 +22,11 @@ class SettingsTest extends PHPUnit_Framework_TestCase
                     real_name = '$this->TEST_USERNAME',
                     username = '$this->TEST_USERNAME',
                     email = '$this->TEST_USERNAME@localhost',
-                    manager = 'no',
-                    postprocessor = 'no',
-                    sitemanager = 'no',
                     active = 0
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql)
-                or die("Unable to create test user");
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            if(!$result)
+                throw new Exception("Unable to create test user");
         }
         else
         {
@@ -40,8 +38,9 @@ class SettingsTest extends PHPUnit_Framework_TestCase
             INSERT INTO usersettings
             SET username='%s', setting = '%ssetting', value = 'blah'
         ", $this->TEST_USERNAME, $this->PREFIX);
-        $result = mysqli_query(DPDatabase::get_connection(), $sql)
-            or die("Unable to create test usersetting");
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        if(!$result)
+            throw new Exception("Unable to create test usersetting");
     }
 
     protected function tearDown()

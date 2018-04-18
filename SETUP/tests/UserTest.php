@@ -19,13 +19,11 @@ class UserTest extends PHPUnit_Framework_TestCase
                     real_name = '$this->TEST_USERNAME',
                     username = '$this->TEST_USERNAME',
                     email = '$this->TEST_USERNAME@localhost',
-                    manager = 'no',
-                    postprocessor = 'no',
-                    sitemanager = 'no',
                     active = 0
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql)
-                or die("Unable to create test user 1");
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            if(!$result)
+                throw new Exception("Unable to create test user 1");
 
             $sql = "
                 INSERT INTO users
@@ -33,13 +31,11 @@ class UserTest extends PHPUnit_Framework_TestCase
                     real_name = '$this->TEST_USERNAME-2',
                     username = '$this->TEST_USERNAME-2',
                     email = '$this->TEST_USERNAME@localhost',
-                    manager = 'no',
-                    postprocessor = 'no',
-                    sitemanager = 'no',
                     active = 0
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql)
-                or die("Unable to create test user 2");
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            if(!$result)
+                throw new Exception("Unable to create test user 2");
         }
         else
         {
