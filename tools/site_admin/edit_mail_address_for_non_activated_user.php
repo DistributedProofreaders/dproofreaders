@@ -18,7 +18,10 @@ output_header($title);
 
 echo "<h1>$title</h1>";
 
+$username = array_get($_GET, 'username', '');
+$email    = array_get($_GET, 'email', '');
 $action   = get_enumerated_param($_GET, 'action', 'default', array('list_all', 'get_user', 'set_email', 'default'));
+$order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', array('username', 'real_name', 'email', 'date_created DESC'));
 
 if ($action == 'default') {
     echo "<p>";
@@ -39,13 +42,8 @@ if ($action == 'default') {
     <?php
 }
 else if ($action == 'list_all') {
-    $order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', array('username', 'real_name', 'email', 'date_created DESC'));
     $result = mysqli_query(DPDatabase::get_connection(), "
-        SELECT
-            username,
-            real_name,
-            email,
-            FROM_UNIXTIME(date_created, '%M %e, %Y, %H:%i') AS date
+        SELECT *
         FROM non_activated_users
         ORDER BY $order_by
     ");
@@ -68,69 +66,53 @@ else if ($action == 'list_all') {
             echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
             echo "<td>{$row['real_name']}</td>\n";
             echo "<td>{$row['email']}</td>\n";
-            echo "<td>{$row['date']}</td>\n";
+            echo "<td>" . strftime("%B %e, %Y, %H:%M", $row['date_created']) . "</td>\n";
             echo "</tr>\n";
         }
         echo "</table>\n";
     }
 }
 else if ($action == 'get_user') {
-    $username = @$_GET['username'];
     if (check_username($username) != '') die("Invalid parameter username.");
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
-        SELECT email
-        FROM non_activated_users
-        WHERE username='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
-
-    $row = mysqli_fetch_assoc($result);
-
-    if (!$row) {
+    try
+    {
+        $user = new NonactivatedUser($username);
+    }
+    catch(NonexistentNonactivatedUserException $exception)
+    {
         printf(_("No user '%s' was was found in the list of non-validated users."),
             html_safe($username));
         echo "<p>", 
             sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"), 
             "</p>";
+        exit;
     }
-    else {
-        $email = $row["email"];
-        echo "<p>";
-        echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
-        echo "</p>";
-        ?>
-        <br>
-        <form method='get'>
-        <input type='hidden' name='action' value='set_email'>
-        <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
-        <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
-        <br>
-        <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($email); ?>'>
-        <br>
-        <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
-        </form>
-        <?php
-    }
+
+    echo "<p>";
+    echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
+    echo "</p>";
+    ?>
+    <br>
+    <form method='get'>
+    <input type='hidden' name='action' value='set_email'>
+    <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
+    <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
+    <br>
+    <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($user->email); ?>'>
+    <br>
+    <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
+    </form>
+    <?php
 }
 else if ($action == 'set_email') {
-    $username = @$_GET['username'];
-    $email    = @$_GET['email'];
     if (check_username($username) != '') die("Invalid parameter username.");
     if (check_email_address($email) != '') die("Invalid parameter email.");
     
-    mysqli_query(DPDatabase::get_connection(), sprintf("
-        UPDATE non_activated_users
-        SET email='%s'
-        WHERE username='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
-        SELECT id, real_name, u_intlang
-        FROM non_activated_users
-        WHERE username='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username)));
-    $row = mysqli_fetch_assoc($result);
+    $user = new NonactivatedUser($username);
+    $user->email = $email;
+    $user->save();
 
-    maybe_activate_mail($email, $row['real_name'], $row['id'], $username, $row['u_intlang']);
-
+    maybe_activate_mail($email, $user->real_name, $user->id, $username, $user->u_intlang);
 }
 else
     echo 'Unknown action.';

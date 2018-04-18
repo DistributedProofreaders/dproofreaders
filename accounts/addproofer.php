@@ -60,54 +60,34 @@ if(count($_POST))
     // if all fields validated, create the registration
     if(empty($error))
     {
-        $todaysdate = time();
-
-        // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
-        $ID = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
-
-        $digested_password = forum_password_hash($userpass);
-
         $intlang = get_desired_language();
-        $query = sprintf("
-            INSERT INTO non_activated_users
-                (id, real_name, username, email, date_created, email_updates,
-                 u_intlang, user_password)
-            VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $real_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $username),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $email),
-            (int)$email_updates,
-            mysqli_real_escape_string(DPDatabase::get_connection(), $intlang),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
+        $register = new NonactivatedUser();
+        $register->real_name = $real_name;
+        $register->username = $username;
+        $register->email = $email;
+        $register->email_updates = $email_updates;
+        $register->u_intlang = $intlang;
+        $register->user_password = forum_password_hash($userpass);
 
-        $result = mysqli_query(DPDatabase::get_connection(), $query);
+        try
+        {
+            $register->save();
 
-        if (!$result) {
-            if ( mysqli_errno(DPDatabase::get_connection()) == 1062 ) // ER_DUP_ENTRY
-            {
-                // The attempted INSERT violated a uniqueness constraint.
-                // The non_activated_users table has only one such constraint,
-                // the PRIMARY KEY on the 'username' column.
-                // Thus, $username duplicates a username value in non_activated_users.
-                $error = _("That username has already been requested. Please try another.");
-            }
-            else
-            {
-                $error = _("Can not initiate user registration.");
-            }
-        } else {
             // Page shown when account is successfully created
             $header = sprintf(_("User %s Registered Successfully"), $username);
             output_header($header);
 
             // Send them an activation e-mail
-            maybe_activate_mail($email, $real_name, $ID, $username, $intlang);
+            maybe_activate_mail($email, $real_name, $register->id, $username, $intlang);
 
             echo sprintf(
                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
                $username);
             exit();
+        }
+        catch(Exception $exception)
+        {
+            $error = _("Can not initiate user registration.");
         }
     }
 }
@@ -238,6 +218,17 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     if(User::is_valid_user($username, FALSE))
     {
         return _("That user name already exists, please try another.");
+    }
+
+    // Ensure we don't already have a registration with this name
+    try
+    {
+        $na_user = new NonactivatedUser($username);
+        return _("That username has already been requested. Please try another.");
+    }
+    catch(NonexistentNonactivatedUserException$exception)
+    {
+        // pass
     }
 
     // TODO: The above check only validates against users in the DP database.
