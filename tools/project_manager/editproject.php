@@ -140,7 +140,7 @@ else
 
     if ($fatal_error != '')
     {
-        $fatal_error = _('site error') . ': ' . $fatal_error;
+        $fatal_error = _('Error') . ': ' . $fatal_error;
         echo "<p class='error'>$fatal_error</p>";
         exit;
     }
@@ -184,31 +184,20 @@ class ProjectInfoHolder
     {
         global $pguser;
 
-        if (!isset($_POST['rec']))
+        $encoded_marc_array = array_get($_POST, "rec", "");
+        if(!$encoded_marc_array)
         {
-            return sprintf(_("parameter '%s' is unset"), 'rec');
+            return sprintf(_("No record selected. If no results are suitable, select '%s' to create the project manually."), _("No Matches"));
         }
 
-        $r1 = $_POST['rec'];
-        if ( $r1 == '' )
+        $yaz_array = unserialize(base64_decode($encoded_marc_array));
+        if(!$yaz_array)
         {
-            return sprintf(_("parameter '%s' is empty"), 'rec');
-        }
-
-        $r2 = base64_decode($r1);
-        if ( $r2 === FALSE )
-        {
-            return sprintf(_("parameter '%s' cannot be decoded"), 'rec');
-        }
-
-        $r3 = unserialize($r2);
-        if ( $r3 === FALSE )
-        {
-            return sprintf(_("parameter '%s' cannot be unserialized"), 'rec');
+            return _("Unable to use selected record. Please contact a site administrator.");
         }
 
         $marc_record = new MARCRecord();
-        $marc_record->load_yaz_array($r3);
+        $marc_record->load_yaz_array($yaz_array);
 
         $this->nameofwork  = $marc_record->title;
         $this->authorsname = $marc_record->author;
@@ -230,7 +219,7 @@ class ProjectInfoHolder
         $this->deletion_reason  = '';
         $this->state            = '';
 
-        $this->original_marc_array_encd = $r1;
+        $this->original_marc_array_encd = $encoded_marc_array;
     }
 
     // -------------------------------------------------------------------------
@@ -662,7 +651,7 @@ class ProjectInfoHolder
             $fatal_error = $old_pih->set_from_db(TRUE, $this->projectid);
             if ($fatal_error != '')
             {
-                $fatal_error = _('site error') . ': ' . $fatal_error;
+                $fatal_error = _('Error') . ': ' . $fatal_error;
                 echo "<p class='error'>$fatal_error</p>";
                 exit;
             }
