@@ -200,7 +200,7 @@ echo "</table></form>\n";
 echo "<br>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
-echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";
+echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() {$window_onload_event};\n--></script>\n\n";
 
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
