@@ -115,7 +115,7 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
     else
         $output_charset = $charset;
 
-    echo "<!DOCTYPE html>"; // HTML 5
+    echo "<!DOCTYPE html>\n"; // HTML 5
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta charset='$output_charset'>\n";
 
