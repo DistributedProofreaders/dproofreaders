@@ -138,7 +138,7 @@ function do_search_and_show_hits()
         echo  _("There were no results returned.");
         echo "</p>";
         echo "<p>";
-        echo _("Please search again or click 'No Matches' to create the project manually.");
+        echo sprintf(_("Please search again or click '%s' to create the project manually."), _("No Matches"));
         echo "</p>";
     }
     else
