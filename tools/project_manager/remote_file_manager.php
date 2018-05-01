@@ -208,7 +208,7 @@ do_showdir($action_message);
 
 function do_showdir($action_message)
 {
-    global $curr_relpath, $hce_curr_displaypath, $home_dirname;
+    global $curr_relpath, $hce_curr_displaypath, $home_dirname, $commons_rel_dir;
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
@@ -255,6 +255,10 @@ function do_showdir($action_message)
     // if not in their home directory, add a link to jump them there
     if($curr_relpath != $home_dirname)
         show_home_link();
+
+    // if not in the common directory, add a link to jump them there
+    if($curr_relpath != $commons_rel_dir)
+        show_commons_link();
 
     // Display Caveats about use on this "main" page only
     show_caveats();
@@ -340,6 +344,7 @@ function handle_file_upload($file_info)
 {
     global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
     global $pguser, $despecialed_username;
+    global $commons_dir;
 
     set_time_limit(14400);
 
@@ -437,11 +442,15 @@ function handle_file_upload($file_info)
 
     // The file passes all tests!
 
-    if (get_access_mode($pguser) === 'common') {
+    // Files uploaded to the commons folder should be prefixed with the user's
+    // name. This helps identify where the file comes from. We don't prevent
+    // the file from being renamed later to remove it, however.
+    if(startswith($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
         $file_prefix = $despecialed_username . "_";
     } else {
         $file_prefix = "";
     }
+
     $target_name = $file_prefix . $file_info['name'];
     $target_path = "$curr_abspath/$target_name";
 
@@ -694,11 +703,14 @@ function do_showmove()
     // Remove first element (which is $home_path itself)
     unset($user_subdirs[0]);
     $valid_target_dirs = array_merge($valid_target_dirs, $user_subdirs);
-    natcasesort($valid_target_dirs);
 
-    // Allow users to tranfer files to Commons too
-    if(!in_array($commons_dir, $valid_target_dirs))
-        array_unshift($valid_target_dirs, $commons_dir);
+    // Add all subdirectories in the Commons directory
+    $common_subdirs = searchdir($commons_dir, 2, "DIRS");
+    $valid_target_dirs = array_merge($valid_target_dirs, $common_subdirs);
+
+    // Unique and sort the array
+    natcasesort($valid_target_dirs);
+    $valid_target_dirs = array_unique($valid_target_dirs);
 
     $item_name = @$_POST['item_name'];
     confirm_is_local_file($item_name);
@@ -891,14 +903,14 @@ function is_valid_move_destination($dir)
 {
     global $commons_rel_dir, $users_rel_dir, $home_dirname;
 
-    // Users may move files to the commons directory
-    if ($dir == $commons_rel_dir) return True;
+    // Users may move files to the commons directory or its subdirectories
+    if (startswith($dir, $commons_rel_dir)) return True;
 
     // Users may move to subdirectories in their own directory
-    if (strpos($dir, "$home_dirname/") === 0) return True;
+    if (startswith($dir, "$home_dirname/")) return True;
 
     // Users may not move files anywhere else except the Users dir.
-    if (strpos($dir, "$users_rel_dir/") !== 0) return False;
+    if (!startswith($dir, "$users_rel_dir/")) return False;
     $rel = substr($dir, strlen("$users_rel_dir/"));
 
     // Users may only move files to a user's home directory root
@@ -924,7 +936,7 @@ function canonicalize_path($relpath)
 function get_current_dir_relative_path($home_dirname)
 // Ascertain the current directory, validate it, and return the relative path
 {
-    global $uploads_dir;
+    global $uploads_dir, $commons_rel_dir;
     $abs_uploads_dir = realpath($uploads_dir);
 
     // Default to home dir if the invocation didn't set cdrp.
@@ -952,7 +964,8 @@ function get_current_dir_relative_path($home_dirname)
 
     // Only SAs are allowed access to other home folders.
     if (!user_may_access_all_upload_dirs()) {
-        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/")) {
+        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/") &&
+            !startswith("$abspath/", "$abs_uploads_dir/$commons_rel_dir/")) {
             fatal_error( _("You are restricted to your home folder and its descendants") );
         }
     }
@@ -1240,6 +1253,14 @@ function show_home_link()
 {
     $text = sprintf(_("Return to your home folder"));
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
+}
+
+function show_commons_link()
+{
+    global $commons_rel_dir;
+    $text = sprintf(_("Return to Commons folder"));
+    $url = "?cdrp=" . urlencode($commons_rel_dir);
+    echo "<p><a href='$url'>$text</a></p>\n";
 }
 
 function searchdir( $dir_path, $maxdepth = -1, $mode = "FULL", $d = 0 )
