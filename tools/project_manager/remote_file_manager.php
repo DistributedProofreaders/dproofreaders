@@ -174,28 +174,39 @@ if (is_null($action)) {
     }
 }
 
+$action_message = "";
 switch ($action) {
-    case 'showdir':    do_showdir();    break;
-    case 'showupload': do_showupload(); break;
-    case 'upload':     do_upload();     break;
-    case 'resumable_chunk':  do_resumable_chunk(); break;
-    case 'resumable_final':  do_resumable_final(); break;
-    case 'showmkdir':  do_showmkdir();  break;
-    case 'mkdir':      do_mkdir();      break;
-    case 'showrename': do_showrename(); break;
-    case 'rename':     do_rename();     break;
-    case 'showmove':   do_showmove();   break;
-    case 'move':       do_move();       break;
-    case 'download':   do_download();   break;
-    case 'showdelete': do_showdelete(); break;
-    case 'delete':     do_delete();     break;
+    // We always do showdir after the switch statement
+    case 'showdir':    break;
+    // Actions that prompt for additional information and we shouldn't showdir
+    case 'showupload': do_showupload(); exit;
+    case 'showmkdir':  do_showmkdir();  exit;
+    case 'showrename': do_showrename(); exit;
+    case 'showmove':   do_showmove();   exit;
+    case 'showdelete': do_showdelete(); exit;
+    // Actions that do an action and do not return an info message
+    case 'download':   do_download();   exit;
+    case 'upload':     do_upload();     exit;
+    case 'resumable_final':
+                       do_resumable_final(); exit;
+    case 'resumable_chunk':
+                       do_resumable_chunk(); exit;
+    // Actions that do an action and upon success return an info message
+    case 'mkdir':      $action_message = do_mkdir();   break;
+    case 'rename':     $action_message = do_rename();  break;
+    case 'move':       $action_message = do_move();    break;
+    case 'delete':     $action_message = do_delete();  break;
     default:
         // no matching $action in input
         fatal_error(sprintf(_("Invalid action: '%s'"), html_safe($action)));
-        break;
+        exit;
 }
 
-function do_showdir()
+do_showdir($action_message);
+
+//---------------------------------------------------------------------------
+
+function do_showdir($action_message)
 {
     global $curr_relpath, $hce_curr_displaypath, $home_dirname;
     global $pguser, $home_dir_created, $autoprefix_message;
@@ -207,6 +218,10 @@ function do_showdir()
     // If we created a directory for the user, assume this is their first visit
     // and display an informational message - down here after the regular headers
     // are sent, which is why a flag for this exists above.
+
+    if($action_message) {
+        show_message('info', $action_message);
+    }
 
     if ( $home_dir_created ) {
         show_message('info', sprintf(_("Home folder created for user %s."), html_safe($pguser)));
@@ -582,10 +597,7 @@ function do_mkdir()
         fatal_error( sprintf(_("Unable to create folder")) );
     }
 
-    show_message('info', sprintf(_("Created folder %s"), html_safe($new_dir_name)));
-
-    show_return_link("$curr_relpath/$new_dir_name");
-    show_return_link();
+    return sprintf(_("Created folder %s"), html_safe($new_dir_name));
 }
 
 function do_showrename()
@@ -654,8 +666,7 @@ function do_rename()
         fatal_error( sprintf(_('Unable to rename item %1$s as %2$s.'), html_safe($item_name), html_safe($new_item_name)) );
     }
 
-    show_message('info', sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name)));
-    show_return_link();
+    return sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name));
 }
 
 function do_showmove()
@@ -755,8 +766,7 @@ function do_move()
         fatal_error( sprintf(_('Unable to move file %1$s to destination folder: %2$s.'), html_safe($item_name), html_safe($dst_dir_relpath)) );
     }
 
-    show_message('info', sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath)));
-    show_return_link();
+    return sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath));
 }
 
 function do_download()
@@ -852,8 +862,7 @@ function do_delete()
         fatal_error( sprintf(_('Unable to move %1$s to %2$s folder.'), html_safe($item_name), html_safe($trash_rel_dir)) );
     }
 
-    show_message('info', sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir)));
-    show_return_link();
+    return sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
