@@ -550,28 +550,16 @@ table.pagedetail td.done_previous {
 /* ------------------------------------------------------------------------ */
 /* Remote File Manager */
 table.dirlist {
-  border: 1px solid black;
   width: 100%;
-  margin: .5em;
-  background-color: #EEEEEE;
 }
-table.dirlist th {
-  text-align: left;
-}
-table.dirlist td {
-  font-size: 90%;
-  height: 1em;
-  line-height: 100%;
-  border-bottom: 1px dotted lightgrey;
-  padding-right: 3em;
-}
-table.dirlist th.actions {
+table.dirlist .actions {
   text-align: center!important;
 }
 table.dirlist caption {
+  text-align: left;
   font-size: 111%;
-  margin-top: .5em;
-  border: 1px solid black;
+  margin-top: 0.5em;
+  padding: 5px;
 }
 /* ------------------------------------------------------------------------ */
 /* Standard Editing Interface */

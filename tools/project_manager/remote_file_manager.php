@@ -80,7 +80,7 @@ if ($access_mode == 'common' ) {
 
 if (is_null($home_dirname)) {
     $page_title = _("Manage your uploads folder");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
     echo "<p>" . sprintf(_("If you are a Content Provider, please email %s with the subject 'project upload access request' and request access to the 'common' project uploads area in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
@@ -212,7 +212,7 @@ function do_showdir($action_message)
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     // If we created a directory for the user, assume this is their first visit
@@ -282,7 +282,7 @@ function do_showupload()
         'js_files' => array("../../pinc/3rdparty/resumablejs/resumable.js"),
         'js_data' => get_resumablejs_loader($curr_relpath),
     );
-    output_header($page_title, SHOW_STATSBAR, $extra_args);
+    output_header($page_title, NO_STATSBAR, $extra_args);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
@@ -569,7 +569,7 @@ function do_showmkdir()
     global $curr_relpath, $hce_curr_displaypath;
 
     $page_title =  sprintf( _("Create a subfolder in folder %s"), $hce_curr_displaypath );
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = _("Name of subfolder to create") .":&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
@@ -614,7 +614,7 @@ function do_showrename()
     global $curr_relpath;
 
     $page_title =  _("Rename an item");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -688,7 +688,7 @@ function do_showmove()
     // from the names of directories in /home/dpscans/
 
     $page_title =  _("Move a file to another folder");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     // Get an array of all directory names in the Users directory
@@ -813,7 +813,7 @@ function do_showdelete()
     global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
     $page_title = sprintf(_("Delete an item from folder %s"), $hce_curr_displaypath);
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -992,10 +992,10 @@ function show_content()
     $caption_text = sprintf(_("Directory listing for <b>%s</b>"), $hce_curr_displaypath);
     $actions_text = _("Actions");
     echo "
-    <table class='dirlist'>
-        <caption style='background-color: #e0e8dd;'>$caption_text</caption>
-        <tr style='background-color: #DDDDDD;'>
-            <th style='text-align:center;' title='Additional Features to be added here'>$actions_text</th>
+    <table class='themed dirlist'>
+        <caption>$caption_text</caption>
+        <tr>
+            <th class='actions'>$actions_text</th>
             <th>Name</th>
             <th>Time</th>
             <th>Size</th>
@@ -1014,7 +1014,7 @@ function show_content()
         $text = _("up one level");
         echo "
             <tr>
-                <th></th>
+                <td></td>
                 <td colspan='3'><a href='$url'>$text</a></td>
             </tr>
         ";
@@ -1033,7 +1033,7 @@ function show_content()
 
             echo "
             <tr>
-                <th class='actions'>$actions_blurb</th>
+                <td class='actions'>$actions_blurb</td>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
                 <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
                 <td class='right-align mono'>".humanize_bytes(filesize($item_path))."</td>
@@ -1051,7 +1051,7 @@ function show_content()
 
             echo "
             <tr>
-                <th class='actions'>$actions_blurb</th>
+                <td class='actions'>$actions_blurb</td>
                 <td><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
                 <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
                 <td></td>
