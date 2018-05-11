@@ -131,9 +131,10 @@ class Comparator
         $diff_pages = array();
         while($page_res = mysqli_fetch_assoc($res))
         {
+            $un_formatter = new UnFormatter();
             // also unwrap
-            $L_text = remove_formatting($page_res[$L_text_column_name], true);
-            $R_text = remove_formatting($page_res[$R_text_column_name], true);
+            $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
+            $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);
             if(0 != strcmp($L_text, $R_text))
             {
                 $diff_pages[] = $page_res['image'];
