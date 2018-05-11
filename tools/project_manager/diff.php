@@ -89,9 +89,10 @@ if ( $can_see_names_for_this_page) {
 
 if($format == "remove")
 {
+    $un_formatter = new UnFormatter();
     // also remove blank lines and leading and trailing spaces
-    $L_text = remove_formatting($L_text, false);
-    $R_text = remove_formatting($R_text, false);
+    $L_text = $un_formatter->remove_formatting($L_text, false);
+    $R_text = $un_formatter->remove_formatting($R_text, false);
     $link_text = _('Difference for page %s with formatting removed');
 }
 else
