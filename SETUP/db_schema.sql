@@ -192,6 +192,8 @@ CREATE TABLE `non_activated_users` (
   `email` varchar(100) NOT NULL default '',
   `date_created` int(20) NOT NULL default '0',
   `email_updates` tinyint(1) NOT NULL default 0,
+  `referrer` varchar(32) NOT NULL DEFAULT '',
+  `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_intlang` varchar(25) default '',
   `user_password` varchar(128) NOT NULL default '',
   PRIMARY KEY  (`username`)
@@ -792,6 +794,8 @@ CREATE TABLE `users` (
   `t_last_activity` int(10) unsigned NOT NULL default '0',
   `active` tinytext NOT NULL,
   `email_updates` tinyint(1) default '1',
+  `referrer` varchar(32) NOT NULL DEFAULT '',
+  `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_neigh` tinyint(4) NOT NULL default '0',
   `u_align` tinyint(1) NOT NULL default '0',
   `i_prefs` tinyint(1) default '0',

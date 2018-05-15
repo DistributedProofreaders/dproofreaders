@@ -107,12 +107,15 @@ $user->delete();
 // Insert into 'real' table -- users
 $query = sprintf("
     INSERT INTO users (id, real_name, username, email, date_created, active,
-                       email_updates, u_neigh, u_intlang)
-    VALUES ('%s', '%s', '%s', '%s', $user->date_created, '', $user->email_updates, 10, '%s')
+                       email_updates, referrer, http_referrer, u_neigh, u_intlang)
+    VALUES ('%s', '%s', '%s', '%s', $user->date_created, '',
+            $user->email_updates, '%s', '%s', 10, '%s')
     ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->real_name),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->username),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->email),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $user->referrer),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $user->http_referrer),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->u_intlang)
 );
 

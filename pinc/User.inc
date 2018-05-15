@@ -205,6 +205,21 @@ class User
         return $is_valid;
     }
 
+    // Static function to return possible user referrer options
+    public static function get_referrer_options()
+    {
+        return array(
+            "blog" => _("Distributed Proofreaders Blog"),
+            "twitter" => _("Twitter"),
+            "facebook" => _("Facebook"),
+            "friend" => _("Friend"),
+            "news" => _("News Article"),
+            "pg" => _("Project Gutenberg"),
+            "search" => _("Search Engine"),
+            "ebook" => _("Within an E-book"),
+            "other" => _("Other"),
+        );
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

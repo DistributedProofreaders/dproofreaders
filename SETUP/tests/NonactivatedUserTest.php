@@ -3,8 +3,9 @@
 class NonactivatedUserTest extends PHPUnit_Framework_TestCase
 {
     private $TEST_USERNAME = "NonactivatedUserTest_php";
+    private $createdRecords = array();
 
-    private function createRecord($username)
+    private function createNonactivatedUser($username)
     {
         $register = new NonactivatedUser();
         $register->username = $username;
@@ -13,17 +14,23 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
         $register->email_updates = 'yes';
         $register->u_intlang = 'en_US';
         $register->user_password = 'password';
+        $register->referrer = 'friend';
+        $register->http_referrer = '';
         $register->save();
+        $this->createdRecords[] = $username;
         return $register;
     }
 
     protected function tearDown()
     {
-        $sql = "
-            DELETE FROM non_activated_users
-            WHERE username = '$this->TEST_USERNAME'
-        ";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        foreach($this->createdRecords as $username)
+        {
+            $sql = "
+                DELETE FROM non_activated_users
+                WHERE username = '$username'
+            ";
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        }
     }
 
     public function testEmptyConstructor()
@@ -33,34 +40,34 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
 
     public function testCreateRegistration()
     {
-        $register = $this->createRecord($this->TEST_USERNAME);
+        $this->createNonactivatedUser($this->TEST_USERNAME);
     }
 
     public function testLoadRegistration()
     {
-        $this->createRecord($this->TEST_USERNAME);
-        $register = new NonactivatedUser($this->TEST_USERNAME);
-        $this->assertEquals("Joe Shmoe", $register->real_name);
+        $this->createNonactivatedUser($this->TEST_USERNAME);
+        $user = new NonactivatedUser($this->TEST_USERNAME);
+        $this->assertEquals("Joe Shmoe", $user->real_name);
     }
 
     public function testLoadRegistrationById()
     {
-        $register = $this->createRecord($this->TEST_USERNAME);
-        $validate = new NonactivatedUser();
-        $validate->load("id", $register->id);
-        $this->assertEquals($this->TEST_USERNAME, $validate->username);
+        $existing_user = $this->createNonactivatedUser($this->TEST_USERNAME);
+        $user = new NonactivatedUser();
+        $user->load("id", $existing_user->id);
+        $this->assertEquals($this->TEST_USERNAME, $user->username);
     }
 
     public function testUpdateRegistration()
     {
-        $this->createRecord($this->TEST_USERNAME);
+        $this->createNonactivatedUser($this->TEST_USERNAME);
 
-        $register = new NonactivatedUser($this->TEST_USERNAME);
-        $register->real_name = "Jane Shmane";
-        $register->save();
+        $user = new NonactivatedUser($this->TEST_USERNAME);
+        $user->real_name = "Jane Shmane";
+        $user->save();
 
-        $validate = new NonactivatedUser($this->TEST_USERNAME);
-        $this->assertEquals("Jane Shmane", $validate->real_name);
+        $user = new NonactivatedUser($this->TEST_USERNAME);
+        $this->assertEquals("Jane Shmane", $user->real_name);
     }
 
     /**
@@ -68,7 +75,7 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidUser()
     {
-        $register = new NonactivatedUser("blahblah");
+        new NonactivatedUser("blahblah");
     }
 
     /**
@@ -76,16 +83,16 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
      */
     public function testSetUnsettable()
     {
-        $register = new NonactivatedUser();
-        $register->id = "";
+        $user = new NonactivatedUser();
+        $user->id = "";
     }
 
     /**
      * @expectedException DomainException
      */
-    public function testSetImmuable()
+    public function testSetImmutable()
     {
-        $register = $this->createRecord($this->TEST_USERNAME);
-        $register->username = "";
+        $user = $this->createNonactivatedUser($this->TEST_USERNAME);
+        $user->username = "";
     }
 }

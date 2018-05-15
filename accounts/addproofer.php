@@ -7,7 +7,6 @@ include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
-include_once($relPath.'User.inc');
 
 $real_name = array_get($_POST, 'real_name', '');
 $username = array_get($_POST, 'userNM', '');
@@ -16,6 +15,7 @@ $userpass2 = array_get($_POST, 'userPW2', '');
 $email = array_get($_POST, 'email', '');
 $email2 = array_get($_POST, 'email2', '');
 $email_updates = array_get($_POST, 'email_updates', 1);
+$referrer = array_get($_POST, 'referrer', '');
 
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
@@ -52,7 +52,7 @@ if(count($_POST))
     // Run all form validators against the data
     foreach($form_validators as $func)
     {
-        $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates);
+        $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer);
         if(!empty($error))
             break;
     }
@@ -66,12 +66,17 @@ if(count($_POST))
         $register->username = $username;
         $register->email = $email;
         $register->email_updates = $email_updates;
+        $register->referrer = $referrer;
+        $register->http_referrer = array_get($_COOKIE, "http_referer", "");
         $register->u_intlang = $intlang;
         $register->user_password = forum_password_hash($userpass);
 
         try
         {
             $register->save();
+
+            // delete the cookie tracking the HTTP_REFERER
+            setcookie("http_referer", '', time() - 1);
 
             // Page shown when account is successfully created
             $header = sprintf(_("User %s Registered Successfully"), $username);
@@ -128,7 +133,9 @@ if(!empty($error))
 
 echo "<form method='post' action='addproofer.php'>\n";
 foreach($form_data_inserters as $func)
+{
     $func();
+}
 echo "<table class='register'>";
 echo "<tr>";
 echo "  <th>" . _("Real Name") . ":</th>";
@@ -158,7 +165,26 @@ echo "  <td>";
 echo "    <input type='radio' name='email_updates' value='1' "; if($email_updates) echo "checked"; echo ">" . _("Yes") . "&nbsp;&nbsp;";
 echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
 echo "  </td>";
-echo "</tr>\n<tr>";
+echo "</tr>\n";
+
+echo "<tr>";
+echo "  <th>" . _("How did you hear about us?") . "</th>";
+echo "  <td>";
+echo "    <select name='referrer'>";
+if(!$referrer)
+    echo "  <option selected disabled>" . _("Please select one") . "</option>";
+foreach(User::get_referrer_options() as $key => $value)
+{
+    $selected = "";
+    if($key == $referrer)
+        $selected = "selected";
+    echo "<option value='$key' $selected>$value</option>";
+}
+echo "    </select>";
+echo "  </td>";
+echo "</tr>\n";
+
+echo "<tr>";
 echo "<td class='bar center-align' colspan='2'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
 echo "</tr></table></form>";
 
@@ -170,7 +196,7 @@ include($relPath.'/../faq/privacy.php');
 
 // Validate the user input fields
 // Returns an empty string upon success and an error message upon failure
-function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
+function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer)
 {
     global $testing;
 
@@ -236,6 +262,11 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     // underlying forum software (like 'Anonymous') or are disallowed in the
     // forum software which, if used, will cause account creation to fail in
     // activate.php.
+
+    if(!$referrer)
+    {
+        return _("Please tell us how you heard about us.");
+    }
 
     return '';
 }

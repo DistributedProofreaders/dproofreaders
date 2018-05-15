@@ -8,7 +8,7 @@ class NonactivatedUser
 {
     private $table_row;
 
-    // List of fields that should never be set outside of this code
+    // List of fields that can never be set outside of this class
     private $unsettable_fields = array(
         "id",
         "date_created",
@@ -26,7 +26,7 @@ class NonactivatedUser
 
     public function __construct($username=NULL)
     {
-        if($username)
+        if($username !== NULL)
         {
             $this->load("username", $username);
         }
@@ -134,12 +134,16 @@ class NonactivatedUser
                 real_name = '%s',
                 email = '%s',
                 email_updates = %d,
+                referrer = '%s',
+                http_referrer = '%s',
                 u_intlang = '%s',
                 user_password = '%s'
             ON DUPLICATE KEY UPDATE
                 real_name = '%s',
                 email = '%s',
                 email_updates = %d,
+                referrer = '%s',
+                http_referrer = '%s',
                 u_intlang = '%s',
                 user_password = '%s'
         ",  $this->table_row["id"],
@@ -147,12 +151,16 @@ class NonactivatedUser
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->real_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
             (int)$this->email_updates,
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password),
             // and for the updates
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->real_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
             (int)$this->email_updates,
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password)
         );
