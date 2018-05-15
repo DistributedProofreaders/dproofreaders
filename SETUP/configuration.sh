@@ -457,10 +457,6 @@ _CHARSET='ISO-8859-1'
 # site. Note that changing this to UTF-8 will *not* automatically make the
 # site UTF-8 compatible. Changing this may have wide-reaching implications.
 
-_WRITEBIGTABLE=TRUE
-_READBIGTABLE=FALSE
-# For staged transition to all-in-one project_pages table.
-
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale
 

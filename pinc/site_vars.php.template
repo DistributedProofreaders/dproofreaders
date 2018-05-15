@@ -115,6 +115,3 @@ $utf8_site = (strcasecmp($charset,"UTF-8") == 0);
 
 $jpgraph_FF='<<JPGRAPH_FONT_FACE>>';
 $jpgraph_FS='<<JPGRAPH_FONT_STYLE>>';
-
-$writeBIGtable = <<WRITEBIGTABLE>>;
-$readBIGtable = <<READBIGTABLE>>;

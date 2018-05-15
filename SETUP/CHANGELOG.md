@@ -3,12 +3,6 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
-## Deprecation notice
-The `project_pages` table and the `$writeBIGtable` variable in site_vars.php
-that controls writing to it are deprecated and will be removed in a future
-release. This table is not used anywhere within the code, but external code
-might rely on it.
-
 
 ## R??????
 Scripts supporting this upgrade are in `SETUP/upgrade/12`
@@ -16,7 +10,14 @@ Scripts supporting this upgrade are in `SETUP/upgrade/12`
 * Support Ubuntu 16.04 middleware (cpeel)
 * Support jpgraph version 4.2.0 (cpeel)
 * Move manager and sitemanager columns to usersettings (cpeel)
+* `$writeBIGtable` support, including `project_pages` table, has been
+  removed (cpeel)
+* Large file uploads in `remote_file_manager.php` (cpeel)
+* View page differences without formatting (70ray)
 
+
+_Usernames below this point refer to SourceForge usernames, rather than
+GitHub usernames._
 
 ## R201802
 Scripts supporting this upgrade are in `SETUP/upgrade/11`

@@ -4,8 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'user_project_info.inc');
 
-// This file brings together code that accesses the projectID* tables and the
-// project_pages table.
+// This file brings together code that accesses the projectID* tables.
 
 // The usual semantics for the return value is this:
 // If something goes wrong, return a string containing an error message.
@@ -53,13 +52,7 @@ function project_allow_pages( $projectid )
 
 function project_drop_pages( $projectid )
 {
-    global $writeBIGtable;
-
     $result = mysqli_query(DPDatabase::get_connection(), "DROP TABLE $projectid");
-
-    if ($writeBIGtable) {
-        $result = mysqli_query(DPDatabase::get_connection(), "DELETE FROM project_pages WHERE projectid = '$projectid'");
-    }
 
     _project_adjust_n_pages( $projectid, 'NONE' );
     _project_adjust_n_available_pages( $projectid, 'NONE' );
@@ -69,8 +62,6 @@ function project_drop_pages( $projectid )
 
 function Pages_prepForRound( $projectid, $round_number )
 {
-    global $writeBIGtable;
-
     $round = get_Round_for_round_number($round_number);
 
     {
@@ -92,17 +83,6 @@ function Pages_prepForRound( $projectid, $round_number )
                 {$round->time_column_name} = $timestamp
         ");
     
-        if ($writeBIGtable)
-        {
-            $result = mysqli_query(DPDatabase::get_connection(), "
-                UPDATE project_pages
-                SET
-                    state = '{$round->page_avail_state}',
-                    {$round->time_column_name} = $timestamp
-                WHERE projectid = '$projectid'
-            ");
-        }
-
         _project_adjust_n_available_pages( $projectid, 'ALL' );
     }
 }
@@ -117,8 +97,6 @@ function project_add_page(
     $user,
     $now )
 {
-    global $writeBIGtable;
-
     $txt_expr = file_content_expr( $txt_file_path );
 
     $round = get_Round_for_round_number(1);
@@ -152,26 +130,6 @@ function project_add_page(
         $errs .= mysqli_error(DPDatabase::get_connection());
     }
 
-    if ($writeBIGtable)
-    {
-        $sql = "
-            INSERT INTO project_pages
-            SET
-                    projectid   = '$projectid',
-                    fileid      = '$fileid',
-                    image       = '$image_file_name',
-                    master_text = $txt_expr,
-                    round1_time = $now,
-                    state       = '$page_state'
-            ";
-        $res = mysqli_query(DPDatabase::get_connection(), $sql);
-        if (!$res)
-        {
-            if ($errs) $errs .= "\n";
-            $errs .= mysqli_error(DPDatabase::get_connection());
-        }
-    }
-
     // If the INSERT raised an error, don't do the other stuff.
     if ($errs) return $errs;
 
@@ -202,8 +160,6 @@ function file_content_expr( $file_path )
 
 function Page_delete( $projectid, $image, $user )
 {
-    global $writeBIGtable;
-
     $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT COUNT(*)
         FROM $projectid
@@ -213,12 +169,6 @@ function Page_delete( $projectid, $image, $user )
 
     $sql = "DELETE FROM $projectid WHERE image = '$image'";
     mysqli_query(DPDatabase::get_connection(), $sql);
-
-    if ($writeBIGtable)
-    {
-        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND image = '$image'";
-        mysqli_query(DPDatabase::get_connection(), $sql);
-    }
 
     _log_page_event( $projectid, $image, 'delete', $user, NULL, FALSE );
 
@@ -539,8 +489,6 @@ function _Page_require(
 
 function _Page_UPDATE( $projectid, $image, $settings )
 {
-    global $writeBIGtable;
-
     $sql = "UPDATE $projectid SET $settings WHERE image='$image'";
     $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ( !$res )
@@ -550,12 +498,6 @@ function _Page_UPDATE( $projectid, $image, $settings )
         echo "raised the following error:<br>\n";
         echo mysqli_error(DPDatabase::get_connection()), "<br>\n";
         exit;
-    }
-
-    if ($writeBIGtable)
-    {
-        $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND image='$image'";
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 
