@@ -145,6 +145,8 @@ foreach ( $actions as $activity_id => $action_type )
 
     if($action_type == 'grant')
         $user->grant_access($activity_id, $pguser);
+    elseif($action_type == 'deny_request_for')
+        $user->deny_access($activity_id, $pguser);
     else
         $user->revoke_access($activity_id, $pguser);
 }

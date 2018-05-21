@@ -148,6 +148,11 @@ class User
         $this->_change_access("request", $activity, 'n/a', $use_access_suffix);
     }
 
+    public function deny_access($activity, $requester, $use_access_suffix=TRUE)
+    {
+        $this->_change_access("deny_request_for", $activity, $requester, $use_access_suffix);
+    }
+
     private function _change_access($action_type, $activity, $requester, $use_access_suffix)
     {
         if($use_access_suffix)
@@ -158,6 +163,8 @@ class User
         $userSettings =& Settings::get_Settings($this->username);
         if($action_type == "request")
             $userSettings->set_value("$activity$suffix", "requested");
+        elseif($action_type == "deny_request_for")
+            $userSettings->set_value("$activity$suffix", NULL);
         else
             $userSettings->set_boolean("$activity$suffix", $action_type == 'grant');
         log_access_change($this->username, $requester, $activity, $action_type);
