@@ -21,6 +21,10 @@ if ( $i_type == 0 )
     echo "
     <center>
     <h2>Standard Proofreading Interface Help</h2>
+    <br>
+    <table>
+    <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
+    </table>
     </center>
     ";
 }
@@ -30,7 +34,7 @@ else
     echo "
     <center>
     <h2>Enhanced Proofreading Interface Help</h2>
-    Version 1.2<br>
+    Version 1.3<br>
     <br>
     <table>
     <tr><td>Created</td><td>12/03/2002</td><td>Author: Carel Lyn Miske</td></tr>
@@ -38,6 +42,7 @@ else
     <tr><td>Updated</td><td>06/17/2003</td><td>Bill Keir</td></tr>
     <tr><td>Updated</td><td>06/23/2003</td><td>Bill Keir</td></tr>
     <tr><td>Updated</td><td>05/24/2005</td><td>pourlean</td></tr>
+    <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
     </table>
     </center>
     ";
@@ -216,6 +221,39 @@ $help['Report Bad Page'] = "
 </p>
 ";
 
+
+$help['Show All Text'] = "
+<p>
+    Clicking this button opens up a new browser window and displays
+    the proofread text as it would appear on an HTML-formatted page
+    complete with italics, bolding, etc.
+</p>
+<p>
+    Although this function is helpful to people working in the
+    formatting rounds, it also helps proofreaders because it
+    displays the text in a different font and slightly different format.
+    Sometimes that's all it takes for a sneaky scanning error (scanno)
+    to suddenly jump off the page at you!
+</p>
+";
+
+
+$help['Preview'] = "
+<p>
+    Clicking this button displays the proofread text in a manner
+    that allows the proofreader or formatter to control whether
+    or how the various tags display and whether the text is
+    wrapped or not.
+</p>
+<p>
+    This feature is especially valuable to formatters but can
+    also assist proofreaders in locating errors. Text cannot
+    be edited in this frame. To return to the regular editing
+    frame, click on the \"Quit\" button.
+</p>
+";
+
+
 $help['Return Page to Round'] =
 $help['Return Page to Current Round'] = "
 <p>
@@ -364,11 +402,6 @@ $help['View Project Comments'] = "
     in a new browser window for reference.
 ";
 
-$help['Show All Text'] = "
-<p>
-    Displays the currently edited text from the text area in a new window.
-";
-
 $help['Undo Revert'] = "
 <p>
     Undoes the Revert to Original Document function
@@ -421,9 +454,11 @@ if ( $i_type == 0 )
 	    "Save as 'Done'",
 	    'Stop Proofreading',
 	    'Switch to Vertical/Horizontal',
+	    'Show All Text',
 	    'Return Page to Round',
 	    'Report Bad Page',
-	    'WordCheck'
+	    'WordCheck',
+	    'Preview',
 	)
 	as $name )
     {
@@ -569,6 +604,7 @@ echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15'
 echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
 // echo_row( 'Check for Common Errors', 'Check for Common Errors', 'bt6', '' );
 echo_row( 'Run WordCheck', 'Run WordCheck', 'bt16', '' );
+echo_row( 'Preview', 'Format preview', 'bt20', '' );
 echo_row( 'View Project Comments', 'View Project Comments', 'bt12', '' );
 echo_row( 'Show All Text', 'Show All Text', 'bt9', '' );
 echo_row( 'Undo Revert', 'Undo Revert', 'bt7', '' );
@@ -596,12 +632,15 @@ font in the same family or leave the current font unchanged.
 <P><A NAME="ikeys"> </A> <P><FONT SIZE="+1">Accelerator Keys (accesskeys)</FONT><P></TD></TR>
 <TR>
 <TD VALIGN="TOP" COLSPAN="2">
-Several of the commonly used interface buttons have been assigned an accesskey value.
+<p>These accelerator keys may not work for everyone, and the modifier key
+(shown as Alt below) may be different depending on your Operating System and browser.</p>
+
+<p>Several of the commonly used interface buttons have been assigned an accesskey value.
 On browsers that support accelerator keys, pressing ALT+ the accesskey assigned to the
-button will commit the same action as clicking on the button.
+button will commit the same action as clicking on the button.</p>
 
 <P>If a button has an accelerator key, the key assigned to it will be listed in the function
-description in the <A HREF="#ibtns"><B>Button and Selection Menu</B></A> area.
+description in the <A HREF="#ibtns"><B>Button and Selection Menu</B></A> area.</p>
 
 
 <P><B>Internet Explorer Only</B><BR>
@@ -610,7 +649,7 @@ The currently displayed image may be scrolled using the following accelerator ke
 <FONT SIZE="+2"><B>/</B></FONT> down<BR>
 <FONT SIZE="+2"><B>,</B></FONT> left<BR>
 <FONT SIZE="+2"><B>.</B></FONT> right<BR>
-Currently, this is the only method for scrolling the image.<BR>
+Currently, this is the only method for scrolling the image using the keyboard.</p>
 
 </TD></TR>
 </TABLE></DIV></CENTER>
@@ -697,6 +736,16 @@ Currently, this is the only method for scrolling the image.<BR>
 <h4>Common Tags</h4>
 
 <p>
+You may sometimes find formatting already present in the text.
+Do not add or correct this formatting information; the formatters
+will do that later in the process. However, you can remove it if
+it interferes with your proofreading. The <s>&lt;x&gt;</s> button in the
+proofreading interface will remove markup such as &lt;i&gt; and &lt;b&gt;
+from highlighted text. Here are common tags that you may see
+on a page you are proofreading. Proofreaders should not add tags
+since that is done in the formatting rounds.
+<p>
+
     &lt;i&gt;,
     &lt;/i&gt; (<i>italic</i> text),
     &lt;b&gt;,
@@ -752,20 +801,24 @@ Currently, this is the only method for scrolling the image.<BR>
 </p>
 
 <h5>Shortcuts to insert common tags</h5>
+<p>
+    These shortcuts may not work for everyone, and the Alt may be a different key
+    combination depending on your Operating System and browser.
+</p>
 
 <table border='1'>
   <tr><td>
-    Bold
+    Bold (Proofreaders do not add bolding codes)
   </td><td>
     Alt-b
   </td></tr>
   <tr><td>
-    Italics
+    Italics (Proofreaders do not add italic codes)
   </td><td>
     Alt-i
   </td></tr>
   <tr><td>
-    Small caps
+    Small caps (Proofreaders do not add small cap codes)
   </td><td>
     Alt-s
   </td></tr>
