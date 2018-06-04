@@ -484,7 +484,6 @@ function create_task_from_form_submission($formsub)
     $sql_query = "
         INSERT INTO tasks
         SET
-            task_id          = '',
             task_summary     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_summary']) . "',
             task_type        = $newt_type,
             task_category    = $newt_category,
@@ -498,8 +497,6 @@ function create_task_from_form_submission($formsub)
             task_details     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_details']) . "',
             date_opened      = $now_sse,
             opened_by        = $requester_u_id,
-            date_closed      = '',
-            closed_by        = '',
             date_edited      = $now_sse,
             edited_by        = $requester_u_id,
             percent_complete = 0,
