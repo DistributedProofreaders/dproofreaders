@@ -586,11 +586,6 @@ if (!isset($_REQUEST['task_id'])) {
 else {
     handle_action_on_a_specified_task();
 }
-echo "</td>";
-echo "</tr>";
-echo "</table>";
-echo "</div>";
-echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -921,36 +916,45 @@ function hideSpan(id) { document.getElementById(id).style.display="none"; }
 EOS;
 
     $css_data = <<<EOS
-table.tasks        { width: 100%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size: small; }
+table.tasks,
+table.taskslist,
+table.taskplain    { width: 100%; border-collapse: collapse; border: 1px solid #CCCCCC; background-color: #E6EEF6; font-family: Verdana; color: #000000; font-size: small; }
+
+table.tasks td,
+table.tasks th,
+table.taskslist td,
+table.taskplain td { vertical-align: top; text-align: left; }
+
 table.tasks form   { margin: 0; }
-table.tasks td     { font-size: small; padding:2px!important; vertical-align:top; text-align:left; }
-table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
-table.taskslist    { width: 100%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size: small; }
-table.taskslist td { padding:5px!important; white-space: nowrap;}
-table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
-table.taskplain    { width: 100%; border:none; border-collapse:collapse; }
-table.taskplain td { font-size: small; padding:2px; vertical-align:top; text-align:left; }
-td.taskproperty    { width:40%; font-weight: bold; }
-td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
+table.tasks td     { font-size: small; padding: 2px!important; }
+table.tasks th     { font-weight: bold; padding: 5px; }
+
+table.taskslist td { padding: 5px!important; white-space: nowrap; background-color: #FFFFFF; }
+table.taskslist th { font-weight: bold; text-align:left; padding: 5px; vertical-align: top; }
+
+table.taskplain    { border: none; background-color: inherit; color: inherit; }
+table.taskplain td { font-size: small; padding: 2px; }
+td.taskproperty    { width: 40%; font-weight: bold; }
+td.taskvalue       { width: 60%; border-bottom: #CCCCCC 1px solid; }
+
 select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
 input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
 input[type="button"],
 input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
 input[type="button"]:disabled,
 input[type="submit"]:disabled { background-color: #AAAAAA; }
+
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
 small.task         { font-family:Verdana; font-size: small; }
 center.taskwarn    { color:#FF0000; font-weight:bold; font-family:Verdana; padding:2em; }
 center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; padding:2em; }
-p                  { font-family:Verdana; font-size: small; }
 .wrap              { white-space: normal!important; }
 EOS;
 
     output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
-    echo "<br><div align='center'><table class='taskplain'><tr><td>";
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
@@ -1074,7 +1078,7 @@ function select_and_list_tasks($sql_condition)
     echo "</tr>\n";
     if (@mysqli_num_rows($sql_result) >= 1) {
         while ($row = mysqli_fetch_assoc($sql_result)) {
-            echo "<tr bgcolor='#ffffff'>\n";
+            echo "<tr>\n";
             foreach ( $columns as $property_id => $attrs )
             {
                 $formatted_value = property_format_value($property_id, $row, TRUE);
@@ -1084,12 +1088,12 @@ function select_and_list_tasks($sql_condition)
         }
     }
     else {
-        echo "<tr bgcolor='#ffffff'><td colspan='7'><center>No tasks found!</center></td></tr>";
+        echo "<tr><td colspan='7'><center>No tasks found!</center></td></tr>";
     }
     echo "</table><br>\n";
     // if 2 tasks or more found, display the number of reported tasks
     if (@mysqli_num_rows($sql_result) > 1) {
-        echo "<p>" . @mysqli_num_rows($sql_result) . " tasks listed.</p>";
+        echo "<small class='task'>" . @mysqli_num_rows($sql_result) . " tasks listed.</small>";
     }
 }
 
@@ -1196,10 +1200,10 @@ function TaskDetails($tid)
 
             // Task id, summary, and possible Edit/Re-Open Task buttons.
             echo "<table class='tasks'>\n";
-            echo "<tr bgcolor='#ecdbb7'>";
-            echo "<td width='90%' valign='middle'>";
+            echo "<tr>";
+            echo "<th width='90%' valign='middle'>";
             echo "Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . property_format_value('task_summary', $row, FALSE);
-            echo "</td>";
+            echo "</th>";
             echo "<td width='10%' valign='middle' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
