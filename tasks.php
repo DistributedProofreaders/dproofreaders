@@ -936,6 +936,8 @@ select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; 
 input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
 input[type="button"],
 input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
+input[type="button"]:disabled,
+input[type="submit"]:disabled { background-color: #AAAAAA; }
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
 small.task         { font-family:Verdana; font-size: small; }
@@ -1378,7 +1380,7 @@ function TaskDetails($tid)
                 echo "<input type='button' value='Me Too!' onClick=\"showSpan('MeTooMain');\">";
             }
             else {
-                echo "&nbsp;";
+                echo "<input type='button' value='Already submitted \"Me Too!\"' disabled>";
             }
             echo "</td>";
             echo "</tr>";
