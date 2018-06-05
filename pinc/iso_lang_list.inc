@@ -205,7 +205,7 @@ $lang_list=array(
     array("lang_name" => "Fulah", "lang_code" => "ful"),
     array("lang_name" => "Ga", "lang_code" => "gaa"),
     array("lang_name" => "Gaelic", "lang_code" => "gla"),
-    array("lang_name" => "Gallegan", "lang_code" => "glg"),
+    array("lang_name" => "Galician", "lang_code" => "glg"),
     array("lang_name" => "Ganda", "lang_code" => "lug"),
     array("lang_name" => "Gayo", "lang_code" => "gay"),
     array("lang_name" => "Gbaya", "lang_code" => "gba"),

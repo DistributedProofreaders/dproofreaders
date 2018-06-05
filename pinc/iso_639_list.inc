@@ -87,7 +87,7 @@ $iso_639=array(
 "gd" =>
 "Scots; Gaelic",
 "gl" =>
-"Gallegan; Galician",
+"Galician",
 "gn" =>
 "Guarani",
 "gu" =>
