@@ -340,7 +340,7 @@ function SearchParams_echo_controls()
     else $search_text = "";
 
     echo "<input type='hidden' name='action' value='search'>\n";
-    echo "<input type='text' value='$search_text' name='search_text' size='50' class='taskinp1'>\n";
+    echo "<input type='text' value='$search_text' name='search_text' size='50'>\n";
 
     foreach ($SearchParams_choices as $param_name => $choices)
     {
@@ -933,8 +933,9 @@ table.taskplain td { font-size: small; padding:2px; vertical-align:top; text-ali
 td.taskproperty    { width:40%; font-weight: bold; }
 td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
 select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
-input.taskinp1     { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
-input.taskinp2     { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
+input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input[type="button"],
+input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
 small.task         { font-family:Verdana; font-size: small; }
@@ -954,8 +955,8 @@ EOS;
     echo "<td width='50%' style='text-align:right;'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
-    echo "<input type='text' name='task_id' size='12' class='taskinp1'>&nbsp;\n";
-    echo "<input type='submit' value='Go!' class='taskinp2'>\n";
+    echo "<input type='text' name='task_id' size='12'>&nbsp;\n";
+    echo "<input type='submit' value='Go!'>\n";
     echo "</td></tr></table></form><br>\n";
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
     echo "<table class='tasks'>\n";
@@ -964,7 +965,7 @@ EOS;
 
     SearchParams_echo_controls();
 
-    echo "<input type='submit' value='Search' class='taskinp2'></td>\n";
+    echo "<input type='submit' value='Search'></td>\n";
     echo "<td width='30%' style='text-align: right;'>";
     echo "<small class='task'>";
     echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
@@ -1117,7 +1118,7 @@ function TaskForm($task)
     echo "<td colspan='2'>";
     echo "<b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>";
     echo "&nbsp;&nbsp;";
-    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" size='60' maxlength='80' class='taskinp1'>";
+    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" size='60' maxlength='80'>";
     echo "</td>";
     echo "</tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
@@ -1152,7 +1153,7 @@ function TaskForm($task)
     else {
         echo "Submit Edit";
     }
-    echo "' class='taskinp2'>\n";
+    echo "'>\n";
     echo "</center></td></tr></table></form><br>\n";
 }
 
@@ -1202,12 +1203,12 @@ function TaskDetails($tid)
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='action' value='show_editing_form'>\n";
                 echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Edit Task' class='taskinp2'>\n";
+                echo "<input type='submit' value='Edit Task'>\n";
             }
             elseif (!empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='action' value='reopen'>\n";
                 echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Re-Open Task' class='taskinp2'>\n";
+                echo "<input type='submit' value='Re-Open Task'>\n";
             }
             else {
                 echo "&nbsp;\n";
@@ -1339,7 +1340,7 @@ function TaskDetails($tid)
                 ";
                 dropdown_select('closed_reason', "", $tasks_close_array);
                 echo "
-                              <input type='submit' value='Close Task' class='taskinp2'>
+                              <input type='submit' value='Close Task'>
                             </td>
                           </tr>
                         </table>
@@ -1374,7 +1375,7 @@ function TaskDetails($tid)
             $meTooAllowed = (mysqli_num_rows($meTooCheckResult) == 0);
             mysqli_free_result($meTooCheckResult);
             if ($meTooAllowed) {
-                echo "<input type='button' value='Me Too!' class='taskinp2' onClick=\"showSpan('MeTooMain');\">";
+                echo "<input type='button' value='Me Too!' onClick=\"showSpan('MeTooMain');\">";
             }
             else {
                 echo "&nbsp;";
@@ -1507,9 +1508,9 @@ function MeToo($tid, $os, $browser)
     dropdown_select('metoo_browser', array_search(guess_browser_from_UA(), $browser_array), $browser_array);
     echo "</span></fieldset>\n";
     echo "<center>";
-    echo "<input type='submit' value='Send Report' class='taskinp2'>";
+    echo "<input type='submit' value='Send Report'>";
     echo "&nbsp;";
-    echo "<input type='reset' value='Reset' class='taskinp2' onClick=\"hideSpan('MeTooMain');\">";
+    echo "<input type='reset' value='Reset' onClick=\"hideSpan('MeTooMain');\">";
     echo "</center>";
     echo "</td></tr></table></form></div>";
 }
@@ -1552,7 +1553,7 @@ function TaskComments($tid)
     echo "<td width='90%'><textarea name='task_comment' cols='60' rows='5'></textarea></td></tr>";
     echo "<tr>";
     echo "<td width='100%' align='center' colspan='2'>";
-    echo "<input type='submit' value='Add Comment' class='taskinp2'>\n";
+    echo "<input type='submit' value='Add Comment'>\n";
     echo "</td></tr></table></form>";
 }
 
@@ -1587,8 +1588,8 @@ function RelatedTasks($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='text' name='related_task' size='30' class='taskinp1'>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add' class='taskinp2'>\n";
+    echo "<input type='text' name='related_task' size='30'>&nbsp;&nbsp;";
+    echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of an existing, related task. This is optional.)";
     echo "</form>";
     $related_tasks = decode_array($related_tasks);
@@ -1615,7 +1616,7 @@ function RelatedTasks($tid)
             echo " <input type='hidden' name='action' value='remove_related_task'>";
             echo "<input type='hidden' name='task_id' value='$tid'>";
             echo "<input type='hidden' name='related_task' value='$val'>";
-            echo "<input type='submit' value='Remove' class='taskinp2'>";
+            echo "<input type='submit' value='Remove'>";
             echo "</form>";
         }
     }
@@ -1633,8 +1634,8 @@ function RelatedPostings($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='text' name='related_posting' size='30' class='taskinp1'>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add' class='taskinp2'>\n";
+    echo "<input type='text' name='related_posting' size='30'>&nbsp;&nbsp;";
+    echo "<input type='submit' value='Add'>\n";
     echo " (Optional)";
     echo "</form>";
     $related_postings = decode_array($related_postings);
@@ -1652,7 +1653,7 @@ function RelatedPostings($tid)
         echo "&nbsp;&raquo;&nbsp;";
         echo "<a href='$topic_url'>" . $row['title'] . "</a>";
         echo " (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
-        echo "<input type='submit' value='Remove' class='taskinp2'>\n";
+        echo "<input type='submit' value='Remove'>\n";
         echo "</form>";
     }
     echo "</td></tr></table>";
