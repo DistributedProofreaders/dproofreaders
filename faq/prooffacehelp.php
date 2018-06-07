@@ -21,7 +21,7 @@ if ( $i_type == 0 )
     echo "
     <h1>Standard Proofreading Interface Help</h1>
     <table>
-    <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
+    <tr><td>Updated</td><td>2018-05-24</td><td>lhamilton</td></tr>
     </table>
     ";
 }
@@ -33,12 +33,12 @@ else
     Version 1.3<br>
     <br>
     <table>
-    <tr><td>Created</td><td>12/03/2002</td><td>Author: Carel Lyn Miske</td></tr>
-    <tr><td>Updated</td><td>12/15/2002</td><td>Tim Bonham</td></tr>
-    <tr><td>Updated</td><td>06/17/2003</td><td>Bill Keir</td></tr>
-    <tr><td>Updated</td><td>06/23/2003</td><td>Bill Keir</td></tr>
-    <tr><td>Updated</td><td>05/24/2005</td><td>pourlean</td></tr>
-    <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
+    <tr><td>Created</td><td>2002-12-03</td><td>Author: Carel Lyn Miske</td></tr>
+    <tr><td>Updated</td><td>2002-12-15</td><td>Tim Bonham</td></tr>
+    <tr><td>Updated</td><td>2003-06-17</td><td>Bill Keir</td></tr>
+    <tr><td>Updated</td><td>2003-06-23</td><td>Bill Keir</td></tr>
+    <tr><td>Updated</td><td>2005-05-24</td><td>pourlean</td></tr>
+    <tr><td>Updated</td><td>2018-05-24</td><td>lhamilton</td></tr>
     </table>
     ";
 }
