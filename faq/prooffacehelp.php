@@ -19,21 +19,17 @@ if ( $i_type == 0 )
 {
     output_header('Standard Proofreading Interface Help', NO_STATSBAR);
     echo "
-    <center>
-    <h2>Standard Proofreading Interface Help</h2>
-    <br>
+    <h1>Standard Proofreading Interface Help</h1>
     <table>
     <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
     </table>
-    </center>
     ";
 }
 else
 {
     output_header('Enhanced Proofreading Interface Help', NO_STATSBAR);
     echo "
-    <center>
-    <h2>Enhanced Proofreading Interface Help</h2>
+    <h1>Enhanced Proofreading Interface Help</h1>
     Version 1.3<br>
     <br>
     <table>
@@ -44,7 +40,6 @@ else
     <tr><td>Updated</td><td>05/24/2005</td><td>pourlean</td></tr>
     <tr><td>Updated</td><td>05/24/2018</td><td>lhamilton</td></tr>
     </table>
-    </center>
     ";
 }
 
@@ -52,7 +47,7 @@ else
 
 ?>
 
-<h3>Introduction</h3>
+<h2>Introduction</h2>
 
 <p>
 To understand the interface,
@@ -81,7 +76,6 @@ They are:
     or else this partially-proofread page may move to the next round
     when the rest of the project does!
     </li>
-    <br>
 
     <li>
     <b><a name=progr>"IN PROGRESS"</a></b>:
@@ -95,7 +89,6 @@ They are:
     If you do not complete them,
     eventually the system will reclaim them for someone else to proofread.
     </li>
-    <br>
 
     <li>
     <b><a name=return>"RETURN TO ROUND"</a></b>
@@ -107,7 +100,6 @@ They are:
     Whoever next clicks on the "Start Proofreading" link for this project
     will get the page to proofread.
     </li>
-    <br>
 
     <li>
     <b><a name=bad>"BAD"</a></b>
@@ -557,7 +549,7 @@ else
 {
 ?>
 
-<CENTER><DIV ALIGN="CENTER"><TABLE
+<DIV ALIGN="CENTER"><TABLE
 BORDER="1" WIDTH="630" CELLPADDING="6">
 
 <TR><TD
@@ -580,10 +572,11 @@ function echo_row( $name, $tooltip, $button_image_base, $accelerator )
 {
     global $help;
     echo "<TR><TD VALIGN='TOP'>\n";
+    $tooltip_esc = attr_safe($tooltip);
     foreach( explode('+', $button_image_base) as $bib )
     {
 	echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
-	    ALT='$tooltip' TITLE='$tooltip'
+	    ALT='$tooltip_esc' TITLE='$tooltip_esc'
 	    WIDTH='26' HEIGHT='26' BORDER='0'>\n";
     }
     echo "</TD><TD><B>$name</B><BR>\n";
@@ -652,7 +645,7 @@ The currently displayed image may be scrolled using the following accelerator ke
 Currently, this is the only method for scrolling the image using the keyboard.</p>
 
 </TD></TR>
-</TABLE></DIV></CENTER>
+</TABLE></DIV>
 
 <?php
 }
@@ -662,11 +655,11 @@ Currently, this is the only method for scrolling the image using the keyboard.</
 <hr>
 
 <a name='proofing_toolbox'>
-<center><h3>Help for Proofreading Toolbox</h3></center>
+<h2>Help for Proofreading Toolbox</h2>
 </a>
 
 
-<h4>Special Character Dropdowns</h4>
+<h3>Special Character Dropdowns</h3>
 
 <p>
     Many non-English texts have characters
@@ -699,7 +692,7 @@ Currently, this is the only method for scrolling the image using the keyboard.</
 </p>
 
 
-<h4>Greek transliteration popup</h4>
+<h3>Greek transliteration popup</h3>
 
 <p>
     The most common non-Latin alphabet we encounter is Greek.
@@ -733,7 +726,7 @@ Currently, this is the only method for scrolling the image using the keyboard.</
 </p>
 
 
-<h4>Common Tags</h4>
+<h3>Common Tags</h3>
 
 <p>
 You may sometimes find formatting already present in the text.
@@ -800,7 +793,7 @@ since that is done in the formatting rounds.
     Note that [Blank Page] will clear any existing text in the proofreading window.
 </p>
 
-<h5>Shortcuts to insert common tags</h5>
+<h4>Shortcuts to insert common tags</h4>
 <p>
     These shortcuts may not work for everyone, and the Alt may be a different key
     combination depending on your Operating System and browser.
