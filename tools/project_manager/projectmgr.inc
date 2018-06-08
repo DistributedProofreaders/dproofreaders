@@ -57,7 +57,7 @@ function echo_manager_links()
     echo "<li><a href='$code_url/stats/release_queue.php'>"._("Show All Release Queues")."</a></li>\n";
     echo "<li><a href='https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM'>"._("PM Official Documentation")."</a></li>\n";
     echo "<li><a href='$code_url/faq/proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a></li>\n";
-    echo "<li><a href='$code_url/faq/document.php'>"._("Formatting Guidelines")."</a></li>\n";
+    echo "<li><a href='$code_url/faq/formatting_guidelines.php'>"._("Formatting Guidelines")."</a></li>\n";
 
     echo "</ul>\n";
     echo "</div>\n";

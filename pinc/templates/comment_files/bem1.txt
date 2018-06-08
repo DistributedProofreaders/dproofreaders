@@ -32,7 +32,7 @@ divisions are to be formatted with two lines before titles, and one
 after.</p>
 
 <p>Refer to the <a
-href="http://www.pgdp.net/c/faq/document.php">Formatting
+href="http://www.pgdp.net/c/faq/formatting_guidelines.php">Formatting
 Guidelines</a> for anything else.</p>
 
 <h2>General</h2>

@@ -52,7 +52,7 @@ and also some common guidelines.
         The usual format is a capital letter followed by 6 numbers, but the OCR
         scanner often has trouble with this, and frequently mis-reads them.     </li>
     <li>Contrary to the
-        <a href="<?php echo $code_url; ?>/faq/document.php#abbrev">General Guidelines</a>,
+        <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php#abbrev">General Guidelines</a>,
 	do not remove spaces between initials in names.
 	For example, do not change
 	<tt>G.&nbsp;B.&nbsp;Shaw</tt> to
@@ -198,7 +198,7 @@ R554718.
         specific book in the Project Comments.
     <li>Then follow these general guidelines for Copyright Renewals.
     <li>Finally, for anything not covered here, follow the standard rules in the
-        <a href="document.php">Proofreading Guidelines</a>.
+        <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
 	(Although really, if you find yourself going there to resolve a question,
 	you'd probably be better off asking in the project's discussion topic.)
     </li>
@@ -208,7 +208,7 @@ R554718.
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
         Return to:
-        <a href="document.php">Proofreading Guidelines</a>.
+        <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
       <br>
         <a href="..">Distributed Proofreaders home page</a>,
         &nbsp;&nbsp;&nbsp;

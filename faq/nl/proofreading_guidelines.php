@@ -2,7 +2,7 @@
 
 // Translated by PGDP Team Netherlands; file received from user Clog 17 Feb 2009
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -41,7 +41,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Proeflees-Richtlijnen</a></h1>
 
 <h3 align="center">Versie 2.0, herzien 7 juni 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
 
 <HR>
 <h4>Dit document is een vertaling van de Engelse Proofreading Guidelines.<BR>
@@ -49,21 +49,21 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <HR>
 
-<p>Proeflees-Richtlijnen <a href="proofreading_guidelines.php">in het Engels</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
-    Proeflees-Richtlijnen <a href="proofreading_guidelines_francaises.php">in het Frans</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Proeflees-Richtlijnen <a href="proofreading_guidelines_portuguese.php">in het Portugees</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Proeflees-Richtlijnen <a href="proofreading_guidelines_spanish.php">in het Spaans</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
-    Proeflees-Richtlijnen <a href="proofreading_guidelines_german.php">in het Duits</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-    Proeflees-Richtlijnen <a href="proofreading_guidelines_italian.php">in het Italiaans</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+<p>Proeflees-Richtlijnen <a href="../proofreading_guidelines.php">in het Engels</a> /
+      Proofreading Guidelines <a href="../proofreading_guidelines.php">in English</a><br>
+    Proeflees-Richtlijnen <a href="../fr/proofreading_guidelines.php">in het Frans</a> /
+      Directives de Relecture et Correction <a href="../fr/proofreading_guidelines.php">en fran&ccedil;ais</a><br>
+    Proeflees-Richtlijnen <a href="../pt/proofreading_guidelines.php">in het Portugees</a> /
+      Regras de Revis&atilde;o <a href="../pt/proofreading_guidelines.php">em Portugu&ecirc;s</a><br>
+    Proeflees-Richtlijnen <a href="../es/proofreading_guidelines.php">in het Spaans</a> /
+      Reglas de Revisi&oacute;n <a href="../es/proofreading_guidelines.php">en espa&ntilde;ol</a><br>
+    Proeflees-Richtlijnen <a href="../de/proofreading_guidelines.php">in het Duits</a> /
+      Korrekturlese-Richtlinien <a href="../de/proofreading_guidelines.php">auf Deutsch</a><br>
+    Proeflees-Richtlijnen <a href="../it/proofreading_guidelines.php">in het Italiaans</a> /
+      Regole di Correzione <a href="../it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Bekijk de <a href="../quiz/start.php?show_only=PQ">Proofreading Quiz and Tutorial</a>! (dit document bestaat alleen in een Engelse versie)
+<p>Bekijk de <a href="../../quiz/start.php?show_only=PQ">Proofreading Quiz and Tutorial</a>! (dit document bestaat alleen in een Engelse versie)
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table of Contents">
@@ -180,7 +180,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 <div style="margin-right:6%; margin-left:0.5%;">
 
 <h3><a name="prime">De Hoofdregel</a>
- (<i><a href="proofreading_guidelines.php#prime">The Primary Rule</a></i>)</h3>
+ (<i><a href="#prime">The Primary Rule</a></i>)</h3>
 <p><em>"Verander niet wat de schrijver heeft geschreven!"</em>
 </p>
 <p>Het elektronische boek zoals de lezer het uiteindelijk zal zien, mogelijk vele jaren later, moet de bedoeling van de
@@ -208,8 +208,8 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="summary">Samenvatting van de Richtlijnen</a>
- (<i><a href="proofreading_guidelines.php#summary">Summary Guidelines</a></i>)</h3>
-<p>De <a href="proofing_summary.pdf">Proofreading Summary</a> (dit document bestaat alleen in een Engelse versie)
+ (<i><a href="#summary">Summary Guidelines</a></i>)</h3>
+<p>De <a href="../proofing_summary.pdf">Proofreading Summary</a> (dit document bestaat alleen in een Engelse versie)
    is een kort printer-vriendelijk (.pdf) document van 2 pagina's, dat de voornaamste punten van deze richtlijnen samenvat
    en voorbeelden geeft hoe te proeflezen.
    Beginnende proeflezers wordt aangeraden dit document uit te printen en bij de hand te houden bij het proeflezen.
@@ -222,7 +222,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="about">Over Dit Document</a>
- (<i><a href="proofreading_guidelines.php#about">About This Document</a></i>)</h3>
+ (<i><a href="#about">About This Document</a></i>)</h3>
 <p>Dit document is geschreven om de proeflees-regels uit te leggen. We gebruiken deze regels om consistentie te waarborgen,
    aangezien het proeflezen van &eacute;&eacute;n enkel boek verdeeld is over vele proeflezers, die allemaal aan verschillende pagina's werken.
    De regels helpen ons om allemaal <em>op dezelfde manier</em> te proeflezen, wat het vervolgens gemakkelijker maakt voor de formatteerders
@@ -231,7 +231,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 <p><i>Dit document is niet bedoeld als een algemeen handboek voor het redigeren of zetten van boeken.</i>
 </p>
 <p>We hebben in dit document alles behandeld waar nieuwe gebruikers vragen over gesteld hebben.
-   Er is een apart bestand met <a href="formatting_guidelines_dutch.php">Richtlijnen voor het Formatteren</a>.
+   Er is een apart bestand met <a href="formatting_guidelines.php">Richtlijnen voor het Formatteren</a>.
    Een tweede groep vrijwilligers zal werken aan het formatteren van de tekst.
    Wanneer je in een situatie komt waar je geen aanwijzing vindt in deze richtlijnen, dan wordt
    het waarschijnlijk behandeld in de formatteer-ronden and wordt het daarom hier niet vermeld.
@@ -251,7 +251,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="comments">Toelichting bij een Project</a>
- (<i><a href="proofreading_guidelines.php#comments">Project Comments</a></i>)</h3>
+ (<i><a href="#comments">Project Comments</a></i>)</h3>
 <p>Wanneer je een project selecteert om te proeflezen, wordt de Project Pagina geladen.
    Op deze pagina vind je een gedeelte dat "Project Comments" (Toelichting bij het Project) heet.
    Hier staat informatie die specifiek bedoeld is voor dat betreffende project (boek).
@@ -275,7 +275,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="forums">Forum/Project Discussie</a>
- (<i><a href="proofreading_guidelines.php#forums">Forum/Discuss This Project</a></i>)</h3>
+ (<i><a href="#forums">Forum/Discuss This Project</a></i>)</h3>
 <p>Op de Project Pagina, waar je met het proeflezen van pagina's begint, staat op de regel "Forum", een link met de naam:
    "Discuss this Project" (als de discussie al begonnen is), of: "Start a discussion on this Project" (als de discussie
    nog niet begonnen is.) Klik op deze link en je komt op een discussie in het projectenforum, speciaal voor
@@ -288,7 +288,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="prev_pg">Het Herstellen van Vergissingen op Voorgaande Pagina's</a>
- (<i><a href="proofreading_guidelines.php#prev_pg">Fixing Errors on Previous Pages</a></i>)</h3>
+ (<i><a href="#prev_pg">Fixing Errors on Previous Pages</a></i>)</h3>
 <p>De <a href="#comments">Project Pagina</a> bevat links naar bladzijden van dit project waar je recent aan gewerkt hebt.
    (Als je nog geen pagina's van dit project proefgelezen hebt, zijn er ook geen links.)
 </p>
@@ -301,8 +301,8 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
    <a href="#comments">Project Pagina</a> gebruiken. Deze pagina's hebben een "Edit" link naast de
    pagina's waar je in de huidige ronde aan gewerkt hebt en die nog verbeterd kunnen worden.
 </p>
-<p>Voor gedetailleerder informatie, zie &oacute;f de <a href="prooffacehelp.php?i_type=0">Standard
-   Proofreading Interface Help</a> &oacute;f de <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading
+<p>Voor gedetailleerder informatie, zie &oacute;f de <a href="../prooffacehelp.php?i_type=0">Standard
+   Proofreading Interface Help</a> &oacute;f de <a href="../prooffacehelp.php?i_type=1">Enhanced Proofreading
    Interface Help</a> (deze documenten bestaan alleen in een Engelse versie), afhankelijk van welke interface je gebruikt.
 </p>
 <!-- END RR -->
@@ -319,7 +319,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="double_q">Dubbele Aanhalingstekens</a>
- (<i><a href="proofreading_guidelines.php#double_q">Double Quotes</a></i>)</h3>
+ (<i><a href="#double_q">Double Quotes</a></i>)</h3>
 <p>Proeflees &ldquo;dubbele aanhalingstekens&rdquo; als gewone ASCII <tt>"</tt> dubbele aanhalingstekens.
    Verander geen dubbele aanhalingstekens in enkele aanhalingstekens. Laat de aanhalingstekens staan zoals
    de auteur ze geschreven heeft.
@@ -359,7 +359,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="single_q">Enkele Aanhalingstekens</a>
- (<i><a href="proofreading_guidelines.php#single_q">Single Quotes</a></i>)</h3>
+ (<i><a href="#single_q">Single Quotes</a></i>)</h3>
 <p>Proeflees deze als gewone ASCII <tt>'</tt> enkele aanhalingstekens (apostrof).
    Verander enkele aanhalingstekens niet in dubbele aanhalingstekens.
    Laat de aanhalingstekens staan zoals de auteur ze geschreven heeft.
@@ -369,7 +369,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="quote_ea">Aanhalingstekens op Iedere Regel</a>
- (<i><a href="proofreading_guidelines.php#quote_ea">Quote Marks on Each Line</a></i>)</h3>
+ (<i><a href="#quote_ea">Quote Marks on Each Line</a></i>)</h3>
 <p>Als in een citaat iedere tekstregel met een aanhalingsteken begint, verwijder deze dan,
    <b>behalve</b> het aanhalingsteken bij het begin van de eerste regel van het citaat.
    Als een citaat zoals hier meerdere alinea's omvat, dan laat je het aanhalingsteken
@@ -437,7 +437,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="period_s">Punten aan het Eind van een Zin</a>
- (<i><a href="proofreading_guidelines.php#period_s">End-of-sentence Periods</a></i>)</h3>
+ (<i><a href="#period_s">End-of-sentence Periods</a></i>)</h3>
 <p>Proeflees punten aan het eind van een zin met een enkele spatie erachter.
 </p>
 <p>Als er meerdere spaties achter een punt staan, hoef je die niet weg te halen,
@@ -448,7 +448,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="punctuat">Interpunctie en Spaties</a>
- (<i><a href="proofreading_guidelines.php#punctuat">Punctuation Spacing</a></i>)</h3>
+ (<i><a href="#punctuat">Punctuation Spacing</a></i>)</h3>
 <p>Het lijkt soms of er spaties voor interpunctie staan, omdat zetters in de 18e en 19e eeuw
    gedeeltelijke spaties voor interpunctie zoals een puntkomma of een dubbele punt gebruikten.
 </p>
@@ -477,7 +477,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="extra_sp">Extra Spaties of Tabs Tussen Woorden</a>
- (<i><a href="proofreading_guidelines.php#extra_sp">Extra Spaces or Tabs Between Words</a></i>)</h3>
+ (<i><a href="#extra_sp">Extra Spaces or Tabs Between Words</a></i>)</h3>
 <p>Extra spaties tussen woorden komen nogal veel voor in de output van de OCR.
    Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
    Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
@@ -494,7 +494,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="trail_s">Spaties aan het Eind van een Regel</a>
- (<i><a href="proofreading_guidelines.php#trail_s">Trailing Space at End-of-line</a></i>)</h3>
+ (<i><a href="#trail_s">Trailing Space at End-of-line</a></i>)</h3>
 <p>Doe geen moeite om spaties toe te voegen aan het eind van een tekstregel; deze spaties worden
    automatisch verwijderd uit de tekst wanneer je de pagina bewaard. Tijdens het post-processen,
    wordt elke regelafbreking in de tekst omgezet in een spatie.
@@ -504,7 +504,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="em_dashes">Liggend streepje: Koppelteken, Gedachtestreepje, Minteken</a>
- (<i><a href="proofreading_guidelines.php#em_dashes">Dashes, Hyphens, and Minus Signs</a></i>)</h3>
+ (<i><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></i>)</h3>
 <p>Over het algemeen zul je vier van dergelijke tekens in boeken tegenkomen:
 </p>
   <ol compact>
@@ -620,7 +620,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
       <td>Em-dash</td>
     </tr>
     <tr>
-      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
       <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
       <td>Em-dashes, Koppelteken,<br> &amp; Lange Em-dash</td>
     </tr>
@@ -662,7 +662,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="eol_hyphen">Koppelteken en Streepjes aan het Eind van een Regel</a>
- (<i><a href="proofreading_guidelines.php#eol_hyphen">End-of-line Hyphenation and Dashes</a></i>)</h3>
+ (<i><a href="#eol_hyphen">End-of-line Hyphenation and Dashes</a></i>)</h3>
 <p>Als een regel eindigt met een afbreekstreepje, voeg dan de twee helften van het afgebroken woord
    samen tot &eacute;&eacute;n woord. Verwijder het streepje wanneer je het woord samenvoegt,
    tenzij het een koppelteken betreft, zoals bijvoorbeeld secretaris-generaal. Zie het hoofdstuk
@@ -691,7 +691,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="eop_hyphen">Koppelteken en Streepjes aan het Eind van een Bladzijde</a>
- (<i><a href="proofreading_guidelines.php#eop_hyphen">End-of-page Hyphenation and Dashes</a></i>)</h3>
+ (<i><a href="#eop_hyphen">End-of-page Hyphenation and Dashes</a></i>)</h3>
 <p>Laat bij een woordafbreking aan het eind van een bladzijde het streepje of koppelteken aan het eind
    van de laatste regel staan, en markeer het met een <tt>*</tt> na het streepje of koppelteken.
    Bijvoorbeeld:
@@ -733,7 +733,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="period_p">Beletselteken ofwel Ellips &quot;&hellip;&quot;</a>
- (<i><a href="proofreading_guidelines.php#period_p">Period Pause &quot;&hellip;&quot; (Ellipsis)</a></i>)</h3>
+ (<i><a href="#period_p">Period Pause &quot;&hellip;&quot; (Ellipsis)</a></i>)</h3>
 <p>De richtlijnen zijn verschillend voor het Engels en voor andere talen dan het Engels (Languages Other Than English (LOTE)).
 </p>
 <p><b>ENGELS</b>: Een ellips moet drie puntjes hebben. Wat de spaties betreft,
@@ -799,7 +799,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="contract">Samentrekkingen</a>
- (<i><a href="proofreading_guidelines.php#contract">Contractions</a></i>)</h3>
+ (<i><a href="#contract">Contractions</a></i>)</h3>
 <p>Verwijder bij het Engels extra spaties in samentrekkingen. Bijvoorbeeld: <tt>would&nbsp;n't</tt>
    dient te worden proefgelezen als <tt>wouldn't</tt> en <tt>'t&nbsp;is</tt> als <tt>'tis</tt>.
 </p>
@@ -816,7 +816,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="fract_s">Breuken</a>
-   (<i><a href="proofreading_guidelines.php#fract_s">Fractions</a></i>)</h3>
+   (<i><a href="#fract_s">Fractions</a></i>)</h3>
 <p>Proeflees breuken als volgt: <tt>&frac14;</tt> wordt <tt>1/4</tt> en
    en <tt>2&frac12;</tt> wordt <tt>2-1/2</tt>.
    Het streepje voorkomt dat het hele getal en de breuk tijdens het post-processen bij het
@@ -830,7 +830,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Letters met Accenten/Niet-ASCII Letters</a>
- (<i><a href="proofreading_guidelines.php#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
+ (<i><a href="#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
 <?php if(!$utf8_site) { ?>
 <p>Proeflees deze door de passende symbolen of letters met accenten te gebruiken om het overeen te
    laten komen met het origineel, waar mogelijk inclusief het wel of niet gebruiken van accenten.
@@ -860,7 +860,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="d_chars">Letters met Diakritische Tekens</a>
- (<i><a href="proofreading_guidelines.php#d_chars">Characters with Diacritical Marks</a></i>)</h3>
+ (<i><a href="#d_chars">Characters with Diacritical Marks</a></i>)</h3>
 <p>In sommige projecten vind je lettertekens met speciale tekens boven of onder de letters van A tot Z.
    Deze heten <i>diakritische tekens</i> en geven een bijzondere uitspraak van de letter aan.
 <?php if($utf8_site) { ?>
@@ -980,7 +980,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="f_chars">Niet-Latijnse Lettertekens</a>
-   (<i><a href="proofreading_guidelines.php#f_chars">Non-Latin Characters</a></i>)</h3>
+   (<i><a href="#f_chars">Non-Latin Characters</a></i>)</h3>
 <p>Sommige teksten bevatten tekst die in niet-Latijnse lettertekens is gedrukt, dus andere letters dan
    de Latijnse A...Z. Het kan dan gaan om Griekse, Cyrillische (dat wordt gebruikt in Russisch,
    Slavisch en andere talen), Hebreeuwse of Arabische letters.
@@ -1045,7 +1045,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="supers">Superscript</a>
- (<i><a href="proofreading_guidelines.php#supers">Superscripts</a></i>)</h3>
+ (<i><a href="#supers">Superscripts</a></i>)</h3>
 <p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
    Proeflees deze dan door een dakje (<tt>^</tt>) in te voegen gevolgd door de 'verhoogde' tekst.
    Wanneer meerdere letters in superscript staan, voeg dan ook accolades <tt>{</tt> en <tt>}</tt>
@@ -1074,7 +1074,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="subscr">Subscript</a>
- (<i><a href="proofreading_guidelines.php#subscr">Subscripts</a></i>)</h3>
+ (<i><a href="#subscr">Subscripts</a></i>)</h3>
 <p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
    Proeflees tekst in subscript door een laag streepje <tt>_</tt> neer te zetten, en
    zet accolades <tt>{</tt> en <tt>}</tt> voor en na de tekst. Bijvoorbeeld:
@@ -1096,7 +1096,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="drop_caps">Grote, Versierde Hoofdletter aan het Begin van een Regel</a>
- (<i><a href="proofreading_guidelines.php#drop_caps">Large, Ornate Opening Capital Letter (Drop Cap)</a></i>)</h3>
+ (<i><a href="#drop_caps">Large, Ornate Opening Capital Letter (Drop Cap)</a></i>)</h3>
 <p>Proeflees een grote, versierde eerste letter van een hoofdstuk, paragraaf of alinea als een gewone letter.
    Zie ook de paragraaf <a href="#chap_head">Hoofdstuktitels</a> van de Richtlijnen voor het Proeflezen.
 </p>
@@ -1105,7 +1105,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">Kleine Hoofdlettertjes (Klein Kapitaal)</span></a>
- (<i><a href="proofreading_guidelines.php#small_caps">Words in Small Capitals</a></i>)</h3>
+ (<i><a href="#small_caps">Words in Small Capitals</a></i>)</h3>
 <p>Proeflees alsjeblieft alleen de letters in <span style="font-variant: small-caps">Klein Kapitaal</span>
    (hoofdletters die kleiner zijn dan de standaard hoofdletters).
    Maak je niet druk over verandering van hoofdletter of kleine letter.
@@ -1129,7 +1129,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="line_br">Regelafbrekingen</a>
- (<i><a href="proofreading_guidelines.php#line_br">Line Breaks</a></i>)</h3>
+ (<i><a href="#line_br">Line Breaks</a></i>)</h3>
 <p><b>Laat alle regelafbrekingen staan zoals ze zijn.</b> De volgende vrijwilligers, later in het proces,
    kunnen dan de regels in de tekst gemakkelijk vergelijken met de regels in het origineel.
    Let hier speciaal op als je <a href="#eol_hyphen">woorden met een afbreekstreepje</a> samenvoegt,
@@ -1142,7 +1142,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="chap_head">Hoofdstuktitels</a>
- (<i><a href="proofreading_guidelines.php#chap_head">Chapter Headings</a></i>)</h3>
+ (<i><a href="#chap_head">Chapter Headings</a></i>)</h3>
 <p>Proeflees hoofdstuktitels zoals deze in het origineel voorkomen.
 </p>
 <p>Een hoofdstuktitel begint vaak wat lager op de pagina dan de <a href="#page_hf">koptekst</a>.
@@ -1159,7 +1159,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="para_space">Ruimte Tussen Alinea's/Inspringingen</a>
- (<i><a href="proofreading_guidelines.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
+ (<i><a href="#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
 <p>Zet een lege regel voor het begin van een alinea, zelfs als de alinea bovenaan een bladzijde begint.
    Aan het begin van een alinea hoef je niet in te springen, maar als al ingesprongen is,
    hoef je die spaties niet te verwijderen&mdash;dat gebeurt automatisch tijdens het post-processen.
@@ -1171,7 +1171,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="page_hf">Koptekst en Voettekst</a>
- (<i><a href="proofreading_guidelines.php#page_hf">Page Headers/Page Footers</a></i>)</h3>
+ (<i><a href="#page_hf">Page Headers/Page Footers</a></i>)</h3>
 <p>Verwijder alle koptekst en voettekst, maar <em>niet</em> de <a href="#footnotes">voetnoten</a>.
 </p>
 <p>De koptekst staat gewoonlijk bovenaan het origineel. Er staat vaak een paginanummer op dezelfde regel.
@@ -1194,7 +1194,7 @@ cedille                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
@@ -1253,7 +1253,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="illust">Illustraties</a>
- (<i><a href="proofreading_guidelines.php#illust">Illustrations</a></i>)</h3>
+ (<i><a href="#illust">Illustrations</a></i>)</h3>
 <p>Negeer illustraties, maar proeflees tekst bij een illustratie zoals hij gedrukt is,
    handhaaf regelafbrekingen. Als een bijschrift midden in een alinea terecht is gekomen,
    voeg dan voor en na het bijschrift lege regels in om het apart te houden van de rest
@@ -1271,7 +1271,7 @@ cedille                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1297,7 +1297,7 @@ cedille                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Origineel: (Illustratie midden in een alinea)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1327,7 +1327,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="footnotes">Voetnoten/Eindnoten</a>
- (<i><a href="proofreading_guidelines.php#footnotes">Footnotes/Endnotes</a></i>)</h3>
+ (<i><a href="#footnotes">Footnotes/Endnotes</a></i>)</h3>
 <p>Proeflees voetnoten door de tekst van de voetnoot onderaan de bladzijde te laten staan, en op
    de plaats in de tekst, waar naar de voetnoot verwezen wordt, wordt een markering geplaatst.
 </p>
@@ -1428,7 +1428,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
- (<i><a href="proofreading_guidelines.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
+ (<i><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
 <p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze heten sidenotes.
    Proeflees de tekst van de sidenote zoals hij gedrukt is, en handhaaf regelafbrekingen (behandel
    overigens wel de <a href="#eol_hyphen">koppelteken en streepjes aan het eind van een regel</a>).
@@ -1445,7 +1445,7 @@ cedille                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1543,7 +1543,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="mult_col">Meerdere Kolommen</a>
- (<i><a href="proofreading_guidelines.php#mult_col">Multiple Columns</a></i>)</h3>
+ (<i><a href="#mult_col">Multiple Columns</a></i>)</h3>
 <p>Proeflees gewone tekst die in meerdere kolommen gedrukt is, als een enkele kolom.
    Plaats de tekst van de linker kolom eerst, de tekst van de volgende eronder, enzovoort.
    Markeer niet waar de kolommen gesplitst waren, voeg ze gewoon samen. Zie het einde 
@@ -1558,7 +1558,7 @@ cedille                      [,x]   [x,]
 
 
 <h3><a name="tables">Tabellen</a>
- (<i><a href="proofreading_guidelines.php#tables">Tables</a></i>)</h3>
+ (<i><a href="#tables">Tables</a></i>)</h3>
 <p>Het is de taak van de proeflezer om te zorgen dat alle informatie in de tabel correct is proefgelezen.
    Scheid de gegevens met spaties zoals nodig is, maar maak je geen zorgen over het precies uitlijnen hiervan.
    Handhaaf de regelafbrekingen (behandel overigens wel de
@@ -1573,7 +1573,7 @@ cedille                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
@@ -1606,7 +1606,7 @@ Same strip rolled up in           Same, 16 wires bound
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
@@ -1632,7 +1632,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="poetry">Po&euml;zie/Epigrammen</a>
- (<i><a href="proofreading_guidelines.php#poetry">Poetry/Epigrams</a></i>)</h3>
+ (<i><a href="#poetry">Poetry/Epigrams</a></i>)</h3>
 <p>Voeg een lege regel toe voor de start van het gedicht of epigram en een lege regel na het
    eind ervan, zodat de formatteerders begin en eind goed kunnen zien.
    Laat de regels links uitgelijnd; handhaaf de regelafbrekingen. Voeg een lege regel toe tussen
@@ -1648,7 +1648,7 @@ Plural   {   2d   "  ye, or you,   you,
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      <td width="100%" valign="top"> <img src="../poetry2.png" alt="" width="480" height="385"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
@@ -1677,7 +1677,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="line_no">Regelnummers</a>
- (<i><a href="proofreading_guidelines.php#line_no">Line Numbers</a></i>)</h3>
+ (<i><a href="#line_no">Line Numbers</a></i>)</h3>
 <p>Regelnummers komen vaak voor in po&euml;zie-boeken, en normaal gesproken staan ze in
    de kantlijn op elke vijfde of tiende regel.
    Laat regelnummers staan, gebruik een paar spaties om ze apart te zetten van de rest van
@@ -1692,7 +1692,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="next_word">Losstaand Woord Onderaan een Pagina</a>
- (<i><a href="proofreading_guidelines.php#next_word">Single Word at Bottom of Page</a></i>)</h3>
+ (<i><a href="#next_word">Single Word at Bottom of Page</a></i>)</h3>
 <p>Behandel een dergelijk woord door het woord te verwijderen, zelfs als het de tweede helft betreft van een afgebroken woord.
 </p>
 <p>In sommige oudere boeken wordt met een dergelijk losstaand woord ("catchword", meestal tegen de
@@ -1716,7 +1716,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="blank_pg">Lege Pagina</a>
- (<i><a href="proofreading_guidelines.php#blank_pg">Blank Page</a></i>)</h3>
+ (<i><a href="#blank_pg">Blank Page</a></i>)</h3>
 <p>De meeste lege bladzijden, of bladzijden met een illustratie zonder tekst, zullen al gemarkeerd
    zijn met <tt>[Blank Page]</tt>. Laat deze markering zoals hij is. Als de bladzijde leeg is,
    en er staat ook geen [Blank Page], hoef je het ook niet toe te voegen.
@@ -1730,7 +1730,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="title_pg">Titelpagina aan de Voor- of Achterkant</a>
- (<i><a href="proofreading_guidelines.php#title_pg">Front/Back Title Page</a></i>)</h3>
+ (<i><a href="#title_pg">Front/Back Title Page</a></i>)</h3>
 <p>Proeflees alle tekst precies zoals het op de pagina's gedrukt is, zoals bv. hoofdletters, kleine letters, enz.,
    inclusief het jaar waarin het boek is uitgegeven of het jaar van het copyright.
 </p>
@@ -1744,7 +1744,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1771,7 +1771,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="toc">Inhoudsopgave</a>
- (<i><a href="proofreading_guidelines.php#toc">Table of Contents</a></i>)</h3>
+ (<i><a href="#toc">Table of Contents</a></i>)</h3>
 <p>Proeflees de inhoudsopgave precies zoals deze in het boek gedrukt staat, hoofdletters, kleine letters enz.
    Paginanummers moeten behouden blijven. Wanneer er <span style="font-variant: small-caps">Klein Kapitaal</span>
    voorkomt, zie de richtlijnen voor <a href="#small_caps">Klein Kapitaal</a>.
@@ -1786,7 +1786,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -1851,7 +1851,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="bk_index">Indexen</a>
- (<i><a href="proofreading_guidelines.php#bk_index">Indexes</a></i>)</h3>
+ (<i><a href="#bk_index">Indexes</a></i>)</h3>
 <p>Je hoeft de nummers niet netjes op een rij te zetten zoals ze in het origineel staan.
    Je hoeft er alleen voor te zorgen dat de getallen en de interpunctie zijn zoals in de scan.
    Handhaaf de regelafbrekingen.
@@ -1865,7 +1865,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a>
- (<i><a href="proofreading_guidelines.php#play_n">Plays: Actor Names/Stage Directions</a></i>)</h3>
+ (<i><a href="#play_n">Plays: Actor Names/Stage Directions</a></i>)</h3>
 <p>Behandel een verandering van spreker in een dialoog als een nieuwe alinea, met een lege regel ervoor.
    Behandel de naam van de spreker als een aparte alinea, wanneer deze op een aparte regel staat.
 </p>
@@ -1890,7 +1890,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1939,7 +1939,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1963,7 +1963,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a>
- (<i><a href="proofreading_guidelines.php#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
+ (<i><a href="#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
 <p>Als je bij het proeflezen iets tegenkomt dat niet in deze richtlijnen behandeld wordt, en waarvan je wel
    denkt dat het op een speciale manier aangepakt moet worden, of als je niet zeker bent hoe het aan te pakken,
    post dan je vraag, onder vermelding van het png (pagina) nummer, in de <a href="#forums">Project Discussie</a>.
@@ -1983,7 +1983,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="prev_notes">Aantekeningen/Commentaar van Eerdere Proeflezers</a>
- (<i><a href="proofreading_guidelines.php#prev_notes">Previous Proofreaders' Notes/Comments</a></i>)</h3>
+ (<i><a href="#prev_notes">Previous Proofreaders' Notes/Comments</a></i>)</h3>
 <p>Alle commentaar dat gemaakt is door vrijwilligers v&oacute;&oacute;r je <b>moet</b> blijven staan. Of je het er mee eens
    bent of niet kun je toevoegen, maar je mag het commentaar absoluut niet verwijderen.
    Als je een bron hebt gevonden die het probleem verheldert, verwijs daar dan naar,
@@ -2009,7 +2009,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="formatting">Formattering</a>
- (<i><a href="proofreading_guidelines.php#formatting">Formatting</a></i>)</h3>
+ (<i><a href="#formatting">Formatting</a></i>)</h3>
 <p>In enkele gevallen is er formattering aanwezig in de tekst.
    <b>Voeg geen formattering toe of corrigeer geen formattering</b>; de formatteerders zullen dat later doen.
    Echter, wanneer het het proeflezen belemmert, dan kun je het verwijderen. De <s>&lt;x&gt;</s> knop in het
@@ -2040,7 +2040,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="common_OCR">Veel Voorkomende Problemen met de OCR</a>
- (<i><a href="proofreading_guidelines.php#common_OCR">Common OCR Problems</a></i>)</h3>
+ (<i><a href="#common_OCR">Common OCR Problems</a></i>)</h3>
 <p>OCR heeft gewoonlijk problemen om vergelijkbare tekens uit elkaar te houden. Enkele voorbeelden zijn:
 </p>
 <ul>
@@ -2057,20 +2057,20 @@ Plural   {   2d   "  ye, or you,   you,
    Maar pas op&mdash;vaak "corrigeert" je geest dit automatisch terwijl je aan het lezen bent.
 </p>
 <p>Je merkt dit soort dingen veel eerder op als je een 'mono-spaced' lettertype zoals
-   <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt.
+   <a href="../font_sample.php">DPCustomMono</a> of Courier gebruikt.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="OCR_scanno">Problemen met de OCR: Scanno's</a>
- (<i><a href="proofreading_guidelines.php#OCR_scanno">OCR Problems: Scannos</a></i>)</h3>
+ (<i><a href="#OCR_scanno">OCR Problems: Scannos</a></i>)</h3>
 <p>Een ander veel voorkomend probleem van de OCR is het niet goed herkennen van tekens. We noemen deze fouten
    "scanno's" (zoiets als "typo's"). Deze foutieve herkenning kan leiden tot woorden die:
 </p>
 <ul compact>
    <li>op het eerste gezicht correct lijken, maar in werkelijkheid een spellingsfout bevatten.<br>
-       Deze woorden kun je meestal onderscheppen door <a href="wordcheck-faq.php">WordCheck</a> te gebruiken.</li>
+       Deze woorden kun je meestal onderscheppen door <a href="../wordcheck-faq.php">WordCheck</a> te gebruiken.</li>
    <li>veranderd zijn naar een ander, maar wel goed woord, dat niet overeenkomt met het origineel.<br>
        Dit kan alleen opgemerkt worden door iemand die de tekst echt leest.</li>
 </ul>
@@ -2081,8 +2081,8 @@ Plural   {   2d   "  ye, or you,   you,
   We verzamelen voorbeelden van Stealth Scannos in <a href="<?php echo $Stealth_Scannos_URL; ?>">deze discussie</a>.
 </p>
 <p>Het opmerken van scanno's is veel gemakkelijker als je een 'mono-spaced' lettertype zoals
-   <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt. Om het proeflezen te helpen
-   is het gebruik van <a href="wordcheck-faq.php">WordCheck</a> (of zijn equivalent) aanbevolen
+   <a href="../font_sample.php">DPCustomMono</a> of Courier gebruikt. Om het proeflezen te helpen
+   is het gebruik van <a href="../wordcheck-faq.php">WordCheck</a> (of zijn equivalent) aanbevolen
    in <?php echo $ELR_round->id; ?> en verplicht in de andere proeflees-ronden.
 </p>
 <!-- END RR -->
@@ -2091,7 +2091,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="OCR_raised_o">Problemen met de OCR: Is die &deg; &ordm; echt een graden-symbool?</a>
- (<i><a href="proofreading_guidelines.php#OCR_raised_o">OCR Problems: Is that &deg; &ordm; really a degree sign?</a></i>)</h3>
+ (<i><a href="#OCR_raised_o">OCR Problems: Is that &deg; &ordm; really a degree sign?</a></i>)</h3>
 <p>Er zijn drie verschillende symbolen die in het origineel heel erg veel op elkaar kunnen lijken en
    die de OCR software hetzelfde interpreteert (en meestal incorrect):
 </p>
@@ -2110,7 +2110,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="hand_notes">Handgeschreven Aantekeningen in een Boek</a>
- (<i><a href="proofreading_guidelines.php#hand_notes">Handwritten Notes in Book</a></i>)</h3>
+ (<i><a href="#hand_notes">Handwritten Notes in Book</a></i>)</h3>
 <p>Laat handgeschreven aantekeningen weg, behalve als de gedrukte tekst verbleekt en vervolgens overgetrokken is om
    de tekst beter zichtbaar te maken. Laat handgeschreven aantekeningen die door lezers e.d. in de kantlijn gezet zijn, weg.
 </p>
@@ -2119,7 +2119,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="bad_image">Slecht Beeld/Origineel</a>
- (<i><a href="proofreading_guidelines.php#bad_image">Bad Image</a></i>)</h3>
+ (<i><a href="#bad_image">Bad Image</a></i>)</h3>
 <p>Als het beeld van een origineel niet goed is (laadt niet, grotendeels onleesbaar)
    post dan alsjeblieft in de <a href="#forums">Project Discussie</a> over dit slechte origineel.
    Klik op de "Report Bad Page" knop, waardoor de pagina in "quarantaine" gaat, in plaats van
@@ -2140,7 +2140,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="bad_text">Verkeerd Beeld/Origineel voor de Tekst</a>
- (<i><a href="proofreading_guidelines.php#bad_text">Wrong Image for Text</a></i>)</h3>
+ (<i><a href="#bad_text">Wrong Image for Text</a></i>)</h3>
 <p>Als er een verkeerd beeld gegeven wordt voor de tekst, post dan alsjeblieft in de
    <a href="#forums">Project Discussie</a>. Klik op de "Report Bad Page" knop, waardoor de pagina in
    "quarantaine" gaat, in plaats van op "Return Page to Round" te klikken. De "Bad Page" knop is alleen
@@ -2157,7 +2157,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="round1">Eerder Gemaakte Proefleesvergissingen</a>
- (<i><a href="proofreading_guidelines.php#round1">Previous Proofreader Mistakes</a></i>)</h3>
+ (<i><a href="#round1">Previous Proofreader Mistakes</a></i>)</h3>
 <p>Als een eerdere vrijwilliger veel vergissingen maakte, of allerlei dingen miste, neem dan alsjeblieft
    even de tijd om feedback te geven. Klik op de naam van de vrijwilliger in de proofreading
    interface en stuur hem/haar een priv&eacute; boodschap, waarin je uitlegt hoe een dergelijke situatie kan
@@ -2176,7 +2176,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="p_errors">Vergissingen van de Drukker/Spelfouten</a>
- (<i><a href="proofreading_guidelines.php#p_errors">Printer Errors/Misspellings</a></i>)</h3>
+ (<i><a href="#p_errors">Printer Errors/Misspellings</a></i>)</h3>
 <p>Corrigeer alle woorden die door de OCR fout zijn ge&iuml;nterpreteerd (scanno), maar verbeter
    geen spel- of zetfouten die in het origineel voorkomen. In veel oudere teksten werden woorden
    anders gespeld dan we tegenwoordig doen. We handhaven deze oude spelling, inclusief eventuele accenten.
@@ -2191,7 +2191,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="f_errors">Feitelijke Fouten in de Tekst</a>
- (<i><a href="proofreading_guidelines.php#f_errors">Factual Errors in Texts</a></i>)</h3>
+ (<i><a href="#f_errors">Factual Errors in Texts</a></i>)</h3>
 <p>Verbeter feitelijke vergissingen in het boek niet. Veel boeken die we
    onder handen hebben, bevatten uitspraken over feiten die we nu niet meer als juist accepteren.
    Laat deze uitspraken staan zoals de schrijver ze geschreven heeft.
@@ -2203,7 +2203,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 
 <h3><a name="insert_char">Toevoegen van Speciale Letters</a>
- (<i><a href="proofreading_guidelines.php#insert_char">Inserting Special Characters</a></i>)</h3>
+ ../(<i><a href="#insert_char">Inserting Special Characters</a></i>)</h3>
 <p>Als je ze niet op je toetsenbord hebt, zijn er meerdere manieren om de speciale letters in te voegen:
 </p>
 <ul compact>
@@ -2251,7 +2251,7 @@ Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (deg
       <br>Je moet alle 4 de getallen typen, inclusief de 0 aan het begin.
           Houd in de gaten dat de hoofdletter van een letter 32 minder is dan de kleine letter.
       <br>Deze instructies werken voor de US-engelse toetsenbord indeling. Bij andere indelingen werken ze misschien niet.
-      <br>(<a href="charwin.pdf">Printer-vriendelijke versie van deze tabel</a>).
+      <br>(<a href="../charwin.pdf">Printer-vriendelijke versie van deze tabel</a>).
   </li>
 </ul>
 
@@ -2457,7 +2457,7 @@ Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (deg
       <br>Houd de Opt-toets vast en typ het symbool voor het accent. Typ daarna de letter die een accent moet
           krijgen. Voor sommige codes hoef je alleen de Opt-toets vast te houden en het symbool te typen.
       <br>Deze instructies werken voor de US-Engelse toetsenbord indeling. Bij andere indelingen werken ze misschien niet.
-      <br><a href="charapp.pdf">Printer-vriendelijke versie van deze tabel</a>).
+      <br><a href="../charapp.pdf">Printer-vriendelijke versie van deze tabel</a>).
   </li>
 </ul>
 
@@ -2821,9 +2821,9 @@ Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (deg
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Terug naar:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

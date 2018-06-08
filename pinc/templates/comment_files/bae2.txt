@@ -7,7 +7,7 @@ part of the subject index.</p>
 
 <p>BAE-specific information is collected in the <a href="http://www.pgdp.net/wiki/BAE/Formatting#Proofing">BAE Proofreading Wiki</a>.
 For everything else, refer to the <a href="http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading
-Guidelines</a> and <a href="http://www.pgdp.net/c/faq/document.php">Formatting
+Guidelines</a> and <a href="http://www.pgdp.net/c/faq/formatting_guidelines.php">Formatting
 Guidelines</a>.</p>
 
 <p>Please proofread the 3 different types of apostrophes using this markup.</p>

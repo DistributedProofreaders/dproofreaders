@@ -350,7 +350,7 @@ function qp_echo_error_html($message_id)
         }
         elseif ($quiz->activity_type == "format")
         {
-            $guidelines_doc = "document.php";
+            $guidelines_doc = "formatting_guidelines.php";
             $see_named_section = _("See the %s section of the Formatting Guidelines for details.");
             $see_unnamed_section = _("See <a %s>this</a> section of the Formatting Guidelines for details.");
         }

@@ -205,7 +205,7 @@ new Round(
     'REQ-AUTO',
     '',
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
-    'document.php',
+    'formatting_guidelines.php',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -248,7 +248,7 @@ new Round(
     'REQ-HUMAN', // "peer approval"
     _("Once you have met the requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages that have been completed in F2. If they've been formatted to F2 standards, you'll be granted access."),
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting errors."),
-    'document.php',
+    'formatting_guidelines.php',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle

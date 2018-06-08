@@ -987,7 +987,7 @@ the main text of the chapter starts.
 <li>
 Sections should have two blank lines above, and one blank line after.
 This is all as per 
-<?php echo $site_abbreviation; ?> <a href="document.php">Formatting Guidelines</a>.
+<?php echo $site_abbreviation; ?> <a href="formatting_guidelines.php">Formatting Guidelines</a>.
 </li>
 
 <li>
@@ -1884,7 +1884,7 @@ Mostly though drama is quite straightforward.
 </p>
 
 <p>
-For all plays, check the <a href="document.php#play_n">Formatting Guidelines</a>,
+For all plays, check the <a href="formatting_guidelines.php#play_n">Formatting Guidelines</a>,
 and ensure your plain text version is in line with these.
 </p>
 

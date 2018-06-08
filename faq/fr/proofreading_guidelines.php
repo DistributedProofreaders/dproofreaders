@@ -3,7 +3,7 @@
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 // Updated by user 'lvl', 2009-03-20
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -44,21 +44,21 @@ output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_ar
 <h3 align="center">Version 2.0, 7 juin 2009 (Traduction de la version 2.0 anglaise du 7 juin 2009)</h3>
 
 
-<p>Directives de Relecture et de Correction <a href="proofreading_guidelines.php">en Anglais</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
-    Directives de Relecture et de Correction <a href="proofreading_guidelines_portuguese.php">en Portugais</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Directives de Relecture et de Correction <a href="proofreading_guidelines_spanish.php">en Espagnol</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en Espa&ntilde;ol</a><br>
-    Directives de Relecture et de Correction <a href="proofreading_guidelines_dutch.php">en N&eacute;erlandais</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
-    Directives de Relecture et de Correction <a href="proofreading_guidelines_german.php">en Allemand</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-    Directives de Relecture et de Correction <a href="proofreading_guidelines_italian.php">en Italien</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+<p>Directives de Relecture et de Correction <a href="../proofreading_guidelines.php">en Anglais</a> /
+      Proofreading Guidelines <a href="../proofreading_guidelines.php">in English</a><br>
+    Directives de Relecture et de Correction <a href="../pt/proofreading_guidelines.php">en Portugais</a> /
+      Regras de Revis&atilde;o <a href="../pt/proofreading_guidelines.php">em Portugu&ecirc;s</a><br>
+    Directives de Relecture et de Correction <a href="../es/proofreading_guidelines.php">en Espagnol</a> /
+      Reglas de Revisi&oacute;n <a href="../es/proofreading_guidelines.php">en Espa&ntilde;ol</a><br>
+    Directives de Relecture et de Correction <a href="../nl/proofreading_guidelines.php">en N&eacute;erlandais</a> /
+      Proeflees-Richtlijnen <a href="../nl/proofreading_guidelines.php">in het Nederlands</a><br>
+    Directives de Relecture et de Correction <a href="../de/proofreading_guidelines.php">en Allemand</a> /
+      Korrekturlese-Richtlinien <a href="../de/proofreading_guidelines.php">auf Deutsch</a><br>
+    Directives de Relecture et de Correction <a href="../it/proofreading_guidelines.php">en Italien</a> /
+      Regole di Correzione <a href="../it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Voir aussi le <a href="../quiz/start.php?show_only=PQ">Tutoriel/Quiz de Relecture</a>.
+<p>Voir aussi le <a href="../../quiz/start.php?show_only=PQ">Tutoriel/Quiz de Relecture</a>.
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table des mati&egrave;res">
@@ -211,7 +211,7 @@ output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_ar
 
 
 <h3><a name="summary">R&eacute;sum&eacute; des directives</a></h3>
-<p>Le <a href="proofing_summary_french.pdf">R&eacute;sum&eacute; des directives</a>
+<p>Le <a href="proofing_summary.pdf">R&eacute;sum&eacute; des directives</a>
    est un court document imprimable de 2 pages (.pdf) qui r&eacute;sume les
    points principaux de ces directives, et qui donne des exemples de corrections.
    Les relecteurs d&eacute;butants sont encourag&eacute;s &agrave; imprimer ce document et &agrave; le garder
@@ -237,7 +237,7 @@ output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_ar
 <p>Nous avons inclus dans ces directives de relecture tous les points de transcription qui
    ont suscit&eacute; des questions de la part des nouveaux utilisateurs.
    Il existe un document diff&eacute;rent concernant les
-   <a href="formatting_guidelines_francaises.php">Directives de formatage</a>,
+   <a href="formatting_guidelines.php">Directives de formatage</a>,
    destin&eacute;es &agrave; un second groupe de volontaires qui s'occupe du formatage.
    Si vous rencontrez une situation qui n'est pas mentionn&eacute;e dans les pr&eacute;sentes
    directives, il est probable qu'il s'agisse d'une t&acirc;che g&eacute;r&eacute;e par les formateurs,
@@ -320,8 +320,8 @@ output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_ar
    toutes les pages sur lesquelles vous avez travaill&eacute; durant
    ce round. Il est encore temps de les corriger.
 </p>
-<p>Pour plus de d&eacute;tails, voyez <a href="prooffacehelp.php?i_type=0">Aide sur l'interface
-   standard</a> ou bien <a href="prooffacehelp.php?i_type=1">Aide sur l'interface
+<p>Pour plus de d&eacute;tails, voyez <a href="../prooffacehelp.php?i_type=0">Aide sur l'interface
+   standard</a> ou bien <a href="../prooffacehelp.php?i_type=1">Aide sur l'interface
    avanc&eacute;e</a>, selon l'interface que vous utilisez.
 </p>
 <!-- END RR -->
@@ -650,7 +650,7 @@ output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_ar
       <td>Em-dash</td>
     </tr>
     <tr>
-      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
       <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
       <td>Em-dashes, trait d'union,<br> et tiret long</td>
     </tr>
@@ -1256,7 +1256,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
@@ -1333,7 +1333,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1359,7 +1359,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Image (illustration au milieu d'un paragraphe)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1515,7 +1515,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1644,7 +1644,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
@@ -1677,7 +1677,7 @@ Same strip rolled up in           Same, 16 wires bound
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
@@ -1719,7 +1719,7 @@ Plural   {   2d   "  ye, or you,   you,
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      <td width="100%" valign="top"> <img src="../poetry2.png" alt="" width="480" height="385"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
@@ -1815,7 +1815,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1859,7 +1859,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -1967,7 +1967,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2016,7 +2016,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Exemple d'image:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2150,7 +2150,7 @@ Plural   {   2d   "  ye, or you,   you,
    attentifs &ndash; souvent votre cerveau corrige automatiquement ces erreurs pendant que vous lisez.
 </p>
 <p>L'utilisation d'une police de caract&egrave;res &agrave; espacement fixe
-   comme <a href="font_sample.php">DPCustomMono</a> ou Courier
+   comme <a href="../font_sample.php">DPCustomMono</a> ou Courier
    permet de rep&eacute;rer plus facilement ce type de probl&egrave;me.
 </p>
 <!-- END RR -->
@@ -2164,7 +2164,7 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <ul compact>
    <li>a l'air correct &agrave; premi&egrave;re vue, mais qui est mal &eacute;crit.<br>
-       Vous le verrez facilement en utilisant <a href="wordcheck-faq.php">WordCheck</a> (le v&eacute;rificateur d'orthographe)
+       Vous le verrez facilement en utilisant <a href="../wordcheck-faq.php">WordCheck</a> (le v&eacute;rificateur d'orthographe)
        depuis l'interface de correction.</li>
    <li>a &eacute;t&eacute; transform&eacute; en autre mot, valide, mais qui n'est pas celui
        qui figure sur la page imprim&eacute;e.<br>
@@ -2180,8 +2180,8 @@ Plural   {   2d   "  ye, or you,   you,
    collect&eacute;s <a href="<?php echo $Stealth_Scannos_URL; ?>">ici</a>.
 </p>
 <p>Les scannos sont plus faciles &agrave; voir avec une police de caract&egrave;res &agrave; espacement fixe comme
-   <a href="font_sample.php">DPCustomMono</a> ou Courier. Pour aider la relecture, l'usage de
-   <a href="wordcheck-faq.php">WordCheck</a> (ou &eacute;quivalent) est recommand&eacute; en <?php echo $ELR_round->id; ?>,
+   <a href="../font_sample.php">DPCustomMono</a> ou Courier. Pour aider la relecture, l'usage de
+   <a href="../wordcheck-faq.php">WordCheck</a> (ou &eacute;quivalent) est recommand&eacute; en <?php echo $ELR_round->id; ?>,
    et obligatoire dans les autres tours de relecture.
 </p>
 <!-- END RR -->
@@ -2376,7 +2376,7 @@ Plural   {   2d   "  ye, or you,   you,
           Remarquez que le code de la version majuscule d'une lettre accentu&eacute;e est
           inf&eacute;rieur de 32 &agrave; sa version minuscule.
       <br>Ceci marche sur un clavier anglais, pas forc&eacute;ment pour d'autres.
-      <br>(<a href="charwin.pdf">Version imprimable de cette table</a>).
+      <br>(<a href="../charwin.pdf">Version imprimable de cette table</a>).
   </li>
 </ul>
 
@@ -2587,7 +2587,7 @@ Plural   {   2d   "  ye, or you,   you,
       <br>Appuyez sur Opt, tapez le symbole d'accent, puis la lettre &agrave; accentuer (pour certains
           codes, il suffit de maintenir Opt appuy&eacute;e, puis taper le symbole).
       <br>Ceci marche sur un clavier am&eacute;ricain, pas forc&eacute;ment pour d'autres.
-      <br>(<a href="charapp.pdf">Version imprimable de cette table)</a>.
+      <br>(<a href="../charapp.pdf">Version imprimable de cette table)</a>.
   </li>
 </ul>
 
@@ -2878,9 +2878,9 @@ Plural   {   2d   "  ye, or you,   you,
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Retour vers:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

@@ -3,7 +3,7 @@
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 // Updated by user lvl, 2009-03-20
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -43,19 +43,19 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 <h3 align="center">Version 2.0, 7 juin 2009 (traduction de la 2.0 anglaise du 7 juin 2009)</h3>
 
-<p>Directives de Formatage <a href="document.php">en anglais</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br>
-    Directives de Formatage <a href="formatting_guidelines_portuguese.php">en portugais</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Directives de Formatage <a href="formatting_guidelines_dutch.php">en n&eacute;erlandais</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
-    Directives de Formatage <a href="formatting_guidelines_german.php">en allemand</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
-    Directives de Formatage <a href="formatting_guidelines_italian.php">en italien</a> /
-      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
+<p>Directives de Formatage <a href="../formatting_guidelines.php">en anglais</a> /
+      Formatting Guidelines <a href="../formatting_guidelines.php">in English</a><br>
+    Directives de Formatage <a href="../pt/formatting_guidelines.php">en portugais</a> /
+      Regras de Formata&ccedil;&atilde;o <a href="../pt/formatting_guidelines.php">em Portugu&ecirc;s</a><br>
+    Directives de Formatage <a href="../nl/formatting_guidelines.php">en n&eacute;erlandais</a> /
+      Formatteer-Richtlijnen <a href="../nl/formatting_guidelines.php">in het Nederlands</a><br>
+    Directives de Formatage <a href="../de/formatting_guidelines.php">en allemand</a> /
+      Formatierungsrichtlinien <a href="../de/formatting_guidelines.php">auf Deutsch</a><br>
+    Directives de Formatage <a href="../it/formatting_guidelines.php">en italien</a> /
+      Regole di Formattazione <a href="../it/formatting_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Allez voir le <a href="../quiz/start.php?show_only=FQ">Quiz de formatage</a>!
+<p>Allez voir le <a href="../../quiz/start.php?show_only=FQ">Quiz de formatage</a>!
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table des mati&egrave;res">
@@ -200,7 +200,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="summary">R&eacute;sum&eacute; des directives</a></h3>
-<p>Le <a href="formatting_summary.pdf">R&eacute;sum&eacute; des directives</a> (en anglais)
+<p>Le <a href="../formatting_summary.pdf">R&eacute;sum&eacute; des directives</a> (en anglais)
    est un court document imprimable de 2 pages (.pdf) qui r&eacute;sume les
    points principaux de ces directives, et qui donne des exemples de corrections.
    Les formateurs d&eacute;butants sont encourag&eacute;s &agrave; imprimer ce document et &agrave; le garder
@@ -225,7 +225,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Nous avons inclus dans ce document tous les points de formatage
    qui ont suscit&eacute; des questions de la part des nouveaux utilisateurs.
    Il existe un document diff&eacute;rent concernant les
-   <a href="proofreading_guidelines_francaises.php">Directives de relecture</a>.
+   <a href="proofreading_guidelines.php">Directives de relecture</a>.
    Si vous rencontrez une situation qui n'est pas mentionn&eacute;e dans les pr&eacute;sentes
    directives, il est probable qu'il s'agisse d'une t&acirc;che qui ait d&eacute;j&agrave; &eacute;t&eacute; g&eacute;r&eacute;e
    par les relecteurs, et que vous ne trouviez donc pas la r&eacute;ponse ici.
@@ -316,8 +316,8 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    toutes les pages sur lesquelles vous avez travaill&eacute; durant
    ce round. Il est encore temps de les corriger.
 </p>
-<p>Pour plus de d&eacute;tails, voyez <a href="prooffacehelp.php?i_type=0">Aide sur l'interface
-   standard</a> ou bien <a href="prooffacehelp.php?i_type=1">Aide sur l'interface
+<p>Pour plus de d&eacute;tails, voyez <a href="../prooffacehelp.php?i_type=0">Aide sur l'interface
+   standard</a> ou bien <a href="../prooffacehelp.php?i_type=1">Aide sur l'interface
    avanc&eacute;e</a>, selon l'interface que vous utilisez.
 </p>
 <!-- END RR -->
@@ -703,7 +703,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
  <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="chap1.png" alt="" width="500" height="725"><br>
+      <td width="100%" valign="top"> <img src="../chap1.png" alt="" width="500" height="725"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -756,7 +756,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -843,7 +843,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="section.png" alt="" width="500" height="283"> <br>
+      <td width="100%" valign="top"> <img src="../section.png" alt="" width="500" height="283"> <br>
       </td>
     </tr>
     <tr>
@@ -925,7 +925,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="" width="500" height="264"> <br>
+      <td width="100%" valign="top"> <img src="../tbreak.png" alt="" width="500" height="264"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -984,7 +984,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1013,7 +1013,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part: (Illustration au milieu d'un paragraphe)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1202,7 +1202,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1336,7 +1336,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      <td width="100%" valign="top"> <img src="../bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1456,7 +1456,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p>Il est souvent difficile de formater des tableaux en texte brut; faites
    de votre mieux. Utilisez une police de caract&egrave;res &agrave; espacement fixe,
-   comme <a href="font_sample.php">DPCustomMono</a> ou Courier.
+   comme <a href="../font_sample.php">DPCustomMono</a> ou Courier.
    Le but est toujours de pr&eacute;server ce que l'auteur a voulu dire, tout en produisant
    un texte &eacute;lectronique lisible. Il faudra parfois abandonner le format original
    du tableau. Regardez les <a href="#comments">commentaires de projet</a>, et le forum du projet:
@@ -1474,7 +1474,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1515,7 +1515,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1576,7 +1576,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry.png" alt="" width="500" height="508"> <br>
+      <td width="100%" valign="top"> <img src="../poetry.png" alt="" width="500" height="508"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1654,7 +1654,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter.png" alt="" width="500" height="217"> <br>
+      <td width="100%" valign="top"> <img src="../letter.png" alt="" width="500" height="217"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1684,7 +1684,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter2.png" alt="" width="500" height="271"> <br>
+      <td width="100%" valign="top"> <img src="../letter2.png" alt="" width="500" height="271"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
@@ -1759,7 +1759,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1807,7 +1807,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Exemple d'image:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650"></td>
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650"></td>
     </tr>
     <tr>
       <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
@@ -1989,7 +1989,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th></tr>
     <tr align="left">
-      <td valign="top"> <img src="index.png" alt="" width="438" height="355"></td>
+      <td valign="top"> <img src="../index.png" alt="" width="438" height="355"></td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
@@ -2078,7 +2078,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2127,7 +2127,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play2.png" width="500" height="680" alt=""><br>
+      <td width="100%" valign="top"><img src="../play2.png" width="500" height="680" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2198,7 +2198,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="504" height="206" alt=""><br>
+      <td width="100%" valign="top"><img src="../play3.png" width="504" height="206" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2228,7 +2228,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Image de d&eacute;part:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2484,9 +2484,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Retour vers:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -38,21 +38,21 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Formatierungsrichtlinien</a></h1>
 
 <h3 align="center">Version 2.0 vom 7. Juni 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
 
-<p>Formatierungsrichtlinien <a href="document.php">auf Englisch</a> /
-      Formatting Guidelines <a href="document.php">in English</a> <br>
-    Formatierungsrichtlinien <a href="formatting_guidelines_francaises.php">auf Franz&ouml;sisch</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Formatierungsrichtlinien <a href="formatting_guidelines_portuguese.php">auf Portugiesisch</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Formatierungsrichtlinien <a href="formatting_guidelines_dutch.php">auf Niederl&auml;ndisch</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
-    Formatierungsrichtlinien <a href="formatting_guidelines_italian.php">auf Italienisch</a> /
-      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
+<p>Formatierungsrichtlinien <a href="../formatting_guidelines.php">auf Englisch</a> /
+      Formatting Guidelines <a href="../formatting_guidelines.php">in English</a> <br>
+    Formatierungsrichtlinien <a href="../fr/formatting_guidelines.php">auf Franz&ouml;sisch</a> /
+      Directives de Formatage <a href="../fr/formatting_guidelines.php">en fran&ccedil;ais</a><br>
+    Formatierungsrichtlinien <a href="../pt/formatting_guidelines.php">auf Portugiesisch</a> /
+      Regras de Formata&ccedil;&atilde;o <a href="../pt/formatting_guidelines.php">em Portugu&ecirc;s</a><br>
+    Formatierungsrichtlinien <a href="../nl/formatting_guidelines.php">auf Niederl&auml;ndisch</a> /
+      Formatteer-Richtlijnen <a href="../nl/formatting_guidelines.php">in het Nederlands</a><br>
+    Formatierungsrichtlinien <a href="../it/formatting_guidelines.php">auf Italienisch</a> /
+      Regole di Formattazione <a href="../it/formatting_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Hier geht es zum <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a> (nur Englisch).
+<p>Hier geht es zum <a href="../../quiz/start.php?show_only=FQ">Formatting Quiz</a> (nur Englisch).
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Inhaltsverzeichnis">
@@ -197,7 +197,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
 <p>Die Kurzfassung dieser Richtlinien ist ein &uuml;bersichtliches, zweiseitiges
    druckerfreundliches PDF-Dokument, das die wichtigsten Punkte enth&auml;lt und
    Beispiele f&uuml;rs Formatieren gibt. Sie ist derzeit nur in englischer Sprache
-   verf&uuml;gbar (<a href="formatting_summary.pdf">Formatting Summary</a>), aber
+   verf&uuml;gbar (<a href="../formatting_summary.pdf">Formatting Summary</a>), aber
    eine deutsche Fassung ist in Arbeit. Falls Sie neu hier sind, empfehlen wir
    Ihnen, das PDF-Dokument auszudrucken und w&auml;hrend des Formatierens griffbereit
    zu halten.
@@ -222,7 +222,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
 </p>
 <p>Wir haben in dieses Dokument alle Punkte aufgenommen, die neue Benutzer beim
    Korrekturlesen gefragt haben. Es gibt eine getrennte
-   <a href="proofreading_guidelines_german.php">Korrekturlese-Richtlinie</a>.
+   <a href="proofreading_guidelines.php">Korrekturlese-Richtlinie</a>.
    Wenn Sie auf eine Situation sto&szlig;en, zu der Sie keinen Bezug in diesen
    Richtlinien finden, wurde sie wahrscheinlich in den Korrekturleserunden bearbeitet
    und deshalb hier nicht erw&auml;hnt. Wenn Sie unsicher sind, fragen Sie in der
@@ -315,9 +315,9 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
    k&ouml;nnen.
 </p>
 <p>Weitere Informationen finden Sie entweder in der
-   <a href="prooffacehelp.php?i_type=0">Hilfe zur
+   <a href="../prooffacehelp.php?i_type=0">Hilfe zur
    Standard-Korrekturlese-Oberfl&auml;che</a> (nur Englisch) oder in der
-   <a href="prooffacehelp.php?i_type=1">Hilfe zur Erweiterten
+   <a href="../prooffacehelp.php?i_type=1">Hilfe zur Erweiterten
    Korrekturlese-Oberfl&auml;che</a> (nur Englisch), je nachdem, welche
    Benutzeroberfl&auml;che Sie verwenden.
 </p>
@@ -705,7 +705,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
  <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="chap1.png" alt="" width="500" height="725"><br>
+      <td width="100%" valign="top"> <img src="../chap1.png" alt="" width="500" height="725"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -758,7 +758,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -842,7 +842,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="section.png" alt="" width="500" height="283"> <br>
+      <td width="100%" valign="top"> <img src="../section.png" alt="" width="500" height="283"> <br>
       </td>
     </tr>
     <tr>
@@ -923,7 +923,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="" width="500" height="249"> <br>
+      <td width="100%" valign="top"> <img src="../tbreak.png" alt="" width="500" height="249"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -983,7 +983,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1012,7 +1012,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Beispielvorlage: (Abbildung in der Mitte eines Absatzes)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1208,7 +1208,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1342,7 +1342,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      <td width="100%" valign="top"> <img src="../bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1479,7 +1479,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1520,7 +1520,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1585,7 +1585,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="poetry.png" alt="" width="500" height="508"> <br>
+      <td width="100%" valign="top"><img src="../poetry.png" alt="" width="500" height="508"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1665,7 +1665,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="letter.png" alt="" width="500" height="217"> <br>
+      <td width="100%" valign="top"><img src="../letter.png" alt="" width="500" height="217"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1695,7 +1695,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter2.png" alt="" width="500" height="271"> <br>
+      <td width="100%" valign="top"> <img src="../letter2.png" alt="" width="500" height="271"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
@@ -1771,7 +1771,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1819,7 +1819,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -2000,7 +2000,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td valign="top"> <img src="index.png" alt="" width="438" height="355"></td>
+      <td valign="top"> <img src="../index.png" alt="" width="438" height="355"></td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
     <tr>
@@ -2088,7 +2088,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2137,7 +2137,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play2.png" width="500" height="680" alt=""><br>
+      <td width="100%" valign="top"><img src="../play2.png" width="500" height="680" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2208,7 +2208,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="504" height="206" alt=""><br>
+      <td width="100%" valign="top"><img src="../play3.png" width="504" height="206" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2238,7 +2238,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2527,9 +2527,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

@@ -40,16 +40,16 @@ output_header('Formatting Guidelines','header', NO_STATSBAR, $theme_args);
 <h3 align="center">Version 2.0, revised June 7, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
-<p>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Formatting Guidelines <a href="formatting_guidelines_portuguese.php">in Portuguese</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Formatting Guidelines <a href="formatting_guidelines_dutch.php">in Dutch</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
-    Formatting Guidelines <a href="formatting_guidelines_german.php">in German</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
-    Formatting Guidelines <a href="formatting_guidelines_italian.php">in Italian</a> /
-      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
+<p>Formatting Guidelines <a href="fr/formatting_guidelines.php">in French</a> /
+      Directives de Formatage <a href="fr/formatting_guidelines.php">en fran&ccedil;ais</a><br>
+    Formatting Guidelines <a href="pt/formatting_guidelines.php">in Portuguese</a> /
+      Regras de Formata&ccedil;&atilde;o <a href="pt/formatting_guidelines.php">em Portugu&ecirc;s</a><br>
+    Formatting Guidelines <a href="nl/formatting_guidelines.php">in Dutch</a> /
+      Formatteer-Richtlijnen <a href="nl/formatting_guidelines.php">in het Nederlands</a><br>
+    Formatting Guidelines <a href="de/formatting_guidelines.php">in German</a> /
+      Formatierungsrichtlinien <a href="de/formatting_guidelines.php">auf Deutsch</a><br>
+    Formatting Guidelines <a href="it/formatting_guidelines.php">in Italian</a> /
+      Regole di Formattazione <a href="it/formatting_guidelines.php">in Italiano</a><br>
 </p>
 
 <p>Check out the <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>!
