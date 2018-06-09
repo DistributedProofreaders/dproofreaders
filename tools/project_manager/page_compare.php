@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath."DPage.inc"); // remove_formatting()
+include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
 
@@ -131,7 +131,7 @@ class Comparator
         $diff_pages = array();
         while($page_res = mysqli_fetch_assoc($res))
         {
-            $un_formatter = new UnFormatter();
+            $un_formatter = new PageUnformatter();
             // also unwrap
             $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
             $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);

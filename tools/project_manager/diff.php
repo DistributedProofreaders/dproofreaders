@@ -7,7 +7,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe()
 include_once($relPath."DifferenceEngineWrapper.inc");
-include_once($relPath."DPage.inc"); // remove_formatting()
+include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
 
@@ -89,7 +89,7 @@ if ( $can_see_names_for_this_page) {
 
 if($format == "remove")
 {
-    $un_formatter = new UnFormatter();
+    $un_formatter = new PageUnformatter();
     // also remove blank lines and leading and trailing spaces
     $L_text = $un_formatter->remove_formatting($L_text, false);
     $R_text = $un_formatter->remove_formatting($R_text, false);

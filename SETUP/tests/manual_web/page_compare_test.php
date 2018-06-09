@@ -1,9 +1,9 @@
 <?php
-$relPath="./../../../pinc/";
-include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
-include_once($relPath.'theme.inc');
-include_once($relPath."DPage.inc"); // remove_formatting()
+$relPath="../../../pinc/";
+include_once($relPath.'base.inc'); // require_login()
+include_once($relPath.'misc.inc'); // array_get()
+include_once($relPath.'theme.inc'); // output_header()
+include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 // This page is used to test the remove_formatting() function.
 // It is difficult to test otherwise because it requires test-text in two
@@ -34,7 +34,7 @@ echo "<form action='page_compare_test.php' method='POST'>
     Ignore case <input type='checkbox' name='IgnoreCase'$check_igc>
     <input type='submit' value='Go'></form>\n";
 
-$un_formatter = new UnFormatter();
+$un_formatter = new PageUnformatter();
 $L_text = $un_formatter->remove_formatting($L_input, $unwrap);
 $R_text = $un_formatter->remove_formatting($R_input, $unwrap);
 
