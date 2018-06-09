@@ -4,15 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("de");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 

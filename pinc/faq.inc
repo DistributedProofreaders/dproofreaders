@@ -1,8 +1,32 @@
 <?php
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc');
+include_once($relPath.'metarefresh.inc');
 
 // This include holds information about DP people in charge of various things,
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
+
+// SITE-SPECIFIC
+$external_faq_overrides = array(
+    "proofreading_guidelines.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
+        "de" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien",
+        "es" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n",
+        "it" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Italian/Regole_di_Correzione",
+        "fr" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Directives_de_Relecture_et_de_Correction",
+        "nl" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Dutch/Proeflees-Richtlijnen",
+        "pt" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o",
+    ),
+    "formatting_guidelines.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
+        "de" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/German/Formatierungsrichtlinien",
+        "it" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Italian/Regole_di_Formattazione",
+        "fr" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/French/Directives_de_Formatage",
+        "nl" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
+        "pt" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
+    ),
+);
+
 
 // People:
 $PM_rights_giver_contact="<a href=\"mailto:dp-genmgr@pgdp.net\">lhamilton (Linda)</a>";
@@ -71,4 +95,86 @@ function make_forum_url($type,$id,$default)
     
     return "";
 }
-?>
+
+function get_faq_url($faq, $langcode=NULL)
+{
+    global $code_dir, $code_url;
+
+    // if no langcode was passed in, try to get the user's language
+    if(!$langcode)
+        $langcode = substr(get_desired_language(), 0, 2);
+
+    // first try $langcode, then English
+    foreach(array($langcode, "en") as $langcode)
+    {
+        // Any overrides?
+        $external_faq = get_external_faq($faq, $langcode);
+        if($external_faq)
+            return $external_faq;
+
+        // If not, return a file in the codebase
+        if(is_file("$code_dir/faq/$langcode/$faq"))
+        {
+            return "$code_url/faq/$langcode/$faq";
+        }
+    }
+
+    // fall back to the English version in the code if it exists
+    if(is_file("$code_dir/faq/$faq"))
+    {
+        return "$code_url/faq/$faq";
+    }
+
+    return "";
+}
+
+function get_all_urls_for_faq($faq)
+{
+    global $code_dir, $code_url;
+    global $external_faq_overrides;
+
+    $urls = array();
+
+    if(is_file("$code_dir/faq/$faq"))
+        $urls["en"] = "$code_url/faq/$faq";
+
+    $subdirs = scandir("$code_dir/faq");
+    foreach($subdirs as $dir)
+    {
+        if($dir == "." or $dir == ".." or is_file("$code_dir/faq/$dir"))
+            continue;
+
+        $files = scandir("$code_dir/faq/$dir");
+        foreach($files as $file)
+        {
+            if(endswith($file, $faq))
+                $urls[$dir] = "$code_url/faq/$dir/$faq";
+        }
+    }
+
+    // Override with any external links
+    if(isset($external_faq_overrides[$faq]))
+        foreach($external_faq_overrides[$faq] as $langcode => $url)
+            $urls[$langcode] = $url;
+
+    return $urls;
+}
+
+function get_external_faq($faq, $langcode)
+{
+    global $external_faq_overrides;
+
+    if(isset($external_faq_overrides[$faq][$langcode]))
+        return $external_faq_overrides[$faq][$langcode];
+
+    return NULL;
+}
+
+function maybe_redirect_to_external_faq($langcode)
+{
+    $faq = basename($_SERVER['PHP_SELF']);
+
+    $url = get_external_faq($faq, $langcode);
+    if($url)
+        metarefresh(0, $url);
+}
