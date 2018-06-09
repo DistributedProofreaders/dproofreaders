@@ -129,9 +129,9 @@ class Comparator
 
         // make an array of imagenames of pages with diffs
         $diff_pages = array();
+        $un_formatter = new PageUnformatter();
         while($page_res = mysqli_fetch_assoc($res))
         {
-            $un_formatter = new PageUnformatter();
             // also unwrap
             $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
             $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);
