@@ -2,6 +2,7 @@
 include_once($relPath.'site_vars.php'); // $wikihiero_dir $utf8_site
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'CharacterSelector.inc');
+include_once($relPath.'faq.inc');
 
 class ProofreadingToolbox
 {
@@ -82,7 +83,7 @@ EOS;
         echo "\n<br>\n";
 
         echo "<i>"._("Reference Information").":</i> ";
-        $url = "$code_url/faq/".lang_dir().$round->document;
+        $url = get_faq_url($round->document);
         echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
         echo _('Guidelines');
         echo "</a>]\n";

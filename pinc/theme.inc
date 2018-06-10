@@ -13,6 +13,7 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
+include_once($relPath.'faq.inc');
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -311,7 +312,7 @@ function html_navbar()
         $links=array();
         $links[] = array('text' => $login_form);
         $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
-        $links[] = array('text' => _('Help'), 'url' => "faq/".lang_dir()."faq_central.php");
+        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
         echo headerbar_text_array($links);
         echo "</div>\n";
     } else {
@@ -374,7 +375,7 @@ function html_navbar()
 
         $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
         $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
-        $links[] = array('text' => _("Help"), 'url' => "faq/".lang_dir()."faq_central.php");
+        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
         $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "accounts/logout.php");
 
         echo headerbar_text_array($links);

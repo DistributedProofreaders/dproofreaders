@@ -13,6 +13,7 @@
 
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'faq.inc');
 include_once($relPath.'Quiz.inc');
 include_once('./quiz_defaults.inc');
 
@@ -354,9 +355,7 @@ function qp_echo_error_html($message_id)
             $see_named_section = _("See the %s section of the Formatting Guidelines for details.");
             $see_unnamed_section = _("See <a %s>this</a> section of the Formatting Guidelines for details.");
         }
-        $guidelines_url = "../../faq/$guidelines_doc#$anchor";
-        // XXX localization bug:
-        // $guidelines_url should point to the locale-appropriate version of the guidelines.
+        $guidelines_url = get_faq_url($guidelines_doc) . "#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
 
         $result = mysqli_query(DPDatabase::get_connection(), "

@@ -6,6 +6,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'POFile.inc');
+include_once($relPath.'faq.inc');
 
 require_login();
 
@@ -237,7 +238,7 @@ function main_form()
     $pot_filename = "$dyn_locales_dir/messages.pot";
 
     echo "<h1>"._("Translation Center")."</h1>";
-    echo "<p>" . _("See the <a href='../../faq/translate.php'>Translation FAQ</a> for more information on how to use this interface to manage translations.") . "</p>";
+    echo "<p>" . sprintf(_("See the <a href='%s'>Translation FAQ</a> for more information on how to use this interface to manage translations."), get_faq_url("translate.php")) . "</p>";
 
     if (!$may_manage)
         echo "<p><em>" . _("You are not a registered translator. You will be able to view the translation interface, but you cannot save a translation or add a new language.") . "</em></p>\n";

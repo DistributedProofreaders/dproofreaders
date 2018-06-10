@@ -21,6 +21,7 @@ include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get()
+include_once($relPath.'faq.inc');
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -781,7 +782,7 @@ function do_project_info_table()
         {
             $a = sprintf(
                     _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
-                    "$code_url/faq/{$round->document}"
+                    get_faq_url($round->document)
                 );
             $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 

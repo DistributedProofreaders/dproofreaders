@@ -19,6 +19,7 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'faq.inc');
 
 require_login();
 
@@ -155,7 +156,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     {
         echo "<p>" . _("The left side of the table lists each production stage an e-book will go through, and indicates your ability to work in that stage. The \"Projects\" section, in the center of the table, shows the total number of projects in each stage, how many of these are waiting to be made available for work, how many are currently active and available for volunteers to work on, and finally, the number of projects that have completed that stage today.") . "</p>";
         echo "<p>" . _("Each stage has a daily goal which has been designed to motivate volunteers and keep work flowing through the site. The \"Pages Today\" section, on the right side of the table, shows the number of pages we'd like to see that stage complete today, how many pages have actually been completed since midnight server-time, and a percentage representation of the progress. Further, a \"traffic light\" color-coding system indicates the likelihood of that stage reaching its goal based on the rate of pages completed so far today.") . "</p>";
-        echo "<p>" . sprintf(_("See the <a href='%s'>workflow diagram</a> for more information about the overall process."),"faq/DPflow.php") . "</p>";
+        echo "<p>" . sprintf(_("See the <a href='%s'>workflow diagram</a> for more information about the overall process."), get_faq_url("DPflow.php")) . "</p>";
     }
 
     echo "<table class='snapshottable'>";
