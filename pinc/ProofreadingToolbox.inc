@@ -54,7 +54,7 @@ EOS;
         echo '<td class="top-align right-align">';
         $help = _("Help");
         echo "<b><span style='color: red;'>$help---&gt;</span></b>";
-        echo "<a href='../../faq/" . lang_dir() . "/prooffacehelp.php' accesskey='1' target='helpNewWin'>";
+        echo "<a href='../../faq/prooffacehelp.php' accesskey='1' target='helpNewWin'>";
         echo <<<EOS
         <img
             src="gfx/tags/help.png"

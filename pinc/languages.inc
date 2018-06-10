@@ -142,21 +142,6 @@ function lang_direction($langcode=FALSE)
     }
 }
 
-function lang_dir($langcode=FALSE)
-{
-    global $lang_dir_data;
-
-    if($langcode===FALSE)
-        $langcode = get_desired_language();
-
-    $a=substr($langcode,0,2);
-
-    if(in_array($a,$lang_dir_data))
-        return $a."/";
-
-    return "";
-}
-
 // Returns an associative array of those languages with a dictionary that is
 // installed on the system
 //   $array[$langcode]=$language;
