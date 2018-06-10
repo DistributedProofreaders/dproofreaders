@@ -1,26 +1,12 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'metarefresh.inc');
+include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $lang = get_desired_language();
-    if(startswith($lang, "fr"))
-    {
-        $url = 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ';
-    }
-    else
-    {
-        $url = 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central';
-    }
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 $title = _("FAQ Central");
 

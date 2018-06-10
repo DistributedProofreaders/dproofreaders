@@ -5,15 +5,8 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 $theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border: 3px #aaa double; width: 90%; margin: 1em 1em 1em 3em;}
 .spaced li {margin-bottom: .5em;}";

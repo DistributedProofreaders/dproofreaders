@@ -4,15 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 ?>

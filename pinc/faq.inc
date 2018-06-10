@@ -25,6 +25,40 @@ $external_faq_overrides = array(
         "nl" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
         "pt" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
     ),
+    "DPflow.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:General/General_Workflow_Diagram",
+    ),
+    "ProoferFAQ.php" => array(
+        "en" => "http://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
+    ),
+    "cp.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
+    ),
+    "dochist.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
+    ),
+    "faq_central.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
+    ),
+    "longabsent.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni",
+    ),
+    "pm-faq.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
+    ),
+    "post_proof.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
+    ),
+    "ppv.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
+    ),
+    "scanning.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Scanning_FAQ",
+    ),
+    "wordcheck-faq.php" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
+    ),
 );
 
 
@@ -170,11 +204,20 @@ function get_external_faq($faq, $langcode)
     return NULL;
 }
 
-function maybe_redirect_to_external_faq($langcode)
+function maybe_redirect_to_external_faq($langcode=NULL)
 {
     $faq = basename($_SERVER['PHP_SELF']);
 
+    // if no langcode was passed in, try to get the user's language
+    if(!$langcode)
+        $langcode = substr(get_desired_language(), 0, 2);
+
     $url = get_external_faq($faq, $langcode);
+
+    // fall back to English
+    if(!$url)
+        $url = get_external_faq($faq, "en");
+
     if($url)
         metarefresh(0, $url);
 }
