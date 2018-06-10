@@ -9,62 +9,62 @@ include_once($relPath.'metarefresh.inc');
 // SITE-SPECIFIC
 $external_faq_overrides = array(
     "proofreading_guidelines.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
-        "de" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien",
-        "es" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n",
-        "it" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Italian/Regole_di_Correzione",
-        "fr" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Directives_de_Relecture_et_de_Correction",
-        "nl" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Dutch/Proeflees-Richtlijnen",
-        "pt" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
+        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien",
+        "es" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n",
+        "it" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Italian/Regole_di_Correzione",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Directives_de_Relecture_et_de_Correction",
+        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Dutch/Proeflees-Richtlijnen",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o",
     ),
     "formatting_guidelines.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
-        "de" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/German/Formatierungsrichtlinien",
-        "it" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Italian/Regole_di_Formattazione",
-        "fr" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/French/Directives_de_Formatage",
-        "nl" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
-        "pt" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
+        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/German/Formatierungsrichtlinien",
+        "it" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Italian/Regole_di_Formattazione",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/French/Directives_de_Formatage",
+        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
     ),
     "DPflow.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:General/General_Workflow_Diagram",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/General_Workflow_Diagram",
     ),
     "ProoferFAQ.php" => array(
-        "en" => "http://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
+        "en" => "https://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
     ),
     "cp.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
     ),
     "dochist.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
     ),
     "faq_central.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
     ),
     "longabsent.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni",
     ),
     "pm-faq.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
     ),
     "post_proof.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
     ),
     "ppv.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
     ),
     "scanning.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Scanning_FAQ",
     ),
     "wordcheck-faq.php" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
     ),
     // not actually files in the source code, but references used in theme.inc
     "official-docs" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Main",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main",
     ),
     "request-support" => array(
-        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
     ),
 );
 
@@ -122,7 +122,7 @@ function make_forum_url($type,$id,$default)
     }
     // otherwise, route them to a forum at pgdp.net
     else {
-        $FURL = "http://www.pgdp.net/phpBB3";
+        $FURL = "https://www.pgdp.net/phpBB3";
         $id = $default;
         switch($type) {
             case "f":
