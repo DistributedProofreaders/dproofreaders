@@ -59,6 +59,13 @@ $external_faq_overrides = array(
     "wordcheck-faq.php" => array(
         "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
     ),
+    // not actually files in the source code, but references used in theme.inc
+    "official-docs" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Main",
+    ),
+    "request-support" => array(
+        "en" => "http://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
+    ),
 );
 
 
