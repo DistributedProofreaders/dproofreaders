@@ -33,6 +33,8 @@ $external_faq_overrides = array(
     ),
     "cp.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Fornecimento_de_Conte%C3%BAdos",
     ),
     "dochist.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
@@ -46,9 +48,12 @@ $external_faq_overrides = array(
     ),
     "pm-faq.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_gestion_de_projet",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Gest%C3%A3o_de_Projectos",
     ),
     "post_proof.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/French/FAQ_post-processing",
     ),
     "ppv.php" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
