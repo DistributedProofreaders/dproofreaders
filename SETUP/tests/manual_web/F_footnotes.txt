@@ -1,0 +1,14 @@
+This text includes footnotes.
+
+
+Section 1
+
+The standardization efforts and the use of Markdown[1] generated an important reaction from the community, with hundreds[A] of comments[B].
+
+*[Footnote: this is a continuation footnote <sc>A.H.</sc> 166 (782).]
+
+[Footnote 1: Ma'm[=u]n had conceived an aversion for T[=a]hir[** or T[^a]hir].]
+
+[Footnote A: First starred footnote.]
+
+[Footnote B: Second starred footnote.]

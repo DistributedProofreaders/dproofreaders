@@ -134,6 +134,8 @@ class PageUnformatter
             $text = preg_replace("/\ +(?=\n|$)/", "", $text);
             // remove blank lines - one or more \n -> one \n
             $text = preg_replace("/\n+/", "\n", $text);
+            // multiple spaces to single space 
+            $text = preg_replace("/\ +/", " ", $text);
         }
         // remove whitespace from beginning and end
         return trim($text);
