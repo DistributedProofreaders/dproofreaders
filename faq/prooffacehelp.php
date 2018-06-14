@@ -561,7 +561,7 @@ COLSPAN="2">
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofreader's Frequently Asked Questions</A>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Proofreading Guidelines</A><P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="proofreading_guidelines.php">Proofreading Guidelines</A><P>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>

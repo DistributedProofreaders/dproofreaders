@@ -172,7 +172,7 @@ echo "<select size='1' name='F_guideline'>\n<option></option>";
 
 for ($i=1;$i<=$num_rules;$i++)
 {
-    $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND document = 'document.php'";
+    $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND (document = 'document.php' OR document = 'formatting_guidelines.php')";
     $result = mysqli_query(DPDatabase::get_connection(), $query);
     $rule = mysqli_fetch_assoc($result);
     if ($rule != "")

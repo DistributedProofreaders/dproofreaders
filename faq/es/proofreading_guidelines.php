@@ -1,18 +1,11 @@
 <?php
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("es");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -40,27 +33,27 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <h3 align="center">
     Versi&oacute;n 2.0, revisada el 7 de junio de 2009.
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="dochist.php"><font size="-1">(Revision History)</font></a>
+    <a href="../dochist.php"><font size="-1">(Revision History)</font></a>
     <br>
     (Traducci&oacute;n actualizada el 1&ordm; de junio de 2015)
 </h3>
 
 <p>
-Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_francaises.php">en franc&eacute;s</a> /
-      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_portuguese.php">en portugu&eacute;s</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_dutch.php">en holand&eacute;s</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_german.php">en alem&aacute;n</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_italian.php">en italiano</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+Reglas de Revisi&oacute;n <a href="../proofreading_guidelines.php">en ingl&eacute;s</a> /
+      Proofreading Guidelines <a href="../proofreading_guidelines.php">in English</a><br />
+    Reglas de Revisi&oacute;n <a href="../fr/proofreading_guidelines.php">en franc&eacute;s</a> /
+      Directives de Relecture et correction <a href="../fr/proofreading_guidelines.php">en fran&ccedil;ais</a><br />
+    Reglas de Revisi&oacute;n <a href="../pt/proofreading_guidelines.php">en portugu&eacute;s</a> /
+      Regras de Revis&atilde;o <a href="../pt/proofreading_guidelines.php">em Portugu&ecirc;s</a><br />
+    Reglas de Revisi&oacute;n <a href="../nl/proofreading_guidelines.php">en holand&eacute;s</a> /
+      Proeflees-Richtlijnen <a href="../nl/proofreading_guidelines.php">in het Nederlands</a><br />
+    Reglas de Revisi&oacute;n <a href="../de/proofreading_guidelines.php">en alem&aacute;n</a> /
+      Korrekturlese-Richtlinien <a href="../de/proofreading_guidelines.php">auf Deutsch</a><br />
+    Reglas de Revisi&oacute;n <a href="../it/proofreading_guidelines.php">en italiano</a> /
+      Regole di Correzione <a href="../it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Vea los <a href="../quiz/start.php?show_only=PQ">Tests y tutoriales de revisi&oacute;n</a>! (en ingl&eacute;s)
+<p>Vea los <a href="../../quiz/start.php?show_only=PQ">Tests y tutoriales de revisi&oacute;n</a>! (en ingl&eacute;s)
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table of Contents">
@@ -193,7 +186,7 @@ Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s
 
 
 <h3><a name="summary">Resumen de las Reglas de Revisi&oacute;n</a></h3>
-<p>El <a href="proofing_summary.pdf">Resumen de las Reglas de Revisi&oacute;n</a> (en ingl&eacute;s) es un documento PDF corto (dos p&aacute;ginas), f&aacute;cil de imprimir, que sintetiza los principales punto de estas Reglas y brinda ejemplos para saber c&oacute;mo corregir las p&aacute;ginas. Se recomienda a los revisores principiantes imprimir este documento y mantenerlo a mano mientras realizan su labor.
+<p>El <a href="../proofing_summary.pdf">Resumen de las Reglas de Revisi&oacute;n</a> (en ingl&eacute;s) es un documento PDF corto (dos p&aacute;ginas), f&aacute;cil de imprimir, que sintetiza los principales punto de estas Reglas y brinda ejemplos para saber c&oacute;mo corregir las p&aacute;ginas. Se recomienda a los revisores principiantes imprimir este documento y mantenerlo a mano mientras realizan su labor.
 </p>
 <p>Puede que usted necesite descargar e instalar un programa para abrir archivos PDF. Es posible obtener uno gratuito en la p&aacute;gina de Adobe&reg;, <a href="http://www.adobe.com/products/acrobat/readstep2.html">aqu&iacute;</a>.
 </p>
@@ -206,7 +199,7 @@ Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s
 </p>
 <p><i>Este documento de ninguna manera pretende ser modelo para la edici&oacute;n de libros</i>.
 </p>
-<p>Hemos incluido en estas Reglas de Revisi&oacute;n todos los puntos que han generado dudas en los nuevos revisores. Existen, adem&aacute;s, unas <a href="document.php">Reglas de Formato</a> (en ingl&eacute;s) distintas, utilizadas por el grupo de voluntarios que trabaja en las rondas de formato. Si usted encuentra un tema que no se encuentra mencionado en estas reglas, es posible que el problema vaya a ser abordado en las rondas de formato. Si usted no est&aacute; seguro, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>.
+<p>Hemos incluido en estas Reglas de Revisi&oacute;n todos los puntos que han generado dudas en los nuevos revisores. Existen, adem&aacute;s, unas <a href="../formatting_guidelines.php">Reglas de Formato</a> (en ingl&eacute;s) distintas, utilizadas por el grupo de voluntarios que trabaja en las rondas de formato. Si usted encuentra un tema que no se encuentra mencionado en estas reglas, es posible que el problema vaya a ser abordado en las rondas de formato. Si usted no est&aacute; seguro, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>.
 </p>
 <p>Si encuentra alg&uacute;n tema que no haya sido tratado, considera que un punto debe ser abordado de manera diferente o que la explicaci&oacute;n es demasiado vaga, por favor h&aacute;ganoslo saber. 
 <?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
@@ -246,7 +239,7 @@ En la P&aacute;gina del Proyecto, en la l&iacute;nea "Forum" (Foro), hay un enla
 </p>
 <p>Tambi&eacute;n puede utilizar los enlaces "Images, Pages Proofread, &amp; Differences" (Im&aacute;genes, p&aacute;ginas revisadas y diferencias) &oacute; "Just My Pages" (Solo mis p&aacute;ginas) en la <a href="#comments">P&aacute;gina del Proyecto</a>. All&iacute; ver&aacute; el enlace "Edit" (editar) al lado de todas las p&aacute;ginas en las que usted ha trabajado en la presente ronda, las cuales todav&iacute;a pueden ser corregidas.
 </p>
-<p>Para obtener m&aacute;s informaci&oacute;n, visite la <a href="prooffacehelp.php?i_type=0">Ayuda de la Interfaz de Revisi&oacute;n Est&aacute;ndar</a> (en ingl&eacute;s) o la <a href="prooffacehelp.php?i_type=1">Ayuda para la Interfaz de Revisi&oacute;n Mejorada</a> (en ingl&eacute;s), dependiendo de la interfaz que usted utilice.
+<p>Para obtener m&aacute;s informaci&oacute;n, visite la <a href="../prooffacehelp.php?i_type=0">Ayuda de la Interfaz de Revisi&oacute;n Est&aacute;ndar</a> (en ingl&eacute;s) o la <a href="../prooffacehelp.php?i_type=1">Ayuda para la Interfaz de Revisi&oacute;n Mejorada</a> (en ingl&eacute;s), dependiendo de la interfaz que usted utilice.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -499,7 +492,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
-      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
       <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
       <td>Guiones largos, gui&oacute;n de separaci&oacute;n,<br> &amp; gui&oacute;n largo</td>
     </tr>
@@ -921,7 +914,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
@@ -993,7 +986,7 @@ La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oa
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1019,7 +1012,7 @@ La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oa
       <th align="left" bgcolor="cornsilk">Imagen original (ilustraci&oacute;n en el medio de un p&aacute;rrafo):</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1147,7 +1140,7 @@ En algunos libros existen breves descripciones del p&aacute;rrafo al margen del 
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1264,7 +1257,7 @@ Las <b>notas al pie</b> que aparecen dentro de una tabla deben conservarse en el
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
@@ -1297,7 +1290,7 @@ Same strip rolled up in           Same, 16 wires bound
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
@@ -1338,7 +1331,7 @@ Revise los <a href="#comments">Comentarios del Proyecto</a> en caso de que exist
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      <td width="100%" valign="top"> <img src="../poetry2.png" alt="" width="480" height="385"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
@@ -1416,7 +1409,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1455,7 +1448,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -1547,7 +1540,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1596,7 +1589,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
       <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1681,7 +1674,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
 </ul>
 <p>Tenga cuidado con todos estos caracteres. Normalmente el contexto de la oraci&oacute;n es suficiente para determinar cu&aacute;l es el car&aacute;cter correcto, pero sea minucioso: a menudo su cerebro autom&aacute;ticamente "corrige" estos problemas mientras usted lee.
 </p>
-<p>Para notar estos errores m&aacute;s f&aacute;cilmente se recomienda utilizar una fuente mono-espacio tal como  <a href="font_sample.php">DPCustomMono</a> o Courier.
+<p>Para notar estos errores m&aacute;s f&aacute;cilmente se recomienda utilizar una fuente mono-espacio tal como  <a href="../font_sample.php">DPCustomMono</a> o Courier.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -1691,14 +1684,14 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
 <p>Otro problema del OCR es el reconocimiento err&oacute;neo de caracteres. Llamamos a estos errores "scannos" (como "typos" en ingl&eacute;s, es decir, errores tipogr&aacute;ficos). Esto puede terminar creando una palabra que:</p>
 <ul compact>
    <li>parece correcta a primera vista pero en verdad est&aacute; mal escrita.  <br>
-       Esto usualmente se puede detectar utilizando el corrector ortogr&aacute;fico <a href="wordcheck-faq.php">WordCheck</a> en la interfaz de revisi&oacute;n.</li>
+       Esto usualmente se puede detectar utilizando el corrector ortogr&aacute;fico <a href="../wordcheck-faq.php">WordCheck</a> en la interfaz de revisi&oacute;n.</li>
    <li>ha sido cambiada por otra palabra igualmente v&aacute;lida o existente, pero no es la palabra exacta que aparece en la imagen. <br>
        Este error es muy sutil porque solamente puede ser identificado por una persona que lea el texto.</li>
 </ul>
 <p>Posiblemente, el ejemplo m&aacute;s com&uacute;n de este segundo tipo de errores es "and" siendo interpretado por el OCR como "arid". Otros ejemplos son "eve" en vez de "eye", "Torn" en vez de "Tom", "train" en vez de "tram". Este tipo de errores son dif&iacute;ciles de detectar y les damos un nombre especial: "Stealth Scannos" (errores sigilosos). Recolectamos ejemplos de Stealth Scannos en <a href="<?php echo $Stealth_Scannos_URL; ?>">este hilo del foro</a>.
 </p>
 <p>Los ejemplos de los scannos en espa&ntilde;ol se encuentran <a href="http://www.pgdp.net/wiki/Scannos_en_espa%C3%B1ol">aqu&iacute;</a>.</p>
-<p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente monoespacio como <a href="font_sample.php">DPCustomMono</a> o Courier. Para ayudar el proceso de revisi&oacute;n, el uso de <a href="wordcheck-faq.php">WordCheck</a> es recomendado en <?php echo $ELR_round->id; ?> y es obligatorio en las dem&aacute;s rondas de revisi&oacute;n.
+<p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente monoespacio como <a href="../font_sample.php">DPCustomMono</a> o Courier. Para ayudar el proceso de revisi&oacute;n, el uso de <a href="../wordcheck-faq.php">WordCheck</a> es recomendado en <?php echo $ELR_round->id; ?> y es obligatorio en las dem&aacute;s rondas de revisi&oacute;n.
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
@@ -1815,7 +1808,7 @@ Si usted utiliza una de ellas, as&eacute;gurese de insertar solamente caracteres
       <br>Oprima la tecla Alt y, sin soltarla, digite las cuatro cifras en el <i>teclado num&eacute;rico</i> (la l&iacute;nea de n&uacute;meros sobre las letras no funcionar&aacute;) y luego suelte la tecla Alt. 
       <br>Debe teclear las cuatro cifras, incluyendo el 0 (cero) al principio. Como se puede dar cuenta, la letra may&uacute;scula es igual al c&oacute;digo de la correspondiente letra min&uacute;scula menos 32. 
       <br>Estas instrucciones son para la configuraci&oacute;n US-English del teclado. Puede que no funcionen para otras configuraciones. 
-      <br>(<a href="charwin.pdf">Versi&oacute;n para imprimir de la tabla.</a>)
+      <br>(<a href="../charwin.pdf">Versi&oacute;n para imprimir de la tabla.</a>)
   </li>
 </ul>
 
@@ -2006,7 +1999,7 @@ Se visualizar&aacute; una imagen del teclado y si oprime "shift", "opt", "comman
       <br>Una vez que se acostumbre a los c&oacute;digos, esta manera resulta m&aacute;s r&aacute;pida que copiar y pegar. 
       <br>Oprima la tecla "Opt" y el acento; despu&eacute;s teclee la letra que quiere acentuar (para algunos c&oacute;digos, basta con oprimir "Opt" y la letra). 
       <br>Estas instrucciones son para la configuraci&oacute;n US-English del teclado. Puede que no funcionen con otras configuraci&oacute;n. 
-      <br>(<a href="charapp.pdf">Versi&oacute;n para imprimir de esta tabla.</a>)
+      <br>(<a href="../charapp.pdf">Versi&oacute;n para imprimir de esta tabla.</a>)
   </li>
 </ul>
 
@@ -2332,9 +2325,9 @@ Se visualizar&aacute; una imagen del teclado y si oprime "shift", "opt", "comman
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

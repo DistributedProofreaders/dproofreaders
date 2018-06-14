@@ -2,20 +2,13 @@
 
 // File received from user 'rfarinha' at pgdp.net, 2/25/2009
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("pt");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -41,23 +34,23 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Regras de Revis&atilde;o</a></h1>
 
 <h3 align="center">Vers&atilde;o 2.0, publicada a 7 de Junho de 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
 
-<p>Regras de Revis&atilde;o <a href="proofreading_guidelines.php">em Ingl&ecirc;s</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_francaises.php">em Franc&ecirc;s</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_spanish.php">em Castelhano</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_dutch.php">em Holand&ecirc;s</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_german.php">em Alem&atilde;o</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_italian.php">em Italiano</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+<p>Regras de Revis&atilde;o <a href="../proofreading_guidelines.php">em Ingl&ecirc;s</a> /
+      Proofreading Guidelines <a href=../proofreading_guidelines.php">in English</a><br>
+    Regras de Revis&atilde;o <a href="../fr/proofreading_guidelines.php">em Franc&ecirc;s</a> /
+      Directives de Relecture et Correction <a href="../fr/proofreading_guidelines.php">en fran&ccedil;ais</a><br>
+    Regras de Revis&atilde;o <a href="../es/proofreading_guidelines.php">em Castelhano</a> /
+      Reglas de Revisi&oacute;n <a href="../es/proofreading_guidelines.php">en espa&ntilde;ol</a><br>
+    Regras de Revis&atilde;o <a href="../nl/proofreading_guidelines.php">em Holand&ecirc;s</a> /
+      Proeflees-Richtlijnen <a href="../nl/proofreading_guidelines.php">in het Nederlands</a><br>
+    Regras de Revis&atilde;o <a href="../de/proofreading_guidelines.php">em Alem&atilde;o</a> /
+      Korrekturlese-Richtlinien <a href="../de/proofreading_guidelines.php">auf Deutsch</a><br>
+    Regras de Revis&atilde;o <a href="../it/proofreading_guidelines.php">em Italiano</a> /
+      Regole di Correzione <a href="../it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Veja o <a href="../quiz/start.php?show_only=PQ">Teste de Revis&atilde;o e Tutorial</a>!
+<p>Veja o <a href="../../quiz/start.php?show_only=PQ">Teste de Revis&atilde;o e Tutorial</a>!
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table of Contents">
@@ -214,7 +207,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="summary">Resumo das Regras</a></h3>
-<p>O <a href="proofing_summary.pdf">Resumo das Regras</a>
+<p>O <a href="../proofing_summary.pdf">Resumo das Regras</a>
    &eacute; um pequeno documento de 2 p&aacute;ginas em PDF, que resume
    os pontos principais destas regras, e que fornece exemplos explicativos
    de como deve rever. Encorajamos os Revisores Principiantes a imprimi-lo e a
@@ -242,7 +235,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <p>Inclu&iacute;mos neste documento todos os itens de
    revis&atilde;o em que os novos utilizadores tiveram
    d&uacute;vidas enquanto reviam. Existe um outro documento para as
-   <a href="formatting_guidelines_portuguese.php">Regras de
+   <a href="formatting_guidelines.php">Regras de
    Formata&ccedil;&atilde;o</a>. Um segundo grupo de volunt&aacute;rios
    trabalhar&aacute; a formata&ccedil;&atilde;o do texto.
    Se se confrontar com uma situa&ccedil;&atilde;o para a qual
@@ -337,8 +330,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    corrigidas.
 </p>
 <p>Para mais informa&ccedil;&otilde;es, consulte os t&oacute;picos
-   <a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a>
-   (Ajuda de Interface Normalizada de Revis&atilde;o) ou <a href="prooffacehelp.php?i_type=1">Enhanced
+   <a href="../prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a>
+   (Ajuda de Interface Normalizada de Revis&atilde;o) ou <a href="../prooffacehelp.php?i_type=1">Enhanced
    Proofreading Interface Help</a> (Ajuda de Interface Melhorada de Revis&atilde;o),
    dependendo da interface que utilizar.
 </p>
@@ -673,7 +666,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
-      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
       <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
       <td>Tra&ccedil;os, H&iacute;fen,<br> &amp; Tra&ccedil;o Longo</td>
     </tr>
@@ -1324,7 +1317,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
@@ -1401,7 +1394,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1427,7 +1420,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Imagem Original: (Figura no meio do par&aacute;grafo)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1583,7 +1576,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1716,7 +1709,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
@@ -1749,7 +1742,7 @@ Same strip rolled up in           Same, 16 wires bound
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
@@ -1793,7 +1786,7 @@ Plural   {   2d   "  ye, or you,   you,
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      <td width="100%" valign="top"> <img src="../poetry2.png" alt="" width="480" height="385"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
@@ -1895,7 +1888,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1940,7 +1933,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -2056,7 +2049,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2105,7 +2098,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2241,7 +2234,7 @@ Plural   {   2d   "  ye, or you,   you,
    que vai lendo.
 </p>
 <p>Detectar este tipo de erros, torna-se mais f&aacute;cil se utilizar
-   uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
+   uma fonte mono-espa&ccedil;ada, como por exemplo <a href="../font_sample.php">DPCustomMono</a>
    ou Courier.
 </p>
 <!-- END RR -->
@@ -2256,7 +2249,7 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <ul compact>
    <li>parece correcta &agrave; primeira vista, mas surge mal escrita.<br>
-       Podem ser detectadas utilizando o <a href="wordcheck-faq.php">corrector ortogr&aacute;fico</a> (WordCheck) do
+       Podem ser detectadas utilizando o <a href="../wordcheck-faq.php">corrector ortogr&aacute;fico</a> (WordCheck) do
        ecr&atilde; de revis&atilde;o.
    </li>
    <li>existe, mas que tem um significado diferente e que n&atilde;o
@@ -2273,9 +2266,9 @@ Plural   {   2d   "  ye, or you,   you,
    t&oacute;pico</a>.
 </p>
 <p>Detectar este tipo de erros, torna-se mais f&aacute;cil se utilizar
-   uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
+   uma fonte mono-espa&ccedil;ada, como por exemplo <a href="../font_sample.php">DPCustomMono</a>
    ou Courier. Para ajudar na revis&atilde;o, recomendamos a utiliza&ccedil;&atilde;o
-   do <a href="wordcheck-faq.php">WordCheck</a> (ou equivalente) em
+   do <a href="../wordcheck-faq.php">WordCheck</a> (ou equivalente) em
    <?php echo $ELR_round->id; ?>, sendo necess&aacute;ria noutras rondas de
    revis&atilde;o.
 </p>
@@ -2488,7 +2481,7 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
       &eacute; menos 32 que a vers&atilde;o em letra min&uacute;scula.<br>
       Estas instru&ccedil;&otilde;es s&atilde;o para o formato de
       teclado US-English. Pode n&atilde;o funcionar para outros formatos. <br>
-      (<a href="charwin.pdf">Clique para imprimir esta tabela</a>)
+      (<a href="../charwin.pdf">Clique para imprimir esta tabela</a>)
   </li>
 </ul>
 
@@ -2709,7 +2702,7 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
       <br>Estas instru&ccedil;&otilde;es s&atilde;o para o formato de
           teclado US-English. Pode n&atilde;o funcionar para outros
           formatos.
-      <br>(<a href="charapp.pdf">Clique para imprimir esta tabela</a>)
+      <br>(<a href="../charapp.pdf">Clique para imprimir esta tabela</a>)
   </li>
 </ul>
 
@@ -3064,9 +3057,9 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Voltar para:
-      <a href="..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
+      <a href="../..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
       </font>

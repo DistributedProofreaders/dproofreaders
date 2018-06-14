@@ -1,8 +1,78 @@
 <?php
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc');
+include_once($relPath.'metarefresh.inc');
 
 // This include holds information about DP people in charge of various things,
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
+
+// SITE-SPECIFIC
+$external_faq_overrides = array(
+    "proofreading_guidelines.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
+        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien",
+        "es" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Spanish/Reglas_de_Revisi%C3%B3n",
+        "it" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Italian/Regole_di_Correzione",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Directives_de_Relecture_et_de_Correction",
+        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Dutch/Proeflees-Richtlijnen",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o",
+    ),
+    "formatting_guidelines.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
+        "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/German/Formatierungsrichtlinien",
+        "it" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Italian/Regole_di_Formattazione",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/French/Directives_de_Formatage",
+        "nl" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o",
+    ),
+    "DPflow.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/General_Workflow_Diagram",
+    ),
+    "ProoferFAQ.php" => array(
+        "en" => "https://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
+    ),
+    "cp.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Fornecimento_de_Conte%C3%BAdos",
+    ),
+    "dochist.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
+    ),
+    "faq_central.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
+    ),
+    "longabsent.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni",
+    ),
+    "pm-faq.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_gestion_de_projet",
+        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Gest%C3%A3o_de_Projectos",
+    ),
+    "post_proof.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/French/FAQ_post-processing",
+    ),
+    "ppv.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
+    ),
+    "scanning.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Scanning_FAQ",
+    ),
+    "wordcheck-faq.php" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
+    ),
+    // not actually files in the source code, but references used in theme.inc
+    "official-docs" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main",
+    ),
+    "request-support" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
+    ),
+);
+
 
 // People:
 $PM_rights_giver_contact="<a href=\"mailto:dp-genmgr@pgdp.net\">lhamilton (Linda)</a>";
@@ -57,7 +127,7 @@ function make_forum_url($type,$id,$default)
     }
     // otherwise, route them to a forum at pgdp.net
     else {
-        $FURL = "http://www.pgdp.net/phpBB3";
+        $FURL = "https://www.pgdp.net/phpBB3";
         $id = $default;
         switch($type) {
             case "f":
@@ -71,4 +141,95 @@ function make_forum_url($type,$id,$default)
     
     return "";
 }
-?>
+
+function get_faq_url($faq, $langcode=NULL)
+{
+    global $code_dir, $code_url;
+
+    // if no langcode was passed in, try to get the user's language
+    if(!$langcode)
+        $langcode = substr(get_desired_language(), 0, 2);
+
+    // first try $langcode, then English
+    foreach(array($langcode, "en") as $langcode)
+    {
+        // Any overrides?
+        $external_faq = get_external_faq($faq, $langcode);
+        if($external_faq)
+            return $external_faq;
+
+        // If not, return a file in the codebase
+        if(is_file("$code_dir/faq/$langcode/$faq"))
+        {
+            return "$code_url/faq/$langcode/$faq";
+        }
+    }
+
+    // fall back to the English version in the code if it exists
+    if(is_file("$code_dir/faq/$faq"))
+    {
+        return "$code_url/faq/$faq";
+    }
+
+    return "";
+}
+
+function get_all_urls_for_faq($faq)
+{
+    global $code_dir, $code_url;
+    global $external_faq_overrides;
+
+    $urls = array();
+
+    if(is_file("$code_dir/faq/$faq"))
+        $urls["en"] = "$code_url/faq/$faq";
+
+    $subdirs = scandir("$code_dir/faq");
+    foreach($subdirs as $dir)
+    {
+        if($dir == "." or $dir == ".." or is_file("$code_dir/faq/$dir"))
+            continue;
+
+        $files = scandir("$code_dir/faq/$dir");
+        foreach($files as $file)
+        {
+            if(endswith($file, $faq))
+                $urls[$dir] = "$code_url/faq/$dir/$faq";
+        }
+    }
+
+    // Override with any external links
+    if(isset($external_faq_overrides[$faq]))
+        foreach($external_faq_overrides[$faq] as $langcode => $url)
+            $urls[$langcode] = $url;
+
+    return $urls;
+}
+
+function get_external_faq($faq, $langcode)
+{
+    global $external_faq_overrides;
+
+    if(isset($external_faq_overrides[$faq][$langcode]))
+        return $external_faq_overrides[$faq][$langcode];
+
+    return NULL;
+}
+
+function maybe_redirect_to_external_faq($langcode=NULL)
+{
+    $faq = basename($_SERVER['PHP_SELF']);
+
+    // if no langcode was passed in, try to get the user's language
+    if(!$langcode)
+        $langcode = substr(get_desired_language(), 0, 2);
+
+    $url = get_external_faq($faq, $langcode);
+
+    // fall back to English
+    if(!$url)
+        $url = get_external_faq($faq, "en");
+
+    if($url)
+        metarefresh(0, $url);
+}

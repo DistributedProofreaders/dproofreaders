@@ -4,15 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("en");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -40,18 +33,18 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <h3 align="center">Version 2.0, revised June 7, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
-<p>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Proofreading Guidelines <a href="proofreading_guidelines_spanish.php">in Spanish</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
-    Proofreading Guidelines <a href="proofreading_guidelines_dutch.php">in Dutch</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
-    Proofreading Guidelines <a href="proofreading_guidelines_german.php">in German</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-    Proofreading Guidelines <a href="proofreading_guidelines_italian.php">in Italian</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+<p>Proofreading Guidelines <a href="fr/proofreading_guidelines.php">in French</a> /
+      Directives de Relecture et Correction <a href="fr/proofreading_guidelines.php">en fran&ccedil;ais</a><br>
+    Proofreading Guidelines <a href="pt/proofreading_guidelines.php">in Portuguese</a> /
+      Regras de Revis&atilde;o <a href="pt/proofreading_guidelines.php">em Portugu&ecirc;s</a><br>
+    Proofreading Guidelines <a href="es/proofreading_guidelines.php">in Spanish</a> /
+      Reglas de Revisi&oacute;n <a href="es/proofreading_guidelines.php">en espa&ntilde;ol</a><br>
+    Proofreading Guidelines <a href="nl/proofreading_guidelines.php">in Dutch</a> /
+      Proeflees-Richtlijnen <a href="nl/proofreading_guidelines.php">in het Nederlands</a><br>
+    Proofreading Guidelines <a href="de/proofreading_guidelines.php">in German</a> /
+      Korrekturlese-Richtlinien <a href="de/proofreading_guidelines.php">auf Deutsch</a><br>
+    Proofreading Guidelines <a href="it/proofreading_guidelines.php">in Italian</a> /
+      Regole di Correzione <a href="it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
 <p>Check out the <a href="../quiz/start.php?show_only=PQ">Proofreading Quiz and Tutorial</a>!
@@ -218,7 +211,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p><i>It is not intended as any kind of a general editorial or typesetting rulebook</i>.
 </p>
 <p>We've included in these proofreading guidelines all the items that new users have asked about
-   while proofreading. There is a separate set of <a href="document.php">Formatting
+   while proofreading. There is a separate set of <a href="formatting_guidelines.php">Formatting
    Guidelines</a>. A second group of volunteers will be working on the formatting of the text.
    If you come across a situation and you do not find a reference in these
    guidelines, it is likely that it will be handled in the formatting rounds and so is not

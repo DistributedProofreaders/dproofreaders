@@ -13,6 +13,7 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'faq.inc');
 
 require_login();
 
@@ -58,7 +59,7 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
 }
 
 // What guideline document are we needing?
-$round_doc_url = "$code_url/faq/$round->document";
+$round_doc_url = get_faq_url($round->document);
 
 if ($pagesproofed >= 10)
 {

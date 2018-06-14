@@ -1,16 +1,10 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'faq.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 output_header('Proofreading and Formatting Guidelines Revision History', NO_STATSBAR);
 ?>
@@ -42,7 +36,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;2.0</td>
       <td>acunning40 and JHowse</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.98 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.98 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Reorganization of topics and subdivisions for formatting at the character, paragraph, and page level</li>
@@ -78,7 +72,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.9e </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.88 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.88 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Fix accented characters incorrectly encoded in previous version</li>
@@ -103,7 +97,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.9d </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.85 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.85 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Change spaced text markup to &lt;g&gt;.</li>
@@ -125,7 +119,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.9c </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.80 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.80 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Give Previous Proofreader Notes its own section.</li>
@@ -150,7 +144,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.9b </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.79 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.79 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
 		<li>Numerous minor corrections and updates to relevant examples.</li>
@@ -168,7 +162,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.9 </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.78 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.78 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Small caps are now completely handled by the Formatters.</li>
@@ -196,7 +190,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.8 </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.69 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.69 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Guidelines split into separate Proofreading and Formatting documents.</li>
@@ -218,7 +212,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
       <td>Ver.&nbsp;1.7 </td>
       <td>The DP Community</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.49 -->
+        <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.49 -->
         <h3>Formatting changes</h3>
         <ul compact="compact">
                 <li>Terminology standardised.</li>
@@ -272,60 +266,60 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php"><font size=-1 color="green">(new)</font></a></li>
               <li>Revised Footnotes section, added out-of-line ones, plus example.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#footnotes"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#footnotes"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#footnotes"><font size=-1 color="green">(new)</font></a></li>
               <li>Bold text: default is now html-style markup instead of all-caps.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#bold"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#bold"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#bold"><font size=-1 color="green">(new)</font></a></li>
               <li>Poetry: we no longer indent by 2 spaces within the /* and */ markers.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#poetry"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#poetry"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#poetry"><font size=-1 color="green">(new)</font></a></li>
               <li>Block Quotes: we no longer indent by 4 spaces within the /* and */ markers.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#block_qt"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
             </ul>
           <li>New sections added:                     </li>
             <ul compact="compact">
               <li>Added Lists section.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#lists"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#lists"><font size=-1 color="green">(new)</font></a></li>
               <li>Added Special Books section, and links to specific guides.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
               <li>Added new document of special guidelines for copyright renewals.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
               <li>Added new document of special guidelines for Encyclopedias.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#sp_ency"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#sp_ency"><font size=-1 color="green">(new)</font></a></li>
               <li>Added new document of special guidelines for Poetry.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#sp_poet"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#sp_poet"><font size=-1 color="green">(new)</font></a></li>
               <li>Added Abbreviations section
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#abbrev"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#abbrev"><font size=-1 color="green">(new)</font></a></li>
               <li>Added Drop Caps section.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#drop_caps"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#drop_caps"><font size=-1 color="green">(new)</font></a></li>
               <li>Added Quote marks on each line section.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#quote_ea"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#quote_ea"><font size=-1 color="green">(new)</font></a></li>
               <li>Added link to French version of Proofreading Guidelines.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php"><font size=-1 color="green">(new)</font></a></li>
               <li>Added standard links at the bottom of this (and all Doc pages).
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#uncertain"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#uncertain"><font size=-1 color="green">(new)</font></a></li>
             </ul>
           <li>More details added:                     </li>
             <ul compact="compact">
@@ -333,64 +327,64 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#bk_index"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#bk_index"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#bk_index"><font size=-1 color="green">(new)</font></a></li>
               <li>Added to eol-hyphenated section note about "if you're not sure".
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#eol_hyphen"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#eol_hyphen"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#eol_hyphen"><font size=-1 color="green">(new)</font></a></li>
               <li>In Sidenotes section, added note about no blank line afterwards.
                   And included "Sidenotes" in the section title.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#para_side"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#para_side"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#para_side"><font size=-1 color="green">(new)</font></a></li>
               <li>For Ellipsis, state that there is no space after any punctuation.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#period_p"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#period_p"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#period_p"><font size=-1 color="green">(new)</font></a></li>
               <li>In Bold text section, removed confusing note about 1st word of chapter.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#bold"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#bold"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#bold"><font size=-1 color="green">(new)</font></a></li>
               <li>Added note in Poetry section about rejoining split lines.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#poetry"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#poetry"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#poetry"><font size=-1 color="green">(new)</font></a></li>
               <li>Extra spaces between words section: added tabs.
                   Also rewrote part about extra spaces around punctuation to make it clearer.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#extra_sp"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#extra_sp"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#extra_sp"><font size=-1 color="green">(new)</font></a></li>
               <li>Added example of [**Note...] to "Anything Else that needs Special...
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#anything"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#anything"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#anything"><font size=-1 color="green">(new)</font></a></li>
               <li>Double Quotes: added part about non-English quote marks.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#double_q"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#double_q"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#double_q"><font size=-1 color="green">(new)</font></a></li>
               <li>Added part about [Transcriber's note:] to the errors sections.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#p_errors"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#p_errors"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#p_errors"><font size=-1 color="green">(new)</font></a></li>
               <li>Added more info to "Fixing errors on Previous Pages section.  Big_Bill's rewrite.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#prev_pg"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#prev_pg"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#prev_pg"><font size=-1 color="green">(new)</font></a></li>
               <li>Illustrations section: added note about multiple lines.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#illust"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#illust"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#illust"><font size=-1 color="green">(new)</font></a></li>
             </ul>
           <li>Re-worded or Typo's fixed:              </li>
             <ul compact="compact">
@@ -399,37 +393,37 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#chap_head"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#chap_head"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#chap_head"><font size=-1 color="green">(new)</font></a></li>
               <li>Fixed typo in Sidenotes section.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#para_side"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#para_side"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#para_side"><font size=-1 color="green">(new)</font></a></li>
               <li>Replaced Dashes section with Bill Flis's rewritten version.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#em_dashes"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#em_dashes"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#em_dashes"><font size=-1 color="green">(new)</font></a></li>
               <li>Added Small Caps to Word in all Caps section
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#word_caps"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#word_caps"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#word_caps"><font size=-1 color="green">(new)</font></a></li>
               <li>Slight rewording in section "About this Document".
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#about"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#about"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#about"><font size=-1 color="green">(new)</font></a></li>
               <li>Slight rewording in section on Greek & other non-Latin words, added biblos example.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#f_chars"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#f_chars"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#f_chars"><font size=-1 color="green">(new)</font></a></li>
               <li>Block Quotes: refer to "text" rather than "book".
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html#block_qt"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="document.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
+                <a href="formatting_guidelines.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
             </ul>
         </ul>
       </td>

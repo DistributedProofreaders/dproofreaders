@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'misc.inc'); // javascript_safe, attr_safe
+include_once($relPath.'faq.inc');
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
@@ -141,7 +142,7 @@ if ($userP['i_type']==1) {
 <?php
     // print the link to the WordCheck FAQ
     echo " &nbsp; ";
-    echo new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") );
+    echo new_window_link( get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ") );
 ?>
 </td></tr>
 <tr>

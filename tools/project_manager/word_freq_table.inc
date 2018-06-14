@@ -4,6 +4,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'faq.inc');
 
 // get_cutoff_string
 // Arguments:
@@ -271,7 +272,7 @@ function echo_download_text($projectid, $format, $queryString="") {
     global $code_url;
     if($format == "html") {
         $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the candidate word results list for offline analysis."),"?projectid=$projectid&amp;format=file&amp;$queryString");
-        $faq_text = sprintf(_("See also the <a href='%s'>WordCheck FAQ</a> for more information on the WordCheck system."), "$code_url/faq/wordcheck-faq.php");
+        $faq_text = sprintf(_("See also the <a href='%s'>WordCheck FAQ</a> for more information on the WordCheck system."), get_faq_url("wordcheck-faq.php"));
         echo "<p>$download_text $faq_text</p>\n";
     } elseif($format == "file") {
         $instructions = _("When you paste data into the input box on the Edit Project Word Lists page, the system will remove anything after the first trailing space so the frequency counts can be left in.");

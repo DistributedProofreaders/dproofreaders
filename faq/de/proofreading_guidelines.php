@@ -1,18 +1,11 @@
 <?php
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/German/Korrekturlese-Richtlinien';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("de");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -38,23 +31,23 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Korrekturlese-Richtlinien</a></h1>
 
 <h3 align="center">Version 2.0 vom 7. Juni 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
 
-<p>Korrekturlese-Richtlinien <a href="proofreading_guidelines.php">auf Englisch</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a> <br>
-    Korrekturlese-Richtlinien <a href="proofreading_guidelines_francaises.php">auf Franz&ouml;sisch</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Korrekturlese-Richtlinien <a href="proofreading_guidelines_portuguese.php">auf Portugiesisch</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Korrekturlese-Richtlinien <a href="proofreading_guidelines_spanish.php">auf Spanisch</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
-    Korrekturlese-Richtlinien <a href="proofreading_guidelines_dutch.php">auf Niederl&auml;ndisch</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
-    Korrekturlese-Richtlinien <a href="proofreading_guidelines_italian.php">auf Italienisch</a> /
-      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+<p>Korrekturlese-Richtlinien <a href="../proofreading_guidelines.php">auf Englisch</a> /
+      Proofreading Guidelines <a href="../proofreading_guidelines.php">in English</a> <br>
+    Korrekturlese-Richtlinien <a href="../fr/proofreading_guidelines.php">auf Franz&ouml;sisch</a> /
+      Directives de Relecture et Correction <a href="../fr/proofreading_guidelines.php">en fran&ccedil;ais</a><br>
+    Korrekturlese-Richtlinien <a href="../pt/proofreading_guidelines.php">auf Portugiesisch</a> /
+      Regras de Revis&atilde;o <a href="../pt/proofreading_guidelines.php">em Portugu&ecirc;s</a><br>
+    Korrekturlese-Richtlinien <a href="../es/proofreading_guidelines.php">auf Spanisch</a> /
+      Reglas de Revisi&oacute;n <a href="../es/proofreading_guidelines.php">en espa&ntilde;ol</a><br>
+    Korrekturlese-Richtlinien <a href="../nl/proofreading_guidelines.php">auf Niederl&auml;ndisch</a> /
+      Proeflees-Richtlijnen <a href="../nl/proofreading_guidelines.php">in het Nederlands</a><br>
+    Korrekturlese-Richtlinien <a href="../it/proofreading_guidelines.php">auf Italienisch</a> /
+      Regole di Correzione <a href="../it/proofreading_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Hier geht es zum <a href="../quiz/start.php?show_only=PQ">Proofreading Quiz und Tutorial</a> (nur Englisch).
+<p>Hier geht es zum <a href="../../quiz/start.php?show_only=PQ">Proofreading Quiz und Tutorial</a> (nur Englisch).
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Inhaltsverzeichnis">
@@ -213,7 +206,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    zweiseitiges druckerfreundliches PDF-Dokument, das die wichtigsten
    Punkte enth&auml;lt und Beispiele f&uuml;rs Korrekturlesen gibt.
    Sie ist derzeit nur in englischer Sprache verf&uuml;gbar
-   (<a href="proofing_summary.pdf">Proofreading Summary</a>), aber
+   (<a href="../proofing_summary.pdf">Proofreading Summary</a>), aber
    eine deutsche Fassung ist in Arbeit. Falls Sie neu hier sind, empfehlen
    wir Ihnen, das PDF-Dokument auszudrucken und w&auml;hrend des
    Korrekturlesens griffbereit zu halten.
@@ -239,7 +232,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 </p>
 <p>Wir haben in diese Korrekturlese-Richtlinien alle Punkte aufgenommen,
    zu denen neue Benutzer beim Korrekturlesen Fragen hatten. Es gibt eine
-   getrennte <a href="formatting_guidelines_german.php">Formatierungs-Richtlinie</a>.
+   getrennte <a href="formatting_guidelines.php">Formatierungs-Richtlinie</a>.
    Eine zweite Gruppe von Freiwilligen bearbeitet die Formatierung des Textes.
    Wenn Sie auf eine Situation sto&szlig;en, zu der Sie keinen Bezug in
    diesen Richtlinien finden, wird sie wahrscheinlich in den
@@ -328,8 +321,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    bearbeitet haben und die noch &uuml;berarbeitet werden k&ouml;nnen.
 </p>
 <p>Weitere Informationen finden Sie entweder in der
-   <a href="prooffacehelp.php?i_type=0">Hilfe zur Standard-Korrekturlese-Oberfl&auml;che</a>
-   (nur Englisch) oder in der <a href="prooffacehelp.php?i_type=1">Hilfe
+   <a href="../prooffacehelp.php?i_type=0">Hilfe zur Standard-Korrekturlese-Oberfl&auml;che</a>
+   (nur Englisch) oder in der <a href="../prooffacehelp.php?i_type=1">Hilfe
    zur Erweiterten Korrekturlese-Oberfl&auml;che</a> (nur Englisch),
    je nachdem, welche Benutzeroberfl&auml;che Sie verwenden.
 </p>
@@ -351,7 +344,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    <tt>"</tt>. Ersetzen Sie keine doppelten durch einfache
    Anf&uuml;hrungszeichen. Lassen Sie sie so, wie der Autor sie
    geschrieben hat.
-   Siehe <a href="chap_head">Kapitel-&Uuml;berschriften</a> f&uuml;r den Fall, dass ein
+   Siehe <a href="#chap_head">Kapitel-&Uuml;berschriften</a> f&uuml;r den Fall, dass ein
    doppeltes Anf&uuml;hrungszeichen am Beginn eines Kapitels fehlt.
 </p>
 <p>F&uuml;r andere Anf&uuml;hrungszeichen als " benutzen Sie die gleichen
@@ -675,7 +668,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
       <td>langer Gedankenstrich</td>
     </tr>
     <tr>
-      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
       <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
       <td>lange Gedankenstriche, Bindestrich &amp; extralanger Gedankenstrich</td>
     </tr>
@@ -1329,7 +1322,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
@@ -1407,7 +1400,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1433,7 +1426,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Beispielvorlage (Abbildung mitten im Absatz):</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1594,7 +1587,7 @@ cedilla                      [,x]   [x,]
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1723,7 +1716,7 @@ cedilla                      [,x]   [x,]
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
@@ -1756,7 +1749,7 @@ Same strip rolled up in           Same, 16 wires bound
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
@@ -1800,7 +1793,7 @@ Plural   {   2d   "  ye, or you,   you,
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      <td width="100%" valign="top"> <img src="../poetry2.png" alt="" width="480" height="385"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
@@ -1903,7 +1896,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1948,7 +1941,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650">
       </td>
     </tr>
     <tr>
@@ -2056,7 +2049,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2105,7 +2098,7 @@ Plural   {   2d   "  ye, or you,   you,
       <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2243,7 +2236,7 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <p>Die Unterscheidung dieser Zeichen ist einfacher, wenn Sie eine
    nicht-proportionale Schriftart verwenden, wie etwa
-   <a href="font_sample.php">DPCustomMono</a> oder Courier.
+   <a href="../font_sample.php">DPCustomMono</a> oder Courier.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
@@ -2258,7 +2251,7 @@ Plural   {   2d   "  ye, or you,   you,
    <li>auf den ersten Blick richtig erscheint, in Wahrheit aber
        falsch geschrieben ist. <br>
        Dies wird gew&ouml;nlich mit entdeckt, wenn man
-       <a href="wordcheck-faq.php">WordCheck</a> von der Korrekturlese-Oberfl&auml;che
+       <a href="../wordcheck-faq.php">WordCheck</a> von der Korrekturlese-Oberfl&auml;che
        aus startet.</li>
    <li>zu einem anderen, richtigen Wort wird, das nicht dem in der
        Vorlage entspricht.<br> Solche W&ouml;rter sind besonders
@@ -2277,8 +2270,8 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <p>Das Erkennen von Scannos ist einfacher, wenn Sie eine
    nicht-proportionale Schriftart verwenden, wie etwa
-   <a href="font_sample.php">DPCustomMono</a> oder Courier. Um das Korrekturlesen
-   zu unterst&uuml;tzen wird der Gebrauch von <a href="wordcheck-faq.php">WordCheck</a>
+   <a href="../font_sample.php">DPCustomMono</a> oder Courier. Um das Korrekturlesen
+   zu unterst&uuml;tzen wird der Gebrauch von <a href="../wordcheck-faq.php">WordCheck</a>
    (oder etwas vergleichbarem) in <?php echo $ELR_round->id; ?> empfohlen.
    In den anderen Korrekturlese-Runden ist es vorgeschrieben.
 </p>
@@ -2486,7 +2479,7 @@ wie sie in den Tabellen weiter unten aufgelistet sind.
       immer um 32 kleiner ist als der entsprechende Kleinbuchstabe.<br>
       Diese Anweisungen gelten f&uuml;r das US-englische Tastaturlayout.
       M&ouml;glicherweise funktionieren sie nicht unter anderen Layouts.<br>
-      (<a href="charwin.pdf">Druckversion der Tabelle</a>)
+      (<a href="../charwin.pdf">Druckversion der Tabelle</a>)
   </li>
 </ul>
 
@@ -2708,7 +2701,7 @@ wie sie in den Tabellen weiter unten aufgelistet sind.
       dr&uuml;cken.<br>
       Diese Anweisungen gelten f&uuml;r das US-englische Tastaturlayout.
       M&ouml;glicherweise funktionieren sie nicht unter anderen Layouts.<br>
-      (<a href="charapp.pdf">Druckversion der Tabelle</a>)
+      (<a href="../charapp.pdf">Druckversion der Tabelle</a>)
   </li>
 </ul>
 
@@ -3059,9 +3052,9 @@ wie sie in den Tabellen weiter unten aufgelistet sind.
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

@@ -4,15 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 output_header('Welcome Back, Alumni', NO_STATSBAR);
 
@@ -161,7 +154,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    text on the page as required: indenting poetry, aligning tables, etc. Formatters are not 
    responsible for finding and fixing scannos or doing a letter-by-letter comparison 
    of the text, although they are encouraged to fix anything that catches their eye. 
-   The F rounds use the <a href="<?php echo $code_url; ?>/faq/document.php">Formatting Guidelines</a>,
+   The F rounds use the <a href="<?php echo $code_url; ?>/faq/formatting_guidelines.php">Formatting Guidelines</a>,
    which are similar to the previous guidelines, with a few
    modifications such as the addition of small caps notation. There is a new 
    <a href="<?php echo $code_url; ?>/quiz/start.php?show_only=FQ">Formatting Quiz</a>.
@@ -219,7 +212,7 @@ review the <a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FA
     <li><a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php">The Proofreading Guidelines</a></li>
     <li><a href="<?php echo $code_url; ?>/faq/proofing_summary.pdf">The Proofreading Summary (PDF)</a></li>
     <li><a href="<?php echo $code_url; ?>/quiz/start.php?show_only=PQ">The Proofreading Quiz</a></li>
-    <li><a href="<?php echo $code_url; ?>/faq/document.php">The Formatting Guidelines</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/formatting_guidelines.php">The Formatting Guidelines</a></li>
     <li><a href="<?php echo $code_url; ?>/faq/formatting_summary.pdf">The Formatting Summary (PDF)</a></li>
     <li><a href="<?php echo $code_url; ?>/quiz/start.php?show_only=FQ">The Formatting Quiz</a></li>
     <li><a href="<?php echo $code_url; ?>/stats/stats_central.php">Statistics Central</a></li>

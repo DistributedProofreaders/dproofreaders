@@ -2,20 +2,13 @@
 
 // Translated by user 'rfarinha' at pgdp.net, 3/7/2009
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Portuguese/Regras_de_Formata%C3%A7%C3%A3o';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("pt");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -41,21 +34,21 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Regras de Formata&ccedil;&atilde;o</a></h1>
 
 <h3 align="center">Vers&atilde;o 2.0, publicada a 7 de Junho de 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
 
-<p>Regras de Formata&ccedil;&atilde;o <a href="document.php">em Ingl&ecirc;s</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br>
-    Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_francaises.php">em Franc&ecirc;s</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_dutch.php">em Holand&ecirc;s</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
-    Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_german.php">em Alem&atilde;o</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
-    Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_italian.php">em Italiano</a> /
-      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
+<p>Regras de Formata&ccedil;&atilde;o <a href="../formatting_guidelines.php">em Ingl&ecirc;s</a> /
+      Formatting Guidelines <a href="../formatting_guidelines.php">in English</a><br>
+    Regras de Formata&ccedil;&atilde;o <a href="../fr/formatting_guidelines.php">em Franc&ecirc;s</a> /
+      Directives de Formatage <a href="../fr/formatting_guidelines.php">en fran&ccedil;ais</a><br>
+    Regras de Formata&ccedil;&atilde;o <a href="../nl/formatting_guidelines.php">em Holand&ecirc;s</a> /
+      Formatteer-Richtlijnen <a href="../nl/formatting_guidelines.php">in het Nederlands</a><br>
+    Regras de Formata&ccedil;&atilde;o <a href="../de/formatting_guidelines.php">em Alem&atilde;o</a> /
+      Formatierungsrichtlinien <a href="../de/formatting_guidelines.php">auf Deutsch</a><br>
+    Regras de Formata&ccedil;&atilde;o <a href="../it/formatting_guidelines.php">em Italiano</a> /
+      Regole di Formattazione <a href="../it/formatting_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Fa&ccedil;a o <a href="../quiz/start.php?show_only=FQ">Teste de Formata&ccedil;&atilde;o</a>!
+<p>Fa&ccedil;a o <a href="../../quiz/start.php?show_only=FQ">Teste de Formata&ccedil;&atilde;o</a>!
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Tabela de Conte&uacute;dos">
@@ -200,7 +193,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="summary">Resumo das Regras</a></h3>
-<p>O <a href="formatting_summary.pdf">Resumo das Regras de Formata&ccedil;&atilde;o</a>
+<p>O <a href="../formatting_summary.pdf">Resumo das Regras de Formata&ccedil;&atilde;o</a>
    &eacute; um pequeno documento de duas p&aacute;ginas
    em PDF, que resume os principais pontos das Regras de
    Formata&ccedil;&atilde;o, e que d&aacute; algumas dicas de como
@@ -230,7 +223,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
 <p>Inclu&iacute;mos neste documento todos os itens de formata&ccedil;&atilde;o
    em que os novos utilizadores tiveram d&uacute;vidas
    enquanto formatavam. Existe um outro documento para as
-   <a href="proofreading_guidelines_portuguese.php">Regras de Revis&atilde;o</a>.
+   <a href="proofreading_guidelines.php">Regras de Revis&atilde;o</a>.
    Se se confrontar com uma situa&ccedil;&atilde;o para a qual n&atilde;o
    encontra aqui refer&ecirc;ncia, &eacute; prov&aacute;vel que deva ser tratada
    nas rondas de revis&atilde;o e que por conseguinte n&atilde;o seja aqui mencionada.
@@ -331,9 +324,9 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
    das p&aacute;ginas em que trabalhou e que ainda podem ser corrigidas.
 </p>
 <p>Para mais informa&ccedil;&otilde;es, consulte os t&oacute;picos
-   <a href="prooffacehelp.php?i_type=0">Standard
+   <a href="../prooffacehelp.php?i_type=0">Standard
    Proofreading Interface Help</a> (Ajuda de Interface Normalizada de Revis&atilde;o)
-   ou <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading
+   ou <a href="../prooffacehelp.php?i_type=1">Enhanced Proofreading
    Interface Help</a> (Ajuda de Interface Melhorada de Revis&atilde;o),
    dependendo da interface que utilizar.
 </p>
@@ -732,7 +725,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
  <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="chap1.png" alt="" width="500" height="725"><br>
+      <td width="100%" valign="top"> <img src="../chap1.png" alt="" width="500" height="725"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -785,7 +778,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -871,7 +864,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="section.png" alt="" width="500" height="283"> <br>
+      <td width="100%" valign="top"> <img src="../section.png" alt="" width="500" height="283"> <br>
       </td>
     </tr>
     <tr>
@@ -958,7 +951,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="" width="500" height="249"> <br>
+      <td width="100%" valign="top"> <img src="../tbreak.png" alt="" width="500" height="249"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1017,7 +1010,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1046,7 +1039,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Imagem Original: (Figura no meio do par&aacute;grafo)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -1236,7 +1229,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1372,7 +1365,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      <td width="100%" valign="top"> <img src="../bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1495,7 +1488,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p>&Eacute; extremamente dif&iacute;cil formatar tabelas em texto; d&ecirc; o seu melhor.
    A tarefa ser&aacute; facilitada se usar uma fonte mono-espa&ccedil;ada como a
-   <a href="font_sample.php">DPCustomMono</a> ou Courier. Lembre-se que o objectivo
+   <a href="../font_sample.php">DPCustomMono</a> ou Courier. Lembre-se que o objectivo
    &eacute; preservar o que o autor quis transmitir, quando estiver a formatar
    uma tabela leg&iacute;vel num e-book. Por vezes, isso implica sacrificar o formato
    original da tabela da p&aacute;gina impressa. Consulte os <a href="#comments">Coment&aacute;rios
@@ -1512,7 +1505,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1553,7 +1546,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1617,7 +1610,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry.png" alt="" width="500" height="508"> <br>
+      <td width="100%" valign="top"> <img src="../poetry.png" alt="" width="500" height="508"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1699,7 +1692,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter.png" alt="" width="500" height="217"> <br>
+      <td width="100%" valign="top"> <img src="../letter.png" alt="" width="500" height="217"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1729,7 +1722,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter2.png" alt="" width="500" height="271"> <br>
+      <td width="100%" valign="top"> <img src="../letter2.png" alt="" width="500" height="271"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
@@ -1804,7 +1797,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1852,7 +1845,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650"></td>
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650"></td>
     </tr>
     <tr>
       <th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th>
@@ -2037,7 +2030,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Imagem Original:</th></tr>
     <tr align="left">
-      <td valign="top"> <img src="index.png" alt="" width="438" height="355"></td>
+      <td valign="top"> <img src="../index.png" alt="" width="438" height="355"></td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Formatado Correctamente:</th></tr>
     <tr>
@@ -2125,7 +2118,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2174,7 +2167,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play2.png" width="500" height="680" alt=""><br>
+      <td width="100%" valign="top"><img src="../play2.png" width="500" height="680" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2245,7 +2238,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="504" height="206" alt=""><br>
+      <td width="100%" valign="top"><img src="../play3.png" width="504" height="206" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2275,7 +2268,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Imagem Original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2558,9 +2551,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Voltar para:
-      <a href="..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
+      <a href="../..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
       </font>

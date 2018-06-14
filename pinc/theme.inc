@@ -13,6 +13,7 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
+include_once($relPath.'faq.inc');
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -311,7 +312,7 @@ function html_navbar()
         $links=array();
         $links[] = array('text' => $login_form);
         $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
-        $links[] = array('text' => _('Help'), 'url' => "faq/".lang_dir()."faq_central.php");
+        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
         echo headerbar_text_array($links);
         echo "</div>\n";
     } else {
@@ -374,7 +375,7 @@ function html_navbar()
 
         $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
         $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
-        $links[] = array('text' => _("Help"), 'url' => "faq/".lang_dir()."faq_central.php");
+        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
         $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "accounts/logout.php");
 
         echo headerbar_text_array($links);
@@ -944,67 +945,31 @@ function show_key_help_links()
 {
     global $code_url, $wiki_url;
 
+    $faq_central_url = get_faq_url("faq_central.php");
+    $p_guide_url = get_faq_url("proofreading_guidelines.php");
+    $f_guide_url = get_faq_url("formatting_guidelines.php");
+
+    $items = array(
+        "<a href='$faq_central_url'>"._("Frequently Asked Questions")."</a>",
+
+        "<a href='$p_guide_url'>"._("Proofreading Guidelines")."</a>".
+        " <span class='nowrap'>(<a href='$code_url/faq/proofing_summary.pdf'>"._("PDF Summary")."</a></span>)",
+
+        "<a href='$f_guide_url'>"._("Formatting Guidelines")."</a>".
+        " <span class='nowrap'>(<a href='$code_url/faq/formatting_summary.pdf'>"._("PDF Summary")."</a></span>)",
+    );
+
+    $url = get_faq_url("official-docs");
+    if($url)
+        $items[] = "<a href='$url'>"._("Other Official Documentation")."</a>";
+
+    $url = get_faq_url("request-support");
+    if($url)
+        $items[] = "<a href='$url'>"._("Request Support")."</a>";
+
     echo "<div id='key-help-documents'>";
     echo "<h2>"._("Key Help Documents")."</h2>";
     echo "<ul>\n";
-
-    // SITE-SPECIFIC
-    // (This may need to be pulled out and generalized, or replaced entirely,
-    // but for now, it does what's needed.)
-    $dpod_base = "$wiki_url/DP_Official_Documentation";
-    $dpod_urls = array(
-        'p_guide' => array(
-            'en' => "$dpod_base:Proofreading/Proofreading_Guidelines",
-            'fr' => "$dpod_base:Proofreading/French/Directives_de_Relecture_et_de_Correction",
-            'pt' => "$dpod_base:Proofreading/Portuguese/Regras_de_Revisão",
-            'es' => "$dpod_base:Proofreading/Spanish/Reglas_de_Revisión",
-            'nl' => "$dpod_base:Proofreading/Dutch/Proeflees-Richtlijnen",
-            'de' => "$dpod_base:Proofreading/German/Korrekturlese-Richtlinien",
-            'it' => "$dpod_base:Proofreading/Italian/Regole_di_Correzione",
-        ),
-
-        'f_guide' => array(
-            'en' => "$dpod_base:Formatting/Formatting_Guidelines",
-            'fr' => "$dpod_base:Formatting/French/Directives_de_Formatage",
-            'pt' => "$dpod_base:Formatting/Portuguese/Regras_de_Formatação",
-            'nl' => "$dpod_base:Formatting/Dutch/Formatteer-Richtlijnen",
-            'de' => "$dpod_base:Formatting/German/Formatierungsrichtlinien",
-            'it' => "$dpod_base:Formatting/Italian/Regole_di_Formattazione",
-        ),
-
-        'main' => array(
-            'en' => "$dpod_base:Main",
-        ),
-
-        'request_support' => array(
-            'en' => "$dpod_base:Main/Request_Support",
-        ),
-    );
-
-    $langcode = get_desired_language();
-    $lc = substr($langcode,0,2);
-    
-    // Localized DPOD URLs:
-    $ldu = array();
-    foreach ($dpod_urls as $doc_code => $translations)
-    {
-        $lcx = (array_key_exists($lc, $translations) ? $lc : 'en' );
-        $ldu[$doc_code] = $translations[$lcx];
-    }
-
-    $items = array(
-        "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
-
-        "<a href='{$ldu['p_guide']}'>"._("Proofreading Guidelines")."</a>".
-        " <span class='nowrap'>(<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a></span>)",
-
-        "<a href='{$ldu['f_guide']}'>"._("Formatting Guidelines")."</a>".
-        " <span class='nowrap'>(<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a></span>)",
-
-        "<a href='{$ldu['main']}'>"._("Other Official Documentation")."</a>",
-
-        "<a href='{$ldu['request_support']}'>"._("Request Support")."</a>",
-    );
 
     foreach ($items as $item)
     {

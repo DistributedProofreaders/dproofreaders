@@ -9,6 +9,7 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc');  // attr_safe()
+include_once($relPath.'faq.inc');  // attr_safe()
 
 require_login();
 
@@ -484,7 +485,7 @@ class ProjectWordListHolder
         echo sprintf(
             // TRANSLATORS: %s is a link to the WordCheck FAQ.
             _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
+            new_window_link( get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ") )
         );
 
         echo "</td>";

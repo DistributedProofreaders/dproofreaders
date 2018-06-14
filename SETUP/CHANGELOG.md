@@ -12,6 +12,8 @@ Scripts supporting this upgrade are in `SETUP/upgrade/12`
 * Move manager and sitemanager columns to usersettings (cpeel)
 * `$writeBIGtable` support, including `project_pages` table, has been
   removed (cpeel)
+* Proofreading and Formatting Guidelines translations have been moved to
+  language-specific subdirectories under `faq/` (cpeel)
 * Large file uploads in `remote_file_manager.php` (cpeel)
 * View page differences without formatting (70ray)
 

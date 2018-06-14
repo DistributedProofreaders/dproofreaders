@@ -2,20 +2,13 @@
 
 // Translated by PGDP Team Netherlands; file received from user Clog 17 Feb 2009
 
-$relPath='../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Dutch/Formatteer-Richtlijnen';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq("nl");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -41,26 +34,26 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h1 align="center"><a name="top">Formatteer-Richtlijnen</a></h1>
 
 <h3 align="center">Versie 2.0, herzien 7 juni 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
+  <a href="../dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
 
 <HR>
 <h4>Dit document is een vertaling van de Engelse Formatting Guidelines.<BR>
     Bij elk hoofdstuk is een link opgenomen naar het corresponderende hoofdstuk in die Guidelines.</h4>
 <HR>
 
-<p>Formatteer-Richtlijnen <a href="document.php">in het Engels</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br>
-    Formatteer-Richtlijnen <a href="formatting_guidelines_francaises.php">in het Frans</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
-    Formatteer-Richtlijnen <a href="formatting_guidelines_portuguese.php">in het Portuguees</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Formatteer-Richtlijnen <a href="formatting_guidelines_german.php">in het Duits</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
-    Formatteer-Richtlijnen <a href="formatting_guidelines_italian.php">in het Italiaans</a> /
-      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
+<p>Formatteer-Richtlijnen <a href="../formatting_guidelines.php">in het Engels</a> /
+      Formatting Guidelines <a href="../formatting_guidelines.php">in English</a><br>
+    Formatteer-Richtlijnen <a href="../fr/formatting_guidelines.php">in het Frans</a> /
+      Directives de Formatage <a href="../fr/formatting_guidelines.php">en fran&ccedil;ais</a><br>
+    Formatteer-Richtlijnen <a href="../pt/formatting_guidelines.php">in het Portuguees</a> /
+      Regras de Formata&ccedil;&atilde;o <a href="../pt/formatting_guidelines.php">em Portugu&ecirc;s</a><br>
+    Formatteer-Richtlijnen <a href="../de/formatting_guidelines.php">in het Duits</a> /
+      Formatierungsrichtlinien <a href="../de/formatting_guidelines.php">auf Deutsch</a><br>
+    Formatteer-Richtlijnen <a href="../it/formatting_guidelines.php">in het Italiaans</a> /
+      Regole di Formattazione <a href="../it/formatting_guidelines.php">in Italiano</a><br>
 </p>
 
-<p>Bekijk de <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>! (dit document bestaat alleen in een Engelse versie)
+<p>Bekijk de <a href="../../quiz/start.php?show_only=FQ">Formatting Quiz</a>! (dit document bestaat alleen in een Engelse versie)
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table of Contents">
@@ -169,7 +162,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <div style="margin-right:6%; margin-left:0.5%;">
 
 <h3><a name="prime">De Hoofdregel</a>
- (<i><a href="document.php#prime">The Primary Rule</a></i>)</h3>
+ (<i><a href="#prime">The Primary Rule</a></i>)</h3>
 <p><em>"Verander niet wat de schrijver heeft geschreven!"</em>
 </p>
 <p>Het elektronische boek zoals de lezer het uiteindelijk zal zien, mogelijk vele jaren later, moet de bedoeling van
@@ -197,8 +190,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="summary">Samenvatting van de Richtlijnen</a>
- (<i><a href="document.php#summary">Summary Guidelines</a></i>)</h3>
-<p>De <a href="formatting_summary.pdf">Formatting Summary</a> (dit document bestaat alleen in een Engelse versie)
+ (<i><a href="#summary">Summary Guidelines</a></i>)</h3>
+<p>De <a href="../formatting_summary.pdf">Formatting Summary</a> (dit document bestaat alleen in een Engelse versie)
    is een kort printer-vriendelijk (.pdf) document van 2 pagina's, dat de voornaamste punten van deze richtlijnen samenvat
    en voorbeelden geeft hoe te formatteren.
    Beginnende formatteerders wordt aangeraden dit document uit te printen en bij de hand te houden bij het formatteren.
@@ -211,7 +204,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="about">Over Dit Document</a>
- (<i><a href="document.php#about">About This Document</a></i>)</h3>
+ (<i><a href="#about">About This Document</a></i>)</h3>
 <p>Dit document is geschreven om de formatteer-regels uit te leggen. We gebruiken deze regels om consistentie
    te waarborgen, aangezien het formatteren van &eacute;&eacute;n enkel boek verdeeld is over vele formatteerders, die
    allemaal aan verschillende pagina's werken. De regels helpen ons om allemaal <em>op dezelfde manier</em>
@@ -221,7 +214,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <p><i>Dit document is niet bedoeld als een algemeen handboek voor het redigeren of zetten van boeken.</i>
 </p>
 <p>We hebben in dit document alles behandeld waar nieuwe gebruikers vragen over gesteld hebben.
-   Er is een apart document met <a href="proofreading_guidelines_dutch.php">Richtlijnen voor het Proeflezen</a>.
+   Er is een apart document met <a href="proofreading_guidelines.php">Richtlijnen voor het Proeflezen</a>.
    Wanneer je in een situatie komt waar je geen aanwijzing vindt in deze richtlijnen, dan wordt
    het waarschijnlijk behandeld in de proeflees-ronden and wordt het daarom hier niet vermeld.
    Wanneer je niet zeker bent, dan kun je het best navraag doen in de <a href="#forums">Project Discussie</a>.
@@ -241,7 +234,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="separate_pg">Elke Pagina is een Aparte Eenheid</a>
- (<i><a href="document.php#separate_pg">Each Page is a Separate Unit</a></i>)</h3>
+ (<i><a href="#separate_pg">Each Page is a Separate Unit</a></i>)</h3>
 <p>Aangezien elk project verdeeld wordt onder vele formatteerders, waarbij elk aan verschillende
    pagina's werkt, is er geen garantie dat je de volgende pagina in het project te zien krijgt.
    Met dit in gedachten, overtuig je zelf dat op elke pagina de markering is geopend en gesloten. Dit maakt
@@ -252,7 +245,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="comments">Toelichting bij een Project</a>
- (<i><a href="document.php#comments">Project Comments</a></i>)</h3>
+ (<i><a href="#comments">Project Comments</a></i>)</h3>
 <p>Wanneer je een project selecteert om te proeflezen, wordt de Project Pagina geladen.
    Op deze pagina vind je een gedeelte dat "Project Comments" (Toelichting bij het Project) heet.
    Hier staat informatie die specifiek bedoeld is voor dat betreffende project (boek).
@@ -276,7 +269,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="forums">Forum/Bediscussieer Dit Project</a>
- (<i><a href="document.php#forums">Forum/Discuss This Project</a></i>)</h3>
+ (<i><a href="#forums">Forum/Discuss This Project</a></i>)</h3>
 <p>Op de Project Pagina, waar je met het formatteren van pagina's begint, is op de regel "Forum" een link
    met de naam: "Discuss this Project" (als de discussie al begonnen is), of: "Start a discussion on this Project"
    (als de discussie nog niet begonnen is.) Klik op deze link en je komt op een <i>discussie</i> in het projectenforum,
@@ -289,7 +282,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="prev_pg">Het Herstellen van Vergissingen op Voorgaande Pagina's</a>
- (<i><a href="document.php#prev_pg">Fixing Errors on Previous Pages</a></i>)</h3>
+ (<i><a href="#prev_pg">Fixing Errors on Previous Pages</a></i>)</h3>
 <p>De <a href="#comments">Project Pagina</a> bevat links naar bladzijden van dit project waar je recent aan gewerkt hebt.
    (Als je nog geen pagina's van dit project geformatteerd hebt, zijn er ook geen links.)
 </p>
@@ -301,8 +294,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
    <a href="#comments">Project Pagina</a> gebruiken. Deze pagina's hebben een "Edit" link naast de pagina's
    waar je in de huidige ronde aan gewerkt hebt en die nog verbeterd kunnen worden.
 </p>
-<p>Voor gedetailleerder informatie, zie &oacute;f de <a href="prooffacehelp.php?i_type=0">Standard
-   Proofreading Interface Help</a> &oacute;f de <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading
+<p>Voor gedetailleerder informatie, zie &oacute;f de <a href="../prooffacehelp.php?i_type=0">Standard
+   Proofreading Interface Help</a> &oacute;f de <a href="../prooffacehelp.php?i_type=1">Enhanced Proofreading
    Interface Help</a> (deze documenten bestaan alleen in een Engelse versie), afhankelijk van welke interface je gebruikt.
 </p>
 <!-- END RR -->
@@ -318,7 +311,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 </table>
 
 <h3><a name="inline">Plaatsing van Inline Formattering Markering</a>
- (<i><a href="document.php#inline">Placement of Inline Formatting Markup</a></i>)</h3>
+ (<i><a href="#inline">Placement of Inline Formatting Markup</a></i>)</h3>
 <p>Inline formattering verwijst naar markering zoals <tt>&lt;i&gt;</tt>&nbsp;<tt>&lt;/i&gt;</tt>,
    <tt>&lt;b&gt;</tt>&nbsp;<tt>&lt;/b&gt;</tt>, <tt>&lt;sc&gt;</tt>&nbsp;<tt>&lt;/sc&gt;</tt>,
    <tt>&lt;f&gt;</tt>&nbsp;<tt>&lt;/f&gt;</tt>, of <tt>&lt;g&gt;</tt>&nbsp;<tt>&lt;/g&gt;</tt>.
@@ -411,7 +404,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="italics">Cursief gedrukte tekst</a>
- (<i><a href="document.php#italics">Italics</a></i>)</h3>
+ (<i><a href="#italics">Italics</a></i>)</h3>
 <p>Formatteer <i>cursief gedrukte</i> tekst met <tt>&lt;i&gt;</tt> aan het begin en
    <tt>&lt;/i&gt;</tt> aan het eind van het cursief.
    (Let op de "/" in de laatste markering.)
@@ -423,7 +416,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="bold">Vet gedrukte tekst</a>
- (<i><a href="document.php#bold">Bold Text</a></i>)</h3>
+ (<i><a href="#bold">Bold Text</a></i>)</h3>
 <p>Formatteer <b>vet gedrukte</b> tekst (tekst die is gedrukt in een dikkere versie van het lettertype),
    met <tt>&lt;b&gt;</tt> ervoor en <tt>&lt;/b&gt;</tt> erachter. (Let op de "/" in de laatste markering.)
 </p>
@@ -435,7 +428,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="underl">Onderstreepte Tekst</a>
- (<i><a href="document.php#underl">Underlined Text</a></i>)</h3>
+ (<i><a href="#underl">Underlined Text</a></i>)</h3>
 <p>Formatteer <u>onderstreepte tekst</u> op dezelfde manier als <a href="#italics">Cursieve Tekst</a>,
    met <tt>&lt;i&gt;</tt> en <tt>&lt;/i&gt;</tt>. (Let op de "/" in de laatste markering.)
    Onderstreping werd vaak gebruikt om nadruk aan te geven, als de zetter geen mogelijkheden had
@@ -451,7 +444,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="spaced"><span style="letter-spacing: .2em;">Uitgespatieerde Tekst</span></a>
- (<i><a href="document.php#spaced"><span style="letter-spacing: .2em;">Spaced Out Text</span> (gesperrt)</a></i>)</h3>
+ (<i><a href="#spaced"><span style="letter-spacing: .2em;">Spaced Out Text</span> (gesperrt)</a></i>)</h3>
 <p>Formatteer <span style="letter-spacing: .2em;">uitgespatieerde tekst</span> door er <tt>&lt;g&gt;</tt> voor en
    <tt>&lt;/g&gt;</tt> na te zetten. (Let op de "/" in de laatste markering.)
    Verwijder de extra spaties binnen de woorden.
@@ -466,7 +459,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="font_ch">Verandering van Lettertype</a>
- (<i><a href="document.php#font_ch">Font Changes</a></i>)</h3>
+ (<i><a href="#font_ch">Font Changes</a></i>)</h3>
 <p>Sommige Project Managers kunnen vragen om een verandering van lettertype binnen een alinea of een zin normale tekst
    te markeren door <tt>&lt;f&gt;</tt> voor de tekst in het andere lettertype te zetten en <tt>&lt;/f&gt;</tt> erna.
    (Let op de "/" in de laatste markering.)
@@ -493,7 +486,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
- (<i><a href="document.php#small_caps">Words in Small Capitals</a></i>)</h3>
+ (<i><a href="#small_caps">Words in Small Capitals</a></i>)</h3>
 <p><span style="font-variant:small-caps;">Gemengd Klein Kapitaal</span> wordt anders geformatteerd dan
    tekst <span style="font-variant:small-caps;">helemaal in klein kapitaal</span>:
 </p>
@@ -532,7 +525,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="word_caps">Woorden in Allemaal Hoofdletters</a>
- (<i><a href="document.php#word_caps">Words in All Capitals</a></i>)</h3>
+ (<i><a href="#word_caps">Words in All Capitals</a></i>)</h3>
 <p>Formatteer woorden die gedrukt zijn in allemaal hoofdletters als allemaal hoofdletters.
 </p>
 <p>De uitzondering hierop is <a href="#chap_head">eerste woord van een hoofdstuk</a>:
@@ -544,7 +537,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="font_sz">Verandering in Grootte van het Lettertype</a>
- (<i><a href="document.php#font_sz">Font Size Changes</a></i>)</h3>
+ (<i><a href="#font_sz">Font Size Changes</a></i>)</h3>
 <p>Normaliter markeren we verandering in grootte van lettertypes niet.
    De uitzonderingen zijn, als de grootte verandert om een <a href="#block_qt">citaat</a> aan te geven,
    of als de grootte van het lettertype binnen een alinea of binnen een zin verandert.
@@ -555,7 +548,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="extra_sp">Extra Spaties of Tabs Tussen Woorden</a>
- (<i><a href="document.php#extra_sp">Extra spaces or Tabs Between Words</a></i>)</h3>
+ (<i><a href="#extra_sp">Extra spaces or Tabs Between Words</a></i>)</h3>
 <p>Extra spaties tussen woorden komen nogal veel voor in de output van de OCR.
    Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
    Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
@@ -571,7 +564,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <!-- Remove this section after some transition, since it's now all handled in proofreading -->
 <h3><a name="supers">Superscript</a>
- (<i><a href="document.php#supers">Superscripts</a></i>)</h3>
+ (<i><a href="#supers">Superscripts</a></i>)</h3>
 <p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
    Formatteer deze dan door een dakje (<tt>^</tt>) in te voegen gevolgd door de 'verhoogde' tekst.
    Wanneer meerdere letters in superscript staan, voeg dan ook accolades <tt>{</tt> en <tt>}</tt>
@@ -601,7 +594,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <!-- Remove this section after some transition, since it's now all handled in proofreading -->
 <h3><a name="subscr">Subscript</a>
- (<i><a href="document.php#subscr">Subscripts</a></i>)</h3>
+ (<i><a href="#subscr">Subscripts</a></i>)</h3>
 <p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
    Formatteer tekst in subscript door eerst een laag streepje <tt>_</tt> neer te zetten en zet
    vervolgens accolades <tt>{</tt> en <tt>}</tt> om de tekst die in subscript staat. Bijvoorbeeld:
@@ -623,7 +616,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a>
- (<i><a href="document.php#page_ref">Page References &quot;See p. 123&quot;</a></i>)</h3>
+ (<i><a href="#page_ref">Page References &quot;See p. 123&quot;</a></i>)</h3>
 <p>Formatteer verwijzingen naar paginanummers zoals ze in het origineel voorkomen: <tt>(zie pg. 123)</tt>.
 </p>
 <p>Kijk wel na in de <a href="#comments">Project Comments</a> of de Project Manager speciale
@@ -643,7 +636,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="chap_head">Hoofdstuktitels</a>
- (<i><a href="document.php#chap_head">Chapter Headings</a></i>)</h3>
+ (<i><a href="#chap_head">Chapter Headings</a></i>)</h3>
 <p>Formatteer hoofdstuktitels zoals ze in het origineel voorkomen.
    Een hoofdstuktitel begint vaak wat lager op de pagina dan de koptekst en
    er staat geen paginanummer op dezelfde regel. Hoofdstuktitels worden vaak helemaal in hoofdletters gedrukt;
@@ -669,7 +662,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
  <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="chap1.png" alt="" width="500" height="725"><br>
+      <td width="100%" valign="top"> <img src="../chap1.png" alt="" width="500" height="725"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -722,7 +715,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
+      <td width="100%" valign="top"><img src="../foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -785,7 +778,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="sect_head">Paragraaftitels</a>
- (<i><a href="document.php#sect_head">Section Headings</a></i>)</h3>
+ (<i><a href="#sect_head">Section Headings</a></i>)</h3>
 <p>Bij sommige teksten zijn de hoofdstukken onderverdeeld in paragrafen. Formatteer deze titels zoals ze in het origineel staan.
    Voeg twee lege regels in v&oacute;&oacute;r de titel en &eacute;&eacute;n lege regel na de titel, tenzij de Project Manager iets anders vraagt.
    Als je er niet zeker van bent of een titel van een hoofdstuk of van een paragraaf is, vraag het dan in de <a href="#forums">Project Discussie</a>,
@@ -803,7 +796,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="section.png" alt="" width="500" height="283"> <br>
+      <td width="100%" valign="top"> <img src="../section.png" alt="" width="500" height="283"> <br>
       </td>
     </tr>
     <tr>
@@ -834,7 +827,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="maj_div">Andere Belangrijke Onderdelen in Teksten</a>
- (<i><a href="document.php#maj_div">Other Major Divisions in Texts</a></i>)</h3>
+ (<i><a href="#maj_div">Other Major Divisions in Texts</a></i>)</h3>
 <p>Belangrijke onderdelen zoals Inleiding, Voorwoord, Inhoudsopgave, Introductie, Proloog, Epiloog, Appendix,
    Verwijzingen, Conclusie, Woordenlijst, Samenvatting, Dankbetuigingen, Bibliografie, enz., moeten op dezelfde
    manier geformatteerd worden als <a href="#chap_head">Hoofdstuktitels</a>, dus 4 lege regels voor de
@@ -846,7 +839,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <!-- Remove this section after some transition, since it's now all handled in proofreading -->
 <h3><a name="para_space">Ruimte Tussen Alinea's/Inspringingen</a>
- (<i><a href="document.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
+ (<i><a href="#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
 <p>Zet een lege regel voor het begin van een alinea, zelfs als deze bovenaan een bladzijde begint.
    Aan het begin van een alinea hoef je niet in te springen, maar als een alinea al ingesprongen is,
    hoef je die spaties niet te verwijderen&mdash;dat gebeurt automatisch tijdens het post-processen.
@@ -858,7 +851,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="extra_s">Gedachtesprongen (Extra Lege Regels/Decoratie Tussen Alinea's)</a>
- (<i><a href="document.php#extra_s">Thought Breaks (Extra Spacing/Decoration Between Paragraphs)</a></i>)</h3>
+ (<i><a href="#extra_s">Thought Breaks (Extra Spacing/Decoration Between Paragraphs)</a></i>)</h3>
 <p>In het origineel beginnen de meeste alinea's op de regel meteen na de vorige alinea. Soms worden alinea's
    van elkaar gescheiden om een "gedachtesprong" ("thought break") aan te geven.
    Een gedachtesprong kan de vorm aannemen van een rij sterretjes, streepjes, of een ander teken, of van een lijn,
@@ -881,7 +874,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="" width="500" height="249"> <br>
+      <td width="100%" valign="top"> <img src="../tbreak.png" alt="" width="500" height="249"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -912,7 +905,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="illust">Illustraties</a>
- (<i><a href="document.php#illust">Illustrations</a></i>)</h3>
+ (<i><a href="#illust">Illustrations</a></i>)</h3>
 <p>Tekst bij een illustratie moet omgeven worden door een illustratiemarkering:
    <tt>[Illustration:&nbsp;</tt> en <tt>]</tt>, met de tekst ertussen.
    Formatteer de tekst zoals hij gedrukt is, handhaaf regelafbrekingen, cursief, enz.
@@ -938,7 +931,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      <td width="100%" valign="top"> <img src="../illust.png" alt="" width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -967,7 +960,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Origineel: (Illustratie in het midden van de alinea)</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      <td width="100%" valign="top"> <img src="../illust2.png" alt="" width="500" height="514"> <br>
       </td>
     </tr>
     <tr>
@@ -995,7 +988,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="footnotes">Voetnoten/Eindnoten</a>
- (<i><a href="document.php#footnotes">Footnotes/Endnotes</a></i>)</h3>
+ (<i><a href="#footnotes">Footnotes/Endnotes</a></i>)</h3>
 <p>Formatteer voetnoten door de tekst van de voetnoot onderaan de bladzijde te plaatsen,
    en een markering te plaatsen waar er in de tekst naar wordt verwezen.
    Dit houdt in:
@@ -1113,7 +1106,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
- (<i><a href="document.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
+ (<i><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
 <p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze beschrijvingen worden sidenotes genoemd.
    Verplaats de sidenotes naar vlak boven de alinea waar ze bij horen. Een sidenote moet omgeven worden
    door een sidenote markering: <tt>[Sidenote:&nbsp;</tt> en <tt>]</tt>, met de tekst van de sidenote er tussenin.
@@ -1141,7 +1134,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      <td width="100%" align="left"><img src="../side.png" alt="" width="550" height="800"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -1240,7 +1233,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="outofline">Plaatsing van Out-of-Line Formattering Markering</a>
- (<i><a href="document.php#outofline">Placement of Out-of-Line Formatting Markup</a></i>)</h3>
+ (<i><a href="#outofline">Placement of Out-of-Line Formatting Markup</a></i>)</h3>
 <p>Out-of-line formattering verwijst naar de <tt>/#</tt> <tt>#/</tt> en <tt>/*</tt> <tt>*/</tt> markering.
    De <tt>/#</tt> <tt>#/</tt> "<span style="border-bottom: 1px dotted green;"
    title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">rewrap</span>" markering geeft aan dat de
@@ -1264,7 +1257,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="block_qt">Citaten</a>
- (<i><a href="document.php#block_qt">Block Quotations</a></i>)</h3>
+ (<i><a href="#block_qt">Block Quotations</a></i>)</h3>
 <p>Blok citaten zijn lange citaten (vaak meerdere regels, soms meerdere pagina's)
    welke zich onderscheiden van de andere tekst door bredere kantlijnen, een kleiner lettertype, verschillende
    inspringing, of iets dergelijks. Omgeef de blok citaten <tt>/#</tt> en <tt>#/</tt> markeringen. 
@@ -1279,7 +1272,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      <td width="100%" valign="top"> <img src="../bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1314,7 +1307,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="lists">Lijsten</a>
- (<i><a href="document.php#lists">Lists of Items</a></i>)</h3>
+ (<i><a href="#lists">Lists of Items</a></i>)</h3>
 <p>Zet lijsten tussen <tt>/*</tt> en <tt>*/</tt> markeringen. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
 </p>
@@ -1376,7 +1369,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 
 
 <h3><a name="tables">Tabellen</a>
- (<i><a href="document.php#tables">Tables</a></i>)</h3>
+ (<i><a href="#tables">Tables</a></i>)</h3>
 <p>Zet tabellen tussen <tt>/*</tt> en <tt>*/</tt> markeringen. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
    Formatteer de tabel met spaties (<b>geen tabs</b>), zo dat de tabel er ongeveer uitziet zoals het origineel.
@@ -1397,7 +1390,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p>Het is vaak moeilijk een tabel in normale tekst te formatteren; doe gewoon je best.
    Let er op dat je een 'mono-spaced' lettertype gebruikt, zoals
-   <a href="font_sample.php">DPCustomMono</a> of Courier.
+   <a href="../font_sample.php">DPCustomMono</a> of Courier.
    Houd in gedachten dat we de bedoeling van de auteur willen behouden, en intussen een leesbare
    tabel in een e-boek willen cre&euml;ren. Soms betekent dit, dat we het originele tabel-formaat zoals het
    gedrukt is, moeten opofferen. Lees de <a href="#comments">Project Comments</a> en de Project Discussie;
@@ -1412,7 +1405,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      <td width="100%" valign="top"> <img src="../table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1453,7 +1446,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      <td width="100%" valign="top"> <img src="../table3.png" alt="" width="480" height="231"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1480,7 +1473,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="poetry">Po&euml;zie/Epigrammen</a>
- (<i><a href="document.php#poetry">Poetry/Epigrams</a></i>)</h3>
+ (<i><a href="#poetry">Poetry/Epigrams</a></i>)</h3>
 <p>Markeer po&euml;zie of epigrammen met <tt>/*</tt> en <tt>*/</tt> zo dat de regelafbrekingen en
    spati&euml;ring behouden blijft. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
@@ -1512,7 +1505,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="poetry.png" alt="" width="500" height="508"> <br>
+      <td width="100%" valign="top"> <img src="../poetry.png" alt="" width="500" height="508"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1556,7 +1549,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="line_no">Regelnummers</a>
- (<i><a href="document.php#line_no">Line Numbers</a></i>)</h3>
+ (<i><a href="#line_no">Line Numbers</a></i>)</h3>
 <p>Regelnummers komen vaak voor in gedichtenbundels, en staan over het algemeen bij elke
    vijfde of tiende regel in de kantlijn.
    Laat regelnummers staan. Zet op zijn minst zes spaties tussen het rechter uiteinde van de regel en het nummer,
@@ -1571,7 +1564,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="letter">Brieven/Correspondentie</a>
- (<i><a href="document.php#letter">Letters/Correspondence</a></i>)</h3>
+ (<i><a href="#letter">Letters/Correspondence</a></i>)</h3>
 <p>Formatteer brieven en correspondentie als <a href="#para_space">alinea's</a>.
    Zet een lege regel voor het begin van de brief. Eventuele inspringing wordt genegeerd.
 </p>
@@ -1591,7 +1584,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter.png" alt="" width="500" height="217"> <br>
+      <td width="100%" valign="top"> <img src="../letter.png" alt="" width="500" height="217"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1621,7 +1614,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="letter2.png" alt="" width="500" height="271"> <br>
+      <td width="100%" valign="top"> <img src="../letter2.png" alt="" width="500" height="271"> <br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
@@ -1650,7 +1643,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="r_align">Rechts-uitgelijnde Tekst</a>
- (<i><a href="document.php#r_align">Right-aligned Text</a></i>)</h3>
+ (<i><a href="#r_align">Right-aligned Text</a></i>)</h3>
 <p>Omgeef de regels met rechts-uitgelijnde tekst met <tt>/*</tt> en <tt>*/</tt> opmaak.
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details
    over deze markering, en de <a href="#letter">Brieven/Correspondentie</a> paragraaf voor voorbeelden.
@@ -1669,7 +1662,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="blank_pg">Lege Pagina</a>
- (<i><a href="document.php#blank_pg">Blank Page</a></i>)</h3>
+ (<i><a href="#blank_pg">Blank Page</a></i>)</h3>
 <p>Formatteer als <tt>[Blank Page]</tt> als zowel de tekst als het origineel leeg zijn.
 </p>
 <p>Als er wel tekst is, waar de te formatteren tekst hoort te staan, maar niet in het origineel,
@@ -1681,7 +1674,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="title_pg">Titelpagina aan de Voor- of Achterkant</a>
- (<i><a href="document.php#title_pg">Front/Back Title Page</a></i>)</h3>
+ (<i><a href="#title_pg">Front/Back Title Page</a></i>)</h3>
 <p>Formatteer alle tekst, inclusief het jaar waarin het boek is uitgegeven of het jaar van het copyright,
    precies zoals het op de pagina's gedrukt is, hoofdletters, kleine letters, enz.
 </p>
@@ -1695,7 +1688,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
+      <td width="100%" valign="top"><img src="../title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -1724,7 +1717,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="toc">Inhoudsopgave</a>
- (<i><a href="document.php#toc">Table of Contents</a></i>)</h3>
+ (<i><a href="#toc">Table of Contents</a></i>)</h3>
 <p>Formatteer de inhoudsopgave precies zoals deze in het boek gedrukt staat, hoofdletters, kleine letters enz.,
    en zet er <tt>/*</tt> en <tt>*/</tt> achter. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
@@ -1740,7 +1733,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650"></td>
+      <td width="100%" valign="top"><img src="../tablec.png" alt="" width="500" height="650"></td>
     </tr>
     <tr>
       <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
@@ -1807,7 +1800,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="bk_index">Indexen</a>
- (<i><a href="document.php#bk_index">Indexes</a></i>)</h3>
+ (<i><a href="#bk_index">Indexes</a></i>)</h3>
 <p>Markeer de index met <tt>/*</tt> en <tt>*/</tt> markering.
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
    Je hoeft de nummers niet netjes op een rij te zetten, zoals ze in het origineel staan.
@@ -1919,7 +1912,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td valign="top"> <img src="index.png" alt="" width="438" height="355"></td>
+      <td valign="top"> <img src="../index.png" alt="" width="438" height="355"></td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
@@ -1953,7 +1946,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a>
- (<i><a href="document.php#play_n">Plays: Actor Names/Stage Directions</a></i>)</h3>
+ (<i><a href="#play_n">Plays: Actor Names/Stage Directions</a></i>)</h3>
 <p>Voor alle toneelstukken:</p>
 <ul compact>
  <li>Formatteer de lijst van medespelenden (Dramatis Person&aelig;) als <a href="#lists">lijsten</a>.</li>
@@ -1997,7 +1990,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
+      <td width="100%" valign="top"><img src="../play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2046,7 +2039,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play2.png" width="500" height="680" alt=""><br>
+      <td width="100%" valign="top"><img src="../play2.png" width="500" height="680" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2117,7 +2110,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="504" height="206" alt=""><br>
+      <td width="100%" valign="top"><img src="../play3.png" width="504" height="206" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2147,7 +2140,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
       <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
+      <td width="100%" valign="top"><img src="../play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2171,7 +2164,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a>
- (<i><a href="document.php#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
+ (<i><a href="#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
 <p>Als je bij het formatteren iets tegenkomt dat niet in deze richtlijnen behandeld wordt,
    en waarvan je wel denkt dat het op een speciale manier aangepakt moet worden, of als je niet
    zeker bent hoe het aan te pakken, post dan je vraag, onder vermelding van het png (pagina) nummer,
@@ -2193,7 +2186,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="prev_notes">Aantekeningen/Commentaar van Eerdere Vrijwilligers</a>
- (<i><a href="document.php#prev_notes">Previous Volunteers' Notes/Comments</a></i>)</h3>
+ (<i><a href="#prev_notes">Previous Volunteers' Notes/Comments</a></i>)</h3>
 <p>Alle commentaar dat gemaakt is door vrijwilligers v&oacute;&oacute;r je <b>moet</b> blijven staan.
    Of je het er mee eens bent of niet kun je toevoegen, maar je mag het commentaar absoluut niet verwijderen.
    Als je een bron hebt gevonden die het probleem verheldert, verwijs daar dan naar,
@@ -2219,7 +2212,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="bad_image">Slecht Beeld/Origineel</a>
- (<i><a href="document.php#bad_image">Bad Image</a></i>)</h3>
+ (<i><a href="#bad_image">Bad Image</a></i>)</h3>
 <p>Als het beeld van een origineel niet goed is (laadt niet, een stuk er af, onmogelijk om te lezen)
    post dan alsjeblieft in het <a href="#forums">Project Discussie</a> over dit slechte origineel.
 </p>
@@ -2233,7 +2226,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="bad_text">Verkeerd Beeld/Origineel voor de Tekst</a>
- (<i><a href="document.php#bad_text">Wrong Image for Text</a></i>)</h3>
+ (<i><a href="#bad_text">Wrong Image for Text</a></i>)</h3>
 <p>Als er een verkeerd origineel gegeven wordt voor de tekst, bericht dan alsjeblieft hierover
    in de <a href="#forums">Project Discussie</a>.
 </p>
@@ -2242,7 +2235,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="round1">Eerder Gemaakte Proeflees- en Formatteervergissingen</a>
- (<i><a href="document.php#round1">Previous Proofreading or Formatting Mistakes</a></i>)</h3>
+ (<i><a href="#round1">Previous Proofreading or Formatting Mistakes</a></i>)</h3>
 <p>Als een eerdere vrijwilliger veel vergissingen maakte, of allerlei dingen miste,
    neem dan alsjeblieft even de tijd om feedback te geven. Klik op de naam van de vrijwilliger
    in de formatting interface en stuur hem/haar een priv&eacute; boodschap, waarin je uitlegt hoe een
@@ -2261,7 +2254,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="p_errors">Vergissingen van de Drukker/Spelfouten</a>
- (<i><a href="document.php#p_errors">Printer Errors/Misspellings</a></i>)</h3>
+ (<i><a href="#p_errors">Printer Errors/Misspellings</a></i>)</h3>
 <p>Corrigeer alle woorden die door de OCR fout zijn ge&iuml;nterpreteerd (scanno), maar verbeter
    geen spel- of zetfouten die op het origineel voorkomen. In veel oudere teksten werden woorden
    anders gespeld dan we tegenwoordig doen. We handhaven deze oude spelling, inclusief eventuele accenten.
@@ -2276,7 +2269,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="f_errors">Feitelijke Fouten in de Tekst</a>
- (<i><a href="document.php#f_errors">Factual Errors in Texts</a></i>)</h3>
+ (<i><a href="#f_errors">Factual Errors in Texts</a></i>)</h3>
 <p>Verbeter feitelijke vergissingen in het boek niet. Veel boeken die we
    onder handen hebben, bevatten uitspraken over feiten die we nu niet meer als juist accepteren.
    Laat deze uitspraken staan zoals de schrijver ze geschreven heeft.
@@ -2445,9 +2438,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Terug naar:
-      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      <a href="../.."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="../faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
       <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>

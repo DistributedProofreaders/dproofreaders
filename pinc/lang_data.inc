@@ -2,14 +2,6 @@
 // This configuration file controls which languages are installed and
 // configured for this site.
 
-// Directory under faq/ for files that are translated in their entirety
-// instead of via gettext().
-// Note that this currently isn't used as-such (each language has their own
-// proofreading guidelines for instance) and either needs to be
-// implemented or purged.
-$lang_dir_data=array(
-);
-
 // The URI under $forums_url for a specific language's forum. This will
 // be included in the menu bar for users of that language. See theme.inc.
 // i.e.: if the forum URL for the French team is:

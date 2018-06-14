@@ -176,7 +176,7 @@ new QuizLevel(
     "F_ONLY",
     _("Formatting Quizzes"),
     "format",
-    "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/document.php'>formatting guidelines</a>.") . "</p>",
+    "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/formatting_guidelines.php'>formatting guidelines</a>.") . "</p>",
     array(
 
         new Quiz(

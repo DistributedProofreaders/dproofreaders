@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script will parse faq/document.php and create an SQL file which
+# This script will parse faq/*_guidelines.php and create an SQL file which
 # will delete existing entries in the 'rules' table and inset new ones
 # created from the Guidelines document.
 #
@@ -21,7 +21,7 @@
 # All documents assumed to be in faq directory
 #
 DOCUMENTS="proofreading_guidelines.php \
-document.php"
+formatting_guidelines.php"
 
 # Leave these out until the documents can be reformatted to this scripts
 # expectations.

@@ -4,15 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'metarefresh.inc');
 
-# SITE-SPECIFIC
-# Redirect users to this document in the wiki
-if(strpos($code_url, '://www.pgdp.'))
-{
-    $url = 'http://www.pgdp.org/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions';
-    metarefresh(0, $url);
-}
+maybe_redirect_to_external_faq();
 
 output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 ?>
@@ -208,7 +201,7 @@ different pages.  This will significantly speed up the proofreading process.
 <h3><a name="5">5. How do I handle ...?  </a></h3>
 <p> There are no set "Rules" enforced by Project Gutenberg, but in order to allow the
     distributed proofreading to work, we have written up our own 
-    <a href="proofreading_guidelines.php">Proofreading Guidelines</a> and <a href="document.php">Formatting Guidelines</a>.
+    <a href="proofreading_guidelines.php">Proofreading Guidelines</a> and <a href="formatting_guidelines.php">Formatting Guidelines</a>.
     Please read these and any project comments that a project manager may have provided
     before starting to proofread.  The main goal is to preserve as much formatting as
     possible, marked the same way, while making the etext readable on a computer. If you

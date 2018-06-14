@@ -7,7 +7,7 @@ or not</i> the general Guidelines currently say the same thing:<br>
 <a href = "http://www.pgdp.net/wiki/BAE/Formatting#Proofing">BAE Proofreading Wiki</a>.
 For everything else, refer to the
 <a href = "http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading Guidelines</a>
-and <a href="http://www.pgdp.net/c/faq/document.php">Formatting Guidelines</a>.</p>
+and <a href="http://www.pgdp.net/c/faq/formatting_guidelines.php">Formatting Guidelines</a>.</p>
 
 <p>For more information about BAE projects, see
 <a href = "http://www.pgdp.net/phpBB3/viewtopic.php?p=50987&start=2">the Uber-Project

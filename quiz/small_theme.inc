@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'faq.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
 function output_small_header($quiz)
@@ -22,17 +23,17 @@ function output_small_header($quiz)
     // $guide_url should point to the locale-appropriate version of the guidelines.
     if ($quiz->activity_type == "format")
     {
-        $guide_url = "$code_url/faq/document.php";
+        $guide_url = get_faq_url("formatting_guidelines.php");
         $guide_text = _("Formatting Guidelines");
     }
     elseif ($quiz->activity_type == "proof")
     {
-        $guide_url = "$code_url/faq/proofreading_guidelines.php";
+        $guide_url = get_faq_url("proofreading_guidelines.php");
         $guide_text = _("Proofreading Guidelines");
     }
     else
     {
-        $guide_url = "$code_url/faq/faq_central.php";
+        $guide_url = get_faq_url("faq_central.php");
         $guide_text = _("Help");
     }
 
