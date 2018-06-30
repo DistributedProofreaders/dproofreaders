@@ -980,7 +980,7 @@ class ProjectInfoHolder
         }
     }
 
-    function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )
+    function row( $label, $display_function, $field_value, $field_name=NULL, $explain='', $args='' )
     {
         echo "<tr>";
         echo   "<th class='label'>";
@@ -989,7 +989,7 @@ class ProjectInfoHolder
         echo   "<td>";
         $display_function( $field_value, $field_name, $args );
         echo   "  ";
-        echo   $explan;
+        echo   $explain;
         echo   "</td>";
         echo "</tr>";
         echo "\n";
