@@ -101,9 +101,6 @@ if($create_user_status !== TRUE) {
     exit;
 }
 
-// Delete record in non_activated_users.
-$user->delete();
-
 // Insert into 'real' table -- users
 $query = sprintf("
     INSERT INTO users (id, real_name, username, email, date_created, active,
@@ -121,6 +118,9 @@ $query = sprintf("
 
 $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 $u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented users.u_id
+
+// Delete record in non_activated_users.
+$user->delete();
 
 // create profile
 $profileString="INSERT INTO user_profiles SET u_ref=$u_id";
