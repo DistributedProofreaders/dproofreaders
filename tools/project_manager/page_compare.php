@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath."DPage.inc"); // remove_formatting()
+include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
 
@@ -129,11 +129,12 @@ class Comparator
 
         // make an array of imagenames of pages with diffs
         $diff_pages = array();
+        $un_formatter = new PageUnformatter();
         while($page_res = mysqli_fetch_assoc($res))
         {
             // also unwrap
-            $L_text = remove_formatting($page_res[$L_text_column_name], true);
-            $R_text = remove_formatting($page_res[$R_text_column_name], true);
+            $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
+            $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);
             if(0 != strcmp($L_text, $R_text))
             {
                 $diff_pages[] = $page_res['image'];
