@@ -934,8 +934,8 @@ class ProjectInfoHolder
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
-        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork' );
-        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
+        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255));
+        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255));
         if ( user_is_a_sitemanager() )
         {
             // SAs are the only ones who can change this
@@ -980,7 +980,7 @@ class ProjectInfoHolder
         }
     }
 
-    function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )
+    function row( $label, $display_function, $field_value, $field_name=NULL, $explain='', $args='' )
     {
         echo "<tr>";
         echo   "<th class='label'>";
@@ -989,7 +989,7 @@ class ProjectInfoHolder
         echo   "<td>";
         $display_function( $field_value, $field_name, $args );
         echo   "  ";
-        echo   $explan;
+        echo   $explain;
         echo   "</td>";
         echo "</tr>";
         echo "\n";

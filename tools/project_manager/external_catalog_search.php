@@ -77,7 +77,7 @@ function show_query_form()
             echo "<tr>";
             echo   "<th class='label'>$field_label</th>";
             echo   "<td>";
-            echo     "<input type='text' size='30' name='$field_name'>";
+            echo     "<input type='text' size='30' name='$field_name' maxlength='255'>";
             echo   "</td>";
             echo "</tr>\n";
         }
