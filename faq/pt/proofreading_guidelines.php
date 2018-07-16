@@ -1105,7 +1105,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Grego: Consulte a p&aacute;gina wiki <a href="<?php echo $greek_wiki_url; ?>">Transliterating
+  <li>Grego: Consulte a p&aacute;gina wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating
       Greek</a>, a <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a>
       do Projecto Gutenberg, ou o "Greek Transliterator" atrav&eacute;s,
       acess&iacute;vel atrav&eacute;s da janela de ferramentas no ecr&atilde;

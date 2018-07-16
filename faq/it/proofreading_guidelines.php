@@ -1055,7 +1055,7 @@ cediglia                           [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Greco: vedi la pagina della wiki <a href="<?php echo $greek_wiki_url; ?>">Transliterating
+  <li>Greco: vedi la pagina della wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating
       Greek</a>, <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> da
       Project Gutenberg, o l'utilit&agrave; "Greek Transliterator" dell'interfaccia di
       correzione.
