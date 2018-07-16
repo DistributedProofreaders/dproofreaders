@@ -23,7 +23,9 @@ function refuseNonNumeric(event) {
     if (key == 8 || key == 9 || key == 46 || key == 37 || key == 39) return true;
 
     // Finally, allow only the 0-9 keys and only if shift isn't pressed
-    return (key >= 48 && key <= 57 && !e.shiftKey);
+    // 48-57 are the keyCodes for 0-9 on the standard keyboard
+    // 96-105 are the keyCodes for 0-9 on the numeric keypad
+    return (((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) && !e.shiftKey);
 }
 </script>
 <A
