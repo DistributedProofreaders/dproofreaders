@@ -90,7 +90,15 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 
 <tr>
 <td colspan="3">
-<?php echo sprintf( _("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url) ; ?> 
+<?php
+$url = get_faq_url('transliterating-greek');
+
+// In case get_faq_url fails to find the url, default to the Gutenberg page
+if (!$url)
+    echo sprintf( _("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url);
+else
+    echo sprintf( _("Please read the <a href='%s' target='_new'>Transliterating Greek</a> documentation for more information."), $url);
+?>
 <br>
 <a href="#" onclick="window.close()"><b><?php echo _("Close"); ?></b></a>
 </td>
