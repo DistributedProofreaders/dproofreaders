@@ -432,15 +432,15 @@ function _test_project_for_word_lists($projectid)
     $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
     $details .= "</ul></p>";
 
-    if($num_good_words && $num_bad_words)
+    if($num_good_words || $num_bad_words)
     {
         $status = _("Success");
-        $summary = _("Both the good and bad word lists have entries.");
+        $summary = _("At least one of the good and bad word lists have entries.");
     }
     else
     {
         $status = _("Warning");
-        $summary = _("One or both of the word lists are empty.");
+        $summary = _("Both of the word lists are empty.");
     }
 
     return array(
