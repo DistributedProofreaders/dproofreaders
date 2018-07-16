@@ -784,7 +784,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 <p>M&aacute;s informaci&oacute;n:</p>
 <ul compact>
-  <li>Griego: vea la p&aacute;gina <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> de Proyecto Gutenberg (en ingl&eacute;s), vea la p&aacute;gina de la wiki <a href="<?php echo $greek_wiki_url; ?>">Transliterando Griego</a> (en ingl&eacute;s) o vea la herramienta en la interfaz de revisi&oacute;n del proyecto.
+  <li>Griego: vea la p&aacute;gina <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> de Proyecto Gutenberg (en ingl&eacute;s), vea la p&aacute;gina de la wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterando Griego</a> (en ingl&eacute;s) o vea la herramienta en la interfaz de revisi&oacute;n del proyecto.
   </li>
   <li>Cir&iacute;lico: aunque existe un sistema de transliteraci&oacute;n de cir&iacute;lico, le sugerimos que intente una transliteraci&oacute;n solamente si domina el idioma. Si no, m&aacute;rquelo tan solo de la manera indicada arriba.
   </li>

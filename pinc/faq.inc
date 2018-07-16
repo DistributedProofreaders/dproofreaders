@@ -71,6 +71,10 @@ $external_faq_overrides = array(
     "request-support" => array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
     ),
+    "transliterating-greek" => array(
+        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Transliterating_Greek",
+        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Translitt%C3%A9ration_du_grec",
+    ),
 );
 
 
@@ -78,10 +82,6 @@ $external_faq_overrides = array(
 $PM_rights_giver_contact="<a href=\"mailto:dp-genmgr@pgdp.net\">lhamilton (Linda)</a>";
 $site_funder="Charles";
 $clearance_verifier_contact="<a href=\"mailto:juliet.sutherland@verizon.net\">JulietS</a>";
-
-// Wiki:
-$greek_wiki_url="$wiki_url/Transliterating_Greek";
-$greek_wiki_url_french="$wiki_url/French/Translitt%C3%A9ration_du_grec";
 
 $OCR_Pool_URL="$wiki_url/The_OCR_Pool";
 $DPWiki_Guide_to_HTML_URL="$wiki_url/HTML_advice_threads";

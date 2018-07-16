@@ -1002,7 +1002,7 @@ cedille                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Grieks: Zie de <a href="<?php echo $greek_wiki_url; ?>">Transliterating Greek</a> wiki-pagina (Engels), 
+  <li>Grieks: Zie de <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki-pagina (Engels), 
       <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (van het Project Gutenberg)
       of gebruik de "Greek Transliterator" pop-up in de proofreading interface.
   </li>

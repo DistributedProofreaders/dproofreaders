@@ -963,7 +963,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Greek: See the <a href="<?php echo $greek_wiki_url; ?>">Transliterating Greek</a> wiki page,
+  <li>Greek: See the <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki page,
       <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> from
       Project Gutenberg, or the "Greek Transliterator" pop-up tool in the proofreading interface.
   </li>
