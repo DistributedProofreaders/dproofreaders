@@ -20,7 +20,8 @@ function refuseNonNumeric(event) {
     if (e.ctrlKey || e.altKey || e.metaKey) return true;
 
     // Allow backspace, tab, delete, left and right cursor (for editing and navigation)
-    if (key == 8 || key == 9 || key == 46 || key == 37 || key == 39) return true;
+    // Also allow enter (13) which sets the zoom percent
+    if (key == 8 || key == 9 || key == 46 || key == 37 || key == 39 || key == 13) return true;
 
     // Finally, allow only the 0-9 keys and only if shift isn't pressed
     // 48-57 are the keyCodes for 0-9 on the standard keyboard
