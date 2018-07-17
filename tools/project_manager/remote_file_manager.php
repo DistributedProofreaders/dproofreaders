@@ -230,8 +230,7 @@ function do_showdir($action_message)
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (get_access_mode($pguser) == 'common') {
-        // TRANSLATORS: PM = project manager
-        show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
+        show_message('info', _("Your files are located in a common, shared, area.<br><u>Please take care to avoid affecting other users' files.</u>"));
         show_message('info', $autoprefix_message);
     }
 
@@ -966,7 +965,7 @@ function get_current_dir_relative_path($home_dirname)
     if (!user_may_access_all_upload_dirs()) {
         if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/") &&
             !startswith("$abspath/", "$abs_uploads_dir/$commons_rel_dir/")) {
-            fatal_error( _("You are restricted to your home folder and its descendants") );
+            fatal_error( _("You are restricted to your home folder, the Commons folder, and their descendants.") );
         }
     }
 
@@ -1251,14 +1250,14 @@ function show_return_link($relpath=NULL)
 
 function show_home_link()
 {
-    $text = sprintf(_("Return to your home folder"));
+    $text = sprintf(_("Go to your home folder"));
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
 }
 
 function show_commons_link()
 {
     global $commons_rel_dir;
-    $text = sprintf(_("Return to Commons folder"));
+    $text = sprintf(_("Go to Commons folder"));
     $url = "?cdrp=" . urlencode($commons_rel_dir);
     echo "<p><a href='$url'>$text</a></p>\n";
 }
