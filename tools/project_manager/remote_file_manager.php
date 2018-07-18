@@ -538,14 +538,35 @@ function do_resumable_chunk()
     // attempt to assemble any completed files; this needs to run both for
     // testChunks and uploads to handle edge failure cases where all of the
     // parts have been uploaded but not reassembled
+
+    // Ensure we have every chunk we're looking for and the entire file's
+    // worth of data. Chunks are uploaded sequentially, so start at the top
+    // and work our way down to fail early.
     $size_on_server = 0;
-    foreach(scandir($staging_dir) as $filename)
+    for($i=$total_chunks; $i>=1; $i--)
     {
-        $size_on_server = $size_on_server + filesize("$staging_dir/$filename");
+        $chunk_name = "$staging_dir/$hashed_filename.part.$i";
+
+        // if the chunk doesn't exist, return
+        if(!is_file($chunk_name))
+            return;
+
+        $size_on_server = $size_on_server + filesize($chunk_name);
     }
 
+    // We have all the chunks, but we need to confirm all of them have finished
+    // uploading. This can happen if they are being uploaded concurrently.
     if($size_on_server >= $total_size)
     {
+        // To prevent multiple instances from trying to do the reassembly
+        // concurrently, use a lock file. This should be rare, but we have seen
+        // what looks like this behavior and it's easy to work around.
+        $lock_filename = "$staging_dir/$hashed_filename.lock";
+        if(is_file($lock_filename))
+            return;
+        else
+            touch($lock_filename);
+
         if(($fp = fopen("$staging_dir/$hashed_filename", "w")) !== FALSE)
         {
             for($i=1; $i<=$total_chunks; $i++)
@@ -560,6 +581,8 @@ function do_resumable_chunk()
         {
             error_log("Unable to create $staging_dir/$hashed_filename");
         }
+
+        unlink($lock_filename);
     }
 }
 
