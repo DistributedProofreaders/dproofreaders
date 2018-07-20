@@ -418,7 +418,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // ... but not necessary with revamp of page
     
     $n_latered_bg = ( $n_latered   > 0 ? "" : "" );
-    $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='#ccffcc'" : "" );
+    $n_w_diff_bg  = ( $n_with_diff > 0 ? "style='background-color: #ccffcc;'" : "" );
         
     $total_n_saved   += $n_saved;
     $total_n_latered += $n_latered;
@@ -430,9 +430,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     echo get_medium_label_for_project_state( $state );
     echo "</td>";
     echo "<td>$time_of_latest_save</td>";
-    echo "<td align='center-align'>$n_saved</td>";
-    echo "<td align='center-align' $n_latered_bg>$n_latered</td>";
-    echo "<td align='center-align' $n_w_diff_bg>$n_with_diff ($n_with_diff_percent%)</td>";
+    echo "<td class='right-align'>$n_saved</td>";
+    echo "<td class='right-align' $n_latered_bg>$n_latered</td>";
+    echo "<td class='right-align' $n_w_diff_bg>$n_with_diff ($n_with_diff_percent%)</td>";
     if($sampleLimit > 0)
     {
         echo "<td $n_w_diff_bg>$diffLinkString</td>";
@@ -454,9 +454,9 @@ echo "<tr>";
 echo "<th>$total_valid_projects</th>";
 echo "<th></th>";
 echo "<th></th>";
-echo "<th class='center-align'>$total_n_saved</th>";
-echo "<th class='center-align'>$total_n_latered</th>";
-echo "<th class='center-align'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
+echo "<th class='right-align'>$total_n_saved</th>";
+echo "<th class='right-align'>$total_n_latered</th>";
+echo "<th class='right-align'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
 echo "</tr>";
 
 echo "</table>";
