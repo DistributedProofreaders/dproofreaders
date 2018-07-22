@@ -17,13 +17,13 @@ $unwrap = isset($_POST['Unwrap']); // can only be 'on'
 $ignore_case = isset($_POST['IgnoreCase']);
 
 $title = _('Test Compare pages with formatting removed');
-output_header("$title:", NO_STATSBAR);
+output_header("$title", NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
 $check_unwrap = $unwrap ? " checked" : "";
 $check_igc = $ignore_case ? " checked" : "";
-echo "<form action='page_compare_test.php' method='POST'>
+echo "<form method='POST'>
     <p>Paste the texts from the two rounds to compare into the upper two boxes and press 'Go'.
     The results will appear in the two lower boxes and a message will indicate if there are any differences.
     To find the differences the result texts can be copied into a text editor which can compare texts.</p>
