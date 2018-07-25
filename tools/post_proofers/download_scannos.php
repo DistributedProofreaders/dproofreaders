@@ -59,7 +59,7 @@ fclose($raw_scannos);
 $output .= ");";
 
 
-header("Content-Type: text/plain");
+header("Content-Type: text/plain; charset=$charset");
 header("Content-Disposition: attachment; filename=\"".$lang."_".$flavour.".rc\"");
 header("Content-Length: ".strlen($output));
 

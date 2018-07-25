@@ -29,7 +29,7 @@ else {
     $wrap_in_big_tag = true;
 }
 
-header("Content-Type: text/xml");
+header("Content-Type: text/xml; charset=$charset");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors $clause");

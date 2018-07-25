@@ -135,7 +135,7 @@ $fileModifiedTime=filemtime($xmlfile);
 $secondsOfFreshnessRemaining=$fileModifiedTime + $refreshDelay - time();
 
 // Let the browser cache it until the local cache becomes stale
-header("Content-Type: text/xml");
+header("Content-Type: text/xml; charset=$charset");
 header("Expires: " . gmdate("D, d M Y H:i:s",$fileModifiedTime + $refreshDelay) . " GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s", $fileModifiedTime) . " GMT");
 header("Cache-Control: max-age=$secondsOfFreshnessRemaining, public, must-revalidate");
