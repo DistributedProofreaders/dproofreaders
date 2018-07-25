@@ -66,6 +66,8 @@ if ($request_method == 'GET')
         'unnotify_me',
         'search',
         'list_open',
+        'notify_new',
+        'unnotify_new'
     );
     $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
 }
@@ -507,10 +509,7 @@ function create_task_from_form_submission($formsub)
     $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
     global $pguser, $date_str, $time_of_day_str;
-    NotificationMail($task_id,
-        "This task was created by $pguser on $date_str at $time_of_day_str.\n");
-    // Nobody could have subscribed to this particular task yet,
-    // so the msg will only go to those with taskctr_notice = 'all'.
+    NotificationMail($task_id, "This task was created by $pguser on $date_str at $time_of_day_str.\n", true);
 
     // If $newt_assignee is 0, there is no user assigned so no notification
     // to send out.
@@ -569,7 +568,7 @@ if (!isset($_REQUEST['task_id'])) {
             list_all_open_tasks();
             break;
 
-        case 'create': {
+        case 'create':
             // The user is supplying values for the properties of a new task.
             $errmsg = create_task_from_form_submission($_POST);
             if ($errmsg)
@@ -580,7 +579,20 @@ if (!isset($_REQUEST['task_id'])) {
             TaskHeader("All Open Tasks");
             list_all_open_tasks();
             break;
-        }
+
+        case 'notify_new':
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->add_value('taskctr_notice', 'notify_new');
+            TaskHeader("All Open Tasks");
+            list_all_open_tasks();
+            break;
+
+        case 'unnotify_new':
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->remove_value('taskctr_notice', 'notify_new');
+            TaskHeader("All Open Tasks");
+            list_all_open_tasks();
+            break;
     }
 }
 else {
@@ -909,7 +921,7 @@ function dropdown_select($field_name, $current_value, $array)
 
 function TaskHeader($header)
 {
-    global $tasks_url;
+    global $tasks_url, $pguser;
     $js_data = <<<EOS
 function showSpan(id) { document.getElementById(id).style.display=""; }
 function hideSpan(id) { document.getElementById(id).style.display="none"; }
@@ -955,9 +967,22 @@ EOS;
     output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
+    $userSettings =& Settings::get_Settings($pguser);
+    $notification_settings = $userSettings->get_values('taskctr_notice');
+    $notified_for_new = in_array('notify_new', $notification_settings);
+
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
-    echo "<tr><td width='50%'>&nbsp;</td>\n";
+    echo "<tr><td width='50%'>";
+    if($notified_for_new)
+    {
+        echo "<a href='$tasks_url?action=unnotify_new'>Remove me from notifications of new tasks</a>";
+    }
+    else
+    {
+        echo "<a href='$tasks_url?action=notify_new'>Sign up to be notified of new tasks</a>";
+    }
+    echo "</td>\n";
     echo "<td width='50%' style='text-align:right;'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
@@ -1563,17 +1588,28 @@ function TaskComments($tid)
     echo "</td></tr></table></form>";
 }
 
-function NotificationMail($tid, $message)
+function NotificationMail($tid, $message, $new_task = false)
 {
     global $code_url, $tasks_url, $pguser;
-    $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
-    $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-    $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
+    if($new_task)
+    {
+        $users_to_notify = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
+        $message_header = "DP Task Center: Task #$tid has been created";
+        $message_intro = "You have requested notification of new tasks. ";
+    }
+    else
+    {
+        $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
+        $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
+        $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
+        $message_header = "DP Task Center: Task #$tid has been updated";
+        $message_intro = "You have requested notification of updates to task #$tid. ";
+    }
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, "DP Task Center: Task #$tid has been updated",
-                "You have requested notification of updates to task #$tid. "
+            maybe_mail($user->email, $message_header,
+                $message_intro
               . "$message" . "\n"
               . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
               . "--" . "\n"
