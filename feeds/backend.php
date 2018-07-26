@@ -29,16 +29,16 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     if ($content == "posted" || $content == "postprocessing" || $content == "proofing" || $content == "smoothreading") {
         switch($content) {
             case "posted":
-                $condition="state='${PROJ_SUBMIT_PG_POSTED}'";
+                $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
                 break;
             case "postprocessing":
-                $condition="state='${PROJ_POST_FIRST_AVAILABLE}'";
+                $condition = sprintf("state='%s'", PROJ_POST_FIRST_AVAILABLE);
                 break;
             case "proofing":
-                $condition="state='${PROJ_P1_AVAILABLE}'";
+                $condition = sprintf("state='%s'", PROJ_P1_AVAILABLE);
                 break;
             case "smoothreading":
-                $condition="
+                $condition = "
                     state = 'proj_post_first_checked_out' AND
                     smoothread_deadline > UNIX_TIMESTAMP()";
                 break;
