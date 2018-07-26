@@ -510,6 +510,8 @@ function create_task_from_form_submission($formsub)
 
     global $pguser, $date_str, $time_of_day_str;
     NotificationMail($task_id, "This task was created by $pguser on $date_str at $time_of_day_str.\n", true);
+    // Nobody could have subscribed to this particular task yet,
+    // so the msg will only go to those with taskctr_notice = 'all' or 'notify_new'.
 
     // If $newt_assignee is 0, there is no user assigned so no notification
     // to send out.
@@ -1591,20 +1593,21 @@ function TaskComments($tid)
 function NotificationMail($tid, $message, $new_task = false)
 {
     global $code_url, $tasks_url, $pguser;
+
+    $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     if($new_task)
     {
-        $users_to_notify = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
+        $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
         $message_header = "DP Task Center: Task #$tid has been created";
         $message_intro = "You have requested notification of new tasks. ";
     }
     else
     {
-        $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-        $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
         $message_header = "DP Task Center: Task #$tid has been updated";
         $message_intro = "You have requested notification of updates to task #$tid. ";
     }
+    $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
