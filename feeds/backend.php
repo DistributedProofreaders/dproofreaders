@@ -3,7 +3,7 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
-$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'news')); // Which feed the user wants
+$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading', 'news')); // Which feed the user wants
 $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
 
@@ -26,23 +26,25 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     $absolute_url .= $_SERVER['REQUEST_URI'];
     $encoded_url = xmlencode($absolute_url);
 
-    if ($content == "posted" || $content == "postprocessing" || $content == "proofing") {
+    if ($content == "posted" || $content == "postprocessing" || $content == "proofing" || $content == "smoothreading") {
         switch($content) {
             case "posted":
-                $state=PROJ_SUBMIT_PG_POSTED;
-                $x="g";
+                $condition="state='${PROJ_SUBMIT_PG_POSTED}'";
                 break;
             case "postprocessing":
-                $state=PROJ_POST_FIRST_AVAILABLE;
-                $x="s";
+                $condition="state='${PROJ_POST_FIRST_AVAILABLE}'";
                 break;
             case "proofing":
-                $state=PROJ_P1_AVAILABLE;
-                $x="b";
+                $condition="state='${PROJ_P1_AVAILABLE}'";
+                break;
+            case "smoothreading":
+                $condition="
+                    state = 'proj_post_first_checked_out' AND
+                    smoothread_deadline > UNIX_TIMESTAMP()";
                 break;
         }
         $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM projects WHERE $condition ORDER BY modifieddate DESC LIMIT 10");
         while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r",($row['modifieddate']));
             if (isset($_GET['type'])) {
@@ -133,7 +135,7 @@ $fileModifiedTime=filemtime($xmlfile);
 $secondsOfFreshnessRemaining=$fileModifiedTime + $refreshDelay - time();
 
 // Let the browser cache it until the local cache becomes stale
-header("Content-Type: text/xml");
+header("Content-Type: text/xml; charset=$charset");
 header("Expires: " . gmdate("D, d M Y H:i:s",$fileModifiedTime + $refreshDelay) . " GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s", $fileModifiedTime) . " GMT");
 header("Cache-Control: max-age=$secondsOfFreshnessRemaining, public, must-revalidate");

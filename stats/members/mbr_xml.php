@@ -14,7 +14,7 @@ $user = new User($username);
 $forum_profile= get_forum_user_details($username);
 
 //Try our best to make sure no browser caches the page
-header("Content-Type: text/xml");
+header("Content-Type: text/xml; charset=$charset");
 header("Expires: Sat, 1 Jan 2000 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");

@@ -39,7 +39,7 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
 function show_projects_for_smooth_reading()
 {
-    global $pguser;
+    global $pguser, $code_url;
 
     // Selector for checked out projects
     $initial_project_selector = "
@@ -118,6 +118,19 @@ function show_projects_for_smooth_reading()
     $title = _('Projects Available for Smooth Reading');
     echo "\n<h2>$title</h2>";
 
+    $content = 'smoothreading';
+    $xml_rss_images = "
+        <a href='$code_url/feeds/backend.php?content=$content'>
+        <img src='$code_url/graphics/xml.gif' width='36' height='14' alt='[XML]'></a>
+        <a href='$code_url/feeds/backend.php?content=$content&amp;type=rss'>
+        <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
+    ";
+
+    // TRANSLATORS: %s are image links to the XML and RSS feeds
+    echo "<p>";
+    echo sprintf(_("Feeds of all projects currently available for Smooth Reading: %s"), $xml_rss_images);
+    echo "</p>";
+
     // Only show the filters if the user is logged in.
     // Filters don't work correctly unless there's a $pguser session,
     // since the filter terms are stored into the user prefs when
@@ -172,8 +185,12 @@ function show_projects_for_stage(
 {
     global $pguser;
 
-    $title = _('Projects Currently Available');
-    echo "\n<h2>$title</h2>";
+    // SR is a special snowflake that prints its own header
+    if ($stage != get_Stage_for_id('SR'))
+    {
+        $title = _('Projects Currently Available');
+        echo "\n<h2>$title</h2>";
+    }
     echo "\n<p>{$stage->description}</p>";
 
     if ($show_filter_block)
