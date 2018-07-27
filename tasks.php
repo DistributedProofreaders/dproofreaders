@@ -952,7 +952,7 @@ center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; paddi
 .wrap              { white-space: normal!important; }
 EOS;
 
-    output_header(html_safe($header), NO_STATSBAR,
+    output_header($header, NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
