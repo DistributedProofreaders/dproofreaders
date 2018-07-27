@@ -80,7 +80,7 @@ if ($access_mode == 'common' ) {
 
 if (is_null($home_dirname)) {
     $page_title = _("Manage your uploads folder");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
     echo "<p>" . sprintf(_("If you are a Content Provider, please email %s with the subject 'project upload access request' and request access to the 'common' project uploads area in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
@@ -174,39 +174,54 @@ if (is_null($action)) {
     }
 }
 
+$action_message = "";
 switch ($action) {
-    case 'showdir':    do_showdir();    break;
-    case 'showupload': do_showupload(); break;
-    case 'upload':     do_upload();     break;
-    case 'resumable_chunk':  do_resumable_chunk(); break;
-    case 'resumable_final':  do_resumable_final(); break;
-    case 'showmkdir':  do_showmkdir();  break;
-    case 'mkdir':      do_mkdir();      break;
-    case 'showrename': do_showrename(); break;
-    case 'rename':     do_rename();     break;
-    case 'showmove':   do_showmove();   break;
-    case 'move':       do_move();       break;
-    case 'download':   do_download();   break;
-    case 'showdelete': do_showdelete(); break;
-    case 'delete':     do_delete();     break;
+    // We always do showdir after the switch statement
+    case 'showdir':    break;
+    // Actions that prompt for additional information and we shouldn't showdir
+    case 'showupload': do_showupload(); exit;
+    case 'showmkdir':  do_showmkdir();  exit;
+    case 'showrename': do_showrename(); exit;
+    case 'showmove':   do_showmove();   exit;
+    case 'showdelete': do_showdelete(); exit;
+    // Actions that do an action and do not return an info message
+    case 'download':   do_download();   exit;
+    case 'upload':     do_upload();     exit;
+    case 'resumable_final':
+                       do_resumable_final(); exit;
+    case 'resumable_chunk':
+                       do_resumable_chunk(); exit;
+    // Actions that do an action and upon success return an info message
+    case 'mkdir':      $action_message = do_mkdir();   break;
+    case 'rename':     $action_message = do_rename();  break;
+    case 'move':       $action_message = do_move();    break;
+    case 'delete':     $action_message = do_delete();  break;
     default:
         // no matching $action in input
         fatal_error(sprintf(_("Invalid action: '%s'"), html_safe($action)));
-        break;
+        exit;
 }
 
-function do_showdir()
+do_showdir($action_message);
+
+//---------------------------------------------------------------------------
+
+function do_showdir($action_message)
 {
-    global $curr_relpath, $hce_curr_displaypath, $home_dirname;
+    global $curr_relpath, $hce_curr_displaypath, $home_dirname, $commons_rel_dir;
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     // If we created a directory for the user, assume this is their first visit
     // and display an informational message - down here after the regular headers
     // are sent, which is why a flag for this exists above.
+
+    if($action_message) {
+        show_message('info', $action_message);
+    }
 
     if ( $home_dir_created ) {
         show_message('info', sprintf(_("Home folder created for user %s."), html_safe($pguser)));
@@ -215,8 +230,7 @@ function do_showdir()
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (get_access_mode($pguser) == 'common') {
-        // TRANSLATORS: PM = project manager
-        show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
+        show_message('info', _("Your files are located in a common, shared, area.<br><u>Please take care to avoid affecting other users' files.</u>"));
         show_message('info', $autoprefix_message);
     }
 
@@ -241,6 +255,10 @@ function do_showdir()
     if($curr_relpath != $home_dirname)
         show_home_link();
 
+    // if not in the common directory, add a link to jump them there
+    if($curr_relpath != $commons_rel_dir)
+        show_commons_link();
+
     // Display Caveats about use on this "main" page only
     show_caveats();
 }
@@ -263,7 +281,7 @@ function do_showupload()
         'js_files' => array("../../pinc/3rdparty/resumablejs/resumable.js"),
         'js_data' => get_resumablejs_loader($curr_relpath),
     );
-    output_header($page_title, SHOW_STATSBAR, $extra_args);
+    output_header($page_title, NO_STATSBAR, $extra_args);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
@@ -325,6 +343,7 @@ function handle_file_upload($file_info)
 {
     global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
     global $pguser, $despecialed_username;
+    global $commons_dir;
 
     set_time_limit(14400);
 
@@ -422,11 +441,15 @@ function handle_file_upload($file_info)
 
     // The file passes all tests!
 
-    if (get_access_mode($pguser) === 'common') {
+    // Files uploaded to the commons folder should be prefixed with the user's
+    // name. This helps identify where the file comes from. We don't prevent
+    // the file from being renamed later to remove it, however.
+    if(startswith($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
         $file_prefix = $despecialed_username . "_";
     } else {
         $file_prefix = "";
     }
+
     $target_name = $file_prefix . $file_info['name'];
     $target_path = "$curr_abspath/$target_name";
 
@@ -515,14 +538,35 @@ function do_resumable_chunk()
     // attempt to assemble any completed files; this needs to run both for
     // testChunks and uploads to handle edge failure cases where all of the
     // parts have been uploaded but not reassembled
+
+    // Ensure we have every chunk we're looking for and the entire file's
+    // worth of data. Chunks are uploaded sequentially, so start at the top
+    // and work our way down to fail early.
     $size_on_server = 0;
-    foreach(scandir($staging_dir) as $filename)
+    for($i=$total_chunks; $i>=1; $i--)
     {
-        $size_on_server = $size_on_server + filesize("$staging_dir/$filename");
+        $chunk_name = "$staging_dir/$hashed_filename.part.$i";
+
+        // if the chunk doesn't exist, return
+        if(!is_file($chunk_name))
+            return;
+
+        $size_on_server = $size_on_server + filesize($chunk_name);
     }
 
+    // We have all the chunks, but we need to confirm all of them have finished
+    // uploading. This can happen if they are being uploaded concurrently.
     if($size_on_server >= $total_size)
     {
+        // To prevent multiple instances from trying to do the reassembly
+        // concurrently, use a lock file. This should be rare, but we have seen
+        // what looks like this behavior and it's easy to work around.
+        $lock_filename = "$staging_dir/$hashed_filename.lock";
+        if(is_file($lock_filename))
+            return;
+        else
+            touch($lock_filename);
+
         if(($fp = fopen("$staging_dir/$hashed_filename", "w")) !== FALSE)
         {
             for($i=1; $i<=$total_chunks; $i++)
@@ -537,6 +581,8 @@ function do_resumable_chunk()
         {
             error_log("Unable to create $staging_dir/$hashed_filename");
         }
+
+        unlink($lock_filename);
     }
 }
 
@@ -545,7 +591,7 @@ function do_showmkdir()
     global $curr_relpath, $hce_curr_displaypath;
 
     $page_title =  sprintf( _("Create a subfolder in folder %s"), $hce_curr_displaypath );
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = _("Name of subfolder to create") .":&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
@@ -582,10 +628,7 @@ function do_mkdir()
         fatal_error( sprintf(_("Unable to create folder")) );
     }
 
-    show_message('info', sprintf(_("Created folder %s"), html_safe($new_dir_name)));
-
-    show_return_link("$curr_relpath/$new_dir_name");
-    show_return_link();
+    return sprintf(_("Created folder %s"), html_safe($new_dir_name));
 }
 
 function do_showrename()
@@ -593,7 +636,7 @@ function do_showrename()
     global $curr_relpath;
 
     $page_title =  _("Rename an item");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -654,8 +697,7 @@ function do_rename()
         fatal_error( sprintf(_('Unable to rename item %1$s as %2$s.'), html_safe($item_name), html_safe($new_item_name)) );
     }
 
-    show_message('info', sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name)));
-    show_return_link();
+    return sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name));
 }
 
 function do_showmove()
@@ -668,7 +710,7 @@ function do_showmove()
     // from the names of directories in /home/dpscans/
 
     $page_title =  _("Move a file to another folder");
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     // Get an array of all directory names in the Users directory
@@ -683,11 +725,14 @@ function do_showmove()
     // Remove first element (which is $home_path itself)
     unset($user_subdirs[0]);
     $valid_target_dirs = array_merge($valid_target_dirs, $user_subdirs);
-    natcasesort($valid_target_dirs);
 
-    // Allow users to tranfer files to Commons too
-    if(!in_array($commons_dir, $valid_target_dirs))
-        array_unshift($valid_target_dirs, $commons_dir);
+    // Add all subdirectories in the Commons directory
+    $common_subdirs = searchdir($commons_dir, 2, "DIRS");
+    $valid_target_dirs = array_merge($valid_target_dirs, $common_subdirs);
+
+    // Unique and sort the array
+    natcasesort($valid_target_dirs);
+    $valid_target_dirs = array_unique($valid_target_dirs);
 
     $item_name = @$_POST['item_name'];
     confirm_is_local_file($item_name);
@@ -755,8 +800,7 @@ function do_move()
         fatal_error( sprintf(_('Unable to move file %1$s to destination folder: %2$s.'), html_safe($item_name), html_safe($dst_dir_relpath)) );
     }
 
-    show_message('info', sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath)));
-    show_return_link();
+    return sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath));
 }
 
 function do_download()
@@ -791,7 +835,7 @@ function do_showdelete()
     global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
     $page_title = sprintf(_("Delete an item from folder %s"), $hce_curr_displaypath);
-    output_header($page_title);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -852,8 +896,7 @@ function do_delete()
         fatal_error( sprintf(_('Unable to move %1$s to %2$s folder.'), html_safe($item_name), html_safe($trash_rel_dir)) );
     }
 
-    show_message('info', sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir)));
-    show_return_link();
+    return sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -882,14 +925,14 @@ function is_valid_move_destination($dir)
 {
     global $commons_rel_dir, $users_rel_dir, $home_dirname;
 
-    // Users may move files to the commons directory
-    if ($dir == $commons_rel_dir) return True;
+    // Users may move files to the commons directory or its subdirectories
+    if (startswith($dir, $commons_rel_dir)) return True;
 
     // Users may move to subdirectories in their own directory
-    if (strpos($dir, "$home_dirname/") === 0) return True;
+    if (startswith($dir, "$home_dirname/")) return True;
 
     // Users may not move files anywhere else except the Users dir.
-    if (strpos($dir, "$users_rel_dir/") !== 0) return False;
+    if (!startswith($dir, "$users_rel_dir/")) return False;
     $rel = substr($dir, strlen("$users_rel_dir/"));
 
     // Users may only move files to a user's home directory root
@@ -915,7 +958,7 @@ function canonicalize_path($relpath)
 function get_current_dir_relative_path($home_dirname)
 // Ascertain the current directory, validate it, and return the relative path
 {
-    global $uploads_dir;
+    global $uploads_dir, $commons_rel_dir;
     $abs_uploads_dir = realpath($uploads_dir);
 
     // Default to home dir if the invocation didn't set cdrp.
@@ -943,8 +986,9 @@ function get_current_dir_relative_path($home_dirname)
 
     // Only SAs are allowed access to other home folders.
     if (!user_may_access_all_upload_dirs()) {
-        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/")) {
-            fatal_error( _("You are restricted to your home folder and its descendants") );
+        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/") &&
+            !startswith("$abspath/", "$abs_uploads_dir/$commons_rel_dir/")) {
+            fatal_error( _("You are restricted to your home folder, the Commons folder, and their descendants.") );
         }
     }
 
@@ -970,10 +1014,10 @@ function show_content()
     $caption_text = sprintf(_("Directory listing for <b>%s</b>"), $hce_curr_displaypath);
     $actions_text = _("Actions");
     echo "
-    <table class='dirlist'>
-        <caption style='background-color: #e0e8dd;'>$caption_text</caption>
-        <tr style='background-color: #DDDDDD;'>
-            <th style='text-align:center;' title='Additional Features to be added here'>$actions_text</th>
+    <table class='themed dirlist'>
+        <caption>$caption_text</caption>
+        <tr>
+            <th class='actions'>$actions_text</th>
             <th>Name</th>
             <th>Time</th>
             <th>Size</th>
@@ -992,7 +1036,7 @@ function show_content()
         $text = _("up one level");
         echo "
             <tr>
-                <th></th>
+                <td></td>
                 <td colspan='3'><a href='$url'>$text</a></td>
             </tr>
         ";
@@ -1011,7 +1055,7 @@ function show_content()
 
             echo "
             <tr>
-                <th class='actions'>$actions_blurb</th>
+                <td class='actions'>$actions_blurb</td>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
                 <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
                 <td class='right-align mono'>".humanize_bytes(filesize($item_path))."</td>
@@ -1029,7 +1073,7 @@ function show_content()
 
             echo "
             <tr>
-                <th class='actions'>$actions_blurb</th>
+                <td class='actions'>$actions_blurb</td>
                 <td><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
                 <td class='left-align mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</td>
                 <td></td>
@@ -1229,8 +1273,16 @@ function show_return_link($relpath=NULL)
 
 function show_home_link()
 {
-    $text = sprintf(_("Return to your home folder"));
+    $text = sprintf(_("Go to your home folder"));
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
+}
+
+function show_commons_link()
+{
+    global $commons_rel_dir;
+    $text = sprintf(_("Go to Commons folder"));
+    $url = "?cdrp=" . urlencode($commons_rel_dir);
+    echo "<p><a href='$url'>$text</a></p>\n";
 }
 
 function searchdir( $dir_path, $maxdepth = -1, $mode = "FULL", $d = 0 )
