@@ -973,37 +973,38 @@ EOS;
     $notification_settings = $userSettings->get_values('taskctr_notice');
     $notified_for_new = in_array('notify_new', $notification_settings);
 
-    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>";
+    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
+    echo "<form method='get' style='display: inline;'>";
     if($notified_for_new)
     {
-        echo "<a href='$tasks_url?action=unnotify_new'>Remove me from notifications of new tasks</a>";
+        echo "<input type='hidden' name='action' value='unnotify_new'>";
+        echo " | <input type='submit' value='Stop New Task Alerts'>";
     }
     else
     {
-        echo "<a href='$tasks_url?action=notify_new'>Sign up to be notified of new tasks</a>";
+        echo "<input type='hidden' name='action' value='notify_new'>";
+        echo " | <input type='submit' value='Receive New Task Alerts'>";
     }
+    echo "</form>";
     echo "</td>\n";
     echo "<td width='50%' style='text-align:right;'>";
+    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
     echo "<input type='text' name='task_id' size='12'>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
-    echo "</td></tr></table></form><br>\n";
+    echo "</form>";
+    echo "</td></tr></table><br>\n";
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
     echo "<table class='tasks'>\n";
-    echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
-    echo "<td width='70%'>";
+    echo "<tr><td><b><small class='task'>Search:</small></b></td>\n";
+    echo "<td>";
 
     SearchParams_echo_controls();
 
     echo "<input type='submit' value='Search'></td>\n";
-    echo "<td width='30%' style='text-align: right;'>";
-    echo "<small class='task'>";
-    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
-    echo "</small>";
-    echo "</td>";
     echo "</tr>\n";
     echo "</table></form><br>\n";
 }
