@@ -600,6 +600,7 @@ function handle_action_on_a_specified_task()
     global $pguser, $requester_u_id;
     global $now_sse, $date_str, $time_of_day_str;
     global $action;
+    global $tasks_url;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
@@ -617,7 +618,13 @@ function handle_action_on_a_specified_task()
         return;
     }
 
-    TaskHeader(title_string_for_task($pre_task));
+    // We don't want a TaskHeader for add_comment
+    //   because then we wouldn't be able to redirect
+    //   the user.
+    if ($action != 'add_comment')
+    {
+        TaskHeader(title_string_for_task($pre_task));
+    }
 
     if ($action == 'show') {
         TaskDetails($task_id);
@@ -745,7 +752,10 @@ function handle_action_on_a_specified_task()
                 SET date_edited = $now_sse, edited_by = $requester_u_id
                 WHERE task_id = $task_id
             ");
-            TaskDetails($task_id);
+
+            // After posting the comment, we should reload as to clear POST data
+            //   and avoid comments being posted multiple times.
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
             ShowNotification("You must supply a comment before clicking Add Comment.");
