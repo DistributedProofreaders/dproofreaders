@@ -128,7 +128,7 @@ function show_projects_for_smooth_reading()
 
     // TRANSLATORS: %s are image links to the XML and RSS feeds
     echo "<p>";
-    echo sprintf(_("Feeds of all projects currently available for Smooth Reading: %s"), $xml_rss_images);
+    echo sprintf(_("Feeds of projects currently available for Smooth Reading: %s"), $xml_rss_images);
     echo "</p>";
 
     // Only show the filters if the user is logged in.
