@@ -1263,13 +1263,21 @@ function TaskDetails($tid)
             echo "Last edited by $edited_by_link - " . property_format_value('date_edited', $row, FALSE);
             echo "</small>";
             echo "</td>";
-            echo "<td width='50%' style='text-align:right;'>";
-            if (empty($already_notified)) {
-                echo "<a href='$tasks_url?action=notify_me&task_id=$tid'>Signup for task notifications</a>";
+            echo "<td width='50%' style='text-align:right;'>\n";
+            echo "<form method='get' style='display: inline;'>\n";
+            echo "<input type='hidden' name='task_id' value='$tid'>\n";
+            if (empty($already_notified))
+            {
+                echo "<input type='hidden' name='action' value='notify_me'>\n";
+                echo "<input type='submit' value='Signup for task notifications'>\n";
             }
-            else {
-                echo "<a href='$tasks_url?action=unnotify_me&task_id=$tid'>Remove me from task notifications</a>";
+            else
+            {
+                echo "<input type='hidden' name='action' value='unnotify_me'>\n";
+                echo "<input type='submit' value='Remove me from task notifications'>\n";
             }
+            echo "</form>";
+            echo "</td>\n";
             echo "</tr>\n";
 
             // Row 2: most of the task's simple properties
