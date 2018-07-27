@@ -30,17 +30,21 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         switch($content) {
             case "posted":
                 $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
+                $desc = sprintf(_("The latest releases posted to Project Gutenberg from %1\$s."), $site_name);
                 break;
             case "postprocessing":
                 $condition = sprintf("state='%s'", PROJ_POST_FIRST_AVAILABLE);
+                $desc = sprintf(_("The latest releases available at %1\$s for post-processing."), $site_name);
                 break;
             case "proofing":
                 $condition = sprintf("state='%s'", PROJ_P1_AVAILABLE);
+                $desc = sprintf(_("The latest releases available at %1\$s for proofreading."), $site_name);
                 break;
             case "smoothreading":
                 $condition = "
                     state = 'proj_post_first_checked_out' AND
                     smoothread_deadline > UNIX_TIMESTAMP()";
+                $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
                 break;
         }
         $data = '';
@@ -79,7 +83,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
                 <link>".xmlencode($code_url)."</link>
-                <description>".xmlencode(sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), $site_name))."</description>
+                <description>".xmlencode($desc)."</description>
                 <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
