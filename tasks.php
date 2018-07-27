@@ -11,6 +11,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
+include_once($relPath.'metarefresh.inc');
 
 require_login();
 
@@ -577,9 +578,14 @@ if (!isset($_REQUEST['task_id'])) {
                 ShowNotification($errmsg, true);
                 break;
             }
-            TaskHeader("All Open Tasks");
-            list_all_open_tasks();
-            break;
+            else
+            {
+                // If we successfully create the task, we should reload
+                //   the page to clear the POST data and make sure that
+                //   reloading does not lead to duplicated tasks.
+                metarefresh(0, $tasks_url);
+                break;
+            }
         }
     }
 }
