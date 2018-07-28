@@ -11,6 +11,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
+include_once($relPath.'metarefresh.inc');
 
 require_login();
 
@@ -585,8 +586,9 @@ if (!isset($_REQUEST['task_id'])) {
         case 'notify_new':
             $userSettings =& Settings::get_Settings($pguser);
             $userSettings->add_value('taskctr_notice', 'notify_new');
-            TaskHeader("All Open Tasks");
-            list_all_open_tasks();
+            metarefresh(0, "$tasks_url");
+//            TaskHeader("All Open Tasks");
+  //          list_all_open_tasks();
             break;
 
         case 'unnotify_new':
@@ -607,7 +609,7 @@ function handle_action_on_a_specified_task()
 {
     global $pguser, $requester_u_id;
     global $now_sse, $date_str, $time_of_day_str;
-    global $action;
+    global $action, $tasks_url;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
@@ -802,12 +804,12 @@ function handle_action_on_a_specified_task()
     elseif ($action == 'notify_me') {
         $userSettings =& Settings::get_Settings($pguser);
         $userSettings->add_value('taskctr_notice', $task_id);
-        TaskDetails($task_id);
+        metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     }
     elseif ($action == 'unnotify_me') {
         $userSettings =& Settings::get_Settings($pguser);
         $userSettings->remove_value('taskctr_notice', $task_id);
-        TaskDetails($task_id);
+        metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     }
     else {
         die("shouldn't be able to reach here");
