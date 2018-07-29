@@ -586,16 +586,13 @@ if (!isset($_REQUEST['task_id'])) {
         case 'notify_new':
             $userSettings =& Settings::get_Settings($pguser);
             $userSettings->add_value('taskctr_notice', 'notify_new');
-            metarefresh(0, "$tasks_url");
-//            TaskHeader("All Open Tasks");
-  //          list_all_open_tasks();
+            metarefresh(0, $tasks_url);
             break;
 
         case 'unnotify_new':
             $userSettings =& Settings::get_Settings($pguser);
             $userSettings->remove_value('taskctr_notice', 'notify_new');
-            TaskHeader("All Open Tasks");
-            list_all_open_tasks();
+            metarefresh(0, $tasks_url);
             break;
     }
 }
@@ -625,6 +622,18 @@ function handle_action_on_a_specified_task()
         TaskHeader("Task #$task_id does not exist");
         ShowNotification("Task #$task_id was not found!");
         return;
+    }
+
+    if ($action == 'notify_me') {
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->add_value('taskctr_notice', $task_id);
+        // metarefresh with default action (=show) so that reloading page will not repeat action
+        metarefresh(0, "$tasks_url?task_id=$task_id");
+    }
+    elseif ($action == 'unnotify_me') {
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->remove_value('taskctr_notice', $task_id);
+        metarefresh(0, "$tasks_url?task_id=$task_id");
     }
 
     TaskHeader(title_string_for_task($pre_task));
@@ -800,16 +809,6 @@ function handle_action_on_a_specified_task()
         // No need to display a different error message if the user was refreshing
         ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
         TaskDetails($task_id);
-    }
-    elseif ($action == 'notify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
-        $userSettings->add_value('taskctr_notice', $task_id);
-        metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
-    }
-    elseif ($action == 'unnotify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
-        $userSettings->remove_value('taskctr_notice', $task_id);
-        metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     }
     else {
         die("shouldn't be able to reach here");
