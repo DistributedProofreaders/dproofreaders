@@ -509,8 +509,8 @@ function create_task_from_form_submission($formsub)
     wrapped_mysql_query($sql_query);
     $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
-    global $pguser, $date_str, $time_of_day_str;
-    NotificationMail($task_id, "This task was created by $pguser on $date_str at $time_of_day_str.\n", true);
+    global $pguser;
+    NotificationMail($task_id, "", true);
     // Nobody could have subscribed to this particular task yet,
     // so the msg will only go to those with taskctr_notice = 'all' or 'notify_new'.
 
@@ -1602,32 +1602,36 @@ function TaskComments($tid)
 
 function NotificationMail($tid, $message, $new_task = false)
 {
-    global $code_url, $tasks_url, $pguser;
+    global $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
+
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
+    if(!$result)
+        return;
+    $row = mysqli_fetch_assoc($result);
+    $task_summary = $row['task_summary'];
+
+    $message = $message . "\nYou can see task #$tid by visiting $tasks_url?action=show&task_id=$tid\n\n--\n
+Distributed Proofreaders\n$code_url\n\n
+This is an automated message, please do not respond directly to this e-mail.";
 
     $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     if($new_task)
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
-        $message_header = "DP Task Center: Task #$tid has been created";
-        $message_intro = "You have requested notification of new tasks. ";
+        $message = "You have requested notification of new tasks.
+Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_str.\n\n"
+        . $row['task_details'] . "\n" . $message;
     }
     else
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-        $message_header = "DP Task Center: Task #$tid has been updated";
-        $message_intro = "You have requested notification of updates to task #$tid. ";
+        $message = "You have requested notification of updates to task #$tid: $task_summary\n" . $message;
     }
     $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, $message_header,
-                $message_intro
-              . "$message" . "\n"
-              . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
-              . "--" . "\n"
-              . "Distributed Proofreaders" . "\n" . "$code_url" . "\n\n"
-              . "This is an automated message that you had requested, please do not respond directly to this e-mail.");
+            maybe_mail($user->email, "DP Task #$tid: $task_summary", $message);
         }
     }
 }
