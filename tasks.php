@@ -1627,7 +1627,7 @@ Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
         $message = "You have requested notification of updates to task #$tid: $task_summary\n" . $message;
     }
-    $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
+    $users_to_notify = array_unique(array_merge($notify_setting_all, $notify_setting_this));
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
