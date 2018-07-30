@@ -11,6 +11,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
+include_once($relPath.'metarefresh.inc');
 
 require_login();
 
@@ -577,9 +578,14 @@ if (!isset($_REQUEST['task_id'])) {
                 ShowNotification($errmsg, true);
                 break;
             }
-            TaskHeader("All Open Tasks");
-            list_all_open_tasks();
-            break;
+            else
+            {
+                // If we successfully create the task, we should reload
+                //   the page to clear the POST data and make sure that
+                //   reloading does not lead to duplicated tasks.
+                metarefresh(0, $tasks_url);
+                break;
+            }
         }
     }
 }
@@ -594,6 +600,7 @@ function handle_action_on_a_specified_task()
     global $pguser, $requester_u_id;
     global $now_sse, $date_str, $time_of_day_str;
     global $action;
+    global $tasks_url;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
@@ -611,7 +618,13 @@ function handle_action_on_a_specified_task()
         return;
     }
 
-    TaskHeader(title_string_for_task($pre_task));
+    // We don't want a TaskHeader for add_comment
+    //   because then we wouldn't be able to redirect
+    //   the user.
+    if ($action != 'add_comment')
+    {
+        TaskHeader(title_string_for_task($pre_task));
+    }
 
     if ($action == 'show') {
         TaskDetails($task_id);
@@ -739,7 +752,10 @@ function handle_action_on_a_specified_task()
                 SET date_edited = $now_sse, edited_by = $requester_u_id
                 WHERE task_id = $task_id
             ");
-            TaskDetails($task_id);
+
+            // After posting the comment, we should reload as to clear POST data
+            //   and avoid comments being posted multiple times.
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
             ShowNotification("You must supply a comment before clicking Add Comment.");
@@ -952,7 +968,7 @@ center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; paddi
 .wrap              { white-space: normal!important; }
 EOS;
 
-    output_header(html_safe($header), NO_STATSBAR,
+    output_header($header, NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
