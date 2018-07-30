@@ -4,7 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
 $content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading', 'news')); // Which feed the user wants
-$refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
+if ($testing) $refreshDelay = 0; // Disable delay if we are on the test server
+else $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
 $limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
