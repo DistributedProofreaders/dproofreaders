@@ -6,6 +6,7 @@ include_once($relPath.'misc.inc'); // xmlencode()
 $content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading', 'news')); // Which feed the user wants
 $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
+$limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
 // Determine if we should display a 0.91 compliant RSS feed or our own feed
 $intlang = get_desired_language();
@@ -52,7 +53,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                         e.details1 = 'text available' AND
                         e.timestamp > UNIX_TIMESTAMP() - (30*24*60*60)
                     ORDER BY e.timestamp DESC
-                    LIMIT 10";
+                    LIMIT $limit";
                 $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
                 break;
         }
@@ -65,7 +66,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 FROM projects 
                 WHERE $condition 
                 ORDER BY modifieddate DESC 
-                LIMIT 10";
+                LIMIT $limit";
         }
 
         $data = '';
@@ -122,7 +123,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
 
     if ($content == "news") {
         $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM news_items ORDER BY date_posted DESC LIMIT $limit");
         while ($news_item = mysqli_fetch_array($result)) {
             $posteddate = date("l, F jS, Y",($news_item['date_posted']));
             $data .= "<item>
