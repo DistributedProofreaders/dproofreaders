@@ -41,14 +41,35 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 $desc = sprintf(_("The latest releases available at %1\$s for proofreading."), $site_name);
                 break;
             case "smoothreading":
-                $condition = "
-                    state = 'proj_post_first_checked_out' AND
-                    smoothread_deadline > UNIX_TIMESTAMP()";
+                // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
+                $query = "
+                    SELECT 
+                        projectid, nameofwork, genre, language, FROM_UNIXTIME(e.timestamp) AS modifieddate
+                    FROM projects
+                    JOIN project_events e USING (projectid)
+                    WHERE
+                        e.event_type = 'smooth-reading' AND
+                        e.details1 = 'text available' AND
+                        e.timestamp > UNIX_TIMESTAMP() - (30*24*60*60)
+                    ORDER BY e.timestamp DESC
+                    LIMIT 10";
                 $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
                 break;
         }
+
+        // If $query is not set, use the default query.
+        if (!isset($query))
+        {
+            $query = "
+                SELECT * 
+                FROM projects 
+                WHERE $condition 
+                ORDER BY modifieddate DESC 
+                LIMIT 10";
+        }
+
         $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM projects WHERE $condition ORDER BY modifieddate DESC LIMIT 10");
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
         while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r",($row['modifieddate']));
             if (isset($_GET['type'])) {
