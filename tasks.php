@@ -456,6 +456,7 @@ function create_task_from_form_submission($formsub)
     global $versions_array;
     global $now_sse;
     global $requester_u_id;
+    global $site_abbreviation;
 
     if (empty($formsub['task_summary']) || empty($formsub['task_details'])) {
         return "You must supply a Task Summary and Task Details.";
@@ -521,7 +522,7 @@ function create_task_from_form_submission($formsub)
         global $tasks_url, $code_url;
         maybe_mail(
             $task_assignee_user->email,
-            "DP Task Center: Task #$task_id has been assigned to you",
+            "$site_abbreviation Task Center: Task #$task_id has been assigned to you",
             $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
         );
     }
@@ -567,7 +568,7 @@ if (!isset($_REQUEST['task_id'])) {
         case 'list_open':
             // The user just entered the Task Center
             // (e.g., by clicking the "Report a Bug" link).
-            TaskHeader("All Open Tasks");
+            TaskHeader("All Open Tasks", true);
             list_all_open_tasks();
             break;
 
@@ -579,7 +580,7 @@ if (!isset($_REQUEST['task_id'])) {
                 ShowNotification($errmsg, true);
                 break;
             }
-            TaskHeader("All Open Tasks");
+            TaskHeader("All Open Tasks", true);
             list_all_open_tasks();
             break;
 
@@ -922,7 +923,7 @@ function dropdown_select($field_name, $current_value, $array)
     echo "</select>\n";
 }
 
-function TaskHeader($header)
+function TaskHeader($header, $show_new_alert = false)
 {
     global $tasks_url, $pguser;
     $js_data = <<<EOS
@@ -978,15 +979,18 @@ EOS;
     echo "<tr><td width='50%'>";
     echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
     echo "<form method='get' style='display: inline;'>";
-    if($notified_for_new)
+    if($show_new_alert)
     {
-        echo "<input type='hidden' name='action' value='unnotify_new'>";
-        echo " | <input type='submit' value='Stop New Task Alerts'>";
-    }
-    else
-    {
-        echo "<input type='hidden' name='action' value='notify_new'>";
-        echo " | <input type='submit' value='Receive New Task Alerts'>";
+        if($notified_for_new)
+        {
+            echo "<input type='hidden' name='action' value='unnotify_new'>";
+            echo " | <input type='submit' value='Stop New Task Alerts'>";
+        }
+        else
+        {
+            echo "<input type='hidden' name='action' value='notify_new'>";
+            echo " | <input type='submit' value='Receive New Task Alerts'>";
+        }
     }
     echo "</form>";
     echo "</td>\n";
@@ -1602,7 +1606,7 @@ function TaskComments($tid)
 
 function NotificationMail($tid, $message, $new_task = false)
 {
-    global $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
+    global $site_abbreviation, $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
 
     $result = mysqli_query(DPDatabase::get_connection(), "SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
     if(!$result)
@@ -1610,28 +1614,35 @@ function NotificationMail($tid, $message, $new_task = false)
     $row = mysqli_fetch_assoc($result);
     $task_summary = $row['task_summary'];
 
-    $message = $message . "\nYou can see task #$tid by visiting $tasks_url?action=show&task_id=$tid\n\n--\n
-Distributed Proofreaders\n$code_url\n\n
-This is an automated message, please do not respond directly to this e-mail.";
+    $subject = "$site_abbreviation Task #$tid: $task_summary";
+    $message = $message
+        . "\nYou can see task #$tid by visiting $tasks_url?task_id=$tid\n\n"
+        . "--\n"
+        . "Distributed Proofreaders\n$code_url\n\n"
+        . "This is an automated message, please do not respond directly to this e-mail.";
 
     $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     if($new_task)
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
-        $message = "You have requested notification of new tasks.
-Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_str.\n\n"
-        . $row['task_details'] . "\n" . $message;
+        $message =
+            "You have requested notification of new tasks.\n"
+            . "Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_str.\n\n"
+            . $row['task_details'] . "\n"
+            . $message;
     }
     else
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-        $message = "You have requested notification of updates to task #$tid: $task_summary\n" . $message;
+        $message =
+            "You have requested notification of updates to task #$tid: $task_summary\n"
+            . $message;
     }
     $users_to_notify = array_unique(array_merge($notify_setting_all, $notify_setting_this));
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, "DP Task #$tid: $task_summary", $message);
+            maybe_mail($user->email, $subject, $message);
         }
     }
 }
