@@ -3,7 +3,7 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
-$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading', 'news')); // Which feed the user wants
+$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading')); // Which feed the user wants
 if ($testing) $refreshDelay = 0; // Disable delay if we are on the test server
 else $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
@@ -120,35 +120,6 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 $data
                 </projects>";
         }
-    }
-
-    if ($content == "news") {
-        $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM news_items ORDER BY date_posted DESC LIMIT $limit");
-        while ($news_item = mysqli_fetch_array($result)) {
-            $posteddate = date("l, F jS, Y",($news_item['date_posted']));
-            $data .= "<item>
-                <title>".xmlencode(sprintf( _("News Update for %1\$s."), $posteddate))."</title>
-                <link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
-                <guid>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</guid>
-                <description>".xmlencode(strip_tags($news_item['content']))."</description>
-                </item>
-                ";
-        }
-        $lastupdated = date("r");
-        $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
-                <channel>
-                <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
-                <title>".xmlencode($site_name) . " - " . _("Latest News") . "</title>
-                <link>".xmlencode($code_url)."</link>
-                <description>".xmlencode(sprintf( _("The latest news related to %1\$s."), $site_name))."</description>
-                <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
-                <pubDate>".xmlencode($lastupdated)."</pubDate>
-                <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
-                $data
-                </channel>
-                </rss>";
     }
 
     $file = fopen($xmlfile,"w");
