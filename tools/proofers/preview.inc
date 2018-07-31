@@ -53,7 +53,8 @@ function get_preview_strings()
         "dupNote" => _("Duplicate footnote identifier"),
         "continueFirst" => _("Continuation footnote should precede others"),
         "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
-        "emptyTag" => _("Empty tag")
+        "emptyTag" => _("Empty tag"),
+        "latin1Char" => _("Use the Latin-1 character for this")
     );
 }
 

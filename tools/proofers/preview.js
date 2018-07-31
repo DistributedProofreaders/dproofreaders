@@ -51,7 +51,8 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         spaceNext: 0,
         dupNote: 0,
         continueFirst: 0,
-        emptyTag: 1
+        emptyTag: 1,
+        latin1Char: 1
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -75,7 +76,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         var style = styler[s];
         var have_style = false;
         var str = "";
-        if(!style) {
+        if (!style) {
             // s is not key for style
             return str;
         }
@@ -486,6 +487,19 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         }
     }
 
+    // Are there any characters which could be represented by latin-1?
+    function checkDiacrits() {
+        var re = /\[(?:[`'\^:][AEIOUaeiou]|'[Yy]|:y|~[AaNn]|[Cc],|AE|ae)\]/g;
+        var result;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            reportIssue(result.index, 4, "latin1Char");
+        }
+    }
+
     // There is a potential difficulty with v used to indicate caron since
     // there exist [v.] and [~v]. So deal with these before cosidering caron.
     // Circumflex ^ can also be used as a superscript indicator.
@@ -540,7 +554,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
-        var colorString0, colorString; // for out-of-line tags and tb
+        var colorString; // for out-of-line tags and tb
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
@@ -1053,6 +1067,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             checkBlankLines();
         }
         checkTab();
+        checkDiacrits();
         return (issueCount[1] === 0);
     }
 
