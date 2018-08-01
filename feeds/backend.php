@@ -3,9 +3,11 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
-$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading', 'news')); // Which feed the user wants
-$refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
+$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading')); // Which feed the user wants
+if ($testing) $refreshDelay = 0; // Disable delay if we are on the test server
+else $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
+$limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
 // Determine if we should display a 0.91 compliant RSS feed or our own feed
 $intlang = get_desired_language();
@@ -30,21 +32,50 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         switch($content) {
             case "posted":
                 $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
+                $desc = sprintf(_("The latest releases posted to Project Gutenberg from %1\$s."), $site_name);
+                $link = "$code_url/list_etexts.php?x=g";
                 break;
             case "postprocessing":
                 $condition = sprintf("state='%s'", PROJ_POST_FIRST_AVAILABLE);
+                $desc = sprintf(_("The latest releases available at %1\$s for post-processing."), $site_name);
+                $link = "$code_url/list_etexts.php?x=s";
                 break;
             case "proofing":
                 $condition = sprintf("state='%s'", PROJ_P1_AVAILABLE);
+                $desc = sprintf(_("The latest releases available at %1\$s for proofreading."), $site_name);
+                $link = "$code_url/list_etexts.php?x=b";
                 break;
             case "smoothreading":
-                $condition = "
-                    state = 'proj_post_first_checked_out' AND
-                    smoothread_deadline > UNIX_TIMESTAMP()";
+                // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
+                $query = "
+                    SELECT 
+                        projectid, nameofwork, genre, language, FROM_UNIXTIME(e.timestamp) AS modifieddate
+                    FROM projects
+                    JOIN project_events e USING (projectid)
+                    WHERE
+                        e.event_type = 'smooth-reading' AND
+                        e.details1 = 'text available' AND
+                        e.timestamp > UNIX_TIMESTAMP() - (30*24*60*60)
+                    ORDER BY e.timestamp DESC
+                    LIMIT $limit";
+                $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
+                $link = "$code_url/tools/post_proofers/smooth_reading.php";
                 break;
         }
+
+        // If $query is not set, use the default query.
+        if (!isset($query))
+        {
+            $query = "
+                SELECT * 
+                FROM projects 
+                WHERE $condition 
+                ORDER BY modifieddate DESC 
+                LIMIT $limit";
+        }
+
         $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM projects WHERE $condition ORDER BY modifieddate DESC LIMIT 10");
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
         while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r",($row['modifieddate']));
             if (isset($_GET['type'])) {
@@ -78,8 +109,8 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <channel>
                 <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
-                <link>".xmlencode($code_url)."</link>
-                <description>".xmlencode(sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), $site_name))."</description>
+                <link>".xmlencode($link)."</link>
+                <description>".xmlencode($desc)."</description>
                 <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
@@ -93,35 +124,6 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 $data
                 </projects>";
         }
-    }
-
-    if ($content == "news") {
-        $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
-        while ($news_item = mysqli_fetch_array($result)) {
-            $posteddate = date("l, F jS, Y",($news_item['date_posted']));
-            $data .= "<item>
-                <title>".xmlencode(sprintf( _("News Update for %1\$s."), $posteddate))."</title>
-                <link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
-                <guid>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</guid>
-                <description>".xmlencode(strip_tags($news_item['content']))."</description>
-                </item>
-                ";
-        }
-        $lastupdated = date("r");
-        $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
-                <channel>
-                <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
-                <title>".xmlencode($site_name) . " - " . _("Latest News") . "</title>
-                <link>".xmlencode($code_url)."</link>
-                <description>".xmlencode(sprintf( _("The latest news related to %1\$s."), $site_name))."</description>
-                <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
-                <pubDate>".xmlencode($lastupdated)."</pubDate>
-                <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
-                $data
-                </channel>
-                </rss>";
     }
 
     $file = fopen($xmlfile,"w");

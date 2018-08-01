@@ -121,11 +121,6 @@ function show_news_for_page( $news_page_id )
             echo sprintf( _("last changed %s"), $formatted_date );
         }
         echo "</small>";
-
-        // this commented out until fuller rollout
-        // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-        // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-
         echo "</div>"; // div.newsheader
 
         // -------------------------------------------
