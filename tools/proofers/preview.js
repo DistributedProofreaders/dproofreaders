@@ -52,7 +52,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         dupNote: 0,
         continueFirst: 0,
         latin1Char: 1,
-        badChar: 1,
+        badChar: 1
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -491,14 +491,23 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             }
             reportIssue(result.index, 4, "latin1Char");
         }
-        // are there any windows-1252 characters?
-        // they get converted to unicode code points in javascript and will persist
-        // as windows-1252 characters when page is saved.
-        // unicode chars pasted in will appear but will be converted to html entities
+        // windows-1252 characters get converted to unicode code points in javascript
+        // and will persist as windows-1252 characters when page is saved.
+        // unicode chars pasted in will appear but if they cannot be represented by
+        // windows-1252 they will will be converted to html entities
         // when the page is saved.
         // this will catch windows-1252 and unicode chars including those which
         // are represented by two words in js
         re = /[\u0100-\u{fffff}]/gu;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            reportIssue(result.index, result[0].length, "badChar");
+        }
+        // find numeric html entities
+        re = /&#\d+;/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
