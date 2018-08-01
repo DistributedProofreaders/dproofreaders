@@ -33,14 +33,17 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
             case "posted":
                 $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
                 $desc = sprintf(_("The latest releases posted to Project Gutenberg from %1\$s."), $site_name);
+                $link = "$code_url/list_etexts.php?x=g";
                 break;
             case "postprocessing":
                 $condition = sprintf("state='%s'", PROJ_POST_FIRST_AVAILABLE);
                 $desc = sprintf(_("The latest releases available at %1\$s for post-processing."), $site_name);
+                $link = "$code_url/list_etexts.php?x=s";
                 break;
             case "proofing":
                 $condition = sprintf("state='%s'", PROJ_P1_AVAILABLE);
                 $desc = sprintf(_("The latest releases available at %1\$s for proofreading."), $site_name);
+                $link = "$code_url/list_etexts.php?x=b";
                 break;
             case "smoothreading":
                 // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
@@ -56,6 +59,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                     ORDER BY e.timestamp DESC
                     LIMIT $limit";
                 $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
+                $link = "$code_url/tools/post_proofers/smooth_reading.php";
                 break;
         }
 
@@ -105,7 +109,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <channel>
                 <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
-                <link>".xmlencode($code_url)."</link>
+                <link>".xmlencode($link)."</link>
                 <description>".xmlencode($desc)."</description>
                 <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
