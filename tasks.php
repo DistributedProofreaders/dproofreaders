@@ -67,6 +67,8 @@ if ($request_method == 'GET')
         'unnotify_me',
         'search',
         'list_open',
+        'notify_new',
+        'unnotify_new'
     );
     $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
 }
@@ -454,6 +456,7 @@ function create_task_from_form_submission($formsub)
     global $versions_array;
     global $now_sse;
     global $requester_u_id;
+    global $site_abbreviation;
 
     if (empty($formsub['task_summary']) || empty($formsub['task_details'])) {
         return "You must supply a Task Summary and Task Details.";
@@ -507,11 +510,10 @@ function create_task_from_form_submission($formsub)
     wrapped_mysql_query($sql_query);
     $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
-    global $pguser, $date_str, $time_of_day_str;
-    NotificationMail($task_id,
-        "This task was created by $pguser on $date_str at $time_of_day_str.\n");
+    global $pguser;
+    NotificationMail($task_id, "", true);
     // Nobody could have subscribed to this particular task yet,
-    // so the msg will only go to those with taskctr_notice = 'all'.
+    // so the msg will only go to those with taskctr_notice = 'all' or 'notify_new'.
 
     // If $newt_assignee is 0, there is no user assigned so no notification
     // to send out.
@@ -520,7 +522,7 @@ function create_task_from_form_submission($formsub)
         global $tasks_url, $code_url;
         maybe_mail(
             $task_assignee_user->email,
-            "DP Task Center: Task #$task_id has been assigned to you",
+            "$site_abbreviation Task Center: Task #$task_id has been assigned to you",
             $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
         );
     }
@@ -566,11 +568,11 @@ if (!isset($_REQUEST['task_id'])) {
         case 'list_open':
             // The user just entered the Task Center
             // (e.g., by clicking the "Report a Bug" link).
-            TaskHeader("All Open Tasks");
+            TaskHeader("All Open Tasks", true);
             list_all_open_tasks();
             break;
 
-        case 'create': {
+        case 'create':
             // The user is supplying values for the properties of a new task.
             $errmsg = create_task_from_form_submission($_POST);
             if ($errmsg)
@@ -586,7 +588,18 @@ if (!isset($_REQUEST['task_id'])) {
                 metarefresh(0, $tasks_url);
                 break;
             }
-        }
+
+        case 'notify_new':
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->add_value('taskctr_notice', 'notify_new');
+            metarefresh(0, $tasks_url);
+            break;
+
+        case 'unnotify_new':
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->remove_value('taskctr_notice', 'notify_new');
+            metarefresh(0, $tasks_url);
+            break;
     }
 }
 else {
@@ -599,8 +612,7 @@ function handle_action_on_a_specified_task()
 {
     global $pguser, $requester_u_id;
     global $now_sse, $date_str, $time_of_day_str;
-    global $action;
-    global $tasks_url;
+    global $action, $tasks_url;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
@@ -618,10 +630,21 @@ function handle_action_on_a_specified_task()
         return;
     }
 
+    if ($action == 'notify_me') {
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->add_value('taskctr_notice', $task_id);
+        // metarefresh with default action (=show) so that reloading page will not repeat action
+        metarefresh(0, "$tasks_url?task_id=$task_id");
+    }
+    elseif ($action == 'unnotify_me') {
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->remove_value('taskctr_notice', $task_id);
+        metarefresh(0, "$tasks_url?task_id=$task_id");
+    }
     // We don't want a TaskHeader for add_comment
     //   because then we wouldn't be able to redirect
     //   the user.
-    if ($action != 'add_comment')
+    elseif ($action != 'add_comment')
     {
         TaskHeader(title_string_for_task($pre_task));
     }
@@ -801,16 +824,6 @@ function handle_action_on_a_specified_task()
         ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
         TaskDetails($task_id);
     }
-    elseif ($action == 'notify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
-        $userSettings->add_value('taskctr_notice', $task_id);
-        TaskDetails($task_id);
-    }
-    elseif ($action == 'unnotify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
-        $userSettings->remove_value('taskctr_notice', $task_id);
-        TaskDetails($task_id);
-    }
     else {
         die("shouldn't be able to reach here");
     }
@@ -923,9 +936,9 @@ function dropdown_select($field_name, $current_value, $array)
     echo "</select>\n";
 }
 
-function TaskHeader($header)
+function TaskHeader($header, $show_new_alert = false)
 {
-    global $tasks_url;
+    global $tasks_url, $pguser;
     $js_data = <<<EOS
 function showSpan(id) { document.getElementById(id).style.display=""; }
 function hideSpan(id) { document.getElementById(id).style.display="none"; }
@@ -971,28 +984,45 @@ EOS;
     output_header($header, NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
-    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
+    $userSettings =& Settings::get_Settings($pguser);
+    $notification_settings = $userSettings->get_values('taskctr_notice');
+    $notified_for_new = in_array('notify_new', $notification_settings);
+
     echo "<table class='taskplain'>\n";
-    echo "<tr><td width='50%'>&nbsp;</td>\n";
+    echo "<tr><td width='50%'>";
+    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
+    echo "<form method='get' style='display: inline;'>";
+    if($show_new_alert)
+    {
+        if($notified_for_new)
+        {
+            echo "<input type='hidden' name='action' value='unnotify_new'>";
+            echo " | <input type='submit' value='Stop New Task Alerts'>";
+        }
+        else
+        {
+            echo "<input type='hidden' name='action' value='notify_new'>";
+            echo " | <input type='submit' value='Receive New Task Alerts'>";
+        }
+    }
+    echo "</form>";
+    echo "</td>\n";
     echo "<td width='50%' style='text-align:right;'>";
+    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
     echo "<input type='text' name='task_id' size='12'>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
-    echo "</td></tr></table></form><br>\n";
+    echo "</form>";
+    echo "</td></tr></table><br>\n";
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
     echo "<table class='tasks'>\n";
-    echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
-    echo "<td width='70%'>";
+    echo "<tr><td><b><small class='task'>Search:</small></b></td>\n";
+    echo "<td>";
 
     SearchParams_echo_controls();
 
     echo "<input type='submit' value='Search'></td>\n";
-    echo "<td width='30%' style='text-align: right;'>";
-    echo "<small class='task'>";
-    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
-    echo "</small>";
-    echo "</td>";
     echo "</tr>\n";
     echo "</table></form><br>\n";
 }
@@ -1251,13 +1281,21 @@ function TaskDetails($tid)
             echo "Last edited by $edited_by_link - " . property_format_value('date_edited', $row, FALSE);
             echo "</small>";
             echo "</td>";
-            echo "<td width='50%' style='text-align:right;'>";
-            if (empty($already_notified)) {
-                echo "<a href='$tasks_url?action=notify_me&task_id=$tid'>Signup for task notifications</a>";
+            echo "<td width='50%' style='text-align:right;'>\n";
+            echo "<form method='get' style='display: inline;'>\n";
+            echo "<input type='hidden' name='task_id' value='$tid'>\n";
+            if (empty($already_notified))
+            {
+                echo "<input type='hidden' name='action' value='notify_me'>\n";
+                echo "<input type='submit' value='Signup for task notifications'>\n";
             }
-            else {
-                echo "<a href='$tasks_url?action=unnotify_me&task_id=$tid'>Remove me from task notifications</a>";
+            else
+            {
+                echo "<input type='hidden' name='action' value='unnotify_me'>\n";
+                echo "<input type='submit' value='Remove me from task notifications'>\n";
             }
+            echo "</form>";
+            echo "</td>\n";
             echo "</tr>\n";
 
             // Row 2: most of the task's simple properties
@@ -1579,22 +1617,45 @@ function TaskComments($tid)
     echo "</td></tr></table></form>";
 }
 
-function NotificationMail($tid, $message)
+function NotificationMail($tid, $message, $new_task = false)
 {
-    global $code_url, $tasks_url, $pguser;
+    global $site_abbreviation, $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
+
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
+    if(!$result)
+        return;
+    $row = mysqli_fetch_assoc($result);
+    $task_summary = $row['task_summary'];
+
+    $subject = "$site_abbreviation Task #$tid: $task_summary";
+    $message = $message
+        . "\nYou can see task #$tid by visiting $tasks_url?task_id=$tid\n\n"
+        . "--\n"
+        . "Distributed Proofreaders\n$code_url\n\n"
+        . "This is an automated message, please do not respond directly to this e-mail.";
+
     $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
-    $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-    $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
+    if($new_task)
+    {
+        $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
+        $message =
+            "You have requested notification of new tasks.\n"
+            . "Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_str.\n\n"
+            . $row['task_details'] . "\n"
+            . $message;
+    }
+    else
+    {
+        $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
+        $message =
+            "You have requested notification of updates to task #$tid: $task_summary\n"
+            . $message;
+    }
+    $users_to_notify = array_unique(array_merge($notify_setting_all, $notify_setting_this));
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, "DP Task Center: Task #$tid has been updated",
-                "You have requested notification of updates to task #$tid. "
-              . "$message" . "\n"
-              . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
-              . "--" . "\n"
-              . "Distributed Proofreaders" . "\n" . "$code_url" . "\n\n"
-              . "This is an automated message that you had requested, please do not respond directly to this e-mail.");
+            maybe_mail($user->email, $subject, $message);
         }
     }
 }
