@@ -580,9 +580,14 @@ if (!isset($_REQUEST['task_id'])) {
                 ShowNotification($errmsg, true);
                 break;
             }
-            TaskHeader("All Open Tasks", true);
-            list_all_open_tasks();
-            break;
+            else
+            {
+                // If we successfully create the task, we should reload
+                //   the page to clear the POST data and make sure that
+                //   reloading does not lead to duplicated tasks.
+                metarefresh(0, $tasks_url);
+                break;
+            }
 
         case 'notify_new':
             $userSettings =& Settings::get_Settings($pguser);
@@ -636,8 +641,13 @@ function handle_action_on_a_specified_task()
         $userSettings->remove_value('taskctr_notice', $task_id);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
-
-    TaskHeader(title_string_for_task($pre_task));
+    // We don't want a TaskHeader for add_comment
+    //   because then we wouldn't be able to redirect
+    //   the user.
+    elseif ($action != 'add_comment')
+    {
+        TaskHeader(title_string_for_task($pre_task));
+    }
 
     if ($action == 'show') {
         TaskDetails($task_id);
@@ -765,7 +775,10 @@ function handle_action_on_a_specified_task()
                 SET date_edited = $now_sse, edited_by = $requester_u_id
                 WHERE task_id = $task_id
             ");
-            TaskDetails($task_id);
+
+            // After posting the comment, we should reload as to clear POST data
+            //   and avoid comments being posted multiple times.
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
             ShowNotification("You must supply a comment before clicking Add Comment.");
@@ -968,7 +981,7 @@ center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; paddi
 .wrap              { white-space: normal!important; }
 EOS;
 
-    output_header(html_safe($header), NO_STATSBAR,
+    output_header($header, NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     $userSettings =& Settings::get_Settings($pguser);

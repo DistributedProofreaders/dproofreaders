@@ -219,7 +219,7 @@ class Settings
     // Remove a setting:value pair
     public function remove_value($settingCode, $value)
     {
-        if(in_array($value, $this->settings_array[$settingCode]))
+        if(array_key_exists($settingCode, $this->settings_array) && in_array($value, $this->settings_array[$settingCode]))
         {
             $this->settings_array[$settingCode] = array_diff(
                 $this->settings_array[$settingCode], array($value));
