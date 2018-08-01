@@ -52,7 +52,8 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         dupNote: 0,
         continueFirst: 0,
         emptyTag: 1,
-        latin1Char: 1
+        latin1Char: 1,
+        badChar: 1
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -474,8 +475,8 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         }
     }
 
-    // find tab characters
-    function checkTab() {
+    function checkChars() {
+        // find tab characters
         var re = /\t/g;
         var result;
         while (true) {
@@ -485,18 +486,29 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             }
             reportIssue(result.index, 1, "tabChar");
         }
-    }
-
-    // Are there any characters which could be represented by latin-1?
-    function checkDiacrits() {
-        var re = /\[(?:[`'\^:][AEIOUaeiou]|'[Yy]|:y|~[AaNn]|[Cc],|AE|ae)\]/g;
-        var result;
+        // Are there any characters which could be represented by latin-1?
+        re = /\[(?:[`'\^:][AEIOUaeiou]|'[Yy]|:y|~[AaNn]|[Cc],|AE|ae)\]/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 break;
             }
             reportIssue(result.index, 4, "latin1Char");
+        }
+        // are there any windows-1252 characters?
+        // they get converted to unicode code points in javascript and will persist
+        // as windows-1252 characters when page is saved.
+        // unicode chars pasted in will appear but will be converted to html entities
+        // when the page is saved.
+        // this will catch windows-1252 and unicode chars including those which
+        // are represented by two words in js
+        re = /[\u0100-\u{fffff}]/gu;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            reportIssue(result.index, result[0].length, "badChar");
         }
     }
 
@@ -1066,8 +1078,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             unRecog();
             checkBlankLines();
         }
-        checkTab();
-        checkDiacrits();
+        checkChars();
         return (issueCount[1] === 0);
     }
 
