@@ -55,7 +55,8 @@ function get_preview_strings()
         "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
         "emptyTag" => _("Empty tag"),
         "latin1Char" => _("Use the Latin-1 character for this"),
-        "badChar" => _("This character should not be used")
+        "badChar" => _("This character should not be used"),
+        "nbsp" => _("no-break space should not be used")
     );
 }
 
