@@ -52,7 +52,8 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         dupNote: 0,
         continueFirst: 0,
         latin1Char: 1,
-        badChar: 1
+        badChar: 1,
+        nbsp: 1
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -482,6 +483,15 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             }
             reportIssue(result.index, 1, "tabChar");
         }
+        // find no-break space
+        re = /\xa0/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            reportIssue(result.index, 1, "nbsp");
+        }
         // Are there any characters which could be represented by latin-1?
         re = /\[(?:[`'\^:][AEIOUaeiou]|'[Yy]|:y|~[AaNn]|[Cc],|AE|ae)\]/g;
         while (true) {
@@ -846,7 +856,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
         }
 
         // search for footnote anchors and put in an array
-        // match an upper case letter or digits or *
+        // match a letter or digits or *
         var result;
         var re = /\[(\*|[A-Za-z]|\d+)\]/g;
         while (true) {
