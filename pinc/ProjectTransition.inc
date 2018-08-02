@@ -28,6 +28,7 @@ class ProjectTransition
             // detour
             // settings_template
             // collateral_actions
+            // disabled_during_SR
     )
     // A user who satisfies the $who_restriction can cause
     // a project that satisfies $project_restriction
@@ -161,6 +162,28 @@ class ProjectTransition
         }
 
         die("transition has bad 'restriction' value: '$simple_who_restriction'");
+    }
+
+    // Returns whether the transition is currently disabled
+    function is_disabled($project)
+    {
+        return ($this->why_disabled($project) != '');
+    }
+
+    // Returns the reason why the ProjectTransition is currently disabled
+    //
+    //   SR = Disabled during Smooth Reading
+    function why_disabled($project)
+    {
+        if ($project->is_available_for_smoothreading() &&
+            isset($this->disabled_during_SR) &&
+            $this->disabled_during_SR)
+        {
+            return 'SR';
+        }
+
+        // If we reached this, there is no reason for it to be disabled
+        return '';
     }
 
     // ---------------------------------------------------------------
@@ -1071,6 +1094,7 @@ new ProjectTransition(
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
         'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => null,
+        'disabled_during_SR'    => true,
     )
 );
 
@@ -1121,7 +1145,8 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions'    => 'PP_to_PPV_collateral'
+        'collateral_actions'    => 'PP_to_PPV_collateral',
+        'disabled_during_SR'    => true,
     )
 );
 
@@ -1174,6 +1199,7 @@ new ProjectTransition(
         'detour'                => null,
         'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', smoothread_deadline='0'",
         'collateral_actions'    => null,
+        'disabled_during_SR'    => true,
     )
 );
 
@@ -1229,6 +1255,7 @@ new ProjectTransition(
         'detour'                => null,
         'settings_template'     => '',
         'collateral_actions'    => null,
+        'disabled_during_SR'    => true,
     )
 );
 
@@ -1302,6 +1329,7 @@ new ProjectTransition(
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
         'collateral_actions'    => 'pg_posted_collateral',
+        'disabled_during_SR'    => true,
     )
 );
 
