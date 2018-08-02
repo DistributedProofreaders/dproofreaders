@@ -379,9 +379,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // The state of the project
 
-    $available_for_SR = (
-        $project->state == PROJ_POST_FIRST_CHECKED_OUT &&
-        $project->smoothread_deadline > time() );
+    $available_for_SR = $project->is_available_for_smoothreading();
 
     $right = project_states_text($project->state);
     if ($round)
@@ -1905,7 +1903,7 @@ function do_smooth_reading()
     {
         // Project has been made available for SR
 
-        if ( time() < $project->smoothread_deadline )
+        if ( $project->is_available_for_smoothreading() )
         {
             $sr_deadline_str = strftime(
                 $date_format, $project->smoothread_deadline );

@@ -605,6 +605,13 @@ XML;
         $message = "";
         return true;
     }
+
+    // Used for checking whether a book is currently in the Smooth Reading Pool
+    public function is_available_for_smoothreading()
+    {
+        return $this->state == PROJ_POST_FIRST_CHECKED_OUT &&
+               $this->smoothread_deadline > time();
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
