@@ -1015,7 +1015,7 @@ EOS;
     echo "<input type='submit' value='Go!'>\n";
     echo "</form>";
     echo "</td></tr></table><br>\n";
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
+    echo "<form action='$tasks_url' method='post'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td><b><small class='task'>Search:</small></b></td>\n";
     echo "<td>";
