@@ -62,19 +62,19 @@ class PageUnformatter
 
     private function adjust_footnotes($text)
     {
-        // remove "[Footnote" and ":" and "]", if ref. is a letter replace with *
-        $match = preg_match ("/\[Footnote (?:(\d+)|[A-Z]):/", $text, $matches, PREG_OFFSET_CAPTURE);
+        // remove "[Footnote" and ":" and "]", if ref. is an upper-case letter replace with *
+        $match = preg_match ("/\[Footnote (?:(\d+|[a-z])|[A-Z]):/", $text, $matches, PREG_OFFSET_CAPTURE);
         if(!$match) // if no match or error
         {
             return $text;
         }
         $start = $matches[0][1];
         if(isset($matches[1]))
-        { // number reference
+        { // number or lower-case letter reference
             $note_ref = $matches[1][0];
         }
         else
-        { // must be a letter
+        { // must be an upper-case letter
             $note_ref = "*";
         }
         $length = strlen($matches[0][0]);
