@@ -263,7 +263,10 @@ class StateColumn extends Column
 
             foreach ( $transitions as $transition )
             {
-                $this->_echo_project_state_option( $transition->to_state, 0 );
+                $disabled = $transition->is_disabled($project);
+                $optional_reason = $transition->why_disabled($project);
+
+                $this->_echo_project_state_option( $transition->to_state, 0, $disabled, $optional_reason);
             }
 
             echo "
@@ -277,10 +280,11 @@ class StateColumn extends Column
         }
     }
 
-    private function _echo_project_state_option($project_state,$selected)
+    private function _echo_project_state_option($project_state, $selected, $disabled = 0, $reason = '')
     {
         echo "<option value='$project_state'";
         if ($selected) echo " SELECTED";
+        if ($disabled) echo " disabled";
         echo ">";
         if ($project_state == 'automodify')
         {
@@ -290,6 +294,7 @@ class StateColumn extends Column
         {
             echo get_medium_label_for_project_state($project_state);
         }
+        if ($disabled) echo " [$reason]";
         echo "</option>\n";
     }
 }

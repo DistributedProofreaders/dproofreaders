@@ -379,9 +379,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // The state of the project
 
-    $available_for_SR = (
-        $project->state == PROJ_POST_FIRST_CHECKED_OUT &&
-        $project->smoothread_deadline > time() );
+    $available_for_SR = $project->is_available_for_smoothreading();
 
     $right = project_states_text($project->state);
     if ($round)
@@ -1905,7 +1903,7 @@ function do_smooth_reading()
     {
         // Project has been made available for SR
 
-        if ( time() < $project->smoothread_deadline )
+        if ( $project->is_available_for_smoothreading() )
         {
             $sr_deadline_str = strftime(
                 $date_format, $project->smoothread_deadline );
@@ -2079,6 +2077,21 @@ function do_change_state()
 
     foreach ( $valid_transitions as $transition )
     {
+        // Used for disabling the button
+        $optional_btn_attr = "";
+
+        // By default say who is allowed to do this transition.
+        $text_next_to_btn = " [$transition->who_restriction]";
+
+        if ($transition->is_disabled($project))
+        {
+            $optional_btn_attr = "disabled";
+
+            // Gray out the original text and add an explanation why it is disabled
+            $reason = $transition->why_disabled($project);
+            $text_next_to_btn = "<span style='color: #A9A9A9'>$text_next_to_btn</span> [$reason]";
+        }
+
         echo "<form method='POST' action='$code_url/tools/changestate.php'>";
         echo "<input type='hidden' name='projectid'  value='{$project->projectid}'>\n";
         echo "<input type='hidden' name='curr_state' value='{$project->state}'>\n";
@@ -2097,12 +2110,8 @@ function do_change_state()
                 . javascript_safe($question, $charset) . "\");";
         }
         $onclick_attr = "onClick='$onClick_condition'";
-        echo "<input type='submit' value='", attr_safe($transition->action_name), "' $onclick_attr>";
-        if (1)
-        {
-            // Say who is allowed to do this transition.
-            echo " [$transition->who_restriction]";
-        }
+        echo "<input type='submit' value='", attr_safe($transition->action_name), "' $onclick_attr $optional_btn_attr>";
+        echo $text_next_to_btn;
 
         echo "</form>\n";
         echo "<br>";

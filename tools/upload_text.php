@@ -41,6 +41,17 @@ $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     and the upload does not succeed, upload a small placeholder zip file 
     instead and email %s for assistance."), $db_requests_email_addr);
 
+// Deny post_1 and return_1 if the project is currently in SR
+if (($stage == 'post_1' || $stage == 'return_1') &&
+    $project->is_available_for_smoothreading())
+{
+    $title = _("Disabled during Smooth Reading");
+    $body = '<p>' . _("This function is disabled while the project is in the Smooth Reading Pool.")  . '</p>' .
+            '<p>' . _("If you believe this is an error, please contact db-req for assistance.")      . '</p>';
+
+    metarefresh(10, "$code_url/project.php?id=$projectid", $title, $body);
+}
+
 $error_messages = array();
 if ($stage == 'post_1')
 {

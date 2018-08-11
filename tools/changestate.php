@@ -39,6 +39,14 @@ if ( !$transition->is_valid_for( $project, $pguser ) )
     fatal_error( _("You are not permitted to perform this action.") );
 }
 
+if ($transition->why_disabled($project) == 'SR')
+{
+    $body = '<p>' . _("This function is disabled while the project is in the Smooth Reading Pool.")  . '</p>' .
+            '<p>' . _("If you believe this is an error, please contact db-req for assistance.")      . '</p>';
+
+    fatal_error($body);
+}
+
 function fatal_error( $msg )
 {
     global $projectid, $project, $curr_state, $next_state;
