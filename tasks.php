@@ -641,10 +641,11 @@ function handle_action_on_a_specified_task()
         $userSettings->remove_value('taskctr_notice', $task_id);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
-    // We don't want a TaskHeader for add_comment
+    // We don't want a TaskHeader for add_comment or add_metoo
     //   because then we wouldn't be able to redirect
     //   the user.
-    elseif ($action != 'add_comment')
+    elseif ($action != 'add_comment' &&
+            $action != 'add_metoo')
     {
         TaskHeader(title_string_for_task($pre_task));
     }
@@ -820,9 +821,8 @@ function handle_action_on_a_specified_task()
         }
         mysqli_free_result($meTooCheck);
 
-        // No need to display a different error message if the user was refreshing
-        ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
-        TaskDetails($task_id);
+        // Redirect back to show task page to clear POST data
+        metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     }
     else {
         die("shouldn't be able to reach here");
