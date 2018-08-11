@@ -359,19 +359,21 @@ function SearchParams_get_sql_condition($request_params)
 {
     global $testing, $SearchParams_choices;
 
-    if ($testing) echo_html_comment("\$request_params['search_text'] = {$request_params['search_text']}");
+    $condition = "1";
+    if(isset($request_params['search_text']))
+    {
+        $search_text = $request_params['search_text'];
+        if ($testing)
+            echo_html_comment("\$request_params['search_text'] = $search_text");
 
-    $search_text_summary = $request_params['search_text'];
-    $search_text_details = $request_params['search_text'];
-
-    $condition = sprintf("
+        $condition .= sprintf(" AND
             (
-                POSITION('%s' IN task_summary)
+                POSITION('%1\$s' IN task_summary)
                 OR
-                POSITION('%s' IN task_details)
+                POSITION('%1\$s' IN task_details)
             )
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $search_text_summary),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $search_text_details));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $search_text));
+    }
 
     // ------
 
