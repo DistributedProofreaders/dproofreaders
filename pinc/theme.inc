@@ -948,15 +948,17 @@ function show_key_help_links()
     $faq_central_url = get_faq_url("faq_central.php");
     $p_guide_url = get_faq_url("proofreading_guidelines.php");
     $f_guide_url = get_faq_url("formatting_guidelines.php");
+    $p_summary = get_faq_url("proofing_summary.pdf");
+    $f_summary = get_faq_url("formatting_summary.pdf");
 
     $items = array(
         "<a href='$faq_central_url'>"._("Frequently Asked Questions")."</a>",
 
         "<a href='$p_guide_url'>"._("Proofreading Guidelines")."</a>".
-        " <span class='nowrap'>(<a href='$code_url/faq/proofing_summary.pdf'>"._("PDF Summary")."</a></span>)",
+        " <span class='nowrap'>(<a href='$p_summary'>"._("PDF Summary")."</a></span>)",
 
         "<a href='$f_guide_url'>"._("Formatting Guidelines")."</a>".
-        " <span class='nowrap'>(<a href='$code_url/faq/formatting_summary.pdf'>"._("PDF Summary")."</a></span>)",
+        " <span class='nowrap'>(<a href='$f_summary'>"._("PDF Summary")."</a></span>)",
     );
 
     $url = get_faq_url("official-docs");
