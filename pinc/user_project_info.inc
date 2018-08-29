@@ -155,6 +155,11 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
                 _("This project has become available for smooth-reading.");
             break;
 
+        case 'sr_reported':
+            $msg_body .=
+                _("A new smooth-reading report has been uploaded.");
+            break;
+
         case 'ppv_enter':
             $msg_body .=
                 _("This project has entered post-processing verification.");

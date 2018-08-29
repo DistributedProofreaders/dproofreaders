@@ -343,6 +343,11 @@ else
         }
     }
 
+    if ($stage == 'smooth_done')
+    {
+        notify_project_event_subscribers( $project, 'sr_reported' );
+    }
+
     // let them know file uploaded and send back to the right place
     $msg1 = _("File uploaded. Thank you!");
     $msg2 = _("Project returned to pool");
