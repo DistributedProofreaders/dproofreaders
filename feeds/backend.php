@@ -49,7 +49,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
                 $query = "
                     SELECT 
-                        projectid, nameofwork, genre, language, FROM_UNIXTIME(e.timestamp) AS modifieddate
+                        projectid, nameofwork, authorsname, genre, language, e.timestamp AS modifieddate
                     FROM projects
                     JOIN project_events e USING (projectid)
                     WHERE
