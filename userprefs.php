@@ -175,11 +175,16 @@ echo "<br>" . _("Click the ? for help on that specific preference.") . "</p>";
 echo "<br>";
 
 echo "<form action='userprefs.php' method='post'>";
+
+echo "<input type='hidden' name='tab' value='$selected_tab'>";
+// Keep remembering the URL from which the preferences where entered.
+echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
+echo "<input type='hidden' name='insertdb' value='true'>";
+echo "<input type='hidden' name='user_id' value='$uid'>";
+
 echo "<table class='preferences'>";
 
 echo_tabs($tabs, $selected_tab);
-
-echo "<input type='hidden' name='tab' value='$selected_tab'>";
 
 // display one of the tabs
 
@@ -190,17 +195,11 @@ else if ($selected_tab == 2 && user_is_PM())
 else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
     echo_general_tab();
 
-// Keep remembering the URL from which the preferences where entered.
-echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
-
-echo "<input type='hidden' name='insertdb' value='true'>";
-echo "<input type='hidden' name='user_id' value='$uid'>";
-
 echo "</table></form>\n";
 echo "<br>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
-echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() {$window_onload_event};\n--></script>\n\n";
+echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--></script>\n\n";
 
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -222,7 +221,7 @@ function echo_tabs($tab_names, $selected_tab) {
         $url = "?tab=$index&amp;origin=" . urlencode($origin);
         echo "<a href='$url'>{$tab_names[$index]}</a></li>\n";
     }
-    echo "    </ul>\n  </div>\n</th></tr>\n";
+    echo "    </ul>\n  </div>\n</td></tr>\n";
 }
 
 /*************** GENERAL TAB ***************/
@@ -880,7 +879,7 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     $function_name = 'event' . ++$event_id;
     $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
 
-    echo "<script type='text/javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
+    echo "<script><!--\nfunction $function_name() { $jscode }\n--></script>\n";
 
     echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
     for ($i=0;$i<count($values);$i++)
