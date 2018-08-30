@@ -222,7 +222,7 @@ function echo_tabs($tab_names, $selected_tab) {
         $url = "?tab=$index&amp;origin=" . urlencode($origin);
         echo "<a href='$url'>{$tab_names[$index]}</a></li>\n";
     }
-    echo "    </ul>\n  </div>\n</th></tr>\n";
+    echo "    </ul>\n  </div>\n</td></tr>\n";
 }
 
 /*************** GENERAL TAB ***************/
