@@ -199,7 +199,7 @@ echo "</table></form>\n";
 echo "<br>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
-echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() { $window_onload_event };\n--></script>\n\n";
+echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--></script>\n\n";
 
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -879,7 +879,7 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     $function_name = 'event' . ++$event_id;
     $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
 
-    echo "<script type='text/javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
+    echo "<script><!--\nfunction $function_name() { $jscode }\n--></script>\n";
 
     echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
     for ($i=0;$i<count($values);$i++)
