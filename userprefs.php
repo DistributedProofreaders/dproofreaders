@@ -175,11 +175,16 @@ echo "<br>" . _("Click the ? for help on that specific preference.") . "</p>";
 echo "<br>";
 
 echo "<form action='userprefs.php' method='post'>";
+
+echo "<input type='hidden' name='tab' value='$selected_tab'>";
+// Keep remembering the URL from which the preferences where entered.
+echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
+echo "<input type='hidden' name='insertdb' value='true'>";
+echo "<input type='hidden' name='user_id' value='$uid'>";
+
 echo "<table class='preferences'>";
 
 echo_tabs($tabs, $selected_tab);
-
-echo "<input type='hidden' name='tab' value='$selected_tab'>";
 
 // display one of the tabs
 
@@ -189,12 +194,6 @@ else if ($selected_tab == 2 && user_is_PM())
     echo_pm_tab();
 else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
     echo_general_tab();
-
-// Keep remembering the URL from which the preferences where entered.
-echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
-
-echo "<input type='hidden' name='insertdb' value='true'>";
-echo "<input type='hidden' name='user_id' value='$uid'>";
 
 echo "</table></form>\n";
 echo "<br>";
