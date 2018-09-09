@@ -1138,6 +1138,12 @@ function do_event_subscriptions()
     echo "</tr>\n";
     foreach ( $subscribable_project_events as $event => $label )
     {
+        // Hide SR report posted event for anyone who is not a PP
+        if ($event == 'sr_reported' && !$project->PPer_is_user($pguser))
+        {
+            continue;
+        }
+
         $is_subd = user_is_subscribed_to_project_event( $pguser, $projectid, $event );
         $bgcolor = ( $is_subd ? '#CFC' : '#FFF' );
         $checked = ( $is_subd ? 'checked' : '' );

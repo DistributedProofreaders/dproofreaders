@@ -136,9 +136,7 @@ else if ($stage == 'smooth_done')
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
     // This requirement is in project.php as well
-    $project_is_in_valid_state = (
-        (PROJ_POST_FIRST_CHECKED_OUT == $project->state) && (time() < $project->smoothread_deadline)
-    );
+    $project_is_in_valid_state = $project->is_available_for_smoothreading();
     if(time() >= $project->smoothread_deadline)
     {
         // This string matches one in project.php
@@ -343,6 +341,11 @@ else
                 FALSE
             );
         }
+    }
+
+    if ($stage == 'smooth_done')
+    {
+        notify_project_event_subscribers( $project, 'sr_reported' );
     }
 
     // let them know file uploaded and send back to the right place
