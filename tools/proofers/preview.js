@@ -495,6 +495,8 @@ var makePreview = function (txt, viewMode, styler) {
                 return match;
             }
             noNote = removeComments(p1);
+            // remove tags so that all uppercase string is correctly identified
+            noNote = noNote.replace(/&lt;\/?.&gt;/g, '');
             if (noNote === noNote.toUpperCase()) { // found no lower-case
                 return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
