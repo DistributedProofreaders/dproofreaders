@@ -398,6 +398,13 @@ function validate_uploaded_file()
         if (0 == $uploaded_file['size']) {
             die( _("File is empty") );
         }
+
+        // ensure that it's a valid zip
+        exec("zipinfo -1 " . $uploaded_file['tmp_name'], $zipinfo_output, $return_code);
+        if($return_code != 0) {
+            die( _("Not a valid zip file") );
+        }
+
         return $uploaded_file['tmp_name'];
     }
 
