@@ -24,3 +24,5 @@
 *.psd binary
 *.mo binary
 *.sit binary
+*.woff binary
+*.woff2 binary
