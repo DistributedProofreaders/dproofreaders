@@ -699,6 +699,7 @@ CREATE TABLE `user_project_info` (
   `iste_round_complete` tinyint(1) NOT NULL default '0',
   `iste_pp_enter` tinyint(1) NOT NULL default '0',
   `iste_sr_available` tinyint(1) NOT NULL default '0',
+  `iste_sr_complete` tinyint(1) NOT NULL default '0',
   `iste_ppv_enter` tinyint(1) NOT NULL default '0',
   `iste_posted` tinyint(1) NOT NULL default '0',
   `iste_sr_reported` tinyint(1) NOT NULL default '0',

@@ -37,6 +37,7 @@ $subscribable_project_events = array(
     'pp_enter'        => _("Project enters PP stage"),
     'sr_available'    => _("Project becomes available for smooth-reading"),
     'sr_reported'       => _("User has uploaded a smooth-reading report"),
+    'sr_complete'     => _("Project finishes smooth-reading"),
     'ppv_enter'       => _("Project enters PPV stage"),
     'posted'          => _("Project posted to Project Gutenberg"),
 );
@@ -158,6 +159,10 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
         case 'sr_reported':
             $msg_body .=
                 _("A new smooth-reading report has been uploaded.");
+
+        case 'sr_complete':
+            $msg_body .=
+                _("This project has finished smooth-reading.");
             break;
 
         case 'ppv_enter':
