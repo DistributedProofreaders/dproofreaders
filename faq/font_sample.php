@@ -64,7 +64,9 @@ echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP volunteers, based 
 if(!empty($proofreading_font))
     echo "<p>" . sprintf(_("Your current proofreading font is <b>%s</b>."), $proofreading_font) . "</p>\n";
 
-echo "<p style='font-family: DPCustomMono2'>" . _("If you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>\n";
+echo "<p>" . _("This site provides DPCustomMono2 as a web font and browsers that support it do not require the font to be installed locally.") . "</p>";
+
+echo "<p style='font-family: DPCustomMono2'>" . _("If your browser supports web fonts or you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>\n";
 
 echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='%s'>Installing DPCustomMono</a> wiki page at pgdp.net."), "http://www.pgdp.net/wiki/Installing_DPCustomMono") . "</p>\n";
 
