@@ -49,6 +49,10 @@ function echo_manager_links()
     {
         echo "<li><a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a></li>\n";
     }
+    else if (user_is_PM())
+    {
+        echo "<li><a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a></li>\n";
+    }
     echo "<li><a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a></li>\n";
     if(user_is_a_sitemanager())
     {
