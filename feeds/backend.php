@@ -49,7 +49,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
                 $query = "
                     SELECT 
-                        projectid, nameofwork, authorsname, genre, language, e.timestamp AS modifieddate
+                        projectid, nameofwork, authorsname, genre, language, postednum, e.timestamp AS modifieddate
                     FROM projects
                     JOIN project_events e USING (projectid)
                     WHERE
@@ -93,9 +93,10 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <language>".xmlencode($row['language'])."</language>
                 <posteddate>".$posteddate."</posteddate>
                 <genre>".xmlencode($row['genre'])."</genre>
-                <links>
-                <PG_catalog>".xmlencode(get_pg_catalog_url_for_etext($row['postednum']))."</PG_catalog>
-                <library>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</library>
+                <links>";
+                if($row['postednum'])
+                    $data .= "<PG_catalog>".xmlencode(get_pg_catalog_url_for_etext($row['postednum']))."</PG_catalog>";
+                $data .= "<library>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</library>
                 </links>
                 </project>
                 ";
