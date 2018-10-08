@@ -1,0 +1,245 @@
+openapi: 3.0.1
+info:
+  title: Distributed Proofreaders API
+  description: An API to access various components in the DP system.
+  contact:
+    name: Distributed Proofreaders
+    url: https://www.pgdp.net
+  license:
+    name: GPL2
+    url: http://opensource.org/licenses/GPL-2.0
+  version: 1.0.0
+
+servers:
+- url: https://www.pgdp.net/api/v1
+  description: Production
+- url: https://www.pgdp.org/api/v1
+  description: Test
+- url: https://www.pgdp.org/api-dev/v1
+  description: Development
+
+paths:
+  /projects/{projectid}:
+    get:
+      tags:
+      - project
+      description: Returns details about a project
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project to return
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: project response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+
+  /projects/{projectid}/wordlists/{type}:
+    get:
+      tags:
+      - project
+      description: Gets a project's word list
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Word list type
+        required: true
+        schema:
+          type: string
+          enum: [good, bad]
+      responses:
+        200:
+          description: Requested project word list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wordlist'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+      - project
+      description: Replaces a project's word list
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Word list type
+        required: true
+        schema:
+          type: string
+          enum: [good, bad]
+      requestBody:
+        description: Words to replace
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wordlist'
+        required: true
+      responses:
+        200:
+          description: wordlist saved
+          content: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  schemas:
+    project:
+      required:
+      - projectid
+      - title
+      type: object
+      properties:
+        projectid:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        genre:
+          type: string
+        difficulty:
+          type: string
+        special_day:
+          type: string
+        clearance_line:
+          type: string
+        project_manager:
+          type: string
+        post_processor:
+          type: string
+        image_source:
+          type: string
+        pages_available:
+          type: integer
+        page_total:
+          type: integer
+        text_preparer:
+          type: string
+        pg_ebook_number:
+          type: integer
+        comments:
+          type: string
+        credits_so_far:
+          type: string
+          readOnly: true
+        modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        state_last_modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        page_last_modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        forum_url:
+          type: string
+          format: url
+          readOnly: true
+        forum_replies:
+          type: integer
+          readOnly: true
+        forum_last_updated:
+          type: string
+          format: dateTime
+          readOnly: true
+      description: A project represents a unique project object in the system. It
+        includes a great deal of information, some fields of which are calculated
+        and not directly modifyable. Not all fields are available to all users. Fields
+        the user does not have access to will not be returned.
+
+    wordlist:
+      type: array
+      items:
+        type: string
+
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnexpectedError:
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitExceeded:
+      description: Rate Limit Exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+security:
+  - ApiKeyAuth: []
