@@ -8,6 +8,7 @@ instructions, and other tools.
 
 Installation and upgrading:
 * [INSTALL.md](INSTALL.md) includes installation instructions.
+* [API.md](API.md) discusses enabling and configuring the API.
 * [ARCHIVING.md](ARCHIVING.md) describes how to set up the optional project
   archiving.
 * [site_admin_notes.txt](site_admin_notes.txt) discusses some post-installation
