@@ -21,6 +21,8 @@ $ok_files = [
     "accounts/logout.php",
     "accounts/require_login.php",
     "accounts/login.php",
+    # API
+    "api/index.php",
     # FAQs
     "faq/cp.php",
     "faq/default.php",

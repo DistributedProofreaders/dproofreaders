@@ -24,6 +24,7 @@ Ubuntu system package names.
 * GD - php-gd
 * Internationalization - php-intl
 * mbstring - php-mbstring
+* memcached - php-memcached (to enable API rate limiting)
 * MySQL - php-mysql
 * zip - php-zip
 
