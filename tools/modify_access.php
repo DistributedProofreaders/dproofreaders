@@ -154,12 +154,12 @@ foreach ( $actions as $activity_id => $action_type )
 echo "<br>\n";
 echo "Done<br>\n<br>\n";
 if ($notify_user)
-    echo "Notifying user... ".notify_user($subject_username,$actions)."<br>\n<br>\n";
+    echo "Notifying user... ".notify_user($user, $actions)."<br>\n<br>\n";
 echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<br>\n";
 
 // -----------------------------------------------------------------------------
 
-function notify_user($username, $actions)
+function notify_user($user, $actions)
 {
     global $site_name, $site_signoff;
     if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
@@ -168,7 +168,7 @@ function notify_user($username, $actions)
         // a single round, send a congratulations! email.
         list($activity_id) = array_keys($actions);
         $subject = "DP: You have been granted access to $activity_id!";
-        $message = "Hello $username,\n\nThis is a message from the $site_name website.\n\n" .
+        $message = "Hello $user->username,\n\nThis is a message from the $site_name website.\n\n" .
                    "Congratulations, you have been granted access to $activity_id projects!\n" .
                    "You can access this stage by following the link to it at the Activity Hub.\n\n" .
                    "$site_signoff";
@@ -180,7 +180,7 @@ function notify_user($username, $actions)
     else
     {
         $subject =  "DP: Your access has been modified";
-        $message =  "Hello $username,\n\nThis is a message from the $site_name website.\n\n" .
+        $message =  "Hello $user->username,\n\nThis is a message from the $site_name website.\n\n" .
                     "The following modifications have been made to the stages in which you can work:\n";
         foreach ( $actions as $activity_id => $action_type )
         {
