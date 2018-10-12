@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'misc.inc');  // attr_safe(), javascript_safe()
 
 // Arguments:
@@ -176,27 +177,6 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     $returnString.="<input id='sptotal' type='hidden' name='sptotal' value='$numBadWords'>";
 
     return array($returnString,$languages,$messages);
-}
-
-function get_user_proofreading_font()  // logic originally copied from PPage.inc
-{
-    global $userP, $proofreading_font_sizes, $proofreading_font_faces;
-
-    if ( $userP['i_layout']==1 )   // "vertical"
-    {
-        $font_size_i = $userP['v_fnts'];
-        $font_style_i = $userP['v_fntf'];
-    }
-    else   // "horizontal"
-    {
-        $font_size_i = $userP['h_fnts'];
-        $font_style_i = $userP['h_fntf'];
-    }
-
-    $font_size = $proofreading_font_sizes[$font_size_i];
-    $font_style = $proofreading_font_faces[$font_style_i];
-
-    return array($font_style, $font_size);
 }
 
 // adds HTML code to punctuation to highlight it
