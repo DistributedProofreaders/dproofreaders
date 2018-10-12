@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');         // $PROJECT_STATES_IN_ORDER
 include_once($relPath.'RoundDescriptor.inc'); // $PAGE_STATES_IN_ORDER
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
+include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'misc.inc'); // html_safe()
@@ -196,7 +196,7 @@ class PPage
 
     function echo_proofing_textarea()
     {
-        global $userP, $proofreading_font_faces, $proofreading_font_sizes;
+        global $userP;
 
         $page_text = $this->lpage->get_text();
 
@@ -208,8 +208,6 @@ class PPage
             $n_cols      = $userP['v_tchars'];
             $n_rows      = $userP['v_tlines'];
             $line_wrap   = $userP['v_twrap'];
-            $font_face_i = $userP['v_fntf'];
-            $font_size_i = $userP['v_fnts'];
         }
         else
         {
@@ -217,8 +215,6 @@ class PPage
             $n_cols      = $userP['h_tchars'];
             $n_rows      = $userP['h_tlines'];
             $line_wrap   = $userP['h_twrap'];
-            $font_face_i = $userP['h_fntf'];
-            $font_size_i = $userP['h_fnts'];
         }
 
         echo "<textarea
@@ -230,8 +226,7 @@ class PPage
         ";
 
         echo "style='";
-        $font_face = $proofreading_font_faces[$font_face_i];
-        $font_size = $proofreading_font_sizes[$font_size_i];
+        list($font_face, $font_size) = get_user_proofreading_font();
         if ( $font_face != '' )
         {
             echo "font-family: $font_face;";
