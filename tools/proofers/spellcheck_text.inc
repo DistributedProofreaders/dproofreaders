@@ -55,7 +55,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style type='text/css'>" .
                    " pre { $font_size }".
-                   "  .proofingfont { font-family: $font_style monospace; }" .
+                   "  .proofingfont { font-family: $font_style monospace; $font_size }" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .
