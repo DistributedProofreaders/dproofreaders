@@ -46,13 +46,17 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
-    $font_size_style = get_user_font_size();
+    list($font_style, $font_size) = get_user_proofreading_font();
+    if($font_size != '')
+        $font_size = "font-size: $font_size";
+    if($font_style != '')
+        $font_style = "$font_style,";
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style type='text/css'>" .
-                   " pre { $font_size_style } " .
+                   " pre { $font_size }".
+                   "  .proofingfont { font-family: $font_style monospace; }" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
-                   "  .dpmono { font-family: DPCustomMono2,monospace; $font_size_style }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
     $returnString.="<pre>\n";
@@ -150,7 +154,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // create the edit box
                 $replaceString.=
                     "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
-                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='dpmono'$onChange>";
+                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='proofingfont'$onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
                 if($badWordHash[$word] == WC_WORLD ) {
@@ -174,20 +178,25 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     return array($returnString,$languages,$messages);
 }
 
-function get_user_font_size()  // logic copied from PPage.inc
+function get_user_proofreading_font()  // logic originally copied from PPage.inc
 {
-    global $userP, $proofreading_font_sizes;
+    global $userP, $proofreading_font_sizes, $proofreading_font_faces;
 
     if ( $userP['i_layout']==1 )   // "vertical"
+    {
         $font_size_i = $userP['v_fnts'];
+        $font_style_i = $userP['v_fntf'];
+    }
     else   // "horizontal"
+    {
         $font_size_i = $userP['h_fnts'];
+        $font_style_i = $userP['h_fntf'];
+    }
 
     $font_size = $proofreading_font_sizes[$font_size_i];
-    if ( $font_size != '' )
-        return ("font-size: $font_size;");
-    else
-        return "";
+    $font_style = $proofreading_font_faces[$font_style_i];
+
+    return array($font_style, $font_size);
 }
 
 // adds HTML code to punctuation to highlight it
