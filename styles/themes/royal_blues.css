@@ -200,7 +200,7 @@ table.striped tr:nth-child(even) td {
   font-family: Verdana, Arial, sans-serif;
 }
 .mono {
-  font-family: DPCustomMono2, monospace;
+  font-family: monospace;
 }
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
