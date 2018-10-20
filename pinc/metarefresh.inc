@@ -1,6 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
-include_once($relPath."slim_header.inc");
 include_once($relPath.'misc.inc'); // startswith()
 
 function metarefresh($seconds,$url,$title="",$body="")
@@ -61,6 +59,8 @@ function metarefresh($seconds,$url,$title="",$body="")
 
     $meta_tag_refresh = "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">";
 
+    global $relPath;
+    include_once($relPath."slim_header.inc");
     slim_header($title, array('head_data' => $meta_tag_refresh));
 
     echo "$body\n";
