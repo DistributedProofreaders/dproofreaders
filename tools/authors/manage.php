@@ -148,7 +148,7 @@ supposed to prevent you from doing so, but please don\'t try.') . '</p>';
 
 ?>
 
-<SCRIPT LANGUAGE="JavaScript"><!--
+<script><!--
 
 // Holds all the biography-ids in arrays connected to the authors.
 // Built below, after the table
@@ -370,7 +370,7 @@ function evaluateForm(form) {
     }
     return true;
 }
-// --></SCRIPT>
+// --></script>
 
 <?php
 

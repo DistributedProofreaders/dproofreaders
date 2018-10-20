@@ -182,7 +182,7 @@ else // we are coming from this page (checks.php)
 }
 ?>
 
-<script type="text/javascript">
+<script>
 
 function nonechecked(x) 
 {

@@ -9,7 +9,7 @@ require_login();
 slim_header(_("Search/Replace"));
 ?>
 
-<script type='text/javascript'>
+<script>
 var saved_text = '';
 
 function do_replace()

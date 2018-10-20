@@ -85,13 +85,13 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     foreach($js_files as $js_file)
     {
         $cache_fixer = get_local_file_browser_cache_key($js_file);
-        echo "<script language='JavaScript' type='text/javascript' src='$js_file$cache_fixer'></script>\n";
+        echo "<script src='$js_file$cache_fixer'></script>\n";
     }
 
     // Per-page Javascript
     if (isset($extra_args['js_data']))
     {
-        echo "<script type='text/javascript'>\n" .
+        echo "<script>\n" .
             $extra_args['js_data'] .
             "</script>\n";
     }

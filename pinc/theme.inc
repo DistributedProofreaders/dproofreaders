@@ -509,7 +509,7 @@ function maybe_show_language_selector()
         return;
 
     ?>
-    <script type="text/javascript"><!--
+    <script><!--
         function submitLang(i) {
             top.document.forms.langform.submit();
         }

@@ -239,7 +239,7 @@ switch( $tbutton )
         $title = _("Save as 'Done' & Proofread Next Page");
         $body = _("Page Saved.");
         slim_header( $title );
-        echo "<script language='JavaScript'><!--\n";
+        echo "<script><!--\n";
         echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
         echo "// --></script>\n";
         echo $body;
@@ -316,7 +316,7 @@ function leave_proofing_interface( $title )
 
     $text =  _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
     echo sprintf($text, $url);
-    echo "<script language='JavaScript'><!--\n";
+    echo "<script><!--\n";
     echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
     echo "// --></script>\n";
 }
