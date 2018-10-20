@@ -81,6 +81,7 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 }
 
 function output_footer($nameofpage, $show_statsbar = True) {
+    global $code_url, $site_name, $starttime;
     global $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
@@ -99,6 +100,28 @@ function output_footer($nameofpage, $show_statsbar = True) {
     }
     // Finally close the table, and emit the footer.
     echo "</div></div>\n";
+
+    // Now the page footer
+    $mtime = explode(" ",microtime());
+    $endtime = $mtime[1] + $mtime[0];
+    $totaltime = ($endtime - $starttime);
+
+    //Bottom Copyright Text
+    echo "\n<div id='footer'>\n";
+    echo "<p>\n";
+    echo "<small>\n";
+
+    echo _("Copyright")." ". $site_name;
+    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
+
+    echo "<a href='$code_url/tasks.php'>";
+    echo _("Report a Bug");
+    echo "</a>";
+
+    echo "</small>\n";
+    echo "</p>\n";
+    echo "</div>\n";
+
     html_footer();
 }
 
@@ -1005,30 +1028,9 @@ function show_donation_stuff()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function html_footer() {
-    global $code_url, $site_name, $starttime;
-
-    $mtime = explode(" ",microtime());
-    $endtime = $mtime[1] + $mtime[0];
-    $totaltime = ($endtime - $starttime);
-
-    //Bottom Copyright Text
-    echo "\n<div id='footer'>\n";
-    echo "<p>\n";
-    echo "<small>\n";
-
-    echo _("Copyright")." ". $site_name;
-    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
-
-    echo "<a href='$code_url/tasks.php'>";
-    echo _("Report a Bug");
-    echo "</a>";
-
-    echo "</small>\n";
-    echo "</p>\n";
-    echo "</div>\n";
-
-    //The End
+function html_footer()
+{
+    // close up the page
     echo "\n</body>\n";
     echo "</html>\n";
 }
