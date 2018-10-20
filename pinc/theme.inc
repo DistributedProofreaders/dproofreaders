@@ -36,7 +36,7 @@ function theme($nameofpage, $location, $extra_args = array())
 // to close the page after the caller finishes output.
 function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
 {
-    global $code_url, $pguser, $userP;
+    global $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -81,7 +81,7 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 }
 
 function output_footer($nameofpage, $show_statsbar = True) {
-    global $code_url, $pguser, $userP;
+    global $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -943,8 +943,6 @@ function show_completed_projects($terse = FALSE)
 
 function show_key_help_links()
 {
-    global $code_url, $wiki_url;
-
     $faq_central_url = get_faq_url("faq_central.php");
     $p_guide_url = get_faq_url("proofreading_guidelines.php");
     $f_guide_url = get_faq_url("formatting_guidelines.php");
@@ -985,8 +983,6 @@ function show_key_help_links()
 
 function show_donation_stuff()
 {
-    global $code_url, $site_name, $wiki_url;
-
     $pgdp_wiki_url = "http://www.pgdp.net/wiki";
     $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
     $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
