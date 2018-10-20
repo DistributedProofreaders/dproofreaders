@@ -156,6 +156,8 @@ function get_DifferenceEngine_css_data() {
     list($font_family, $font_size) = get_user_proofreading_font();
     if($font_family != '')
         $font_family = "$font_family,";
+    if($font_size != '')
+        $font_size = "font-size: $font_size;";
 
     return "
 td.diff-otitle,
@@ -167,7 +169,7 @@ td.diff-addedline,
 td.diff-deletedline,
 td.diff-context {
     font-family: $font_family monospace;
-    font-size: smaller;
+    $font_size;
 }
 ";
 }
