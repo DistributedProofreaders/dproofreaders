@@ -114,10 +114,13 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
 }
 
 // Output HTML page footer to close the page
-function output_html_footer()
+function output_html_footer($extra_args=array())
 {
     // close up the page
-    echo "\n</body>\n";
+
+    // framesets don't have <body> elements
+    if(!isset($extra_args['frameset']))
+        echo "\n</body>\n";
     echo "</html>\n";
 }
 

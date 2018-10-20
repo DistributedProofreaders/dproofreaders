@@ -42,10 +42,7 @@ function slim_footer($extra_args=array())
     if($was_output)
         return;
 
-    // framesets don't have <body> elements
-    if(!isset($extra_args['frameset']))
-        echo "\n</body>\n";
-    echo "</html>\n";
+    output_html_footer($extra_args);
 
     $was_output = true;
 }
