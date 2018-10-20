@@ -110,7 +110,7 @@ function output_footer($nameofpage, $show_statsbar = True) {
     echo "<small>\n";
 
     echo _("Copyright")." ". $site_name;
-    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
+    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5)."s) ";
 
     echo "<a href='$code_url/tasks.php'>";
     echo _("Report a Bug");
