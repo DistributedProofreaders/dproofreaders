@@ -192,7 +192,7 @@ function write_days_list($bd, $selected) {
 
 ?>
 
-<script type="text/javascript">
+<script>
 <!--
 /*
 Not validated: That days exists within that month and year.

@@ -29,7 +29,7 @@ function prep_for_links_to_project_pages()
                 $code_url );
 
         echo "
-            <script type='text/javascript'>
+            <script>
             function newProofWin(winURL)
             {
                 newFeatures='toolbar={$userP['i_toolbar']},status={$userP['i_statusbar']},location=0,directories=0,menubar=0,scrollbars=1,resizable=1,width=$window_width,height=$window_height,top=0,left=5';

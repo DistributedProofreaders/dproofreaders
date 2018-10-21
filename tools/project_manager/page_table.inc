@@ -390,7 +390,7 @@ function echo_page_table(
     if ( $can_edit )
     {
 ?>
-<script language="JavaScript" type="text/javascript"><!--
+<script><!--
 avail_pages=new Array(<?php echo substr($avail_pages,0,-1); ?>);
 
 function changeSelection(sel) {

@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'base.inc');
-include_once($relPath.'theme.inc');
+include_once($relPath.'html_page_common.inc'); // output_html_header()
+include_once($relPath.'theme.inc'); // headerbar_text_array()
 include_once($relPath.'faq.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
@@ -8,8 +9,7 @@ function output_small_header($quiz)
 {
     global $code_url, $site_name, $site_abbreviation;
 
-    // From theme.inc
-    html_header('');
+    output_html_header('');
 
     $quiz_name = $quiz->short_name;
 
@@ -70,8 +70,7 @@ function output_small_header($quiz)
 function output_small_footer()
 {
     echo "</div>\n";
-    echo "</body>\n";
-    echo "</html>\n";
+    output_html_footer();
 }
 
 // vim: sw=4 ts=4 expandtab

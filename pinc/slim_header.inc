@@ -1,5 +1,5 @@
 <?php 
-include_once($relPath."theme.inc");  // html_header()
+include_once($relPath."html_page_common.inc");
 
 // Output valid HTML for a non-themed page. The optional $extra_args variable
 // is an associative array to control what exactly is output. By default an
@@ -21,7 +21,7 @@ function slim_header($title="", $extra_args=array())
         $extra_args['css_files'] = array();
     $extra_args['css_files'][] = "$code_url/styles/slim_header.css";
 
-    html_header($title, $extra_args, False);
+    output_html_header($title, $extra_args, False);
 
     // Call slim_footer when the main page content has been emitted so we can
     // close the page
@@ -42,10 +42,7 @@ function slim_footer($extra_args=array())
     if($was_output)
         return;
 
-    // framesets don't have <body> elements
-    if(!isset($extra_args['frameset']))
-        echo "\n</body>\n";
-    echo "</html>\n";
+    output_html_footer($extra_args);
 
     $was_output = true;
 }

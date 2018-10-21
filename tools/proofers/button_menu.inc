@@ -10,7 +10,7 @@ function echo_button_menu( $ppage )
     global $userP;
     global $proofreading_font_faces, $proofreading_font_sizes;
 ?>
-<script language="javascript">
+<script>
 function refuseNonNumeric(event) {
     // Deal with the IE/Firefox/WebKit keycode mess...
     var e = event || window.event;

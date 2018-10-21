@@ -2,6 +2,7 @@
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'site_vars.php');
+include_once($relPath.'html_page_common.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
@@ -14,9 +15,6 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 include_once($relPath.'faq.inc');
-
-define('NO_STATSBAR',   False);
-define('SHOW_STATSBAR', True);
 
 // Backwards compatibility function. To be removed once all
 // pages transition to output_header()
@@ -36,7 +34,7 @@ function theme($nameofpage, $location, $extra_args = array())
 // to close the page after the caller finishes output.
 function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
 {
-    global $code_url, $pguser, $userP;
+    global $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -48,7 +46,7 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 
     // All our themes begin with the initial markup, logo and navbar, and open a
     // table for further layout.
-    html_header($nameofpage, $extra_args, $show_statsbar);
+    output_html_header($nameofpage, $extra_args, $show_statsbar);
     html_logobar();
     echo "\n<div id='page-container'>\n";
     echo "<div id='page-body-container'>\n";
@@ -81,7 +79,8 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 }
 
 function output_footer($nameofpage, $show_statsbar = True) {
-    global $code_url, $pguser, $userP;
+    global $code_url, $site_name, $starttime;
+    global $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -99,109 +98,29 @@ function output_footer($nameofpage, $show_statsbar = True) {
     }
     // Finally close the table, and emit the footer.
     echo "</div></div>\n";
-    html_footer();
-}
 
-function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
-{
-    global $code_url, $site_abbreviation, $userP;
-    global $charset;
+    // Now the page footer
+    $mtime = explode(" ",microtime());
+    $endtime = $mtime[1] + $mtime[0];
+    $totaltime = ($endtime - $starttime);
 
-    $intlang = get_desired_language();
+    //Bottom Copyright Text
+    echo "\n<div id='footer'>\n";
+    echo "<p>\n";
+    echo "<small>\n";
 
-    // HTML 5 dictates that ISO-8859-1 documents should declare their charset
-    // as windows-1252 (which is what web browsers actually treat ISO-8859-1 as).
-    if(strcasecmp($charset, 'ISO-8859-1') == 0)
-        $output_charset = 'windows-1252';
-    else
-        $output_charset = $charset;
+    echo _("Copyright")." ". $site_name;
+    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5)."s) ";
 
-    echo "<!DOCTYPE html>\n"; // HTML 5
-    echo "<html ".lang_html_header($intlang).">\n<head>\n";
-    echo "<meta charset='$output_charset'>\n";
+    echo "<a href='$code_url/tasks.php'>";
+    echo _("Report a Bug");
+    echo "</a>";
 
-    # iOS and Android icons
-    echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
-    echo "<link rel='icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
-    # standard favicon.ico -- this has to be after the rel='icon' above due to
-    # a FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=751712
-    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+    echo "</small>\n";
+    echo "</p>\n";
+    echo "</div>\n";
 
-    echo "<title>$site_abbreviation";
-    if (isset($nameofpage))
-    {
-        echo ": ", html_safe($nameofpage);
-    }
-    echo "</title>\n";
-
-    // Global CSS
-    $theme_name = array_get($userP, 'i_theme', "project_gutenberg");
-    $css_files = array(
-        "$code_url/styles/themes/$theme_name.css",
-        "$code_url/styles/layout.css",
-        "$code_url/styles/global.css",
-    );
-
-    // Statsbar CSS
-    if ($show_statsbar)
-        $css_files[] = "$code_url/styles/statsbar.css";
-
-    // Per-page CSS
-    if (isset($extra_args['css_files']))
-        $css_files = array_merge($css_files, $extra_args['css_files']);
-
-    foreach($css_files as $css_file)
-    {
-        $cache_fixer = get_local_file_browser_cache_key($css_file);
-        echo "<link type='text/css' rel='Stylesheet' href='$css_file$cache_fixer'>\n";
-    }
-
-    // Any additional style definitions requested by the caller
-    if (isset($extra_args['css_data']))
-    {
-        echo "<style type='text/css'>\n" .
-             $extra_args['css_data'] .
-             "</style>\n";
-    }
-
-    // Global JS
-    $js_files = array(
-        "$code_url/pinc/3rdparty/jquery/jquery-3.3.1.js",
-    );
-
-    // Per-page JS
-    if (isset($extra_args['js_files']))
-        $js_files = array_merge($js_files, $extra_args['js_files']);
-
-    foreach($js_files as $js_file)
-    {
-        $cache_fixer = get_local_file_browser_cache_key($js_file);
-        echo "<script language='JavaScript' type='text/javascript' src='$js_file$cache_fixer'></script>\n";
-    }
-
-    // Per-page Javascript
-    if (isset($extra_args['js_data']))
-    {
-        echo "<script type='text/javascript'>\n" .
-            $extra_args['js_data'] .
-            "</script>\n";
-    }
-
-    // Any additional head tags
-    if(isset($extra_args['head_data']))
-    {
-        echo $extra_args['head_data'];
-    }
-
-    echo "</head>\n\n";
-    // framesets don't have <body> elements
-    if(!isset($extra_args['frameset']))
-    {
-        echo "<body";
-        if(isset($extra_args['body_attributes']))
-            echo " " . $extra_args['body_attributes'];
-        echo ">\n\n";
-    }
+    output_html_footer();
 }
 
 function html_logobar() {
@@ -590,7 +509,7 @@ function maybe_show_language_selector()
         return;
 
     ?>
-    <script type="text/javascript"><!--
+    <script><!--
         function submitLang(i) {
             top.document.forms.langform.submit();
         }
@@ -943,8 +862,6 @@ function show_completed_projects($terse = FALSE)
 
 function show_key_help_links()
 {
-    global $code_url, $wiki_url;
-
     $faq_central_url = get_faq_url("faq_central.php");
     $p_guide_url = get_faq_url("proofreading_guidelines.php");
     $f_guide_url = get_faq_url("formatting_guidelines.php");
@@ -985,8 +902,6 @@ function show_key_help_links()
 
 function show_donation_stuff()
 {
-    global $code_url, $site_name, $wiki_url;
-
     $pgdp_wiki_url = "http://www.pgdp.net/wiki";
     $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
     $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
@@ -1005,36 +920,6 @@ function show_donation_stuff()
     echo "</button>";
 
     echo "</div>\n";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function html_footer() {
-    global $code_url, $site_name, $starttime;
-
-    $mtime = explode(" ",microtime());
-    $endtime = $mtime[1] + $mtime[0];
-    $totaltime = ($endtime - $starttime);
-
-    //Bottom Copyright Text
-    echo "\n<div id='footer'>\n";
-    echo "<p>\n";
-    echo "<small>\n";
-
-    echo _("Copyright")." ". $site_name;
-    echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
-
-    echo "<a href='$code_url/tasks.php'>";
-    echo _("Report a Bug");
-    echo "</a>";
-
-    echo "</small>\n";
-    echo "</p>\n";
-    echo "</div>\n";
-
-    //The End
-    echo "\n</body>\n";
-    echo "</html>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1149,40 +1034,6 @@ function get_translated_graphic_or_text($directory, $image, $text)
         return sprintf("<img src='$dyn_url' alt='%s'>", attr_safe($text));
     else
         return $text;
-}
-
-// Browser caches are great, but they are a real PITA when we want to change
-// CSS/JS and it's still serving up the older version. This is particularly bad
-// when we're doing things like changing page editing interfaces.
-// To address that, append the file's timestamp as a query parameter to the file.
-// Apache will ignore this but when the value changes the browser will reread
-// the file. PHP's statcache should make this fast.
-function get_local_file_browser_cache_key($url)
-{
-    global $code_url, $code_dir;
-
-    $cache_fixer = "";
-    if(strpos($url, $code_url) !== FALSE)
-    {
-        $local_file = $code_dir . substr($url, strlen($code_url));
-
-        // PHP files should never be cached
-        if(endswith($local_file, ".php"))
-        {
-            $timestamp = time();
-        }
-        else
-        {
-            $stats = stat($local_file);
-            if($stats)
-                $timestamp = $stats["mtime"];
-        }
-
-        if($timestamp)
-            $cache_fixer = "?" . strftime("%Y%m%d%H%M%S", $timestamp);
-    }
-
-    return $cache_fixer;
 }
 
 // vim: sw=4 ts=4 expandtab

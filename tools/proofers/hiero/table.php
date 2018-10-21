@@ -59,7 +59,7 @@ function WH_Text( $index )
 
 slim_header("$table - ".WH_Text($table));
 ?>
-<script language="JavaScript" type="text/javascript">
+<script>
 function add(glyph) {
 	text=window.parent.hierodisplay.document.hieroform.hierobox.value;
 	lastc=text.charCodeAt(text.length-1);
