@@ -274,6 +274,9 @@ function get_forum_user_details($username)
         "skype",      # Skype username
         "twitter",    # Twitter username
         "youtube",    # YouTube username
+        "avatar_type",   # what type of avatar is this? (upload, gravatar, remote)
+        "avatar_width",  # width of avatar
+        "avatar_height", # height of avatar
     );
 
     $return_data = array();
@@ -436,7 +439,23 @@ function get_url_for_user_avatar($username)
         return NULL;
 
     if(PHPBB_VERSION == 3) {
-        return "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+        switch($user_details["avatar_type"])
+        {
+            case "avatar.driver.upload":
+                $url = "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+                break;
+            case "avatar.driver.remote":
+                $url = $user_details["avatar"];
+                break;
+            case "avatar.driver.gravatar":
+                $url = "https://www.gravatar.com/avatar/" .
+                        md5(strtolower(trim($user_details["avatar"]))) .
+                        "?s=" . $user_details["avatar_height"];
+                break;
+            default:
+                $url = NULL;
+        }
+        return $url;
     }
 }
 
