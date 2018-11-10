@@ -5,7 +5,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
 include_once($relPath.'User.inc');
 
 function just_echo( $field_value )
@@ -232,32 +232,32 @@ function image_source_list($image_source)
         ORDER BY display_name
     ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    // it'd be nice to make this static, or something, so it only was loaded once
-    $imso_array = array();
+    $imso_array = array(
+        // TRANSLATORS: %s is the site abbreviation
+        "_internal" => sprintf(_("%s Internal"), $site_abbreviation),
+    );
 
     // put list into array
     while ($i_row = mysqli_fetch_assoc($imso_result))
     {
-        $show = $i_row['display_name'];
         $code = $i_row['code_name'];
-        $imso_array["$code"] = $show;
+        // unfortunately, $code can be a numeric value which confuses the php array
+        // so we append a colon at the end here to force it to be a string and then
+        // strip it again later
+        $imso_array["$code:"] = $i_row['display_name'];
     }
 
     // drop down select box for which image source
     echo "<select name='image_source'>";
 
-    // add special case value "x Internal"
-    echo "<option value='_internal' ";
-    if (strcmp ( $image_source, '_internal') == 0) { echo " SELECTED"; }
-    // TRANSLATORS: %s is the site abbreviation
-    echo ">".sprintf(_("%s Internal"),$site_abbreviation)."</option>";
-    echo "\n";
-
     // add the pre-defined image_sources
     foreach($imso_array as $k=>$v)
     {
+        // strip off the string-forcing trailing colon if it exists
+        if(endswith($k, ':'))
+            $k = substr($k, 0, strlen($k) - 1);
         echo "<option value='".attr_safe($k)."'";
-        if ($image_source == $k) { echo " SELECTED"; }
+        if ($image_source === $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
     }
