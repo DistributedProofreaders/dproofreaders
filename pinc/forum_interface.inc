@@ -1,4 +1,6 @@
 <?php
+include_once($relPath."misc.inc"); // array_get()
+
 // forum_interface.inc
 
 // This file provides functions to interface with the forum software.
@@ -239,39 +241,43 @@ function get_reset_password_url()
 
 function get_forum_user_details($username)
 // Given a username, return details about the user.
-// Returns an associative array with the following keys:
-//     id        - forum user id
-//     username  - forum username
-//     lastvisit - timestamp the user last visited
-//     from      - location
-//     occ       - occupation
-//     interests - interests
-//     viewemail - if their email address is viewable
-//     email     - email
-//     avatar    - filename of their avatar, if defined
-//     icq       - ICQ address
-//     website   - website URL
-//     aim       - AIM address
-//     yim       - Yahoo address
-//     msnm      - MS Messenger address
-//     jabber    - Jabber address
-//     rank      - forum rank (index)
-//     posts     - number of forum posts
-// phpBB 3.1 and later return these keys as well
-//     location   - location (same as from)
-//     occupation - occupation (same as occ)
-//     yahoo      - Yahoo address (same as yim)
-//     aol        - AIM address (same as aim)
-//     facebook   - Facebook username
-//     googleplus - Google+ username
-//     skype      - Skype username
-//     twitter    - Twitter username
-//     youtube    - YouTube username
+// Returns an associative array. See $interested_columns for the keys.
 // If the user isn't found, the function returns NULL.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber","rank","posts");
+    $interested_columns = array(
+        "id",         # forum user id
+        "username",   # forum username
+        "lastvisit",  # timestamp the user last visited
+        "from",       # "location" in phpBB 3.1
+        "occ",        # "occupation" in phpBB 3.1
+        "interests",  # interests
+        "viewemail",  # if their email address is viewable
+        "email",      # email
+        "avatar",     # filename of their avatar, if defined
+        "icq",        # ICQ address
+        "website",    # website URL
+        "aim",        # AIM address ("aol" in phpBB 3.1)
+        "yim",        # Yahoo address ("yahoo" in 3.1)
+        "msnm",       # MS Messenger address
+        "jabber",     # Jabber address
+        "rank",       # forum rank (index)
+        "posts",      # number of forum posts
+        // phpBB 3.1 and later return these keys as well
+        "location",   # location (same as from)
+        "occupation", # occupation (same as occ)
+        "yahoo",      # Yahoo address (same as yim)
+        "aol",        # AIM address (same as aim)
+        "facebook",   # Facebook username
+        "googleplus", # Google+ username
+        "skype",      # Skype username
+        "twitter",    # Twitter username
+        "youtube",    # YouTube username
+        "avatar_type",   # what type of avatar is this? (upload, gravatar, remote)
+        "avatar_width",  # width of avatar
+        "avatar_height", # height of avatar
+    );
 
     $return_data = array();
 
@@ -433,7 +439,23 @@ function get_url_for_user_avatar($username)
         return NULL;
 
     if(PHPBB_VERSION == 3) {
-        return "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+        switch($user_details["avatar_type"])
+        {
+            case "avatar.driver.upload":
+                $url = "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+                break;
+            case "avatar.driver.remote":
+                $url = $user_details["avatar"];
+                break;
+            case "avatar.driver.gravatar":
+                $url = "https://www.gravatar.com/avatar/" .
+                        md5(strtolower(trim($user_details["avatar"]))) .
+                        "?s=" . $user_details["avatar_height"];
+                break;
+            default:
+                $url = NULL;
+        }
+        return $url;
     }
 }
 
