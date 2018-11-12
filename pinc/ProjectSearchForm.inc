@@ -14,7 +14,7 @@ class ProjectSearchWidget
         }
     }
 
-    function get_html_control($search_data)
+    function get_html_control()
     {
         # make all widgets 100% width
         $size_attr = "style='width: 100%;'";
@@ -32,9 +32,9 @@ class ProjectSearchWidget
 
         if ( $this->type == 'text' )
         {
-            if ( isset($search_data[$this->id]) )
+            if ( isset($_GET[$this->id]) )
             {
-                $value_attr = "value='" . attr_safe($search_data[$this->id]) . "'";
+                $value_attr = "value='" . attr_safe($_GET[$this->id]) . "'";
             }
             else // initial_value is set for base class widget
             {
@@ -55,12 +55,12 @@ class ProjectSearchWidget
             }
             foreach ( $this->options as $option_value => $option_label )
             {
-                if(isset($search_data[$this->id]))
+                if(isset($_GET[$this->id]))
                 {
-                    if(($this->can_be_multiple) && is_array($search_data[$this->id]))
-                        $selected = in_array($option_value, $search_data[$this->id]);
+                    if(($this->can_be_multiple) && is_array($_GET[$this->id]))
+                        $selected = in_array($option_value, $_GET[$this->id]);
                     else
-                        $selected = ($option_value == $search_data[$this->id]);
+                        $selected = ($option_value == $_GET[$this->id]);
                 }
                 else
                     $selected = ($option_value == $this->initial_value);
@@ -72,21 +72,19 @@ class ProjectSearchWidget
         }
     }
 
-    function echo_search_item($search_data)
+    function echo_search_item()
     {
         // could fix width of heading cells so they line up when 2nd table is below
         echo "
             <tr>
                 <th class='right-align top-align'>$this->label</th>
-                <td class='search-input top-align left-align'>".$this->get_html_control($search_data)."</td>
+                <td class='search-input top-align left-align'>".$this->get_html_control()."</td>
             </tr>";
     }
 
-    function get_sql_contribution($search_data)
+    function get_sql_contribution()
     {
-        if (!isset($search_data[$this->id]))
-            return NULL;
-        $value = $search_data[$this->id];
+        $value = array_get($_GET, $this->id, '');
         if ( $value == '' )
             return NULL;
         list($column_name,$comparator) = $this->q_contrib;
@@ -143,26 +141,42 @@ class ProjectSearchWidget
 
 class HoldWidget extends ProjectSearchWidget
 {
-    public function get_html_control($search_data)
+    public function get_html_control()
     {
-        $check = isset($search_data[$this->id]) ? " checked" : "";
+        $check = isset($_GET[$this->id]) ? " checked" : "";
         return "<input type='checkbox' name='$this->id'$check>";
     }
 
-    public function get_sql_contribution($search_data)
+    public function get_sql_contribution()
     {
-        if(isset($search_data[$this->id])) // can only be 'on'
+        if(isset($_GET[$this->id])) // can only be 'on'
             return 'project_holds.projectid IS NOT NULL';
         else
             return '';
     }
 }
 
+function make_lang_list()
+{
+    $sql = "
+        SELECT DISTINCT language
+        FROM projects
+    ";
+    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+    var_dump(mysqli_num_rows($result));
+    while ($project_assoc = mysqli_fetch_assoc($result))
+    {
+        var_dump($project_assoc);
+    }
+}
+
+
 class ProjectSearchForm
 {
     public function __construct()
     {
         $this->define_form_widgets();
+        make_lang_list();
     }
 
     private function _get_options_special_day()
@@ -334,14 +348,11 @@ class ProjectSearchForm
 
     public function render()
     {
-        if(isset($_SESSION['search_data']))
-            $search_data = $_SESSION['search_data'];
-        else
-            $search_data = array(); // empty array to avoid problems
         echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
-        // query data can be too big for GET so use POST
+        // query data can be too big for GET
         echo "<div class='search-columns'>
-            <form style='display: inline;' method='POST' action='{$_SERVER['PHP_SELF']}?show=p_search'>";
+            <form style='display: inline;' method='GET'>
+            <input type='hidden' name='show' value='search'>";
         // split the widgets into two tables which can be side-by-side if there
         // is enough room
         $widget_index = 0;
@@ -349,17 +360,17 @@ class ProjectSearchForm
         $table_header = "<table class='search-column'>";
         echo $table_header;
         while($widget_index < 9)
-            $this->widgets[$widget_index++]->echo_search_item($search_data);
+            $this->widgets[$widget_index++]->echo_search_item();
         echo "</table>$table_header";
         while($widget_index < $widget_count)
-            $this->widgets[$widget_index++]->echo_search_item($search_data);
+            $this->widgets[$widget_index++]->echo_search_item();
         echo "
             </table>
             <div class='center-align' style='clear: both;'></div>
             <input type='submit' value='", attr_safe(_("Search")), "'>
-            <input type='button' onclick=\"window.location.assign('{$_SERVER['PHP_SELF']}?show=blank_search_form');\" value='", attr_safe(_("Clear form")), "'>
+            <input type='button' onclick=\"window.location.assign('{$_SERVER['PHP_SELF']}?show=search_form');\" value='", attr_safe(_("Clear form")), "'>
             </form>";
-        echo get_search_configure_button("show=search_form");
+        echo get_search_configure_button();
         echo "</div>";
         echo "<p>
             "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
@@ -371,33 +382,15 @@ class ProjectSearchForm
         ";
     }
 
-    private function get_widget_contribution($search_data)
+    public function get_condition()
     {
         $condition = '1';
         foreach ( $this->widgets as $widget )
         {
-            $contribution = $widget->get_sql_contribution($search_data);
+            $contribution = $widget->get_sql_contribution();
             if ( $contribution == '' )
                 continue;
             $condition .= "\nAND $contribution";
-        }
-        return $condition;
-    }
-
-    public function get_condition($show_view)
-    {
-        if(($show_view == 'p_search') && !$_POST)
-        {
-            $condition = array_get($_SESSION, 'search_condition', "1");
-        }
-        else // (p_search && have POST) or search with GET data
-        {
-            // Construct the search query.
-            $condition = $this->get_widget_contribution($_REQUEST);
-            // save the condition to use for paging or changing configuration or sorting
-            $_SESSION['search_condition'] = $condition;
-            // save the POST data to use to initialise the search form if refining
-            $_SESSION['search_data'] = $_REQUEST;
         }
         return $condition;
     }

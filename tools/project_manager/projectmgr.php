@@ -29,8 +29,8 @@ switch ($userP['i_pmdefault'])
 
 try {
     $show_view = get_enumerated_param($_GET, 'show', $default_view,
-        array('search_form', 'p_search', 'search', 'blank_search_form', 'user_all', 'user_active',
-              'blank', 'ua_search_form', 'set_columns', 'config'));
+        array('search_form', 'search', 'user_all', 'user_active',
+              'blank', 'set_columns', 'config'));
 } catch(Exception $e) {
     $show_view = 'blank';
 }
@@ -60,17 +60,6 @@ handle_config($show_view, "PM", _("Configure Project Management Page"));
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
-if($show_view == 'blank_search_form')
-{
-    $_SESSION['search_data'] = array();
-    $show_view = 'search_form';
-}
-elseif($show_view == 'ua_search_form')
-{
-    set_session_user_active();
-    $show_view = 'search_form';
-}
-
 if ($show_view == 'search_form')
 {
     $search_form = new ProjectSearchForm();
@@ -87,61 +76,50 @@ if($show_view == "blank")
 elseif($show_view == "user_all")
 {
     $condition = "username = '$pguser'";
-    $_SESSION['search_data'] = array('project_manager' => $pguser);
+    // adjust $_GET so will work corectly with refine search and sort and navigate
+    // keep "user_all" or we won't know it is user all
+    $_GET = array_merge($_GET, array('project_manager' => $pguser));
     // TRANSLATORS: Abbreviation for Project Manager
     $sub_title = sprintf(_("All PM projects: %s"), $pguser);
 }
 elseif ($show_view == "user_active")
 {
     $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
-    set_session_user_active();
+    $_GET = array_merge($_GET, array('project_manager' => $pguser, 'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE))));
     // TRANSLATORS: Abbreviation for Project Manager
     $sub_title = sprintf(_("Active PM projects: %s"), $pguser);
 }
-else // $show_view == 'p_search' or 'search'
+else // $show_view == 'search'
 {
     $search_form = new ProjectSearchForm();
-    $condition = $search_form->get_condition($show_view);
-    // change search to p_search to use saved data if needed later
-    // since we are not re-using GET data
-    $show_view = 'p_search';
+    $condition = $search_form->get_condition();
     $sub_title = _("Search Results");
 }
 
-$search_results = new ProjectSearchResults($show_view, "PM");
+$search_results = new ProjectSearchResults("PM");
 
 echo_manager_links();
 echo "<h1>", _("Project Management"), "</h1>\n";
 // possibly show message, but don't exit
 check_user_can_load_projects(false);
 show_news_for_page('PM');
-echo "\n<h2 id='head'>$sub_title</h2>\n";
-echo_shortcut_links($show_view, $search_results);
+echo "\n<h2>$sub_title</h2>\n";
+echo_shortcut_links($show_view);
 
 if($show_view == "blank")
     exit();
 
 $search_results->render($condition);
 
-function set_session_user_active()
+function create_shortcut_link($text, $show_val, $show_view="")
 {
-    global $pguser, $PROJECT_STATES_IN_ORDER;
-
-    $_SESSION['search_data'] = array(
-        'project_manager' => $pguser,
-        'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE)),
-    );
-}
-
-function create_shortcut_link($text, $url, $show_view="")
-{
-    if($show_view != $url)
-        return "<a href='{$_SERVER['PHP_SELF']}?show=$url'>$text</a>";
+    if($show_view != $show_val)
+        return "<a href='{$_SERVER['PHP_SELF']}?show=$show_val'>$text</a>";
     else
         return $text;
 }
 
-function echo_shortcut_links($show_view, $search_results)
+function echo_shortcut_links($show_view)
 {
     $links = array(
         // TRANSLATORS: Abbreviation for Project Manager
@@ -153,7 +131,7 @@ function echo_shortcut_links($show_view, $search_results)
     if($show_view != "blank")
         $links[] = get_refine_search_link();
 
-    $links[] = $search_results->get_search_configure_link();
+    $links[] = get_search_configure_link();
 
     echo implode(" | ", $links);
 }

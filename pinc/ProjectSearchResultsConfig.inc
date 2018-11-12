@@ -13,6 +13,7 @@ class Selector
         ";
     }
 }
+
 class ColumnSelector extends Selector
 {
     public function __construct($column, $userSettings, $search_origin)
@@ -110,14 +111,11 @@ class ConfigForm extends ColumnData
         global $code_url, $pguser;
 
         echo "<h1>$page_title</h1>\n";
-        if(isset($_GET['params']))
-            $params = $_GET['params'];
-        else
-            $origin = "$code_url/activity_hub.php";
+        $origin = array_get($_GET, 'origin', '$code_url/activity_hub.php' );
         echo "<div style='clear: both;'>
             <form method='GET'>
             <input type='hidden' name='show' value='set_columns'>
-            <input type='hidden' name='params' value='", $params , "'>
+            <input type='hidden' name='origin' value='", $origin , "'>
         ";
         // split the controls across two columns using tables within divs
         $index = 0;
@@ -189,22 +187,15 @@ class ConfigSaver extends ColumnData
     }
 }
 
-function get_search_configure_button($params)
+function get_search_configure_button()
 {
     global $code_url;
     return "
         <form style='display: inline;' method='GET'>
         <input type='submit' value='" . attr_safe(_("Configure Result")) . "'>
         <input type='hidden' name='show' value='config'>
-        <input type='hidden' name='params' value='" . attr_safe($params) . "'>
+        <input type='hidden' name='origin' value='" . attr_safe($_SERVER['REQUEST_URI']) . "'>
         </form>";
-}
-
-function get_search_configure_link($params)
-{
-    global $code_url;
-    $params = urlencode($params);
-    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;params=$params'>" . _("Configure Result") . "</a>";
 }
 
 function handle_set_cols($show_view, $search_origin)
@@ -216,8 +207,8 @@ function handle_set_cols($show_view, $search_origin)
         $userSettings =& Settings::get_Settings($pguser);
         $config_saver = new ConfigSaver($userSettings, $search_origin);
         $config_saver->store_data();
-        $params = array_get($_GET, 'params', '' );
-        metarefresh(0, $_SERVER['PHP_SELF'] . "?$params");
+        $origin = array_get($_GET, 'origin', '$code_url/activity_hub.php' );
+        metarefresh(0, $origin);
     }
 }
 

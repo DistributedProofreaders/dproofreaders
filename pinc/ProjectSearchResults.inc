@@ -80,7 +80,7 @@ class Column
         return $value === 'yes';
     }
 
-    public function echo_header_cell($sort_column_id, $sql_sort_dir, $show_param, $sec_sort)
+    public function echo_header_cell($sort_column_id, $sql_sort_dir, $sec_sort)
     {
         $label = $this->get_label();
         if($this->sortable)
@@ -107,9 +107,13 @@ class Column
                 if($sec_sort == $this->id)
                     $sec_sorter = "&nbsp;^";
                 else
-                    $sec_sorter = "&nbsp;<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sec_sort=$this->id&amp;results_offset=0#head'>^</a>";
+                {
+                    $ar1 = array('sec_sort' => $this->id, 'results_offset' => 0);
+                    $sec_sorter = "&nbsp;" . make_ref($ar1, "^", "#head");
+                }
             }
-            $label = "<a href='{$_SERVER['PHP_SELF']}?show=$show_param&amp;sort=$this->id$dir_code&amp;results_offset=0#head'>$label</a>$marker$sec_sorter";
+            $ar1 = array('sort' => "$this->id$dir_code", 'results_offset' => 0);
+            $label = make_ref($ar1, $label, "#head") . "$marker$sec_sorter";
         }
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
@@ -415,7 +419,7 @@ class ColumnData
 
 class ProjectSearchResults
 {
-    public function __construct($show_param, $search_origin)
+    public function __construct($search_origin)
     {
         global $pguser;
 
@@ -423,8 +427,6 @@ class ProjectSearchResults
 
         $this->userSettings =& Settings::get_Settings($pguser);
         $this->search_origin = $search_origin;
-        $this->show_param = $show_param;
-
         $option_data = new OptionData($this->userSettings, $this->search_origin);
         $this->page_size = $option_data->results_per_page->get_value();
         $time_format = $option_data->time_format->get_value();
@@ -449,14 +451,11 @@ class ProjectSearchResults
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
-        $url_base = "{$_SERVER['PHP_SELF']}?show=$this->show_param&amp;";
-
         if ( $results_offset > 0 )
         {
-            $text = _('Previous');
             $prev_offset = max(0, $results_offset - $this->page_size);
-            $url = $url_base . "results_offset=$prev_offset#head";
-            echo "<a href='$url'>$text</a> | ";
+            echo make_ref(array('results_offset' => $prev_offset), _('Previous'), "#head") . " | ";
+
         }
         echo sprintf(
             // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
@@ -469,10 +468,8 @@ class ProjectSearchResults
 
         if ( $results_offset + $numrows < $num_found_rows )
         {
-            $text = _('Next');
             $next_offset = $results_offset + $this->page_size;
-            $url = $url_base . "results_offset=$next_offset#head";
-            echo " | <a href='$url'>$text</a>";
+            echo " | " . make_ref(array('results_offset' => $next_offset), _('Next'), "#head");
         }
     }
 
@@ -563,12 +560,6 @@ class ProjectSearchResults
         return $result;
     }
 
-    public function get_search_configure_link()
-    {
-        $results_offset = intval(@$_GET['results_offset']);
-        return get_search_configure_link("show=$this->show_param&amp;results_offset=$results_offset");
-    }
-
     public function render($where_condition)
     {
         global $pguser, $theme, $code_url;
@@ -596,14 +587,14 @@ class ProjectSearchResults
         if(!empty($warning))
             echo "\n<p class='warning'>$warning</p>\n";
 
-        echo "<p>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
+        echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
         foreach($this->active_columns as $column)
         {
-            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->show_param, $this->sec_sort);
+            $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->sec_sort);
         }
         echo "</tr>\n";
 
@@ -650,9 +641,21 @@ class ProjectSearchResults
     }
 }
 
+function get_search_configure_link()
+{
+    $origin = urlencode($_SERVER['REQUEST_URI']);
+    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
+}
+
+function make_ref($ar1, $txt, $anchor = '')
+{
+    $url = "{$_SERVER['PHP_SELF']}?" . http_build_query(array_replace($_GET, $ar1)) . "$anchor";
+    return "<a href='" . attr_safe($url) . "'>$txt</a>";
+}
+
 function get_refine_search_link()
 {
-    return "<a href='{$_SERVER['PHP_SELF']}?show=search_form'>" . _("Refine Search") . "</a>";
+    return make_ref(array('show' => 'search_form'), _("Refine Search"));
 }
 
 // vim: sw=4 ts=4 expandtab
