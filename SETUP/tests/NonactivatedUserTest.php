@@ -65,9 +65,11 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
         $user = new NonactivatedUser($this->TEST_USERNAME);
         $user->real_name = "Jane Shmane";
         $user->save();
+        $id = $user->id;
 
         $user = new NonactivatedUser($this->TEST_USERNAME);
         $this->assertEquals("Jane Shmane", $user->real_name);
+        $this->assertEquals($id, $user->id);
     }
 
     /**

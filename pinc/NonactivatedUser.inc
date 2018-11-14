@@ -122,9 +122,21 @@ class NonactivatedUser
     {
         $todays_date = time();
 
-        // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
-        $this->table_row["id"] = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
+        // If this object doesn't have a unique ID, generate one before saving it to
+        // the database.
+        if(!isset($this->table_row["id"]))
+        {
+            // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
+            $this->table_row["id"] = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
+        }
 
+        // This function persists the object in the database, either by
+        // creating a new row or updating an existing one. It does updates
+        // with the use of an INSERT INTO / ON DUPLICATE KEY based on the
+        // primary key (username). The use of ON DUPLICATE KEY creates the
+        // possibility of an unlikely race condition where two simultaneous
+        // registrations with the same ID would "succeed" where the second
+        // request just saves over the prior one.
         $query = sprintf("
             INSERT INTO non_activated_users
             SET
