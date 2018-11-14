@@ -32,7 +32,7 @@ class User
 
     public function __construct($username=NULL)
     {
-        if($username)
+        if($username !== NULL)
         {
             $this->load("username", $username);
         }
