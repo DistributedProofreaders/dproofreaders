@@ -41,7 +41,7 @@ function wfPgFormats()
 function getPgFormats( $input, $argv ) 
 {
     global $relPath, $code_url;
-    include_once($relPath.'site_vars.php');
+    include($relPath.'site_vars.php');
     include_once($relPath.'DPDatabase.inc');
 
     DPDatabase::connect();
@@ -87,7 +87,7 @@ function wfProjectInfo() {
 function showProjectInfo($input, $argv, $parser)
 {
     global $relPath, $code_url;
-    include_once($relPath.'site_vars.php');
+    include($relPath.'site_vars.php');
     include_once($relPath.'DPDatabase.inc');
     include_once($relPath.'project_states.inc');
 
