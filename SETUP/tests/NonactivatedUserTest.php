@@ -53,8 +53,7 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
     public function testLoadRegistrationById()
     {
         $existing_user = $this->createNonactivatedUser($this->TEST_USERNAME);
-        $user = new NonactivatedUser();
-        $user->load("id", $existing_user->id);
+        $user = NonactivatedUser::load_from_id($existing_user->id);
         $this->assertEquals($this->TEST_USERNAME, $user->username);
     }
 

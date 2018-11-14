@@ -64,7 +64,7 @@ class NonactivatedUser
         return isset($this->table_row[$name]);
     }
 
-    public function load($field, $value, $strict=TRUE)
+    private function load($field, $value, $strict=TRUE)
     {
         if(!in_array($field, $this->integer_fields))
         {
@@ -194,6 +194,17 @@ class NonactivatedUser
             DELETE FROM non_activated_users
             WHERE id = '$this->id'
         ");
+    }
+
+    // static functions
+
+    // Load a NonactivatedUser record by ID
+    // e.g. $user = NonactivatedUser::load_from_id($id);
+    public static function load_from_id($id)
+    {
+        $user = new NonactivatedUser();
+        $user->load('id', $id);
+        return $user;
     }
 }
 

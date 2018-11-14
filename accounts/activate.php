@@ -10,10 +10,9 @@ include_once($relPath.'User.inc');
 
 $ID = array_get($_GET, "id", "");
 
-$user = new NonactivatedUser();
 try
 {
-    $user->load("id", $ID);
+    $user = NonactivatedUser::load_from_id($ID);
 }
 catch(NonexistentNonactivatedUserException $exception)
 {
