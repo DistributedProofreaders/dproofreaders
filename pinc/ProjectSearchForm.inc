@@ -72,7 +72,7 @@ class ProjectSearchWidget
             if($this->has_invert)
             {
                 $check = isset($_GET[$this->id . "_inv"]) ? " checked" : "";
-                $r .= "<br>" . _("Invert filter") . "<input type='checkbox' name='{$this->id}_inv'$check>";
+                $r .= "<br>$this->invert_label<input type='checkbox' name='{$this->id}_inv'$check>";
             }
             return $r;
         }
@@ -297,6 +297,7 @@ class ProjectSearchForm
                 'initial_value'   => '',
                 'q_contrib'  => array('language', 'LIKE'),
                 'has_invert' => true,
+                'invert_label' => _("Invert language filter"),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'genre',
