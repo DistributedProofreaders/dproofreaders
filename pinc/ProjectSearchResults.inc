@@ -108,12 +108,12 @@ class Column
                     $sec_sorter = "&nbsp;^";
                 else
                 {
-                    $ar1 = array('sec_sort' => $this->id, 'results_offset' => 0);
-                    $sec_sorter = "&nbsp;" . make_ref($ar1, "^", "#head");
+                    $new_array = array('sec_sort' => $this->id, 'results_offset' => 0);
+                    $sec_sorter = "&nbsp;" . make_link($new_array, "^", "#head");
                 }
             }
-            $ar1 = array('sort' => "$this->id$dir_code", 'results_offset' => 0);
-            $label = make_ref($ar1, $label, "#head") . "$marker$sec_sorter";
+            $new_array = array('sort' => "$this->id$dir_code", 'results_offset' => 0);
+            $label = make_link($new_array, $label, "#head") . "$marker$sec_sorter";
         }
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
@@ -454,7 +454,7 @@ class ProjectSearchResults
         if ( $results_offset > 0 )
         {
             $prev_offset = max(0, $results_offset - $this->page_size);
-            echo make_ref(array('results_offset' => $prev_offset), _('Previous'), "#head") . " | ";
+            echo make_link(array('results_offset' => $prev_offset), _('Previous'), "#head") . " | ";
 
         }
         echo sprintf(
@@ -469,7 +469,7 @@ class ProjectSearchResults
         if ( $results_offset + $numrows < $num_found_rows )
         {
             $next_offset = $results_offset + $this->page_size;
-            echo " | " . make_ref(array('results_offset' => $next_offset), _('Next'), "#head");
+            echo " | " . make_link(array('results_offset' => $next_offset), _('Next'), "#head");
         }
     }
 
@@ -647,15 +647,15 @@ function get_search_configure_link()
     return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
 }
 
-function make_ref($ar1, $txt, $anchor = '')
+function make_link($new_array, $text, $anchor = '')
 {
-    $url = "{$_SERVER['PHP_SELF']}?" . http_build_query(array_replace($_GET, $ar1)) . "$anchor";
-    return "<a href='" . attr_safe($url) . "'>$txt</a>";
+    $url = "{$_SERVER['PHP_SELF']}?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
+    return "<a href='" . attr_safe($url) . "'>$text</a>";
 }
 
 function get_refine_search_link()
 {
-    return make_ref(array('show' => 'search_form'), _("Refine Search"));
+    return make_link(array('show' => 'search_form'), _("Refine Search"));
 }
 
 // vim: sw=4 ts=4 expandtab
