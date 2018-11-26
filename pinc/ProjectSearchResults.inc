@@ -105,7 +105,9 @@ class Column
                 $dir_code = "A";
                 $marker = "";
                 if($sec_sort == $this->id)
+                {
                     $sec_sorter = "&nbsp;^";
+                }
                 else
                 {
                     $new_array = array('sec_sort' => $this->id, 'results_offset' => 0);
@@ -644,12 +646,12 @@ class ProjectSearchResults
 function get_search_configure_link()
 {
     $origin = urlencode($_SERVER['REQUEST_URI']);
-    return "<a href='{$_SERVER['PHP_SELF']}?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
+    return "<a href='?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
 }
 
 function make_link($new_array, $text, $anchor = '')
 {
-    $url = "{$_SERVER['PHP_SELF']}?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
+    $url = "?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
     return "<a href='" . attr_safe($url) . "'>$text</a>";
 }
 

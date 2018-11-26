@@ -85,7 +85,10 @@ elseif($show_view == "user_all")
 elseif ($show_view == "user_active")
 {
     $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
-    $_GET = array_merge($_GET, array('project_manager' => $pguser, 'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE))));
+    $_GET = array_merge($_GET, array(
+        'project_manager' => $pguser,
+        'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE))
+    ));
     // TRANSLATORS: Abbreviation for Project Manager
     $sub_title = sprintf(_("Active PM projects: %s"), $pguser);
 }
@@ -114,7 +117,7 @@ $search_results->render($condition);
 function create_shortcut_link($text, $show_val, $show_view="")
 {
     if($show_view != $show_val)
-        return "<a href='{$_SERVER['PHP_SELF']}?show=$show_val'>$text</a>";
+        return "<a href='?show=$show_val'>$text</a>";
     else
         return $text;
 }

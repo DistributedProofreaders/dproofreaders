@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
+include_once($relPath."misc.inc"); // attr_safe, array_get
 
 class ProjectSearchWidget
 {
@@ -342,7 +343,6 @@ class ProjectSearchForm
     public function render()
     {
         echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
-        // query data can be too big for GET
         echo "<div class='search-columns'>
             <form style='display: inline;' method='GET'>
             <input type='hidden' name='show' value='search'>";
@@ -361,7 +361,7 @@ class ProjectSearchForm
             </table>
             <div class='center-align' style='clear: both;'></div>
             <input type='submit' value='", attr_safe(_("Search")), "'>
-            <input type='button' onclick=\"window.location.assign('{$_SERVER['PHP_SELF']}?show=search_form');\" value='", attr_safe(_("Clear form")), "'>
+            <input type='button' onclick=\"window.location.assign('?show=search_form');\" value='", attr_safe(_("Clear form")), "'>
             </form>";
         echo get_search_configure_button();
         echo "</div>";

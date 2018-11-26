@@ -61,10 +61,7 @@ $condition = $search_form->get_condition();
 echo "<h1>", _("Search Results"), "</h1>\n";
 
 $search_results = new ProjectSearchResults("PS");
-echo "<p><a href='{$_SERVER['PHP_SELF']}?show=search_form'>" . _("Start New Search") . "</a> | " . get_refine_search_link() . " | " . get_search_configure_link() . "</p>";
+echo "<p><a href='?show=search_form'>" . _("Start New Search") . "</a> | " . get_refine_search_link() . " | " . get_search_configure_link() . "</p>";
 $search_results->render($condition);
-
-//---------------------------------------------------------------------------
-
 
 // vim: sw=4 ts=4 expandtab
