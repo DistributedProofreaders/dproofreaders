@@ -234,13 +234,23 @@ table.register {
     width: auto;
     border-collapse: separate;
     border: 1px solid black;
-    td.label {
+    th, td {
+        padding: 3px;
+    }
+    th {
         .right-align;
         .bold;
-        padding: 0px 3px;
     }
-    td.field {
+    td {
         .left-align;
+        input[type=text],
+        input[type=password],
+        input[type=select] {
+            width: 98%;
+        }
+    }
+    td.bar {
+        .center-align;
     }
 }
 

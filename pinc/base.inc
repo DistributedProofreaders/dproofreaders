@@ -25,6 +25,9 @@ $relPath=dirname(__FILE__)."/";
 
 include_once($relPath.'site_vars.php');
 
+// Register autoloader
+spl_autoload_register('dp_class_autoloader');
+
 undo_all_magic_quotes();
 
 // If we're not testing, whitewash any uncaught exceptions
@@ -119,6 +122,20 @@ function require_login()
     $title = _("Please Sign In");
 
     metarefresh(0,$url,$title,$body);
+}
+
+// Autoloading functions for DP classes in pinc/
+function dp_class_autoloader($class)
+{
+    global $relPath;
+    if(is_file($relPath.$class.".inc"))
+    {
+        include_once($relPath.$class.".inc");
+    }
+    elseif(is_file($relPath.$class."Class.inc"))
+    {
+        include_once($relPath.$class."Class.inc");
+    }
 }
 
 function undo_all_magic_quotes()

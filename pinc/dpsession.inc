@@ -71,6 +71,19 @@ function dpsession_resume()
     {
         _update_user_activity_time( FALSE );
     }
+
+    // If the sender isn't logged in, and this is the first time in this
+    // browsing session that they're hitting the site, we grab the request's
+    // http_referer (if any), and stash that in a cookie for later use, in
+    // case they register in this browsing session.
+    if(!$user_is_logged_in && !isset($_COOKIE["http_referer"]))
+    {
+        if(isset($_SERVER["HTTP_REFERER"]))
+            setcookie('http_referer', $_SERVER["HTTP_REFERER"]);
+        else
+            setcookie('http_referer', '');
+    }
+
     return $user_is_logged_in;
 }
 

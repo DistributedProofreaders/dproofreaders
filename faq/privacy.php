@@ -41,29 +41,36 @@ output_section(
     array(
         _('When you register, %s will send a confirmation/introduction message to your e-mail address.'),
         _('You may also receive optional e-mail alerts from our discussion forums and occasional notifications and feedback related to your proofreading activities.'),
-        _('%1$s will also invite you by e-mail to vote in periodic Board Trustee elections and could contact you for site-related purposes authorized by %1$s management.'),
+        _('%1$s may also invite you by e-mail to vote in periodic Board Trustee elections and could contact you for site-related purposes authorized by %1$s management.'),
     )
 );
 
 output_section(
     _('Access to your information'),
     array(
-        _('If in your %s site preferences you opt not to make your Real Name accessible to all volunteers, it will be accessible only to our site administrators.'),
+        _('Real Name: Each book that %1s produces includes a credits line to identify the people holding certain roles (Content Provider, Image Preparer, Text Preparer, Post Processor, and Project Manager) who have worked on the book.'),
+        _('If you take on any of these roles, you can choose (in your Preferences) how or whether you prefer to be credited.'),
+        _('Apart from this possibility, the information you enter as your Real Name in your Preferences will be accessible only to our site administrators.'),
+    ),
+    array(
+        _('E-mail Address: Your e-mail address will be accessible only to our site administrators unless you make it available to other volunteers yourself, either by telling them or sending email to them from your email client.'),
         $test_system_access_string,
-        _('Your e-mail address will be accessible only to our site administrators unless you make it available to other volunteers yourself, either by telling them or sending email to them from your email client.'),
+    ),
+    array(
+        _('How did you hear about us: Your answer to the "How did you hear about us?" question on the registration form is for general statistical purposes and any tie to your profile will be visible only to our site administrators.'),
     ),
     array(
         _('During the various production phases, your User Name and your %s work may be viewable by other volunteers.'),
         _('In addition, volunteers delegated to an evaluation or mentoring role will be able to review the work performed under your User Name.'),
     ),
     array(
+        _('You have the option to make your %s statistics (Information normally viewable on the Statistics General page such as the number of pages you have proofread, when you were last on the site, etc.) private so that only registered users can see them, public so that anyone including non-registered visitors can see them, or anonymous so that only you and site administrators can see them.'),
+    ),
+    array(
         _('Your User Name and any public information you provide in your forum profile will be accessible to other %s volunteers and to unregistered guests.'),
         _('Your posts on our discussion forums will be viewable by other volunteers.'),
         _('Certain clearly-designated forums are also viewable by unregistered guests to the forums.'),
-        _('Your user name and any information you post on the wiki are visible to both volunteers and unregistered guests.'),
-    ),
-    array(
-        _('Volunteers may opt not to display their Real or User Name in the credits of a publication while it is being worked on at %s and when it is distributed through Project Gutenberg or other publication channels.'),
+        _('Your User Name and any information you post on the wiki are visible to both volunteers and unregistered guests.'),
     )
 );
 
