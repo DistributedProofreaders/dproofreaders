@@ -483,8 +483,7 @@ function create_task_from_form_submission($formsub)
     // Validate the assignee, skipping the case where it is 0 (Unassigned).
     if($newt_assignee != 0)
     {
-        $task_assignee_user = new User();
-        $task_assignee_user->load('u_id', $newt_assignee);
+        $task_assignee_user = User::load_from_uid($newt_assignee);
     }
 
     $sql_query = "
@@ -1861,8 +1860,7 @@ function private_message_link_for_uid($u_id)
 
 function get_username_for_uid($u_id)
 {
-    $user = new User();
-    $user->load("u_id", $u_id);
+    $user = User::load_from_uid($u_id);
     return $user->username;
 }
 

@@ -13,8 +13,7 @@ $tally_name = array_get( $_GET, 'tally_name', null );
 
 $id = get_integer_param($_GET, 'id', null, 0, null);
 
-$user = new User();
-$user->load('u_id', $id);
+$user = User::load_from_uid($id);
 
 $can_reveal = can_reveal_details_about( $user->username, $user->u_privacy );
 if ( $can_reveal )
