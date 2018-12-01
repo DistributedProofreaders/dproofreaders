@@ -7,12 +7,19 @@ include_once($relPath.'Project.inc');  // validate_projectID()
 require_login();
 
 $projectid = validate_projectID('projectid', @$_POST['projectid']);
+$project = new Project($projectid);
 $return_uri = urldecode($_POST['return_uri']);
 
 $subs = array();
 $unsubs = array();
 foreach ( $subscribable_project_events as $event => $label )
 {
+    // Disallow subscribing to SR report posted event for anyone who is not a PP
+    if ($event == 'sr_reported' && !$project->PPer_is_user($pguser))
+    {
+        continue;
+    }
+
     if ( @$_POST[$event] == 'on' )
     {
         subscribe_user_to_project_event( $pguser, $projectid, $event );
