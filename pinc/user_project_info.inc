@@ -108,6 +108,19 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
     }
 }
 
+function can_user_subscribe_to_project_event( $username, $projectid, $event )
+{
+    $project = new Project( $projectid );
+
+    // Disallow subscribing to SR report posted event for anyone who is not the PP for the project
+    if ($event == 'sr_reported' && !$project->PPer_is_user( $username ))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 // -----------------------------------------------------------------------------
 
 function notify_project_event_subscribers( $project, $event, $extras=array() )
