@@ -29,13 +29,16 @@ if ( !user_is_PM() )
 
 $pih = new ProjectInfoHolder;
 
-if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_POST['saveAndPreview']) )
+if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_POST['preview']) )
 {
     $errors = $pih->set_from_post();
     $pih->normalize_spaces();
     if (empty($errors))
     {
-        $pih->save_to_db();
+        if(!isset($_POST['preview']))
+        {
+            $pih->save_to_db();
+        }
         if (isset($_POST['saveAndQuit']))
         {
             // TRANSLATORS: PM = project manager
@@ -79,7 +82,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
     $pih->show_form();
 
-    if ( isset($_POST['saveAndPreview']))
+    if ( isset($_POST['preview']))
     {
         $pih->preview();
     }
@@ -849,7 +852,7 @@ class ProjectInfoHolder
         // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
-        echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";
+        echo     "<input type='submit' name='preview' value='".attr_safe(_("Preview"))."'>";
         echo     "<input type='submit' name='quit' value='".attr_safe(_("Quit Without Saving"))."'>";
         echo   "</th>";
         echo "</tr>\n";
