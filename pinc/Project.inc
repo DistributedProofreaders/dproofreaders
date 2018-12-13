@@ -511,12 +511,8 @@ EOS;
       <identifier>$code_url/project.php?id=$this->projectid</identifier>
       <source>LCCN: $marc_record->lccn</source>
       <language>$language</language>
-      <rights>$code_url/agreement.php</rights>
     </dc>
 XML;
-
-        // The URL used in <rights> was originally a pgdp.net address which didn't exist.
-        // Now it's a page under $code_url that might exist someday.
 
         $fp = fopen($filename, "w");
         if($fp)
