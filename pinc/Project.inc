@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'misc.inc'); // html_safe(), xmlencode()
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
@@ -485,21 +485,32 @@ EOS;
         {
             touch($filename);
         }
+
+        // Encode fields for XML heredoc
+        $title = xmlencode($this->nameofwork);
+        $creator = xmlencode($this->authorsname);
+        $subject = xmlencode($marc_record->subject);
+        $description = xmlencode($marc_record->description);
+        $publisher = xmlencode($site_name);
+        $contributor = xmlencode($this->credits_line);
+        $type = xmlencode($this->genre);
+        $language = xmlencode($this->language);
+
         $xmlpage = <<<XML
 <?xml version="1.0" encoding="$charset" ?>
     <dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd">
-      <title>$this->nameofwork</title>
-      <creator>$this->authorsname</creator>
-      <subject>$marc_record->subject</subject>
-      <description>$marc_record->description</description>
-      <publisher>$site_name</publisher>
-      <contributor>$this->credits_line</contributor>
+      <title>$title</title>
+      <creator>$creator</creator>
+      <subject>$subject</subject>
+      <description>$description</description>
+      <publisher>$publisher</publisher>
+      <contributor>$contributor</contributor>
       <date>$marc_record->date</date>
-      <type>$this->genre</type>
+      <type>$type</type>
       <format>XML</format>
       <identifier>$code_url/project.php?id=$this->projectid</identifier>
       <source>LCCN: $marc_record->lccn</source>
-      <language>$this->language</language>
+      <language>$language</language>
       <rights>$code_url/agreement.php</rights>
     </dc>
 XML;
