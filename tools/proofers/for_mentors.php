@@ -175,7 +175,7 @@ function page_summary_sql($mentored_round, $projectid)
 
     return "
         SELECT
-            CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
+            CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN u.username
             ELSE CONCAT('<a href=\""
                 .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
                 '\">',u.username,'</a>')
@@ -213,10 +213,8 @@ function page_list_sql($mentored_round, $projectid)
         SELECT
             p.fileid AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Page")) . "',
             DATE_FORMAT(FROM_UNIXTIME(p.{$mentored_round->time_column_name}),'%Y %b %d %H:%i') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved")) . "',
-            CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN '" .
-                mysqli_real_escape_string(DPDatabase::get_connection(), _("Anonymous")) . "'
-            ELSE p.{$mentored_round->user_column_name}
-            END AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "'
+            p.{$mentored_round->user_column_name}
+            AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order" ;
