@@ -23,8 +23,8 @@ $rounds=array_keys($Round_for_round_id_);
 $username = array_get($_GET,"username", $pguser);
 $work_round_id = array_get($_GET, "work_round_id", "");
 $review_round_id = array_get($_GET, "review_round_id", "");
-$sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, NULL);
-$days = get_integer_param($_GET, "days", 100, 0, NULL);
+$sampleLimit = (int)get_float_param($_GET, "sample_limit", 0.0, 0, NULL);
+$days = (int)get_float_param($_GET, "days", 100.0, 0, NULL);
 $use_eval_query = get_integer_param($_GET, "use_eval_query", 1, 0, 1);
 
 // if the user isn't a site manager or an access request reviewer,
@@ -82,11 +82,11 @@ echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<td>" . _("Max days since last save") . "</td>";
-echo   "<td><input name='days' type='text' size='4' value='$days'></td>";
+echo   "<td><input name='days' type='number' min='0' value='$days'></td>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<td>" . _("Max diffs to show") . "</td>";
-echo   "<td><input name='sample_limit' type='text' size='4' value='$sampleLimit'></td>";
+echo   "<td><input name='sample_limit' type='number' min='0' value='$sampleLimit'></td>";
 echo  "</tr>";
 echo "</table>";
 echo "<input type='submit' value='Search'>";
