@@ -22,8 +22,7 @@ catch(NonexistentNonactivatedUserException $exception)
     // back here.
     try
     {
-        $user_test = new User();
-        $user_test->load("id", $ID);
+        $user_test = User::load_from_registration_token($ID);
         $existing_user = $user_test->username;
         if($pguser == $existing_user)
         {

@@ -63,7 +63,7 @@ class User
         return isset($this->table_row[$name]);
     }
 
-    public function load($field, $value, $strict=TRUE)
+    private function load($field, $value, $strict=TRUE)
     {
         if(in_array($field, $this->string_fields))
         {
@@ -168,6 +168,26 @@ class User
         else
             $userSettings->set_boolean("$activity$suffix", $action_type == 'grant');
         log_access_change($this->username, $requester, $activity, $action_type);
+    }
+
+    // static functions
+
+    // Load a User record by u_id
+    // e.g. $user = User::load_from_uid($u_id);
+    public static function load_from_uid($u_id)
+    {
+        $user = new User();
+        $user->load('u_id', $u_id);
+        return $user;
+    }
+
+    // Load a User record by registration token (ie: the 'id' column)
+    // e.g. $user = User::load_from_registration_token($id);
+    public static function load_from_registration_token($id)
+    {
+        $user = new User();
+        $user->load('id', $id);
+        return $user;
     }
 
     // Static function to determine if the specified username is associated

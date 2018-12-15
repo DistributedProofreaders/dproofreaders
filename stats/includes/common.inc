@@ -51,8 +51,7 @@ function showChangeInRank( $previous_rank, $current_rank )
 
 function get_username_for_uid($u_id)
 {
-    $user = new User();
-    $user->load('u_id', $u_id);
+    $user = User::load_from_uid($u_id);
     return $user->username;
 }
 

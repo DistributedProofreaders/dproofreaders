@@ -108,44 +108,22 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($is_valid);
     }
 
-    public function testLoadExistingStrict()
+    /**
+     * @expectedException NonexistentUserException
+     */
+    public function testLoadExistingDifferCase()
     {
-        $user = new User();
-        $user->load("username", $this->TEST_USERNAME);
+        $username = strtoupper($this->TEST_USERNAME);
+        $user = new User($username);
     }
 
     /**
      * @expectedException NonexistentUserException
      */
-    public function testLoadExistingStrictDifferCase()
-    {
-        $username = strtoupper($this->TEST_USERNAME);
-        $user = new User();
-        $user->load("username", $username);
-    }
-
-    /**
-     * @expectedException NonexistentUserException
-     */
-    public function testLoadExistingStrictDifferWhitespace()
+    public function testLoadExistingDifferWhitespace()
     {
         $username = $this->TEST_USERNAME . '   ';
-        $user = new User();
-        $user->load("username", $username);
-    }
-
-    public function testLoadExistingNotStrictDifferCase()
-    {
-        $username = strtoupper($this->TEST_USERNAME);
-        $user = new User();
-        $user->load("username", $username, FALSE);
-    }
-
-    public function testLoadExistingNotStrictDifferWhitespace()
-    {
-        $username = $this->TEST_USERNAME . '   ';
-        $user = new User();
-        $user->load("username", $username, FALSE);
+        $user = new User($username);
     }
 
     /**
@@ -153,26 +131,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadNonexisting()
     {
-        $user = new User();
-        $user->load("username", $this->NONTEST_USERNAME);
-    }
-
-    /**
-     * @expectedException UnexpectedValueException
-     */
-    public function testLoadInvalidField()
-    {
-        $user = new User();
-        $user->load("not_a_field", "blah");
-    }
-
-    /**
-     * @expectedException NonuniqueUserException
-     */
-    public function testLoadMultipleUsers()
-    {
-        $user = new User();
-        $user->load("active", 0);
+        $user = new User($this->NONTEST_USERNAME);
     }
 
     public function testGetters()
