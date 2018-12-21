@@ -765,6 +765,9 @@ function show_birthdays()
     $oldest_activity = $timestamp_at_midnight -
             ($months_since_last_activity * $seconds_in_month);
 
+    // We exclude users whose privacy preference is set to anonymous.
+    // Birthdays are only shown on the activity hub which requires a login
+    // so users with a privacy preference of 'private' are ok to be included.
     $sql = sprintf("
         SELECT username, date_created
         FROM users
@@ -772,8 +775,9 @@ function show_birthdays()
             FROM_UNIXTIME(date_created, '%%m-%%d') = '%s'
             AND t_last_activity > %s
             AND date_created < %s
+            AND u_privacy != %d
         ORDER BY date_created ASC
-    ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight);
+    ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight, PRIVACY_ANONYMOUS);
 
     $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
