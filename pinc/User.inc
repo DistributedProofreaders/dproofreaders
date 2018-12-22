@@ -239,7 +239,7 @@ class User
             "blog" => _("Distributed Proofreaders Blog"),
             "twitter" => _("Twitter"),
             "facebook" => _("Facebook"),
-            "friend" => _("Friend"),
+            "friend" => _("Friend/Family"),
             "news" => _("News Article"),
             "pg" => _("Project Gutenberg"),
             "search" => _("Search Engine"),
