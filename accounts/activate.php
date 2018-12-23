@@ -101,9 +101,9 @@ if($create_user_status !== TRUE) {
 
 // Insert into 'real' table -- users
 $query = sprintf("
-    INSERT INTO users (id, real_name, username, email, date_created, active,
+    INSERT INTO users (id, real_name, username, email, date_created,
                        email_updates, referrer, http_referrer, u_neigh, u_intlang)
-    VALUES ('%s', '%s', '%s', '%s', $user->date_created, '',
+    VALUES ('%s', '%s', '%s', '%s', $user->date_created,
             $user->email_updates, '%s', '%s', 10, '%s')
     ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->real_name),

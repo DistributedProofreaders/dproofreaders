@@ -18,8 +18,7 @@ class UserTest extends PHPUnit_Framework_TestCase
                 SET id = '$this->TEST_USERNAME',
                     real_name = '$this->TEST_USERNAME',
                     username = '$this->TEST_USERNAME',
-                    email = '$this->TEST_USERNAME@localhost',
-                    active = 0
+                    email = '$this->TEST_USERNAME@localhost'
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
             if(!$result)
@@ -30,8 +29,7 @@ class UserTest extends PHPUnit_Framework_TestCase
                 SET id = '$this->TEST_USERNAME-2',
                     real_name = '$this->TEST_USERNAME-2',
                     username = '$this->TEST_USERNAME-2',
-                    email = '$this->TEST_USERNAME@localhost',
-                    active = 0
+                    email = '$this->TEST_USERNAME@localhost'
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
             if(!$result)

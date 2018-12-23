@@ -17,6 +17,4 @@
 45  3 * * * URL=<<CODE_URL>>/crontab/import_pg_catalog.php; <<URL_DUMP_PROGRAM>> $URL
 
 # monthly:
-20 0 1 * * URL=<<CODE_URL>>/crontab/inactivate_users.php; <<URL_DUMP_PROGRAM>> $URL
-35 0 1 * * URL=<<CODE_URL>>/crontab/notify_users.php; <<URL_DUMP_PROGRAM>> $URL
 50 0 1 * * URL=<<CODE_URL>>/crontab/notify_old_pp.php; <<URL_DUMP_PROGRAM>> $URL

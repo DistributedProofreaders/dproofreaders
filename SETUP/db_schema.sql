@@ -752,7 +752,6 @@ CREATE TABLE `users` (
   `date_created` int(20) NOT NULL default '0',
   `last_login` int(20) NOT NULL default '0',
   `t_last_activity` int(10) unsigned NOT NULL default '0',
-  `active` tinytext NOT NULL,
   `email_updates` tinyint(1) default '1',
   `referrer` varchar(32) NOT NULL DEFAULT '',
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
