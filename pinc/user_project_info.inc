@@ -159,6 +159,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
         case 'sr_reported':
             $msg_body .=
                 _("A new smooth-reading report has been uploaded.");
+            break;
 
         case 'sr_complete':
             $msg_body .=
