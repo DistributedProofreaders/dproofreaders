@@ -49,8 +49,6 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     echo "</p></form>\n";
 }
 
-prep_for_links_to_project_pages();
-
 $proof_heading = _("Proofreading &amp; Formatting Projects");
 echo "<h2 id='proof'>$proof_heading</h2>";
 echo "<p>$proof_text</p>";

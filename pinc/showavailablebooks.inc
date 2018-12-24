@@ -5,7 +5,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url_to_compose_message_to_user
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
-include_once($relPath.'js_newwin.inc'); // prep_for_links_to_project_pages get_onclick_attr_for_link_to_project_page
+include_once($relPath.'js_newwin.inc'); // get_onclick_attr_for_link_to_project_page
 
 // -----------------------------------------------------------------------------
 
@@ -393,11 +393,6 @@ function show_project_listing(
             $curr_sql_orderclause
     ";
     $result = mysqli_query(DPDatabase::get_connection(), $query);
-
-    if( is_a( $stage, 'Round' ) )
-    {
-        prep_for_links_to_project_pages();
-    }
 
     // Start the table.
     echo "\n<table id='$anchor' class='availprojectlisting'>";
