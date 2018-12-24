@@ -89,7 +89,7 @@ if($display_list)
 
     echo "<tr>";
     echo "<td>" . _("Percentage cutoff:") . "</td>";
-    echo "<td><input type='text' name='cutoff' value='$cutoff' size='4'>% - ";
+    echo "<td><input type='number' style='width: 4em;' name='cutoff' value='$cutoff' min='0'>% - ";
     echo _("words that occur less frequently than this in the word lists will not be shown in the results");
     echo "</td>";
     echo "</tr>";

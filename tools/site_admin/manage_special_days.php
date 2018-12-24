@@ -235,7 +235,7 @@ class SpecialDay
         if($this->new_source)
         {
             echo "<table class='edit_special_day'>";
-            $this->_show_edit_row('spec_code',_('Special Day ID'),false,20);
+            $this->_show_edit_row('spec_code', _('Special Day ID'), 'text', 20);
         }
         else
         {
@@ -244,27 +244,27 @@ class SpecialDay
                 <table class='edit_special_day'>";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
-        $this->_show_edit_row('display_name',_('Display Name'),false,80);
+        $this->_show_edit_row('display_name', _('Display Name'), 'text', 80);
         echo "  <tr><th class='label'>Enable</th><td><input type='checkbox' name='enable'";
         if ( $this->enable )
             echo " value='1' checked";
         echo "></td></tr>\n";
-        $this->_show_edit_row('comment',_('Comment'),true);
-        $this->_show_edit_row('color',_('Color'),false,8);
-        $this->_show_edit_row('open_month',_('Open Month'),false,2);
-        $this->_show_edit_row('open_day',_('Open Day'),false,2);
-        $this->_show_edit_row('close_month',_('Close Month'),false,2);
-        $this->_show_edit_row('close_day',_('Close Day'),false,2);
-        $this->_show_edit_row('date_changes',_('Date Changes'),false);
-        $this->_show_edit_row('info_url',_('Info URL'),false);
-        $this->_show_edit_row('image_url',_('Image URL'),false);
+        $this->_show_edit_row('comment', _('Comment'), 'textarea');
+        $this->_show_edit_row('color', _('Color'), 'text', 8);
+        $this->_show_edit_row('open_month', _('Open Month'), 'number', null, 1, 12);
+        $this->_show_edit_row('open_day', _('Open Day'), 'number', null, 1, 31);
+        $this->_show_edit_row('close_month', _('Close Month'), 'number', null, 1, 12);
+        $this->_show_edit_row('close_day', _('Close Day'), 'number', null, 1, 31);
+        $this->_show_edit_row('date_changes', _('Date Changes'));
+        $this->_show_edit_row('info_url', _('Info URL'));
+        $this->_show_edit_row('image_url', _('Image URL'));
 
         echo "<tr><td colspan='2' style='text-align:center;'>
             <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."'>
             </td></tr></table>\n</form>\n";
     }
 
-    function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
+    function _show_edit_row($field, $label, $type='text', $maxlength=null, $min=null, $max=null)
     {
 
         $value = $this->new_source
@@ -273,14 +273,20 @@ class SpecialDay
 
         $value = html_safe($value);
 
-        if ($textarea)
+        if($type == "textarea")
         {
-            $editing = "<textarea cols='60' rows='5' name='$field'>$value</textarea>";
+            $editing = "<textarea style='width: 40em; height: 5em' name='$field'>$value</textarea>";
         }
-        else
+        elseif($type == "text")
         {
             $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
-            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr>";
+            $editing = "<input type='text' style='width: 40em' name='$field' value='$value' $maxlength_attr>";
+        }
+        elseif($type == "number")
+        {
+            $min_attr = is_null($min) ? '' : "min='$min'";
+            $max_attr = is_null($max) ? '' : "max='$max'";
+            $editing = "<input type='number' style='width: 4em' name='$field' size='60' value='$value' $min_attr $max_attr>";
         }
         echo "  <tr>" .
             "<th class='label'>$label</th>" .

@@ -618,7 +618,7 @@ function handle_action_on_a_specified_task()
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
 
-    $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+    $task_id = (int)get_float_param($_REQUEST, 'task_id', null, 1, null);
 
     // Fetch the state of the specified task
     // before any requested changes.
@@ -968,7 +968,8 @@ td.taskproperty    { width: 40%; font-weight: bold; }
 td.taskvalue       { width: 60%; border-bottom: #CCCCCC 1px solid; }
 
 select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
-input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input[type="number"],
+input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; width: 4em; }
 input[type="button"],
 input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
 input[type="button"]:disabled,
@@ -1012,7 +1013,7 @@ EOS;
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
-    echo "<input type='text' name='task_id' size='12'>&nbsp;\n";
+    echo "<input type='number' name='task_id' min='1'>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
     echo "</form>";
     echo "</td></tr></table><br>\n";
@@ -1672,7 +1673,7 @@ function RelatedTasks($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='text' name='related_task' size='30'>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_task' min='1'>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of an existing, related task. This is optional.)";
     echo "</form>";
@@ -1718,7 +1719,7 @@ function RelatedPostings($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='text' name='related_posting' size='30'>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_posting' min='1'>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Optional)";
     echo "</form>";

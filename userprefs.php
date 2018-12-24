@@ -536,14 +536,14 @@ function echo_proofreading_tab() {
     show_preference(
         _('Image Zoom'), 'v_zoom', 'v_zoom',
         $userP['v_zoom'],
-        'textfield',
+        'numberfield',
         # xgettext:no-php-format
         array( 3, _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
-        'textfield',
+        'numberfield',
         # xgettext:no-php-format
         array( 3, _("% of 1000 pixels") )
     );
@@ -553,14 +553,14 @@ function echo_proofreading_tab() {
     show_preference(
         _('Text Frame Size'), 'v_tframe', 'v_textsize',
         $userP['v_tframe'],
-        'textfield',
+        'numberfield',
         # xgettext:no-php-format
         array( 3, _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
-        'textfield',
+        'numberfield',
         # xgettext:no-php-format
         array( 3, _("% of browser height") )
     );
@@ -585,13 +585,13 @@ function echo_proofreading_tab() {
     show_preference(
         _('Number of Text Lines'), 'v_tlines', 'v_textlines',
         $userP['v_tlines'],
-        'textfield',
+        'numberfield',
         array( 3, "" )
     );
     show_preference(
         _('Number of Text Lines'), 'h_tlines', 'h_textlines',
         $userP['h_tlines'],
-        'textfield',
+        'numberfield',
         array( 3, "" )
     );
     echo "</tr>\n";
@@ -600,13 +600,13 @@ function echo_proofreading_tab() {
     show_preference(
         _('Length of Text Lines'), 'v_tchars', 'v_textlength',
         $userP['v_tchars'],
-        'textfield',
+        'numberfield',
         array( 3, " "._("characters") )
     );
     show_preference(
         _('Length of Text Lines'), 'h_tchars', 'h_textlength',
         $userP['h_tchars'],
-        'textfield',
+        'numberfield',
         array( 3, " "._("characters") )
     );
     echo "</tr>\n";
@@ -924,7 +924,14 @@ function _show_textfield( $field_name, $current_value, $extras )
 {
     list($size, $rest) = $extras;
     $current_value_esc = attr_safe($current_value);
-    echo "<input type='text' name='$field_name' value='$current_value_esc' size='$size'>$rest";
+    echo "<input type='text' style='width: ${size}em' name='$field_name' value='$current_value_esc'>$rest";
+}
+
+function _show_numberfield( $field_name, $current_value, $extras )
+{
+    list($size, $rest) = $extras;
+    $current_value_esc = attr_safe($current_value);
+    echo "<input type='number' style='width: ${size}em' name='$field_name' value='$current_value_esc' min='1'>$rest";
 }
 
 // ---------------------------------------------------------

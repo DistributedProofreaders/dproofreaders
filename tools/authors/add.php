@@ -346,7 +346,7 @@ function echo_date_fields($bd) {
 <tr><td><?php echo _('Year'); ?>:</td><td>
 <input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?>><?php echo _('Unknown'); ?>
 <br><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo (_var($bd, 'yearRadio')=='1'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" ><?php echo _('As entered'); ?>:
-<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
+<input type="number" name="<?php echo $bd; ?>year" min="1" style='width: 4em;'<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
 <input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?>><?php echo _('B. C.'); ?>
 </td></tr><tr><td><?php echo _('Comments (in<br>English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo attr_safe(_var($bd, 'comments')); ?>"> 
 <?php echo _('Handy links:').' '; ?>
