@@ -315,6 +315,16 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
+        //     In case of the Post Proofer returning the project to Post Proofing pool,
+        // we want to unsubscribe them from the 'sr_reported' event because they are
+        // no longer the Post Proofer for that project and the event is meant for
+        // Post Proofers.
+        if ($this->from_state == PROJ_POST_FIRST_CHECKED_OUT &&
+            $this->to_state == PROJ_POST_FIRST_AVAILABLE)
+        {
+            unsubscribe_user_from_project_event( $project->checkedoutby, $projectid, 'sr_reported' );
+        }
+
         $checkedoutby = '';
         $pool = get_Pool_for_state($this->to_state);
         if ( !is_null($pool) && $this->to_state == $pool->project_checkedout_state )
