@@ -788,16 +788,20 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'add_related_task') {
-        process_related_task($pre_task, 'add', @$_POST['related_task']);
+        $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
+        process_related_task($pre_task, 'add', $related_task_id);
     }
     elseif ($action == 'remove_related_task') {
-        process_related_task($pre_task, 'remove', @$_POST['related_task']);
+        $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
+        process_related_task($pre_task, 'remove', $related_task_id);
     }
     elseif ($action == 'add_related_topic') {
-        process_related_topic($pre_task, 'add', @$_POST['related_posting']);
+        $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
+        process_related_topic($pre_task, 'add', $related_posting_topic);
     }
     elseif ($action == 'remove_related_topic') {
-        process_related_topic($pre_task, 'remove', @$_POST['related_posting']);
+        $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
+        process_related_topic($pre_task, 'remove', $related_posting_topic);
     }
     elseif ($action == 'add_metoo') {
         global $os_array, $browser_array;
@@ -838,7 +842,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 
     // Validate task_id. It must be an integer >= 1
     $related_task_id = trim($related_task_id);
-    if (empty($related_task_id) || !is_numeric($related_task_id) || $related_task_id < 1) {
+    if (!is_numeric($related_task_id) || $related_task_id < 1) {
         ShowNotification("You must supply a related task ID.", true);
         return;
     }
@@ -884,7 +888,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 
     // Validate related_topic_id. It must be an integer >= 1
     $related_topic_id = trim($related_topic_id);
-    if (empty($related_topic_id) || !is_numeric($related_topic_id) || $related_topic_id < 1) {
+    if (!is_numeric($related_topic_id) || $related_topic_id < 1) {
         ShowNotification("You must supply a related topic ID.", true);
         return;
     }
