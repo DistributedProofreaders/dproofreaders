@@ -14,8 +14,8 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-define("LAYOUT_HORIZ", 1);
-define("LAYOUT_VERT",  2);
+define("LAYOUT_HORIZ", "h");
+define("LAYOUT_VERT",  "v");
 
 set_time_limit(0); // no time limit
 
@@ -25,11 +25,17 @@ $word      = rtrim(decode_word($encWord));
 
 enforce_edit_authorization($projectid);
 
-// get the right layout
-$layout = array_get($_GET,"layout",@$_SESSION["show_word_context"]["layout"]);
-if(empty($layout)) $layout=LAYOUT_HORIZ;
-$_SESSION["show_word_context"]["layout"]=$layout;
+// get the correct layout
+$userSettings =& Settings::get_Settings($pguser);
+// if not set gives LAYOUT_HORIZ
+$default_layout =  $userSettings->get_value("show_word_context", LAYOUT_HORIZ);
 
+$layout_choices = array(LAYOUT_HORIZ, LAYOUT_VERT);
+$layout = get_enumerated_param($_GET, 'layout', $default_layout, $layout_choices);
+if($layout != $default_layout)
+{
+    $userSettings->set_value("show_word_context", $layout);
+}
 
 $wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, null);
 
