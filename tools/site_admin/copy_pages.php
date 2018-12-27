@@ -17,20 +17,15 @@ if ( !user_is_a_sitemanager() )
     die( "You are not authorized to invoke this script." );
 }
 
-$copy_pages_url = "$code_url/tools/site_admin/copy_pages.php";
-
 $extra_args["css_data"] = "
-    table.copy { margin-left: 3em;}
-    table.copy th { text-align: left;}
     input[type=text] { font-family: monospace; }
 ";
 
-$title = _("Copy Pages from One Project to Another");
+$title = _("Copy Pages");
 output_header($title, NO_STATSBAR, $extra_args);
-echo "<br>\n";
 echo "<h1>" . $title . "</h1>\n";
-echo "<hr>\n";
 
+echo "<p>" . _("This tool will allow you to copy pages from one project to another.") . "</p>";
 // Validate the $projectid_ and $from_image_ 'by hand'
 $projectid_  = array_get( $_POST, 'projectid_',  NULL );
 if (is_array($projectid_))
@@ -68,7 +63,7 @@ switch ($action)
                   $transfer_notifications, $add_deletion_reason, 
                   $merge_wordcheck_files, TRUE );
 
-        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
+        echo "<form method='post'>\n";
         display_hiddens($projectid_, $from_image_, $page_name_handling, 
                         $transfer_notifications, $add_deletion_reason, 
                         $merge_wordcheck_files);
@@ -79,14 +74,14 @@ switch ($action)
         break;
 
     case 'docopy':
-        do_stuff( $projectid_, $from_image_, $page_name_handling, 
-                  $transfer_notifications, $add_deletion_reason, 
+        do_stuff( $projectid_, $from_image_, $page_name_handling,
+                  $transfer_notifications, $add_deletion_reason,
                   $merge_wordcheck_files, FALSE );
 
         echo "<hr>\n";
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
         echo sprintf(_("<p><a href='%s'>Go to destination project's detail page</a></p>\n"), $url);
-        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
+        echo "<form method='post'>\n";
         echo "<fieldset>\n";
         echo "<legend>" . _("Copy more pages...") . "</legend>";
         echo "<input type='radio' name='repeat_project' id='rp-1' value='FROM'>";
@@ -117,8 +112,7 @@ function display_form($projectid_, $from_image_, $page_name_handling,
                       $transfer_notifications, $add_deletion_reason, 
                       $merge_wordcheck_files, $repeat_project, $repeating)
 {
-    global $copy_pages_url;
-    echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
+    echo "<form method='post'>\n";
     echo "<table class='copy'>\n";
 
     // always leave the page numbers blank
