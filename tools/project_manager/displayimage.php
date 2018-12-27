@@ -57,7 +57,7 @@ slim_header($title, array("head_data" => $link_tags));
 <input type="hidden" name="preload" value="<?php echo $preload; ?>">
 
 <?php echo _("Resize"); ?>:
-<input type="text" maxlength="3" name="percent" size="3" value="<?php echo $percent; ?>">%
+<input type="number" name="percent" min="1" max="100" value="<?php echo $percent; ?>">%
 <input type="submit" value="<?php echo attr_safe(_("Resize")); ?>" size="3">
 
 <?php echo _("Jump to"); ?>:
