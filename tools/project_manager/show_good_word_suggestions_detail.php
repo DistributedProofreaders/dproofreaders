@@ -15,8 +15,8 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-define("LAYOUT_HORIZ", "h");
-define("LAYOUT_VERT",  "v");
+define("LAYOUT_HORIZ", "horizontal");
+define("LAYOUT_VERT",  "vertical");
 
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -36,13 +36,13 @@ enforce_edit_authorization($projectid);
 // get the correct layout
 $userSettings =& Settings::get_Settings($pguser);
 // if not set gives LAYOUT_HORIZ
-$default_layout =  $userSettings->get_value("good_words_layout", LAYOUT_HORIZ);
+$default_layout =  $userSettings->get_value("show_good_words_layout", LAYOUT_HORIZ);
 
 $layout_choices = array(LAYOUT_HORIZ, LAYOUT_VERT);
 $layout = get_enumerated_param($_GET, 'layout', $default_layout, $layout_choices);
 if($layout != $default_layout)
 {
-    $userSettings->set_value("good_words_layout", $layout);
+    $userSettings->set_value("show_good_words_layout", $layout);
 }
 
 // $frame determines which frame we're operating from
