@@ -29,13 +29,16 @@ if ( !user_is_PM() )
 
 $pih = new ProjectInfoHolder;
 
-if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_POST['saveAndPreview']) )
+if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_POST['preview']) || isset($_POST['save']))
 {
     $errors = $pih->set_from_post();
     $pih->normalize_spaces();
     if (empty($errors))
     {
-        $pih->save_to_db();
+        if(!isset($_POST['preview']))
+        {
+            $pih->save_to_db();
+        }
         if (isset($_POST['saveAndQuit']))
         {
             // TRANSLATORS: PM = project manager
@@ -79,7 +82,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
     $pih->show_form();
 
-    if ( isset($_POST['saveAndPreview']))
+    if ( isset($_POST['preview']))
     {
         $pih->preview();
     }
@@ -836,7 +839,7 @@ class ProjectInfoHolder
 
     function show_form()
     {
-        echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF'])."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='#preview'>";
 
         $this->show_hidden_controls();
 
@@ -847,9 +850,10 @@ class ProjectInfoHolder
         echo "<tr>";
         echo   "<th colspan='2'>";
         // TRANSLATORS: PM = project manager
+        echo     "<input type='submit' name='preview' value='".attr_safe(_("Preview"))."'>";
+        echo     "<input type='submit' name='save' value='".attr_safe(_("Save"))."'>";
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
-        echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";
         echo     "<input type='submit' name='quit' value='".attr_safe(_("Quit Without Saving"))."'>";
         echo   "</th>";
         echo "</tr>\n";
@@ -1008,7 +1012,7 @@ class ProjectInfoHolder
         // TRANSLATORS: This is a strftime-formatted string for the date with year and time
         $now = strftime(_("%A, %B %e, %Y at %X"));
 
-        echo "<h2>", _("Preview Project"), "</h2>";
+        echo "<h2 id='preview'>", _("Preview Project"), "</h2>";
         echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";
         echo "<table class='basic'>";
         echo "<tr><th>", _("Title"), "</th><td>$this->nameofwork</td></tr>\n";
