@@ -119,7 +119,7 @@ if ($pagesproofed > 20)
     else
     {
         echo sprintf(
-            _("The <a href='%1\$s'>%2\$s release queues</a> show the books that are waiting to become available for work in this round."),
+            _("Projects can be released into %2\$s via <a href='%1\$s'>various release queues</a>."),
             "$code_url/stats/release_queue.php?round_id={$round->id}",
             $round->id
         );
