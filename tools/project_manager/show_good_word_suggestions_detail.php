@@ -15,8 +15,8 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-define("LAYOUT_HORIZ", 1);
-define("LAYOUT_VERT",  2);
+define("LAYOUT_HORIZ", "horizontal");
+define("LAYOUT_VERT",  "vertical");
 
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -34,19 +34,16 @@ $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 enforce_edit_authorization($projectid);
 
 // get the correct layout
-$default_layout = @$_SESSION["show_good_word_suggestions_detail"]["layout"];
-if (is_null($default_layout)) {
-    // The normal case for the session's first visit.
-    $default_layout = LAYOUT_HORIZ;
-} else if ($default_layout === LAYOUT_HORIZ || $default_layout === LAYOUT_VERT) {
-    // The normal case for the session's subsequent visits.
-} else {
-    // I don't know how this could happen.
-    $default_layout = LAYOUT_HORIZ;
-    // Alternatively, we could raise an error or warning.
+$userSettings =& Settings::get_Settings($pguser);
+// if not set gives LAYOUT_HORIZ
+$default_layout =  $userSettings->get_value("show_good_words_layout", LAYOUT_HORIZ);
+
+$layout_choices = array(LAYOUT_HORIZ, LAYOUT_VERT);
+$layout = get_enumerated_param($_GET, 'layout', $default_layout, $layout_choices);
+if($layout != $default_layout)
+{
+    $userSettings->set_value("show_good_words_layout", $layout);
 }
-$layout = get_integer_param($_GET, 'layout', $default_layout, LAYOUT_HORIZ, LAYOUT_VERT);
-$_SESSION["show_good_word_suggestions_detail"]["layout"] = $layout;
 
 // $frame determines which frame we're operating from
 // 'master' - we're the master frame
