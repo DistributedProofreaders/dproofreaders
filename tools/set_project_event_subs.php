@@ -13,6 +13,11 @@ $subs = array();
 $unsubs = array();
 foreach ( $subscribable_project_events as $event => $label )
 {
+    if (!can_user_subscribe_to_project_event( $pguser, $projectid, $event ))
+    {
+        continue;
+    }
+
     if ( @$_POST[$event] == 'on' )
     {
         subscribe_user_to_project_event( $pguser, $projectid, $event );
