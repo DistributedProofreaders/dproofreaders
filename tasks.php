@@ -1140,7 +1140,7 @@ function select_and_list_tasks($sql_condition)
         }
     }
     else {
-        echo "<tr><td colspan='7'><center>No tasks found!</center></td></tr>";
+        echo "<tr><td colspan='9'><center>No tasks found!</center></td></tr>";
     }
     echo "</table><br>\n";
     // if 2 tasks or more found, display the number of reported tasks
