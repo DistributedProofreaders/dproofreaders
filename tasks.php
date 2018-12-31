@@ -973,7 +973,8 @@ td.taskvalue       { width: 60%; border-bottom: #CCCCCC 1px solid; }
 
 select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
 input[type="number"],
-input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; width: 4em; }
+input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input[type="number"] { width: 4em; }
 input[type="button"],
 input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
 input[type="button"]:disabled,
