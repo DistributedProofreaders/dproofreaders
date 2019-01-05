@@ -2,7 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'slim_header.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 
@@ -13,17 +13,23 @@ if ( !user_is_a_sitemanager() )
     die( "You are not allowed to run this script." );
 }
 
-slim_header(_("Rename Pages"));
+$extra_args["css_data"] = "
+    input[type=text] { font-family: monospace; }
+";
 
-echo "<h2>" . _("Rename Pages") . "</h2>";
-echo "<pre>\n";
+$title = _("Rename Pages");
+output_header($title, NO_STATSBAR, $extra_args);
+
+echo "<h1>$title</h1>";
+
+echo "<p>" . _("This tool will allow you to rename pages in a project.") . "</p>";
 
 $projectid = validate_projectID('projectid', @$_REQUEST['projectid'], true);
 
 if ( !$projectid )
 {
     echo "<form method='GET'>";
-    echo "Please specify a project: ";
+    echo "Project: ";
     echo "<input type='text' name='projectid' size='23'>";
     echo "<input type='submit' value='Go'>";
     echo "</form>\n";
@@ -33,9 +39,10 @@ if ( !$projectid )
 $project = new Project($projectid);
 $title = $project->nameofwork;
 
+echo "<pre>";
 echo "projectid: $projectid\n";
 echo "title    : $title\n";
-echo "\n";
+echo "</pre>\n";
 
 $res = mysqli_query(DPDatabase::get_connection(), "
     SELECT fileid, image
@@ -61,21 +68,28 @@ switch ( $submit_button )
         echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 
         echo "<hr>";
+        echo "<p>";
         echo "If you just want to number all pages serially\n";
         echo "(while maintaining their current order), check here,\n";
         echo "and specify a starting name (including any leading zeroes).\n";
-        echo "<input type='checkbox' name='renumber_from_n'>Renumber from ";
+        echo "</p>";
+
+        echo "<input type='checkbox' name='renumber_from_n'> Renumber from ";
         echo "<input type='text' size='4' name='renumbering_start' value='001'>\n";
-        echo "\n";
+        echo "<br>";
+        echo "<input type='submit' name='submit_button' value='Check renamings'>";
 
         echo "<hr>";
+        echo "<p>";
         echo "Otherwise, for each page that you wish to rename, type in the new fileid.\n";
         echo "('.png' will automatically be appended to obtain the new image name.)\n";
+        echo "</p>";
+        echo "<p>";
         echo "Please note that <b>leading zeroes are significant</b>.\n";
         echo "Leave a box blank if you don't want to rename that page.\n";
-        echo "\n";
+        echo "</p>";
 
-        echo "<table>\n";
+        echo "<table class='basic striped'>\n";
 
         echo "<tr>";
         echo "<th>fileid</th>";
@@ -88,8 +102,6 @@ switch ( $submit_button )
 
         echo "</table>";
 
-        echo "<hr>";
-        echo "\n";
         echo "<input type='submit' name='submit_button' value='Check renamings'>";
 
         echo "</form>\n";
@@ -108,8 +120,10 @@ switch ( $submit_button )
             $n_matches = preg_match( '/^(\D*)(\d+)(\D*)$/', $start_str, $matches );
             if ($n_matches == 0)
             {
+                echo "<p class='error'>";
                 echo "Starting name '$start_str' is invalid.\n";
                 echo "Please hit 'Back' and fix.\n";
+                echo "</p>";
                 return;
             }
 
@@ -121,8 +135,10 @@ switch ( $submit_button )
             $end_number = $start_number + count($current_image_for_fileid_) - 1;
             if ( $end_number >= pow(10,$n_digits) )
             {
+                echo "<p class='error'>";
                 echo "The last page would be numbered $end_number, which exceeds $n_digits digits.\n";
                 echo "Please hit 'Back' and fix.\n";
+                echo "</p>";
                 return;
             }
 
@@ -142,7 +158,7 @@ switch ( $submit_button )
         }
 
         echo "You requested:\n";
-        echo "<table>\n";
+        echo "<table class='basic striped'>\n";
 
         echo "<tr>";
         echo "<th colspan='2'>old</th>";
@@ -154,7 +170,7 @@ switch ( $submit_button )
         echo "<tr>";
         echo "<th>fileid</th>";
         echo "<th>image</th>";
-        echo "<th>|</th>";
+        echo "<th></th>";
         echo "<th>fileid</th>";
         echo "<th>image</th>";
         echo "</tr>";
@@ -193,8 +209,9 @@ switch ( $submit_button )
         {
             if ( $new_fileid != '' && $freq > 1 )
             {
+                echo "<p class='error'>";
                 echo "Error: You have requested $new_fileid as the new fileid for $freq different pages.\n";
-                echo "\n";
+                echo "</p>\n";
                 $n_errors++;
             }
         }
@@ -213,6 +230,7 @@ switch ( $submit_button )
 
         $direction_that_works = NULL;
 
+        echo "<pre>";
         foreach ( array( 'forward', 'backward' ) as $direction )
         {
             echo "<hr>";
@@ -294,6 +312,8 @@ switch ( $submit_button )
             die( "Neither forward nor backward works." );
         }
 
+        echo "</pre>";
+
         // ------------
 
         echo "<hr>";
@@ -322,6 +342,8 @@ switch ( $submit_button )
         {
             die( "direction param is '$direction'" );
         }
+
+        echo "<pre>";
 
         echo "Doing renamings $direction ...\n\n";
 
@@ -400,14 +422,13 @@ switch ( $submit_button )
                 echo "\n";
             }
         }
+        echo "</pre>";
         break;
 
     default:
         echo "Whaaaa? submit_button='$submit_button'";
         break;
 }
-
-echo "</pre>";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -445,7 +466,7 @@ function echo_name_mapping_subform()
         echo "<tr>";
         echo "<td>$fileid</td>";
         echo "<td>$image</td>";
-        echo "<td><input type='text' size='8' name='nff_[$k][$fileid]'><td>";
+        echo "<td><input type='text' style='width: 97%'; name='nff_[$k][$fileid]'></td>";
         echo "</tr>";
         echo "\n";
     }

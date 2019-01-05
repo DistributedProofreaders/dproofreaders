@@ -26,8 +26,9 @@ $sections = array(
         "edit_mail_address_for_non_activated_user.php" => _("Resend Account Activation Email"),
     ),
     _("Project") => array(
-        "copy_pages.php" => _("Copy Pages from One Project to Another"),
-        "rename_pages.php" => _("Rename pages"),
+        "copy_pages.php" => _("Copy Pages"),
+        "delete_pages.php" => _("Delete Pages"),
+        "rename_pages.php" => _("Rename Pages"),
     ),
     _("Site") => array(
         "sitenews.php" => _("Manage Site News"),
