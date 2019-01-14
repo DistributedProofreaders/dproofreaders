@@ -52,7 +52,8 @@ function get_preview_strings()
         "spaceNext" => _("Footnote should be followed by one space and identifier"),
         "dupNote" => _("Duplicate footnote identifier"),
         "continueFirst" => _("Continuation footnote should precede others"),
-        "sideNoteBlank" => _("A blank line should precede and follow Sidenote")
+        "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
+        "emptyTag" => _("Empty tag")
     );
 }
 
