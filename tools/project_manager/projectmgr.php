@@ -51,7 +51,13 @@ if(!user_is_PM())
 handle_set_cols($show_view, "PM");
 
 $header_args = array(
-    "js_files" => array("$code_url/tools/dropdown.js"));
+    "js_files" => array(
+        "$code_url/tools/dropdown.js",
+        "$code_url/scripts/time.js"
+        ),
+    "js_data" =>
+        "var apiUrl = '$code_url/api/';"
+    );
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
 
