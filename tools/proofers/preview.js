@@ -50,7 +50,8 @@ var makePreview = function (txt, viewMode, styler) {
         colonNext: 0,
         spaceNext: 0,
         dupNote: 0,
-        continueFirst: 0
+        continueFirst: 0,
+        emptyTag: 1
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -398,6 +399,9 @@ var makePreview = function (txt, viewMode, styler) {
                     if (stackTop.tag !== tagString) {
                         reportIssue(start, tagLen, "misMatchTag");
                         reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag");
+                    } else if ((stackTop.start + stackTop.tagLen) === start) {
+                        reportIssue(start, tagLen, "emptyTag");
+                        reportIssue(stackTop.start, stackTop.tagLen, "emptyTag");
                     }
                 }
             } else {    // startTag
