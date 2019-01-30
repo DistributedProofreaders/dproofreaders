@@ -36,7 +36,7 @@ if(!$testing)
     function production_exception_handler($exception)
     {
         echo "<br>\n";
-        echo $exception->getMessage();
+        echo html_safe($exception->getMessage());
     }
     set_exception_handler('production_exception_handler');
 }

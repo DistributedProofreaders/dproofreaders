@@ -82,14 +82,14 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         {
             if (!is_numeric($s))
             {
-                throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ('$s') is not numeric"));
+                throw new InvalidArgumentException(
+                    "parameter '$key' ('$s') is not numeric");
             }
             $s = 0 + $s;
             if (!is_int($s))
             {
-                throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ('$s') is not an integer"));
+                throw new InvalidArgumentException(
+                    "parameter '$key' ('$s') is not an integer");
             }
         }
 
@@ -99,8 +99,8 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         }
         else
         {
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' ('$s') is not valid"));
+            throw new InvalidArgumentException(
+                "parameter '$key' ('$s') is not valid");
         }
     }
     else
@@ -109,8 +109,8 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' is required"));
+            throw new InvalidArgumentException(
+                "parameter '$key' is required");
         }
         else
         {
@@ -193,8 +193,8 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
             }
             else
             {
-                throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ('$s') is not an integer"));
+                throw new InvalidArgumentException(
+                    "parameter '$key' ('$s') is not an integer");
             }
         }
         elseif ( $type == 'float' )
@@ -208,21 +208,21 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
             }
             else
             {
-                throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ('$s') is not a float"));
+                throw new InvalidArgumentException(
+                    "parameter '$key' ('$s') is not a float");
             }
         }
 
         if ( !is_null($min) && $i < $min )
         {
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' ($s) is less than the minimum $min"));
+            throw new InvalidArgumentException(
+                "parameter '$key' ($s) is less than the minimum $min");
         }
 
         if ( !is_null($max) && $i > $max )
         {
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' ($s) is greater than the maximum $max"));
+            throw new InvalidArgumentException(
+                "parameter '$key' ($s) is greater than the maximum $max");
         }
 
         return $i;
@@ -233,8 +233,8 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' is required"));
+            throw new InvalidArgumentException(
+                "parameter '$key' is required");
         }
         else
         {
@@ -288,8 +288,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         }
         else
         {
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' ('$s') does not match the regex $regex"));
+            throw new InvalidArgumentException(
+                "parameter '$key' ('$s') does not match the regex $regex");
         }
     }
     else
@@ -298,8 +298,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            throw new InvalidArgumentException(html_safe(
-                "parameter '$key' is required"));
+            throw new InvalidArgumentException(
+                "parameter '$key' is required");
         }
         else
         {
