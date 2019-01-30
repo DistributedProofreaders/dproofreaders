@@ -102,8 +102,8 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         else
         {
             throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' ('%2\$s') is not valid"),
-                $key, $s));
+                _("Parameter '%1\$s' ('%2\$s') is not one of %3\$s"),
+                $key, $s, implode(", ", $choices)));
         }
     }
     else
