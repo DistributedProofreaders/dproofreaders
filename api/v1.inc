@@ -6,12 +6,15 @@ function v1_serverdaytime_GET($params)
 {
     global $utf8_site;
 
-    $time_string = strftime("%a %R");
+    $now = time();
+    $day = strftime("%a", $now);
     if(!$utf8_site)
     {
-        $time_string = utf8_encode($time_string);
+        $day = utf8_encode($day);
     }
     return array(
-        "daytime" => $time_string
+        "day" => $day,
+        "hour" => strftime("%H", $now),
+        "minute" => strftime("%M", $now)
     );
 }
