@@ -29,8 +29,9 @@ function echo_manager_links()
 
     echo "<div id='pm_links' class='sidebar-color'>\n";
     // TRANSLATORS: PM = project manager
-    echo "<h2>", _("PM Links"), "</h2>
-    <ul>\n";
+    echo "<h2>", _("PM Links"), "</h2>\n";
+    echo "<p>", _("Server Time"), ": <span id='server-time'></span></p>\n";
+    echo "<ul>\n";
     if(user_is_PM())
     {
         echo "<li><a href='$code_url/tools/project_manager/remote_file_manager.php'>"._("Manage uploads")."</a></li>\n";
