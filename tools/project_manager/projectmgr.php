@@ -54,7 +54,7 @@ $server_timezone = date_default_timezone_get();
 $lang_code = short_lang_code();
 $js_files = [
     "$code_url/tools/dropdown.js",
-    "$code_url/scripts/time.js",
+    "$code_url/tools/project_manager/projectmgr.js",
     "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js",
     "https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.23/moment-timezone-with-data.js"
 ];
