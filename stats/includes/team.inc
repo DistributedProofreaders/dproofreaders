@@ -481,7 +481,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
 
     echo "<tr>";
     echo "<td class='right-align'><b>"._("Team Name")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50' required>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";

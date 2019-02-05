@@ -59,7 +59,7 @@ if (user_is_a_sitemanager() ||
     // only let site admins or reviewers to access non-self records and eval query
     echo  "<tr>";
     echo   "<td>" . _("Username") . "</td>";
-    echo   "<td><input name='username' type='text' size='26' value='$username'></td>";
+    echo   "<td><input name='username' type='text' size='26' value='$username' required></td>";
     echo  "</tr>";
     echo  "<tr>";
     echo   "<td>" . _("Use Evaluation Query") . "</td>";
@@ -82,11 +82,11 @@ echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<td>" . _("Max days since last save") . "</td>";
-echo   "<td><input name='days' type='number' min='0' value='$days'></td>";
+echo   "<td><input name='days' type='number' min='0' value='$days' required></td>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<td>" . _("Max diffs to show") . "</td>";
-echo   "<td><input name='sample_limit' type='number' min='0' value='$sampleLimit'></td>";
+echo   "<td><input name='sample_limit' type='number' min='0' value='$sampleLimit' required></td>";
 echo  "</tr>";
 echo "</table>";
 echo "<input type='submit' value='Search'>";

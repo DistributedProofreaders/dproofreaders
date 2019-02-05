@@ -248,7 +248,7 @@ function echo_general_tab() {
         _('Name'), 'real_name', 'name',
         $user->real_name,
         'textfield',
-        array( '20', '' )
+        array( '20', 'required', '' )
         // About 98% of pgdp.net's users have length(real_name) <= 20
     );
     show_blank();
@@ -268,7 +268,7 @@ function echo_general_tab() {
         _('E-mail'), 'email', 'email',
         $user->email,
         'textfield',
-        array( '26', $email_warning )
+        array( '26', 'required', $email_warning )
         // About 92% of pgdp.net's users have length(email) <= 26
     );
     show_preference(
@@ -423,7 +423,7 @@ function echo_proofreading_tab() {
         _('Current Profile'), 'profilename', 'profilename',
         $userP['profilename'],
         'textfield',
-        array( '20', '' )
+        array( '20', 'required', '' )
         // About 99.96% of pgdp.net's user_profiles have length(profilename) <= 20
     );
     echo "<td colspan='2' class='center-align'>";
@@ -538,14 +538,14 @@ function echo_proofreading_tab() {
         $userP['v_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, _("% of 1000 pixels") )
+        array( 3, 'required', _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, _("% of 1000 pixels") )
+        array( 3, 'required', _("% of 1000 pixels") )
     );
     echo "</tr>\n";
 
@@ -555,14 +555,14 @@ function echo_proofreading_tab() {
         $userP['v_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, _("% of browser width") )
+        array( 3, 'required', _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, _("% of browser height") )
+        array( 3, 'required', _("% of browser height") )
     );
     echo "</tr>\n";
 
@@ -586,13 +586,13 @@ function echo_proofreading_tab() {
         _('Number of Text Lines'), 'v_tlines', 'v_textlines',
         $userP['v_tlines'],
         'numberfield',
-        array( 3, "" )
+        array( 3, 'required', "" )
     );
     show_preference(
         _('Number of Text Lines'), 'h_tlines', 'h_textlines',
         $userP['h_tlines'],
         'numberfield',
-        array( 3, "" )
+        array( 3, 'required', "" )
     );
     echo "</tr>\n";
 
@@ -601,13 +601,13 @@ function echo_proofreading_tab() {
         _('Length of Text Lines'), 'v_tchars', 'v_textlength',
         $userP['v_tchars'],
         'numberfield',
-        array( 3, " "._("characters") )
+        array( 3, 'required', " "._("characters") )
     );
     show_preference(
         _('Length of Text Lines'), 'h_tchars', 'h_textlength',
         $userP['h_tchars'],
         'numberfield',
-        array( 3, " "._("characters") )
+        array( 3, 'required', " "._("characters") )
     );
     echo "</tr>\n";
 
@@ -744,9 +744,7 @@ function echo_pm_tab() {
     ); 
     echo "</tr>\n"; 
 
-    echo "<tr><td colspan='6' class='center-align'>";
     echo_bottom_button_row();
-    echo "</td></tr>\n";
 }
 
 function save_pm_tab() {
@@ -922,16 +920,16 @@ function _show_radio_group( $field_name, $current_value, $options )
 
 function _show_textfield( $field_name, $current_value, $extras )
 {
-    list($size, $rest) = $extras;
+    list($size, $required, $rest) = $extras;
     $current_value_esc = attr_safe($current_value);
-    echo "<input type='text' style='width: ${size}em' name='$field_name' value='$current_value_esc'>$rest";
+    echo "<input type='text' style='width: ${size}em' name='$field_name' value='$current_value_esc' $required>$rest";
 }
 
 function _show_numberfield( $field_name, $current_value, $extras )
 {
-    list($size, $rest) = $extras;
+    list($size, $required, $rest) = $extras;
     $current_value_esc = attr_safe($current_value);
-    echo "<input type='number' style='width: ${size}em' name='$field_name' value='$current_value_esc' min='1'>$rest";
+    echo "<input type='number' style='width: ${size}em' name='$field_name' value='$current_value_esc' min='1' $required>$rest";
 }
 
 // ---------------------------------------------------------

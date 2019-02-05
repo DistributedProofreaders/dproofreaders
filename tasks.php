@@ -1018,7 +1018,7 @@ EOS;
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
-    echo "<input type='number' name='task_id' min='1'>&nbsp;\n";
+    echo "<input type='number' name='task_id' min='1' required>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
     echo "</form>";
     echo "</td></tr></table><br>\n";
@@ -1177,7 +1177,7 @@ function TaskForm($task)
     echo "<td colspan='2'>";
     echo "<b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>";
     echo "&nbsp;&nbsp;";
-    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" size='60' maxlength='80'>";
+    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" size='60' maxlength='80' required>";
     echo "</td>";
     echo "</tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
@@ -1200,7 +1200,7 @@ function TaskForm($task)
     echo "</table></td></tr><tr><td>\n";
     echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
     echo "<td width='95%'>";
-    echo "<textarea name='task_details' cols='60' rows='5'>$task_details_enc</textarea>";
+    echo "<textarea name='task_details' cols='60' rows='5' required>$task_details_enc</textarea>";
     echo "</td>";
     echo "</tr>";
     echo "</table>\n";
@@ -1678,7 +1678,7 @@ function RelatedTasks($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='number' name='related_task' min='1'>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_task' min='1' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of an existing, related task. This is optional.)";
     echo "</form>";
@@ -1724,7 +1724,7 @@ function RelatedPostings($tid)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='number' name='related_posting' min='1'>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_posting' min='1' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Optional)";
     echo "</form>";

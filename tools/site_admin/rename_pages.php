@@ -30,7 +30,7 @@ if ( !$projectid )
 {
     echo "<form method='GET'>";
     echo "Project: ";
-    echo "<input type='text' name='projectid' size='23'>";
+    echo "<input type='text' name='projectid' size='23' required>";
     echo "<input type='submit' value='Go'>";
     echo "</form>\n";
     exit;

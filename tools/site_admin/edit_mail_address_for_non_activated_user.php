@@ -35,7 +35,7 @@ if ($action == 'default') {
     ?>
     <br>
     <form method='get'><input type='hidden' name='action' value='get_user'>
-    <?php echo _("Username"); ?>: <input type='text' name='username'>
+    <?php echo _("Username"); ?>: <input type='text' name='username' required>
     <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>'>
     </form>
     <br>
@@ -98,7 +98,7 @@ else if ($action == 'get_user') {
     <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
     <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
     <br>
-    <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($user->email); ?>'>
+    <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($user->email); ?>' required>
     <br>
     <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
     </form>

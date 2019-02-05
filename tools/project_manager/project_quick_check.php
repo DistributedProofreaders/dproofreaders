@@ -29,7 +29,7 @@ echo "<form method='GET'>";
 echo "<table>";
 echo  "<tr>";
 echo   "<td>" . _("Project ID") . "</td>";
-echo   "<td><input name='projectid' type='text' value='$projectid' size='40'></td>";
+echo   "<td><input name='projectid' type='text' value='$projectid' size='40' required></td>";
 echo  "</tr>";
 echo "</table>";
 echo "<input type='submit' value='Test'>";

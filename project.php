@@ -974,7 +974,7 @@ function do_early_uploads()
         echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
         echo "<br>\n";
         $initial_rel_source = "$user_dir/";
-        echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
+        echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
         echo "<br>\n";
         echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
         echo "<br>\n";
@@ -996,7 +996,7 @@ function do_early_uploads()
             echo _("Add/Replace text and images from directory or zip file:");
             echo "<br>\n";
             $initial_rel_source = "Users/$user_dir/";
-            echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
+            echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
         echo "<br>\n";
         echo "<p>\n";
         echo _("Remember to upload the illustration files as well as the page files!");

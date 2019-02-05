@@ -91,7 +91,7 @@ function show_username_form($username)
 {
     echo "<form method='GET'>\n";
     echo "<p>" . _("Username") . ": ";
-    echo "<input name='username' type='text' value='$username' size='20'>\n";
+    echo "<input name='username' type='text' value='$username' size='20' required>\n";
     echo "</p>";
     echo "<input type='submit' value='" . attr_safe(_("Look up this user")) . "'>\n";
     echo "</form>\n";

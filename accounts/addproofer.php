@@ -139,24 +139,24 @@ foreach($form_data_inserters as $func)
 echo "<table class='register'>";
 echo "<tr>";
 echo "  <th>" . _("Real Name") . ":</th>";
-echo "  <td><input type='text' name='real_name' value='". attr_safe($real_name) ."'></td>";
+echo "  <td><input type='text' name='real_name' value='". attr_safe($real_name) ."' required></td>";
 echo "</tr>\n<tr>";
 echo "  <th>" . _("User Name") . ":</th>";
-echo "  <td><input type='text' name='userNM' value='" . attr_safe($username) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
+echo "  <td><input type='text' name='userNM' value='" . attr_safe($username) . "' required><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
 echo "</tr>\n<tr>";
 echo "  <th>" . _("Password") . ":</th>";
-echo "  <td><input type='password' name='userPW'></td>";
+echo "  <td><input type='password' name='userPW' required></td>";
 echo "</tr>\n<tr>";
 echo "  <th>" . _("Confirm Password") . ":</th>";
-echo "  <td><input type='password' name='userPW2'></td>";
+echo "  <td><input type='password' name='userPW2' required></td>";
 echo "</tr>\n";
 if (!$testing) {
     echo "<tr>";
     echo "  <th>" . _("E-mail Address") . ":</th>";
-    echo "  <td><input type='text' name='email' value='". attr_safe($email) . "'></td>";
+    echo "  <td><input type='text' name='email' value='". attr_safe($email) . "' required></td>";
     echo "</tr>\n<tr>";
     echo "  <th>" . _("Confirm E-mail Address") . ":</th>";
-    echo "  <td><input type='text' name='email2' value='" . attr_safe($email2) . "'></td>";
+    echo "  <td><input type='text' name='email2' value='" . attr_safe($email2) . "' required></td>";
     echo "</tr>\n";
 }
 echo "<tr>";

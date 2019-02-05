@@ -594,7 +594,7 @@ function do_showmkdir()
     output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
-    $form_content = _("Name of subfolder to create") .":&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
+    $form_content = _("Name of subfolder to create") .":&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50' required>";
     show_form(
         'mkdir',
         $curr_relpath,
@@ -646,7 +646,7 @@ function do_showrename()
     $form_content .= sprintf(
         _('Rename <b>%1$s</b> as %2$s'),
         html_safe($item_name),
-        "<input type='text' name='new_item_name' size='50' value='" . attr_safe($item_name) . "'>"
+        "<input type='text' name='new_item_name' size='50' value='" . attr_safe($item_name) . "' required>"
     );
 
     show_form(
