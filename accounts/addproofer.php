@@ -153,10 +153,10 @@ echo "</tr>\n";
 if (!$testing) {
     echo "<tr>";
     echo "  <th>" . _("E-mail Address") . ":</th>";
-    echo "  <td><input type='text' name='email' value='". attr_safe($email) . "' required></td>";
+    echo "  <td><input type='email' name='email' value='". attr_safe($email) . "' required></td>";
     echo "</tr>\n<tr>";
     echo "  <th>" . _("Confirm E-mail Address") . ":</th>";
-    echo "  <td><input type='text' name='email2' value='" . attr_safe($email2) . "' required></td>";
+    echo "  <td><input type='email' name='email2' value='" . attr_safe($email2) . "' required></td>";
     echo "</tr>\n";
 }
 echo "<tr>";

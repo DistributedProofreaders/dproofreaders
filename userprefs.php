@@ -267,7 +267,7 @@ function echo_general_tab() {
     show_preference(
         _('E-mail'), 'email', 'email',
         $user->email,
-        'textfield',
+        'emailfield',
         array( '26', 'required', $email_warning )
         // About 92% of pgdp.net's users have length(email) <= 26
     );
@@ -918,18 +918,30 @@ function _show_radio_group( $field_name, $current_value, $options )
     }
 }
 
-function _show_textfield( $field_name, $current_value, $extras )
+function _show_text_input_field($field_type, $field_name, $current_value, $extras)
 {
     list($size, $required, $rest) = $extras;
     $current_value_esc = attr_safe($current_value);
-    echo "<input type='text' style='width: ${size}em' name='$field_name' value='$current_value_esc' $required>$rest";
+    if($field_type == "number")
+        $min_attr = "min='1'";
+    else
+        $min_attr = "";
+    echo "<input type='$field_type' style='width: ${size}em' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
+}
+
+function _show_textfield( $field_name, $current_value, $extras )
+{
+    _show_text_input_field('text', $field_name, $current_value, $extras);
+}
+
+function _show_emailfield( $field_name, $current_value, $extras )
+{
+    _show_text_input_Field('email', $field_name, $current_value, $extras);
 }
 
 function _show_numberfield( $field_name, $current_value, $extras )
 {
-    list($size, $required, $rest) = $extras;
-    $current_value_esc = attr_safe($current_value);
-    echo "<input type='number' style='width: ${size}em' name='$field_name' value='$current_value_esc' min='1' $required>$rest";
+    _show_text_input_field('number', $field_name, $current_value, $extras);
 }
 
 // ---------------------------------------------------------
