@@ -22,7 +22,7 @@ show_news_for_page("STATS");
 <tr>
     <td>
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
-        <input type='text' name='uname' size='20' style='margin-left: 0;'>
+        <input type='text' name='uname' size='20' style='margin-left: 0;' required>
         <input type='submit' value='<?php echo attr_safe(_("Member Search")); ?>'>
         <br>
         <input type='checkbox' name='uexact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>
@@ -32,7 +32,7 @@ show_news_for_page("STATS");
     </td>
     <td>
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
-        <input type='text' name='tname' size='20' style='margin-left: 0;'>
+        <input type='text' name='tname' size='20' style='margin-left: 0;' required>
         <input type='submit' value='<?php echo attr_safe(_("Team Search")); ?>'>
         <br>
         <input type='checkbox' name='texact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>

@@ -130,14 +130,14 @@ function display_form($projectid_, $from_image_, $page_name_handling,
         $val = "value='" . attr_safe($projectid_['from']) . "'";
     }
     echo "<tr><th>" . _("Source Project:") . "</th>\n";
-    echo "<td><input type='text' name='projectid_[from]' size='28' $val> (projectid)</td></tr>\n";
+    echo "<td><input type='text' name='projectid_[from]' size='28' $val required> (projectid)</td></tr>\n";
     $val = '';
     if ($repeating && $repeat_project == 'TO')
     {
         $val = "value='" . attr_safe($projectid_['to']) . "'";
     }
     echo "<tr><th>" . _("Destination Project:") . "</th>\n";
-    echo "<td><input type='text' name='projectid_[to]' size='28' $val> (projectid)</td></tr>\n";
+    echo "<td><input type='text' name='projectid_[to]' size='28' $val required> (projectid)</td></tr>\n";
 
     // If we are repeating, we want the same buttons to be checked
     echo "<tr><td></td><td>\n";

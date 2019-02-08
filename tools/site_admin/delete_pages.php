@@ -68,13 +68,13 @@ function display_form($action, $projectid, $from_image_)
         echo "<tr>\n";
         echo "<th>" . _("Delete Page(s):") . "</th>\n";
         echo "<td><input type='text' name='from_image_[lo]' size='12'
-            value='" . attr_safe(@$from_image_['lo']) . "'>";
+            value='" . attr_safe(@$from_image_['lo']) . "' required>";
         echo " &ndash; <input type='text' name='from_image_[hi]' size='12'
-            value='" . attr_safe(@$from_image_['hi']) . "'>";
+            value='" . attr_safe(@$from_image_['hi']) . "' required>";
         echo "</td></tr>\n";
         echo "<tr><th>" . _("Project:") . "</th>\n";
         echo "<td><input type='text' name='projectid' size='28'
-            value='" . attr_safe(@$projectid) . "'>
+            value='" . attr_safe(@$projectid) . "' required>
             (projectid)</td></tr>\n";
 
         echo "<tr>";

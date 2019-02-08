@@ -52,7 +52,7 @@ if (!isset($_REQUEST['project']))
     $prompt = _("Please enter a project ID:");
     echo "
         <form method='get'>
-        $prompt <input type='text' name='project'>
+        $prompt <input type='text' name='project' required>
         <input type='submit'>
         </form>
     ";

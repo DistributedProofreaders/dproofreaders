@@ -115,7 +115,7 @@ elseif ($frame=="top") {
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
     if(!$project) {
         echo _("Project ID") . ":&nbsp;";
-        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . attr_safe($projectid) . "'> \n";
+        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . attr_safe($projectid) . "' required> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
     } else {
         echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
@@ -206,7 +206,7 @@ elseif ($frame=="image") {
 <form method="get" action="view_page_text_image.php">
 <input type="hidden" name="projectid" value="<?php echo $projectid; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
-<input type="number" name="percent" value="<?php echo $percent; ?>" min="1" max="100">%
+<input type="number" name="percent" value="<?php echo $percent; ?>" min="1" max="100" required>%
 <input type="hidden" name="round_id" value="<?php echo $round_id; ?>">
 <input type="hidden" name="frame" value="image">
 <input type="submit" value="<?php echo _("Resize"); ?>" size="3">

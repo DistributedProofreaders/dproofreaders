@@ -44,7 +44,7 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
     echo "<form action='#' method='get'><p>";
     echo _("See projects that another user has worked on") . ": ";
-    echo "<input type='text' name='username' value='$username'>";
+    echo "<input type='text' name='username' value='$username' required>";
     echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
     echo "</p></form>\n";
 }

@@ -43,8 +43,8 @@ $horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
 <body>
 <form method="POST">
 <input type="submit" value="Create">
-<input type="number" name="row" value="<?php echo $row; ?>" min='1' style='width: 3em;'> rows and
-<input type="number" name="col" value="<?php echo $col; ?>" min='1' style='width: 3em;'> columns table
+<input type="number" name="row" value="<?php echo $row; ?>" min='1' style='width: 3em;' required> rows and
+<input type="number" name="col" value="<?php echo $col; ?>" min='1' style='width: 3em;' required> columns table
 <select name="border">
 <option value="1"<?php echo $bord?" selected":""; ?>>with</option>
 <option value="0"<?php echo $bord?"":" selected"; ?>>without</option>
