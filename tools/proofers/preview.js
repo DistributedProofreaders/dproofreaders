@@ -740,7 +740,7 @@ var makePreview = function (txt, viewMode, styler) {
                 return fNote.id === anch.id;
             }
             if (!footnoteArray.some(match)) {
-                reportIssue(anch.index, 3, "noFootnote");
+                reportIssue(anch.index, anch.id.length + 2, "noFootnote");
             }
         }
 
