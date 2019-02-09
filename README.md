@@ -43,6 +43,8 @@ To get involved with development on this code base, see
 [DP Code Development](https://www.pgdp.net/wiki/DP_Code_Development) in the
 pgdp.net wiki.
 
+See also our [coding standards](SETUP/CODE_STYLE.md).
+
 ## License
 
 All source code published here is available under the terms of the

@@ -6,7 +6,8 @@ pinc/site_vars.php
 pinc/udb_user.php
 # Ignore compiled message files
 messages.mo
-
-vendor
+# Ignore dev tooling byproducts
 node_modules
+vendor
 .phpunit.result.cache
+.php_cs.cache
