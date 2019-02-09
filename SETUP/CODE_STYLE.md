@@ -2,13 +2,28 @@
 
 ## PHP
 
-The PHP coding style is a bit all over the place after having numerous
-developers add to the codebase over almost 20 years. A decade ago we
-finally added some [Best Practices](https://www.pgdp.net/wiki/DP_Code_Best_Practices)
-which provide guideance, but we do not currently have a code formatter
-set up.
+We use [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) for PHP
+code formatting and include a `.php_cs.dist` with some small deviations from
+[PSR-2](https://www.php-fig.org/psr/psr-2/).
 
-To do syntax-level linting of PHP files: `./lint_php_files.sh`
+PHP-CS-Fixer is included as a composer development package and can be installed
+with:
+```bash
+composer install --dev
+```
+
+To run it across the codebase and fix any formatting issues, run:
+```bash
+./vendor/bin/php-cs-fixer fix
+```
+
+To run it against just a specific set of files:
+```bash
+./vendor/bin/php-cs-fixer fix --config=.php_cs.dist file1 file2 ...
+```
+
+See also our [Best Practices](https://www.pgdp.net/wiki/DP_Code_Best_Practices)
+guide in the wiki.
 
 ## Javascript
 

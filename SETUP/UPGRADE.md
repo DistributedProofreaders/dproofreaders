@@ -52,7 +52,7 @@ Using composer, install the package dependencies. From the root of
 your DP code checkout:
 
 ```bash
-composer install
+composer install --no-dev
 ```
 
 ## Upgrade your database schema and data

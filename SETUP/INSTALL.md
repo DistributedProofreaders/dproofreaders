@@ -371,7 +371,7 @@ Using composer, install the package dependencies. From the root of
 your DP code checkout:
 
 ```bash
-composer install
+composer install --no-dev
 ```
 
 ### Configure the DP code (with site-specific settings)
