@@ -10,6 +10,12 @@ function prep_for_links_to_project_pages()
 {
     global $userP, $i_resolutions;
 
+    // Ensure that the guts of this function are only done once,
+    // because don't want to define newProofWin more than once.
+    static $this_func_has_been_called = FALSE;
+    if ($this_func_has_been_called) return;
+    $this_func_has_been_called = TRUE;
+
     if ( $userP['i_newwin'] == 1 )
     {
         $wSize = explode("x",$i_resolutions[$userP['i_res']*1]);
