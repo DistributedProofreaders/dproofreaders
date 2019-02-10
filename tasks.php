@@ -211,6 +211,8 @@ $os_array = array(
     30 => "Windows 2003",
     31 => "Windows Vista",
     32 => "Windows 7",
+    33 => "Windows 8",
+    34 => "Windows 10",
     99 => "Other"
 );
 asort($os_array);
