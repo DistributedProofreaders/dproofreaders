@@ -51,7 +51,8 @@ var makePreview = function (txt, viewMode, styler) {
         spaceNext: 0,
         dupNote: 0,
         continueFirst: 0,
-        emptyTag: 1
+        emptyTag: 1,
+        multipleAnchors: 0
     };
 
     // ILTags can have "u" for underline added. Used for constructing regexes
@@ -745,11 +746,27 @@ var makePreview = function (txt, viewMode, styler) {
         }
 
         function checkNote(fNote) {
-            function match(anch) {
-                return anch.id === fNote.id;
+            var anchorIx = [];
+            var markLen;
+
+            function findId(anch) {
+                if (anch.id === fNote.id) {
+                    anchorIx.push(anch.index);
+                }
             }
-            if (!anchorArray.some(match)) {
+
+            function dupReport(index) {
+                reportIssue(index, markLen, "multipleAnchors");
+            }
+
+            // make an array of anchor indexes for this footnote
+            anchorArray.forEach(findId);
+            var noteNum = anchorIx.length;
+            if (0 === noteNum) {
                 reportIssue(fNote.index, 9, "noAnchor");
+            } else if (noteNum > 1) {
+                markLen = fNote.id.length + 2;
+                anchorIx.forEach(dupReport);
             }
         }
 
