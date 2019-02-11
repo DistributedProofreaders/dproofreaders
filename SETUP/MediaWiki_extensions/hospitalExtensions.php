@@ -61,8 +61,8 @@ function listHospitalProjects( $input, $argv )
     while ($project = mysqli_fetch_object($result))
         {
 	// Get the preformatted remarks from PCs
-        $matches  = '';
-        $problems = preg_match('/<pre>([^<]*)<\/pre>/', $project->comments,$matches);
+        $matches = array();
+        $problems = preg_match('/<pre>.*?<\/pre>/s', $project->comments,$matches);
         $pstate   = iconv('ISO-8859-1','UTF-8',project_states_text($project->state));
         $puri     = "$code_url/project.php?id=$project->projectid";
         $plink    = iconv('ISO-8859-1','UTF-8',"<a href='$puri'>$project->nameofwork</a>");
@@ -71,9 +71,9 @@ function listHospitalProjects( $input, $argv )
         $output .= "<tr><th width='12%' style='vertical-align: top;'>Title:</th><td>$plink</td></tr>\n";
         $output .= "<tr><th>Author:</th><td>".iconv('ISO-8859-1','UTF-8',$project->authorsname)."</td></tr>\n";
         $output .= "<tr><th>PM/State:</th><td>".iconv('ISO-8859-1','UTF-8',$project->username).": <u>$pstate</u></td></tr>\n";
-//        $output .= "<tr><th>PM:</th><td>".iconv('ISO-8859-1','UTF-8',$project->username)."</td></tr>\n";
 	$output .= "<tr><th style='vertical-align: top;'>Issues:</th><td style='font-size:90%;'>";
-	$output .= iconv('ISO-8859-1','UTF-8',($matches) ? wordwrap($matches[0],80) : '&nbsp;');
+        if ($problems)
+	    $output .= iconv('ISO-8859-1','UTF-8',($matches) ? wordwrap($matches[0],80) : '&nbsp;');
 	$output .= "</td></tr>\n";
         $output .= "</table>\n";
         }
