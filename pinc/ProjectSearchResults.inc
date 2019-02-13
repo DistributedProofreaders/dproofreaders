@@ -8,6 +8,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_to_view_topic()
 include_once($relPath.'misc.inc'); // array_get()
+include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 
 class Column
 {
@@ -167,6 +168,15 @@ class TimeColumn extends Column
                 break;
             }
         }
+    }
+}
+
+class PGColumn extends Column
+{
+    public function print_cell_data($project)
+    {
+        $postednum = $project->postednum;
+        echo "<a href='", get_pg_catalog_url_for_etext($postednum), "'>$postednum</a>";
     }
 }
 
@@ -401,7 +411,7 @@ class ColumnData
             // TRANSLATORS: Abbreviation for Post-processing Verifier
             new LinkColumn("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier'),
             new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', $time_format),
-            new Column("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum'),
+            new PGColumn("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum'),
             new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages'),
             new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', $time_format),
