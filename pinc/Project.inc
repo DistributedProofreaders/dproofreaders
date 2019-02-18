@@ -25,7 +25,7 @@ class Project
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
-                throw new NonexistentProjectException("no project with projectid='$arg'");
+                throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), html_safe($arg)));
             }
             $row['t_retrieved'] = time();
         }

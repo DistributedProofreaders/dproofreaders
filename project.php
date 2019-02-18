@@ -52,7 +52,14 @@ $detail_level   = get_integer_param($_GET, 'detail_level', $DEFAULT_DETAIL_LEVEL
 
 // -----------------------------------------------------------------------------
 
-$project = new Project( $projectid );
+try
+{
+    $project = new Project( $projectid );
+}
+catch(NonexistentProjectException $exception)
+{
+    die($exception->getMessage());
+}
 
 // TRANSLATORS: this is the project page title.
 // In a tabbed browser, the page-title passed to output_header() will appear

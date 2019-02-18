@@ -46,8 +46,7 @@ if(!count($error_messages)) {
     }
     catch(NonexistentProjectException $exception)
     {
-        $error_messages[] = sprintf(_("no project with projectID '%s'"),
-            html_safe($projectid));
+        $error_messages[] = $exception->getMessage();
     }
 }
 
