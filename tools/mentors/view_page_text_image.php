@@ -206,7 +206,7 @@ elseif ($frame=="image") {
 <form method="get" action="view_page_text_image.php">
 <input type="hidden" name="projectid" value="<?php echo $projectid; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
-<input type="number" name="percent" value="<?php echo $percent; ?>" min="1" max="100" required>%
+<input type="number" name="percent" value="<?php echo $percent; ?>" min="1" max="999" required>%
 <input type="hidden" name="round_id" value="<?php echo $round_id; ?>">
 <input type="hidden" name="frame" value="image">
 <input type="submit" value="<?php echo _("Resize"); ?>" size="3">
