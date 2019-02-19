@@ -9,6 +9,7 @@ include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 
 class NonexistentProjectException extends Exception { }
+class InvalidProjectIDException extends Exception { }
 
 class Project
 {
@@ -769,13 +770,29 @@ function does_project_page_table_exist($projectid)
 // If it does, it returns it, otherwise dies with a warning.
 function validate_projectID($param_name, $value, $allownull = false)
 {
+    try
+    {
+        return ex_validate_projectID($param_name, $value, $allownull);
+    }
+    catch(InvalidProjectIDException $exception)
+    {
+        die($exception->getMessage());
+    }
+}
+
+// Checks if $value has the form of a valid project ID, either in its
+// long form (projectID####) or just the project number (####).
+// If it does, it returns it, otherwise throws an exception.
+// this is intended to replace validate_projectID()
+function ex_validate_projectID($param_name, $value, $allownull = false)
+{
     if (!isset($value) && $allownull)
         return null;
     if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value))
         return $value;
     if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
         return "projectID$value";
-    die(sprintf(
+    throw new InvalidProjectIDException(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
         html_safe($param_name),
         html_safe($value)
