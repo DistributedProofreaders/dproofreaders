@@ -520,8 +520,8 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
             }
             reportIssue(result.index, result[0].length, "badChar");
         }
-        // find numeric html entities
-        re = /&#\d+;/g;
+        // find any html entities
+        re = /&(?:[a-z]{2,}|#\d+|#x[\da-f]+);/gi;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
