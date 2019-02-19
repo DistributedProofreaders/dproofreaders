@@ -538,16 +538,16 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
     function transDiacritic(colorString) {
         function replacer(match) {
             var diacrits = [
-                {mark: "=", above: "\u0304", below: "\u0331"}, // macron
-                {mark: ":", above: "\u0308", below: "\u0324"}, // diaeresis
-                {mark: ".", above: "\u0307", below: "\u0323"}, // dot
-                {mark: "`", above: "\u0300", below: "\u0316"}, // grave
-                {mark: "'", above: "\u0301", below: "\u0317"}, // acute
-                {mark: "^", above: "\u0302", below: "\u032D"}, // circumflex
-                {mark: ")", above: "\u0306", below: "\u032E"}, // breve
-                {mark: "~", above: "\u0303", below: "\u0330"}, // tilde
-                {mark: ",", above: "\u0327", below: "\u0327"}, // cedilla
-                {mark: "v", above: "\u030C", below: "\u032C"} // caron
+                {mark: "=", above: "&#x0304;", below: "&#x0331;"}, // macron
+                {mark: ":", above: "&#x0308;", below: "&#x0324;"}, // diaeresis
+                {mark: ".", above: "&#x0307;", below: "&#x0323;"}, // dot
+                {mark: "`", above: "&#x0300;", below: "&#x0316;"}, // grave
+                {mark: "'", above: "&#x0301;", below: "&#x0317;"}, // acute
+                {mark: "^", above: "&#x0302;", below: "&#x032D;"}, // circumflex
+                {mark: ")", above: "&#x0306;", below: "&#x032E;"}, // breve
+                {mark: "~", above: "&#x0303;", below: "&#x0330;"}, // tilde
+                {mark: ",", above: "&#x0327;", below: "&#x0327;"}, // cedilla
+                {mark: "v", above: "&#x030C;", below: "&#x032C;"} // caron
             ];
             var m1 = match.charAt(1);
             var m2 = match.charAt(2);
@@ -572,7 +572,7 @@ var makePreview = function (txt, viewMode, styler, formatRound) {
     }
 
     function transLigature(colorString) {
-        var ligatures = {"OE": "\u0152", "oe": "\u0153"};
+        var ligatures = {"OE": "&#x0152;", "oe": "&#x0153;"};
         function replacer(match, p1) {
             if (ligatures.hasOwnProperty(p1)) {
                 return colorString + ligatures[p1] + '</span>';
