@@ -39,12 +39,12 @@ else
 {
     try
     {
-        $projectid = ex_validate_projectID('projectid', $projectid);
+        $projectid = validate_projectID('projectid', $projectid);
         $project = new Project($projectid);
     }
     catch(Exception $exception)
     {
-        $error_messages[] = $exception->getMessage();
+        $error_messages[] = html_safe($exception->getMessage());
     }
 }
 

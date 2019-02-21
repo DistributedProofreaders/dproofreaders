@@ -46,18 +46,11 @@ $MAX_DETAIL_LEVEL = 4;
 $DEFAULT_DETAIL_LEVEL = 3;
 
 // Validate all the input
-try
-{
-    $projectid = ex_validate_projectID('id', @$_GET['id']);
-    $expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
-    $detail_level   = get_integer_param($_GET, 'detail_level', $DEFAULT_DETAIL_LEVEL, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL);
+$projectid = validate_projectID('id', @$_GET['id']);
+$expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
+$detail_level   = get_integer_param($_GET, 'detail_level', $DEFAULT_DETAIL_LEVEL, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL);
 
-    $project = new Project( $projectid );
-}
-catch(Exception $exception)
-{
-    die($exception->getMessage());
-}
+$project = new Project( $projectid );
 
 // TRANSLATORS: this is the project page title.
 // In a tabbed browser, the page-title passed to output_header() will appear

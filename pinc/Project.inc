@@ -26,7 +26,7 @@ class Project
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
-                throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), html_safe($arg)));
+                throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $arg));
             }
             $row['t_retrieved'] = time();
         }
@@ -767,24 +767,8 @@ function does_project_page_table_exist($projectid)
 
 // Checks if $value has the form of a valid project ID, either in its
 // long form (projectID####) or just the project number (####).
-// If it does, it returns it, otherwise dies with a warning.
-function validate_projectID($param_name, $value, $allownull = false)
-{
-    try
-    {
-        return ex_validate_projectID($param_name, $value, $allownull);
-    }
-    catch(InvalidProjectIDException $exception)
-    {
-        die($exception->getMessage());
-    }
-}
-
-// Checks if $value has the form of a valid project ID, either in its
-// long form (projectID####) or just the project number (####).
 // If it does, it returns it, otherwise throws an exception.
-// this is intended to replace validate_projectID()
-function ex_validate_projectID($param_name, $value, $allownull = false)
+function validate_projectID($param_name, $value, $allownull = false)
 {
     if (!isset($value) && $allownull)
         return null;
@@ -794,8 +778,8 @@ function ex_validate_projectID($param_name, $value, $allownull = false)
         return "projectID$value";
     throw new InvalidProjectIDException(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
-        html_safe($param_name),
-        html_safe($value)
+        $param_name,
+        $value
     ));
 }
 
