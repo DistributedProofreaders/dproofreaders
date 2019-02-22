@@ -321,7 +321,8 @@ class ProjectInfoHolder
         }
         catch(NonexistentProjectException $exception)
         {
-            return sprintf(_("parameter '%s' is invalid"), 'project') . ": '$projectid'";
+            // should never get here because user_can_edit_project() catches PROJECT_DOES_NOT_EXIST
+            return $exception->getMessage();
         }
 
         $this->nameofwork       = $project->nameofwork;

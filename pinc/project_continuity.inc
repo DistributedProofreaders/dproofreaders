@@ -39,9 +39,7 @@ function project_continuity_test($projectid, $orig_state, $no_more_pages)
     }
     catch(NonexistentProjectException $exception)
     {
-        return sprintf(
-            _("There is no project with projectid='%s'."),
-                   $projectid );
+        return $exception->getMessage();
     }
 
     $curr_state = $project->state;

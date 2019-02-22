@@ -9,6 +9,7 @@ include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 
 class NonexistentProjectException extends Exception { }
+class InvalidProjectIDException extends Exception { }
 
 class Project
 {
@@ -25,7 +26,7 @@ class Project
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
-                throw new NonexistentProjectException("no project with projectid='$arg'");
+                throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $arg));
             }
             $row['t_retrieved'] = time();
         }
@@ -766,7 +767,7 @@ function does_project_page_table_exist($projectid)
 
 // Checks if $value has the form of a valid project ID, either in its
 // long form (projectID####) or just the project number (####).
-// If it does, it returns it, otherwise dies with a warning.
+// If it does, it returns it, otherwise throws an exception.
 function validate_projectID($param_name, $value, $allownull = false)
 {
     if (!isset($value) && $allownull)
@@ -775,10 +776,10 @@ function validate_projectID($param_name, $value, $allownull = false)
         return $value;
     if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
         return "projectID$value";
-    die(sprintf(
+    throw new InvalidProjectIDException(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
-        html_safe($param_name),
-        html_safe($value)
+        $param_name,
+        $value
     ));
 }
 

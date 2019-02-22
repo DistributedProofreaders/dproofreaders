@@ -31,23 +31,20 @@ if(isset($_GET["reset"])) {
 
 
 // If the projectID looks to be of roughly the right format, see if it exists.
-if($projectid=="") {
+if($projectid=="")
+{
     $error_messages[] = _("select a project");
-} elseif (!preg_match('/^projectID[0-9a-f]{13}$/', $projectid ) ) {
-    $error_messages[] = sprintf(_("projectID '%s' does not appear to be valid"),
-        html_safe($projectid));
 }
-
-// See if the projectID exists in the projects table
-if(!count($error_messages)) {
+else
+{
     try
     {
+        $projectid = validate_projectID('projectid', $projectid);
         $project = new Project($projectid);
     }
-    catch(NonexistentProjectException $exception)
+    catch(Exception $exception)
     {
-        $error_messages[] = sprintf(_("no project with projectID '%s'"),
-            html_safe($projectid));
+        $error_messages[] = html_safe($exception->getMessage());
     }
 }
 
