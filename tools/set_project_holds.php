@@ -4,9 +4,8 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // surround_and_join
-include_once($relPath.'Project.inc'); // validate_projectID() project_get_hold_states()
-include_once($relPath.'project_events.inc'); // log_project_event
+include_once($relPath.'Project.inc'); // validate_projectID() get_hold_states()
+include_once($relPath.'project_holds.inc'); // remove_holds() add_holds()
 
 require_login();
 
@@ -95,38 +94,13 @@ foreach( $headers as $w => $header)
 
         // -----------------------------------
 
-        $sql = NULL;
         if ($w == 'remove')
         {
-            $states_str = surround_and_join( $states, "'", "'", ", " );
-            $sql = "
-                DELETE FROM project_holds
-                WHERE projectid='$projectid'
-                    AND state in ($states_str)
-            ";
-            $event_type = 'remove_holds';
+            remove_holds($projectid, $states);
         }
         elseif ($w == 'add')
         {
-            $values = '';
-            foreach ($states as $state)
-            {
-                if ($values) $values .= ",\n";
-                $values .= "('$projectid', '$state')";
-            }
-            $sql = "
-                INSERT INTO project_holds
-                VALUES $values
-            ";
-            $event_type = 'add_holds';
-        }
-
-        if ($sql)
-        {
-            // echo $sql;
-            mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
-
-            log_project_event( $projectid, $pguser, $event_type, join($states, ' ') );
+            add_holds($projectid, $states);
         }
     }
 }
