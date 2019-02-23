@@ -364,7 +364,7 @@ function SearchParams_get_sql_condition($request_params)
     $condition = "1";
     if(isset($request_params['search_text']))
     {
-        $search_text = $request_params['search_text'];
+        $search_text = normalize_whitespace($request_params['search_text']);
         if ($testing)
             echo_html_comment("\$request_params['search_text'] = $search_text");
 

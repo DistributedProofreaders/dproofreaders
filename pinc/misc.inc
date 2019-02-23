@@ -446,6 +446,27 @@ function javascript_safe($str, $encoding=NULL)
 
 // -----------------------------------------------------------------------------
 
+function normalize_whitespace($str)
+// Return a string with normalized whitespace characters.
+//
+// Example usage:
+//   echo normalize_whitespace("William  Shakespeare");
+//   echo normalize_whitespace("William Shakespeare ");
+//   echo normalize_whitespace(" William Shakespeare");
+//   echo normalize_whitespace("\tWilliam\tShakespeare\t");
+//
+//   They all return "William Shakespeare".
+//
+//
+// Replaces each run of whitespace characters with a single space and
+//   strips the resulting string.
+{
+    return trim(preg_replace('/\s+/', ' ', $str));
+}
+
+
+// -----------------------------------------------------------------------------
+
 // Safely encode a string for use in an XML document.
 function xmlencode($string)
 {
