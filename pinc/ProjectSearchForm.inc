@@ -140,6 +140,8 @@ class ProjectSearchWidget
             }
             elseif ( $comparator == 'LIKE' )
             {
+                $value = normalize_whitespace($value);
+
                 $contribution = "$column_name LIKE '%$value%'";
             }
         }

@@ -16,15 +16,15 @@ $texact = array_get($_REQUEST, 'texact', null);
 $tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
 
 if ($tname) {
-    if ($texact)
+    if ($texact == 'yes')
     {
         $where_body = sprintf("teamname='%s'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $tname));
+            mysqli_real_escape_string(DPDatabase::get_connection(), normalize_whitespace($tname)));
     }
     else
     {
         $where_body = sprintf("teamname LIKE '%%%s%%'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $tname));
+            mysqli_real_escape_string(DPDatabase::get_connection(), normalize_whitespace($tname)));
     }
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");

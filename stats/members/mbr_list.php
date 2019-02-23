@@ -28,7 +28,7 @@ if (!empty($uname)) {
     {
         $where_clause = sprintf("
             WHERE username LIKE '%%%s%%'
-        ", addcslashes(mysqli_real_escape_string(DPDatabase::get_connection(), $uname), "%_"));
+        ", addcslashes(mysqli_real_escape_string(DPDatabase::get_connection(), normalize_whitespace($uname)), "%_"));
     }
 
     $mResult = mysqli_query(DPDatabase::get_connection(), "
