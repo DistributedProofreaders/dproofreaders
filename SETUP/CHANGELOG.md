@@ -4,7 +4,7 @@ Major changes to this project are documented here. For minor changes,
 see the git history.
 
 
-## R??????
+## R201903
 Scripts supporting this upgrade are in `SETUP/upgrade/12`
 
 * Support Ubuntu 16.04 middleware (cpeel)
@@ -16,6 +16,15 @@ Scripts supporting this upgrade are in `SETUP/upgrade/12`
   language-specific subdirectories under `faq/` (cpeel)
 * Large file uploads in `remote_file_manager.php` (cpeel)
 * View page differences without formatting (70ray)
+* Cleanup of users table (cpeel)
+* Task Center updates (mlazaric)
+* RSS feed improvements (mlazaric)
+* Smooth Reading transition updates and notifications (mlazaric)
+* DPCustomMono2 available as a web font (cpeel)
+* Gravatar support (cpeel)
+* User registrations ask about how they found the site (cpeel)
+* Server time now displayed on PM page (70ray)
+* My Project links no longer reuse windows (70ray)
 
 
 _Usernames below this point refer to SourceForge usernames, rather than
