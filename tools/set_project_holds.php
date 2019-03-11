@@ -4,8 +4,7 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'Project.inc'); // validate_projectID() get_hold_states()
-include_once($relPath.'project_holds.inc'); // remove_holds() add_holds()
+include_once($relPath.'Project.inc'); // validate_projectID() get_hold_states() remove_holds() add_holds()
 
 require_login();
 
@@ -96,11 +95,11 @@ foreach( $headers as $w => $header)
 
         if ($w == 'remove')
         {
-            remove_holds($projectid, $states);
+            $project->remove_holds($states);
         }
         elseif ($w == 'add')
         {
-            add_holds($projectid, $states);
+            $project->add_holds($states);
         }
     }
 }

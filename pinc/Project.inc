@@ -7,6 +7,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
+include_once($relPath.'project_events.inc'); // log_project_event
 
 class NonexistentProjectException extends Exception { }
 class InvalidProjectIDException extends Exception { }
@@ -463,6 +464,38 @@ EOS;
             $hold_states[] = $state;
         }
         return $hold_states;
+    }
+
+    public function add_holds($states)
+    {
+        global $pguser;
+
+        $values = '';
+        foreach ($states as $state)
+        {
+            if ($values) $values .= ",\n";
+            $values .= "('$this->projectid', '$state')";
+        }
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        mysqli_query(DPDatabase::get_connection(), "
+            INSERT INTO project_holds
+            VALUES $values
+        ");
+        log_project_event($this->projectid, $pguser, 'add_holds', join($states, ' '));
+    }
+
+    function remove_holds($states)
+    {
+        global $pguser;
+
+        $states_str = surround_and_join( $states, "'", "'", ", " );
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        mysqli_query(DPDatabase::get_connection(), "
+            DELETE FROM project_holds
+            WHERE projectid='$this->projectid'
+                AND state in ($states_str)
+        ");
+        log_project_event($this->projectid, $pguser, 'remove_holds', join($states, ' '));
     }
 
     // -------------------------------------------------------------------------

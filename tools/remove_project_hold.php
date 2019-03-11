@@ -4,8 +4,7 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'Project.inc'); // validate_projectID() Project()
-include_once($relPath.'project_holds.inc'); // remove_holds()
+include_once($relPath.'Project.inc'); // validate_projectID() Project() remove_holds()
 include_once($relPath.'metarefresh.inc'); // metarefresh()
 
 require_login();
@@ -22,7 +21,7 @@ if (!$project->can_be_managed_by_current_user)
 $return_uri = urldecode($_POST['return_uri']);
 $states = array($_POST['curr_state']);
 
-remove_holds($projectid, $states);
+$project->remove_holds($states);
 $title = _("Removing hold");
 metarefresh(1, $return_uri, $title, $title);
 
