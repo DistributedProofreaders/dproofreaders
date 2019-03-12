@@ -31,8 +31,6 @@ include_once($relPath.'site_vars.php');
 // Register autoloader
 spl_autoload_register('dp_class_autoloader');
 
-undo_all_magic_quotes();
-
 // If we're not testing, whitewash any uncaught exceptions
 if(!$testing)
 {
@@ -139,51 +137,6 @@ function dp_class_autoloader($class)
     {
         include_once($relPath.$class."Class.inc");
     }
-}
-
-function undo_all_magic_quotes()
-// Detect if magic_quotes_gpc is enabled, and if so strip the slashes from
-// all magic-quoted variables to return them to their pre-escaped form.
-//
-// NOTE: Using this function requires you to do appropriate escaping when
-// outputting variables in SQL and HTML. ie:
-// Code like the following relies on magic_quotes_gpc being on:
-//    $x = $_GET['x'];
-//    $res = mysqli_query(DPDatabase::get_connection(), "... WHERE x = '$x'");
-// Whereas the following works the same regardless of how magic_quotes_gpc
-// is set...
-//    undo_all_magic_quotes();
-//    $x = $_GET['x'];
-//    $res = mysqli_query(DPDatabase::get_connection(),
-//               sprintf("... WHERE x = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $x))
-//    );
-{
-    static $already_undone = FALSE;
-
-    if (!$already_undone && get_magic_quotes_gpc())
-    {
-        stripslashes_arr_inplace($_GET);
-        stripslashes_arr_inplace($_POST);
-        stripslashes_arr_inplace($_COOKIE);
-        stripslashes_arr_inplace($_REQUEST);
-        // Also the deprecated $HTTP_* vars, but we don't use them.
-        // In PHP 4, $_ENV too, but we don't use it.
-    }
-
-    $already_undone = TRUE;
-}
-
-function stripslashes_arr_inplace(&$value, $key = NULL)
-// Run stripslashes on an array that may contain other arrays.
-// For space efficiency it changes the values in-place by taking the
-// first param as a reference.
-{
-    if(is_array($value))
-        array_walk($value, 'stripslashes_arr_inplace');
-    else
-        $value = stripslashes($value);
-
-    // no need to return $value as it was passed by reference
 }
 
 // vim: sw=4 ts=4 expandtab
