@@ -1,20 +1,28 @@
 # MediaWiki
 
-Files in this directory are lifted from MediaWiki 1.26.2 (f46552)
-and support PHP 5.3 through 5.6.
+Files in this directory are lifted from MediaWiki 1.31.1 (a4c806563)
+and support PHP 7.0 and up.
 
 They are sourced from the following directories in the mediawiki git repo:
+```
     mediawiki/includes/diff
+        ComplexityException.php
         DairikiDiff.php
+        DiffEngine.php
         DifferenceEngine.php
-    mediawiki/resources/src/mediawiki.action
-        mediawiki.action.history.diff.css
+        DiffFormatter.php
+        TableDiffFormatter.php
+        WordAccumulator.php
+        WordLevelDiff.php
+    mediawiki/resources/src/mediawiki
+        mediawiki.diff.styles.css
+```
 
 ## Modifications
 
 The following modifications were made to the files because the DP code does
 not support UTF-8:
-* DairikiDiff.php:
+* WordAccumulator.php:
   * Instances of htmlspecialchars() changed to html_safe().
 * TableDiffFormatter.php:
   * TableDiffFormatter::deletedLine() changed the UTF-8 endash to the
