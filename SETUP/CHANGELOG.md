@@ -4,6 +4,12 @@ Major changes to this project are documented here. For minor changes,
 see the git history.
 
 
+## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/13`
+
+* Updated minimum PHP version to 7.0 (cpeel)
+
+
 ## R201903
 Scripts supporting this upgrade are in `SETUP/upgrade/12`
 
