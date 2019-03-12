@@ -14,8 +14,7 @@ $projectid = validate_projectID('projectid', @$_POST['projectid']);
 $project = new Project($projectid);
 if (!$project->can_be_managed_by_current_user)
 {
-    echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
-    exit;
+    die(_('You are not authorized to manage this project.'));
 }
 
 $return_uri = urldecode($_POST['return_uri']);

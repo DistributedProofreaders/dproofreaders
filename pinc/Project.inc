@@ -470,12 +470,13 @@ EOS;
     {
         global $pguser;
 
-        $values = '';
+        $values = [];
         foreach ($states as $state)
         {
-            if ($values) $values .= ",\n";
-            $values .= "('$this->projectid', '$state')";
+            $values[] = "('$this->projectid', '$state')";
         }
+        $values = join(', ', $values);
+
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO project_holds
