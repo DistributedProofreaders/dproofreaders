@@ -381,10 +381,12 @@ function show_project_listing(
 
     // Build and execute the query against the projects table.
     $query = "
-        SELECT *,
+        SELECT nameofwork, authorsname, language, username, projects.projectid,
+            special_code, state, genres.trans_genre AS genre, difficulty,
+            checkedoutby, n_pages, n_available_pages, postproofer, correctedby,
             (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
             (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
-        FROM projects
+        FROM projects NATURAL JOIN genres
         $optional_join_clause
         WHERE
             $filtered_project_selector
@@ -392,6 +394,7 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $result = mysqli_query(DPDatabase::get_connection(), $query);
 
     if( is_a( $stage, 'Round' ) )

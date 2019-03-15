@@ -14,8 +14,12 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'faq.inc');
+include_once($relPath.'genre_table.inc'); // create_genre_table()
 
 require_login();
+
+// for translating and sorting genres
+create_genre_table();
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
