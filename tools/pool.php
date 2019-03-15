@@ -8,8 +8,12 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'genre_table.inc'); // create_genre_table()
 
 require_login();
+
+// for translating and sorting genres
+create_genre_table();
 
 $pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_));
 

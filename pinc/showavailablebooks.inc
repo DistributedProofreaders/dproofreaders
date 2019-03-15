@@ -349,7 +349,13 @@ function show_project_listing(
     list($curr_sql_sort_col, $curr_sql_sort_dir) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
 
-    $curr_sql_orderclause = "$curr_sql_sort_col $curr_sql_sort_dir";
+    // sort on translated column if genre
+    $trans_sort_col = $curr_sql_sort_col;
+    if($trans_sort_col == 'genre')
+    {
+        $trans_sort_col = 'trans_genre';
+    }
+    $curr_sql_orderclause = "$trans_sort_col $curr_sql_sort_dir";
 
     // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
     // criteria.
@@ -384,7 +390,7 @@ function show_project_listing(
         SELECT *,
             (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
             (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
-        FROM projects
+        FROM projects NATURAL JOIN genres
         $optional_join_clause
         WHERE
             $filtered_project_selector
@@ -392,6 +398,7 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $result = mysqli_query(DPDatabase::get_connection(), $query);
 
     if( is_a( $stage, 'Round' ) )
@@ -506,7 +513,7 @@ function show_project_listing(
             }
             elseif($col_id == "genre")
             {
-                $genre = $book['genre'];
+                $genre = $book['trans_genre'];
                 if ($book['difficulty'] == "beginner")
                 {
                     if( is_a( $stage, 'Round' ) )

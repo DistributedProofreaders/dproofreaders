@@ -210,6 +210,7 @@ class ProjectSearchForm
         global $relPath;
         include($relPath.'genres.inc');
 
+        asort($GENRES, SORT_LOCALE_STRING);
         return array_merge( array( '' => _('Any') ), $GENRES );
     }
 

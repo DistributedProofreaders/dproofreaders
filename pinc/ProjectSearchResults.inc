@@ -9,6 +9,7 @@ include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_to_view_topic()
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
+include_once($relPath.'genre_table.inc');
 
 class Column
 {
@@ -217,7 +218,7 @@ class GenreColumn extends Column
             "easy"      => _("EASY"),
             "hard"      => _("HARD")
         );
-        $genre = $project->genre;
+        $genre = $project->trans_genre;
         $prefix = $diff_prefix[$project->difficulty];
         if($prefix != "")
             $genre = $prefix." ".$genre;
@@ -403,7 +404,7 @@ class ColumnData
             new Column("author", _('Author'), '', 'left-align', true, true, 'authorsname'),
             new Column("projectid", _('Project ID'), '', 'left-align', false, true, 'projectid'),
             new Column("language", _("Language"), '', 'left-align', false, true, 'language'),
-            new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'genre'),
+            new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'trans_genre'),
             new LinkColumn("project_manager", pgettext("project manager", "PM"), _('Project Manager'), 'left-align', true, true, 'username'),
             new LinkColumn("checkedoutby", _('Checked Out By'), '', 'left-align', false, true, 'checkedoutby'),
             // TRANSLATORS: Abbreviation for Post Processor
@@ -435,6 +436,8 @@ class ProjectSearchResults
     {
         global $pguser;
 
+        create_genre_table();
+
         assert(($search_origin === 'PM') || ($search_origin === 'PS'));
 
         $this->userSettings =& Settings::get_Settings($pguser);
@@ -459,7 +462,6 @@ class ProjectSearchResults
         }
         $this->get_sorting();
     }
-
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
@@ -557,9 +559,10 @@ class ProjectSearchResults
     {
         global $testing;
         $sql = "
-            SELECT SQL_CALC_FOUND_ROWS projects.*,
+            SELECT SQL_CALC_FOUND_ROWS projects.*, genres.trans_genre,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
+            JOIN genres ON projects.genre = genres.genre
             LEFT JOIN project_holds
             USING (projectid, state)
             WHERE $where_condition
