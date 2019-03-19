@@ -9,7 +9,7 @@ include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_to_view_topic()
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
-include_once($relPath.'genre_table.inc');
+include_once($relPath.'genres.inc');  // maybe_create_temporary_genre_translation_table()
 
 class Column
 {
@@ -436,8 +436,6 @@ class ProjectSearchResults
     {
         global $pguser;
 
-        create_genre_table();
-
         assert(($search_origin === 'PM') || ($search_origin === 'PS'));
 
         $this->userSettings =& Settings::get_Settings($pguser);
@@ -559,10 +557,10 @@ class ProjectSearchResults
     {
         global $testing;
         $sql = "
-            SELECT SQL_CALC_FOUND_ROWS projects.*, genres.trans_genre,
+            SELECT SQL_CALC_FOUND_ROWS projects.*, genre_translations.trans_genre,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
-            JOIN genres ON projects.genre = genres.genre
+            JOIN genre_translations ON projects.genre = genre_translations.genre
             LEFT JOIN project_holds
             USING (projectid, state)
             WHERE $where_condition
@@ -581,6 +579,7 @@ class ProjectSearchResults
 
         $results_offset = intval(@$_GET['results_offset']);
 
+        maybe_create_temporary_genre_translation_table();
         $result = $this->_search($where_condition, $results_offset);
 
         $numrows = mysqli_num_rows($result);

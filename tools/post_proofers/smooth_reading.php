@@ -7,12 +7,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
-include_once($relPath.'genre_table.inc'); // create_genre_table()
 
 // ---------------------------------------
-// for translating and sorting genres
-create_genre_table();
-
 //Page construction varies with whether the user is logged in or out
 if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 
