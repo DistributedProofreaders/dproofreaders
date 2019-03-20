@@ -477,11 +477,10 @@ EOS;
         }
         $values = join(', ', $values);
 
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO project_holds
             VALUES $values
-        ");
+        ") or die(mysqli_error(DPDatabase::get_connection()));
         log_project_event($this->projectid, $pguser, 'add_holds', join($states, ' '));
     }
 
@@ -490,12 +489,11 @@ EOS;
         global $pguser;
 
         $states_str = surround_and_join( $states, "'", "'", ", " );
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         mysqli_query(DPDatabase::get_connection(), "
             DELETE FROM project_holds
             WHERE projectid='$this->projectid'
                 AND state in ($states_str)
-        ");
+        ") or die(mysqli_error(DPDatabase::get_connection()));
         log_project_event($this->projectid, $pguser, 'remove_holds', join($states, ' '));
     }
 
