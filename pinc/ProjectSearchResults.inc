@@ -384,8 +384,25 @@ class HoldColumn extends Column
 {
     public function print_cell_data($project)
     {
+        global $code_url;
+
         if($project->hold)
-            echo "&#x2714;"; // heavy check mark
+        {
+            if($project->can_be_managed_by_current_user)
+            {
+                echo "
+                    <form method='post' action='$code_url/tools/remove_project_hold.php'>
+                    <input type='hidden' name='projectid' value='$project->projectid'>
+                    <input type='hidden' name='curr_state' value='$project->state'>
+                    <input type='hidden' name='return_uri' value='", urlencode($_SERVER['REQUEST_URI']), "'>
+                    <button type='submit' title='", attr_safe(_("Click to remove hold")), "'>", _("Remove hold"), "</button>
+                    </form>";
+            }
+            else
+            {
+                echo "&#x2714;"; // heavy check mark
+            }
+        }
     }
 }
 
