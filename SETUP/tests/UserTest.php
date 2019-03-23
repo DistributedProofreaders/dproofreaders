@@ -1,6 +1,6 @@
 <?php
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends PHPUnit\Framework\TestCase
 {
     private $TEST_USERNAME = "UserTest_php";
     private $NONTEST_USERNAME = 'blahblahblah';
@@ -53,11 +53,13 @@ class UserTest extends PHPUnit_Framework_TestCase
     public function testEmptyConstructor()
     {
         $user = new User();
+        $this->assertTrue(!isset($user->username));
     }
 
     public function testNonemptyConstructor()
     {
         $user = new User($this->TEST_USERNAME);
+        $this->assertTrue(isset($user->username));
     }
 
     public function testValidateValidUserStrict()
@@ -145,12 +147,14 @@ class UserTest extends PHPUnit_Framework_TestCase
     {
         $user = new User();
         $user->team_1 = 1;
+        $this->assertEquals($user->team_1, 1);
     }
 
     public function testSetNewImmutable()
     {
         $user = new User();
         $user->username = "blah";
+        $this->assertEquals($user->username, "blah");
     }
 
     /**

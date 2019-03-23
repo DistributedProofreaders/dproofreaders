@@ -1,6 +1,6 @@
 <?php
 
-class SettingsTest extends PHPUnit_Framework_TestCase
+class SettingsTest extends PHPUnit\Framework\TestCase
 {
     private $TEST_USERNAME = 'SettingsTest_php';
     private $PREFIX = 'STU_';
@@ -145,12 +145,14 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     {
         // Note: calling get_value() on a multi-valued setting use to result
         // in a RuntimeException being thrown, but commit 68ecf5 changed that.
+        // Instead we return one of them.
 
         $settings = new Settings($this->TEST_USERNAME);
         $settings->add_value($this->PREFIX . "multi_value", "value1");
         $settings->add_value($this->PREFIX . "multi_value", "value2");
 
-        $settings->get_value($this->PREFIX . "multi_value");
+        $values = $settings->get_value($this->PREFIX . "multi_value");
+        $this->assertTrue(in_array($values, array("value1", "value2")));
     }
 
     public function testSetMultivaluedSettingAsSingle()

@@ -1,6 +1,6 @@
 <?php
 
-class ParamValidatorTest extends PHPUnit_Framework_TestCase
+class ParamValidatorTest extends PHPUnit\Framework\TestCase
 {
     private $GET = array(
         "enum" => "a",
@@ -145,6 +145,7 @@ class ParamValidatorTest extends PHPUnit_Framework_TestCase
         $min = 0;
         $max = 100;
         $result = get_float_param($this->GET, 'i10', $default, $min, $max);
+        $this->assertEquals($this->GET['i10'], $result);
     }
 
     public function testFloatDefault()

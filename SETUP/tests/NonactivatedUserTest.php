@@ -1,6 +1,6 @@
 <?php
 
-class NonactivatedUserTest extends PHPUnit_Framework_TestCase
+class NonactivatedUserTest extends PHPUnit\Framework\TestCase
 {
     private $TEST_USERNAME = "NonactivatedUserTest_php";
     private $createdRecords = array();
@@ -36,11 +36,13 @@ class NonactivatedUserTest extends PHPUnit_Framework_TestCase
     public function testEmptyConstructor()
     {
         $user = new NonactivatedUser();
+        $this->assertFalse(isset($user->id));
     }
 
     public function testCreateRegistration()
     {
-        $this->createNonactivatedUser($this->TEST_USERNAME);
+        $user = $this->createNonactivatedUser($this->TEST_USERNAME);
+        $this->assertEquals($user->username, $this->TEST_USERNAME);
     }
 
     public function testLoadRegistration()

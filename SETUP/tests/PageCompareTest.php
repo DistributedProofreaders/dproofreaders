@@ -2,13 +2,8 @@
 $relPath='../../pinc/';
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
-class PageCompareTest extends PHPUnit_Framework_TestCase
+class PageCompareTest extends PHPUnit\Framework\TestCase
 {
-    public function testEmptyConstructor()
-    {
-        $un_formatter = new PageUnformatter();
-    }
-
     /**
      * @dataProvider textProvider
      */

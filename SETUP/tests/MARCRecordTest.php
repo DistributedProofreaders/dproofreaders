@@ -3,7 +3,7 @@
 /**
  * @backupGlobals disabled
  */
-class MARCRecordTest extends PHPUnit_Framework_TestCase
+class MARCRecordTest extends PHPUnit\Framework\TestCase
 {
     private $YAZ_ARRAY = NULL;
     private $YAZ_ARRAY_STR = NULL;
@@ -27,11 +27,13 @@ class MARCRecordTest extends PHPUnit_Framework_TestCase
     public function testEmptyConstructor()
     {
         $marc_record = new MARCRecord();
+        $this->assertEquals($marc_record->get_yaz_array(), array());
     }
 
     public function testLoadYazArray()
     {
         $marc_record = $this->_load_record();
+        $this->assertEquals($marc_record->get_yaz_array(), $this->YAZ_ARRAY);
     }
 
     public function testGetTitle()
