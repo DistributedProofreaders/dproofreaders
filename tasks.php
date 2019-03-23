@@ -586,7 +586,7 @@ if (!isset($_REQUEST['task_id'])) {
             $errmsg = create_task_from_form_submission($_POST);
             if ($errmsg)
             {
-                ShowNotification($errmsg, true);
+                ShowError($errmsg, true);
                 break;
             }
             else
@@ -635,7 +635,7 @@ function handle_action_on_a_specified_task()
     if (!$pre_task)
     {
         TaskHeader("Task #$task_id does not exist");
-        ShowNotification("Task #$task_id was not found!");
+        ShowError("Task #$task_id was not found!");
         return;
     }
 
@@ -669,7 +669,7 @@ function handle_action_on_a_specified_task()
             TaskForm($pre_task);
         }
         else {
-            ShowNotification("The user $pguser does not have permission to edit this task.");
+            ShowError("The user $pguser does not have permission to edit this task.");
             TaskDetails($task_id);
         }
     }
@@ -694,7 +694,7 @@ function handle_action_on_a_specified_task()
         $task_details = trim(array_get($_POST, 'task_details', ''));
         // The user is supplying values for the properties of a pre-existing task.
         if (empty($task_summary) || empty($task_details)) {
-            ShowNotification("You must supply a Task Summary and Task Details.", true);
+            ShowError("You must supply a Task Summary and Task Details.", true);
         }
         else {
             // Update a pre-existing task.
@@ -774,7 +774,7 @@ function handle_action_on_a_specified_task()
             list_all_open_tasks();
         }
         else {
-            ShowNotification("The user $pguser does not have permission to close tasks.");
+            ShowError("The user $pguser does not have permission to close tasks.");
         }
     }
     elseif ($action == 'add_comment') {
@@ -802,7 +802,7 @@ function handle_action_on_a_specified_task()
             // metarefresh back to the task. In the error case we need to build
             // the page out however.
             TaskHeader(title_string_for_task($pre_task));
-            ShowNotification("You must supply a comment before clicking Add Comment.");
+            ShowError("You must supply a comment before clicking Add Comment.");
             TaskDetails($task_id);
         }
     }
@@ -862,7 +862,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     // Validate task_id. It must be an integer >= 1
     $related_task_id = trim($related_task_id);
     if (!is_numeric($related_task_id) || $related_task_id < 1) {
-        ShowNotification("You must supply a related task ID.", true);
+        ShowError("You must supply a related task ID.", true);
         return;
     }
 
@@ -873,7 +873,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     $task_already_present = in_array($related_task_id, $related_tasks);
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
-        ShowNotification("You must supply a valid related task id number.");
+        ShowError("You must supply a valid related task id number.");
         return;
     }
 
@@ -908,7 +908,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     // Validate related_topic_id. It must be an integer >= 1
     $related_topic_id = trim($related_topic_id);
     if (!is_numeric($related_topic_id) || $related_topic_id < 1) {
-        ShowNotification("You must supply a related topic ID.", true);
+        ShowError("You must supply a related topic ID.", true);
         return;
     }
 
@@ -918,7 +918,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     $topic_already_present = in_array($related_topic_id, $related_topics);
 
     if (!does_topic_exist($related_topic_id) || $topic_already_present == $adding) {
-        ShowNotification("You must supply a valid related topic id number.", true);
+        ShowError("You must supply a valid related topic id number.", true);
         return;
     }
 
@@ -1002,8 +1002,6 @@ input[type="submit"]:disabled { background-color: #AAAAAA; }
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
 small.task         { font-family:Verdana; font-size: small; }
-center.taskwarn    { color:#FF0000; font-weight:bold; font-family:Verdana; padding:2em; }
-center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; padding:2em; }
 .wrap              { white-space: normal!important; }
 EOS;
 
@@ -1250,7 +1248,7 @@ function TaskDetails($tid)
     global $os_array, $browser_array, $tasks_close_array;
     global $pguser;
     if (!is_numeric($tid)) {
-        ShowNotification("Error: task identifier '$tid' is not numeric.");
+        ShowError("Error: task identifier '$tid' is not numeric.");
         return;
     }
     $res = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
@@ -1482,7 +1480,7 @@ function TaskDetails($tid)
         }
     }
     else {
-        ShowNotification("Task #$tid was not found!");
+        ShowError("Task #$tid was not found!");
     }
 }
 
@@ -1601,16 +1599,12 @@ function MeToo($tid, $os, $browser)
     echo "</td></tr></table></form></div>";
 }
 
-function ShowNotification($warn, $goback = false, $type = "warn")
+function ShowError($message, $goback = false)
 {
-    if ($type == "info") {
-        echo "<center class='taskinfo'>";
-    }
-    else {
-        echo "<center class='taskwarn'>";
-    }
-    if ($goback) $warn.= "  Please go <a href='javascript:history.back()'>back</a> and correct this.";
-    echo "$warn</center>\n";
+    echo "<p class='error'>";
+    if ($goback)
+        $message .= "<br>Please go <a href='javascript:history.back()'>back</a> and correct this.";
+    echo "$message</p>\n";
 }
 
 function TaskComments($tid)
