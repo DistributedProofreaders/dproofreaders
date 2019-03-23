@@ -780,6 +780,10 @@ function handle_action_on_a_specified_task()
                 WHERE task_id = $task_id
             ");
 
+            // subscribe the user to the task for notifications
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->add_value('taskctr_notice', $task_id);
+
             // After posting the comment, we should reload as to clear POST data
             //   and avoid comments being posted multiple times.
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
