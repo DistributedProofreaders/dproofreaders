@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath."misc.inc"); // attr_safe, array_get
-include_once($relPath.'genres.inc');
+include_once($relPath.'genres.inc'); // load_genre_translation_array
 
 class ProjectSearchWidget
 {
@@ -208,10 +208,7 @@ class ProjectSearchForm
 
     private function _get_options_genre()
     {
-        global $GENRES;
-
-        asort($GENRES, SORT_LOCALE_STRING);
-        return array_merge( array( '' => _('Any') ), $GENRES );
+        return array_merge( array( '' => _('Any') ), load_genre_translation_array());
     }
 
     private function _get_options_difficulty()

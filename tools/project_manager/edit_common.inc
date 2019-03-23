@@ -1,6 +1,6 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
-include_once($relPath.'genres.inc');
+include_once($relPath.'genres.inc'); // load_genre_translation_array
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
@@ -77,9 +77,9 @@ function language_list($language)
 
 function genre_list($genre)
 {
-    global $GENRES;
+    $genres = load_genre_translation_array();
     echo "<select name='genre'>";
-    foreach($GENRES as $k=>$v)
+    foreach($genres as $k=>$v)
     {
         echo "<option value='".attr_safe($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
