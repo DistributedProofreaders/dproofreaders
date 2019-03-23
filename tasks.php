@@ -802,6 +802,10 @@ function handle_action_on_a_specified_task()
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
+            // We skipped outputting TaskHeader in the success case so we can
+            // metarefresh back to the task. In the error case we need to build
+            // the page out however.
+            TaskHeader(title_string_for_task($pre_task));
             ShowNotification("You must supply a comment before clicking Add Comment.");
             TaskDetails($task_id);
         }
