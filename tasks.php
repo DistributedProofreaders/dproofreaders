@@ -6,7 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), array_get()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
@@ -462,7 +462,10 @@ function create_task_from_form_submission($formsub)
     global $requester_u_id;
     global $site_abbreviation;
 
-    if (empty($formsub['task_summary']) || empty($formsub['task_details'])) {
+    $task_summary = trim(array_get($formsub, 'task_summary', ''));
+    $task_details = trim(array_get($formsub, 'task_details', ''));
+
+    if (empty($task_summary) || empty($task_details)) {
         return "You must supply a Task Summary and Task Details.";
     }
 
@@ -488,10 +491,10 @@ function create_task_from_form_submission($formsub)
         $task_assignee_user = User::load_from_uid($newt_assignee);
     }
 
-    $sql_query = "
+    $sql_query = sprintf("
         INSERT INTO tasks
         SET
-            task_summary     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_summary']) . "',
+            task_summary     = '%s',
             task_type        = $newt_type,
             task_category    = $newt_category,
             task_status      = $newt_status,
@@ -501,7 +504,7 @@ function create_task_from_form_submission($formsub)
             task_os          = $newt_os,
             task_browser     = $newt_browser,
             task_version     = $newt_version,
-            task_details     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_details']) . "',
+            task_details     = '%s',
             date_opened      = $now_sse,
             opened_by        = $requester_u_id,
             date_edited      = $now_sse,
@@ -509,7 +512,10 @@ function create_task_from_form_submission($formsub)
             percent_complete = 0,
             related_tasks    = '$relatedtasks_array',
             related_postings = '$relatedpostings_array'
-    ";
+    ",
+        mysqli_real_escape_string(DPDatabase::get_connection(), $task_summary),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $task_details)
+    );
     wrapped_mysql_query($sql_query);
     $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
@@ -684,8 +690,10 @@ function handle_action_on_a_specified_task()
         TaskDetails($task_id);
     }
     elseif ($action == 'edit') {
+        $task_summary = trim(array_get($_POST, 'task_summary', ''));
+        $task_details = trim(array_get($_POST, 'task_details', ''));
         // The user is supplying values for the properties of a pre-existing task.
-        if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
+        if (empty($task_summary) || empty($task_details)) {
             ShowNotification("You must supply a Task Summary and Task Details.", true);
         }
         else {
@@ -715,10 +723,10 @@ function handle_action_on_a_specified_task()
             $edit_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
             $edit_percent  = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
 
-            $sql_query = "
+            $sql_query = sprintf("
                 UPDATE tasks
                 SET
-                    task_summary     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_summary']) . "',
+                    task_summary     = '%s',
                     task_type        = $edit_type,
                     task_category    = $edit_category,
                     task_status      = $edit_status,
@@ -728,12 +736,15 @@ function handle_action_on_a_specified_task()
                     task_os          = $edit_os,
                     task_browser     = $edit_browser,
                     task_version     = $edit_version,
-                    task_details     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_details']) . "',
+                    task_details     = '%s',
                     date_edited      = $now_sse,
                     edited_by        = $requester_u_id,
                     percent_complete = $edit_percent
                 WHERE task_id = $task_id
-            ";
+            ",
+                mysqli_real_escape_string(DPDatabase::get_connection(), $task_summary),
+                mysqli_real_escape_string(DPDatabase::get_connection(), $task_details)
+            );
             wrapped_mysql_query($sql_query);
 
             set_window_title("All Open Tasks");
@@ -767,13 +778,15 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'add_comment') {
-        if (!empty($_POST['task_comment'])) {
+        $comment = trim(array_get($_POST, 'task_comment', ''));
+        if ($comment) {
             NotificationMail($task_id,
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
-            wrapped_mysql_query("
+            wrapped_mysql_query(sprintf("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                VALUES ($task_id, $requester_u_id, $now_sse, '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_comment']) . "')
-            ");
+                VALUES ($task_id, $requester_u_id, $now_sse, '%s')",
+                    mysqli_real_escape_string(DPDatabase::get_connection(), $comment)
+            ));
             wrapped_mysql_query("
                 UPDATE tasks
                 SET date_edited = $now_sse, edited_by = $requester_u_id
