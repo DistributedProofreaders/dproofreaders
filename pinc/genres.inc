@@ -82,5 +82,41 @@ $GENRES = array(
     'Zoology'            => _('Zoology'),
 );
 
+function maybe_create_temporary_genre_translation_table()
+{
+   global $GENRES;
+
+   $db_link = DPDatabase::get_connection();
+
+    $sql = "
+    CREATE TEMPORARY TABLE genre_translations
+    (
+        genre VARCHAR(50) NOT NULL,
+        trans_genre VARCHAR(50) NOT NULL,
+        PRIMARY KEY (genre)
+    )
+    ";
+
+    try {
+        $result = mysqli_query($db_link, $sql);
+    } catch(mysqli_sql_exception $e) {
+        // in case we throw exceptions in the future
+        $result = false;
+    }
+
+    // if the create table succeeded, populate the table
+    // if it didn't, we assume the table is already created
+    if($result)
+    {
+        foreach($GENRES as $key => $value)
+        {
+            $key = mysqli_real_escape_string($db_link, $key);
+            $value = mysqli_real_escape_string($db_link, $value);
+            $sql = "INSERT INTO genre_translations SET genre = '$key', trans_genre = '$value'";
+            mysqli_query($db_link, $sql);
+        }
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

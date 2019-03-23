@@ -6,6 +6,7 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url_to_compose_message_to_user
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 include_once($relPath.'js_newwin.inc'); // prep_for_links_to_project_pages get_onclick_attr_for_link_to_project_page
+include_once($relPath.'genres.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -334,7 +335,7 @@ function show_project_listing(
         // If needed. Default to "", but useful/necessary for SR stage
 )
 {
-    global $code_url, $pguser;
+    global $code_url, $pguser, $testing;
 
     // Some columns (notably those with numbers in them)
     // have special formatting styles -- specify them here.
@@ -349,7 +350,13 @@ function show_project_listing(
     list($curr_sql_sort_col, $curr_sql_sort_dir) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
 
-    $curr_sql_orderclause = "$curr_sql_sort_col $curr_sql_sort_dir";
+    // sort on translated column if genre
+    $trans_sort_col = $curr_sql_sort_col;
+    if($trans_sort_col == 'genre')
+    {
+        $trans_sort_col = 'trans_genre';
+    }
+    $curr_sql_orderclause = "$trans_sort_col $curr_sql_sort_dir";
 
     // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
     // criteria.
@@ -380,11 +387,12 @@ function show_project_listing(
     }
 
     // Build and execute the query against the projects table.
+    maybe_create_temporary_genre_translation_table();
     $query = "
         SELECT *,
             (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
             (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
-        FROM projects
+        FROM projects NATURAL JOIN genre_translations
         $optional_join_clause
         WHERE
             $filtered_project_selector
@@ -392,6 +400,10 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
+    if ($testing)
+    {
+        echo_html_comment($query);
+    }
     $result = mysqli_query(DPDatabase::get_connection(), $query);
 
     if( is_a( $stage, 'Round' ) )
@@ -506,7 +518,7 @@ function show_project_listing(
             }
             elseif($col_id == "genre")
             {
-                $genre = $book['genre'];
+                $genre = $book['trans_genre'];
                 if ($book['difficulty'] == "beginner")
                 {
                     if( is_a( $stage, 'Round' ) )
