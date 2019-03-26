@@ -89,7 +89,6 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
 
     if($display_fields["genre"])
     {
-        maybe_create_temporary_genre_translation_table();
         $genre_options = _load_project_filter_field_values("genre", $state_sql);
         echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, @$data["genre"], $td_width, TRUE);
     }
@@ -450,6 +449,7 @@ function _load_project_filter_field_values($field, $state_sql)
             $query = "SELECT distinct language FROM projects WHERE ($state_sql) ORDER BY language";
             break;
         case "genre":
+            maybe_create_temporary_genre_translation_table();
             $query = "SELECT distinct projects.genre, genre_translations.trans_genre FROM projects NATURAL JOIN genre_translations WHERE ($state_sql) ORDER BY trans_genre";
             $load_associative = TRUE;
             break;

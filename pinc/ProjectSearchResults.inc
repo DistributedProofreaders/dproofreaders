@@ -577,7 +577,7 @@ class ProjectSearchResults
             SELECT SQL_CALC_FOUND_ROWS projects.*, genre_translations.trans_genre,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
-            JOIN genre_translations ON projects.genre = genre_translations.genre
+            NATURAL JOIN genre_translations
             LEFT JOIN project_holds
             USING (projectid, state)
             WHERE $where_condition
