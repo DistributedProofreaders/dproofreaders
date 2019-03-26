@@ -309,7 +309,7 @@ class ProjectSearchForm
                 'type'       => 'select',
                 'options'    => $this->_get_options_genre(),
                 'can_be_multiple' => TRUE,
-                'q_contrib'  => array('genre', '='),
+                'q_contrib'  => array('projects.genre', '='),
             )),
             new ProjectSearchWidget( array(
                 'id'         => 'difficulty',

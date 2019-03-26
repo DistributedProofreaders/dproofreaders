@@ -404,7 +404,7 @@ function show_project_listing(
     {
         echo_html_comment($query);
     }
-    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
     if( is_a( $stage, 'Round' ) )
     {
