@@ -15,6 +15,7 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
 {
     global $code_url, $site_abbreviation, $userP;
     global $charset;
+    global $script_files;
 
     $intlang = get_desired_language();
 
@@ -81,6 +82,9 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     // Per-page JS
     if (isset($extra_args['js_files']))
         $js_files = array_merge($js_files, $extra_args['js_files']);
+
+    if(isset($script_files))
+        $js_files = array_merge($js_files, $script_files);
 
     foreach($js_files as $js_file)
     {
@@ -156,6 +160,12 @@ function get_local_file_browser_cache_key($url)
     }
 
     return $cache_fixer;
+}
+
+function add_script_file($file)
+{
+    global $script_files;
+    $script_files[] = $file;
 }
 
 // vim: sw=4 ts=4 expandtab

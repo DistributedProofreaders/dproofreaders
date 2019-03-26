@@ -4,11 +4,11 @@
 
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'showavailablebooks.inc');
-include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
