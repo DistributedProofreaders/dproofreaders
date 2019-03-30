@@ -87,6 +87,9 @@ class Column
         $label = $this->get_label();
         if($this->sortable)
         {
+            // if we sort on a column which was previously the secondary sort
+            // change secondary to the current sort column or they will be the same
+            $switch_sort = [];
             if($sort_column_id == $this->id)
             {
                 $sec_sorter = "";
@@ -109,15 +112,16 @@ class Column
                 if($sec_sort == $this->id)
                 {
                     $sec_sorter = "&nbsp;^";
+                    $switch_sort = ['sec_sort' => $sort_column_id];
                 }
                 else
                 {
-                    $new_array = array('sec_sort' => $this->id, 'results_offset' => 0);
-                    $sec_sorter = "&nbsp;" . make_link($new_array, "^", "#head");
+                    $sec_sort_array = array('sec_sort' => $this->id, 'results_offset' => 0);
+                    $sec_sorter = "&nbsp;" . make_link($sec_sort_array, "^", "#head");
                 }
             }
-            $new_array = array('sort' => "$this->id$dir_code", 'results_offset' => 0);
-            $label = make_link($new_array, $label, "#head") . "$marker$sec_sorter";
+            $pri_sort_array = array_merge(array('sort' => "$this->id$dir_code", 'results_offset' => 0), $switch_sort);
+            $label = make_link($pri_sort_array, $label, "#head") . "$marker$sec_sorter";
         }
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
