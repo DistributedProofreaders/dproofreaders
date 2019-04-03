@@ -23,6 +23,9 @@
 // on includes that use absolute paths.
 $relPath=dirname(__FILE__)."/";
 
+// store the current time to calculate total page build time
+$PAGE_START_TIME = microtime(true);
+
 include_once($relPath.'site_vars.php');
 
 // Register autoloader
