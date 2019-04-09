@@ -14,8 +14,9 @@ require_login();
 $pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_));
 
 $pool = get_Pool_for_id($pool_id);
+$header_args = ["js_files" => ["$code_url/scripts/filter_project.js"]];
 
-output_header("$pool->id: $pool->name");
+output_header("$pool->id: $pool->name", SHOW_STATSBAR, $header_args);
 
 global $pguser;
 $userSettings =& Settings::get_Settings($pguser);

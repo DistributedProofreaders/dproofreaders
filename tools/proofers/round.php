@@ -19,8 +19,9 @@ require_login();
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
+$header_args = ["js_files" => ["$code_url/scripts/filter_project.js"]];
 
-output_header("$round->id: $round->name");
+output_header("$round->id: $round->name", SHOW_STATSBAR, $header_args);
 
 $uao = $round->user_access( $pguser );
 

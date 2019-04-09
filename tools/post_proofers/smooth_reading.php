@@ -24,9 +24,10 @@ if ($logged_in) {
 // Tell RSS feed readers which RSS feed is connected to this page
 $rss_title = _("Smooth Reading E-Texts");
 $attr_safe_rss_title = attr_safe($rss_title);
-$extra_args = array(
+$extra_args = [
+    "js_files" => ["$code_url/scripts/filter_project.js"],
     "head_data" => "<link rel='alternate' type='application/rss+xml' href='$code_url/feeds/backend.php?content=smoothreading&type=rss' title='$attr_safe_rss_title' />",
-);
+];
 
 // we show more columns when user is logged in, so we don't have room for the stats bar
 output_header($header_text, $logged_in ? NO_STATSBAR : SHOW_STATSBAR, $extra_args);
