@@ -630,7 +630,7 @@ function handle_action_on_a_specified_task()
 
     // Fetch the state of the specified task
     // before any requested changes.
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM tasks WHERE task_id = $task_id");
+    $result = wrapped_mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $pre_task = mysqli_fetch_object($result);
     if (!$pre_task)
     {
@@ -836,7 +836,7 @@ function handle_action_on_a_specified_task()
         $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
 
         // Do not insert twice the same vote if the user refreshes the browser
-        $meTooCheck = mysqli_query(DPDatabase::get_connection(), "
+        $meTooCheck = wrapped_mysql_query("
             SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
         ");
         if (mysqli_num_rows($meTooCheck) == 0)
@@ -872,7 +872,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 
     $adding               = ($action == 'add');
     $pre_task_id          = $pre_task->task_id;
-    $related_task_exists  = mysqli_num_rows(mysqli_query(DPDatabase::get_connection(), "SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
+    $related_task_exists  = mysqli_num_rows(wrapped_mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
     $related_tasks        = decode_array($pre_task->related_tasks);
     $task_already_present = in_array($related_task_id, $related_tasks);
 
@@ -1255,7 +1255,7 @@ function TaskDetails($tid)
         ShowError("Error: task identifier '$tid' is not numeric.");
         return;
     }
-    $res = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
+    $res = wrapped_mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
     if (mysqli_num_rows($res) >= 1) {
         while ($row = mysqli_fetch_assoc($res)) {
             $userSettings =& Settings::get_Settings($pguser);
@@ -1349,9 +1349,9 @@ function TaskDetails($tid)
             echo "</tr>\n";
 
             // Row 3: summary of votes/metoos
-            $voteInfo = mysqli_query(DPDatabase::get_connection(), "SELECT id FROM tasks_votes WHERE task_id = $tid");
-            $osInfo = mysqli_query(DPDatabase::get_connection(), "SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
-            $browserInfo = mysqli_query(DPDatabase::get_connection(), "SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
+            $voteInfo = wrapped_mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid");
+            $osInfo = wrapped_mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
+            $browserInfo = wrapped_mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
             if (mysqli_num_rows($voteInfo) > 0) {
                 $reportedOS = "";
                 $reportedBrowser = "";
@@ -1455,7 +1455,7 @@ function TaskDetails($tid)
             }
             echo "<td>";
             echo "<br>";
-            $meTooCheckResult = mysqli_query(DPDatabase::get_connection(), "
+            $meTooCheckResult = wrapped_mysql_query("
                 SELECT id
                 FROM tasks_votes
                 WHERE task_id = $tid and u_id = $requester_u_id
@@ -1614,7 +1614,7 @@ function ShowError($message, $goback = false)
 function TaskComments($tid)
 {
     global $tasks_url;
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $result = wrapped_mysql_query("
         SELECT *
         FROM tasks_comments
         WHERE task_id = $tid
@@ -1645,7 +1645,7 @@ function NotificationMail($tid, $message, $new_task = false)
 {
     global $site_abbreviation, $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
 
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
+    $result = wrapped_mysql_query("SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
     if(!$result)
         return;
     $row = mysqli_fetch_assoc($result);
@@ -1687,7 +1687,7 @@ function NotificationMail($tid, $message, $new_task = false)
 function RelatedTasks($tid)
 {
     global $tasks_url, $tasks_status_array;
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT related_tasks FROM tasks WHERE task_id = $tid");
+    $result = wrapped_mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
     $row = mysqli_fetch_assoc($result);
     $related_tasks = $row["related_tasks"];
     echo "<table class='tasks'>\n";
@@ -1703,7 +1703,7 @@ function RelatedTasks($tid)
     asort($related_tasks);
     foreach($related_tasks as $val)
     {
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $result = wrapped_mysql_query("
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
         ") or die(mysqli_error(DPDatabase::get_connection()));
         $row = mysqli_fetch_assoc($result);
@@ -1733,7 +1733,7 @@ function RelatedTasks($tid)
 function RelatedPostings($tid)
 {
     global $tasks_url;
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT related_postings FROM tasks WHERE task_id = $tid");
+    $result = wrapped_mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $row = mysqli_fetch_assoc($result);
     $related_postings = $row["related_postings"];
     echo "<table class='tasks'>\n";
