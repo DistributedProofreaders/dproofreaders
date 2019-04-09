@@ -22,9 +22,6 @@ $requester_u_id = $userP['u_id'];
 $now_sse = time();
 // The current time, expressed as Seconds Since the (Unix) Epoch.
 
-$date_str = date("l, F jS, Y", $now_sse);
-$time_of_day_str = date("g:i a", $now_sse);
-
 // ---------------------------------------------------------
 // Convert old-style GET requests into new-style,
 // in case people have them in bookmarks/links.
@@ -620,7 +617,7 @@ else {
 function handle_action_on_a_specified_task()
 {
     global $pguser, $requester_u_id;
-    global $now_sse, $date_str, $time_of_day_str;
+    global $now_sse;
     global $action, $tasks_url;
 
     // Default 'action' when a task is specified:
@@ -674,8 +671,7 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'reopen') {
-        NotificationMail($task_id,
-            "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
+        NotificationMail($task_id, "$pguser reopened this task.");
         wrapped_mysql_query("
             UPDATE tasks
             SET
@@ -698,8 +694,7 @@ function handle_action_on_a_specified_task()
         }
         else {
             // Update a pre-existing task.
-            NotificationMail($task_id,
-                "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
+            NotificationMail($task_id, "$pguser edited this task.");
 
             global $tasks_array;
             global $categories_array;
@@ -756,7 +751,7 @@ function handle_action_on_a_specified_task()
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
-                "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
+                "$pguser closed this task.\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".");
             wrapped_mysql_query("
                 UPDATE tasks
                 SET
@@ -780,8 +775,7 @@ function handle_action_on_a_specified_task()
     elseif ($action == 'add_comment') {
         $comment = trim(array_get($_POST, 'task_comment', ''));
         if ($comment) {
-            NotificationMail($task_id,
-                "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
+            NotificationMail($task_id, "$pguser commented:\n\n$comment");
             wrapped_mysql_query(sprintf("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
                 VALUES ($task_id, $requester_u_id, $now_sse, '%s')",
@@ -860,7 +854,7 @@ function handle_action_on_a_specified_task()
 // Add or remove a related task to the curent task.
 function process_related_task($pre_task, $action, $related_task_id)
 {
-    global $pguser, $date_str, $time_of_day_str;
+    global $pguser;
     assert($action == 'add' || $action == 'remove');
 
     // Validate task_id. It must be an integer >= 1
@@ -896,9 +890,9 @@ function process_related_task($pre_task, $action, $related_task_id)
     ");
 
     if ($adding) {
-        NotificationMail($pre_task_id, "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
+        NotificationMail($pre_task_id, "$pguser added related task $related_task_id.");
     } else {
-        NotificationMail($pre_task_id, "This task had a related task removed from it by $pguser on $date_str at $time_of_day_str.\n");
+        NotificationMail($pre_task_id, "$pguser removed related task $related_task_id.");
     }
     TaskDetails($pre_task_id);
 }
@@ -906,7 +900,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 // Add or remove a related topic (forum thread) to the curent task.
 function process_related_topic($pre_task, $action, $related_topic_id)
 {
-    global $pguser, $date_str, $time_of_day_str;
+    global $pguser;
     assert($action == 'add' || $action == 'remove');
 
     // Validate related_topic_id. It must be an integer >= 1
@@ -941,9 +935,9 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     ");
 
     if ($adding) {
-        NotificationMail($pre_task_id, "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
+        NotificationMail($pre_task_id, "$pguser added related topic $related_topic_id.");
     } else {
-        NotificationMail($pre_task_id, "his task had a related posting removed from it by $pguser on $date_str at $time_of_day_str.\n");
+        NotificationMail($pre_task_id, "$pguser removed related topic $related_topic_id.");
     }
     TaskDetails($pre_task_id);
 }
@@ -1540,8 +1534,8 @@ function TaskComments($tid)
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr><td style='width: 100%'>\n";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
-        echo "<b>$comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br>";
-        echo "<br>" . nl2br(html_safe($row['comment'])) . "<br><br><hr class='align-center' style='width: 80%'>";
+        echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b><br>";
+        echo "<br>" . nl2br(html_safe($row['comment'])) . "<hr style='width: 98%'>";
         echo "</td></tr>";
     }
     echo "<tr><td style='width: 100%'>\n";
@@ -1557,7 +1551,7 @@ function TaskComments($tid)
 
 function NotificationMail($tid, $message, $new_task = false)
 {
-    global $site_abbreviation, $code_url, $tasks_url, $pguser, $date_str, $time_of_day_str;
+    global $site_abbreviation, $code_url, $tasks_url, $pguser, $site_name;
 
     $result = wrapped_mysql_query("SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
     if(!$result)
@@ -1566,34 +1560,35 @@ function NotificationMail($tid, $message, $new_task = false)
     $task_summary = $row['task_summary'];
 
     $subject = "$site_abbreviation Task #$tid: $task_summary";
-    $message = $message
-        . "\nYou can see task #$tid by visiting $tasks_url?task_id=$tid\n\n"
+    $footer = "\n\n"
         . "--\n"
-        . "Distributed Proofreaders\n$code_url\n\n"
+        . "$site_name\n"
+        . "$tasks_url?task_id=$tid\n\n"
         . "This is an automated message, please do not respond directly to this e-mail.";
 
-    $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     if($new_task)
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
-        $message =
-            "You have requested notification of new tasks.\n"
-            . "Task #$tid: '$task_summary' was created by $pguser on $date_str at $time_of_day_str.\n\n"
+        $body =
+            "You have requested notification of new tasks.\n\n"
+            . "Task #$tid: '$task_summary' was created by $pguser.\n\n"
             . $row['task_details'] . "\n"
-            . $message;
+            . $footer;
     }
     else
     {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
-        $message =
-            "You have requested notification of updates to task #$tid: $task_summary\n"
-            . $message;
+        $body =
+            "You have requested notification of updates to task #$tid: $task_summary\n\n"
+            . $message
+            . $footer;
     }
+    $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     $users_to_notify = array_unique(array_merge($notify_setting_all, $notify_setting_this));
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, $subject, $message);
+            maybe_mail($user->email, $subject, $body);
         }
     }
 }
