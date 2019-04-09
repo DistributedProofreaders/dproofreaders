@@ -1109,9 +1109,7 @@ function select_and_list_tasks($sql_condition)
           date_edited,
           task_status,
           percent_complete,
-          CASE WHEN
-             vote_os IS NULL THEN NULL
-             ELSE COUNT(*) END AS votes
+          COUNT(vote_os) AS votes
         FROM tasks
           LEFT OUTER JOIN tasks_votes USING (task_id)
         WHERE $sql_condition
@@ -1332,66 +1330,24 @@ function TaskDetails($tid)
             echo "<table class='taskplain'>\n";
             property_echo_value_tr('task_type',        $row);
             property_echo_value_tr('task_category',    $row);
-            property_echo_value_tr('task_status',      $row);
-            property_echo_value_tr('task_assignee',    $row);
             property_echo_value_tr('task_os',          $row);
+            property_echo_value_tr('additional_os',    $row, False);
+            property_echo_value_tr('task_browser',     $row);
+            property_echo_value_tr('additional_browser',$row, False);
+            property_echo_value_tr('task_version',     $row);
+            property_echo_value_tr('votes'       ,     $row, False);
             echo "</table>";
             echo "</td>";
             echo "<td width='50%'>";
             echo "<table class='taskplain'>\n";
-            property_echo_value_tr('task_browser',     $row);
+            property_echo_value_tr('task_status',      $row);
             property_echo_value_tr('task_severity',    $row);
             property_echo_value_tr('task_priority',    $row);
-            property_echo_value_tr('task_version',     $row);
+            property_echo_value_tr('task_assignee',    $row);
             property_echo_value_tr('percent_complete', $row);
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
-
-            // Row 3: summary of votes/metoos
-            $voteInfo = wrapped_mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid");
-            $osInfo = wrapped_mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
-            $browserInfo = wrapped_mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
-            if (mysqli_num_rows($voteInfo) > 0) {
-                $reportedOS = "";
-                $reportedBrowser = "";
-                echo "<tr>";
-                echo "<td colspan='2'>";
-                echo "<table class='taskplain'>";
-                echo "<tr>";
-                echo "<td width='25%'>";
-                echo "<b>Votes&nbsp;&nbsp;</b>";
-                echo "</td>\n";
-                echo "<td width='75%'>";
-                echo mysqli_num_rows($voteInfo);
-                echo "</td>";
-                echo "</tr>";
-                echo "<tr>";
-                echo "<td width='25%'>";
-                echo "<b>Reported Operating Systems&nbsp;&nbsp;</b>";
-                echo "</td>\n";
-                echo "<td width='75%'>";
-                while ($rowOS = mysqli_fetch_assoc($osInfo)) {
-                    $reportedOS.= $os_array[$rowOS['vote_os']] . ", ";
-                }
-                echo substr($reportedOS, 0, -2);
-                echo "</td>";
-                echo "</tr>";
-                echo "<tr>";
-                echo "<td width='25%'>";
-                echo "<b>Reported Browsers&nbsp;&nbsp;</b>";
-                echo "</td>\n";
-                echo "<td width='75%'>";
-                while ($rowBrowser = mysqli_fetch_assoc($browserInfo)) {
-                    $reportedBrowser.= $browser_array[$rowBrowser['vote_browser']] . ", ";
-                }
-                echo substr($reportedBrowser, 0, -2);
-                echo "</td>";
-                echo "</tr>";
-                echo "</table>";
-                echo "</td>";
-                echo "</tr>";
-            }
 
             // Row 4: details
             echo "<tr>";
@@ -1488,10 +1444,13 @@ function TaskDetails($tid)
     }
 }
 
-function property_echo_value_tr( $property_id, $row )
+function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
 {
     $label = property_get_label($property_id, FALSE);
     $formatted_value = property_format_value($property_id, $row, FALSE);
+
+    if(!$show_if_empty && !$formatted_value)
+        return;
 
     echo "<tr>";
     echo "<td class='taskproperty'>{$label}&nbsp;&nbsp;</td>";
@@ -1783,6 +1742,11 @@ function property_get_label( $property_id, $for_list_of_tasks )
         case 'task_type'     : return 'Task Type';
         case 'task_version'  : return 'Reported Version';
         case 'votes'         : return 'Votes';
+        case 'additional_os' : return '';
+        case 'additional_browser' : return '';
+        case 'closed_by'     : return "Closed By";
+        case 'date_closed'   : return "Closed Date";
+        case 'closed_reason' : return "Closed Reason";
 
         case 'percent_complete':
             return ( $for_list_of_tasks ? "Progress" : "Percent Complete" );
@@ -1802,11 +1766,10 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_status_array;
     global $versions_array;
 
-    $raw_value = $task_a[$property_id];
+    $raw_value = array_get($task_a, $property_id, NULL);
     switch ($property_id)
     {
         // The raw value is used directly:
-        case 'votes': return $raw_value;
         case 'task_id': $fv = $raw_value; break; // maybe wrap in <a>
 
         // The raw value is an index into an array.
@@ -1853,6 +1816,54 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $url = "$code_url/graphics/task_percentages/{$s}_{$raw_value}.png";
             $alt = "{$raw_value}% Complete";
             return "<img src='$url' width='$w' height='$h'$b alt='$alt'>";
+
+        case 'votes':
+            // If this is the task listing, $raw_value will be set
+            if(!isset($raw_value))
+            {
+                $sql = "SELECT count(*) AS count FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
+                $result = wrapped_mysql_query($sql);
+                $row = mysqli_fetch_assoc($result);
+                $raw_value = $row['count'];
+            }
+
+            // If votes are zero, return an empty string
+            if($raw_value == 0)
+                return "";
+            else
+                return $raw_value;
+
+        case 'additional_os':
+            $sql = "SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
+            $result = wrapped_mysql_query($sql);
+            $list = array();
+            while($row = mysqli_fetch_assoc($result))
+            {
+                if($row['vote_os'] == $task_a['task_os'])
+                    continue;
+                $list[] = $os_array[$row['vote_os']];
+            }
+            array_unique($list);
+            if($list)
+                return implode(", ", $list);
+            else
+                return "";
+
+        case 'additional_browser':
+            $sql = "SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
+            $result = wrapped_mysql_query($sql);
+            $list = array();
+            while($row = mysqli_fetch_assoc($result))
+            {
+                if($row['vote_browser'] == $task_a['task_browser'])
+                    continue;
+                $list[] = $browser_array[$row['vote_browser']];
+            }
+            array_unique($list);
+            if($list)
+                return implode(", ", $list);
+            else
+                return "";
 
         default:
             assert(FALSE);
