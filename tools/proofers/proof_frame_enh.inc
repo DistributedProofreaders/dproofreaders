@@ -2,6 +2,7 @@
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'prefs_options.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
@@ -12,14 +13,19 @@ function echo_proof_frame_enh( $ppage )
 {
     global $code_url, $userP;
 
+    $line_wrap = get_line_wrap();
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
+            "$code_url/tools/proofers/mark_wrap.js",
         ),
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
+        "js_data" => ibe_get_js() . "
+            function ldAll() {top.initializeStuff(1); previewControl = initPrev();}
+            var lineWrap = $line_wrap;
+        ",
         "css_data" => ibe_get_styles(),
         "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
     );
