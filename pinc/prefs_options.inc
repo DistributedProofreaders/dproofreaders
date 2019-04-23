@@ -68,6 +68,12 @@ function get_user_proofreading_font()
     return array($font_style, $font_size);
 }
 
+function get_line_wrap()
+{
+    global $userP;
+    return ($userP['i_layout'] == 1) ? $userP['v_twrap'] : $userP['h_twrap'];
+}
+
 // $u_n = show rank neighbors
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 

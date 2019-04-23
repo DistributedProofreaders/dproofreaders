@@ -293,13 +293,13 @@ The lower control frame is not included when calculating this percentage.</p>")
 'set_h_wrap' =>
     array (
     'title' => _("Wrap Text"),
-    'content' => _("<p>Enable/Disable wrapping of lines in the proofreading area that exceed the 'Length of Text Lines' setting.</p>")
+    'content' => _("<p>Lines that exceed the width of the proofreading text area will be wrapped and, in compatible browsers, the end of each line represented by an end-of-line marker.</p>")
     ),
 
 'set_v_wrap' =>
     array (
     'title' => _("Wrap Text"),
-    'content' => _("<p>Enable/Disable wrapping of lines in the proofreading area that exceed the 'Length of Text Lines' setting.</p>")
+    'content' => _("<p>Lines that exceed the width of the proofreading text area will be wrapped and, in compatible browsers, the end of each line represented by an end-of-line marker.</p>")
     ),
 
 'set_h_zoom' =>
