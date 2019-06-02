@@ -1119,6 +1119,12 @@ function select_and_list_tasks($sql_condition)
         ORDER BY $curr_sort_col $curr_sort_dir
     ";
     $sql_result = wrapped_mysql_query($sql_query);
+    $num_tasks_returned = mysqli_num_rows($sql_result);
+
+    if ($num_tasks_returned == 0) {
+        echo "<p class='task'>No tasks found!</p>";
+        return;
+    }
 
     $t = SearchParams_get_url_query_string();
 
@@ -1150,24 +1156,21 @@ function select_and_list_tasks($sql_condition)
         echo "<th$attrs><a href='$url'>$label</a></th>\n";
     }
     echo "</tr>\n";
-    if (@mysqli_num_rows($sql_result) >= 1) {
-        while ($row = mysqli_fetch_assoc($sql_result)) {
-            echo "<tr>\n";
-            foreach ( $columns as $property_id => $attrs )
-            {
-                $formatted_value = property_format_value($property_id, $row, TRUE);
-                echo "<td$attrs>$formatted_value</td>\n";
-            }
-            echo "</tr>\n";
+
+    while ($row = mysqli_fetch_assoc($sql_result)) {
+        echo "<tr>\n";
+        foreach ( $columns as $property_id => $attrs )
+        {
+            $formatted_value = property_format_value($property_id, $row, TRUE);
+            echo "<td$attrs>$formatted_value</td>\n";
         }
+        echo "</tr>\n";
     }
-    else {
-        echo "<tr><td class='center-align' colspan='9'>No tasks found!</td></tr>";
-    }
-    echo "</table><br>\n";
+    echo "</table>\n";
+
     // if 2 tasks or more found, display the number of reported tasks
-    if (@mysqli_num_rows($sql_result) > 1) {
-        echo "<small class='task'>" . @mysqli_num_rows($sql_result) . " tasks listed.</small>";
+    if ($num_tasks_returned > 1) {
+        echo "<p class='task'>$num_tasks_returned tasks listed.</p>";
     }
 }
 
