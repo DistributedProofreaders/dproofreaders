@@ -113,7 +113,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         {
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is reqiured"),
+                _("Parameter '%1\$s' is required"),
                 $key));
         }
         else
