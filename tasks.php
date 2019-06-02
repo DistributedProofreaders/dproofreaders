@@ -1090,9 +1090,9 @@ function select_and_list_tasks($sql_condition)
 
     $columns = array(
         'task_id'          => " style='text-align: center;'",
+        'task_summary'     => " class='wrap'",
         'task_type'        => "",
         'task_severity'    => "",
-        'task_summary'     => " class='wrap'",
         'task_priority'    => "",
         'date_edited'      => " style='text-align: center;'",
         'task_status'      => "",
