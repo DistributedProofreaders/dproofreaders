@@ -1007,7 +1007,8 @@ input[type="submit"]:disabled { background-color: #AAAAAA; }
 
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
-small.task         { font-family:Verdana; font-size: small; }
+p.task,
+span.task          { font-family:Verdana; font-size: small; }
 .wrap              { white-space: normal!important; }
 EOS;
 
@@ -1037,9 +1038,9 @@ EOS;
     }
     echo "</form>";
     echo "</td>\n";
-    echo "<td style='width: 50%; text-align: right;'>";
+    echo "<td class='task' style='width: 50%; text-align: right;'>";
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
-    echo "<b><small class='task'>Show Task #</small></b>";
+    echo "<b>Show Task #</b>";
     echo "&nbsp;\n";
     echo "<input type='number' name='task_id' min='1' required>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
@@ -1047,7 +1048,7 @@ EOS;
     echo "</td></tr></table><br>\n";
     echo "<form action='$tasks_url' method='post'>";
     echo "<table class='tasks'>\n";
-    echo "<tr><td><b><small class='task'>Search:</small></b></td>\n";
+    echo "<tr><td><b>Search:</b></td>\n";
     echo "<td>";
 
     SearchParams_echo_controls();
@@ -1232,7 +1233,7 @@ function TaskForm($task)
     echo "<textarea name='task_details' style='width: 99%; height: 8em;' required>$task_details_enc</textarea>";
     echo "</td>";
     echo "</tr>";
-    echo "<tr><td class='center-align'>\n";
+    echo "<tr><td>\n";
     echo "<input type='submit' value='";
     if (empty($task->task_id)) {
         echo "Add Task";
@@ -1485,7 +1486,7 @@ function MeToo($tid, $os, $browser)
     echo "<input type='hidden' name='task_os' value='$os'>";
     echo "<input type='hidden' name='task_browser' value='$browser'>";
     echo "<table class='tasks'><tr><td>\n";
-    echo "<p><big><b>You too?</b></big></p>";
+    echo "<p style='font-size: large; font-weight: bold;'>You too?</p>";
     echo "<fieldset class='task'>";
     echo "<legend class='task'>Are you using the same operating system?</legend>";
     echo "&nbsp;";
@@ -1535,7 +1536,7 @@ function TaskComments($tid)
         ORDER BY comment_date ASC
     ");
     echo "<table class='tasks'>";
-    echo "<tr><td><big><b>Comments</b></big></td></tr>";
+    echo "<tr><td style='font-weight: bold; font-size: large;'>Comments</td></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr><td style='width: 100%'>\n";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
