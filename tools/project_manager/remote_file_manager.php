@@ -391,24 +391,13 @@ function handle_file_upload($file_info)
     // we don't have to worry about weird characters in $temporary_path.
 
     // Verify that what was uploaded is actually a zip archive
-    $zip_test_result = array();
-    $zip_retval = 0;
-
-    // /usr/bin/file
-    // -b: brief output
-    // -i: input file
-    // --: don't parse any further arguments starting with -/-- as options
-    $cmd = "/usr/bin/file -b -i -- " . escapeshellcmd($temporary_path);
-    exec($cmd, $zip_test_result, $zip_retval);
-    list($file_type) = explode(';', $zip_test_result[0], 2);
-    if ($file_type == 'application/x-zip' ||
-        $file_type == 'application/zip') {
+    // ensure that it's a valid zip
+    exec("zipinfo -1 " . escapeshellcmd($temporary_path), $zipinfo_output, $return_code);
+    if($return_code == 0) {
         show_message('info', _("OK: Valid zip file."));
     } else {
         fatal_error( _("File is not a valid zip file: removing it.") );
     }
-    // XXX /usr/bin/file only looks at the first few bytes of the file.
-    // Maybe we should check the whole file's integrity with 'unzip -t'.
 
     // if an antivirus scanner is installed and configured, scan the file
     if($antivirus_executable) {
