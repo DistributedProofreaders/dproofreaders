@@ -18,7 +18,7 @@ $image     = validate_page_image_filename('image', @$_REQUEST['image']);
 $modify    = array_get($_REQUEST, 'modify', '');
 $cancel    = array_get($_POST, 'cancel', '');
 $prev_text = array_get($_POST, 'prev_text', NULL);
-$prevtext_column = array_get($_POST, 'prevtext_column', NULL);
+$text_column = array_get($_REQUEST, 'text_column', NULL);
 $resolution = array_get($_POST, 'resolution', NULL);
 
 if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
@@ -41,6 +41,7 @@ if (!$resolution) {
     $project = new Project($projectid);
     
     $round = get_Round_for_page_state($state);
+    $current_round_num = $round->round_number;
 
     // It's a bit messy to have this here,
     // since it reiterates stuff that appears in other files,
@@ -79,28 +80,52 @@ if (!$resolution) {
     echo "<p>";
     echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
     echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
+    echo "<b>" . _("Project state") . ":</b> {$project->state}<br>";
     echo "<b>" . _("Page") . ":</b> $image<br>";
-    echo "<b>" . pgettext("project state", "State") . ":</b> $state<br>";
-    echo "<b>" . _("Originals") . "</b>: ";
-    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
+    echo "<b>" . _("Page state") . ":</b> $state<br>";
+    echo "<b>" . _("View") . "</b>: ";
+    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" .
+        // TRANSLATORS: %s is a round_id
+        sprintf(_("%s Text"), get_round_name($prev_round_num)) . "</a>";
     echo " | ";
-    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
+    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("Image") . "</a>";
     echo "</p>";
 
     $show_resolution_form = TRUE;
     //Determine if modify is set & if so display the form to either modify the image or text
-    if($modify == "text")
+    if($modify == "current_text")
     {
         if($prev_text == NULL)
         {
             $prev_text = $page[$prevtext_column];
-            show_text_update_form($projectid, $image, $prev_text, $prevtext_column);
+            show_text_update_form($projectid, $image, $prev_text, $prevtext_column, $modify);
             $show_resolution_form = FALSE;
         }
         else
         {
             Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
-            echo "<p><b>"._("Update of Text from Previous Round Complete!")."</b></p>";
+            echo "<p><b>"._("Update of text from previous round complete!")."</b></p>";
+        }
+    }
+    elseif($modify == "round_text")
+    {
+        if(!user_is_a_sitemanager())
+        {
+            echo "<p class='error'>" . _("You are not authorized to perform this action.") . "</p>";
+        }
+        else
+        {
+            if($prev_text == NULL)
+            {
+                $prev_text = $page[$text_column];
+                show_text_update_form($projectid, $image, $prev_text, $text_column, $modify);
+                $show_resolution_form = FALSE;
+            }
+            else
+            {
+                Page_modifyText( $projectid, $image, $prev_text, $text_column, $pguser );
+                echo "<p><b>"._("Update of text from round complete!")."</b></p>";
+            }
         }
     }
     elseif($modify == "image")
@@ -117,7 +142,7 @@ if (!$resolution) {
     }
 
     if($show_resolution_form)
-        show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page, $b_User, $b_Code);
+        show_resolution_form($projectid, $image, $state, $round, $is_a_bad_page, $b_User, $b_Code);
 
 } else {
     //Get variables passed from form
@@ -135,9 +160,18 @@ if (!$resolution) {
 
 #----------------------------------------------------------------------------
 
-function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page, $b_user, $b_code)
+function get_round_name($round_number)
 {
-    global $code_url, $PAGE_BADNESS_REASONS;
+    if($round_number == 0)
+        return _("OCR");
+
+    $round = get_Round_for_round_number($round_number);
+    return $round->id;
+}
+
+function show_resolution_form($projectid, $image, $state, $project_round, $is_a_bad_page, $b_user, $b_code)
+{
+    global $code_url, $PAGE_BADNESS_REASONS, $Round_for_round_id_;
 
     if($is_a_bad_page)
     {
@@ -162,7 +196,30 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
 
     echo "<p>" . _("From here you can") . ":</p>";
     echo "<ul>";
-    echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Update page text from previous round")."</a></li>";
+    echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=current_text'>"._("Update page text from previous round")."</a></li>";
+    if(user_is_a_sitemanager())
+    {
+        echo "<li>" . _("Update page text for round") . ": ";
+        echo "<form style='display: inline'; action='handle_bad_page.php' method='post'>";
+        echo "<input type='hidden' name='modify' value='round_text'>";
+        echo "<input type='hidden' name='projectid' value='$projectid'>";
+        echo "<input type='hidden' name='image' value='$image'>";
+        echo "<input type='hidden' name='state' value='$state'>";
+        echo "<select name='text_column'>";
+        echo "<option value='master_text'>" . _("OCR") . "</option>";
+        foreach($Round_for_round_id_ as $round_id => $round)
+        {
+            echo "<option value='$round->text_column_name'";
+            if($project_round->id == $round_id)
+                echo "SELECTED";
+            echo ">$round_id</option>";
+        }
+        echo "</select>";
+        echo "<input type='submit' value='" . attr_safe(_("Submit")) . "'>";
+        echo " " . _("(site administrator function)");
+        echo "</form>";
+        echo "</li>";
+    }
     echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Update page image")."</a></li>";
     if ($is_a_bad_page)
     {
@@ -175,6 +232,7 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
         echo "<input name='resolution' value='invalid' type='radio'> "._("Invalid Report")."<br>";
         echo "<input name='resolution' value='unfixed' checked type='radio'> "._("Not Fixed")."<br>";
         echo "<input type='submit' value='" . attr_safe(_("Submit")) . "'>";
+        echo "</form>";
         echo "</li>";
     }
     else
@@ -184,25 +242,49 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
     echo "</ul>";
 }
 
-function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
+function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify='current_text')
 {
+    global $Round_for_round_id_;
+
     echo "<h2>" . _("Update page text") . "</h2>";
 
     echo "<form action='handle_bad_page.php' method='post'>";
-    echo "<input type='hidden' name='modify' value='text'>";
+    echo "<input type='hidden' name='modify' value='$modify'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<input type='hidden' name='image' value='$image'>";
-    echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
-    // TRANSLATORS: %s is the image name.
-    echo sprintf(_("The textarea below contains the text from the previous round for %s."), $image) . "<br>";
-    echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
+    echo "<input type='hidden' name='text_column' value='$text_column'>";
+
+    // look up the round_id from the $text_column
+    $round_id = _("OCR");
+    foreach($Round_for_round_id_ as $round)
+    {
+        if($round->text_column_name == $text_column)
+            $round_id = $round->id;
+    }
+
+    // TRANSLATORS: %s is the round ID
+    echo "<p class='warning'>" . sprintf(_("You are updating the text for round <b>%s</b>."), $round_id) . "</p>";
+
+    if($modify == 'current_text')
+    {
+        // TRANSLATORS: %s is the image name.
+        echo sprintf(_("The textarea below contains the text from the previous round  (%1\$s) for %2\$s."), $round_id, $image) . "<br>";
+        echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
+    }
+    else
+    {
+        // TRANSLATORS: %1$s is the round ID; %2$ss is the image name.
+        echo sprintf(_("The textarea below contains the text from round <b>%1\$s</b> for %2\$s."), $round_id, $image) . "<br>";
+    }
+
     // newline after <textarea> needed to prevent the text box from eating the first blank line
     echo "<textarea name='prev_text' cols=70 rows=10>\n";
-    // SENDING PAGE-TEXT TO USER
     echo html_safe($prev_text);
     echo "</textarea><br><br>";
-    echo "<input type='submit' value='"
-        . attr_safe(_("Update Text From Previous Round")) . "'> ";
+
+    // TRANSLATORS: %s is the round ID
+    echo "<input type='submit' value='" . attr_safe(sprintf(_("Update %s Text"), $round_id)) . "'> ";
+
     echo "<button type='submit' name='cancel' value='cancel'>" . _("Cancel") . "</button>";
     echo "</form>";
 }
