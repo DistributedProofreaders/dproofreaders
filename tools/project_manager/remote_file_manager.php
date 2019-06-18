@@ -374,9 +374,11 @@ function handle_file_upload($file_info)
     }
 
     if (!is_valid_filename($file_info['name'], "zip")) {
-        fatal_error( sprintf(_("Invalid filename: %s."), $file_info['name']) );
-        // (Alternatively, we could construct a name that *was* okay,
-        // and use that instead.)
+        // create a valid filename re-using the extension provided
+        $old_filename = $file_info['name'];
+        $path_parts = pathinfo($old_filename);
+        $file_info['name'] = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
+        echo "<p class='warning'>" . sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $file_info['name'], $old_filename) . "</p>";
     }
 
     // Okay so far, now let's run some tests on the content of the file.
@@ -1369,7 +1371,7 @@ function is_valid_filename($filename, $restrict_extension=False)
     } else {
         // If we want to restrict filename extensions, '.'s aren't allowed in the
         // body of the filename, and the filename must end with '.ext'
-        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/';
+        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/i';
     }
 
     // The filename is valid if the regexp matches exactly once.
