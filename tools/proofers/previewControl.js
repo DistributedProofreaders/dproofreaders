@@ -50,7 +50,7 @@ function initPrev() {
     var suppCheckBox = [];
 
     var selTag;
-    var viewMode = "no_tags";    // always start with this
+    var viewMode;
 
     var tempStyle = {}; // used during configure
 
@@ -76,7 +76,8 @@ function initPrev() {
         allowUnderline: false,
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif",
-        suppress: {}
+        suppress: {},
+        initialViewMode: "no_tags"
     };
     supp_set.forEach(function (msg, i) {
         previewStyles.suppress[msg] = false;
@@ -181,6 +182,7 @@ function initPrev() {
         prevWin.style.fontFamily = previewStyles.defFont;
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
+        viewMode = previewStyles.initialViewMode;
     }
 
     initStyle();
