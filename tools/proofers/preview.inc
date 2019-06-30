@@ -113,6 +113,7 @@ function output_preview_div()
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
+    $choose_colors = html_safe(_("Choose Colors"));
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -154,7 +155,8 @@ function output_preview_div()
 <div id="id_config_panel" class='no_display'>
   <div id='color_test'>
   </div>
-  <div class="clearfix box1">
+  <fieldset class="clearfix">
+    <legend>$choose_colors</legend>
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
@@ -172,7 +174,7 @@ function output_preview_div()
         <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
         <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
     </div>
-  </div>
+  </fieldset>
   <div class="box2">
     <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="previewControl.addFont()" value="$add_font"></span>
     <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
@@ -181,9 +183,9 @@ function output_preview_div()
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
   </div>
   <fieldset>
-   <legend>$suppress_warnings</legend>
-   $supp_item_string
-</fieldset>
+    <legend>$suppress_warnings</legend>
+    $supp_item_string
+  </fieldset>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
