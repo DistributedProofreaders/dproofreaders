@@ -114,6 +114,7 @@ function output_preview_div()
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
+    $initial_mode = html_safe(_("Set initial view mode to current"));
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -137,9 +138,9 @@ function output_preview_div()
     </span>
     <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
     <span class='ilb'>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('show_tags')" id="id_tags">$tags</label>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('no_tags')" checked>$no_tags</label>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('re_wrap')">$re_wrap</label>
+      <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
+      <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
+      <label><input type="radio" name="viewSel" id="re_wrap">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
@@ -186,6 +187,9 @@ function output_preview_div()
     <legend>$suppress_warnings</legend>
     $supp_item_string
   </fieldset>
+  <div class="box2">
+    <input type='button' id='init_mode' value="$initial_mode">
+  </div>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">

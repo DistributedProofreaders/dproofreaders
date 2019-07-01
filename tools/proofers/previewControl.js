@@ -26,7 +26,7 @@ function initPrev() {
     var txtarea = document.getElementById("text_data");
     var prevDiv = document.getElementById("prevdiv");
     var controlDiv = document.getElementById("id_controls");
-    var tagon = document.getElementById("id_tags");
+    var tagon = document.getElementById("show_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
     var backgroundCheckbox = document.getElementById("background_checkbox");
@@ -183,10 +183,20 @@ function initPrev() {
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
         viewMode = previewStyles.initialViewMode;
+        $("#" + viewMode).prop("checked", true);
     }
 
     initStyle();
     initView();
+
+    $("[name='viewSel']").click(function () {
+        viewMode = this.id;
+        writePreviewText();
+    });
+
+    $("#init_mode").click(function () {
+        tempStyle.initialViewMode = viewMode;
+    });
 
     // functions for setting up the configuration screen
     function testDraw() {
@@ -282,12 +292,6 @@ function initPrev() {
             prevDiv.style.display = "none";
         },
 
-        // called when "Tags", "no Tags" or rewrap radio buttons are depressed
-        write: function (f) {
-            viewMode = f;
-            writePreviewText();
-        },
-
         configure: function () {    // show the configuration screen
             prevDiv.style.display = "none";
             configPan.style.display = "block";
@@ -325,7 +329,10 @@ function initPrev() {
                 tempStyle.suppress[msg] = suppCheckBox[i].checked;
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
+console.log(tempStyle);
             previewStyles = deepCopy(previewStyles, tempStyle, false);
+console.log(previewStyles);
+
             saveStyle();
             initView();
             writePreviewText();
