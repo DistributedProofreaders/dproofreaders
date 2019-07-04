@@ -14,60 +14,6 @@ $quiz = get_Quiz_containing_page($quiz_page_id);
 
 output_small_header($quiz);
 
-// A Note on Character Encodings
-//
-// All solution-texts are encoded in UTF-8.
-// Of course, many of them are ASCII-only, so for those, you can't tell.
-// But see, for instance, qd_p_mod1_3.inc:
-//     The image contains an ae ligature,
-//     and the corresponding point in the solution-text
-//     has the two bytes xC3 and xA6,
-//     which is the UTF-8 encoding of
-//     U+00C6 LATIN SMALL LETTER AE.
-// 
-// Note that there are also a few qd files that specify different solutions
-// depending on the value of global variable $utf8_site.
-// But in such cases, both solutions are still encoded in UTF-8; the
-// difference is how the user is expected to represent non-Latin-1 characters.
-// E.g., in qd_p_mod2_3.inc:
-//     The image contains an e with acute accent and an oe ligature.
-//     The e-acute (a Latin-1 character) is represented
-//         in *both* solution-texts
-//             as C3 A9 (the UTF-8 encoding of U+00E9).
-//     The oe ligature (a non-Latin-1 character) is represented:
-//         in the (!$utf8_site) solution,
-//             by the 4 bytes "[oe]".
-//         in the ($utf8_site) solution,
-//             by the 2 bytes C5 93 (the UTF-8 encoding of U+0153)
-// 
-// 
-// HOWEVER, the page-text that the user submitted (i.e., $text) is encoded
-// according to $charset.
-// 
-// (At least, we appear to assume it is, though I'm doubtful that this is
-// guaranteed.  Certainly we sent the HTML form with
-//     <META http-equiv="Content-Type" content="text/html; charset=$charset">
-// but is the browser obliged to use the same charset when it sends a
-// submission request based on that form?)
-// 
-// So, if $charset isn't UTF-8, we have a mismatch between the encodings
-// used by the solution-text and the submitted-text. Before we compare
-// them, we must convert one of them to the encoding of the other.
-// 
-// Do we convert the the solution-text into $charset, or the submitted-text
-// into UTF-8?
-// 
-// I think what decides this question is the fact that $tests
-//     (e.g., $tests[*]["searchtext"])
-// are also encoded in UTF-8.  If we were to convert the solution-text into
-// $charset, we would also have to convert the tests into $charset. So it's
-// probably simpler if we convert the submitted-text into UTF-8.
-//
-if (!$utf8_site)
-{
-    $text = iconv($charset, "UTF-8//IGNORE", $text);
-}
-
 $text = remove_insignificant_whitespace($text);
 
 // A margin
