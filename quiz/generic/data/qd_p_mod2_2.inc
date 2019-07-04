@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc'); // $utf8_site
+include_once('quiz_defaults.inc');
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
@@ -67,12 +67,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("chamber\n"),
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("_"), "case_sensitive" => TRUE, "error" => "P_subnomark");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("_2"), "case_sensitive" => TRUE, "error" => "P_subnobraces");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("aer"), "case_sensitive" => TRUE, "error" => "accente");
-if(!$utf8_site) {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[:e]"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
-}
-else {
-    $tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
-}
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Illustration"), "case_sensitive" => FALSE, "error" => "P_illmarkup");
 
