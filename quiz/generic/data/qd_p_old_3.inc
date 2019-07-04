@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url $utf8_site
+include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
@@ -9,12 +9,7 @@ $constant_message             = "\n" .
                                     "<h2>" . _("Project Comments") . "</h2>\n" .
                                     "<p>" . sprintf(_("Proofread the nasal abbreviations, which can look like tildes or macrons, as macrons.  If you have trouble with the blackletter font, see <a href='%s' target='_blank'>Proofing Blackletter</a>."), $blackletter_url) . "</p>";
 $initial_text                 = "for coolcnes in Summer. )\n\nCucnye. An admitable byrde in ljifpa=\nniola (no bigger then a thobe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her itinges (which are\ndouble, a greater and a smaller payre} so\nshining in the njght (wherin onely she\nflyeth) that fiue or fixe of the tyed toge-\nther_{j} gyue as moch light as a torch. Further";
-if(!$utf8_site) {
-    $solutions                = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a th[=o]be) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of th[=e] tyed together,\ngyue as moch light as a torch. Fur-*");
-}
-else {
-    $solutions                = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a thōbe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of thē tyed together,\ngyue as moch light as a torch. Fur-*");
-}
+$solutions                    = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a thōbe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of thē tyed together,\ngyue as moch light as a torch. Fur-*");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("If you come across any unusual symbols or characters when proofreading, please bring it up in the project discussion.  This will alert the project manager and post-processor to the situation, and help to improve consistency among the various proofreaders during the rounds.") . "</p>";
 
@@ -91,12 +86,7 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Fur-*"), "cas
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("having", "five", "gyve"), "case_sensitive" => TRUE, "error" => "P_uvchange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("underneath"), "case_sensitive" => TRUE, "error" => "P_italu");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("thobe", "thombe", "~", "õ", "ẽ", "the tyed", "them"), "case_sensitive" => TRUE, "error" => "projcomm");
-if(!$utf8_site) {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[o=]", "[e=]", "[=x]", "[-o]", "[-e]"), "case_sensitive" => TRUE, "error" => "P_macron");
-}
-else {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=o]", "[=e]"), "case_sensitive" => TRUE, "error" => "P_macron");
-}
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=o]", "[=e]"), "case_sensitive" => TRUE, "error" => "P_macron");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("coolcnes"), "case_sensitive" => TRUE, "error" => "coolcnes");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("er. )", "er.)"), "case_sensitive" => TRUE, "error" => "flyspeck");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("cny"), "case_sensitive" => TRUE, "error" => "Cucnye");
