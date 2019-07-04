@@ -63,7 +63,6 @@ slim_header("", $header_args);
     if ($testing)
     {
         $solution = qp_sample_solution();
-	$solution = qp_convert_from_utf8_if_necessary($solution);
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";
         echo html_safe($solution);

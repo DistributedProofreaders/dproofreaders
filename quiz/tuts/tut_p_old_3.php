@@ -26,12 +26,7 @@ echo "    <td>complete</td>\n";
 echo "  </tr>\n";
 echo "</table>\n";
 
-if(!$utf8_site)
-{
-    echo "<p>" . _("These may be proofread as macrons <tt>[=u]</tt>, tildes <tt>[~u]</tt>, or according to the meaning (i.e. <tt>u[n]</tt> or <tt>u[m]</tt>), depending on the Project Manager's instructions.") . "</p>\n";
-} else {
-    echo "<p>" . _("These may be proofread as macrons <tt>&#363;</tt>, tildes <tt>&#361;</tt>, or according to the meaning (i.e. <tt>u[n]</tt> or <tt>u[m]</tt>), depending on the Project Manager's instructions.") . "</p>\n";
-}
+echo "<p>" . _("These may be proofread as macrons <tt>&#363;</tt>, tildes <tt>&#361;</tt>, or according to the meaning (i.e. <tt>u[n]</tt> or <tt>u[m]</tt>), depending on the Project Manager's instructions.") . "</p>\n";
 
 echo "<h3>" . _("Blackletter") . "</h3>\n";
 echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blackletter</i>.  If you have trouble reading it, see the wiki article on <a href='%2\$s' target='_blank'>Proofing blackletter</a> for images of the alphabet in that font."),

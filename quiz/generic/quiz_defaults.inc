@@ -58,47 +58,21 @@ $messages["P_commascanno"] = array(
     "message_body" => _("There is still a 'scanno': a period (<tt>.</tt>) in the text where there is a comma (<tt>,</tt>) in the image."),
 );
 
-if(!$utf8_site)
-{
-    $messages["P_accentbracket"] = array(
-        "message_title" => _("Accent"),
-        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the drop-down menus below, labelled \"A\" \"E\" \"I\" \"O\" \"U\" \"+\".  Only use brackets, such as <tt>['n]</tt>, when it is not available as a single character."),
-        "guideline" => "a_chars"
-    );
-    $messages["P_oe"] = array(
-        "message_title" => _("Ligature"),
-        "message_body" => _("Proofread the 'oe' ligature (&oelig;) using brackets: <tt>[oe]</tt>."),
-        "guideline" => "a_chars"
-    );
-    $messages["P_macron"] = array(
-        "message_title" => _("Macron"),
-        "message_body" => _("Following the proofreading guidelines, you would proofread an '<tt>a</tt>' with a macron (straight line) over it as <tt>[=a]</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>[=e]</tt>, and so forth."),
-        "guideline" => "d_chars"
-    );
-    $messages["P_macron2"] = array(
-        "message_title" => _("Macron"),
-        "message_body" => _("A letter in the text has a macron (horizontal line) over it.  Following the proofreading guidelines, you would proofread an '<tt>a</tt>' with a macron (straight line) over it as <tt>[=a]</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>[=e]</tt>, and so forth."),
-        "guideline" => "d_chars"
-    );
-}
-else
-{
-    $messages["P_accentbracket"] = array(
-        "message_title" => _("Accent"),
-        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the drop-down menus below, labelled \"A\" \"E\" \"I\" \"O\" \"U\" \"+\"."),
-        "guideline" => "a_chars"
-    );
-    $messages["P_oe"] = array(
-        "message_title" => _("Ligature"),
-        "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <tt>oe</tt> or <tt>[oe]</tt>.  You can insert the symbol using the \"O\" drop-down menu below."),
-        "guideline" => "a_chars"
-    );
-    $messages["P_macron"] = array(
-        "message_title" => _("Macron"),
-        "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>&#275</tt>, and so forth."),
-        "guideline" => "d_chars"
-    );
-}
+$messages["P_accentbracket"] = array(
+    "message_title" => _("Accent"),
+    "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the drop-down menus below, labelled \"A\" \"E\" \"I\" \"O\" \"U\" \"+\"."),
+    "guideline" => "a_chars"
+);
+$messages["P_oe"] = array(
+    "message_title" => _("Ligature"),
+    "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <tt>oe</tt> or <tt>[oe]</tt>.  You can insert the symbol using the \"O\" drop-down menu below."),
+    "guideline" => "a_chars"
+);
+$messages["P_macron"] = array(
+    "message_title" => _("Macron"),
+    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>&#275</tt>, and so forth."),
+    "guideline" => "d_chars"
+);
 
 $messages["P_aebracket"] = array(
     "message_title" => _("Ligature"),
