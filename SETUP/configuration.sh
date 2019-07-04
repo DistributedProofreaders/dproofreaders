@@ -457,11 +457,6 @@ _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
 # can see those columns. (This was the hard-coded behavior in R200609 and
 # earlier.)
 
-_CHARSET='ISO-8859-1'
-# The charset used by the site, which is applied to all relevant pages on the
-# site. Note that changing this to UTF-8 will *not* automatically make the
-# site UTF-8 compatible. Changing this may have wide-reaching implications.
-
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale
 
