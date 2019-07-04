@@ -312,17 +312,10 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
    which use reversed guillemets,&nbsp; <tt>&raquo;like this&laquo;</tt>.
 </p>
 <p>The quotation marks used in some texts (in German or other languages)&nbsp; <tt>&bdquo;like this&ldquo;</tt>&nbsp;
-<?php if(!$utf8_site) { ?>
-   are not available in the pulldown menus, as they are not in Latin-1. They are often
-   converted into guillemets&nbsp; <tt>&raquo;like this&laquo;</tt>&nbsp; (or&nbsp; <tt>&laquo;like this&raquo;</tt>&nbsp; for languages
-   that use the quotes&nbsp; <tt>&ldquo;this way&bdquo;</tt>), but be sure to check the <a href="#comments">Project Comments</a>
-   in case the Project Manager has given different instructions.
-<?php } else { ?>
    are also available in the pulldown menus; for the sake of simplicity, you should always
    use&nbsp; <tt>&bdquo;</tt>&nbsp; and&nbsp; <tt>&ldquo;</tt>&nbsp; regardless of the actual quotes used in the original
    text, as long as the quotes used in the original text are clearly lower and upper. If needed,
    the quotes will be changed to ones used in the text in post-processing.
-<?php } ?>
 </p>
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
    to proofread non-English language quotation marks differently for a particular book.
@@ -783,29 +776,11 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Please proofread these using the proper symbols or accented characters to match
-   the image, where possible, including the use or non-use of accents.
-   We can only use Latin-1 characters during proofreading; if you aren't sure
-   if a character is in the Latin-1 character set, check the <a href="#insert_char">tables below</a>.
-<?php } else { ?>
 <p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
    the Project Manager's instructions in the <a href="#comments">Project Comments</a>.
-<?php } ?>
    If they are not on your keyboard, see <a href="#insert_char">Inserting Special Characters</a>
    for information on how to input these characters during proofreading.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>The &oelig; character (oe ligature) is not in Latin-1, so we mark it with brackets like
-   in <tt>man[oe]uvre</tt>, or <tt>[OE]dipus</tt> for the capital &OElig;. Note that the &aelig; character
-   (ae ligature, as in <tt>encyclop&aelig;dia</tt>) is in Latin-1, so that character should be inserted directly.
-</p>
-<p>For other characters outside of Latin-1, see <a href="#d_chars">Diacritical marks</a> for how to
-   proofread accents or other marks above or below Latin letters. For characters that are not
-   addressed in these guidelines, see the Project Manager's instructions in the
-   <a href="#comments">Project Comments</a>.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
@@ -814,7 +789,6 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p>In some projects, you will find characters with special marks either above or below
    the normal Latin A...Z character. These are called <i>diacritical marks</i>, and
    indicate a special pronunciation for this character.
-<?php if($utf8_site) { ?>
 </p>
 <p>If such a character does not exist in Unicode, it should be entered by using
    <i>combining diacritical marks</i>: these are Unicode symbols which can't
@@ -830,106 +804,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
    Note that <i>Spacing modifier letters</i> also exist; these
    should not be used.
 </p>
-<?php } else { ?>
-   For proofreading, we indicate them in the text by using a
-   specific coding, such as: <span style="font-size:110%;">&#259;</span> becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
-   above an a, or <tt>[a)]</tt> for a breve below. Be sure to include the square
-   brackets (<tt>[&nbsp;]</tt>). In the rare case when a diacritic is over two
-   letters, include both letters in the brackets.
-</p>
-<p>The post-processor will eventually replace these with
-   whatever symbol works in each version of the text produced, such as 7-bit ASCII,
-   8-bit, Unicode, html, etc.
-</p>
-<p>Note that when some of these marks appear on some characters (mainly vowels) our standard
-   Latin-1 character set already includes that character with the diacritical mark. <b>In those
-   cases, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
-   character picker in the proofreading interface.</b>
-</p>
 <!-- END RR -->
-
-<p>In the table below, the "x" represents a letter with a diacritical mark.
-   When proofreading, use the actual character from the text, not the <tt>x</tt> shown in the examples.
-</p>
-
-<!--
-  diacritical mark           above  below
-macron (straight line)       [=x]   [x=]
-2 dots (dieresis or umlaut)  [:x]   [x:]
-1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x']
-acute (aigu) accent          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-shaped symbol)      [vx]   [xv]
-breve (u-shaped symbol)      [)x]   [x)]
-tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Proofreading Symbols for Diacritical Marks</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>diacritical mark</th>
-      <th>sample</th>
-      <th style="padding-left:4; padding-right:4;">above</th>
-      <th style="padding-left:4; padding-right:4;">below</th>
-    </tr>
-    <tr><td>macron (straight line)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 dots (dieresis, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 dot</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>grave accent</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>acute accent (aigu)</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circumflex</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>caron (v-shaped symbol)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (u-shaped symbol)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cedilla</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
@@ -938,47 +813,6 @@ cedilla                      [,x]   [x,]
    other than the Latin A...Z&mdash;for example, Greek, Cyrillic (used in
    Russian, Slavic, and other languages), Hebrew, or Arabic characters.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>For Greek, you should attempt a transliteration. Transliteration involves converting
-   each character of the foreign text into the equivalent Latin letter(s). A Greek
-   transliteration tool is provided in the proofreading interface to make this task much easier.
-</p>
-<p>Press the "Greek Transliterator" button near the bottom of the proofreading interface to open the tool.
-   In the tool, click on the Greek characters that match the word or phrase you are transliterating,
-   and the appropriate Latin-1 characters will appear in the text box. When you are done,
-   simply cut and paste this transliterated text into the page you are proofreading.
-   Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>.
-   For example, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>If you are uncertain about your transliteration, mark it with <tt>**</tt> to bring it to
-   the attention of the next proofreader or the post-processor.
-</p>
-<p>For other alphabets that cannot be so easily transliterated, such as Cyrillic,
-   Hebrew, or Arabic, replace the non-Latin characters or OCR garbage
-   with the appropriate mark: <tt>[Cyrillic:&nbsp;**]</tt>,
-   <tt>[Hebrew:&nbsp;**]</tt>, or <tt>[Arabic:&nbsp;**]</tt>.
-   Include the <tt>**</tt> so the post-processor can address it later.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Greek: See the <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki page,
-      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> from
-      Project Gutenberg, or the "Greek Transliterator" pop-up tool in the proofreading interface.
-  </li>
-  <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
-      you attempt a transliteration if you are fluent in a language that uses it. Otherwise, just mark
-      it as indicated above.
-  </li>
-  <li>Hebrew and Arabic:
-      Not recommended unless you are fluent. There are significant
-      difficulties transliterating these languages and neither Distributed
-      Proofreaders nor <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
-      have yet chosen a standard method.
-  </li>
-</ul>
-<?php } else { ?>
 <p>These characters should be entered in the text just as Latin characters are.
    (<b>WITHOUT transliteration!</b>)
 </p>
@@ -996,7 +830,7 @@ cedilla                      [,x]   [x,]
    with the appropriate mark: <tt>[Arabic:&nbsp;**]</tt>.
    Include the <tt>**</tt> so the post-processor can address it later.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
@@ -2129,9 +1963,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>The pull-down menus in the proofreading interface.</li>
   <li>Applets included with your operating system. 
-<?php if(!$utf8_site) { ?>
-If you use one of these, be sure to insert only Latin-1 characters (those listed in the charts below).
-<?php } ?>
     <ul compact>
       <li>Windows: "Character Map"<br> Access it through:<br>
           Start: Run: charmap, or<br>
