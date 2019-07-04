@@ -12,12 +12,7 @@ echo "<table border='1' cellspacing='0' cellpadding='5'>\n<tr><th>&oelig;</th><t
 echo "<tr><td><img src='../generic/images/oelig_ital.png' alt='oe ligature' width='33' height='30'></td>\n";
 echo "<td><img src='../generic/images/aelig_ital_teardrop.png' alt='ae ligature' width='34' height='32'></td>\n</tr></table>\n";
 
-if(!$utf8_site)
-{
-    echo "<p>" . _("The &aelig; ligature is in Latin-1 (the character set that we use for proofreading), so we normally proofread it using the symbol directly.  On the other hand, the &oelig; ligature is not, so we proofread it with brackets like this: <tt>[oe]</tt>") . "</p>\n";
-} else {
-    echo "<p>" . sprintf(_("You can insert each of these characters using the character picker in the proofreading interface or using keyboard shortcuts. Tables for <a href='%1\$s' target='_blank'>Windows</a> and <a href='%2\$s' target='_blank'>Macintosh</a> which list these shortcuts are in the Proofreading Guidelines."), "../../faq/proofreading_guidelines.php#a_chars_win", "../../faq/proofreading_guidelines.php#a_chars_mac") . "</p>\n";
-}
+echo "<p>" . sprintf(_("You can insert each of these characters using the character picker in the proofreading interface or using keyboard shortcuts. Tables for <a href='%1\$s' target='_blank'>Windows</a> and <a href='%2\$s' target='_blank'>Macintosh</a> which list these shortcuts are in the Proofreading Guidelines."), "../../faq/proofreading_guidelines.php#a_chars_win", "../../faq/proofreading_guidelines.php#a_chars_mac") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_aeoe_1'>" . _("Continue to quiz") . "</a></p>\n";
 

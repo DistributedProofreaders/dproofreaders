@@ -7,12 +7,7 @@ output_header(_('Moderate Proofreading Tutorial'));
 
 echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 3) . "</h2>\n";
 echo "<h3>" . _("Accented/Non-ASCII Characters") . "</h3>\n";
-if(!$utf8_site)
-{
-    echo "<p>" . _("Please proofread these using the proper symbols or accented characters to match the image, where possible, including the use or non-use of accents. ") . "</p>\n";
-} else {
-    echo "<p>" . _("Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see the Project Manager's instructions in the Project Comments.") . "</p>\n";
-}
+echo "<p>" . _("Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see the Project Manager's instructions in the Project Comments.") . "</p>\n";
 
 echo "<h3>" . _("Inserting Special Characters") . "</h3>\n";
 echo "<p>" . _("If they are not on your keyboard, there are several ways to input special characters:") . "</p>\n";

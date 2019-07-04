@@ -523,9 +523,7 @@ function qp_describe_difference($user_text, $soln_text)
                     if ($line == '')
                         echo "<i>(" . _('a blank line') . ")</i>";
                     else
-                        echo html_safe(
-                            qp_convert_from_utf8_if_necessary($line)
-                        );
+                        echo html_safe($line);
                     echo "\n";
                 }
                 echo "</pre>\n";
@@ -561,24 +559,6 @@ function qp_describe_difference($user_text, $soln_text)
     // We've gone through all lines of both texts
     // without finding a difference, which can't happen.
     assert(FALSE);
-}
-
-function qp_convert_from_utf8_if_necessary($text)
-// $text is encoded in UTF-8.
-// (See the 'Note on Character Encodings' in returnfeed.php.)
-// If the site's encoding is also UTF-8, simply return the $text.
-// Otherwise, convert $text according to $charset and return the result.
-{
-    global $charset, $utf8_site;
-
-    if (!$utf8_site)
-    {
-        return iconv('UTF-8', $charset, $text);
-    }
-    else
-    {
-        return $text;
-    }
 }
 
 // =============================================================================

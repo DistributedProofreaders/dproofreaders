@@ -24,10 +24,6 @@ echo "  </tr>\n";
 echo "</table>\n";
 
 echo "<p>" . _("The loop of the capital thorn is normally larger, and the stem may not drop down as far below the line as the lower case.");
-if(!$utf8_site)
-{
-    echo " " . sprintf(_("The capital and lower case thorns, &THORN; and &thorn;, are available in Latin-1 (the character set used at %s), so we can use these symbols directly when proofreading."), $site_abbreviation);
-}
 echo " " . _("You can insert them using the character picker at the bottom of the Proofreading Interface.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz") . "</a></p>\n";
