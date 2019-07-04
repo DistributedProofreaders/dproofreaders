@@ -360,23 +360,12 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 </p>
 <p>Die in manchen Texten (in Deutsch oder anderen Sprachen) benutzten
    Anf&uuml;hrungszeichen&nbsp; <tt>&bdquo;wie diese&ldquo;</tt>&nbsp;
-<?php if(!$utf8_site) { ?>
-   sind nicht in den Pulldown-Men&uuml;s verf&uuml;gbar, weil
-   sie nicht zum Latin-1-Zeichensatz geh&ouml;ren. Sie werden oft in
-   Guillemets&nbsp; <tt>&raquo;wie hier&laquo;</tt>&nbsp; umgewandelt
-   (oder&nbsp; <tt>&laquo;wie hier&raquo;</tt>&nbsp; f&uuml;r Sprachen,
-   die Anf&uuml;hrungszeichen&nbsp <tt>&ldquo;dieser Art&bdquo;</tt>; verwenden),
-   aber lesen Sie unbedingt die <a href="#comments">Projektkommentare</a>,
-   f&uuml;r den Fall, dass der Projektmanager abweichende Anweisungen gegeben
-   hat. In diesem Fall folgen Sie den Anweisungen in den Projektkommentaren.
-<?php } else { ?>
    sind auch in den Pulldown-Men&uuml;s enthalten. Der Einfachheit
    halber sollten Sie immer&nbsp; <tt>&bdquo;</tt>&nbsp; und&nbsp; <tt>&ldquo;</tt>&nbsp;
    benutzen, egal welche Anf&uuml;hrungszeichen im Originaltext benutzt
    werden, solange diese deutlich erkennbar untere und obere sind. Falls
    erforderlich, werden die Anf&uuml;hrungszeichen in der Nachbearbeitung
    ge&auml;ndert.
-<?php } ?>
 </p>
 <p>Unter Umst&auml;nden weist Sie der Projektmanager in den
    <a href="#comments">Projektkommentaren</a> an, nicht-englische
@@ -894,38 +883,14 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Akzente und nicht-ASCII-Zeichen</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Bitte lesen Sie diese Korrektur, indem Sie die dem Original
-   entsprechenden Symbole oder Buchstaben verwenden, soweit
-   m&ouml;glich einschlie&szlig;lich der Akzente. Wir k&ouml;nnen
-   beim Korrekturlesen nur Latin-1-Buchstaben verwenden. Wenn Sie
-   nicht sicher sind, ob ein Zeichen dazu geh&ouml;rt, sehen
-   Sie in der <a href="#insert_char">Tabelle unten</a> nach.
-<?php } else { ?>
 <p>Bitte lesen Sie diese Korrektur, indem Sie die richtigen UTF-8
    Zeichen verwenden. F&uuml;r Zeichen, die nicht in Unicode enthalten sind,
    siehe die Anweisungen der Projekt-Managers in den
    <a href="#comments">Projektkommentaren</a>.
-<?php } ?>
    Wenn Zeichen nicht auf Ihrer Tastatur sind, lesen Sie <a href="#insert_char">
    Eingabe spezieller Zeichen</a> mit Informationen dar&uuml;ber,
    wie diese Zeichen beim Korrekturlesen eingegeben werden.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>Der &oelig; Buchstabe (oe-Ligatur) ist nicht in Latin-1, deshalb
-   markieren wir ihn mit eckigen Klammern wie in <tt>man[oe]uvre</tt>
-   oder <tt>[OE]dipus</tt> f&uuml;r den Gro&szlig;buchstaben &OElig;.
-   Beachten Sie, dass der &aelig; Buchstabe (wie in <tt>encyclop&aelig;dia</tt>)
-   in Latin-1 ist, also direkt eingegeben werden sollte.
-</p>
-<p>F&uuml;r andere Zeichen au&szlig;erhalb von Latin-1 siehe
-   <a href="#d_chars">Diakritische Zeichen</a> dazu, wie Akzente
-   oder andere Markierungen &uuml;ber oder unter lateinischen
-   Buchstaben eingegeben werden. F&uuml;r Zeichen, die in diesen
-   Richtlinien nicht behandelt werden, lesen Sie die Anweisungen des
-   Projektmanagers in den <a href="#comments">Projektkommentaren</a>.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
@@ -935,7 +900,6 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    &uuml;ber oder unter dem normalen lateinischen Buchstaben A ... Z.
    Sie werden <i>diakritische Zeichen</i> genannt und weisen auf eine
    spezielle Aussprache dieses Buchstabens hin.
-<?php if($utf8_site) { ?>
 </p>
 <p>Wenn ein solches Zeichen in Unicode nicht existiert, geben Sie es
    mittels <i>kombinierender diakritischer Zeichen</i> ein. Das sind
@@ -955,114 +919,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    letters&ldquo; (Zeichen, die wie Buchstaben eigenen Platz beanspruchen)
    gibt; diese sollten nicht benutzt werden.
 </p>
-<?php } else { ?>
-   Beim Korrekturlesen deuten wir sie in unserem normalen ASCII-Text mit
-   einer speziellen Kodierung an, wie: <span style="font-size:110%;">&#259;</span> wird zu <tt>[)a]</tt>
-   f&uuml;r einen Brevis (den u-f&ouml;rmigen Akzent) &uuml;ber dem a
-   oder <tt>[a)]</tt> f&uuml;r einen Brevis unter dem Buchstaben.
-   Vergessen Sie nicht die eckigen Klammern (<tt>[&nbsp;]</tt>) rund
-   um diese Zeichenkombination. In den seltenen F&auml;llen, in denen
-   ein diakritisches Zeichen &uuml;ber zwei Buchstaben steht, schlie&szlig;en
-   Sie beide Buchstaben in die eckigen Klammern ein.
-</p>
-<p>Bei der Nachbearbeitung
-   wird es dann durch ein Zeichen ersetzt, das in der endg&uuml;ltigen
-   Textversion (7-bit-ASCII, 8-bit, Unicode, html usw.) m&ouml;glich ist.
-</p>
-<p>Beachten Sie auch, dass es einige Buchstaben mit diakritischen Zeichen
-   (vor allem die Vokale) bereits in unserem Standard-Latin-1-Zeichensatz
-   gibt. <b>Verwenden Sie in diesem Falle das Latin-1-Zeichen
-   (siehe <a href="#a_chars">hier</a>), das Sie zum Beispiel &uuml;ber
-   die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che
-   aufrufen k&ouml;nnen.</b>
-</p>
 <!-- END RR -->
-
-<p>In der folgenden Tabelle
-   steht &bdquo;x&ldquo; f&uuml;r einen beliebigen Buchstaben,
-   der ein diakritisches Zeichen erh&auml;lt.<br>Beim Korrigieren
-   verwenden Sie das jeweilige Zeichen aus dem Text anstelle des im
-   Beispiel verwendeten <tt>x</tt>.
-</p>
-
-<!--
-  diacritical mark           above  below
-macron (straight line)       [=x]   [x=]
-2 dots (dieresis or umlaut)  [:x]   [x:]
-1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x']
-acute (aigu) accent          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-shaped symbol)      [vx]   [xv]
-breve (u-shaped symbol)      [)x]   [x)]
-tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Symbole zum Korrekturlesen von diakritischen Zeichen</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>Diakritisches Zeichen</th>
-      <th>Beispiel</th>
-      <th style="padding-left:4; padding-right:4;">&Uuml;ber</th>
-      <th style="padding-left:4; padding-right:4;">Unter</th>
-    </tr>
-    <tr><td>Makron (Querstrich)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 Punkte (Trema, Umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 Punkt</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>Gravis</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>Akut (aigu)</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>Zirkumflex</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>Hatschek (v-f&ouml;rmiges Symbol)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>Brevis (u-f&ouml;rmiges Symbol)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>Tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>Cedille</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
@@ -1072,61 +929,6 @@ cedilla                      [,x]   [x,]
    beispielsweise griechische, kyrillische (verwendet in Russisch,
    Slawisch und anderen Sprachen), hebr&auml;ische oder arabische Buchstaben.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Bei griechischen Buchstaben sollten Sie eine Transliteration
-   versuchen. Dabei wird jeder Buchstabe des fremden Alphabets in
-   den/die betreffenden lateinischen Buchstaben &uuml;bertragen.
-   Ein Tool, das die griechische Transliteration erleichtert, k&ouml;nnen
-   Sie aus der Korrekturlese-Oberfl&auml;che aufrufen.
-</p>
-<p>Klicken Sie dazu auf die Schaltfl&auml;che
-   &sbquo;Greek-Transliterator&lsquo; im unteren Bereich der
-   Korrekturlese-Oberfl&auml;che. W&auml;hlen Sie dann mit der Maus
-   die ben&ouml;tigten griechischen Buchstaben aus. Die entsprechenden
-   Latin-1-Zeichen werden im Textfeld eingef&uuml;gt. Wenn Sie
-   fertig sind, &uuml;bernehmen Sie den transliterierten Text mit
-   &bdquo;Ausschneiden &amp; Einf&uuml;gen&ldquo; in die aktuelle
-   Buchseite. Umschlie&szlig;en Sie den transliterierten Text noch mit
-   der Griechisch-Markierung <tt>[Greek:&nbsp;</tt> und <tt>]</tt>.
-   So wird zum Beispiel <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   in der Transliteration zu <tt>[Greek: Biblos]</tt>
-   (&bdquo;Buch&ldquo; &ndash; ein passendes Beispiel f&uuml;r <?php echo "$site_abbreviation"; ?>!).
-</p>
-<p>Wenn Sie sich Ihrer Transliteration nicht sicher sind, markieren Sie
-   diese mit <tt>**</tt>, damit die Korrekturleser in den
-   sp&auml;teren Runden und der Nachbearbeiter darauf aufmerksam werden.
-</p>
-<p>Andere Schriften, die nicht so leicht transliteriert werden k&ouml;nnen
-   wie etwa Kyrillisch, Hebr&auml;isch oder Arabisch, kennzeichnen Sie
-   einfach mit der entsprechenden Markierung <tt>[Cyrillic:&nbsp;**]</tt>,
-   <tt>[Hebrew:&nbsp;**]</tt> oder <tt>[Arabic:&nbsp;**]</tt>. Den
-   Text lassen Sie so stehen, wie er gescannt wurde. Vergessen Sie dabei
-   nicht die <tt>**</tt>, damit der Nachbearbeiter den
-   Text leichter finden und bearbeiten kann.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Griechisch: Hierbei hilft das
-      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (des
-      Project Gutenberg) und das Popup-Tool &sbquo;Greek Transliterator&lsquo;
-      der Korrekturlese-Oberfl&auml;che.
-  </li>
-  <li>Kyrillisch: Es gibt zwar eine Standard-Transliteration f&uuml;r
-      kyrillische Zeichen, aber Sie sollten sich nur daran versuchen,
-      wenn Sie die entsprechende Sprache in kyrillischer Schrift gut
-      beherrschen und flie&szlig;end sprechen. Andernfalls setzen Sie
-      einfach eine Markierung wie oben beschrieben.
-  </li>
-  <li>Hebr&auml;isch und Arabisch: Eine Bearbeitung ist nur sinnvoll,
-      wenn Sie die Sprache flie&szlig;end sprechen. Es gibt einige
-      prinzipielle Probleme bei der Transliteration, und weder
-      Distributed Proofreaders noch
-      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
-      haben bisher eine Standardmethode festgelegt.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Diese Zeichen sollten in den Text eingegeben werden wie lateinische
    Buchstaben (<b>OHNE Transliteration!</b>).
 </p>
@@ -1150,7 +952,7 @@ cedilla                      [,x]   [x,]
    Schlie&szlig;en Sie die <tt>**</tt> ein, damit der Nachbearbeiter
    den Text sp&auml;ter leichter finden und bearbeiten kann.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
@@ -2426,10 +2228,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>Die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che.</li>
   <li>Applets, die im Betriebssystem Ihres Computers enthalten sind.
-<?php if(!$utf8_site) { ?>
-Wenn Sie diese benutzen, dann sichern Sie ab, dass Sie nur Latin-1 Zeichen eingeben,
-wie sie in den Tabellen weiter unten aufgelistet sind.
-<?php } ?>
     <ul compact>
       <li>Windows: &sbquo;Zeichentabelle&lsquo;<br> Zugriff haben Sie mit:<br>
           Start -&gt;Ausf&uuml;hren-&gt; charmap bzw.<br>

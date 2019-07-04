@@ -351,22 +351,12 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 </p>
 <p>Le virgolette usate in alcuni testi (in Tedesco o altre lingue)&nbsp; <tt>&bdquo;come
    queste&ldquo;</tt>&nbsp;
-<?php if(!$utf8_site) { ?>
-   non sono disponibili nei men&ugrave; a discesa, poich&eacute; non
-   appartengono al Latin-1. Sono spesso convertite in guillemets&nbsp;
-   <tt>&raquo;come queste&laquo;</tt>&nbsp; (o&nbsp; <tt>&laquo;come
-   queste&raquo;</tt>&nbsp; per le lingue che usano le virgolette&nbsp;
-   <tt>&ldquo;cos&igrave;&bdquo;</tt>), ma assicurati di aver controllato i
-   <a href="#comments">Project Comments</a> (Commenti al progetto)
-   nel caso in cui il Project Manager abbia dato istruzioni diverse.
-<?php } else { ?>
    sono anche disponibili nei men&ugrave; a discesa; per semplicit&agrave;,
    dovresti sempre usare&nbsp; <tt>&bdquo;</tt>&nbsp; e&nbsp; <tt>&ldquo;</tt>&nbsp;
    indipendentemente dalle virgolette effettivamente usate nel testo originale, se
    le virgolette usate nel testo originale sono chiaramente basse e alte. Se
    necessario, le virgolette saranno sostituite con quelle effettivamente usate
    nel testo in post-correzione.
-<?php } ?>
 </p>
 <p>Nei <a href="#comments">Project Comments</a> (Commenti al Progetto) il
    Project Manager potrebbe darti istruzioni di rendere le virgolette di lingue
@@ -861,35 +851,13 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Caratteri accentati/non-ASCII</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Per favore correggi questi caratteri usando i simboli appropriati o i
-   caratteri accentati che corrispondono all'immagine, dove possibile, incluso
-   l'uso o il non-uso di accenti.
-   Possiamo usare solo caratteri Latin-1 durante la correzione; se non sei sicuro
-   se il carattere &egrave; nella codifica Latin-1, controlla le
-   <a href="#insert_char">tabelle seguenti</a>.
-<?php } else { ?>
 <p>Correggi questi caratteri usando il corrispondente carattere UTF-8. Per caratteri
    che non sono in Unicode, vedi le istruzioni del Project Manager nei
    <a href="#comments">Project Comments</a> (Commenti al progetto).
-<?php } ?>
    Se non appartengono alla tua tastiera, vedi <a href="#insert_char">Inserimento
    dei caratteri speciali</a> per informazioni su come inserire questi caratteri
    nella correzione.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>Il carattere &oelig; (legatura oe) non &egrave; in Latin-1, cos&igrave; lo
-   indichiamo in parentesi quadre come in <tt>man[oe]uvre</tt>, o <tt>[OE]dipus</tt>
-   per &OElig; maiuscolo. Nota che il carattere &aelig; (legatura ae, come in
-   <tt>encyclop&aelig;dia</tt>) appartiene al Latin-1, quindi il carattere deve
-   essere inserito direttamente.
-</p>
-<p>Per altri caratteri all'infuori del Latin-1, vedi <a href="#d_chars">Segni Diacritici</a>
-   per come correggere gli accenti e altri segni sotto o sopra le lettere Latine.
-   Per caratteri che non sono presenti in questa guida, vedi le istruzioni del Project
-   Manager nei <a href="#comments">Project Comments</a> (Commenti al progetto).
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
@@ -898,7 +866,6 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 <p>In alcuni progetti, troverai caratteri con segni speciali sotto o sopra
    il normale carattere latino A...Z. Questi segni sono detti <i>segni diacritici</i>, e
    indicano una pronuncia speciale per questo carattere.
-<?php if($utf8_site) { ?>
 </p>
 <p>Se questo tipo di carattere non esiste in Unicode, deve essere inserito usando
    <i>segni diacritici combinati</i>: questi sono simboli Unicode che non possono
@@ -915,109 +882,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
    Nota che esistono anche le <i>Spacing modifier letters</i>; queste
    non dovrebbero essere usati.
 </p>
-<?php } else { ?>
-   Per la correzione, li indichiamo nel testo usando una simbologia speciale,
-   per esempio: <span style="font-size:110%;">&#259;</span> diventa <tt>[)a]</tt>
-   per una breve (l'accento a forma di u) sopra una a, o <tt>[a)]</tt> per una
-   breve sotto. Assicurati di includere le lettere in parentesi
-   quadre (<tt>[&nbsp;]</tt>). Nei rari casi in cui un diacritico sia sopra due
-   lettere, includile entrambe nelle parentesi quadre.
-</p>
-<p>Il post-correttore eventualmente sostituir&agrave; questa notazione con
-   un simbolo che possa andare bene in ogni versione prodotta del testo,
-   come 7-bit ASCII, 8-bit, Unicode, html, ecc.
-</p>
-<p>Nota che quando alcuni di questi segni appaiono su qualche carattere
-   (soprattutto le vocali) la nostra codifica standard Latin-1 gi&agrave;
-   include questi caratteri con il segno diacritico. <b>In questi casi,
-   usa il carattere Latin-1 (vedi <a href="#a_chars">qui</a>), disponibile dai
-   men&ugrave; a discesa nell'interfaccia di correzione.</b>
-</p>
 <!-- END RR -->
-
-<p>Nella tabella sottostante, la "x" rappresenta una lettera con un segno
-   diacritico. Durante la correzione, usa il carattere del testo, non la
-   <tt>x</tt> mostrata negli esempi.
-</p>
-
-<!--
-  segno diacritico                 sopra  sotto
-macron (trattino alto)             [=x]   [x=]
-2 punti (dieresi o umlaut)         [:x]   [x:]
-1 punto                            [.x]   [x.]
-accento grave                      ['x]   [x']
-accento acuto                      [`x]   [x`]
-circonflesso                       [^x]   [x^]
-antiflesso (simbolo a forma di v)  [vx]   [xv]
-breve (simbolo a forma di u)       [)x]   [x)]
-tilde                              [~x]   [x~]
-cediglia                           [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Simboli di Correzione per i Segni Diacritici</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>segno diacritico</th>
-      <th>esempio</th>
-      <th style="padding-left:4; padding-right:4;">sopra</th>
-      <th style="padding-left:4; padding-right:4;">sotto</th>
-    </tr>
-    <tr><td>macron (trattino alto)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 punti (dieresis, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 punto</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>accento grave</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>accento acuto</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circonflesso</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>antiflesso (simbolo a forma di v)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (simbolo a forma di u)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cediglia</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
 
@@ -1026,53 +891,6 @@ cediglia                           [,x]   [x,]
    caratteri diversi dai Latini A...Z&mdash;per esempio, caratteri Greci, Cirillici
    (usati in Russo, Slavo, e altre lingue), Ebraici, o Arabi.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Per il Greco, devi tentare una traslitterazione. La traslitterazione consiste
-   nel convertire ogni carattere del testo straniero nelle equivalenti lettere latine.
-   Un'utilit&agrave; di traslitterazione dal Greco viene proposta nell'interfaccia di
-   correzione per rendere questo compito pi&ugrave; semplice.
-</p>
-<p>Clicca sul bottone "Greek Transliterator" in basso nell'interfaccia di correzione
-   per aprire l'utilit&agrave;. Nella finestra dell'utilit&agrave;, clicca i caratteri
-   greci che coincidono con quelli della parola o frase che stai traslitterando,
-   e nella finestra di testo appariranno i caratteri in Latin-1 corrispondenti.
-   Quando hai finito, copia ed incolla il testo traslitterato nella pagina che stai
-   correggendo. Metti attorno al testo i marcatori del Greco <tt>[Greek:&nbsp;</tt>
-   e <tt>]</tt>. Per esempio, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   diventa <tt>[Greek: Biblos]</tt>. ("Libro"&mdash;cos&igrave; appropriato
-   per <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>Se non sei sicuro della tua traslitterazione, segnalalo con <tt>**</tt> per
-   portarlo all'attenzione del prossimo correttore o del post-correttore.
-</p>
-<p>Per gli altri alfabeti che non possono essere facilmente traslitterati, come
-   il Cirillico, l'Ebraico o l'Arabo, sostituisci i caratteri non latini o quello
-   che ha riconosciuto l'OCR con il segno appropriato: <tt>[Cyrillic:&nbsp;**]</tt>,
-   <tt>[Hebrew:&nbsp;**]</tt>, o <tt>[Arabic:&nbsp;**]</tt>.
-   Includi gli <tt>**</tt> in modo che il post-correttore possa trattarli
-   pi&ugrave; avanti.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Greco: vedi la pagina della wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating
-      Greek</a>, <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> da
-      Project Gutenberg, o l'utilit&agrave; "Greek Transliterator" dell'interfaccia di
-      correzione.
-  </li>
-  <li>Cirillico: Nonostante uno schema di traslitterazione standard esista per
-      il cirillico, ti raccomandiamo di tentare una traslitterazione se sei
-      fluente nella lingua che lo usa. Altrimenti, segnalalo semplicemente
-      come indicato sopra.
-  </li>
-  <li>Ebraico e Arabo:
-      Non raccomandato a meno che tu sia fluente. Ci sono difficolt&agrave;
-      significative nel traslitterare queste lingue e n&eacute; Distributed
-      Proofreaders n&eacute; <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
-      hanno ancora scelto un metodo standard.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Questi caratteri devono essere inseriti nel testo proprio come vengono inseriti
    i caratteri latini. (<b>SENZA traslitterazione!</b>)
 </p>
@@ -1091,7 +909,7 @@ cediglia                           [,x]   [x,]
    con la marcatura appropriata: <tt>[Arabic:&nbsp;**]</tt>.
    Includi <tt>**</tt> affinch&eacute; il post-correttore possa occuparsene dopo.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
 
@@ -2293,10 +2111,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>I menu a discesa nell'interfaccia di correzione.</li>
   <li>Gli Applets inclusi nel tuo sistema operativo.
-<?php if(!$utf8_site) { ?>
-Se usi uno di questi, assicurati di inserire solo i caratteri del Latin-1
-(quelli elencati nelle tabelle sottostanti).
-<?php } ?>
     <ul compact>
       <li>Windows: "Mappa dei Caratteri"<br> Accedi attraverso:<br>
           Avvio: Esegui: charmap, o<br>
