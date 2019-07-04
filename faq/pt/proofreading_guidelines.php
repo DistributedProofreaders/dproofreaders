@@ -365,20 +365,11 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    em que se utilizam aspas inversas, <tt>&raquo;como estas&laquo;</tt>.
 </p>
 <p>As aspas utilizadas em alguns textos (em alem&atilde;o e outros idiomas),&nbsp; <tt>&bdquo;como estas&rdquo;</tt>
-<?php if(!$utf8_site) { ?>
-   n&atilde;o est&atilde;o dispon&iacute;veis nos menus nem fazem parte do Latin-1.
-   Frequentemente s&atilde;o convertidas em aspas&nbsp; <tt>&raquo;como
-   estas&laquo;</tt>&nbsp; (ou&nbsp; <tt>&laquo;como estas&raquo;</tt>&nbsp;
-   em idiomas que utilizem as aspas&nbsp; <tt>&ldquo;desta forma&bdquo;</tt>).
-   No entanto, verifique se o Gestor de Projecto deu instru&ccedil;&otilde;es
-   diferentes nos <a href="#comments">Coment&aacute;rios do Projecto</a>.
-<?php } else { ?>
    est&atilde;o tamb&eacute;m dispon&iacute;veis nos menus. Para simplificar,
    deve utilizar sempre&nbsp; <tt>&bdquo;</tt>&nbsp; e&nbsp; <tt>&ldquo;</tt>&nbsp;
    independentemente das aspas que surjam no texto original, desde que as
    aspas utilizadas no texto original estejam claramente em baixo e em cima. Se necess&aacute;rio,
    as aspas ser&atilde;o alteradas para as utilizadas no texto, na fase de p&oacute;s-processamento.
-<?php } ?>
 </p>
 <p>O Gestor de Projecto pode indicar-lhe, nos <a href="#comments">Coment&aacute;rios
    do Projecto</a>, que deve rever as aspas em textos de idioma n&atilde;o-ingl&ecirc;s
@@ -896,38 +887,13 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Por favor, reveja-os utilizando os s&iacute;mbolos ou caracteres acentuados
-   apropriados, correspondentes &agrave; imagem, inclu&iacute;ndo o uso ou
-   n&atilde;o da acentua&ccedil;&atilde;o, sempre que poss&iacute;vel.
-   Durante a revis&atilde;o, apenas podemos utlizar caracteres Latin-1.
-   Se n&atilde;o tiver a certeza se &eacute; um caracter Latin-1,
-   consulte as <a href="#insert_char">tabelas abaixo</a>.
-<?php } else { ?>
 <p>Por favor, reveja-os utilizando os caracteres UTF-8 apropriados. Para caracteres que n&atilde;o
    existam em Unicode, consulte as instru&ccedil;&otilde;es do Gestor de Projecto no
    <a href="#comments">Coment&aacute;rios do Projecto</a>.
-<?php } ?>
    Se n&atilde;o existirem no seu teclado, consulte a sec&ccedil;&atilde;o
    <a href="#insert_char">Inser&ccedil;&atilde;o de Caracteres Especiais</a>
    para mais informa&ccedil;&otilde;es sobre como os incluir na revis&atilde;o.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>O caracter &oelig; (ligadura oe) n&atilde;o &eacute; Latin-1, assim
-   sinalizamo-lo com os par&ecirc;nteses rectos, da seguinte forma:
-   <tt>man[oe]uvre</tt>, ou <tt>[OE]dipus</tt> no caso de letra
-   mai&uacute;scula em &OElig;. Se para que o caracter &aelig; (ligadura ae,
-   como em <tt>encyclop&aelig;dia</tt>) &eacute; Latin-1. Assim
-   este caracter deve ser inserido directamente.
-</p>
-<p>Para outros caracteres que sejam Latin-1, consulte a sec&ccedil;&atilde;o
-   <a href="#d_chars">Caracteres com Sinais Diacr&iacute;ticos</a> para
-   saber como rever acentua&ccedil;&otilde;es ou outros sinais acima ou abaixo das
-   letras Latin. Para caracteres que n&atilde;o constem nestas regras,
-   consulte as instru&ccedil;&otilde;es do Gestor de Projecto nos
-   <a href="#comments">Coment&aacute;rios do Projecto</a>.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
@@ -937,7 +903,6 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    especiais, acima ou abaixo dos caracteres latinos normais (A...Z). A
    estes d&aacute;-se o nome de <i>sinais diacr&iacute;ticos</i>.
    Eles atribuem uma pron&uacute;ncia especial a este caracter.
-<?php if($utf8_site) { ?>
 </p>
 <p>Se esse caracter n&atilde;o existir em Unicode, deve ser revisto de forma a utilizar
    os <i>sinais diacr&iacute;ticos correspondentes</i>: estes s&atilde;o s&iacute;mbolos Unicode que n&atilde;o
@@ -953,112 +918,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    que <i>Letras modificadoras de espa&ccedil;os</i> tamb&eacute;m existem;
    estas n&atilde;o devem ser utilizadas.
 </p>
-<?php } else { ?>
-   Para a revis&atilde;o, indicamo-los no texto ASCII utilizando uma
-   codifica&ccedil;&atilde;o espec&iacute;fica. Por exemplo:
-   <span style="font-size:110%;">&#259;</span> transforma-se em <tt>[)a]</tt>
-   para sinalizar acentos em forma de "u" em cima de um a, ou <tt>[a)]</tt>
-   por baixo de um a. Certifique-se que coloca estes caracteres entre
-   par&ecirc;nteses rectos (<tt>[&nbsp;]</tt>). Nos casos raros em que
-   o sinal diacr&iacute;tico se encontra sobre duas letras, inclua-as nos
-   par&ecirc;nteses rectos.
-</p>
-<p>O p&oacute;s-processador ir&aacute; eventualmente
-   substitu&iacute;-los pelo s&iacute;mbolo correspondente
-   a cada vers&atilde;o produzida do texto, como
-   7-bit ASCII, 8-bit, Unicode, HTML, etc.
-</p>
-<p>Tenha em aten&ccedil;&atilde;o que alguns destes sinais surgem
-   em alguns caracteres (principalmente em vogais). Quando tal acontece,
-   verifique se o nosso conjunto de caracteres Latin-1
-   j&aacute; inclui esse caracter com o sinal diacr&iacute;tico. <b>Nestes
-   casos utilize o caracter Latin-1 (ver <a href="#a_chars">aqui</a>)
-   dispon&iacute;vel no menu do ecr&atilde; de revis&atilde;o.</b>
-</p>
 <!-- END RR -->
-
-<p>Na tabela seguinte, o "x" representa um caracter com um sinal diacr&iacute;tico.<br>
-   Ao rever, substitua o "<tt>x</tt>" pelo caracter do texto a rever.
-</p>
-
-<!--
-  diacritical mark           above  below
-macron (straight line)       [=x]   [x=]
-2 dots (dieresis or umlaut)  [:x]   [x:]
-1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x']
-acute (aigu) accent          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-shaped symbol)      [vx]   [xv]
-breve (u-shaped symbol)      [)x]   [x)]
-tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan="4">S&iacute;mbolos de Revis&atilde;o para Sinais Diacr&iacute;ticos</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>sinal diacr&iacute;tico</th>
-      <th>exemplo</th>
-      <th style="padding-left:4; padding-right:4;">acima</th>
-      <th style="padding-left:4; padding-right:4;">abaixo</th>
-    </tr>
-    <tr><td>macron (linha recta)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 pontos (dieresis, trema)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 ponto</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>acento grave</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>acento agudo </td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>acento circunflexo</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>caron (s&iacute;mbolo em forma de v)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (s&iacute;mbolo em forma de u)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>til</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cedilha</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
 
@@ -1068,61 +928,6 @@ cedilla                      [,x]   [x,]
    de A a Z&mdash;por exemplo, caracteres Gregos, Cir&iacute;licos (utilizados em
    russo, eslavo e outros idiomas), Hebraicos ou &Aacute;rabes.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>No caso do Grego, deve tentar transliterar. A
-   translitera&ccedil;&atilde;o consiste em converter cada caracter
-   do texto estrangeiro na(s) letra(s) ASCII Latin equivalentes. No
-   ecr&atilde; de revis&atilde;o, encontrar&aacute; uma ferramenta de
-   translitera&ccedil;&atilde;o do Grego, tornando esta tarefa
-   mais simples.
-</p>
-<p>Clique no bot&atilde;o "Greek Transliterator" no final da p&aacute;gina do
-   ecr&atilde; de revis&atilde;o, para que surja uma janela com esta
-   ferramenta. J&aacute; com ela &agrave; frente, clique nos caracteres
-   gregos equivalentes aos da palavra ou frase que estiver a transliterar,
-   e os caracteres Latin-1 correctos aparecer&atilde;o na caixa de texto.
-   Quando tiver terminado, fa&ccedil;a um "corte e cole" deste texto
-   transliterado para a p&aacute;gina que est&aacute; a rever.
-   Coloque-o entre os s&iacute;mbolos que sinalizam a l&iacute;ngua
-   grega <tt>[Greek:&nbsp;</tt> e <tt>]</tt>. Por
-   exemplo, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   ser&aacute; revista como <tt>[Greek: Biblos]</tt>.
-   ("Livro"&mdash;exemplo apropriado para o <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>Se n&atilde;o estiver seguro quanto &agrave; sua
-   translitera&ccedil;&atilde;o, sinalize-a com um <tt>**</tt>
-   de forma a chamar a aten&ccedil;&atilde;o, do revisor
-   seguinte ou do p&oacute;s-processador, para este facto.
-</p>
-<p>Para outros alfabetos que n&atilde;o sejam facilmente
-   transliterados, como por exemplo o Cir&iacute;lico, Hebraico ou
-   &Aacute;rabe, substitua os caracteres non-Latin ou erros de
-   reconhecimento do OCR, pela sinaliza&ccedil;&atilde;o
-   apropriada: <tt>[Cyrillic:&nbsp;**]</tt>, <tt>[Hebrew:&nbsp;**]</tt>
-   ou <tt>[Arabic:&nbsp;**]</tt> respectivamente. Coloque <tt>**</tt> para que o
-   p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Grego: Consulte a p&aacute;gina wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating
-      Greek</a>, a <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a>
-      do Projecto Gutenberg, ou o "Greek Transliterator" atrav&eacute;s,
-      acess&iacute;vel atrav&eacute;s da janela de ferramentas no ecr&atilde;
-      de revis&atilde;o.
-  </li>
-  <li>Cir&iacute;lico: Embora exista a translitera&ccedil;&atilde;o de cir&iacute;lico,
-      s&oacute; a recomendamos se for fluente em l&iacute;nguas que o utilizem. Caso
-      contr&aacute;rio, marque-a conforme indic&aacute;mos em cima.
-  </li>
-  <li>Hebraico e &Aacute;rabe: S&oacute; recomendado para pessoas que
-      sejam fluentes nestas l&iacute;nguas. H&aacute; grandes dificuldades na
-      translitera&ccedil;&atilde;o destas l&iacute;nguas e nem o Distributed
-      Proofreaders nem o <a href="<?php echo $PG_home_url; ?>">Projecto
-      Gutenberg</a> definiram um modo de procedimento.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Estes caracteres devem ser inseridos no texto como os caracteres Latin.
    (<b>SEM translitera&ccedil;&atilde;o!</b>)
 </p>
@@ -1143,7 +948,7 @@ cedilla                      [,x]   [x,]
    entre os s&iacute;mbolos apropriados: <tt>[Arabic:&nbsp;**]</tt>.
    Coloque <tt>**</tt> para que o p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
 
@@ -2425,10 +2230,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>Os menus da interface de revis&atilde;o.</li>
   <li>Aplica&ccedil;&otilde;es existentes no seu sistema operativo.
-<?php if(!$utf8_site) { ?>
-Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
-   (listados nas tabelas abaixo).
-<?php } ?>
     <ul compact>
       <li>Windows: "Mapa de Caracteres"<br>
           Acess&iacute;vel atrav&eacute;s de:<br>

@@ -328,20 +328,11 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 </p>
 <p>De lage aanhalingstekens die in sommige teksten voorkomen (in het Nederlands en Duits, en sommige andere talen)&nbsp;
    <tt>&bdquo;zoals dit&ldquo;</tt>
-<?php if(!$utf8_site) { ?>
-   kunnen niet gekozen worden in de uitklapmenu's, aangezien ze niet in de Latin-1 tekenset voorkomen.
-   Deze worden vaak omgezet in guillemets&nbsp; <tt>&raquo;zoals dit&laquo;</tt>&nbsp; (of&nbsp;
-   <tt>&laquo;zoals dit&raquo;</tt>&nbsp; voor talen die de aanhalingstekens&nbsp;
-   <tt>&ldquo;op deze manier&bdquo;</tt> gebruiken), maar vergeet niet om de
-   <a href="#comments">Project Comments </a> te lezen, in het geval dat de
-   Project Manager andere instructies heeft gegeven.
-<?php } else { ?>
    zijn ook beschikbaar in de uitklapmenu's. Om de zaak eenvoudig te houden, moet je altijd&nbsp;
    <tt>&bdquo;</tt>&nbsp; en&nbsp; <tt>&ldquo;</tt>&nbsp; gebruiken als de aanhalingstekens in het
    origineel duidelijk lage en hoge aanhalingstekens zijn, ongeacht welke aanhalingstekens in de
    originele tekst gebruikt worden. De aanhalingstekens zullen zo nodig tijden het post-processen
    veranderd worden in de aanhalingstekens die in de tekst gebruikt zijn.
-<?php } ?>
 </p>
 <p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> voor een bepaald
    boek instructies geeft om aanhalingstekens uit een niet-Engelse taal anders te behandelen.
@@ -824,30 +815,11 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="a_chars">Letters met Accenten/Niet-ASCII Letters</a>
  (<i><a href="#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
-<?php if(!$utf8_site) { ?>
-<p>Proeflees deze door de passende symbolen of letters met accenten te gebruiken om het overeen te
-   laten komen met het origineel, waar mogelijk inclusief het wel of niet gebruiken van accenten.
-   We kunnen alleen Latin-1 tekens gebruiken tijdens het proeflezen; wanneer je niet zeker bent of
-   een letter in de Latin-1-tekenset voorkomt, controleer dat dan in de
-   <a href="#insert_char">tabellen hieronder</a>.
-<?php } else { ?>
 <p>Proeflees deze a.u.b. door de juiste UTF-8 tekens te gebruiken. Voor tekens die niet in
    Unicode zitten, zie de Project Manager instructies in de <a href="#comments">Project Comments</a>.
-<?php } ?>
    Als je ze niet op je toetsenbord hebt, zie dan <a href="#insert_char">Toevoegen van Speciale Letters</a>
    voor meer informatie over hoe deze tekens tijdens het proeflezen in te voegen.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>Het &oelig; teken (oe ligature) is niet beschikbaar in Latin-1, we markeren het daar om met blokhaken
-   in <tt>man[oe]uvre</tt>, of <tt>[OE]dipus</tt> voor de hoofdletter &OElig;. Let op dat het &aelig; teken
-   (ae ligature, zoals in <tt>encyclop&aelig;dia</tt>) wel Latin-1 is, dus dit teken kan direct ingevoegd worden.
-</p>
-<p>Voor andere letters buiten Latin-1, zie <a href="#d_chars">Diakritische tekens</a> over hoe de
-   accenten en andere tekens boven en onder Latijnse letters worden proefgelezen.
-   Zie de instructies van de Project Manager in de <a href="#comments">Project Comments</a> voor letters
-   die niet in deze richtlijnen worden behandeld.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
@@ -856,7 +828,6 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
  (<i><a href="#d_chars">Characters with Diacritical Marks</a></i>)</h3>
 <p>In sommige projecten vind je lettertekens met speciale tekens boven of onder de letters van A tot Z.
    Deze heten <i>diakritische tekens</i> en geven een bijzondere uitspraak van de letter aan.
-<?php if($utf8_site) { ?>
 </p>
 <p>Als een dergelijk karakter in Unicode niet bestaat, dan moet het worden
    ingegeven door <i>gecombineerde diakritische tekens</i>: dit zijn symbolen in Unicode die niet
@@ -871,104 +842,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
    tekens niet goed kunt zien, markeer zo'n letter dan met een [**noot]. Overigens bestaan
    er ook <i>Spacing modifier letters</i>; deze mogen niet gebruikt worden.
 </p>
-<?php } else { ?>
-   Voor het proeflezen geven we ze in de tekst aan met speciale codes, bijvoorbeeld
-   <span style="font-size:110%;">&#259;</span> wordt <tt>[)a]</tt> voor een breve
-   (het accent als een omgekeerd boogje) boven een a, of <tt>[a)]</tt> voor een breve onder de a.
-   Zet er in ieder geval vierkante haken (<tt>[&nbsp;]</tt>) eromheen. In het zeldzame geval dat
-   een diakritisch teken boven twee letters staat, zet je beide letters binnen de blokhaken.
-</p>
-<p>De Post-Processor zal uiteindelijk het geheel vervangen door het symbool dat werkt
-   in elke versie van de tekst die hij/zij produceert, zoals 7-bit ASCII, 8-bit, Unicode, html enz.
-</p>
-<p>Houd in de gaten dat onze standaard Latin-1 tekenset al een aantal tekens met een diakritisch teken bevat.
-   <b>Gebruik dan het teken uit Latin-1 (zie <a href="#a_chars">hier</a>) dat beschikbaar is vanuit
-   de uitklapmenu's in de proofreading interface.</b>
-</p>
 <!-- END RR -->
-
-<p>De tabel hieronder staat de "x" voor een letter met een diakritisch teken..<br>
-   Gebruik bij het proeflezen de letter die in de tekst staat, en niet de <tt>x</tt> uit de voorbeelden.
-</p>
-
-<!--
-  diakritisch teken        erboven eronder
-makron (rechte lijn)         [=x]   [x=]
-2 stippen (trema, umlaut)    [:x]   [x:]
-1 stip                       [.x]   [x.]
-accent grave                 ['x]   [x']
-accent acute (aigu)          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-vorm symbool)       [vx]   [xv]
-breve (u-vorm symbool)       [)x]   [x)]
-tilde                        [~x]   [x~]
-cedille                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Symbolen voor het Proeflezen van Diakritische Tekens</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>diakritisch teken</th>
-      <th>voorbeeld</th>
-      <th style="padding-left:4; padding-right:4;">erboven</th>
-      <th style="padding-left:4; padding-right:4;">eronder</th>
-    </tr>
-    <tr><td>makron (rechte lijn)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 stippen (trema, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 stip</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>accent grave</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>accent acute (aigu)</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circumflex</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>caron (symbool in de vorm van een v)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (symbool in de vorm van een u)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cedille</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
@@ -978,43 +852,6 @@ cedille                      [,x]   [x,]
    de Latijnse A...Z. Het kan dan gaan om Griekse, Cyrillische (dat wordt gebruikt in Russisch,
    Slavisch en andere talen), Hebreeuwse of Arabische letters.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Voor het Grieks moet je proberen elke letter om te zetten in de equivalente Latijnse letter(s).
-   (Transliteration). In de proofreading interface vindt je een "Greek transliteration" hulpmiddel,
-   waar dit heel gemakkelijk mee gaat.
-</p>
-<p>Klik op de "Greek Transliterator" knop bijna onderaan de proofreading interface om het hulpmiddel
-   te openen. In het gereedschap, klik op de Griekse letters die je ziet in het woord of de zin die
-   je aan het omzetten bent. De bijpassende Latin-1 tekens verschijnen in de tekstbox.
-   Als je klaar bent, knip en plak je de omgezette tekst in de bladzijde die je aan het proeflezen bent.
-   Zet om de omgezette tekst de volgende markering: <tt>[Greek:&nbsp;</tt> en <tt>]</tt>.
-   Bijvoorbeeld: <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span> wordt
-   <tt>[Greek: Biblos]</tt>. ("Boek"&mdash;erg toepasselijk bij <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>Als je onzeker bent over je omzetting, markeer hem dan met <tt>**</tt> om te zorgen dat de
-   aandacht van de volgende proeflezer of de Post-Processor er op gevestigd wordt.
-</p>
-<p>Andere alfabetten, zoals Cyrillisch, Hebreeuws of Arabisch kunnen niet zo gemakkelijk worden omgezet.
-   Verander je de niet-Latijnse letters of OCR-rotzooi van de toepassende markering:
-   <tt>[Cyrillic:&nbsp;**]</tt>, <tt>[Hebrew:&nbsp;**]</tt> of <tt>[Arabic:&nbsp;**]</tt>.
-   Zorg wel dat de <tt>**</tt> erbij staan, zodat de Post-Processor het later op kan lossen.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Grieks: Zie de <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki-pagina (Engels), 
-      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (van het Project Gutenberg)
-      of gebruik de "Greek Transliterator" pop-up in de proofreading interface.
-  </li>
-  <li>Cyrillisch: Er is een standaard omzetschema voor Cyrillisch. We bevelen aan dat je dit alleen maar gebruikt
-      als je de taal waar het om gaat, vloeiend beheerst. Markeer de tekst anders zoals boven omschreven.
-  </li>
-  <li>Hebreeuws en Arabisch: niet aanbevolen tenzij je de taal vloeiend beheerst. Het omzetten
-      van deze talen stuit op grote moeilijkheden en noch Distributed Proofreaders noch
-      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> heeft al een standaard methode gekozen.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Deze lettertekens moeten, net als de Latijnse letters, in de tekst worden gezet.
    (<b>ZONDER omzetting!</b>)
 </p>
@@ -1033,7 +870,7 @@ cedille                      [,x]   [x,]
    <tt>[Arabic:&nbsp;**]</tt>. Zorg voor de <tt>**</tt> zodat
    de Post-Processor het later kan oplossen.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
@@ -2202,9 +2039,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>De uitklapmenu's in de proofreading interface.</li>
   <li>Hulpprogrammaatjes inbegrepen in je besturingssysteem.
-<?php if(!$utf8_site) { ?>
-Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (degene opgesomd in de tabellen hieronder).
-<?php } ?>
     <ul compact>
       <li>Windows: "Speciale tekens"<br> Te benaderen door:<br>
           Start: Uitvoeren: charmap, ofr<br>
