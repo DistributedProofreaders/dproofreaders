@@ -208,6 +208,19 @@ function get_Round_for_page_state( $page_state )
     return array_get( $Round_for_page_state_, $page_state, NULL );
 }
 
+// ---------------------------
+
+function get_Round_for_text_column_name( $text_column_name )
+{
+    global $Round_for_round_id_;
+    foreach( $Round_for_round_id_ as $round_id => $round )
+    {
+        if($round->text_column_name == $text_column_name)
+            return $round;
+    }
+    return NULL;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function sql_collater_for_round_id( $round_id_column )
