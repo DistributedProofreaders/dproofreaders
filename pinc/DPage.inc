@@ -212,7 +212,9 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
         $text_column='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
-    _log_page_event( $projectid, $image, 'modifyText', $user, NULL, FALSE );
+    $round = get_Round_for_text_column_name($text_column);
+
+    _log_page_event( $projectid, $image, 'modifyText', $user, $round, FALSE );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
