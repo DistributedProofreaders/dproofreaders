@@ -114,7 +114,7 @@ function output_preview_div()
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
-    $initial_mode = html_safe(_("Set initial view mode to current"));
+    $initial_mode = html_safe(_("Initial view mode"));
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -187,9 +187,11 @@ function output_preview_div()
     <legend>$suppress_warnings</legend>
     $supp_item_string
   </fieldset>
-  <div class="box2">
-    <input type='button' id='init_mode' value="$initial_mode">
-  </div>
+  <br><span class='ilb'>$initial_mode <select id="id_init_mode">
+    <option value="show_tags">$tags</option>
+    <option value="no_tags">$no_tags</option>
+    <option value="re_wrap">$re_wrap</option>
+  </select></span>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">

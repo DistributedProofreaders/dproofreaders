@@ -205,10 +205,6 @@ function initPrev() {
         writePreviewText();
     });
 
-    $("#init_mode").click(function () {
-        tempStyle.initialViewMode = viewMode;
-    });
-
     // functions for setting up the configuration screen
     function testDraw() {
         preview = makePreview(previewDemo, 'no_tags', tempStyle);
@@ -331,6 +327,7 @@ function initPrev() {
             supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
             });
+            $("#id_init_mode").val(tempStyle.initialViewMode);
         },
 
         enableColor: function (en) {
@@ -349,6 +346,7 @@ function initPrev() {
                 tempStyle.suppress[msg] = suppCheckBox[i].checked;
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
+            tempStyle.initialViewMode = $("#id_init_mode").val();
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
             initView();
