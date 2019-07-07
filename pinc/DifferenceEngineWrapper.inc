@@ -148,6 +148,14 @@ if(!class_exists("Xml")) {
     }
 }
 
+// MW code references wfDebug() in some places
+if(!function_exists("wfDebug")) {
+    function wfDebug($text, $dest='all', array $context=[]) {
+        // don't log any debug messages
+        return;
+    }
+}
+
 // Return URL to main CSS file
 function get_DifferenceEngine_css_files() {
     global $code_url;
