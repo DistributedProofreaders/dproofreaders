@@ -1,9 +1,9 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');
-include_once($relPath.'languages.inc');
+include_once($relPath.'languages.inc'); // proj_lang_code
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
-include_once($relPath.'misc.inc'); // str_contains
+include_once($relPath.'misc.inc'); // str_contains, array_get
 
 // regex of word characters
 // This is used when splitting a text into words.
@@ -41,7 +41,22 @@ define('WC_SITE',    2);
 define('WC_PROJECT', 3);
 define('WC_PAGE',    4);
 
+
+// Wrapper functions for _get_bad_words_for_project_text() that abstract if
+// the function returns FREQS or LEVELS. See that function for arguments
+// and return values.
+function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language='', $adhoc_good_words=[])
+{
+    return _get_bad_words_for_project_text('FREQS', $text, $projectid, $aux_language, $adhoc_good_words);
+}
+
+function get_bad_word_levels_for_project_text($text, $projectid, $aux_language='', $adhoc_good_words=[])
+{
+    return _get_bad_words_for_project_text('LEVELS', $text, $projectid, $aux_language, $adhoc_good_words);
+}
+
 // Arguments:
+//   which_result_values - select either the bad word FREQS or LEVELS
 //   text - the text for which bad words are sought
 //          This can be a string or an array of strings. If the latter, the
 //          strings are conceptually separated by whitespace.  (So it's never
@@ -62,22 +77,73 @@ define('WC_PAGE',    4);
 //         (if $which_result_values is 'LEVELS')
 //  -- an array: each value is the name of a language that was used
 //  -- an array: each value is a warning/error.
-function get_bad_words_for_text($text, $projectid, $aux_language, $adhoc_good_words, $which_result_values)
+function _get_bad_words_for_project_text($which_result_values, $text, $projectid, $aux_language, $adhoc_good_words)
 {
+    $messages = [];
+
     // Get the list of languages that we'll use.
+    $languages = array_values(get_project_languages($projectid, $aux_language));
+
+    // And the langcode3s for those languages
+    list($langcode3s, $new_messages) = get_langcode3s_for_languages($languages);
+    $messages += $new_messages;
+
+    $word_lists = array(
+        "adhoc_good" => $adhoc_good_words,
+        "site_good" => load_site_good_words($langcode3s),
+        "site_bad" => load_site_bad_words($langcode3s),
+        "project_good" => load_project_good_words($projectid),
+        "project_bad" => load_project_bad_words($projectid)
+    );
+
+    list($input_words_w_freq, $bad_words, $new_messages) =
+        get_bad_words_for_text($text, $languages, $word_lists);
+    $messages += $new_messages;
+
+    // At this point, we have two arrays whose keys are words:
+    // $input_words_w_freq (words in the text, that may or may not be bad)
+    // $acc->words (words that are bad, that may or may not be in the text)
+    // The key-intersection of these two arrays will give us the set of words
+    // that are both in the text and bad.
+    // But the way we do the intersection determines the values that are
+    // associated with those words.
+    //
+    if($which_result_values == 'FREQS')
     {
-        $languages = array_values(get_project_languages($projectid));
-
-        // add the aux_language if supplied
-        if ($aux_language != "")
-        {
-            $languages[] = $aux_language;
-        }
-
-        // unique the array, no point in checking one language more than once
-        $languages = array_unique($languages);
+        // Associate each bad word with its frequency in the text.
+        $bad_words_in_text = array_intersect_key($input_words_w_freq, $bad_words);
+    }
+    elseif($which_result_values == 'LEVELS')
+    {
+        // Associate each bad word with the most specific level at which it was deemed bad.
+        $bad_words_in_text = array_intersect_key($bad_words, $input_words_w_freq);
+    }
+    else
+    {
+        assert(FALSE);
     }
 
+    return array($bad_words_in_text, $languages, $messages);
+}
+
+
+// Returns a list of bad words from a given text using the specified
+// languages to run the spellchecker and a set of word lists
+// Arguments:
+//      text - string or array of strings
+//      languages - array of language names
+//      word_lists - array with the keys:
+//          site_good - array of site good words
+//          site_bad  - array of site bad words
+//          project_good - array of good words from project
+//          project_bad - array of bad words from project
+//          adhoc_good - array of adhoc good words
+// Returns an array that includes:
+//      - array of text words with frequency
+//      - array of bad words
+//      - array of possible warning/error messages
+function get_bad_words_for_text($text, $languages, $word_lists=[])
+{
     $input_words_w_freq = get_distinct_words_in_text($text);
 
     $acc = new BadWordAccumulator();
@@ -96,70 +162,26 @@ function get_bad_words_for_text($text, $projectid, $aux_language, $adhoc_good_wo
 
     // The site
     {
-        $langcode3s = array();
-        foreach($languages as $language)
-        {
-            $langcode3 = langcode3_for_langname($language);
-            if(is_null($langcode3))
-            {
-                $acc->messages[] = sprintf(_("Warning: unknown language '%s'"), $language);
-            }
-            else
-            {
-                $langcode3s[] = $langcode3;
-            }
-        }
+        $acc->remove_good_words(array_get($word_lists, "site_good", array()));
+        $acc->add_bad_words(array_get($word_lists, "site_bad", array()), WC_SITE);
 
-        foreach($langcode3s as $langcode3)
-        {
-            $acc->remove_good_words(load_site_good_words($langcode3));
-        }
-
-        foreach($langcode3s as $langcode3)
-        {
-            $acc->add_bad_words(load_site_bad_words($langcode3), WC_SITE);
-        }
-
-         $acc->add_bad_words(
-             get_bad_words_via_pattern($input_words_w_freq, $langcode3s), WC_SITE);
+        $acc->add_bad_words(
+            get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
     }
 
     // The project
     {
-        $acc->remove_good_words(load_project_good_words($projectid));
+        $acc->remove_good_words(array_get($word_lists, "project_good", array()));
 
-        $acc->add_bad_words(load_project_bad_words($projectid), WC_PROJECT);
+        $acc->add_bad_words(array_get($word_lists, "project_bad", array()), WC_PROJECT);
     }
 
     // The page
     {
-        $acc->remove_good_words($adhoc_good_words);
+        $acc->remove_good_words(array_get($word_lists, "adhoc_good", array()));
     }
 
-    // At this point, we have two arrays whose keys are words:
-    // $input_words_w_freq (words in the text, that may or may not be bad)
-    // $acc->words (words that are bad, that may or may not be in the text)
-    // The key-intersection of these two arrays will give us the set of words
-    // that are both in the text and bad.
-    // But the way we do the intersection determines the values that are
-    // associated with those words.
-    //
-    if($which_result_values == 'FREQS')
-    {
-        // Associate each bad word with its frequency in the text.
-        $bad_words_in_text = array_intersect_key($input_words_w_freq, $acc->words);
-    }
-    elseif($which_result_values == 'LEVELS')
-    {
-        // Associate each bad word with the most specific level at which it was deemed bad.
-        $bad_words_in_text = array_intersect_key($acc->words, $input_words_w_freq);
-    }
-    else
-    {
-        assert(FALSE);
-    }
-
-    return array($bad_words_in_text, $languages, $acc->messages);
+    return array($input_words_w_freq, $acc->words, $acc->messages);
 }
 
 // -----------------------------------------------------------------------------
@@ -332,14 +354,16 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 // returns a list of 'bad' words in a text based on some pattern
 // Arguments:
 //   input_words_w_freq - an array whose keys are the distinct words of the input text
-//   langcode3s - codes for languages to check against
+//   languages - array of languages to check against
 //
 // Returns:
 //       -- an array of bad words
 //
-function get_bad_words_via_pattern($input_words_w_freq, $langcode3s)
+function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
     global $word_letters;
+
+    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
 
     $badWords = array();
 

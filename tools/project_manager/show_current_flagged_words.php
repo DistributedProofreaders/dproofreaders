@@ -143,7 +143,7 @@ function _get_word_list($projectid) {
 
     // now run it through WordCheck
     list($bad_words_w_freq,$languages,$messages) =
-    get_bad_words_for_text($page_texts,$projectid,'',array(),'FREQS');
+    get_bad_word_freqs_for_project_text($page_texts, $projectid);
 
     // multisort screws up all-numeric words so we need to preprocess first
     prep_numeric_keys_for_multisort($bad_words_w_freq);

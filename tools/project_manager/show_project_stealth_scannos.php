@@ -278,7 +278,7 @@ function _get_word_list($projectid) {
 
     // run the list through WordCheck to see which it would flag
     list($possible_scannos_via_wordcheck,$languages,$messages) =
-        get_bad_words_for_text($text_to_check,$projectid,'',array(),'FREQS');
+        get_bad_word_freqs_for_project_text($text_to_check, $projectid);
 
     // load site words
     $site_bad_words = load_site_bad_words_given_project($projectid);
