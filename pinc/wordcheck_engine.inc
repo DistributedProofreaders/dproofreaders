@@ -378,27 +378,34 @@ function get_bad_words_via_pattern($input_words_w_freq, $langcode3s)
 
 // -----------------------------------------------------------------------------
 
-function load_site_good_words($langcode3)
+function load_site_good_words($langcode3s)
 {
-    $fileObject = get_site_word_file($langcode3, "good");
-
-    return load_word_list($fileObject->abs_path);
+    return _load_site_words("good", $langcode3s);
 }
 
-function load_site_bad_words($langcode3)
+function load_site_bad_words($langcode3s)
 {
-    $fileObject = get_site_word_file($langcode3, "bad");
-
-    return load_word_list($fileObject->abs_path);
+    return _load_site_words("bad", $langcode3s);
 }
 
-// -----------------------------------------------------------------------------
-
-function load_site_possible_bad_words($langcode3)
+function load_site_possible_bad_words($langcode3s)
 {
-    $fileObject = get_site_word_file($langcode3, "possible_bad");
+    return _load_site_words("possible_bad", $langcode3s);
+}
 
-    return load_word_list($fileObject->abs_path);
+function _load_site_words($type, $langcode3s)
+{
+    if(!is_array($langcode3s))
+        $langcode3s = array($langcode3s);
+
+    $words = [];
+    foreach($langcode3s as $langcode3)
+    {
+        $fileObject = get_site_word_file($langcode3, $type);
+        $words = array_merge($words, load_word_list($fileObject->abs_path));
+    }
+
+    return array_unique($words);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -612,52 +619,23 @@ function load_project_good_word_suggestions($projectid, $start_time=0)
 
 function load_site_good_words_given_project($projectid)
 {
-    // load project languages
-    $languages = array_unique(array_values(get_project_languages($projectid)));
-
-    // load site word lists for project languages
-    $words = array();
-    foreach($languages as $language) {
-        $langcode3 = langcode3_for_langname($language);
-        $words = array_merge($words, load_site_good_words($langcode3));
-    }
-    $words = array_unique($words);
-
-    return $words;
+    $languages = array_values(get_project_languages($projectid));
+    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    return load_site_good_words($langcode3s);
 }
 
 function load_site_bad_words_given_project($projectid)
 {
-    // load project languages
-    $languages = array_unique(array_values(get_project_languages($projectid)));
-
-    // load site word lists for project languages
-    $words = array();
-    foreach($languages as $language) {
-        $langcode3 = langcode3_for_langname($language);
-        $words = array_merge($words, load_site_bad_words($langcode3));
-    }
-    $words = array_unique($words);
-
-    return $words;
+    $languages = array_values(get_project_languages($projectid));
+    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    return load_site_bad_words($langcode3s);
 }
-
-// -----------------------------------------------------------------------------
 
 function load_site_possible_bad_words_given_project($projectid)
 {
-    // load project languages
-    $languages = array_unique(array_values(get_project_languages($projectid)));
-
-    // load site word lists for project languages
-    $words = array();
-    foreach($languages as $language) {
-        $langcode3 = langcode3_for_langname($language);
-        $words = array_merge($words, load_site_possible_bad_words($langcode3));
-    }
-    $words = array_unique($words);
-
-    return $words;
+    $languages = array_values(get_project_languages($projectid));
+    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    return load_site_possible_bad_words($langcode3s);
 }
 
 // -----------------------------------------------------------------------------
@@ -813,7 +791,7 @@ function save_word_list($path, $words)
 
 // Returns an associative array of all languages for a project
 //   $array[$langcode]=$language;
-function get_project_languages($projectid)
+function get_project_languages($projectid, $aux_language=NULL)
 {
     $returnArray = array();
 
@@ -826,6 +804,8 @@ function get_project_languages($projectid)
         return $returnArray;
     }
     $languages = preg_split('/ with /', $project->language);
+    if($aux_language)
+        $languages[] = $aux_language;
 
     foreach($languages as $language) {
         $langcode = proj_lang_code($language, "primary");
@@ -834,7 +814,7 @@ function get_project_languages($projectid)
         }
     }
 
-    return $returnArray;
+    return array_unique($returnArray);
 }
 
 
@@ -1014,6 +994,31 @@ function generate_frequencies($wordList)
     return $wordCount;
 }
 
+// Given an array of language names, return a list of valid langcode3s.
+// Arguments:
+//      languages - array of language names
+// Returns an array of:
+//      array of langcode3s
+//      array of zero or more error/warning messages
+function get_langcode3s_for_languages($languages)
+{
+    $messages = [];
+    $langcode3s = array();
+    foreach($languages as $language)
+    {
+        $langcode3 = langcode3_for_langname($language);
+        if(is_null($langcode3))
+        {
+            $messages[] = sprintf(_("Warning: unknown language '%s'"), $language);
+        }
+        else
+        {
+            $langcode3s[] = $langcode3;
+        }
+    }
+
+    return array($langcode3s, $messages);
+}
 
 // function for comparing words similar to strnatcasecmp
 // but deterministicly; without the strnatcmp() call
