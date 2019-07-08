@@ -43,7 +43,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     if ( $aux_language == _("Language") ) $aux_language = '';
 
     list($badWordHash,$languages,$messages) =
-        get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words, 'LEVELS' );
+        get_bad_words_for_text( $orig_text, $projectid, $aux_language, $accepted_words, 'LEVELS' );
 
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
