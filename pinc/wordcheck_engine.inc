@@ -46,9 +46,8 @@ define('WC_PAGE',    4);
 //          This can be a string or an array of strings. If the latter, the
 //          strings are conceptually separated by whitespace.  (So it's never
 //          the case that a word begins in one string and ends in the next.)
-//   projectid - id of project, needed for temp filename
+//   projectid - id of project, needed for project languages
 //               and to load the custom dictionaries
-//   imagefile - image filename, needed for temp filename
 //   aux_languages - auxiliary language to check against
 //   adhoc_good_words - array of words to treat as good for this invocation only.
 //
@@ -63,7 +62,7 @@ define('WC_PAGE',    4);
 //         (if $which_result_values is 'LEVELS')
 //  -- an array: each value is the name of a language that was used
 //  -- an array: each value is a warning/error.
-function get_bad_words_for_text($text, $projectid, $imagefile, $aux_language, $adhoc_good_words, $which_result_values)
+function get_bad_words_for_text($text, $projectid, $aux_language, $adhoc_good_words, $which_result_values)
 {
     // Get the list of languages that we'll use.
     {
@@ -90,8 +89,7 @@ function get_bad_words_for_text($text, $projectid, $imagefile, $aux_language, $a
     // The world
     {
         list($external_bad_words, $messages) =
-            get_bad_words_via_external_checker(
-                $input_words_w_freq, $projectid, $imagefile, $languages);
+            get_bad_words_via_external_checker($input_words_w_freq, $languages);
         $acc->messages += $messages;
         $acc->add_bad_words($external_bad_words, WC_WORLD);
     }
@@ -217,9 +215,6 @@ class BadWordAccumulator
 // this implementation passes the text to aspell
 // Arguments:
 //   input_words_w_freq - an array whose keys are the distinct words of the input text
-//   projectid - id of projected, needed for temp filename
-//               and to load the custom dictionaries
-//   imagefile - image filename, needed for temp filename
 //   languages - array of languages, used to load aspell dictionary
 //               for those languages if available
 //
@@ -227,15 +222,14 @@ class BadWordAccumulator
 //       -- an array of misspelled words,
 //       -- an array of messages (errors/warnings)
 //
-function get_bad_words_via_external_checker($input_words_w_freq, $projectid, $imagefile, $languages)
+function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 {
     global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix, $charset;
 
     $messages = array();
 
-    $tmp_file_name = $projectid . $imagefile . ".txt";
-    $tmp_file_path = "$aspell_temp_dir/$tmp_file_name";
+    $tmp_file_path = tempnam($aspell_temp_dir, "pagetext-");
 
     $tmp_file_text = implode("\n", array_keys($input_words_w_freq));
     $wasWritten = file_put_contents($tmp_file_path, $tmp_file_text);
