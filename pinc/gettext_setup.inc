@@ -53,6 +53,8 @@ function get_desired_language()
 
 function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir)
 {
+    if($charset == "UTF-8")
+        $locale .= ".$charset";
     $locale = setlocale(LC_ALL, $locale);
 
     // Specify location of translation tables and choose domain
