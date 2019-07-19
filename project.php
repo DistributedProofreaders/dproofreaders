@@ -28,8 +28,6 @@ include_once($relPath.'faq.inc');
 // for strftime:
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
-// TRANSLATORS: This is a strftime-formatted string for the date and time
-$date_format     = _("%A, %B %e, %Y");
 // TRANSLATORS: This is a strftime-formatted string for the time
 $time_format     = _("%X");
 
@@ -362,7 +360,7 @@ function do_blurb_box( $blurb )
 
 function do_project_info_table()
 {
-    global $project, $code_url, $datetime_format, $date_format, $time_format;
+    global $project, $code_url, $datetime_format, $time_format;
     global $user_is_logged_in;
     global $site_supports_corrections_after_posting;
 
@@ -388,13 +386,12 @@ function do_project_info_table()
     elseif ($available_for_SR)
     {
         $sr_deadline_str = strftime(
-            $date_format, $project->smoothread_deadline );
+            $datetime_format, $project->smoothread_deadline );
         $sr_sentence = sprintf(
-            _('This project has been made available for smooth reading until %s.'),
+            _('This project has been made available for Smooth Reading until %s server time.'),
             "<b>$sr_deadline_str</b>"
         );
-        $extra2 = _('See below.');
-        $right = "$right<br>$sr_sentence $extra2";
+        $right = "$right<br>$sr_sentence";
     }
     echo_row_a( _("Project State"), $right );
 
@@ -1863,7 +1860,7 @@ function do_postcomments()
 
 function do_smooth_reading()
 {
-    global $project, $code_url, $pguser, $date_format;
+    global $project, $code_url, $pguser, $datetime_format;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
@@ -1909,9 +1906,9 @@ function do_smooth_reading()
         if ( $project->is_available_for_smoothreading() )
         {
             $sr_deadline_str = strftime(
-                $date_format, $project->smoothread_deadline );
+                $datetime_format, $project->smoothread_deadline );
             $sr_sentence = sprintf(
-                _('This project has been made available for Smooth Reading until %s.'),
+                _('This project has been made available for Smooth Reading until %s server time.'),
                 "<b>$sr_deadline_str</b>"
             );
 
