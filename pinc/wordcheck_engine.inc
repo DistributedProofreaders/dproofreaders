@@ -275,7 +275,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // run aspell
                 // "asr" stands for "aspell result"
-                $asr_text = `$aspell_command`;
+                $asr_text = trim(shell_exec($aspell_command));
                 $asr_text = str_replace(array("\r","\n"), array('',"[lf]"), $asr_text);
                 // build our list of possible misspellings
                 $misspellings[$langcode] = explode("[lf]", $asr_text);
