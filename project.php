@@ -155,9 +155,8 @@ else
 
 function do_update_pp_activity()
 {
-// If the project has been checked out for more than 90 days and
-// the pp-er loads the page, it's interpreted as a sign of
-// activity. Update the database accordingly.
+    // If the project is checked out and the PPer loads the page, it's
+    // interpreted as a sign of activity. Update the database accordingly.
 
     global $project;
 
@@ -165,17 +164,10 @@ function do_update_pp_activity()
 
     if (! $project->PPer_is_current_user) return;
 
-    // 7776000 = 90*24*60*60 seconds
-    if ($project->modifieddate < time()-7776000) {
-      // Modified more than 90 days ago. The PP-er,
-      // by loading this page, is reporting
-      // activity.
-
-      $projectid = $project->projectid;
-      $now = time();
-      mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
-      $project->modifieddate = $now;
-    }
+    $projectid = $project->projectid;
+    $now = time();
+    mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
+    $project->modifieddate = $now;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
