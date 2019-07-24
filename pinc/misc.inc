@@ -595,6 +595,38 @@ function get_filelist($dirpath, $validext = array(), $with_path = False)
     closedir($d);
     return $filelist;
 }
+
+// -----------------------------------------------------------------------------
+// Return whether the file is a valid zip file.
+//
+// The following conditions are used to check whether the file is considered a valid zip file:
+//   * It must exist
+//   * It must have the zip file extension
+//   * It must be openable by ZipArchive
+//
+// If any of the conditions are not satisfied, it will return false, otherwise it will return true.
+// The extension check can be disabled by passing true as the second argument.
+function is_valid_zip_file(string $file_path, bool $ignore_extension_check = false): bool
+{
+    if (!file_exists($file_path)) {
+        return false;
+    }
+
+    if (!$ignore_extension_check && !endswith($file_path, '.zip')) {
+        return false;
+    }
+
+    $zip = new ZipArchive();
+
+    $result = $zip->open($file_path, ZipArchive::CHECKCONS);
+
+    if ($result === true) {
+        $zip->close();
+    }
+
+    return $result === true;
+}
+
 // -----------------------------------------------------------------------------
 
 function get_upload_err_msg($upload_error_code)

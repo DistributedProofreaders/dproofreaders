@@ -403,8 +403,10 @@ function validate_uploaded_file()
         }
 
         // ensure that it's a valid zip
-        exec("zipinfo -1 " . $uploaded_file['tmp_name'], $zipinfo_output, $return_code);
-        if($return_code != 0) {
+
+        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+        // disable the extension check.
+        if (!is_valid_zip_file($uploaded_file['tmp_name'], true)) {
             die( _("Not a valid zip file") );
         }
 
