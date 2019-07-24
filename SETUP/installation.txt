@@ -18,7 +18,11 @@ components.
 
 PHP
     PHP version 7.0 is the minimum supported version. 7.1 and later should
-    work but have not been tested.
+    work but have not been tested. PHP must be compiled with zip support or
+    have access to the zip module. On Ubuntu this is provided by the php-zip
+    package.
+
+
 
 MySQL
     MySQL version 5.5 or later is recommended.
