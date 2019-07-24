@@ -9,6 +9,8 @@ php:
 services:
     - mysql
 before_install:
+    - sudo apt-get update
+    - sudo apt-get install -y aspell aspell-en
     - mysql -e "CREATE DATABASE dp_db CHARACTER SET LATIN1;"
     - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';"
     - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
