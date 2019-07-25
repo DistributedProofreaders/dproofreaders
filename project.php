@@ -86,7 +86,6 @@ if ( $user_is_logged_in )
         $pguser, $project->projectid, $project->t_retrieved );
 }
 
-do_update_pp_activity();
 output_header($title_for_theme, NO_STATSBAR);
 if ($detail_level==1)
 {
@@ -151,25 +150,6 @@ else
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function do_update_pp_activity()
-{
-    // If the project is checked out and the PPer loads the page, it's
-    // interpreted as a sign of activity. Update the database accordingly.
-
-    global $project;
-
-    if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
-
-    if (! $project->PPer_is_current_user) return;
-
-    $projectid = $project->projectid;
-    $now = time();
-    mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
-    $project->modifieddate = $now;
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function do_detail_level_switch()
