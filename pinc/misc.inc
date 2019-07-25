@@ -627,6 +627,32 @@ function is_valid_zip_file(string $file_path, bool $ignore_extension_check = fal
     return $result === true;
 }
 
+// Return an array of files contained within the zip archive.
+//
+// It uses the is_valid_zip_file function to check whether the argument is a valid zip file, if it
+// is not, an InvalidArgumentException is thrown.
+function list_files_in_zip(string $file_path): array
+{
+    if (!is_valid_zip_file($file_path)) {
+        throw new InvalidArgumentException(sprintf(
+            _("Argument '%1\$s' is not a valid zip file."),
+            $file_path));
+    }
+
+    $zip = new ZipArchive();
+
+    // No need to check the result of the function since it is checked in is_valid_zip_file
+    $zip->open($file_path);
+
+    $files = [];
+
+    for ($i = 0; $i < $zip->numFiles; $i++) {
+        $files[] = $zip->getNameIndex($i);
+    }
+
+    return $files;
+}
+
 // -----------------------------------------------------------------------------
 
 function get_upload_err_msg($upload_error_code)

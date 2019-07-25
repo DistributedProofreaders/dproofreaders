@@ -51,4 +51,44 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     {
         $this->assertTrue(is_valid_zip_file('./data/wrong.extension', true));
     }
+
+    // Testing list_files_in_zip
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testListingContentsOfNonExistingFile()
+    {
+        list_files_in_zip('nonexisting_file.zip');
+    }
+
+    public function testListingContentsOfNonEmptyZipFile() {
+        $this->assertEquals(
+            list_files_in_zip('./data/valid.zip'),
+            ["first", "second", "third"]
+        );
+    }
+
+    public function testListingContentsOfEmptyZipFile() {
+        $this->assertEquals(
+            list_files_in_zip('./data/empty.zip'),
+            []
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testListingContentsOfCorruptedZipFile()
+    {
+        list_files_in_zip('./data/corrupted.zip');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testListingContentsOfValidZipFileWithInvalidExtension()
+    {
+        list_files_in_zip('./data/wrong.extension');
+    }
 }
