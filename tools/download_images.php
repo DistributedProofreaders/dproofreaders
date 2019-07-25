@@ -23,8 +23,8 @@ if (file_exists($zipfile_path))
     
     // List all the images in the zip file image cache
     $zipfile_modified = filemtime($zipfile_path);
-    exec("zipinfo -1 $zipfile_path", $zipfile_images, $return_code);
-    
+    $zipfile_images = list_files_in_zip($zipfile_path);
+
     // List all the images in the project directory
     $proj_images = get_filelist($project_path, array('.png', '.jpg'));
     if ($proj_images === false)
