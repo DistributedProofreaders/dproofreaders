@@ -19,9 +19,12 @@
 // See 3rdparty/mediawiki/README.md for which MediaWiki version this maps to.
 include_once($relPath."misc.inc"); // html_safe() in following includes
 include_once($relPath."prefs_options.inc"); // get_user_proofreading_font()
+include_once($relPath."3rdparty/mediawiki/WordAccumulator.php");
+include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");
+include_once($relPath."3rdparty/mediawiki/WordLevelDiff.php");
+include_once($relPath."3rdparty/mediawiki/DiffEngine.php");
 include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
 include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
-include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");
 
 class DifferenceEngineWrapper {
     private $oldText;
@@ -72,7 +75,7 @@ class DifferenceEngineWrapper {
 
         if ( !$diff && !$otitle ) {
             $header .= "
-            <tr style='vertical-align: top;'>
+            <tr class='diff-title'>
             <td class='diff-ntitle'>{$ntitle}</td>
             </tr>";
             $multiColspan = 1;
@@ -90,17 +93,17 @@ class DifferenceEngineWrapper {
                 $multiColspan = 2;
             }
             $header .= "
-            <tr style='vertical-align: top;'>
+            <tr class='diff-title'>
             <td colspan='$colspan' class='diff-otitle'>{$otitle}</td>
             <td colspan='$colspan' class='diff-ntitle'>{$ntitle}</td>
             </tr>";
         }
 
         if ( $multi != '' ) {
-            $header .= "<tr><td colspan='{$multiColspan}' style='text-align: center;' class='diff-multi'>{$multi}</td></tr>";
+            $header .= "<tr><td colspan='{$multiColspan}' class='diff-multi'>{$multi}</td></tr>";
         }
         if ( $notice != '' ) {
-            $header .= "<tr><td colspan='{$multiColspan}' style='text-align: center;'>{$notice}</td></tr>";
+            $header .= "<tr><td colspan='{$multiColspan}' class='diff-notice'>{$notice}</td></tr>";
         }
 
         return $header . $diff . "</table>";
@@ -145,10 +148,18 @@ if(!class_exists("Xml")) {
     }
 }
 
+// MW code references wfDebug() in some places
+if(!function_exists("wfDebug")) {
+    function wfDebug($text, $dest='all', array $context=[]) {
+        // don't log any debug messages
+        return;
+    }
+}
+
 // Return URL to main CSS file
 function get_DifferenceEngine_css_files() {
     global $code_url;
-    return array("$code_url/pinc/3rdparty/mediawiki/mediawiki.action.history.diff.css");
+    return array("$code_url/pinc/3rdparty/mediawiki/mediawiki.diff.styles.css");
 }
 
 // Override default css for DP customizations
@@ -160,14 +171,14 @@ function get_DifferenceEngine_css_data() {
         $font_size = "font-size: $font_size;";
 
     return "
-td.diff-otitle,
-td.diff-ntitle {
+.diff-otitle,
+.diff-ntitle {
     font-weight: bold;
 }
-td.diff-marker,
-td.diff-addedline,
-td.diff-deletedline,
-td.diff-context {
+.diff-marker,
+.diff-addedline,
+.diff-deletedline,
+.diff-context {
     font-family: $font_family monospace;
     $font_size;
 }
@@ -175,4 +186,3 @@ td.diff-context {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

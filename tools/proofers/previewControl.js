@@ -251,8 +251,31 @@ function initPrev() {
         outerPrev.style.bottom = window.getComputedStyle(controlDiv, null).height;
     }
 
-    function hideConfig() {
+    function leavePreview() {
+        prevDiv.style.display = "none";
+        window.removeEventListener("keydown", keyQuit, false);
+    }
+
+    function previewToProof() {
+        // restore the bottom frame
+        proofFrameSet.setAttribute("rows", old_rows);
+        proofDiv.style.display = "block";
+        leavePreview();
+    }
+
+    function keyQuit(event) {
+        if (event.keyCode === 27) {
+            previewToProof();
+        }
+    }
+
+    function enterPreview() {
         prevDiv.style.display = "block";
+        window.addEventListener("keydown", keyQuit, false);
+    }
+
+    function hideConfig() {
+        enterPreview();
         configPan.style.display = "none";
         adjHeight();
     }
@@ -295,22 +318,17 @@ function initPrev() {
             // make the bottom frame very small since it is not useful
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
-            prevDiv.style.display = "block";
+            enterPreview();
             font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
             this.reSizeText(1.0);
             writePreviewText();
             adjHeight();
         },
 
-        hide: function () {
-            // restore the bottom frame
-            proofFrameSet.setAttribute("rows", old_rows);
-            proofDiv.style.display = "block";
-            prevDiv.style.display = "none";
-        },
+        hide: previewToProof,
 
         configure: function () {    // show the configuration screen
-            prevDiv.style.display = "none";
+            leavePreview();
             configPan.style.display = "block";
             setViewColors(testDiv);  // uses previewStyles
             // make a copy of the styles so that if we cancel we can go back
