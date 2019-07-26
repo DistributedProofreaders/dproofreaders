@@ -1,4 +1,5 @@
-/*global $ previewDemo, top, previewStyles, makePreview, window, alert, ieWarn */
+/*global $ previewDemo, top, makePreview, window, alert, ieWarn
+document localStorage */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
