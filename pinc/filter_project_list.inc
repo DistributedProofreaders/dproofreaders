@@ -180,7 +180,7 @@ class DifficultyElement extends ProjectFilterElement
     }
 }
 
-function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields=NULL)
+function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields = NULL)
 {
     $display_fields = [
         "language" => TRUE,
@@ -193,13 +193,14 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
     // overwrite the default display state of the form fields with any
     // custom display requests
     if($custom_display_fields && is_array($custom_display_fields))
-        $display_fields=array_merge($display_fields, $custom_display_fields);
-
+    {
+        $display_fields = array_merge($display_fields, $custom_display_fields);
+    }
     // if there is data save it, else get saved data
     // if they want to reset the filter, zero out the data passed in
     if(array_key_exists("reset", $data))
     {
-        $data=[];
+        $data = [];
         save_data($username, $filter_type, $data);
     }
     else if(array_key_exists("apply", $data))
@@ -413,6 +414,7 @@ function get_project_filter_display($pguser, $filter_type)
 
 function get_raw_saved_data($pguser, $data_name)
 {
+    $data_name = mysqli_real_escape_string(DPDatabase::get_connection(), $data_name);
     $query = "SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$data_name'";
     $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
     $row = mysqli_fetch_assoc($result);
