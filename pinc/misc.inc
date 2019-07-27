@@ -683,6 +683,38 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
     return $zip->extractTo($output_directory);
 }
 
+// Creates a zip archive containing the specified files.
+//
+// The first argument represents the files to add to the zip archive and globing is allowed.
+// The second argument represents the path to the zip archive which should be created.
+//
+// Returns whether the zip file was created successfully.
+//
+// Throws a InvalidArgumentException if:
+//   1) It cannot open a ZipArchive using the second argument as the path
+//   2) It cannot add one of the files specified by the first argument to the ZipArchive
+function create_zip_from(array $files_to_zip, string $path_to_zip): bool
+{
+    $zip = new ZipArchive();
+
+    if ($zip->open($path_to_zip, ZipArchive::CREATE) !== true) {
+        throw new InvalidArgumentException(sprintf(
+            _("Could not open '%1\$s' as a ZipArchive."),
+            $path_to_zip));
+    }
+
+
+    foreach ($files_to_zip as $file) {
+        if (!$zip->addGlob($file, 0, ['remove_all_path' => TRUE])) {
+            throw new InvalidArgumentException(sprintf(
+                _("Could not add '%1\$s' to '%2\$s' ZipArchive."),
+                $file, $path_to_zip));
+        }
+    }
+
+    return $zip->close();
+}
+
 // -----------------------------------------------------------------------------
 
 function get_upload_err_msg($upload_error_code)

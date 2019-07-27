@@ -46,7 +46,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
     $plain_zip_path = "{$pathbase}.zip";
-    exec ("zip -j $plain_zip_path $plain_path $other_files");
+    create_zip_from([$plain_path, $other_files], $plain_zip_path);
 
     mysqli_data_seek($pages_res, 0);
 
@@ -60,7 +60,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     // and make a zip of that file (plus comments).
     // (for "Download Zipped TEI text")
     $tei_zip_path = "{$pathbase}_TEI.zip";
-    exec ("zip -j $tei_zip_path $tei_path $other_files");
+    create_zip_from([$tei_path, $other_files], $tei_zip_path);
 }
 
 // -----------------------------------------------------------------------------
@@ -97,9 +97,10 @@ function generate_interim_file($projectid, $limit_round_id, $which_text, $includ
     mkdir($dirname, 0777);      // and make the directory
 
     $textfile_path = "{$dirname}/{$filename}.txt";
+    $zip_path = "{$dirname}/{$filename}.zip";
 
     // make sure that everything will be cleaned up on exit
-    register_shutdown_function("clean_up_temp", $dirname, $textfile_path);
+    register_shutdown_function("clean_up_temp", $dirname, $textfile_path, $zip_path);
 
     // now write the text file
     $handle = fopen($textfile_path,"w");
@@ -107,18 +108,18 @@ function generate_interim_file($projectid, $limit_round_id, $which_text, $includ
     fclose($handle);
     // make the zip and sent it to the user
     header("Content-type: application/octet-stream");   
-    header("Content-disposition: attachment; filename={$filename}.zip");   
-    passthru("zip -q -j - $textfile_path", $return_code);
-    if ($return_code != 0)
-    {
-        echo "post_files: the zip command failed.";
-    }
-    // cleanup will get called whatever happens  
+    header("Content-disposition: attachment; filename={$filename}.zip");
+
+    create_zip_from([$textfile_path], $zip_path);
+    readfile($zip_path);
+
+    // cleanup will get called whatever happens
 }
 
-function clean_up_temp($dirname, $textfile_path) 
+function clean_up_temp($dirname, $textfile_path, $zip_path)
 {
     // now we must clean up behind ourselves
+    unlink($zip_path);
     unlink($textfile_path);
     rmdir($dirname);
 }

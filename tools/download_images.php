@@ -80,24 +80,7 @@ if ($image_files === false)
     exit;
 }
 
-# zip: Process a .zip archive
-# -0: Don't compress files
-# -q: quiet. Don't emit any output
-# -j: 'junk' paths: Store just the filename in the the zip file, not the entire path
-# -@: Get file list from stdin
-$fh = popen("zip -0 -q -j -@ " . escapeshellcmd($zipfile_path), "w");
-if ($fh !== false)
-{
-    fwrite($fh, implode("\n", $image_files));
-    if (pclose($fh) != 0)
-    {
-        echo "download_images.php: zip command failed";
-        exit;
-    }
-} else {
-    echo "download_images.php: failed to run zip command.";
-    exit;
-}
+create_zip_from($image_files, $zipfile_path);
 
 header( "Location: $zipfile_url" );
 // vim: sw=4 ts=4 expandtab
