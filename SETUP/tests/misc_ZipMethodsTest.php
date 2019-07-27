@@ -159,4 +159,28 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     public function testExtractingValidZipFileToNonExistingDirectory() {
         extract_zip_to('./data/empty.zip', 'non_existing_directory');
     }
+
+    // Testing create_zip_from
+
+    public function testCreatingZipFile() {
+        $this->assertTrue(create_zip_from([ './*.php' ],
+            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'));
+
+        $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testCreatingZipFileWithInvalidPath() {
+        create_zip_from([ './*.php' ], 'misc_ZipMethodsTest.php');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testCreatingZipFileContainingNonExistingFiles() {
+        create_zip_from([ 'this_does_not_exist' ],
+            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip');
+    }
 }
