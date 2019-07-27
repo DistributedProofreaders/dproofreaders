@@ -160,23 +160,24 @@ class DifficultyElement extends ProjectFilterElement
 {
     function echo_active_html_control()
     {
-        echo "<b>$this->label:</b> ";
-        echo pgettext("all difficulties", "All") . "<input type='checkbox' name='difficulty[]' id='diff-all' value=''";
+        echo "<p><b>$this->label:</b> ";
+        echo "<label for='diff-all'>" . pgettext("all difficulties", "All") . "</label><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
         $difficulty = array_get($this->data, "difficulty", []);
         if(!count($difficulty))
             echo " checked";
-        echo ">   ";
+        echo ">\n";
         $difficulty_options= array('beginner' => _("Beginners Only"), 'easy' => _("Easy"), 'average' => _("Average"), 'hard' => _("Hard"));
         foreach($difficulty_options as $value => $option)
         {
-            echo "$option<input type='checkbox' name='difficulty[]' class='diff-opt' value='$value'";
+            echo "<label for='$value'>&nbsp;$option</label><input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
             if(is_array($difficulty) && in_array($value, $difficulty))
             {
                 echo " checked";
                 $this->selected_options[] = $option;
             }
-            echo ">   ";
+            echo ">\n";
         }
+        echo "</p>\n";
     }
 }
 
@@ -241,8 +242,8 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
         $difficulty_element,
     ];
 
-    echo "<form id='filter_form' method='post' action='#filter_form'>";
-    echo "<p>" . sprintf(_("Filter available %s books by:"), $filter_label) . "</p>";
+    echo "\n<form id='filter_form' method='post' action='#filter_form'>\n";
+    echo "<fieldset><legend>" . sprintf(_("Filter available %s books by:"), $filter_label) . "</legend>\n";
     echo "<table class='filter'>\n";
 
     // create the row for listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
@@ -259,8 +260,9 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
     $difficulty_element->echo_html_control();
 
-    echo "<br><input type='submit' class='margin-half-em' name='reset' value='", attr_safe(_("Remove Filter")), "'>";
-    echo "<input type='submit' class='margin-half-em' name='apply' value='", attr_safe(_("Apply Selections")), "'>";
+    echo "<input type='submit' name='reset' value='", attr_safe(_("Remove Filter")), "'>";
+    echo "&nbsp;<input type='submit' name='apply' value='", attr_safe(_("Apply Selections")), "'>";
+    echo "</fieldset>";
     echo "</form>\n";
 
     // construct the summary display
