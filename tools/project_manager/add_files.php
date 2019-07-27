@@ -69,12 +69,7 @@ if ( substr($abs_source, -4) == ".zip" )
         chmod($source_project_dir, 0777);
     }
 
-    // $abs_source and $source_project_dir cannot begin with a hyphen,
-    // and therefore cannot be mistaken for command line options.
-    exec("unzip -o -j "
-        . escapeshellarg($abs_source)
-        . " -d "
-        . escapeshellarg($source_project_dir));
+    extract_zip_to($abs_source, $source_project_dir);
 
     // (Assuming the unzip worked), remove the zip file.
     unlink($abs_source);
