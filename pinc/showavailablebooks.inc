@@ -7,6 +7,7 @@ include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 include_once($relPath.'js_newwin.inc'); // prep_for_links_to_project_pages get_onclick_attr_for_link_to_project_page
 include_once($relPath.'genres.inc');
+include_once($relPath.'post_processing.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -238,15 +239,48 @@ function show_projects_for_stage(
 
 function show_projects_for_pool( $pool, $checkedout_or_available )
 {
-    global $pguser;
+    global $pguser, $pp_alert_threshold_days;
 
     $anchor = $checkedout_or_available;
+
+    $columns = array(
+        "nameofwork"          => array( 'Title',  _("Title") ),
+        "authorsname"         => array( 'Author', _("Author") ),
+        "language"            => array( 'Lang',   _("Language") ),
+        "genre"               => array( 'Genre',  _("Genre") ),
+        "n_pages"             => array( 'PgTot',  _("Pages") ),
+        $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
+        "days_avail"          => array( 'Days',   _("Days Checked Out") ),
+    );
+
+    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $ext_sort_param_name = "order_{$checkedout_or_available}";
+    $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
+    $default_ext_sort = 'DaysD';
 
     if ( $checkedout_or_available == 'checkedout' )
     {
         $header = _('Books I Have Checked Out');
 
         echo "<h2 id='$anchor'>$header</h2>";
+
+        $num_alert_projects = count_pp_projects_past_threshold($pguser);
+        if($num_alert_projects)
+        {
+            echo "<p class='warning'>";
+            echo sprintf(
+                ngettext(
+                    // TRANSLATORS: %1$d is a number of projects; %2$d is a number of days
+                    'You have %1$d project that has not been visited in the last %2$d days.',
+                    // TRANSLATORS: %1$d is a number of projects; %2$d is a number of days
+                    'You have %1$d projects that have not been visited in the last %2$d days.',
+                    $num_alert_projects
+                ),
+                $num_alert_projects,
+                $pp_alert_threshold_days
+            );
+            echo "</p>";
+        }
 
         $initial_project_selector = "state = '{$pool->project_checkedout_state}'";
 
@@ -255,6 +289,20 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $initial_project_selector .= " AND checkedoutby = '$pguser'";
 
         $projects_filter = "";
+
+        $columns["days_since_visit"] = array( 'Visited', _("Days Since Visit") );
+
+        $optional_select_clause = "
+            (unix_timestamp() - t_latest_home_visit)/(24 * 60 * 60) AS days_since_visit,
+        ";
+
+        $optional_join_clause = "
+            LEFT OUTER JOIN user_project_info ON
+                projects.projectid = user_project_info.projectid AND
+                projects.checkedoutby = user_project_info.username
+        ";
+
+        $default_ext_sort = 'VisitedD';
     }
     elseif ( $checkedout_or_available == 'available' )
     {
@@ -267,6 +315,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $initial_project_selector = "state = '{$pool->project_available_state}'";
         process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector);
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
+
+        $optional_select_clause = "";
+        $optional_join_clause = "";
     }
     else
     {
@@ -275,21 +326,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
     $filtered_project_selector = "$initial_project_selector $projects_filter";
 
-    $columns = array(
-        "nameofwork"          => array( 'Title',  _("Title") ),
-        "authorsname"         => array( 'Author', _("Author") ),
-        "language"            => array( 'Lang',   _("Language") ),
-        "genre"               => array( 'Genre',  _("Genre") ),
-        "n_pages"             => array( 'PgTot',  _("Pages") ),
-        $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
-        "days_avail"          => array( 'Days',   _("Days") ),
-    );
-
-    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
-    $ext_sort_param_name = "order_{$checkedout_or_available}";
-    $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
-    $default_ext_sort = 'DaysD';
-
     show_project_listing(
         $filtered_project_selector,
         $columns,
@@ -297,7 +333,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $ext_sort_setting_name,
         $default_ext_sort,
         $anchor,
-        $pool
+        $pool,
+        $optional_join_clause,
+        $optional_select_clause
     );
 }
 
@@ -331,8 +369,11 @@ function show_project_listing(
     $stage,
         // stage object (Round, Pool, or Stage)
 
-    $optional_join_clause=""
-        // If needed. Default to "", but useful/necessary for SR stage
+    $optional_join_clause="",
+        // If needed. Default to "", but useful/necessary for SR & PP
+
+    $optional_select_clause=""
+        // If needed. Default to "", but useful/necessary for PP
 )
 {
     global $code_url, $pguser, $testing;
@@ -343,7 +384,8 @@ function show_project_listing(
         "n_available_pages" => "text-align: right;",
         "n_pages"   => "text-align: right;",
         "days_avail"=> "text-align: right;",
-        "days_left" => "text-align: right;"
+        "days_left" => "text-align: right;",
+        "days_since_visit" => "text-align: right;",
     );
 
     // Load the sort column and direction
@@ -390,6 +432,7 @@ function show_project_listing(
     maybe_create_temporary_genre_translation_table();
     $query = "
         SELECT *,
+            $optional_select_clause
             (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
             (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
         FROM projects NATURAL JOIN genre_translations
@@ -573,7 +616,7 @@ function show_project_listing(
                 }
                 $cell = $num_done;
             }
-            elseif( $col_id == "days_avail" || $col_id == "days_left" )
+            elseif( $col_id == "days_avail" || $col_id == "days_left" || $col_id == "days_since_visit" )
             {
                 $cell = sprintf( "%.1f", $book[$col_id] );
             }
