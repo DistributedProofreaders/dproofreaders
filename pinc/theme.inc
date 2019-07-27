@@ -11,6 +11,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
+include_once($relPath.'post_processing.inc'); // count_pp_projects_past_threshold()
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 include_once($relPath.'faq.inc');
 
@@ -532,7 +533,7 @@ function get_activity_links()
 // return a list of round/stage links for the user
 // the returned links are in a format usable by headerbar_text_array
 {
-    global $Stage_for_id_, $pguser, $userP;
+    global $Stage_for_id_, $pguser;
 
     if (is_null($pguser)) return;
     // Should show links to stages that are accessible to people
@@ -554,7 +555,16 @@ function get_activity_links()
     {
         if(isset($stages_can_access_and_access_prereqs[$stage->id]))
         {
-            $links[] = array('url' => $stage->relative_url, 'text' => $stage->id, 'title' => $stage->name);
+            $text = $stage->id;
+
+            // for PPers, get the number of their projects requiring attention
+            if($stage->id == "PP")
+            {
+                $total = count_pp_projects_past_threshold($pguser);
+                if($total)
+                    $text .= " ($total)";
+            }
+            $links[] = array('url' => $stage->relative_url, 'text' => $text, 'title' => $stage->name);
         }
     }
 
