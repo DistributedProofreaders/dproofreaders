@@ -653,6 +653,36 @@ function list_files_in_zip(string $file_path): array
     return $files;
 }
 
+// Extracts the zip directory's contents into the output directory.
+//
+// It uses the is_valid_zip_file function to check whether the first argument is a valid zip file, if it
+// is not, an InvalidArgumentException is thrown.
+//
+// If the output directory does not exist or is not a valid directory, an InvalidArgumentException is thrown.
+//
+// Returns whether the extraction was successful.
+function extract_zip_to(string $path_to_zip, string $output_directory): bool
+{
+    if (!is_valid_zip_file($path_to_zip)) {
+        throw new InvalidArgumentException(sprintf(
+            _("Argument '%1\$s' is not a valid zip file."),
+            $path_to_zip));
+    }
+
+    if (!file_exists($output_directory) || !is_dir($output_directory)) {
+        throw new InvalidArgumentException(sprintf(
+            _("Argument '%1\$s' is not a valid output directory (it does not exist)."),
+            $output_directory));
+    }
+
+    $zip = new ZipArchive();
+
+    // No need to check the result of the function since it is checked in is_valid_zip_file
+    $zip->open($path_to_zip);
+
+    return $zip->extractTo($output_directory);
+}
+
 // -----------------------------------------------------------------------------
 
 function get_upload_err_msg($upload_error_code)
