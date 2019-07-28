@@ -98,7 +98,11 @@ $site_signoff
 EOF;
     }
 
-    maybe_mail($email, $subject, $message);
+    $mail_accepted = maybe_mail($email, $subject, $message);
+    if(!$mail_accepted)
+    {
+        echo "WARNING: Email failed to send for $PPer <$email>\n";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
