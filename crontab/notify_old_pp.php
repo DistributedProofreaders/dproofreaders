@@ -37,6 +37,13 @@ function send_pp_reminders($PPer, $projects, $which_message)
     global $code_url, $db_requests_email_addr,
            $site_signoff, $site_abbreviation;
     global $pp_alert_threshold_days;
+    global $charset, $dyn_locales_dir, $system_locales_dir;
+
+    $user = new User($PPer);
+    $locale = get_valid_locale_for_translation($user->u_intlang);
+
+    // configure gettext to translate user email
+    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
 
     $projects_list = [];
     foreach($projects as $project)
@@ -47,8 +54,10 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $modifieddate = strftime("%e %B %Y", $project["modifieddate"]);
         $lastvisitdate = strftime("%e %B %Y", $project["lastvisitdate"]);
 
-        $work_details  = "$nameofwork by $authorsname ($projectid)";
-        $time_details = "[checked out since $modifieddate, project last visited $lastvisitdate]";
+        // TRANSLATORS: %1$s is a project title, %2%s is the author, %3%s is the projectid
+        $work_details = sprintf(_('%1$s by %2%s (%3$s)'), $nameofwork, $authorsname, $projectid);
+        // TRANSLATORS: %1$s and %2$s are already-translated date strings
+        $time_details = sprintf(_('[checked out since %1$s, project last visited %2$s]'), $modifieddate, $lastvisitdate);;
         $projects_list[] = "$work_details\n$time_details\n    $code_url/project.php?id=$projectid";
     }
 
@@ -56,10 +65,6 @@ function send_pp_reminders($PPer, $projects, $which_message)
 
     $numprojs = count($projects);
     echo "\nNotifying $PPer about $numprojs project(s):\n$projects_list_string\n\n";
-
-    $user = new User($PPer);
-    $email = $user->email;
-
 
     $message = [];
     if($which_message == "first")
@@ -99,6 +104,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $message[] = $site_signoff;
     }
 
+    $email = $user->email;
     $message_string = implode("\n\n", $message);
 
     $mail_accepted = maybe_mail($email, $subject, $message_string);
