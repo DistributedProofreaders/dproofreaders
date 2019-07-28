@@ -48,13 +48,7 @@ function get_desired_language()
             $locale = $test_locale;
     }
 
-    // Fall back to en_US (English) if we weren't able to determine a locale
-    // or we don't have a translation for that locale.
-    if (!@$locale || !is_locale_translation_enabled($locale)) {
-        $locale = "en_US";
-    }
-
-    return $locale;
+    return get_valid_locale_for_translation($locale);
 }
 
 function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir)
