@@ -39,10 +39,12 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         echo html_safe("$message\n");
         echo "</pre>\n";
         echo "<hr>\n";
+
+        return True;
     }
     else
     {
-        mail( $to, $subject, $message, $additional_headers );
+        return mail( $to, $subject, $message, $additional_headers );
     }
 }
 
@@ -73,7 +75,7 @@ $site_signoff
 
     $user = new User($username);
 
-    maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
+    return maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab
