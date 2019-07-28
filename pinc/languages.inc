@@ -234,6 +234,16 @@ function is_locale_translation_enabled($locale)
     return in_array($locale, $enabled_locales);
 }
 
+function get_valid_locale_for_translation($locale)
+{
+    // Fall back to en_US (English) if locale isn't set
+    // or if we don't have a translation for that locale.
+    if (!@$locale || !is_locale_translation_enabled($locale)) {
+        $locale = "en_US";
+    }
+    return $locale;
+}
+
 function set_locale_translation_enabled($locale, $enable)
 {
     global $dyn_locales_dir;
