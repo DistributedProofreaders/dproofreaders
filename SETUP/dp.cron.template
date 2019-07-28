@@ -18,3 +18,4 @@
 
 # monthly:
 50 0 1 * * URL=<<CODE_URL>>/crontab/notify_old_pp.php; <<URL_DUMP_PROGRAM>> $URL
+50 0 15 * * URL=<<CODE_URL>>/crontab/notify_old_pp.php; <<URL_DUMP_PROGRAM>> $URL
