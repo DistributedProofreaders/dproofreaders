@@ -107,7 +107,9 @@ function send_pp_reminders($PPer, $projects, $which_message)
     $email = $user->email;
     $message_string = implode("\n\n", $message);
 
-    $mail_accepted = maybe_mail($email, $subject, $message_string);
+    $headers = [ "Reply-To: $db_requests_email_addr" ];
+
+    $mail_accepted = maybe_mail($email, $subject, $message_string, $headers);
     if(!$mail_accepted)
     {
         echo "WARNING: Email failed to send for $PPer <$email>\n";
