@@ -6,9 +6,6 @@ docRef=null;
 
 // These two variables are set by
 // top.menuframe.document.body.attributes['onLoad'] in ctrl_frame.php
-markRef=null;
-cRef=null;
-
 // image width
 iW='1000';
 
@@ -22,33 +19,12 @@ imageCopy.onload = loadImageSize;
 // dropdown character selection
 function insertCharacter(wM)
 {
-    cRef.tCharsA.selectedIndex=0;
-    cRef.tCharsE.selectedIndex=0;
-    cRef.tCharsI.selectedIndex=0;
-    cRef.tCharsO.selectedIndex=0;
-    cRef.tCharsU.selectedIndex=0;
-    cRef.tCharsM.selectedIndex=0;
-
-    // These ones (now) only exist if $utf8_site is true.
-    // This script doesn't have access to that variable,
-    // so we test each individually.
-    if (cRef.tCharsC) cRef.tCharsC.selectedIndex=0;
-    if (cRef.tCharsD) cRef.tCharsD.selectedIndex=0;
-    if (cRef.tCharsS) cRef.tCharsS.selectedIndex=0;
-    if (cRef.tCharsZ) cRef.tCharsZ.selectedIndex=0;
-    if (cRef.tCharsCyr) cRef.tCharsCyr.selectedIndex=0;
-    if (cRef.tCharsOCyr) cRef.tCharsOCyr.selectedIndex=0;
-
-    cRef.markBoxChar.value=String.fromCharCode(wM);
-    insertTags(String.fromCharCode(wM),'','',true);
+    insertTags(wM,'','',true);
 }
 
 // standard tag selection
 function surroundSelection(wOT,wCT)
 {
-    markRef.markBox.value=wOT;
-    markRef.markBoxEnd.value=wCT;
-
     insertTags(wOT,wCT,'',false);
 }
 
@@ -306,13 +282,14 @@ function processText(tagOpen, tagClose, bodyText)
         if (tagOpen == '[Illustration: ') {
             tagOpen = '[Illustration';
         }
-        
-        if (tagOpen[0] == '<') {
+
+        // do not tag empty strings but insert a single '<'
+        if ((tagOpen[0] == '<') && (tagOpen.length > 1)) {
             tagOpen = '';
             tagClose = '';
         }
     }
-    
+
     // Handle footnote label substitution
     if (tagOpen == '[Footnote #: ') {
         // Split the selected text on the first space in the string.
