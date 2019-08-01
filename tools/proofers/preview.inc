@@ -113,6 +113,8 @@ function output_preview_div()
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
+    $choose_colors = html_safe(_("Choose Colors"));
+    $initial_mode = html_safe(_("Initial view mode"));
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -136,9 +138,9 @@ function output_preview_div()
     </span>
     <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
     <span class='ilb'>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('show_tags')" id="id_tags">$tags</label>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('no_tags')" checked>$no_tags</label>
-      <label><input type="radio" name="viewSel" onclick="previewControl.write('re_wrap')">$re_wrap</label>
+      <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
+      <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
+      <label><input type="radio" name="viewSel" id="re_wrap">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
@@ -154,7 +156,8 @@ function output_preview_div()
 <div id="id_config_panel" class='no_display'>
   <div id='color_test'>
   </div>
-  <div class="clearfix box1">
+  <fieldset class="clearfix">
+    <legend>$choose_colors</legend>
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
@@ -172,7 +175,7 @@ function output_preview_div()
         <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
         <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
     </div>
-  </div>
+  </fieldset>
   <div class="box2">
     <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="previewControl.addFont()" value="$add_font"></span>
     <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
@@ -181,9 +184,14 @@ function output_preview_div()
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
   </div>
   <fieldset>
-   <legend>$suppress_warnings</legend>
-   $supp_item_string
-</fieldset>
+    <legend>$suppress_warnings</legend>
+    $supp_item_string
+  </fieldset>
+  <br><span class='ilb'>$initial_mode <select id="id_init_mode">
+    <option value="show_tags">$tags</option>
+    <option value="no_tags">$no_tags</option>
+    <option value="re_wrap">$re_wrap</option>
+  </select></span>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">

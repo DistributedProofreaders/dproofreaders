@@ -1,4 +1,4 @@
-/*global previewDemo, top, previewStyles, makePreview, window, alert, ieWarn
+/*global $ previewDemo, top, makePreview, window, alert, ieWarn
 document localStorage */
 /*
 This file controls the user interface functions. Initially nothing is displayed
@@ -27,7 +27,7 @@ function initPrev() {
     var txtarea = document.getElementById("text_data");
     var prevDiv = document.getElementById("prevdiv");
     var controlDiv = document.getElementById("id_controls");
-    var tagon = document.getElementById("id_tags");
+    var tagon = document.getElementById("show_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
     var backgroundCheckbox = document.getElementById("background_checkbox");
@@ -51,7 +51,7 @@ function initPrev() {
     var suppCheckBox = [];
 
     var selTag;
-    var viewMode = "no_tags";    // always start with this
+    var viewMode;
 
     var tempStyle = {}; // used during configure
 
@@ -77,7 +77,8 @@ function initPrev() {
         allowUnderline: false,
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif",
-        suppress: {}
+        suppress: {},
+        initialViewMode: "no_tags"
     };
     supp_set.forEach(function (msg, i) {
         previewStyles.suppress[msg] = false;
@@ -91,7 +92,11 @@ function initPrev() {
     function writePreviewText() {
         // makePreview is defined in preview.js
         preview = makePreview(txtarea.value, viewMode, previewStyles);
-        prevWin.style.whiteSpace = (preview.ok && (viewMode === "re_wrap")) ? "normal" : "pre";
+        prevWin.style.whiteSpace = (
+            (preview.ok && (viewMode === "re_wrap"))
+            ? "normal"
+            : "pre"
+        );
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
@@ -102,12 +107,14 @@ function initPrev() {
             viewMode = "show_tags";
         }
         // if any issues are suppressed show warning
-        var warn = false;
-        var issue;
-        for (issue in previewStyles.suppress) {
-            warn = warn || previewStyles.suppress[issue];
-        }
-        someSupp.style.display = warn ? "inline" : "none";
+        var warn = Object.values(previewStyles.suppress).some(function (value) {
+            return value;
+        });
+        someSupp.style.display = (
+            warn
+            ? "inline"
+            : "none"
+        );
     }
 
     function setViewColors(win) { // sets background and plain text colours
@@ -126,13 +133,14 @@ function initPrev() {
         if (!optionSet) {
             return;
         }
-        for (i in optionSet) {
+        Object.keys(optionSet).forEach(function (i) {
             optionList.push(i);
-        }
+        });
         optionList.sort();
         for (i = 0; i < optionList.length; i += 1) {
             opt = document.createElement("option");
-            opt.text = opt.value = optionList[i];
+            opt.value = optionList[i];
+            opt.text = opt.value;
             if (opt.value === def) {
                 opt.selected = true;
             }
@@ -156,12 +164,16 @@ function initPrev() {
     function deepCopy(dest, source, keep) {
         if (source && typeof source === 'object') {
             if (!keep) {
-                dest = Array.isArray(source) ? [] : {};
+                dest = (
+                    Array.isArray(source)
+                    ? []
+                    : {}
+                );
             }
             if (dest) {
-                for (i in source) {
+                Object.keys(source).forEach(function (i) {
                     dest[i] = deepCopy(dest[i], source[i], keep);
-                }
+                });
             }
         } else {
             dest = source;
@@ -182,10 +194,17 @@ function initPrev() {
         prevWin.style.fontFamily = previewStyles.defFont;
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
+        viewMode = previewStyles.initialViewMode;
+        $("#" + viewMode).prop("checked", true);
     }
 
     initStyle();
     initView();
+
+    $("[name='viewSel']").click(function () {
+        viewMode = this.id;
+        writePreviewText();
+    });
 
     // functions for setting up the configuration screen
     function testDraw() {
@@ -196,7 +215,8 @@ function initPrev() {
     function initPicker() { // initialise the color pickers
         var backgroundColor = tempStyle[selTag].bg;
         var foregroundColor = tempStyle[selTag].fg;
-        var useDefaultBackground, useDefaultForeground;
+        var useDefaultBackground;
+        var useDefaultForeground;
         if (selTag === "t") {
             spanBackground.style.visibility = "hidden";
             useDefaultBackground = false;
@@ -210,10 +230,18 @@ function initPrev() {
         }
         foregroundCheckbox.checked = useDefaultForeground;
         foreColor.disabled = useDefaultForeground;
-        foreColor.value = useDefaultForeground ? tempStyle.t.fg : foregroundColor;
+        foreColor.value = (
+            useDefaultForeground
+            ? tempStyle.t.fg
+            : foregroundColor
+        );
         backgroundCheckbox.checked = useDefaultBackground;
         backColor.disabled = useDefaultBackground;
-        backColor.value = useDefaultBackground ? tempStyle.t.bg : backgroundColor;
+        backColor.value = (
+            useDefaultBackground
+            ? tempStyle.t.bg
+            : backgroundColor
+        );
     }
 
     // The control buttons etc. in "controlDiv" will "wrap" according to the
@@ -299,12 +327,6 @@ function initPrev() {
 
         hide: previewToProof,
 
-        // called when "Tags", "no Tags" or rewrap radio buttons are depressed
-        write: function (f) {
-            viewMode = f;
-            writePreviewText();
-        },
-
         configure: function () {    // show the configuration screen
             leavePreview();
             configPan.style.display = "block";
@@ -324,6 +346,7 @@ function initPrev() {
             supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
             });
+            $("#id_init_mode").val(tempStyle.initialViewMode);
         },
 
         enableColor: function (en) {
@@ -342,6 +365,7 @@ function initPrev() {
                 tempStyle.suppress[msg] = suppCheckBox[i].checked;
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
+            tempStyle.initialViewMode = $("#id_init_mode").val();
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
             initView();
@@ -355,7 +379,11 @@ function initPrev() {
 
         setForegroundColor: function () {
             var useDefaultForeground = foregroundCheckbox.checked;
-            var colorValue = useDefaultForeground ? "" : foreColor.value;
+            var colorValue = (
+                useDefaultForeground
+                ? ""
+                : foreColor.value
+            );
             if (useDefaultForeground) {
                 foreColor.value = tempStyle.t.fg;
             }
@@ -371,7 +399,11 @@ function initPrev() {
         // called when background colour or transparency changed
         setBackgroundColor: function () {
             var useDefaultBackground = backgroundCheckbox.checked;
-            var colorValue = useDefaultBackground ? "" : backColor.value;
+            var colorValue = (
+                useDefaultBackground
+                ? ""
+                : backColor.value
+            );
             if (useDefaultBackground) {
                 backColor.value = tempStyle.t.bg;
             }
