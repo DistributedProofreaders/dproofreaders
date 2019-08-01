@@ -5,7 +5,7 @@ include_once($relPath.'api_utils.inc'); // check_login()
 function pickers()
 {
     check_login();
-    
+
     $picker_set =
     [
         [

@@ -15,7 +15,7 @@ class ToolButton
 
     public function draw($format_round)
     {
-        if($format_round || !$this->formatting)
+        if ($format_round || !$this->formatting)
         {
             echo "$this->html";
         }
@@ -24,7 +24,7 @@ class ToolButton
 
 // Popup Link
 // A link that, when clicked, opens a new window containing some tool.
-function draw_popup_link($label, $url, $window_name, $width, $height )
+function draw_popup_link($label, $url, $window_name, $width, $height)
 {
     $window_features = "width=$width,height=$height,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0";
     $js = "window.open('$url','$window_name','$window_features'); return false;";
@@ -59,7 +59,7 @@ class ProofreadingToolbox
             new ToolButton('s', _('Small Caps markup'), '<span style="font-variant: small-caps;">Sc</span>', 'top.surroundSelection("<sc>","</sc>");', true),
             new ToolButton('g', _('Gesperrt (spaced out)'), 'g', 'top.surroundSelection("<g>","</g>");', true),
             new ToolButton('f', _('Antiqua'), 'f', 'top.surroundSelection("<f>","</f>");', true),
-            new ToolButton('m', _('Remove markup from selection'),"<span style='text-decoration: line-through;'>&lt;x&gt;</span>", 'top.transformText("remove_markup");'),
+            new ToolButton('m', _('Remove markup from selection'), "<span style='text-decoration: line-through;'>&lt;x&gt;</span>", 'top.transformText("remove_markup");'),
             new ToolButton('u', _('Uppercase selection'), 'ABC', 'top.transformText("upper-case");'),
             new ToolButton('t', _('Title case selection'), 'Abc', 'top.transformText("title-case");'),
             new ToolButton('l', _('Lowercase selection'), 'abc', 'top.transformText("lower-case");'),
@@ -81,7 +81,7 @@ class ProofreadingToolbox
     {
         // this is further constructed by javascript using data from the server
         list($font_face, $font_size) = get_user_proofreading_font();
-        if(!$font_face)
+        if (!$font_face)
         {
             // browser default - this should then be same as proofreading textarea
             $font_face = "monospace";
@@ -93,19 +93,19 @@ class ProofreadingToolbox
     }
 
 
-    function draw_tools($round)
+    public function draw_tools($round)
     {
         global $code_url;
         $formatting = is_formatting_round($round);
 
         echo "<div id='tools'>";
-        foreach($this->tool_buttons as $tool_button)
+        foreach ($this->tool_buttons as $tool_button)
         {
             $tool_button->draw($formatting);
         }
 
         draw_popup_link(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 300, 250);
-        if($formatting)
+        if ($formatting)
         {
             spacer_bar();
             draw_popup_link(_('Table Maker'), 'mktable.php', 'dp_mktable', 600, 500);
