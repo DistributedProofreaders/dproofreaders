@@ -439,7 +439,6 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         if($load_filtered_projects)
         {
             $display_filter = get_project_filter_display($pguser, $filter_type);
-            $display_filter = preg_replace(array("/^<br>/","/<br>/"),array(""," | "),$display_filter);
             $display_filter = sprintf(_('<a href="%1$s">Filter</a>: %2$s'), $filter_link, $display_filter);
         }
         else
