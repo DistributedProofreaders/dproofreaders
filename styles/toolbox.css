@@ -1,0 +1,71 @@
+body {
+    background-color: #CDC0B0;
+    margin: 0 0 0 2px;
+}
+
+.flexbox {
+    display: flex;
+}
+
+/* default buttons have small text = 83% */
+.selector_button {
+    margin-top: 1px;
+    font-size: 16px;
+    padding: 0.1em 0.15em 0 0.15em;
+    border: 1px solid black;
+    margin-right: 2px;
+    background-color: Bisque;
+}
+
+.tool-button {
+    padding: 0 4px;
+}
+
+.selected-tab {
+  background-color: Beige;
+}
+
+.key-block {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.char_box {
+  padding-top: 1px;
+}
+
+.big_text {
+    font-family: inherit;
+    font-size: 300%;
+    width: 0.9em;
+    background-color: #FFF8DC;
+    margin: 0.1em;
+}
+/* specify font-size in px so consistent in different browsers */
+.picker {
+    font-family: inherit;
+    margin-top: 1px;
+    font-size: 16px;
+    background-color: Beige;
+    padding: 0;
+    width: 1.05em;
+    vertical-align: middle;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/* adjust so tools do not jump around with differnt character pickers */
+#selector {
+    float: left;
+    min-width: 474px;
+    margin-left: 2px;
+}
+
+#tools {
+    flex: auto;
+}
