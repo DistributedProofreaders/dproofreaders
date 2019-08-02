@@ -10,52 +10,52 @@ class CharacterSelector
         [
             [
                 "code" => "A",
-                "upper" => "ÀÁÂÃÄÅÆ",
-                "lower" => "àáâãäåæ",
+                "upper" => "Ã€ÃÃ‚ÃƒÃ„Ã…Ã†",
+                "lower" => "Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã¦",
             ],
             [
                 "code" => "E",
-                "upper" => "ÈÉÊË",
-                "lower" => "èéêë",
+                "upper" => "ÃˆÃ‰ÃŠÃ‹",
+                "lower" => "Ã¨Ã©ÃªÃ«",
             ],
             [
                 "code" => "I",
-                "upper" => "ÌÍÎÏ",
-                "lower" => "ìíîï",
+                "upper" => "ÃŒÃÃŽÃ",
+                "lower" => "Ã¬Ã­Ã®Ã¯",
             ],
             [
                 "code" => "O",
-                "upper" => "ÒÓÔÕÖØ",
-                "lower" => "òóôõöø",
+                "upper" => "Ã’Ã“Ã”Ã•Ã–Ã˜",
+                "lower" => "Ã²Ã³Ã´ÃµÃ¶Ã¸",
             ],
             [
                 "code" => "U",
-                "upper" => "ÙÚÛÜ",
-                "lower" => "ùúûü",
+                "upper" => "Ã™ÃšÃ›Ãœ",
+                "lower" => "Ã¹ÃºÃ»Ã¼",
             ],
             [
                 "code" => "+",
-                "upper" => '$£¥¡©« Ý ÇÐÑÞ¦ªº´¨¯¸°¹²³',
-                "lower" => "¢¤ ¿®»ßýÿçðñþ§¼½¾¶¬·±×÷µ",
+                "upper" => '$Â£Â¥Â¡Â©Â« Ã Ã‡ÃÃ‘ÃžÂ¦ÂªÂºÂ´Â¨Â¯Â¸Â°Â¹Â²Â³',
+                "lower" => "Â¢Â¤ Â¿Â®Â»ÃŸÃ½Ã¿Ã§Ã°Ã±Ã¾Â§Â¼Â½Â¾Â¶Â¬Â·Â±Ã—Ã·Âµ",
             ],
         ];
 
         $this->key_titles =
         [
-            '¶' => _('pilcrow'),
-            'µ' => _('micro sign'),
-            '°' => _('degree sign'),
-            'º' => _('masculine ordinal'),
-            'ª' => _('feminine ordinal'),
-            '·' => _('mid-dot'),
-            '£' => _('pound sign'),
-            '¤' => _('currency sign'),
-            '¦' => _('broken bar'),
-            'Ð' => _('capital eth'),
-            'Þ' => _('capital thorn'),
-            'ß' => _('sharp s'),
-            'ð' => _('small eth'),
-            'þ' => _('small thorn'),
+            'Â¶' => _('pilcrow'),
+            'Âµ' => _('micro sign'),
+            'Â°' => _('degree sign'),
+            'Âº' => _('masculine ordinal'),
+            'Âª' => _('feminine ordinal'),
+            'Â·' => _('mid-dot'),
+            'Â£' => _('pound sign'),
+            'Â¤' => _('currency sign'),
+            'Â¦' => _('broken bar'),
+            'Ã' => _('capital eth'),
+            'Ãž' => _('capital thorn'),
+            'ÃŸ' => _('sharp s'),
+            'Ã°' => _('small eth'),
+            'Ã¾' => _('small thorn'),
         ];
     }
 
@@ -74,7 +74,7 @@ class CharacterSelector
 
         foreach ($this->picker_set as $picker)
         {
-            $code = $picker["code"];
+            $code = maybe_utf8_decode($picker["code"]);
             $safe_code = bin2hex($code);
             $selector_string .= "<button type='button' id='_$safe_code' class='selector_button'>" . html_safe($code) . "</button>";
             $row_string .= "<div class='_$safe_code key-block'>";
@@ -97,7 +97,7 @@ class CharacterSelector
         $row = "<div>";
 
         // this gives an empty array for an empty string
-        $chars = preg_split('//', $char_row, -1, PREG_SPLIT_NO_EMPTY);
+        $chars = preg_split('//u', $char_row, -1, PREG_SPLIT_NO_EMPTY);
 
         foreach($chars as $character)
         {
@@ -116,11 +116,22 @@ class CharacterSelector
                 {
                     $title_string = "";
                 }
-                $row .= "<button type='button' class='picker'$title_string>" . html_safe($character) . "</button>";
+                $row .= "<button type='button' class='picker'$title_string>" . html_safe(maybe_utf8_decode($character)) . "</button>";
             }
         }
         return $row . "</div>\n";
     }
+}
+
+function maybe_utf8_decode($char)
+{
+    global $utf8_site;
+
+    if(!$utf8_site)
+    {
+        $char = utf8_decode($char);
+    }
+    return $char;
 }
 
 // vim: sw=4 ts=4 expandtab
