@@ -1,6 +1,6 @@
 body {
     background-color: #CDC0B0;
-    margin: 0 0 0 2px;
+    margin: 2px;
 }
 
 .flexbox {
@@ -63,7 +63,6 @@ body {
 #selector {
     float: left;
     min-width: 474px;
-    margin-left: 2px;
 }
 
 #tools {

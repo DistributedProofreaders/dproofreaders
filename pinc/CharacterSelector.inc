@@ -77,7 +77,7 @@ class CharacterSelector
             $code = maybe_utf8_decode($picker["code"]);
             $safe_code = bin2hex($code);
             $selector_string .= "<button type='button' id='_$safe_code' class='selector_button'>" . html_safe($code) . "</button>";
-            $row_string .= "<div class='_$safe_code key-block'>";
+            $row_string .= "<div class='_$safe_code key-block'>\n";
             $row_string .= $this->draw_row($picker["upper"]);
             $row_string .= $this->draw_row($picker["lower"]);
             $row_string .= "</div>\n";
@@ -85,9 +85,9 @@ class CharacterSelector
 
         $selector_string .= "</div>\n";
 
-        echo "<div id='selector' style='font-family: $font_face;' class='flexbox'>";
-        echo "\n<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
+        echo "<div id='selector' style='font-family: $font_face;' class='flexbox'>\n";
         echo "<div class='char_box'><input type='text' readonly class='big_text' id='large_char'></div>\n";
+        echo "<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
         echo "</div>";
     }
 
