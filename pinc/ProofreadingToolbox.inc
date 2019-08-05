@@ -31,7 +31,7 @@ class ProofreadingToolbox
 {
     public function output($round)
     {
-        echo "<div>";
+        echo "<div class='flexbox'>";
         $character_selector = new CharacterSelector;
         $character_selector->draw();
         $this->draw_tools($round);

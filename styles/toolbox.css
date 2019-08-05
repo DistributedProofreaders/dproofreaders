@@ -60,11 +60,6 @@ body {
 }
 
 /* adjust so tools do not jump around with differnt character pickers */
-#selector {
-    float: left;
+#char-selector {
     min-width: 474px;
-}
-
-#tools {
-    flex: auto;
 }

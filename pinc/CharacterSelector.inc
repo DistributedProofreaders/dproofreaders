@@ -85,10 +85,8 @@ class CharacterSelector
 
         $selector_string .= "</div>\n";
 
-        echo "<div id='selector' style='font-family: $font_face;' class='flexbox'>\n";
-        echo "<div class='char_box'><input type='text' readonly class='big_text' id='large_char'></div>\n";
-        echo "<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
-        echo "</div>";
+        echo "<div class='char_box' style='font-family: $font_face;'><input type='text' readonly class='big_text' id='large_char'></div>\n";
+        echo "<div id='char-selector' class='nowrap' style='font-family: $font_face;'>$selector_string$row_string</div>\n";
     }
 
     function draw_row($char_row)
