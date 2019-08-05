@@ -4,21 +4,12 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'CharacterSelector.inc');
 
-class ToolButton
+function draw_tool_button($accesskey, $title, $label, $onclick, $draw = true)
 {
-    public function __construct($accesskey, $title, $label, $onclick, $formatting = false)
+    if ($draw)
     {
         $access_string = $accesskey ? "accesskey='$accesskey'" : '';
-        $this->html = "<button type='button' class='tool-button' onclick='$onclick' $access_string title='" . attr_safe($title) . "'>$label</button>\n";
-        $this->formatting = $formatting;
-    }
-
-    public function draw($format_round)
-    {
-        if ($format_round || !$this->formatting)
-        {
-            echo "$this->html";
-        }
+        echo "<button type='button' class='tool-button' onclick='$onclick' $access_string title='", attr_safe($title), "'>$label</button>\n";
     }
 }
 
@@ -38,11 +29,6 @@ function spacer_bar()
 
 class ProofreadingToolbox
 {
-    public function __construct()
-    {
-        $this->initialize_tool_buttons();
-    }
-
     public function output($round)
     {
         echo "<div>";
@@ -52,45 +38,35 @@ class ProofreadingToolbox
         echo '</div>';
     }
 
-    private function initialize_tool_buttons()
-    {
-        $this->tool_buttons = [
-            new ToolButton('i', _('Italics'), '<i>i</i>', 'top.surroundSelection("<i>","</i>");', true),
-            new ToolButton('b', _('Bold'), '<b>B</b>', 'top.surroundSelection("<b>","</b>");', true),
-            new ToolButton('s', _('Small Caps markup'), '<span style="font-variant: small-caps;">Sc</span>', 'top.surroundSelection("<sc>","</sc>");', true),
-            new ToolButton('g', _('Gesperrt (spaced out)'), 'g', 'top.surroundSelection("<g>","</g>");', true),
-            new ToolButton('f', _('Antiqua'), 'f', 'top.surroundSelection("<f>","</f>");', true),
-            new ToolButton('m', _('Remove markup from selection'), "<span style='text-decoration: line-through;'>&lt;x&gt;</span>", 'top.transformText("remove_markup");'),
-            new ToolButton('u', _('Uppercase selection'), 'ABC', 'top.transformText("upper-case");'),
-            new ToolButton('t', _('Title case selection'), 'Abc', 'top.transformText("title-case");'),
-            new ToolButton('l', _('Lowercase selection'), 'abc', 'top.transformText("lower-case");'),
-            new ToolButton('', '[Greek:', '[Greek: ]', 'top.surroundSelection("[Greek: ","]");'),
-            new ToolButton('', '[Sidenote:', '[Sidenote: ]', 'top.surroundSelection("[Sidenote: ","]");', true),
-            new ToolButton('', '[Illustration:', '[Illustration: ]', 'top.surroundSelection("[Illustration: ","]");', true),
-            new ToolButton('', _('Note'), '[** ]', 'top.surroundSelection("[** ","]");'),
-            new ToolButton('', '[ ]', '[ ]', 'top.surroundSelection("[","]");'),
-            new ToolButton('', '{ }', '{ }', 'top.surroundSelection("{","}");'),
-            new ToolButton('', '[Footnote #:', '[Footnote #: ]', 'top.surroundSelection("[Footnote #: ","]");', true),
-            new ToolButton('', _('Start poetry/table'), '/* */', 'top.surroundSelection("/*\\n","\\n*/");', true),
-            new ToolButton('', _('Start block quote'), '/# #/', 'top.surroundSelection("/#\\n","\\n#/");', true),
-            new ToolButton('', _('Thought Break'), '&lt;tb&gt;', 'top.surroundSelection("\\n<tb>\\n","");', true),
-            new ToolButton('', '[Blank Page]', '[Blank Page]', 'top.replaceAllText("[Blank Page]");'),
-        ];
-    }
-
     public function draw_tools($round)
     {
         global $code_url;
-        $formatting = is_formatting_round($round);
+        $format_round = is_formatting_round($round);
 
         echo "<div id='tools'>";
-        foreach ($this->tool_buttons as $tool_button)
-        {
-            $tool_button->draw($formatting);
-        }
+        draw_tool_button('i', _('Italics'), '<i>i</i>', 'top.surroundSelection("<i>","</i>");', $format_round);
+        draw_tool_button('b', _('Bold'), '<b>B</b>', 'top.surroundSelection("<b>","</b>");', $format_round);
+        draw_tool_button('s', _('Small Caps markup'), '<span style="font-variant: small-caps;">Sc</span>', 'top.surroundSelection("<sc>","</sc>");', $format_round);
+        draw_tool_button('g', _('Gesperrt (spaced out)'), 'g', 'top.surroundSelection("<g>","</g>");', $format_round);
+        draw_tool_button('f', _('Antiqua'), 'f', 'top.surroundSelection("<f>","</f>");', $format_round);
+        draw_tool_button('m', _('Remove markup from selection'), "<span style='text-decoration: line-through;'>&lt;x&gt;</span>", 'top.transformText("remove_markup");');
+        draw_tool_button('u', _('Uppercase selection'), 'ABC', 'top.transformText("upper-case");');
+        draw_tool_button('t', _('Title case selection'), 'Abc', 'top.transformText("title-case");');
+        draw_tool_button('l', _('Lowercase selection'), 'abc', 'top.transformText("lower-case");');
+        draw_tool_button('', '[Greek:', '[Greek: ]', 'top.surroundSelection("[Greek: ","]");');
+        draw_tool_button('', '[Sidenote:', '[Sidenote: ]', 'top.surroundSelection("[Sidenote: ","]");', $format_round);
+        draw_tool_button('', '[Illustration:', '[Illustration: ]', 'top.surroundSelection("[Illustration: ","]");', $format_round);
+        draw_tool_button('', _('Note'), '[** ]', 'top.surroundSelection("[** ","]");');
+        draw_tool_button('', '[ ]', '[ ]', 'top.surroundSelection("[","]");');
+        draw_tool_button('', '{ }', '{ }', 'top.surroundSelection("{","}");');
+        draw_tool_button('', '[Footnote #:', '[Footnote #: ]', 'top.surroundSelection("[Footnote #: ","]");', $format_round);
+        draw_tool_button('', _('Start poetry/table'), '/* */', 'top.surroundSelection("/*\\n","\\n*/");', $format_round);
+        draw_tool_button('', _('Start block quote'), '/# #/', 'top.surroundSelection("/#\\n","\\n#/");', $format_round);
+        draw_tool_button('', _('Thought Break'), '&lt;tb&gt;', 'top.surroundSelection("\\n<tb>\\n","");', $format_round);
+        draw_tool_button('', '[Blank Page]', '[Blank Page]', 'top.replaceAllText("[Blank Page]");');
 
         draw_popup_link(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 300, 250);
-        if ($formatting)
+        if ($format_round)
         {
             spacer_bar();
             draw_popup_link(_('Table Maker'), 'mktable.php', 'dp_mktable', 600, 500);
