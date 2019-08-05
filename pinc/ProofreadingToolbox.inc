@@ -65,6 +65,7 @@ class ProofreadingToolbox
         draw_tool_button('', _('Thought Break'), '&lt;tb&gt;', 'top.surroundSelection("\\n<tb>\\n","");', $format_round);
         draw_tool_button('', '[Blank Page]', '[Blank Page]', 'top.replaceAllText("[Blank Page]");');
 
+        echo "\n<br>\n<i>". _('Pop-up tools'). ":</i>\n";
         draw_popup_link(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 300, 250);
         if ($format_round)
         {
@@ -74,12 +75,10 @@ class ProofreadingToolbox
         spacer_bar();
         draw_popup_link(_('Greek Transliterator'), 'greek2ascii.php', 'gkasciiWin', 640, 250);
 
+        echo "\n<br>\n<i>", _('Documentation'), ":</i>\n";
         $url = get_faq_url($round->document);
-        echo "[<a href='$url' class='nowrap' target='roundDoc'>", _('Guidelines'), "</a>]\n";
-
-        echo "[<a href='$code_url/faq/InterfaceDiagram.png' class='nowrap' target='ifaceWin'>", _("Proofreading Diagram"), "</a>]\n";
-
-        echo "[<a href='$code_url/faq/prooffacehelp.php' accesskey='1' class='nowrap' target='helpNewWin'>", _("Help"), "</a>]";
+        echo "<a href='$url' class='nowrap' target='roundDoc'>", _('Guidelines'), "</a>\n";
+        echo "<a href='$code_url/faq/prooffacehelp.php' accesskey='1' class='nowrap' target='helpNewWin'>", _("Help"), "</a>";
 
         echo "</div>";
     }
