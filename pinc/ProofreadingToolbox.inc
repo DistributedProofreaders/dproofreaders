@@ -78,6 +78,7 @@ class ProofreadingToolbox
         echo "\n<br>\n<i>", _('Documentation'), ":</i>\n";
         $url = get_faq_url($round->document);
         echo "<a href='$url' class='nowrap' target='roundDoc'>", _('Guidelines'), "</a>\n";
+        spacer_bar();
         echo "<a href='$code_url/faq/prooffacehelp.php' accesskey='1' class='nowrap' target='helpNewWin'>", _("Help"), "</a>";
 
         echo "</div>";
