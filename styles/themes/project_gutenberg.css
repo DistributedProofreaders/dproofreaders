@@ -254,15 +254,13 @@ table.snapshottable th {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #CDC0B0;
 }
-#toolbox .dropnormal {
-  background-color: #FFF8DC;
+#toolbox .selector_button {
+  background-color: Bisque;
 }
-#toolbox .dropchars {
-  background-color: #EEDFCC;
-}
-#toolbox .proofbutton {
-  border: 1px solid black;
-  background: #FFF8DC;
+#toolbox .selected-tab,
+#toolbox .big_text,
+#toolbox .picker {
+  background-color: Beige;
 }
 /* vim: sw=4 ts=4 expandtab
 */
