@@ -1,7 +1,5 @@
 <?php
 
-include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
-
 class CharacterSelector
 {
     function __construct ()
@@ -132,13 +130,6 @@ class CharacterSelector
 
     function draw()
     {
-        list($font_face, $font_size) = get_user_proofreading_font();
-        if (!$font_face)
-        {
-            // browser default - this should then be same as proofreading textarea
-            $font_face = "monospace";
-        }
-
         $selector_string = "<div id='selector_row'>";
         $row_string = "";
 
@@ -157,8 +148,8 @@ class CharacterSelector
 
         $selector_string .= "</div>\n";
 
-        echo "<div class='char_box' style='font-family: $font_face;'><input type='text' readonly class='big_text' id='large_char'></div>\n";
-        echo "<div id='char-selector' class='nowrap' style='font-family: $font_face;'>$selector_string$row_string</div>\n";
+        echo "<div class='char_box'><input type='text' readonly class='big_text' id='large_char'></div>\n";
+        echo "<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
     }
 
     function draw_row($chars)
