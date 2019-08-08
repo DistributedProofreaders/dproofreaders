@@ -164,10 +164,11 @@ class CharacterSelector
     function draw_row($chars)
     {
 
-        $row = "<div>";
+        $row = "<div class='table-row'>";
 
         foreach($chars as $character)
         {
+            $row .= "<div class='table-cell'>";
             if (0x20 == $character)
             {
                 $row .= "<button type='button' class='picker invisible'></button>";
@@ -177,6 +178,7 @@ class CharacterSelector
                 $title_string = attr_safe(IntlChar::charName($character));
                 $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe(maybe_utf8_decode(IntlChar::chr($character))) . "</button>";
             }
+            $row .= "</div>";
         }
         return $row . "</div>\n";
     }
