@@ -665,8 +665,9 @@ table.dirlist caption {
   margin-right: 2px;
   min-width: 1em;
 }
-#toolbox .tool-button {
-  padding: 0;
+#toolbox .proofbutton {
+  padding: 1px 7px 0 7px;
+  cursor: pointer;
 }
 #toolbox .key-block {
   display: none;

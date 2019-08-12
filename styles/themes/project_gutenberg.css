@@ -262,6 +262,10 @@ table.snapshottable th {
 #toolbox .picker {
   background-color: Beige;
 }
+#toolbox .proofbutton {
+  border: 1px solid black;
+  background: #FFF8DC;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab

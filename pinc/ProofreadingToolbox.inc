@@ -9,7 +9,7 @@ function draw_tool_button($accesskey, $title, $label, $onclick, $draw = true)
     if ($draw)
     {
         $access_string = $accesskey ? "accesskey='$accesskey'" : '';
-        echo "<button type='button' class='tool-button' onclick='$onclick' $access_string title='", attr_safe($title), "'>$label</button>\n";
+        echo "<button type='button' class='proofbutton' onclick='$onclick' $access_string title='", attr_safe($title), "'>$label</button>\n";
     }
 }
 
@@ -65,7 +65,7 @@ class ProofreadingToolbox
         draw_tool_button('', _('Thought Break'), '&lt;tb&gt;', 'top.surroundSelection("\\n<tb>\\n","");', $format_round);
         draw_tool_button('', '[Blank Page]', '[Blank Page]', 'top.replaceAllText("[Blank Page]");');
 
-        echo "\n<br>\n<i>". _('Pop-up tools'). ":</i>\n";
+        echo "\n<span class='small'><br>\n<i>". _('Pop-up tools'). ":</i>\n";
         draw_popup_link(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 300, 250);
         if ($format_round)
         {
@@ -81,6 +81,7 @@ class ProofreadingToolbox
         spacer_bar();
         echo "<a href='$code_url/faq/prooffacehelp.php' accesskey='1' class='nowrap' target='helpNewWin'>", _("Help"), "</a>";
 
+        echo "</span>";
         echo "</div>";
     }
 }
