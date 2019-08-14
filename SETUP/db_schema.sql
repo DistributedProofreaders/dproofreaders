@@ -336,7 +336,7 @@ CREATE TABLE `projects` (
   `t_last_page_done` int(11) NOT NULL default '0',
   `scannercredit` tinytext NOT NULL,
   `state` varchar(50) default NULL,
-  `postednum` smallint(5) unsigned default NULL,
+  `postednum` mediumint(8) unsigned default NULL,
   `clearance` text NOT NULL,
   `year` varchar(4) NOT NULL default '',
   `topic_id` int(10) default NULL,
