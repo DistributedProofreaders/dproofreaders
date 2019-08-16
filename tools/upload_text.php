@@ -215,7 +215,7 @@ if (!isset($action))
         echo _("Select a zipped file to upload:");
     }
     echo "<br>\n";
-    echo "<input type='file' name='uploaded_file' size='25' maxsize='50'>\n";
+    echo "<input type='file' accept='.zip' name='uploaded_file' size='25' maxsize='50'>\n";
     echo "<p>$standard_blurb</p>";
     echo "<p>$big_upload_blurb</p>\n";
     echo "</li>\n";
