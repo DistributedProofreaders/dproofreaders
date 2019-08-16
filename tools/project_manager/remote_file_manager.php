@@ -293,7 +293,7 @@ function do_showupload()
     $form_content .= "<div id='old_uploader'>";
     $form_content .= $submit_blurb;
     $form_content .= _("File to upload") . ":&nbsp;";
-    $form_content .= "<input type='file' name='the_file' size='50' maxsize='50'>";
+    $form_content .= "<input type='file' accept='.zip' name='the_file' size='50' maxsize='50'>";
     $form_content .= "</div>";
 
     $form_content .= "<div id='resumable_uploader' style='display: none;'>";
