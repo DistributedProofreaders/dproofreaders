@@ -3,6 +3,20 @@ include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address()
 
+/*
+The user_project_info table captures information that pertains specifically
+to the (username, projectid) tuple. This includes things like project
+subscriptions in addition to two timestamp fields that the site uses in
+various places:
+
+* t_latest_home_visit - timestamp of the last page visit (see project.php)
+* t_latest_page_event - timestamp of the last page saved in the project
+                        (see DPage.inc). Originally this recorded the last
+                        proofer-initiated page event and was later changed
+                        to only be updated on page save events and the
+                        database updated to reflect that.
+*/
+
 function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
 {
     mysqli_query(DPDatabase::get_connection(), "
