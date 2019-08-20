@@ -133,7 +133,7 @@ function project_add_page(
     // If the INSERT raised an error, don't do the other stuff.
     if ($errs) return $errs;
 
-    _log_page_event( $projectid, $image_file_name, 'add', $user, NULL, FALSE );
+    _log_page_event( $projectid, $image_file_name, 'add', $user, NULL );
 
     _project_adjust_n_pages( $projectid, +1 );
     _project_adjust_n_available_pages( $projectid, +1 );
@@ -170,7 +170,7 @@ function Page_delete( $projectid, $image, $user )
     $sql = "DELETE FROM $projectid WHERE image = '$image'";
     mysqli_query(DPDatabase::get_connection(), $sql);
 
-    _log_page_event( $projectid, $image, 'delete', $user, NULL, FALSE );
+    _log_page_event( $projectid, $image, 'delete', $user, NULL );
 
     _project_adjust_n_pages( $projectid, -1 );
     if ($page_was_available)
@@ -188,7 +188,7 @@ function Page_replaceImage( $projectid, $image, $new_image, $user )
         image='$new_image'
     ");
 
-    _log_page_event( $projectid, $image, 'replaceImage', $user, NULL, FALSE ); // $new_image
+    _log_page_event( $projectid, $image, 'replaceImage', $user, NULL ); // $new_image
 }
 
 // -----------------------------------------------------------------------------
@@ -200,7 +200,7 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
         master_text=$text_file_content_expr
     ");
 
-    _log_page_event( $projectid, $image, 'replaceText', $user, NULL, FALSE );
+    _log_page_event( $projectid, $image, 'replaceText', $user, NULL );
 }
 
 // -----------------------------------------------------------------------------
@@ -214,7 +214,7 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 
     $round = get_Round_for_text_column_name($text_column);
 
-    _log_page_event( $projectid, $image, 'modifyText', $user, $round, FALSE );
+    _log_page_event( $projectid, $image, 'modifyText', $user, $round );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -234,7 +234,7 @@ function Page_checkout( $projectid, $image, $round, $user )
         {$round->user_column_name}='$user'
     " );
 
-    _log_page_event( $projectid, $image, 'checkout', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'checkout', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, -1 );
 
@@ -260,7 +260,8 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
         {$round->text_column_name}='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
-    _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round );
+    upi_set_t_latest_page_event( $user, $projectid, 'UNIX_TIMESTAMP()' );
 
     return $round->page_temp_state;
 }
@@ -284,7 +285,8 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
         {$round->text_column_name}='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
 
-    _log_page_event( $projectid, $image, 'saveAsDone', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'saveAsDone', $user, $round );
+    upi_set_t_latest_page_event( $user, $projectid, 'UNIX_TIMESTAMP()' );
 
     _project_set_t_last_page_done( $projectid, $timestamp );
 
@@ -308,7 +310,7 @@ function Page_reopen( $projectid, $image, $round, $user )
         {$round->user_column_name}='$user'
     " );
 
-    _log_page_event( $projectid, $image, 'reopen', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'reopen', $user, $round );
 
     return $round->page_temp_state;
 }
@@ -330,7 +332,7 @@ function Page_returnToRound( $projectid, $image, $round, $user )
         {$round->user_column_name}='$user'
     " );
 
-    _log_page_event( $projectid, $image, 'returnToRound', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'returnToRound', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 
@@ -351,7 +353,7 @@ function Page_reclaim( $projectid, $image, $round, $user )
         {$round->time_column_name}=0
     " );
 
-    _log_page_event( $projectid, $image, 'reclaim', $user, $round, FALSE );
+    _log_page_event( $projectid, $image, 'reclaim', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -372,7 +374,7 @@ function Page_clearRound( $projectid, $image, $round, $user )
         {$round->text_column_name}=''
     ");
 
-    _log_page_event( $projectid, $image, 'clearRound', $user, $round, FALSE );
+    _log_page_event( $projectid, $image, 'clearRound', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -402,7 +404,7 @@ function Page_markAsBad( $projectid, $image, $round, $user, $reason )
         {$round->text_column_name}={$round->prevtext_column_name}
     " );
 
-    _log_page_event( $projectid, $image, 'markAsBad', $user, $round, TRUE );
+    _log_page_event( $projectid, $image, 'markAsBad', $user, $round );
 }
 
 // -----------------------------------------------------------------------------
@@ -421,7 +423,7 @@ function Page_eraseBadMark( $projectid, $image, $round, $user )
         {$round->user_column_name}=''
     " );
 
-    _log_page_event( $projectid, $image, 'eraseBadMark', $user, $round, FALSE );
+    _log_page_event( $projectid, $image, 'eraseBadMark', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -540,7 +542,7 @@ function _normalize_page_text( $page_text )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _log_page_event( $projectid, $image, $event_type, $username, $round, $is_prooferly )
+function _log_page_event( $projectid, $image, $event_type, $username, $round )
 {
     assert( strlen($event_type) <= 16 );
 
@@ -556,11 +558,6 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round, $i
             username     = '$username',
             round_id     = $round_id_setting
     ") or die(mysqli_error(DPDatabase::get_connection()));
-
-    if ( $is_prooferly ) // as opposed to a PM-ish or Auto event
-    {
-        upi_set_t_latest_page_event( $username, $projectid, 'UNIX_TIMESTAMP()' );
-    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
