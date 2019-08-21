@@ -123,7 +123,7 @@ foreach (scandir($local_catalog_dir) as $filename)
 {
     if ($filename == '.' || $filename == '..') continue;
 
-    if(preg_match('/^pg(\d+)\.rdf$/', $filename, $matches) === FALSE)
+    if(! preg_match('/^pg(\d+)\.rdf$/', $filename, $matches))
     {
         echo "Skipping unrecognized PG RDF file: $filename\n";
         continue;
