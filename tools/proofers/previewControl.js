@@ -107,8 +107,8 @@ function initPrev() {
             viewMode = "show_tags";
         }
         // if any issues are suppressed show warning
-        var warn = Object.values(previewStyles.suppress).some(function (value) {
-            return value;
+        var warn = Object.keys(previewStyles.suppress).some(function (key) {
+            return previewStyles.suppress[key];
         });
         someSupp.style.display = (
             warn
