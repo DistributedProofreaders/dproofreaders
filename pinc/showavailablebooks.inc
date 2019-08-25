@@ -250,7 +250,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         "genre"               => array( 'Genre',  _("Genre") ),
         "n_pages"             => array( 'PgTot',  _("Pages") ),
         $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
-        "days_avail"          => array( 'Days',   _("Days Checked Out") ),
     );
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
@@ -290,8 +289,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $projects_filter = "";
 
-        $columns["days_since_visit"] = array( 'Visited', _("Days Since Visit") );
-
         $optional_select_clause = "(
             SELECT
                 (unix_timestamp() - t_latest_home_visit)/(24 * 60 * 60)
@@ -302,6 +299,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         ) AS days_since_visit,";
 
         $default_ext_sort = 'VisitedD';
+
+        $columns["days_avail"] = array( 'Days', _("Days Checked Out") );
+        $columns["days_since_visit"] = array( 'Visited', _("Days Since Visit") );
     }
     elseif ( $checkedout_or_available == 'available' )
     {
@@ -316,6 +316,8 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         $optional_select_clause = "";
+
+        $columns["days_avail"] = array( 'Days', _("Days Available") );
     }
     else
     {
