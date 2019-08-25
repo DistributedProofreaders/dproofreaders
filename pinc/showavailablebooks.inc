@@ -292,15 +292,14 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $columns["days_since_visit"] = array( 'Visited', _("Days Since Visit") );
 
-        $optional_select_clause = "
-            (unix_timestamp() - t_latest_home_visit)/(24 * 60 * 60) AS days_since_visit,
-        ";
-
-        $optional_join_clause = "
-            LEFT OUTER JOIN user_project_info ON
+        $optional_select_clause = "(
+            SELECT
+                (unix_timestamp() - t_latest_home_visit)/(24 * 60 * 60)
+            FROM user_project_info
+            WHERE
                 projects.projectid = user_project_info.projectid AND
                 projects.checkedoutby = user_project_info.username
-        ";
+        ) AS days_since_visit,";
 
         $default_ext_sort = 'VisitedD';
     }
@@ -317,7 +316,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         $optional_select_clause = "";
-        $optional_join_clause = "";
     }
     else
     {
@@ -334,7 +332,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $default_ext_sort,
         $anchor,
         $pool,
-        $optional_join_clause,
+        "",  // $optional_join_clause
         $optional_select_clause
     );
 }
