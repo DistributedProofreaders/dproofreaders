@@ -21,7 +21,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     write_project_comments($projectid, $fp);
     fclose ($fp);
 
-    $other_files = $comments_path;
+    $other_files = [$comments_path];
 
     // Word files
     foreach ( array('good', 'bad') as $code )
@@ -29,7 +29,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
         $f = get_project_word_file($projectid, $code);
         if ( $f->size > 0 )
         {
-            $other_files .= ' ' . $f->abs_path;
+            $other_files[] = $f->abs_path;
         }
     }
 
@@ -46,7 +46,8 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
     $plain_zip_path = "{$pathbase}.zip";
-    create_zip_from([$plain_path, $other_files], $plain_zip_path);
+
+    create_zip_from(array_merge([$plain_path], $other_files), $plain_zip_path);
 
     mysqli_data_seek($pages_res, 0);
 
@@ -60,7 +61,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     // and make a zip of that file (plus comments).
     // (for "Download Zipped TEI text")
     $tei_zip_path = "{$pathbase}_TEI.zip";
-    create_zip_from([$tei_path, $other_files], $tei_zip_path);
+    create_zip_from(array_merge([$tei_path], $other_files), $tei_zip_path);
 }
 
 // -----------------------------------------------------------------------------
