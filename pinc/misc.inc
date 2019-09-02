@@ -596,6 +596,58 @@ function get_filelist($dirpath, $validext = array(), $with_path = False)
     return $filelist;
 }
 
+
+// Flattens the contents of a directory recursively.
+//
+// For example, the following directory structure:
+//      dir1/
+//          a.txt
+//          dir2/
+//              b.txt
+//          dir3/
+//              dir4/
+//                  c.txt
+//
+// would be flattened like so:
+//      dir1/
+//          a.txt
+//          b.txt
+//          c.txt
+//
+// If the first argument is not an existing directory, an InvalidArgumentException will be thrown.
+// If it is unable to flatten the directory, it will throw a RuntimeException.
+function flatten_directory(string $directory_to_flatten)
+{
+    if (!file_exists($directory_to_flatten) || !is_dir($directory_to_flatten)) {
+        throw new InvalidArgumentException(sprintf(
+            _("Argument '%1\$s' is not a valid output directory (it does not exist)."),
+            $directory_to_flatten));
+    }
+
+    $iterator = new RecursiveDirectoryIterator($directory_to_flatten, RecursiveDirectoryIterator::SKIP_DOTS);
+    $files = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
+
+    foreach ($files as $file) {
+        if ($file->isDir()) {
+            $result = rmdir($file->getRealPath());
+
+            if (!$result) {
+                throw new RuntimeException(sprintf(_("Could not remove directory '%1\$s' while flattening '%2\$s'."),
+                    $file->getRealPath(), $directory_to_flatten));
+            }
+        }
+        else {
+            $new_name = $directory_to_flatten . '/' . $file->getFilename();
+            $result = rename($file->getRealPath(), $new_name);
+
+            if (!$result) {
+                throw new RuntimeException(sprintf(_("Could not move file '%1\$s' to '%2\$s' while flattening '%3\$s'."),
+                    $file->getRealPath(), $new_name, $directory_to_flatten));
+            }
+        }
+    }
+}
+
 // -----------------------------------------------------------------------------
 // Return whether the file is a valid zip file.
 //

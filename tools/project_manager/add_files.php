@@ -70,6 +70,7 @@ if ( substr($abs_source, -4) == ".zip" )
     }
 
     extract_zip_to($abs_source, $source_project_dir);
+    flatten_directory($source_project_dir);
 
     // (Assuming the unzip worked), remove the zip file.
     unlink($abs_source);
