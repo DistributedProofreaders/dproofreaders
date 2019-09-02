@@ -10,12 +10,10 @@ $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_
 $round = get_Round_for_round_id($round_id);
 
 $header_args = [
-    "css_files" => [
-        "$code_url/styles/toolbox.css",
-    ],
     "js_files" => [
         "$code_url/tools/proofers/character_selector.js",
     ],
+    "body_attributes" => 'style="background-color: #CDC0B0; padding: 0; margin: 0;"',
 ];
 slim_header(_("Control Frame"), $header_args);
 
