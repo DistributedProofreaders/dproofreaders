@@ -78,10 +78,14 @@ class Project
                 return $this->can_be_managed_by_user($pguser);
             case "names_can_be_seen_by_current_user":
                 return $this->names_can_be_seen_by_user($pguser);
+            case "PPer":
+                return $this->_get_PPer();
+            case "PPVer":
+                return $this->_get_PPVer();
             case "PPer_is_current_user":
-                return $this->PPer_is_user($pguser);
+                return is_null($pguser) ? False : $this->PPer == $pguser;
             case "PPVer_is_current_user":
-                return $this->PPVer_is_user($pguser);
+                return is_null($pguser) ? False : $this->PPVer == $pguser;
         }
 
         // If we don't recognize the property, raise a notice and return null
@@ -133,40 +137,70 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    function PPer_is_user($username)
+    private function _get_PPer()
     {
-        if ( is_null($username) ) return FALSE;
-        return
-            ($this->postproofer == $username
-             ||
-             (
-              $this->checkedoutby == $username
-              &&
-              (
-               $this->state != 'proj_post_second_checked_out'
-               &&
-               $this->state != 'proj_correct_checked_out'
-               )
-              )
-             );
+        global $site_supports_corrections_after_posting;
+
+        // The logic to determine who is a PPer is a bit convoluted
+        // as it depends on the postproofer column, the checkedoutby
+        // column, and the state of the project.
+
+        $checkedout_states = [
+            PROJ_POST_SECOND_CHECKED_OUT,
+            PROJ_POST_COMPLETE,
+            PROJ_SUBMIT_PG_POSTED
+        ];
+        if ( $site_supports_corrections_after_posting )
+        {
+            $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
+        }
+
+        $PPer = "";
+        if ( !empty($this->postproofer) )
+        {
+            $PPer = $this->postproofer;
+        }
+        else if ( !empty($this->checkedoutby) &&
+            !in_array($this->state, $checkedout_states)
+        )
+        {
+            $PPer = $this->checkedoutby;
+        }
+
+        return $PPer;
     }
 
-    // -------------------------------------------------------------------------
-
-    function PPVer_is_user($username)
+    private function _get_PPVer()
     {
-        if ( is_null($username) ) return FALSE;
-        return
-            ( $this->state == 'proj_post_first_checked_out'
-              || $this->state == 'proj_post_second_checked_out' )
-            && $this->checkedoutby == $username
-            && user_can_work_in_stage($username, 'PPV');
-        // You might think that we should only allow
-        //     $this->state == 'proj_post_second_checked_out'
-        // But if someone with PPV-ability is PPing a project,
-        // they can (and probably will) directly post to PG,
-        // with no explicit PPV phase. Thus, they are effectively
-        // both the PPer and PPVer of the project.
+        // The logic to determine who is a PPVer is a bit convoluted
+        // as it depends on the ppverifier column, the checkedoutby
+        // column, and the state of the project.
+
+        $checkedout_states = [
+            PROJ_POST_SECOND_CHECKED_OUT,
+            PROJ_POST_COMPLETE,
+            PROJ_SUBMIT_PG_POSTED
+        ];
+
+        $PPVer = "";
+        if ( !empty($this->ppverifier) )
+        {
+            $PPVer = $this->ppverifier;
+        }
+        else if ( !empty($this->checkedoutby) &&
+            in_array($this->state, $checkedout_states)
+            // You might think that we should only allow
+            //     $this->state == 'proj_post_second_checked_out'
+            // But if someone with PPV-ability is PPing a project,
+            // they can (and probably will) directly post to PG,
+            // with no explicit PPV phase. Thus, they are effectively
+            // both the PPer and PPVer of the project.
+        )
+        {
+            $PPVer = $this->checkedoutby;
+        }
+
+        return $PPVer;
     }
 
     // -------------------------------------------------------------------------
@@ -189,8 +223,8 @@ class Project
         if ( $public_page_details ) return TRUE;
         return
             ($this->can_be_managed_by_user($username)
-             || $this->PPer_is_user($username)
-             || $this->PPVer_is_user($username) );
+             || $this->PPer == $username
+             || $this->PPVer == $username);
     }
 
     // -------------------------------------------------------------------------

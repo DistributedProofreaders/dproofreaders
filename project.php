@@ -456,52 +456,15 @@ function do_project_info_table()
     if ( $user_is_logged_in )
     {
         echo_row_a( _("Project Manager"), $project->username );
-        $checkedout_states = array(
-            PROJ_POST_SECOND_CHECKED_OUT,
-            PROJ_POST_COMPLETE,
-            PROJ_SUBMIT_PG_POSTED);
-        if ( $site_supports_corrections_after_posting )
+
+        if ($project->PPer)
         {
-            $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
+            echo_row_a( _("Post Processor"), $project->PPer );
         }
 
-        if ( !empty($project->postproofer) )
+        if ($project->PPVer)
         {
-            $PPer = $project->postproofer;
-        }
-        else if ( !empty($project->checkedoutby) &&
-            !in_array(
-                $project->state,$checkedout_states
-            )
-        )
-        {
-            $PPer = $project->checkedoutby;
-        }
-        if ( isset($PPer) )
-        {
-            echo_row_a( _("Post Processor"), $PPer );
-        }
-
-        if ( !empty($project->ppverifier) )
-        {
-            $PPVer = $project->ppverifier;
-        }
-        else if ( !empty($project->checkedoutby) &&
-            in_array(
-                $project->state,
-                array(
-                    PROJ_POST_SECOND_CHECKED_OUT,
-                    PROJ_POST_COMPLETE,
-                    PROJ_SUBMIT_PG_POSTED,
-                )
-            )
-        )
-        {
-            $PPVer = $project->checkedoutby;
-        }
-        if ( isset($PPVer) )
-        {
-            echo_row_a( _("PP Verifier"), $PPVer );
+            echo_row_a( _("PP Verifier"), $project->PPVer );
         }
 
         if ($site_supports_corrections_after_posting)
