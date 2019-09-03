@@ -8,7 +8,7 @@ function draw_tool_button($accesskey, $title, $label, $onclick, $draw = true)
 {
     if ($draw)
     {
-        $access_string = $accesskey ? "accesskey='$accesskey'" : '';
+        $access_string = $accesskey ? "accesskey='" . attr_safe($accesskey) . "'" : '';
         echo "<button type='button' class='proofbutton' onclick='$onclick' $access_string title='", attr_safe($title), "'>$label</button>\n";
     }
 }
@@ -19,12 +19,12 @@ function draw_popup_link($label, $url, $window_name, $width, $height)
 {
     $window_features = "width=$width,height=$height,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0";
     $js = "window.open('$url','$window_name','$window_features'); return false;";
-    echo "<a href='#' class='nowrap' onClick=\"$js\"\n>$label</a>\n";
+    echo "<a href='#' class='nowrap' onClick=\"$js\">$label</a>";
 }
 
 function spacer_bar()
 {
-    echo "|\n";
+    echo " | ";
 }
 
 class ProofreadingToolbox
@@ -77,11 +77,11 @@ class ProofreadingToolbox
 
         echo "\n<br>\n<i>", _('Documentation'), ":</i>\n";
         $url = get_faq_url($round->document);
-        echo "<a href='$url' class='nowrap' target='roundDoc'>", _('Guidelines'), "</a>\n";
+        echo "<a href='$url' class='nowrap' target='roundDoc'>", _('Guidelines'), "</a>";
         spacer_bar();
         echo "<a href='$code_url/faq/prooffacehelp.php' accesskey='1' class='nowrap' target='helpNewWin'>", _("Help"), "</a>";
 
-        echo "</span>";
+        echo "\n</span>";
         echo "</div>";
     }
 }
