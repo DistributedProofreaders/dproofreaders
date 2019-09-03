@@ -8,7 +8,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'js_newwin.inc');
+include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
 
 require_login();
 
@@ -38,7 +38,9 @@ else
 
 $sorting = array_get($_GET, 'sort', '');
 
-output_header($out_title, NO_STATSBAR);
+$extra_args['js_data'] = get_js_for_links_to_project_pages();
+
+output_header($out_title, NO_STATSBAR, $extra_args);
 
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
@@ -48,8 +50,6 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
     echo "</p></form>\n";
 }
-
-prep_for_links_to_project_pages();
 
 $proof_heading = _("Proofreading &amp; Formatting Projects");
 echo "<h2 id='proof'>$proof_heading</h2>";
