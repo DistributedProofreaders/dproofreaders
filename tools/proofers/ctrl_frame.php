@@ -13,7 +13,7 @@ $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/character_selector.js",
     ],
-    "body_attributes" => 'style="background-color: #CDC0B0; padding: 0; margin: 0;"',
+    "body_attributes" => "class='control-frame'",
 ];
 slim_header(_("Control Frame"), $header_args);
 
