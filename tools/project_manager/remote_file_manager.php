@@ -298,7 +298,7 @@ function do_showupload()
 
     $form_content .= "<div id='resumable_uploader' style='display: none;'>";
     $form_content .= "<input type='hidden' name='resumable_filename' value=''>";
-    $form_content .= "<p>" . _("Your browser supports uploading large files (up to 1GB) via javascript. If the download fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off.") . "</p>";
+    $form_content .= "<p>" . _("Your browser supports uploading large files (up to 1GB) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off.") . "</p>";
     $form_content .= "<p>" . _("File to upload") . ": <span id='resumable_selected_file'></span> &nbsp; ";
     $form_content .= "<span id='resumable_browse' class='button'>" . _("Choose File") . "</span>";
     $form_content .= "</p>";
