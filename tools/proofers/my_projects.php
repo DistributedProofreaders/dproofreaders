@@ -507,22 +507,13 @@ function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
     echo "<tr>\n";
     foreach ( $colspecs as $col_id => $colspec )
     {
-        $caret = '';
         if ( $col_id == $order_col )
         {
             // This is the column on which the table is being sorted.
             // If the user clicks on this column-header, the result should be
             // the table, sorted on this column, but in the opposite direction.
             $link_dir = ( $order_dir == 'A' ? 'D' : 'A' );
-
-            if($link_dir == 'D')
-            {
-                $caret = "&nbsp;<img src='$code_url/graphics/sort_desc.png' alt='" . _("Sort descending") . "'>";
-            }
-            else
-            {
-                $caret = "&nbsp;<img src='$code_url/graphics/sort_asc.png' alt='" . _("Sort ascending") . "'>";
-            }
+            $caret = $link_dir == 'D' ? "&nbsp;&#9650;" : "&nbsp;&#9660;";
         }
         else
         {
@@ -530,6 +521,7 @@ function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
             // If the user clicks on this column-header, the result should be
             // the table, sorted on this column, in ascending order.
             $link_dir = 'A';
+            $caret = '';
         }
         $class = '';
         if(isset($colspec['class']))
