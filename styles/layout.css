@@ -651,26 +651,64 @@ table.dirlist caption {
   padding: 0.5em;
 }
 /* ------------------------------------------------------------------------ */
+/* control frame */
+.control-frame {
+  background-color: #CDC0B0;
+  padding: 0;
+  margin: 0;
+}
+/* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 #toolbox {
-  margin: 0;
-  padding: 0;
-  text-align: center;
+  padding: 2px;
+  /* default buttons have small text = 83% */
+  /* adjust so tools do not jump around with differnt character pickers */
 }
-#toolbox a {
-  text-decoration: none;
-  color: #000000;
-}
-#toolbox .dropchars {
+#toolbox .selector_button {
+  margin-top: 1px;
   font-size: 1em;
-  background-color: #EEDFCC;
+  padding: 0.1em 0.15em 0 0.15em;
+  border: 1px solid black;
+  margin-right: 2px;
+  min-width: 1em;
 }
 #toolbox .proofbutton {
-  text-align: center;
-  display: inline;
-  margin: 0 1px 1px 0;
-  padding-top: 1px;
+  padding: 1px 7px 0 7px;
   cursor: pointer;
+}
+#toolbox .key-block {
+  display: none;
+}
+#toolbox .show {
+  display: table;
+}
+#toolbox .table-row {
+  display: table-row;
+}
+#toolbox .table-cell {
+  display: table-cell;
+}
+#toolbox .char_box {
+  padding-top: 1px;
+}
+#toolbox .big_text {
+  font-size: 300%;
+  width: 1.3em;
+  margin: 0.1em;
+}
+#toolbox .picker {
+  margin-top: 1px;
+  font-size: 1em;
+  padding: 0 1px 0 1px;
+  vertical-align: middle;
+  width: 100%;
+  min-width: 1em;
+}
+#toolbox .invisible {
+  visibility: hidden;
+}
+#toolbox #char-selector {
+  min-width: 474px;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */

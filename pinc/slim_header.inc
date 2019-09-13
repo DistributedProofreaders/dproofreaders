@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once($relPath."html_page_common.inc");
 
 // Output valid HTML for a non-themed page. The optional $extra_args variable
@@ -19,7 +19,7 @@ function slim_header($title="", $extra_args=array())
     // Include the slim_header stylesheet
     if(!isset($extra_args['css_files']))
         $extra_args['css_files'] = array();
-    $extra_args['css_files'][] = "$code_url/styles/slim_header.css";
+    array_unshift($extra_args['css_files'], "$code_url/styles/slim_header.css");
 
     output_html_header($title, $extra_args, False);
 

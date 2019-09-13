@@ -254,11 +254,13 @@ table.snapshottable th {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #CDC0B0;
 }
-#toolbox .dropnormal {
-  background-color: #FFF8DC;
+#toolbox .selector_button {
+  background-color: Bisque;
 }
-#toolbox .dropchars {
-  background-color: #EEDFCC;
+#toolbox .selected-tab,
+#toolbox .big_text,
+#toolbox .picker {
+  background-color: Beige;
 }
 #toolbox .proofbutton {
   border: 1px solid black;

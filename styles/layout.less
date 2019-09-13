@@ -706,26 +706,74 @@ table.dirlist {
 }
 
 /* ------------------------------------------------------------------------ */
+/* control frame */
+.control-frame {
+    background-color: #CDC0B0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 
 #toolbox {
-    .no-margin;
-    .no-padding;
-    .center-align;
-    a {
-        text-decoration: none;
-        color: #000000;
-    }
-    .dropchars {
+    padding: 2px;
+/* default buttons have small text = 83% */
+    .selector_button {
+        margin-top: 1px;
         font-size: 1em;
-        background-color: #EEDFCC;
+        padding: 0.1em 0.15em 0 0.15em;
+        border: 1px solid black;
+        margin-right: 2px;
+        min-width: 1em;
     }
+
     .proofbutton {
-        text-align: center;
-        display: inline;
-        margin: 0 1px 1px 0;
+        padding: 1px 7px 0 7px;
+        cursor:pointer;
+    }
+
+    .key-block {
+        display: none;
+    }
+
+    .show {
+        display: table;
+    }
+
+    .table-row {
+        display: table-row;
+    }
+
+    .table-cell {
+        display: table-cell;
+    }
+
+    .char_box {
         padding-top: 1px;
-        cursor: pointer;
+    }
+
+    .big_text {
+        font-size: 300%;
+        width: 1.3em;
+        margin: 0.1em;
+    }
+    .picker {
+        margin-top: 1px;
+        font-size: 1em;
+        padding: 0 1px 0 1px;
+        vertical-align: middle;
+        width: 100%;
+        min-width: 1em;
+    }
+
+    .invisible {
+        visibility: hidden;
+    }
+
+    /* adjust so tools do not jump around with differnt character pickers */
+    #char-selector {
+        min-width: 474px;
     }
 }
 
@@ -736,14 +784,14 @@ table.list_special_days {
     width: 90%; margin: auto;
     td,th {
         border: 1px solid #999;
-        padding: 3px; 
+        padding: 3px;
         }
     td.codecell {
         vertical-align:middle;
         text-align:center;
     }
     th.headers {
-        padding:0.5em; 
+        padding:0.5em;
     }
     tr.e {
         background-color: #eee;
