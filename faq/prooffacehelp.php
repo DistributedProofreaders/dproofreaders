@@ -659,36 +659,27 @@ Currently, this is the only method for scrolling the image using the keyboard.</
 </a>
 
 
-<h3>Special Character Dropdowns</h3>
+<h3>Special Character Selection</h3>
 
 <p>
-    Many non-English texts have characters
-    that can be difficult to enter from the keyboard.
-    There are six drop-down lists of non-ASCII characters
-    to assist in these cases.
+Most keyboards do not have enough keys to cover all characters needed in some
+of our projects. Depending on your Operating System, you may be able to use
+alternate methods to insert the special characters directly (see the
+Proofreading Guidelines for suggestions).
 </p>
+
 <p>
-    The ones labelled A,E,I,O,U contain various accented versions,
-    upper and lower case,
-    of those respective characters.
-    The final drop-down list contains other special symbols,
-    and accented versions of some consonants like Y, C, D, N etc.
+As an alternate option, the Proofreading interfaces have a tiled character
+picker section. Hovering over a character will show an enlarged view of it
+in the box on the left and a tooltip text will appear describing the
+character. Clicking on a character will insert it into the text.
 </p>
+
 <p>
-    For any of the dropdown lists, select the character you want.
-    It should appear at the insertion point in the text area of the
-    proofreading interface.
-</p>
-<p>
-    Some people experience problems with these lists,
-    such as not being able to select the same character twice in a row.
-    We are aware of these difficulties and are working to solve them.
-    A workaround is to select a different character in between,
-    or copy-and-paste it from the earlier position (if still on the same page).
-</p>
-<p>
-    Also see the Proofreading Guidelines
-    for other ways of entering special characters.
+The top row shows the available character categories. The ones labeled
+A,E,I,O,U contain various accented versions, upper and lower case, of
+those respective characters. The one labeled "+" contains other special
+symbols, and accented versions of some consonants like Y, C, D, N etc.
 </p>
 
 
