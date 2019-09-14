@@ -554,11 +554,23 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     $items_array = array();
     foreach ( $column_names_['to'] as $col )
     {
-        $items_array[] = (
-            in_array( $col, $extra_columns_['to'] )
-            ? '""' // (assuming that always works as a default value)
-            : $col
-        );
+        // if the column exists in both, we want to pull the value over
+        if(!in_array( $col, $extra_columns_['to']))
+        {
+            $items_array[] = $col;
+        }
+        // if it's a time field (which is an integer), set the value to 0
+        // we could do a much more robust check by querying the database
+        // for the column type but that seems overkill
+        elseif(endswith($col, "_time"))
+        {
+            $items_array[] = 0;
+        }
+        // otherwise use an empty string
+        else
+        {
+            $items_array[] = '""';
+        }
     }
 
     $items_list_template = join( $items_array, ',' );
