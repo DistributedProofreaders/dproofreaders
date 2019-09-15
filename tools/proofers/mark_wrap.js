@@ -14,6 +14,8 @@
 // will precede \n. If insering \n the caret will follow it.
 // doesn't work correctly in Internet explorer 9 or chrome 16
 
+var wrapControl = false;
+
 $(function () {
     "use strict";
     if (0 === lineWrap) {
@@ -69,6 +71,15 @@ $(function () {
         return txt.replace(reSymb, "");
     }
 
+    function cleanText() {
+        text1.val(removeAllSymbols(text1.val()));
+    }
+
+    wrapControl = {
+        cleanText: cleanText,
+        adjustSymbol: adjustSymbol
+    };
+
     text1.click(function () {
         // if at end of line move to left of symbol
         var cPos = text1[0].selectionStart;
@@ -97,7 +108,7 @@ $(function () {
 
     // remove symbols before saving
     $("#editform").submit(function () {
-        text1.val(removeAllSymbols(text1.val()));
+        cleanText();
     });
 
     text1.on("copy", function (ev) {

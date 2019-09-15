@@ -1,5 +1,5 @@
 /*global $ previewDemo, top, makePreview, window, alert, ieWarn
-document localStorage */
+document localStorage wrapControl*/
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -260,6 +260,9 @@ function initPrev() {
         // restore the bottom frame
         proofFrameSet.setAttribute("rows", old_rows);
         proofDiv.style.display = "block";
+        if (wrapControl) {
+            wrapControl.adjustSymbol();
+        }
         leavePreview();
     }
 
@@ -318,6 +321,9 @@ function initPrev() {
             // make the bottom frame very small since it is not useful
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
+            if (wrapControl) {
+                wrapControl.cleanText();
+            }
             enterPreview();
             font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
             this.reSizeText(1.0);
