@@ -54,8 +54,8 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $modifieddate = strftime("%e %B %Y", $project["modifieddate"]);
         $lastvisitdate = strftime("%e %B %Y", $project["lastvisitdate"]);
 
-        // TRANSLATORS: %1$s is a project title, %2%s is the author, %3%s is the projectid
-        $work_details = sprintf(_('%1$s by %2%s (%3$s)'), $nameofwork, $authorsname, $projectid);
+        // TRANSLATORS: %1$s is a project title, %2$s is the author, %3%s is the projectid
+        $work_details = sprintf(_('%1$s by %2$s (%3$s)'), $nameofwork, $authorsname, $projectid);
         // TRANSLATORS: %1$s and %2$s are already-translated date strings
         $time_details = sprintf(_('[checked out since %1$s, project last visited %2$s]'), $modifieddate, $lastvisitdate);;
         $projects_list[] = "$work_details\n$time_details\n    $code_url/project.php?id=$projectid";
