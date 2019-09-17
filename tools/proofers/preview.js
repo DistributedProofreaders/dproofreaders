@@ -487,7 +487,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
         var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
-        var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
         var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
@@ -510,14 +509,15 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
 
         function spanStyle(match, p1, p2) {
+            // p1 is "/" or "", p2 is the tag
             if (!p2) { // must be user note
                 return match;
             }
             if (p1 === '/') {   // end tag
                 if (viewMode === "show_tags") {
-                    return match + repstr2;
+                    return match + endSpan;
                 }
-                return repstr2;
+                return endSpan;
             }
             var str = '<span class="' + p2 + '"' + makeColourStyle(p2) + '>';
             if (viewMode === "show_tags") {
