@@ -52,6 +52,7 @@ function initPrev() {
 
     var selTag;
     var viewMode;
+    var wrapMode = false;
 
     var tempStyle = {}; // used during configure
 
@@ -91,9 +92,9 @@ function initPrev() {
 
     function writePreviewText() {
         // makePreview is defined in preview.js
-        preview = makePreview(txtarea.value, viewMode, previewStyles);
+        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
         prevWin.style.whiteSpace = (
-            (preview.ok && (viewMode === "re_wrap"))
+            (preview.ok && wrapMode)
             ? "normal"
             : "pre"
         );
@@ -203,6 +204,11 @@ function initPrev() {
 
     $("[name='viewSel']").click(function () {
         viewMode = this.id;
+        writePreviewText();
+    });
+
+    $("#re_wrap").change(function () {
+        wrapMode = this.checked;
         writePreviewText();
     });
 

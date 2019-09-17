@@ -103,6 +103,7 @@ function output_preview_div()
     $font = html_safe(_("Font"));
     $tags = html_safe(_("Tags"));
     $no_tags = html_safe(_("No Tags"));
+    $flat = html_safe(_("Flat"));
     $re_wrap = html_safe(_("Re-wrap"));
     $issues = html_safe(_("Issues"));
     $poss_iss = html_safe(_("Poss. Issues"));
@@ -140,7 +141,9 @@ function output_preview_div()
     <span class='ilb'>
       <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
       <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
-      <label><input type="radio" name="viewSel" id="re_wrap">$re_wrap</label>
+    </span>
+    <span class='ilb'>
+    <label><input type="checkbox" id="re_wrap">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>

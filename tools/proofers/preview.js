@@ -7,11 +7,11 @@ The external references are previewMessages which is loaded by the function
 output_preview_strings() defined in preview.inc, called in preview_strings.php
 and previewControl.adjustMargin() defined in previewControl.js
 txt is the text to analyse.
-viewMode determines if the inline tags are to be shown or hidden and whether to
-re-wrap the text.
+viewMode determines if the inline tags are to be shown or hidden
+wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
-var makePreview = function (txt, viewMode, styler) {
+var makePreview = function (txt, viewMode, wrapMode, styler) {
     "use strict";
     // 1 means a definite issue, 0 a possible issue
     var issueType = {
@@ -535,7 +535,7 @@ var makePreview = function (txt, viewMode, styler) {
         // out of line tags
         colorString0 = makeColourStyle('etc');
         colorString = colorString0 + '>$&</span>';
-        if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
+        if (!wrapMode && styler.color) {    // not re-wrap and colouring
             txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString);
         }
         if (viewMode !== "show_tags") {
@@ -1022,7 +1022,7 @@ var makePreview = function (txt, viewMode, styler) {
     restoreCommentLines();
     if (ok) {
         showStyle();
-        if (viewMode === "re_wrap") {
+        if (wrapMode) {
             reWrap();
         }
     }
