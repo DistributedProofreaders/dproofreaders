@@ -214,7 +214,7 @@ function initPrev() {
 
     // functions for setting up the configuration screen
     function testDraw() {
-        preview = makePreview(previewDemo, 'no_tags', tempStyle);
+        preview = makePreview(previewDemo, 'no_tags', false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 

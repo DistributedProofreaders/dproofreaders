@@ -509,22 +509,27 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
 
         function spanStyle(match, p1, p2) {
-            // p1 is "/" or "", p2 is the tag
+            // p1 is "/" or "", p2 is the tag id
             if (!p2) { // must be user note
                 return match;
             }
+            var tagMark = "";
+            switch (viewMode) {
+                case "show_tags":
+                    tagMark = match;
+                    break;
+                case "flat":
+                    tagMark = "_";
+                    break;
+                default: // no_tags
+                    break;
+            }
             if (p1 === '/') {   // end tag
-                if (viewMode === "show_tags") {
-                    return match + endSpan;
-                }
-                return endSpan;
+                return tagMark + endSpan;
             }
-            var str = '<span class="' + p2 + '"' + makeColourStyle(p2) + '>';
-            if (viewMode === "show_tags") {
-                str += match;
-            }
-            return str;
+            return '<span class="' + p2 + '"' + makeColourStyle(p2) + '>' + tagMark;
         }
+
         // inline tags
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower

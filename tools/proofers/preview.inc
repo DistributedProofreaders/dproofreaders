@@ -141,6 +141,7 @@ function output_preview_div()
     <span class='ilb'>
       <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
       <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
+      <label><input type="radio" name="viewSel" id="flat">$flat</label>
     </span>
     <span class='ilb'>
     <label><input type="checkbox" id="re_wrap">$re_wrap</label>
@@ -193,7 +194,7 @@ function output_preview_div()
   <br><span class='ilb'>$initial_mode <select id="id_init_mode">
     <option value="show_tags">$tags</option>
     <option value="no_tags">$no_tags</option>
-    <option value="re_wrap">$re_wrap</option>
+    <option value="flat">$flat</option>
   </select></span>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
