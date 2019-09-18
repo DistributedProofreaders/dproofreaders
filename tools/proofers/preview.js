@@ -510,6 +510,15 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
 
         function spanStyle(match, p1, p2) {
             // p1 is "/" or "", p2 is the tag id
+            var tagMap = {
+                "i": "_",
+                "b": "=",
+                "f": "~",
+                "g": "*",
+                "sc": "$",
+                "u": "%"
+            };
+
             if (!p2) { // must be user note
                 return match;
             }
@@ -519,7 +528,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                     tagMark = match;
                     break;
                 case "flat":
-                    tagMark = "_";
+                    tagMark = tagMap[p2];
                     break;
                 default: // no_tags
                     break;
@@ -527,7 +536,14 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             if (p1 === '/') {   // end tag
                 return tagMark + endSpan;
             }
-            return '<span class="' + p2 + '"' + makeColourStyle(p2) + '>' + tagMark;
+            // if flat do not apply style (some change the width)
+            var styleClass;
+            if (viewMode === "flat") {
+                styleClass = " ";
+            } else {
+                styleClass = " class='" + p2 + "' ";
+            }
+            return "<span" + styleClass + makeColourStyle(p2) + '>' + tagMark;
         }
 
         // inline tags
