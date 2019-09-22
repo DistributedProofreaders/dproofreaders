@@ -468,17 +468,21 @@ function show_page_menu($all_view_modes, $round_view, $username, $key)
     if($pguser != $username)
         $qs_username = "username=$username&amp;";
 
-    $menu_items = [];
+    echo "<div id='tabs'>";
+    echo "<ul>";
+
     foreach($all_view_modes as $setting => $setting_values)
     {
         $label = $setting_values["label"];
         if($round_view == $setting)
-            $menu_items[] = "<span class='bold'>$label</span>";
+            echo "<li id='current'><a>$label</a></li>";
         else
-            $menu_items[] = "<a href='?${qs_username}${key}=$setting#$key'>$label</a>";
+            echo "<li><a href='?${qs_username}${key}=$setting#$key'>$label</a></li>";
     }
 
-    echo "<p>" . implode(" | ", $menu_items) . "</p>";
+    echo "</ul>";
+    echo "</div>";
+    echo "<div style='clear: both;'></div>";
 }
 
 function sql_order_spec($colspecs, $order_col, $order_dir)
