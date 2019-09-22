@@ -688,9 +688,11 @@ function make_link($new_array, $text, $anchor = '')
     return "<a href='" . attr_safe($url) . "'>$text</a>";
 }
 
-function get_refine_search_link()
+function get_refine_search_link($label=NULL)
 {
-    return make_link(array('show' => 'search_form'), _("Refine Search"));
+    if(!$label)
+        $label = _("Refine Search");
+    return make_link(array('show' => 'search_form'), $label);
 }
 
 // vim: sw=4 ts=4 expandtab
