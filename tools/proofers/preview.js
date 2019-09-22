@@ -1016,6 +1016,11 @@ var makePreview = function (txt, viewMode, styler) {
     // we need to encode html in these lines. Could encode everything at start
     // but then problems e.g. marking the character after 3 blank lines if
     // encoded <  as &lt, so treat these lines separately.
+
+    // remove any line-end marks
+    if (wrapControl) {
+        txt = wrapControl.removeSymbols(txt);
+    }
     removeCommentLines();
     var ok = check();
     addMarkUp();

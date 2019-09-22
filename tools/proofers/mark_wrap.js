@@ -14,6 +14,8 @@
 // will precede \n. If insering \n the caret will follow it.
 // doesn't work correctly in Internet explorer 9 or chrome 16
 
+var wrapControl = false;
+
 $(function () {
     "use strict";
     if (0 === lineWrap) {
@@ -68,6 +70,10 @@ $(function () {
     function removeAllSymbols(txt) {
         return txt.replace(reSymb, "");
     }
+
+    wrapControl = {
+        removeSymbols: removeAllSymbols
+    };
 
     text1.click(function () {
         // if at end of line move to left of symbol

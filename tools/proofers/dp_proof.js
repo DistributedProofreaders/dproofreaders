@@ -123,7 +123,10 @@ function showNW()
     // SENDING PAGE-TEXT TO USER
     // We're sending it in a HTML document,
     // so we entity-encode its HTML-special characters.
-    nW.document.write('<PRE>'+showNW_safe(docRef.editform.text_data.value)+'</PRE>');
+    var theText = docRef.editform.text_data.value;
+    // remove any line-end marks
+    theText = theText.replace(/\u21a9/g, "");
+    nW.document.write('<PRE>'+showNW_safe(theText)+'</PRE>');
     nW.document.close()
 }
 
