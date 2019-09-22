@@ -167,12 +167,12 @@ $theme_extra_args["js_data"] =
         }
     }";
     
-output_header($header, SHOW_STATSBAR, $theme_extra_args);
+output_header($header, NO_STATSBAR, $theme_extra_args);
 echo "<h1>$header</h1>";
 
-echo "<p>" . _("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.");
-echo "<br>" . _("Click the ? for help on that specific preference.") . "</p>";
-echo "<br>";
+echo_tabs($tabs, $selected_tab);
+
+echo "<p>" . _("Click the ? for help on that specific preference.") . "</p>";
 
 echo "<form action='userprefs.php' method='post'>";
 
@@ -183,8 +183,6 @@ echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
 
 echo "<table class='preferences'>";
-
-echo_tabs($tabs, $selected_tab);
 
 // display one of the tabs
 
@@ -210,8 +208,8 @@ echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--
 function echo_tabs($tab_names, $selected_tab) {
     global $origin;
 
-    echo "<tr><td class='tabbar' colspan='6'>\n";
-    echo "  <div id='tabs'>\n    <ul>\n";
+    echo "<div id='tabs'>";
+    echo "<ul>";
     foreach (array_keys($tab_names) as $index) {
         if ($index == $selected_tab) {
             echo "<li id='current'>";
@@ -219,9 +217,11 @@ function echo_tabs($tab_names, $selected_tab) {
             echo "<li>";
         }
         $url = "?tab=$index&amp;origin=" . urlencode($origin);
-        echo "<a href='$url'>{$tab_names[$index]}</a></li>\n";
+        echo "<a href='$url'>{$tab_names[$index]}</a>";
     }
-    echo "    </ul>\n  </div>\n</td></tr>\n";
+    echo "</ul>";
+    echo "</div>";
+    echo "<div style='clear: left;'></div>";
 }
 
 /*************** GENERAL TAB ***************/

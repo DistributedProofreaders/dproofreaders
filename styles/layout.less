@@ -147,6 +147,7 @@ hr.divider {
 /* ------------------------------------------------------------------------ */
 /* News items */
 div.news {
+    margin: 1em 0;
 }
 div.newsheader {
 }
@@ -401,13 +402,6 @@ Quote http://www.alistapart.com/copyright/:
 
 table.preferences {
     border-collapse: collapse;
-    width: 100%;
-    td.tabbar {
-        .left-align;
-        border: 0;
-        padding: 0;
-        margin: 0;
-    }
     td, th {
         border: solid thin black;
     }
@@ -418,10 +412,11 @@ table.preferences {
 
 #tabs {
     float: left;
-    width: 100%;
+    width: 90%;
+    border-bottom: solid thin gray;
     ul {
         margin: 0;
-        padding: 0 10px 0;
+        padding: 0 20px 0 10px;
         list-style: none;
     }
     li {
@@ -439,6 +434,7 @@ table.preferences {
     }
     #current {
         border: solid thin gray;
+        border-bottom: none;
         a {
             .bold;
         }
