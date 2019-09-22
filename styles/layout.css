@@ -147,6 +147,9 @@ hr.divider {
 /* Existing styling */
 /* ------------------------------------------------------------------------ */
 /* News items */
+div.news {
+  margin: 1em 0;
+}
 div.newsitem {
   background: url('../graphics/box_shadow.png') no-repeat !important;
   padding: 1.2em 0.5em 0.5em 1.2em;
@@ -372,13 +375,6 @@ Quote http://www.alistapart.com/copyright/:
  */
 table.preferences {
   border-collapse: collapse;
-  width: 100%;
-}
-table.preferences td.tabbar {
-  text-align: left;
-  border: 0;
-  padding: 0;
-  margin: 0;
 }
 table.preferences td,
 table.preferences th {
@@ -389,11 +385,12 @@ table.preferences th.longlabel {
 }
 #tabs {
   float: left;
-  width: 100%;
+  width: 90%;
+  border-bottom: solid thin gray;
 }
 #tabs ul {
   margin: 0;
-  padding: 0 10px 0;
+  padding: 0 20px 0 10px;
   list-style: none;
 }
 #tabs li {
@@ -411,6 +408,7 @@ table.preferences th.longlabel {
 }
 #tabs #current {
   border: solid thin gray;
+  border-bottom: none;
 }
 #tabs #current a {
   font-weight: bold;
