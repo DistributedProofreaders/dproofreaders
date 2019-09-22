@@ -85,19 +85,12 @@ if ($show_view == 'search_form')
     exit();
 }
 
-if($show_view == "blank")
-{
-    // TRANSLATORS: Abbreviation for Project Manager
-    $sub_title = sprintf(_("PM: %s"), $pguser);
-}
-elseif($show_view == "user_all")
+if($show_view == "user_all")
 {
     $condition = "username = '$pguser'";
     // adjust $_GET so will work corectly with refine search and sort and navigate
     // keep "user_all" or we won't know it is user all
     $_GET = array_merge($_GET, array('project_manager' => $pguser));
-    // TRANSLATORS: Abbreviation for Project Manager
-    $sub_title = sprintf(_("All PM projects: %s"), $pguser);
 }
 elseif ($show_view == "user_active")
 {
@@ -106,14 +99,11 @@ elseif ($show_view == "user_active")
         'project_manager' => $pguser,
         'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE))
     ));
-    // TRANSLATORS: Abbreviation for Project Manager
-    $sub_title = sprintf(_("Active PM projects: %s"), $pguser);
 }
 else // $show_view == 'search'
 {
     $search_form = new ProjectSearchForm();
     $condition = $search_form->get_condition();
-    $sub_title = _("Search Results");
 }
 
 $search_results = new ProjectSearchResults("PM");
@@ -123,7 +113,6 @@ echo "<h1>", _("Project Management"), "</h1>\n";
 // possibly show message, but don't exit
 check_user_can_load_projects(false);
 show_news_for_page('PM');
-echo "\n<h2>$sub_title</h2>\n";
 echo_shortcut_links($show_view);
 
 if($show_view == "blank")
@@ -131,29 +120,40 @@ if($show_view == "blank")
 
 $search_results->render($condition);
 
-function create_shortcut_link($text, $show_val, $show_view="")
-{
-    if($show_view != $show_val)
-        return "<a href='?show=$show_val'>$text</a>";
-    else
-        return $text;
-}
-
 function echo_shortcut_links($show_view)
 {
-    $links = array(
+    $views = [
         // TRANSLATORS: Abbreviation for Project Manager
-        create_shortcut_link(_("View your Active PM Projects"), "user_active", $show_view),
+        "user_active" => _("Your Active PM Projects"),
         // TRANSLATORS: Abbreviation for Project Manager
-        create_shortcut_link(_("View All your PM Projects"), "user_all", $show_view),
-    );
+        "user_all" => _("All Your PM Projects"),
+        "search" => _("Search"),
+    ];
 
-    if($show_view != "blank")
+    echo "<div id='tabs' style='width: auto;'>";
+    echo "<ul>";
+    foreach($views as $view => $label)
+    {
+        if($show_view == $view)
+            echo "<li id='current'><a>$label</a></li>";
+        elseif($view == "search")
+            echo "<li>" . get_refine_search_link($label) . "</li>";
+        else
+            echo "<li><a href='?show=$view'>$label</a></li>";
+    }
+    echo "</ul>";
+    echo "</div>";
+    echo "<div style='clear: left;'></div>";
+
+    $links = [];
+    if($show_view == "search")
         $links[] = get_refine_search_link();
 
-    $links[] = get_search_configure_link();
+    if($show_view != "blank")
+        $links[] = get_search_configure_link();
 
-    echo implode(" | ", $links);
+    if($links)
+        echo "<p>" . implode(" | ", $links) . "</p>";
 }
 
 // vim: sw=4 ts=4 expandtab
