@@ -164,6 +164,12 @@ else
 
         echo "<td class='nowrap'>";
         echo get_medium_label_for_project_state( $state );
+        if($state == PROJ_POST_FIRST_CHECKED_OUT)
+        {
+            $project = new Project($projectid);
+            if($project->is_available_for_smoothreading())
+                echo " + SR";
+        }
         echo "</td>\n";
 
         echo "<td class='nowrap'>";
