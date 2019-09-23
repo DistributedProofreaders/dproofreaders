@@ -95,7 +95,7 @@ echo "<h2 id='round_view'>" . html_safe($proof_heading) . "</h2>";
 
 show_page_menu($round_view_options, $round_view, $username, 'round_view');
 
-$res = get_round_query_result($round_view, $round_sort, $round_column_specs, $username);
+list($res, $colspecs) = get_round_query_result($round_view, $round_sort, $round_column_specs, $username);
 if(mysqli_num_rows($res) == 0)
 {
     echo "<p>" . $round_view_options[$round_view]["text_none"] . "</p>";
@@ -106,7 +106,7 @@ else
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($round_column_specs, $round_sort, $username, 'round_sort', 'round_view');
+    show_headings($colspecs, $round_sort, $username, 'round_sort', 'round_view');
 
     $n_rows_displayed = 0;
     while ( $row = mysqli_fetch_object($res) )
@@ -164,46 +164,58 @@ else
         echo "<a href='$url' $onclick_attr>$nameofwork</a>";
         echo "</td>\n";
 
-        echo "<td class='nowrap'>";
-        $state_label = get_medium_label_for_project_state( $state );
-        if($row->postednum)
+        if(isset($colspecs['state']))
         {
-            echo get_pg_catalog_link_for_etext($row->postednum, $state_label);
-        }
-        else
-        {
-            echo $state_label;
-        }
-        if($state == PROJ_POST_FIRST_CHECKED_OUT)
-        {
-            $project = new Project($projectid);
-            if($project->is_available_for_smoothreading())
-                echo " + SR";
-        }
-        echo "</td>\n";
-
-        echo "<td class='nowrap'>";
-        echo strftime( '%Y-%m-%d %H:%M:%S', $row->max_timestamp );
-        echo "</td>\n";
-
-        if(in_array($state, $avail_states))
-        {
-            echo "<td class='right-align'>";
-            echo $n_available_pages;
-            echo "</td>\n";
-
-            echo "<td class='right-align'>";
-            echo sprintf("%d%%", $percent_done * 100);
+            echo "<td class='nowrap'>";
+            $state_label = get_medium_label_for_project_state( $state );
+            if($row->postednum)
+            {
+                echo get_pg_catalog_link_for_etext($row->postednum, $state_label);
+            }
+            else
+            {
+                echo $state_label;
+            }
+            if($state == PROJ_POST_FIRST_CHECKED_OUT)
+            {
+                $project = new Project($projectid);
+                if($project->is_available_for_smoothreading())
+                    echo " + SR";
+            }
             echo "</td>\n";
         }
-        else
+
+        if(isset($colspecs['time']))
         {
-            echo "<td></td><td></td>";
+            echo "<td class='nowrap'>";
+            echo strftime( '%Y-%m-%d %H:%M:%S', $row->max_timestamp );
+            echo "</td>\n";
         }
 
-        echo "<td class='right-align'>";
-        echo sprintf("%0.1f", $days_checkedout);
-        echo "</td>\n";
+        if(isset($colspecs['n_available_pages']) && isset($colspecs['percent_done']))
+        {
+            if(in_array($state, $avail_states))
+            {
+                echo "<td class='right-align'>";
+                echo $n_available_pages;
+                echo "</td>\n";
+
+                echo "<td class='right-align'>";
+                echo sprintf("%d%%", $percent_done * 100);
+                echo "</td>\n";
+            }
+            else
+            {
+                echo "<td></td><td></td>";
+            }
+        }
+
+        if(isset($colspecs['days_checkedout']))
+        {
+            echo "<td class='right-align'>";
+            echo sprintf("%0.1f", $days_checkedout);
+            echo "</td>\n";
+        }
 
         echo "</tr>\n";
 
@@ -412,50 +424,48 @@ function get_view_options($username)
 
     $round_view_options = [
         "recent" => [
-            "label" => _("Recently Proofread or Formatted"),
-            "text_self" => _("Projects that you've proofread or formatted a page in the past 100 days."),
-            "text_other" => sprintf(_("Projects that %s proofread or formatted a page in the past 100 days."), $username),
+            "label" => _("Recent"),
+            "text_self" => _("Projects in which you have proofread or formatted a page in the past 100 days."),
+            "text_other" => sprintf(_("Projects in which %s proofread or formatted a page in the past 100 days."), $username),
             "text_none" => _("No recent projects found."),
         ],
     "available" => [
-        "label" => _("Available for Proofreading or Formatting"),
-        "text_self" => _("All projects that you've proofread or formatted a page that are currently available."),
-        "text_other" => sprintf(_("All projects that %s proofread or formatted a page that are currently available."), $username),
-        "text_none" => _("No previously proofread or formatted projects are currently avaialble."),
+        "label" => _("Available"),
+        "text_self" => _("All projects currently available in which you have proofread or formatted a page."),
+        "text_other" => sprintf(_("All projects currently available in which %s has proofread or formatted a page."), $username),
+        "text_none" => _("No previously proofread or formatted projects are currently available."),
     ],
-    "all" => [
-        "label" => _("All"),
-        "text_self" => _("All projects for which you've proofread or formatted a page."),
-        "text_other" => sprintf(_("All projects for which %s has proofread or formatted a page."), $username),
-        "text_none" => _("You haven't proofread any projects yet! When you do they will show up here.") . " " .
-            sprintf(_("In the meantime, check out the list on the <a href='%1\$s'>%2\$s</a> round page."),
-                "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id),
+    "active" => [
+        "label" => _("Active"),
+        "text_self" => _("All projects that are not yet posted in which you have proofread or formatted a page."),
+        "text_other" => sprintf(_("All projects that are not yet posted in which %s has proofread or formatted a page."), $username),
+        "text_none" => _("No projects found that have not yet been posted."),
+    ],
+    "posted" => [
+        "label" => _("Posted to PG"),
+        "text_self" => _("All projects that have been posted to Project Gutenberg in which you have proofread or formatted a page."),
+        "text_other" => sprintf(_("All projects that have been posted to Project Gutenberg in which %s has proofread or formatted a page."), $username),
+        "text_none" => _("No projects found that have been posted to Project Gutenberg."),
     ],
 ];
 
 $pool_view_options = [
     "reserved" => [
-        "label" => _("Reserved for Post-Processing"),
+        "label" => _("Reserved"),
         "text_self" => _("Projects reserved for you to post-process."),
         "text_other" => sprintf(_("Projects reserved for %s to post-process."), $username),
         "text_none" => _("No projects reserved for post-processing."),
     ],
-    "all_pp" => [
-        "label" => _("All Post-Processing"),
-        "text_self" => _("Projects for which you are a post-processor."),
-        "text_other" => sprintf(_("Projects where %s is the post-processor."), $username),
+    "active" => [
+        "label" => _("Active"),
+        "text_self" => _("Projects you checked out for Post-Processing or for Post-Processing Verification. Projects checked out for Post-Processing may be in PP, available for PPV, or in PPV."),
+        "text_other" => sprintf(_("Projects %s checked out for Post-Processing or for Post-Processing Verification. Projects checked out for Post-Processing may be in PP, available for PPV, or in PPV."), $username),
         "text_none" => _("No projects found."),
     ],
-    "pp_in_ppv" => [
-        "label" => _("Projects in Post-Process Verifying"),
-        "text_self" => _("Projects for which you are a post-processor and the project is in PPV."),
-        "text_other" => sprintf(_("Projects where %s is the post-processor and the project is in PPV."), $username),
-        "text_none" => _("No projects found."),
-    ],
-    "all_ppv" => [
-        "label" => _("All Post-Processing Verifying"),
-        "text_self" => _("Projects for which you are a post-process verifier."),
-        "text_other" => sprintf(_("Projects where %s is a post-process verifier."), $username),
+    "posted" => [
+        "label" => _("Posted to PG"),
+        "text_self" => _("All projects that are posted to Project Gutenberg for which you are credited as Post-Processor or Post-Processing Verifier."),
+        "text_other" => sprintf(_("All projects that are posted to Project Gutenberg for which %s is credited as Post-Processor or Post-Processing Verifier."), $username),
         "text_none" => _("No projects found."),
     ],
 ];
@@ -567,6 +577,8 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     list($order_col, $order_dir) = get_sort_col_and_dir($round_sort);
     $sql_order = sql_order_spec($round_column_specs, $order_col, $order_dir);
 
+    $posted = get_project_status_descriptor('posted');
+
     if($order_col != 'time')
     {
         // Add the time as a secondary ordering
@@ -584,12 +596,27 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     elseif($round_view == "recent")
     {
         $t_latest_page_event = strtotime("100 days ago");
-        $avail_state_clause = "";
+        $avail_state_clause = "
+            AND NOT $posted->state_selector
+        ";
+    }
+    elseif($round_view == "posted")
+    {
+        $t_latest_page_event = 0;
+        $avail_state_clause = "
+            AND $posted->state_selector
+        ";
+        unset($round_column_specs['time']);
+        unset($round_column_specs['n_available_pages']);
+        unset($round_column_specs['percent_done']);
+        unset($round_column_specs['days_checkedout']);
     }
     else
     {
         $t_latest_page_event = 0;
-        $avail_state_clause = "";
+        $avail_state_clause = "
+            AND NOT $posted->state_selector
+        ";
     }
 
     $sql = "
@@ -607,74 +634,82 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
         WHERE user_project_info.username='$username'
             AND user_project_info.t_latest_page_event > $t_latest_page_event
-            AND projects.archived = 0
             $avail_state_clause
         ORDER BY $sql_order
     ";
-    return dpsql_query($sql);
+    return [ dpsql_query($sql), $round_column_specs ];
 }
 
 function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $username)
 {
-    // We're interested in projects that have been created, but haven't *finished*
-    // being proofread.
-    $psd = get_project_status_descriptor('created');
-    $antipsd = get_project_status_descriptor('proofed');
+    $created = get_project_status_descriptor('created');
+    $proofed = get_project_status_descriptor('proofed');
     $posted = get_project_status_descriptor('posted');
 
     $pp_states = array(
         PROJ_POST_FIRST_AVAILABLE,
         PROJ_POST_FIRST_CHECKED_OUT,
-        PROJ_POST_COMPLETE,
+    );
+    $ppv_states = array(
+        PROJ_POST_SECOND_AVAILABLE,
+        PROJ_POST_SECOND_CHECKED_OUT,
     );
     $deleted_states = array(
         PROJ_DELETE,
     );
     $pp_states_selector = "state IN (" .  surround_and_join($pp_states, "'", "'", ",") . ")";
+    $ppv_states_selector = "state IN (" .  surround_and_join($ppv_states, "'", "'", ",") . ")";
     $deleted_states_selector = "state IN (" .  surround_and_join($deleted_states, "'", "'", ",") . ")";
 
     if($pool_view == "reserved")
     {
         $where_clause = "
-            WHERE checkedoutby='$username'
-                AND $psd->state_selector
-                AND NOT $antipsd->state_selector
+            WHERE
+                checkedoutby='$username'
+                AND $created->state_selector
+                AND NOT $proofed->state_selector
         ";
         unset($pool_column_specs['checkedoutby']);
         unset($pool_column_specs['postproofer']);
         unset($pool_column_specs['ppverifier']);
         unset($pool_column_specs['days_checkedout']);
     }
-    elseif($pool_view == "all_pp")
+    elseif($pool_view == "active")
     {
         $where_clause = "
-            WHERE (postproofer='$username'
-                OR (
-                    (postproofer = '' or postproofer IS NULL)
-                    AND checkedoutby='$username'
-                    AND $pp_states_selector
-                )) AND NOT $posted->state_selector
+            WHERE
+                (
+                    postproofer='$username'
+                    OR (
+                        (postproofer = '' OR postproofer IS NULL)
+                        AND checkedoutby='$username'
+                        AND $pp_states_selector
+                    )
+                    OR
+                    ppverifier='$username'
+                    OR (
+                        (ppverifier = '' OR ppverifier IS NULL)
+                        AND checkedoutby='$username'
+                        AND $ppv_states_selector
+                    )
+                )
                 AND NOT $deleted_states_selector
-        ";
-        unset($pool_column_specs['ppverifier']);
-    }
-    elseif($pool_view == "all_ppv")
-    {
-        $where_clause = "
-            WHERE (ppverifier='$username'
-                OR (
-                    (ppverifier = '' or ppverifier IS NULL)
-                    AND checkedoutby='$username'
-                    AND $pp_states_selector
-                )) AND NOT $posted->state_selector
+                AND NOT $posted->state_selector
         ";
     }
-    elseif($pool_view == "pp_in_ppv")
+    elseif($pool_view == "posted")
     {
         $where_clause = "
-            WHERE postproofer='$username'
-                AND $pp_states_selector
+            WHERE
+                (
+                    postproofer='$username'
+                    OR ppverifier='$username'
+                    OR checkedoutby='$username'
+                )
+                AND $posted->state_selector
         ";
+        unset($pool_column_specs['checkedoutby']);
+        unset($pool_column_specs['days_checkedout']);
     }
 
     list($order_col, $order_dir) = get_sort_col_and_dir($pool_sort);
