@@ -9,6 +9,8 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'pg.inc'); // get_pg_catalog_link_for_etext()
 
 require_login();
 
@@ -163,7 +165,15 @@ else
         echo "</td>\n";
 
         echo "<td class='nowrap'>";
-        echo get_medium_label_for_project_state( $state );
+        $state_label = get_medium_label_for_project_state( $state );
+        if($row->postednum)
+        {
+            echo get_pg_catalog_link_for_etext($row->postednum, $state_label);
+        }
+        else
+        {
+            echo $state_label;
+        }
         if($state == PROJ_POST_FIRST_CHECKED_OUT)
         {
             $project = new Project($projectid);
@@ -270,7 +280,15 @@ else
         }
 
         echo "<td class='nowrap'>";
-        echo get_medium_label_for_project_state( $project->state );
+        $state_label = get_medium_label_for_project_state($project->state);
+        if($project->postednum)
+        {
+            echo get_pg_catalog_link_for_etext($project->postednum, $state_label);
+        }
+        else
+        {
+            echo $state_label;
+        }
         echo "</td>\n";
 
         if(isset($colspecs['checkedoutby']))
@@ -580,6 +598,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             user_project_info.t_latest_page_event AS max_timestamp,
             projects.nameofwork,
             projects.state,
+            projects.postednum,
             projects.deletion_reason,
             projects.n_pages,
             projects.n_available_pages,
