@@ -117,7 +117,7 @@ else
                                  $row->deletion_reason, $matches)))
             {
                 // get the dope from the project it was merged into
-                $project = new Project($row->projectid);
+                $project = new Project($matches[1]);
                 if ($project->archived == '1')
                 {
                     // The project it was merged into has been archived.
