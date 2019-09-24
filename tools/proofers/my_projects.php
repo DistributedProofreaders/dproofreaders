@@ -627,7 +627,11 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_COMPLETE,
     );
+    $deleted_states = array(
+        PROJ_DELETE,
+    );
     $pp_states_selector = "state IN (" .  surround_and_join($pp_states, "'", "'", ",") . ")";
+    $deleted_states_selector = "state IN (" .  surround_and_join($deleted_states, "'", "'", ",") . ")";
 
     if($pool_view == "reserved")
     {
@@ -650,6 +654,7 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
                     AND checkedoutby='$username'
                     AND $pp_states_selector
                 )) AND NOT $posted->state_selector
+                AND NOT $deleted_states_selector
         ";
         unset($pool_column_specs['ppverifier']);
     }
