@@ -514,8 +514,8 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 "i": "_",
                 "b": "=",
                 "f": "~",
-                "g": "*",
-                "sc": "$",
+                "g": "$",
+                "sc": "",
                 "u": "%"
             };
 
@@ -549,7 +549,9 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         // inline tags
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
-        txt = txt.replace(sc_re, transformSC);
+        if (viewMode !== "flat") {
+            txt = txt.replace(sc_re, transformSC);
+        }
         // find user note or inline tag
         var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
