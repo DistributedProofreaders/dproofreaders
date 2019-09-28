@@ -2,26 +2,20 @@
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'prefs_options.inc');
 include_once('preview.inc');
 
 function echo_text_frame_std( $ppage )
 {
     global $code_url;
-
-    $line_wrap = get_line_wrap();
+    
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
-            "$code_url/tools/proofers/mark_wrap.js",
         ),
-        "js_data" => "
-            function ldAll() {top.initializeStuff(0); previewControl = initPrev();}
-            var lineWrap = $line_wrap;
-        ",
+        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',
         "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
         );
     slim_header(_("Text Frame"), $header_args);
