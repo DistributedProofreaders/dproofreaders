@@ -27,8 +27,8 @@ $(function () {
     });
 
     $(".picker", charSelector).click(function () {
-        top.insertCharacter(this.innerText);
+        top.insertCharacter(this.textContent);
     }).mouseover(function () {
-        largeChar.value = this.innerText;
+        largeChar.value = this.textContent;
     });
 });
