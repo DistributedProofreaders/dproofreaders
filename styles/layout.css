@@ -695,20 +695,22 @@ table.dirlist caption {
   font-size: 300%;
   width: 1.3em;
   margin: 0.1em;
+  text-align: center;
 }
 #toolbox .picker {
   margin-top: 1px;
   font-size: 1em;
-  padding: 0 1px 0 1px;
+  padding: 0 1px 0 0;
   vertical-align: middle;
   width: 100%;
   min-width: 1em;
+  max-width: 1.1em;
 }
 #toolbox .invisible {
   visibility: hidden;
 }
 #toolbox #char-selector {
-  min-width: 474px;
+  min-width: 430px;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */
