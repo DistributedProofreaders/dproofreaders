@@ -306,6 +306,11 @@ else
         {
             echo $state_label;
         }
+        if($state == PROJ_POST_FIRST_CHECKED_OUT)
+        {
+            if($project->is_available_for_smoothreading())
+                echo " + SR";
+        }
         echo "</td>\n";
 
         if(isset($colspecs['checkedoutby']))
