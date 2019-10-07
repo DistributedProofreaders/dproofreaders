@@ -11,8 +11,17 @@ $pp_alert_threshold_days = 90;
 function count_pp_projects_past_threshold($PPer=NULL)
 {
     $columns = [ "count(*) AS total" ];
-    $result = _run_pp_threshold_query_result($columns, $PPer);
-    
+    $result = _run_pp_threshold_query_result(PROJ_POST_FIRST_CHECKED_OUT, $columns, $PPer);
+
+    list($total) = mysqli_fetch_row($result);
+    return $total;
+}
+
+function count_ppv_projects_past_threshold($PPVer=NULL)
+{
+    $columns = [ "count(*) AS total" ];
+    $result = _run_pp_threshold_query_result(PROJ_POST_SECOND_CHECKED_OUT, $columns, $PPVer);
+
     list($total) = mysqli_fetch_row($result);
     return $total;
 }
@@ -30,7 +39,7 @@ function get_pp_projects_past_threshold($PPer=NULL)
 
     $ordering_criteria = "checkedoutby, modifieddate";
 
-    $result = _run_pp_threshold_query_result($columns, $PPer, $ordering_criteria);
+    $result = _run_pp_threshold_query_result(PROJ_POST_FIRST_CHECKED_OUT, $columns, $PPer, $ordering_criteria);
 
     $projects_grouped_by_PPer = [];
 
@@ -52,12 +61,12 @@ function get_pp_projects_past_threshold($PPer=NULL)
 
 // internal function to avoid duplicating the SQL logic that determines
 // projects past the PP alert threshold
-function _run_pp_threshold_query_result($columns, $PPer, $ordering_criteria=NULL)
+function _run_pp_threshold_query_result($state, $columns, $user, $ordering_criteria=NULL)
 {
     global $pp_alert_threshold_days;
 
     $column_selector = implode(", ", $columns);
-    $user_selector = $PPer ? "AND checkedoutby = '$PPer'" : "";
+    $user_selector = $user ? "AND checkedoutby = '$user'" : "";
     $order_by_clause = $ordering_criteria ? "ORDER BY $ordering_criteria" : "";
 
     $cutoff_timestamp = strtotime("midnight first day of this month") -
@@ -69,7 +78,7 @@ function _run_pp_threshold_query_result($columns, $PPer, $ordering_criteria=NULL
         FROM projects LEFT OUTER JOIN user_project_info ON
             projects.projectid = user_project_info.projectid AND
             projects.checkedoutby = user_project_info.username
-        WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND
+        WHERE state = '$state' AND
             user_project_info.t_latest_home_visit <= $cutoff_timestamp
             $user_selector
         $order_by_clause
