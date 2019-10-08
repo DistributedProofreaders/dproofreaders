@@ -172,15 +172,7 @@ else
         if(isset($colspecs['state']))
         {
             echo "<td class='nowrap'>";
-            $state_label = get_medium_label_for_project_state( $state );
-            if($row->postednum)
-            {
-                echo get_pg_catalog_link_for_etext($row->postednum, $state_label);
-            }
-            else
-            {
-                echo $state_label;
-            }
+            echo get_medium_label_for_project_state( $state );
             if($state == PROJ_POST_FIRST_CHECKED_OUT)
             {
                 $project = new Project($projectid);
@@ -219,6 +211,13 @@ else
         {
             echo "<td class='right-align'>";
             echo sprintf("%0.1f", $days_checkedout);
+            echo "</td>\n";
+        }
+
+        if(isset($colspecs['postednum']))
+        {
+            echo "<td class='right-align'>";
+            echo get_pg_catalog_link_for_etext($row->postednum, $row->postednum);
             echo "</td>\n";
         }
 
@@ -296,22 +295,17 @@ else
             echo "</td>\n";
         }
 
-        echo "<td class='nowrap'>";
-        $state_label = get_medium_label_for_project_state($project->state);
-        if($project->postednum)
+        if(isset($colspecs['state']))
         {
-            echo get_pg_catalog_link_for_etext($project->postednum, $state_label);
+            echo "<td class='nowrap'>";
+            echo get_medium_label_for_project_state($project->state);
+            if($project->state == PROJ_POST_FIRST_CHECKED_OUT)
+            {
+                if($project->is_available_for_smoothreading())
+                    echo " + SR";
+            }
+            echo "</td>\n";
         }
-        else
-        {
-            echo $state_label;
-        }
-        if($state == PROJ_POST_FIRST_CHECKED_OUT)
-        {
-            if($project->is_available_for_smoothreading())
-                echo " + SR";
-        }
-        echo "</td>\n";
 
         if(isset($colspecs['checkedoutby']))
         {
@@ -327,6 +321,13 @@ else
             {
                 echo sprintf("%0.1f", $project->days_checkedout);
             }
+            echo "</td>\n";
+        }
+
+        if(isset($colspecs['postednum']))
+        {
+            echo "<td class='right-align'>";
+            echo get_pg_catalog_link_for_etext($project->postednum, $project->postednum);
             echo "</td>\n";
         }
 
@@ -374,8 +375,13 @@ function get_table_column_specs()
             'class' => 'right-align',
         ],
         'days_checkedout' => [
-            'label' => _('Days'),
+            'label' => _('Days in State'),
             'sql'   => 'days_checkedout',
+            'class' => 'right-align',
+        ],
+        'postednum' => [
+            'label' => _('eBook'),
+            'sql'   => 'postednum',
             'class' => 'right-align',
         ],
     ];
@@ -408,6 +414,11 @@ function get_table_column_specs()
         'days_checkedout' => [
             'label' => _('Days Checked Out'),
             'sql'   => 'days_checkedout',
+            'class' => 'right-align',
+        ],
+        'postednum' => [
+            'label' => _('eBook'),
+            'sql'   => 'postednum',
             'class' => 'right-align',
         ],
     ];
@@ -602,6 +613,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             surround_and_join($avail_states, "'", "'", ',')
         );
         $t_latest_page_event = 0;
+        unset($round_column_specs['postednum']);
     }
     elseif($round_view == "recent")
     {
@@ -609,6 +621,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         $avail_state_clause = "
             AND NOT $posted->state_selector
         ";
+        unset($round_column_specs['postednum']);
     }
     elseif($round_view == "posted")
     {
@@ -620,6 +633,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         unset($round_column_specs['n_available_pages']);
         unset($round_column_specs['percent_done']);
         unset($round_column_specs['days_checkedout']);
+        unset($round_column_specs['state']);
     }
     else
     {
@@ -627,6 +641,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         $avail_state_clause = "
             AND NOT $posted->state_selector
         ";
+        unset($round_column_specs['postednum']);
     }
 
     $sql = "
@@ -683,6 +698,7 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
         unset($pool_column_specs['postproofer']);
         unset($pool_column_specs['ppverifier']);
         unset($pool_column_specs['days_checkedout']);
+        unset($pool_column_specs['postednum']);
     }
     elseif($pool_view == "active")
     {
@@ -706,6 +722,7 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
                 AND NOT $deleted_states_selector
                 AND NOT $posted->state_selector
         ";
+        unset($pool_column_specs['postednum']);
     }
     elseif($pool_view == "posted")
     {
@@ -720,6 +737,7 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
         ";
         unset($pool_column_specs['checkedoutby']);
         unset($pool_column_specs['days_checkedout']);
+        unset($pool_column_specs['state']);
     }
 
     list($order_col, $order_dir) = get_sort_col_and_dir($pool_sort);
