@@ -151,19 +151,16 @@ table.preferences th.longlabel {
   background-color: #e0e8dd;
   color: #000000;
 }
-#tabs li {
+.tabs li {
   background-color: #e3e3e3;
 }
-#tabs a {
+.tabs li a {
   color: #000000;
 }
-#tabs a:hover {
-  color: #000000;
-}
-#tabs #current {
+.tabs .current-tab {
   background-color: #ffffff;
 }
-#tabs #current a {
+.tabs .current-tab a {
   color: #000000;
 }
 /* ------------------------------------------------------------------------ */

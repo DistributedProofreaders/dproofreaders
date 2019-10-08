@@ -130,12 +130,12 @@ function echo_shortcut_links($show_view)
         "search" => _("Search"),
     ];
 
-    echo "<div id='tabs' style='width: auto;'>";
+    echo "<div class='tabs' style='width: auto;'>";
     echo "<ul>";
     foreach($views as $view => $label)
     {
         if($show_view == $view)
-            echo "<li id='current'><a>$label</a></li>";
+            echo "<li class='current-tab'><a>$label</a></li>";
         elseif($view == "search")
             echo "<li>" . get_refine_search_link($label) . "</li>";
         else

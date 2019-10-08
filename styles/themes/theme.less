@@ -106,17 +106,14 @@ table.preferences {
     }
 }
 
-#tabs {
+.tabs {
     li {
         background-color: desaturate(@header-background, 50%);
+        a {
+            color: desaturate(@header-text, 50%);
+        }
     }
-    a {
-        color: desaturate(@header-text, 50%);
-    }
-    a:hover {
-        color: @header-text;
-    }
-    #current {
+    .current-tab {
         background-color: @page-background;
         a {
             color: @page-text;

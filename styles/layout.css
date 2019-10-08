@@ -383,17 +383,17 @@ table.preferences th {
 table.preferences th.longlabel {
   text-align: center;
 }
-#tabs {
+.tabs {
   float: left;
   width: 90%;
   border-bottom: solid thin gray;
 }
-#tabs ul {
+.tabs ul {
   margin: 0;
   padding: 0 20px 0 10px;
   list-style: none;
 }
-#tabs li {
+.tabs li {
   float: left;
   margin: 0;
   padding: 0 0 0 4px;
@@ -401,18 +401,18 @@ table.preferences th.longlabel {
   border-radius: 5px 5px 0 0;
   margin-bottom: -2px;
 }
-#tabs a {
+.tabs a {
   float: left;
   display: block;
   padding: 5px 15px 4px 6px;
   text-decoration: none;
   min-width: 8em;
 }
-#tabs #current {
+.tabs .current-tab {
   border: solid thin gray;
   border-bottom: none;
 }
-#tabs #current a {
+.tabs .current-tab a {
   font-weight: bold;
 }
 /* ------------------------------------------------------------------------ */
