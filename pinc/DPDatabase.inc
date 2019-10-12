@@ -28,6 +28,9 @@ final class DPDatabase
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
         if(!mysqli_query(self::$_connection, $sql))
             throw new DBConnectionError("Unable to set sql_mode");
+
+        // Autocommit DB updates
+        mysqli_autocommit(self::$_connection, TRUE);
     }
 
     static public function close()
