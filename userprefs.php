@@ -208,11 +208,11 @@ echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--
 function echo_tabs($tab_names, $selected_tab) {
     global $origin;
 
-    echo "<div id='tabs'>";
+    echo "<div class='tabs'>";
     echo "<ul>";
     foreach (array_keys($tab_names) as $index) {
         if ($index == $selected_tab) {
-            echo "<li id='current'>";
+            echo "<li class='current-tab'>";
         } else {
             echo "<li>";
         }
