@@ -92,7 +92,7 @@ class PageUnformatter
     private function adjust_notes($text)
     {
         // Illustration with text, Sidenote, continuation Footnote without a ref.
-        $match = preg_match ("/\*\[Footnote: |\*?\[Sidenote: |\[Illustration: /", $text, $matches, PREG_OFFSET_CAPTURE);
+        $match = preg_match ("/\*\[Footnote:|\*?\[Sidenote:|\[Illustration:/", $text, $matches, PREG_OFFSET_CAPTURE);
         if(!$match) // if no match or error
         {
             return $text;
