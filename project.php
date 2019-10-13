@@ -1809,7 +1809,7 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h2>", _('Smooth Reading'), "</h2>";
+    echo "<h2 id='smooth_start'>", _('Smooth Reading'), "</h2>";
     echo "<ul>";
 
     if ( $project->smoothread_deadline == 0 )
@@ -1822,14 +1822,7 @@ function do_smooth_reading()
         {
             echo "<li>";
             echo _("But you can make it available.");
-            echo " ";
-            echo _('Choose how long you want to make it available for.');
-            $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
-            echo "<ul>";
-            echo "<li>$link_start=1'>"._("one week")."</a>";
-            echo "<li>$link_start=2'>"._("two weeks")."</a>";
-            echo "<li>$link_start=4'>"._("four weeks")."</a>";
-            echo "</ul>";
+            sr_echo_time_form();
             echo "</li>\n";
         }
 
@@ -1854,7 +1847,10 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
+                sr_echo_time_form(true);
+                echo "</li>";
+                echo "<li>";
+                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
                 echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
                 echo "</li>";
@@ -1913,17 +1909,9 @@ function do_smooth_reading()
             {
                 echo "<li>";
                 echo _("But you can make it available for Smooth Reading for an additional period.")." ";
-                echo _('Choose how long you want to make it available for.');
-                $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
-                echo "<ul>";
-                echo "<li>$link_start=1'>"._("one week")."</a>";
-                echo "<li>$link_start=2'>"._("two weeks")."</a>";
-                echo "<li>$link_start=4'>"._("four weeks")."</a>";
-                echo "</ul>";
+                sr_echo_time_form(true);
                 echo "</li>\n";
             }
-
-
         }
 
         if ($current_user_can_manage_SR_for_this_project)
@@ -1961,6 +1949,21 @@ function do_smooth_reading()
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function sr_echo_time_form($extend = false)
+{
+    global $code_url, $project;
+
+    echo "<form method='GET' action='$code_url/tools/upload_text.php'>";
+    echo "<input type='hidden' name='project'  value='{$project->projectid}'>\n";
+    echo "<input type='hidden' name='stage' value='smooth_avail'>\n";
+    if($extend)
+    {
+        echo "<input type='hidden' name='extend' value='1'>\n";
+    }
+    echo sprintf(_("Make Smooth Reading available for %s days."), "&nbsp;<input type='number' name='days' min='1' max='42' class='width5em' value='21'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
+    echo "</form>\n";
+}
 
 function do_ppv_report()
 {
