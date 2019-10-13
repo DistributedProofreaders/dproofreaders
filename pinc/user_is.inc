@@ -230,7 +230,7 @@ function user_is_image_sources_manager()
 function user_has_DU_access()
 {
     $userSettings =& get_pguser_settings();
-    return $userSettings->get_boolean("DU.access");
+    return $userSettings->get_boolean("DU.access") || $userSettings->get_boolean("PPV.access");
 }
 
 // vim: sw=4 ts=4 expandtab
