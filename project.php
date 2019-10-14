@@ -1959,9 +1959,16 @@ function sr_echo_time_form($extend = false)
     echo "<input type='hidden' name='stage' value='smooth_avail'>\n";
     if($extend)
     {
+        $label = _("Extend Smooth Reading by %s days");
+        $default = "1";
         echo "<input type='hidden' name='extend' value='1'>\n";
     }
-    echo sprintf(_("Make Smooth Reading available for %s days."), "&nbsp;<input type='number' name='days' min='1' max='42' class='width5em' value='21'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
+    else
+    {
+        $label = _("Make Smooth Reading available for %s days.");
+        $default = "21";
+    }
+    echo sprintf($label, "&nbsp;<input type='number' name='days' min='1' max='42' class='width5em' value='$default'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
     echo "</form>\n";
 }
 

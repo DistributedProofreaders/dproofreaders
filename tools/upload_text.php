@@ -26,7 +26,10 @@ require_login();
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 $valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
-// special case 0 days means replace file only
+// $stage==smooth_avail controls sr, 3 cases:
+// days given and not extend: upload a file & make sr available first time for days from now.
+// days given and extend: extend while available (days from end) or ended (days from now), skip file upload
+// days not given (defaults to 0): replace file only
 $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
 $extend = isset($_REQUEST['extend']);
 $action  = @$_REQUEST['action'];
@@ -350,7 +353,18 @@ function handle_smooth_reading($project, $postcomments, $days)
 
     if ($days) // will be 0 if parameter not supplied when only replacing text
     {
-        $deadline = time() + ($days * 60 * 60 * 24);
+        $seconds = $days * 60 * 60 * 24;
+        $now = time();
+        if ($project->smoothread_deadline > $now)
+        {
+            // extend deadline if not yet passed
+            $deadline = $project->smoothread_deadline + $seconds;
+        }
+        else
+        {
+            // if starting sr with deadline=0, or if sr ended
+            $deadline = $now + $seconds;
+        }
         $smoothread_deadline = "smoothread_deadline = $deadline, ";
         log_project_event( $projectid, $pguser, 'smooth-reading', 'text available', $deadline );
     }
