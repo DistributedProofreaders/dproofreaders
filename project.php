@@ -1253,7 +1253,7 @@ function do_history()
         {
             echo "<td>{$event['details1']}</td>\n";
             $spare_cols = 2;
-            if ( $event['details1'] == 'text available' )
+            if (( $event['details1'] == 'text available' ) || ($event['details1'] == 'deadline extended'))
             {
                 $deadline_f = strftime('%Y-%m-%d %H:%M:%S', $event['details2']);
                 echo "<td>until $deadline_f</td>\n";
@@ -1960,15 +1960,17 @@ function sr_echo_time_form($extend = false)
     if($extend)
     {
         $label = _("Extend Smooth Reading by %s days");
-        $default = "1";
+        $default_time = "1";
+        $min_time = "1";
         echo "<input type='hidden' name='extend' value='1'>\n";
     }
     else
     {
         $label = _("Make Smooth Reading available for %s days.");
-        $default = "21";
+        $default_time = "21";
+        $min_time = "7";
     }
-    echo sprintf($label, "&nbsp;<input type='number' name='days' min='1' max='42' class='width5em' value='$default'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
+    echo sprintf($label, "&nbsp;<input type='number' name='days' min='$min_time' max='42' class='width5em' value='$default_time'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
     echo "</form>\n";
 }
 
