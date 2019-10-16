@@ -168,6 +168,14 @@ else if(!$stage)
     exit;
 }
 
+if($extend && !$project->is_available_for_smoothreading())
+{
+    // this can happen if project page was stale
+    echo "<p>" , _("The Smooth Reading deadline for this project has passed and cannot be extended in this way."),
+        " <a href='$back_url'>", _("Return to the project page"), "</a></p>";
+    exit;
+}
+
 if (!isset($action) && !$extend)
 {
     // Present the upload page.
@@ -339,7 +347,7 @@ if($extend)
 {
     $postcomments = "\n----------\n" . date("Y-m-d H:i") . " " . sprintf(_("Smoothreading deadline extended by %s"), $pguser);
     handle_smooth_reading($project, $postcomments, $days, true);
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=" . PROJ_POST_FIRST_CHECKED_OUT . "#smooth_start";
+    $back_url .= "#smooth_start";
     metarefresh(1, $back_url);
 }
 

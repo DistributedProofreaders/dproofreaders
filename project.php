@@ -1909,7 +1909,7 @@ function do_smooth_reading()
             {
                 echo "<li>";
                 echo _("But you can make it available for Smooth Reading for an additional period.")." ";
-                sr_echo_time_form(true);
+                sr_echo_time_form();
                 echo "</li>\n";
             }
         }
@@ -1952,6 +1952,9 @@ function do_smooth_reading()
 
 function sr_echo_time_form($extend = false)
 {
+    // the $extend parameter could be thought unnecessary since it correlates
+    // with (deaddline > now) but if the page is stale an extension request could be made
+    // after the deadline has passed which we should warn about.
     global $code_url, $project;
 
     echo "<form method='GET' action='$code_url/tools/upload_text.php'>";
