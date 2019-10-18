@@ -77,6 +77,9 @@
   font-size: 0.7rem;
   padding: 2px 6px;
 }
+.nodisp {
+  display: none;
+}
 /* ------------------------------------------------------------------------ */
 /* Make the DPCustomMono2 globally available */
 @font-face {

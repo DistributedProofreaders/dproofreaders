@@ -12,6 +12,7 @@ $round = get_Round_for_round_id($round_id);
 $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/character_selector.js",
+        "$code_url/tools/proofers/toolbox.js",
     ],
     "body_attributes" => "class='control-frame'",
 ];
