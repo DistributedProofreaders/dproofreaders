@@ -581,6 +581,10 @@ table.dirlist caption {
 #standard_interface #imagedisplay {
   text-align: center;
 }
+#text_data,
+#text_data:focus {
+  outline: none;
+}
 /* ------------------------------------------------------------------------ */
 /* Enhanced Editing Interface */
 #enhanced_interface {
@@ -613,10 +617,12 @@ table.dirlist caption {
   background-color: #EEDFCC;
   padding: 2px;
 }
-#enhanced_interface #text_data {
+#enhanced_interface #text_data,
+#enhanced_interface #text_data:focus {
   background-color: #FFF8DC;
   color: #000000;
   padding: 2px;
+  outline: none;
 }
 #enhanced_interface .dropsmall {
   font-size: 75%;
@@ -662,7 +668,7 @@ table.dirlist caption {
 #toolbox {
   padding: 2px;
   /* default buttons have small text = 83% */
-  /* adjust so tools do not jump around with differnt character pickers */
+  /* adjust so tools do not jump around with different character pickers */
 }
 #toolbox .selector_button {
   margin-top: 1px;
@@ -673,8 +679,10 @@ table.dirlist caption {
   min-width: 1em;
 }
 #toolbox .proofbutton {
-  padding: 1px 7px 0 7px;
+  padding: 1px 6px;
+  margin: 1px 0px;
   cursor: pointer;
+  font-size: 0.9em;
 }
 #toolbox .key-block {
   display: none;
@@ -710,7 +718,7 @@ table.dirlist caption {
   visibility: hidden;
 }
 #toolbox #char-selector {
-  min-width: 430px;
+  min-width: 225px;
 }
 #toolbox #char-picker {
   display: inherit;
