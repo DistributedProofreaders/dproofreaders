@@ -33,7 +33,11 @@ class ProofreadingToolbox
     {
         echo "<div class='display-flex' id='toolbox'>";
         $character_selector = new CharacterSelector;
+        echo "<div id='char-picker'>";
+        echo "<button type='button' id='hide-picker' class='hide-picker-button' title='", _("Hide the character picker"), "'>&Lt;</button>";
         $character_selector->draw();
+        echo '</div>';
+        echo "<button type='button' id='show-picker' class='hide-picker-button nodisp' title='", _("Show the character picker"), "'>&Gt;</button>";
         $this->draw_tools($round);
         echo '</div>';
     }
@@ -53,15 +57,17 @@ class ProofreadingToolbox
         draw_tool_button('u', _('Uppercase selection'), 'ABC', 'top.transformText("upper-case");');
         draw_tool_button('t', _('Title case selection'), 'Abc', 'top.transformText("title-case");');
         draw_tool_button('l', _('Lowercase selection'), 'abc', 'top.transformText("lower-case");');
-        draw_tool_button('', '[Greek:', '[Greek: ]', 'top.surroundSelection("[Greek: ","]");');
-        draw_tool_button('', '[Sidenote:', '[Sidenote: ]', 'top.surroundSelection("[Sidenote: ","]");', $format_round);
-        draw_tool_button('', '[Illustration:', '[Illustration: ]', 'top.surroundSelection("[Illustration: ","]");', $format_round);
         draw_tool_button('', _('Note'), '[** ]', 'top.surroundSelection("[** ","]");');
         draw_tool_button('', '[ ]', '[ ]', 'top.surroundSelection("[","]");');
         draw_tool_button('', '{ }', '{ }', 'top.surroundSelection("{","}");');
-        draw_tool_button('', '[Footnote #:', '[Footnote #: ]', 'top.surroundSelection("[Footnote #: ","]");', $format_round);
         draw_tool_button('', _('Start poetry/table'), '/* */', 'top.surroundSelection("/*\\n","\\n*/");', $format_round);
         draw_tool_button('', _('Start block quote'), '/# #/', 'top.surroundSelection("/#\\n","\\n#/");', $format_round);
+
+        echo "<br>";
+        draw_tool_button('', '[Greek:', '[Greek: ]', 'top.surroundSelection("[Greek: ","]");');
+        draw_tool_button('', '[Sidenote:', '[Sidenote: ]', 'top.surroundSelection("[Sidenote: ","]");', $format_round);
+        draw_tool_button('', '[Illustration:', '[Illustration: ]', 'top.surroundSelection("[Illustration: ","]");', $format_round);
+        draw_tool_button('', '[Footnote #:', '[Footnote #: ]', 'top.surroundSelection("[Footnote #: ","]");', $format_round);
         draw_tool_button('', _('Thought Break'), '&lt;tb&gt;', 'top.surroundSelection("\\n<tb>\\n","");', $format_round);
         draw_tool_button('', '[Blank Page]', '[Blank Page]', 'top.replaceAllText("[Blank Page]");');
 

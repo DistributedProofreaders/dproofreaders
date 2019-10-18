@@ -694,7 +694,7 @@ table.dirlist caption {
 #toolbox .big_text {
   font-size: 300%;
   width: 1.3em;
-  margin: 0.1em;
+  margin: 2px;
   text-align: center;
 }
 #toolbox .picker {
@@ -711,6 +711,17 @@ table.dirlist caption {
 }
 #toolbox #char-selector {
   min-width: 430px;
+}
+#toolbox #char-picker {
+  display: inherit;
+}
+#toolbox .hide-picker-button {
+  height: 6em;
+  padding: 1px;
+  background: transparent;
+}
+#toolbox #tools {
+  margin-left: 2px;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */
