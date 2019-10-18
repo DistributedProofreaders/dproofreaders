@@ -716,8 +716,8 @@ table.dirlist caption {
   display: inherit;
 }
 #toolbox .hide-picker-button {
-  font-size: 2.5em;
-  height: 2em;
+  font-size: 2em;
+  height: 2.5em;
   padding: 0;
   background: transparent;
 }
