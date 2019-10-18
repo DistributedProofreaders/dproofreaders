@@ -1821,7 +1821,7 @@ function do_smooth_reading()
         if ($current_user_can_manage_SR_for_this_project)
         {
             echo "<li>";
-            echo _("But you can make it available.");
+            echo _("But you can make it available for between 7 and 42 days.");
             sr_echo_time_form();
             echo "</li>\n";
         }
@@ -1847,6 +1847,7 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
+                echo "And you can extend the time by between 1 and 42 days.";
                 sr_echo_time_form(true);
                 echo "</li>";
                 echo "<li>";
@@ -1908,7 +1909,7 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo _("But you can make it available for Smooth Reading for an additional period.")." ";
+                echo _("But you can make it available for Smooth Reading again for between 7 and 42 days.")." ";
                 sr_echo_time_form();
                 echo "</li>\n";
             }
