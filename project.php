@@ -1939,7 +1939,7 @@ function do_smooth_reading()
                 {
                     $user_privmsg_url = get_url_to_compose_message_to_user($sr_user);
                     echo "<li>";
-                    echo "<a href=$user_privmsg_url>$sr_user</a>";
+                    echo "<a href='$user_privmsg_url'>$sr_user</a>";
                     echo "</li>\n";
                 }
                 echo "</ul>\n";
