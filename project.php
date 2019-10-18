@@ -1821,8 +1821,10 @@ function do_smooth_reading()
         if ($current_user_can_manage_SR_for_this_project)
         {
             echo "<li>";
-            echo _("But you can make it available for between 7 and 42 days.");
-            sr_echo_time_form();
+            $min_days = 7;
+            $max_days = 42;
+            echo sprintf(_('But you can make it available for between %1$d and %2$d days.'), $min_days, $max_days);
+            sr_echo_time_form($min_days, $max_days, false);
             echo "</li>\n";
         }
 
@@ -1847,8 +1849,10 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo "And you can extend the time by between 1 and 42 days.";
-                sr_echo_time_form(true);
+                $min_days = 1;
+                $max_days = 42;
+                echo sprintf(_('And you can extend the time by between %1$d and %2$d days.'), $min_days, $max_days);
+                sr_echo_time_form($min_days, $max_days, true);
                 echo "</li>";
                 echo "<li>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
@@ -1909,8 +1913,10 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo _("But you can make it available for Smooth Reading again for between 7 and 42 days.")." ";
-                sr_echo_time_form();
+                $min_days = 7;
+                $max_days = 42;
+                echo sprintf(_('But you can make it available for Smooth Reading again for between %1$d and %2$d days.'), $min_days, $max_days);
+                sr_echo_time_form($min_days, $max_days, false);
                 echo "</li>\n";
             }
         }
@@ -1951,7 +1957,7 @@ function do_smooth_reading()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function sr_echo_time_form($extend = false)
+function sr_echo_time_form($min_days, $max_days, $extend = false)
 {
     // the $extend parameter could be thought unnecessary since it correlates
     // with (deaddline > now) but if the page is stale an extension request could be made
@@ -1964,17 +1970,15 @@ function sr_echo_time_form($extend = false)
     if($extend)
     {
         $label = _("Extend Smooth Reading by %s days");
-        $default_time = "1";
-        $min_time = "1";
+        $default_days = "1";
         echo "<input type='hidden' name='extend' value='1'>\n";
     }
     else
     {
         $label = _("Make Smooth Reading available for %s days.");
-        $default_time = "21";
-        $min_time = "7";
+        $default_days = "21";
     }
-    echo sprintf($label, "&nbsp;<input type='number' name='days' min='$min_time' max='42' class='width5em' value='$default_time'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
+    echo sprintf($label, "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' class='width5em' value='$default_days'>"), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
     echo "</form>\n";
 }
 
