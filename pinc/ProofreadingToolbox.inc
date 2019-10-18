@@ -34,10 +34,10 @@ class ProofreadingToolbox
         echo "<div class='display-flex' id='toolbox'>";
         $character_selector = new CharacterSelector;
         echo "<div id='char-picker'>";
-        echo "<button type='button' id='hide-picker' class='hide-picker-button' title='", _("Hide the character picker"), "'>&lang;</button>";
+        echo "<button type='button' id='hide-picker' class='hide-picker-button' title='", attr_safe(_("Hide the character picker")), "'>&lang;</button>";
         $character_selector->draw();
         echo '</div>';
-        echo "<button type='button' id='show-picker' class='hide-picker-button nodisp' title='", _("Show the character picker"), "'>&rang;</button>";
+        echo "<button type='button' id='show-picker' class='hide-picker-button nodisp' title='", attr_safe(_("Show the character picker")), "'>&rang;</button>";
         $this->draw_tools($round);
         echo '</div>';
     }
