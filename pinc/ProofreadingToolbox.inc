@@ -57,6 +57,7 @@ class ProofreadingToolbox
         draw_tool_button('u', _('Uppercase selection'), 'ABC', 'top.transformText("upper-case");');
         draw_tool_button('t', _('Title case selection'), 'Abc', 'top.transformText("title-case");');
         draw_tool_button('l', _('Lowercase selection'), 'abc', 'top.transformText("lower-case");');
+        echo "<br>";
         draw_tool_button('', '[Greek:', '[Greek: ]', 'top.surroundSelection("[Greek: ","]");');
         draw_tool_button('', '[Sidenote:', '[Sidenote: ]', 'top.surroundSelection("[Sidenote: ","]");', $format_round);
         draw_tool_button('', '[Illustration:', '[Illustration: ]', 'top.surroundSelection("[Illustration: ","]");', $format_round);

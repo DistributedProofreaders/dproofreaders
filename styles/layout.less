@@ -628,6 +628,10 @@ table.dirlist {
     }
 }
 
+#text_data, #text_data:focus {
+    outline: none;
+}
+
 /* ------------------------------------------------------------------------ */
 /* Enhanced Editing Interface */
 
@@ -661,10 +665,11 @@ table.dirlist {
         background-color: #EEDFCC;
         padding: 2px;
     }
-    #text_data {
+    #text_data, #text_data:focus {
         background-color: #FFF8DC;
         color: #000000;
         padding: 2px;
+        outline: none;
     }
     .dropsmall {
         font-size: 75%;
@@ -727,8 +732,10 @@ table.dirlist {
     }
 
     .proofbutton {
-        padding: 1px 7px 0 7px;
-        cursor:pointer;
+        padding: 1px 6px;
+        margin: 1px 0px;
+        cursor: pointer;
+        font-size: 0.9em;
     }
 
     .key-block {
@@ -771,9 +778,9 @@ table.dirlist {
         visibility: hidden;
     }
 
-    /* adjust so tools do not jump around with differnt character pickers */
+    /* adjust so tools do not jump around with different character pickers */
     #char-selector {
-        min-width: 430px;
+        min-width: 225px;
     }
 
     #char-picker {
