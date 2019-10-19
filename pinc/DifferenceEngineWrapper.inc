@@ -19,6 +19,7 @@
 // See 3rdparty/mediawiki/README.md for which MediaWiki version this maps to.
 include_once($relPath."misc.inc"); // html_safe() in following includes
 include_once($relPath."prefs_options.inc"); // get_user_proofreading_font()
+include_once($relPath."3rdparty/mediawiki/ComplexityException.php");
 include_once($relPath."3rdparty/mediawiki/WordAccumulator.php");
 include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");
 include_once($relPath."3rdparty/mediawiki/WordLevelDiff.php");
