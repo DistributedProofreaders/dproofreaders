@@ -29,11 +29,11 @@ $maxday = get_number_of_days_in_current_month();
 
 //query db and put results into arrays
 $result = mysqli_query(DPDatabase::get_connection(), "
-    SELECT day, SUM(num_projects)
+    SELECT DAYOFMONTH(date) as day, SUM(num_projects)
     FROM project_state_stats
-    WHERE month = '$month' AND year = '$year' AND ($psd->state_selector)
-    GROUP BY day
-    ORDER BY day
+    WHERE MONTH(date) = $month AND YEAR(date) = $year AND ($psd->state_selector)
+    GROUP BY DAYOFMONTH(date)
+    ORDER BY date
 ");
 
 list($datax,$y_cumulative) = dpsql_fetch_columns($result);

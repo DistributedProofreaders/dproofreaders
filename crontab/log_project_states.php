@@ -10,27 +10,25 @@ if(!requester_is_localhost())
 
 header('Content-type: text/plain');
 
-$EOL = "\n";
-$testing_this_script=@$_GET['mytesting'];
+$testing_this_script=@$_GET['testing'];
 
 
 // See if this has been run once today or not
-$res = mysqli_query(DPDatabase::get_connection(),  'SELECT MAX(date) as max_date FROM project_state_stats WHERE num_projects != 0' )
+$date_string = date('Y-m-d');
+$sql = "
+    SELECT count(*) AS count
+    FROM project_state_stats
+    WHERE date = '$date_string'
+";
+$res = mysqli_query(DPDatabase::get_connection(), $sql)
     or die(mysqli_error(DPDatabase::get_connection()));
 $row = mysqli_fetch_assoc($res);
-$X_date = NULL;
-if($row)
-    $X_date = $row["max_date"];
-if ($X_date == date('Y-m-d')) {
-    echo "Already run once for today ($X_date), exiting.", $EOL;
+if($row["count"])
+{
+    echo "Already run once for today ($date_string), exiting.\n";
     exit;
 }
 
-
-$yr = date('Y');
-$mth = date('m');
-$dy = date('d');
-$dte = date('Y-m-d');
 
 // The SELECT we do below will only return counts for project-states that are
 // currently occupied. (I.e., there's at least one project in that state.)
@@ -49,7 +47,13 @@ foreach ( $PROJECT_STATES_IN_ORDER as $state )
 }
 
 // Get the number of projects in each (currently-occupied) state.
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT state, count(*), sum(n_pages) FROM projects GROUP BY state ORDER BY state");
+$sql = "
+    SELECT state, count(*), sum(n_pages)
+    FROM projects
+    GROUP BY state
+    ORDER BY state
+";
+$result = mysqli_query(DPDatabase::get_connection(), $sql);
 
 while (list ($state, $num_projects, $num_pages) = mysqli_fetch_row($result)) {
     $num_projects_in_state_[$state] = $num_projects;
@@ -71,17 +75,18 @@ foreach ( array_keys($num_projects_in_state_) as $state )
 
     $insert_query = "
         INSERT INTO project_state_stats
-        SET year=$yr, month=$mth, day=$dy, date='$dte', state='$state',
+        SET date=NOW(), state='$state',
             num_projects=$num_projects, num_pages=$num_pages
     ";
 
     if ($testing_this_script)
     {
-        echo $insert_query, $EOL;
+        echo "$insert_query\n";
     }
     else
     {
-        mysqli_query(DPDatabase::get_connection(), $insert_query) or die(mysqli_error(DPDatabase::get_connection()));
+        mysqli_query(DPDatabase::get_connection(), $insert_query)
+            or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 

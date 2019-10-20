@@ -300,10 +300,7 @@ CREATE TABLE `project_holds` (
 #
 
 CREATE TABLE `project_state_stats` (
-  `year` smallint(4) NOT NULL default '2003',
-  `month` tinyint(2) NOT NULL default '0',
-  `day` tinyint(2) NOT NULL default '0',
-  `date` date NOT NULL default '2003-00-00',
+  `date` date NOT NULL default '2003-01-01',
   `state` varchar(50) NOT NULL default '0',
   `num_projects` int(12) NOT NULL default '0',
   `num_pages` int(12) NOT NULL default '0',
