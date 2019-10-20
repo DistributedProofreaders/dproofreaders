@@ -438,7 +438,7 @@ CREATE TABLE `sessions` (
 #
 
 CREATE TABLE `site_tally_goals` (
-  `date` date NOT NULL default '0000-00-00',
+  `date` date NOT NULL default '2000-01-01',
   `tally_name` char(2) NOT NULL default '',
   `goal` int(6) NOT NULL default '0',
   PRIMARY KEY  (`date`,`tally_name`)
