@@ -7,7 +7,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
 Not until the twenty-fourth day of August, 1819,
 when less than a hundred soldiers of the Fifth
 United States Infantry disembarked opposite the
-towering height where a few years later rose the
+towering height where Ж few years later rose the
 white walls of Fort Snelling, did the nation which
 was to rule assert its power. The event was, indeed,
 epochal. It not only marked a change in the sovereignty
