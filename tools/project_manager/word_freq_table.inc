@@ -5,6 +5,7 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'faq.inc');
+include_once($relPath.'unicode.inc');
 
 // get_cutoff_string
 // Arguments:
@@ -339,7 +340,7 @@ function _highlight_word($text,$hlWord) {
 
     // now do the replacements
     foreach($wordOffsets as $offset) {
-        $text=substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,strlen($hlWord));
+        $text=utf8_substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,utf8_strlen($hlWord));
     }
 
     return $text;
