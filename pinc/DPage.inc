@@ -3,6 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'user_project_info.inc');
+include_once($relPath.'Project.inc');
 
 // This file brings together code that accesses the projectID* tables.
 
@@ -106,7 +107,7 @@ function project_add_page(
     $user,
     $now )
 {
-    $txt_expr = file_content_expr( $txt_file_path );
+    $txt_expr = file_content_expr( $txt_file_path, $projectid );
 
     $round = get_Round_for_round_number(1);
     $page_state = $round->page_avail_state;
@@ -150,7 +151,7 @@ function project_add_page(
     return $errs;
 }
 
-function file_content_expr( $file_path )
+function file_content_expr( $file_path, $projectid )
 // Return an SQL expression that will yield:
 // -- the contents of the given file as a string
 // -- or NULL if the file can't be read.
@@ -161,7 +162,7 @@ function file_content_expr( $file_path )
         {
             return 'NULL';
         }
-        $txt = _normalize_page_text($txt);
+        $txt = _normalize_page_text($txt, $projectid);
         return sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $txt));
 }
 
@@ -204,7 +205,7 @@ function Page_replaceImage( $projectid, $image, $new_image, $user )
 
 function Page_replaceText( $projectid, $image, $text_file_path, $user )
 {
-    $text_file_content_expr = file_content_expr( $text_file_path );
+    $text_file_content_expr = file_content_expr( $text_file_path, $projectid );
     _Page_UPDATE( $projectid, $image, "
         master_text=$text_file_content_expr
     ");
@@ -216,7 +217,7 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
 
 function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         $text_column='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
@@ -261,7 +262,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_temp_state}',
         {$round->time_column_name}=$timestamp,
@@ -286,7 +287,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_save_state}',
         {$round->time_column_name}=$timestamp,
@@ -516,13 +517,23 @@ function _Page_UPDATE( $projectid, $image, $settings )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _normalize_page_text( $page_text )
+function _normalize_page_text( $page_text, $projectid )
 // Normalize a page-text before we store it in the db,
 // mainly so that inconsequential/inadvertent/invisible
 // changes to a page don't show up as differences.
 {
+    // Remove BOM if it exists
+    if(utf8_string_has_bom($page_text))
+    {
+        $page_text = utf8_str_replace(utf8_bom(), '', $page_text);
+    }
+
+    // Filter characters to just the Latin-1 set
+    $project = new Project($projectid);
+    $result = filter_text_to_codepoints($page_text, $project->get_valid_codepoints());
+
     // 1. Eliminate blank lines at the end of the text.
-    $result = rtrim($page_text);
+    $result = rtrim($result);
 
     // 2. Ensure all line-ends are CR-LF.
     // 3. Eliminate whitespace at the end of each line.
@@ -530,19 +541,19 @@ function _normalize_page_text( $page_text )
     $patterns = array();
     $repls = array();
 
-        // For each CR that isn't immediately followed by a LF,
-        // change it to a CRLF. (Convert Max line-ends to DOS.)
-        $patterns[] = '/\r(?!\n)/';
-        $repls[]    = "\r\n";
+    // For each CR that isn't immediately followed by a LF,
+    // change it to a CRLF. (Convert Max line-ends to DOS.)
+    $patterns[] = '/\r(?!\n)/';
+    $repls[]    = "\r\n";
 
-        // For each LF that isn't immediately preceded by a CR,
-        // change it to a CRLF. (Convert Unix line-ends to DOS.)
-        $patterns[] = '/(?<!\r)\n/';
-        $repls[]    = "\r\n";
+    // For each LF that isn't immediately preceded by a CR,
+    // change it to a CRLF. (Convert Unix line-ends to DOS.)
+    $patterns[] = '/(?<!\r)\n/';
+    $repls[]    = "\r\n";
 
-        // Remove any blanks/tabs at the end of each line
-        $patterns[] = '/[ \t]+\r\n/';
-        $repls[]    = "\r\n";
+    // Remove any blanks/tabs at the end of each line
+    $patterns[] = '/[ \t]+\r\n/';
+    $repls[]    = "\r\n";
 
     $result = preg_replace( $patterns, $repls, $result );
 
