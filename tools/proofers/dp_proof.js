@@ -14,16 +14,16 @@ var imageCopy = new Image();
 imageCopy.onload = loadImageSize;
 
 
-// dropdown character selection
+// picker character selection
 function insertCharacter(wM)
 {
-    insertTags(wM,'','',true);
+    insertTags(wM, '', true);
 }
 
 // standard tag selection
-function surroundSelection(wOT,wCT)
+function surroundSelection(wOT, wCT)
 {
-    insertTags(wOT,wCT,'',false);
+    insertTags(wOT, wCT, false);
 }
 
 // start of general interface functions
@@ -168,228 +168,93 @@ function doBU()
     }
 }
 
-// Following is taken from Wikipedia's wikibits.js:
-
-var clientPC = navigator.userAgent.toLowerCase(); // Get client info
-var is_gecko = ((clientPC.indexOf('gecko')!=-1) && (clientPC.indexOf('spoofer')==-1)
-                && (clientPC.indexOf('khtml') == -1) && (clientPC.indexOf('netscape/7.0')==-1));
-var is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spoofer')==-1));
-
 // apply tagOpen/tagClose to selection in textarea,
-// use sampleText instead of selection if there is none
-function insertTags(tagOpen, tagClose, sampleText, replace)
+function insertTags(tagOpen, tagClose, replace)
 {
-    var txtarea = docRef.editform.text_data;
-    // IE
-    if(docRef.selection  && !is_gecko) {
-        var theSelection = docRef.selection.createRange().text;
-        if(!theSelection) { theSelection=sampleText;}
-        if(replace) { theSelection=''; }
-        proc = processText(tagOpen,tagClose,theSelection);
-        tagOpen = proc[0];
-        tagClose = proc[1];
-        theSelection = proc[2];
-        txtarea.focus();
-        if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
-            theSelection = theSelection.substring(0, theSelection.length - 1);
-            docRef.selection.createRange().text = tagOpen + theSelection + tagClose + " ";
-        } else {
-            docRef.selection.createRange().text = tagOpen + theSelection + tagClose;
-        }
+    "use strict";
+    var txtArea = docRef.editform.text_data;
+    var startPos = txtArea.selectionStart;
+    var endPos = txtArea.selectionEnd;
 
-    // Mozilla
-    } else if(txtarea.selectionStart || txtarea.selectionStart == '0') {
-        var startPos = txtarea.selectionStart;
-        var endPos = txtarea.selectionEnd;
-        var scrollTop=txtarea.scrollTop;
-        var myText = (txtarea.value).substring(startPos, endPos);
-        if(!myText) { myText=sampleText;}
-        if(replace) { myText=''; }
-        proc = processText(tagOpen,tagClose,myText);
-        tagOpen = proc[0];
-        tagClose = proc[1];
-        myText = proc[2];
-
-        if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
-            subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
-        } else {
-            subst = tagOpen + myText + tagClose;
-        }
-        txtarea.value = txtarea.value.substring(0, startPos) + subst +
-            txtarea.value.substring(endPos, txtarea.value.length);
-        txtarea.focus();
-
-        var cPos=startPos+(tagOpen.length+myText.length+tagClose.length);
-        txtarea.selectionStart=cPos;
-        txtarea.selectionEnd=cPos;
-        txtarea.scrollTop=scrollTop;
-
-    // All others
-    } else {
-        var copy_alertText=alertText;
-        var re1=new RegExp("\\$1","g");
-        var re2=new RegExp("\\$2","g");
-        copy_alertText=copy_alertText.replace(re1,sampleText);
-        copy_alertText=copy_alertText.replace(re2,tagOpen+sampleText+tagClose);
-        var text;
-        if (sampleText) {
-            text=prompt(copy_alertText);
-        } else {
-            text="";
-        }
-        if(!text) { text=sampleText;}
-        if(replace) { text=''; }
-        proc = processText(tagOpen,tagClose,text);
-        tagOpen = proc[0];
-        tagClose = proc[1];
-        text = proc[2];
-        text=tagOpen+text+tagClose;
-        docRef.infoform.infobox.value=text;
-        // in Safari this causes scrolling
-        if(!is_safari) {
-            txtarea.focus();
-        }
-        noOverwrite=true;
+    // move end fwd if spaces at end
+    while ((startPos < endPos) && (txtArea.value.charAt(endPos - 1) == ' ')) {
+        endPos -= 1;
     }
-    // reposition cursor if possible
-    if (txtarea.createTextRange && docRef.selection) {
-        txtarea.caretPos = docRef.selection.createRange().duplicate();
-    }
-}
+    var selection = replace ? '' : (txtArea.value).substring(startPos, endPos);
 
-// ----------
-
-// A string is a footnote label if it's a letter A-Z, or an integer > 0
-function isFootnoteLabel(label)
-{
-    if (label.length == 1 && "abcdefghijklmnopqrstuvwxyz".indexOf(label.toLowerCase()) != -1) return true;
-    return parseInt(label) == label && label > 0;
-}
-
-// Used when wrapping body text in markup or tags.
-// Modify the opening and closing tags and body text depending
-// on the context to make editing easier for the user.
-// Return updated tags and body.
-function processText(tagOpen, tagClose, bodyText)
-{
+    // When wrapping body text in markup or tags.
+    // Modify the opening and closing tags and selection depending
+    // on the context to make editing easier for the user.
 
     // If there's no selected text:
     // * Illustration markup may appear w/o a title, so remove the ': '.
     // * Formatting markup is redundant w/o any content, so don't produce it.
-    if (bodyText == '') {
+    if (selection == '') {
         if (tagOpen == '[Illustration: ') {
             tagOpen = '[Illustration';
         }
-
-        // do not tag empty strings but insert a single '<'
-        if ((tagOpen[0] == '<') && (tagOpen.length > 1)) {
+        else if ((tagOpen[0] === '<') && (tagOpen.length > 1)) {
+            // do not tag empty strings but insert a single '<'
             tagOpen = '';
             tagClose = '';
         }
     }
 
     // Handle footnote label substitution
-    if (tagOpen == '[Footnote #: ') {
+    if (tagOpen === '[Footnote #: ') {
         // Split the selected text on the first space in the string.
         // If the first part is a label use it in the opening tag in
         // place of '#', otherwise remove the ' #' from the opening tag.
-        label = '';
-        i = bodyText.indexOf(' ');
+        var label = '';
+        var i = selection.indexOf(' ');
         if (i != -1) {
-            first = bodyText.substr(0, i);
-            if (isFootnoteLabel(first)) {
+            var first = selection.substr(0, i);
+
+            // A string is a footnote label if it's a letter A-Z, or an integer > 0
+            if ((/^[A-Za-z]$|^[1-9]\d*$/).test(first)) {
                 label = ' ' + first;
-                bodyText = bodyText.substr(i+1);
-        }
+                selection = selection.substr(i+1);
+            }
         }
         tagOpen = tagOpen.replace(' #', label);
 
-        // If there's no body text, remove the label entirely.
-        if (bodyText == '') tagOpen = tagOpen.replace(': ', '');
+        // If there's no selection, remove the label entirely.
+        if (selection == '') tagOpen = tagOpen.replace(': ', '');
     }
 
-    return [tagOpen, tagClose, bodyText];
+    var subst = tagOpen + selection + tagClose;
+    txtArea.value = txtArea.value.substring(0, startPos) + subst + txtArea.value.substring(endPos);
+    var curPos = startPos + subst.length;
+    txtArea.setSelectionRange(curPos, curPos);
+    txtArea.focus();
 }
-
-
-// ----------
 
 function transformText(transformType)
 {
-    var txtarea = docRef.editform.text_data;
-    // There's really no point to this, it just
-    // avoids some unpleasant problems later:
-    var tagOpen = '';
-    var tagClose = '';
-    // IE
-    if(docRef.selection  && !is_gecko) {
-        var theSelection = docRef.selection.createRange().text;
-        if(!theSelection) { theSelection=sampleText;}
-        if(transformType=='title-case') { theSelection=title_case(theSelection);}
-        if(transformType=='upper-case') { theSelection=theSelection.toUpperCase();}
-        if(transformType=='lower-case') { theSelection=theSelection.toLowerCase();}
-        if(transformType=='remove_markup') { theSelection=theSelection.replace(/<\/?([ibfg]|sc)>/gi,'');}
-        txtarea.focus();
-        if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
-            theSelection = theSelection.substring(0, theSelection.length - 1);
-            docRef.selection.createRange().text = tagOpen + theSelection + tagClose + " ";
-        } else {
-            docRef.selection.createRange().text = tagOpen + theSelection + tagClose;
-        }
-
-    // Mozilla
-    } else if(txtarea.selectionStart || txtarea.selectionStart == '0') {
-        var startPos = txtarea.selectionStart;
-        var endPos = txtarea.selectionEnd;
-        var scrollTop=txtarea.scrollTop;
-        var myText = (txtarea.value).substring(startPos, endPos);
-        if(!myText) { myText=sampleText;}
-        if(transformType=='title-case') { myText=title_case(myText);}
-        if(transformType=='upper-case') { myText=myText.toUpperCase();}
-        if(transformType=='lower-case') { myText=myText.toLowerCase();}
-        if(transformType=='remove_markup') { myText=myText.replace(/<\/?([ibfg]|sc)>/gi,'');}
-        if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
-            subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
-        } else {
-            subst = tagOpen + myText + tagClose;
-        }
-        txtarea.value = txtarea.value.substring(0, startPos) + subst +
-        txtarea.value.substring(endPos, txtarea.value.length);
-        txtarea.focus();
-
-        var cPos=startPos+(tagOpen.length+myText.length+tagClose.length);
-        txtarea.selectionStart=cPos;
-        txtarea.selectionEnd=cPos;
-        txtarea.scrollTop=scrollTop;
-
-    // All others
-    } else {
-        var copy_alertText=alertText;
-        var re1=new RegExp("\\$1","g");
-        var re2=new RegExp("\\$2","g");
-        copy_alertText=copy_alertText.replace(re1,sampleText);
-        copy_alertText=copy_alertText.replace(re2,tagOpen+sampleText+tagClose);
-        var text;
-        if (sampleText) {
-            text=prompt(copy_alertText);
-        } else {
-            text="";
-        }
-        if(!text) { text=sampleText;}
-        if(transformType=='title-case') { text=title_case(text);}
-        if(transformType=='upper-case') { text=text.toUpperCase();}
-        if(transformType=='lower-case') { text=text.toLowerCase();}
-        if(transformType=='remove_markup') { text=text.replace(/<\/?([ibfg]|sc)>/gi,'');}
-        text=tagOpen+text+tagClose;
-        docRef.infoform.infobox.value=text;
-        // in Safari this causes scrolling
-        if(!is_safari) {
-            txtarea.focus();
-        }
-        noOverwrite=true;
+    var txtArea = docRef.editform.text_data;
+    var startPos = txtArea.selectionStart;
+    var endPos = txtArea.selectionEnd;
+    var selection = (txtArea.value).substring(startPos, endPos);
+    switch(transformType) {
+        case 'title-case':
+            selection=title_case(selection);
+            break;
+        case 'upper-case':
+            selection=selection.toUpperCase();
+            break;
+        case 'lower-case':
+            selection=selection.toLowerCase();
+            break;
+        case 'remove_markup':
+            selection=selection.replace(/<\/?([ibfg]|sc)>/gi,'');
+            break;
+        default:
+            break;
     }
-    // reposition cursor if possible
-    if (txtarea.createTextRange) txtarea.caretPos = docRef.selection.createRange().duplicate();
+    txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);
+    var curPos = startPos + selection.length;
+    txtArea.setSelectionRange(curPos, curPos);
+    txtArea.focus();
 }
 
 function title_case(str)
