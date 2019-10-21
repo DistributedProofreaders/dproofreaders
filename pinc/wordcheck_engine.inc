@@ -4,24 +4,21 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'languages.inc'); // proj_lang_code
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains, array_get
+include_once($relPath.'unicode.inc');
 
 // regex of word characters
 // This is used when splitting a text into words.
-// NOTE: This should probably be changed when moving to UTF-8
-//       at that time we can probably move to using \W instead of
-//       the mess below
-$word_letters = "a-zA-ZÀ-ÖØ-öø-ÿ";
-$word_characters = "0-9$word_letters";
+$word_characters = "\w";
 
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = "[$word_letters]";    // pattern for: markable base character
+$base = "[a-zA-Z]";    // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
 $char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
+$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
 // (Supposedly, the 'S' modifier makes the regex engine spend more time
@@ -361,8 +358,6 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 //
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
-    global $word_letters;
-
     list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
 
     $badWords = array();
@@ -382,11 +377,11 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
         $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
     }
     $exceptions = implode('|', $exceptions);
-    $exceptions_pattern = "/^($exceptions)$/";
+    $exceptions_pattern = "/^($exceptions)$/u";
 
     foreach($input_words_w_freq as $word => $freq) {
         // if the word has both a digit and a word_letter
-        if(preg_match("/\d/", $word) && preg_match("/[$word_letters]/", $word)) {
+        if(preg_match("/\d/u", $word) && preg_match("/\D/u", $word)) {
 
             // ignore common <digit><letter> combinations
             if(preg_match($exceptions_pattern, $word)) continue;
@@ -448,9 +443,9 @@ function save_project_good_words($projectid, $words)
     $fileObject = get_project_word_file($projectid, "good");
 
     // trim out leading spaces
-    $words = preg_replace('/^\s+/', '', $words);
+    $words = preg_replace('/^\s+/u', '', $words);
     // trim out any word frequencies if they exist
-    $words = preg_replace('/\s.*$/', '', $words);
+    $words = preg_replace('/\s.*$/u', '', $words);
 
     return save_word_list($fileObject->abs_path, $words);
 }
@@ -469,9 +464,9 @@ function save_project_bad_words($projectid, $words)
     $fileObject = get_project_word_file($projectid, "bad");
 
     // trim out leading spaces
-    $words = preg_replace('/^\s+/', '', $words);
+    $words = preg_replace('/^\s+/u', '', $words);
     // trim out any word frequencies if they exist
-    $words = preg_replace('/\s.*$/', '', $words);
+    $words = preg_replace('/\s.*$/u', '', $words);
 
     return save_word_list($fileObject->abs_path, $words);
 }
@@ -987,8 +982,7 @@ function get_distinct_words_in_text($text)
 function get_all_words_in_text($text, $with_offsets=FALSE)
 {
     global $word_pattern;
-    $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
-    $n_matches = preg_match_all($word_pattern, $text, $matches, $flags);
+    $n_matches = preg_match_all($word_pattern, $text, $matches);
     if($n_matches === FALSE)
     {
         die("get_all_words_in_text: An error occurred.");
@@ -997,10 +991,17 @@ function get_all_words_in_text($text, $with_offsets=FALSE)
     if($with_offsets)
     {
         $result = array();
-        foreach($matches[0] as $item)
+        foreach($matches[0] as $word)
         {
-            list($word, $offset) = $item;
-            $result[$offset] = $word;
+            $search_offset = 0;
+            while(True)
+            {
+                $offset = utf8_strpos($text, $word, $search_offset);
+                if($offset === false)
+                    break;
+                $result[$offset] = $word;
+                $search_offset = $offset + utf8_strlen($word);
+            }
         }
         return $result;
     }
