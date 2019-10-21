@@ -177,6 +177,19 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    public function get_valid_codepoints()
+    {
+        // hard-coded to Latin-1 set for now
+        $latin1_codepoints = [
+            'U+0020-U+007E', # https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
+            'U+00A1-U+00FF', # https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)'
+        ];
+
+        return $latin1_codepoints;
+    }
+
+    // -------------------------------------------------------------------------
+
     private function _get_PPer()
     {
         global $site_supports_corrections_after_posting;
