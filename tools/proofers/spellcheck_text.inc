@@ -3,6 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'misc.inc');  // attr_safe(), javascript_safe()
+include_once($relPath.'unicode.inc');
 
 // Arguments:
 //   orig_text - original text to run through dictionary
@@ -63,7 +64,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                    "</style>";
     $returnString.="<pre>\n";
 
-    $puncArray = str_split($puncCharacters);
+    $puncArray = utf8_split($puncCharacters);
 
     // initialize the wordCount and the numBadWords
     $numBadWords = 0;
@@ -87,12 +88,12 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         $lineIndex = $indexArray = array();
 
         // find the index for each punctuation
-        for($lineIndex = 0; $lineIndex<strlen($origLine); $lineIndex++) {
-            $character = $origLine[$lineIndex];
+        for($lineIndex = 0; $lineIndex<utf8_strlen($origLine); $lineIndex++) {
+            $character = utf8_access($origLine, $lineIndex);
             if(in_array($character,$puncArray)) {
                 // check to see if we're dealing with an escaped HTML char
                 // (aka: &amp; &lt; &gt) and if so, skip it
-                if($character==';' && preg_match("/&\w+;$|&#\d+;$/",substr($origLine,0,$lineIndex+1))) {
+                if($character==';' && preg_match("/&\w+;$|&#\d+;$/",utf8_substr($origLine,0,$lineIndex+1))) {
                    continue;
                 }
                 $indexArray[$lineIndex] = $character;
@@ -103,7 +104,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         foreach ( get_all_words_in_text($origLine,TRUE) as $lineIndex => $word ) {
             if($word != "" && (in_array($word,$badWords) || in_array($word,$accepted_words))) {
                 // erase any punctuation-markers covered by this word
-                for( $li = $lineIndex; $li < $lineIndex + strlen($word); $li++ )
+                for( $li = $lineIndex; $li < $lineIndex + utf8_strlen($word); $li++ )
                 {
                     unset($indexArray[$li]);
                 }
@@ -117,14 +118,14 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         foreach($indexArray as $lineIndex => $word) {
             if($word == "") continue;
 
-            $wordLen = strlen($word);
+            $wordLen = utf8_strlen($word);
 
             // see if we are punctuation
             if(in_array($word,$puncArray)) {
-                $newLine=substr_replace($newLine,_wrapPunc($word),$lineIndex,$wordLen);
+                $newLine=utf8_substr_replace($newLine,_wrapPunc($word),$lineIndex,$wordLen);
             } elseif(in_array($word,$accepted_words)) {
                 // see if we're an AW word
-                $newLine=substr_replace($newLine,_wrapAW($word),$lineIndex,$wordLen);
+                $newLine=utf8_substr_replace($newLine,_wrapAW($word),$lineIndex,$wordLen);
             } else {
                 // not punctuation, handle word
 
@@ -166,7 +167,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                         "</span>";
                 }
 
-                $newLine = substr_replace($newLine,$replaceString,$lineIndex,strlen($word));
+                $newLine = utf8_substr_replace($newLine,$replaceString,$lineIndex,utf8_strlen($word));
             }
         }
 
@@ -395,16 +396,16 @@ function spellcheck_apply_corrections() {
                 $correct_word = rtrim($_POST['sp'.$i]);
 
                 // pull the original word
-                $orig_word = substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);
+                $orig_word = utf8_substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);
 
                 if($orig_word!=$correct_word)
                     $corrections[]=array($orig_word,$correct_word);
 
                 // replace word in string
                 $text_array[$orig_line_i] =
-                    substr($text_array[$orig_line_i],0,$orig_word_offset) .
+                    utf8_substr($text_array[$orig_line_i],0,$orig_word_offset) .
                     $correct_word .
-                    substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
+                    utf8_substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
             }
         }
         $correct_text = implode("\r\n",$text_array);
