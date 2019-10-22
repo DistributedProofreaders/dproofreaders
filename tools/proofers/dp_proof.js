@@ -1,18 +1,14 @@
-// New version
-// start of code by Carel
-
 // This variable is set by initializeStuff() in dp_scroll.js
-docRef=null;
+var docRef = null;
 
 // image width
-iW='1000';
+var iW='1000';
 
 // image actual width
-cW='0';
+var cW='0';
 // image copy for width
 var imageCopy = new Image();
 imageCopy.onload = loadImageSize;
-
 
 // picker character selection
 function insertCharacter(wM)
@@ -86,7 +82,7 @@ function showIZ()
     zP=reSize(zP); // the two Zp's will be the same unless reSize doesn't
     //succeed in making the image the requested size, i.e. if the
     //requested size is too small.
-    
+
     docRef.editform.zmSize.value=Math.round(100*(zP/iW));
     return false;
 }
@@ -124,7 +120,7 @@ function showNW()
     // We're sending it in a HTML document,
     // so we entity-encode its HTML-special characters.
     nW.document.write('<PRE>'+showNW_safe(docRef.editform.text_data.value)+'</PRE>');
-    nW.document.close()
+    nW.document.close();
 }
 
 function showNW_safe(str)
@@ -136,7 +132,7 @@ function showNW_safe(str)
     return html_safe(str)
         .replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
         .replace(/&lt;sc&gt;/ig, '<span style="font-variant: small-caps;">')
-        .replace(/&lt;\/sc&gt;/ig, '</span>')
+        .replace(/&lt;\/sc&gt;/ig, '</span>');
 }
 
 function html_safe(str)
@@ -152,7 +148,7 @@ function html_safe(str)
     return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
+        .replace(/>/g, '&gt;');
 }
 
 function replaceAllText(wM)
@@ -177,10 +173,11 @@ function insertTags(tagOpen, tagClose, replace)
     var endPos = txtArea.selectionEnd;
 
     // move end fwd if spaces at end
-    while ((startPos < endPos) && (txtArea.value.charAt(endPos - 1) == ' ')) {
+    while ((startPos < endPos) && (txtArea.value.charAt(endPos - 1) === ' ')) {
         endPos -= 1;
     }
-    var selection = replace ? '' : (txtArea.value).substring(startPos, endPos);
+    var selection = (
+        replace ? '' : (txtArea.value).substring(startPos, endPos));
 
     // When wrapping body text in markup or tags.
     // Modify the opening and closing tags and selection depending
@@ -189,8 +186,8 @@ function insertTags(tagOpen, tagClose, replace)
     // If there's no selected text:
     // * Illustration markup may appear w/o a title, so remove the ': '.
     // * Formatting markup is redundant w/o any content, so don't produce it.
-    if (selection == '') {
-        if (tagOpen == '[Illustration: ') {
+    if (selection === '') {
+        if (tagOpen === '[Illustration: ') {
             tagOpen = '[Illustration';
         }
         else if ((tagOpen[0] === '<') && (tagOpen.length > 1)) {
@@ -207,7 +204,7 @@ function insertTags(tagOpen, tagClose, replace)
         // place of '#', otherwise remove the ' #' from the opening tag.
         var label = '';
         var i = selection.indexOf(' ');
-        if (i != -1) {
+        if (i !== -1) {
             var first = selection.substr(0, i);
 
             // A string is a footnote label if it's a letter A-Z, or an integer > 0
@@ -219,7 +216,9 @@ function insertTags(tagOpen, tagClose, replace)
         tagOpen = tagOpen.replace(' #', label);
 
         // If there's no selection, remove the label entirely.
-        if (selection == '') tagOpen = tagOpen.replace(': ', '');
+        if (selection === '') {
+            tagOpen = tagOpen.replace(': ', '');
+        }
     }
 
     var subst = tagOpen + selection + tagClose;
@@ -227,6 +226,51 @@ function insertTags(tagOpen, tagClose, replace)
     var curPos = startPos + subst.length;
     txtArea.setSelectionRange(curPos, curPos);
     txtArea.focus();
+}
+
+function lc_common(str)
+{
+    var words = str.split(' ');
+    var common_lc_words = ':At:Under:Near:Upon:By:Of:In:On:For' + // prepositions
+                      ':Is:Was:Are' +    // 'small' verbs
+                      ':But:And:Or' +    // conjunctions
+                      ':A:An:The' +      // articles
+                      ':Am:Pm:Bc:Ad' +   // small caps abbreviations
+                      ':De:Van:La:Le:';  // LOTE
+
+    // Start at i=1 to avoid changing the first word (leave it Titlecased).
+    // E.g. if str is "A Winter's Tale", we don't want to lowercase the "A".
+    var i;
+    for(i = 1; i < words.length; i += 1)
+    {
+        // If the word appears in the :-delimited list above, it should be lower case
+        if (common_lc_words.indexOf(':' + words[i] + ':') !== -1)
+        {
+            words[i] = words[i].toLowerCase();
+        }
+    }
+
+    return words.join(' ');
+}
+
+function title_case(str)
+{
+    str = str.toLowerCase();
+    var newStr = '';
+    var i;
+
+    for (i = 0; i < str.length; i += 1)
+    {
+        // Capitalise the first letter, or anything after a space, newline or period.
+        if (i === 0 || ' \n.'.indexOf(str.charAt(i - 1)) !== -1) {
+            newStr += str.charAt(i).toUpperCase();
+        } else {
+            newStr += str.charAt(i);
+        }
+    }
+
+    newStr = lc_common(newStr);
+    return newStr;
 }
 
 function transformText(transformType)
@@ -248,56 +292,11 @@ function transformText(transformType)
         case 'remove_markup':
             selection=selection.replace(/<\/?([ibfg]|sc)>/gi,'');
             break;
-        default:
-            break;
     }
     txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);
     var curPos = startPos + selection.length;
     txtArea.setSelectionRange(curPos, curPos);
     txtArea.focus();
-}
-
-function title_case(str)
-{
-    str    = str.toLowerCase(),
-    newStr = '';
-
-    for (i = 0; i < str.length; i++)
-    {
-        // Capitalise the first letter, or anything after a space, newline or period.
-        if (i == 0 || ' \n.'.indexOf(str.charAt(i - 1)) != -1) {
-            newStr += str.charAt(i).toUpperCase();
-        } else {
-            newStr += str.charAt(i);
-        }
-    }
-
-    newStr = lc_common(newStr);
-    return newStr;
-}
-
-function lc_common(str)
-{
-    words = str.split(' ');
-    common_lc_words = ':At:Under:Near:Upon:By:Of:In:On:For' + // prepositions
-                      ':Is:Was:Are' +    // 'small' verbs
-                      ':But:And:Or' +    // conjunctions
-                      ':A:An:The' +      // articles
-                      ':Am:Pm:Bc:Ad' +   // small caps abbreviations
-                      ':De:Van:La:Le:';  // LOTE
-
-    // Start at i=1 to avoid changing the first word (leave it Titlecased).
-    // E.g. if str is "A Winter's Tale", we don't want to lowercase the "A".
-    for(i = 1; i < words.length; i++)
-    {
-        // If the word appears in the :-delimited list above, it should be lower case
-        if (common_lc_words.indexOf(':' + words[i] + ':') != -1)
-        {
-            words[i] = words[i].toLowerCase();
-        }
-    }
-
-    return words.join(' ');
 }
 
 // vim: sw=4 ts=4 expandtab
