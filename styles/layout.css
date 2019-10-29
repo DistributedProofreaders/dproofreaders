@@ -210,12 +210,12 @@ table.filter {
   width: 100%;
 }
 table.filter td {
-  padding: .25em 0.25em 0em .25em;
+  padding: 0.25em 0.25em 0em 0.25em;
   vertical-align: top;
   white-space: nowrap;
 }
 table.filter td select {
-  margin: .1em auto;
+  margin: 0.1em auto;
   width: 100%;
 }
 /* ------------------------------------------------------------------------ */
@@ -863,8 +863,8 @@ table.search-column tr th {
   grid-column-gap: 2em;
   grid-row-gap: 2px;
 }
-.width5em {
-  width: 5em;
+.width3em {
+  width: 3em;
 }
 /* vim: sw=4 ts=4 expandtab
 */
