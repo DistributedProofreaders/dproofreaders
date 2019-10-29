@@ -1847,7 +1847,7 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                $label = _('Extend Smooth Reading by %1$s days (between %2$d and %3$d).');
+                $label = _('Extend Smooth Reading by %1$s day(s) (between %2$d and %3$d).');
                 sr_echo_time_form(1, 42, 1, $label, true);
                 echo "</li>";
                 echo "<li>";
