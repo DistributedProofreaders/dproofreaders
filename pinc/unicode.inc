@@ -8,6 +8,13 @@ function utf8_substr_replace($string, $replacement, $start, $length)
     return $start_string . $replacement . $end_string;
 }
 
+# Normalize UTF-8 strings to NFC
+function utf8_normalize($string)
+{
+    $normalizer = new Normalizer();
+    return $normalizer->normalize($string);
+}
+
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
@@ -83,6 +90,9 @@ function filter_text_to_codepoints($string, $codepoints)
 {
     $codepoints[] = 'U+000A'; # new lines
     $codepoints[] = 'U+000D'; # carriage returns
+
+    # normalize string
+    $string = utf8_normalize($string);
 
     # replace most Unicode whitespace with a space
     $string = utf8_filter_out_codepoints($string, get_utf8_whitespace_codepoints(), " ");
