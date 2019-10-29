@@ -7,11 +7,11 @@ The external references are previewMessages which is loaded by the function
 output_preview_strings() defined in preview.inc, called in preview_strings.php
 and previewControl.adjustMargin() defined in previewControl.js
 txt is the text to analyse.
-viewMode determines if the inline tags are to be shown or hidden and whether to
-re-wrap the text.
+viewMode determines if the inline tags are to be shown or hidden
+wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
-var makePreview = function (txt, viewMode, styler) {
+var makePreview = function (txt, viewMode, wrapMode, styler) {
     "use strict";
     // 1 means a definite issue, 0 a possible issue
     var issueType = {
@@ -487,7 +487,6 @@ var makePreview = function (txt, viewMode, styler) {
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
         var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
-        var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
         var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
@@ -510,32 +509,56 @@ var makePreview = function (txt, viewMode, styler) {
         }
 
         function spanStyle(match, p1, p2) {
+            // p1 is "/" or "", p2 is the tag id
+            var tagMap = {
+                "i": "_",
+                "b": "=",
+                "f": "~",
+                "g": "$",
+                "sc": "",
+                "u": "%"
+            };
+
             if (!p2) { // must be user note
                 return match;
             }
+            var tagMark = "";
+            switch (viewMode) {
+                case "show_tags":
+                    tagMark = match;
+                    break;
+                case "flat":
+                    tagMark = tagMap[p2];
+                    break;
+                default: // no_tags
+                    break;
+            }
             if (p1 === '/') {   // end tag
-                if (viewMode === "show_tags") {
-                    return match + repstr2;
-                }
-                return repstr2;
+                return tagMark + endSpan;
             }
-            var str = '<span class="' + p2 + '"' + makeColourStyle(p2) + '>';
-            if (viewMode === "show_tags") {
-                str += match;
+            // if flat do not apply style (some change the width)
+            var styleClass;
+            if (viewMode === "flat") {
+                styleClass = " ";
+            } else {
+                styleClass = " class='" + p2 + "' ";
             }
-            return str;
+            return "<span" + styleClass + makeColourStyle(p2) + '>' + tagMark;
         }
+
         // inline tags
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
-        txt = txt.replace(sc_re, transformSC);
+        if (viewMode !== "flat") {
+            txt = txt.replace(sc_re, transformSC);
+        }
         // find user note or inline tag
         var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
         colorString0 = makeColourStyle('etc');
         colorString = colorString0 + '>$&</span>';
-        if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
+        if (!wrapMode && styler.color) {    // not re-wrap and colouring
             txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString);
         }
         if (viewMode !== "show_tags") {
@@ -1022,7 +1045,7 @@ var makePreview = function (txt, viewMode, styler) {
     restoreCommentLines();
     if (ok) {
         showStyle();
-        if (viewMode === "re_wrap") {
+        if (wrapMode) {
             reWrap();
         }
     }

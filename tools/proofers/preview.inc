@@ -109,7 +109,6 @@ function output_preview_div()
     $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
     $ss = shared_strings("html_safe");
-    $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
@@ -140,7 +139,10 @@ function output_preview_div()
     <span class='ilb'>
       <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
       <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
-      <label><input type="radio" name="viewSel" id="re_wrap">$re_wrap</label>
+      <label><input type="radio" name="viewSel" id="flat">$text</label>
+    </span>
+    <span class='ilb'>
+    <label><input type="checkbox" id="re_wrap">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
@@ -190,7 +192,7 @@ function output_preview_div()
   <br><span class='ilb'>$initial_mode <select id="id_init_mode">
     <option value="show_tags">$tags</option>
     <option value="no_tags">$no_tags</option>
-    <option value="re_wrap">$re_wrap</option>
+    <option value="flat">$text</option>
   </select></span>
   <div class="box2">
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">

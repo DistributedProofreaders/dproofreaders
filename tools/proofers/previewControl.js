@@ -52,6 +52,7 @@ function initPrev() {
 
     var selTag;
     var viewMode;
+    var wrapMode = false;
 
     var tempStyle = {}; // used during configure
 
@@ -91,9 +92,9 @@ function initPrev() {
 
     function writePreviewText() {
         // makePreview is defined in preview.js
-        preview = makePreview(txtarea.value, viewMode, previewStyles);
+        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
         prevWin.style.whiteSpace = (
-            (preview.ok && (viewMode === "re_wrap"))
+            (preview.ok && wrapMode)
             ? "normal"
             : "pre"
         );
@@ -206,9 +207,14 @@ function initPrev() {
         writePreviewText();
     });
 
+    $("#re_wrap").change(function () {
+        wrapMode = this.checked;
+        writePreviewText();
+    });
+
     // functions for setting up the configuration screen
     function testDraw() {
-        preview = makePreview(previewDemo, 'no_tags', tempStyle);
+        preview = makePreview(previewDemo, 'no_tags', false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
