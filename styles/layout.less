@@ -961,5 +961,47 @@ table.search-column {
     grid-row-gap: 2px;
 }
 
+.flex_container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fixedbox {
+    flex:0 0 auto;
+    background-color: #CDC0B0;
+    padding: 2px;
+}
+
+.stretchbox {
+    flex: 1 1 100vh;
+    min-height: 10px;
+    overflow: auto;
+    background-color: HoneyDew;
+
+    img {
+        display: block;
+    }
+
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: .25em;
+        padding-bottom: 0.1em;
+        margin: 0;
+    }
+}
+
+.ws-pre {
+    white-space: pre;
+    padding-left: 0.5em;
+    text-align: left;
+    font-family: monospace;
+}
+
+.bad-char {
+    background: Fuchsia;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */
