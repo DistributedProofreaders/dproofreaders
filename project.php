@@ -1822,7 +1822,7 @@ function do_smooth_reading()
         {
             echo "<li>";
             $label = _('Make it available for %1$s days (between %2$d and %3$d).');
-            sr_echo_time_form(7, 42, 21, $label, false);
+            sr_echo_time_form($label, 7, 42, 21, false);
             echo "</li>\n";
         }
 
@@ -1847,8 +1847,8 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                $label = _('Extend Smooth Reading by %1$s day(s) (between %2$d and %3$d).');
-                sr_echo_time_form(1, 42, 1, $label, true);
+                $label = _('Extend Smooth Reading deadline by %1$s day(s) (between %2$d and %3$d).');
+                sr_echo_time_form($label, 1, 42, 1, true);
                 echo "</li>";
                 echo "<li>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
@@ -1910,7 +1910,7 @@ function do_smooth_reading()
             {
                 echo "<li>";
                 $label = _('Make it available again for %1$s days (between %2$d and %3$d).');
-                sr_echo_time_form(7, 42, 21, $label, false);
+                sr_echo_time_form($label, 7, 42, 21, false);
                 echo "</li>\n";
             }
         }
@@ -1951,8 +1951,12 @@ function do_smooth_reading()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function sr_echo_time_form($min_days, $max_days, $default_days, $label, $extend = false)
+function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend = false)
 {
+    // $label is an sprintf formatting string with three placement values:
+    // * %1$s will be replaced with a form field for number-of-days input
+    // * %2$d is the minimum number of days available to the form
+    // * %3$d is the maximum number of days available to the form
     // the $extend parameter could be thought unnecessary since it correlates
     // with (deaddline > now) but if the page is stale an extension request could be made
     // after the deadline has passed which we should warn about.
@@ -1965,7 +1969,7 @@ function sr_echo_time_form($min_days, $max_days, $default_days, $label, $extend 
     {
         echo "<input type='hidden' name='extend' value='1'>\n";
     }
-    $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' class='width3em' value='$default_days'>";
+    $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
     echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<button type='submit'>", _("Go"), "</button>\n";
     echo "</form>\n";
 }

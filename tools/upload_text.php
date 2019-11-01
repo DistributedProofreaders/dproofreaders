@@ -171,7 +171,7 @@ else if(!$stage)
 if($extend && !$project->is_available_for_smoothreading())
 {
     // this can happen if project page was stale
-    echo "<p>" , _("The Smooth Reading deadline for this project has passed and cannot be extended in this way."),
+    echo "<p class='warning'>" , _("The Smooth Reading deadline for this project has passed and cannot be extended in this way."),
         " <a href='$back_url'>", _("Return to the project page"), "</a></p>";
     exit;
 }
@@ -317,7 +317,7 @@ if (isset($action))
     // the comments get recorded even if it's just a replacement
     if ($stage == 'smooth_avail')
     {
-        handle_smooth_reading($project, $postcomments, $days, false);
+        handle_smooth_reading_change($project, $postcomments, $days, false);
     }
 
     if ($stage == 'smooth_done')
@@ -345,15 +345,16 @@ if (isset($action))
 
 if($extend)
 {
-    $postcomments = "\n----------\n" . date("Y-m-d H:i") . " " . sprintf(_("Smoothreading deadline extended by %s"), $pguser);
-    handle_smooth_reading($project, $postcomments, $days, true);
+    // postcomments is not translated because it can be viewed by anyone not just the present PPer
+    $postcomments = "\n----------\n" . date("Y-m-d H:i") . " " . sprintf("Smoothreading deadline extended by %s", $pguser);
+    handle_smooth_reading_change($project, $postcomments, $days, true);
     $back_url .= "#smooth_start";
     metarefresh(1, $back_url);
 }
 
 #----------------------------------------------------------------------------
 
-function handle_smooth_reading($project, $postcomments, $days, $extend)
+function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 {
     global $pguser, $auto_post_to_project_topic;
 
