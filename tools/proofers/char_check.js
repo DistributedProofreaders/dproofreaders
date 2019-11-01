@@ -37,6 +37,8 @@ $(function () {
 
     $(".check_button").click(function(event) {
         var text = $("#text_data").val();
+        text = text.normalize("NFC");
+        $("#text_data").val(text);
         if(!pattern.test(text)) {
             // no bad characters found
             return;
