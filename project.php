@@ -1253,7 +1253,7 @@ function do_history()
         {
             echo "<td>{$event['details1']}</td>\n";
             $spare_cols = 2;
-            if ( $event['details1'] == 'text available' )
+            if (( $event['details1'] == 'text available' ) || ($event['details1'] == 'deadline extended'))
             {
                 $deadline_f = strftime('%Y-%m-%d %H:%M:%S', $event['details2']);
                 echo "<td>until $deadline_f</td>\n";
@@ -1809,7 +1809,7 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h2>", _('Smooth Reading'), "</h2>";
+    echo "<h2 id='smooth_start'>", _('Smooth Reading'), "</h2>";
     echo "<ul>";
 
     if ( $project->smoothread_deadline == 0 )
@@ -1821,15 +1821,8 @@ function do_smooth_reading()
         if ($current_user_can_manage_SR_for_this_project)
         {
             echo "<li>";
-            echo _("But you can make it available.");
-            echo " ";
-            echo _('Choose how long you want to make it available for.');
-            $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
-            echo "<ul>";
-            echo "<li>$link_start=1'>"._("one week")."</a>";
-            echo "<li>$link_start=2'>"._("two weeks")."</a>";
-            echo "<li>$link_start=4'>"._("four weeks")."</a>";
-            echo "</ul>";
+            $label = _('Make it available for %1$s days (between %2$d and %3$d).');
+            sr_echo_time_form($label, 7, 42, 21, false);
             echo "</li>\n";
         }
 
@@ -1854,7 +1847,11 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
+                $label = _('Extend Smooth Reading deadline by %1$s day(s) (between %2$d and %3$d).');
+                sr_echo_time_form($label, 1, 42, 1, true);
+                echo "</li>";
+                echo "<li>";
+                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
                 echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
                 echo "</li>";
@@ -1912,18 +1909,10 @@ function do_smooth_reading()
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo _("But you can make it available for Smooth Reading for an additional period.")." ";
-                echo _('Choose how long you want to make it available for.');
-                $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
-                echo "<ul>";
-                echo "<li>$link_start=1'>"._("one week")."</a>";
-                echo "<li>$link_start=2'>"._("two weeks")."</a>";
-                echo "<li>$link_start=4'>"._("four weeks")."</a>";
-                echo "</ul>";
+                $label = _('Make it available again for %1$s days (between %2$d and %3$d).');
+                sr_echo_time_form($label, 7, 42, 21, false);
                 echo "</li>\n";
             }
-
-
         }
 
         if ($current_user_can_manage_SR_for_this_project)
@@ -1944,7 +1933,7 @@ function do_smooth_reading()
                 {
                     $user_privmsg_url = get_url_to_compose_message_to_user($sr_user);
                     echo "<li>";
-                    echo "<a href=$user_privmsg_url>$sr_user</a>";
+                    echo "<a href='$user_privmsg_url'>$sr_user</a>";
                     echo "</li>\n";
                 }
                 echo "</ul>\n";
@@ -1961,6 +1950,29 @@ function do_smooth_reading()
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend = false)
+{
+    // $label is an sprintf formatting string with three placement values:
+    // * %1$s will be replaced with a form field for number-of-days input
+    // * %2$d is the minimum number of days available to the form
+    // * %3$d is the maximum number of days available to the form
+    // the $extend parameter could be thought unnecessary since it correlates
+    // with (deaddline > now) but if the page is stale an extension request could be made
+    // after the deadline has passed which we should warn about.
+    global $code_url, $project;
+
+    echo "<form method='GET' action='$code_url/tools/upload_text.php'>";
+    echo "<input type='hidden' name='project'  value='{$project->projectid}'>\n";
+    echo "<input type='hidden' name='stage' value='smooth_avail'>\n";
+    if($extend)
+    {
+        echo "<input type='hidden' name='extend' value='1'>\n";
+    }
+    $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
+    echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<input type='submit' value='", attr_safe(_("Go")), "'>\n";
+    echo "</form>\n";
+}
 
 function do_ppv_report()
 {

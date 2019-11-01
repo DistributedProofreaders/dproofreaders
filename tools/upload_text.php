@@ -26,8 +26,12 @@ require_login();
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 $valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
-$valid_weeks = array('replace', '1', '2', '4');
-$weeks = get_enumerated_param($_REQUEST, 'weeks', '1', $valid_weeks);
+// $stage==smooth_avail controls sr, 3 cases:
+// days given and not extend: upload a file & make sr available first time for days from now.
+// days given and extend: extend while available (days from end) or ended (days from now), skip file upload
+// days not given (defaults to 0): replace file only
+$days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
+$extend = isset($_REQUEST['extend']);
 $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
 
@@ -36,9 +40,9 @@ $project = new Project($projectid);
 // this blurb matches one in remote_file_manager.php
 $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
 $submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
-$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b> 
+$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     If you are trying to upload a very big zip file (e.g. 10 Mb)
-    and the upload does not succeed, upload a small placeholder zip file 
+    and the upload does not succeed, upload a small placeholder zip file
     instead and email %s for assistance."), $db_requests_email_addr);
 
 // Deny post_1 and return_1 if the project is currently in SR
@@ -126,7 +130,6 @@ else if ($stage == 'smooth_avail')
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
-    $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
 else if ($stage == 'smooth_done')
 {
@@ -147,27 +150,33 @@ else if ($stage == 'smooth_done')
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
-    $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
-
 }
 else if(!$stage)
 {
     // this may be due to a timeout when uploading big files.
     include_once($relPath.'slim_header.inc');
-    
+
     slim_header(_("Upload failed"));
-    
+
     echo "<p>" . _("The upload failed.") . "</p>\n";
     echo "<p>$big_upload_blurb</p>";
-    
-    echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading 
-        the original again or uploading a smaller placeholder instead."), 
+
+    echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading
+        the original again or uploading a smaller placeholder instead."),
         "javascript:history.back()") . "</p>";
-    
+
     exit;
 }
 
-if (!isset($action))
+if($extend && !$project->is_available_for_smoothreading())
+{
+    // this can happen if project page was stale
+    echo "<p class='warning'>" , _("The Smooth Reading deadline for this project has passed and cannot be extended in this way."),
+        " <a href='$back_url'>", _("Return to the project page"), "</a></p>";
+    exit;
+}
+
+if (!isset($action) && !$extend)
 {
     // Present the upload page.
 
@@ -201,7 +210,7 @@ if (!isset($action))
     echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='project' value='$projectid'>\n";
     echo "<input type='hidden' name='stage' value='$stage'>\n";
-    echo "<input type='hidden' name='weeks' value='$weeks'>\n";
+    echo "<input type='hidden' name='days' value='$days'>\n";
     echo "<input type='hidden' name='action' value='1'>\n";
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='25165824'>\n";
 
@@ -243,7 +252,8 @@ if (!isset($action))
 
     echo "</form>\n";
 }
-else
+
+if (isset($action))
 {
     // Handle a submission from the upload page.
 
@@ -279,12 +289,13 @@ else
     // if we're returning to available, and the user hasn't loaded a file, and not
     // entered any comments, we don't bother.
     // Otherwise, we add a divider, time stamp, user name, and the name of the file
+    // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
-        $divider .= "  ".$name." "._("uploaded by")." ";
+        $divider .= " $name uploaded by ";
     }
     else if ($returning_to_pool) {
-        $divider .= " "._("returned by")." ";
+        $divider .= " returned by ";
     }
     else {
         $divider .= " "; // this shouldn't actually happen
@@ -293,6 +304,7 @@ else
     if (strlen($postcomments)>0 || $have_file) {
         $postcomments = $divider . $postcomments;
     }
+    // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
 
     $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
     if ($error_msg)
@@ -301,46 +313,12 @@ else
     }
 
     // special handling for smooth reading, which does not involve a state change
+    // so project_transition() will do nothing
     // but still needs some changes recorded in project table
     // the comments get recorded even if it's just a replacement
-    if ($stage == 'smooth_avail') {
-        $smoothread_deadline = '';
-        if ($weeks != "replace") {
-            $smoothread_deadline = "smoothread_deadline = $deadline, ";
-        }
-        $qstring = sprintf("
-            UPDATE projects
-            SET $smoothread_deadline
-                postcomments = CONCAT(postcomments, '%s')
-            WHERE projectid = '$projectid'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
-        $qry =  mysqli_query(DPDatabase::get_connection(), $qstring);
-
-        if ( $weeks == "replace" )
-        {
-            log_project_event( $projectid, $pguser, 'smooth-reading', 'text replaced' );
-        }
-        else
-        {
-            log_project_event( $projectid, $pguser, 'smooth-reading', 'text available', $deadline );
-        }
-
-        notify_project_event_subscribers( $project, 'sr_available' );
-
-        if ( $auto_post_to_project_topic )
-        {
-            // Add an auto-post to the project's discussion topic.
-            $project->ensure_topic();
-            topic_add_post(
-                $project->topic_id,
-                "Project made available for smooth-reading",
-                "The project has just been made available for smooth-reading for $weeks weeks."
-                    . "\n\n"
-                    . "(This post is automatically generated.)",
-                '[Smooth Reading Monitor]',
-                FALSE
-            );
-        }
+    if ($stage == 'smooth_avail')
+    {
+        handle_smooth_reading_change($project, $postcomments, $days, false);
     }
 
     if ($stage == 'smooth_done')
@@ -366,7 +344,72 @@ else
     metarefresh(1, $back_url, $msg, $msg);
 }
 
+if($extend)
+{
+    // postcomments is not translated because it can be viewed by anyone not just the present PPer
+    $postcomments = "\n----------\n" . date("Y-m-d H:i") . " " . sprintf("Smoothreading deadline extended by %s", $pguser);
+    handle_smooth_reading_change($project, $postcomments, $days, true);
+    $back_url .= "#smooth_start";
+    metarefresh(1, $back_url);
+}
+
 #----------------------------------------------------------------------------
+
+function handle_smooth_reading_change($project, $postcomments, $days, $extend)
+{
+    global $pguser, $auto_post_to_project_topic;
+
+    $projectid = $project->projectid;
+
+    if ($days) // will be 0 if parameter not supplied when only replacing text
+    {
+        $seconds = $days * 60 * 60 * 24;
+        $now = time();
+        if ($project->smoothread_deadline > $now)
+        {
+            // extend deadline if not yet passed
+            $deadline = $project->smoothread_deadline + $seconds;
+        }
+        else
+        {
+            // if starting sr with deadline=0, or if sr ended
+            $deadline = $now + $seconds;
+        }
+        $details1 = $extend ? "deadline extended" : "text available";
+        $smoothread_deadline = "smoothread_deadline = $deadline, ";
+        log_project_event( $projectid, $pguser, 'smooth-reading', $details1, $deadline );
+    }
+    else
+    {
+        $smoothread_deadline = "";
+        log_project_event( $projectid, $pguser, 'smooth-reading', 'text replaced' );
+    }
+
+    $qstring = sprintf("
+        UPDATE projects
+        SET $smoothread_deadline
+            postcomments = CONCAT(postcomments, '%s')
+        WHERE projectid = '$projectid'
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
+    mysqli_query(DPDatabase::get_connection(), $qstring);
+
+    notify_project_event_subscribers($project, 'sr_available');
+
+    if ($auto_post_to_project_topic)
+    {
+        // Add an auto-post to the project's discussion topic.
+        $project->ensure_topic();
+        topic_add_post(
+            $project->topic_id,
+            "Project made available for smooth-reading",
+            "The project has just been made available for smooth-reading for $days days."
+                . "\n\n"
+                . "(This post is automatically generated.)",
+            '[Smooth Reading Monitor]',
+            FALSE
+        );
+    }
+}
 
 function validate_uploaded_file()
 {
