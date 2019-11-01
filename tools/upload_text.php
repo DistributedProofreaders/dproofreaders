@@ -289,12 +289,13 @@ if (isset($action))
     // if we're returning to available, and the user hasn't loaded a file, and not
     // entered any comments, we don't bother.
     // Otherwise, we add a divider, time stamp, user name, and the name of the file
+    // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
-        $divider .= "  ".$name." "._("uploaded by")." ";
+        $divider .= "  " . $name . " uploaded by ";
     }
     else if ($returning_to_pool) {
-        $divider .= " "._("returned by")." ";
+        $divider .= " returned by ";
     }
     else {
         $divider .= " "; // this shouldn't actually happen
