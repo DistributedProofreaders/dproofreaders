@@ -292,7 +292,7 @@ if (isset($action))
     // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
-        $divider .= "  " . $name . " uploaded by ";
+        $divider .= " $name uploaded by ";
     }
     else if ($returning_to_pool) {
         $divider .= " returned by ";
