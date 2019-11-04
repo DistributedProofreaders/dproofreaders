@@ -8,14 +8,24 @@ class PickerSet
         $this->name = $name;
     }
 
-    public function add_subset($name, $codepoints)
+    public function add_subset($name, $codepoints, $title=NULL)
     {
         $this->subsets[$name] = $codepoints;
+
+        if($title)
+            $this->titles[$name] = $title;
+        else
+            $this->titles[$name] = $name;
     }
 
     public function get_subsets()
     {
         return $this->subsets;
+    }
+
+    public function get_title($name)
+    {
+        return $this->titles[$name];
     }
 }
 
@@ -88,11 +98,11 @@ $basic_latin_pickerset->add_subset(utf8_chr("\u00d2"), [
 $basic_latin_pickerset->add_subset("!", [
     [ 'U+0021-U+0022', 'U+0026-U+002f', 'U+003a-U+0040', 'U+00b4-U+00b8' ],
     [ 'U+00a1', 'U+005b-U+0060', 'U+007b-U+007e', 'U+00a6-U+00a9', 'U+00ab', 'U+00bb', 'U+00ae-U+00b0', 'U+00bf' ],
-]);
+], _("Symbols"));
 $basic_latin_pickerset->add_subset("1", [
     [ 'U+0030-U+0039', 'U+0023', 'U+0025', 'U+0024', 'U+00a2-U+00a5' ],
     [ 'U+00b9', 'U+00b2-U+00b3', 'U+00ba', 'U+00aa', 'U+00bc-U+00be', 'U+00d7', 'U+00f7', 'U+00b1', 'U+00ac' ],
-]);
+], _("Numbers and Currency"));
 $basic_latin->pickerset = $basic_latin_pickerset;
 
 Glyphsets::add_glyphset($basic_latin);
