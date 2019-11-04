@@ -88,9 +88,6 @@ function convert_codepoint_ranges_to_characters($codepoints)
 # only include desired characters for the project.
 function filter_text_to_codepoints($string, $codepoints)
 {
-    $codepoints[] = 'U+000A'; # new lines
-    $codepoints[] = 'U+000D'; # carriage returns
-
     # normalize string
     $string = utf8_normalize($string);
 
