@@ -8,6 +8,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'project_events.inc'); // log_project_event
+include_once($relPath.'Glyphsets.inc');
 
 class NonexistentProjectException extends Exception { }
 class InvalidProjectIDException extends Exception { }
@@ -179,13 +180,15 @@ class Project
 
     public function get_valid_codepoints()
     {
-        // hard-coded to Latin-1 set for now
-        $latin1_codepoints = [
-            'U+0020-U+007E', # https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
-            'U+00A1-U+00FF', # https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)'
+        # Codepoints applicable to all projects
+        $global_codepoints = [
+            'U+000A', # new lines
+            'U+000D', # carriage returns
         ];
 
-        return $latin1_codepoints;
+        $glyphset = Glyphsets::get_glyphset("Basic Latin");
+
+        return array_merge($glyphset->codepoints, $global_codepoints);
     }
 
     // -------------------------------------------------------------------------
