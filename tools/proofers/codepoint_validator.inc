@@ -1,6 +1,6 @@
 <?php
 
-function render_char_check()
+function render_validator()
 {
     $bad_char_message = _("The text contains characters which are not enabled for this project");
     $quit_text = _("Quit");

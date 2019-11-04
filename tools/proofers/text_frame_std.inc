@@ -3,7 +3,7 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 include_once('preview.inc');
-include_once('char_check.inc');
+include_once('codepoint_validator.inc');
 
 function echo_text_frame_std( $ppage )
 {
@@ -16,7 +16,7 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
-            "$code_url/tools/proofers/char_check.js",
+            "$code_url/tools/proofers/codepoint_validator.js",
         ),
         "js_data" => "
         function ldAll() {
@@ -32,7 +32,7 @@ function echo_text_frame_std( $ppage )
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
     <?php
     output_preview_div();
-    render_char_check(); ?>
+    render_validator(); ?>
     <div id = 'proofdiv' class='center-align'>
         <?php
 

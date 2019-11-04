@@ -6,7 +6,7 @@ include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
 include_once('preview.inc');
-include_once('char_check.inc');
+include_once('codepoint_validator.inc');
 
 function echo_proof_frame_enh( $ppage )
 {
@@ -19,7 +19,7 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
-            "$code_url/tools/proofers/char_check.js",
+            "$code_url/tools/proofers/codepoint_validator.js",
         ),
         "js_data" => ibe_get_js() . "
         function ldAll() {
@@ -44,7 +44,7 @@ function echo_proof_frame_enh( $ppage )
 
     ?>
     <div id="controlframe">
-        <?php output_preview_div(); render_char_check();?>
+        <?php output_preview_div(); render_validator();?>
         <div id='proofdiv'>
             <form name="editform" id="editform" method="POST" action="processtext.php">
                 <?php $ppage->echo_hidden_fields(); ?>

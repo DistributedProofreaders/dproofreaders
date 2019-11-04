@@ -886,6 +886,8 @@ table.search-column tr th {
   grid-column-gap: 2em;
   grid-row-gap: 2px;
 }
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
 .flex_container {
   height: 100vh;
   display: flex;
@@ -901,16 +903,6 @@ table.search-column tr th {
   min-height: 10px;
   overflow: auto;
   background-color: HoneyDew;
-}
-.stretchbox img {
-  display: block;
-}
-.stretchbox textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: 0.25em;
-  padding-bottom: 0.1em;
-  margin: 0;
 }
 .ws-pre {
   white-space: pre;
