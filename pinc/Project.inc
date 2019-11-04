@@ -191,6 +191,12 @@ class Project
         return array_merge($glyphset->codepoints, $global_codepoints);
     }
 
+    public function get_pickersets()
+    {
+        $glyphset = Glyphsets::get_glyphset("Basic Latin");
+        return array("Basic Latin" => $glyphset->pickerset);
+    }
+
     // -------------------------------------------------------------------------
 
     private function _get_PPer()
