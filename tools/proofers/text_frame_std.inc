@@ -3,25 +3,36 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 include_once('preview.inc');
+include_once('codepoint_validator.inc');
 
 function echo_text_frame_std( $ppage )
 {
     global $code_url;
     
+    $json_code_points = get_json_codepoints();
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
+            "$code_url/tools/proofers/codepoint_validator.js",
         ),
-        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',
-        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
+        "js_data" => "
+        function ldAll() {
+            top.initializeStuff(0);
+            previewControl = initPrev();
+        }
+        var codePoints = $json_code_points;
+        ",
+        "body_attributes" => "onload='ldAll()'  onresize='previewControl.adjustHeight()' class='no-margin'",
         );
     slim_header(_("Text Frame"), $header_args);
     ?>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-    <?php output_preview_div(); ?>
+    <?php
+    output_preview_div();
+    render_validator(); ?>
     <div id = 'proofdiv' class='center-align'>
         <?php
 
