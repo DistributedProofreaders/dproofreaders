@@ -62,6 +62,7 @@ function echo_button( $button_id, $which_interface )
                     . javascript_safe(_("Are you sure you want to change layout & save the current document?"), $charset)
                     . "'));",
                 'src'       => "gfx/bt$n.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -123,6 +124,7 @@ function echo_button( $button_id, $which_interface )
                     . javascript_safe(_("Are you sure you want to revert to the original text for this round?"), $charset)
                     . "'));",
                 'src'       => "gfx/bt8.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -133,6 +135,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'Done' & Proofread Next Page")),
                 'title'     => attr_safe(_("Save as 'Done' & Proofread Next Page")),
                 'src'       => "gfx/bt2.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -143,6 +146,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'Done'")),
                 'title'     => attr_safe(_("Save as 'Done'")),
                 'src'       => "gfx/bt13.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -153,6 +157,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'In Progress'")),
                 'title'     => attr_safe(_("Save as 'In Progress'")),
                 'src'       => "gfx/bt3.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -182,6 +187,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("WordCheck")),
                 'title'     => attr_safe(_("Run WordCheck")),
                 'src'       => "gfx/bt16.png",
+                'class'     => "check_button",
             );
             if ($userP['i_type']==0)
             {
