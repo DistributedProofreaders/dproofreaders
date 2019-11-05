@@ -1859,8 +1859,7 @@ function do_smooth_reading()
 
             if (!$project->PPer_is_current_user)
             {
-                echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
-
+                echo_smoothreading_options($project);
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
@@ -1972,6 +1971,79 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
     $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
     echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<input type='submit' value='", attr_safe(_("Go")), "'>\n";
     echo "</form>\n";
+}
+
+function echo_smoothreading_options($project)
+{
+    global $projects_url;
+
+    $smooth_dir = "$project->dir/smooth";
+    if(!file_exists($smooth_dir))
+    {
+        // use old method
+        echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
+        return;
+    }
+
+    $smooth_url = "$projects_url/$project->projectid/smooth";
+
+    // read here
+    $files = glob("$smooth_dir/*.{txt,html}", GLOB_BRACE);
+    foreach($files as $file)
+    {
+        $file_base_name = basename($file);
+        $url = "$smooth_url/$file_base_name";
+        $text = sprintf(_("Read %s in a new tab or window"), $file_base_name);
+        echo "<li>";
+        echo "<a href='$url' target='_blank'>$text</a>";
+        echo "</li>\n";
+    }
+
+    // plain downloads
+    $files = glob("$smooth_dir/*.{txt,epub,mobi}", GLOB_BRACE); // no space after commas
+    foreach($files as $file)
+    {
+        // filename with extension
+        $file_base_name = basename($file);
+        $url = "$smooth_url/$file_base_name";
+        $text = sprintf(_("Download %s"), $file_base_name);
+        echo "<li>";
+        echo "<a href='$url' download='$file_base_name'>$text</a>";
+        echo "</li>\n";
+    }
+
+    // download zipped html
+    $files = glob("$smooth_dir/*.html");
+    if($files)
+    {
+        // assume only one html file
+        $file = $files[0];
+        $file_base_name = basename($file);
+        // zip the html file with images folder for download
+        $zip = new ZipArchive;
+        // give name of html file with zip extension
+        $path_parts = pathinfo($file);
+        $zip_base = $path_parts['filename'] . ".zip";
+        $zip_name = $path_parts['dirname'] . "/$zip_base";
+        $zip->open($zip_name, ZipArchive::OVERWRITE + ZipArchive::CREATE);
+        $zip->addFile($file, $file_base_name);
+        // add the images
+        $image_dir = "$smooth_dir/images";
+        if(is_dir($image_dir))
+        {
+            $image_files = glob("$image_dir/*.*");
+            foreach($image_files as $file)
+            {
+                $zip->addFile($file, "/images/" . basename($file));
+            }
+        }
+        $zip->close();
+        $url = "$smooth_url/$zip_base";
+        $text = sprintf(_('Download %1$s (zipped %2$s with images)'), $zip_base, $file_base_name);
+        echo "<li>";
+        echo "<a href='$url' download='$zip_base'>$text</a>";
+        echo "</li>\n";
+    }
 }
 
 function do_ppv_report()

@@ -266,15 +266,45 @@ if (isset($action))
     $have_file = FALSE;
     if (is_file($uploaded_file))
     {
-        // replace filename
-        $zipext = ".zip";
-        $name = $projectid.$indicator.$zipext;
-        $path_to_file = "$projects_dir/$projectid/";
-        $location = $path_to_file.$name;
-        ensure_path_is_unused( $location );
-        copy($uploaded_file, $location);
-        unlink($uploaded_file);
-        $have_file = TRUE;
+        if ($stage == 'smooth_avail')
+        {
+            // name to put in postcomments
+            $name = $uploaded_file;
+            $smooth_dir = "$projects_dir/$projectid/smooth/";
+            // make smooth folder if not exists
+            if(!is_dir($smooth_dir))
+            {
+                if(!mkdir($smooth_dir))
+                {
+                    die("Could not create smooth directory");
+                }
+            }
+            // unzip into smooth folder
+            $zip = new ZipArchive;
+            if ($zip->open($uploaded_file))
+            {
+                $zip->extractTo($smooth_dir);
+                $zip->close();
+            }
+            else
+            {
+                die("failed to extract files");
+            }
+            unlink($uploaded_file);
+            $have_file = TRUE;
+        }
+        else
+        {
+            // replace filename
+            $zipext = ".zip";
+            $name = $projectid.$indicator.$zipext;
+            $path_to_file = "$projects_dir/$projectid/";
+            $location = $path_to_file.$name;
+            ensure_path_is_unused( $location );
+            copy($uploaded_file, $location);
+            unlink($uploaded_file);
+            $have_file = TRUE;
+        }
     }
 
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
