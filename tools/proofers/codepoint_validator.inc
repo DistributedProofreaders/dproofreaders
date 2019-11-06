@@ -1,4 +1,5 @@
 <?php
+include_once($relPath."Project.inc");
 
 function render_validator()
 {
@@ -16,15 +17,8 @@ $bad_char_message
 END;
 }
 
-function get_json_codepoints()
+function get_json_codepoints($projectid)
 {
-    // this will come from get_valid_codepoints()
-    $latin1_codepoints = [
-        'U+000a',
-        'U+000d',
-        'U+0020-U+007E',
-        'U+00A1-U+00AC',
-        'U+00AE-U+00FF',
-    ];
-    return json_encode($latin1_codepoints);
+    $project = new Project($projectid);
+    return json_encode($project->get_valid_codepoints());
 }
