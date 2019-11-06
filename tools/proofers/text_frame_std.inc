@@ -9,7 +9,7 @@ function echo_text_frame_std( $ppage )
 {
     global $code_url;
     
-    $json_code_points = get_json_codepoints();
+    $json_code_points = get_json_codepoints($ppage->projectid());
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
