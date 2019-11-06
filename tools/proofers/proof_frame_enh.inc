@@ -12,7 +12,7 @@ function echo_proof_frame_enh( $ppage )
 {
     global $code_url, $userP;
 
-    $json_code_points = get_json_codepoints();
+    $json_code_points = get_json_codepoints($ppage->projectid());
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
