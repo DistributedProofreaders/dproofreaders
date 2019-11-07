@@ -266,10 +266,16 @@ if (isset($action))
     $have_file = FALSE;
     if (is_file($uploaded_file))
     {
+        // replace filename
+        $zipext = ".zip";
+        $name = $projectid.$indicator.$zipext;
+        $path_to_file = "$projects_dir/$projectid/";
+        $location = $path_to_file.$name;
+        ensure_path_is_unused( $location );
+        copy($uploaded_file, $location);
+        $have_file = TRUE;
         if ($stage == 'smooth_avail')
         {
-            // name to put in postcomments
-            $name = $uploaded_file;
             $smooth_dir = "$projects_dir/$projectid/smooth/";
             // make smooth folder if not exists
             if(!is_dir($smooth_dir))
@@ -278,6 +284,10 @@ if (isset($action))
                 {
                     die("Could not create smooth directory");
                 }
+            }
+            else
+            {
+                delete_contents($smooth_dir);
             }
             // unzip into smooth folder
             $zip = new ZipArchive;
@@ -290,21 +300,8 @@ if (isset($action))
             {
                 die("failed to extract files");
             }
-            unlink($uploaded_file);
-            $have_file = TRUE;
         }
-        else
-        {
-            // replace filename
-            $zipext = ".zip";
-            $name = $projectid.$indicator.$zipext;
-            $path_to_file = "$projects_dir/$projectid/";
-            $location = $path_to_file.$name;
-            ensure_path_is_unused( $location );
-            copy($uploaded_file, $location);
-            unlink($uploaded_file);
-            $have_file = TRUE;
-        }
+        unlink($uploaded_file);
     }
 
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
@@ -514,6 +511,26 @@ function ensure_path_is_unused( $path )
         } else {
 
             unlink($path);
+        }
+    }
+}
+
+function delete_contents($dir)
+{
+    // could be dangerous--see various comments for rmdir in PHP manual
+    if(!file_exists($dir))
+    {
+        return;
+    }
+    foreach(glob("$dir/*") as $file) {
+        if(is_dir($file))
+        {
+            delete_contents($file);
+            rmdir($file);
+        }
+        else
+        {
+            unlink($file);
         }
     }
 }

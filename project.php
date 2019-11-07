@@ -1978,13 +1978,6 @@ function echo_smoothreading_options($project)
     global $projects_url;
 
     $smooth_dir = "$project->dir/smooth";
-    if(!file_exists($smooth_dir))
-    {
-        // use old method
-        echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
-        return;
-    }
-
     $smooth_url = "$projects_url/$project->projectid/smooth";
 
     // read here
@@ -2044,6 +2037,9 @@ function echo_smoothreading_options($project)
         echo "<a href='$url' download='$zip_base'>$text</a>";
         echo "</li>\n";
     }
+
+    // download everything
+    echo_download_zip( _("Download all files for Smooth Reading"), '_smooth_avail' );
 }
 
 function do_ppv_report()
