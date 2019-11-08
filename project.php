@@ -1730,7 +1730,6 @@ function echo_download_zip( $link_text, $discriminator )
         {
             $filesize_b += filesize($image_path);
         }
-        $filesize_kb = round( $filesize_b / 1024 );
     }
     else
     {
@@ -1750,14 +1749,14 @@ function echo_download_zip( $link_text, $discriminator )
         }
 
         $url = "$project->url/$p";
-        $filesize_kb = round( filesize( "$project->dir/$p") / 1024 );
+        $filesize_b = filesize("$project->dir/$p");
     }
 
     echo "<li>";
     echo "<a href='$url'>";
     echo $link_text;
     echo "</a>";
-    echo " (", sprintf(_("%d kb"), $filesize_kb), ")";
+    echo_B_size($filesize_b);
     echo "</li>";
     echo "\n";
 }
@@ -2002,6 +2001,7 @@ function echo_smoothreading_options($project)
         $text = sprintf(_("Download %s"), $file_base_name);
         echo "<li>";
         echo "<a href='$url' download='$file_base_name'>$text</a>";
+        echo_file_size($file);
         echo "</li>\n";
     }
 
@@ -2035,11 +2035,31 @@ function echo_smoothreading_options($project)
         $text = sprintf(_('Download %1$s (zipped %2$s with images)'), $zip_base, $file_base_name);
         echo "<li>";
         echo "<a href='$url' download='$zip_base'>$text</a>";
+        echo_file_size($zip_name);
         echo "</li>\n";
     }
 
     // download everything
     echo_download_zip( _("Download all files for Smooth Reading"), '_smooth_avail' );
+}
+
+function echo_file_size($file)
+{
+    echo_B_size(filesize($file));
+}
+
+function echo_B_size($bytes)
+{
+    if($bytes < 1024)
+    {
+        $size_string = "$bytes B";
+    }
+    else
+    {
+        $k_bytes = $bytes / 1024;
+        $size_string = sprintf("%.1f KiB", $k_bytes);
+    }
+    echo " (", $size_string, ")";
 }
 
 function do_ppv_report()
