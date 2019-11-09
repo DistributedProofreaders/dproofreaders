@@ -1468,7 +1468,7 @@ function do_extra_files()
     $n_extra_files = 0;
     foreach ($filenames as $filename)
     {
-        if ( is_an_extra_file($filename) )
+        if ( is_an_extra_file($filename) && !is_dir($filename))
         {
             echo "<li><a href='$project->url/$filename'>$filename</a></li>";
             $n_extra_files += 1;
