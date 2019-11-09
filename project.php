@@ -1809,14 +1809,12 @@ function do_smooth_reading()
     // -- read SR'ed texts
 
     echo "<h2 id='smooth_start'>", _('Smooth Reading'), "</h2>";
-    echo "<ul>";
 
     if ( $project->smoothread_deadline == 0 )
     {
-        echo "<li>";
         echo _('This project has not been made available for Smooth Reading.');
-        echo "</li>";
 
+        echo "<ul>";
         if ($current_user_can_manage_SR_for_this_project)
         {
             echo "<li>";
@@ -1828,7 +1826,6 @@ function do_smooth_reading()
     else
     {
         // Project has been made available for SR
-
         if ( $project->is_available_for_smoothreading() )
         {
             $sr_deadline_str = strftime(
@@ -1838,10 +1835,9 @@ function do_smooth_reading()
                 "<b>$sr_deadline_str</b>"
             );
 
-            echo "<li>";
             echo $sr_sentence;
-            echo "</li>\n";
 
+            echo "<ul>";
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
@@ -1899,10 +1895,9 @@ function do_smooth_reading()
         }
         else
         {
-            echo "<li>";
             echo _('The Smooth Reading deadline for this project has passed.');
-            echo "</li>";
 
+            echo "<ul>";
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
@@ -1942,7 +1937,6 @@ function do_smooth_reading()
             echo "</li>";
         }
     }
-
     echo "</ul>\n";
 }
 
