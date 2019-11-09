@@ -13,7 +13,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
-include_once($relPath.'smoothread.inc');           // functions for smoothreading
+include_once($relPath.'smoothread.inc'); // sr_echo_commitment_form // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
@@ -1117,7 +1117,7 @@ function do_holds()
         echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#holds'>\n";
     }
 
-    echo "<table style='cellpadding: 3em;'>\n";
+    echo "<table>\n";
     echo "<tr>\n";
     echo "<th></th>\n";
     echo "<th style='padding: 0em 1em'>", _("hold in Waiting"), "</th>\n";
@@ -1756,7 +1756,7 @@ function echo_download_zip( $link_text, $discriminator )
     echo "<a href='$url'>";
     echo $link_text;
     echo "</a>";
-    echo_B_size($filesize_b);
+    echo_byte_size($filesize_b);
     echo "</li>";
     echo "\n";
 }
@@ -1824,7 +1824,6 @@ function do_smooth_reading()
             sr_echo_time_form($label, 7, 42, 21, false);
             echo "</li>\n";
         }
-
     }
     else
     {
@@ -1874,7 +1873,7 @@ function do_smooth_reading()
                     if (!sr_user_is_committed($projectid, $pguser))
                     {
                         echo "<li>";
-                        echo _('You can volunteer to smoothread this project for the PPer by pressing:');
+                        echo _('Volunteer to Smooth Read this project for the PPer by pressing:');
                         sr_echo_commitment_form($projectid);
                         echo "</li>\n";
                     }
@@ -1977,33 +1976,11 @@ function echo_smoothreading_options($project)
     global $projects_url;
 
     $smooth_dir = "$project->dir/smooth";
-    $smooth_url = "$projects_url/$project->projectid/smooth";
-
-    // read here
-    $files = glob("$smooth_dir/*.{txt,html}", GLOB_BRACE);
-    foreach($files as $file)
-    {
-        $file_base_name = basename($file);
-        $url = "$smooth_url/$file_base_name";
-        $text = sprintf(_("Read %s in a new tab or window"), $file_base_name);
-        echo "<li>";
-        echo "<a href='$url' target='_blank'>$text</a>";
-        echo "</li>\n";
-    }
-
-    // plain downloads
-    $files = glob("$smooth_dir/*.{txt,epub,mobi}", GLOB_BRACE); // no space after commas
-    foreach($files as $file)
-    {
-        // filename with extension
-        $file_base_name = basename($file);
-        $url = "$smooth_url/$file_base_name";
-        $text = sprintf(_("Download %s"), $file_base_name);
-        echo "<li>";
-        echo "<a href='$url' download='$file_base_name'>$text</a>";
-        echo_file_size($file);
-        echo "</li>\n";
-    }
+    $project_url = "$projects_url/$project->projectid";
+    $smooth_url = "$project_url/smooth";
+    echo "<li>", _("Download a Smooth Reading file");
+    echo "<ul>";
+    echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
 
     // download zipped html
     $files = glob("$smooth_dir/*.html");
@@ -2031,35 +2008,82 @@ function echo_smoothreading_options($project)
             }
         }
         $zip->close();
-        $url = "$smooth_url/$zip_base";
-        $text = sprintf(_('Download %1$s (zipped %2$s with images)'), $zip_base, $file_base_name);
-        echo "<li>";
-        echo "<a href='$url' download='$zip_base'>$text</a>";
-        echo_file_size($zip_name);
-        echo "</li>\n";
+        $text = sprintf(_('%s (includes any images)'), $file_base_name);
+        echo_download_item($smooth_url, $zip_name, $zip_base, $text);
     }
 
-    // download everything
-    echo_download_zip( _("Download all files for Smooth Reading"), '_smooth_avail' );
+     // no space after bracket commas
+    echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
+
+    // original zip file
+    $file_base_name = $project->projectid . "_smooth_avail.zip";
+    echo_download_item($project_url, "$project->dir/$file_base_name", $file_base_name, "$file_base_name (all formats)");
+    echo "</ul>";
+    echo "</li>";
+
+    $files = glob("$smooth_dir/*.{txt,html}", GLOB_BRACE);
+    // if sr file uploaded before transition to this mode there will not be a smooth directory
+    if($files)
+    {
+        echo "<li>", _("Open in browser (for reading only -- no annotations can be made):");
+        echo "<ul>";
+        foreach($files as $file)
+        {
+            $file_base_name = basename($file);
+            $url = "$smooth_url/$file_base_name";
+            echo "<li>";
+            echo "<a href='$url' target='_blank'>$file_base_name</a>";
+            echo "</li>\n";
+        }
+        echo "</ul>";
+        echo "</li>";
+    }
+}
+
+function echo_file_downloads($files, $smooth_url)
+{
+    foreach($files as $file)
+    {
+        // filename with extension
+        $file_base_name = basename($file);
+        echo_download_item($smooth_url, $file, $file_base_name, $file_base_name);
+    }
+}
+
+function echo_download_item($url, $file, $file_base_name, $text)
+{
+    $url = "$url/$file_base_name";
+    echo "<li>";
+    echo "<a href='$url' download='$file_base_name'>$text</a>";
+    echo_file_size($file);
+    echo "</li>\n";
 }
 
 function echo_file_size($file)
 {
-    echo_B_size(filesize($file));
+    echo_byte_size(filesize($file));
 }
 
-function echo_B_size($bytes)
+function echo_byte_size($size)
 {
-    if($bytes < 1024)
+    if($size < 1024)
     {
-        $size_string = "$bytes B";
+        $format = "%d B";
     }
     else
     {
-        $k_bytes = $bytes / 1024;
-        $size_string = sprintf("%.1f KiB", $k_bytes);
+        $size /= 1024;
+        if($size < 1024)
+        {
+            $format = "%.1f KiB";
+        }
+        else
+        {
+            $size /= 1024;
+            $format = "%.1f MiB";
+        }
     }
-    echo " (", $size_string, ")";
+    echo " (", sprintf($format, $size), ")";
 }
 
 function do_ppv_report()
