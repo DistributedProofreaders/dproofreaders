@@ -1814,13 +1814,14 @@ function do_smooth_reading()
     {
         echo _('This project has not been made available for Smooth Reading.');
 
-        echo "<ul>";
         if ($current_user_can_manage_SR_for_this_project)
         {
+            echo "<ul>";
             echo "<li>";
             $label = _('Make it available for %1$s days (between %2$d and %3$d).');
             sr_echo_time_form($label, 7, 42, 21, false);
             echo "</li>\n";
+            echo "</ul>";
         }
     }
     else
@@ -1837,9 +1838,9 @@ function do_smooth_reading()
 
             echo $sr_sentence;
 
-            echo "<ul>";
             if ($current_user_can_manage_SR_for_this_project)
             {
+                echo "<ul>";
                 echo "<li>";
                 $label = _('Extend Smooth Reading deadline by %1$s day(s) (between %2$d and %3$d).');
                 sr_echo_time_form($label, 1, 42, 1, true);
@@ -1849,10 +1850,12 @@ function do_smooth_reading()
                 echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
                 echo "</li>";
+                echo "</ul>";
             }
 
             if (!$project->PPer_is_current_user)
             {
+                echo "<ul>";
                 echo_smoothreading_options($project);
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
@@ -1891,19 +1894,21 @@ function do_smooth_reading()
                     echo _('A registration link is available at the top of this page.');
                     echo "</li>\n";
                 }
+                echo "</ul>";
             }
         }
         else
         {
             echo _('The Smooth Reading deadline for this project has passed.');
 
-            echo "<ul>";
             if ($current_user_can_manage_SR_for_this_project)
             {
+                echo "<ul>";
                 echo "<li>";
                 $label = _('Make it available again for %1$s days (between %2$d and %3$d).');
                 sr_echo_time_form($label, 7, 42, 21, false);
                 echo "</li>\n";
+                echo "</ul>";
             }
         }
 
@@ -1912,6 +1917,7 @@ function do_smooth_reading()
 
             $sr_list = sr_get_committed_users($projectid);
 
+            echo "<ul>";
             echo "<li>";
             if (count($sr_list) == 0)
             {
@@ -1935,9 +1941,9 @@ function do_smooth_reading()
             echo "<li>";
             echo_uploaded_zips('_smooth_done_', _('smoothread'));
             echo "</li>";
+            echo "</ul>";
         }
     }
-    echo "</ul>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -2011,7 +2017,11 @@ function echo_smoothreading_options($project)
 
     // original zip file
     $file_base_name = $project->projectid . "_smooth_avail.zip";
-    echo_download_item($project_url, "$project->dir/$file_base_name", $file_base_name, "$file_base_name (all formats)");
+    $file = "$project->dir/$file_base_name";
+    if(file_exists($file))
+    {
+        echo_download_item($project_url, $file, $file_base_name, "$file_base_name (all formats)");
+    }
     echo "</ul>";
     echo "</li>";
 
