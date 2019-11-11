@@ -145,11 +145,11 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // if the AW button is wanted, add the initial span
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .= "<span id='$wordID'>";
-                    $onChange = " onBlur=\"disableAW('$wordID');\"";
-                    $onChange.= " onKeyup=\"disableAW('$wordID');\"";
+                    $onChange = " onBlur=\"markBox('$wordID');\"";
+                    $onChange.= " oninput=\"disableAW('$wordID');\"";
                 } else {
-                    $onChange = " onBlur=\"evaluateWordChange('$wordID');\"";
-                    $onChange.= " onKeyup=\"evaluateWordChange('$wordID');\"";
+                    $onChange = " onBlur=\"markBox('$wordID');\"";
+                    $onChange.= " oninput=\"evaluateWordChange('$wordID');\"";
                 }
 
                 // create the edit box
@@ -259,6 +259,11 @@ function spellcheck_get_js()
     function evaluateWordChange(wordID) {
         if (isWordChanged(wordID))
             markPageChanged();
+    }
+
+    // store wordID for char pickers to use
+    function markBox(wordID) {
+        top.txtBoxID = wordID;
     }
 
     // Disable a bad word's Unflag button

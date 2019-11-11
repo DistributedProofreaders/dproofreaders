@@ -288,7 +288,7 @@ function initializeStuff(wFace)
   else if (wFace==3)
     {
       // standard interface, spellcheck
-      docRef=top.proofframe.document;
+      docRef=top.proofframe.textframe.document;
     }
 
 

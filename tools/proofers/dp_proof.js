@@ -167,8 +167,13 @@ function doBU()
 // apply tagOpen/tagClose to selection in textarea,
 function insertTags(tagOpen, tagClose, replace)
 {
-    "use strict";
-    var txtArea = docRef.editform.text_data;
+    var txtArea;
+    if(inFace < 2) {
+        txtArea = docRef.editform.text_data;
+    } else {
+        // we're in wordcheck
+        txtArea = docRef.getElementById("input_" + txtBoxID);
+    }
     var startPos = txtArea.selectionStart;
     var endPos = txtArea.selectionEnd;
 
@@ -226,6 +231,7 @@ function insertTags(tagOpen, tagClose, replace)
     var curPos = startPos + subst.length;
     txtArea.setSelectionRange(curPos, curPos);
     txtArea.focus();
+    $(txtArea).trigger("input");
 }
 
 function lc_common(str)
