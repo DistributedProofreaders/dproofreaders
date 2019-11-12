@@ -1808,15 +1808,15 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h2 id='smooth_start'>", _('Smooth Reading'), "</h2>";
+    echo "<h2 class='h2a' id='smooth_start'>", _('Smooth Reading'), "</h2>";
 
     if ( $project->smoothread_deadline == 0 )
     {
-        echo _('This project has not been made available for Smooth Reading.');
+        echo "<p class='pa'>", _('This project has not been made available for Smooth Reading.'), "</p>";
 
         if ($current_user_can_manage_SR_for_this_project)
         {
-            echo "<ul>";
+            echo "<ul class='list-head'>";
             echo "<li>";
             $label = _('Make it available for %1$s days (between %2$d and %3$d).');
             sr_echo_time_form($label, 7, 42, 21, false);
@@ -1836,16 +1836,16 @@ function do_smooth_reading()
                 "<b>$sr_deadline_str</b>"
             );
 
-            echo $sr_sentence;
+            echo "<p class='pa'>", $sr_sentence, "</p>";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
-                echo "<ul>";
+                echo "<ul class='list-head'>";
                 echo "<li>";
                 $label = _('Extend Smooth Reading deadline by %1$s day(s) (between %2$d and %3$d).');
                 sr_echo_time_form($label, 1, 42, 1, true);
                 echo "</li>";
-                echo "<li>";
+                echo "<li class='list-head'>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
                 echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
@@ -1855,15 +1855,15 @@ function do_smooth_reading()
 
             if (!$project->PPer_is_current_user)
             {
-                echo "<ul>";
+                echo "<ul class='list-head'>";
                 echo_smoothreading_options($project);
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
                 {
-                    echo "<li>";
+                    echo "<li class='list-head'>";
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
-                    echo _("Upload a smooth-read text") ;
+                    echo _("Upload a smoothread report") ;
                     echo "</a>";
                     echo "</li>\n";
                     // The upload does not cause the project to change state --
@@ -1871,17 +1871,15 @@ function do_smooth_reading()
 
                     if (!sr_user_is_committed($projectid, $pguser))
                     {
-                        echo "<li>";
+                        echo "<li class='list-head'>";
                         echo _('Volunteer to Smooth Read this project for the PPer by pressing:');
                         sr_echo_commitment_form($projectid);
                         echo "</li>\n";
                     }
                     else
                     {
-                        echo "<li>";
-                        echo _('You have volunteered to smoothread this project.');
-                        echo "<br>";
-                        echo _('If you wish to withdraw from smoothreading it, please press:');
+                        echo "<li class='list-head'>";
+                        echo _('You have volunteered to smoothread this project. If you wish to withdraw from smoothreading it, please press:');
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";
                     }
@@ -1899,11 +1897,11 @@ function do_smooth_reading()
         }
         else
         {
-            echo _('The Smooth Reading deadline for this project has passed.');
+            echo "<p class='pa'>", _('The Smooth Reading deadline for this project has passed.'), "</p>\n";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
-                echo "<ul>";
+                echo "<ul class='list-head'>";
                 echo "<li>";
                 $label = _('Make it available again for %1$s days (between %2$d and %3$d).');
                 sr_echo_time_form($label, 7, 42, 21, false);
@@ -1917,8 +1915,8 @@ function do_smooth_reading()
 
             $sr_list = sr_get_committed_users($projectid);
 
-            echo "<ul>";
-            echo "<li>";
+            echo "<ul class='list-head'>";
+            echo "<li class='list-head'>";
             if (count($sr_list) == 0)
             {
                 echo _('No one has volunteered to smoothread this project.');
@@ -1978,16 +1976,16 @@ function echo_smoothreading_options($project)
     $smooth_dir = "$project->dir/smooth";
     $project_url = "$projects_url/$project->projectid";
     $smooth_url = "$project_url/smooth";
-    echo "<li>", _("Download a Smooth Reading file");
+    echo "<li class='list-head'>", _("Download a Smooth Reading file");
     echo "<ul>";
     echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
 
     // download zipped html
-    $files = glob("$smooth_dir/*.html");
-    if($files)
+    $html_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
+    if($html_files)
     {
         // assume only one html file
-        $file = $files[0];
+        $file = $html_files[0];
         $file_base_name = basename($file);
         // zip the html file with images folder for download
         $zip = new ZipArchive;
@@ -2029,7 +2027,7 @@ function echo_smoothreading_options($project)
     // if sr file uploaded before transition to this mode there will not be a smooth directory
     if($files)
     {
-        echo "<li>", _("Open in browser (for reading only -- no annotations can be made):");
+        echo "<li class='list-head'>", _("Open in browser (for reading only -- no annotations can be made):");
         echo "<ul>";
         foreach($files as $file)
         {
@@ -2059,13 +2057,8 @@ function echo_download_item($url, $file, $file_base_name, $text)
     $url = "$url/$file_base_name";
     echo "<li>";
     echo "<a href='$url' download='$file_base_name'>$text</a>";
-    echo_file_size($file);
-    echo "</li>\n";
-}
-
-function echo_file_size($file)
-{
     echo_byte_size(filesize($file));
+    echo "</li>\n";
 }
 
 function echo_byte_size($size)
