@@ -1808,11 +1808,11 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h2 class='h2a' id='smooth_start'>", _('Smooth Reading'), "</h2>";
+    echo "<h2 class='thin-heading' id='smooth_start'>", _('Smooth Reading'), "</h2>";
 
     if ( $project->smoothread_deadline == 0 )
     {
-        echo "<p class='pa'>", _('This project has not been made available for Smooth Reading.'), "</p>";
+        echo "<p class='thin-para'>", _('This project has not been made available for Smooth Reading.'), "</p>";
 
         if ($current_user_can_manage_SR_for_this_project)
         {
@@ -1836,7 +1836,7 @@ function do_smooth_reading()
                 "<b>$sr_deadline_str</b>"
             );
 
-            echo "<p class='pa'>", $sr_sentence, "</p>";
+            echo "<p class='thin-para'>$sr_sentence</p>";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
@@ -1897,7 +1897,7 @@ function do_smooth_reading()
         }
         else
         {
-            echo "<p class='pa'>", _('The Smooth Reading deadline for this project has passed.'), "</p>\n";
+            echo "<p class='thin-para'>", _('The Smooth Reading deadline for this project has passed.'), "</p>\n";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
@@ -1971,54 +1971,30 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
 
 function echo_smoothreading_options($project)
 {
-    global $projects_url;
-
     $smooth_dir = "$project->dir/smooth";
-    $project_url = "$projects_url/$project->projectid";
-    $smooth_url = "$project_url/smooth";
+    $smooth_url = "$project->url/smooth";
     echo "<li class='list-head'>", _("Download a Smooth Reading file");
     echo "<ul>";
     echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
 
-    // download zipped html
-    $html_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
-    if($html_files)
+    // zipped htm(l) file
+    $zip_files = glob("$smooth_dir/*.zip");
+    foreach(glob("$smooth_dir/*.zip") as $zip_file) // only one
     {
-        // assume only one html file
-        $file = $html_files[0];
-        $file_base_name = basename($file);
-        // zip the html file with images folder for download
-        $zip = new ZipArchive;
-        // give name of html file with zip extension
-        $path_parts = pathinfo($file);
-        $zip_base = $path_parts['filename'] . ".zip";
-        $zip_name = $path_parts['dirname'] . "/$zip_base";
-        $zip->open($zip_name, ZipArchive::OVERWRITE + ZipArchive::CREATE);
-        $zip->addFile($file, $file_base_name);
-        // add the images
-        $image_dir = "$smooth_dir/images";
-        if(is_dir($image_dir))
-        {
-            $image_files = glob("$image_dir/*.*");
-            foreach($image_files as $file)
-            {
-                $zip->addFile($file, "/images/" . basename($file));
-            }
-        }
-        $zip->close();
-        $text = sprintf(_('%s (includes any images)'), $file_base_name);
-        echo_download_item($smooth_url, $zip_name, $zip_base, $text);
+        $base_name = basename($zip_file);
+        $text = sprintf(_('%s (html file including any images)'), $base_name);
+        echo_download_item($smooth_url, $zip_file, $base_name, $text);
     }
 
-     // no space after bracket commas
+    // no space after bracket commas
     echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
 
-    // original zip file
+    // original uploaded zip file
     $file_base_name = $project->projectid . "_smooth_avail.zip";
     $file = "$project->dir/$file_base_name";
     if(file_exists($file))
     {
-        echo_download_item($project_url, $file, $file_base_name, "$file_base_name (all formats)");
+        echo_download_item($project->url, $file, $file_base_name, "$file_base_name (all formats)");
     }
     echo "</ul>";
     echo "</li>";
@@ -2034,7 +2010,7 @@ function echo_smoothreading_options($project)
             $file_base_name = basename($file);
             $url = "$smooth_url/$file_base_name";
             echo "<li>";
-            echo "<a href='$url' target='_blank'>$file_base_name</a>";
+            echo "<a href='$url' target='_blank'>", html_safe($file_base_name), "</a>";
             echo "</li>\n";
         }
         echo "</ul>";
@@ -2056,7 +2032,7 @@ function echo_download_item($url, $file, $file_base_name, $text)
 {
     $url = "$url/$file_base_name";
     echo "<li>";
-    echo "<a href='$url' download='$file_base_name'>$text</a>";
+    echo "<a href='$url' download='", attr_safe($file_base_name), "'>", html_safe($text), "</a>";
     echo_byte_size(filesize($file));
     echo "</li>\n";
 }

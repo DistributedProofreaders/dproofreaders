@@ -269,25 +269,17 @@ if (isset($action))
         // replace filename
         $zipext = ".zip";
         $name = $projectid.$indicator.$zipext;
-        $path_to_file = "$projects_dir/$projectid/";
-        $location = $path_to_file.$name;
+        $location = "$project->dir/$name";
         ensure_path_is_unused( $location );
         copy($uploaded_file, $location);
         $have_file = TRUE;
         if ($stage == 'smooth_avail')
         {
-            $smooth_dir = "$projects_dir/$projectid/smooth/";
-            // make smooth folder if not exists
-            if(!is_dir($smooth_dir))
+            $project->delete_smoothreading_dir();
+            $smooth_dir = "$project->dir/smooth";
+            if(!mkdir($smooth_dir))
             {
-                if(!mkdir($smooth_dir))
-                {
-                    die("Could not create smooth directory");
-                }
-            }
-            else
-            {
-                delete_contents($smooth_dir);
+                die("Could not create smooth directory");
             }
             // unzip into smooth folder
             $zip = new ZipArchive;
@@ -295,6 +287,30 @@ if (isset($action))
             {
                 $zip->extractTo($smooth_dir);
                 $zip->close();
+                // if there is a html or htm file zip it (with images) for download
+                $html_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
+                if($html_files)
+                {
+                    // assume only one html file
+                    $file = $html_files[0];
+                    $zip = new ZipArchive;
+                    // give name of html file with zip extension
+                    $path_parts = pathinfo($file);
+                    $zip_name = "$smooth_dir/{$path_parts['filename']}.zip";
+                    $zip->open($zip_name, ZipArchive::CREATE);
+                    $zip->addFile($file, $path_parts['basename']);
+                    // add the images
+                    $image_dir = "$smooth_dir/images";
+                    if(is_dir($image_dir))
+                    {
+                        $image_files = glob("$image_dir/*.*");
+                        foreach($image_files as $file)
+                        {
+                            $zip->addFile($file, "images/" . basename($file));
+                        }
+                    }
+                    $zip->close();
+                }
             }
             else
             {
@@ -511,26 +527,6 @@ function ensure_path_is_unused( $path )
         } else {
 
             unlink($path);
-        }
-    }
-}
-
-function delete_contents($dir)
-{
-    // could be dangerous--see various comments for rmdir in PHP manual
-    if(!file_exists($dir))
-    {
-        return;
-    }
-    foreach(glob("$dir/*") as $file) {
-        if(is_dir($file))
-        {
-            delete_contents($file);
-            rmdir($file);
-        }
-        else
-        {
-            unlink($file);
         }
     }
 }

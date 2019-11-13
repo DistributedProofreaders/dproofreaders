@@ -686,6 +686,31 @@ XML;
         return $this->state == PROJ_POST_FIRST_CHECKED_OUT &&
                $this->smoothread_deadline > time();
     }
+
+    private function delete_file($file)
+    {
+        if(is_dir($file))
+        {
+            foreach(glob("$file/*") as $sub_file)
+            {
+                $this->delete_file($sub_file);
+            }
+            rmdir($file);
+        }
+        else
+        {
+            unlink($file);
+        }
+    }
+
+    public function delete_smoothreading_dir()
+    {
+        $dir = "$this->dir/smooth";
+        if(file_exists($this->dir) && file_exists($dir))
+        {
+            $this->delete_file($dir);
+        }
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
