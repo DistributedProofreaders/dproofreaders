@@ -150,6 +150,7 @@ $categories_array = array(
     29 => "Release Queues",
     30 => "Teams",
     31 => "Project Notifications",
+    32 => "Format Preview",
     99 => "Other"
 );
 asort($categories_array);
@@ -190,7 +191,7 @@ $os_array = array(
     12 => "Mac System 8.5",
     13 => "Mac System 8.6",
     14 => "Mac System 9.x",
-    15 => "Mac OS X",
+    15 => "Mac OS X / macOS",
     16 => "Linux",
     17 => "BSDI",
     18 => "FreeBSD",
@@ -210,9 +211,12 @@ $os_array = array(
     32 => "Windows 7",
     33 => "Windows 8",
     34 => "Windows 10",
+    35 => "iOS",
+    36 => "iPadOS",
+    37 => "Android",
     99 => "Other"
 );
-asort($os_array);
+natcasesort($os_array);
 $browser_array = array(
     0 => "All",
     1 => "Internet Explorer 6.x",
@@ -264,6 +268,8 @@ $browser_array = array(
     48 => "Internet Explorer 8.x",
     49 => "Safari 4.x",
     50 => "Opera 10.x",
+    51 => "Microsoft Edge",
+    52 => "Chrome / Chromium",
     99 => "Other"
 );
 asort($browser_array);
