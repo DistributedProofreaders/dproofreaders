@@ -800,13 +800,15 @@ function get_upload_err_msg($upload_error_code)
 // Represent $n bytes as a  $m kB-- $m PB string
 function humanize_bytes($n)
 {
-    $fmt   = "%d B";
-    $units = array("PB", "TB", "GB", "MB", "kB");
-    while($n >= 1024) {
-        $n   /= 1024.0;
-        $fmt  = "%.2f " . array_pop($units);
+    $i = 0;
+    $units = array("B", "KiB", "MiB", "GiB", "TiB", "PiB");
+    while($n >= 1024)
+    {
+        $i += 1;
+        $n /= 1024.0;
     }
-    return sprintf($fmt, $n);
+    $format = (($i == 0) ? "%d " : "%.2f ") . $units[$i];
+    return sprintf($format, $n);
 }
 
 // -----------------------------------------------------------------------------

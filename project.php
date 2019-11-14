@@ -20,7 +20,7 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get()
+include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
 
 // If the requestor is not logged in, we refer to them as a "guest".
@@ -2039,24 +2039,7 @@ function echo_download_item($url, $file, $file_base_name, $text)
 
 function echo_byte_size($size)
 {
-    if($size < 1024)
-    {
-        $format = "%d B";
-    }
-    else
-    {
-        $size /= 1024;
-        if($size < 1024)
-        {
-            $format = "%.1f KiB";
-        }
-        else
-        {
-            $size /= 1024;
-            $format = "%.1f MiB";
-        }
-    }
-    echo " (", sprintf($format, $size), ")";
+    echo " (", humanize_bytes($size), ")";
 }
 
 function do_ppv_report()

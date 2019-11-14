@@ -689,6 +689,11 @@ XML;
 
     private function delete_file($file)
     {
+        // ensure $file is inside $this->dir
+        if(!startswith(realpath($file), realpath($this->dir)))
+        {
+            throw new UnexpectedValueException("$file is not in $this->dir");
+        }
         if(is_dir($file))
         {
             foreach(glob("$file/*") as $sub_file)
