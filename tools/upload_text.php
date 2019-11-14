@@ -7,7 +7,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), endswith()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -272,6 +272,7 @@ if (isset($action))
         $location = "$project->dir/$name";
         ensure_path_is_unused( $location );
         copy($uploaded_file, $location);
+        unlink($uploaded_file);
         $have_file = TRUE;
         if ($stage == 'smooth_avail')
         {
@@ -281,43 +282,25 @@ if (isset($action))
             {
                 die("Could not create smooth directory");
             }
-            // unzip into smooth folder
-            $zip = new ZipArchive;
-            if ($zip->open($uploaded_file))
+            $zip_ok = extract_zip_to($location, $smooth_dir);
+            if($zip_ok)
             {
-                $zip->extractTo($smooth_dir);
-                $zip->close();
-                // if there is a html or htm file zip it (with images) for download
-                $html_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
-                if($html_files)
+                // extract any zips in smooth_dir
+                $zips = glob("$smooth_dir/*.zip");
+                foreach($zips as $zip)
                 {
-                    // assume only one html file
-                    $file = $html_files[0];
-                    $zip = new ZipArchive;
-                    // give name of html file with zip extension
-                    $path_parts = pathinfo($file);
-                    $zip_name = "$smooth_dir/{$path_parts['filename']}.zip";
-                    $zip->open($zip_name, ZipArchive::CREATE);
-                    $zip->addFile($file, $path_parts['basename']);
-                    // add the images
-                    $image_dir = "$smooth_dir/images";
-                    if(is_dir($image_dir))
+                    $zip_ok = extract_zip_to($zip, $smooth_dir);
+                    if(!$zip_ok)
                     {
-                        $image_files = glob("$image_dir/*.*");
-                        foreach($image_files as $file)
-                        {
-                            $zip->addFile($file, "images/" . basename($file));
-                        }
+                        break;
                     }
-                    $zip->close();
                 }
             }
-            else
+            if(!$zip_ok)
             {
                 die("failed to extract files");
             }
         }
-        unlink($uploaded_file);
     }
 
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);

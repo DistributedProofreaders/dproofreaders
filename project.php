@@ -1978,8 +1978,7 @@ function echo_smoothreading_options($project)
     echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
 
     // zipped htm(l) file
-    $zip_files = glob("$smooth_dir/*.zip");
-    foreach(glob("$smooth_dir/*.zip") as $zip_file) // only one
+    foreach(glob("$smooth_dir/*.zip") as $zip_file)
     {
         $base_name = basename($zip_file);
         $text = sprintf(_('%s (html file including any images)'), $base_name);
@@ -1999,7 +1998,7 @@ function echo_smoothreading_options($project)
     echo "</ul>";
     echo "</li>";
 
-    $files = glob("$smooth_dir/*.{txt,html}", GLOB_BRACE);
+    $files = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE);
     // if sr file uploaded before transition to this mode there will not be a smooth directory
     if($files)
     {
