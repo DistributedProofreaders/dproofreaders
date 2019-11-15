@@ -1863,7 +1863,7 @@ function do_smooth_reading()
                 {
                     echo "<li class='list-head'>";
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
-                    echo _("Upload a smoothread report") ;
+                    echo _("Upload a Smooth Read report") ;
                     echo "</a>";
                     echo "</li>\n";
                     // The upload does not cause the project to change state --
@@ -1879,7 +1879,7 @@ function do_smooth_reading()
                     else
                     {
                         echo "<li class='list-head'>";
-                        echo _('You have volunteered to smoothread this project. If you wish to withdraw from smoothreading it, please press:');
+                        echo _('You have volunteered to Smooth Read this project. If you wish to withdraw from Smooth Reading it, please press:');
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";
                     }
@@ -1919,11 +1919,11 @@ function do_smooth_reading()
             echo "<li class='list-head'>";
             if (count($sr_list) == 0)
             {
-                echo _('No one has volunteered to smoothread this project.');
+                echo _('No one has volunteered to Smooth Read this project.');
             }
             else
             {
-                echo _('The following users have volunteered to smoothread this project:');
+                echo _('The following users have volunteered to Smooth Read this project:');
                 echo "<ul>";
                 foreach ($sr_list as $sr_user)
                 {
@@ -1937,7 +1937,7 @@ function do_smooth_reading()
             echo "</li>\n";
 
             echo "<li>";
-            echo_uploaded_zips('_smooth_done_', _('smoothread'));
+            echo_uploaded_zips('_smooth_done_', _('Smooth Read'));
             echo "</li>";
             echo "</ul>";
         }
