@@ -797,11 +797,11 @@ function get_upload_err_msg($upload_error_code)
     }
 }
 
-// Represent $n bytes as a  $m kB-- $m PB string
+// Represent $n bytes as a  $m KB-- $m PB string
 function humanize_bytes($n)
 {
     $i = 0;
-    $units = array("B", "KiB", "MiB", "GiB", "TiB", "PiB");
+    $units = array("B", "KB", "MB", "GB", "TB", "PB");
     while($n >= 1024)
     {
         $i += 1;
