@@ -1981,8 +1981,8 @@ function echo_smoothreading_options($project)
     foreach(glob("$smooth_dir/*.zip") as $zip_file)
     {
         $base_name = basename($zip_file);
-        $text = sprintf(_('%s (html file including any images)'), $base_name);
-        echo_download_item($smooth_url, $zip_file, $base_name, $text);
+        $extra_text = ": " . _('HTML with any images');
+        echo_download_item($smooth_url, $zip_file, $base_name, $base_name, $extra_text);
     }
 
     // no space after bracket commas
@@ -1993,7 +1993,7 @@ function echo_smoothreading_options($project)
     $file = "$project->dir/$file_base_name";
     if(file_exists($file))
     {
-        echo_download_item($project->url, $file, $file_base_name, "$file_base_name (all formats)");
+        echo_download_item($project->url, $file, $file_base_name, "Download all formats");
     }
     echo "</ul>";
     echo "</li>";
@@ -2009,7 +2009,7 @@ function echo_smoothreading_options($project)
             $file_base_name = basename($file);
             $url = "$smooth_url/$file_base_name";
             echo "<li>";
-            echo "<a href='$url' target='_blank'>", html_safe($file_base_name), "</a>";
+            echo "<a href='$url'>", html_safe($file_base_name), "</a>";
             echo "</li>\n";
         }
         echo "</ul>";
@@ -2027,11 +2027,11 @@ function echo_file_downloads($files, $smooth_url)
     }
 }
 
-function echo_download_item($url, $file, $file_base_name, $text)
+function echo_download_item($url, $file, $file_base_name, $link_text, $extra_text = "")
 {
     $url = "$url/$file_base_name";
     echo "<li>";
-    echo "<a href='$url' download='", attr_safe($file_base_name), "'>", html_safe($text), "</a>";
+    echo "<a href='$url' download='", attr_safe($file_base_name), "'>", html_safe($link_text), "</a>", html_safe($extra_text);
     echo_byte_size(filesize($file));
     echo "</li>\n";
 }
