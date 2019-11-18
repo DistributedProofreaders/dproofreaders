@@ -83,21 +83,26 @@ function convert_codepoint_ranges_to_characters($codepoints)
     return $return_array;
 }
 
-# Filter text to an array of codepoint / codepoint ranges. The function
-# already accommodates new lines and handles whitespaces. $codepoints should
-# only include desired characters for the project.
-function filter_text_to_codepoints($string, $codepoints)
+# Return an array of invalid characters and their count
+function get_invalid_characters($string, $codepoints)
 {
-    # normalize string
-    $string = utf8_normalize($string);
-
-    # replace most Unicode whitespace with a space
-    $string = utf8_filter_out_codepoints($string, get_utf8_whitespace_codepoints(), " ");
-
-    # filter to desired codepoints
-    $string = utf8_filter_to_codepoints($string, $codepoints);
-
-    return $string;
+    $string = utf8_filter_out_codepoints($string, $codepoints);
+    $char_count = [];
+    if($string)
+    {
+        foreach(utf8_split($string) as $char)
+        {
+            if(!isset($char_count[$char]))
+            {
+                $char_count[$char] = 1;
+            }
+            else
+            {
+                $char_count[$char]++;
+            }
+        }
+    }
+    return $char_count;
 }
 
 function get_utf8_whitespace_codepoints()
