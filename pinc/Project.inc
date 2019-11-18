@@ -687,24 +687,26 @@ XML;
                $this->smoothread_deadline > time();
     }
 
-    private function delete_file($file)
+    private function delete_file($path)
     {
-        // ensure $file is inside $this->dir
-        if(!startswith(realpath($file), realpath($this->dir)))
+        // ensure $path is inside $this->dir
+        if(!startswith(realpath($path), realpath($this->dir)))
         {
-            throw new UnexpectedValueException("$file is not in $this->dir");
+            throw new UnexpectedValueException("$path is not in $this->dir");
         }
-        if(is_dir($file))
+        if(is_dir($path))
         {
-            foreach(glob("$file/*") as $sub_file)
+            // find also hidden files
+            $files = array_diff(scandir($path), array('.','..'));
+            foreach($files as $sub_file)
             {
-                $this->delete_file($sub_file);
+                $this->delete_file("$path/$sub_file");
             }
-            rmdir($file);
+            rmdir($path);
         }
         else
         {
-            unlink($file);
+            unlink($path);
         }
     }
 
