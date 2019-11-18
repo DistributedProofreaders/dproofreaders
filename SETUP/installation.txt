@@ -21,7 +21,8 @@ PHP
     work but have not been tested. PHP must be compiled with zip support or
     have access to the zip module. On Ubuntu this is provided by the php-zip
     package. The PHP Internationalization extension (Intl) must be installed.
-    On Ubuntu this is provided by the php-intl package.
+    On Ubuntu this is provided by the php-intl package. The Multibyte String
+    (mbstring) extension must be installed.
 
 MySQL
     MySQL version 5.5 and later is required to support UTF-8 using the
