@@ -7,7 +7,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the

@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith()
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith(), return_bytes()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -1367,18 +1367,6 @@ function is_valid_filename($filename, $restrict_extension=False)
 
     // The filename is valid if the regexp matches exactly once.
     return preg_match($regexp, $filename) == 1;
-}
-
-function return_bytes($size_str)
-// from http://php.net/manual/en/function.ini-get.php
-{
-    switch (substr($size_str, -1))
-    {
-        case 'M': case 'm': return (int)$size_str * 1048576;
-        case 'K': case 'k': return (int)$size_str * 1024;
-        case 'G': case 'g': return (int)$size_str * 1073741824;
-        default: return $size_str;
-    }
 }
 
 function get_resumablejs_loader($cdrp)
