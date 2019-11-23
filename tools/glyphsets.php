@@ -1,0 +1,157 @@
+<?php
+$relPath='../pinc/';
+include_once($relPath."base.inc");
+include_once($relPath."theme.inc");
+include_once($relPath."unicode.inc");
+include_once($relPath."Glyphsets.inc");
+include_once($relPath."misc.inc"); // array_get()
+
+$glyphset_name = array_get($_GET, "glyphset", NULL);
+$font = array_get($_REQUEST, "font", NULL);
+
+try {
+    $glyphset = Glyphsets::get_glyphset($glyphset_name);
+} catch (UnexpectedValueException $e) {
+    $glyphset = NULL;
+}
+
+$extra_args = [];
+if($font)
+{
+    $extra_args['css_data'] = ".gs-char { font-family: $font; }";
+}
+
+if($glyphset)
+{
+    $title = sprintf(_("Glyphset: %s"), $glyphset_name);
+    output_header($title, NO_STATSBAR, $extra_args);
+    echo "<h1>$title</h1>";
+    if($font !== NULL)
+    {
+        output_font_test_form($font);
+    }
+    output_glyphset($glyphset, NULL, $font);
+    output_pickerset($glyphset->pickerset, $glyphset->codepoints);
+}
+else
+{
+    $title = _("All Glyphsets");
+    output_header($title, NO_STATSBAR, $extra_args);
+    echo "<h1>$title</h1>";
+    echo "<p>" . _("Below are all available glyphsets in the system.") . "</p>";
+    if($font !== NULL)
+    {
+        output_font_test_form($font);
+    }
+    $glyphsets = Glyphsets::get_glyphsets();
+    foreach($glyphsets as $glyphset)
+    {
+        output_glyphset($glyphset, $glyphset->name, $font);
+    }
+}
+
+#----------------------------------------------------------------------------
+
+function output_font_test_form($font)
+{
+    echo "<p>";
+    echo "<form method='GET'>";
+    echo  _("Try font") . ": ";
+    echo "<input name='font' value='" . attr_safe($font) . "'> ";
+    echo "<input type='submit'>";
+    echo "<br>" . _("Available web fonts") . ": ";
+    echo "<a href='?font=DPCustomMono2'>DPCustomMono2</a>, <a href='?font=Noto+Mono'>Noto Mono</a>";
+    echo "</p>";
+}
+
+function output_glyphset($glyphset, $title=NULL, $test_font=NULL)
+{
+    if($title)
+    {
+        echo "<h2>$title</h2>";
+        $encoded_name = urlencode($glyphset->name);
+        $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
+        echo "<p><a href='?glyphset=$encoded_name$font_attr'>" . _("View glyphset details") . "</a></p>";
+    }
+
+    output_codepoints_table($glyphset->codepoints);
+
+    if(!$title)
+    {
+        echo "<p>" . _("Reference URLs") . ":";
+        echo "<ul>";
+        foreach($glyphset->reference_urls as $url)
+        {
+            echo "<li><a href='$url'>$url</a></li>";
+        }
+        echo "</ul>";
+        echo "</p>";
+    }
+}
+
+function output_pickerset($pickerset, $all_codepoints)
+{
+    echo "<h2>" . _("Character Picker Sets") . "</h2>";
+    $set = $pickerset->get_subsets();
+    $picker_characters = [];
+    foreach($set as $menu => $coderows)
+    {
+        // first the menu item
+        echo "<h3>$menu</h3>";
+
+        // now the 2 rows
+        echo "<table class='basic'>";
+        echo "<tr>";
+        $row1_characters = convert_codepoint_ranges_to_characters($coderows[0]);
+        $picker_characters = array_merge($picker_characters, $row1_characters);
+        output_codepoints_slice($row1_characters);
+        echo "</tr>";
+        echo "<tr>";
+        $row2_characters = convert_codepoint_ranges_to_characters($coderows[1]);
+        $picker_characters = array_merge($picker_characters, $row2_characters);
+        output_codepoints_slice($row2_characters);
+        echo "</tr>";
+        echo "</table>";
+    }
+    $all_characters = convert_codepoint_ranges_to_characters($all_codepoints);
+    if(count($all_characters) != count(array_unique($picker_characters)))
+    {
+        echo "<h3>" . _("Codepoints not in picker") . "</h3>";
+        $remainder = array_diff($all_characters, array_unique($picker_characters));
+        echo "<table class='basic'>";
+        echo "<tr>";
+        output_codepoints_slice($remainder);
+        echo "</tr>";
+        echo "</table>";
+    }
+}
+
+function output_codepoints_table($glyphset, $table_width=16)
+{
+    $characters = convert_codepoint_ranges_to_characters($glyphset);
+
+    echo "<table class='basic'>";
+
+    $offset = 0;
+    while($slice = array_slice($characters, $offset, $table_width))
+    {
+        echo "<tr>";
+        output_codepoints_slice($slice);
+        echo "</tr>";
+        $offset += $table_width;
+    }
+    echo "</table>";
+}
+
+function output_codepoints_slice($slice)
+{
+    foreach($slice as $char)
+    {
+        $title = IntlChar::charName($char);
+        $codepoint = utf8_chr_to_hex($char);
+        echo "<td class='center-align' title='$title'>";
+        echo "<span class='gs-char'>$char</span><br>";
+        echo "<span class='gs-codepoint'>$codepoint</span>";
+        echo "</td>";
+    }
+}
