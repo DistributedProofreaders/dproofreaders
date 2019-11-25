@@ -78,7 +78,8 @@ function language_list($language)
 function genre_list($genre)
 {
     $genres = load_genre_translation_array();
-    echo "<select name='genre'>";
+    echo "<select name='genre'>\n";
+    echo "<option value=''>&nbsp;</option>\n";
     foreach($genres as $k=>$v)
     {
         echo "<option value='".attr_safe($k)."'";
@@ -150,7 +151,7 @@ function special_list($special)
     echo "<select name='special_code'>";
 
     // add special case values first
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
 
     echo "<option value='Birthday'";
@@ -189,7 +190,7 @@ function special_list($special)
 
     // drop down selects for month and date, used for Birthday and Otherday specials
     echo " ", _("Birthday/Otherday: (month)"), " <select name='bdaymonth'>";
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
     while ($i <= 12)
@@ -204,7 +205,7 @@ function special_list($special)
     echo "</select>";
 
     echo " ", _("(day)"), " <select name='bdayday'>";
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
     while ($i <= 31)
