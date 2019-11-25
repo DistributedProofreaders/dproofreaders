@@ -555,6 +555,32 @@ function get_utf8_to_ascii_codepoints()
             'U+2018', # open curly single quote
             'U+2019', # closing curly single quote
         ],
+        " " => [
+            'U+0009', # tab
+            'U+00A0', # no-break space
+            'U+1680', # ogham space mark
+            'U+2000', # en quad
+            'U+2001', # em quad
+            'U+2002', # en space
+            'U+2003', # em space
+            'U+2004', # three-per-em space
+            'U+2005', # four-per-em space
+            'U+2006', # six-per-em space
+            'U+2007', # figure space
+            'U+2008', # punctuation space
+            'U+2009', # thin space
+            'U+20A0', # hair space
+            'U+202F', # narrow no-break space
+            'U+205F', # medium mathematical space
+            'U+3000', # ideographic space
+        ],
+        "\n" => [
+            'U+000B', # vertical tab
+            'U+000C', # form feed
+            'U+0085', # next line
+            'U+2028', # line separator
+            'U+2029', # paragraph separator
+        ],
     ];
 }
 
@@ -577,9 +603,6 @@ function _normalize_page_text( $page_text, $projectid )
 
     # normalize UTF-8 string
     $page_text = utf8_normalize($page_text);
-
-    # replace most Unicode whitespace with a space
-    $page_text = utf8_filter_out_codepoints($page_text, get_utf8_whitespace_codepoints(), " ");
 
     # replace some Unicode characters with ASCII-equivalents
     foreach(get_utf8_to_ascii_codepoints() as $ascii_replace => $codepoints)
@@ -625,20 +648,27 @@ function get_normalize_page_text_changes($text, $projectid)
 
     $changes = [];
 
+    // Remove BOM if it exists
+    if(utf8_string_has_bom($text))
+    {
+        $text = utf8_str_replace(utf8_bom(), '', $text);
+    }
+
     $invalid_chars = get_invalid_characters($text, $project->get_valid_codepoints());
     if($invalid_chars)
     {
-        $unicode_whitespace_chars = array_map('utf8_chr', get_utf8_whitespace_codepoints());
+        $whitespace_codepoints = array_get(get_utf8_to_ascii_codepoints(), " ", []);
+        $unicode_whitespace_chars = array_map('utf8_chr', $whitespace_codepoints);
         $found_whitespace_chars = array_intersect(array_keys($invalid_chars), $unicode_whitespace_chars);
         if($found_whitespace_chars)
         {
             $whitespace_char_names = [];
             foreach($found_whitespace_chars as $char)
             {
-                if($char == "\t")
-                    $whitespace_char_names[] = 'TAB';
-                else
-                    $whitespace_char_names[] = IntlChar::charName($char);
+                $name = IntlChar::charName($char);
+                if(!$name)
+                    $name = IntlChar::charName($char, IntlChar::UNICODE_10_CHAR_NAME);
+                $whitespace_char_names[] = $name;
                 unset($invalid_chars[$char]);
             }
             $whitespace_char_string = implode(", ", $whitespace_char_names);
@@ -650,11 +680,15 @@ function get_normalize_page_text_changes($text, $projectid)
     {
         foreach(get_utf8_to_ascii_codepoints() as $ascii_replace => $codepoints)
         {
+            # space are handled above, so skip them here
+            if($ascii_replace == " ")
+                continue;
+
             $found_chars = [];
             foreach($codepoints as $codepoint)
             {
                 $char = utf8_chr($codepoint);
-                if(in_array($char, $invalid_chars))
+                if(isset($invalid_chars[$char]))
                 {
                     $found_chars[] = $char;
                     unset($invalid_chars[$char]);
@@ -663,14 +697,30 @@ function get_normalize_page_text_changes($text, $projectid)
             if($found_chars)
             {
                 $char_string = implode($found_chars);
-                $changes[] = sprintf(_("Follwing characters will be converted to %s: %s"), $ascii_replace, $found_chars);
+                $changes[] = sprintf(_("Follwing characters will be converted to %s: %s"), $ascii_replace, $char_string);
             }
         }
     }
 
     if($invalid_chars)
     {
-        $invalid_char_string = implode(array_keys($invalid_chars));
+        $invalid_char_names = [];
+        foreach(array_keys($invalid_chars) as $char)
+        {
+            $name = IntlChar::charName($char);
+            # if it doesn't have a name it's a control character which can't
+            # be printed anyway, or if it's a soft hyphen
+            if(!$name || utf8_chr_to_hex($char) == 'U+00ad')
+            {
+                $name = utf8_chr_to_hex($char);
+            }
+            else
+            {
+                $name = $char;
+            }
+            $invalid_char_names[] = $name;
+        }
+        $invalid_char_string = implode(", ", $invalid_char_names);
         $changes[] = sprintf(_("Invalid characters found and will be removed: %s"), $invalid_char_string);
     }
 
