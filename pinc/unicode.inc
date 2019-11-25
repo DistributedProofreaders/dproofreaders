@@ -104,22 +104,3 @@ function get_invalid_characters($string, $codepoints)
     }
     return $char_count;
 }
-
-function get_utf8_whitespace_codepoints()
-{
-    static $whitespace_codepoints = [];
-    if($whitespace_codepoints)
-        return $whitespace_codepoints;
-
-    $whitespaces = utf8_ws();
-    unset($whitespaces[0]); # NUL
-    unset($whitespaces[10]); # New line
-    unset($whitespaces[13]); # Carriage return
-    unset($whitespaces[32]); # Normal space
-    $whitespace_codepoints = [];
-    foreach($whitespaces as $numeric => $char)
-        $whitespace_codepoints[] = utf8_int_to_hex($numeric);
-
-    return $whitespace_codepoints;
-}
-
