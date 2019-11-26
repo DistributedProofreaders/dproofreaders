@@ -43,23 +43,27 @@ class Glyphsets
 {
     static private $_available_glyphsets = [];
 
-    public static function add_glyphset($glyphset)
+    public static function add_glyphset($glyphset, $set='default')
     {
-        self::$_available_glyphsets[$glyphset->name] = $glyphset;
+        if(!isset(self::$_available_glyphsets[$set]))
+            self::$_available_glyphsets[$set] = [];
+        self::$_available_glyphsets[$set][$glyphset->name] = $glyphset;
     }
 
-    public static function get_glyphsets()
+    public static function get_glyphsets($set='default')
     {
-        return self::$_available_glyphsets;
+        if(!isset(self::$_available_glyphsets[$set]))
+            return [];
+        return self::$_available_glyphsets[$set];
     }
 
-    public static function get_glyphset($name)
+    public static function get_glyphset($name, $set='default')
     {
-        if(!isset(self::$_available_glyphsets[$name]))
+        if(!isset(self::$_available_glyphsets[$set][$name]))
         {
             throw new UnexpectedValueException("$name is not a valid glyphset");
         }
-        return self::$_available_glyphsets[$name];
+        return self::$_available_glyphsets[$set][$name];
     }
 }
 
@@ -106,3 +110,8 @@ $basic_latin_pickerset->add_subset("1", [
 $basic_latin->pickerset = $basic_latin_pickerset;
 
 Glyphsets::add_glyphset($basic_latin);
+
+if(is_file("{$relPath}proposed-glyphsets.inc"))
+{
+    include_once($relPath."proposed-glyphsets.inc");
+}
