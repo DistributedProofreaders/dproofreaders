@@ -8,9 +8,10 @@ include_once($relPath."misc.inc"); // array_get()
 
 $glyphset_name = array_get($_GET, "glyphset", NULL);
 $font = array_get($_REQUEST, "font", NULL);
+$set = array_get($_REQUEST, "set", 'default');
 
 try {
-    $glyphset = Glyphsets::get_glyphset($glyphset_name);
+    $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
 } catch (UnexpectedValueException $e) {
     $glyphset = NULL;
 }
@@ -48,6 +49,18 @@ else
     {
         output_glyphset($glyphset, $glyphset->name, $font);
     }
+
+    $proposed_glyphsets = Glyphsets::get_glyphsets('proposed');
+    if($proposed_glyphsets)
+    {
+        echo "<h1>" . _("Proposed Glyphsets") . "</h1>";
+        echo "<p>" . _("The following are proposed glyphsets. They are not finalized and cannot be used in projects.") . "</p>";
+
+        foreach($proposed_glyphsets as $glyphset)
+        {
+            output_glyphset($glyphset, $glyphset->name, $font, "proposed");
+        }
+    }
 }
 
 #----------------------------------------------------------------------------
@@ -64,14 +77,15 @@ function output_font_test_form($font)
     echo "</p>";
 }
 
-function output_glyphset($glyphset, $title=NULL, $test_font=NULL)
+function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default')
 {
     if($title)
     {
         echo "<h2>$title</h2>";
         $encoded_name = urlencode($glyphset->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
-        echo "<p><a href='?glyphset=$encoded_name$font_attr'>" . _("View glyphset details") . "</a></p>";
+        $set_attr = $set !== 'default' ? ("&amp;set=" . urlencode($set)) : "";
+        echo "<p><a href='?glyphset=$encoded_name$font_attr$set_attr'>" . _("View glyphset details") . "</a></p>";
     }
 
     output_codepoints_table($glyphset->codepoints);
