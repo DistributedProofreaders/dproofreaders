@@ -56,4 +56,11 @@ $(function () {
         $("#checker").hide();
         $("#proofdiv").show();
     });
+
+    $("#cc-remove").click(function () {
+        let textarea = $("#text_data");
+        textarea.val(textarea.val().replace(pattern , ""));
+        $("#checker").hide();
+        $("#proofdiv").show();
+    });
 });
