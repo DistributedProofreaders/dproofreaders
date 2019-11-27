@@ -939,12 +939,12 @@ class ProjectInfoHolder
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
-        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255));
-        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255));
+        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255, "required" => true));
+        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255, "required" => true));
         if ( user_is_a_sitemanager() )
         {
             // SAs are the only ones who can change this
-            $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation));
+            $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation), array("required" => true));
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );

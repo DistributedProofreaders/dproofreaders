@@ -19,17 +19,22 @@ function text_field( $field_value, $field_name, $args=array())
 {
     $maxlength = array_get($args, "maxlength", NULL);
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
+    $required = array_get($args, "required", false);
+    $required_attr = $required ? " required" : "";
 
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value' $maxlength_attr>";
+    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function DP_user_field( $field_value, $field_name )
+function DP_user_field( $field_value, $field_name, $args=array())
 {
+    $required = array_get($args, "required", false);
+    $required_attr = $required ? " required" : "";
+
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'>";
+    echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'$required_attr>";
 }
 
 
@@ -50,7 +55,7 @@ function language_list($language)
 
     $array_list = $GLOBALS['lang_list'];
 
-    echo "<select name='pri_language'>";
+    echo "<select name='pri_language' required>";
     echo "<option value=''>" . _("Primary Language") . "</option>";
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
@@ -78,8 +83,8 @@ function language_list($language)
 function genre_list($genre)
 {
     $genres = load_genre_translation_array();
-    echo "<select name='genre'>\n";
-    echo "<option value=''>&nbsp;</option>\n";
+    echo "<select name='genre' required>\n";
+    echo "<option value=''>" . _("Select One") . "</option>\n";
     foreach($genres as $k=>$v)
     {
         echo "<option value='".attr_safe($k)."'";
