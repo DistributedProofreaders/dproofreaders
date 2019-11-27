@@ -1853,10 +1853,13 @@ function do_smooth_reading()
                 echo "</ul>";
             }
 
+            echo "<ul class='list-head'>";
+            echo_smoothreading_options($project);
+            echo "</ul>";
+
             if (!$project->PPer_is_current_user)
             {
                 echo "<ul class='list-head'>";
-                echo_smoothreading_options($project);
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
