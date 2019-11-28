@@ -75,6 +75,7 @@ function output_font_test_form($font)
     echo "<br>" . _("Available web fonts") . ": ";
     $fonts = [
         "DPCustomMono2",
+        "DejaVu Sans Mono",
         "Noto Sans Mono",
         "Noto Mono",
     ];

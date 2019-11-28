@@ -6,6 +6,12 @@ This web font of DPCustomMono2 was generated using the
 [Font Squirrel webfont generator](https://www.fontsquirrel.com/tools/webfont-generator).
 See `dpcustommono2-generator_config.txt` for settings used during this process.
 
+# DejaVu Sans Mono
+
+DejaVu Sans Mono is a member of the [DejaVu font family](https://dejavu-fonts.github.io/)
+and licensed under the [DejaVu Fonts License](DejaVu Fonts License.txt).
+This version was obtained from [Font Squirrel](https://www.fontsquirrel.com/fonts/dejavu-sans-mono).
+
 ## Noto Mono
 
 The Noto Mono web font is [courtesy of Google](https://www.google.com/get/noto/)
