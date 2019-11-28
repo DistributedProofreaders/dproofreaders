@@ -56,7 +56,7 @@ class CharacterSelector
         foreach($chars as $character)
         {
             $row .= "<div class='table-cell'>";
-            if (0x20 == $character)
+            if (NULL == $character)
             {
                 $row .= "<button type='button' class='picker invisible'></button>";
             }
