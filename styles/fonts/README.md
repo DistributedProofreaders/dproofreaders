@@ -12,3 +12,10 @@ The Noto Mono web font is [courtesy of Google](https://www.google.com/get/noto/)
 and licensed under the [SIL Open Font License](SIL Open Font License.txt).
 This version was obtained from [Font Squirrel](https://www.fontsquirrel.com/fonts/noto-mono).
 
+## Noto Sans Mono
+
+The Noto Sans Mono web font is [courtesy of Google](https://www.google.com/get/noto/)
+and licensed under the [SIL Open Font License](SIL Open Font License.txt).
+This web font of it was generated using the
+[Font Squirrel webfont generator](https://www.fontsquirrel.com/tools/webfont-generator).
+See `notosansmono-generator_config.txt` for settings used during this process.

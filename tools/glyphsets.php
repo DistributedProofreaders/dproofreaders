@@ -67,14 +67,26 @@ else
 
 function output_font_test_form($font)
 {
-    echo "<p>";
+    echo "<div class='callout'>";
     echo "<form method='GET'>";
     echo  _("Try font") . ": ";
     echo "<input name='font' value='" . attr_safe($font) . "'> ";
     echo "<input type='submit'>";
     echo "<br>" . _("Available web fonts") . ": ";
-    echo "<a href='?font=DPCustomMono2'>DPCustomMono2</a>, <a href='?font=Noto+Mono'>Noto Mono</a>";
-    echo "</p>";
+    $fonts = [
+        "DPCustomMono2",
+        "Noto Sans Mono",
+        "Noto Mono",
+    ];
+    $urls = [];
+    foreach($fonts as $font)
+    {
+        $font_url_encoded = urlencode($font);
+        $font_http_encoded = html_safe($font);
+        $urls[] = "<a href='?font=$font_url_encoded'>$font_http_encoded</a>";
+    }
+    echo implode(", ", $urls);
+    echo "</div>";
 }
 
 function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default')
