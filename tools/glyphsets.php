@@ -174,11 +174,19 @@ function output_codepoints_slice($slice)
 {
     foreach($slice as $char)
     {
-        $title = IntlChar::charName($char);
-        $codepoint = utf8_chr_to_hex($char);
-        echo "<td class='center-align' title='$title'>";
-        echo "<span class='gs-char'>$char</span><br>";
-        echo "<span class='gs-codepoint'>$codepoint</span>";
-        echo "</td>";
+        if($char !== NULL)
+        {
+            $title = IntlChar::charName($char);
+            $codepoint = utf8_chr_to_hex($char);
+            echo "<td class='center-align' title='$title'>";
+            echo "<span class='gs-char'>$char</span><br>";
+            echo "<span class='gs-codepoint'>$codepoint</span>";
+            echo "</td>";
+        }
+        else
+        {
+            // this is just a placeholder
+            echo "<td></td>";
+        }
     }
 }
