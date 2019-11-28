@@ -70,7 +70,11 @@ function convert_codepoint_ranges_to_characters($codepoints)
         $codepoints = [$codepoints];
     foreach($codepoints as $codepoint)
     {
-        if(strpos($codepoint, '-') === False)
+        if($codepoint === NULL)
+        {
+            $return_array[] = NULL;
+        }
+        elseif(strpos($codepoint, '-') === False)
         {
             $return_array[] = utf8_chr($codepoint);
         }
