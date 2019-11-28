@@ -108,3 +108,40 @@ function get_invalid_characters($string, $codepoints)
     }
     return $char_count;
 }
+
+# Attempt to detect a string's encoding from a subset of expected encodings:
+#   * UTF-8 (includes pure-ASCII which is a valid subset)
+#   * UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE based on the BOM
+#   * Windows-1252
+#   * ISO-8859-1
+# These strings match what mb_detect_encoding() would return. The function
+# returns False if it's unable to guess, although it will readily return
+# ISO-8859-1 in many circumstances.
+function guess_string_encoding($text)
+{
+    if(preg_match('//u', $text))
+        return 'UTF-8';
+
+    # evaluate the BOM, if one exists, borrowed from
+    # https://stackoverflow.com/questions/49546403/php-checking-if-string-is-utf-8-or-utf-16le
+    $first2 = substr($text, 0, 2);
+    $first4 = substr($text, 0, 4);
+    if ($first4 == "\x00\x00\xFE\xFF") return 'UTF-32BE';
+    elseif ($first4 == "\xFF\xFE\x00\x00") return 'UTF-32LE';
+    elseif ($first2 == "\xFE\xFF") return 'UTF-16BE';
+    elseif ($first2 == "\xFF\xFE") return 'UTF-16LE';
+
+    # if there are any characters in ranges that are either control characters
+    # or invalid for ISO-8859-1 or CP-1252, return False
+    if(preg_match('/[\x00-\x08\x0E-\x1F\x81\x8D\x8F\x90\x9D]/', $text, $matches))
+        return False;
+
+    # if we get here, we're going to assume it's either Windows-1252 or ISO-8859-1.
+    # if the string contains characters in the ISO-8859-1 reserved range,
+    # that's probably Windows-1252
+    if(preg_match('/[\x80-\x9F]/', $text))
+        return 'Windows-1252';
+
+    # Give up and return ISO-8859-1
+    return 'ISO-8859-1';
+}
