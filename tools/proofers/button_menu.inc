@@ -8,7 +8,8 @@ include_once('PPage.inc');
 function echo_button_menu( $ppage )
 {
     global $userP;
-    global $proofreading_font_faces, $proofreading_font_sizes;
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $proofreading_font_sizes = get_available_proofreading_font_sizes();
 ?>
 <script>
 function refuseNonNumeric(event) {
@@ -37,14 +38,14 @@ HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down'
 name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Face"));
 ?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
-    $current_font_i = $userP['i_layout']==1 ? $userP['v_fntf'] : $userP['h_fntf'];
+    list($current_font, $current_size) = get_user_proofreading_font();
     foreach($proofreading_font_faces as $index => $font)
     {
         if($font == '')
             $font = BROWSER_DEFAULT_STR;
 
         $optP = "<option \r\n value=\"$index\"";
-        if($index == $current_font_i)
+        if($font == $current_font)
             $optP .= " selected";
         $optP .= ">" . $font . "</option>";
         echo $optP;
@@ -53,14 +54,13 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="<?php
 name="fntSize" ID="fntSize"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Size"));
 ?>" onChange="top.changeFontSize(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
-    $current_size_i = $userP['i_layout']==1 ? $userP['v_fnts'] : $userP['h_fnts'];
     foreach($proofreading_font_sizes as $index => $size)
     {
         if($size == '')
             $size = BROWSER_DEFAULT_STR;
 
         $optP = "<option \r\n value=\"$index\"";
-        if($index == $current_size_i)
+        if($size == $current_size)
             $optP .= " selected";
         $optP .= ">$size</option>";
         echo $optP;

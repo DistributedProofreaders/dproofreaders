@@ -394,7 +394,6 @@ function save_general_tab() {
 function echo_proofreading_tab() {
     global $userP;
     global $i_resolutions;
-    global $proofreading_font_faces, $proofreading_font_sizes;
     global $userSettings;
 
     // see if they already have 10 profiles, etc.
@@ -500,6 +499,7 @@ function echo_proofreading_tab() {
     td_pophelp( 'horzprefs' );
     echo "</tr>\n";
 
+    $proofreading_font_faces = get_available_proofreading_font_faces();
     echo "<tr>\n";
     $proofreading_font_faces[0] = BROWSER_DEFAULT_STR;
     show_preference(
@@ -516,6 +516,7 @@ function echo_proofreading_tab() {
     );
     echo "</tr>\n";
 
+    $proofreading_font_sizes = get_available_proofreading_font_sizes();
     echo "<tr>\n";
     $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
     show_preference(

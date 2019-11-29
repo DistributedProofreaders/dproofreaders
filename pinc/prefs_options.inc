@@ -16,40 +16,48 @@ define( 'BROWSER_DEFAULT_STR', _("Browser default") );
 # empty and replaced with BROWSER_DEFAULT_STR before displaying to the
 # user.
 
-$proofreading_font_faces = array(
-    0 => '', // browser default
-    5 => 'monospace',
-    3 => 'Arial',
-    1 => 'Courier',
-    6 => 'DPCustomMono2',
-    4 => 'Lucida',
-    7 => 'Lucida Console',
-    8 => 'Monaco',
-    2 => 'Times',
-);
+function get_available_proofreading_font_faces()
+{
+    return [
+        0 => '', // browser default
+        5 => 'monospace',
+        3 => 'Arial',
+        1 => 'Courier',
+        6 => 'DPCustomMono2',
+        4 => 'Lucida',
+        7 => 'Lucida Console',
+        8 => 'Monaco',
+        2 => 'Times',
+    ];
+}
 
-$proofreading_font_sizes = array (
-     0 => '', // browser default
-     1 => '11px',
-     2 => '12px',
-     3 => '13px',
-    12 => '14px',
-     4 => '15px',
-     5 => '16px',
-     6 => '17px',
-    13 => '18px',
-     7 => '19px',
-    14 => '20px',
-     8 => '21px',
-     9 => '22px',
-    10 => '24px',
-    11 => '26px',
-);
+function get_available_proofreading_font_sizes()
+{
+    return [
+         0 => '', // browser default
+         1 => '11px',
+         2 => '12px',
+         3 => '13px',
+        12 => '14px',
+         4 => '15px',
+         5 => '16px',
+         6 => '17px',
+        13 => '18px',
+         7 => '19px',
+        14 => '20px',
+         8 => '21px',
+         9 => '22px',
+        10 => '24px',
+        11 => '26px',
+    ];
+}
 
 // And a function to return user's current proofreading font
 function get_user_proofreading_font()
 {
-    global $userP, $proofreading_font_sizes, $proofreading_font_faces;
+    global $userP;
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $proofreading_font_sizes = get_available_proofreading_font_sizes();
 
     if ( $userP['i_layout']==1 )   // "vertical"
     {
