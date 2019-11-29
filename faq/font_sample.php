@@ -14,7 +14,7 @@ output_header($title, NO_STATSBAR);
 // (for comparison to DPCustomMono2)
 // from the following list:
 $selectable_fonts = array();
-foreach($proofreading_font_faces as $index => $font)
+foreach(get_available_proofreading_font_faces() as $index => $font)
 {
     if (!is_file(get_sample_image_for_font($font)))
         // We don't have a sample image file for this font,
@@ -32,17 +32,7 @@ foreach($proofreading_font_faces as $index => $font)
 sort($selectable_fonts);
 
 // determine user's current proofreading font, if any and use that as the compare_font
-$proofreading_font="";
-if ($userP['i_layout']==1)
-{
-    $proofreading_fonti = $userP['v_fntf'];
-    $proofreading_font = $proofreading_font_faces[$proofreading_fonti];
-}
-else if ((count($userP) > 0) and ($userP['i_layout']==0))
-{
-    $proofreading_fonti = $userP['h_fntf'];
-    $proofreading_font = $proofreading_font_faces[$proofreading_fonti];
-}
+list($proofreading_font, ) = get_user_proofreading_font();
 
 // set the default compare_font to the user's proofreading font
 // if it is selectable

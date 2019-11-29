@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
-include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
+include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
@@ -13,22 +13,7 @@ include "./quiz_page.inc"; // qp_initial_page_text qp_sample_solution
 // Figure out what font to use
 if ($user_is_logged_in)
 {
-    // Use the font prefs for the user's default interface layout, 
-    // since they're more likely to have set those prefs
-    global $userP;
-
-    if ( $userP['i_layout']==1 )
-    {
-        $font_face_i = $userP['v_fntf'];
-        $font_size_i = $userP['v_fnts'];    
-    }
-    else
-    {
-        $font_face_i = $userP['h_fntf'];
-        $font_size_i = $userP['h_fnts'];
-    }
-    $font_face = $proofreading_font_faces[$font_face_i];
-    $font_size = $proofreading_font_sizes[$font_size_i];
+    list($font_face, $font_size) = get_user_proofreading_font();
 
     $font_settings = '';
     if ( $font_face != '' )

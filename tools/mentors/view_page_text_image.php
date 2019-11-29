@@ -237,16 +237,11 @@ elseif ($frame=="text") {
         // Use the font and wrap prefs for the user's default interface layout, 
         // since they're more likely to have set those prefs
         if ( $userP['i_layout']==1 ) {
-            $font_face_i = $userP['v_fntf'];
-            $font_size_i = $userP['v_fnts'];
             $line_wrap   = $userP['v_twrap'];
         } else {
-            $font_face_i = $userP['h_fntf'];
-            $font_size_i = $userP['h_fnts'];
             $line_wrap   = $userP['h_twrap'];
         }
-        $font_face = $proofreading_font_faces[$font_face_i];
-        $font_size = $proofreading_font_sizes[$font_size_i];
+        list($font_face, $font_size) = get_user_proofreading_font();
 
         // Since this page doesn't have a vertical layout version, 
         // we'll use their horizontal prefs for textarea size
