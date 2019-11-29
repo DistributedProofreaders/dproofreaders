@@ -53,20 +53,20 @@ function language_list($language)
         $sec_language = '';
     }
 
-    global $lang_list;
-
     echo _("Primary"), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
-    echo_language_options($lang_list, $pri_language);
+    echo_language_options($pri_language);
     echo "</select>\n";
     echo _("Secondary"), ": <select name='sec_language'>\n";
     echo "<option value=''>&nbsp;</option>\n";
-    echo_language_options($lang_list, $sec_language);
+    echo_language_options($sec_language);
     echo "</select>\n";
 }
 
-function echo_language_options($lang_list, $default)
+function echo_language_options($default)
 {
+    global $lang_list;
+
     foreach($lang_list as $language)
     {
         $lang_name = $language['lang_name'];
