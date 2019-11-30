@@ -164,6 +164,15 @@ function do_search_and_show_hits()
     while (($start <= yaz_hits($id) && $i <= $hits_per_page))
     {
         $rec = yaz_record($id, $start, "array");
+
+        // if $rec isn't an array, then yaz_record() failed and we should
+        // skip this record
+        if(!is_array($rec))
+        {
+            $start++;
+            continue;
+        }
+
         //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($rec);

@@ -58,6 +58,10 @@ class MARCRecord
             $marc_title = $this->record[$title_key][1];
             $marc_title = trim(preg_replace("/\/$|:$/", "", $marc_title));
         }
+        else
+        {
+            $marc_title = '';
+        }
 
         $edition_key = $this->_key_search("250","a");
         if(isset($this->record[$edition_key]))
@@ -65,8 +69,15 @@ class MARCRecord
             $marc_edition = $this->record[$edition_key][1];
             $marc_edition = trim($marc_edition);
         }
+        else
+        {
+            $marc_edition = '';
+        }
 
-        if (isset($marc_edition)) { $marc_title = $marc_title.", ".$marc_edition; }
+        if($marc_title && $marc_edition)
+        {
+            $marc_title = "$marc_title, $marc_edition";
+        }
 
         // Task 849, strip all trailing comma/semicolon/colon from title.
         // Space is needed below as there is one at the end of $marc_title
