@@ -1,10 +1,11 @@
 <?php
 define( 'BROWSER_DEFAULT_STR', _("Browser default") );
 
-# $proofreading_font_faces and $proofreading_font_sizes are used to
-# set the font family and size in the proofing interface. These strings
-# are both shown to the user *and* passed in the HTML to the browser
-# and thus must be valid values for font-family and font-size respectively.
+# The return values from get_available_proofreading_font_faces() and
+# get_available_proofreading_font_sizes() are used to set the font family
+# and size in the proofing interface. These strings are both shown to the
+# user *and* passed in the HTML to the browser and thus must be valid values
+# for font-family and font-size respectively.
 
 # Care should be taken when changing the following arrays. The user
 # preferences (stored in user_profiles) stores the array index
@@ -74,6 +75,12 @@ function get_user_proofreading_font()
     $font_style = $proofreading_font_faces[$font_style_i];
 
     return array($font_style, $font_size);
+}
+
+// This string is appended to the user's proofreading font for a fallback
+function get_proofreading_font_family_fallback()
+{
+    return "monospace";
 }
 
 // $u_n = show rank neighbors

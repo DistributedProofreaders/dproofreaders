@@ -48,6 +48,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
     list($font_style, $font_size) = get_user_proofreading_font();
+    $font_family_fallback = get_proofreading_font_family_fallback();
     if($font_size != '')
         $font_size = "font-size: $font_size";
     if($font_style != '')
@@ -55,7 +56,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style type='text/css'>" .
                    " pre { $font_size }".
-                   "  .proofingfont { font-family: $font_style monospace; $font_size }" .
+                   "  .proofingfont { font-family: $font_style $font_family_fallback; $font_size }" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .

@@ -48,12 +48,14 @@ function fixText()
     //}
 }
 
-function changeFontFamily(font_family_index, font_family)
+function changeFontFamily(font_index, font, fallback)
 {
     setText();
     // if the index is 0, we're to use the browser default
-    if (font_family_index == 0) {
-        font_family = null;
+    if (font_index == 0) {
+        font_family = fallback;
+    } else {
+        font_family = font + ", " + fallback;
     }
     docRef.editform.text_data.style.fontFamily = font_family;
     fixText();

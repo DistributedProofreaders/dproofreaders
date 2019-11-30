@@ -166,6 +166,7 @@ function get_DifferenceEngine_css_files() {
 // Override default css for DP customizations
 function get_DifferenceEngine_css_data() {
     list($font_family, $font_size) = get_user_proofreading_font();
+    $font_family_fallback = get_proofreading_font_family_fallback();
     if($font_family != '')
         $font_family = "$font_family,";
     if($font_size != '')
@@ -180,7 +181,7 @@ function get_DifferenceEngine_css_data() {
 .diff-addedline,
 .diff-deletedline,
 .diff-context {
-    font-family: $font_family monospace;
+    font-family: $font_family $font_family_fallback;
     $font_size;
 }
 ";
