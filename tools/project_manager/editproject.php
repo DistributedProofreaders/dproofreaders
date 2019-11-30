@@ -172,7 +172,7 @@ class ProjectInfoHolder
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
-        $this->image_source     = '_internal';
+        $this->image_source     = '';
         $this->image_preparer   = $pguser;
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
@@ -215,7 +215,7 @@ class ProjectInfoHolder
         $this->postednum        = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
-        $this->image_source     = '_internal';
+        $this->image_source     = '';
         $this->image_preparer   = $pguser;
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
@@ -855,7 +855,7 @@ class ProjectInfoHolder
         echo     "<input type='submit' name='save' value='".attr_safe(_("Save"))."'>";
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
-        echo     "<input type='submit' name='quit' value='".attr_safe(_("Quit Without Saving"))."'>";
+        echo     "<input type='submit' name='quit' formnovalidate value='".attr_safe(_("Quit Without Saving"))."'>";
         echo   "</th>";
         echo "</tr>\n";
 
@@ -939,12 +939,12 @@ class ProjectInfoHolder
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
-        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255));
-        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255));
+        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255, "required" => true));
+        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255, "required" => true));
         if ( user_is_a_sitemanager() )
         {
             // SAs are the only ones who can change this
-            $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation));
+            $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation), array("required" => true));
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );

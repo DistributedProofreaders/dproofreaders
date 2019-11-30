@@ -19,17 +19,22 @@ function text_field( $field_value, $field_name, $args=array())
 {
     $maxlength = array_get($args, "maxlength", NULL);
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
+    $required = array_get($args, "required", false);
+    $required_attr = $required ? " required" : "";
 
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value' $maxlength_attr>";
+    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function DP_user_field( $field_value, $field_name )
+function DP_user_field( $field_value, $field_name, $args=array())
 {
+    $required = array_get($args, "required", false);
+    $required_attr = $required ? " required" : "";
+
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'>";
+    echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'$required_attr>";
 }
 
 
@@ -48,29 +53,26 @@ function language_list($language)
         $sec_language = '';
     }
 
-    $array_list = $GLOBALS['lang_list'];
+    echo _("Primary"), ": <select name='pri_language' required>\n";
+    maybe_echo_placeholder_option($pri_language);
+    echo_language_options($pri_language);
+    echo "</select><br>\n";
+    echo _("Secondary"), ": <select name='sec_language'>\n";
+    echo "<option value=''>&nbsp;</option>\n";
+    echo_language_options($sec_language);
+    echo "</select>\n";
+}
 
-    echo "<select name='pri_language'>";
-    echo "<option value=''>" . _("Primary Language") . "</option>";
-    echo "\n";
-    for ($i=0;$i<count($array_list);$i++)
+function echo_language_options($default)
+{
+    global $lang_list;
+
+    foreach($lang_list as $language)
     {
-        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
-        if ($pri_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
-        echo ">".$array_list[$i]['lang_name']."</option>";
-        echo "\n";
+        $lang_name = $language['lang_name'];
+        $selected_string = ($default == $lang_name) ? " selected" : "";
+        echo "<option value='", attr_safe($lang_name), "'$selected_string>$lang_name</option>\n";
     }
-    echo "</select>&nbsp;&nbsp;<select name='sec_language'>";
-    echo "<option value=''>" . _("Secondary Language") . "</option>";
-    echo "\n";
-    for ($i=0;$i<count($array_list);$i++)
-    {
-        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
-        if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
-        echo ">".$array_list[$i]['lang_name']."</option>";
-        echo "\n";
-    }
-    echo "</select>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -78,7 +80,8 @@ function language_list($language)
 function genre_list($genre)
 {
     $genres = load_genre_translation_array();
-    echo "<select name='genre'>";
+    echo "<select name='genre' required>\n";
+    maybe_echo_placeholder_option($genre);
     foreach($genres as $k=>$v)
     {
         echo "<option value='".attr_safe($k)."'";
@@ -150,7 +153,7 @@ function special_list($special)
     echo "<select name='special_code'>";
 
     // add special case values first
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
 
     echo "<option value='Birthday'";
@@ -189,7 +192,7 @@ function special_list($special)
 
     // drop down selects for month and date, used for Birthday and Otherday specials
     echo " ", _("Birthday/Otherday: (month)"), " <select name='bdaymonth'>";
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
     while ($i <= 12)
@@ -204,7 +207,7 @@ function special_list($special)
     echo "</select>";
 
     echo " ", _("(day)"), " <select name='bdayday'>";
-    echo "<option value=''></option>";
+    echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
     while ($i <= 31)
@@ -242,14 +245,15 @@ function image_source_list($image_source)
     {
         $code = $i_row['code_name'];
         // unfortunately, $code can be a numeric value which confuses the php array
+        // e.g. 1.5 and 1.6 would both be cast to 1
         // so we append a colon at the end here to force it to be a string and then
         // strip it again later
         $imso_array["$code:"] = $i_row['display_name'];
     }
 
     // drop down select box for which image source
-    echo "<select name='image_source'>";
-
+    echo "<select name='image_source' required>\n";
+    maybe_echo_placeholder_option($image_source);
     // add the pre-defined image_sources
     foreach($imso_array as $k=>$v)
     {
@@ -266,6 +270,15 @@ function image_source_list($image_source)
     echo "<span class='small'>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</span>";
     echo " " . new_window_link( "show_image_sources.php", _("Details of Image Sources") );
     echo "<br>";
+}
+
+function maybe_echo_placeholder_option($initial)
+{
+    if("" == $initial)
+    // none of the real options can have this value
+    {
+        echo "<option value=''>", _("Select One"), "</option>\n";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
