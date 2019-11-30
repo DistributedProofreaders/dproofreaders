@@ -56,7 +56,7 @@ function language_list($language)
     echo _("Primary"), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
     echo_language_options($pri_language);
-    echo "</select>\n";
+    echo "</select><br>\n";
     echo _("Secondary"), ": <select name='sec_language'>\n";
     echo "<option value=''>&nbsp;</option>\n";
     echo_language_options($sec_language);
