@@ -253,12 +253,12 @@ elseif ($frame=="text") {
             id='text_data'
             cols='$n_cols'
             rows='$n_rows'
-            style='";
+            style='font-family: ";
         if ( $font_face != '' )
         {
-            echo "font-family: $font_face;";
-            echo " ";
+            echo "$font_face,";
         }
+        echo get_proofreading_font_family_fallback() . "; ";
         if ( $font_size != '' )
         {
             echo "font-size: $font_size;";

@@ -225,13 +225,13 @@ class PPage
             dir='".lang_direction($lang)."'
         ";
 
-        echo "style='";
+        echo "style='font-family: ";
         list($font_face, $font_size) = get_user_proofreading_font();
         if ( $font_face != '' )
         {
-            echo "font-family: $font_face;";
-            echo " ";
+            echo "$font_face,";
         }
+        echo get_proofreading_font_family_fallback() . "; ";
         if ( $font_size != '' )
         {
             echo "font-size: $font_size;";

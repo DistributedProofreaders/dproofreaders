@@ -15,12 +15,12 @@ if ($user_is_logged_in)
 {
     list($font_face, $font_size) = get_user_proofreading_font();
 
-    $font_settings = '';
+    $font_settings = 'font-family: ';
     if ( $font_face != '' )
     {
-        $font_settings .= "font-family: $font_face;";
-        $font_settings .= " ";
+        $font_settings .= "$font_face, ";
     }
+    $font_settings .= get_proofreading_font_family_fallback() . "; ";
     if ( $font_size != '' )
     {
         $font_settings .= "font-size: $font_size;";

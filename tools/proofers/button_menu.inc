@@ -10,6 +10,7 @@ function echo_button_menu( $ppage )
     global $userP;
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
+    $font_family_fallback = get_proofreading_font_family_fallback();
 ?>
 <script>
 function refuseNonNumeric(event) {
@@ -37,7 +38,7 @@ HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"><
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
 name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Face"));
-?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
+?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text, '<?php echo $font_family_fallback; ?>')"><?php
     list($current_font, $current_size) = get_user_proofreading_font();
     foreach($proofreading_font_faces as $index => $font)
     {
