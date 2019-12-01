@@ -33,18 +33,22 @@ $(function () {
             charClass += utf8Chr(code[0]) + "-" + utf8Chr(code[1]);
         }
     });
-    var pattern = new RegExp("[^" + charClass + "]", "ug");
+
+    var badPattern = new RegExp("[^" + charClass + "]", "ug");
+    var badPattern1 = new RegExp("[^" + charClass + "]", "u");
+
+    var textArea = document.getElementById("text_data");
 
     $(".check_button").click(function(event) {
-        var text = $("#text_data").val();
+        var text = textArea.value;
         text = text.normalize("NFC");
-        $("#text_data").val(text);
-        if(!pattern.test(text)) {
+        textArea.value = text;
+        if(!badPattern1.test(text)) {
             // no bad characters found
             return;
         }
         var replacement = "<span class='bad-char'>$&</span>";
-        var markedText = htmlSafe(text).replace(pattern , replacement);
+        var markedText = htmlSafe(text).replace(badPattern , replacement);
 
         $("#checker").css("display", "flex");
         $("#proofdiv").hide();
@@ -58,9 +62,67 @@ $(function () {
     });
 
     $("#cc-remove").click(function () {
-        let textarea = $("#text_data");
-        textarea.val(textarea.val().replace(pattern , ""));
+        textArea.value = textArea.value.replace(badPattern , "");
         $("#checker").hide();
         $("#proofdiv").show();
+    });
+
+    var above = {
+        "=": "\u0304", // macron
+        ":": "\u0308", // diaeresis
+        ".": "\u0307", // dot
+        "`": "\u0300", // grave
+        "'": "\u0301", // acute
+        "^": "\u0302", // circumflex
+        ")": "\u0306", // breve
+        "~": "\u0303", // tilde
+        ",": "\u0327", // cedilla
+        "v": "\u030C", // caron
+    };
+    var below = {
+        "=": "\u0331", // macron
+        ":": "\u0324", // diaeresis
+        ".": "\u0323", // dot
+        "`": "\u0316", // grave
+        "'": "\u0317", // acute
+        "^": "\u032D", // circumflex
+        ")": "\u032E", // breve
+        "~": "\u0330", // tilde
+        ",": "\u0327", // cedilla
+        "v": "\u032C", // caron
+    };
+
+    $(textArea).on("input", function() {
+        var text = textArea.value;
+        var startPos = textArea.selectionStart;
+        if(text[startPos - 1] != "]") {
+            // if out of range would get ""
+            return;
+        }
+        var begin = startPos - 4;
+        if(text[begin] === "[") {
+            let p1 = text[startPos - 3];
+            let p2 = text[startPos - 2];
+            var uchar;
+            var code = above[p1];
+            if(code) {
+                uchar = p2 + code;
+            } else {
+                code = below[p2];
+                if(code) {
+                    uchar = p1 + code;
+                } else {
+                    return;
+                }
+            }
+            uchar = uchar.normalize("NFC");
+            // if not changed then original good and (possibly) bad combining diacritical code
+            // will remain so need to test for bad chars
+            if(!badPattern1.test(uchar)) {
+                textArea.value = text.slice(0, begin) + uchar + text.slice(startPos);
+                begin += 1;
+                textArea.setSelectionRange(begin, begin);
+            }
+        }
     });
 });
