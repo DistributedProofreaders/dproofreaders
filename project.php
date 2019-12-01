@@ -2002,17 +2002,31 @@ function echo_smoothreading_options($project)
     echo "</li>";
 
     $files = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE);
+    foreach($files as $file)
+    {
+        $file_bases[] = basename($file);
+    }
+
+    // if html files and image dirs were zipped in directories, find them
+    $dirs = glob("$smooth_dir/*", GLOB_ONLYDIR);
+    foreach($dirs as $dir)
+    {
+        $subfiles = glob("$dir/*.{htm,html}", GLOB_BRACE);
+        foreach($subfiles as $subfile)
+        {
+            $file_bases[] = basename($dir) . "/" . basename($subfile);
+        }
+    }
     // if sr file uploaded before transition to this mode there will not be a smooth directory
-    if($files)
+    if($file_bases)
     {
         echo "<li class='list-head'>", _("Open in browser (for reading only -- no annotations can be made):");
         echo "<ul>";
-        foreach($files as $file)
+        foreach($file_bases as $file_base)
         {
-            $file_base_name = basename($file);
-            $url = "$smooth_url/$file_base_name";
+            $url = "$smooth_url/$file_base";
             echo "<li>";
-            echo "<a href='$url'>", html_safe($file_base_name), "</a>";
+            echo "<a href='$url'>", html_safe($file_base), "</a>";
             echo "</li>\n";
         }
         echo "</ul>";
