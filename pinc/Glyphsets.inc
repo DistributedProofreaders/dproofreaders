@@ -3,10 +3,7 @@ include_once($relPath."unicode.inc");
 
 class PickerSet
 {
-    function __construct($name)
-    {
-        $this->name = $name;
-    }
+    public $name;
 
     public function add_subset($name, $codepoints, $title=NULL)
     {
@@ -31,11 +28,50 @@ class PickerSet
 
 class Glyphset
 {
-    function __construct($name, $codepoints=NULL, $pickerset=NULL)
+    public $name;
+    public $codepoints;
+    public $reference_urls = [];
+    private $_pickerset = NULL;
+
+    function __construct($name, $codepoints=NULL)
     {
         $this->name = $name;
         $this->codepoints = $codepoints;
-        $this->pickerset = $pickerset;
+    }
+
+    public function __get($name)
+    {
+        if($name == 'pickerset')
+            return $this->_pickerset;
+
+        // If we don't recognize the property, raise a notice and return null
+        $trace = debug_backtrace();
+        trigger_error(
+            'Undefined property via __get(): ' . $name .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        return null;
+    }
+
+    public function __set($name, $value)
+    {
+        if($name == 'pickerset')
+        {
+            $this->_pickerset = $value;
+            $this->_pickerset->name = $this->name;
+        }
+        else
+        {
+            // If we don't recognize the property, raise a notice and return null
+            $trace = debug_backtrace();
+            trigger_error(
+                'Undefined property via __get(): ' . $name .
+                ' in ' . $trace[0]['file'] .
+                ' on line ' . $trace[0]['line'],
+                E_USER_NOTICE);
+            return null;
+        }
     }
 }
 
@@ -96,7 +132,7 @@ $basic_latin->reference_urls = [
     "https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)",
 ];
 
-$basic_latin_pickerset = new PickerSet("Basic Latin");
+$basic_latin_pickerset = new PickerSet();
 $basic_latin_pickerset->add_subset("A-Z", [
     [ 'U+0041-U+005a' ], # A-Z
     [ 'U+0061-U+007a' ], # a-z
