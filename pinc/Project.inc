@@ -178,6 +178,13 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    public function get_glyphsets()
+    {
+        return [
+            Glyphsets::get_glyphset("Basic Latin"),
+        ];
+    }
+
     public function get_valid_codepoints()
     {
         # Codepoints applicable to all projects
@@ -186,15 +193,22 @@ class Project
             'U+000D', # carriage returns
         ];
 
-        $glyphset = Glyphsets::get_glyphset("Basic Latin");
-
-        return array_merge($glyphset->codepoints, $global_codepoints);
+        $codepoints = $global_codepoints;
+        foreach($this->get_glyphsets() as $glyphset)
+        {
+            $codepoints = array_merge($codepoints, $glyphset->codepoints);
+        }
+        return $codepoints;
     }
 
     public function get_pickersets()
     {
-        $glyphset = Glyphsets::get_glyphset("Basic Latin");
-        return array("Basic Latin" => $glyphset->pickerset);
+        $pickersets = [];
+        foreach($this->get_glyphsets() as $glyphset)
+        {
+            $pickersets[] = $glyphset->pickerset;
+        }
+        return $pickersets;
     }
 
     // -------------------------------------------------------------------------

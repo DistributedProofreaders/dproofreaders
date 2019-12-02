@@ -19,7 +19,7 @@ class CharacterSelector
         $selector_string = "<div id='selector_row'>";
         $row_string = "";
 
-        foreach ($this->picker_sets as $name => $picker_set)
+        foreach ($this->picker_sets as $picker_set)
         {
             if(count($this->picker_sets) == 1)
             {
@@ -27,7 +27,7 @@ class CharacterSelector
             }
             else
             {
-                $prefix = "$name: ";
+                $prefix = "$picker_set->name: ";
             }
 
             foreach ($picker_set->get_subsets() as $code => $picker)
@@ -36,8 +36,10 @@ class CharacterSelector
                 $title = $prefix . $picker_set->get_title($code);
                 $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
                 $row_string .= "<div class='_$safe_code key-block'>\n";
-                $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($picker[0]));
-                $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($picker[1]));
+                foreach($picker as $row)
+                {
+                    $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($row));
+                }
                 $row_string .= "</div>\n";
             }
         }
