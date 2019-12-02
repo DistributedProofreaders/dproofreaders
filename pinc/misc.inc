@@ -797,16 +797,18 @@ function get_upload_err_msg($upload_error_code)
     }
 }
 
-// Represent $n bytes as a  $m kB-- $m PB string
+// Represent $n bytes as a  $m KB-- $m PB string
 function humanize_bytes($n)
 {
-    $fmt   = "%d B";
-    $units = array("PB", "TB", "GB", "MB", "kB");
-    while($n >= 1024) {
-        $n   /= 1024.0;
-        $fmt  = "%.2f " . array_pop($units);
+    $i = 0;
+    $units = array("B", "KB", "MB", "GB", "TB", "PB");
+    while($n >= 1024)
+    {
+        $i += 1;
+        $n /= 1024.0;
     }
-    return sprintf($fmt, $n);
+    $format = (($i == 0) ? "%d " : "%.2f ") . $units[$i];
+    return sprintf($format, $n);
 }
 
 // -----------------------------------------------------------------------------
@@ -1011,6 +1013,18 @@ function is_url_for_current_page($url)
     }
     
     return TRUE;
+}
+
+function return_bytes($size_str)
+// from http://php.net/manual/en/function.ini-get.php
+{
+    switch (substr($size_str, -1))
+    {
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
+        default: return $size_str;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

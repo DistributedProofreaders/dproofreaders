@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'misc.inc'); // html_safe(), xmlencode()
+include_once($relPath.'misc.inc'); // html_safe(), xmlencode(), startswith()
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
@@ -685,6 +685,38 @@ XML;
     {
         return $this->state == PROJ_POST_FIRST_CHECKED_OUT &&
                $this->smoothread_deadline > time();
+    }
+
+    private function delete_file($path)
+    {
+        // ensure $path is inside $this->dir
+        if(!startswith(realpath($path), realpath($this->dir)))
+        {
+            throw new UnexpectedValueException("$path is not in $this->dir");
+        }
+        if(is_dir($path))
+        {
+            // find also hidden files
+            $files = array_diff(scandir($path), array('.','..'));
+            foreach($files as $sub_file)
+            {
+                $this->delete_file("$path/$sub_file");
+            }
+            rmdir($path);
+        }
+        else
+        {
+            unlink($path);
+        }
+    }
+
+    public function delete_smoothreading_dir()
+    {
+        $dir = "$this->dir/smooth";
+        if(file_exists($this->dir) && file_exists($dir))
+        {
+            $this->delete_file($dir);
+        }
     }
 }
 

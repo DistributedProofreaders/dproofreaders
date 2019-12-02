@@ -7,7 +7,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), endswith()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -269,12 +269,38 @@ if (isset($action))
         // replace filename
         $zipext = ".zip";
         $name = $projectid.$indicator.$zipext;
-        $path_to_file = "$projects_dir/$projectid/";
-        $location = $path_to_file.$name;
+        $location = "$project->dir/$name";
         ensure_path_is_unused( $location );
         copy($uploaded_file, $location);
         unlink($uploaded_file);
         $have_file = TRUE;
+        if ($stage == 'smooth_avail')
+        {
+            $project->delete_smoothreading_dir();
+            $smooth_dir = "$project->dir/smooth";
+            if(!mkdir($smooth_dir))
+            {
+                die("Could not create smooth directory");
+            }
+            $zip_ok = extract_zip_to($location, $smooth_dir);
+            if($zip_ok)
+            {
+                // extract any zips in smooth_dir
+                $zips = glob("$smooth_dir/*.zip");
+                foreach($zips as $zip)
+                {
+                    $zip_ok = extract_zip_to($zip, $smooth_dir);
+                    if(!$zip_ok)
+                    {
+                        break;
+                    }
+                }
+            }
+            if(!$zip_ok)
+            {
+                die("failed to extract files");
+            }
+        }
     }
 
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);

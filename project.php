@@ -13,14 +13,14 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
-include_once($relPath.'smoothread.inc');           // functions for smoothreading
+include_once($relPath.'smoothread.inc'); // sr_echo_commitment_form // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get()
+include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
 
 // If the requestor is not logged in, we refer to them as a "guest".
@@ -1117,7 +1117,7 @@ function do_holds()
         echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#holds'>\n";
     }
 
-    echo "<table style='cellpadding: 3em;'>\n";
+    echo "<table>\n";
     echo "<tr>\n";
     echo "<th></th>\n";
     echo "<th style='padding: 0em 1em'>", _("hold in Waiting"), "</th>\n";
@@ -1468,7 +1468,7 @@ function do_extra_files()
     $n_extra_files = 0;
     foreach ($filenames as $filename)
     {
-        if ( is_an_extra_file($filename) )
+        if ( is_an_extra_file($filename) && !is_dir($filename))
         {
             echo "<li><a href='$project->url/$filename'>$filename</a></li>";
             $n_extra_files += 1;
@@ -1730,7 +1730,6 @@ function echo_download_zip( $link_text, $discriminator )
         {
             $filesize_b += filesize($image_path);
         }
-        $filesize_kb = round( $filesize_b / 1024 );
     }
     else
     {
@@ -1750,14 +1749,14 @@ function echo_download_zip( $link_text, $discriminator )
         }
 
         $url = "$project->url/$p";
-        $filesize_kb = round( filesize( "$project->dir/$p") / 1024 );
+        $filesize_b = filesize("$project->dir/$p");
     }
 
     echo "<li>";
     echo "<a href='$url'>";
     echo $link_text;
     echo "</a>";
-    echo " (", sprintf(_("%d kb"), $filesize_kb), ")";
+    echo_byte_size($filesize_b);
     echo "</li>";
     echo "\n";
 }
@@ -1809,28 +1808,25 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h2 id='smooth_start'>", _('Smooth Reading'), "</h2>";
-    echo "<ul>";
+    echo "<h2 class='thin-heading' id='smooth_start'>", _('Smooth Reading'), "</h2>";
 
     if ( $project->smoothread_deadline == 0 )
     {
-        echo "<li>";
-        echo _('This project has not been made available for Smooth Reading.');
-        echo "</li>";
+        echo "<p class='thin-para'>", _('This project has not been made available for Smooth Reading.'), "</p>";
 
         if ($current_user_can_manage_SR_for_this_project)
         {
+            echo "<ul class='list-head'>";
             echo "<li>";
             $label = _('Make it available for %1$s days (between %2$d and %3$d).');
             sr_echo_time_form($label, 7, 42, 21, false);
             echo "</li>\n";
+            echo "</ul>";
         }
-
     }
     else
     {
         // Project has been made available for SR
-
         if ( $project->is_available_for_smoothreading() )
         {
             $sr_deadline_str = strftime(
@@ -1840,34 +1836,37 @@ function do_smooth_reading()
                 "<b>$sr_deadline_str</b>"
             );
 
-            echo "<li>";
-            echo $sr_sentence;
-            echo "</li>\n";
+            echo "<p class='thin-para'>$sr_sentence</p>";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
+                echo "<ul class='list-head'>";
                 echo "<li>";
                 $label = _('Extend Smooth Reading deadline by %1$s day(s) (between %2$d and %3$d).');
                 sr_echo_time_form($label, 1, 42, 1, true);
                 echo "</li>";
-                echo "<li>";
+                echo "<li class='list-head'>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail'>";
                 echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
                 echo "</li>";
+                echo "</ul>";
             }
+
+            echo "<ul class='list-head'>";
+            echo_smoothreading_options($project);
+            echo "</ul>";
 
             if (!$project->PPer_is_current_user)
             {
-                echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
-
+                echo "<ul class='list-head'>";
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
                 {
-                    echo "<li>";
+                    echo "<li class='list-head'>";
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
-                    echo _("Upload a smooth-read text") ;
+                    echo _("Upload a Smooth Read report") ;
                     echo "</a>";
                     echo "</li>\n";
                     // The upload does not cause the project to change state --
@@ -1875,17 +1874,15 @@ function do_smooth_reading()
 
                     if (!sr_user_is_committed($projectid, $pguser))
                     {
-                        echo "<li>";
-                        echo _('You can volunteer to smoothread this project for the PPer by pressing:');
+                        echo "<li class='list-head'>";
+                        echo _('Volunteer to Smooth Read this project for the PPer by pressing:');
                         sr_echo_commitment_form($projectid);
                         echo "</li>\n";
                     }
                     else
                     {
-                        echo "<li>";
-                        echo _('You have volunteered to smoothread this project.');
-                        echo "<br>";
-                        echo _('If you wish to withdraw from smoothreading it, please press:');
+                        echo "<li class='list-head'>";
+                        echo _('You have volunteered to Smooth Read this project. If you wish to withdraw from Smooth Reading it, please press:');
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";
                     }
@@ -1898,20 +1895,21 @@ function do_smooth_reading()
                     echo _('A registration link is available at the top of this page.');
                     echo "</li>\n";
                 }
+                echo "</ul>";
             }
         }
         else
         {
-            echo "<li>";
-            echo _('The Smooth Reading deadline for this project has passed.');
-            echo "</li>";
+            echo "<p class='thin-para'>", _('The Smooth Reading deadline for this project has passed.'), "</p>\n";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
+                echo "<ul class='list-head'>";
                 echo "<li>";
                 $label = _('Make it available again for %1$s days (between %2$d and %3$d).');
                 sr_echo_time_form($label, 7, 42, 21, false);
                 echo "</li>\n";
+                echo "</ul>";
             }
         }
 
@@ -1920,14 +1918,15 @@ function do_smooth_reading()
 
             $sr_list = sr_get_committed_users($projectid);
 
-            echo "<li>";
+            echo "<ul class='list-head'>";
+            echo "<li class='list-head'>";
             if (count($sr_list) == 0)
             {
-                echo _('No one has volunteered to smoothread this project.');
+                echo _('No one has volunteered to Smooth Read this project.');
             }
             else
             {
-                echo _('The following users have volunteered to smoothread this project:');
+                echo _('The following users have volunteered to Smooth Read this project:');
                 echo "<ul>";
                 foreach ($sr_list as $sr_user)
                 {
@@ -1941,12 +1940,11 @@ function do_smooth_reading()
             echo "</li>\n";
 
             echo "<li>";
-            echo_uploaded_zips('_smooth_done_', _('smoothread'));
+            echo_uploaded_zips('_smooth_done_', _('Smooth Read'));
             echo "</li>";
+            echo "</ul>";
         }
     }
-
-    echo "</ul>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1972,6 +1970,92 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
     $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
     echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<input type='submit' value='", attr_safe(_("Go")), "'>\n";
     echo "</form>\n";
+}
+
+function echo_smoothreading_options($project)
+{
+    $smooth_dir = "$project->dir/smooth";
+    $smooth_url = "$project->url/smooth";
+    echo "<li class='list-head'>", _("Download a Smooth Reading file");
+    echo "<ul>";
+    echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
+
+    // zipped htm(l) file
+    foreach(glob("$smooth_dir/*.zip") as $zip_file)
+    {
+        $base_name = basename($zip_file);
+        $extra_text = ": " . _('HTML with any images');
+        echo_download_item($smooth_url, $zip_file, $base_name, $base_name, $extra_text);
+    }
+
+    // no space after bracket commas
+    echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
+
+    // original uploaded zip file
+    $file_base_name = $project->projectid . "_smooth_avail.zip";
+    $file = "$project->dir/$file_base_name";
+    if(file_exists($file))
+    {
+        echo_download_item($project->url, $file, $file_base_name, "Download all formats");
+    }
+    echo "</ul>";
+    echo "</li>";
+
+    $files = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE);
+    foreach($files as $file)
+    {
+        $file_bases[] = basename($file);
+    }
+
+    // if html files and image dirs were zipped in directories, find them
+    $dirs = glob("$smooth_dir/*", GLOB_ONLYDIR);
+    foreach($dirs as $dir)
+    {
+        $subfiles = glob("$dir/*.{htm,html}", GLOB_BRACE);
+        foreach($subfiles as $subfile)
+        {
+            $file_bases[] = basename($dir) . "/" . basename($subfile);
+        }
+    }
+    // if sr file uploaded before transition to this mode there will not be a smooth directory
+    if($file_bases)
+    {
+        echo "<li class='list-head'>", _("Open in browser (for reading only -- no annotations can be made):");
+        echo "<ul>";
+        foreach($file_bases as $file_base)
+        {
+            $url = "$smooth_url/$file_base";
+            echo "<li>";
+            echo "<a href='$url'>", html_safe($file_base), "</a>";
+            echo "</li>\n";
+        }
+        echo "</ul>";
+        echo "</li>";
+    }
+}
+
+function echo_file_downloads($files, $smooth_url)
+{
+    foreach($files as $file)
+    {
+        // filename with extension
+        $file_base_name = basename($file);
+        echo_download_item($smooth_url, $file, $file_base_name, $file_base_name);
+    }
+}
+
+function echo_download_item($url, $file, $file_base_name, $link_text, $extra_text = "")
+{
+    $url = "$url/$file_base_name";
+    echo "<li>";
+    echo "<a href='$url' download='", attr_safe($file_base_name), "'>", html_safe($link_text), "</a>", html_safe($extra_text);
+    echo_byte_size(filesize($file));
+    echo "</li>\n";
+}
+
+function echo_byte_size($size)
+{
+    echo " (", humanize_bytes($size), ")";
 }
 
 function do_ppv_report()

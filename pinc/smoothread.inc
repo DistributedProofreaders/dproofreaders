@@ -202,7 +202,7 @@ function sr_echo_commitment_form($projectid)
     $next_url = $_SERVER['REQUEST_URI'];
     $button_text = _("Volunteer to SR");
 
-    echo "<form method='post' action='$code_url/tools/change_sr_commitment.php'>";
+    echo "<form method='post' style='display:inline' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='commit'>\n";
     echo "<input type='hidden' name='next_url' value='$next_url'>\n";
@@ -232,7 +232,7 @@ function sr_echo_withdrawal_form($projectid)
     $next_url = $_SERVER['REQUEST_URI'];
     $button_text = _("Withdraw from SR");
 
-    echo "<form method='post' action='$code_url/tools/change_sr_commitment.php'>";
+    echo "<form method='post' style='display:inline' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='withdraw'>\n";
     echo "<input type='hidden' name='next_url' value='$next_url'>\n";
