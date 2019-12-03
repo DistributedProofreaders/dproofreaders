@@ -9,7 +9,7 @@ $initial_text                 = "when she discovered a new suitor, she had\nreco
 $solutions                    = array("when she discovered a new suitor, she had\nrecourse to a Rákshasa, who swallowed that\nunhappy suitor whole[b]. So Natabhrúkutí\nlooked towards the city wall, and she saw\nAja. And at the very first glance, she fell so\nviolently in love with him[c] that she could\n\nb This method of disposing of objectionable suitors\nis unfortunately not available in Europe.\n\nc Who ever loved that loved not at first sight?\nEvery Oriental would side with Shakspeare in\nthis matter: love, in the East, is not love, unless");
 if(!$utf8_site) {
     $parting_message          = "<h3>" . _("Handy Fact") . "</h3>\n" .
-                                    "<p>" . _("Where possible we use the same characters as in the original book, so we use <tt>&eacute;</tt> rather than <tt>[/e]</tt>.  You should only use the bracket notation for characters like <tt>[/r]</tt> that are not available in the drop-down menus at the bottom of the proofreading interface.") . "</p>";
+                                    "<p>" . _("Where possible we use the same characters as in the original book, so we use <tt>&eacute;</tt> rather than <tt>[/e]</tt>. You should only use the bracket notation for characters like <tt>[/r]</tt> that are not available in the character picker at the bottom of the proofreading interface.") . "</p>";
 }
 
 
