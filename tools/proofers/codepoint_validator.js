@@ -91,18 +91,43 @@ $(function () {
         "v": "\u032C", // caron
     };
 
+    var ligatures = {
+        "ae": "\u00e6",
+        "AE": "\u00c6",
+        "oe": "\u0153",
+        "OE": "\u0152",
+    };
+
     $(textArea).on("input", function() {
+        // if text changed and character before caret is ]
+        // (i.e. just inserted or pasted ] or deleted following character)
+        // check for markup like [..] for ligature or diacritical
+        // i0, i1, i3 point to these characters
         var text = textArea.value;
         var startPos = textArea.selectionStart;
-        if(text[startPos - 1] != "]") {
+        var i0, i1, i3, uchar;
+
+        function substitute() {
+            // replace markup with character and mve caret back 3 places
+            textArea.value = text.slice(0, i0) + uchar + text.slice(startPos);
+            textArea.setSelectionRange(i1, i1);
+        }
+
+        i3 = startPos - 1;
+        if(text[i3] != "]") {
             // if out of range would get ""
             return;
         }
-        var begin = startPos - 4;
-        if(text[begin] === "[") {
-            let p1 = text[startPos - 3];
+        i0 = startPos - 4;
+        if(text[i0] === "[") {
+            i1 = startPos - 3;
+            uchar = ligatures[text.slice(i1, i3)];
+            if(uchar) {
+                substitute();
+                return;
+            }
+            let p1 = text[i1];
             let p2 = text[startPos - 2];
-            var uchar;
             var code = above[p1];
             if(code) {
                 uchar = p2 + code;
@@ -119,9 +144,7 @@ $(function () {
             // will remain so need to test for bad chars
             badPattern.lastIndex = 0;
             if(!badPattern.test(uchar)) {
-                textArea.value = text.slice(0, begin) + uchar + text.slice(startPos);
-                begin += 1;
-                textArea.setSelectionRange(begin, begin);
+                substitute();
             }
         }
     });
