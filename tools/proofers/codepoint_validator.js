@@ -104,53 +104,56 @@ $(function () {
     };
 
     $(textArea).on("input", function() {
-        // if text changed and character before caret is ]
-        // (i.e. just inserted or pasted ] or deleted following character)
-        // check for markup like [..] for ligature or diacritical
-        // i0, i1, i3 point to these characters
-        var text = textArea.value;
-        var startPos = textArea.selectionStart;
-        var i0, i1, i3, uchar;
+        // Detect if the user has input one of the diacritical markups [..]
+        // and convert it to a Unicode codepoint. If the codepoint is not
+        // valid for the project, leave it as the markup. This also converts
+        // a few common ligatures to their Unicode codepoints.
 
-        function substitute() {
-            // replace markup with character and mve caret back 3 places
-            textArea.value = text.slice(0, i0) + uchar + text.slice(startPos);
-            textArea.setSelectionRange(i1, i1);
+        // This event fires on every input into the textarea, but only
+        // takes action if the last character entered is a ].
+        var text = textArea.value;
+        var endIndex = textArea.selectionStart;
+        var char0Index, char1Index, char3Index, replaceChar;
+
+        function maybeSubstitute() {
+            // if replaceChar does not contain any disallowed characters use it
+            // this uses the local variables of the containing function
+            badPattern.lastIndex = 0;
+            if(!badPattern.test(replaceChar)) {
+                // replace markup with character and move caret back 3 places
+                textArea.value = text.slice(0, char0Index) + replaceChar + text.slice(endIndex);
+                textArea.setSelectionRange(char1Index, char1Index);
+            }
         }
 
-        i3 = startPos - 1;
-        if(text[i3] != "]") {
+        char3Index = endIndex - 1;
+        if(text[char3Index] != "]") {
             // if out of range would get ""
             return;
         }
-        i0 = startPos - 4;
-        if(text[i0] === "[") {
-            i1 = startPos - 3;
-            uchar = ligatures[text.slice(i1, i3)];
-            if(uchar) {
-                substitute();
+        char0Index = endIndex - 4;
+        if(text[char0Index] === "[") {
+            char1Index = endIndex - 3;
+            replaceChar = ligatures[text.slice(char1Index, char3Index)];
+            if(replaceChar) {
+                maybeSubstitute();
                 return;
             }
-            let p1 = text[i1];
-            let p2 = text[startPos - 2];
-            var code = above[p1];
+            let char1 = text[char1Index];
+            let char2 = text[endIndex - 2];
+            var code = above[char1];
             if(code) {
-                uchar = p2 + code;
+                replaceChar = char2 + code;
             } else {
-                code = below[p2];
+                code = below[char2];
                 if(code) {
-                    uchar = p1 + code;
+                    replaceChar = char1 + code;
                 } else {
                     return;
                 }
             }
-            uchar = uchar.normalize("NFC");
-            // if not changed then original good and (possibly) bad combining diacritical code
-            // will remain so need to test for bad chars
-            badPattern.lastIndex = 0;
-            if(!badPattern.test(uchar)) {
-                substitute();
-            }
+            replaceChar = replaceChar.normalize("NFC");
+            maybeSubstitute();
         }
     });
 });
