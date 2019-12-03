@@ -77,7 +77,10 @@ $(function () {
         "~": "\u0303", // tilde
         ",": "\u0327", // cedilla
         "v": "\u030C", // caron
+        "*": "\u030A", // ring
+        "(": "\u0311", // inverted breve
     };
+
     var below = {
         "=": "\u0331", // macron
         ":": "\u0324", // diaeresis
@@ -89,6 +92,8 @@ $(function () {
         "~": "\u0330", // tilde
         ",": "\u0327", // cedilla
         "v": "\u032C", // caron
+        "*": "\u0325", // ring
+        "(": "\u032F", // inverted breve
     };
 
     var ligatures = {
