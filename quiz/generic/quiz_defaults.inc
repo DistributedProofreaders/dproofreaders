@@ -62,7 +62,7 @@ if(!$utf8_site)
 {
     $messages["P_accentbracket"] = array(
         "message_title" => _("Accent"),
-        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the drop-down menus below, labelled \"A\" \"E\" \"I\" \"O\" \"U\" \"+\".  Only use brackets, such as <tt>['n]</tt>, when it is not available as a single character."),
+        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the character picker below. Only use brackets, such as <tt>['n]</tt>, when it is not available as a single character."),
         "guideline" => "a_chars"
     );
     $messages["P_oe"] = array(
@@ -85,12 +85,12 @@ else
 {
     $messages["P_accentbracket"] = array(
         "message_title" => _("Accent"),
-        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the drop-down menus below, labelled \"A\" \"E\" \"I\" \"O\" \"U\" \"+\"."),
+        "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the character picker below."),
         "guideline" => "a_chars"
     );
     $messages["P_oe"] = array(
         "message_title" => _("Ligature"),
-        "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <tt>oe</tt> or <tt>[oe]</tt>.  You can insert the symbol using the \"O\" drop-down menu below."),
+        "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <tt>oe</tt> or <tt>[oe]</tt>. You can insert the symbol using the character picker below."),
         "guideline" => "a_chars"
     );
     $messages["P_macron"] = array(
@@ -102,12 +102,12 @@ else
 
 $messages["P_aebracket"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'ae' ligature (<tt>&aelig;</tt>) using the symbol directly; brackets are not necessary for this character.  You can insert the symbol using the \"A\" drop-down menu below."),
+    "message_body" => _("Proofread the 'ae' ligature (<tt>&aelig;</tt>) using the symbol directly; brackets are not necessary for this character. You can insert the symbol using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_ae"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'ae' ligature (&aelig;) using the symbol directly, not as <tt>ae</tt> or <tt>[ae]</tt>.  You can insert the symbol using the \"A\" drop-down menu below."),
+    "message_body" => _("Proofread the 'ae' ligature (&aelig;) using the symbol directly, not as <tt>ae</tt> or <tt>[ae]</tt>. You can insert the symbol using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_oelig"] = array(

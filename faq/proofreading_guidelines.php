@@ -844,7 +844,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p>Note that when some of these marks appear on some characters (mainly vowels) our standard
    Latin-1 character set already includes that character with the diacritical mark. <b>In those
    cases, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
-   drop-down lists in the proofreading interface.</b>
+   character picker in the proofreading interface.</b>
 </p>
 <!-- END RR -->
 
@@ -2163,7 +2163,7 @@ If you use one of these, be sure to insert only Latin-1 characters (those listed
   <li>You can use the Character Map program
      (Start: Run: charmap) to select an individual letter, and then cut &amp; paste.
   </li>
-  <li>The dropdown menus in the proofreading interface.
+  <li>The character picker in the proofreading interface.
   </li>
   <li>Or you can type the Alt+NumberPad shortcut codes listed below for these characters.
           This is faster than using cut &amp; paste, once you get used to the codes.
@@ -2369,7 +2369,7 @@ If you use one of these, be sure to insert only Latin-1 characters (those listed
       pane. Ensure that "Show input menu in menu bar" is checked. In the spreadsheet view, check the box
       for "Keyboard Viewer" in addition to any input locales you use.
   </li>
-  <li>The dropdown menus in the proofreading interface.
+  <li>The character picker in the proofreading interface.
   </li>
   <li>Or you can type the Apple Opt- shortcut codes list below for these characters.
       <br>This is a lot faster than using cut &amp; paste, once you get used to the codes.
@@ -2558,7 +2558,7 @@ If you use one of these, be sure to insert only Latin-1 characters (those listed
    Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
 </p>
-<p>&Dagger;&nbsp;Note: No equivalent shortcut; use drop-down menus if needed.
+<p>&Dagger;&nbsp;Note: No equivalent shortcut; use the character picker if needed.
 </p>
 <p class="backtotop"><a href="#top">Back to top</a></p>
 

@@ -2,7 +2,7 @@
 
 <p>There are several special characters in these works. So far:<br>
 <br>
-The eth (/) and thorn (/) are found in the drop-down boxes.<br>
+The eth (/) and thorn (/) are found in the character picker.<br>
 [gh] for the yogh and [Gh] for the capital yogh (it looks like a three),<br>
 [l~l] for ll with a tilde through them,<br>
 [h-] for the h with a line through the top,<br>

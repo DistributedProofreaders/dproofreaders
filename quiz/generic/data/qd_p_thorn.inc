@@ -58,7 +58,7 @@ if($utf8_site) {
 }
 $messages["thorn"] = array(
     "message_title" => _("Thorn incorrectly proofread"),
-    "message_body" => _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts.  These characters are available in the \"+\" drop-down menu at the bottom of the screen."),
+    "message_body" => _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts. These characters are available in the character picker at the bottom of the screen."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url),
 );
 $messages["thorncase"] = array(
