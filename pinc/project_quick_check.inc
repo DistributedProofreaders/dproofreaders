@@ -309,8 +309,6 @@ function _test_project_for_bad_bytes($projectid)
         return NULL;
     }
 
-    global $unanchored_bad_bytes_regex;
-
     $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
     $details_for_this_project = "
         <p><a href='$page_details_url'>Page Details</a></p>
@@ -330,7 +328,7 @@ function _test_project_for_bad_bytes($projectid)
     $n_bad_pages = 0;
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
-        $occurrences = find_bad_byte_sequences_in_text($text);
+        $occurrences = find_bad_byte_sequences_in_text($text, $projectid);
 
         if (count($occurrences) == 0)
         {
@@ -406,8 +404,8 @@ function tds_for_bad_bytes($raw)
     }
     else
     {
-        $hex = string_to_hex($raw);
-        $tds .= "<td class='mono'>$hex</td>";
+        $hex = utf8_chr_to_hex($raw);
+        $tds .= "<td>$hex</td>";
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
