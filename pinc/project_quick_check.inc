@@ -330,6 +330,7 @@ function _test_project_for_bad_bytes($projectid)
     $n_bad_pages = 0;
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
+        $round_num = get_round_num_from_proofers($proofers);
         $occurrences = find_bad_byte_sequences_in_text($text);
 
         if (count($occurrences) == 0)
@@ -350,10 +351,19 @@ function _test_project_for_bad_bytes($projectid)
             {
                 $rowspan = count($occurrences);
                 $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
-                $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0";
+                $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
                 $details_for_this_page = "<tr>\n";
                 $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>ocr</a></td>\n";
+                if($round_num == 0)
+                {
+                    $round_name = 'OCR';
+                }
+                else
+                {
+                    $round = get_Round_for_round_number($round_num);
+                    $round_name = $round->id;
+                }
+                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
             }
             else
             {
@@ -386,6 +396,21 @@ function _test_project_for_bad_bytes($projectid)
     }
 
     return $r;
+}
+
+// We can calculate what round number a page text was selected from by
+// the number of proofers that has touched it.
+function get_round_num_from_proofers($proofers)
+{
+    $round_num = 0;
+    foreach($proofers as $proofer)
+    {
+        if($proofer == '')
+            break;
+        $round_num++;
+    }
+
+    return $round_num;
 }
 
 function tds_for_bad_bytes($raw)

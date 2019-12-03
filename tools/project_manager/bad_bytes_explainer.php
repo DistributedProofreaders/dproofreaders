@@ -27,13 +27,8 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
     </li>
 
     <li><b>Text</b>:
-        The link will take you to the OCR text,
-        regardless of the round from which the page-text was taken.
-        To see the text from subsequent rounds,
-        <!--
-        If the bad bytes were introduced in proofing rounds,
-        -->
-        you will need to increment the round_num= parameter in the URL.
+        The link will take you to the text for the round where
+        page-text was taken and the bad byte-sequences were found.
     </li>
 
     <li><b>#</b>:
