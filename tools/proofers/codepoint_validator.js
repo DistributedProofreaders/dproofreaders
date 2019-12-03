@@ -35,15 +35,14 @@ $(function () {
     });
 
     var badPattern = new RegExp("[^" + charClass + "]", "ug");
-    var badPattern1 = new RegExp("[^" + charClass + "]", "u");
-
     var textArea = document.getElementById("text_data");
 
     $(".check_button").click(function(event) {
         var text = textArea.value;
         text = text.normalize("NFC");
         textArea.value = text;
-        if(!badPattern1.test(text)) {
+        badPattern.lastIndex = 0;
+        if(!badPattern.test(text)) {
             // no bad characters found
             return;
         }
@@ -118,7 +117,8 @@ $(function () {
             uchar = uchar.normalize("NFC");
             // if not changed then original good and (possibly) bad combining diacritical code
             // will remain so need to test for bad chars
-            if(!badPattern1.test(uchar)) {
+            badPattern.lastIndex = 0;
+            if(!badPattern.test(uchar)) {
                 textArea.value = text.slice(0, begin) + uchar + text.slice(startPos);
                 begin += 1;
                 textArea.setSelectionRange(begin, begin);
