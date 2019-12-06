@@ -48,11 +48,11 @@ function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
 $subscribable_project_events = array(
     'round_available' => _("Project becomes available in a round"),
     'round_complete'  => _("Project finishes a round"),
-    'pp_enter'        => _("Project enters PP stage"),
-    'sr_available'    => _("Project becomes available for smooth-reading"),
-    'sr_reported'     => _("User has uploaded a smooth-reading report"),
-    'sr_complete'     => _("Project finishes smooth-reading"),
-    'ppv_enter'       => _("Project enters PPV stage"),
+    'pp_enter'        => _("Project enters Post-Processing stage"),
+    'sr_available'    => _("Project becomes available for Smooth Reading"),
+    'sr_reported'     => _("User has uploaded a Smooth Reading report"),
+    'sr_complete'     => _("Project finishes Smooth Reading"),
+    'ppv_enter'       => _("Project enters Post-Processing Verification stage"),
     'posted'          => _("Project posted to Project Gutenberg"),
 );
 
@@ -180,17 +180,17 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
 
         case 'sr_available':
             $msg_body .=
-                _("This project has become available for smooth-reading.");
+                _("This project has become available for Smooth Reading.");
             break;
 
         case 'sr_reported':
             $msg_body .=
-                _("A new smooth-reading report has been uploaded.");
+                _("A new Smooth Reading report has been uploaded.");
             break;
 
         case 'sr_complete':
             $msg_body .=
-                _("This project has finished smooth-reading.");
+                _("This project has finished Smooth Reading.");
             break;
 
         case 'ppv_enter':

@@ -1180,7 +1180,7 @@ function do_history()
         "creation" => _("creation"),
         "deletion" => _("deletion"),
         "edit" => _("edit"),
-        "smooth-reading" => _("smoothreading"),
+        "smooth-reading" => _("smooth reading"),
         "transition" => _("transition"),
         "transition(s)" => _("transition(s)"),
         "add_holds" => _("add hold(s)"),
