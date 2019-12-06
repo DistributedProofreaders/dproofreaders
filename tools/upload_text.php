@@ -119,8 +119,8 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
 }
 else if ($stage == 'smooth_avail')
 {
-    $title = _("Upload file for smooth reading");
-    $intro_blurb = _("This page allows you to upload a fully post-processed file for smooth reading. Uploading another version will overwrite the previously uploaded file.");
+    $title = _("Upload file for Smooth Reading");
+    $intro_blurb = _("This page allows you to upload a fully post-processed file for Smooth Reading. Uploading another version will overwrite the previously uploaded file.");
     $submit_button = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
@@ -427,8 +427,8 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
         $project->ensure_topic();
         topic_add_post(
             $project->topic_id,
-            "Project made available for smooth-reading",
-            "The project has just been made available for smooth-reading for $days days."
+            "Project made available for Smooth Reading",
+            "The project has just been made available for Smooth Reading for $days days."
                 . "\n\n"
                 . "(This post is automatically generated.)",
             '[Smooth Reading Monitor]',

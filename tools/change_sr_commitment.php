@@ -38,7 +38,7 @@ case "commit":
 case "withdraw":
     sr_withdraw_commitment($projectid, $pguser);
     $title = _("Withdraw from SR");
-    $body = sprintf(_("%1\$s, you have withdrawn from smoothreading project %2\$s."),
+    $body = sprintf(_("%1\$s, you have withdrawn from Smooth Reading project %2\$s."),
         $pguser, $projectid);
     break;
 }
