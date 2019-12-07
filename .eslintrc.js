@@ -13,6 +13,7 @@ module.exports = {
     },
     rules: {
         semi: ["error", "always"],
+        "no-use-before-define": "error",
         "indent": ["warn", 4],
         'brace-style': ['warn', '1tbs'],
         "space-before-blocks": "warn",
