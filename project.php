@@ -2001,6 +2001,7 @@ function echo_smoothreading_options($project)
     echo "</ul>";
     echo "</li>";
 
+    $file_bases = [];
     $files = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE);
     foreach($files as $file)
     {
