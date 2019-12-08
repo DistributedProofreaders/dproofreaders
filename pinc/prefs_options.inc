@@ -1,4 +1,6 @@
 <?php
+include_once($relPath."misc.inc"); // array_get()
+
 define( 'BROWSER_DEFAULT_STR', _("Browser default") );
 
 # The return values from get_available_proofreading_font_faces() and
@@ -60,7 +62,11 @@ function get_user_proofreading_font()
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
 
-    if ( $userP['i_layout']==1 )   // "vertical"
+    if( !$userP ) {
+        $font_size_i = 0;
+        $font_style_i = 0;
+    }
+    elseif ( $userP['i_layout']==1 )   // "vertical"
     {
         $font_size_i = $userP['v_fnts'];
         $font_style_i = $userP['v_fntf'];
@@ -71,8 +77,8 @@ function get_user_proofreading_font()
         $font_style_i = $userP['h_fntf'];
     }
 
-    $font_size = $proofreading_font_sizes[$font_size_i];
-    $font_style = $proofreading_font_faces[$font_style_i];
+    $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
+    $font_style = array_get($proofreading_font_faces, $font_style_i, '');
 
     return array($font_style, $font_size);
 }
