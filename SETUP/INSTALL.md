@@ -27,7 +27,14 @@ Ubuntu system package names.
 * zip - php-zip
 
 ### MySQL
-MySQL version 5.5 or later is recommended.
+MySQL version 5.6.6 or later is recommended with `innodb_file_per_table=ON`
+and using InnoDB as the default engine (which are the defaults for that
+version and later). Non-project tables will be created with the default engine
+and InnoDB tables are easier to manage in their own files.
+
+Version 5.5 will also work but consider setting your default engine to MyISAM
+rather than have all of the InnoDB tables created in your system tablespace.
+
 Versions below 5.5, down to 5.1, may work but are untested.
 
 MariaDB version 5.5 and later should also work but has not been tested.

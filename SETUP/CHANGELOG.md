@@ -8,6 +8,9 @@ see the git history.
 Scripts supporting this upgrade are in `SETUP/upgrade/13`
 
 * Updated minimum PHP version to 7.0 (cpeel)
+* Create non-project database tables using default engine; for
+  MySQL 5.5 and higher that is InnoDB. Project tables are still created
+  using the MyISAM engine (cpeel)
 
 
 ## R201903
