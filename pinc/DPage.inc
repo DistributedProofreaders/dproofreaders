@@ -26,6 +26,15 @@ function project_allow_pages( $projectid )
         ";
     }
 
+    // While the rest of the DP tables use the MySQL default engine type,
+    // usually InnoDB with MySQL 5.5 and later, we still explicitly create
+    // project tables as MyISAM. This is primarily because InnoDB versions of
+    // project tables are often 3x the size of the MyISAM versions. If you opt
+    // to use InnoDB, consider using the ROW_FORMAT=COMPRESSED option which
+    // makes project tables only 2x the size of the MyISAM versions, i.e.
+    //     $engine = "ENGINE=InnoDB ROW_FORMAT=COMPRESSED";
+    $engine = "ENGINE=MyISAM";
+
     $res = mysqli_query(DPDatabase::get_connection(), "
         CREATE TABLE $projectid
         (
@@ -43,7 +52,7 @@ function project_allow_pages( $projectid )
                 'abbreviation', 'division', 'epigraph', 'footnote', 'illustration', 'letter', 'list', 'math', 'poetry', 'sidenote', 'verse', 'table',
                 'appendix', 'afterword', 'biblio', 'colophon', 'endnote', 'epilogue', 'index'
                 ) NOT NULL default ''
-        ) ENGINE = MYISAM
+        ) $engine
     ");
     return ( $res ? '' : mysqli_error(DPDatabase::get_connection()) );
 }
