@@ -92,7 +92,8 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
 {
     if($title)
     {
-        echo "<h2>$title</h2>";
+        $slug = utf8_url_slug($title);
+        echo "<h2 id='$slug'>$title</h2>";
         $encoded_name = urlencode($glyphset->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
         $set_attr = $set !== 'default' ? ("&amp;set=" . urlencode($set)) : "";
@@ -139,10 +140,10 @@ function output_pickerset($pickerset, $all_codepoints)
         echo "</table>";
     }
     $all_characters = convert_codepoint_ranges_to_characters($all_codepoints);
-    if(count($all_characters) != count(array_unique($picker_characters)))
+    $remainder = array_diff($all_characters, array_unique($picker_characters));
+    if(count($all_characters) != count(array_unique($picker_characters)) && $remainder)
     {
         echo "<h3>" . _("Codepoints not in picker") . "</h3>";
-        $remainder = array_diff($all_characters, array_unique($picker_characters));
         echo "<table class='basic'>";
         echo "<tr>";
         output_codepoints_slice($remainder);
