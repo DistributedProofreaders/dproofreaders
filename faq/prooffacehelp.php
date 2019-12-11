@@ -670,16 +670,12 @@ Proofreading Guidelines for suggestions).
 
 <p>
 As an alternate option, the Proofreading interfaces have a tiled character
-picker section. Hovering over a character will show an enlarged view of it
-in the box on the left and a tooltip text will appear describing the
-character. Clicking on a character will insert it into the text.
-</p>
-
-<p>
-The top row shows the available character categories. The ones labeled
-A,E,I,O,U contain various accented versions, upper and lower case, of
-those respective characters. The one labeled "+" contains other special
-symbols, and accented versions of some consonants like Y, C, D, N etc.
+picker. At the top of the picker is a row of menu tiles. Hovering over a menu
+tile will show a tooltip containing a short description of what characters
+that menu contains. Clicking a menu tile will show a grid of characters below
+it. Hovering over a character will show an enlarged view of it in the box on
+the left and a tooltip text will appear describing the character. Clicking
+on a character will insert it into the text.
 </p>
 
 

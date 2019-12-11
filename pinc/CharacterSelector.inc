@@ -90,31 +90,31 @@ class CharacterSelector
             [
                 [
                     "code" => "A",
-                    "title" => "A",
+                    "title" => _("A accents"),
                     "upper" => [0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6],
                     "lower" => [0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6],
                 ],
                 [
                     "code" => "E",
-                    "title" => "E",
+                    "title" => _("E accents"),
                     "upper" => [200, 201, 202, 203],
                     "lower" => [232, 233, 234, 235],
                 ],
                 [
                     "code" => "I",
-                    "title" => "I",
+                    "title" => _("I accents"),
                     "upper" => [204, 205, 206, 207],
                     "lower" => [236, 237, 238, 239],
                 ],
                 [
                     "code" => "O",
-                    "title" => "O",
+                    "title" => _("O accents"),
                     "upper" => [210, 211, 212, 213, 214, 216],
                     "lower" => [242, 243, 244, 245, 246, 248],
                 ],
                 [
                     "code" => "U",
-                    "title" => "U",
+                    "title" => _("U accents"),
                     "upper" => [217, 218, 219, 220],
                     "lower" => [249, 250, 251, 252],
                 ],
