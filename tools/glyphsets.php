@@ -100,6 +100,8 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
         echo "<p><a href='?glyphset=$encoded_name$font_attr$set_attr'>" . _("View glyphset details") . "</a></p>";
     }
 
+    echo "<p>" . _("Below are all the glyphs with their Unicode codepoints that are available within this Glyphset. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
+
     output_codepoints_table($glyphset->codepoints);
 
     if(!$title)
@@ -118,6 +120,7 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
 function output_pickerset($pickerset, $all_codepoints)
 {
     echo "<h2>" . _("Character Picker Sets") . "</h2>";
+    echo "<p>" . _("The following groupings represent sets of glyphs available in the character picker within the proofreading interface for projects using this glyphset. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
     $set = $pickerset->get_subsets();
     $picker_characters = [];
     foreach($set as $menu => $coderows)
