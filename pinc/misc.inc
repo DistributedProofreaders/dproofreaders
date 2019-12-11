@@ -340,7 +340,7 @@ function html_safe($string, $flags=ENT_QUOTES)
     {
         $charset = ini_get("default_charset");
     }
-    return htmlspecialchars($string, $flags, $charset);
+    return htmlspecialchars($string, $flags, $charset, false);
 }
 
 // -----------------------------------------------------------------------------

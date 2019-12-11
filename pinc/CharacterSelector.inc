@@ -6,10 +6,19 @@ class CharacterSelector
     {
         global $utf8_site;
 
+        $mru =
+        [
+            "code" => "&#x1F550;",
+            "title" => _("Most recently used"),
+            "upper" => [],
+            "lower" => [],
+        ];
+
         if($utf8_site)
         {
             $this->picker_set =
             [
+                $mru,
                 [
                     "code" => "A",
                     "title" => "A",
@@ -88,6 +97,7 @@ class CharacterSelector
         {
             $this->picker_set =
             [
+                $mru,
                 [
                     "code" => "A",
                     "title" => "A",
@@ -144,7 +154,7 @@ class CharacterSelector
         {
             $code = maybe_utf8_decode($picker["code"]);
             $safe_code = bin2hex($code);
-            $title = maybe_utf8_decode($picker['title']);
+            $title = attr_safe(maybe_utf8_decode($picker['title']));
             $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
             $row_string .= "<div class='_$safe_code key-block'>\n";
             $row_string .= $this->draw_row($picker["upper"]);
