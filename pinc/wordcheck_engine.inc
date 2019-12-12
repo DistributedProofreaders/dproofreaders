@@ -855,6 +855,8 @@ function get_site_possible_bad_word_lists()
 //   $pattern - regex that files must match to be included
 //              in the returned array. If blank all files
 //              will be returned.
+//   $urlbase - if TRUE files will be turned as a URL,
+//              if FALSE absolute filesystem paths are returned
 //
 // Returns an associative array of words ifiles in the site's words
 // with their corresponding URL
@@ -862,28 +864,30 @@ function get_site_possible_bad_word_lists()
 //
 // Note: 'empty' files (2 bytes in size or smaller) are not returned
 // regardless of the pattern specified
-function get_site_word_files($pattern="")
+function get_site_word_files($pattern="", $urlbase=TRUE)
 {
     global $dyn_dir;
     global $dyn_url;
 
-    $wordLists=array();
+    if($urlbase)
+        $base = $dyn_url;
+    else
+        $base = $dyn_dir;
+
+    $wordLists = [];
 
     $wordsDir="$dyn_dir/words";
     if(is_dir($wordsDir)) {
-       if($dirHandle=@opendir($wordsDir)) {
-          while(($filename = readdir($dirHandle)) !== false) {
-             // skip files that don't match the pattern
-             if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
+        foreach(scandir($wordsDir) as $filename) {
+            // skip files that don't match the pattern
+            if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
 
-             // skip files that are only two bytes or smaller
-             // as these usually contain just \r and/or \n
-             if(filesize("$wordsDir/$filename")<=2) continue;
+            // skip files that are only two bytes or smaller
+            // as these usually contain just \r and/or \n
+            if(filesize("$wordsDir/$filename")<=2) continue;
 
-             $wordLists["$wordsDir/$filename"]="$dyn_url/words/$filename";
-          }
-       closedir($dirHandle);
-       }
+            $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
+        }
     }
 
     // sort the list before returning
