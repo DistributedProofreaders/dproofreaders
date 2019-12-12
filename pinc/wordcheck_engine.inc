@@ -6,18 +6,16 @@ include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains, array_get
 include_once($relPath.'unicode.inc');
 
-// regex of word characters
-// This is used when splitting a text into words.
-$word_characters = "\w";
-
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
+// and tools/proofers/codepoint_validator.js
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = "[a-zA-Z]";    // pattern for: markable base character
-$mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
+$base = "\w+";    // pattern for: markable base character
+$mark = '[=:.`\\\\\'/v)(~,^\\\\\*]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
-$char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
+// This is used when splitting a text into words.
+$char_pattern = "(?:\w|$bracketed_character_pattern)";
 $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
