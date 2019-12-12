@@ -117,8 +117,6 @@ $basic_latin->codepoints = [
     'U+00A1-U+00AC',
     'U+00AE-U+00FF',
     # codepoints that map to Windows-1252
-    'U+2020', # dagger
-    'U+2021', # double dagger
     'U+0152', # OE ligature
     'U+0153', # oe ligature
     'U+0160', # [vS]
@@ -152,8 +150,8 @@ $basic_latin_pickerset->add_subset("!", [
     [ 'U+00a1', 'U+00bf', 'U+003a', 'U+003b', 'U+0040', 'U+0027', 'U+00ab', 'U+00bb', 'U+2039', 'U+203A', 'U+007b', 'U+007d', 'U+002f', 'U+005e', 'U+002d' ],
 ], _("Punctuation"));
 $basic_latin_pickerset->add_subset(utf8_chr("U+00b6"), [
-    [ 'U+00b6', 'U+2020', 'U+00b7', 'U+00b0', 'U+007c', 'U+00a6', 'U+00b4', 'U+00a2-U+00a5' ],
-    [ 'U+00a7', 'U+2021', 'U+007e', 'U+00b5', 'U+00a9', 'U+00ae', 'U+0060', 'U+005f', 'U+00af', 'U+00a8', 'U+00b8', ],
+    [ 'U+00b6', 'U+00b7', 'U+00b0', 'U+007c', 'U+00a6', 'U+00b4', 'U+00a2-U+00a5' ],
+    [ 'U+00a7', 'U+007e', 'U+00b5', 'U+00a9', 'U+00ae', 'U+0060', 'U+005f', 'U+00af', 'U+00a8', 'U+00b8', ],
 ], _("Symbols"));
 $basic_latin_pickerset->add_subset("1", [
     [ 'U+0030-U+0039', 'U+0023', 'U+0025', 'U+0024' ],
