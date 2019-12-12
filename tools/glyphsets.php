@@ -9,11 +9,17 @@ include_once($relPath."misc.inc"); // array_get()
 $glyphset_name = array_get($_GET, "glyphset", NULL);
 $font = array_get($_REQUEST, "font", NULL);
 $set = array_get($_REQUEST, "set", 'default');
+$projectid = array_get($_REQUEST, "projectid", NULL);
 
-try {
-    $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
-} catch (UnexpectedValueException $e) {
-    $glyphset = NULL;
+$glyphset = NULL;
+
+if(!$projectid)
+{
+    try {
+        $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
+    } catch (UnexpectedValueException $e) {
+        // continue
+    }
 }
 
 $extra_args = [];
@@ -27,12 +33,26 @@ if($glyphset)
     $title = sprintf(_("Glyphset: %s"), $glyphset_name);
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
+    echo "<p><a href='?'>" . _("View all glyphsets") . "</a></p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
     output_glyphset($glyphset, NULL, $font);
     output_pickerset($glyphset->pickerset, $glyphset->codepoints);
+}
+elseif($projectid)
+{
+    $project = new Project($projectid);
+    $title = _("Project Glyphsets");
+    output_header($title, NO_STATSBAR, $extra_args);
+    echo "<h1>$title</h1>";
+    echo "<p>" . sprintf(_("Glyphsets for <b>%s</b>."), $project->nameofwork) . "</p>";
+    $glyphsets = $project->get_glyphsets();
+    foreach($glyphsets as $glyphset)
+    {
+        output_glyphset($glyphset, $glyphset->name, $font);
+    }
 }
 else
 {
