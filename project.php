@@ -551,6 +551,10 @@ function do_project_info_table()
         echo_row_a( _("Word Lists"), $links );
     }
 
+    echo_row_a( _("Glyphsets"),
+        "<a href='tools/glyphsets.php?projectid=$projectid'>" . _("View project's glyphsets") . "</a>",
+        FALSE);
+
     // -------------------------------------------------------------------------
 
     $state = $project->state;
