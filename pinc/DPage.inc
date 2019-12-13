@@ -555,6 +555,9 @@ function get_utf8_to_ascii_codepoints()
             'U+2018', # open curly single quote
             'U+2019', # closing curly single quote
         ],
+        "..." => [
+            'U+2026', # ellipsis
+        ],
         " " => [
             'U+0009', # tab
             'U+00A0', # no-break space
