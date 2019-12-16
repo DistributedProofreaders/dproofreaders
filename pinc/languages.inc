@@ -166,13 +166,31 @@ function get_languages_with_dictionaries() {
 // Return all installed system locales
 function get_installed_system_locales()
 {
+    global $charset;
+
     static $system_locales = array();
     if($system_locales)
         return $system_locales;
 
     exec("locale -a", $system_locales);
 
-    return $system_locales;
+    // if $charset is UTF-8, exclude all non-UTF-8 locales
+    if($charset == 'UTF-8')
+    {
+        $utf8_locales = [];
+        foreach($system_locales as $locale)
+        {
+            if(endswith($locale, '.utf8'))
+            {
+                $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
+            }
+        }
+        return $utf8_locales;
+    }
+    else
+    {
+        return $system_locales;
+    }
 }
 
 // Get a list of all locale translations.
