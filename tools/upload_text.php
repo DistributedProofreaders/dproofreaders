@@ -212,7 +212,6 @@ if (!isset($action) && !$extend)
     echo "<input type='hidden' name='stage' value='$stage'>\n";
     echo "<input type='hidden' name='days' value='$days'>\n";
     echo "<input type='hidden' name='action' value='1'>\n";
-    echo "<input type='hidden' name='MAX_FILE_SIZE' value='25165824'>\n";
 
     echo "<p>" . _("Follow these steps:") . "</p>\n";
     echo "<ol>\n";

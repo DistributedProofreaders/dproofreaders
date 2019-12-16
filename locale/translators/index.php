@@ -424,7 +424,6 @@ function manage_form($locale)
     echo "<form action='$translate_url?func=upload' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='locale' value='$locale'>";
     echo _("Select a PO file to upload:") . " ";
-    echo "<input type='hidden' name='MAX_FILE_SIZE' value='5000000'>";
     echo "<input type='file' name='userfile'><br>\n";
     echo "<input type='submit' value='"
         . attr_safe(_("Upload file")) . "'> ";
