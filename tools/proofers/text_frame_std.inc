@@ -30,6 +30,7 @@ function echo_text_frame_std( $ppage )
     slim_header(_("Text Frame"), $header_args);
     ?>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
+    <div style = 'height: 100vh'>
     <?php
     output_preview_div();
     render_validator(); ?>
@@ -80,6 +81,7 @@ function echo_text_frame_std( $ppage )
         <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="<?php echo attr_safe(_("Original")); ?>" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
       </div> <!-- proofdiv -->
+    </div>
     </form>
     <?php
 }
