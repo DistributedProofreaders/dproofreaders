@@ -3,7 +3,7 @@ include_once($relPath."Project.inc");
 
 function render_validator()
 {
-    $bad_char_message = _("The text contains characters which are not enabled for this project");
+    $bad_char_message = _("The text contains invalid characters <span class='bad-char'>highlighted</span>");
     $quit_text = _("Quit");
     $remove_text = _("Remove bad characters and quit");
     echo <<<END
