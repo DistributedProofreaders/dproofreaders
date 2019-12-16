@@ -11,13 +11,17 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 $projectid = validate_projectID('projectid', @$_GET['projectid']);
+$mru_title = _("Most recently used");
 
 $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/character_selector.js",
         "$code_url/tools/proofers/toolbox.js",
     ],
-    "js_data" => "var projectID = '$projectid';",
+    "js_data" => "
+        var projectID = '$projectid';
+        var mruTitle = '$mru_title'
+    ",
     "body_attributes" => "class='control-frame'",
 ];
 slim_header(_("Control Frame"), $header_args);

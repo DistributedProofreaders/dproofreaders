@@ -6,19 +6,10 @@ class CharacterSelector
     {
         global $utf8_site;
 
-        $mru =
-        [
-            "code" => "&#x1F550;",
-            "title" => _("Most recently used"),
-            "upper" => [],
-            "lower" => [],
-        ];
-
         if($utf8_site)
         {
             $this->picker_set =
             [
-                $mru,
                 [
                     "code" => "A",
                     "title" => "A",
@@ -97,7 +88,6 @@ class CharacterSelector
         {
             $this->picker_set =
             [
-                $mru,
                 [
                     "code" => "A",
                     "title" => "A",

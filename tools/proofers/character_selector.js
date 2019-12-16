@@ -1,4 +1,4 @@
-/*global $ projectID */
+/*global $ projectID mruTitle */
 
 $(function () {
     "use strict";
@@ -61,11 +61,10 @@ $(function () {
     }
 
     function drawMru() {
-        // this duplicates the html defined in CharacterSelector.inc
         var mruUpper = mru.slice(0, mruColumns);
         var mruLower = mru.slice(mruColumns);
-        // this is the selector for mru code
-        $("._26237831463535303b").html(drawRow(mruUpper))
+        $(".mru")
+            .html(drawRow(mruUpper))
             .append(drawRow(mruLower));
     }
 
@@ -95,14 +94,27 @@ $(function () {
         }
     }
 
+    // Draw the MRU selector button and empty block
+    // this duplicates the html code defined in CharacterSelector.inc
+    $("#selector_row").prepend($('<button />', {type: "button", id: 'mru', title: mruTitle})
+        .addClass('selector_button')
+        .text('\u{1f550}')
+    );
+    $("#char-selector").append($('<div />')
+        .addClass('mru key-block')
+    );
+
+    // draw the picker buttons
     drawMru();
+
     // find the code of the first selector button
     var initialCode = $("#selector_row > button")[0].id;
     enableBoard(initialCode);
 
-    $(".selector_button", charSelector).click(function () {
-        enableBoard(this.id);
-    });
+    $("#selector_row")
+        .on("click", ".selector_button", charSelector, function () {
+            enableBoard(this.id);
+        });
 
     // attach handlers to key-block so will respond to dynamically created mru buttons
     $(".key-block", charSelector)
