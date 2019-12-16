@@ -59,7 +59,7 @@ Server MPM:     Prefork
 <tt>locale -a</tt>
 </blockquote>
 
-<p>If a locale isn't listed there, gettext can't use a DP site translation for that locale. Consult your system documentation on how to install system locales. CentOS/Redhat distros install many locales by default whereas for Ubuntu you need to install additional language packages, see the <a href='https://help.ubuntu.com/community/Locale'>Ubuntu locale documentation</a>.
+<p>If a locale isn't listed there, gettext can't use a DP site translation for that locale. Consult your system documentation on how to install system locales. CentOS/Redhat distros install many locales by default whereas for Ubuntu you need to install additional language packages, such as <tt>language-pack-fr</tt>. See the <a href='https://help.ubuntu.com/community/Locale'>Ubuntu locale documentation</a> for more information.
 
 <p>Note that locales can come in various different character sets, eg:</p>
 <ul>
@@ -67,7 +67,7 @@ Server MPM:     Prefork
     <li>en_US.utf8</li>
 </ul>
 
-<p>The DP localization code requires the ISO-8859-1 character set be installed, even if the underlying PO files are in UTF-8. CentOS/Redhat systems install locales with both ISO-8859-1 and UTF-8 character sets by default. Ubuntu systems often don't have the ISO-8859-1 character sets, but you can generate them with <tt>locale-gen</tt>, eg: <tt>locale-gen es_MX</tt>.
+<p>The DP localization code requires the UTF-8 version be installed.</p>
 
 <p>After you install new locales, you <b>must restart your web server</b> for the locales to be usable by the DP code!</p>
 
