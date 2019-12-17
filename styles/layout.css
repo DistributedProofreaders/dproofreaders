@@ -907,7 +907,7 @@ table.search-column tr th {
   flex-direction: column;
 }
 .fixedbox {
-  flex: auto;
+  flex: 0 0 auto;
   background-color: #CDC0B0;
   padding: 2px;
 }
