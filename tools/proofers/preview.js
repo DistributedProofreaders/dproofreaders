@@ -592,6 +592,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
 
         function processLine() {
             var textLine = txtLines[index];
+            // trailing space will have been removed earlier by removeCommentLines()
             if (textLine === "") {
                 newPage = false;
                 if (inNoWrap) {
@@ -647,10 +648,11 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 break;
             // 2 blank lines can introduce a paragraph after heading or subheading,
             // or a section heading or a section without a heading.
-            // if the following line is blank assume it's a section heading,
+            // if it's the last line (when it could be "The End") or the following line is blank
+            // treat is as a section heading,
             // otherwise a paragraph
             case 2:
-                if (txtLines[index + 1] === "") {
+                if ((lines === (index + 1)) || (txtLines[index + 1] === "")) {
                     txt += '<div class="head4">' + textLine + '\n';
                 } else {
                     txt += '<div class="para">' + textLine + '\n';
@@ -1034,6 +1036,9 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     if (styler.allowUnderline) {
         ILTags += "|u";
     }
+    // remove trailing whitespace
+    txt = txt.replace(/\s+$/, "");
+
     // remove lines which are entirely comments to simplify checking
     // where there should be blank lines
     // we need to encode html in these lines. Could encode everything at start
