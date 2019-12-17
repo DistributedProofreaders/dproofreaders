@@ -9,11 +9,17 @@ include_once($relPath."misc.inc"); // array_get()
 $glyphset_name = array_get($_GET, "glyphset", NULL);
 $font = array_get($_REQUEST, "font", NULL);
 $set = array_get($_REQUEST, "set", 'default');
+$projectid = array_get($_REQUEST, "projectid", NULL);
 
-try {
-    $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
-} catch (UnexpectedValueException $e) {
-    $glyphset = NULL;
+$glyphset = NULL;
+
+if(!$projectid)
+{
+    try {
+        $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
+    } catch (UnexpectedValueException $e) {
+        // continue
+    }
 }
 
 $extra_args = [];
@@ -27,12 +33,26 @@ if($glyphset)
     $title = sprintf(_("Glyphset: %s"), $glyphset_name);
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
+    echo "<p><a href='?'>" . _("View all glyphsets") . "</a></p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
     output_glyphset($glyphset, NULL, $font);
     output_pickerset($glyphset->pickerset, $glyphset->codepoints);
+}
+elseif($projectid)
+{
+    $project = new Project($projectid);
+    $title = _("Project Glyphsets");
+    output_header($title, NO_STATSBAR, $extra_args);
+    echo "<h1>$title</h1>";
+    echo "<p>" . sprintf(_("Glyphsets for <b>%s</b>."), $project->nameofwork) . "</p>";
+    $glyphsets = $project->get_glyphsets();
+    foreach($glyphsets as $glyphset)
+    {
+        output_glyphset($glyphset, $glyphset->name, $font);
+    }
 }
 else
 {
@@ -94,12 +114,15 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
 {
     if($title)
     {
-        echo "<h2>$title</h2>";
+        $slug = utf8_url_slug($title);
+        echo "<h2 id='$slug'>$title</h2>";
         $encoded_name = urlencode($glyphset->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
         $set_attr = $set !== 'default' ? ("&amp;set=" . urlencode($set)) : "";
         echo "<p><a href='?glyphset=$encoded_name$font_attr$set_attr'>" . _("View glyphset details") . "</a></p>";
     }
+
+    echo "<p>" . _("Below are all the glyphs with their Unicode codepoints that are available within this Glyphset. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
 
     output_codepoints_table($glyphset->codepoints);
 
@@ -119,6 +142,7 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
 function output_pickerset($pickerset, $all_codepoints)
 {
     echo "<h2>" . _("Character Picker Sets") . "</h2>";
+    echo "<p>" . _("The following groupings represent sets of glyphs available in the character picker within the proofreading interface for projects using this glyphset. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
     $set = $pickerset->get_subsets();
     $picker_characters = [];
     foreach($set as $menu => $coderows)
@@ -141,10 +165,10 @@ function output_pickerset($pickerset, $all_codepoints)
         echo "</table>";
     }
     $all_characters = convert_codepoint_ranges_to_characters($all_codepoints);
-    if(count($all_characters) != count(array_unique($picker_characters)))
+    $remainder = array_diff($all_characters, array_unique($picker_characters));
+    if(count($all_characters) != count(array_unique($picker_characters)) && $remainder)
     {
         echo "<h3>" . _("Codepoints not in picker") . "</h3>";
-        $remainder = array_diff($all_characters, array_unique($picker_characters));
         echo "<table class='basic'>";
         echo "<tr>";
         output_codepoints_slice($remainder);

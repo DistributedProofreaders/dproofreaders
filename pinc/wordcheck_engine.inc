@@ -6,18 +6,16 @@ include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains, array_get
 include_once($relPath.'unicode.inc');
 
-// regex of word characters
-// This is used when splitting a text into words.
-$word_characters = "\w";
-
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
+// and tools/proofers/codepoint_validator.js
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = "[a-zA-Z]";    // pattern for: markable base character
-$mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
+$base = "\w+";    // pattern for: markable base character
+$mark = '[=:.`\\\\\'/v)(~,^\\\\\*]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
-$char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
+// This is used when splitting a text into words.
+$char_pattern = "(?:\w|$bracketed_character_pattern)";
 $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
@@ -857,6 +855,8 @@ function get_site_possible_bad_word_lists()
 //   $pattern - regex that files must match to be included
 //              in the returned array. If blank all files
 //              will be returned.
+//   $urlbase - if TRUE files will be turned as a URL,
+//              if FALSE absolute filesystem paths are returned
 //
 // Returns an associative array of words ifiles in the site's words
 // with their corresponding URL
@@ -864,28 +864,30 @@ function get_site_possible_bad_word_lists()
 //
 // Note: 'empty' files (2 bytes in size or smaller) are not returned
 // regardless of the pattern specified
-function get_site_word_files($pattern="")
+function get_site_word_files($pattern="", $urlbase=TRUE)
 {
     global $dyn_dir;
     global $dyn_url;
 
-    $wordLists=array();
+    if($urlbase)
+        $base = $dyn_url;
+    else
+        $base = $dyn_dir;
+
+    $wordLists = [];
 
     $wordsDir="$dyn_dir/words";
     if(is_dir($wordsDir)) {
-       if($dirHandle=@opendir($wordsDir)) {
-          while(($filename = readdir($dirHandle)) !== false) {
-             // skip files that don't match the pattern
-             if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
+        foreach(scandir($wordsDir) as $filename) {
+            // skip files that don't match the pattern
+            if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
 
-             // skip files that are only two bytes or smaller
-             // as these usually contain just \r and/or \n
-             if(filesize("$wordsDir/$filename")<=2) continue;
+            // skip files that are only two bytes or smaller
+            // as these usually contain just \r and/or \n
+            if(filesize("$wordsDir/$filename")<=2) continue;
 
-             $wordLists["$wordsDir/$filename"]="$dyn_url/words/$filename";
-          }
-       closedir($dirHandle);
-       }
+            $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
+        }
     }
 
     // sort the list before returning

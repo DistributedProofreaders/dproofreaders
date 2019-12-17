@@ -182,7 +182,6 @@ class Project
     {
         return [
             Glyphsets::get_glyphset("Basic Latin"),
-//            Glyphsets::get_glyphset("Extended European Latin"),
         ];
     }
 

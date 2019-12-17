@@ -8,11 +8,20 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'prefs_options.inc');
 
 require_login();
 
+$extra_args = [
+    'css_data' => '
+        .mono {
+            font-family: ' . get_proofreading_font_family_fallback() . ';
+        }
+    ',
+];
+
 $title = _("Add files");
-output_header($title, NO_STATSBAR);
+output_header($title, NO_STATSBAR, $extra_args);
 
 $projectid    = validate_projectID('project', @$_GET['project']);
 $loading_tpnv = (@$_GET['tpnv'] == '1');
