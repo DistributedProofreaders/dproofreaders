@@ -675,7 +675,7 @@ function get_normalize_page_text_changes($text, $projectid)
                 unset($invalid_chars[$char]);
             }
             $whitespace_char_string = implode(", ", $whitespace_char_names);
-            $changes[] = sprintf(_("Following characters will be converted to a space: %s"), $whitespace_char_string);
+            $changes[] = sprintf(_("Whitespace characters will be converted to a space: <span class='mono'>%s</span>"), $whitespace_char_string);
         }
     }
 
@@ -700,7 +700,7 @@ function get_normalize_page_text_changes($text, $projectid)
             if($found_chars)
             {
                 $char_string = implode($found_chars);
-                $changes[] = sprintf(_("Follwing characters will be converted to %s: %s"), $ascii_replace, $char_string);
+                $changes[] = sprintf(_("<span class='mono'>%1\$s</span> will be converted to <span class='mono'>%2\$s</span>"), $char_string, $ascii_replace);
             }
         }
     }
@@ -724,7 +724,7 @@ function get_normalize_page_text_changes($text, $projectid)
             $invalid_char_names[] = $name;
         }
         $invalid_char_string = implode(", ", $invalid_char_names);
-        $changes[] = sprintf(_("Invalid characters found and will be removed: %s"), $invalid_char_string);
+        $changes[] = sprintf(_("Invalid characters will be removed: <span class='mono'>%s</span>"), $invalid_char_string);
     }
 
     return $changes;
