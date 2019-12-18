@@ -233,7 +233,7 @@ function insertTags(tagOpen, tagClose, replace)
     var curPos = startPos + subst.length;
     txtArea.setSelectionRange(curPos, curPos);
     txtArea.focus();
-    $(txtArea).trigger("input");
+    txtArea.dispatchEvent(new Event('input'));
 }
 
 function lc_common(str)

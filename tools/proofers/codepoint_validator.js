@@ -34,15 +34,17 @@ $(function () {
         }
     });
 
-    var badPattern = new RegExp("[^" + charClass + "]", "ug");
+    var badClass = "[^" + charClass + "]";
+    var badPattern = new RegExp(badClass, "ug");
+    var badPattern0 = new RegExp(badClass, "u");
+
     var textArea = document.getElementById("text_data");
 
     $(".check_button").click(function(event) {
         var text = textArea.value;
         text = text.normalize("NFC");
         textArea.value = text;
-        badPattern.lastIndex = 0;
-        if(!badPattern.test(text)) {
+        if(!badPattern0.test(text)) {
             // no bad characters found
             return;
         }
@@ -103,44 +105,41 @@ $(function () {
         "OE": "\u0152",
     };
 
-    $(textArea).on("input", function() {
-        // Detect if the user has input one of the diacritical markups [..]
-        // and convert it to a Unicode codepoint. If the codepoint is not
+    function replaceMarkup() {
+        // Detect if the text contains any diacritical markups [..]
+        // and convert to Unicode codepoints. If the codepoint is not
         // valid for the project, leave it as the markup. This also converts
         // a few common ligatures to their Unicode codepoints.
-
-        // This event fires on every input into the textarea, but only
-        // takes action if the last character entered is a ].
         var text = textArea.value;
-        var endIndex = textArea.selectionStart;
-        var char0Index, char1Index, char3Index, replaceChar;
+        var caretIndex = textArea.selectionStart;
+        var replaceChar;
+        var validMarkup = false;
+        var displacement = 0;
 
-        function maybeSubstitute() {
-            // if replaceChar does not contain any disallowed characters use it
-            // this uses the local variables of the containing function
-            badPattern.lastIndex = 0;
-            if(!badPattern.test(replaceChar)) {
-                // replace markup with character and move caret back 3 places
-                textArea.value = text.slice(0, char0Index) + replaceChar + text.slice(endIndex);
-                textArea.setSelectionRange(char1Index, char1Index);
+        function replacer(match, chars, offset) {
+            function maybeReplace() {
+                if(!badPattern0.test(replaceChar)) {
+                    validMarkup = true;
+                    let caretOffset = caretIndex - offset;
+                    if(caretOffset === 2) {
+                        displacement += 1;
+                    } else if(caretOffset === 3) {
+                        displacement += 2;
+                    } else if(caretOffset >= 4) {
+                        displacement += 3;
+                    }
+                    return replaceChar;
+                } else {
+                    return match;
+                }
             }
-        }
 
-        char3Index = endIndex - 1;
-        if(text[char3Index] != "]") {
-            // if out of range would get ""
-            return;
-        }
-        char0Index = endIndex - 4;
-        if(text[char0Index] === "[") {
-            char1Index = endIndex - 3;
-            replaceChar = ligatures[text.slice(char1Index, char3Index)];
+            replaceChar = ligatures[chars];
             if(replaceChar) {
-                maybeSubstitute();
-                return;
+                return maybeReplace();
             }
-            let char1 = text[char1Index];
-            let char2 = text[endIndex - 2];
+            let char1 = chars[0];
+            let char2 = chars[1];
             var code = above[char1];
             if(code) {
                 replaceChar = char2 + code;
@@ -149,11 +148,24 @@ $(function () {
                 if(code) {
                     replaceChar = char1 + code;
                 } else {
-                    return;
+                    return match;
                 }
             }
             replaceChar = replaceChar.normalize("NFC");
-            maybeSubstitute();
+            return maybeReplace();
         }
-    });
+
+        text = text.replace(/\[(..)\]/gu, replacer);
+        if(validMarkup) {
+            textArea.value = text;
+            caretIndex -= displacement;
+            textArea.setSelectionRange(caretIndex, caretIndex);
+        }
+    }
+
+    // event fires on every input into the textarea
+    $(textArea).on("input", replaceMarkup);
+
+    // also replace on initial load
+    replaceMarkup();
 });
