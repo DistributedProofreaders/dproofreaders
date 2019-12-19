@@ -670,7 +670,7 @@ function is_valid_zip_file(string $file_path, bool $ignore_extension_check = fal
 
     $zip = new ZipArchive();
 
-    $result = $zip->open($file_path, ZipArchive::CHECKCONS);
+    $result = $zip->open($file_path);
 
     if ($result === true) {
         $zip->close();
