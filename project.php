@@ -1960,13 +1960,11 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
     // after the deadline has passed which we should warn about.
     global $code_url, $project;
 
-    echo "<form method='GET' action='$code_url/tools/upload_text.php'>";
+    $action = $extend ? "$code_url/tools/extend_sr.php" : "$code_url/tools/upload_text.php";
+
+    echo "<form method='GET' action='$action'>";
     echo "<input type='hidden' name='project'  value='{$project->projectid}'>\n";
     echo "<input type='hidden' name='stage' value='smooth_avail'>\n";
-    if($extend)
-    {
-        echo "<input type='hidden' name='extend' value='1'>\n";
-    }
     $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
     echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<input type='submit' value='", attr_safe(_("Go")), "'>\n";
     echo "</form>\n";
