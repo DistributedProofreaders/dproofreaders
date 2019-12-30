@@ -11,7 +11,9 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 $projectid = validate_projectID('projectid', @$_GET['projectid']);
-$mru_title = _("Most recently used");
+$mru_title = javascript_safe(_("Most recently used"));
+// TRANSLATORS: This is an abbreviation for "Most recently used"
+$mru_abbreviation = javascript_safe(_("MRU"));
 
 $header_args = [
     "js_files" => [
@@ -20,7 +22,8 @@ $header_args = [
     ],
     "js_data" => "
         var projectID = '$projectid';
-        var mruTitle = '$mru_title'
+        var mruTitle = '$mru_title';
+        var mruAbbrev = '$mru_abbreviation';
     ",
     "body_attributes" => "class='control-frame'",
 ];

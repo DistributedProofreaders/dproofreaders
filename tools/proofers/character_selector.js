@@ -1,4 +1,4 @@
-/*global $ projectID mruTitle */
+/*global $ projectID mruTitle mruAbbrev */
 
 $(function () {
     "use strict";
@@ -98,7 +98,7 @@ $(function () {
     // this duplicates the html code defined in CharacterSelector.inc
     $("#selector_row").prepend($('<button />', {type: "button", id: 'mru', title: mruTitle})
         .addClass('selector_button')
-        .text('\u{1f550}')
+        .text(mruAbbrev)
     );
     $("#char-selector").append($('<div />')
         .addClass('mru key-block')
