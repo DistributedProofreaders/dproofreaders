@@ -126,24 +126,27 @@ If wdiff is not installed this one tool will fail but the rest of
 WordCheck will operate correctly.
 
 ### Install WikiHiero (optional)
-Install it somewhere in server's document hierarchy.
+To enable the hieroglyph transliteration tool, download
+[WikiHiero](http://aoineko.free.fr/) and extract it somewhere in your web
+server's document hierarchy. WikiHiero 0.2.13 needs to be patched with
+`wikihiero-0.2.13.patch` to make it work with PHP 7.0.
 
 For example:
 ```bash
+# Download and extract
 wget http://aoineko.free.fr/wikihiero.zip
-unzip -d wikihiero wikihiero.zip
+unzip -d /var/www/htdocs/wikihiero wikihiero.zip
 rm wikihiero.zip
 
-vim wikihiero/wikihiero.php
-# On line 59, for definition of WH_IMG_DIR,
-# change "$wgScriptPath/extensions/wikihiero/img/"
-# to just "img/"
-
-vim wikihiero/wh_language.php
-# The file begins with three bytes (EF BB BF), which
-# constitute the Unicode Byte Order Mark encoded in UTF-8.
-# Delete those bytes?
+# Patch
+cd /var/www/htdocs/wikihiero
+dos2unix wikihiero.php
+patch -p1 < /path/to/wikihiero-0.2.13.patch
+unix2dos wikihiero.php
 ```
+
+Then set `_WIKIHIERO_DIR` and `_WIKIHIERO_URL` in your `configuration.sh` file
+discussed below.
 
 ### Configure MySQL
 Choose names for various MySQL items:

@@ -5,7 +5,7 @@ include_once($relPath.'slim_header.inc');
 
 require_login();
 
-slim_header_frameset();
+slim_header_frameset(_("Hieroglyphs"));
 ?>
 <frameset rows="*,*">
 <frame name="hierodisplay" src="display.php">
