@@ -125,14 +125,18 @@ symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
 This is not required for aspell 0.60 or higher.
 You need aspell 0.60 if you want to support UTF-8.
 
-### Install wdiff
+### Install optional components
+
+The following components are optional and provide additional functionality.
+
+#### wdiff
 WordCheck uses [wdiff](http://www.gnu.org/software/wdiff/wdiff.html)
 to assist Project Managers in detecting stealth scannos ("Suggestions from
 diff analysis" in `c/tools/project_manager/show_project_stealth_scannos.php`).
-If wdiff is not installed this one tool will fail but the rest of
+If `wdiff` is not installed this one tool will fail but the rest of
 WordCheck will operate correctly.
 
-### Install WikiHiero (optional)
+#### WikiHiero
 To enable the hieroglyph transliteration tool, download
 [WikiHiero](http://aoineko.free.fr/) and extract it somewhere in your web
 server's document hierarchy. WikiHiero 0.2.13 needs to be patched with
@@ -154,6 +158,10 @@ unix2dos wikihiero.php
 
 Then set `_WIKIHIERO_DIR` and `_WIKIHIERO_URL` in your `configuration.sh` file
 discussed below.
+
+#### pngcheck
+Project Quick Check will use `pngcheck` for PNG image validation if it is
+installed.
 
 ### Configure MySQL
 Choose names for various MySQL items:
