@@ -1,0 +1,47 @@
+Common subdirectories: wikihiero.orig/img and wikihiero/img
+diff -u wikihiero.orig/wikihiero.php wikihiero/wikihiero.php
+--- wikihiero.orig/wikihiero.php	2004-04-15 23:19:22.000000000 +0000
++++ wikihiero/wikihiero.php	2019-12-31 04:55:27.148715030 +0000
+@@ -56,7 +56,7 @@
+   define("WH_VER_MED",       2);
+   define("WH_VER_MIN",       12);
+ 
+-  define("WH_IMG_DIR",       "$wgScriptPath/extensions/wikihiero/img/" ); //"img/"); //
++  define("WH_IMG_DIR",       "img/");
+   define("WH_IMG_PRE",       "hiero_");
+   define("WH_IMG_EXT",       "png");
+ 
+@@ -614,7 +614,7 @@
+     {
+       $code = $wh_phonemes[$glyph];
+       if(array_key_exists($code, $wh_files))
+-        return "<img style='margin:".WH_IMG_MARGIN."px;' $option src='".htmlspecialchars(WH_IMG_DIR.WH_IMG_PRE."{$code}.".WH_IMG_EXT)."' title='".htmlspecialchars($code[$glyph])."' alt='".htmlspecialchars($glyph)."' />";
++        return "<img style='margin:".WH_IMG_MARGIN."px;' $option src='".htmlspecialchars(WH_IMG_DIR.WH_IMG_PRE."{$code}.".WH_IMG_EXT)."' title='".htmlspecialchars($code)."' alt='".htmlspecialchars($glyph)."' />";
+       else
+         return "<font title='".htmlspecialchars($code)."'>".htmlspecialchars($glyph)."</font>";
+     }
+@@ -809,7 +809,7 @@
+         $block[$block_id][$item_id] = $hiero[$char];
+         $type = WH_TYPE_END;
+       }
+-      else if(ereg("[*:()]", $hiero[$char]))
++      else if(preg_match("/[*:()]/", $hiero[$char]))
+       {
+           if($type == WH_TYPE_GLYPH || $type == WH_TYPE_CODE)
+           {
+@@ -897,7 +897,7 @@
+         $temp = "";
+         foreach($code as $t)
+         {
+-          if(ereg("[*:!()]", $t[0]))
++          if(preg_match("/[*:!()]/", $t[0]))
+             $temp .= "&";
+           else
+             $temp .= $t;
+@@ -1002,4 +1002,4 @@
+ 		$html .= "Hieroglyph credit: S. Rosmorduc, G. Watson, J. Hirst (under GFDL).\n";
+     return $html;
+   }
+-?>
+\ No newline at end of file
++?>

@@ -331,13 +331,13 @@ _ASPELL_TEMP_DIR=/tmp/sp_check
 
 # ----------------------------------------------------------------------
 
-_WIKIHIERO_DIR=$base_dir/wikihiero
-_WIKIHIERO_URL=$base_url/wikihiero
+_WIKIHIERO_DIR=
+_WIKIHIERO_URL=
 
 # If you're dealing with text containing Egyptian hieroglyphs, you may
 # want to install wikihiero to help with the transcription. If so, set
 # these variables to the location you installed it, and a link will
-# appear in the proofreading interface.
+# appear in the proofreading interface. See INSTALL.md for more info.
 # If you haven't installed wikihiero, leave them empty.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
