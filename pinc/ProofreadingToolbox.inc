@@ -84,6 +84,10 @@ class ProofreadingToolbox
     {
         global $code_url;
 
+        // Which tools are shown is based on the round's pi_tools value.
+        // See stages.inc where the Round()s are created for the definitive
+        // list and to make changes.
+
         echo "<div id='tools'>";
         $elements = $this->array_extract($this->row1_buttons, $round->pi_tools['tool_buttons']);
         foreach($elements as $element)

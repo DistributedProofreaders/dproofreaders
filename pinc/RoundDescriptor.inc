@@ -36,6 +36,21 @@ class Round extends Stage
         $pi_tools,
             // A list of which tools should be available in the proofreading
             // interface's toolbox when proofreading a page in this round.
+            // The format is:
+            // [
+            //     'popup_links' => [ 'link1', 'link2', ... ],
+            //     'tool_buttons' => [ 'button1', 'button2', ... ],
+            //     'tool_links' => [ 'link1', 'link2', ... ],
+            // ]
+            // Alternatively, if you want all tools to be visible, use 'ALL'
+            // for the array instead:
+            // [
+            //     'popup_links' => 'ALL',
+            //     'tool_buttons' => 'ALL',
+            //     'tool_links' => 'ALL',
+            // ]
+            // See pinc/ProofreadingToolbox.inc for which tools are avaialble
+            // and their names.
 
         $other_rounds_with_visible_usernames,
             // An array of round_ids.

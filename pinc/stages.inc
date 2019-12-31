@@ -58,6 +58,12 @@ new Stage(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// $pi_tools_for_P and $pi_tools_for_F are handy helper variables that define
+// what proofreading tools are shown in the toolbox in the proofreading
+// interface for the proofreading (P) and the formatting (F) rounds. These are
+// passed into the Round() constructors below. The names refer to ToolButtons
+// and PopupLink objects defined in pinc/ProofreadingToolbox.inc.
+
 $pi_tools_for_P = array(
     'popup_links'  => array('search_and_replace','greek_transliterator','hieroglyph_transliterator'),
     'tool_buttons' => array('remove_markup','upper_case','title_case','lower_case'),
