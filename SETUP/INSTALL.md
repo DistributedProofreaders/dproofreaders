@@ -91,9 +91,6 @@ Consider the following settings in `php.ini`:
 * `session.gc_probability = 1` (or something other than zero)
   Needed to trigger garbage collection in 'sessions' table
   if `_USE_PHP_SESSIONS=TRUE` in your DP config file.
-* `magic_quotes_gpc`, `register_globals`, `register_long_arrays` - 
-  The DP codes does not rely on these features and they can
-  be turned off if no other code on the server uses them.
 
 ### Install MySQL
 In the examples in this document, we will assume that the MySQL server
