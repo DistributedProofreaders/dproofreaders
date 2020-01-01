@@ -12,25 +12,23 @@ define( 'BROWSER_DEFAULT_STR', _("Browser default") );
 # Care should be taken when changing the following arrays. The user
 # preferences (stored in user_profiles) stores the array index
 # and not the array value.
-# The order listed here is the order they will appear in drop-downs.
+# The order listed here is the order they will appear.
 
 # The 0 => '' entry is special and used to indicate the browser default.
 # Due to how this is used in both PHP and JS code, the value should be
 # empty and replaced with BROWSER_DEFAULT_STR before displaying to the
 # user.
+# The 1 => '' entry is also special, as it indicates that the user wants
+# to use the value in x_fntf_other instead.
 
 function get_available_proofreading_font_faces()
 {
     return [
         0 => '', // browser default
-        5 => 'monospace',
-        3 => 'Arial',
-        1 => 'Courier',
+        // Insert web fonts provided by the DP CSS here
         6 => 'DPCustomMono2',
-        4 => 'Lucida',
-        7 => 'Lucida Console',
-        8 => 'Monaco',
-        2 => 'Times',
+        // Leave "Other" at the end
+        1 => '', // user-specified 'other'
     ];
 }
 
@@ -77,10 +75,30 @@ function get_user_proofreading_font()
         $font_style_i = $userP['h_fntf'];
     }
 
+    if($font_style_i == 1) // other
+    {
+        $font_style = get_user_proofreading_font_other();
+    }
+    else
+    {
+        $font_style = array_get($proofreading_font_faces, $font_style_i, '');
+    }
     $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
-    $font_style = array_get($proofreading_font_faces, $font_style_i, '');
 
     return array($font_style, $font_size);
+}
+
+function get_user_proofreading_font_other()
+{
+    global $userP;
+    if ( $userP['i_layout']==1 )   // "vertical"
+    {
+        return @$userP['v_fntf_other'];
+    }
+    else   // "horizontal"
+    {
+        return @$userP['h_fntf_other'];
+    }
 }
 
 // This string is appended to the user's proofreading font for a fallback

@@ -75,6 +75,7 @@ function dpsession_resume_()
     @$userP['i_newwin'     ] = $user_pref_values[$i++];
     @$userP['v_fnts'       ] = $user_pref_values[$i++];
     @$userP['v_fntf'       ] = $user_pref_values[$i++];
+    @$userP['v_fntf_other' ] = $user_pref_values[$i++];
     @$userP['v_zoom'       ] = $user_pref_values[$i++];
     @$userP['v_tframe'     ] = $user_pref_values[$i++];
     @$userP['v_tlines'     ] = $user_pref_values[$i++];
@@ -83,6 +84,7 @@ function dpsession_resume_()
     @$userP['v_twrap'      ] = $user_pref_values[$i++];
     @$userP['h_fnts'       ] = $user_pref_values[$i++];
     @$userP['h_fntf'       ] = $user_pref_values[$i++];
+    @$userP['h_fntf_other' ] = $user_pref_values[$i++];
     @$userP['h_zoom'       ] = $user_pref_values[$i++];
     @$userP['h_tframe'     ] = $user_pref_values[$i++];
     @$userP['h_tlines'     ] = $user_pref_values[$i++];

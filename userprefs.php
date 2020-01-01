@@ -165,7 +165,8 @@ $theme_extra_args["js_data"] =
             var name = arguments[i];
             eval('if (f.'+name+') f.'+name+'.checked=value');
         }
-    }";
+    }
+";
     
 output_header($header, NO_STATSBAR, $theme_extra_args);
 echo "<h1>$header</h1>";
@@ -501,18 +502,17 @@ function echo_proofreading_tab() {
 
     $proofreading_font_faces = get_available_proofreading_font_faces();
     echo "<tr>\n";
-    $proofreading_font_faces[0] = BROWSER_DEFAULT_STR;
     show_preference(
         _('Font Face'), 'v_fntf', 'v_fontface',
         $userP['v_fntf'],
-        'dropdown',
-        $proofreading_font_faces
+        'fontface_selection',
+        @$userP['v_fntf_other']
     );
     show_preference(
         _('Font Face'), 'h_fntf', 'h_fontface',
         $userP['h_fntf'],
-        'dropdown',
-        $proofreading_font_faces
+        'fontface_selection',
+        @$userP['h_fntf_other']
     );
     echo "</tr>\n";
 
@@ -663,7 +663,7 @@ function save_proofreading_tab() {
     global $userSettings;
 
     // set user_profiles values
-    $input_string_fields = array("profilename");
+    $input_string_fields = array("profilename", "v_fntf_other", "h_fntf_other");
     $input_numeric_fields = array("i_res", "i_type", "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts", "v_zoom", "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap", "h_fntf", "h_fnts", "h_zoom", "h_tframe", "h_tscroll", "h_tlines", "h_tchars", "h_twrap");
 
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
@@ -809,6 +809,32 @@ function show_preference(
     echo "</td>";
 
     td_pophelp( $pophelp_name );
+}
+
+// ---------------------------------------------------------
+
+function _show_fontface_selection($field_name, $current_value, $font_other)
+{
+    $available_fonts = get_available_proofreading_font_faces();
+    foreach($available_fonts as $index => $font_name)
+    {
+        if($index == 0)
+            $font_name = BROWSER_DEFAULT_STR;
+        if($index == 1)
+            $font_name = _("Other");
+
+        echo "<input type='radio' name='{$field_name}' value='$index'";
+        if($current_value == $index)
+        {
+            echo " CHECKED";
+        }
+        echo "> $font_name";
+        if($index == 1)
+        {
+            echo ": <input type='text' name='{$field_name}_other' value='" . attr_safe($font_other) . "'>";
+        }
+        echo "<br>";
+    }
 }
 
 // ---------------------------------------------------------
@@ -1009,7 +1035,8 @@ function _create_mysql_update_string($source_array, $string_fields = array(), $n
     {
         if(in_array($field, $string_fields))
         {
-            $value = "'" . mysqli_real_escape_string(DPDatabase::get_connection(),  array_get( $source_array, $field, "" ) ) . "'";
+            $value = trim(array_get($source_array, $field, ""));
+            $value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $value));
         }
         else
         {
