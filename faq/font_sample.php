@@ -10,21 +10,20 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 $title = _("Proofreading Font Comparison");
 output_header($title, NO_STATSBAR);
 
-// This page allows the user to select a font
-// (for comparison to DPCustomMono2)
-// from the following list:
-$selectable_fonts = array();
-foreach(get_available_proofreading_font_faces() as $index => $font)
+// This page allows the user to select a font for comparison to DPCustomMono2.
+$fonts_with_images = [
+    "Arial",
+    "Courier",
+    "Lucida",
+    "Lucida Console",
+    "Monaco",
+    "Times",
+];
+foreach($fonts_with_images as $font)
 {
     if (!is_file(get_sample_image_for_font($font)))
         // We don't have a sample image file for this font,
         // so there's no point making it selectable.
-        continue;
-
-    if ($font == "DPCustomMono2")
-        // We do have a sample image file for this font,
-        // but it always appears on the right of the page,
-        // so there's no point in making it a selectable font.
         continue;
 
     $selectable_fonts[] = $font;

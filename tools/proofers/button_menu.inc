@@ -42,13 +42,19 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="<?php
     list($current_font, $current_size) = get_user_proofreading_font();
     foreach($proofreading_font_faces as $index => $font)
     {
-        if($font == '')
+        if($index == 0)
             $font = BROWSER_DEFAULT_STR;
+        if($index == 1)
+        {
+            $font = get_user_proofreading_font_other();
+            if(!$font)
+                continue;
+        }
 
         $optP = "<option \r\n value=\"$index\"";
         if($font == $current_font)
             $optP .= " selected";
-        $optP .= ">" . $font . "</option>";
+        $optP .= ">" . html_safe($font) . "</option>";
         echo $optP;
     }
 ?></select><select

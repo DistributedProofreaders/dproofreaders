@@ -73,8 +73,8 @@ function dpsession_set_preferences_from_db()
         SELECT
             profilename,
             i_res, i_type, i_layout, i_toolbar, i_statusbar, i_newwin,
-            v_fnts, v_fntf, v_zoom, v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap,
-            h_fnts, h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap
+            v_fnts, v_fntf, v_fntf_other, v_zoom, v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap,
+            h_fnts, h_fntf, h_fntf_other, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap
         FROM user_profiles
         WHERE u_ref='{$users_data['u_id']}' AND id='{$users_data['u_profile']}'
         ");
