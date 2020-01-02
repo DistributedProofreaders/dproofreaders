@@ -45,7 +45,7 @@ try
     $postcomments = "\n----------\n" . date("Y-m-d H:i") . " Smooth Reading deadline extended by $pguser";
     handle_smooth_reading_change($project, $postcomments, $days, true);
     $body = sprintf(_("The Smooth Reading deadline has been extended by %d day(s)"), $days);
-    metarefresh(10, $back_url, $title, $body);
+    metarefresh(1, $back_url, $title, $body);
 }
 catch(ActionException $e)
 {
