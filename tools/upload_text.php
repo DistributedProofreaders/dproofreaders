@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
-include_once($relPath.'smooth_read_change.inc'); // handle_smooth_reading_change()
+include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
