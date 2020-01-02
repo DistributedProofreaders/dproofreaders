@@ -32,6 +32,10 @@ sort($selectable_fonts);
 
 // determine user's current proofreading font, if any and use that as the compare_font
 list($proofreading_font, ) = get_user_proofreading_font();
+if(!$proofreading_font)
+{
+    $proofreading_font = 'monospace';
+}
 
 // set the default compare_font to the user's proofreading font
 // if it is selectable
@@ -46,35 +50,62 @@ $compare_font = get_enumerated_param( $_GET, 'compare', $compare_font, $selectab
 // print page header
 echo "<h1>$title</h1>\n";
 
-echo "<p>" . _("This page demonstrates the differences between <span style='font-family: DPCustomMono2'>DPCustomMono2</span> and other fonts.") . "</p>\n";
+echo "<p>" . _("This page shows samples of the available proofreading fonts and demonstrates the differences between DPCustomMono2 and other fonts.") . "</p>\n";
 
-echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP volunteers, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes. You can change the font that you use for proofreading in your <a href='%s'>preferences</a>."), "$code_url/userprefs.php") . "</p>\n";
+echo "<h2>" . _("Available Proofreading Fonts") . "</h2>";
 
-if(!empty($proofreading_font))
-    echo "<p>" . sprintf(_("Your current proofreading font is <b>%s</b>."), $proofreading_font) . "</p>\n";
+echo "<p>" . sprintf(_("The following fonts can be selected in your <a href='%s'>preferences</a> for use in the proofreading interface. Browser default is whatever font your browser renders monospace text in unless told otherwise, often Courier or Courier New. The other fonts are available as web fonts and can be selected and used without having them installed on your computer."), "$code_url/userprefs.php?tab=1") . "</p>";
 
-echo "<p>" . _("This site provides DPCustomMono2 as a web font and browsers that support it do not require the font to be installed locally.") . "</p>";
+$show_user_custom_font = TRUE;
+foreach(get_available_proofreading_font_faces() as $index => $name)
+{
+    if($index == 1) // other
+        continue;
 
-echo "<p style='font-family: DPCustomMono2'>" . _("If your browser supports web fonts or you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>\n";
+    if($index == 0)
+    {
+        $name = BROWSER_DEFAULT_STR;
+        $font = 'monospace';
+    }
+    else
+    {
+        $font = $name;
+    }
 
-echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='%s'>Installing DPCustomMono</a> wiki page at pgdp.net."), "http://www.pgdp.net/wiki/Installing_DPCustomMono") . "</p>\n";
+    if($font == $proofreading_font)
+        $show_user_custom_font = FALSE;
 
-echo "<hr width='70%'>\n";
+    show_font_specimen($name, $font, $proofreading_font);
+}
+
+if($show_user_custom_font)
+{
+    echo "<h2 style='clear: both;'>" . _("Custom Proofreading Font") . "</h2>";
+    echo "<p>" . _("Your current proofreading font is one you've specified by name. This is what a specimen looks like in that font.") . "</p>";
+    show_font_specimen($proofreading_font, $proofreading_font);
+}
+
+echo "<h2 style='clear: both;'>DPCustomMono2</h2>";
+
+echo "<p style='clear: both;'>" . _("DPCustomMono2 is a font adapted by DP volunteers, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes."). "</p>\n";
+
+echo "<p>" . _("This site provides DPCustomMono2 as a web font and browsers that support it do not require the font to be installed locally.") . " ";
+echo sprintf(_("For more information on installing and using the font locally for offline activitlies like Post-Processing and Smooth Reading, see the <a href='%s'>DPCustomMono2</a> wiki page at pgdp.net."), "http://www.pgdp.net/wiki/Installing_DPCustomMono") . "</p>\n";
+
+echo "<p>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>\n";
 
 // build the list of font-selection links
 $sample_font_links=array();
 foreach ($selectable_fonts as $font)
 {
-        if($compare_font == $font)
-            $sample_font_links[] = "<span style='font-family: \"$font\"'>$font</span>";
-        else
-            $sample_font_links[] = "<a style='font-family: \"$font\"' href='?compare=$font'>$font</a>";
+    if($compare_font == $font)
+        $sample_font_links[] = "<span style='font-family: \"$font\"'>$font</span>";
+    else
+        $sample_font_links[] = "<a style='font-family: \"$font\"' href='?compare=$font#fontlinks'>$font</a>";
 }
 
 
-echo "<p>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>\n";
-
-echo "<p>" . implode("\n| ", $sample_font_links) . "</p>\n";
+echo "<p id='fontlinks'>" . implode("\n| ", $sample_font_links) . "</p>\n";
 
 // print out the comparison images
 echo "
@@ -104,6 +135,23 @@ function get_sample_image_for_font($font)
     // with an underscore in the file name.
     $base = str_replace(' ', '_', $font);
     return "images/{$base}.png";
+}
+
+function show_font_specimen($name, $font, $proofreading_font = NULL)
+{
+    echo "<div style='float: left; margin-right: 1em; margin-top: 0;'>";
+    //echo "<h3>$name</h3>";
+    echo "<p style='font-family: $font; margin-top: 0; '>";
+    echo "<span style='font-size: 1.5em; font-weight: bold;'>$name</span><br>";
+    echo "ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>";
+    echo "abcdefghijklmnopqrstuvwxyz<br>";
+    echo "0123456789<br>";
+    echo "!@#$%^&*()[]{}&lt;&gt;'\";:.,\/?<br>";
+    echo "</p>";
+
+    if($font == $proofreading_font)
+        echo "<p><i>" . _("This is your current proofreading font.") . "</i></p>";
+    echo "</div>";
 }
 
 // vim: sw=4 ts=4 expandtab

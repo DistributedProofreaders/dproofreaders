@@ -215,13 +215,13 @@ _("<p>Settings in this group affect how the proofreading interface is displayed 
 'set_h_fontface' =>
     array (
     'title' => _("Font Face"),
-    'content' => _("<p>This setting specifies the Font Face used for the proofreading area.</p>")
+    'content' => sprintf(_("<p>This setting specifies the Font Face used for the proofreading area. See the <a target='_blank' href='%s'>Font Sample</a> page for samples of these fonts.</p>"), "$code_url/faq/font_sample.php")
     ),
 
 'set_v_fontface' =>
     array (
     'title' => _("Font Face"),
-    'content' => _("<p>This setting specifies the Font Face used for the proofreading area.</p>")
+    'content' => sprintf(_("<p>This setting specifies the Font Face used for the proofreading area. See the <a target='_blank' href='%s'>Font Sample</a> page for samples of these fonts.</p>"), "$code_url/faq/font_sample.php")
     ),
 
 'set_h_fontsize' =>
