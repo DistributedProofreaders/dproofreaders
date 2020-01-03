@@ -1,6 +1,7 @@
 <?php
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'prefs_options.inc');
 
 header('Content-type: text/plain');
 
@@ -80,6 +81,29 @@ foreach($old_font_mapping as $index => $string)
 
     mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 }
+
+// ------------------------------------------------------------
+
+$current_fonts = array_flip(get_available_proofreading_font_faces());
+$dvsm_index = $current_fonts['DejaVu Sans Mono'];
+
+echo "Updating default font to DejaVu Sans Mono...\n";
+
+$sql = "
+    ALTER TABLE user_profiles ALTER v_fntf SET DEFAULT $dvsm_index
+";
+
+echo "$sql\n";
+
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
+
+$sql = "
+    ALTER TABLE user_profiles ALTER h_fntf SET DEFAULT $dvsm_index
+";
+
+echo "$sql\n";
+
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // ------------------------------------------------------------
 
