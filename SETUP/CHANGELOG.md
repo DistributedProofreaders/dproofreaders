@@ -4,13 +4,23 @@ Major changes to this project are documented here. For minor changes,
 see the git history.
 
 
-## R??????
+## R202002
 Scripts supporting this upgrade are in `SETUP/upgrade/13`
 
 * Updated minimum PHP version to 7.0 (cpeel)
 * Create non-project database tables using default engine; for
   MySQL 5.5 and higher that is InnoDB. Project tables are still created
   using the MyISAM engine (cpeel)
+* Smooth Reading posting and download enhancements (70ray)
+* More flexible Smooth Reading deadline extensions (70ray)
+* My Projects page redesigned (cpeel)
+* New character picker with MRU menu (70ray)
+* Added DejaVu Sans Mono as a web font and redesigned font selection
+  in user preferences (cpeel)
+* Various updates and improvements to Format Preview (70ray)
+* Updates to Post-Processing reminder emails and new navbar
+  notification (cpeel)
+* Various Task Center improvements (mlazaric, cpeel)
 
 
 ## R201903
