@@ -55,23 +55,28 @@ function get_available_proofreading_font_sizes()
 }
 
 // And a function to return user's current proofreading font and size
-// This returns [ $font_face, $font_size, $font_family_string ]
+// This returns [ $font_face, $font_size, $font_family_string, $font_size_string ]
 //
 // $font_family_string is the full font-family to use to render text
 // in the user's proofreading font plus the font fallback. Font faces
 // with spaces in them are esacped in _single quotes_ in
 // $font_family_string/
-function get_user_proofreading_font()
+function get_user_proofreading_font($interface=NULL)
 {
     global $userP;
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
 
+    if($interface === NULL)
+    {
+        $interface = @$userP['i_layout'];
+    }
+
     if( !$userP ) {
         $font_size_i = 0;
         $font_style_i = 0;
     }
-    elseif ( $userP['i_layout']==1 )   // "vertical"
+    elseif ( $interface  == 1 )   // "vertical"
     {
         $font_size_i = $userP['v_fnts'];
         $font_style_i = $userP['v_fntf'];
@@ -84,7 +89,7 @@ function get_user_proofreading_font()
 
     if($font_style_i == 1) // other
     {
-        $font_style = get_user_proofreading_font_other();
+        $font_style = get_user_proofreading_font_other($interface);
     }
     else
     {
@@ -93,19 +98,33 @@ function get_user_proofreading_font()
     $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
 
     $fallback_font = get_proofreading_font_family_fallback();
-    $full_font_family = "$font_style, $fallback_font";
-    if(stripos($font_style, ' ') !== FALSE)
+    if($font_style)
     {
-        $full_font_family = "'$font_style', $fallback_font";
+        $full_font_family = "$font_style, $fallback_font";
+        if(stripos($font_style, ' ') !== FALSE)
+        {
+            $full_font_family = "'$font_style', $fallback_font";
+        }
+    }
+    else
+    {
+        $full_font_family = $fallback_font;
     }
 
-    return array($font_style, $font_size, $full_font_family);
+    $font_size_family = $font_size ? $font_size : 'unset';
+
+    return array($font_style, $font_size, $full_font_family, $font_size_family);
 }
 
-function get_user_proofreading_font_other()
+function get_user_proofreading_font_other($interface=NULL)
 {
     global $userP;
-    if ( $userP['i_layout']==1 )   // "vertical"
+    if($interface === NULL)
+    {
+        $interface = @$userP['i_layout'];
+    }
+
+    if ( $interface == 1 )   // "vertical"
     {
         return @$userP['v_fntf_other'];
     }
