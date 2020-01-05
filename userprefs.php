@@ -229,6 +229,7 @@ function echo_tabs($tab_names, $selected_tab) {
 
 function echo_general_tab() {
     global $uid, $pguser, $userP;
+    global $userSettings;
     global $u_n;
 
     $options = get_locale_translation_selection_options();
@@ -339,7 +340,15 @@ function echo_general_tab() {
         'credits_wanted_adhoc',
         NULL
     );
-    show_blank();
+    // About 'show'/'hide': It seems better to present to the user the option
+    // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
+    $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+    show_preference(
+        _('Show Special Colors'), 'show_special_colors', 'showspecialcolors',
+        ($show_special_colors ? 'yes' : 'no'),
+        'dropdown',
+        array( 'yes' => _('Yes'), 'no' => _('No') )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -385,6 +394,8 @@ function save_general_tab() {
     if (isset($_POST["credit_other"]))
         $userSettings->set_value('credit_other', $_POST["credit_other"]);
 
+    $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
+
     echo mysqli_error(DPDatabase::get_connection());
     dpsession_set_preferences_from_db();
 
@@ -395,24 +406,10 @@ function save_general_tab() {
 function echo_proofreading_tab() {
     global $userP;
     global $i_resolutions;
-    global $userSettings;
 
     // see if they already have 10 profiles, etc.
     $pf_query=mysqli_query(DPDatabase::get_connection(), "SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
     $pf_num=mysqli_num_rows($pf_query);
-
-    echo "<tr>\n";
-    show_blank();
-    // About 'show'/'hide': It seems better to present to the user the option
-    // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
-    $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
-    show_preference(
-        _('Show Special Colors'), 'show_special_colors', 'showspecialcolors',
-        ($show_special_colors ? 'yes' : 'no'),
-        'dropdown',
-        array( 'yes' => _('Yes'), 'no' => _('No') )
-    );
-    echo "</tr>\n";
 
     echo "<tr>\n";
     th_label_long( 6, _('Profiles') );
@@ -660,7 +657,6 @@ function echo_proofreading_tab() {
 
 function save_proofreading_tab() {
     global $uid, $userP, $pguser;
-    global $userSettings;
 
     // set user_profiles values
     $input_string_fields = array("profilename", "v_fntf_other", "h_fntf_other");
@@ -698,8 +694,6 @@ function save_proofreading_tab() {
         mysqli_query(DPDatabase::get_connection(), $users_query);
         echo mysqli_error(DPDatabase::get_connection());
     }
-
-    $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
 
     dpsession_set_preferences_from_db();
 }
