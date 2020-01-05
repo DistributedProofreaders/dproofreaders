@@ -248,22 +248,18 @@ elseif ($frame=="text") {
         $n_cols = $userP['h_tchars'];
         $n_rows = $userP['h_tlines'];
 
+        list( , $font_size, $font_family) = get_user_proofreading_font();
+        $font_size_string = '';
+        if ( $font_size != '' )
+        {
+            $font_size_string = "font-size: $font_size;";
+        }
         echo "<textarea
             name='text_data'
             id='text_data'
             cols='$n_cols'
             rows='$n_rows'
-            style='font-family: ";
-        if ( $font_face != '' )
-        {
-            echo "$font_face,";
-        }
-        echo get_proofreading_font_family_fallback() . "; ";
-        if ( $font_size != '' )
-        {
-            echo "font-size: $font_size;";
-        }
-        echo "padding-left: 0.25em;' ";
+            style=\"font-family: $font_family; $font_size_string padding-left: 0.25em;\" ";
 
         if ( !$line_wrap )
         {
