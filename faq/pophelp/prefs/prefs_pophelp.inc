@@ -236,6 +236,12 @@ _("<p>Settings in this group affect how the proofreading interface is displayed 
     'content' => _("<p>This setting specifies the Font Size used for the proofreading area.</p>")
     ),
 
+'set_font_sample' =>
+    array (
+    'title' => _("Font Sample"),
+    'content' => _("<p>This text displays what the proofreading text will look like using the specified font face and size. If you are using an 'Other' font and the font does not display, check that the name matches exactly, including spaces. Some browsers restrict what local fonts can be used.</p>")
+    ),
+
 'set_h_scroll' =>
     array (
     'title' => _("Scroll Text Frame"),

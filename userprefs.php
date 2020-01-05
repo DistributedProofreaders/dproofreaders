@@ -166,6 +166,64 @@ $theme_extra_args["js_data"] =
             eval('if (f.'+name+') f.'+name+'.checked=value');
         }
     }
+
+    function do_font_sample_update(font_index, size_index, layout) {
+        if(font_index != null) {
+            var font_family;
+            if(font_index == 0) {
+                font_family = '';
+            } else if(font_index == 1) {
+                input_accessor = 'input[name=\"' + layout + '_fntf_other\"]'
+                font_family = $(input_accessor).val().trim();
+            } else {
+                font_family = font_face_mapping[font_index]
+            }
+            if(font_family) {
+                font_family += ', ' + font_face_fallback;
+            } else {
+                font_family = font_face_fallback;
+            }
+            $('#' + layout + '_font_sample').css(\"font-family\", font_family);
+        }
+        if(size_index != null) {
+            var font_size = 'unset';
+            if(size_index != 0) {
+                font_size = font_size_mapping[size_index];
+            }
+            $('#' + layout + '_font_sample').css(\"font-size\", font_size);
+        }
+    }
+
+    // add listeners to the font controls when the page is ready to update the
+    // font_sample when they change.
+    $(function() {
+        $('input[name=\"v_fntf\"]').change(function() {
+            do_font_sample_update(this.value, null, 'v');
+        });
+        $('input[name=\"v_fntf_other\"]').on('input', function() {
+            $('input[name=\"v_fntf\"]').filter('[value=1]').prop('checked', true);
+            var value = $('input[name=\"v_fntf\"]:checked').val();
+            do_font_sample_update(value, null, 'v');
+        });
+        $('input[name=\"h_fntf\"]').change(function() {
+            do_font_sample_update(this.value, null, 'h');
+        });
+        $('input[name=\"h_fntf_other\"]').on('input', function() {
+            $('input[name=\"h_fntf\"]').filter('[value=1]').prop('checked', true);
+            var value = $('input[name=\"h_fntf\"]:checked').val();
+            do_font_sample_update(value, null, 'h');
+        });
+        $('#v_fnts').change(function() {
+            do_font_sample_update(null, this.value, 'v');
+        });
+        $('#h_fnts').change(function() {
+            do_font_sample_update(null, this.value, 'h');
+        });
+    });
+
+    var font_face_mapping = " . json_encode(get_available_proofreading_font_faces()) . ";
+    var font_size_mapping = " . json_encode(get_available_proofreading_font_sizes()) . ";
+    var font_face_fallback = \"" . get_proofreading_font_family_fallback() . "\";
 ";
     
 output_header($header, NO_STATSBAR, $theme_extra_args);
@@ -513,6 +571,12 @@ function echo_proofreading_tab() {
     );
     echo "</tr>\n";
 
+    $font_sample = wordwrap(sprintf("
+        The lazy brown fox was puzzled by these commonly-confused
+        characters: %s",
+        "O0o l1iI BE3 RK"), 40, "<br>"
+    );
+
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
     echo "<tr>\n";
     $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
@@ -529,6 +593,19 @@ function echo_proofreading_tab() {
         $proofreading_font_sizes
     );
     echo "</tr>\n";
+
+    echo "<tr>\n";
+    list( , , $font_family, $font_size) = get_user_proofreading_font(1);
+    th_label(_("Font Sample"));
+    echo "<td id='v_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
+    td_pophelp( "font_sample" );
+
+    list( , , $font_family, $font_size) = get_user_proofreading_font(0);
+    th_label(_("Font Sample"));
+    echo "<td id='h_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
+    td_pophelp( "font_sample" );
+    echo "</tr>\n";
+
 
     echo "<tr>\n";
     show_preference(
