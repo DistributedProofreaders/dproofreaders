@@ -54,7 +54,13 @@ function get_available_proofreading_font_sizes()
     ];
 }
 
-// And a function to return user's current proofreading font
+// And a function to return user's current proofreading font and size
+// This returns [ $font_face, $font_size, $font_family_string ]
+//
+// $font_family_string is the full font-family to use to render text
+// in the user's proofreading font plus the font fallback. Font faces
+// with spaces in them are esacped in _single quotes_ in
+// $font_family_string/
 function get_user_proofreading_font()
 {
     global $userP;
@@ -86,7 +92,14 @@ function get_user_proofreading_font()
     }
     $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
 
-    return array($font_style, $font_size);
+    $fallback_font = get_proofreading_font_family_fallback();
+    $full_font_family = "$font_style, $fallback_font";
+    if(stripos($font_style, ' ') !== FALSE)
+    {
+        $full_font_family = "'$font_style', $fallback_font";
+    }
+
+    return array($font_style, $font_size, $full_font_family);
 }
 
 function get_user_proofreading_font_other()

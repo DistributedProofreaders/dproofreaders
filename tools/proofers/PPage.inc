@@ -225,18 +225,13 @@ class PPage
             dir='".lang_direction($lang)."'
         ";
 
-        echo "style='font-family: ";
-        list($font_face, $font_size) = get_user_proofreading_font();
-        if ( $font_face != '' )
-        {
-            echo "$font_face,";
-        }
-        echo get_proofreading_font_family_fallback() . "; ";
+        list( , $font_size, $font_family) = get_user_proofreading_font();
+        $font_size_string = '';
         if ( $font_size != '' )
         {
-            echo "font-size: $font_size;";
+            $font_size_string = "font-size: $font_size;";
         }
-        echo "padding-left: 0.25em;' ";
+        echo "style=\"font-family: $font_family; $font_size_string padding-left: 0.25em;\" ";
 
         if ( !$line_wrap )
         {
