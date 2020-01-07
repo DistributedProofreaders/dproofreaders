@@ -14,6 +14,7 @@ $test_functions  = array(
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
     "_test_project_for_word_lists",
+    "_test_project_for_valid_clearance",
     // Manual tests
     "_test_project_for_credited_source",
     "_test_project_for_correct_genre_and_language",
@@ -466,6 +467,39 @@ function _test_project_for_word_lists($projectid)
     {
         $status = _("Warning");
         $summary = _("Both of the word lists are empty.");
+    }
+
+    return array(
+        "name" => $test_name,
+        "description" => $test_desc,
+        "status" => $status,
+        "summary" => $summary,
+        "details" => $details
+    );
+}
+
+function _test_project_for_valid_clearance($projectid)
+{
+    $project = new Project($projectid);
+    $clearance = $project->clearance;
+
+    $test_name = _("Clearance");
+    $test_desc = _("This test checks if the project has a clearance in a valid form. This doesn't mean that the clearance itself is good, just that it looks like it could be.");
+
+    $details = "<p><b>" . _("Clearance Line") . "</b>: $clearance</p>";
+
+    $valid_pattern_1 = '/^20[0-9]{12}[a-z]+\.?$/';
+    $valid_pattern_2 = '/^gbn[0-9]/';
+    if(preg_match($valid_pattern_1, $clearance) || preg_match($valid_pattern_2, $clearance))
+    {
+        $status = _("Success");
+        $summary = _("Clearance line appears to be in a valid format.");
+    }
+    else
+    {
+        $status = _("Warning");
+        $summary = _("Unrecognized clearance format.");
+        $details .= "<p>" . _("Unrecognized clearance format, confirm the clearance line is correct.");
     }
 
     return array(
