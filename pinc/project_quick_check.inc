@@ -17,7 +17,7 @@ $test_functions  = array(
     "_test_project_for_valid_clearance",
     // Manual tests
     "_test_project_for_credited_source",
-    "_test_project_for_correct_genre_and_language",
+    "_test_project_for_correct_metadata",
     "_test_project_for_missing_pages",
 );
 
@@ -246,7 +246,7 @@ function _test_project_for_missing_pages($projectid)
     return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
 }
 
-function _test_project_for_correct_genre_and_language($projectid)
+function _test_project_for_correct_metadata($projectid)
 {
     global $code_url;
 
@@ -255,18 +255,20 @@ function _test_project_for_correct_genre_and_language($projectid)
         _("Page Details")
     );
 
-    $test_name = _("Correct Genre and Language");
-    $test_desc = sprintf(_("This manual test requires looking at a few pages to confirm that the project's Genre and Language are set correctly. The %s page is very useful for this purpose."), $page_details_link);
+    $test_name = _("Correct Project Metadata");
+    $test_desc = sprintf(_("This manual test requires looking at a few pages to confirm that the project's Genre, Language, and Difficulty are set correctly. The %s page is very useful for this purpose."), $page_details_link);
 
     $project = new Project($projectid);
     $genre = $project->genre;
     $language = $project->language;
+    $difficulty = $project->difficulty;
 
     $status = _("Manual");
-    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>"), $page_details_link, $genre, $language);
+    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>, Difficulty: <b>%s</b>"), $page_details_link, $genre, $language, $difficulty);
     $details = "";
     $details .= "<p><b>" . _("Genre") . "</b>: $genre</p>";
     $details .= "<p><b>" . _("Language") . "</b>: $language</p>";
+    $details .= "<p><b>" . _("Difficulty") . "</b>: $difficulty</p>";
 
     return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
 }
