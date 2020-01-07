@@ -100,7 +100,8 @@ foreach($test_functions as $function)
     echo "<tr>";
     echo "<td>" . $result[$function]["name"] . "</td>";
     echo "<td><a href='#$function'>" . $result[$function]["status"] . "</a></td>";
-    echo "<td>" . $result[$function]["summary"] . "</td>";
+    $css = get_css_for_status($result[$function]["status"]);
+    echo "<td $css>" . $result[$function]["summary"] . "</td>";
     echo "</tr>";
 }
 echo "</table>";
@@ -110,10 +111,21 @@ foreach($test_functions as $function)
 {
     echo "<a name='$function'></a>";
     echo "<h2>" . $result[$function]["name"] . "</h2>";
-    echo "<p>" . sprintf(_("Status: %s"), $result[$function]["status"]) . "</p>";
+    $css = get_css_for_status($result[$function]["status"]);
+    echo "<p $css>" . sprintf(_("Status: %s"), $result[$function]["status"]) . "</p>";
     echo "<p>" . $result[$function]["description"] . "</p>";
     echo $result[$function]["details"];
 }
 
+function get_css_for_status($status)
+{
+    if($status == _("Warning"))
+        $css = "class='warning'";
+    elseif($status == _("Error"))
+        $css = "class='error'";
+    else
+        $css = '';
+    return $css;
+}
 
 // vim: sw=4 ts=4 expandtab
