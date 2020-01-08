@@ -31,7 +31,7 @@ foreach($fonts_with_images as $font)
 sort($selectable_fonts);
 
 // determine user's current proofreading font, if any and use that as the compare_font
-list($proofreading_font, ) = get_user_proofreading_font();
+list($proofreading_font, , $proofreading_font_family) = get_user_proofreading_font();
 if(!$proofreading_font)
 {
     $proofreading_font = 'monospace';
@@ -85,14 +85,52 @@ if($show_user_custom_font)
     show_font_specimen($proofreading_font, $proofreading_font);
 }
 
-echo "<h2 style='clear: both;'>DPCustomMono2</h2>";
+echo "<h2 id='DPCustomMono2' style='clear: both;'>DPCustomMono2</h2>";
 
 echo "<p style='clear: both;'>" . _("DPCustomMono2 is a font adapted by DP volunteers, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes."). "</p>\n";
 
-echo "<p>" . _("This site provides DPCustomMono2 as a web font and browsers that support it do not require the font to be installed locally.") . " ";
+echo "<p style='clear: both'>" . _("This site provides DPCustomMono2 as a web font and browsers that support web fonts do not require the font to be installed locally.") . " ";
 echo sprintf(_("For more information on installing and using the font locally for offline activitlies like Post-Processing and Smooth Reading, see the <a href='%s'>DPCustomMono2</a> wiki page at pgdp.net."), "http://www.pgdp.net/wiki/Installing_DPCustomMono") . "</p>\n";
 
-echo "<p>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>\n";
+echo "<h3>" . _("Character Differences") . "</h3>";
+
+echo "<p>" . _("Below are some examples of similar looking characters that are easier to distinguish in DPCustomMono2 than in other fonts, in this case your default browser monospace font.") . "</p>";
+
+$character_sets = [
+    'O0o',
+    '1Ili!',
+    ':;',
+    ',.',
+    '3BE',
+    'KR',
+    'Vv',
+    'Ww',
+    'Xx',
+    'vy',
+    '`\'',
+    'F&pound;L',
+];
+
+echo "<div style='float: left; padding-right: 1em; margin-bottom: 1em;'>";
+echo "<span style='font-family: monospace;'>" . BROWSER_DEFAULT_STR . "</span><br>";
+if($proofreading_font !== 'monospace' && $proofreading_font != 'DPCustomMono2')
+    echo "<span style=\"font-family: $proofreading_font_family;\">" . html_safe($proofreading_font) . "</span><br>";
+echo "<span style='font-family: DPCustomMono2;'>DPCustomMono2</span>";
+echo "</div>";
+
+foreach($character_sets as $set)
+{
+    echo "<div style='float: left; padding-right: 0.5em; margin-bottom: 1em;'>";
+    echo "<span style='font-family: monospace;'>$set</span><br>";
+    if($proofreading_font !== 'monospace' && $proofreading_font != 'DPCustomMono2')
+        echo "<span style=\"font-family: $proofreading_font_family;\">$set</span><br>";
+    echo "<span style='font-family: DPCustomMono2;'>$set</span>";
+    echo "</div>";
+}
+
+echo "<h3 style='clear: both'>" . _("Comparisons with Other Fonts") . "</h3>";
+
+echo "<p style='clear: both'>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>\n";
 
 // build the list of font-selection links
 $sample_font_links=array();
