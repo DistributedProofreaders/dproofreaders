@@ -8,6 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
+include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -26,12 +27,10 @@ require_login();
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 $valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
-// $stage==smooth_avail controls sr, 3 cases:
-// days given and not extend: upload a file & make sr available first time for days from now.
-// days given and extend: extend while available (days from end) or ended (days from now), skip file upload
+// $stage==smooth_avail controls sr, 2 cases:
+// days given: upload a file & make sr available first time or after finished for days from now.
 // days not given (defaults to 0): replace file only
 $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
-$extend = isset($_REQUEST['extend']);
 $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
 
@@ -128,7 +127,7 @@ else if ($stage == 'smooth_avail')
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
+    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
     $back_blurb = _("Project Page");
 }
 else if ($stage == 'smooth_done')
@@ -168,15 +167,7 @@ else if(!$stage)
     exit;
 }
 
-if($extend && !$project->is_available_for_smoothreading())
-{
-    // this can happen if project page was stale
-    echo "<p class='warning'>" , _("The Smooth Reading deadline for this project has passed and cannot be extended in this way."),
-        " <a href='$back_url'>", _("Return to the project page"), "</a></p>";
-    exit;
-}
-
-if (!isset($action) && !$extend)
+if (!isset($action))
 {
     // Present the upload page.
 
@@ -251,8 +242,7 @@ if (!isset($action) && !$extend)
 
     echo "</form>\n";
 }
-
-if (isset($action))
+else
 {
     // Handle a submission from the upload page.
 
@@ -369,73 +359,7 @@ if (isset($action))
     metarefresh(1, $back_url, $msg, $msg);
 }
 
-if($extend)
-{
-    // postcomments is not translated because it can be viewed by anyone not just the present PPer
-    $postcomments = "\n----------\n" . date("Y-m-d H:i") . " " . sprintf("Smoothreading deadline extended by %s", $pguser);
-    handle_smooth_reading_change($project, $postcomments, $days, true);
-    $back_url .= "#smooth_start";
-    metarefresh(1, $back_url);
-}
-
 #----------------------------------------------------------------------------
-
-function handle_smooth_reading_change($project, $postcomments, $days, $extend)
-{
-    global $pguser, $auto_post_to_project_topic;
-
-    $projectid = $project->projectid;
-
-    if ($days) // will be 0 if parameter not supplied when only replacing text
-    {
-        $seconds = $days * 60 * 60 * 24;
-        $now = time();
-        if ($project->smoothread_deadline > $now)
-        {
-            // extend deadline if not yet passed
-            $deadline = $project->smoothread_deadline + $seconds;
-        }
-        else
-        {
-            // if starting sr with deadline=0, or if sr ended
-            $deadline = $now + $seconds;
-        }
-        $details1 = $extend ? "deadline extended" : "text available";
-        $smoothread_deadline = "smoothread_deadline = $deadline, ";
-        log_project_event( $projectid, $pguser, 'smooth-reading', $details1, $deadline );
-    }
-    else
-    {
-        $smoothread_deadline = "";
-        log_project_event( $projectid, $pguser, 'smooth-reading', 'text replaced' );
-    }
-
-    $qstring = sprintf("
-        UPDATE projects
-        SET $smoothread_deadline
-            postcomments = CONCAT(postcomments, '%s')
-        WHERE projectid = '$projectid'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
-    mysqli_query(DPDatabase::get_connection(), $qstring);
-
-    notify_project_event_subscribers($project, 'sr_available');
-
-    if ($auto_post_to_project_topic)
-    {
-        // Add an auto-post to the project's discussion topic.
-        $project->ensure_topic();
-        topic_add_post(
-            $project->topic_id,
-            "Project made available for Smooth Reading",
-            "The project has just been made available for Smooth Reading for $days days."
-                . "\n\n"
-                . "(This post is automatically generated.)",
-            '[Smooth Reading Monitor]',
-            FALSE
-        );
-    }
-}
-
 function validate_uploaded_file()
 {
     $uploaded_file = $_FILES['uploaded_file'];
