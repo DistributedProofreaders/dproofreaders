@@ -531,6 +531,7 @@ function _test_project_has_all_page_images($projectid)
         $details = "<p>" . _("The following page images do not exist on the server.") . "</p>";
         $details .= "<ul>";
         $error_images = 0;
+        $image_count = 0;
         while(list($image) = mysqli_fetch_row($result_res)) {
             // the the file's info
             $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
@@ -540,12 +541,19 @@ function _test_project_has_all_page_images($projectid)
                 $details .= "<li>$image</li>";
                 $error_images++;
             }
+            $image_count += 1;
         }
         $details .= "</ul>";
 
         mysqli_free_result($result_res);
 
-        if($error_images == 0)
+        if($image_count == 0)
+        {
+            $status = _("Error");
+            $summary = _("Project has no page images.");
+            $details = "<p>" . _("Project has no page images.") . "</p>";
+        }
+        elseif($error_images == 0)
         {
             $status = _("Success");
             $summary = _("All images exist on the server.");
