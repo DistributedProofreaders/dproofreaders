@@ -139,12 +139,13 @@ class CharacterSelector
         $selector_string = "<div id='selector_row'>";
         $row_string = "";
 
-
+        // The code in tools/proofers/character_selector.js uses these ids and classes and adds the MRU buttons
+        // if this code is changed, that code also needs to change.
         foreach ($this->picker_set as $picker)
         {
             $code = maybe_utf8_decode($picker["code"]);
             $safe_code = bin2hex($code);
-            $title = maybe_utf8_decode($picker['title']);
+            $title = attr_safe(maybe_utf8_decode($picker['title']));
             $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
             $row_string .= "<div class='_$safe_code key-block'>\n";
             $row_string .= $this->draw_row($picker["upper"]);

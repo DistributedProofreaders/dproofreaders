@@ -13,6 +13,7 @@ module.exports = {
     },
     rules: {
         semi: ["error", "always"],
+        "no-use-before-define": "error",
         "indent": ["warn", 4],
         'brace-style': ['warn', '1tbs'],
         "space-before-blocks": "warn",
@@ -20,5 +21,6 @@ module.exports = {
         "no-trailing-spaces": "warn",
         "space-infix-ops": "warn",
         camelcase: 'warn',
+        "newline-per-chained-call": ["warn", { ignoreChainWithDepth: 2 }],
     }
 };
