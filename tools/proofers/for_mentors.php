@@ -209,12 +209,23 @@ function page_list_sql($mentored_round, $projectid)
         image
     ";
 
+    $page = mysqli_real_escape_string(DPDatabase::get_connection(), _("Page"));
+    $saved = mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved"));
+    $proofreader = mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader"));
+    $wc_events = mysqli_real_escape_string(DPDatabase::get_connection(), _("WordCheck Events"));
+
     return "
         SELECT
-            p.fileid AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Page")) . "',
-            DATE_FORMAT(FROM_UNIXTIME(p.{$mentored_round->time_column_name}),'%Y %b %d %H:%i') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved")) . "',
-            p.{$mentored_round->user_column_name}
-            AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "'
+            p.fileid AS '$page',
+            DATE_FORMAT(FROM_UNIXTIME(p.{$mentored_round->time_column_name}),'%Y %b %d %H:%i') AS '$saved',
+            p.{$mentored_round->user_column_name} AS '$proofreader',
+            (SELECT count(*)
+             FROM wordcheck_events
+             WHERE projectid='$projectid'
+                AND round_id = '$mentored_round->id'
+                AND username=p.{$mentored_round->user_column_name}
+                AND SUBSTRING_INDEX(image, '.', 1)=p.fileid
+            ) AS '$wc_events'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order" ;
