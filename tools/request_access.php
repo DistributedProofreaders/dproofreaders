@@ -61,7 +61,7 @@ else
             $user = new User($pguser);
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
-                $user->grant_access($stage_id, 'AUTO_GRANTED');
+                $user->grant_access($stage_id, 'AUTO-GRANTED');
                 echo _('Access has been granted!');
             }
             elseif ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
