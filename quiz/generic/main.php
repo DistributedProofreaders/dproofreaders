@@ -25,5 +25,5 @@ slim_header_frameset(qp_full_browser_title(), $header_args);
 </frameset>
 <frame name="right" src="right.php?quiz_page_id=<?php echo $quiz_page_id;?>">
 </frameset>
-<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>&amp;projectid=projectID0000000000000" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
