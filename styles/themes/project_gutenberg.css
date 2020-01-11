@@ -190,7 +190,8 @@ table.striped tr:nth-child(even) td {
 /* Sans-serif styling */
 #statsbar p,
 #statsbar li,
-#statsbar td {
+#statsbar td,
+#statsbar th {
   font-family: Verdana, Helvetica, sans-serif;
 }
 .sans-serif {

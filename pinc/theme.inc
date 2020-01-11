@@ -589,27 +589,25 @@ function show_tally_specific_stats( $tally_name )
 
     // Put the whole thing in a div, just so we can put a box around it.
     echo "<div id='tally-stats'>\n";
+    echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
 
     // Show the site statistics
 
     $site_stats = get_site_page_tally_summary($tally_name);
 
-    global $page_tally_names;
-    echo "<h2>" . $page_tally_names[$tally_name] . "</h2>\n";
-    echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
-    echo "<h4>" . _("Site Statistics") . "</h4>\n";
+    echo "<h2>" . sprintf(_("%s Site Statistics"), $tally_name) . "</h2>\n";
 
-    show_tally_vs_goal(
-        _("Today's Goal") . ":",  $site_stats->curr_day_goal,
-        _("Today's Total") . ":", $site_stats->curr_day_actual );
-
-    show_tally_vs_goal(
-        _("Yesterday's Goal") . ":",  $site_stats->prev_day_goal,
-        _("Yesterday's Total") . ":", $site_stats->prev_day_actual );
-
-    show_tally_vs_goal(
-        strftime(_("%B's Goal") . ":"),  $site_stats->curr_month_goal,
-        strftime(_("%B's Total") . ":"), $site_stats->curr_month_actual );
+    echo "<table style='width: 100%;'>";
+    echo "<tr>";
+    echo "<th></th>";
+    echo "<th class='center-align'>" . _("Goal") . "</th>";
+    echo "<th class='center-align'>" . _("Total") . "</th>";
+    echo "<th class='center-align'>" . _("Progress") . "</th>";
+    echo "</tr>";
+    show_tally_vs_goal(_("Today"), $site_stats->curr_day_goal, $site_stats->curr_day_actual);
+    show_tally_vs_goal(_("Yesterday"), $site_stats->prev_day_goal, $site_stats->prev_day_actual);
+    show_tally_vs_goal(strftime("%B"), $site_stats->curr_month_goal, $site_stats->curr_month_actual);
+    echo "</table>";
 
     // Number of users
     echo "<p>\n";
@@ -625,7 +623,6 @@ function show_tally_specific_stats( $tally_name )
             number_format($num_positive_users), $tally_name ),
         "\n";
 
-    echo "</p><hr class='divider'>\n";
     // ---------------------------------------------------------------------
 
     if (isset($pguser))
@@ -669,26 +666,37 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        echo "<h4>" . _("Personal Statistics") . "</h4>\n";
+        global $page_tally_names;
+        $valid_tally_names = array_keys($page_tally_names);
+        $site_total = 0;
+        foreach($valid_tally_names as $tally_name_temp)
+        {
+            $round_tallyboard = new TallyBoard($tally_name_temp, 'U');
+            $site_total += $round_tallyboard->get_current_tally($user->u_id);
+        }
+
+        echo "<h2>" . _("Personal Statistics") . "</h2>\n";
         echo "<p>\n";
-        echo _("Pages Yesterday") . ": ";
+        echo _("Your total site pages") . ": " . number_format($site_total) . "<br>\n";
+        echo "<br>";
+        echo sprintf(_("%s Pages Yesterday"), $tally_name) . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
-        echo _("Pages Today") . ": ";
+        echo sprintf(_("%s Pages Today"), $tally_name) . ": ";
         echo number_format($today_page_delta)."<br>\n";
-        echo _("Pages Total") . ": ";
+        echo sprintf(_("%s Pages Total"), $tally_name) . ": ";
         echo number_format($usern->get_current_page_tally())."<br>\n";
-        echo _("Current Position") . ": ";
+        echo sprintf(_("%s Current Position"), $tally_name) . ": ";
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
-        echo _("Current Rank") . ": ";
-        echo "$rankname</p>\n";
+        echo sprintf(_("%s Current Rank"), $tally_name) . ": ";
+        echo "$rankname<br>\n";
+        echo "</p>\n";
         echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&amp;tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
-            echo "<hr class='divider'>\n";
-            echo "<h4>" . _("Your Neighborhood") . "</h4>\n";
+            echo "<h2>" . sprintf(_("Your %s Neighborhood"), $tally_name) . "</h2>\n";
             echo "<p>\n";
 
             foreach ( $neighbors as $rel_posn => $neighbor )
@@ -708,19 +716,14 @@ function show_tally_specific_stats( $tally_name )
     echo "</div>";
 }
 
-function show_tally_vs_goal($label_for_goal, $goal, $label_for_actual, $actual)
+function show_tally_vs_goal($label, $goal, $actual)
 {
-    echo "<p>\n";
-    echo "$label_for_goal ", number_format($goal);
-    echo "<br>\n";
-
-    echo "$label_for_actual ", number_format($actual);
-    if ($goal)
-    {
-        // Show $actual as a percentage of $goal.
-        echo " (", number_format(($actual/$goal)*100, 2), "%)";
-    }
-    echo "</p>\n";
+    echo "<tr>";
+    echo "<th>$label</th>";
+    echo "<td class='center-align'>" . number_format($goal) . "</td>";
+    echo "<td class='center-align'>" . number_format($actual) . "</td>";
+    echo "<td class='center-align'>" . sprintf("%d%%", $actual / $goal * 100) . "</td>";
+    echo "</tr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -948,10 +951,11 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
 //   actual           - actual value obtained
 //   goal             - goal
 //   prorate_goal_for_color
-//                    - if TRUE, the returned color will be calculated based
-//                      on how much of the current day has passed. This is
-//                      useful so that at the beginning of a new day the bar
-//                      isn't at the low color.
+//                    - if TRUE or 'day', the returned color will be calculated based
+//                      on how much of the current day has passed. If set to 'month'
+//                      the color will be based on how much of the month has passed.
+//                      This is useful so that at the beginning of a new timefram the
+//                      bar isn't at the low color.
 //   color_thresholds - associative array containing the colors to use for
 //                      each percentage completed range
 //                      eg: array(100 => "lightgreen", 75 => "orange", 0 => "red");
@@ -988,22 +992,27 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
     }
 
     // Calculate the progress bar color scaling based on the time of day.
-    if($prorate_goal_for_color)
+    if($prorate_goal_for_color == 'bar' || $prorate_goal_for_color === TRUE)
     {
         $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
-        $fraction_of_day_passed = (time() - $t_start_of_today) / (60*60*24);
+        $fraction_of_time_passed = (time() - $t_start_of_today) / (60*60*24);
         // Note: Calculation assumes a 24-hour day which is true except
         // possibly for the first and last days of daylight saving time
         // depending on how PHP calculates DST in the mktime() call.
     }
+    elseif($prorate_goal_for_color == 'month')
+    {
+        $t_start_of_month = mktime(0, 0, 0, date('m'), 1, date('y'));
+        $fraction_of_time_passed = (time() - $t_start_of_month) / (60*60*24*date("t"));
+    }
     else
     {
-        $fraction_of_day_passed = 1;
+        $fraction_of_time_passed = 1;
     }
 
     foreach($color_thresholds as $threshold => $color)
     {
-        if($percent_complete >= ($threshold * $fraction_of_day_passed))
+        if($percent_complete >= ($threshold * $fraction_of_time_passed))
         {
             $progress_bar_color = $color;
             break;
