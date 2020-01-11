@@ -29,6 +29,7 @@ $sections = array(
         "copy_pages.php" => _("Copy Pages"),
         "delete_pages.php" => _("Delete Pages"),
         "rename_pages.php" => _("Rename Pages"),
+        "../project_manager/clearance_check.php?username=" => _("Questionable Clearances"),
     ),
     _("Site") => array(
         "sitenews.php" => _("Manage Site News"),
