@@ -91,15 +91,7 @@
   list-style-type: none;
 }
 #tally-stats {
-  border: 1px solid #111111;
   margin-top: 1em;
-}
-#tally-stats h4 {
-  text-align: center;
-  margin: 1em 0;
-}
-#tally-stats p {
-  padding-left: 0.5em;
 }
 #tally-stats #server-time {
   text-align: center;
@@ -107,7 +99,6 @@
 }
 #tally-stats .this-user {
   font-weight: bold;
-  font-style: italic;
 }
 #key-help-documents ul,
 #teams-nav ul {
