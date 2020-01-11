@@ -60,7 +60,7 @@ if ($stage == 'post_1')
 {
     $title = _("Upload post-processed file for verification");
     $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_second";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -74,7 +74,7 @@ else if ($stage == 'return_1')
 {
     $title = _("Return project to the post-processing pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
-    $submit_button = _("Return project");
+    $submit_label = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_first_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -88,7 +88,7 @@ else if ($stage == 'return_2')
 {
     $title = _("Return project to the post-processing verification pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
-    $submit_button = _("Return project");
+    $submit_label = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_second_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
@@ -102,7 +102,7 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
 {
     $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_corrections";
     $project_is_in_valid_state = PROJ_SUBMIT_PG_POSTED == $project->state;
@@ -120,7 +120,7 @@ else if ($stage == 'smooth_avail')
 {
     $title = _("Upload file for Smooth Reading");
     $intro_blurb = _("This page allows you to upload a fully post-processed file for Smooth Reading. Uploading another version will overwrite the previously uploaded file.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -134,7 +134,7 @@ else if ($stage == 'smooth_done')
 {
     $title = _("Upload smooth read version");
     $intro_blurb = _("This page allows you to upload a smooth read version of the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
     // This requirement is in project.php as well
@@ -234,9 +234,9 @@ if (!isset($action))
     echo "<li>";
     // TRANSLATORS: %1$s is replaced with a form <input> containing separately translated text like 'Upload file'
     echo sprintf(_('%1$s or return to the <a href="%2$s">%3$s</a>.'),
-        sprintf('<input type="submit" value="%s">', attr_safe($submit_button)),
+        sprintf('<input type="submit" value="%s">', attr_safe($submit_label)),
         $back_url, $back_blurb);
-    echo "<p>" . sprintf($submit_blurb,$submit_button) . "</p>";
+    echo "<p>" . sprintf($submit_blurb,$submit_label) . "</p>";
     echo "</li>\n";
     echo "</ol>";
 
