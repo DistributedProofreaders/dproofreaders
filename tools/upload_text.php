@@ -9,6 +9,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
+include_once($relPath.'upload_file.inc'); // show_upload_form()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -35,14 +36,6 @@ $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
 
 $project = new Project($projectid);
-
-// this blurb matches one in remote_file_manager.php
-$standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
-$submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
-$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
-    If you are trying to upload a very big zip file (e.g. 10 Mb)
-    and the upload does not succeed, upload a small placeholder zip file
-    instead and email %s for assistance."), $db_requests_email_addr);
 
 // Deny post_1 and return_1 if the project is currently in SR
 if (($stage == 'post_1' || $stage == 'return_1') &&
@@ -196,51 +189,30 @@ if (!isset($action))
 
     echo "<p>$intro_blurb</p>";
     if(isset($pre_step_instructions))
+    {
         echo "<p>$pre_step_instructions</p>";
-
-    echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='project' value='$projectid'>\n";
-    echo "<input type='hidden' name='stage' value='$stage'>\n";
-    echo "<input type='hidden' name='days' value='$days'>\n";
-    echo "<input type='hidden' name='action' value='1'>\n";
-
-    echo "<p>" . _("Follow these steps:") . "</p>\n";
-    echo "<ol>\n";
-
-    echo "<li>";
-    if($is_file_optional) {
-        echo _("(optional) Select a zipped file to upload:");
-    } else {
-        echo _("Select a zipped file to upload:");
     }
-    echo "<br>\n";
-    echo "<input type='file' accept='.zip' name='uploaded_file' size='25' maxsize='50'>\n";
-    echo "<p>$standard_blurb</p>";
-    echo "<p>$big_upload_blurb</p>\n";
-    echo "</li>\n";
+    $return_anchor = "<a href='$back_url'>$back_blurb</a>";
+    echo "<p>", sprintf(_("Return to the %s"), $return_anchor), "</p>\n";
 
-    if ($stage != 'smooth_done') {
-        echo "<li>";
-        if ($stage != 'smooth_avail') {
-            echo _("(optional) Leave comments for the next person who checks out this project:");
-        } else {
-            echo _("Leave instructions for smooth readers:");
+    $form_content = "<input type='hidden' name='project' value='$projectid'>
+        <input type='hidden' name='stage' value='$stage'>
+        <input type='hidden' name='days' value='$days'>
+        <input type='hidden' name='action' value='1'>";
+    if ($stage != 'smooth_done')
+    {
+        if ($stage != 'smooth_avail')
+        {
+            $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
         }
-        echo "<br>\n";
-        echo "<textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
-        echo "</li>\n";
+        else
+        {
+            $form_content .= _("Leave instructions for smooth readers:");
+        }
+        $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
     }
 
-    echo "<li>";
-    // TRANSLATORS: %1$s is replaced with a form <input> containing separately translated text like 'Upload file'
-    echo sprintf(_('%1$s or return to the <a href="%2$s">%3$s</a>.'),
-        sprintf('<input type="submit" value="%s">', attr_safe($submit_label)),
-        $back_url, $back_blurb);
-    echo "<p>" . sprintf($submit_blurb,$submit_label) . "</p>";
-    echo "</li>\n";
-    echo "</ol>";
-
-    echo "</form>\n";
+    show_upload_form($form_content, $submit_label);
 }
 else
 {
