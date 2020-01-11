@@ -103,8 +103,6 @@ $t_min_fmt = strftime('%Y-%m-%d %H:%M', $t_min);
 // TRANSLATORS: %s is a time in the format YYYY-MM-DD HH:MM
 echo "<p>" . sprintf(_("The following table shows entries in the access_log table that have occurred since %s"), $t_min_fmt) . "</p>";
 
-echo "<p>" . _("It excludes entries for auto-granting of access.") . "</p>";
-
 if($query_limit)
 {
     echo "<p class='warning'>" . _("Results have been limited to 200 entries.") . "</p>";
@@ -113,7 +111,7 @@ if($query_limit)
 dpsql_dump_query("
     SELECT *, FROM_UNIXTIME(timestamp)
     FROM access_log
-    WHERE modifier_username != 'AUTO-GRANTED'
+    WHERE 1
         $where_username
         $where_activity
         $where_action
