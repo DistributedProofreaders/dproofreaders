@@ -5,6 +5,12 @@ $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     and the upload does not succeed, upload a small placeholder zip file
     instead and email %s for assistance."), $db_requests_email_addr);
 
+$upload_messages = json_encode([
+    'working' => _("Working, please wait..."),
+    'uploadFailed' => _("Upload failed"),
+    'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
+]);
+
 function show_upload_form($form_content, $submit_label)
 {
     global $big_upload_blurb;
@@ -39,7 +45,7 @@ function show_upload_form($form_content, $submit_label)
     <span id='resumable_submit' class='button'>", _("Upload"), "</span></p>
     </div>";
 
-    echo "<p>", _("Upload progress"), ": <span id='upload_progress'></span></p>";
+    echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
 
     echo "</form>\n";
     echo "</div>\n";

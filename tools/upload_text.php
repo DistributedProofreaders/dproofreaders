@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
-include_once($relPath.'theme.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
@@ -146,7 +146,6 @@ else if ($stage == 'smooth_done')
 else if(!$stage)
 {
     // this may be due to a timeout when uploading big files.
-    include_once($relPath.'slim_header.inc');
 
     slim_header(_("Upload failed"));
 
@@ -164,7 +163,15 @@ if (!isset($action))
 {
     // Present the upload page.
 
-    output_header($title);
+    $extra_args = [
+        'js_files' => [
+            "$code_url/scripts/file_resume.js",
+        ],
+        'js_data' => "
+            var uploadMessages = $upload_messages;
+        ",
+    ];
+    slim_header($title, $extra_args);
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
