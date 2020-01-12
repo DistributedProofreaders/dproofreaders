@@ -1370,6 +1370,7 @@ function TaskDetails($tid)
             echo "<br>\n";
 
             TaskComments($tid);
+            echo "<br>\n";
             RelatedTasks($tid);
             echo "<br>\n";
             RelatedPostings($tid);
@@ -1537,7 +1538,7 @@ function TaskComments($tid)
         echo "<tr><td style='width: 100%'>\n";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b><br>";
-        echo "<br>" . nl2br(html_safe($row['comment'])) . "<hr style='width: 98%'>";
+        echo "<br>" . nl2br(make_urls_links(html_safe($row['comment']))) . "<hr style='width: 98%'>";
         echo "</td></tr>";
     }
     echo "<tr><td style='width: 100%'>\n";
@@ -1605,7 +1606,7 @@ function RelatedTasks($tid)
     echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<input type='number' name='related_task' min='1' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
-    echo " (Add the number of an existing, related task. This is optional.)";
+    echo " (Add the number of an existing, related task.)";
     echo "</form>";
     $related_tasks = load_related_tasks($tid);
     foreach($related_tasks as $val)
@@ -1712,13 +1713,13 @@ function RelatedPostings($tid)
     $row = mysqli_fetch_assoc($result);
     $related_postings = $row["related_postings"];
     echo "<table class='tasks'>\n";
-    echo "<tr><td style='width: 100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
+    echo "<tr><td style='width: 100%'><b>Related Topic</b>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<input type='number' name='related_posting' min='1' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
-    echo " (Optional)";
+    echo " (Add the number of a forum topic.)";
     echo "</form>";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
@@ -1841,7 +1842,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $fv = html_safe($raw_value); break; // maybe wrap in <a>
 
         case 'task_details':
-            return nl2br(html_safe($raw_value));
+            return nl2br(make_urls_links(html_safe($raw_value)));
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
@@ -1974,6 +1975,15 @@ function set_window_title($title)
 function title_string_for_task($pre_task)
 {
     return sprintf("Task #%d: %s", $pre_task->task_id, $pre_task->task_summary);
+}
+
+// Convert any URLs into a clickable link in a string
+function make_urls_links($string)
+{
+    // from https://stackoverflow.com/questions/1960461/convert-plain-text-urls-into-html-hyperlinks-in-php
+    $url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/';
+    $string = preg_replace($url, '<a href="$0">$0</a>', $string);
+    return $string;
 }
 
 // vim: sw=4 ts=4 expandtab
