@@ -239,8 +239,7 @@ else
         $name = $projectid.$indicator.$zipext;
         $location = "$project->dir/$name";
         ensure_path_is_unused( $location );
-        copy($uploaded_file, $location);
-        unlink($uploaded_file);
+        rename($uploaded_file, $location);
         $have_file = TRUE;
         if ($stage == 'smooth_avail')
         {

@@ -53,35 +53,38 @@ function show_upload_form($form_content, $submit_label)
 
 function validate_uploaded_file()
 {
-    $file_info = $_FILES['uploaded_file'];
+    $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
+    if('upload' == $mode)
+    {
+        $file_info = $_FILES['uploaded_file'];
 
-    // Some of the following logic was pulled from remote_file_manager.php.
+        // If there is no file uploaded, that might be OK so just return.
+        if (is_null($file_info) || $file_info['name'] == '') {
+            return NULL;
+        }
+        $original_name = $file_info['name'];
+        $file_path = $file_info['tmp_name'];
+        $error = $file_info['error'];
+        $file_size = $file_info['size'];
 
-    // If there is no file uploaded, that might be OK so just return.
-    if (is_null($file_info) || $file_info['name'] == '') {
-        return NULL;
-    }
-
-    // $file_info has 'name' 'type' 'size' 'tmp_name' 'error'
-
-    if ($file_info['error'] != UPLOAD_ERR_OK) {
-        die( get_upload_err_msg($file_info['error']) );
+        if ($error != UPLOAD_ERR_OK) {
+            die( get_upload_err_msg($error));
+        }
     }
 
     // do some checks.
     // if we have a file, we need its name to end in .zip, and we need
     // it to have non zero size and there must be only one file.
-
-    $file_count = count($file_info['name']);
+    $file_count = count($original_name);
     if ($file_count > 1) {
         die( _("You may only upload one file") );
     }
 
-    if ($file_info['name']) {       // we have a file now. do some more checks.
-        if (substr($file_info['name'], -4) != ".zip") {
+    if ($original_name) {       // we have a file now. do some more checks.
+        if (substr($original_name, -4) != ".zip") {
             die( _("Invalid Filename") );
         }
-        if (0 == $file_info['size']) {
+        if (0 == $file_size) {
             die( _("File is empty") );
         }
 
@@ -89,11 +92,11 @@ function validate_uploaded_file()
 
         // The extension was already checked and the file is not properly named (it has some temporary name), so we should
         // disable the extension check.
-        if (!is_valid_zip_file($file_info['tmp_name'], true)) {
+        if (!is_valid_zip_file($file_path, true)) {
             die( _("Not a valid zip file") );
         }
 
-        return $file_info['tmp_name'];
+        return $file_path;
     }
 
     return NULL;
