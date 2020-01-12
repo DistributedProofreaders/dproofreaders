@@ -3,7 +3,6 @@ $relPath="./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'site_specific.inc');
 include_once($relPath.'showstartexts.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
@@ -11,8 +10,6 @@ include_once($relPath.'walkthrough.inc');
 
 output_header(_("Welcome"), True);
 $etext_limit = 10;
-
-default_page_heading();
 
 show_news_for_page("FRONT");
 

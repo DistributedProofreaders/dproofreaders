@@ -428,6 +428,11 @@ _TESTING=FALSE
 #     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 # (2) metarefresh delays by 15 seconds.
 
+_ALERT_MESSAGE=
+# If set, this message will show a bar with this message below the navbar.
+# This can contain links and other HTML, but do not include block-level
+# tags like <p>.
+
 _MAINTENANCE=FALSE
 # Setting this to TRUE prevents pages from loading for anyone but already-
 # authenticated site admins and shows a "site down for maintenance" message.

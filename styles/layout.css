@@ -102,6 +102,64 @@ nav,
   display: inline;
 }
 /* ------------------------------------------------------------------------ */
+/* Alert & Test bar*/
+#alertbar-outer,
+#testbar-outer {
+  width: 100%;
+  display: table;
+}
+#alertbar,
+#testbar {
+  height: 1.66666667em;
+  margin: 0;
+  border: 0;
+  padding: 3px;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+#alertbar span.currentpage,
+#testbar span.currentpage {
+  font-weight: bold;
+}
+#alertbar #navbar-left,
+#testbar #navbar-left {
+  float: left;
+  padding: 2px;
+  display: table-cell;
+}
+#alertbar #navbar-right,
+#testbar #navbar-right,
+#alertbar #navbar-login,
+#testbar #navbar-login {
+  text-align: right;
+  float: right;
+  white-space: nowrap;
+  display: table-cell;
+}
+#alertbar #navbar-right,
+#testbar #navbar-right {
+  padding: 2px;
+}
+#alertbar #navbar-login,
+#testbar #navbar-login {
+  padding: 0px 2px;
+}
+#alertbar form,
+#testbar form {
+  margin: 0;
+  display: inline;
+}
+#alertbar form div,
+#testbar form div {
+  display: inline;
+}
+#alertbar p,
+#testbar p {
+  margin: 3px 0;
+}
+/* ------------------------------------------------------------------------ */
 /* Footer */
 footer,
 #footer {
