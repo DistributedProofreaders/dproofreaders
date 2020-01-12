@@ -536,6 +536,21 @@ CREATE TABLE `tasks_comments` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `tasks_related_tasks`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `tasks_related_tasks` (
+  `task_id_1` mediumint(9) NOT NULL,
+  `task_id_2` mediumint(9) NOT NULL,
+  PRIMARY KEY (`task_id_1`,`task_id_2`),
+  KEY `task_id_2` (`task_id_2`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `tasks_votes`
 #
 # Creation:

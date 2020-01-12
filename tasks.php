@@ -474,8 +474,6 @@ function create_task_from_form_submission($formsub)
 
     assert (!isset($formsub['task_id']));
     // Create a new task.
-    $relatedtasks_array = array();
-    $relatedtasks_array = encode_array($relatedtasks_array);
     $relatedpostings_array = array();
     $relatedpostings_array = encode_array($relatedpostings_array);
     $newt_type     = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
@@ -873,8 +871,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     $adding               = ($action == 'add');
     $pre_task_id          = $pre_task->task_id;
     $related_task_exists  = mysqli_num_rows(wrapped_mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
-    $related_tasks        = decode_array($pre_task->related_tasks);
-    $task_already_present = in_array($related_task_id, $related_tasks);
+    $task_already_present = in_array($related_task_id, load_related_tasks($pre_task_id));
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
         ShowError("You must supply a valid related task id number.");
@@ -882,18 +879,10 @@ function process_related_task($pre_task, $action, $related_task_id)
     }
 
     if ($adding) {
-        array_push($related_tasks, $related_task_id);
+        insert_related_task($pre_task_id, $related_task_id);
     } else {
-        unset($related_tasks[array_search($related_task_id, $related_tasks)]);
+        remove_related_task($pre_task_id, $related_task_id);
     }
-
-    $related_tasks = encode_array($related_tasks);
-
-    wrapped_mysql_query("
-        UPDATE tasks
-        SET related_tasks = '$related_tasks'
-        WHERE task_id = $pre_task_id
-    ");
 
     if ($adding) {
         NotificationMail($pre_task_id, "$pguser added related task $related_task_id.");
@@ -1609,9 +1598,6 @@ function NotificationMail($tid, $message, $new_task = false)
 function RelatedTasks($tid)
 {
     global $tasks_url, $tasks_status_array;
-    $result = wrapped_mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
-    $row = mysqli_fetch_assoc($result);
-    $related_tasks = $row["related_tasks"];
     echo "<table class='tasks'>\n";
     echo "<tr><td style='width: 100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<form action='$tasks_url' method='post'>";
@@ -1621,8 +1607,7 @@ function RelatedTasks($tid)
     echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of an existing, related task. This is optional.)";
     echo "</form>";
-    $related_tasks = decode_array($related_tasks);
-    asort($related_tasks);
+    $related_tasks = load_related_tasks($tid);
     foreach($related_tasks as $val)
     {
         $result = wrapped_mysql_query("
@@ -1650,6 +1635,74 @@ function RelatedTasks($tid)
         }
     }
     echo "</td></tr></table>";
+}
+
+function load_related_tasks($task_id)
+{
+    $sql = "
+        SELECT task_id_1, task_id_2
+        FROM tasks_related_tasks
+        WHERE task_id_1 = $task_id
+            OR task_id_2 = $task_id
+    ";
+
+    $result = mysqli_query(DPDatabase::get_connection(), $sql)
+        or die( mysqli_error(DPDatabase::get_connection()) );
+
+    $related_tasks = [];
+    while($row = mysqli_fetch_assoc($result))
+    {
+        if($row['task_id_1'] != $task_id)
+            $related_tasks[] = $row['task_id_1'];
+        else
+            $related_tasks[] = $row['task_id_2'];
+    }
+
+    sort($related_tasks);
+    return $related_tasks;
+}
+
+function insert_related_task($task1, $task2)
+{
+    $task_id_1 = min($task1, $task2);
+    $task_id_2 = max($task1, $task2);
+
+    // See if the association already exists
+    $sql = "
+        SELECT COUNT(*) AS count
+        FROM tasks_related_tasks
+        WHERE task_id_1 = $task_id_1
+            AND task_id_2 = $task_id_2
+    ";
+
+    $result = mysqli_query(DPDatabase::get_connection(), $sql)
+        or die( mysqli_error(DPDatabase::get_connection()) );
+    $row = mysqli_fetch_assoc($result);
+    if($row['count'] > 0)
+        return;
+
+    // Now do the insertion
+    $sql = "
+        INSERT INTO tasks_related_tasks
+        SET task_id_1 = $task_id_1, task_id_2 = $task_id_2
+    ";
+    $result = mysqli_query(DPDatabase::get_connection(), $sql)
+        or die( mysqli_error(DPDatabase::get_connection()) );
+}
+
+function remove_related_task($task1, $task2)
+{
+    $task_id_1 = min($task1, $task2);
+    $task_id_2 = max($task1, $task2);
+
+    // Now do the insertion
+    $sql = "
+        DELETE FROM tasks_related_tasks
+        WHERE task_id_1 = $task_id_1
+            AND task_id_2 = $task_id_2
+    ";
+    $result = mysqli_query(DPDatabase::get_connection(), $sql)
+        or die( mysqli_error(DPDatabase::get_connection()) );
 }
 
 function RelatedPostings($tid)
