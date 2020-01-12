@@ -33,6 +33,30 @@ nav, #navbar-outer, #navbar, #navbar-left, #navbar-right, #navbar-login {
     }
 }
 
+#alertbar, #alertbar-outer {
+    .sans-serif;
+    background-color: fade(yellow, 40%);
+    color: black;
+    .unicolor-link(darken(gray, 20%));
+}
+
+#testbar, #testbar-outer {
+    .sans-serif;
+    background: repeating-linear-gradient(
+        -45deg,
+        fade(yellow, 40%),
+        fade(yellow, 40%) 10px,
+        darken(fade(yellow, 40%), 10%) 10px,
+        darken(fade(yellow, 40%), 10%) 20px
+    );
+    color: black;
+    .unicolor-link(darken(gray, 20%));
+    span {
+        padding: 3px 1em;
+        background-color: fade(yellow, 50%);
+    }
+}
+
 /* Layout */
 #page-container {
     background-color: @sidebar-background;

@@ -16,6 +16,13 @@ $maintenance = <<MAINTENANCE>>;
 $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
 //---------------------------------------------------------------------------
 
+//-- Site Alert -------------------------------------------------------------
+// To create a site-wide alert that is shown on every page, set $alert_message.
+// This can contain links, but do not wrap it in <p> or other block-level tags.
+
+$alert_message = '<<ALERT_MESSAGE>>';
+//---------------------------------------------------------------------------
+
 $code_dir = '<<CODE_DIR>>';
 $code_url='<<CODE_URL>>';
 

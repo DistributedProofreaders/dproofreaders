@@ -123,18 +123,14 @@ function output_footer($nameofpage, $show_statsbar = True) {
 
 function html_logobar() {
     global $code_url, $site_name;
-    global $maintenance;
+    global $maintenance, $testing, $alert_message;
+
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
     echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name'></a>\n";
     echo "</div>\n";
 
     echo "<div id='titles-preserved'><p>\n";
-
-    if ($maintenance) {
-        echo _("MAINTENANCE MODE");
-        echo "<br>\n";
-    }
 
     $psd = get_project_status_descriptor('posted');
 
@@ -175,6 +171,29 @@ function html_logobar() {
     echo "</div>\n";
 
     html_navbar();
+
+    if($testing || $maintenance || $alert_message)
+    {
+        $id = 'alertbar';
+        $messages = [];
+        if($testing)
+        {
+            $messages[] = _("This is a test site!");
+            $id = 'testbar';
+        }
+        if($maintenance)
+        {
+            $messages[] = _("Site is in maintenance.");
+            $id = 'testbar';
+        }
+        if($alert_message)
+            $messages[] = $alert_message;
+        echo "<div id='$id-outer'>";
+        echo "<div id='$id'>";
+        echo "<p><span>" . implode(" | ", $messages) . "</span></p>";
+        echo "</div>";
+        echo "</div>";
+    }
 }
 
 function html_navbar()

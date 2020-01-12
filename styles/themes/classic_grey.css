@@ -79,6 +79,39 @@ nav input,
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
+#alertbar,
+#alertbar-outer {
+  font-family: Verdana, Helvetica, sans-serif;
+  background-color: rgba(255, 255, 0, 0.4);
+  color: black;
+}
+#alertbar a:link,
+#alertbar-outer a:link,
+#alertbar a:visited,
+#alertbar-outer a:visited,
+#alertbar a:active,
+#alertbar-outer a:active {
+  color: #4d4d4d;
+}
+#testbar,
+#testbar-outer {
+  font-family: Verdana, Helvetica, sans-serif;
+  background: repeating-linear-gradient(-45deg, rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4) 10px, rgba(204, 204, 0, 0.4) 10px, rgba(204, 204, 0, 0.4) 20px);
+  color: black;
+}
+#testbar a:link,
+#testbar-outer a:link,
+#testbar a:visited,
+#testbar-outer a:visited,
+#testbar a:active,
+#testbar-outer a:active {
+  color: #4d4d4d;
+}
+#testbar span,
+#testbar-outer span {
+  padding: 3px 1em;
+  background-color: rgba(255, 255, 0, 0.5);
+}
 /* Layout */
 #page-container {
   background-color: #dddddd;
