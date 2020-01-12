@@ -475,9 +475,9 @@ function create_task_from_form_submission($formsub)
     assert (!isset($formsub['task_id']));
     // Create a new task.
     $relatedtasks_array = array();
-    $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
+    $relatedtasks_array = encode_array($relatedtasks_array);
     $relatedpostings_array = array();
-    $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
+    $relatedpostings_array = encode_array($relatedpostings_array);
     $newt_type     = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
     $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys($categories_array));
     $newt_status   = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
@@ -887,7 +887,7 @@ function process_related_task($pre_task, $action, $related_task_id)
         unset($related_tasks[array_search($related_task_id, $related_tasks)]);
     }
 
-    $related_tasks = base64_encode(serialize($related_tasks));
+    $related_tasks = encode_array($related_tasks);
 
     wrapped_mysql_query("
         UPDATE tasks
@@ -932,7 +932,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
         unset($related_topics[array_search($related_topic_id, $related_topics)]);
     }
 
-    $related_topics = base64_encode(serialize($related_topics));
+    $related_topics = encode_array($related_topics);
 
     wrapped_mysql_query("
         UPDATE tasks
@@ -1058,12 +1058,19 @@ EOS;
     echo "</table></form><br>\n";
 }
 
+// Encode an array into text for insertion into the database.
+function encode_array($a)
+{
+    return base64_encode(serialize($a));
+}
+
+// Decode an array from its text form pulled into a PHP array.
+//
+// This should return an array, but if $str is empty,
+// unserialize("") === bool(false). In that case we explicitly return
+// an empty array.
 function decode_array($str)
 {
-    // Decode and deserialize a base64 encoded serialised array. Usually a
-    // field from the tasks table in the DB. This should return an array,
-    // but if $s is empty, unserialize("") === bool(false). In that case
-    // we explicitly return an empty array.
     $a = unserialize(base64_decode($str));
     if (is_array($a)) return $a;
     return array();
