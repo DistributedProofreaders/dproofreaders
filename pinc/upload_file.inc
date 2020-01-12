@@ -50,3 +50,51 @@ function show_upload_form($form_content, $submit_label)
     echo "</form>\n";
     echo "</div>\n";
 }
+
+function validate_uploaded_file()
+{
+    $file_info = $_FILES['uploaded_file'];
+
+    // Some of the following logic was pulled from remote_file_manager.php.
+
+    // If there is no file uploaded, that might be OK so just return.
+    if (is_null($file_info) || $file_info['name'] == '') {
+        return NULL;
+    }
+
+    // $file_info has 'name' 'type' 'size' 'tmp_name' 'error'
+
+    if ($file_info['error'] != UPLOAD_ERR_OK) {
+        die( get_upload_err_msg($file_info['error']) );
+    }
+
+    // do some checks.
+    // if we have a file, we need its name to end in .zip, and we need
+    // it to have non zero size and there must be only one file.
+
+    $file_count = count($file_info['name']);
+    if ($file_count > 1) {
+        die( _("You may only upload one file") );
+    }
+
+    if ($file_info['name']) {       // we have a file now. do some more checks.
+        if (substr($file_info['name'], -4) != ".zip") {
+            die( _("Invalid Filename") );
+        }
+        if (0 == $file_info['size']) {
+            die( _("File is empty") );
+        }
+
+        // ensure that it's a valid zip
+
+        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+        // disable the extension check.
+        if (!is_valid_zip_file($file_info['tmp_name'], true)) {
+            die( _("Not a valid zip file") );
+        }
+
+        return $file_info['tmp_name'];
+    }
+
+    return NULL;
+}
