@@ -567,8 +567,8 @@ if (!isset($_REQUEST['task_id'])) {
             // The user clicked a column-header-link in a listing of tasks
             // (or followed a bookmark of such a link).
             $header = "Task Search";
-            if (!empty($_POST['search_text'])) {
-                $header .= ": " . $_POST['search_text'];
+            if (!empty($_REQUEST['search_text'])) {
+                $header .= ": " . $_REQUEST['search_text'];
             }
             TaskHeader($header);
 
@@ -1035,7 +1035,7 @@ EOS;
     echo "<input type='submit' value='Go!'>\n";
     echo "</form>";
     echo "</td></tr></table><br>\n";
-    echo "<form action='$tasks_url' method='post'>";
+    echo "<form action='$tasks_url' method='get'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td><b>Search:</b></td>\n";
     echo "<td>";
