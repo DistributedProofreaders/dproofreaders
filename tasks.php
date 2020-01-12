@@ -511,7 +511,6 @@ function create_task_from_form_submission($formsub)
             date_edited      = $now_sse,
             edited_by        = $requester_u_id,
             percent_complete = 0,
-            related_tasks    = '$relatedtasks_array',
             related_postings = '$relatedpostings_array'
     ",
         mysqli_real_escape_string(DPDatabase::get_connection(), $task_summary),
