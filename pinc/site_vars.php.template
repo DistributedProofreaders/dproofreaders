@@ -6,6 +6,15 @@
 // are replaced by the corresponding values in SETUP/configuration.sh.
 // See that file for specific information on these and other settings.
 
+//-- Maintenance ------------------------------------------------------------
+// If you need to take the site down for maintenance, set $maintenance to
+// TRUE. This will show a maintenance message for every page request for
+// non-administrators. If $maintenance_message is not empty, it will be
+// appended to the page. $maintenance_message can contain HTML.
+
+$maintenance = <<MAINTENANCE>>;
+$maintenance_message = '<<MAINTENANCE_MESSAGE>>';
+//---------------------------------------------------------------------------
 
 $code_dir = '<<CODE_DIR>>';
 $code_url='<<CODE_URL>>';
@@ -103,8 +112,7 @@ $testing = <<TESTING>>;
 $use_php_sessions = <<USE_PHP_SESSIONS>>;
 $cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
 $use_secure_cookies = <<USE_SECURE_COOKIES>>;
-$maintenance = <<MAINTENANCE>>;
-$maintenance_message = '<<MAINTENANCE_MESSAGE>>';
+
 $site_supports_metadata = <<METADATA>>;
 $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 $auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;

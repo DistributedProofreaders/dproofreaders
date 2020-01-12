@@ -86,15 +86,16 @@ if ($maintenance)
 
     if (!user_is_a_sitemanager())
     {
-        $title = sprintf(_("%s Maintenance"),$site_name);
-        $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
-        if($maintenance_message)
-            $message .= "<br>$maintenance_message";
+        $title = sprintf(_("%s Maintenance"), $site_name);
         slim_header($title);
-        echo "<h2 style='text-align: center'>";
-        if (isset($pguser))
-            echo "$pguser ";
-        echo "$message</h2>";
+        echo "<h1>$title</h1>";
+
+        $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
+        echo "<p>$message</p>";
+
+        if($maintenance_message)
+            echo $maintenance_message;
+
         exit();
     }
 }
