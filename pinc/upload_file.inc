@@ -70,16 +70,25 @@ function validate_uploaded_file()
         if ($error != UPLOAD_ERR_OK) {
             die( get_upload_err_msg($error));
         }
+        // there must be only one file.
+        $file_count = count($original_name);
+        if ($file_count > 1) {
+            die( _("You may only upload one file") );
+        }
+    }
+    else
+    {
+        // resumable upload
+        $root_staging_dir = "/tmp/resumable_uploads";
+        $original_name = array_get($_POST, "resumable_filename", "");
+        $hashed_filename = md5($original_name);
+        $file_path = "$root_staging_dir/$hashed_filename";
+        $file_size = filesize($file_path);
     }
 
     // do some checks.
     // if we have a file, we need its name to end in .zip, and we need
-    // it to have non zero size and there must be only one file.
-    $file_count = count($original_name);
-    if ($file_count > 1) {
-        die( _("You may only upload one file") );
-    }
-
+    // it to have non zero size
     if ($original_name) {       // we have a file now. do some more checks.
         if (substr($original_name, -4) != ".zip") {
             die( _("Invalid Filename") );
@@ -89,7 +98,6 @@ function validate_uploaded_file()
         }
 
         // ensure that it's a valid zip
-
         // The extension was already checked and the file is not properly named (it has some temporary name), so we should
         // disable the extension check.
         if (!is_valid_zip_file($file_path, true)) {
@@ -98,6 +106,5 @@ function validate_uploaded_file()
 
         return $file_path;
     }
-
     return NULL;
 }

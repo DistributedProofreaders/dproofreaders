@@ -165,9 +165,11 @@ if (!isset($action))
 
     $extra_args = [
         'js_files' => [
+            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
             "$code_url/scripts/file_resume.js",
         ],
         'js_data' => "
+            var uploadTarget = '$code_url/tools/upload_file.php';
             var uploadMessages = $upload_messages;
         ",
     ];
