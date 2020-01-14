@@ -42,19 +42,17 @@ nav, #navbar-outer, #navbar, #navbar-left, #navbar-right, #navbar-login {
 
 #testbar, #testbar-outer {
     .sans-serif;
+    background-color: @page-background;
     background: repeating-linear-gradient(
-        -45deg,
-        fade(yellow, 40%),
-        fade(yellow, 40%) 10px,
-        darken(fade(yellow, 40%), 10%) 10px,
-        darken(fade(yellow, 40%), 10%) 20px
+        to right,
+        yellow,
+        @page-background 24%,
+        @page-background 75%,
+        yellow 100%,
     );
     color: black;
-    .unicolor-link(darken(gray, 20%));
-    span {
-        padding: 3px 1em;
-        background-color: fade(yellow, 50%);
-    }
+    border-bottom: solid thin black;
+    .unicolor-link(lighten(black, 30%));
 }
 
 /* Layout */

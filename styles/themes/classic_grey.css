@@ -96,8 +96,10 @@ nav input,
 #testbar,
 #testbar-outer {
   font-family: Verdana, Helvetica, sans-serif;
-  background: repeating-linear-gradient(-45deg, rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4) 10px, rgba(204, 204, 0, 0.4) 10px, rgba(204, 204, 0, 0.4) 20px);
+  background-color: #ffffff;
+  background: repeating-linear-gradient(to right, yellow, #ffffff 24%, #ffffff 75%, yellow 100%);
   color: black;
+  border-bottom: solid thin black;
 }
 #testbar a:link,
 #testbar-outer a:link,
@@ -106,11 +108,6 @@ nav input,
 #testbar a:active,
 #testbar-outer a:active {
   color: #4d4d4d;
-}
-#testbar span,
-#testbar-outer span {
-  padding: 3px 1em;
-  background-color: rgba(255, 255, 0, 0.5);
 }
 /* Layout */
 #page-container {
