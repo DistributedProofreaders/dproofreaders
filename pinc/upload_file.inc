@@ -1,5 +1,7 @@
 <?php
 
+class FileException extends Exception {}
+
 $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     If you are trying to upload a very big zip file (e.g. 10 Mb)
     and the upload does not succeed, upload a small placeholder zip file
@@ -53,58 +55,106 @@ function show_upload_form($form_content, $submit_label)
 
 function validate_uploaded_file()
 {
-    $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
-    if('upload' == $mode)
+    // return a valid file (or null) or throw a FileException
+    try
     {
-        $file_info = $_FILES['uploaded_file'];
+        $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
+        if('upload' == $mode)
+        {
+            $file_info = $_FILES['uploaded_file'];
 
-        // If there is no file uploaded, that might be OK so just return.
-        if (is_null($file_info) || $file_info['name'] == '') {
-            return NULL;
-        }
-        $original_name = $file_info['name'];
-        $file_path = $file_info['tmp_name'];
-        $error = $file_info['error'];
-        $file_size = $file_info['size'];
+            // If there is no file uploaded, that might be OK so just return.
+            if (is_null($file_info) || $file_info['name'] == '') {
+                return NULL;
+            }
+            $original_name = $file_info['name'];
+            $file_path = $file_info['tmp_name'];
+            $error = $file_info['error'];
+            $file_size = $file_info['size'];
 
-        if ($error != UPLOAD_ERR_OK) {
-            die( get_upload_err_msg($error));
+            if ($error != UPLOAD_ERR_OK) {
+                throw new FileException(get_upload_err_msg($error));
+            }
+            // there must be only one file.
+            $file_count = count($original_name);
+            if ($file_count > 1) {
+                throw new FileException( _("You may only upload one file") );
+            }
+            // allow anti_virus to read it
+            chmod($file_path, 0644);
         }
-        // there must be only one file.
-        $file_count = count($original_name);
-        if ($file_count > 1) {
-            die( _("You may only upload one file") );
+        else
+        {
+            // resumable upload
+            $root_staging_dir = "/tmp/resumable_uploads";
+            $original_name = array_get($_POST, "resumable_filename", "");
+            $hashed_filename = md5($original_name);
+            $file_path = "$root_staging_dir/$hashed_filename";
+            $file_size = filesize($file_path);
         }
-    }
-    else
-    {
-        // resumable upload
-        $root_staging_dir = "/tmp/resumable_uploads";
-        $original_name = array_get($_POST, "resumable_filename", "");
-        $hashed_filename = md5($original_name);
-        $file_path = "$root_staging_dir/$hashed_filename";
-        $file_size = filesize($file_path);
-    }
-
-    // do some checks.
-    // if we have a file, we need its name to end in .zip, and we need
-    // it to have non zero size
-    if ($original_name) {       // we have a file now. do some more checks.
-        if (substr($original_name, -4) != ".zip") {
-            die( _("Invalid Filename") );
-        }
-        if (0 == $file_size) {
-            die( _("File is empty") );
-        }
-
-        // ensure that it's a valid zip
-        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
-        // disable the extension check.
-        if (!is_valid_zip_file($file_path, true)) {
-            die( _("Not a valid zip file") );
-        }
-
+        // do some checks.
+        empty_check($file_size);
+        zip_check($original_name, $file_path);
+        virus_check($file_path);
         return $file_path;
     }
-    return NULL;
+    catch(FileException $e)
+    {
+        if(is_file($file_path))
+        {
+            unlink($file_path);
+        }
+        throw($e);
+    }
+}
+
+function empty_check($file_size)
+{
+    if (0 == $file_size) {
+        throw new FileException(_("File is empty"));
+    }
+}
+
+function zip_check($original_name, $file_path)
+{
+    if (substr($original_name, -4) != ".zip")
+    {
+        throw new FileException( _("File name extension must be '.zip'") );
+    }
+    // ensure that it's a valid zip
+    // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+    // disable the extension check.
+    if (!is_valid_zip_file($file_path, true))
+    {
+        throw new FileException( _("Not a valid zip file") );
+    }
+}
+
+function virus_check($file_path)
+{
+    global $antivirus_executable;
+    if($antivirus_executable)
+    {
+        // perform '$antivirus_executable -- <FILENAME>' and expect return
+        // value = 0. we use -- to not parse any further arguments starting
+        // with -/-- as options
+        $av_test_result = array();
+        $av_retval=0;
+
+        $cmd = "$antivirus_executable -- " . escapeshellcmd($file_path);
+        exec($cmd, $av_test_result, $av_retval);
+        // $av_retval == 0 is ok
+        if ($av_retval == 1)
+        {
+            // Log the infected upload so that we can track user/frequency
+            $reporting_string = "Infected upload: " . $av_test_result[0];
+            error_log($reporting_string);
+            throw new FileException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
+                You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));
+        }
+        else if($av_retval > 1)
+        {
+            throw new FileException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
+        }
+    }
 }

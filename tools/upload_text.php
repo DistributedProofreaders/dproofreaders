@@ -178,50 +178,56 @@ if (!isset($action))
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
-    // validate the project is in the correct state
-    if(!$project_is_in_valid_state)
-    {
-        echo "<p class='error'>" . _("The project is not in the correct state for this action.") . "</p>";
-        foreach($error_messages as $message)
-            echo "<p class='error'>$message</p>";
-        exit;
-    }
-
-    // validate the user has the ability to do this action
-    if(!$user_is_able_to_perform_action)
-    {
-        echo "<p class='error'>" . _("You do not have permission to perform this action.") . "</p>";
-        foreach($error_messages as $message)
-            echo "<p class='error'>$message</p>";
-        exit;
-    }
-
-    echo "<p>$intro_blurb</p>";
-    if(isset($pre_step_instructions))
-    {
-        echo "<p>$pre_step_instructions</p>";
-    }
     $return_anchor = "<a href='$back_url'>$back_blurb</a>";
     echo "<p>", sprintf(_("Return to the %s"), $return_anchor), "</p>\n";
 
-    $form_content = "<input type='hidden' name='project' value='$projectid'>
-        <input type='hidden' name='stage' value='$stage'>
-        <input type='hidden' name='days' value='$days'>
-        <input type='hidden' name='action' value='1'>";
-    if ($stage != 'smooth_done')
+    try
     {
-        if ($stage != 'smooth_avail')
+        // validate the project is in the correct state
+        if(!$project_is_in_valid_state)
         {
-            $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
+            throw new FileException(_("The project is not in the correct state for this action."));
         }
-        else
-        {
-            $form_content .= _("Leave instructions for smooth readers:");
-        }
-        $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
-    }
 
-    show_upload_form($form_content, $submit_label);
+        // validate the user has the ability to do this action
+        if(!$user_is_able_to_perform_action)
+        {
+            throw new FileException(_("You do not have permission to perform this action."));
+        }
+
+        echo "<p>$intro_blurb</p>";
+        if(isset($pre_step_instructions))
+        {
+            echo "<p>$pre_step_instructions</p>";
+        }
+
+        $form_content = "<input type='hidden' name='project' value='$projectid'>
+            <input type='hidden' name='stage' value='$stage'>
+            <input type='hidden' name='days' value='$days'>
+            <input type='hidden' name='action' value='1'>";
+        if ($stage != 'smooth_done')
+        {
+            if ($stage != 'smooth_avail')
+            {
+                $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
+            }
+            else
+            {
+                $form_content .= _("Leave instructions for smooth readers:");
+            }
+            $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
+        }
+
+        show_upload_form($form_content, $submit_label);
+    }
+    catch(FileException $e)
+    {
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        foreach($error_messages as $message)
+        {
+            echo "<p class='error'>$message</p>";
+        }
+    }
 }
 else
 {
@@ -231,112 +237,122 @@ else
     set_time_limit(14400);
 
     // if files have been uploaded, process them and mangle the postcomments
-    $uploaded_file = validate_uploaded_file();
-
-    $have_file = FALSE;
-    if (is_file($uploaded_file))
+    try
     {
-        // replace filename
-        $zipext = ".zip";
-        $name = $projectid.$indicator.$zipext;
-        $location = "$project->dir/$name";
-        ensure_path_is_unused( $location );
-        rename($uploaded_file, $location);
-        $have_file = TRUE;
-        if ($stage == 'smooth_avail')
+        $uploaded_file = validate_uploaded_file();
+
+        $have_file = FALSE;
+        if (is_file($uploaded_file))
         {
-            $project->delete_smoothreading_dir();
-            $smooth_dir = "$project->dir/smooth";
-            if(!mkdir($smooth_dir))
+            // replace filename
+            $zipext = ".zip";
+            $name = $projectid.$indicator.$zipext;
+            $location = "$project->dir/$name";
+            ensure_path_is_unused( $location );
+            rename($uploaded_file, $location);
+            $have_file = TRUE;
+            if ($stage == 'smooth_avail')
             {
-                die("Could not create smooth directory");
-            }
-            $zip_ok = extract_zip_to($location, $smooth_dir);
-            if($zip_ok)
-            {
-                // extract any zips in smooth_dir
-                $zips = glob("$smooth_dir/*.zip");
-                foreach($zips as $zip)
+                $project->delete_smoothreading_dir();
+                $smooth_dir = "$project->dir/smooth";
+                if(!mkdir($smooth_dir))
                 {
-                    $zip_ok = extract_zip_to($zip, $smooth_dir);
-                    if(!$zip_ok)
+                    throw new FileException("Could not create smooth directory");
+                }
+                $zip_ok = extract_zip_to($location, $smooth_dir);
+                if($zip_ok)
+                {
+                    // extract any zips in smooth_dir
+                    $zips = glob("$smooth_dir/*.zip");
+                    foreach($zips as $zip)
                     {
-                        break;
+                        $zip_ok = extract_zip_to($zip, $smooth_dir);
+                        if(!$zip_ok)
+                        {
+                            break;
+                        }
                     }
                 }
-            }
-            if(!$zip_ok)
-            {
-                die("failed to extract files");
+                if(!$zip_ok)
+                {
+                    throw new FileException("failed to extract files");
+                }
             }
         }
-    }
 
-    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
-    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
-    if ($need_file && ! $have_file) {
-        die( _("You must upload a file") );
-    }
+        $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
+        $need_file = !$returning_to_pool;    // in future, may be other conditions for this
+        if ($need_file && ! $have_file) {
+            throw new FileException( _("You must upload a file") );
+        }
 
-    // we've put the file in the right place.
-    // now let's deal with the postcomments.
-    // we construct the bit that's going to be added on to the existing postcomments.
-    // if we're returning to available, and the user hasn't loaded a file, and not
-    // entered any comments, we don't bother.
-    // Otherwise, we add a divider, time stamp, user name, and the name of the file
-    // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
-    $divider = "\n----------\n".date("Y-m-d H:i");
-    if ($have_file) {
-        $divider .= " $name uploaded by ";
-    }
-    else if ($returning_to_pool) {
-        $divider .= " returned by ";
-    }
-    else {
-        $divider .= " "; // this shouldn't actually happen
-    }
-    $divider .= $pguser."\n";
-    if (strlen($postcomments)>0 || $have_file) {
-        $postcomments = $divider . $postcomments;
-    }
-    // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
+        // we've put the file in the right place.
+        // now let's deal with the postcomments.
+        // we construct the bit that's going to be added on to the existing postcomments.
+        // if we're returning to available, and the user hasn't loaded a file, and not
+        // entered any comments, we don't bother.
+        // Otherwise, we add a divider, time stamp, user name, and the name of the file
+        // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
+        $divider = "\n----------\n".date("Y-m-d H:i");
+        if ($have_file) {
+            $divider .= " $name uploaded by ";
+        }
+        else if ($returning_to_pool) {
+            $divider .= " returned by ";
+        }
+        else {
+            $divider .= " "; // this shouldn't actually happen
+        }
+        $divider .= $pguser."\n";
+        if (strlen($postcomments)>0 || $have_file) {
+            $postcomments = $divider . $postcomments;
+        }
+        // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
 
-    $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
-    if ($error_msg)
+        $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
+        if ($error_msg)
+        {
+            throw new FileException("$error_msg");
+        }
+
+        // special handling for smooth reading, which does not involve a state change
+        // so project_transition() will do nothing
+        // but still needs some changes recorded in project table
+        // the comments get recorded even if it's just a replacement
+        if ($stage == 'smooth_avail')
+        {
+            handle_smooth_reading_change($project, $postcomments, $days, false);
+        }
+
+        if ($stage == 'smooth_done')
+        {
+            notify_project_event_subscribers( $project, 'sr_reported' );
+        }
+        // let them know file uploaded and send back to the right place
+        $msg1 = _("File uploaded. Thank you!");
+        $msg2 = _("Project returned to pool");
+        if ($have_file && $returning_to_pool) {
+            $msg = $msg1."\n".$msg2;
+        }
+        else if ($have_file) {
+            $msg = $msg1;
+        }
+        else if  ($returning_to_pool) {
+            $msg = $msg2;
+        }
+        else {
+            $msg = _("This shouldn't happen. No file upload and not returning to pool.");
+        }
+        metarefresh(1, $back_url, $msg, $msg);
+    }
+    catch(FileException $e)
     {
-        echo "$error_msg<br>\n";
+        slim_header($title);
+        echo "<h1>$title</h1>";
+        echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo "<a href='$back_url'>", _("Return to the Project Page"), "</a>";
     }
-
-    // special handling for smooth reading, which does not involve a state change
-    // so project_transition() will do nothing
-    // but still needs some changes recorded in project table
-    // the comments get recorded even if it's just a replacement
-    if ($stage == 'smooth_avail')
-    {
-        handle_smooth_reading_change($project, $postcomments, $days, false);
-    }
-
-    if ($stage == 'smooth_done')
-    {
-        notify_project_event_subscribers( $project, 'sr_reported' );
-    }
-
-    // let them know file uploaded and send back to the right place
-    $msg1 = _("File uploaded. Thank you!");
-    $msg2 = _("Project returned to pool");
-    if ($have_file && $returning_to_pool) {
-        $msg = $msg1."\n".$msg2;
-    }
-    else if ($have_file) {
-        $msg = $msg1;
-    }
-    else if  ($returning_to_pool) {
-        $msg = $msg2;
-    }
-    else {
-        $msg = _("This shouldn't happen. No file upload and not returning to pool.");
-    }
-    metarefresh(1, $back_url, $msg, $msg);
 }
 
 #----------------------------------------------------------------------------

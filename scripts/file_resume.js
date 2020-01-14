@@ -14,9 +14,8 @@ $(function() {
     }
 
     if(resumable.support) {
-//    if(false) {
         resumable.assignBrowse($("#resumable_browse"));
-//        resumable.assignDrop($(upload));
+        resumable.assignDrop($("#upload_form"));
 
         // Show the resumable div
         $("#resumable_uploader").show();
