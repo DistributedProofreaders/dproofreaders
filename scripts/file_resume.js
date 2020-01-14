@@ -35,7 +35,15 @@ $(function() {
         // in this case we can prevent the user from selecting another file
         $("#resumable_browse").prop( "disabled", true);
         $("#resumable_submit").prop( "disabled", true);
-        resumable.upload();
+        if(resumable.files.length) {
+            // a file has been selected
+            resumable.upload();
+        } else {
+            // no file selected, the resumable submit button will do nothing
+            // so submit the old form in 'upload' mode, with no file
+            showProgress(uploadMessages.working);
+            $("#upload_form").submit();
+        }
     });
 
     // After a file has been selected, display its name

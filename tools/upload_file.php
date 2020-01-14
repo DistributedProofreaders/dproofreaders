@@ -8,8 +8,6 @@ require_login();
 // This is used for asynchronous uploads via JS -- nothing
 // printed here will ever be exposed to the user.
 
-// this appears to assume only one file (not multiple)
-
 // staging directory for resumable uploads
 $root_staging_dir = "/tmp/resumable_uploads";
 
@@ -87,6 +85,7 @@ if($size_on_server >= $total_size)
     // To prevent multiple instances from trying to do the reassembly
     // concurrently, use a lock file. This should be rare, but we have seen
     // what looks like this behavior and it's easy to work around.
+    // This method could fail if it gets pre-empted before touch()
     $lock_filename = "$root_staging_dir/$hashed_filename.lock";
     if(is_file($lock_filename))
         return;
