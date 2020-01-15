@@ -2,10 +2,9 @@
 
 class FileException extends Exception {}
 
-$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
-    If you are trying to upload a very big zip file (e.g. 10 Mb)
+$big_upload_blurb = sprintf(_("If you are trying to upload a very big zip file
     and the upload does not succeed, upload a small placeholder zip file
-    instead and email %s for assistance."), $db_requests_email_addr);
+    instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 
 $upload_messages = json_encode([
     'working' => _("Working, please wait..."),
@@ -13,13 +12,17 @@ $upload_messages = json_encode([
     'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
 ]);
 
+$resumable_upload_size = 1024 * 1024 * 1024;  // 1GB
+
 function show_upload_form($form_content, $submit_label)
 {
-    global $big_upload_blurb;
-    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
-    $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
+    global $big_upload_blurb, $resumable_upload_size;
 
-    $submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
+        . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
+
+    $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label) . "</p>";
 
     // Display a div with a form; some content which can be abritrary HTML/other inputs;
     // a 'choose file' button and a labeled submit button
@@ -32,16 +35,18 @@ function show_upload_form($form_content, $submit_label)
     echo "<p>$standard_blurb</p>";
     // these are the form elements for non-resumable upload
     echo "<div id='old_uploader'>
+    <p class='warning'>", sprintf(_('Maximum file size is %s.'), $max_upload_size), "</p>
     <p>$big_upload_blurb</p>",
     _("File to upload"), ": <input type='file' id='old_browse' accept='.zip' name='uploaded_file' size='25' maxsize='50'>
-    <input type='submit' id='old_submit' value='", attr_safe($submit_label), "'>
-    <p>", sprintf($submit_blurb, $submit_label), "</p>
-    </div>";
+    <input type='submit' id='old_submit' value='", attr_safe($submit_label), "'>",
+    "<p>", sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label), "</p>",
+    "</div>";
 
     // if resumable, these are shown instead
     echo "<div id='resumable_uploader' style='display: none;'>
     <input type='hidden' name='resumable_filename' value=''>
-    <p>", _("Your browser supports uploading large files (up to 1GB) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), "</p>
+    <p>", sprintf(_("Your browser supports uploading large files (up to %s) via javascript. If the upload fails,
+        or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes($resumable_upload_size)), "</p>
     <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
     <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
     <span id='resumable_submit' class='button'>", _("Upload"), "</span></p>

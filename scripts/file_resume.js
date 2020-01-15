@@ -1,4 +1,4 @@
-/*global $ Resumable uploadTarget uploadMessages */
+/*global $ Resumable uploadTarget uploadMessages maxSize */
 $(function() {
     var resumable = new Resumable({
         target: uploadTarget,
@@ -6,13 +6,14 @@ $(function() {
         forceChunkSize: true,
         maxFiles: 1,
         fileType: ['zip'], // use extension not mime type since zips have many
-        maxFileSize: 1024 * 1024 * 1024  // 1GB
+        maxFileSize: maxSize,
     });
 
     function showProgress(text) {
         $("#upload_progress").html(text);
     }
 
+//    if(false) {
     if(resumable.support) {
         resumable.assignBrowse($("#resumable_browse"));
         resumable.assignDrop($("#upload_form"));

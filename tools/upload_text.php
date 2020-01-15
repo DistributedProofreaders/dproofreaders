@@ -171,6 +171,7 @@ if (!isset($action))
         'js_data' => "
             var uploadTarget = '$code_url/tools/upload_file.php';
             var uploadMessages = $upload_messages;
+            var maxSize = $resumable_upload_size;
         ",
     ];
     slim_header($title, $extra_args);
