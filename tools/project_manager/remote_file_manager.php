@@ -5,7 +5,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith(), return_bytes()
-include_once($relPath.'upload_file.inc'); // show_upload_form()
+include_once($relPath.'upload_file.inc'); // show_upload_form(), validate_uploaded_file()
+include_once($relPath.'slim_header.inc');
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -151,10 +152,10 @@ $hce_curr_displaypath = html_safe($curr_displaypath);
 
 
 // Decide what to do based on the action parameter
-
+/*
 if(isset($_REQUEST["resumableIdentifier"]))
     $_REQUEST["action"] = "resumable_chunk";
-
+*/
 $action = @$_REQUEST['action'];
 if (is_null($action)) {
     // Two possibilities:
@@ -188,10 +189,10 @@ switch ($action) {
     // Actions that do an action and do not return an info message
     case 'download':   do_download();   exit;
     case 'upload':     do_upload();     exit;
-    case 'resumable_final':
+/*    case 'resumable_final':
                        do_resumable_final(); exit;
     case 'resumable_chunk':
-                       do_resumable_chunk(); exit;
+                       do_resumable_chunk(); exit;*/
     // Actions that do an action and upon success return an info message
     case 'mkdir':      $action_message = do_mkdir();   break;
     case 'rename':     $action_message = do_rename();  break;
@@ -332,7 +333,7 @@ function do_showupload()
     show_upload_form($form_content, _("Upload"));
     show_return_link();
 }
-
+/*
 function do_upload()
 {
     return handle_file_upload(@$_FILES['uploaded_file']);
@@ -490,8 +491,8 @@ function handle_file_upload($file_info)
 
     show_return_link();
 }
-
-function handle_upload()
+*/
+function do_upload()
 {
     global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
     global $pguser, $despecialed_username;
@@ -510,29 +511,54 @@ function handle_upload()
 
     try
     {
-        $temporary_path = validate_uploaded_file();
-        $target_name = $file_prefix . validate_uploaded_file();
-        $target_path = "$curr_abspath/$target_name";
-
-        // If there's already something at $temporary_path,
-        // this will silently overwrite it.
-        // That might or might not be the user's intent.
-        $move_result = rename($temporary_path, $target_path);
-
-        if(!$move_result) {
-            fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
+        $file_info = validate_uploaded_file();
+        if(is_null($file_info))
+        {
+            throw new FileException(_("You must select a file to upload."));
         }
+        $temporary_path = $file_info["tmp_name"];
 
-    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
+        try
+        {
+            $target_name = $file_prefix . $file_info['name'];
+            $target_path = "$curr_abspath/$target_name";
 
-    // Log the file upload
-    // In part so that we can possibly clean up with some automation later
-    $reporting_string = "DPSCANS: File uploaded to " . $target_path;
-    error_log($reporting_string);
+            // If there's already something at $temporary_path,
+            // this will silently overwrite it.
+            // That might or might not be the user's intent.
+            $move_result = rename($temporary_path, $target_path);
 
-    show_return_link();
+            if(!$move_result)
+            {
+                throw new FileException(_("Webserver failed to copy uploaded file from temporary location to upload folder."));
+            }
+
+            echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
+
+            // Log the file upload
+            // In part so that we can possibly clean up with some automation later
+            $reporting_string = "DPSCANS: File uploaded to " . $target_path;
+            error_log($reporting_string);
+
+            show_return_link();
+        }
+        catch(FileException $e)
+        {
+            if(is_file($temporary_path))
+            {
+                unlink($temporary_path);
+            }
+            throw($e);
+        }
+    }
+    catch(FileException $e)
+    {
+        slim_header();
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        show_return_link();
+    }
 }
-
+/*
 function do_resumable_chunk()
 {
     // This function is only called for asynchronous uploads via JS -- nothing
@@ -637,7 +663,7 @@ function do_resumable_chunk()
         unlink($lock_filename);
     }
 }
-
+*/
 function do_showmkdir()
 {
     global $curr_relpath, $hce_curr_displaypath;
@@ -1427,7 +1453,7 @@ function is_valid_filename($filename, $restrict_extension=False)
     // The filename is valid if the regexp matches exactly once.
     return preg_match($regexp, $filename) == 1;
 }
-
+/*
 function get_resumablejs_loader($cdrp)
 {
     global $code_url;
@@ -1494,6 +1520,6 @@ $(document).ready(function() {
     });
 });
 EOS;
-}
+}*/
 
 // vim: sw=4 ts=4 expandtab
