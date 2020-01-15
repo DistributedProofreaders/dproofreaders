@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith(), return_bytes()
+include_once($relPath.'upload_file.inc'); // show_upload_form()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -267,23 +268,31 @@ function do_showupload()
 {
     global $curr_relpath, $hce_curr_displaypath;
     global $pguser, $autoprefix_message;
+    global $code_url, $upload_messages, $resumable_upload_size;
 
-    // the first part of this blurb is used in upload_text.php
+/*    // the first part of this blurb is used in upload_text.php
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
     $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
 
     $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload")) . "</p>";
     $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    $submit_blurb .= "<p class='warning'>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</p>\n";
+    $submit_blurb .= "<p class='warning'>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</p>\n";*/
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
     $extra_args = array(
-        'js_files' => array("../../pinc/3rdparty/resumablejs/resumable.js"),
-        'js_data' => get_resumablejs_loader($curr_relpath),
+        'js_files' => [
+            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
+            "$code_url/scripts/file_resume.js",
+        ],
+        'js_data' => "
+            var uploadTarget = '$code_url/tools/upload_file.php';
+            var uploadMessages = $upload_messages;
+            var maxSize = $resumable_upload_size;
+        ",
     );
     output_header($page_title, NO_STATSBAR, $extra_args);
     echo "<h1>$page_title</h1>\n";
-
+/*
     $form_content = "";
     if (get_access_mode($pguser) == 'common') {
         $form_content .= get_message('info', $autoprefix_message);
@@ -311,14 +320,22 @@ function do_showupload()
         $curr_relpath,
         $form_content,
         _("Upload")
-    );
+    );*/
+    $form_content = "";
+    if (get_access_mode($pguser) == 'common') {
+        $form_content .= get_message('info', $autoprefix_message);
+    }
+    $form_content .= "
+        <input type='hidden' name='cdrp' value='" . attr_safe($curr_relpath) . "'>\n
+        <input type='hidden' name='action' value='upload'>\n";
 
+    show_upload_form($form_content, _("Upload"));
     show_return_link();
 }
 
 function do_upload()
 {
-    return handle_file_upload(@$_FILES['the_file']);
+    return handle_file_upload(@$_FILES['uploaded_file']);
 }
 
 function do_resumable_final()
@@ -463,6 +480,48 @@ function handle_file_upload($file_info)
     if(!$move_result) {
         fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
+
+    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
+
+    // Log the file upload
+    // In part so that we can possibly clean up with some automation later
+    $reporting_string = "DPSCANS: File uploaded to " . $target_path;
+    error_log($reporting_string);
+
+    show_return_link();
+}
+
+function handle_upload()
+{
+    global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
+    global $pguser, $despecialed_username;
+    global $commons_dir;
+
+    set_time_limit(14400);
+
+    // Files uploaded to the commons folder should be prefixed with the user's
+    // name. This helps identify where the file comes from. We don't prevent
+    // the file from being renamed later to remove it, however.
+    if(startswith($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
+        $file_prefix = $despecialed_username . "_";
+    } else {
+        $file_prefix = "";
+    }
+
+    try
+    {
+        $temporary_path = validate_uploaded_file();
+        $target_name = $file_prefix . validate_uploaded_file();
+        $target_path = "$curr_abspath/$target_name";
+
+        // If there's already something at $temporary_path,
+        // this will silently overwrite it.
+        // That might or might not be the user's intent.
+        $move_result = rename($temporary_path, $target_path);
+
+        if(!$move_result) {
+            fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
+        }
 
     echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
 
