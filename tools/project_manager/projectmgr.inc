@@ -40,20 +40,28 @@ function echo_manager_links()
             echo "<li><a href='$create_project_url'>"._("Create Project")."</a></li>\n";
         }
         echo "<li><a href='$code_url/tools/project_manager/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
+        echo "<li><a href='$code_url/tools/project_manager/clearance_check.php'>"._("Clearance Check")."</a></li>\n";
         # SITE-SPECIFIC
-        echo "<li><a href='$code_url/../noncvs/send_email.php?to=db-req'>"._("Email db-req")."</a></li>\n";
-        echo "<li><a href='$code_url/../noncvs/send_email.php?to=dp-format'>"._("Email dp-format")."</a></li>\n";
+        echo "<li>"._("Email").": ";
+            echo "<a href='$code_url/../noncvs/send_email.php?to=db-req'>db-req</a> | ";
+            echo "<a href='$code_url/../noncvs/send_email.php?to=dp-format'>dp-format</a>";
+        echo "</li>\n";
         echo "<li><a href='$code_url/tools/project_manager/show_all_good_word_suggestions.php'>"._("Manage proofreaders' Suggestions")."</a></li>\n";
     }
-    echo "<li><a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a></li>\n";
+    echo "<li>"._("Image Sources").": ";
+        echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Info")."</a>";
     if (user_is_image_sources_manager())
     {
-        echo "<li><a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a></li>\n";
+        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage ")."</a></li>\n";
     }
     else if (user_is_PM())
     {
-        echo "<li><a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a></li>\n";
+        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose")."</a>";
     }
+    echo "</li>\n";
+    # We don't compact Special Days like we do Image Sources since only SAs
+    # can manage Special Days (and it avoids explaining to PMs why this is
+    # clearly set up for other things that they don't have access to).
     echo "<li><a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a></li>\n";
     if(user_is_a_sitemanager())
     {
