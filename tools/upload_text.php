@@ -240,18 +240,16 @@ else
     // if files have been uploaded, process them and mangle the postcomments
     try
     {
-        $uploaded_file = validate_uploaded_file();
-
-        $have_file = FALSE;
-        if (is_file($uploaded_file))
+        $file_info = validate_uploaded_file();
+        $have_file = ($file_info != null);
+        if ($have_file)
         {
             // replace filename
             $zipext = ".zip";
             $name = $projectid.$indicator.$zipext;
             $location = "$project->dir/$name";
             ensure_path_is_unused( $location );
-            rename($uploaded_file, $location);
-            $have_file = TRUE;
+            rename($file_info[tmp_name], $location);
             if ($stage == 'smooth_avail')
             {
                 $project->delete_smoothreading_dir();

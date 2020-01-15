@@ -96,12 +96,13 @@ function validate_uploaded_file()
             $hashed_filename = md5($original_name);
             $file_path = "$root_staging_dir/$hashed_filename";
             $file_size = filesize($file_path);
+            $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
         // do some checks.
         empty_check($file_size);
-        zip_check($original_name, $file_path);
         virus_check($file_path);
-        return $file_path;
+        zip_check($original_name, $file_path);
+        return $file_info;
     }
     catch(FileException $e)
     {
@@ -131,7 +132,7 @@ function zip_check($original_name, $file_path)
     // disable the extension check.
     if (!is_valid_zip_file($file_path, true))
     {
-        throw new FileException( _("Not a valid zip file") );
+        throw new FileException(sprintf(_("%s is not a valid zip file"),  $original_name));
     }
 }
 
