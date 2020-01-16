@@ -159,6 +159,9 @@ else if(!$stage)
     exit;
 }
 
+$return_anchor = "<a href='$back_url'>$back_blurb</a>";
+$return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
+
 if (!isset($action))
 {
     // Present the upload page.
@@ -179,8 +182,7 @@ if (!isset($action))
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
-    $return_anchor = "<a href='$back_url'>$back_blurb</a>";
-    echo "<p>", sprintf(_("Return to the %s"), $return_anchor), "</p>\n";
+    echo $return_message;
 
     try
     {
@@ -237,10 +239,15 @@ else
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
 
+    slim_header($title);
+    echo "<h1>$title</h1>";
+    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+
     // if files have been uploaded, process them and mangle the postcomments
     try
     {
-        $file_info = validate_uploaded_file();
+        // the file will be renamed so we don't need to make it valid
+        $file_info = validate_uploaded_file(false);
         $have_file = ($file_info != null);
         if ($have_file)
         {
@@ -249,7 +256,7 @@ else
             $name = $projectid.$indicator.$zipext;
             $location = "$project->dir/$name";
             ensure_path_is_unused( $location );
-            rename($file_info[tmp_name], $location);
+            rename($file_info['tmp_name'], $location);
             if ($stage == 'smooth_avail')
             {
                 $project->delete_smoothreading_dir();
@@ -327,6 +334,13 @@ else
         {
             notify_project_event_subscribers( $project, 'sr_reported' );
         }
+
+        $warning  = $file_info['warn'];
+        if($warning)
+        {
+            echo "<p class='warning'>$warning</p>";
+        }
+
         // let them know file uploaded and send back to the right place
         $msg1 = _("File uploaded. Thank you!");
         $msg2 = _("Project returned to pool");
@@ -342,16 +356,13 @@ else
         else {
             $msg = _("This shouldn't happen. No file upload and not returning to pool.");
         }
-        metarefresh(1, $back_url, $msg, $msg);
+        echo "<p>$msg</p>";
     }
     catch(FileException $e)
     {
-        slim_header($title);
-        echo "<h1>$title</h1>";
-        echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
-        echo "<a href='$back_url'>", _("Return to the Project Page"), "</a>";
     }
+    echo $return_message;
 }
 
 #----------------------------------------------------------------------------

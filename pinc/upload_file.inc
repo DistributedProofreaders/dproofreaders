@@ -58,9 +58,12 @@ function show_upload_form($form_content, $submit_label)
     echo "</div>\n";
 }
 
-function validate_uploaded_file()
+// return null if there is no file
+// or return a file_info with 'name' and 'tmp_name' and 'warn'
+// throw a FileException if there is a probem
+// maybe change name and return a warning
+function validate_uploaded_file($make_valid_name = false)
 {
-    // return a valid file (or null) or throw a FileException
     try
     {
         $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
@@ -98,8 +101,13 @@ function validate_uploaded_file()
             $file_size = filesize($file_path);
             $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
+        $file_info['warn'] = null;
         // do some checks.
         empty_check($file_size);
+        if($make_valid_name)
+        {
+            $file_info["warn"] = make_valid_filename($original_name);
+        }
         virus_check($file_path);
         zip_check($original_name, $file_path);
         return $file_info;
@@ -163,4 +171,35 @@ function virus_check($file_path)
             throw new FileException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
         }
     }
+}
+
+function make_valid_filename(&$name)
+{
+    if (!is_valid_filename($name, "zip")) {
+        // create a valid filename re-using the extension provided
+        $old_filename = $name;
+        $path_parts = pathinfo($old_filename);
+        $name = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
+        return sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $name, $old_filename);
+    }
+}
+
+function is_valid_filename($filename, $restrict_extension=False)
+{
+    // Base the filename restrictions on removing anything that could
+    // conceivably be a shell escape, control character etc.
+    // See http://www.owasp.org/index.php/Unrestricted_File_Upload
+
+    if ($restrict_extension === False) {
+        // Ordinarly we allow filenames to start with an alphanumeric, followed
+        // by 0 or more alphanumerics, hypens, dashes or periods.
+        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
+    } else {
+        // If we want to restrict filename extensions, '.'s aren't allowed in the
+        // body of the filename, and the filename must end with '.ext'
+        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/i';
+    }
+
+    // The filename is valid if the regexp matches exactly once.
+    return preg_match($regexp, $filename) == 1;
 }
