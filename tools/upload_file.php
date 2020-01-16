@@ -13,12 +13,13 @@ $root_staging_dir = "/tmp/resumable_uploads";
 
 $identifier = array_get($_REQUEST, "resumableIdentifier", "");
 $filename = array_get($_REQUEST, "resumableFilename", "");
-$hashed_filename = md5($identifier); // why md5?
+// create a sanitised file name
+$hashed_filename = md5($identifier);
 $chunk_number = array_get($_REQUEST, "resumableChunkNumber", "");
 $total_chunks = array_get($_REQUEST, "resumableTotalChunks", 0);
 $total_size = array_get($_REQUEST, "resumableTotalSize", 0);
 
-// use a different name from final file so we can put final file
+// use a different name for directory so we can put final file
 // in $root_staging_dir and delete $staging_dir
 $staging_dir = "$root_staging_dir/{$hashed_filename}dir";
 $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
@@ -84,7 +85,6 @@ if($size_on_server >= $total_size)
     // To prevent multiple instances from trying to do the reassembly
     // concurrently, use a lock file. This should be rare, but we have seen
     // what looks like this behavior and it's easy to work around.
-    // This method could fail if it gets pre-empted before touch()
     $lock_filename = "$root_staging_dir/$hashed_filename.lock";
     if(is_file($lock_filename))
         return;
