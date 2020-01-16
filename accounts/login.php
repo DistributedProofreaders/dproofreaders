@@ -40,9 +40,21 @@ if ($userPW == '')
 }
 
 // Attempt to log into forum
-if (!login_forum_user($userNM, $userPW))
+list($success, $reason) = login_forum_user($userNM, $userPW);
+if(!$success)
 {
-    login_failure('auth_failure', $destination);
+    if($reason == 'unknown')
+    {
+        login_failure('unknown_failure', $destination);
+    }
+    elseif($reason == 'too_many_attempts')
+    {
+        login_failure('too_many_attempts', $destination);
+    }
+    else
+    {
+        login_failure('auth_failure', $destination);
+    }
 }
 
 // Look for user in 'users' table.

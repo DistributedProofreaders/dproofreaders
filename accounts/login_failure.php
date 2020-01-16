@@ -26,6 +26,8 @@ $login_failures = array(
     'no_username'      => _("You did not supply a username."),
     'no_password'      => _("You did not supply a password."),
     'auth_failure'     => _("Unable to authenticate. The username/password may be incorrect or your account may be locked."),
+    'unknown_failure'  => sprintf(_("An unexpected failure occurred, please contact the <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
+    'too_many_attempts'=> sprintf(_("You exceeded the maxiumum number of failed logins. Go <a href='%s'>log into the forums</a> and answer the CAPTCHA. Once you have successfully logged in there, return here and try again."), "$forums_url/ucp.php?mode=login"),
     'reg_mismatch'     => sprintf(_("You are registered with the forum software, but not with %s."), $site_abbreviation),
 );
 
@@ -45,7 +47,7 @@ echo "<p>" . _("Please attempt again to log in above. If problems persist, revie
 echo "<ol>";
 if ($testing)
 {
-    echo "<li>" . _("Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)") . "</li>\n";
+    echo "<li class='test_warning'>" . _("Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)") . "</li>\n";
 }
 echo "<li>" . _("Type your username in the exact same way as when you registered.") . "</li>\n";
 echo "<li>" . sprintf( _("<a href='%s'>Reset</a> your password."), get_reset_password_url()) . "</li>\n";
