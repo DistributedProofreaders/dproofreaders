@@ -116,7 +116,7 @@ else
 <area shape="rect" coords=" 59,8, 76,25" href="javascript:addChar('D')" title="<?php echo attr_safe(_("Delta")); ?>">
 <area shape="rect" coords=" 76,8, 92,25" href="javascript:addChar('E')" title="<?php echo attr_safe(_("Epsilon")); ?>">
 <area shape="rect" coords=" 93,8,110,25" href="javascript:addChar('Z')" title="<?php echo attr_safe(_("Zeta")); ?>">
-<area shape="rect" coords="111,8,130,25" href="javascript:addChar('Ê')" title="<?php echo attr_safe(_("Eta")); ?>">
+<area shape="rect" coords="111,8,130,25" href="javascript:addChar('ÃŠ')" title="<?php echo attr_safe(_("Eta")); ?>">
 <area shape="rect" coords="131,8,158,25" href="javascript:addChar('Th')" title="<?php echo attr_safe(_("Theta")); ?>">
 <area shape="rect" coords="159,8,170,25" href="javascript:addChar('I')" title="<?php echo attr_safe(_("Iota")); ?>">
 <area shape="rect" coords="171,8,188,25" href="javascript:addChar('K')" title="<?php echo attr_safe(_("Kappa")); ?>">
@@ -133,7 +133,7 @@ else
 <area shape="rect" coords="394,8,421,25" href="javascript:addChar('Ph')" title="<?php echo attr_safe(_("Phi")); ?>">
 <area shape="rect" coords="422,8,442,25" href="javascript:addChar('Ch')" title="<?php echo attr_safe(_("Chi")); ?>">
 <area shape="rect" coords="443,8,462,25" href="javascript:addChar('Ps')" title="<?php echo attr_safe(_("Psi")); ?>">
-<area shape="rect" coords="463,8,480,25" href="javascript:addChar('Ô')" title="<?php echo attr_safe(_("Omega")); ?>">
+<area shape="rect" coords="463,8,480,25" href="javascript:addChar('Ã”')" title="<?php echo attr_safe(_("Omega")); ?>">
 
 <!-- Lowercase -->
 <area shape="rect" coords="  5,27, 21,48" href="javascript:addChar('a')" title="<?php echo attr_safe(_("alpha")); ?>">
@@ -142,7 +142,7 @@ else
 <area shape="rect" coords=" 59,27, 76,48" href="javascript:addChar('d')" title="<?php echo attr_safe(_("delta")); ?>">
 <area shape="rect" coords=" 76,27, 92,48" href="javascript:addChar('e')" title="<?php echo attr_safe(_("epsilon")); ?>">
 <area shape="rect" coords=" 93,27,110,48" href="javascript:addChar('z')" title="<?php echo attr_safe(_("zeta")); ?>">
-<area shape="rect" coords="111,27,130,48" href="javascript:addChar('ê')" title="<?php echo attr_safe(_("eta")); ?>">
+<area shape="rect" coords="111,27,130,48" href="javascript:addChar('Ãª')" title="<?php echo attr_safe(_("eta")); ?>">
 <area shape="rect" coords="131,27,158,48" href="javascript:addChar('th')" title="<?php echo attr_safe(_("theta")); ?>">
 <area shape="rect" coords="159,27,170,48" href="javascript:addChar('i')" title="<?php echo attr_safe(_("iota")); ?>">
 <area shape="rect" coords="171,27,188,48" href="javascript:addChar('k')" title="<?php echo attr_safe(_("kappa")); ?>">
@@ -159,7 +159,7 @@ else
 <area shape="rect" coords="394,27,421,48" href="javascript:addChar('ph')" title="<?php echo attr_safe(_("phi")); ?>">
 <area shape="rect" coords="422,27,442,48" href="javascript:addChar('ch')" title="<?php echo attr_safe(_("chi")); ?>">
 <area shape="rect" coords="443,27,462,48" href="javascript:addChar('ps')" title="<?php echo attr_safe(_("psi")); ?>">
-<area shape="rect" coords="463,27,480,48" href="javascript:addChar('ô')" title="<?php echo attr_safe(_("omega")); ?>">
+<area shape="rect" coords="463,27,480,48" href="javascript:addChar('Ã´')" title="<?php echo attr_safe(_("omega")); ?>">
 
 <!-- Gamma exceptions -->
 <area shape="rect" coords="488,27,511,48" href="javascript:addChar('ng')" title="<?php echo attr_safe(_("gamma")." "._("gamma")); ?>">
