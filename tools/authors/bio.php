@@ -35,8 +35,6 @@ if (!$row) {
 $author_id = $row["author_id"];
 $bio = $row["bio"];
 
-$bio = preg_replace("/å/", "&aring;", $bio);
-
 // the author
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT last_name, other_names FROM authors WHERE author_id=$author_id;");
 $row = mysqli_fetch_assoc($result);
