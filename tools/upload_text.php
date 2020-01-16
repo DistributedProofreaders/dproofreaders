@@ -248,7 +248,7 @@ else
     {
         // the file will be renamed so we don't need to make it valid
         $file_info = validate_uploaded_file(false);
-        $have_file = ($file_info != null);
+        $have_file = !is_null($file_info);
         if ($have_file)
         {
             // replace filename
