@@ -26,7 +26,7 @@ $login_failures = array(
     'no_username'      => _("You did not supply a username."),
     'no_password'      => _("You did not supply a password."),
     'auth_failure'     => _("Unable to authenticate. The username/password may be incorrect or your account may be locked."),
-    'unknown_failure'  => sprintf(_("An unexpected failure occurred, please contact the <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
+    'unknown_failure'  => sprintf(_("An unexpected failure occurred, please contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
     'too_many_attempts'=> sprintf(_("You exceeded the maxiumum number of failed logins. Go <a href='%s'>log into the forums</a> and answer the CAPTCHA. Once you have successfully logged in there, return here and try again."), "$forums_url/ucp.php?mode=login"),
     'reg_mismatch'     => sprintf(_("You are registered with the forum software, but not with %s."), $site_abbreviation),
 );
@@ -57,7 +57,7 @@ echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), $_SERV
 echo "<li>" . _("Caching set to off (or: refresh page every visit).") . "</li>\n";
 echo "<li>" . _("Ensure your PC clock is set to the correct date &amp; time.") . "</li>\n";
 echo "</ol>";
-echo "<p>" . sprintf( _("If all of this fails, contact the <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr") . "</p>";
-echo "<p>" . sprintf( _("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact the <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
+echo "<p>" . sprintf( _("If all of this fails, contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr") . "</p>";
+echo "<p>" . sprintf( _("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact a <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
 
 // vim: sw=4 ts=4 expandtab
