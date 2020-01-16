@@ -132,8 +132,12 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 function login_forum_user($username, $password)
 // Log in the user to the forums.
 // Returns:
-//     TRUE  - user sucessfully logged in
-//     FALSE - login failed
+//     [TRUE, '']  - user sucessfully logged in
+//     [FALSE, $reason] - login failed and the reason why, valid $reasons:
+//         'incorrect_username'
+//         'incorrect_password'
+//         'too_many_attempts'
+//         'unknown'
 {
     global $forums_dir;
 
@@ -188,7 +192,28 @@ function login_forum_user($username, $password)
 
         define('IN_PHPBB', false);
 
-        return ($results["status"] == LOGIN_SUCCESS);
+        $success = $results["status"] == LOGIN_SUCCESS;
+        $reason = '';
+        switch($results["status"])
+        {
+            case LOGIN_SUCCESS:
+                $reason = '';
+                break;
+            case LOGIN_ERROR_USERNAME:
+                $reason = 'incorrect_username';
+                break;
+            case LOGIN_ERROR_PASSWORD:
+                $reason = 'incorrect_password';
+                break;
+            case LOGIN_ERROR_ATTEMPTS:
+                $reason = 'too_many_attempts';
+                break;
+            default:
+                $reason = 'unknown';
+                break;
+        }
+
+        return [$success, $reason];
     }
 }
 
