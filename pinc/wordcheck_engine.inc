@@ -25,7 +25,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
-$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_Â¬Â¢Â£Â¥Â©Â®Â§Â°Â±Â¶Â·Â´Â¸ÂºÃ—Â¦Â¡Â¿-Â»Â«Â¯Ã·Â¹Â²Â³Â¼Â½Â¾Â¤';
 
 // -----------------------------------------------------------------------------
 

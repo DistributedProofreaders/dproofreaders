@@ -25,4 +25,15 @@ for file in `find $BASE_DIR -name "*.php" -o -name "*.inc"`; do
         echo "$OUTPUT"
         exit 1
     fi
+
+    OUTPUT=$(file $file)
+    echo $OUTPUT | grep -q 'ASCII'
+    ASCII=$?
+    echo $OUTPUT | grep -q 'UTF-8'
+    UTF8=$?
+    if [ $ASCII -eq 1 -a $UTF8 -eq 1 ]; then
+        echo "Unexpected encoding in $file"
+        echo "$OUTPUT"
+        exit 1
+    fi
 done
