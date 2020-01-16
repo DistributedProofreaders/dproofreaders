@@ -189,10 +189,6 @@ switch ($action) {
     // Actions that do an action and do not return an info message
     case 'download':   do_download();   exit;
     case 'upload':     do_upload();     exit;
-/*    case 'resumable_final':
-                       do_resumable_final(); exit;
-    case 'resumable_chunk':
-                       do_resumable_chunk(); exit;*/
     // Actions that do an action and upon success return an info message
     case 'mkdir':      $action_message = do_mkdir();   break;
     case 'rename':     $action_message = do_rename();  break;
@@ -333,165 +329,7 @@ function do_showupload()
     show_upload_form($form_content, _("Upload"));
     show_return_link();
 }
-/*
-function do_upload()
-{
-    return handle_file_upload(@$_FILES['uploaded_file']);
-}
 
-function do_resumable_final()
-{
-    // staging directory for resumable uploads
-    $root_staging_dir = "/tmp/resumable_uploads";
-    $filename = array_get($_POST, "resumable_filename", "");
-    $hashed_filename = md5($filename);
-    $uploaded_path = "$root_staging_dir/$hashed_filename/$hashed_filename";
-
-    $file_info = array(
-        "error" => UPLOAD_ERR_OK,
-        "tmp_name" => $uploaded_path,
-        "size" => filesize($uploaded_path),
-        "name" => $filename,
-        "source" => "resumable",
-    );
-    return handle_file_upload($file_info);
-}
-
-function handle_file_upload($file_info)
-{
-    global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
-    global $pguser, $despecialed_username;
-    global $commons_dir;
-
-    set_time_limit(14400);
-
-    // Disable gzip compression so we can flush the buffer after each step
-    // in the process to give the user some progress details. Not that this
-    // doesn't necessarily work for all browsers.
-    apache_setenv('no-gzip', '1');
-
-    // If a user hits the "Upload" button without first selecting a file,
-    // it appears that most browsers send a request containing a file whose
-    // name and content are empty. But I think it's also legal for a browser
-    // to send a request that doesn't contain a file at all (in which case
-    // $file_info would be null.  Check both possibilities.
-    if (is_null($file_info) || $file_info['name'] == '') {
-        fatal_error( _("You must select a file to upload.") );
-    }
-
-    // $file_info has 'name' 'type' 'size' 'tmp_name' 'error'
-
-    if ($file_info['error'] != UPLOAD_ERR_OK) {
-        fatal_error( get_upload_err_msg($file_info['error']) );
-    }
-
-    show_message('info', _("File uploaded successfully."));
-
-    if ($file_info['size'] == 0) {
-        fatal_error( _("File is empty.") );
-    }
-
-    if (!is_valid_filename($file_info['name'], "zip")) {
-        // create a valid filename re-using the extension provided
-        $old_filename = $file_info['name'];
-        $path_parts = pathinfo($old_filename);
-        $file_info['name'] = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
-        echo "<p class='warning'>" . sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $file_info['name'], $old_filename) . "</p>";
-    }
-
-    // Okay so far, now let's run some tests on the content of the file.
-
-    echo "<p>"._("Examining the uploaded file...")."</p>\n";
-    flush();
-
-    $temporary_path = $file_info['tmp_name'];
-    // Assuming that TMPDIR or upload_tmp_dir is set sensibly,
-    // we don't have to worry about weird characters in $temporary_path.
-
-    // Verify that what was uploaded is actually a zip archive
-    // ensure that it's a valid zip
-
-    // The extension was already checked and the file is not properly named (it has some temporary name), so we should
-    // disable the extension check.
-    if(is_valid_zip_file($temporary_path, true)) {
-        show_message('info', _("OK: Valid zip file."));
-    } else {
-        fatal_error( _("File is not a valid zip file: removing it.") );
-    }
-
-    // if an antivirus scanner is installed and configured, scan the file
-    if($antivirus_executable) {
-        echo "<p>"._("Running a virus scan on the file, please wait...")."</p>\n";
-        flush();
-
-        // perform '$antivirus_executable -- <FILENAME>' and expect return
-        // value = 0. we use -- to not parse any further arguments starting
-        // with -/-- as options
-        $av_test_result = array();
-        $av_retval=0;
-
-        $cmd = "$antivirus_executable -- " . escapeshellcmd($temporary_path);
-        exec($cmd, $av_test_result, $av_retval);
-        if ($av_retval == 0) {
-            show_message('info', _("OK: AV pass."));
-        } else if ($av_retval == 1) {
-            show_message('error', _("AV FAIL: The scan reported an infection. The upload has been discarded."));
-            show_message('error', $av_test_result[0]);
-            show_message('info', _("You should perform a complete virus scan on your computer as soon as possible."));
-
-            // Log the infected upload so that we can track user/frequency
-            $reporting_string = "DPSCANS: Infected upload: " . $av_test_result[0];
-            error_log($reporting_string);
-
-            show_return_link();
-            exit();
-        } else {
-            fatal_error( _("Undefined AV error message for return value: ").$av_retval );
-        }
-    }
-
-    // The file passes all tests!
-
-    // Files uploaded to the commons folder should be prefixed with the user's
-    // name. This helps identify where the file comes from. We don't prevent
-    // the file from being renamed later to remove it, however.
-    if(startswith($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
-        $file_prefix = $despecialed_username . "_";
-    } else {
-        $file_prefix = "";
-    }
-
-    $target_name = $file_prefix . $file_info['name'];
-    $target_path = "$curr_abspath/$target_name";
-
-    // XXX
-    // If there's already something at $temporary_path,
-    // this will silently overwrite it.
-    // That might or might not be the user's intent.
-    if(array_get($file_info, "source", "upload") == "resumable")
-    {
-        $move_result = rename($temporary_path, $target_path);
-        rmdir(dirname($temporary_path));
-    }
-    else
-    {
-        $move_result = @move_uploaded_file($temporary_path, $target_path);
-    }
-
-    if(!$move_result) {
-        fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
-    }
-
-    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
-
-    // Log the file upload
-    // In part so that we can possibly clean up with some automation later
-    $reporting_string = "DPSCANS: File uploaded to " . $target_path;
-    error_log($reporting_string);
-
-    show_return_link();
-}
-*/
 function do_upload()
 {
     global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
@@ -511,7 +349,7 @@ function do_upload()
 
     try
     {
-        $file_info = validate_uploaded_file();
+        $file_info = validate_uploaded_file(true);
         if(is_null($file_info))
         {
             throw new FileException(_("You must select a file to upload."));
@@ -558,112 +396,7 @@ function do_upload()
         show_return_link();
     }
 }
-/*
-function do_resumable_chunk()
-{
-    // This function is only called for asynchronous uploads via JS -- nothing
-    // printed here will ever be exposed to the user.
 
-    // staging directory for resumable uploads
-    $root_staging_dir = "/tmp/resumable_uploads";
-
-    $identifier = array_get($_REQUEST, "resumableIdentifier", "");
-    $filename = array_get($_REQUEST, "resumableFilename", "");
-    $hashed_filename = md5($filename);
-    $chunk_number = array_get($_REQUEST, "resumableChunkNumber", "");
-    $total_chunks = array_get($_REQUEST, "resumableTotalChunks", 0);
-    $chunk_size = array_get($_REQUEST, "resumableChunkSize", 0);
-    $total_size = array_get($_REQUEST, "resumableTotalSize", 0);
-
-    $staging_dir = "$root_staging_dir/$hashed_filename";
-    $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
-
-    // handle testChunks request, this allows uploads to be restarted by
-    // allowing the browser to query for which parts have been uploaded
-    // successfully
-    if($_SERVER['REQUEST_METHOD'] === 'GET')
-    {
-        if(file_exists($chunk_filename))
-            header("HTTP/1.0 200 Ok");
-        else
-            header("HTTP/1.0 404 Not Found");
-    }
-
-    // handle a file upload request
-    foreach($_FILES as $file)
-    {
-        if($file["error"] != UPLOAD_ERR_OK)
-        {
-            error_log(get_upload_err_msg($file['error']));
-            exit;
-        }
-
-        if(!is_dir($staging_dir))
-        {
-            mkdir($staging_dir, 0777, true);
-        }
-
-        if(!move_uploaded_file($file['tmp_name'], $chunk_filename))
-        {
-            error_log("Error saving chunk $chunk_filename for $filename");
-            exit;
-        }
-    }
-
-    if(!is_dir($staging_dir))
-        return;
-
-    // attempt to assemble any completed files; this needs to run both for
-    // testChunks and uploads to handle edge failure cases where all of the
-    // parts have been uploaded but not reassembled
-
-    // Ensure we have every chunk we're looking for and the entire file's
-    // worth of data. Chunks are uploaded sequentially, so start at the top
-    // and work our way down to fail early.
-    $size_on_server = 0;
-    for($i=$total_chunks; $i>=1; $i--)
-    {
-        $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-
-        // if the chunk doesn't exist, return
-        if(!is_file($chunk_name))
-            return;
-
-        $size_on_server = $size_on_server + filesize($chunk_name);
-    }
-
-    // We have all the chunks, but we need to confirm all of them have finished
-    // uploading. This can happen if they are being uploaded concurrently.
-    if($size_on_server >= $total_size)
-    {
-        // To prevent multiple instances from trying to do the reassembly
-        // concurrently, use a lock file. This should be rare, but we have seen
-        // what looks like this behavior and it's easy to work around.
-        $lock_filename = "$staging_dir/$hashed_filename.lock";
-        if(is_file($lock_filename))
-            return;
-        else
-            touch($lock_filename);
-
-        if(($fp = fopen("$staging_dir/$hashed_filename", "w")) !== FALSE)
-        {
-            for($i=1; $i<=$total_chunks; $i++)
-            {
-                $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-                fwrite($fp, file_get_contents($chunk_name));
-                unlink($chunk_name);
-            }
-            fclose($fp);
-        }
-        else
-        {
-            error_log("Unable to create $staging_dir/$hashed_filename");
-        }
-
-        unlink($lock_filename);
-    }
-}
-*/
 function do_showmkdir()
 {
     global $curr_relpath, $hce_curr_displaypath;
@@ -1397,7 +1130,6 @@ function searchdir( $dir_path, $maxdepth = -1, $mode = "FULL", $d = 0 )
     return ( $selected_entries );
 }
 
-
 // ===================================================================================
 function show_form($action, $cdrp, $form_content, $submit_label)
 {
@@ -1430,96 +1162,5 @@ function show_caveats()
     echo "<li>" . _("Rename files and folders.") . "</li>\n";
     echo "</ul>\n";
 }
-
-
-// Move these to misc.inc?
-
-function is_valid_filename($filename, $restrict_extension=False)
-{
-    // Base the filename restrictions on removing anything that could
-    // conceivably be a shell escape, control character etc.
-    // See http://www.owasp.org/index.php/Unrestricted_File_Upload
-
-    if ($restrict_extension === False) {
-        // Ordinarly we allow filenames to start with an alphanumeric, followed
-        // by 0 or more alphanumerics, hypens, dashes or periods.
-        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
-    } else {
-        // If we want to restrict filename extensions, '.'s aren't allowed in the
-        // body of the filename, and the filename must end with '.ext'
-        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/i';
-    }
-
-    // The filename is valid if the regexp matches exactly once.
-    return preg_match($regexp, $filename) == 1;
-}
-/*
-function get_resumablejs_loader($cdrp)
-{
-    global $code_url;
-
-    $upload_failed = javascript_safe(_("Upload failed"));
-    $finalizing_upload = javascript_safe(_("Upload complete. Running file checks, please wait..."));
-
-    return <<<EOS
-$(document).ready(function() {
-    var r = new Resumable({
-        target: '$code_url/tools/project_manager/remote_file_manager.php',
-        testTarget: '$code_url/tools/project_manager/remote_file_manager.php',
-        forceChunkSize: true,
-        maxFiles: 1,
-        fileType: ['zip'], // use extension not mime type since zips have many
-        maxFileSize: 1024*1024*1024  // 1GB
-    });
-
-    // Check to see if the browser supports resumable, and if so expose it
-    if(r.support) {
-        r.assignBrowse($(resumable_browse));
-        r.assignDrop($(upload));
-
-        // Show the resumable div
-        $(resumable_uploader).show();
-
-        // Hide the old uploader and submit button
-        $(old_uploader).hide();
-        $(upload_submit).hide();
-    }
-
-    // Before we start the upload, prevent the user from selecting another
-    // file or hitting upload again.
-    $(resumable_submit).click(function() {
-        $(resumable_browse).hide();
-        $(resumable_submit).hide();
-        r.upload();
-    });
-
-    // After a file has been selected, display its name
-    r.on('fileAdded', function(file, event) {
-        $(resumable_selected_file).text(file.fileName);
-    });
-
-    // After a file has been successfully uploaded, we update the form
-    // and submit it for final validation (AV scan, etc).
-    r.on('fileSuccess', function(file, message) {
-        $('input[name="resumable_filename"]').val(file.fileName);
-        $('input[name="action"]').val("resumable_final");
-        $(resumable_progress).text("$finalizing_upload");
-        $(upload_form).submit();
-    });
-
-    // If an error occured, re-enable the upload form and show a message
-    r.on('fileError', function(file, message) {
-        $(resumable_browse).show();
-        $(resumable_submit).show();
-        $(resumable_progress).text("$upload_failed<br>" + message);
-    });
-
-    // As the file upload progresses, show a percentage complete
-    r.on('progress', function() {
-        $(resumable_progress).text( (r.progress() * 100).toFixed(2) + '%');
-    });
-});
-EOS;
-}*/
 
 // vim: sw=4 ts=4 expandtab
