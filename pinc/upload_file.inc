@@ -45,6 +45,7 @@ function show_upload_form($form_content, $submit_label)
     // if resumable, these are shown instead
     echo "<div id='resumable_uploader' style='display: none;'>
     <input type='hidden' name='resumable_filename' value=''>
+    <input type='hidden' name='resumable_identifier' value=''>
     <p>", sprintf(_("Your browser supports uploading large files (up to %s) via javascript. If the upload fails,
         or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes($resumable_upload_size)), "</p>
     <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
@@ -96,7 +97,8 @@ function validate_uploaded_file($make_valid_name = false)
             // resumable upload
             $root_staging_dir = "/tmp/resumable_uploads";
             $original_name = array_get($_POST, "resumable_filename", "");
-            $hashed_filename = md5($original_name);
+            $identifier = array_get($_POST, "resumable_identifier", "");
+            $hashed_filename = md5($identifier);
             $file_path = "$root_staging_dir/$hashed_filename";
             $file_size = filesize($file_path);
             $file_info = ["name" => $original_name, "tmp_name" => $file_path];

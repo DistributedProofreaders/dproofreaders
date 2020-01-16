@@ -13,10 +13,9 @@ $root_staging_dir = "/tmp/resumable_uploads";
 
 $identifier = array_get($_REQUEST, "resumableIdentifier", "");
 $filename = array_get($_REQUEST, "resumableFilename", "");
-$hashed_filename = md5($filename);
+$hashed_filename = md5($identifier); // why md5?
 $chunk_number = array_get($_REQUEST, "resumableChunkNumber", "");
 $total_chunks = array_get($_REQUEST, "resumableTotalChunks", 0);
-$chunk_size = array_get($_REQUEST, "resumableChunkSize", 0);
 $total_size = array_get($_REQUEST, "resumableTotalSize", 0);
 
 // use a different name from final file so we can put final file

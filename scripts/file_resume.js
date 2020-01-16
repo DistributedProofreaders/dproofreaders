@@ -55,6 +55,7 @@ $(function() {
     // and submit it for final validation (AV scan, etc).
     resumable.on('fileSuccess', function(file) {
         $('input[name="resumable_filename"]').val(file.fileName);
+        $('input[name="resumable_identifier"]').val(file.uniqueIdentifier);
         $('input[name="mode"]').val("resumable");
         showProgress(uploadMessages.finalizingUpload);
         $("#upload_form").submit();
