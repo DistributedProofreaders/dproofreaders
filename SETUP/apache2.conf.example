@@ -99,6 +99,13 @@ DirectoryIndex index.php default.php index.html default.html
         ExpiresByType image/jpg  "access plus 10 minutes"
         ExpiresByType image/jpeg "access plus 10 minutes"
 
+        # Cache .zip files and .txt files for a _very_ short period of time
+        # to ensure that if they are regenerated the user gets the new copy.
+        # Without setting an explicit cache on these, browsers tend to
+        # aggressively cache them, which isn't good.
+        ExpiresByType application/zip "access plus 10 seconds"
+        ExpiresByType text/plain "access plus 10 seconds"
+
         # Don't Vary image content at all.
         # This allows caching proxies to cache the images once and serve
         # it to all browsers. Note we can't include css/js content in case
@@ -107,11 +114,11 @@ DirectoryIndex index.php default.php index.html default.html
         # against Accept-Encoding, we just need to not override it.
         # Caching proxies will still cache css/js content but will cache
         # two or more copies and serve them accordingly.
-        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico)$ dont-vary
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|zip)$ dont-vary
         Header unset Vary env=dont-vary
 
         # Explicitly set the Cache-Control to public for *all* cacheable content
-        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|css|js)$ cache-public
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|css|js|zip|txt)$ cache-public
         Header append Cache-Control "public" env=cache-public
     </LocationMatch>
 </IfModule>
