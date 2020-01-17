@@ -1646,9 +1646,9 @@ function do_post_downloads()
     if ( $project->names_can_be_seen_by_current_user )
     {
         echo _("Include usernames?"), " &nbsp;&nbsp; ";
-        echo "<input type='radio' name='include_proofers' value='1' CHECKED>";
+        echo "<input type='radio' name='include_proofers' value='1'>";
         echo _("Yes"), " &nbsp;&nbsp; ";
-        echo "<input type='radio' name='include_proofers' value='0'>";
+        echo "<input type='radio' name='include_proofers' value='0' CHECKED>";
         echo _("No"), "<br>\n";
     }
     else
