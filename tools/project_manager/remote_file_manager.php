@@ -267,14 +267,6 @@ function do_showupload()
     global $pguser, $autoprefix_message;
     global $code_url, $upload_messages, $resumable_upload_size;
 
-/*    // the first part of this blurb is used in upload_text.php
-    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
-    $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
-
-    $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload")) . "</p>";
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    $submit_blurb .= "<p class='warning'>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</p>\n";*/
-
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
     $extra_args = array(
         'js_files' => [
@@ -289,37 +281,10 @@ function do_showupload()
     );
     output_header($page_title, NO_STATSBAR, $extra_args);
     echo "<h1>$page_title</h1>\n";
-/*
+
     $form_content = "";
-    if (get_access_mode($pguser) == 'common') {
-        $form_content .= get_message('info', $autoprefix_message);
-    }
-    $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
-
-    $form_content .= "<div id='old_uploader'>";
-    $form_content .= $submit_blurb;
-    $form_content .= _("File to upload") . ":&nbsp;";
-    $form_content .= "<input type='file' accept='.zip' name='the_file' size='50' maxsize='50'>";
-    $form_content .= "</div>";
-
-    $form_content .= "<div id='resumable_uploader' style='display: none;'>";
-    $form_content .= "<input type='hidden' name='resumable_filename' value=''>";
-    $form_content .= "<p>" . _("Your browser supports uploading large files (up to 1GB) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off.") . "</p>";
-    $form_content .= "<p>" . _("File to upload") . ": <span id='resumable_selected_file'></span> &nbsp; ";
-    $form_content .= "<span id='resumable_browse' class='button'>" . _("Choose File") . "</span>";
-    $form_content .= "</p>";
-    $form_content .= "<p><span id='resumable_submit' class='button'>" . _("Upload") . "</span></p>";
-    $form_content .= "<p>" . _("Progress") . ": <span id='resumable_progress'></span></p>";
-    $form_content .= "</div>";
-
-    show_form(
-        'upload',
-        $curr_relpath,
-        $form_content,
-        _("Upload")
-    );*/
-    $form_content = "";
-    if (get_access_mode($pguser) == 'common') {
+    if (get_access_mode($pguser) == 'common')
+    {
         $form_content .= get_message('info', $autoprefix_message);
     }
     $form_content .= "
