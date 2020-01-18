@@ -195,7 +195,8 @@ function make_valid_filename(&$name)
     // create a valid filename re-using the extension provided
     $old_filename = $name;
     $path_parts = pathinfo($old_filename);
-    $name = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
+    // replace starting hyphen or anything except alphanumeric or - or _ by _
+    $name = preg_replace('/^-|[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
     return sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $name, $old_filename);
 }
 
