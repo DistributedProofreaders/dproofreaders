@@ -30,9 +30,15 @@ $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
 if($_SERVER['REQUEST_METHOD'] === 'GET')
 {
     if(file_exists($chunk_filename))
+    {
         header("HTTP/1.0 200 Ok");
+        // continue to try to reassemble
+    }
     else
+    {
         header("HTTP/1.0 404 Not Found");
+        exit;
+    }
 }
 
 // handle a file upload request
@@ -40,7 +46,7 @@ foreach($_FILES as $file)
 {
     if($file["error"] != UPLOAD_ERR_OK)
     {
-        error_log(get_upload_err_msg($file['error']));
+        report_error(get_upload_err_msg($file['error']));
         exit;
     }
 
@@ -51,61 +57,66 @@ foreach($_FILES as $file)
 
     if(!move_uploaded_file($file['tmp_name'], $chunk_filename))
     {
-        error_log("Error saving chunk $chunk_filename for $filename");
+        report_error("Error saving chunk $chunk_filename for $filename");
         exit;
     }
 }
-
-if(!is_dir($staging_dir))
-    return;
-
 // attempt to assemble any completed files; this needs to run both for
 // testChunks and uploads to handle edge failure cases where all of the
 // parts have been uploaded but not reassembled
-
-// Ensure we have every chunk we're looking for and the entire file's
-// worth of data. Chunks are uploaded sequentially, so start at the top
+// move_uploaded_file() should be 'atomic'
+// but check anyway that file sizes add up correctly
+// Ensure we have every chunk we're looking for.
+// Chunks are uploaded sequentially, so start at the top
 // and work our way down to fail early.
-$size_on_server = 0;
-for($i=$total_chunks; $i>=1; $i--)
+// To prevent multiple instances from trying to do the reassembly
+// concurrently, lock the output file first. Other instances will
+// wait to get the lock and if the previous one assembled the file
+// the chunks will be gone.
+
+// mode 'c' opens for writing but does not truncate
+if(($fp = fopen("$root_staging_dir/$hashed_filename", "c")) !== FALSE)
 {
-    $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-
-    // if the chunk doesn't exist, return
-    if(!is_file($chunk_name))
-        return;
-
-    $size_on_server = $size_on_server + filesize($chunk_name);
-}
-
-// We have all the chunks, but we need to confirm all of them have finished
-// uploading. This can happen if they are being uploaded concurrently.
-if($size_on_server >= $total_size)
-{
-    // To prevent multiple instances from trying to do the reassembly
-    // concurrently, use a lock file. This should be rare, but we have seen
-    // what looks like this behavior and it's easy to work around.
-    $lock_filename = "$root_staging_dir/$hashed_filename.lock";
-    if(is_file($lock_filename))
-        return;
-    else
-        touch($lock_filename);
-
-    if(($fp = fopen("$root_staging_dir/$hashed_filename", "w")) !== FALSE)
+    if(flock($fp, LOCK_EX)) // acquire an exclusive lock
     {
-        for($i=1; $i<=$total_chunks; $i++)
+        $size_on_server = 0;
+        $got_chunks = true;
+        for($i=$total_chunks; $i>=1; $i--)
         {
             $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-            fwrite($fp, file_get_contents($chunk_name));
-            unlink($chunk_name);
+            if(!is_file($chunk_name))
+            {
+                $got_chunks = false;
+                break;
+            }
+            $size_on_server = $size_on_server + filesize($chunk_name);
         }
-        fclose($fp);
-        rmdir($staging_dir);
+        if($got_chunks && ($size_on_server >= $total_size))
+        {
+            for($i=1; $i<=$total_chunks; $i++)
+            {
+                $chunk_name = "$staging_dir/$hashed_filename.part.$i";
+                fwrite($fp, file_get_contents($chunk_name));
+                unlink($chunk_name);
+            }
+            rmdir($staging_dir);
+        }
+        flock($fp, LOCK_UN); // release the lock
     }
     else
     {
-        error_log("Unable to create $root_staging_dir/$hashed_filename");
+        report_error("Unable to lock");
     }
+    fclose($fp);
+}
+else
+{
+    report_error("Unable to create $root_staging_dir/$hashed_filename");
+}
 
-    unlink($lock_filename);
+function report_error($error)
+{
+    error_log($error);
+    http_response_code(500);
+    echo $error;
 }
