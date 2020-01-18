@@ -332,10 +332,11 @@ function do_showupload()
 
 function do_upload()
 {
-    global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
+    global $curr_abspath, $hce_curr_displaypath;
     global $pguser, $despecialed_username;
     global $commons_dir;
 
+    slim_header();
     set_time_limit(14400);
 
     // Files uploaded to the commons folder should be prefixed with the user's
@@ -347,6 +348,7 @@ function do_upload()
         $file_prefix = "";
     }
 
+    $temporary_path = "";
     try
     {
         $file_info = validate_uploaded_file(true);
@@ -355,46 +357,46 @@ function do_upload()
             throw new FileException(_("You must select a file to upload."));
         }
         $temporary_path = $file_info["tmp_name"];
+        $original_name = $file_info['name'];
 
-        try
+        if (!is_valid_filename($original_name, "zip"))
         {
-            $target_name = $file_prefix . $file_info['name'];
-            $target_path = "$curr_abspath/$target_name";
-
-            // If there's already something at $temporary_path,
-            // this will silently overwrite it.
-            // That might or might not be the user's intent.
-            $move_result = rename($temporary_path, $target_path);
-
-            if(!$move_result)
-            {
-                throw new FileException(_("Webserver failed to copy uploaded file from temporary location to upload folder."));
-            }
-
-            echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
-
-            // Log the file upload
-            // In part so that we can possibly clean up with some automation later
-            $reporting_string = "DPSCANS: File uploaded to " . $target_path;
-            error_log($reporting_string);
-
-            show_return_link();
+            $warning = make_valid_filename($original_name);
+            echo "<p class='warning'>$warning</p>";
         }
-        catch(FileException $e)
+
+        zip_check($original_name, $temporary_path);
+
+        $target_name = $file_prefix . $original_name;
+        $target_path = "$curr_abspath/$target_name";
+
+        // If there's already something at $temporary_path,
+        // this will silently overwrite it.
+        // That might or might not be the user's intent.
+        $move_result = rename($temporary_path, $target_path);
+
+        if(!$move_result)
         {
-            if(is_file($temporary_path))
-            {
-                unlink($temporary_path);
-            }
-            throw($e);
+            throw new FileException(_("Webserver failed to copy uploaded file from temporary location to upload folder."));
         }
+
+        echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
+
+        // Log the file upload
+        // In part so that we can possibly clean up with some automation later
+        $reporting_string = "DPSCANS: File uploaded to " . $target_path;
+        error_log($reporting_string);
+
     }
     catch(FileException $e)
     {
-        slim_header();
+        if(is_file($temporary_path))
+        {
+            unlink($temporary_path);
+        }
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
-        show_return_link();
     }
+    show_return_link();
 }
 
 function do_showmkdir()

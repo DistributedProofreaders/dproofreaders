@@ -60,11 +60,11 @@ function show_upload_form($form_content, $submit_label)
 }
 
 // return null if there is no file
-// or return a file_info with 'name' and 'tmp_name' and 'warn'
+// or return a file_info with 'name' and 'tmp_name'
 // throw a FileException if there is a probem
-// maybe change name and return a warning
-function validate_uploaded_file($make_valid_name = false)
+function validate_uploaded_file()
 {
+    $file_path = "";
     try
     {
         $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
@@ -72,7 +72,11 @@ function validate_uploaded_file($make_valid_name = false)
         {
             $file_info = $_FILES['uploaded_file'];
 
-            // If there is no file uploaded, that might be OK so just return.
+            // If a user hits the "Upload" button without first selecting a file,
+            // it appears that most browsers send a request containing a file whose
+            // name and content are empty. But I think it's also legal for a browser
+            // to send a request that doesn't contain a file at all (in which case
+            // $file_info would be null.  Check both possibilities.
             if (is_null($file_info) || $file_info['name'] == '') {
                 return NULL;
             }
@@ -103,15 +107,9 @@ function validate_uploaded_file($make_valid_name = false)
             $file_size = filesize($file_path);
             $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
-        $file_info['warn'] = null;
         // do some checks.
         empty_check($file_size);
-        if($make_valid_name)
-        {
-            $file_info["warn"] = make_valid_filename($original_name);
-        }
         virus_check($file_path);
-        zip_check($original_name, $file_path);
         return $file_info;
     }
     catch(FileException $e)
@@ -133,23 +131,35 @@ function empty_check($file_size)
 
 function zip_check($original_name, $file_path)
 {
-    if (substr($original_name, -4) != ".zip")
+    try
     {
-        throw new FileException( _("File name extension must be '.zip'") );
+        if (substr($original_name, -4) != ".zip")
+        {
+            throw new FileException( _("File name extension must be '.zip'") );
+        }
+        // ensure that it's a valid zip
+        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+        // disable the extension check.
+        if (!is_valid_zip_file($file_path, true))
+        {
+            throw new FileException(sprintf(_("%s is not a valid zip file"),  $original_name));
+        }
     }
-    // ensure that it's a valid zip
-    // The extension was already checked and the file is not properly named (it has some temporary name), so we should
-    // disable the extension check.
-    if (!is_valid_zip_file($file_path, true))
+    catch(FileException $e)
     {
-        throw new FileException(sprintf(_("%s is not a valid zip file"),  $original_name));
+        unlink($file_path);
+        throw($e);
     }
 }
 
 function virus_check($file_path)
 {
     global $antivirus_executable;
-    if($antivirus_executable)
+    if(!$antivirus_executable)
+    {
+        return;
+    }
+    try
     {
         // perform '$antivirus_executable -- <FILENAME>' and expect return
         // value = 0. we use -- to not parse any further arguments starting
@@ -173,17 +183,20 @@ function virus_check($file_path)
             throw new FileException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
         }
     }
+    catch(FileException $e)
+    {
+        unlink($file_path);
+        throw($e);
+    }
 }
 
 function make_valid_filename(&$name)
 {
-    if (!is_valid_filename($name, "zip")) {
-        // create a valid filename re-using the extension provided
-        $old_filename = $name;
-        $path_parts = pathinfo($old_filename);
-        $name = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
-        return sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $name, $old_filename);
-    }
+    // create a valid filename re-using the extension provided
+    $old_filename = $name;
+    $path_parts = pathinfo($old_filename);
+    $name = preg_replace('/[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
+    return sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $name, $old_filename);
 }
 
 function is_valid_filename($filename, $restrict_extension=False)

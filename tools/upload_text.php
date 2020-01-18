@@ -244,19 +244,23 @@ else
     echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
+    $temporary_path = "";
     try
     {
-        // the file will be renamed so we don't need to make it valid
-        $file_info = validate_uploaded_file(false);
+        $file_info = validate_uploaded_file();
         $have_file = !is_null($file_info);
         if ($have_file)
         {
+            $temporary_path = $file_info["tmp_name"];
+            $original_name = $file_info['name'];
+
+            zip_check($original_name, $temporary_path);
             // replace filename
             $zipext = ".zip";
             $name = $projectid.$indicator.$zipext;
             $location = "$project->dir/$name";
             ensure_path_is_unused( $location );
-            rename($file_info['tmp_name'], $location);
+            rename($temporary_path, $location);
             if ($stage == 'smooth_avail')
             {
                 $project->delete_smoothreading_dir();
@@ -335,12 +339,6 @@ else
             notify_project_event_subscribers( $project, 'sr_reported' );
         }
 
-        $warning  = $file_info['warn'];
-        if($warning)
-        {
-            echo "<p class='warning'>$warning</p>";
-        }
-
         // let them know file uploaded and send back to the right place
         $msg1 = _("File uploaded. Thank you!");
         $msg2 = _("Project returned to pool");
@@ -360,6 +358,10 @@ else
     }
     catch(FileException $e)
     {
+        if(is_file($temporary_path))
+        {
+            unlink($temporary_path);
+        }
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
     }
     echo $return_message;
