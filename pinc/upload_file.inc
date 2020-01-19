@@ -1,24 +1,58 @@
 <?php
 
+define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
+
 class FileException extends Exception {}
 
-$big_upload_blurb = sprintf(_("If you are trying to upload a very big zip file
-    and the upload does not succeed, upload a small placeholder zip file
-    instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
+// Detect if the file uploaded was larger than post_max_size and show
+// an error instead of failing silently. We do this first because if the
+// POST failed, $_REQUEST and $_POST are empty and we have no data.
+// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+function detect_too_large()
+{
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
+        empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
+    {
+        die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), get_max_upload_size()));
+    }
+}
 
-$upload_messages = json_encode([
-    'working' => _("Working, please wait..."),
-    'uploadFailed' => _("Upload failed"),
-    'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
-]);
+function get_max_upload_size()
+{
+    return humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+}
 
-$resumable_upload_size = 1024 * 1024 * 1024;  // 1GB
+function get_big_upload_blurb()
+{
+    return sprintf(_("If you are trying to upload a very big zip file
+        and the upload does not succeed, upload a small placeholder zip file
+        instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
+}
+
+function get_upload_args()
+{
+    global $code_url;
+
+    $upload_messages = json_encode([
+        'working' => _("Working, please wait..."),
+        'uploadFailed' => _("Upload failed"),
+        'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
+    ]);
+
+    return [
+        'js_files' => [
+            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
+            "$code_url/scripts/file_resume.js",
+        ],
+        'js_data' => "
+            var uploadTarget = '$code_url/tools/upload_file.php';
+            var uploadMessages = $upload_messages;
+            var maxSize = " . RESUMABLE_UPLOAD_SIZE . ";",
+    ];
+}
 
 function show_upload_form($form_content, $submit_label)
 {
-    global $big_upload_blurb, $resumable_upload_size;
-
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
         . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
 
@@ -35,8 +69,8 @@ function show_upload_form($form_content, $submit_label)
     echo "<p>$standard_blurb</p>";
     // these are the form elements for non-resumable upload
     echo "<div id='old_uploader'>
-    <p class='warning'>", sprintf(_('Maximum file size is %s.'), $max_upload_size), "</p>
-    <p>$big_upload_blurb</p>",
+    <p class='warning'>", sprintf(_('Maximum file size is %s.'), get_max_upload_size()), "</p>
+    <p>", get_big_upload_blurb(), "</p>",
     _("File to upload"), ": <input type='file' id='old_browse' accept='.zip' name='uploaded_file' size='25' maxsize='50'>
     <input type='submit' id='old_submit' value='", attr_safe($submit_label), "'>",
     "<p>", sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label), "</p>",
@@ -47,7 +81,7 @@ function show_upload_form($form_content, $submit_label)
     <input type='hidden' name='resumable_filename' value=''>
     <input type='hidden' name='resumable_identifier' value=''>
     <p>", sprintf(_("Your browser supports uploading large files (up to %s) via javascript. If the upload fails,
-        or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes($resumable_upload_size)), "</p>
+        or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes(RESUMABLE_UPLOAD_SIZE)), "</p>
     <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
     <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
     <span id='resumable_submit' class='button'>", _("Upload"), "</span></p>

@@ -8,17 +8,7 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_sa
 include_once($relPath.'upload_file.inc'); // show_upload_form(), validate_uploaded_file()
 include_once($relPath.'slim_header.inc');
 
-// Detect if the file uploaded was larger than post_max_size and show
-// an error instead of failing silently. We do this here because if the
-// POST failed, $_REQUEST and $_POST are empty and we have no data to even
-// route them through the do_upload() function at all.
-// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
-if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
-{
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    fatal_error( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
-}
+detect_too_large();
 
 # Directory structure under uploads dir
 $trash_rel_dir   = $uploads_subdir_trash;
@@ -265,21 +255,10 @@ function do_showupload()
 {
     global $curr_relpath, $hce_curr_displaypath;
     global $pguser, $autoprefix_message;
-    global $code_url, $upload_messages, $resumable_upload_size;
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
-    $extra_args = array(
-        'js_files' => [
-            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
-            "$code_url/scripts/file_resume.js",
-        ],
-        'js_data' => "
-            var uploadTarget = '$code_url/tools/upload_file.php';
-            var uploadMessages = $upload_messages;
-            var maxSize = $resumable_upload_size;
-        ",
-    );
-    output_header($page_title, NO_STATSBAR, $extra_args);
+    output_header($page_title, NO_STATSBAR, get_upload_args());
+
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";

@@ -11,18 +11,7 @@ include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_byte
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form()
 
-// Detect if the file uploaded was larger than post_max_size and show
-// an error instead of failing silently. We do this here because if the
-// POST failed, $_REQUEST and $_POST are empty and we have no data to even
-// route them through the do_upload() function at all.
-// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
-if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
-{
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
-}
-
+detect_too_large();
 require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
@@ -149,8 +138,8 @@ else if(!$stage)
 
     slim_header(_("Upload failed"));
 
-    echo "<p>" . _("The upload failed.") . "</p>\n";
-    echo "<p>$big_upload_blurb</p>";
+    echo "<p>", _("The upload failed."), "</p>\n";
+    echo "<p>", get_big_upload_blurb(), "</p>";
 
     echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading
         the original again or uploading a smaller placeholder instead."),
@@ -165,19 +154,7 @@ $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
 if (!isset($action))
 {
     // Present the upload page.
-
-    $extra_args = [
-        'js_files' => [
-            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
-            "$code_url/scripts/file_resume.js",
-        ],
-        'js_data' => "
-            var uploadTarget = '$code_url/tools/upload_file.php';
-            var uploadMessages = $upload_messages;
-            var maxSize = $resumable_upload_size;
-        ",
-    ];
-    slim_header($title, $extra_args);
+    slim_header($title, get_upload_args());
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
