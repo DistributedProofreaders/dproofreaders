@@ -166,13 +166,13 @@ if (!isset($action))
         // validate the project is in the correct state
         if(!$project_is_in_valid_state)
         {
-            throw new FileException(_("The project is not in the correct state for this action."));
+            throw new FileUploadException(_("The project is not in the correct state for this action."));
         }
 
         // validate the user has the ability to do this action
         if(!$user_is_able_to_perform_action)
         {
-            throw new FileException(_("You do not have permission to perform this action."));
+            throw new FileUploadException(_("You do not have permission to perform this action."));
         }
 
         echo "<p>$intro_blurb</p>";
@@ -200,7 +200,7 @@ if (!isset($action))
 
         show_upload_form($form_content, $submit_label);
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
         foreach($error_messages as $message)
@@ -222,12 +222,13 @@ else
 
     // if files have been uploaded, process them and mangle the postcomments
     $temporary_path = "";
+    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
     try
     {
-        $file_info = validate_uploaded_file();
-        $have_file = !is_null($file_info);
-        if ($have_file)
+        try
         {
+            $file_info = validate_uploaded_file();
+            $have_file = true;
             $temporary_path = $file_info["tmp_name"];
             $original_name = $file_info['name'];
 
@@ -244,7 +245,7 @@ else
                 $smooth_dir = "$project->dir/smooth";
                 if(!mkdir($smooth_dir))
                 {
-                    throw new FileException("Could not create smooth directory");
+                    throw new FileUploadException("Could not create smooth directory");
                 }
                 $zip_ok = extract_zip_to($location, $smooth_dir);
                 if($zip_ok)
@@ -262,17 +263,18 @@ else
                 }
                 if(!$zip_ok)
                 {
-                    throw new FileException("failed to extract files");
+                    throw new FileUploadException("failed to extract files");
                 }
             }
         }
-
-        $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
-        $need_file = !$returning_to_pool;    // in future, may be other conditions for this
-        if ($need_file && ! $have_file) {
-            throw new FileException( _("You must upload a file") );
+        catch(NoFileUploadedException)
+        {
+            $have_file = false;
+            if(!$returning_to_pool)
+            {
+                throw new FileUploadException( _("You must upload a file") );
+            }
         }
-
         // we've put the file in the right place.
         // now let's deal with the postcomments.
         // we construct the bit that's going to be added on to the existing postcomments.
@@ -299,7 +301,7 @@ else
         $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
         if ($error_msg)
         {
-            throw new FileException("$error_msg");
+            throw new FileUploadException("$error_msg");
         }
 
         // special handling for smooth reading, which does not involve a state change
@@ -333,7 +335,7 @@ else
         }
         echo "<p>$msg</p>";
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         if(is_file($temporary_path))
         {

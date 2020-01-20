@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith(), return_bytes()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), startswith()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), validate_uploaded_file()
 include_once($relPath.'slim_header.inc');
 
@@ -298,7 +298,7 @@ function do_upload()
         $file_info = validate_uploaded_file(true);
         if(is_null($file_info))
         {
-            throw new FileException(_("You must select a file to upload."));
+            throw new FileUploadException(_("You must select a file to upload."));
         }
         $temporary_path = $file_info["tmp_name"];
         $original_name = $file_info['name'];
@@ -321,7 +321,7 @@ function do_upload()
 
         if(!$move_result)
         {
-            throw new FileException(_("Webserver failed to copy uploaded file from temporary location to upload folder."));
+            throw new FileUploadException(_("Webserver failed to copy uploaded file from temporary location to upload folder."));
         }
 
         echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
@@ -332,7 +332,7 @@ function do_upload()
         error_log($reporting_string);
 
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         if(is_file($temporary_path))
         {

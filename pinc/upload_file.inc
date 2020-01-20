@@ -1,9 +1,14 @@
 <?php
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes()
+
+// This contains functions to use for use with uploading files
+// using a resumable process if supported by the browser.
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
-class FileException extends Exception {}
-
+// This function should be called near the beginning of the file
+// to which the upload is submitted. It detects a problem which can
+// occur when the browser does not support resumable uploads.
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this first because if the
 // POST failed, $_REQUEST and $_POST are empty and we have no data.
@@ -24,20 +29,28 @@ function get_max_upload_size()
 
 function get_big_upload_blurb()
 {
+    global $db_requests_email_addr;
+
     return sprintf(_("If you are trying to upload a very big zip file
         and the upload does not succeed, upload a small placeholder zip file
         instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 }
 
+// This supplies the aruments for the header in the page containing the upload form below
 function get_upload_args()
 {
-    global $code_url;
+    global $code_url, $utf8_site;
 
-    $upload_messages = json_encode([
+    $upload_messages = [
         'working' => _("Working, please wait..."),
         'uploadFailed' => _("Upload failed"),
         'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
-    ]);
+    ];
+    if(!$utf8_site)
+    {
+        array_walk($upload_messages, function(&$item) { $item = utf8_encode($item);} );
+    }
+    $upload_messages = json_encode($upload_messages);
 
     return [
         'js_files' => [
@@ -51,6 +64,16 @@ function get_upload_args()
     ];
 }
 
+// This shows a form with a border for uploading a file using
+// a resumable process if supported by the browser.
+// The form is submitted to the php file in which it is used.
+// Extra content can be supplied in the $form_content parameter
+// this can be abritrary HTML/other inputs
+// and should contain a hidden input which can be used to
+// decide when to process the uploaded file using the validate_uploaded_file()
+// function below. Be careful to avoid $form_content clashing with
+// the names or ids used internally in this form.
+// It contains a 'choose file' button and a labeled submit button
 function show_upload_form($form_content, $submit_label)
 {
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
@@ -58,8 +81,6 @@ function show_upload_form($form_content, $submit_label)
 
     $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label) . "</p>";
 
-    // Display a div with a form; some content which can be abritrary HTML/other inputs;
-    // a 'choose file' button and a labeled submit button
     echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
 
     echo "<form id='upload_form' method='POST' enctype='multipart/form-data'>\n";
@@ -93,9 +114,18 @@ function show_upload_form($form_content, $submit_label)
     echo "</div>\n";
 }
 
-// return null if there is no file
-// or return a file_info with 'name' and 'tmp_name'
-// throw a FileException if there is a probem
+// This exception is thrown if problems are found in validate_uploaded_file()
+// or the other file-check functions below. It will contain text describing
+// the problem and must be caught and the uploaded file deleted if it exists
+class FileUploadException extends Exception {}
+
+class NoFileUploadedException extends Exception {}
+
+// This is called to process the posted information from the upload form
+// return a file_info with 'name' (the original file name)
+// and 'tmp_name' (the path to the file)
+// throws NoFileUploadedException if there is no file
+// throws a FileUploadException if there is a problem
 function validate_uploaded_file()
 {
     $file_path = "";
@@ -111,21 +141,24 @@ function validate_uploaded_file()
             // name and content are empty. But I think it's also legal for a browser
             // to send a request that doesn't contain a file at all (in which case
             // $file_info would be null.  Check both possibilities.
-            if (is_null($file_info) || $file_info['name'] == '') {
-                return NULL;
+            if (is_null($file_info) || $file_info['name'] == '')
+            {
+                throw new NoFileUploadedException();
             }
             $original_name = $file_info['name'];
             $file_path = $file_info['tmp_name'];
             $error = $file_info['error'];
             $file_size = $file_info['size'];
 
-            if ($error != UPLOAD_ERR_OK) {
-                throw new FileException(get_upload_err_msg($error));
+            if ($error != UPLOAD_ERR_OK)
+            {
+                throw new FileUploadException(get_upload_err_msg($error));
             }
             // there must be only one file.
             $file_count = count($original_name);
-            if ($file_count > 1) {
-                throw new FileException( _("You may only upload one file") );
+            if ($file_count > 1)
+            {
+                throw new FileUploadException( _("You may only upload one file") );
             }
             // allow anti_virus to read it
             chmod($file_path, 0644);
@@ -146,7 +179,7 @@ function validate_uploaded_file()
         virus_check($file_path);
         return $file_info;
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         if(is_file($file_path))
         {
@@ -159,7 +192,7 @@ function validate_uploaded_file()
 function empty_check($file_size)
 {
     if (0 == $file_size) {
-        throw new FileException(_("File is empty"));
+        throw new FileUploadException(_("File is empty"));
     }
 }
 
@@ -169,17 +202,17 @@ function zip_check($original_name, $file_path)
     {
         if (substr($original_name, -4) != ".zip")
         {
-            throw new FileException( _("File name extension must be '.zip'") );
+            throw new FileUploadException( _("File name extension must be '.zip'") );
         }
         // ensure that it's a valid zip
         // The extension was already checked and the file is not properly named (it has some temporary name), so we should
         // disable the extension check.
         if (!is_valid_zip_file($file_path, true))
         {
-            throw new FileException(sprintf(_("%s is not a valid zip file"),  $original_name));
+            throw new FileUploadException(sprintf(_("%s is not a valid zip file"),  $original_name));
         }
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         unlink($file_path);
         throw($e);
@@ -209,15 +242,15 @@ function virus_check($file_path)
             // Log the infected upload so that we can track user/frequency
             $reporting_string = "Infected upload: " . $av_test_result[0];
             error_log($reporting_string);
-            throw new FileException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
+            throw new FileUploadException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
                 You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));
         }
         else if($av_retval > 1)
         {
-            throw new FileException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
+            throw new FileUploadException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
         }
     }
-    catch(FileException $e)
+    catch(FileUploadException $e)
     {
         unlink($file_path);
         throw($e);
