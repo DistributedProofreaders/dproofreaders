@@ -226,18 +226,18 @@ function virus_check($file_path)
     }
     else if($av_retval > 1)
     {
-        throw new FileUploadException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
+        throw new FileUploadException(_("AntiVirus error:") . " " . $av_retval . "<br>" . $av_test_result[0]);
     }
 }
 
-function make_valid_filename(&$name)
+function make_valid_filename($name)
 {
     // create a valid filename re-using the extension provided
-    $old_filename = $name;
-    $path_parts = pathinfo($old_filename);
+    $path_parts = pathinfo($name);
     // replace starting hyphen or anything except alphanumeric or - or _ by _
-    $name = preg_replace('/^-|[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
-    return sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $name, $old_filename);
+    $new_name = preg_replace('/^-|[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
+    $message = sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $new_name, $name);
+    return [$new_name, $message];
 }
 
 function is_valid_filename($filename, $restrict_extension=False)

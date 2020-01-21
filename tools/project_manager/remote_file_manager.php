@@ -305,7 +305,7 @@ function do_upload()
 
         if (!is_valid_filename($original_name, "zip"))
         {
-            $warning = make_valid_filename($original_name);
+            list($original_name, $warning) = make_valid_filename($original_name);
             echo "<p class='warning'>$warning</p>";
         }
 
