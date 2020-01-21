@@ -183,7 +183,7 @@ function html_logobar() {
         }
         if($maintenance)
         {
-            $messages[] = _("Site is in maintenance.");
+            $messages[] = "<span class='error'>" . _("Site is in maintenance mode.") . "</span>";
             $id = 'testbar';
         }
         if($alert_message)
