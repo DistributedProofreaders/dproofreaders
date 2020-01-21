@@ -122,7 +122,7 @@ class FileUploadException extends Exception {}
 class NoFileUploadedException extends Exception {}
 
 // This is called to process the posted information from the upload form
-// return a file_info with 'name' (the original file name)
+// returns a file_info with 'name' (the original file name)
 // and 'tmp_name' (the path to the file)
 // throws NoFileUploadedException if there is no file
 // throws a FileUploadException if there is a problem

@@ -10,7 +10,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
-include_once($relPath.'upload_file.inc'); // show_upload_form()
+include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file
 
 detect_too_large();
 require_login();
