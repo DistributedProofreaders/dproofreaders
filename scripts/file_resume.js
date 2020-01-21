@@ -13,7 +13,6 @@ $(function() {
         $("#upload_progress").html(text);
     }
 
-//    if(false) {
     if(resumable.support) {
         resumable.assignBrowse($("#resumable_browse"));
         resumable.assignDrop($("#upload_form"));

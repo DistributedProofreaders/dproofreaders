@@ -142,10 +142,6 @@ $hce_curr_displaypath = html_safe($curr_displaypath);
 
 
 // Decide what to do based on the action parameter
-/*
-if(isset($_REQUEST["resumableIdentifier"]))
-    $_REQUEST["action"] = "resumable_chunk";
-*/
 $action = @$_REQUEST['action'];
 if (is_null($action)) {
     // Two possibilities:
@@ -295,11 +291,7 @@ function do_upload()
     $temporary_path = "";
     try
     {
-        $file_info = validate_uploaded_file(true);
-        if(is_null($file_info))
-        {
-            throw new FileUploadException(_("You must select a file to upload."));
-        }
+        $file_info = validate_uploaded_file();
         $temporary_path = $file_info["tmp_name"];
         $original_name = $file_info['name'];
 
