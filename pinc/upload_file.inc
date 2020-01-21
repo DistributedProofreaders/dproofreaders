@@ -92,7 +92,7 @@ function show_upload_form($form_content, $submit_label)
     echo "<div id='old_uploader'>
     <p class='warning'>", sprintf(_('Maximum file size is %s.'), get_max_upload_size()), "</p>
     <p>", get_big_upload_blurb(), "</p>",
-    _("File to upload"), ": <input type='file' id='old_browse' accept='.zip' name='uploaded_file' size='25' maxsize='50'>
+    _("File to upload"), ": <input type='file' id='old_browse' accept='.zip' name='uploaded_file'>
     <input type='submit' id='old_submit' value='", attr_safe($submit_label), "'>",
     "<p>", sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label), "</p>",
     "</div>";
