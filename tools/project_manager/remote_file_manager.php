@@ -332,12 +332,17 @@ function do_upload()
         error_log($reporting_string);
 
     }
+    // in php 7.1 the  two exceptions could be caught together
     catch(FileUploadException $e)
     {
         if(is_file($temporary_path))
         {
             unlink($temporary_path);
         }
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+    }
+    catch(NoFileUploadedException $e)
+    {
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
     }
     show_return_link();

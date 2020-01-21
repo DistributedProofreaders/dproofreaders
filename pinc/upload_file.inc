@@ -129,64 +129,53 @@ class NoFileUploadedException extends Exception {}
 function validate_uploaded_file()
 {
     $file_path = "";
-    try
+    $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
+    if('upload' == $mode)
     {
-        $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
-        if('upload' == $mode)
-        {
-            $file_info = $_FILES['uploaded_file'];
+        $file_info = $_FILES['uploaded_file'];
 
-            // If a user hits the "Upload" button without first selecting a file,
-            // it appears that most browsers send a request containing a file whose
-            // name and content are empty. But I think it's also legal for a browser
-            // to send a request that doesn't contain a file at all (in which case
-            // $file_info would be null.  Check both possibilities.
-            if (is_null($file_info) || $file_info['name'] == '')
-            {
-                throw new NoFileUploadedException();
-            }
-            $original_name = $file_info['name'];
-            $file_path = $file_info['tmp_name'];
-            $error = $file_info['error'];
-            $file_size = $file_info['size'];
-
-            if ($error != UPLOAD_ERR_OK)
-            {
-                throw new FileUploadException(get_upload_err_msg($error));
-            }
-            // there must be only one file.
-            $file_count = count($original_name);
-            if ($file_count > 1)
-            {
-                throw new FileUploadException( _("You may only upload one file") );
-            }
-            // allow anti_virus to read it
-            chmod($file_path, 0644);
-        }
-        else
+        // If a user hits the "Upload" button without first selecting a file,
+        // it appears that most browsers send a request containing a file whose
+        // name and content are empty. But I think it's also legal for a browser
+        // to send a request that doesn't contain a file at all (in which case
+        // $file_info would be null.  Check both possibilities.
+        if (is_null($file_info) || $file_info['name'] == '')
         {
-            // resumable upload
-            $root_staging_dir = "/tmp/resumable_uploads";
-            $original_name = array_get($_POST, "resumable_filename", "");
-            $identifier = array_get($_POST, "resumable_identifier", "");
-            $hashed_filename = md5($identifier);
-            $file_path = "$root_staging_dir/$hashed_filename";
-            $file_size = filesize($file_path);
-            $file_info = ["name" => $original_name, "tmp_name" => $file_path];
+            throw new NoFileUploadedException(_("You must upload a file"));
         }
-        // do some checks.
-        empty_check($file_size);
-        virus_check($file_path);
-        return $file_info;
+        $original_name = $file_info['name'];
+        $file_path = $file_info['tmp_name'];
+        $error = $file_info['error'];
+        $file_size = $file_info['size'];
+
+        if ($error != UPLOAD_ERR_OK)
+        {
+            throw new FileUploadException(get_upload_err_msg($error));
+        }
+        // there must be only one file.
+        $file_count = count($original_name);
+        if ($file_count > 1)
+        {
+            throw new FileUploadException( _("You may only upload one file") );
+        }
+        // allow anti_virus to read it
+        chmod($file_path, 0644);
     }
-    catch(FileUploadException $e)
+    else
     {
-        if(is_file($file_path))
-        {
-            unlink($file_path);
-        }
-        throw($e);
+        // resumable upload
+        $root_staging_dir = "/tmp/resumable_uploads";
+        $original_name = array_get($_POST, "resumable_filename", "");
+        $identifier = array_get($_POST, "resumable_identifier", "");
+        $hashed_filename = md5($identifier);
+        $file_path = "$root_staging_dir/$hashed_filename";
+        $file_size = filesize($file_path);
+        $file_info = ["name" => $original_name, "tmp_name" => $file_path];
     }
+    // do some checks.
+    empty_check($file_size);
+    virus_check($file_path);
+    return $file_info;
 }
 
 function empty_check($file_size)
@@ -198,24 +187,16 @@ function empty_check($file_size)
 
 function zip_check($original_name, $file_path)
 {
-    try
+    if (substr($original_name, -4) != ".zip")
     {
-        if (substr($original_name, -4) != ".zip")
-        {
-            throw new FileUploadException( _("File name extension must be '.zip'") );
-        }
-        // ensure that it's a valid zip
-        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
-        // disable the extension check.
-        if (!is_valid_zip_file($file_path, true))
-        {
-            throw new FileUploadException(sprintf(_("%s is not a valid zip file"),  $original_name));
-        }
+        throw new FileUploadException( _("File name extension must be '.zip'") );
     }
-    catch(FileUploadException $e)
+    // ensure that it's a valid zip
+    // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+    // disable the extension check.
+    if (!is_valid_zip_file($file_path, true))
     {
-        unlink($file_path);
-        throw($e);
+        throw new FileUploadException(sprintf(_("%s is not a valid zip file"),  $original_name));
     }
 }
 
@@ -226,34 +207,26 @@ function virus_check($file_path)
     {
         return;
     }
-    try
-    {
-        // perform '$antivirus_executable -- <FILENAME>' and expect return
-        // value = 0. we use -- to not parse any further arguments starting
-        // with -/-- as options
-        $av_test_result = array();
-        $av_retval=0;
+    // perform '$antivirus_executable -- <FILENAME>' and expect return
+    // value = 0. we use -- to not parse any further arguments starting
+    // with -/-- as options
+    $av_test_result = array();
+    $av_retval=0;
 
-        $cmd = "$antivirus_executable -- " . escapeshellcmd($file_path);
-        exec($cmd, $av_test_result, $av_retval);
-        // $av_retval == 0 is ok
-        if ($av_retval == 1)
-        {
-            // Log the infected upload so that we can track user/frequency
-            $reporting_string = "Infected upload: " . $av_test_result[0];
-            error_log($reporting_string);
-            throw new FileUploadException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
-                You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));
-        }
-        else if($av_retval > 1)
-        {
-            throw new FileUploadException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
-        }
-    }
-    catch(FileUploadException $e)
+    $cmd = "$antivirus_executable -- " . escapeshellcmd($file_path);
+    exec($cmd, $av_test_result, $av_retval);
+    // $av_retval == 0 is ok
+    if ($av_retval == 1)
     {
-        unlink($file_path);
-        throw($e);
+        // Log the infected upload so that we can track user/frequency
+        $reporting_string = "Infected upload: " . $av_test_result[0];
+        error_log($reporting_string);
+        throw new FileUploadException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
+            You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));
+    }
+    else if($av_retval > 1)
+    {
+        throw new FileUploadException(_("AntiVirus error:") . $av_retval . "<br>" . $av_test_result[0]);
     }
 }
 

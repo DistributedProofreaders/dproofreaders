@@ -227,6 +227,7 @@ else
     {
         try
         {
+            // inner try succeeds only if there is a file
             $file_info = validate_uploaded_file();
             $have_file = true;
             $temporary_path = $file_info["tmp_name"];
@@ -267,12 +268,12 @@ else
                 }
             }
         }
-        catch(NoFileUploadedException)
+        catch(NoFileUploadedException $e)
         {
             $have_file = false;
             if(!$returning_to_pool)
             {
-                throw new FileUploadException( _("You must upload a file") );
+                throw new FileUploadException($e->getMessage());
             }
         }
         // we've put the file in the right place.
