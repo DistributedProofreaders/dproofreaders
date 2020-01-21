@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
@@ -154,7 +155,7 @@ $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
 if (!isset($action))
 {
     // Present the upload page.
-    slim_header($title, get_upload_args());
+    output_header($title, NO_STATSBAR, get_upload_args());
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
@@ -302,7 +303,7 @@ else
         $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
         if ($error_msg)
         {
-            throw new FileUploadException("$error_msg");
+            throw new FileUploadException($error_msg);
         }
 
         // special handling for smooth reading, which does not involve a state change
