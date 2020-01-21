@@ -58,7 +58,7 @@ function get_upload_args()
             "$code_url/scripts/file_resume.js",
         ],
         'js_data' => "
-            var uploadTarget = '$code_url/tools/upload_file.php';
+            var uploadTarget = '$code_url/tools/upload_resumable_file.php';
             var uploadMessages = $upload_messages;
             var maxSize = " . RESUMABLE_UPLOAD_SIZE . ";",
     ];
