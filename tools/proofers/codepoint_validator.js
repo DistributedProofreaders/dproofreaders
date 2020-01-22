@@ -1,4 +1,4 @@
-/*global $ codePoints */
+/*global $ codePoints standardInterface switchConfirm */
 
 // this function is copied from dp_proof.js
 // could put it in another file misc.js
@@ -37,14 +37,14 @@ $(function () {
     var badPattern = new RegExp("[^" + charClass + "]", "ug");
     var textArea = document.getElementById("text_data");
 
-    $(".check_button").click(function(event) {
+    function validateText() {
         var text = textArea.value;
         text = text.normalize("NFC");
         textArea.value = text;
         badPattern.lastIndex = 0;
         if(!badPattern.test(text)) {
             // no bad characters found
-            return;
+            return true;
         }
         var replacement = "<span class='bad-char'>$&</span>";
         var markedText = htmlSafe(text).replace(badPattern , replacement);
@@ -52,7 +52,36 @@ $(function () {
         $("#checker").css("display", "flex");
         $("#proofdiv").hide();
         $("#check-text").html(markedText);
-        event.preventDefault();
+        return false;
+    }
+
+    // special handling for certain buttons
+    // switch layout - validate before confirm
+    $("#button4").click(function(event) {
+        if(validateText() && confirm(switchConfirm)) {
+            return;
+        } else {
+            event.preventDefault();
+        }
+    });
+
+    // word check -- for standard interface:
+    // Direct the (text-only) spellcheck doc to 'textframe'
+    // (rather than 'proofframe', the statically defined target).
+    $("#button10").click(function(event) {
+        if(!validateText()) {
+            event.preventDefault();
+            return;
+        }
+        if(standardInterface) {
+            document.getElementById('editform').target = 'textframe';
+        }
+    });
+
+    $(".check_button").click(function(event) {
+        if(!validateText()) {
+            event.preventDefault();
+        }
     });
 
     $("#cc-quit").click(function () {
