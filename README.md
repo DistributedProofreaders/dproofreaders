@@ -29,7 +29,7 @@ site.
 
 ## Installation
 
-See the [installation guide](SETUP/installation.txt) for information on system
+See the [installation guide](SETUP/INSTALL.md) for information on system
 pre-requisites and installation instructions. This file also has information on
 upgrading from an earlier release of the code.
 
