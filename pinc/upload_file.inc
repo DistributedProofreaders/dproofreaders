@@ -1,15 +1,24 @@
 <?php
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes()
 
-// This contains functions to use for use with uploading files
+// This contains functions to use for use for uploading files
 // using a resumable process if supported by the browser.
+// The process takes place in two stages: Showing an upload form,
+// then processing the uploaded data.
+// It is assumed that large uploads will be needed only with zipped files,
+// in this case the function show_upload_form() can be used.
+// This posts the data to the same php page where the function
+// validate_uploaded_file() can be used.
+// If you need to upload only small files use:
+// <input type='file' name='uploaded_file'> in your form.
+// Then validate_uploaded_file() can be used.
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
-// This function should be called near the beginning of the file
-// to which the upload is submitted. It detects a problem which can
-// occur when the browser does not support resumable uploads.
-// Detect if the file uploaded was larger than post_max_size and show
+// If uploading large files this function should be called near the beginning
+// of the page to which the upload is submitted (resumable or not).
+// It detects a problem which can occur with non-resumable uploads
+// when the file uploaded was larger than post_max_size and shows
 // an error instead of failing silently. We do this first because if the
 // POST failed, $_REQUEST and $_POST are empty and we have no data.
 // http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
@@ -74,6 +83,7 @@ function get_upload_args()
 // function below. Be careful to avoid $form_content clashing with
 // the names or ids used internally in this form.
 // It contains a 'choose file' button and a labeled submit button
+// and shows approprite messages to the user.
 function show_upload_form($form_content, $submit_label)
 {
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
@@ -116,7 +126,11 @@ function show_upload_form($form_content, $submit_label)
 
 // This exception is thrown if problems are found in validate_uploaded_file()
 // or the other file-check functions below. It will contain text describing
-// the problem and must be caught and the uploaded file deleted if it exists
+// the problem.
+// If show_upload_form() was used and FileUploadException is thrown
+// the uploaded file (at $file_info["tmp_name"]) must be deleted if it exists.
+// (For a non-resumable upload any unused uploaded files will be
+// removed by the system)
 class FileUploadException extends Exception {}
 
 class NoFileUploadedException extends Exception {}
@@ -124,6 +138,7 @@ class NoFileUploadedException extends Exception {}
 // This is called to process the posted information from the upload form
 // returns a file_info with 'name' (the original file name)
 // and 'tmp_name' (the path to the file)
+// It checks for an empty file and for virus infection.
 // throws NoFileUploadedException if there is no file
 // throws a FileUploadException if there is a problem
 function validate_uploaded_file()
