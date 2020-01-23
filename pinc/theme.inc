@@ -737,11 +737,12 @@ function show_tally_specific_stats( $tally_name )
 
 function show_tally_vs_goal($label, $goal, $actual)
 {
+    $percent = $actual == 0 ? 0 : $actual / $goal * 100;
     echo "<tr>";
     echo "<th>$label</th>";
     echo "<td class='center-align'>" . number_format($goal) . "</td>";
     echo "<td class='center-align'>" . number_format($actual) . "</td>";
-    echo "<td class='center-align'>" . sprintf("%d%%", $actual / $goal * 100) . "</td>";
+    echo "<td class='center-align'>" . sprintf("%d%%", $percent) . "</td>";
     echo "</tr>";
 }
 
