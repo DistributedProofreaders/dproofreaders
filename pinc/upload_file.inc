@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes()
 
-// This contains functions to use for use for uploading files
+// This contains functions for uploading files
 // using a resumable process if supported by the browser.
 // The process takes place in two stages: Showing an upload form,
 // then processing the uploaded data.
@@ -9,8 +9,8 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_
 // in this case the function show_upload_form() can be used.
 // This posts the data to the same php page where the function
 // validate_uploaded_file() can be used.
-// If you need to upload only small files use:
-// <input type='file' name='uploaded_file'> in your form.
+// If you need to upload only small files your form
+// can contain an <input type='file'> with name='uploaded_file'.
 // Then validate_uploaded_file() can be used.
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
@@ -78,7 +78,7 @@ function get_upload_args()
 // The form is submitted to the php file in which it is used.
 // Extra content can be supplied in the $form_content parameter
 // this can be abritrary HTML/other inputs
-// and should contain a hidden input which can be used to
+// and can contain a hidden input which can be used to
 // decide when to process the uploaded file using the validate_uploaded_file()
 // function below. Be careful to avoid $form_content clashing with
 // the names or ids used internally in this form.
