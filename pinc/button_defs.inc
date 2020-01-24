@@ -116,11 +116,7 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button8",
                 $label      => attr_safe(_("Revert to Original Document")),
                 'title'     => attr_safe(_("Revert to Original Document")),
-                'onclick'   => "return(confirm('"
-                    . javascript_safe(_("Are you sure you want to revert to the original text for this round?"), $charset)
-                    . "'));",
                 'src'       => "gfx/bt8.png",
-                'class'     => "check_button",
             );
             break;
 

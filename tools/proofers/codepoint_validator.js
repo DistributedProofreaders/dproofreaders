@@ -1,4 +1,4 @@
-/*global $ codePoints standardInterface switchConfirm */
+/*global $ codePoints standardInterface switchConfirm revertConfirm */
 
 // this function is copied from dp_proof.js
 // could put it in another file misc.js
@@ -59,6 +59,15 @@ $(function () {
     // switch layout - validate before confirm
     $("#button4").click(function(event) {
         if(validateText() && confirm(switchConfirm)) {
+            return;
+        } else {
+            event.preventDefault();
+        }
+    });
+
+    // revert to original - validate before confirm
+    $("#button8").click(function(event) {
+        if(validateText() && confirm(revertConfirm)) {
             return;
         } else {
             event.preventDefault();
