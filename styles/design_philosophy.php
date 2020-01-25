@@ -10,17 +10,19 @@ output_header("Style Design Philosophy", NO_STATSBAR);
 <h1>Style Design Philosophy</h1>
 
 <h2>DP Style History</h2>
-<p>The DP codebase has grown very organically over the years, starting out in 2000 when CSS was young and browser support for CSS was very poor. Since that time developers have added new code and styling for code in a variety of ways. CSS, and browser support for it, has come a <b>long</b> ways in 17 years and it's time to get a common look-and-feel using modern CSS.</p>
+<p>The DP codebase has grown very organically over the years, starting out in 2000 when CSS was young and browser support for CSS was very poor. Since that time developers have added new code and styling for code in a variety of ways. In 2017 we updated the entire site codebase to adopt a common look-and-feel using modern CSS.</p>
+
+<p>There are still places in the code that do not follow all the best practices. Due to the nature of DP development this will be an ongoing process for some time.</p>
 
 <h2>Style Demo</h2>
 <p>See the <a href='style_demo.php'>Style Demo</a> page for some examples of oft-used DP styles.</p>
 
 <h2>Design Goals</h2>
 <h3>Consistency</h3>
-<p>One of the goals of the style redesign is <b>consistency</b> across the site. Fonts, colors, table layouts, page layouts, etc should all be consistent across the site. This means that many pages will change such that all look alike.</p>
+<p>One of the goals of the style redesign was <b>consistency</b> across the site. Fonts, colors, table layouts, page layouts, etc should all be consistent across the site. This means that many pages changed such that all look alike.</p>
 
 <h3>Modern CSS</h3>
-<p>Another goal of the style redesign is using <b>modern CSS</b>. This means getting rid of &lt;font&gt; tags and HTML attributes that specify style and putting all of that into CSS files. We are aiming to support CSS 3.0, although most of what we want to implement is actually 2.1. This means that while the site will function on all browsers, older browsers that do not support modern CSS may not get the optimal visual experience.</p>
+<p>Another goal of the style redesign was using <b>modern CSS</b>. This means getting rid of &lt;font&gt; tags and HTML attributes that specify style and putting all of that into CSS files. We aimed to support CSS 3.0, although most of what we want to implement is actually 2.1. This means that while the site will function on all browsers, older browsers that do not support modern CSS may not get the optimal visual experience.</p>
 
 <h2>Recommendations</h2>
 <h3>Headers</h3>
