@@ -585,6 +585,23 @@ CREATE TABLE `themes` (
 # --------------------------------------------------------
 
 #
+# Initial theme data
+#
+
+INSERT INTO themes SET
+    name='Project Gutenberg',
+    unixname='project_gutenberg',
+    created_by='USFJoseph';
+INSERT INTO themes SET
+    name='Classic Grey',
+    unixname='classic_grey',
+    created_by='USFJoseph';
+INSERT INTO themes SET
+    name='Royal Blues',
+    unixname='royal_blues',
+    created_by='USFJoseph';
+
+#
 # Table structure for table `uber_projects`
 #
 # Creation:

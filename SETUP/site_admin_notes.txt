@@ -166,29 +166,6 @@ where
     (e.g., info_url='http://en.wikipedia.org/wiki/Armistice_Day')
 
 
-Themes:
--------
-A "theme" controls certain aspects of the interface's presentation (e.g.,
-colors, fonts). Theme definitions are stored under pinc/templates. The code
-ships with a few predefined themes, but the code's out-of-the-box behavior is
-to set every user's theme to 'Project Gutenberg' and not allow you to change
-it.  If you want to allow users to choose between various themes (predefined
-or otherwise), you need to put a row in the 'themes' table for each theme
-that you want to make available:
-
-    insert into themes
-    set
-        name       = 'NAME',
-        unixname   = 'UNIXNAME',
-        created_by = 'CREATED_BY'
-where
- -- NAME is the user-visible name for the theme. (e.g., name='Classic Grey')
- -- UNIXNAME is the name of the subdirectory of pinc/templates/ where the
-    theme is defined. (e.g., unixname='classic_grey')
- -- CREATED_BY says who created the theme.  (e.g., created_by='USFJoseph')
-    Currently, this field isn't referenced by the code.
-
-
                            Miscellaneous
                            =============
 
