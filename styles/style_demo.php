@@ -9,7 +9,7 @@ output_header("Style Demos");
 
 <h1>Style Demos</h1>
 
-<p>This page demonstrates how common page elements are rendered in the current style.</p>
+<p>This page demonstrates how common page elements are rendered in the current theme. Logged-in users can change their theme in their <a href='../userprefs.php'>Preferences</a>.</p>
 
 <h2>Headings</h2>
 <h1>Heading 1</h1>
