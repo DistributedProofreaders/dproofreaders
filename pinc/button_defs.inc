@@ -58,11 +58,7 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button4",
                 $label      => attr_safe(sprintf(_("Switch to %s"), $horvert)),
                 'title'     => attr_safe(sprintf(_("Save and Switch to %s Layout"), $horvert)),
-                'onclick'   => "return(confirm('" 
-                    . javascript_safe(_("Are you sure you want to change layout & save the current document?"), $charset)
-                    . "'));",
                 'src'       => "gfx/bt$n.png",
-                'class'     => "check_button",
             );
             break;
 
@@ -120,11 +116,7 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button8",
                 $label      => attr_safe(_("Revert to Original Document")),
                 'title'     => attr_safe(_("Revert to Original Document")),
-                'onclick'   => "return(confirm('"
-                    . javascript_safe(_("Are you sure you want to revert to the original text for this round?"), $charset)
-                    . "'));",
                 'src'       => "gfx/bt8.png",
-                'class'     => "check_button",
             );
             break;
 
@@ -187,15 +179,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("WordCheck")),
                 'title'     => attr_safe(_("Run WordCheck")),
                 'src'       => "gfx/bt16.png",
-                'class'     => "check_button",
             );
-            if ($userP['i_type']==0)
-            {
-                // standard interface:
-                // Direct the (text-only) spellcheck doc to 'textframe'
-                // (rather than 'proofframe', the statically defined target).
-                $attrs['onclick']="document.getElementById('editform').target='textframe'; return 1;";
-            }
             break;
 
         case CONVERT_UTF8:
