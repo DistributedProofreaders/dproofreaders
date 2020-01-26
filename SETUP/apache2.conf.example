@@ -7,6 +7,19 @@
 # DP code uses 'default.php' as an alternative index file
 DirectoryIndex index.php default.php index.html default.html
 
+# To ensure that word lists and other project artifacts are downloaded
+# with the correct character set, tell Apache to use ISO-8859-1 for
+# those files in the /projects directory. This should match $charset
+# in your pinc/site_vars.php.
+<DirectoryMatch "/projects">
+    AddCharset ISO-8859-1 .txt
+</DirectoryMatch>
+
+# Smoothreading .txt files are UTF-8, however.
+<DirectoryMatch "/projects/.*/smooth">
+    AddCharset utf-8 .txt
+</DirectoryMatch>
+
 ########################################################################
 
 <VirtualHost *:80>
