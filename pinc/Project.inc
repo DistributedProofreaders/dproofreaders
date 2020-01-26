@@ -523,6 +523,12 @@ EOS;
             TRUE,
             $sign_PM_up );
 
+        // if topic_id is NULL, something went wrong when creating the topic
+        if($topic_id === NULL)
+        {
+            return $topic_id;
+        }
+
         // Save $topic_id in db and in $this.
         $update_project = mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects
