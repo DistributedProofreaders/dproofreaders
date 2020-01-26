@@ -13,6 +13,9 @@ function echo_proof_frame_enh( $ppage )
     global $code_url, $userP;
 
     $json_code_points = get_json_codepoints($ppage->projectid());
+    $switch_confirm = javascript_safe(_('Are you sure you want to save the current page and change layout?'));
+    $revert_confirm = javascript_safe(_("Are you sure you want to save the current page and revert to the original text for this round?"));
+
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
@@ -27,6 +30,9 @@ function echo_proof_frame_enh( $ppage )
             previewControl = initPrev();
         }
         var codePoints = $json_code_points;
+        var standardInterface = false;
+        var switchConfirm = '$switch_confirm';
+        var revertConfirm = '$revert_confirm';
         ",
         "css_data" => ibe_get_styles(),
         "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
