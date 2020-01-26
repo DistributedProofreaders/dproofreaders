@@ -2,16 +2,14 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'unicode.inc');
-include_once($relPath.'wordcheck_engine.inc');
 
 header('Content-type: text/plain');
 
 // ------------------------------------------------------------
 
-echo "Convert site word lists to UTF-8\n";
+echo "Convert all text files in project directory to UTF-8\n";
 
-$files = get_site_word_files("/txt/", FALSE);
-
+$files = get_project_text_files();
 foreach($files as $file)
 {
     list($success, $message) = convert_text_file_to_utf8($file);
@@ -23,8 +21,16 @@ foreach($files as $file)
 
 // ------------------------------------------------------------
 
-// project word lists are taken care of in
-// 20191211_convert_project_text_files.php
+function get_project_text_files()
+{
+    global $projects_dir;
+
+    $output = [];
+    exec("find $projects_dir -name '*.txt'", $output);
+    return $output;
+}
+
+// ------------------------------------------------------------
 
 echo "\nDone!\n";
 
