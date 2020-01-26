@@ -109,6 +109,31 @@ function get_invalid_characters($string, $codepoints)
     return $char_count;
 }
 
+# Convert a text file to UTF-8, guessing its encoding returns:
+# [ $success, $message ]
+# where $success is TRUE if the file is already UTF-8 or was
+# sucessfully converted. $message is a more detailed message.
+function convert_text_file_to_utf8($filename)
+{
+    $text = file_get_contents($filename);
+    $encoding = guess_string_encoding($text);
+
+    if($encoding === FALSE)
+    {
+        return [ FALSE, "Unable to detect coding for $filename." ];
+    }
+
+    if($encoding == 'UTF-8')
+    {
+        return [ TRUE, "$filename already in UTF-8." ];
+    }
+
+    $text = mb_convert_encoding($text, "UTF-8", $encoding);
+    file_put_contents($filename, $text);
+
+    return [ TRUE, "$filename was converted from $encoding to UTF-8." ];
+}
+
 # Attempt to detect a string's encoding from a subset of expected encodings:
 #   * UTF-8 (includes pure-ASCII which is a valid subset)
 #   * UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE based on the BOM
