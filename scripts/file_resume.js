@@ -1,5 +1,21 @@
 /*global $ Resumable uploadTarget uploadMessages maxSize */
 $(function() {
+
+    function validate(name) {
+        // the name must contain only a-z,A-Z,0-9,-,_ and not start with -
+        // and end with .zip
+        var re = /^\w[\w-]+\.zip$/;
+        if(!re.test(name)) {
+            alert("The filename contains invalid characters (see note)");
+            return false;
+        }
+        if(name.length > 200) {
+            alert("The filename must have no more than 200 characters (see note)");
+            return false;
+        }
+        return true;
+    }
+
     var resumable = new Resumable({
         target: uploadTarget,
         testTarget: uploadTarget,
@@ -25,9 +41,14 @@ $(function() {
 
     // Before we start the upload, prevent the user from hitting upload again.
     $("#old_submit").click(function() {
-        // won't work if we disable browse button
-        $("#old_submit").prop( "disabled", true);
-        showProgress(uploadMessages.working);
+        let filename = $("#old_browse")[0].files[0].name;
+        if(validate(filename)) {
+            // won't work if we disable browse button
+            $("#old_submit").prop( "disabled", true);
+            showProgress(uploadMessages.working);
+        } else {
+            ev.preventDefault();
+        }
     });
 
     $("#resumable_submit").click(function() {
@@ -47,7 +68,10 @@ $(function() {
 
     // After a file has been selected, display its name
     resumable.on('fileAdded', function(file) {
-        $("#resumable_selected_file").text(file.fileName);
+        let filename = file.fileName;
+        if(validate(filename)) {
+            $("#resumable_selected_file").text(filename);
+        }
     });
 
     // After a file has been successfully uploaded, we update the form

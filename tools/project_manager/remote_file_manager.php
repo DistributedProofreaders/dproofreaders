@@ -297,8 +297,7 @@ function do_upload()
 
         if (!is_valid_filename($original_name, "zip"))
         {
-            list($original_name, $warning) = make_valid_filename($original_name);
-            echo "<p class='warning'>$warning</p>";
+            throw new FileUploadException(_("The filename is invalid."));
         }
 
         zip_check($original_name, $temporary_path);

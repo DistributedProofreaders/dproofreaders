@@ -87,7 +87,7 @@ function get_upload_args()
 function show_upload_form($form_content, $submit_label)
 {
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
-        . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
+        . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
 
     $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label) . "</p>";
 
@@ -243,16 +243,6 @@ function virus_check($file_path)
     {
         throw new FileUploadException(_("AntiVirus error:") . " " . $av_retval . "<br>" . $av_test_result[0]);
     }
-}
-
-function make_valid_filename($name)
-{
-    // create a valid filename re-using the extension provided
-    $path_parts = pathinfo($name);
-    // replace starting hyphen or anything except alphanumeric or - or _ by _
-    $new_name = preg_replace('/^-|[^a-zA-Z0-9_-]/', '_', $path_parts['filename']) . "." . $path_parts["extension"];
-    $message = sprintf(_('File was renamed to "%1$s" because "%2$s" is not a valid filename'), $new_name, $name);
-    return [$new_name, $message];
 }
 
 function is_valid_filename($filename, $restrict_extension=False)
