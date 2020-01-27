@@ -86,6 +86,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release 1.5
 Run the scripts in the following directories in order
@@ -97,6 +98,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release 1.6
 Run the scripts in the following directories in order
@@ -107,6 +109,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release R200609
 Run the scripts in the following directories in order
@@ -116,6 +119,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release R201601
 Run the scripts in the following directories in order
@@ -124,6 +128,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release R201701
 Run the scripts in the following directories in order
@@ -131,17 +136,25 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/10/
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release R201707
 Run the scripts in the following directories in order
 
 * c/SETUP/upgrade/11/
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
 
 ### Upgrading from release R201802
 Run the scripts in the following directories in order
 
 * c/SETUP/upgrade/12/
+* c/SETUP/upgrade/13/
+
+### Upgrading from release R201903
+Run the scripts in the following directories in order
+
+* c/SETUP/upgrade/13/
 
 ## Upgrade from phpBB2 to phpBB3
 If your prior version was running phpBB2, upgrade to phpBB3.
