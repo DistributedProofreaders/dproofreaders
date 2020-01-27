@@ -97,6 +97,24 @@ In the examples in this document, we will assume that the MySQL server
 is on "localhost", i.e. the same host on which you are running these
 commands, and the same host that runs the webserver.
 
+#### MySQL tunings
+The following are some suggested MySQL system tunings based on experiences
+at pgdp.net. You should consider them initial guidelines and not absolutes.
+
+The DP code uses a combination of InnoDB and MyISAM tables, specifically all
+tables are InnoDB except the per-project tables that use MyISAM. When
+allocating memory to the various buffers, you only need ~256M to the MyISAM
+`key_buffer_size`. For the `innodb_buffer_pool_size`, consider 4G or 50% of
+the system memory, whichever is smaller.
+
+Because each project is in its own table, the total number of database tables
+can get rather high. You may need to increase the size of the table definition
+cache (`table_definition_cache`) -- pgdp.net is using 16384 for this value.
+Increasing the number of open files (`open_files_limit`) and the table cache
+(`table_open_cache`) are also useful, although care must be taken to not
+increase these more than the MySQL daemon can open based on kernel limits.
+Consult the MySQL documentation for more information.
+
 ### Install gettext and xgettext
 If you want to localize the site messages, install gettext and xgettext.
 
