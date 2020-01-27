@@ -181,7 +181,7 @@ class Project
     public function get_glyphsets()
     {
         return [
-            Glyphsets::get_glyphset("Basic Latin"),
+            Glyphsets::get_glyphset("basic-latin"),
         ];
     }
 
