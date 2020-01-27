@@ -30,7 +30,7 @@ if($font)
 
 if($glyphset)
 {
-    $title = sprintf(_("Glyphset: %s"), $glyphset_name);
+    $title = sprintf(_("Glyphset: %s"), $glyphset->title);
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
     echo "<p><a href='?'>" . _("View all glyphsets") . "</a></p>";
@@ -51,7 +51,7 @@ elseif($projectid)
     $glyphsets = $project->get_glyphsets();
     foreach($glyphsets as $glyphset)
     {
-        output_glyphset($glyphset, $glyphset->name, $font);
+        output_glyphset($glyphset, $glyphset->title, $font);
     }
 }
 else
@@ -67,7 +67,7 @@ else
     $glyphsets = Glyphsets::get_glyphsets();
     foreach($glyphsets as $glyphset)
     {
-        output_glyphset($glyphset, $glyphset->name, $font);
+        output_glyphset($glyphset, $glyphset->title, $font);
     }
 
     $proposed_glyphsets = Glyphsets::get_glyphsets('proposed');
@@ -78,7 +78,7 @@ else
 
         foreach($proposed_glyphsets as $glyphset)
         {
-            output_glyphset($glyphset, $glyphset->name, $font, "proposed");
+            output_glyphset($glyphset, $glyphset->title, $font, "proposed");
         }
     }
 }
