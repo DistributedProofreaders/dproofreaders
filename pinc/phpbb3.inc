@@ -235,6 +235,13 @@ function _insert_post(
     $subject = utf8_normalize_nfc($post_subject);
     $text    = utf8_normalize_nfc($post_text);
 
+    // phpBB encodes the subject (but not the body) using ENT_COMPAT, the chain is:
+    // phpBB3/posting.php
+    //   $request->variable() in phpBB3/phpbb/request/request.php
+    //     $type_cast_helper->recursive_set_var() in phpBB3/phpbb/request/type_cast_helper.php
+    //       $type_cast_helper->set_var() in phpBB3/phpbb/request/type_cast_helper.php
+    $subject = htmlspecialchars($subject, ENT_COMPAT, 'UTF-8', false);
+
     $poll = $uid = $bitfield = $options = '';
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
