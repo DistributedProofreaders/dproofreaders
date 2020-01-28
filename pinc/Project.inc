@@ -178,11 +178,57 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    public function add_glyphset($glyphset)
+    {
+        if($glyphset instanceof Glyphset)
+        {
+            $glyphset_name = $glyphset->name;
+        }
+        else
+        {
+            $glyphset_name = $glyphset;
+            $glyphset = Glyphsets::get_glyphset($glyphset_name);
+        }
+
+        $existing_glyphsets = $this->get_glyphsets();
+        if(in_array($glyphset, $existing_glyphsets))
+        {
+            return;
+        }
+
+        // ensure that the glyphset is enabled, otherwise it can't be added
+        if(!$glyphset->is_enabled())
+        {
+            throw new GlyphsetNotEnabledException(sprintf(
+                _("Glyphset '%s' is not enabled and cannot be added to a project"),
+                $glyphset->title
+            ));
+        }
+
+        $sql = sprintf("
+            INSERT INTO project_glyphsets
+            SET projectid='%s', glyphset_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $glyphset_name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
     public function get_glyphsets()
     {
-        return [
-            Glyphsets::get_glyphset("basic-latin"),
-        ];
+        $sql = "
+            SELECT glyphset_name
+            FROM project_glyphsets
+            WHERE projectid='$this->projectid'
+        ";
+
+        $glyphsets = [];
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $glyphsets[] = Glyphsets::get_glyphset($row["glyphset_name"]);
+        }
+        mysqli_free_result($result);
+        return $glyphsets;
     }
 
     public function get_valid_codepoints()

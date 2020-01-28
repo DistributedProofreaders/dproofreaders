@@ -1,6 +1,8 @@
 <?php
 include_once($relPath."unicode.inc");
 
+class GlyphsetNotEnabledException extends Exception { }
+
 class PickerSet
 {
     public $name;
@@ -75,6 +77,12 @@ class Glyphset
             return null;
         }
     }
+
+    public function is_enabled()
+    {
+        $enabled_sets = Glyphsets::get_enabled();
+        return in_array($this->name, $enabled_sets);
+    }
 }
 
 class Glyphsets
@@ -102,6 +110,52 @@ class Glyphsets
             throw new UnexpectedValueException("$name is not a valid glyphset");
         }
         return self::$_available_glyphsets[$set][$name];
+    }
+
+    public static function get_enabled()
+    {
+        $sql = "
+            SELECT name
+            FROM glyphsets
+            WHERE enabled=1
+        ";
+
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+
+        $glyphsets = [];
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $glyphsets[] = $row["name"];
+        }
+        mysqli_free_result($result);
+        return $glyphsets;
+    }
+
+    public static function enable($name)
+    {
+        // Validate we have a valid glyphset
+        $glyphset = Glyphsets::get_glyphset($name);
+
+        $sql = sprintf("
+            INSERT INTO glyphsets
+            SET name='%s', enabled=1
+            ON DUPLICATE KEY UPDATE
+                enabled=1
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
+    public static function disable($name)
+    {
+        // We don't validate the glyphset is installed in case it was
+        // uninstalled before being disabled.
+        $sql = sprintf("
+            UPDATE glyphsets
+            SET name='%s', enabled=0
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
     }
 }
 
