@@ -426,7 +426,7 @@ class Project
         // determine appropriate forum to create thread in
         $forum_id = get_forum_id_for_project_state($this->state);
 
-        $post_subject = "\"{$this->nameofwork}\"    by {$this->authorsname}";
+        $post_subject = "\"{$this->nameofwork}\" by {$this->authorsname}";
 
         global $code_url;
         $post_body = <<<EOS
