@@ -1,26 +1,24 @@
 <?php
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes()
 
-// This contains functions for uploading files
-// using a resumable process if supported by the browser.
-// The process takes place in two stages: Showing an upload form,
-// then processing the uploaded data.
-// It is assumed that large uploads will be needed only with zipped files,
-// in this case the function show_upload_form() can be used.
-// This posts the data to the same php page where the function
-// validate_uploaded_file() can be used.
-// If you need to upload only small files your form
-// can contain an <input type='file'> with name='uploaded_file'.
-// Then validate_uploaded_file() can be used.
+// This contains functions for uploading files using a resumable process if
+// supported by the browser. The process takes place in two stages: Showing
+// an upload form, then processing the uploaded data.
+// It is assumed that large uploads will be needed only with zipped files, then
+// the function show_upload_form() can be used. This posts the data to the same
+// php page where the function validate_uploaded_file() can be used.
+// If you need to upload only small files your form can contain an
+// <input type='file'> with name='uploaded_file' Then validate_uploaded_file()
+// can be used to process the upload.
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
 // If uploading large files this function should be called near the beginning
-// of the page to which the upload is submitted (resumable or not).
-// It detects a problem which can occur with non-resumable uploads
-// when the file uploaded was larger than post_max_size and shows
-// an error instead of failing silently. We do this first because if the
-// POST failed, $_REQUEST and $_POST are empty and we have no data.
+// of the page to which the upload is submitted (resumable or not). It detects
+// a problem which can occur with non-resumable uploads when the file uploaded
+// was larger than post_max_size and shows an error instead of failing silently.
+// We do this first because if the POST failed, $_REQUEST and $_POST are empty
+// and we have no data.
 // http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
 function detect_too_large()
 {
@@ -45,7 +43,8 @@ function get_big_upload_blurb()
         instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 }
 
-// This supplies the aruments for the header in the page containing the upload form below
+// This supplies the aruments for the header in the page containing the upload
+// form below
 function get_upload_args()
 {
     global $code_url, $utf8_site;
@@ -127,16 +126,12 @@ function show_upload_form($form_content, $submit_label)
 // This exception is thrown if problems are found in validate_uploaded_file()
 // or the other file-check functions below. It will contain text describing
 // the problem.
-// If show_upload_form() was used and FileUploadException is thrown
-// the uploaded file (at $file_info["tmp_name"]) must be deleted if it exists.
-// (For a non-resumable upload any unused uploaded files will be
-// removed by the system)
 class FileUploadException extends Exception {}
 
 class NoFileUploadedException extends Exception {}
 
 // This is called to process the posted information from the upload form
-// returns a file_info with 'name' (the original file name)
+// It returns a file_info with 'name' (the original file name)
 // and 'tmp_name' (the path to the file).
 // It checks for an empty file and for virus infection.
 // throws NoFileUploadedException if there is no file
@@ -219,8 +214,8 @@ function zip_check($original_name, $file_path)
     {
         throw new FileUploadException( _("File name extension must be '.zip'") );
     }
-    // ensure that it's a valid zip
-    // The extension was already checked and the file is not properly named (it has some temporary name), so we should
+    // ensure that it's a valid zip. The extension was already checked and the
+    // file is not properly named (it has some temporary name), so we should
     // disable the extension check.
     if (!is_valid_zip_file($file_path, true))
     {
