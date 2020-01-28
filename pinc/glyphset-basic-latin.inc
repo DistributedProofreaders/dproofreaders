@@ -52,5 +52,5 @@ $pickerset->add_subset("1", [
 ], _("Numbers and Currency"));
 $glyphset->pickerset = $pickerset;
 
-Glyphsets::add_glyphset($glyphset);
+Glyphsets::add($glyphset);
 

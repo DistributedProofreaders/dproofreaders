@@ -178,11 +178,69 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    static public function projects_using_glyphset($glyphset)
+    {
+        $glyphset = Glyphsets::resolve($glyphset);
+
+        $sql = sprintf("
+            SELECT projectid
+            FROM project_glyphsets
+            WHERE glyphset_name='%s'
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $glyphset->name));
+
+        $projectids = [];
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $projectids[] = $row['projectid'];
+        }
+        mysqli_free_result($result);
+        return $projectids;
+    }
+
+    public function add_glyphset($glyphset)
+    {
+        $glyphset = Glyphsets::resolve($glyphset);
+
+        $existing_glyphsets = $this->get_glyphsets();
+        if(in_array($glyphset, $existing_glyphsets))
+        {
+            return;
+        }
+
+        // ensure that the glyphset is enabled, otherwise it can't be added
+        if(!$glyphset->is_enabled())
+        {
+            throw new GlyphsetNotEnabledException(sprintf(
+                _("Glyphset '%s' is not enabled and cannot be added to a project"),
+                $glyphset->title
+            ));
+        }
+
+        $sql = sprintf("
+            INSERT INTO project_glyphsets
+            SET projectid='%s', glyphset_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $glyphset->name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
     public function get_glyphsets()
     {
-        return [
-            Glyphsets::get_glyphset("basic-latin"),
-        ];
+        $sql = "
+            SELECT glyphset_name
+            FROM project_glyphsets
+            WHERE projectid='$this->projectid'
+        ";
+
+        $glyphsets = [];
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $glyphsets[] = Glyphsets::get($row["glyphset_name"]);
+        }
+        mysqli_free_result($result);
+        return $glyphsets;
     }
 
     public function get_valid_codepoints()
