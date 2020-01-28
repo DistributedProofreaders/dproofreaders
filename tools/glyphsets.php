@@ -8,7 +8,6 @@ include_once($relPath."misc.inc"); // array_get()
 
 $glyphset_name = array_get($_GET, "glyphset", NULL);
 $font = array_get($_REQUEST, "font", NULL);
-$set = array_get($_REQUEST, "set", 'default');
 $projectid = array_get($_REQUEST, "projectid", NULL);
 
 $glyphset = NULL;
@@ -16,7 +15,7 @@ $glyphset = NULL;
 if(!$projectid)
 {
     try {
-        $glyphset = Glyphsets::get_glyphset($glyphset_name, $set);
+        $glyphset = Glyphsets::get($glyphset_name);
     } catch (UnexpectedValueException $e) {
         // continue
     }
@@ -59,26 +58,27 @@ else
     $title = _("All Glyphsets");
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p>" . _("Below are all available glyphsets in the system.") . "</p>";
+    echo "<p>" . _("Below are all enabled glyphsets in the system.") . "</p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
-    $glyphsets = Glyphsets::get_glyphsets();
-    foreach($glyphsets as $glyphset)
+    $enabled_glyphsets = Glyphsets::get_enabled();
+    foreach($enabled_glyphsets as $glyphset)
     {
         output_glyphset($glyphset, $glyphset->title, $font);
     }
 
-    $proposed_glyphsets = Glyphsets::get_glyphsets('proposed');
-    if($proposed_glyphsets)
+    $all_glyphsets = Glyphsets::get_all();
+    if(count($all_glyphsets) > count($enabled_glyphsets))
     {
-        echo "<h1>" . _("Proposed Glyphsets") . "</h1>";
-        echo "<p>" . _("The following are proposed glyphsets. They are not finalized and cannot be used in projects.") . "</p>";
+        echo "<h1>" . _("Disabled Glyphsets") . "</h1>";
+        echo "<p>" . _("The following glyphsets are installed but not enabled and cannot be used for new projets. They may not be finalized.") . "</p>";
 
-        foreach($proposed_glyphsets as $glyphset)
+        foreach($all_glyphsets as $glyphset)
         {
-            output_glyphset($glyphset, $glyphset->title, $font, "proposed");
+            if(!$glyphset->is_enabled())
+                output_glyphset($glyphset, $glyphset->title, $font);
         }
     }
 }
@@ -108,7 +108,7 @@ function output_font_test_form($font)
     echo "</div>";
 }
 
-function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default')
+function output_glyphset($glyphset, $title=NULL, $test_font=NULL)
 {
     if($title)
     {
@@ -116,8 +116,11 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL, $set='default'
         echo "<h2 id='$slug'>$title</h2>";
         $encoded_name = urlencode($glyphset->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
-        $set_attr = $set !== 'default' ? ("&amp;set=" . urlencode($set)) : "";
-        echo "<p><a href='?glyphset=$encoded_name$font_attr$set_attr'>" . _("View glyphset details") . "</a></p>";
+        echo "<p><a href='?glyphset=$encoded_name$font_attr'>" . _("View glyphset details") . "</a></p>";
+    }
+    elseif(!$glyphset->is_enabled())
+    {
+        echo "<p class='warning'>". _("This glyphset is installed but not enabled and cannot be used for new projects.") . "</p>";
     }
 
     echo "<p>" . _("Below are all the glyphs with their Unicode codepoints that are available within this Glyphset. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";

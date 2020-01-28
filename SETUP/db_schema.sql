@@ -91,6 +91,23 @@ CREATE TABLE `current_tallies` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `glyphsets`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `glyphsets` (
+  `name` varchar(64) NOT NULL,
+  `enabled` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB;
+# --------------------------------------------------------
+
+INSERT INTO glyphsets
+    SET name='basic-latin';
+
+#
 # Table structure for table `image_sources`
 #
 # Creation:
@@ -276,6 +293,22 @@ CREATE TABLE `project_events` (
   KEY `project` (`projectid`),
   KEY `timestamp` (`timestamp`)
 );
+# --------------------------------------------------------
+
+#
+# Table structure for table `project_glyphsets`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `project_glyphsets` (
+  `projectid` varchar(22) NOT NULL,
+  `glyphset_name` varchar(64) NOT NULL,
+  PRIMARY KEY (`projectid`,`glyphset_name`),
+  KEY `glyphset_fk` (`glyphset_name`),
+  CONSTRAINT `glyphset_fk` FOREIGN KEY (`glyphset_name`) REFERENCES `glyphsets` (`name`)
+) ENGINE=InnoDB;
 # --------------------------------------------------------
 
 #
