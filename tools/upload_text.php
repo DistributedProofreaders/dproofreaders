@@ -222,61 +222,10 @@ else
     echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
-    $temporary_path = "";
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
     try
     {
-        try
-        {
-            // inner try succeeds only if there is a file
-            $file_info = validate_uploaded_file();
-            $have_file = true;
-            $temporary_path = $file_info["tmp_name"];
-            $original_name = $file_info['name'];
-
-            zip_check($original_name, $temporary_path);
-            // replace filename
-            $zipext = ".zip";
-            $name = $projectid.$indicator.$zipext;
-            $location = "$project->dir/$name";
-            ensure_path_is_unused( $location );
-            rename($temporary_path, $location);
-            if ($stage == 'smooth_avail')
-            {
-                $project->delete_smoothreading_dir();
-                $smooth_dir = "$project->dir/smooth";
-                if(!mkdir($smooth_dir))
-                {
-                    throw new FileUploadException("Could not create smooth directory");
-                }
-                $zip_ok = extract_zip_to($location, $smooth_dir);
-                if($zip_ok)
-                {
-                    // extract any zips in smooth_dir
-                    $zips = glob("$smooth_dir/*.zip");
-                    foreach($zips as $zip)
-                    {
-                        $zip_ok = extract_zip_to($zip, $smooth_dir);
-                        if(!$zip_ok)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if(!$zip_ok)
-                {
-                    throw new FileUploadException("failed to extract files");
-                }
-            }
-        }
-        catch(NoFileUploadedException $e)
-        {
-            $have_file = false;
-            if(!$returning_to_pool)
-            {
-                throw new FileUploadException($e->getMessage());
-            }
-        }
+        $filename= process_file($project, $indicator, $stage, $returning_to_pool);
         // we've put the file in the right place.
         // now let's deal with the postcomments.
         // we construct the bit that's going to be added on to the existing postcomments.
@@ -285,8 +234,8 @@ else
         // Otherwise, we add a divider, time stamp, user name, and the name of the file
         // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
         $divider = "\n----------\n".date("Y-m-d H:i");
-        if ($have_file) {
-            $divider .= " $name uploaded by ";
+        if ($filename) {
+            $divider .= " $filename uploaded by ";
         }
         else if ($returning_to_pool) {
             $divider .= " returned by ";
@@ -295,7 +244,7 @@ else
             $divider .= " "; // this shouldn't actually happen
         }
         $divider .= $pguser."\n";
-        if (strlen($postcomments)>0 || $have_file) {
+        if (strlen($postcomments)>0 || $filename) {
             $postcomments = $divider . $postcomments;
         }
         // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
@@ -323,10 +272,10 @@ else
         // let them know file uploaded and send back to the right place
         $msg1 = _("File uploaded. Thank you!");
         $msg2 = _("Project returned to pool");
-        if ($have_file && $returning_to_pool) {
+        if ($filename && $returning_to_pool) {
             $msg = $msg1."\n".$msg2;
         }
-        else if ($have_file) {
+        else if ($filename) {
             $msg = $msg1;
         }
         else if  ($returning_to_pool) {
@@ -339,13 +288,73 @@ else
     }
     catch(FileUploadException $e)
     {
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+    }
+    echo $return_message;
+}
+
+// return filename or false if there is no file
+// if an exception is thrown any file will have been deleted.
+function process_file($project, $indicator, $stage, $returning_to_pool)
+{
+    $temporary_path = "";
+    try
+    {
+        $file_info = validate_uploaded_file();
+        $temporary_path = $file_info["tmp_name"];
+        $original_name = $file_info['name'];
+
+        zip_check($original_name, $temporary_path);
+        // replace filename
+        $zipext = ".zip";
+        $name = $project->projectid . $indicator . $zipext;
+        $location = "$project->dir/$name";
+        ensure_path_is_unused( $location );
+        $move_result = rename($temporary_path, $location);
+        if(!$move_result)
+        {
+            throw new FileUploadException(_("Webserver failed to copy uploaded file from temporary location to project directory."));
+        }
+        if ($stage == 'smooth_avail')
+        {
+            $project->delete_smoothreading_dir();
+            $smooth_dir = "$project->dir/smooth";
+            if(!mkdir($smooth_dir))
+            {
+                throw new FileUploadException("Could not create smooth directory");
+            }
+            if(!extract_zip_to($location, $smooth_dir))
+            {
+                throw new FileUploadException("failed to extract files");
+            }
+            // extract any zips in smooth_dir
+            $zips = glob("$smooth_dir/*.zip");
+            foreach($zips as $zip)
+            {
+                if(!extract_zip_to($zip, $smooth_dir))
+                {
+                    throw new FileUploadException("failed to extract files");
+                }
+            }
+        }
+    }
+    catch(FileUploadException $e)
+    {
         if(is_file($temporary_path))
         {
             unlink($temporary_path);
         }
-        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        throw $e;
     }
-    echo $return_message;
+    catch(NoFileUploadedException $e)
+    {
+        $name = false;
+        if(!$returning_to_pool)
+        {
+            throw new FileUploadException($e->getMessage());
+        }
+    }
+    return $name;
 }
 
 #----------------------------------------------------------------------------

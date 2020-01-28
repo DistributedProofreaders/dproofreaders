@@ -137,59 +137,72 @@ class NoFileUploadedException extends Exception {}
 
 // This is called to process the posted information from the upload form
 // returns a file_info with 'name' (the original file name)
-// and 'tmp_name' (the path to the file)
+// and 'tmp_name' (the path to the file).
 // It checks for an empty file and for virus infection.
 // throws NoFileUploadedException if there is no file
 // throws a FileUploadException if there is a problem
+// if an exception is thrown any file will have been deleted.
 function validate_uploaded_file()
 {
     $file_path = "";
     $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
-    if('upload' == $mode)
+    try
     {
-        $file_info = $_FILES['uploaded_file'];
+        if('upload' == $mode)
+        {
+            $file_info = $_FILES['uploaded_file'];
 
-        // If a user hits the "Upload" button without first selecting a file,
-        // it appears that most browsers send a request containing a file whose
-        // name and content are empty. But I think it's also legal for a browser
-        // to send a request that doesn't contain a file at all (in which case
-        // $file_info would be null.  Check both possibilities.
-        if (is_null($file_info) || $file_info['name'] == '')
-        {
-            throw new NoFileUploadedException(_("You must upload a file"));
-        }
-        $original_name = $file_info['name'];
-        $file_path = $file_info['tmp_name'];
-        $error = $file_info['error'];
-        $file_size = $file_info['size'];
+            // If a user hits the "Upload" button without first selecting a file,
+            // it appears that most browsers send a request containing a file whose
+            // name and content are empty. But I think it's also legal for a browser
+            // to send a request that doesn't contain a file at all (in which case
+            // $file_info would be null.  Check both possibilities.
+            if (is_null($file_info) || $file_info['name'] == '')
+            {
+                throw new NoFileUploadedException(_("You must upload a file"));
+            }
+            $original_name = $file_info['name'];
+            $file_path = $file_info['tmp_name'];
+            $error = $file_info['error'];
+            $file_size = $file_info['size'];
 
-        if ($error != UPLOAD_ERR_OK)
-        {
-            throw new FileUploadException(get_upload_err_msg($error));
+            if ($error != UPLOAD_ERR_OK)
+            {
+                throw new FileUploadException(get_upload_err_msg($error));
+            }
+            // there must be only one file.
+            $file_count = count($original_name);
+            if ($file_count > 1)
+            {
+                throw new FileUploadException( _("You may only upload one file") );
+            }
+            // allow anti_virus to read it
+            chmod($file_path, 0644);
         }
-        // there must be only one file.
-        $file_count = count($original_name);
-        if ($file_count > 1)
+        else
         {
-            throw new FileUploadException( _("You may only upload one file") );
+            // resumable upload
+            $root_staging_dir = "/tmp/resumable_uploads";
+            $original_name = array_get($_POST, "resumable_filename", "");
+            $identifier = array_get($_POST, "resumable_identifier", "");
+            $hashed_filename = md5($identifier);
+            $file_path = "$root_staging_dir/$hashed_filename";
+            $file_size = filesize($file_path);
+            $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
-        // allow anti_virus to read it
-        chmod($file_path, 0644);
+        // do some checks.
+        empty_check($file_size);
+        virus_check($file_path);
     }
-    else
+    catch(FileUploadException $e)
     {
-        // resumable upload
-        $root_staging_dir = "/tmp/resumable_uploads";
-        $original_name = array_get($_POST, "resumable_filename", "");
-        $identifier = array_get($_POST, "resumable_identifier", "");
-        $hashed_filename = md5($identifier);
-        $file_path = "$root_staging_dir/$hashed_filename";
-        $file_size = filesize($file_path);
-        $file_info = ["name" => $original_name, "tmp_name" => $file_path];
+        // delete file here while we know its name
+        if(is_file($file_path))
+        {
+            unlink($file_path);
+        }
+        throw($e);
     }
-    // do some checks.
-    empty_check($file_size);
-    virus_check($file_path);
     return $file_info;
 }
 
