@@ -8,9 +8,9 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R200609
+prev_tag=R201903
 curr_tag=production
-upgrade_number=08
+upgrade_number=13
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -45,6 +45,7 @@ echo "
     # Need to set the booleans, otherwise site_vars.php will raise syntax errors.
     _TESTING=TRUE
     _USE_PHP_SESSIONS=TRUE
+    _USE_SECURE_COOKIES=TRUE
     _MAINTENANCE=FALSE
     _METADATA=TRUE
     _CORRECTIONS=TRUE
@@ -100,6 +101,11 @@ echo ""
 echo "Applying all upgrade scripts..."
 cd $testing_code_setup_dir/upgrade/$upgrade_number
 for f in *.php; do
+    # comment out any immediate die()s -- we want to continue even if
+    # a user might want to double-check on a real site
+    sed -i 's/^die()/#die()/' $f
+
+    # now run the script
     echo ""
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     echo $f
@@ -119,6 +125,7 @@ fi
 
 echo ""
 echo "Comparing the two schemas..."
+echo "diff $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump"
 vim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump
 
 echo ""
