@@ -32,7 +32,7 @@
 # ---------------
 
 # These parameters specify database connection and configuration settings.
-# See SETUP/installation.txt for instructions on how to create the database
+# See SETUP/INSTALL.md for instructions on how to create the database
 # and user.
 
 _DB_SERVER=localhost
