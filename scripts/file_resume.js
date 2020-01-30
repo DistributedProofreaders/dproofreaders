@@ -6,11 +6,11 @@ $(function() {
         // and end with .zip
         var re = /^\w[\w-]+\.zip$/;
         if(!re.test(name)) {
-            alert("The filename contains invalid characters (see note)");
+            alert(uploadMessages.invalidChars);
             return false;
         }
         if(name.length > 200) {
-            alert("The filename must have no more than 200 characters (see note)");
+            alert(uploadMessages.nameTooLong);
             return false;
         }
         return true;

@@ -53,6 +53,8 @@ function get_upload_args()
         'working' => _("Working, please wait..."),
         'uploadFailed' => _("Upload failed"),
         'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
+        'invalidChars' => _("The filename contains invalid characters (see note)"),
+        'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
     ];
     if(!$utf8_site)
     {
