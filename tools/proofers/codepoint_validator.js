@@ -1,4 +1,4 @@
-/*global $ codePoints standardInterface switchConfirm revertConfirm */
+/*global $ codePoints standardInterface switchConfirm revertConfirm XRegExp */
 
 // this function is copied from dp_proof.js
 // could put it in another file misc.js
@@ -34,24 +34,58 @@ $(function () {
         }
     });
 
-    var badPattern = new RegExp("[^" + charClass + "]", "ug");
+    const goodGlyphs = new RegExp("^[" + charClass + "]$", "u");
+
+    // Glyphs with validCombining marks are constructed from project data not
+    // yet implemented: the following would allow F,H with breve and M grave
+    // var validCombinations = "|[\u0046\u0048]\u0306|\u004d\u0300";
+    // const goodGlyphs = new RegExp("^(?:[" + charClass + "]" + validCombinations + ")$", "u");
+
+    // regex unicode property escape is supported in Chrome and Safari but not
+    // in Firefox or Edge. Use 3rd party http://xregexp.com/ instead
+    // this matches any glyph: non-mark codepoint followed by 0 or more marks
+    const glyphTest = XRegExp("\\PM\\pM*", "Ag");
+
+    // to remove combining chars at line start which are not markable
+    const linecheckRegex = XRegExp("^\\pM", "Amg");
+
     var textArea = document.getElementById("text_data");
+
+    // check each glyph, if bad mark or remove it
+    function processText(text, clean) {
+        var bad = false;
+
+        function glyphReplacer(match) {
+            if(goodGlyphs.test(match)) {
+                return match;
+            }
+            if(clean) {
+                return "";
+            }
+            bad = true;
+            return "<span class='bad-char'>" + match + "</span>";
+        }
+
+        text = text.replace(glyphTest, glyphReplacer);
+        return {processedText: text, valid: !bad};
+    }
 
     function validateText() {
         var text = textArea.value;
         text = text.normalize("NFC");
+        text = text.replace(linecheckRegex, "");
+        // replace the text with normalised version
         textArea.value = text;
-        badPattern.lastIndex = 0;
-        if(!badPattern.test(text)) {
-            // no bad characters found
+        // convert any markup so does not get interpreted in the checker div
+        text = htmlSafe(text);
+
+        let procResult = processText(text, false);
+        if(procResult.valid) {
             return true;
         }
-        var replacement = "<span class='bad-char'>$&</span>";
-        var markedText = htmlSafe(text).replace(badPattern , replacement);
-
         $("#checker").css("display", "flex");
         $("#proofdiv").hide();
-        $("#check-text").html(markedText);
+        $("#check-text").html(procResult.processedText);
         return false;
     }
 
@@ -99,7 +133,8 @@ $(function () {
     });
 
     $("#cc-remove").click(function () {
-        textArea.value = textArea.value.replace(badPattern , "");
+        // textArea has already been normalised
+        textArea.value = processText(textArea.value, true).processedText;
         $("#checker").hide();
         $("#proofdiv").show();
     });
@@ -151,27 +186,28 @@ $(function () {
         // takes action if the last character entered is a ].
         var text = textArea.value;
         var endIndex = textArea.selectionStart;
-        var char0Index, char1Index, char3Index, replaceChar;
+        var char0Index, replaceChar;
 
         function maybeSubstitute() {
-            // if replaceChar does not contain any disallowed characters use it
+            // if replaceChar is good use it
             // this uses the local variables of the containing function
-            badPattern.lastIndex = 0;
-            if(!badPattern.test(replaceChar)) {
-                // replace markup with character and move caret back 3 places
+            if(goodGlyphs.test(replaceChar)) {
+                // replace markup with character and move caret back 4 places
+                // and forward by length of replaceChar
+                let newCaret = char0Index + replaceChar.length;
                 textArea.value = text.slice(0, char0Index) + replaceChar + text.slice(endIndex);
-                textArea.setSelectionRange(char1Index, char1Index);
+                textArea.setSelectionRange(newCaret, newCaret);
             }
         }
 
-        char3Index = endIndex - 1;
+        let char3Index = endIndex - 1;
         if(text[char3Index] != "]") {
             // if out of range would get ""
             return;
         }
         char0Index = endIndex - 4;
         if(text[char0Index] === "[") {
-            char1Index = endIndex - 3;
+            let char1Index = endIndex - 3;
             replaceChar = ligatures[text.slice(char1Index, char3Index)];
             if(replaceChar) {
                 maybeSubstitute();
