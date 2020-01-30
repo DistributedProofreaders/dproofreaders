@@ -76,6 +76,7 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     // Global JS
     $js_files = array(
         "$code_url/pinc/3rdparty/jquery/jquery-3.3.1.js",
+        "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
     );
 
     // Per-page JS
