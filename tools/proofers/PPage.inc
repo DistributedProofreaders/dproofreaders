@@ -87,6 +87,12 @@ class PPage
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
+    function url_for_display_image()
+    {
+        global $code_url;
+        return "$code_url/tools/project_manager/displayimage.php?project={$this->lpage->projectid}&amp;imagefile={$this->lpage->imagefile}";
+    }
+
     function url_for_do_another_page($escape_amp=FALSE)
     {
         global $code_url;
