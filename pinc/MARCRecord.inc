@@ -1,11 +1,12 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
+include_once($relPath.'genres.inc'); // load_genre_translation_array
 
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
     private $record = array();
-    private $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", 'Humor', "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown");
+    private $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", 'Humor', "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non-Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown");
 
     public function __construct()
     {
@@ -154,26 +155,33 @@ class MARCRecord
 
     public function get_language()
     {
-        $marc_language = "";
         $key = $this->_key_search("008", "");
         if(isset($this->record[$key]))
         {
             $marc_language = substr($this->record[$key][1], 35, 3);
-            $marc_language = convert_short_lang($marc_language);
+            $lang_name = langname_for_langcode3($marc_language);
+            if($lang_name)
+            {
+                return $lang_name;
+            }
         }
-        return $marc_language;
+        return "";
     }
 
     public function get_literary_form()
     {
-        $marc_literary_form = "";
         $key = $this->_key_search("008", "");
         if(isset($this->record[$key]))
         {
             $marc_literary_form = substr($this->record[$key][1], 33, 1);
             $marc_literary_form = @$this->literary_form_array[$marc_literary_form];
+            $genres = load_genre_translation_array();
+            if(array_key_exists($marc_literary_form, $genres))
+            {
+                return $marc_literary_form;
+            }
         }
-        return $marc_literary_form;
+        return "";
     }
 
     public function get_subject()
@@ -302,10 +310,4 @@ class MARCRecord
         $raw_marc = $leader.$directory.$data;
         return $raw_marc;
     }
-}
-
-function convert_short_lang($marc_language) {
-    $lang_name = langname_for_langcode3($marc_language);
-    if ( is_null($lang_name) ) $lang_name = $marc_language;
-    return $lang_name;
 }
