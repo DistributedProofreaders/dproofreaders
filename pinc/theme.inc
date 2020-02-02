@@ -109,6 +109,12 @@ function output_footer($nameofpage, $show_statsbar = True) {
     echo "&copy;$site_name";
     echo " &middot; ";
     echo sprintf(_("Page built at %s in %0.3fs"), strftime("%Y-%m-%d %R %Z"), $totaltime);
+
+    echo " &middot; ";
+    echo "<a href='$code_url/credits.php'>";
+    echo _("Credits");
+    echo "</a>";
+
     echo " &middot; ";
     echo "<a href='$code_url/tasks.php'>";
     echo _("Report a Bug");

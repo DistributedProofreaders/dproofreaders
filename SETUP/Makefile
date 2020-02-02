@@ -8,6 +8,7 @@ all: less lint
 # PHP file linting
 lint:
 	$(SELF_DIR)lint_php_files.sh $(SELF_DIR)..
+	$(SELF_DIR)lint_json_files.sh $(SELF_DIR)..
 
 #----------------------------------------------------------------------------
 # CSS compilation
