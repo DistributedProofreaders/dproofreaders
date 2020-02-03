@@ -150,6 +150,7 @@ else if(!$stage)
 }
 
 $return_anchor = "<a href='$back_url'>$back_blurb</a>";
+// TRANSLATORS: %s is an already-translated page name, eg: Project Page
 $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
 
 if (!isset($action))
@@ -225,7 +226,7 @@ else
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
     try
     {
-        $filename= process_file($project, $indicator, $stage, $returning_to_pool);
+        $filename = process_file($project, $indicator, $stage, $returning_to_pool);
         // we've put the file in the right place.
         // now let's deal with the postcomments.
         // we construct the bit that's going to be added on to the existing postcomments.

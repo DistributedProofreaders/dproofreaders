@@ -43,7 +43,7 @@ function get_big_upload_blurb()
         instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 }
 
-// This supplies the aruments for the header in the page containing the upload
+// This supplies the arguments for the header in the page containing the upload
 // form below
 function get_upload_args()
 {
@@ -52,7 +52,7 @@ function get_upload_args()
     $upload_messages = [
         'working' => _("Working, please wait..."),
         'uploadFailed' => _("Upload failed"),
-        'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
+        'finalizingUpload' => _("Upload complete. Running virus scan and other file checks, please wait..."),
         'invalidChars' => _("The filename contains invalid characters (see note)"),
         'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
     ];
@@ -90,9 +90,8 @@ function show_upload_form($form_content, $submit_label)
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
         . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
 
+    // TRANSLATORS: %s is an already-translated button label, eg: "Upload file"
     $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label) . "</p>";
-
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
 
     echo "<form id='upload_form' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='mode' value='upload'>";
@@ -122,7 +121,6 @@ function show_upload_form($form_content, $submit_label)
     echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
 
     echo "</form>\n";
-    echo "</div>\n";
 }
 
 // This exception is thrown if problems are found in validate_uploaded_file()
@@ -184,6 +182,10 @@ function validate_uploaded_file()
             $identifier = array_get($_POST, "resumable_identifier", "");
             $hashed_filename = md5($identifier);
             $file_path = "$root_staging_dir/$hashed_filename";
+            if(!file_exists($file_path))
+            {
+                throw new FileUploadException(_("No file was uploaded"));
+            }
             $file_size = filesize($file_path);
             $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
@@ -255,12 +257,13 @@ function virus_check($file_path)
     }
 }
 
+// This function has a client-side pair in scripts/file_resume.js:validate()
+// which should be updated if the below logic changes.
 function is_valid_filename($filename, $restrict_extension=False)
 {
     // Base the filename restrictions on removing anything that could
     // conceivably be a shell escape, control character etc.
     // See http://www.owasp.org/index.php/Unrestricted_File_Upload
-
     if ($restrict_extension === False) {
         // Ordinarly we allow filenames to start with an alphanumeric, followed
         // by 0 or more alphanumerics, hypens, dashes or periods.

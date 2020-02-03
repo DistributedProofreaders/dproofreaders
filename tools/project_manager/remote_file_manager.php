@@ -276,7 +276,9 @@ function do_upload()
     global $pguser, $despecialed_username;
     global $commons_dir;
 
-    slim_header();
+    $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
+    slim_header($page_title);
+    echo "<h1>$page_title</h1>\n";
     set_time_limit(14400);
 
     // Files uploaded to the commons folder should be prefixed with the user's

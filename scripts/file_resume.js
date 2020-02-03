@@ -1,6 +1,8 @@
 /*global $ Resumable uploadTarget uploadMessages maxSize */
 $(function() {
 
+    // This function has a server-side pair in pinc/upload_file.inc:is_valid_filename()
+    // which should be updated if the below logic changes.
     function validate(name) {
         // the name must contain only a-z,A-Z,0-9,-,_ and not start with -
         // and end with .zip
