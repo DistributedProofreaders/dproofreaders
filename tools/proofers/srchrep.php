@@ -24,7 +24,7 @@ function do_replace()
     {
         search = preg_quote(search);
     }
-    opener.parent.docRef.editform.text_data.value=opener.parent.docRef.editform.text_data.value.replace(new RegExp(search,'g'),replacetext.value);
+    opener.parent.docRef.editform.text_data.value=opener.parent.docRef.editform.text_data.value.replace(new RegExp(search,'gu'),replacetext.value);
     set_undo_button_disabled(false);
 }
 
