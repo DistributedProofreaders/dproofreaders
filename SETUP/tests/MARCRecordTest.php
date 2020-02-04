@@ -107,11 +107,11 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('Street and Smith, [c1883', $marc_record->publisher);
     }
 
- /*   public function testArrayToString()
+    public function testArrayToString()
     {
         $marc_record = $this->_load_record();
 
         $marc_string = (string)$marc_record;
         $this->assertEquals($this->YAZ_ARRAY_STR, $marc_string);
-    }*/
+    }
 }
