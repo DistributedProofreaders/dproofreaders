@@ -115,8 +115,8 @@ else if ($stage == 'smooth_avail')
 }
 else if ($stage == 'smooth_done')
 {
-    $title = _("Upload smooth read version");
-    $intro_blurb = _("This page allows you to upload a smooth read version of the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
+    $title = _("Upload a Smooth Read report");
+    $intro_blurb = _("This page allows you to upload a smooth read report for the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
     $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;

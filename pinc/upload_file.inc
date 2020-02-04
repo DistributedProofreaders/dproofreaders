@@ -115,7 +115,7 @@ function show_upload_form($form_content, $submit_label)
         or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes(RESUMABLE_UPLOAD_SIZE)), "</p>
     <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
     <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
-    <span id='resumable_submit' class='button'>", _("Upload"), "</span></p>
+    <span id='resumable_submit' class='button'>", html_safe($submit_label), "</span></p>
     </div>";
 
     echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
