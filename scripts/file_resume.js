@@ -6,9 +6,14 @@ $(function() {
     function validate(name) {
         // the name must contain only a-z,A-Z,0-9,-,_ and not start with -
         // and end with .zip
-        var re = /^\w[\w-]+\.zip$/;
-        if(!re.test(name)) {
+        var validChars = /^\w[\w-]+\.\w+$/;
+        if(!validChars.test(name)) {
             alert(uploadMessages.invalidChars);
+            return false;
+        }
+        var zipTest = /^.+\.zip$/;
+        if(!zipTest.test(name)) {
+            alert(uploadMessages.mustBeZip);
             return false;
         }
         if(name.length > 200) {
@@ -42,7 +47,7 @@ $(function() {
     }
 
     // Before we start the upload, prevent the user from hitting upload again.
-    $("#old_submit").click(function() {
+    $("#old_submit").click(function(ev) {
         let filename = $("#old_browse")[0].files[0].name;
         if(validate(filename)) {
             // won't work if we disable browse button

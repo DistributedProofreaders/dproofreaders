@@ -161,8 +161,6 @@ if (!isset($action))
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
-    echo $return_message;
-
     try
     {
         // validate the project is in the correct state
@@ -210,6 +208,7 @@ if (!isset($action))
             echo "<p class='error'>$message</p>";
         }
     }
+    echo $return_message;
 }
 else
 {

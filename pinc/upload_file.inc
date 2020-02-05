@@ -55,6 +55,7 @@ function get_upload_args()
         'finalizingUpload' => _("Upload complete. Running virus scan and other file checks, please wait..."),
         'invalidChars' => _("The filename contains invalid characters (see note)"),
         'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
+        'mustBeZip' => _("File name extension must be '.zip'"),
     ];
     if(!$utf8_site)
     {
@@ -108,6 +109,8 @@ function show_upload_form($form_content, $submit_label)
     "</div>";
 
     // if resumable, these are shown instead
+    // It is recommended to use an HTML span for the browse button.
+    // see https://github.com/23/resumable.js/
     echo "<div id='resumable_uploader' style='display: none;'>
     <input type='hidden' name='resumable_filename' value=''>
     <input type='hidden' name='resumable_identifier' value=''>
@@ -270,7 +273,7 @@ function is_valid_filename($filename, $restrict_extension=False)
         $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
     } else {
         // If we want to restrict filename extensions, '.'s aren't allowed in the
-        // body of the filename, and the filename must end with '.ext'
+        // body of the filename, and the filename must end with '.$restrict_extension'
         $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/i';
     }
 
