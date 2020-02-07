@@ -25,13 +25,13 @@ function detect_too_large()
     if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
         empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
     {
-        die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), get_max_upload_size()));
+        die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), humanize_bytes(get_max_upload_size())));
     }
 }
 
 function get_max_upload_size()
 {
-    return humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    return return_bytes(ini_get("upload_max_filesize"));
 }
 
 function get_big_upload_blurb()
@@ -56,6 +56,7 @@ function get_upload_args()
         'invalidChars' => _("The filename contains invalid characters (see note)"),
         'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
         'mustBeZip' => _("File name extension must be '.zip'"),
+        'fileTooBig' => _("The file is too big (see note)."),
     ];
     if(!$utf8_site)
     {
@@ -71,7 +72,9 @@ function get_upload_args()
         'js_data' => "
             var uploadTarget = '$code_url/tools/upload_resumable_file.php';
             var uploadMessages = $upload_messages;
-            var maxSize = " . RESUMABLE_UPLOAD_SIZE . ";",
+            var maxResumeSize = " . RESUMABLE_UPLOAD_SIZE . ";
+            var maxNormSize = " . get_max_upload_size() . ";
+            ",
     ];
 }
 
@@ -101,7 +104,7 @@ function show_upload_form($form_content, $submit_label)
     echo "<p>$standard_blurb</p>";
     // these are the form elements for non-resumable upload
     echo "<div id='old_uploader'>
-    <p class='warning'>", sprintf(_('Maximum file size is %s.'), get_max_upload_size()), "</p>
+    <p class='warning'>", sprintf(_('Maximum file size is %s.'), humanize_bytes(get_max_upload_size())), "</p>
     <p>", get_big_upload_blurb(), "</p>",
     _("File to upload"), ": <input type='file' id='old_browse' accept='.zip' name='uploaded_file'>
     <input type='submit' id='old_submit' value='", attr_safe($submit_label), "'>",

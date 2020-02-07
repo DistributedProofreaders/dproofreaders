@@ -1,4 +1,4 @@
-/*global $ Resumable uploadTarget uploadMessages maxSize */
+/*global $ Resumable uploadTarget uploadMessages maxResumeSize maxNormSize */
 $(function() {
 
     // This function has a server-side pair in pinc/upload_file.inc:is_valid_filename()
@@ -29,7 +29,7 @@ $(function() {
         forceChunkSize: true,
         maxFiles: 1,
         fileType: ['zip'], // use extension not mime type since zips have many
-        maxFileSize: maxSize,
+        maxFileSize: maxResumeSize,
     });
 
     function showProgress(text) {
@@ -48,9 +48,15 @@ $(function() {
 
     // Before we start the upload, prevent the user from hitting upload again.
     $("#old_submit").click(function(ev) {
-        let filename = $("#old_browse")[0].files[0].name;
-        if(validate(filename)) {
-            // won't work if we disable browse button
+        let file = $("#old_browse")[0].files[0];
+        if(file.size >= maxNormSize) {
+            alert(uploadMessages.fileTooBig);
+            ev.preventDefault();
+            return false;
+        }
+        if(validate(file.name)) {
+            // won't work if we disable browse button so hide it
+            $("#old_browse").hide();
             $("#old_submit").prop( "disabled", true);
             showProgress(uploadMessages.working);
         } else {
