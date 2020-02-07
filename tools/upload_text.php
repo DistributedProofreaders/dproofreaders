@@ -221,6 +221,11 @@ else
     echo "<h1>$title</h1>";
     echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
 
+    // Disable gzip compression so we can flush the buffer after each step
+    // in the process to give the user some progress details. Note that this
+    // doesn't necessarily work for all browsers.
+    apache_setenv('no-gzip', '1');
+
     // if files have been uploaded, process them and mangle the postcomments
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
     try
@@ -300,7 +305,7 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
     $temporary_path = "";
     try
     {
-        $file_info = validate_uploaded_file();
+        $file_info = validate_uploaded_file(true);
         $temporary_path = $file_info["tmp_name"];
         $original_name = $file_info['name'];
 

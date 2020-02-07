@@ -52,7 +52,7 @@ function get_upload_args()
     $upload_messages = [
         'working' => _("Working, please wait..."),
         'uploadFailed' => _("Upload failed"),
-        'finalizingUpload' => _("Upload complete. Running virus scan and other file checks, please wait..."),
+        'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
         'invalidChars' => _("The filename contains invalid characters (see note)"),
         'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
         'mustBeZip' => _("File name extension must be '.zip'"),
@@ -140,7 +140,8 @@ class NoFileUploadedException extends Exception {}
 // throws NoFileUploadedException if there is no file
 // throws a FileUploadException if there is a problem
 // if an exception is thrown any file will have been deleted.
-function validate_uploaded_file()
+// verbose will echo progress messages - must disable apache gzip compression
+function validate_uploaded_file($verbose)
 {
     $file_path = "";
     $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
@@ -193,12 +194,12 @@ function validate_uploaded_file()
             $file_info = ["name" => $original_name, "tmp_name" => $file_path];
         }
         // do some checks.
+        show_upload_message($verbose, _("File successfully uploaded"));
         empty_check($file_size);
-        virus_check($file_path);
+        virus_check($file_path, $verbose);
     }
     catch(FileUploadException $e)
     {
-        // delete file here while we know its name
         if(is_file($file_path))
         {
             unlink($file_path);
@@ -230,13 +231,15 @@ function zip_check($original_name, $file_path)
     }
 }
 
-function virus_check($file_path)
+// echos messages if verbose
+function virus_check($file_path, $verbose)
 {
     global $antivirus_executable;
     if(!$antivirus_executable)
     {
         return;
     }
+    show_upload_message($verbose, _("Starting virus check"));
     // perform '$antivirus_executable -- <FILENAME>' and expect return
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
@@ -258,6 +261,15 @@ function virus_check($file_path)
     {
         throw new FileUploadException(_("AntiVirus error:") . " " . $av_retval . "<br>" . $av_test_result[0]);
     }
+    show_upload_message($verbose, _("No infection found"));
+}
+
+function show_upload_message($verbose, $message)
+{
+    if(!$verbose)
+        return;
+    echo "<p>$message</p>";
+    flush();
 }
 
 // This function has a client-side pair in scripts/file_resume.js:validate()
