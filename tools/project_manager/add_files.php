@@ -383,7 +383,7 @@ class Loader
             $row =& $this->page_file_table[$base];
 
             $error_msgs = '';
-            $warning_msgs = '';
+            $warning_msgs = array();
 
             foreach ( array('text','image') as $toi )
             {
@@ -407,7 +407,17 @@ class Loader
                 $text_filename = $base . $row['text']['src'][0];
                 $warnings = get_load_page_from_file_changes($text_filename, $this->projectid);
                 $this->n_warnings += count($warnings);
-                $warning_msgs .= implode("\n", $warnings);
+                $warning_msgs = array_merge($warning_msgs, $warnings);
+            }
+
+            if (isset($row['image']['src'][0]))
+            {
+                $image_filename = $base . $row['image']['src'][0];
+                if (filesize($image_filename) > 204800 /* 200 Kibibytes */)
+                {
+                    $this->n_warnings += 1;
+                    array_push($warning_msgs, pgettext("image too large", "Image may be larger than necessary."));
+                }
             }
 
             if ($row['text']['action'] == 'error' ||
@@ -814,8 +824,7 @@ class Loader
                     echo $action_labels[$action];
                     echo "</td>";
                 }
-
-                $warning_msgs = nl2br($row['warning_msgs']);
+                $warning_msgs = nl2br(implode("\n", $row['warning_msgs']));
                 echo "<td>$warning_msgs</td>";
 
                 $error_msgs = nl2br($row['error_msgs']);
