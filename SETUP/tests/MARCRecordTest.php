@@ -27,20 +27,20 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     public function testEmptyConstructor()
     {
         $marc_record = new MARCRecord();
-        $this->assertEquals($marc_record->get_yaz_array(), array());
+        $this->assertEquals(array(), $marc_record->get_yaz_array());
     }
 
     public function testLoadYazArray()
     {
         $marc_record = $this->_load_record();
-        $this->assertEquals($marc_record->get_yaz_array(), $this->YAZ_ARRAY);
+        $this->assertEquals($this->YAZ_ARRAY, $marc_record->get_yaz_array());
     }
 
     public function testGetTitle()
     {
         $marc_record = $this->_load_record();
         $this->assertEquals(
-            'The Backwoods Boy; or, The Boyhood and Manhood of Abraham Lincoln.',
+            'The backwoods boy; or, The boyhood and manhood of Abraham Lincoln.',
             $marc_record->title
         );
     }
@@ -48,19 +48,19 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     public function testGetAuthor()
     {
         $marc_record = $this->_load_record();
-        $this->assertEquals($marc_record->author, 'Alger Jr., Horatio');
+        $this->assertEquals('Alger, Horatio', $marc_record->author);
     }
 
     public function testGetLCCN()
     {
         $marc_record = $this->_load_record();
-        $this->assertEquals($marc_record->lccn, '55055815');
+        $this->assertEquals('55055815', $marc_record->lccn);
     }
 
     public function testGetISBN()
     {
         $marc_record = $this->_load_record();
-        $this->assertEquals($marc_record->isbn, '');
+        $this->assertEquals('', $marc_record->isbn);
     }
 
     public function testGetPages()
@@ -78,15 +78,13 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     public function testGetLanguage()
     {
         $marc_record = $this->_load_record();
-        // 'ng ' doesn't seem like a language, but that's what the current
-        // code returns, so we'll consider that valid for the moment
-        $this->assertEquals('ng ', $marc_record->language);
+        $this->assertEquals('English', $marc_record->language);
     }
 
     public function testGetLiteraryForm()
     {
         $marc_record = $this->_load_record();
-        $this->assertEquals('Biography', $marc_record->literary_form);
+        $this->assertEquals('', $marc_record->literary_form);
     }
 
     public function testGetSubject()
