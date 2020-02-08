@@ -5,6 +5,7 @@ include_once('links.inc'); // new_window_link()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
 include_once('wordcheck_engine.inc');
+include_once('image_check.inc');
 
 $test_functions  = array(
     // Automatic tests
@@ -41,19 +42,18 @@ function _test_project_for_large_page_images($projectid)
         $details .= "<th>" . _("Size") . "</th>";
         $details .= "</tr>";
 
-        $page_image_size_limit = 100; // kb
-
         $num_large_images = 0;
         while(list($image) = mysqli_fetch_row($result_res)) {
             // the the file's info
             $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
 
-            // check to see if the file is > $page_image_size_limit kb
-            if($file_info->size > ($page_image_size_limit * 1024))
+            // check to see if the file is > size limit
+            $error = get_image_size_error($file_info->size);
+            if(isset($error))
             {
                 $details .= "<tr>";
                 $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
-                $details .= "<td>" . sprintf(_("Image > %dkb: %dkb"), $page_image_size_limit, $file_info->size / 1024) . "</td>";
+                $details .= "<td>" . $error . "</td>";
                 $details .= "</tr>";
     
                 $num_large_images++;
@@ -63,6 +63,7 @@ function _test_project_for_large_page_images($projectid)
         mysqli_free_result($result_res);
 
         $details .= "</table>";
+        global $page_image_size_limit;
 
         if($num_large_images==0)
         {
