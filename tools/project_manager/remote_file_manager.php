@@ -281,9 +281,11 @@ function do_upload()
     // doesn't necessarily work for all browsers.
     apache_setenv('no-gzip', '1');
 
-    $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
+    $page_title =  "Upload status";
     slim_header($page_title);
     echo "<h1>$page_title</h1>\n";
+    echo "<p>", sprintf(_("Status of file upload to folder %s"), $hce_curr_displaypath), "</p>\n";
+
     set_time_limit(14400);
 
     // Files uploaded to the commons folder should be prefixed with the user's
