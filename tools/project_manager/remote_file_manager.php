@@ -276,15 +276,15 @@ function do_upload()
     global $pguser, $despecialed_username;
     global $commons_dir;
 
-    $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
-    slim_header($page_title);
-    echo "<h1>$page_title</h1>\n";
-    set_time_limit(14400);
-
     // Disable gzip compression so we can flush the buffer after each step
     // in the process to give the user some progress details. Note that this
     // doesn't necessarily work for all browsers.
     apache_setenv('no-gzip', '1');
+
+    $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
+    slim_header($page_title);
+    echo "<h1>$page_title</h1>\n";
+    set_time_limit(14400);
 
     // Files uploaded to the commons folder should be prefixed with the user's
     // name. This helps identify where the file comes from. We don't prevent

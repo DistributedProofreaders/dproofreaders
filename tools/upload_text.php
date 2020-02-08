@@ -217,14 +217,14 @@ else
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
 
-    slim_header($title);
-    echo "<h1>$title</h1>";
-    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
-
     // Disable gzip compression so we can flush the buffer after each step
     // in the process to give the user some progress details. Note that this
     // doesn't necessarily work for all browsers.
     apache_setenv('no-gzip', '1');
+
+    slim_header($title);
+    echo "<h1>$title</h1>";
+    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
