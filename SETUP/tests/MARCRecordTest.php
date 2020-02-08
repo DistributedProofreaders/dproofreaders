@@ -1,6 +1,4 @@
 <?php
-$relPath='../../pinc/';
-include_once($relPath.'MARCRecord.inc');
 
 /**
  * @backupGlobals disabled
