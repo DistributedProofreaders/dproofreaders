@@ -144,6 +144,19 @@ You need aspell 0.60 if you want to support UTF-8.
 
 The following components are optional and provide additional functionality.
 
+#### Anti-Virus Scanner (ClamAV)
+If an anti-virus scanner is installed and configured, the code will use it to
+test uploaded files for viruses. Any command-line scanner that returns 0 on
+pass and 1 on failure will work. pgdp.net uses [ClamAV](https://www.clamav.net/).
+
+To configure the software to use the virus scanner, set `_ANTIVIRUS_EXECUTABLE`
+in `configuration.sh`.
+
+The ClamAV CLI client, `clamscan`, can be slow to scan files due to its
+start-up time. To scan files faster, install and run the
+[daemon](https://www.clamav.net/documents/usage#daemon) and use `clamdscan`
+as your virus scanner executable.
+
 #### wdiff
 WordCheck uses [wdiff](http://www.gnu.org/software/wdiff/wdiff.html)
 to assist Project Managers in detecting stealth scannos ("Suggestions from
