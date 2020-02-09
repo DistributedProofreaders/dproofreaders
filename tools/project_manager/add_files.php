@@ -9,6 +9,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'image_check.inc');
 
 require_login();
 
@@ -382,8 +383,8 @@ class Loader
         {
             $row =& $this->page_file_table[$base];
 
-            $error_msgs = '';
-            $warning_msgs = '';
+            $error_msgs = array();
+            $warning_msgs = array();
 
             foreach ( array('text','image') as $toi )
             {
@@ -397,7 +398,7 @@ class Loader
                 if ( $action == 'error' )
                 {
                     $this->n_errors++;
-                    $error_msgs .= "$error_msg\n";
+                    array_push($error_msgs, $error_msg);
                 }
             }
 
@@ -407,7 +408,18 @@ class Loader
                 $text_filename = $base . $row['text']['src'][0];
                 $warnings = get_load_page_from_file_changes($text_filename, $this->projectid);
                 $this->n_warnings += count($warnings);
-                $warning_msgs .= implode("\n", $warnings);
+                $warning_msgs = array_merge($warning_msgs, $warnings);
+            }
+
+            if (isset($row['image']['src'][0]))
+            {
+                $image_filename = $base . $row['image']['src'][0];
+                $warning_msg = get_image_size_error(filesize($image_filename));
+                if (isset($warning_msg))
+                {
+                    $this->n_warnings += 1;
+                    array_push($warning_msgs, $warning_msg);
+                }
             }
 
             if ($row['text']['action'] == 'error' ||
@@ -458,7 +470,7 @@ class Loader
                     case 'add|':
                         $this->n_errors++;
                         $row['image']['action'] = 'error';
-                        $error_msgs .= _('Adding text without image') . "\n";
+                        array_push($error_msgs, _('Adding text without image'));
                         break;
 
                     case '|':
@@ -814,11 +826,10 @@ class Loader
                     echo $action_labels[$action];
                     echo "</td>";
                 }
-
-                $warning_msgs = nl2br($row['warning_msgs']);
+                $warning_msgs = nl2br(implode("\n", $row['warning_msgs']));
                 echo "<td>$warning_msgs</td>";
 
-                $error_msgs = nl2br($row['error_msgs']);
+                $error_msgs = nl2br(implode("\n", $row['error_msgs']));
                 echo "<td>$error_msgs</td>";
 
                 echo "</tr>\n";
