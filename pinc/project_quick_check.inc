@@ -26,6 +26,7 @@ function _test_project_for_large_page_images($projectid)
 {
     global $projects_dir;
     global $projects_url;
+    global $page_image_size_limit;
 
     $test_name = _("Large Page Image Files");
     $test_desc = _("This test checks to see if there are any unusually large image files within a project.");
@@ -63,7 +64,6 @@ function _test_project_for_large_page_images($projectid)
         mysqli_free_result($result_res);
 
         $details .= "</table>";
-        global $page_image_size_limit;
 
         if($num_large_images==0)
         {
