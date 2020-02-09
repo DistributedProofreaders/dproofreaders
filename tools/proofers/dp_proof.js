@@ -231,7 +231,7 @@ function insertTags(tagOpen, tagClose, replace)
     var subst = tagOpen + selection + tagClose;
     txtArea.value = txtArea.value.substring(0, startPos) + subst + txtArea.value.substring(endPos);
     var curPos = startPos + subst.length;
-    txtArea.setSelectionRange(curPos, curPos);
+    txtArea.setSelectionRange(startPos, curPos);
     txtArea.focus();
     $(txtArea).trigger("input");
 }
@@ -303,7 +303,7 @@ function transformText(transformType)
     }
     txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);
     var curPos = startPos + selection.length;
-    txtArea.setSelectionRange(curPos, curPos);
+    txtArea.setSelectionRange(startPos, curPos);
     txtArea.focus();
 }
 
