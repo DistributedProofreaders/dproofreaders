@@ -135,6 +135,18 @@ foreach (scandir($local_catalog_dir) as $filename)
 
     $path = "$local_catalog_dir/$filename";
     $root = simplexml_load_file($path);
+    if ($root === FALSE)
+    {
+        // Something went wrong in simplexml_load_file.
+        // Likely the content of the file at $path is not well-formed XML.
+        // In particular, it might be empty or otherwise incomplete
+        // due to a problem with the downloading or unpacking.
+
+        // Just skip the file.
+        $n_rdf_files_skipped += 1;
+        continue;
+    }
+
     // $etext_num_xpath = "/rdf:RDF/pgterms:ebook/@rdf:about";
     $format_xpath = "
         /rdf:RDF
