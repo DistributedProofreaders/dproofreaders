@@ -152,6 +152,7 @@ else if(!$stage)
 $return_anchor = "<a href='$back_url'>$back_blurb</a>";
 // TRANSLATORS: %s is an already-translated page name, eg: Project Page
 $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
+$go_back_link = "<a href='javascript:window.history.back();'>" . _("Go back") . "</a>\n";
 
 if (!isset($action))
 {
@@ -208,7 +209,7 @@ if (!isset($action))
             echo "<p class='error'>$message</p>";
         }
     }
-    echo $return_message;
+    echo $go_back_link;
 }
 else
 {
@@ -260,9 +261,9 @@ else
             throw new FileUploadException($error_msg);
         }
 
-        // special handling for smooth reading, which does not involve a state change
-        // so project_transition() will do nothing
-        // but still needs some changes recorded in project table
+        // special handling for smooth reading, which does not involve a
+        // state change so project_transition() will do nothing but still
+        // needs some changes recorded in project and project events tables
         // the comments get recorded even if it's just a replacement
         if ($stage == 'smooth_avail')
         {
@@ -290,12 +291,13 @@ else
             $msg = _("This shouldn't happen. No file upload and not returning to pool.");
         }
         echo "<p>$msg</p>";
+        echo $return_message;
     }
     catch(FileUploadException $e)
     {
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo $go_back_link;
     }
-    echo $return_message;
 }
 
 // return filename or false if there is no file
