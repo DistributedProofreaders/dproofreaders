@@ -1,4 +1,8 @@
-/*global $ codePoints standardInterface switchConfirm revertConfirm XRegExp */
+/*global $ goodChars charMatch standardInterface switchConfirm revertConfirm XRegExp */
+
+// goodChars (constructed in character_test.js) matches good unicode characters
+// charMatch (constructed in character_test.js) matches any unicode character
+// possibly with combining marks: non-mark codepoint + 0 or more mark codes
 
 // this function is copied from dp_proof.js
 // could put it in another file misc.js
@@ -18,45 +22,17 @@ function htmlSafe(str) {
 }
 
 $(function () {
-    function utf8Chr(codePoint) {
-        return "\\u{" + codePoint.slice(2) + "}";
-    }
-
-    var charClass = "";
-    codePoints.forEach(function (codePoint) {
-        if(codePoint.indexOf("-") === -1) {
-            // single code point
-            charClass += utf8Chr(codePoint);
-        } else {
-            // range
-            let code = codePoint.split("-");
-            charClass += utf8Chr(code[0]) + "-" + utf8Chr(code[1]);
-        }
-    });
-
-    const goodGlyphs = new RegExp("^[" + charClass + "]$", "u");
-
-    // Glyphs with validCombining marks are constructed from project data not
-    // yet implemented: the following would allow F,H with breve and M grave
-    // var validCombinations = "|[\u0046\u0048]\u0306|\u004d\u0300";
-    // const goodGlyphs = new RegExp("^(?:[" + charClass + "]" + validCombinations + ")$", "u");
-
-    // regex unicode property escape is supported in Chrome and Safari but not
-    // in Firefox or Edge. Use 3rd party http://xregexp.com/ instead
-    // this matches any glyph: non-mark codepoint followed by 0 or more marks
-    const glyphTest = XRegExp("\\PM\\pM*", "Ag");
-
     // to remove combining chars at line start which are not markable
     const linecheckRegex = XRegExp("^\\pM", "Amg");
 
     var textArea = document.getElementById("text_data");
 
-    // check each glyph, if bad mark or remove it
+    // check each character, if bad mark or remove it
     function processText(text, clean) {
         var bad = false;
 
-        function glyphReplacer(match) {
-            if(goodGlyphs.test(match)) {
+        function charReplacer(match) {
+            if(goodChars.test(match)) {
                 return match;
             }
             if(clean) {
@@ -66,7 +42,7 @@ $(function () {
             return "<span class='bad-char'>" + match + "</span>";
         }
 
-        text = text.replace(glyphTest, glyphReplacer);
+        text = text.replace(charMatch, charReplacer);
         return {processedText: text, valid: !bad};
     }
 
@@ -191,7 +167,7 @@ $(function () {
         function maybeSubstitute() {
             // if replaceChar is good use it
             // this uses the local variables of the containing function
-            if(goodGlyphs.test(replaceChar)) {
+            if(goodChars.test(replaceChar)) {
                 // replace markup with character and move caret back 4 places
                 // and forward by length of replaceChar
                 let newCaret = char0Index + replaceChar.length;

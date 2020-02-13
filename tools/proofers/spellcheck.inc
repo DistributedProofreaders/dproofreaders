@@ -15,8 +15,15 @@ $revert_text=isset($_POST['revert_text']) ? $_POST['revert_text'] : $text_data;
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
+$json_code_points = get_json_codepoints($ppage->projectid());
+
 $header_args = array(
-    "js_data" => spellcheck_get_js() . get_page_js($userP['i_type']==1 ? 2 : 3),
+    "js_files" => array(
+        "$code_url/tools/proofers/character_test.js",
+    ),
+    "js_data" => spellcheck_get_js()
+        . get_page_js($userP['i_type']==1 ? 2 : 3)
+        . "var codePoints = $json_code_points;",
     "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
 );
 
