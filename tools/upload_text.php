@@ -5,23 +5,14 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
+include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file
 
-// Detect if the file uploaded was larger than post_max_size and show
-// an error instead of failing silently. We do this here because if the
-// POST failed, $_REQUEST and $_POST are empty and we have no data to even
-// route them through the do_upload() function at all.
-// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
-if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
-{
-    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
-}
-
+detect_too_large();
 require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
@@ -35,14 +26,6 @@ $action  = @$_REQUEST['action'];
 $postcomments = @$_POST['postcomments'];
 
 $project = new Project($projectid);
-
-// this blurb matches one in remote_file_manager.php
-$standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
-$submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
-$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
-    If you are trying to upload a very big zip file (e.g. 10 Mb)
-    and the upload does not succeed, upload a small placeholder zip file
-    instead and email %s for assistance."), $db_requests_email_addr);
 
 // Deny post_1 and return_1 if the project is currently in SR
 if (($stage == 'post_1' || $stage == 'return_1') &&
@@ -60,7 +43,7 @@ if ($stage == 'post_1')
 {
     $title = _("Upload post-processed file for verification");
     $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_second";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -74,7 +57,7 @@ else if ($stage == 'return_1')
 {
     $title = _("Return project to the post-processing pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
-    $submit_button = _("Return project");
+    $submit_label = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_first_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -88,7 +71,7 @@ else if ($stage == 'return_2')
 {
     $title = _("Return project to the post-processing verification pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
-    $submit_button = _("Return project");
+    $submit_label = _("Return project");
     $is_file_optional = TRUE;
     $indicator = "_second_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
@@ -102,7 +85,7 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
 {
     $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_corrections";
     $project_is_in_valid_state = PROJ_SUBMIT_PG_POSTED == $project->state;
@@ -120,7 +103,7 @@ else if ($stage == 'smooth_avail')
 {
     $title = _("Upload file for Smooth Reading");
     $intro_blurb = _("This page allows you to upload a fully post-processed file for Smooth Reading. Uploading another version will overwrite the previously uploaded file.");
-    $submit_button = _("Upload file");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
@@ -132,9 +115,9 @@ else if ($stage == 'smooth_avail')
 }
 else if ($stage == 'smooth_done')
 {
-    $title = _("Upload smooth read version");
-    $intro_blurb = _("This page allows you to upload a smooth read version of the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
-    $submit_button = _("Upload file");
+    $title = _("Upload a Smooth Read report");
+    $intro_blurb = _("This page allows you to upload a smooth read report for the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
+    $submit_label = _("Upload file");
     $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
     // This requirement is in project.php as well
@@ -153,12 +136,11 @@ else if ($stage == 'smooth_done')
 else if(!$stage)
 {
     // this may be due to a timeout when uploading big files.
-    include_once($relPath.'slim_header.inc');
 
     slim_header(_("Upload failed"));
 
-    echo "<p>" . _("The upload failed.") . "</p>\n";
-    echo "<p>$big_upload_blurb</p>";
+    echo "<p>", _("The upload failed."), "</p>\n";
+    echo "<p>", get_big_upload_blurb(), "</p>";
 
     echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading
         the original again or uploading a smaller placeholder instead."),
@@ -167,80 +149,67 @@ else if(!$stage)
     exit;
 }
 
+$return_anchor = "<a href='$back_url'>$back_blurb</a>";
+// TRANSLATORS: %s is an already-translated page name, eg: Project Page
+$return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
+$return_to_project_link = "<a href='$code_url/project.php?id=$projectid'>" . _("Return to the Project Page") . "</a>\n";
+
 if (!isset($action))
 {
     // Present the upload page.
-
-    output_header($title);
+    output_header($title, NO_STATSBAR, get_upload_args());
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
-    // validate the project is in the correct state
-    if(!$project_is_in_valid_state)
+    try
     {
-        echo "<p class='error'>" . _("The project is not in the correct state for this action.") . "</p>";
-        foreach($error_messages as $message)
-            echo "<p class='error'>$message</p>";
-        exit;
-    }
-
-    // validate the user has the ability to do this action
-    if(!$user_is_able_to_perform_action)
-    {
-        echo "<p class='error'>" . _("You do not have permission to perform this action.") . "</p>";
-        foreach($error_messages as $message)
-            echo "<p class='error'>$message</p>";
-        exit;
-    }
-
-    echo "<p>$intro_blurb</p>";
-    if(isset($pre_step_instructions))
-        echo "<p>$pre_step_instructions</p>";
-
-    echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='project' value='$projectid'>\n";
-    echo "<input type='hidden' name='stage' value='$stage'>\n";
-    echo "<input type='hidden' name='days' value='$days'>\n";
-    echo "<input type='hidden' name='action' value='1'>\n";
-
-    echo "<p>" . _("Follow these steps:") . "</p>\n";
-    echo "<ol>\n";
-
-    echo "<li>";
-    if($is_file_optional) {
-        echo _("(optional) Select a zipped file to upload:");
-    } else {
-        echo _("Select a zipped file to upload:");
-    }
-    echo "<br>\n";
-    echo "<input type='file' accept='.zip' name='uploaded_file' size='25' maxsize='50'>\n";
-    echo "<p>$standard_blurb</p>";
-    echo "<p>$big_upload_blurb</p>\n";
-    echo "</li>\n";
-
-    if ($stage != 'smooth_done') {
-        echo "<li>";
-        if ($stage != 'smooth_avail') {
-            echo _("(optional) Leave comments for the next person who checks out this project:");
-        } else {
-            echo _("Leave instructions for smooth readers:");
+        // validate the project is in the correct state
+        if(!$project_is_in_valid_state)
+        {
+            throw new FileUploadException(_("The project is not in the correct state for this action."));
         }
-        echo "<br>\n";
-        echo "<textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
-        echo "</li>\n";
+
+        // validate the user has the ability to do this action
+        if(!$user_is_able_to_perform_action)
+        {
+            throw new FileUploadException(_("You do not have permission to perform this action."));
+        }
+
+        echo "<p>$intro_blurb</p>";
+        if(isset($pre_step_instructions))
+        {
+            echo "<p>$pre_step_instructions</p>";
+        }
+
+        $form_content = "<input type='hidden' name='project' value='$projectid'>
+            <input type='hidden' name='stage' value='$stage'>
+            <input type='hidden' name='days' value='$days'>
+            <input type='hidden' name='action' value='1'>";
+        if ($stage != 'smooth_done')
+        {
+            if ($stage != 'smooth_avail')
+            {
+                $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
+            }
+            else
+            {
+                $form_content .= _("Leave instructions for smooth readers:");
+            }
+            $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
+        }
+
+        show_upload_form($form_content, $submit_label);
     }
-
-    echo "<li>";
-    // TRANSLATORS: %1$s is replaced with a form <input> containing separately translated text like 'Upload file'
-    echo sprintf(_('%1$s or return to the <a href="%2$s">%3$s</a>.'),
-        sprintf('<input type="submit" value="%s">', attr_safe($submit_button)),
-        $back_url, $back_blurb);
-    echo "<p>" . sprintf($submit_blurb,$submit_button) . "</p>";
-    echo "</li>\n";
-    echo "</ol>";
-
-    echo "</form>\n";
+    catch(FileUploadException $e)
+    {
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        foreach($error_messages as $message)
+        {
+            echo "<p class='error'>$message</p>";
+        }
+    }
+    echo $return_to_project_link;
 }
 else
 {
@@ -249,164 +218,153 @@ else
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
 
-    // if files have been uploaded, process them and mangle the postcomments
-    $uploaded_file = validate_uploaded_file();
+    // Disable gzip compression so we can flush the buffer after each step
+    // in the process to give the user some progress details. Note that this
+    // doesn't necessarily work for all browsers.
+    apache_setenv('no-gzip', '1');
 
-    $have_file = FALSE;
-    if (is_file($uploaded_file))
+    slim_header($title);
+    echo "<h1>$title</h1>";
+    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+
+    // if files have been uploaded, process them and mangle the postcomments
+    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
+    try
     {
+        $filename = process_file($project, $indicator, $stage, $returning_to_pool);
+        // we've put the file in the right place.
+        // now let's deal with the postcomments.
+        // we construct the bit that's going to be added on to the existing postcomments.
+        // if we're returning to available, and the user hasn't loaded a file, and not
+        // entered any comments, we don't bother.
+        // Otherwise, we add a divider, time stamp, user name, and the name of the file
+        // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
+        $divider = "\n----------\n".date("Y-m-d H:i");
+        if ($filename) {
+            $divider .= " $filename uploaded by ";
+        }
+        else if ($returning_to_pool) {
+            $divider .= " returned by ";
+        }
+        else {
+            $divider .= " "; // this shouldn't actually happen
+        }
+        $divider .= $pguser."\n";
+        if (strlen($postcomments)>0 || $filename) {
+            $postcomments = $divider . $postcomments;
+        }
+        // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
+
+        $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
+        if ($error_msg)
+        {
+            throw new FileUploadException($error_msg);
+        }
+
+        // Special handling for smooth reading, which does not involve a
+        // state change so project_transition() will do nothing but still needs
+        // some changes recorded in the 'projects' and 'project_events' tables.
+        // The comments get recorded even if it's just a replacement
+        if ($stage == 'smooth_avail')
+        {
+            handle_smooth_reading_change($project, $postcomments, $days, false);
+        }
+
+        if ($stage == 'smooth_done')
+        {
+            notify_project_event_subscribers( $project, 'sr_reported' );
+        }
+
+        // let them know file uploaded and send back to the right place
+        $msg1 = _("File uploaded. Thank you!");
+        $msg2 = _("Project returned to pool");
+        if ($filename && $returning_to_pool) {
+            $msg = $msg1."\n".$msg2;
+        }
+        else if ($filename) {
+            $msg = $msg1;
+        }
+        else if  ($returning_to_pool) {
+            $msg = $msg2;
+        }
+        else {
+            $msg = _("This shouldn't happen. No file upload and not returning to pool.");
+        }
+        echo "<p>$msg</p>";
+        echo $return_message;
+    }
+    catch(FileUploadException $e)
+    {
+        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo $return_to_project_link;
+    }
+}
+
+// return filename or false if there is no file
+// if an exception is thrown any file will have been deleted.
+function process_file($project, $indicator, $stage, $returning_to_pool)
+{
+    $temporary_path = "";
+    try
+    {
+        $file_info = validate_uploaded_file(true);
+        $temporary_path = $file_info["tmp_name"];
+        $original_name = $file_info['name'];
+
+        zip_check($original_name, $temporary_path);
         // replace filename
         $zipext = ".zip";
-        $name = $projectid.$indicator.$zipext;
+        $name = $project->projectid . $indicator . $zipext;
         $location = "$project->dir/$name";
         ensure_path_is_unused( $location );
-        copy($uploaded_file, $location);
-        unlink($uploaded_file);
-        $have_file = TRUE;
+        $move_result = rename($temporary_path, $location);
+        if(!$move_result)
+        {
+            throw new FileUploadException(_("Webserver failed to copy uploaded file from temporary location to project directory."));
+        }
         if ($stage == 'smooth_avail')
         {
             $project->delete_smoothreading_dir();
             $smooth_dir = "$project->dir/smooth";
             if(!mkdir($smooth_dir))
             {
-                die("Could not create smooth directory");
+                throw new FileUploadException("Could not create smooth directory");
             }
-            $zip_ok = extract_zip_to($location, $smooth_dir);
-            if($zip_ok)
+            if(!extract_zip_to($location, $smooth_dir))
             {
-                // extract any zips in smooth_dir
-                $zips = glob("$smooth_dir/*.zip");
-                foreach($zips as $zip)
+                throw new FileUploadException("failed to extract files");
+            }
+            // extract any zips in smooth_dir
+            $zips = glob("$smooth_dir/*.zip");
+            foreach($zips as $zip)
+            {
+                if(!extract_zip_to($zip, $smooth_dir))
                 {
-                    $zip_ok = extract_zip_to($zip, $smooth_dir);
-                    if(!$zip_ok)
-                    {
-                        break;
-                    }
+                    throw new FileUploadException("failed to extract files");
                 }
-            }
-            if(!$zip_ok)
-            {
-                die("failed to extract files");
             }
         }
     }
-
-    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
-    $need_file = !$returning_to_pool;    // in future, may be other conditions for this
-    if ($need_file && ! $have_file) {
-        die( _("You must upload a file") );
-    }
-
-    // we've put the file in the right place.
-    // now let's deal with the postcomments.
-    // we construct the bit that's going to be added on to the existing postcomments.
-    // if we're returning to available, and the user hasn't loaded a file, and not
-    // entered any comments, we don't bother.
-    // Otherwise, we add a divider, time stamp, user name, and the name of the file
-    // "uploaded by" & "returned by" not translated since they go into postcomments rather than being viewed by the present user
-    $divider = "\n----------\n".date("Y-m-d H:i");
-    if ($have_file) {
-        $divider .= " $name uploaded by ";
-    }
-    else if ($returning_to_pool) {
-        $divider .= " returned by ";
-    }
-    else {
-        $divider .= " "; // this shouldn't actually happen
-    }
-    $divider .= $pguser."\n";
-    if (strlen($postcomments)>0 || $have_file) {
-        $postcomments = $divider . $postcomments;
-    }
-    // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
-
-    $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
-    if ($error_msg)
+    catch(FileUploadException $e)
     {
-        echo "$error_msg<br>\n";
+        if(is_file($temporary_path))
+        {
+            unlink($temporary_path);
+        }
+        throw $e;
     }
-
-    // special handling for smooth reading, which does not involve a state change
-    // so project_transition() will do nothing
-    // but still needs some changes recorded in project table
-    // the comments get recorded even if it's just a replacement
-    if ($stage == 'smooth_avail')
+    catch(NoFileUploadedException $e)
     {
-        handle_smooth_reading_change($project, $postcomments, $days, false);
+        $name = false;
+        if(!$returning_to_pool)
+        {
+            throw new FileUploadException($e->getMessage());
+        }
     }
-
-    if ($stage == 'smooth_done')
-    {
-        notify_project_event_subscribers( $project, 'sr_reported' );
-    }
-
-    // let them know file uploaded and send back to the right place
-    $msg1 = _("File uploaded. Thank you!");
-    $msg2 = _("Project returned to pool");
-    if ($have_file && $returning_to_pool) {
-        $msg = $msg1."\n".$msg2;
-    }
-    else if ($have_file) {
-        $msg = $msg1;
-    }
-    else if  ($returning_to_pool) {
-        $msg = $msg2;
-    }
-    else {
-        $msg = _("This shouldn't happen. No file upload and not returning to pool.");
-    }
-    metarefresh(1, $back_url, $msg, $msg);
+    return $name;
 }
 
 #----------------------------------------------------------------------------
-function validate_uploaded_file()
-{
-    $uploaded_file = $_FILES['uploaded_file'];
-
-    // Some of the following logic was pulled from remote_file_manager.php.
-
-    // If there is no file uploaded, that might be OK so just return.
-    if (is_null($uploaded_file) || $uploaded_file['name'] == '') {
-        return NULL;
-    }
-
-    // $uploaded_file has 'name' 'type' 'size' 'tmp_name' 'error'
-
-    if ($uploaded_file['error'] != UPLOAD_ERR_OK) {
-        die( get_upload_err_msg($uploaded_file['error']) );
-    }
-
-    // do some checks.
-    // if we have a file, we need its name to end in .zip, and we need
-    // it to have non zero size and there must be only one file.
-
-    $file_count = count($uploaded_file['name']);
-    if ($file_count > 1) {
-        die( _("You may only upload one file") );
-    }
-
-    if ($uploaded_file['name']) {       // we have a file now. do some more checks.
-        if (substr($uploaded_file['name'], -4) != ".zip") {
-            die( _("Invalid Filename") );
-        }
-        if (0 == $uploaded_file['size']) {
-            die( _("File is empty") );
-        }
-
-        // ensure that it's a valid zip
-
-        // The extension was already checked and the file is not properly named (it has some temporary name), so we should
-        // disable the extension check.
-        if (!is_valid_zip_file($uploaded_file['tmp_name'], true)) {
-            die( _("Not a valid zip file") );
-        }
-
-        return $uploaded_file['tmp_name'];
-    }
-
-    return NULL;
-}
 
 // Ensure that nothing exists at $path.
 // (If something's there, rename it.)
