@@ -13,13 +13,13 @@ imageCopy.onload = loadImageSize;
 // picker character selection
 function insertCharacter(wM)
 {
-    insertTags(wM, '', true);
+    insertTags(wM, '', true, false);
 }
 
 // standard tag selection
 function surroundSelection(wOT, wCT)
 {
-    insertTags(wOT, wCT, false);
+    insertTags(wOT, wCT, false, true);
 }
 
 // start of general interface functions
@@ -167,7 +167,7 @@ function doBU()
 }
 
 // apply tagOpen/tagClose to selection in textarea,
-function insertTags(tagOpen, tagClose, replace)
+function insertTags(tagOpen, tagClose, replace, retainSelection)
 {
     var txtArea;
     if(inFace < 2) {
@@ -231,7 +231,7 @@ function insertTags(tagOpen, tagClose, replace)
     var subst = tagOpen + selection + tagClose;
     txtArea.value = txtArea.value.substring(0, startPos) + subst + txtArea.value.substring(endPos);
     var curPos = startPos + subst.length;
-    txtArea.setSelectionRange(startPos, curPos);
+    txtArea.setSelectionRange(retainSelection ? startPos : curPos, curPos);
     txtArea.focus();
     $(txtArea).trigger("input");
 }
