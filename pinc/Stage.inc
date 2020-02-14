@@ -22,6 +22,7 @@ class Stage extends Activity
         $access_minima,
         $after_satisfying_minima,
         $evaluation_criteria,
+        $access_change_callback,
             // The above parameters have the same semantics as for Activity.
 
         $description,
@@ -43,7 +44,8 @@ class Stage extends Activity
             $name,
             $access_minima,
             $after_satisfying_minima,
-            $evaluation_criteria
+            $evaluation_criteria,
+            $access_change_callback
         );
 
         $this->description   = $description;

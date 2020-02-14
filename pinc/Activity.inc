@@ -41,8 +41,14 @@ class Activity
             //     'NOREQ'      They don't request access (or at least, we don't supply
             //                  a link by which to request access). Instead, they just
             //                  wait until they are approved.
-        $evaluation_criteria
+        $evaluation_criteria,
             // A brief description of what the evaluation criteria are.
+        $access_change_callback
+            // A callback function that will be called when a user's access for this
+            // round has changed. The function will be passed a User object representing
+            // the user with the access change in addition to the access change itself
+            //     eg: p1_access_change_callback($user, $change)
+            // where $change is one of [ "grant", "revoke", "request", "deny_request_for" ]
     )
     {
         $this->id            = $id;
@@ -50,6 +56,7 @@ class Activity
         $this->access_minima = $access_minima;
         $this->after_satisfying_minima = $after_satisfying_minima;
         $this->evaluation_criteria = $evaluation_criteria;
+        $this->access_change_callback = $access_change_callback;
 
         global $testing;
         if ($testing && !is_null($this->access_minima))
