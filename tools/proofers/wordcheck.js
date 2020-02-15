@@ -1,11 +1,13 @@
 /* exported acceptWord evaluateWordChange markBox confirmExit */
 /* global testText wordCheckMessages */
 
+// the number of edit boxes with bad characters
+var badBoxes = 0;
 // function to accept specified words in the spellcheck
 // it works by finding (span) elements with IDs in the format
 // word_# and when found sets the content of the span
 // to be just the word thereby removing the select and button
-function acceptWord(wordIDprefix,wordNumber) {
+function acceptWord(wordIDprefix, wordNumber) {
     var wordID = wordIDprefix + "_" + wordNumber;
 
     // Get the original word
@@ -52,7 +54,23 @@ function acceptWord(wordIDprefix,wordNumber) {
 function isWordChanged(wordID) {
     var input = document.getElementById("input_" + wordID);
     let wordText = input.value;
-    input.style.border = testText(wordText) ? '' : '2px solid red';
+    let isBad = !testText(wordText);
+    let wasBad = $(input).data().bad; // undefined will give false
+    if(!wasBad && isBad) {
+        badBoxes += 1;
+        let spCorrect = document.getElementById("spcorrect");
+        spCorrect.disabled = true;
+        spCorrect.title = wordCheckMessages.badCharsError;
+    } else if(wasBad && !isBad) {
+        badBoxes -= 1;
+        if(0 === badBoxes) {
+            let spCorrect = document.getElementById("spcorrect");
+            spCorrect.title = wordCheckMessages.keepCorrectons;
+            spCorrect.disabled = false;
+        }
+    }
+    $(input).data("bad", isBad);
+    input.style.border = isBad ? '2px solid red' : '';
     return !(input && (wordText == input.defaultValue));
 }
 

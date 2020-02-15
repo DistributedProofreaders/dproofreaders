@@ -22,5 +22,6 @@ module.exports = {
         "space-infix-ops": "warn",
         camelcase: 'warn',
         "newline-per-chained-call": ["warn", { ignoreChainWithDepth: 2 }],
+        "comma-spacing": "warn",
     }
 };
