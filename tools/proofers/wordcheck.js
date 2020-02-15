@@ -61,12 +61,18 @@ function isWordChanged(wordID) {
         let spCorrect = document.getElementById("spcorrect");
         spCorrect.disabled = true;
         spCorrect.title = wordCheckMessages.badCharsError;
+        let spRerun = document.getElementById("rerunauxlanguage");
+        spRerun.disabled = true;
+        spRerun.title = wordCheckMessages.badCharsError;
     } else if(wasBad && !isBad) {
         badBoxes -= 1;
         if(0 === badBoxes) {
             let spCorrect = document.getElementById("spcorrect");
             spCorrect.title = wordCheckMessages.keepCorrectons;
             spCorrect.disabled = false;
+            let spRerun = document.getElementById("rerunauxlanguage");
+            spRerun.disabled = false;
+            spRerun.title = wordCheckMessages.rerun;
         }
     }
     $(input).data("bad", isBad);

@@ -18,6 +18,7 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 $json_code_points = get_json_codepoints($ppage->projectid());
 
 $keep_corrections = _("Keep corrections and return to proofreading this page");
+$rerun = _("Check page against an additional language");
 
 $word_check_messages = json_encode([
     "disableAwLabel" => _("Word has been edited; unable to Suggest"),
@@ -26,6 +27,7 @@ $word_check_messages = json_encode([
     "pageChangedError" => _("Cannot save page from WordCheck. Words have been modified."),
     "badCharsError" => _("There are invalid characters in the page"),
     "keepCorrectons" => $keep_corrections,
+    "rerun" => $rerun,
 ]);
 
 $header_args = array(
@@ -137,8 +139,9 @@ if ($userP['i_type']==1) {
 <input
     type="submit"
     name="rerunauxlanguage"
+    id="rerunauxlanguage"
     value="<?php echo attr_safe(_("Check")); ?>"
-    title="<?php echo attr_safe(_("Check page against an additional language")); ?>"
+    title="<?php echo attr_safe($rerun); ?>"
 >
 <br>
 <?php
