@@ -22,6 +22,7 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
+            "$code_url/tools/proofers/character_test.js",
             "$code_url/tools/proofers/codepoint_validator.js",
         ),
         "js_data" => ibe_get_js() . "
