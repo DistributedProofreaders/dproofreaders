@@ -17,13 +17,21 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 $json_code_points = get_json_codepoints($ppage->projectid());
 
+$word_check_messages = json_encode([
+    "disableAwLabel" => _("Word has been edited; unable to Suggest"),
+    "enableAwLabel" => _("Unflag All & Suggest Word"),
+    "confirmExitString" => _("Changes have been made. OK to quit without saving?"),
+    "pageChangedError" => _("Cannot save page from WordCheck. Words have been modified."),
+]);
+
 $header_args = array(
     "js_files" => array(
+        "$code_url/tools/proofers/wordcheck.js",
         "$code_url/tools/proofers/character_test.js",
     ),
-    "js_data" => spellcheck_get_js()
-        . get_page_js($userP['i_type']==1 ? 2 : 3)
-        . "var codePoints = $json_code_points;",
+    "js_data" => get_page_js($userP['i_type']==1 ? 2 : 3)
+        . "var codePoints = $json_code_points; var wordCheckMessages = $word_check_messages;",
+
     "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
 );
 
