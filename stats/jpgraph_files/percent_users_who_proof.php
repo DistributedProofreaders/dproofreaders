@@ -9,6 +9,10 @@ include_once('common.inc');
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(640, 400, 900);
 
+list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+
+list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
+    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
 ///////////////////////////////////////////////////
 // For each month in which someone joined,
