@@ -11,6 +11,7 @@ include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 include_once($relPath.'misc.inc'); // str_contains startswith
+include_once($relPath.'access_change_emails.inc'); // pp_access_change_email()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -578,7 +579,7 @@ new Pool(
     array( 'F1' => 400 ),
     'REQ-AUTO',
     '',
-    NULL, /* access_change_callback */
+    "pp_access_change_email", /* access_change_callback */
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
     array(
