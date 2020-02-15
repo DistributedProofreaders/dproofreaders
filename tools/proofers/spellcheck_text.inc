@@ -253,7 +253,7 @@ function spellcheck_get_js()
     function isWordChanged(wordID) {
         var input = document.getElementById("input_" + wordID);
         let wordText = input.value;
-        input.style.backgroundColor = testText(wordText) ? '' : 'red';
+        input.style.border = testText(wordText) ? '' : '2px solid red';
         return !(input && (wordText == input.defaultValue));
     }
 
