@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $custom_font_url
 
 
 $browser_title                = _("Basic Proofreading Quiz");
@@ -8,7 +7,7 @@ $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "We ask ourselves how Byron's poem\nYou have the Pyrrhic dance as yet,\nWhere is the Pyrrhic phalanx\ngone?\nOf two such lessons, why forget\nThe nobler and the manlier one?\nis related to these well known words:\n\nWhen in the course of human events, it\nbecomes necessary for one people to\ndissolve . . . political hands.\n\nNot at all. we suspect.";
 $solutions                    = array("We ask ourselves how Byron's poem\n\nYou have the Pyrrhic dance as yet,\nWhere is the Pyrrhic phalanx\ngone?\nOf two such lessons, why forget\nThe nobler and the manlier one?\n\nis related to these well known words:\n\nWhen in the Course of human events, it\nbecomes necessary for one people to\ndissolve ... political bands.\n\nNot at all, we suspect.");
 $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
-                                    "<p>" . sprintf(_("DPCustomMono2 is a custom font that helps proofreaders notice scannos. You can <a href='%1\$s' target='_blank'>compare it with other fonts</a> or read how to <a href='%2\$s' target='_blank'>download and install it</a>."), "../../faq/font_sample.php", $custom_font_url) . "</p>";
+                                    "<p>" . sprintf(_("DPCustomMono2 is a custom font that helps proofreaders notice scannos. You can <a href='%1\$s' target='_blank'>compare it with other fonts</a> and select it for proofreading in your <a href='%2\$s' target='_blank'>user preferences</a>."), "../../faq/font_sample.php", "../../userprefs.php?tab=1") . "</p>";
 
 
 // error messages

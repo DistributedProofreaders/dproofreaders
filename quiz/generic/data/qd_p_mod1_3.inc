@@ -25,7 +25,7 @@ $messages["fracscanno"] = array(
 );
 $messages["ae"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the \"A\" menu below."),
+    "message_body" => _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the character picker below."),
 );
 $messages["fracsymbol"] = array(
     "message_title" => _("Fraction"),

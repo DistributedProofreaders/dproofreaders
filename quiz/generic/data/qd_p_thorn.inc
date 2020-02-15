@@ -6,7 +6,7 @@ $browser_title                = _("Thorn Proofreading Quiz");
 $intro_title                  = _("Thorn Proofreading Quiz");
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, greno metis, &amp; of frutes rawe\nfor bey make many a man liaue a feble mawe.\n]>erfore, of suche fresch lustas set not an hawe,\nFor suche wantoun appetites ai not worth a\n\nstrawe.";
-$solutions                    = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a man̄ haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");
+$solutions                    = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a ma[=n] haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");
 
 
 // error messages
@@ -39,6 +39,9 @@ $messages["macronmissing"] = array(
     "message_title" => _("Scanno"),
     "message_body" => _("There is still a scanno in the text: a macron (horizontal line) over an '<tt>n</tt>' was omitted by the OCR software."),
 );
+/*
+// The current unicode implementation does not support combining characters, so
+// don't instruct the user to use them.
 $messages["macron"] = array(
     "message_title" => _("Macron"),
     "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
@@ -49,6 +52,7 @@ $messages["macron2"] = array(
     "message_body" => _("Since the letter 'n' with a macron (straight line) over it does not exist in Unicode, you should proofread it by first entering the <tt>n</tt> and then the combining macron character."),
     "guideline" => "d_chars",
 );
+*/
 $messages["thorn"] = array(
     "message_title" => _("Thorn incorrectly proofread"),
     "message_body" => _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts. These characters are available in the character picker at the bottom of the screen."),
@@ -74,8 +78,14 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("]>"), "case_
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("lustas"), "case_sensitive" => TRUE, "error" => "lustas");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("ai"), "case_sensitive" => TRUE, "error" => "ai");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("man "), "case_sensitive" => TRUE, "error" => "macronmissing");
+// Not using combining characters
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[n=]", "[=x]", "ñ"), "case_sensitive" => TRUE, "error" => "P_macron");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("ma[=n]"), "case_sensitive" => TRUE, "error" => "P_macron2");
+/*
+// Using combining characters
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=n]", "[=x]", "ñ"), "case_sensitive" => TRUE, "error" => "macron");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("man̄"), "case_sensitive" => TRUE, "error" => "macron2");
+*/
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("pey", "per", "Der", "ber"), "case_sensitive" => FALSE, "error" => "thorn");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Þey", "þer"), "case_sensitive" => TRUE, "error" => "thorncase");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("belly:\nbe"), "case_sensitive" => TRUE, "error" => "P_poetryblanklines");
