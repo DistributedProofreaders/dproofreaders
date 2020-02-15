@@ -32,19 +32,21 @@ foreach ( $Round_for_round_id_ as $round )
 
 // -----------------------------------------------------------------------------
 
-// The following variables assume that the site has been configured with an
-// "Entry-Level Round" (ELR): a single round where new users start out and
-// become familiar with the site.  The page-tallies from this round are
-// distinguished from others in that they are (deemed to be) a fair indicator
-// of the user's experience.
+function get_ELR_tallyboards()
+{
+    global $ELR_round;
 
-$users_ELR_page_tallyboard = new TallyBoard( $ELR_round->id, 'U' );
-$teams_ELR_page_tallyboard = new TallyBoard( $ELR_round->id, 'T' );
+    // The following variables assume that the site has been configured with an
+    // "Entry-Level Round" (ELR): a single round where new users start out and
+    // become familiar with the site.  The page-tallies from this round are
+    // distinguished from others in that they are (deemed to be) a fair indicator
+    // of the user's experience.
 
-// See TallyBoard.inc for explanation of these two strings:
-//
-list($joined_with_user_ELR_page_tallies,$user_ELR_page_tally_column) =
-    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+    return [
+        new TallyBoard( $ELR_round->id, 'U' ),  # users
+        new TallyBoard( $ELR_round->id, 'T' ),  # teams
+    ];
+}
 
 // -----------------------------------------------------------------------------
 
@@ -92,7 +94,10 @@ function get_daily_average( $start_time, $total )
 function user_get_ELR_page_tally( $username )
 // Return the user's page tally for the Entry-Level Round.
 {
-    global $joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column;
+    list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+
+    list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
+        $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
     $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $user_ELR_page_tally_column
