@@ -1,9 +1,12 @@
+/* exported acceptWord evaluateWordChange markBox confirmExit */
+/* global testText wordCheckMessages */
+
 // function to accept specified words in the spellcheck
 // it works by finding (span) elements with IDs in the format
 // word_# and when found sets the content of the span
 // to be just the word thereby removing the select and button
 function acceptWord(wordIDprefix,wordNumber) {
-    var wordID=wordIDprefix + "_" + wordNumber;
+    var wordID = wordIDprefix + "_" + wordNumber;
 
     // Get the original word
     var input = document.getElementById("input_" + wordID);
@@ -19,19 +22,19 @@ function acceptWord(wordIDprefix,wordNumber) {
 
     // loop through all bad words
     var totalNumWords = document.getElementById("sptotal").value;
-    for(wordIndex=1; wordIndex<=totalNumWords; wordIndex++) {
+    for(let wordIndex = 1; wordIndex <= totalNumWords; wordIndex++) {
         // find occurrences of the word
         var wordOccurID = wordIDprefix + "_" + wordIndex;
 
         // check to see if this instance has been edited already
         // by comparing the before and after words
-        var input = document.getElementById("input_" + wordOccurID);
+        input = document.getElementById("input_" + wordOccurID);
         if(input && input.value == input.defaultValue) {
             // get the span
             var wordSpan = document.getElementById(wordOccurID);
             // set contents to be the word itself
-            wordSpan.innerHTML=wordOrig;
-            wordSpan.className="aw";
+            wordSpan.innerHTML = wordOrig;
+            wordSpan.className = "aw";
         }
     }
 
@@ -71,7 +74,9 @@ function disableAW(wordID) {
     if (!isWordChanged(wordID)) {
         // if the current and original values are the same
         // and the button has been disabled, re-enable it
-        if(a && !a.href) { enableAW(wordID); }
+        if(a && !a.href) {
+            enableAW(wordID);
+        }
         return false;
     }
 
@@ -95,7 +100,7 @@ function enableAW(wordID) {
     if(button && a) {
         button.src = "../../graphics/Book-Plus-Small.gif";
         button.title = wordCheckMessages.enableAwLabel;
-        a.href="#";
+        a.href = "#";
     }
     return false;
 }
@@ -104,7 +109,7 @@ function enableAW(wordID) {
 function confirmExit() {
     // see if changes have been made
     var changesMade = document.getElementById("is_changed").value;
-    if(changesMade==1) {
+    if(changesMade == 1) {
         return confirm(wordCheckMessages.confirmExitString);
     }
 
@@ -115,11 +120,11 @@ function confirmExit() {
 // function to mark the page as changed
 function markPageChanged() {
     // mark the page as having been changed
-    document.getElementById("is_changed").value=1;
+    document.getElementById("is_changed").value = 1;
 
     // Disable the save as done and proof next button.
-    spsaveandnext = document.getElementById("spsaveandnext");
-    spsaveandnext.title    = wordCheckMessages.pageChangedError;
+    let spsaveandnext = document.getElementById("spsaveandnext");
+    spsaveandnext.title = wordCheckMessages.pageChangedError;
     spsaveandnext.disabled = true;
     return false;
 }
