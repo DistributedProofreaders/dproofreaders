@@ -162,7 +162,7 @@ function echo_page_table(
 
     $path = "$projects_dir/$projectid/";
 
-    $fields_to_get = "image, length(master_text), state";
+    $fields_to_get = "$projectid.image, length(master_text), state";
     $tables = $projectid;
     $prev_text_column_name = 'master_text';
     foreach ( $rounds_to_display as $round )
@@ -178,11 +178,17 @@ function echo_page_table(
             $round->time_column_name,
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
-            length($round->text_column_name)
+            length($round->text_column_name),
+            (wordcheck_events$rn.projectid IS NOT NULL) AS `wordcheck_status$rn`
         ";
         $tables .= "
             LEFT OUTER JOIN users AS users$rn
                 ON (users$rn.username = $round->user_column_name)
+            LEFT OUTER JOIN wordcheck_events AS wordcheck_events$rn
+                ON (wordcheck_events$rn.projectid = '$projectid' AND 
+                    wordcheck_events$rn.image = $projectid.image AND 
+                    wordcheck_events$rn.username = $round->user_column_name AND 
+                    wordcheck_events$rn.round_id = '$round->id')
             $joined_with_user_page_tallies
         ";
         $prev_text_column_name = $round->text_column_name;
@@ -228,7 +234,7 @@ function echo_page_table(
     }
 
     $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT $fields_to_get
+        SELECT DISTINCT $fields_to_get
         FROM $tables
         WHERE $where_condition
         ORDER BY image ASC
@@ -566,7 +572,14 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     {
         $R_pages_completed = $page_res["$round_num.user_page_tally"];
 
-        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed)</td>\n";
+        $wordcheck_status = '<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+
+        if (!$page_res["wordcheck_status$round_num"])
+        {
+            $wordcheck_status = '<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+        }
+
+        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed) $wordcheck_status</td>\n";
     }
     else
     {
