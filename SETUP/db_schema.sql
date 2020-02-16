@@ -790,7 +790,7 @@ CREATE TABLE `users` (
   `u_align` tinyint(1) NOT NULL default '0',
   `i_prefs` tinyint(1) default '0',
   `i_theme` varchar(100) NOT NULL default 'project_gutenberg',
-  `i_pmdefault` smallint(1) NOT NULL default '2',
+  `i_pmdefault` smallint(1) NOT NULL default '0',
   `u_id` int(10) unsigned NOT NULL auto_increment,
   `u_profile` int(10) unsigned NOT NULL default '0',
   `u_intlang` varchar(25) default '',
