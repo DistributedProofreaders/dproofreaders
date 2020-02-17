@@ -3,6 +3,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'misc.inc');
 
 $NEWS_PAGES = array(
+    'GLOBAL'  => _('Global'),
     'FRONT'   => _('Front Page'),
     'FAQ'     => _('FAQ Central'),
     'HUB'     => _('Activity Hub'),
@@ -68,7 +69,7 @@ function show_news_for_page( $news_page_id )
         SELECT date_posted, content 
         FROM news_items 
         WHERE status = 'current' 
-            AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '$user_locale')
         ORDER BY ORDERING DESC
     ") or die(mysqli_error(DPDatabase::get_connection()));
@@ -79,7 +80,7 @@ function show_news_for_page( $news_page_id )
         SELECT content 
         FROM news_items 
         WHERE status = 'recent' 
-            AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '$user_locale')
         ORDER BY RAND() LIMIT 1
     ") or die(mysqli_error(DPDatabase::get_connection()));

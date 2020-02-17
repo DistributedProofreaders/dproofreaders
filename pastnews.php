@@ -44,7 +44,7 @@ else
 
 $result = mysqli_query(DPDatabase::get_connection(), sprintf("
     SELECT * FROM news_items 
-    WHERE news_page_id = '%s' AND 
+    WHERE (news_page_id = '%s' OR news_page_id = 'GLOBAL') AND 
         status = 'recent'
     ORDER BY id DESC
     $limit_clause
