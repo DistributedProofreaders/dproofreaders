@@ -1,7 +1,7 @@
 <?php
 include_once($relPath."unicode.inc");
 
-class GlyphsetNotEnabledException extends Exception { }
+class CharSuiteNotEnabledException extends Exception { }
 
 class PickerSet
 {
@@ -28,7 +28,7 @@ class PickerSet
     }
 }
 
-class Glyphset
+class CharSuite
 {
     public $name;
     public $title;
@@ -80,60 +80,60 @@ class Glyphset
 
     public function is_enabled()
     {
-        $enabled_sets = Glyphsets::get_enabled();
+        $enabled_sets = CharSuites::get_enabled();
         return in_array($this, $enabled_sets);
     }
 }
 
-class Glyphsets
+class CharSuites
 {
-    static private $_available_glyphsets = [];
+    static private $_available_charsuites = [];
 
-    public static function add($glyphset)
+    public static function add($charsuite)
     {
-        self::$_available_glyphsets[$glyphset->name] = $glyphset;
+        self::$_available_charsuites[$charsuite->name] = $charsuite;
     }
 
     public static function get($name)
     {
-        if(!isset(self::$_available_glyphsets[$name]))
+        if(!isset(self::$_available_charsuites[$name]))
         {
-            throw new UnexpectedValueException("$name is not a valid glyphset");
+            throw new UnexpectedValueException("$name is not a valid charsuite");
         }
-        return self::$_available_glyphsets[$name];
+        return self::$_available_charsuites[$name];
     }
 
     public static function get_all()
     {
-        return array_values(self::$_available_glyphsets);
+        return array_values(self::$_available_charsuites);
     }
 
     public static function get_enabled()
     {
         $sql = "
             SELECT name
-            FROM glyphsets
+            FROM charsuites
             WHERE enabled=1
         ";
 
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
-        $glyphsets = [];
+        $charsuites = [];
         while($row = mysqli_fetch_assoc($result))
         {
-            $glyphsets[] = Glyphsets::get($row["name"]);
+            $charsuites[] = CharSuites::get($row["name"]);
         }
         mysqli_free_result($result);
-        return $glyphsets;
+        return $charsuites;
     }
 
     public static function enable($name)
     {
-        // Validate we have a valid glyphset
-        $glyphset = Glyphsets::get($name);
+        // Validate we have a valid charsuite
+        $charsuite = CharSuites::get($name);
 
         $sql = sprintf("
-            INSERT INTO glyphsets
+            INSERT INTO charsuites
             SET name='%s', enabled=1
             ON DUPLICATE KEY UPDATE
                 enabled=1
@@ -144,10 +144,10 @@ class Glyphsets
 
     public static function disable($name)
     {
-        // We don't validate the glyphset is installed in case it was
+        // We don't validate the charsuite is installed in case it was
         // uninstalled before being disabled.
         $sql = sprintf("
-            UPDATE glyphsets
+            UPDATE charsuites
             SET enabled=0
             WHERE name='%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $name));
@@ -155,26 +155,26 @@ class Glyphsets
         mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
-    // Check to see if $glyphset is a real Glyphset object or a glyphset name
+    // Check to see if $charsuite is a real CharSuite object or a charsuite name
     // and if the latter, return the former.
-    public static function resolve($glyphset)
+    public static function resolve($charsuite)
     {
-        if($glyphset instanceof Glyphset)
+        if($charsuite instanceof CharSuite)
         {
-            return $glyphset;
+            return $charsuite;
         }
         else
         {
-            return Glyphsets::get($glyphset);
+            return CharSuites::get($charsuite);
         }
     }
 }
 
 #----------------------------------------------------------------------------
 
-// load all available glyphsets
-$glyphset_files = glob($relPath."glyphset-*.inc");
-foreach($glyphset_files as $glyphset_file)
+// load all available charsuites
+$charsuite_files = glob($relPath."charsuite-*.inc");
+foreach($charsuite_files as $charsuite_file)
 {
-    include_once($glyphset_file);
+    include_once($charsuite_file);
 }

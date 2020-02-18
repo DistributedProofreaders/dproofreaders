@@ -68,7 +68,7 @@ $messages["P_oe"] = array(
 );
 $messages["P_macron"] = array(
     "message_title" => _("Macron"),
-    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>&#275</tt>, and so forth.") . " " . _("If the project's glyphsets do not include the character, use the diacritical markup as described in the Proofreading Guidelines."),
+    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>&#275</tt>, and so forth.") . " " . _("If the project's character suites do not include the character, use the diacritical markup as described in the Proofreading Guidelines."),
     "guideline" => "d_chars"
 );
 $messages["P_aebracket"] = array(
