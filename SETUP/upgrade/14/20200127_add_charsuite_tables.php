@@ -1,17 +1,17 @@
 <?php
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'Glyphsets.inc');
+include_once($relPath.'CharSuites.inc');
 include_once($relPath.'Project.inc');
 
 header('Content-type: text/plain');
 
 // ------------------------------------------------------------
 
-echo "Creating glyphsets table\n";
+echo "Creating charsuites table\n";
 
 $sql = "
-    CREATE TABLE glyphsets (
+    CREATE TABLE charsuites (
         name varchar(64) not null primary key,
         enabled tinyint default 1
     );
@@ -23,14 +23,14 @@ mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase
 
 // ------------------------------------------------------------
 
-echo "Creating project glyphsets table\n";
+echo "Creating project charsuites table\n";
 
 $sql = "
-    CREATE TABLE project_glyphsets (
+    CREATE TABLE project_charsuites (
         projectid varchar(22) not null,
-        glyphset_name varchar(64) not null,
-        PRIMARY KEY (projectid, glyphset_name),
-        FOREIGN KEY (glyphset_name) REFERENCES glyphsets(name)
+        charsuite_name varchar(64) not null,
+        PRIMARY KEY (projectid, charsuite_name),
+        FOREIGN KEY (charsuite_name) REFERENCES charsuites(name)
     );
 ";
 
@@ -40,15 +40,15 @@ mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase
 
 // ------------------------------------------------------------
 
-echo "Enabling Basic Latin glyphset\n";
+echo "Enabling Basic Latin charsuite\n";
 
-Glyphsets::enable("basic-latin");
+CharSuites::enable("basic-latin");
 
 echo "$sql\n";
 
 // ------------------------------------------------------------
 
-echo "Adding Basic Latin glyphsets to all projects\n";
+echo "Adding Basic Latin charsuites to all projects\n";
 
 $sql = "
     SELECT projectid
@@ -66,9 +66,9 @@ while($row = mysqli_fetch_assoc($result))
 
 foreach($projects as $projectid)
 {
-    echo "    Adding Basic Latin glyphset to $projectid\n";
+    echo "    Adding Basic Latin charsuite to $projectid\n";
     $project = new Project($projectid);
-    $project->add_glyphset('basic-latin');
+    $project->add_charsuite('basic-latin');
 }
 
 // ------------------------------------------------------------

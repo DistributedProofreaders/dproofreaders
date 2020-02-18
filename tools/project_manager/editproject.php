@@ -824,8 +824,8 @@ class ProjectInfoHolder
         $project = new Project($this->projectid);
         $project->create_dc_xml_oai($marc_record);
 
-        // Add the Basic Latin glyphset to the project
-        $project->add_glyphset("basic-latin");
+        // Add the Basic Latin charsuite to the project
+        $project->add_charsuite("basic-latin");
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)

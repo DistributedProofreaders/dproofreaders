@@ -9,7 +9,7 @@ class CharacterSelector
         // quizzes use a 'fake' project that still needs a pickerset
         if($projectid == 'projectID0000000000000')
         {
-            $this->picker_sets = [ Glyphsets::get('basic-latin')->pickerset ];
+            $this->picker_sets = [ CharSuites::get('basic-latin')->pickerset ];
         }
         else
         {

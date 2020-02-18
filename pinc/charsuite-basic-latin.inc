@@ -1,8 +1,8 @@
 <?php
-include_once($relPath."Glyphsets.inc");
+include_once($relPath."CharSuites.inc");
 
-$glyphset = new Glyphset("basic-latin", _("Basic Latin"));
-$glyphset->codepoints = [
+$charsuite = new CharSuite("basic-latin", _("Basic Latin"));
+$charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
     'U+0020-U+007E',
     # https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)
@@ -20,7 +20,7 @@ $glyphset->codepoints = [
     'U+2039', # open single guillemet
     'U+203A', # close single guillemet
 ];
-$glyphset->reference_urls = [
+$charsuite->reference_urls = [
     "https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)",
     "https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)",
 ];
@@ -50,7 +50,7 @@ $pickerset->add_subset("1", [
     [ 'U+0030-U+0039', 'U+0023', 'U+0025', 'U+0024' ],
     [ 'U+00b9', 'U+00b2-U+00b3', 'U+00ba', 'U+00aa', 'U+00bc-U+00be', 'U+002b', 'U+002d', 'U+003d', 'U+00d7', 'U+00f7', 'U+00b1', 'U+00ac' ],
 ], _("Numbers and Currency"));
-$glyphset->pickerset = $pickerset;
+$charsuite->pickerset = $pickerset;
 
-Glyphsets::add($glyphset);
+CharSuites::add($charsuite);
 

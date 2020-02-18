@@ -91,20 +91,20 @@ CREATE TABLE `current_tallies` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `glyphsets`
+# Table structure for table `charsuites`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `glyphsets` (
+CREATE TABLE `charsuites` (
   `name` varchar(64) NOT NULL,
   `enabled` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB;
 # --------------------------------------------------------
 
-INSERT INTO glyphsets
+INSERT INTO charsuites
     SET name='basic-latin';
 
 #
@@ -296,18 +296,18 @@ CREATE TABLE `project_events` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `project_glyphsets`
+# Table structure for table `project_charsuites`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `project_glyphsets` (
+CREATE TABLE `project_charsuites` (
   `projectid` varchar(22) NOT NULL,
-  `glyphset_name` varchar(64) NOT NULL,
-  PRIMARY KEY (`projectid`,`glyphset_name`),
-  KEY `glyphset_fk` (`glyphset_name`),
-  CONSTRAINT `glyphset_fk` FOREIGN KEY (`glyphset_name`) REFERENCES `glyphsets` (`name`)
+  `charsuite_name` varchar(64) NOT NULL,
+  PRIMARY KEY (`projectid`,`charsuite_name`),
+  KEY `charsuite_fk` (`charsuite_name`),
+  CONSTRAINT `charsuite_fk` FOREIGN KEY (`charsuite_name`) REFERENCES `charsuites` (`name`)
 ) ENGINE=InnoDB;
 # --------------------------------------------------------
 

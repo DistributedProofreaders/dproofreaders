@@ -8,7 +8,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'project_events.inc'); // log_project_event
-include_once($relPath.'Glyphsets.inc');
+include_once($relPath.'CharSuites.inc');
 
 class NonexistentProjectException extends Exception { }
 class InvalidProjectIDException extends Exception { }
@@ -178,15 +178,15 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    static public function projects_using_glyphset($glyphset)
+    static public function projects_using_charsuite($charsuite)
     {
-        $glyphset = Glyphsets::resolve($glyphset);
+        $charsuite = CharSuites::resolve($charsuite);
 
         $sql = sprintf("
             SELECT projectid
-            FROM project_glyphsets
-            WHERE glyphset_name='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $glyphset->name));
+            FROM project_charsuites
+            WHERE charsuite_name='%s'
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
 
         $projectids = [];
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
@@ -198,49 +198,49 @@ class Project
         return $projectids;
     }
 
-    public function add_glyphset($glyphset)
+    public function add_charsuite($charsuite)
     {
-        $glyphset = Glyphsets::resolve($glyphset);
+        $charsuite = CharSuites::resolve($charsuite);
 
-        $existing_glyphsets = $this->get_glyphsets();
-        if(in_array($glyphset, $existing_glyphsets))
+        $existing_charsuites = $this->get_charsuites();
+        if(in_array($charsuite, $existing_charsuites))
         {
             return;
         }
 
-        // ensure that the glyphset is enabled, otherwise it can't be added
-        if(!$glyphset->is_enabled())
+        // ensure that the charsuite is enabled, otherwise it can't be added
+        if(!$charsuite->is_enabled())
         {
-            throw new GlyphsetNotEnabledException(sprintf(
-                _("Glyphset '%s' is not enabled and cannot be added to a project"),
-                $glyphset->title
+            throw new CharSuiteNotEnabledException(sprintf(
+                _("CharSuite '%s' is not enabled and cannot be added to a project"),
+                $charsuite->title
             ));
         }
 
         $sql = sprintf("
-            INSERT INTO project_glyphsets
-            SET projectid='%s', glyphset_name='%s'
-        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $glyphset->name));
+            INSERT INTO project_charsuites
+            SET projectid='%s', charsuite_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
 
         mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
-    public function get_glyphsets()
+    public function get_charsuites()
     {
         $sql = "
-            SELECT glyphset_name
-            FROM project_glyphsets
+            SELECT charsuite_name
+            FROM project_charsuites
             WHERE projectid='$this->projectid'
         ";
 
-        $glyphsets = [];
+        $charsuites = [];
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         while($row = mysqli_fetch_assoc($result))
         {
-            $glyphsets[] = Glyphsets::get($row["glyphset_name"]);
+            $charsuites[] = CharSuites::get($row["charsuite_name"]);
         }
         mysqli_free_result($result);
-        return $glyphsets;
+        return $charsuites;
     }
 
     public function get_valid_codepoints()
@@ -252,9 +252,9 @@ class Project
         ];
 
         $codepoints = $global_codepoints;
-        foreach($this->get_glyphsets() as $glyphset)
+        foreach($this->get_charsuites() as $charsuite)
         {
-            $codepoints = array_merge($codepoints, $glyphset->codepoints);
+            $codepoints = array_merge($codepoints, $charsuite->codepoints);
         }
         return $codepoints;
     }
@@ -262,9 +262,9 @@ class Project
     public function get_pickersets()
     {
         $pickersets = [];
-        foreach($this->get_glyphsets() as $glyphset)
+        foreach($this->get_charsuites() as $charsuite)
         {
-            $pickersets[] = $glyphset->pickerset;
+            $pickersets[] = $charsuite->pickerset;
         }
         return $pickersets;
     }

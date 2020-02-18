@@ -3,19 +3,19 @@ $relPath='../pinc/';
 include_once($relPath."base.inc");
 include_once($relPath."theme.inc");
 include_once($relPath."unicode.inc");
-include_once($relPath."Glyphsets.inc");
+include_once($relPath."CharSuites.inc");
 include_once($relPath."misc.inc"); // array_get()
 
-$glyphset_name = array_get($_GET, "glyphset", NULL);
+$charsuite_name = array_get($_GET, "charsuite", NULL);
 $font = array_get($_REQUEST, "font", NULL);
 $projectid = array_get($_REQUEST, "projectid", NULL);
 
-$glyphset = NULL;
+$charsuite = NULL;
 
 if(!$projectid)
 {
     try {
-        $glyphset = Glyphsets::get($glyphset_name);
+        $charsuite = CharSuites::get($charsuite_name);
     } catch (UnexpectedValueException $e) {
         // continue
     }
@@ -27,58 +27,58 @@ if($font)
     $extra_args['css_data'] = ".gs-char { font-family: $font; }";
 }
 
-if($glyphset)
+if($charsuite)
 {
-    $title = sprintf(_("Glyphset: %s"), $glyphset->title);
+    $title = sprintf(_("Character Suite: %s"), $charsuite->title);
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p><a href='?'>" . _("View all glyphsets") . "</a></p>";
+    echo "<p><a href='?'>" . _("View all character suites") . "</a></p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
-    output_glyphset($glyphset, NULL, $font);
-    output_pickerset($glyphset->pickerset, $glyphset->codepoints);
+    output_charsuite($charsuite, NULL, $font);
+    output_pickerset($charsuite->pickerset, $charsuite->codepoints);
 }
 elseif($projectid)
 {
     $project = new Project($projectid);
-    $title = _("Project Glyphsets");
+    $title = _("Project Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p>" . sprintf(_("Glyphsets for <b>%s</b>."), $project->nameofwork) . "</p>";
-    $glyphsets = $project->get_glyphsets();
-    foreach($glyphsets as $glyphset)
+    echo "<p>" . sprintf(_("Character Suites for <b>%s</b>."), $project->nameofwork) . "</p>";
+    $charsuites = $project->get_charsuites();
+    foreach($charsuites as $charsuite)
     {
-        output_glyphset($glyphset, $glyphset->title, $font);
+        output_charsuite($charsuite, $charsuite->title, $font);
     }
 }
 else
 {
-    $title = _("All Glyphsets");
+    $title = _("All Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p>" . _("Below are all enabled glyphsets in the system.") . "</p>";
+    echo "<p>" . _("Below are all enabled charsuites in the system.") . "</p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
-    $enabled_glyphsets = Glyphsets::get_enabled();
-    foreach($enabled_glyphsets as $glyphset)
+    $enabled_charsuites = CharSuites::get_enabled();
+    foreach($enabled_charsuites as $charsuite)
     {
-        output_glyphset($glyphset, $glyphset->title, $font);
+        output_charsuite($charsuite, $charsuite->title, $font);
     }
 
-    $all_glyphsets = Glyphsets::get_all();
-    if(count($all_glyphsets) > count($enabled_glyphsets))
+    $all_charsuites = CharSuites::get_all();
+    if(count($all_charsuites) > count($enabled_charsuites))
     {
-        echo "<h1>" . _("Disabled Glyphsets") . "</h1>";
-        echo "<p>" . _("The following glyphsets are installed but not enabled and cannot be used for new projects. They may not be finalized.") . "</p>";
+        echo "<h1>" . _("Disabled Character Suites") . "</h1>";
+        echo "<p>" . _("The following charsuites are installed but not enabled and cannot be used for new projects. They may not be finalized.") . "</p>";
 
-        foreach($all_glyphsets as $glyphset)
+        foreach($all_charsuites as $charsuite)
         {
-            if(!$glyphset->is_enabled())
-                output_glyphset($glyphset, $glyphset->title, $font);
+            if(!$charsuite->is_enabled())
+                output_charsuite($charsuite, $charsuite->title, $font);
         }
     }
 }
@@ -108,30 +108,30 @@ function output_font_test_form($font)
     echo "</div>";
 }
 
-function output_glyphset($glyphset, $title=NULL, $test_font=NULL)
+function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
 {
     if($title)
     {
         $slug = utf8_url_slug($title);
         echo "<h2 id='$slug'>$title</h2>";
-        $encoded_name = urlencode($glyphset->name);
+        $encoded_name = urlencode($charsuite->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
-        echo "<p><a href='?glyphset=$encoded_name$font_attr'>" . _("View glyphset details") . "</a></p>";
+        echo "<p><a href='?charsuite=$encoded_name$font_attr'>" . _("View character suite details") . "</a></p>";
     }
-    elseif(!$glyphset->is_enabled())
+    elseif(!$charsuite->is_enabled())
     {
-        echo "<p class='warning'>". _("This glyphset is installed but not enabled and cannot be used for new projects.") . "</p>";
+        echo "<p class='warning'>". _("This charsuite is installed but not enabled and cannot be used for new projects.") . "</p>";
     }
 
-    echo "<p>" . _("Below are all the glyphs with their Unicode codepoints that are available within this Glyphset. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
+    echo "<p>" . _("Below are all the characters with their Unicode codepoints that are available within this character suite. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
 
-    output_codepoints_table($glyphset->codepoints);
+    output_codepoints_table($charsuite->codepoints);
 
     if(!$title)
     {
         echo "<p>" . _("Reference URLs") . ":";
         echo "<ul>";
-        foreach($glyphset->reference_urls as $url)
+        foreach($charsuite->reference_urls as $url)
         {
             echo "<li><a href='$url'>$url</a></li>";
         }
@@ -143,7 +143,7 @@ function output_glyphset($glyphset, $title=NULL, $test_font=NULL)
 function output_pickerset($pickerset, $all_codepoints)
 {
     echo "<h2>" . _("Character Picker Sets") . "</h2>";
-    echo "<p>" . _("The following groupings represent sets of glyphs available in the character picker within the proofreading interface for projects using this glyphset. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
+    echo "<p>" . _("The following groupings represent sets of characters available in the character picker within the proofreading interface for projects using this character suite. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
     $set = $pickerset->get_subsets();
     $picker_characters = [];
     foreach($set as $menu => $coderows)
@@ -178,9 +178,9 @@ function output_pickerset($pickerset, $all_codepoints)
     }
 }
 
-function output_codepoints_table($glyphset, $table_width=16)
+function output_codepoints_table($charsuite, $table_width=16)
 {
-    $characters = convert_codepoint_ranges_to_characters($glyphset);
+    $characters = convert_codepoint_ranges_to_characters($charsuite);
 
     echo "<table class='basic'>";
 

@@ -1,13 +1,13 @@
 <?php
-include_once($relPath."Glyphsets.inc");
+include_once($relPath."CharSuites.inc");
 
-$glyphset = new Glyphset("extended-european-latin", _("Extended European Latin"));
-$glyphset->codepoints = [
+$charsuite = new CharSuite("extended-european-latin", _("Extended European Latin"));
+$charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Latin_Extended-A
     'U+0100-U+0148',
     'U+014A-U+017F',
 ];
-$glyphset->reference_urls = [
+$charsuite->reference_urls = [
     'https://en.wikipedia.org/wiki/Latin_Extended-A',
 ];
 
@@ -47,7 +47,7 @@ $pickerset->add_subset(utf8_chr("\u0168"), [
     [ 'U+0169', 'U+016b', 'U+016d', 'U+016f', 'U+0171', 'U+0173', 'U+0175',
       'U+0177', 'U+0179', 'U+017a', 'U+017c', 'U+017e' ],
 ]);
-$glyphset->pickerset = $pickerset;
+$charsuite->pickerset = $pickerset;
 
-Glyphsets::add($glyphset);
+CharSuites::add($charsuite);
 

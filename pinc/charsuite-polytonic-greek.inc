@@ -1,8 +1,8 @@
 <?php
-include_once($relPath."Glyphsets.inc");
+include_once($relPath."CharSuites.inc");
 
-$glyphset = new Glyphset("polytonic-greek", _("Polytonic Greek"));
-$glyphset->codepoints = [
+$charsuite = new CharSuite("polytonic-greek", _("Polytonic Greek"));
+$charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Greek_and_Coptic
     'U+02B9',
     'U+0375',
@@ -86,7 +86,7 @@ $glyphset->codepoints = [
     # skip oxia U+1FFB
     'U+1FFC',
 ];
-$glyphset->reference_urls = [
+$charsuite->reference_urls = [
     "https://www.pgdp.net/wiki/DP_Code_-_Unicode/Greek",
     "https://en.wikipedia.org/wiki/Greek_and_Coptic",
     "https://en.wikipedia.org/wiki/Greek_Extended",
@@ -145,6 +145,6 @@ $pickerset->add_subset(utf8_chr('U+038F'), [
       'U+1f63', 'U+1f66', 'U+1f67', 'U+1ff3', 'U+1ff4', 'U+1ff2', 'U+1ff7', 'U+1fa0',
       'U+1fa1', 'U+1fa4', 'U+1fa5', 'U+1fa2', 'U+1fa3', 'U+1fa6', 'U+1fa7' ],
 ]);
-$glyphset->pickerset = $pickerset;
+$charsuite->pickerset = $pickerset;
 
-Glyphsets::add($glyphset);
+CharSuites::add($charsuite);
