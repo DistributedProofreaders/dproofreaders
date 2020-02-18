@@ -798,8 +798,13 @@ function recentlyproofed( $wlist )
     $recentNum=5; // if this is > 5 more rows will be shown
 
     $sql = "
-        SELECT image, state, {$round->time_column_name}
+        SELECT DISTINCT $projectid.image, $projectid.state, {$round->time_column_name}, (wordcheck_events.projectid IS NOT NULL) AS `wordcheck_status`
         FROM $projectid
+        LEFT OUTER JOIN wordcheck_events
+        ON (wordcheck_events.projectid = '$projectid' AND 
+            wordcheck_events.image = $projectid.image AND 
+            wordcheck_events.username = $round->user_column_name AND 
+            wordcheck_events.round_id = '$round->id')
         WHERE {$round->user_column_name}='$pguser' AND $state_condition
         ORDER BY {$round->time_column_name} DESC
         LIMIT $recentNum
@@ -820,10 +825,18 @@ function recentlyproofed( $wlist )
             $pagestate = $row["state"];
             $eURL = url_for_pi_do_particular_page(
                 $projectid, $state, $imagefile, $pagestate, TRUE );
+
+            $wordcheck_status = '<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+
+            if (!$row["wordcheck_status"])
+            {
+                $wordcheck_status = '<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+            }
+
             echo "<td class='center-align'>";
             echo "<A HREF=\"$eURL\">";
             // TRANSLATORS: This is an strftime-formatted string
-            echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
+            echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a> $wordcheck_status</td> \r\n";
             $colnum++;
             $rownum++;
         }
