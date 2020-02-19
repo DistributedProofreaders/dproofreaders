@@ -17,7 +17,7 @@ function do_replace()
     var search_textbox = document.getElementById('search');
     var search = search_textbox.value;
     var regex_checkbox = document.getElementById('is_regex');
-    var replacetext = document.getElementById('replace').value.replace(new RegExp('\\\\n', 'g'), '\n');
+    var replacetext = document.getElementById('replace').value.replace(new RegExp('\\\\n', 'g'), '\r\n');
     save_text();
     var is_regex = regex_checkbox.checked;
     if (!is_regex)
@@ -131,7 +131,6 @@ window.onload = test_and_enable_nonregex;
     <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled>
 </center>
 </form>
-<p><?php echo _("Note: \\n will be treated as a newline in the replace field."); ?></p>
 <p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
 <p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
 <?php echo _('Regular Expression?'); ?></p>
