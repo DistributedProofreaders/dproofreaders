@@ -7,15 +7,14 @@ function render_validator()
     $quit_text = _("Quit");
     $remove_text = _("Remove bad characters and quit");
     echo <<<END
-<div class='flex_container nodisp' id='checker'>
+<div class='flex_container' >
 <div class='stretchbox ws-pre' id='check-text'>
 </div>
 <div class='fixedbox'>
 $bad_char_message
 &nbsp;<button type='button' id='cc-quit'>$quit_text</button>
 &nbsp;<button type='button' id='cc-remove'>$remove_text</button>
-</div>
-</div>
+</div></div>
 END;
 }
 
