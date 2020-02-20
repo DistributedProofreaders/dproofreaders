@@ -18,47 +18,45 @@ function utf8_normalize($string)
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
-    $char_class = "";
-    foreach($valid_codepoints as $codepoint)
-    {
-        if(strpos($codepoint, '-') === False)
+    $pattern_string = make_regex_string($valid_codepoints);
+    $pattern_string = "/$pattern_string/u";
+    return preg_replace_callback(
+        "/\X/u",
+        function ($matches) use($pattern_string)
         {
-            $char_class .= utf8_chr($codepoint);
-        }
-        else
-        {
-            list($start, $end) = explode('-', $codepoint);
-            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
-        }
-    }
-    if(!$char_class)
-        return $string;
-
-    $pattern_string = "/[^$char_class]/u";
-    return preg_replace($pattern_string, $replacement, $string);
+            $match = $matches[0];
+//            var_dump($match);
+            if(1 === preg_match($pattern_string, $match))
+            {
+                return $match;
+            }
+            return "";
+        },
+        $string);
 }
 
 # Filter out any characters in $string that are in $remove_codepoints
 function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement="")
 {
-    $char_class = "";
-    foreach($remove_codepoints as $codepoint)
-    {
-        if(strpos($codepoint, '-') === False)
-        {
-            $char_class .= utf8_chr($codepoint);
-        }
-        else
-        {
-            list($start, $end) = explode('-', $codepoint);
-            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
-        }
-    }
-    if(!$char_class)
+    if(!$remove_codepoints)
         return $string;
 
-    $pattern_string = "/[$char_class]/u";
-    return preg_replace($pattern_string, $replacement, $string);
+    $pattern_string = make_regex_string($remove_codepoints);
+    $pattern_string = "/$pattern_string/u";
+    // find characters including those with combining diacritical marks
+    return preg_replace_callback(
+        "/\X/u",
+        function ($matches) use($pattern_string)
+        {
+            $match = $matches[0];
+//            var_dump($match);
+            if(1 === preg_match($pattern_string, $match))
+            {
+                return "";
+            }
+            return $match;
+        },
+        $string);
 }
 
 // make a string for use in a regular expression to match any of the characters
@@ -78,7 +76,8 @@ function make_regex_string($characters)
             $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
         }
     }
-    return "[$char_class]";
+    // don't add /.../u yet so we can use it also in javascript
+    return "^[$char_class]$";
 }
 
 # Take an array of Unicode codepoints (U+####), or codepoint ranges
