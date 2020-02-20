@@ -61,6 +61,26 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement=""
     return preg_replace($pattern_string, $replacement, $string);
 }
 
+// make a string for use in a regular expression to match any of the characters
+// including the ranges
+function make_regex_string($characters)
+{
+    $char_class = "";
+    foreach($characters as $character)
+    {
+        if(strpos($character, '-') === False)
+        {
+            $char_class .= utf8_chr($character);
+        }
+        else
+        {
+            list($start, $end) = explode('-', $character);
+            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
+        }
+    }
+    return "[$char_class]";
+}
+
 # Take an array of Unicode codepoints (U+####), or codepoint ranges
 # (U+####-U+####) and return an array of unicode characters.
 function convert_codepoint_ranges_to_characters($codepoints)
