@@ -79,7 +79,7 @@ if (!$resolution) {
         "js_files" => [
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
-            "$code_url/tools/project_manager/update_validate.js",
+            "$code_url/tools/project_manager/handle_bad_page.js",
         ],
         "js_data" => "
             var codePoints = $json_code_points;

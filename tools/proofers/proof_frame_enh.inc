@@ -2,11 +2,11 @@
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'codepoint_validator.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
 include_once('preview.inc');
-include_once($relPath.'codepoint_validator.inc');
 
 function echo_proof_frame_enh( $ppage )
 {
