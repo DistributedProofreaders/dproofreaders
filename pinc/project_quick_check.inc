@@ -423,7 +423,7 @@ function tds_for_bad_bytes($raw)
     $tds = "";
 
     $tds .= "<td>$raw</td>";
-var_dump($raw);
+
     if (!is_extended($raw) && startswith($raw,'&'))
     {
         // It's a named or numeric character reference

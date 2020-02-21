@@ -716,11 +716,13 @@ function get_normalize_page_text_changes($text, $projectid)
 
     if($invalid_chars)
     {
-        // this will contain the characters and decomposed codepoint arrays.
+        // for each element in this array the key will be the character and
+        // the value will be an array of utf8 strings for each component
+        // if not printable the key is U+xxxx codepoint instead.
         $processed_invalid_chars = [];
         foreach(array_keys($invalid_chars) as $char)
         {
-            // find the components if it is an extended character
+            // find the components; maybe an extended character
             preg_match_all("/./u", $char, $matches);
             $char0 = $matches[0][0];
             // if not defined or is a control character or soft hyphen

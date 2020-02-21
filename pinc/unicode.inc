@@ -194,25 +194,25 @@ function guess_string_encoding($text)
     return 'ISO-8859-1';
 }
 
-function make_title($character)
+function make_title($codepoints)
 {
-    // make title from array of codepoint and possible combining marks
-    $title = IntlChar::charName($character[0]);
-    $count = count($character);
+    // make title from array of base codepoint and possible combining marks
+    $title = IntlChar::charName($codepoints[0]);
+    $count = count($codepoints);
     if($count > 1)
     {
-        $title .= " with " . IntlChar::charName($character[1]);
+        $title .= " with " . IntlChar::charName($codepoints[1]);
     }
     for($index = 2; $index < $count; $index++)
     {
-        $title .= " and " . IntlChar::charName($character[$index]);
+        $title .= " and " . IntlChar::charName($codepoints[$index]);
     }
     return $title;
 }
 
 function extended_to_hex($char)
 {
-    // find the components of extended character
+    // find the components of extended character as hex strings
     $codepoints = [];
     preg_match_all("/./u", $char, $matches);
     foreach($matches[0] as $match)
