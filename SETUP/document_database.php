@@ -1,5 +1,43 @@
 <?php
 
+function create_markdown_table(array $contents, array $table_columns): array {
+    // For each column find the length of the longest value (used for padding in the table)
+    $column_lengths = [];
+
+    foreach ($contents as $row) {
+        foreach ($row as $column => $value) {
+            $column_lengths[$column] = max(strlen($value), array_get($column_lengths, $column, strlen($column)));
+        }
+    }
+
+    $output_table = [];
+
+    // Add headers
+    $header = '|';
+    $line_under_header = '|';
+
+    foreach ($table_columns as $column) {
+        $header .= str_pad($column, $column_lengths[$column]) . '|';
+        $line_under_header .= str_repeat('-', $column_lengths[$column]) . '|';
+    }
+
+    $output_table[] = $header;
+    $output_table[] = $line_under_header;
+
+    // Add data
+    foreach ($contents as $row) {
+        $output_row = '|';
+
+        foreach ($table_columns as $column) {
+            $output_row .= str_pad(array_get($row, $column, ''), $column_lengths[$column]) . '|';
+        }
+
+        $output_table[] = $output_row;
+    }
+
+    return $output_table;
+}
+
 /**
  * Detects columns in the text by finding column descriptions. A column description
  * contains the name of the column prefixed by "## " (without quotes).
