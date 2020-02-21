@@ -25,7 +25,6 @@ function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
         function ($matches) use($pattern_string)
         {
             $match = $matches[0];
-//            var_dump($match);
             if(1 === preg_match($pattern_string, $match))
             {
                 return $match;
@@ -49,7 +48,6 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement=""
         function ($matches) use($pattern_string)
         {
             $match = $matches[0];
-//            var_dump($match);
             if(1 === preg_match($pattern_string, $match))
             {
                 return "";
@@ -109,19 +107,25 @@ function convert_codepoint_ranges_to_characters($codepoints)
 # Return an array of invalid characters and their count
 function get_invalid_characters($string, $codepoints)
 {
-    $string = utf8_filter_out_codepoints($string, $codepoints);
+    $pattern_string = make_regex_string($codepoints);
+    $pattern_string = "/$pattern_string/u";
     $char_count = [];
     if($string)
     {
-        foreach(utf8_split($string) as $char)
+        // split into array of extended unicode characters
+        preg_match_all("/\X/u", $string, $matches);
+        foreach($matches[0] as $char)
         {
-            if(!isset($char_count[$char]))
+            if(0 === preg_match($pattern_string, $char))
             {
-                $char_count[$char] = 1;
-            }
-            else
-            {
-                $char_count[$char]++;
+                if(!isset($char_count[$char]))
+                {
+                    $char_count[$char] = 1;
+                }
+                else
+                {
+                    $char_count[$char]++;
+                }
             }
         }
     }
@@ -188,4 +192,44 @@ function guess_string_encoding($text)
 
     # Give up and return ISO-8859-1
     return 'ISO-8859-1';
+}
+
+function make_title($character)
+{
+    // make title from array of codepoint and possible combining marks
+    $title = IntlChar::charName($character[0]);
+    $count = count($character);
+    if($count > 1)
+    {
+        $title .= " with " . IntlChar::charName($character[1]);
+    }
+    for($index = 2; $index < $count; $index++)
+    {
+        $title .= " and " . IntlChar::charName($character[$index]);
+    }
+    return $title;
+}
+
+function extended_to_hex($char)
+{
+    // find the components of extended character
+    $codepoints = [];
+    preg_match_all("/./u", $char, $matches);
+    foreach($matches[0] as $match)
+    {
+        $codepoints[] = str_pad(dechex(IntlChar::ord($match)), 4, "0", STR_PAD_LEFT);
+    }
+    return implode(" ", $codepoints);
+}
+
+function extended_strlen($string)
+{
+    // how many 'extended Unicode sequences'?
+    return preg_match_all("/\X/u", $string);
+}
+
+function is_extended($string)
+{
+    // do any combining codepoints follow?
+    return preg_match("/^\PM\pM/u", $string);
 }

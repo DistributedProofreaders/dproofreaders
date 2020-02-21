@@ -716,23 +716,33 @@ function get_normalize_page_text_changes($text, $projectid)
 
     if($invalid_chars)
     {
-        $invalid_char_names = [];
+        // this will contain the characters and decomposed codepoint arrays.
+        $processed_invalid_chars = [];
         foreach(array_keys($invalid_chars) as $char)
         {
-            $name = IntlChar::charName($char);
-            # if it doesn't have a name it's a control character which can't
-            # be printed anyway, or if it's a soft hyphen
-            if(!$name || utf8_chr_to_hex($char) == 'U+00ad')
+            // find the components if it is an extended character
+            preg_match_all("/./u", $char, $matches);
+            $char0 = $matches[0][0];
+            // if not defined or is a control character or soft hyphen
+            if(!IntlChar::isdefined($char0) || IntlChar::iscntrl($char0) || ($char0 === "\x{ad}"))
             {
-                $name = utf8_chr_to_hex($char);
+                // put U+xxxx instead of utf8 string
+                $processed_invalid_chars[utf8_chr_to_hex($char0)] = $matches[0];
             }
             else
             {
-                $name = $char;
+                // extended characters will get here unless first component is caught above
+                $processed_invalid_chars[$char] = $matches[0];
             }
-            $invalid_char_names[] = $name;
         }
-        $invalid_char_string = implode(", ", $invalid_char_names);
+        // put the characters in spans with a title
+        $char_spans = [];
+        foreach($processed_invalid_chars as $char => $codepoints)
+        {
+            $title = make_title($codepoints);
+            $char_spans[] = "<span class='warning' title='$title'>$char</span>";
+        }
+        $invalid_char_string = implode(", ", $char_spans);
         $changes[] = sprintf(_("Invalid characters will be removed: <span class='mono'>%s</span>"), $invalid_char_string);
     }
 

@@ -898,9 +898,9 @@ function get_remarks_for_bad_byte_sequence($raw)
 
         $why_bad = "HTML numeric character reference";
     }
-    elseif(utf8_strlen($raw) == 1 && is_utf8($raw))
+    elseif(extended_strlen($raw) == 1 && is_utf8($raw))
     {
-        $why_bad = "Codepoint not valid for project";
+        $why_bad = "Character not valid for project";
         $intended_character = "";
     }
     else

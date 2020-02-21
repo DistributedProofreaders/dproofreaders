@@ -423,8 +423,8 @@ function tds_for_bad_bytes($raw)
     $tds = "";
 
     $tds .= "<td>$raw</td>";
-
-    if (startswith($raw,'&'))
+var_dump($raw);
+    if (!is_extended($raw) && startswith($raw,'&'))
     {
         // It's a named or numeric character reference
         // so just show the reference itself,
@@ -433,7 +433,7 @@ function tds_for_bad_bytes($raw)
     }
     else
     {
-        $hex = utf8_chr_to_hex($raw);
+        $hex = extended_to_hex($raw);
         $tds .= "<td>$hex</td>";
     }
 
