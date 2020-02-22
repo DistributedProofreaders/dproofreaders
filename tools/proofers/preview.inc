@@ -13,7 +13,7 @@ function shared_strings($escape_function="html_safe")
     );
 }
 
-function get_preview_strings()
+function get_preview_messages()
 {
     return array(
         "noStartTag" => _("No start tag for this end tag"),
@@ -58,11 +58,11 @@ function get_preview_strings()
     );
 }
 
-function output_preview_strings()
+function preview_strings()
 {
-    global $charset;
+    global $charset, $utf8_site;
 
-    $messages = get_preview_strings();
+    $messages = get_preview_messages();
     $plain = javascript_safe(_("Plain text"));
     $superscript = javascript_safe(_("superscript"));
     $subscript = javascript_safe(_("subscript"));
@@ -71,25 +71,20 @@ function output_preview_strings()
     $demo_string = "$plain _{{$subscript}} <i>$ss[italic]</i> ^{{$superscript}} <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>";
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
 
-
-    // json_encode() assumes everything is in UTF-8, but we may not be so
-    // just build the JSON object ourselves
-    $json_entries = [];
-    foreach($messages as $key => $value)
+    if(!$utf8_site)
     {
-        $value = javascript_safe($value);
-        $json_entries[] = "\"$key\": \"$value\"";
+        array_walk($messages, function(&$item) { $item = utf8_encode($item);} );
     }
-    $preview_msg = "{" . implode(",", $json_entries) . "}";
+    $preview_msg = json_encode($messages);
 
-    echo "var previewMessages = JSON.parse('$preview_msg'); var previewDemo = '$demo_string'; var ieWarn = '$ie_warn'";
+    return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
 }
 
 function output_preview_div()
 {
     global $code_url;
 
-    $messages = get_preview_strings();
+    $messages = get_preview_messages();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
     $add_font = attr_safe(_("Add Font"));
