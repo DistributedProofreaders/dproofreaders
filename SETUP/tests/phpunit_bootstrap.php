@@ -1,4 +1,6 @@
 <?php
+const PHPUNIT = true;
+
 global $relPath;
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
