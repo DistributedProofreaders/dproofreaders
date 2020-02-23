@@ -21,7 +21,8 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/preview_strings.php",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
-            "$code_url/tools/proofers/proofing.js",
+            "$code_url/tools/proofers/proof_validate.js",
+            "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
         "js_data" => "
         function ldAll() {
