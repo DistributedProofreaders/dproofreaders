@@ -50,7 +50,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>";
     echo "<td>$rownum</td>";
     echo "<td>".html_safe($nameofwork)."</td>";
-    echo "<td style='white-space: nowrap;'>$author</td>";
+    echo "<td style='white-space: nowrap;'>".html_safe($author)."</td>";
     echo "<td style='white-space: nowrap;'>$username</td>";
     echo "<td>$projectID</td>";
     echo "<td style='white-space: nowrap;'>$modifieddate</td>";

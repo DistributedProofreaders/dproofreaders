@@ -21,8 +21,8 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
     {
         echo "<li><span class='title-listing'>";
 
-        echo "<span class='book-title'>", '"', $title, '"', "</span>";
-        echo "&mdash;$author ($language)";
+        echo "<span class='book-title'>", '"', html_safe($title), '"', "</span>";
+        echo "&mdash;".html_safe($author)." ($language)";
         if ( !is_null($postednum) )
         {
             echo "<br>", get_pg_catalog_link_for_etext($postednum);

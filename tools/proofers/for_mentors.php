@@ -131,7 +131,7 @@ while ($proj =  mysqli_fetch_object($result))
     $proj_url = "$code_url/project.php?id=$proj->projectid";
     echo "<p>";
     // TRANSLATORS: format is <title> by <author>.
-    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>".html_safe($proj->nameofwork)."</a>", $proj->authorsname) . "</b>";
+    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>".html_safe($proj->nameofwork)."</a>", html_safe($proj->authorsname)) . "</b>";
     echo "</p>" ;
 
     dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
