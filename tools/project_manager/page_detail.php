@@ -61,7 +61,7 @@ $page_details_str = _('Page Detail');
 
 output_header( "$page_details_str: $title", NO_STATSBAR);
 
-echo "<h1>$title</h1>\n";
+echo "<h1>".html_safe($title)."</h1>\n";
 echo "<h2>$page_details_str</h2>\n";
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";

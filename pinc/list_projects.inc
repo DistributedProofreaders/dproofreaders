@@ -139,10 +139,10 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         {
             echo "\"<a style=\"font-weight: bold;text-decoration:none\" href=\"$code_url/project.php?id=$projectid\">$title</a>\"";
         } else {
-            echo "\"<span style=\"font-weight: bold;color:#444444\">$title</span>\"";
+            echo "\"<span style=\"font-weight: bold;color:#444444\">".html_safe($title)."</span>\"";
         }
         // Author
-        echo ", ", $author;
+        echo ", ", html_safe($author);
         // Language
         echo " (", $language, ")";
         echo "<br>";

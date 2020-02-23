@@ -160,7 +160,7 @@ if (!isset($action))
     output_header($title, NO_STATSBAR, get_upload_args());
 
     echo "<h1>$title</h1>";
-    echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
+    echo "<h2>" . sprintf("Project: %s", html_safe($project->nameofwork)) . "</h2>";
 
     try
     {
@@ -225,7 +225,7 @@ else
 
     slim_header($title);
     echo "<h1>$title</h1>";
-    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+    echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);

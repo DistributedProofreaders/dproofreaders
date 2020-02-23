@@ -78,7 +78,7 @@ if (!$resolution) {
     echo "<h1>$header</h1>";
 
     echo "<p>";
-    echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
+    echo "<b>" . _("Project") . ":</b> ".html_safe($project->nameofwork)."<br>";
     echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
     echo "<b>" . _("Project state") . ":</b> {$project->state}<br>";
     echo "<b>" . _("Page") . ":</b> $image<br>";

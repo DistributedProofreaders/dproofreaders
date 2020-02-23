@@ -236,7 +236,7 @@ function prep_numeric_keys_for_multisort(&$assocArray) {
 function echo_page_header($title,$projectid) {
     echo "<h1>$title</h1>";
 
-    $project_text = sprintf(_("Project: %s"),get_project_name($projectid));
+    $project_text = sprintf(_("Project: %s"),html_safe(get_project_name($projectid)));
     echo "<h2>$project_text</h2>\n";
 }
 

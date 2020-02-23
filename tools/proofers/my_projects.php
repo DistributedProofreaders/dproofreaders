@@ -162,11 +162,11 @@ else
         echo "<td>";
         if ($orig_nameofwork != '') {
             // say where this information came from
-            echo $orig_nameofwork . " <i>" .  _("merged into") . "</i> ";
+            echo html_safe($orig_nameofwork) . " <i>" .  _("merged into") . "</i> ";
         }
         $url = "$code_url/project.php?id=$projectid";
         $onclick_attr = get_onclick_attr_for_link_to_project_page($url);
-        echo "<a href='$url' $onclick_attr>$nameofwork</a>";
+        echo "<a href='$url' $onclick_attr>".html_safe($nameofwork)."</a>";
         echo "</td>\n";
 
         if(isset($colspecs['state']))
@@ -274,7 +274,7 @@ else
         echo "<tr>\n";
 
         echo "<td>";
-        echo "<a href='$code_url/project.php?id=$project->projectid'>$project->nameofwork</a>";
+        echo "<a href='$code_url/project.php?id=$project->projectid'>".html_safe($project->nameofwork)."</a>";
         echo "</td>\n";
 
         echo "<td>";

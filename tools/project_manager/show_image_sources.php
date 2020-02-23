@@ -347,10 +347,10 @@ if (!isset($_GET['name']))
             echo "<tr>\n";
             echo "<td>";
             echo "<a href='$code_url/project.php?id=" .
-                $row['projectid'] . "'>" . $row['nameofwork'] . "</a>";
+                $row['projectid'] . "'>" . html_safe($row['nameofwork']) . "</a>";
             echo "</td>";
             echo "<td>";
-            echo $row['authorsname'];
+            echo html_safe($row['authorsname']);
             echo "</td>";
             echo "<td class='center-align'>";
             echo $row['genre'];

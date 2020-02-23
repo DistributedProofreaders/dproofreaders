@@ -135,7 +135,7 @@ class Column
 
     public function print_cell_data($project)
     {
-        echo $project->{$this->db_column};
+        echo html_safe($project->{$this->db_column});
     }
 }
 
@@ -190,7 +190,7 @@ class TitleColumn extends Column
     public function print_cell_data($project)
     {
         global $code_url;
-        echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>$project->nameofwork</a>";
+        echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>".html_safe($project->nameofwork)."</a>";
     }
 }
 

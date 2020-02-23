@@ -51,7 +51,7 @@ set_time_limit(0); // no time limit
 
 if ($save_files)
 {
-    echo "<p>generating files for $projectid ($project->nameofwork) ...</p>\n";
+    echo "<p>generating files for $projectid (".html_safe($project->nameofwork).") ...</p>\n";
     flush();
     generate_post_files( $projectid, $round_id, $which_text, $include_proofers,  '' );
     flush();

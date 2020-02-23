@@ -115,7 +115,7 @@ while ( $project = mysqli_fetch_object( $result ) )
     echo "
         <tr>
         <td>$rownum</td>
-        <td>$project->nameofwork</td>
+        <td>".html_safe($project->nameofwork)."</td>
       ";
      
       if (isset($inPPV)) { 

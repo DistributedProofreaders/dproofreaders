@@ -73,8 +73,8 @@ while ($row = mysqli_fetch_assoc($res))
 {
     $projectid = $row['projectid'];
     echo "<tr>";
-    echo "<td><a href='$code_url/project.php?id=$projectid'>" . $row['nameofwork'] . "</a></td>";
-    echo "<td>" . $row['authorsname'] . "</td>";
+    echo "<td><a href='$code_url/project.php?id=$projectid'>" . html_safe($row['nameofwork']) . "</a></td>";
+    echo "<td>" . html_safe($row['authorsname']) . "</td>";
     echo "<td>" . $row['username'] . "</td>";
     echo "<td>" . $row['state'] . "</td>";
     echo "<td>" . $row['clearance'] . "</td>";

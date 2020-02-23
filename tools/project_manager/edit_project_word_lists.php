@@ -318,7 +318,7 @@ class ProjectWordListHolder
         foreach($fields as $field => $label) {
             echo "<tr>";
             echo "<th class='label'>$label</th>";
-            echo "<td>" . $this->$field . "</td>";
+            echo "<td>" . html_safe($this->$field) . "</td>";
             echo "</tr>";
         }
 

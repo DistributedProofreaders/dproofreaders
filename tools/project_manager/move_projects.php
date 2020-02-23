@@ -55,13 +55,13 @@ foreach( $projectids as $projectid )
     $error_msg = project_transition( $projectid, $new_state, $pguser );
     if ( $error_msg )
     {
-        echo "    {$project->nameofwork}\n";
+        echo "    ".html_safe($project->nameofwork)."\n";
         echo "    $error_msg\n";
         continue;
     }
 
     // TRANSLATORS: %s is a project name
-    echo "    " . sprintf(_("%s successfully moved."), $project->nameofwork) . "\n";
+    echo "    " . sprintf(_("%s successfully moved."), html_safe($project->nameofwork)) . "\n";
 }
 
 echo "</pre>\n";
