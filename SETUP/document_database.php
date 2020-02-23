@@ -45,6 +45,48 @@ if (!defined('PHPUNIT')) {
     function write_to_file(string $file_path, string $contents) {
         file_put_contents($file_path, $contents);
     }
+
+    // First is the script name, the second is the operation name
+    $number_of_arguments = $argc - 2;
+
+    if ($argc < 2) {
+        echo "No operation was chosen.\n";
+        echo "Supported operations are: generate\n";
+
+        exit(1);
+    }
+
+    // generate <directory_path> <table_name or all>
+    if ($argv[1] === 'generate') {
+        if ($argc !== 4) {
+            echo "Operation generate requires 2 arguments, $number_of_arguments were given.\n";
+            echo "Supported syntax for generate command is 'generate <directory path> <table name or all>'.\n";
+
+            exit(1);
+        }
+
+        $directory_path = $argv[2];
+        $table_name = $argv[3];
+
+        if (!is_dir($directory_path)) {
+            echo "File path '$directory_path' does not exist or is not a directory.\n";
+
+            exit(1);
+        }
+
+        if ($table_name === 'all') {
+            generate_files_for_all_tables($directory_path);
+        }
+        else {
+            generate_file_for_table($table_name, $directory_path . '/' . $table_name . '.md', $table_name);
+        }
+    }
+    else {
+        echo "Invalid operation '{$argv[1]}'\n";
+        echo "Supported operations are: generate\n";
+
+        exit(1);
+    }
 }
 
 // ---------- All tables operation functions ----------
