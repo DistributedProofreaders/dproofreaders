@@ -2,14 +2,14 @@
 $relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 
-function shared_strings($escape_function="html_safe")
+function get_style_strings()
 {
     return array(
-        "italic" => $escape_function(_("Italic")),
-        "bold" => $escape_function(_("Bold")),
-        "gesperrt" => $escape_function(_("Gesperrt")),
-        "small_caps" => $escape_function(_("Small caps")),
-        "font_change" => $escape_function(_("Font change")),
+        "italic" => _("Italic"),
+        "bold" => _("Bold"),
+        "gesperrt" => _("Gesperrt"),
+        "small_caps" => _("Small caps"),
+        "font_change" => _("Font change"),
     );
 }
 
@@ -63,12 +63,12 @@ function get_preview_js_vars()
     global $charset, $utf8_site;
 
     $messages = get_preview_messages();
-    $plain = javascript_safe(_("Plain text"));
-    $superscript = javascript_safe(_("superscript"));
-    $subscript = javascript_safe(_("subscript"));
-    $ss = shared_strings("javascript_safe");
+    $plain = _("Plain text");
+    $superscript = _("superscript");
+    $subscript = _("subscript");
+    $styles = get_style_strings();
 
-    $demo_string = "$plain _{{$subscript}} <i>$ss[italic]</i> ^{{$superscript}} <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>";
+    $demo_string = javascript_safe("$plain _{{$subscript}} <i>$styles[italic]</i> ^{{$superscript}} <b>$styles[bold]</b> <g>$styles[gesperrt]</g> <sc>$styles[small_caps]</sc> <f>$styles[font_change]</f>");
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
 
     if(!$utf8_site)
@@ -103,12 +103,13 @@ function output_preview_div()
     $poss_iss = html_safe(_("Poss. Issues"));
     $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
-    $ss = shared_strings("html_safe");
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
     $initial_mode = html_safe(_("Initial view mode"));
+    $styles = get_style_strings();
+    array_walk($styles, function(&$item) { $item = html_safe($item);} );
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -157,11 +158,11 @@ function output_preview_div()
     <legend>$choose_colors</legend>
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $ss[bold]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $ss[gesperrt]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $ss[small_caps]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $ss[font_change]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $styles[bold]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $styles[gesperrt]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $styles[small_caps]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $styles[font_change]<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
