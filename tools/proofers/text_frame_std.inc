@@ -14,7 +14,7 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
         ),
-        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();} ' . preview_strings(),
+        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();} ' . get_preview_js_vars(),
         "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
         );
     slim_header(_("Text Frame"), $header_args);

@@ -58,7 +58,7 @@ function get_preview_messages()
     );
 }
 
-function preview_strings()
+function get_preview_js_vars()
 {
     global $charset, $utf8_site;
 
