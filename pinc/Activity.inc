@@ -15,12 +15,6 @@ $ACCESS_CRITERIA = array(
     'quiz/p_mod2'    => sprintf(_('<a href="%1$s">moderate proofreading quiz %2$d</a> pass'),"$code_url/quiz/start.php?show_level=P_MOD", 2),
     'quiz/f_only'    => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
 );
-if ( TRUE )
-{
-    // kludge
-    // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
-    $ACCESS_CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
-}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -290,17 +284,6 @@ function get_user_scores($username)
 
 function get_user_score( $user_obj, $criterion_code )
 {
-    $terms = explode( '+', $criterion_code );
-    if ( count($terms) > 1 )
-    {
-        $sum = 0;
-        foreach ( $terms as $term )
-        {
-            $sum += get_user_score( $user_obj, $term );
-        }
-        return $sum;
-    }
-
     if ( $criterion_code == 'days since reg' )
     {
         $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );

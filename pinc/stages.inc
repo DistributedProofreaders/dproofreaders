@@ -121,7 +121,7 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
     'REQ-AUTO',
     '',
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
@@ -207,7 +207,7 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
     'REQ-AUTO',
     '',
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
