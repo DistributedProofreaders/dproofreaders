@@ -741,6 +741,7 @@ table.dirlist caption {
   margin: 1px 0px;
   cursor: pointer;
   font-size: 0.9em;
+  min-width: 2em;
 }
 #toolbox .key-block {
   display: none;
