@@ -324,18 +324,18 @@ $help['Change Interface Layout'] = "
 </p>
 <p>
     <IMG SRC='../tools/proofers/gfx/bt4.png'
-	ALT='Change Interface Layout'
-	TITLE='Change Interface Layout'
-	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
+    ALT='Change Interface Layout'
+    TITLE='Change Interface Layout'
+    WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
     When in horizontal mode,
     clicking this button will switch you to vertical mode
     (scanned image of page appears to the LEFT of the OCR text you are correcting).
 </p>
 <p>
     <IMG SRC='../tools/proofers/gfx/bt5.png'
-	ALT='Change Interface Layout'
-	TITLE='Change Interface Layout'
-	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
+    ALT='Change Interface Layout'
+    TITLE='Change Interface Layout'
+    WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
     When in vertical mode,
     clicking this button will switch you to horizontal mode
     (scanned image of page appears ABOVE the OCR text you are correcting).
@@ -440,72 +440,72 @@ if ( $i_type == 0 )
     echo "<form>\n";
     echo "<dl>\n";
     foreach(
-	Array(
-	    "Save as 'In Progress'",
-	    "Save as 'Done' & Proofread Next Page",
-	    "Save as 'Done'",
-	    'Stop Proofreading',
-	    'Switch to Vertical/Horizontal',
-	    'Show All Text',
-	    'Return Page to Round',
-	    'Report Bad Page',
-	    'WordCheck',
-	    'Preview',
-	)
-	as $name )
+    Array(
+        "Save as 'In Progress'",
+        "Save as 'Done' & Proofread Next Page",
+        "Save as 'Done'",
+        'Stop Proofreading',
+        'Switch to Vertical/Horizontal',
+        'Show All Text',
+        'Return Page to Round',
+        'Report Bad Page',
+        'WordCheck',
+        'Preview',
+    )
+    as $name )
     {
-	echo "<dt>";
-	if ( $name == 'Switch to Vertical/Horizontal' )
-	{
-	    echo "<input type='button' value='Switch to Vertical'> / ";
-	    echo "<input type='button' value='Switch to Horizontal'>";
-	}
-	else
-	{
-	    echo "<input type='button' value=\"$name\">";
-	}
-	echo "</dt>\n";
-	echo "<dd>$help[$name]</dd>\n";
+    echo "<dt>";
+    if ( $name == 'Switch to Vertical/Horizontal' )
+    {
+        echo "<input type='button' value='Switch to Vertical'> / ";
+        echo "<input type='button' value='Switch to Horizontal'>";
+    }
+    else
+    {
+        echo "<input type='button' value=\"$name\">";
+    }
+    echo "</dt>\n";
+    echo "<dd>$help[$name]</dd>\n";
     }
 
     echo "
     <dt>Page number</dt>
     <dd>
     <p>
-	This shows the index number
-	of the files on our site that contain the information
-	(scanned image and OCR text)
-	for the page in the book you are proofreading.
-	It may vary from the printed page number of the book,
-	since some of the pages that get scanned
-	(such as introduction pages, some illustration pages)
-	have no ordinary page numbers in the book,
-	but still count as another page to be proofread on the site.
-	Also some books have numbered pages that are otherwise blank,
-	and sometimes these are not scanned,
-	further throwing out the correspondence
-	between the 'on site' page number and the 'printed' page number.
-	If the OCR text matches the text in the image,
-	then this is not a case of 'mismatched image/text',
-	even if the page that was scanned
-	was numbered, say, 10 in the book and
-	is numbered, say, 21 on our site.
+    This shows the index number
+    of the files on our site that contain the information
+    (scanned image and OCR text)
+    for the page in the book you are proofreading.
+    It may vary from the printed page number of the book,
+    since some of the pages that get scanned
+    (such as introduction pages, some illustration pages)
+    have no ordinary page numbers in the book,
+    but still count as another page to be proofread on the site.
+    Also some books have numbered pages that are otherwise blank,
+    and sometimes these are not scanned,
+    further throwing out the correspondence
+    between the 'on site' page number and the 'printed' page number.
+    If the OCR text matches the text in the image,
+    then this is not a case of 'mismatched image/text',
+    even if the page that was scanned
+    was numbered, say, 10 in the book and
+    is numbered, say, 21 on our site.
     </p>
     </dd>
 
     <dt>Proofread by:</dt>
     <dd>
     <p>
-	This appears only in the second round.
-	The name of the first-round proofreader
-	is a link to send them a private message
-	through the site's forum system.
-	It is shown for your convenience
-	should you wish to send the first-round proofreader
-	a comment or question,
-	(polite, constructive) criticism
-	or praise
-	on their proofreading of this page in the first round.
+    This appears only in the second round.
+    The name of the first-round proofreader
+    is a link to send them a private message
+    through the site's forum system.
+    It is shown for your convenience
+    should you wish to send the first-round proofreader
+    a comment or question,
+    (polite, constructive) criticism
+    or praise
+    on their proofreading of this page in the first round.
     </p>
     </dd>
 
@@ -517,27 +517,27 @@ if ( $i_type == 0 )
     <dt>View Image</dt>
     <dd>
     <p>
-	Opens a copy of the png image file
-	of the page you are proofreading in a new browser window.
-	In Internet Explorer,
-	if you hover your mouse over the image in this new window,
-	a 'show actual size' icon will appear in the lower right corner.
-	Clicking this will display the image in extreme close-up,
-	which can be useful sometimes.
+    Opens a copy of the png image file
+    of the page you are proofreading in a new browser window.
+    In Internet Explorer,
+    if you hover your mouse over the image in this new window,
+    a 'show actual size' icon will appear in the lower right corner.
+    Clicking this will display the image in extreme close-up,
+    which can be useful sometimes.
     </p>
     </dd>
 
     <dt>Image Resize:
-	<input type='button' value='-25%'>
-	<input type='button' value='+25%'>
-	<input type='button' value='Original'>
+    <input type='button' value='-25%'>
+    <input type='button' value='+25%'>
+    <input type='button' value='Original'>
     </dt>
     <dd>
     <p>
-	These three buttons change the zoom of
-	the image already loaded inside the main proofreading browser window.
-	They can be useful in making out small, faded or blurry type
-	in the scanned images.
+    These three buttons change the zoom of
+    the image already loaded inside the main proofreading browser window.
+    They can be useful in making out small, faded or blurry type
+    in the scanned images.
     </p>
     </dd>
     ";
@@ -575,14 +575,14 @@ function echo_row( $name, $tooltip, $button_image_base, $accelerator )
     $tooltip_esc = attr_safe($tooltip);
     foreach( explode('+', $button_image_base) as $bib )
     {
-	echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
-	    ALT='$tooltip_esc' TITLE='$tooltip_esc'
-	    WIDTH='26' HEIGHT='26' BORDER='0'>\n";
+    echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
+        ALT='$tooltip_esc' TITLE='$tooltip_esc'
+        WIDTH='26' HEIGHT='26' BORDER='0'>\n";
     }
     echo "</TD><TD><B>$name</B><BR>\n";
     if ( $accelerator != '' )
     {
-	echo "Accelerator key: <B>$accelerator</B><br>\n";
+    echo "Accelerator key: <B>$accelerator</B><br>\n";
     }
     echo "$help[$name]</TD></TR>\n";
 }
@@ -679,6 +679,32 @@ on a character will insert it into the text.
 </p>
 
 
+<h3>Search/Replace Popup</h3>
+
+<p>
+    To make it easier to make repetative changes, this tool has been provided.
+    Click on the Search/Replace button and a small window pops up,
+    containing a search value and a replace value.
+</p>
+<p>
+    Clicking <input type='button' value='Replace all.'> will replace all
+    all matched instances of the search text with the value from the replace text.
+    You may undo this change by clicking <input type='button' value='Undo.'>, but only
+    the most recent replace operation may be reverted.
+</p>
+<p>
+    For more complex search matching, regular expressions may be used.
+    <blockquote>
+        &mdash; any character<br>
+        [a-z0-9] &mdash; lowercase letters and numbers<br>
+        a{4} &mdash; four lowercase As<br>
+        [Aa]{6} &mdash; six As of either case<br>
+        A{2,8} &mdash; between 2 and 8 capital As<br>
+        [hb]e &mdash; 'he' or 'be'<br>
+    </blockquote>
+</p>
+
+
 <h3>Greek transliteration popup</h3>
 
 <p>
@@ -686,9 +712,9 @@ on a character will insert it into the text.
     We usually wish to transliterate Greek letters into Latin ones,
     and wrap the result in tags [Greek: ].
     So
-	<blockquote>
-	&beta;&iota;&beta;&lambda;&omicron;&sigmaf;
-	</blockquote>
+    <blockquote>
+    &beta;&iota;&beta;&lambda;&omicron;&sigmaf;
+    </blockquote>
     in the image is rendered
     <pre>
     [Greek: biblos]
@@ -817,8 +843,8 @@ since that is done in the formatting rounds.
 <dl>
 <dt>
     <img src='../tools/proofers/gfx/tags/help.png'
-	width='30' height='30' border='0'
-	alt='Help' title='Help'>
+    width='30' height='30' border='0'
+    alt='Help' title='Help'>
 </dt>
 <dd>
     <p>
