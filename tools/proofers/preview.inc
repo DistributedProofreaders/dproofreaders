@@ -154,8 +154,9 @@ function output_preview_div()
 <div id="id_config_panel" class='no_display'>
   <div id='color_test'>
   </div>
-  <fieldset class="clearfix">
+  <fieldset>
     <legend>$choose_colors</legend>
+    <div class="display-flex">
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
@@ -172,6 +173,7 @@ function output_preview_div()
         <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
         <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
         <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
+    </div>
     </div>
   </fieldset>
   <div class="box2">
