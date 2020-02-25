@@ -17,9 +17,8 @@ function echo_proof_frame_enh( $ppage )
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
-            "$code_url/tools/proofers/preview_strings.php",
         ),
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
+        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();} ' . get_preview_js_vars(),
         "css_data" => ibe_get_styles(),
         "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
     );

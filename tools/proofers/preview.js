@@ -3,9 +3,8 @@
 This function checks the text for formatting issues and adds the markup
 for colouring and issue highlighting.
 It can be used alone with a simple html interface for testing.
-The external references are previewMessages which is loaded by the function
-output_preview_strings() defined in preview.inc, called in preview_strings.php
-and previewControl.adjustMargin() defined in previewControl.js
+previewMessages are translated strings in header args.
+previewControl.adjustMargin() is defined in previewControl.js
 txt is the text to analyse.
 viewMode determines if the inline tags are to be shown or hidden
 wrapMode whether to re-wrap the text.
