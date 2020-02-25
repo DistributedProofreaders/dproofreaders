@@ -45,16 +45,12 @@
 .box2 {
     margin: 20px 10px 20px 10px;
 }
-.clearfix {
-    overflow: auto;
-}
 
 /* color configure div */
 #id_markmenu {
-    width: 150px;
     text-align: left;
-    float: left
 }
+
 #color_selector {
     text-align: left;
 }
