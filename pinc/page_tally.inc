@@ -109,7 +109,7 @@ function user_get_ELR_page_tally( $username )
         return 0;
     }
 
-    return $row[0];
+    return (int)$row[0];
 }
 
 // -----------------------------------------------------------------------------
