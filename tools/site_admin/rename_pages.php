@@ -41,7 +41,7 @@ $title = $project->nameofwork;
 
 echo "<pre>";
 echo "projectid: $projectid\n";
-echo "title    : ".html_safe($title)."\n";
+echo "title    : " . html_safe($title) . "\n";
 echo "</pre>\n";
 
 $res = mysqli_query(DPDatabase::get_connection(), "

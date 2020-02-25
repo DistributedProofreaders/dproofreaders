@@ -7,7 +7,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'misc.inc'); // array_get()
+include_once($relPath.'misc.inc'); // array_get(), html_safe()
 include_once($relPath.'pg.inc');
 
 require_login();

@@ -3,7 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 
@@ -49,8 +49,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     echo "<tr>";
     echo "<td>$rownum</td>";
-    echo "<td>".html_safe($nameofwork)."</td>";
-    echo "<td style='white-space: nowrap;'>".html_safe($author)."</td>";
+    echo "<td>" . html_safe($nameofwork) . "</td>";
+    echo "<td style='white-space: nowrap;'>" . html_safe($author) . "</td>";
     echo "<td style='white-space: nowrap;'>$username</td>";
     echo "<td>$projectID</td>";
     echo "<td style='white-space: nowrap;'>$modifieddate</td>";

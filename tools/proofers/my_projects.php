@@ -1,7 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // array_get(), surround_and_join()
+include_once($relPath.'misc.inc'); // array_get(), surround_and_join(), html_safe()
 include_once($relPath.'theme.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
@@ -166,7 +166,7 @@ else
         }
         $url = "$code_url/project.php?id=$projectid";
         $onclick_attr = get_onclick_attr_for_link_to_project_page($url);
-        echo "<a href='$url' $onclick_attr>".html_safe($nameofwork)."</a>";
+        echo "<a href='$url' $onclick_attr>" . html_safe($nameofwork) . "</a>";
         echo "</td>\n";
 
         if(isset($colspecs['state']))
@@ -274,7 +274,7 @@ else
         echo "<tr>\n";
 
         echo "<td>";
-        echo "<a href='$code_url/project.php?id=$project->projectid'>".html_safe($project->nameofwork)."</a>";
+        echo "<a href='$code_url/project.php?id=$project->projectid'>" . html_safe($project->nameofwork) . "</a>";
         echo "</td>\n";
 
         echo "<td>";

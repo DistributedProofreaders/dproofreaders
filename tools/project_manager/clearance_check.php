@@ -77,7 +77,7 @@ while ($row = mysqli_fetch_assoc($res))
     echo "<td>" . html_safe($row['authorsname']) . "</td>";
     echo "<td>" . $row['username'] . "</td>";
     echo "<td>" . $row['state'] . "</td>";
-    echo "<td>" . $row['clearance'] . "</td>";
+    echo "<td>" . html_safe($row['clearance']) . "</td>";
     echo "</tr>";
 }
 echo "</table>";

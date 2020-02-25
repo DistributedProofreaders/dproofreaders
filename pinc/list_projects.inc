@@ -22,7 +22,7 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
         echo "<li><span class='title-listing'>";
 
         echo "<span class='book-title'>", '"', html_safe($title), '"', "</span>";
-        echo "&mdash;".html_safe($author)." ($language)";
+        echo "&mdash;" . html_safe($author) . " ($language)";
         if ( !is_null($postednum) )
         {
             echo "<br>", get_pg_catalog_link_for_etext($postednum);
@@ -139,7 +139,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         {
             echo "\"<a style=\"font-weight: bold;text-decoration:none\" href=\"$code_url/project.php?id=$projectid\">$title</a>\"";
         } else {
-            echo "\"<span style=\"font-weight: bold;color:#444444\">".html_safe($title)."</span>\"";
+            echo "\"<span style=\"font-weight: bold;color:#444444\">" . html_safe($title) . "</span>\"";
         }
         // Author
         echo ", ", html_safe($author);

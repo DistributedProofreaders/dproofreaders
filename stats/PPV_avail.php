@@ -3,7 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 
@@ -80,7 +80,7 @@ while ( $project = mysqli_fetch_object( $result ) )
     echo "
         <tr>
         <td>$rownum</td>
-        <td>".html_safe($project->nameofwork)."</td>
+        <td>" . html_safe($project->nameofwork) . "</td>
         <td style='white-space: nowrap;'>$project->username</td>
         <td style='white-space: nowrap;'>$project->postproofer</td>
         <td style='white-space: nowrap;'>$datestamp</td>

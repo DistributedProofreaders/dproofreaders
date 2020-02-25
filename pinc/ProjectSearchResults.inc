@@ -8,7 +8,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_topic_details() & get_url_to_view_topic()
 include_once($relPath.'misc.inc'); // array_get()
-include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
+include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext, html_safe()
 include_once($relPath.'genres.inc');  // maybe_create_temporary_genre_translation_table()
 
 class Column
@@ -190,7 +190,7 @@ class TitleColumn extends Column
     public function print_cell_data($project)
     {
         global $code_url;
-        echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>".html_safe($project->nameofwork)."</a>";
+        echo "<a href='$code_url/project.php?id=$project->projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a>";
     }
 }
 

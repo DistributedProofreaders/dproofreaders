@@ -1031,7 +1031,7 @@ class ProjectInfoHolder
         echo "<br>$a<br>$b";
         echo "</th></tr>\n";
         echo "<tr><td colspan='2'>";
-        echo html_safe($comments);
+        echo $comments;
         echo "</td></tr>\n";
 
         echo "</table><br>";

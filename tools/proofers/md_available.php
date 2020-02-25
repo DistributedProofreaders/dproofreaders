@@ -43,7 +43,7 @@ echo "<table class='themed theme_striped'>\n";
 
       echo "<tr>";
       echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">".html_safe($name)."</a></td>\n";
-      echo "<td align='right'>".html_safe($author)."</td>\n";
+      echo "<td align='right'>" . html_safe($author) . "</td>\n";
       echo "<td align='right'>$numpages</td>\n";
 //      echo "<td align='right'>#pages</td>\n";
 
@@ -87,7 +87,7 @@ echo "<br>";
 
       echo "<tr>";
       echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">".html_safe($name)."</a></td>\n";
-      echo "<td align='right'>".html_safe($author)."</td>\n";
+      echo "<td align='right'>" . html_safe($author) . "</td>\n";
       echo "<td align='right'>$numpages</td>\n";
       echo "<td align='right'>$availpages</td>\n";
 

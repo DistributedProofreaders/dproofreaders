@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 include_once('projectmgr.inc');
 
 require_login();
@@ -55,7 +55,7 @@ foreach( $projectids as $projectid )
     $error_msg = project_transition( $projectid, $new_state, $pguser );
     if ( $error_msg )
     {
-        echo "    ".html_safe($project->nameofwork)."\n";
+        echo "    " . html_safe($project->nameofwork) . "\n";
         echo "    $error_msg\n";
         continue;
     }

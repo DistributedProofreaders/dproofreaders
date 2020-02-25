@@ -43,7 +43,7 @@ class Comparator
         output_header("$title: $sub_title", NO_STATSBAR);
 
         echo "<h1>$title</h1>\n";
-        echo "<h2>".html_safe($sub_title)."</h2>\n";
+        echo "<h2>" . html_safe($sub_title) . "</h2>\n";
 
         $state = $this->project->state;
         $project_url = "$code_url/project.php?id=$this->projectid&amp;expected_state=$state";

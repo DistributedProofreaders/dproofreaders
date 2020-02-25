@@ -3,7 +3,7 @@ include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
 
 // get_cutoff_string

@@ -67,7 +67,7 @@ if ( !$user_is_logged_in )
 
     output_header($title_for_theme, NO_STATSBAR);
 
-    echo "<h1>".html_safe($title)."</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     list($top_blurb, $bottom_blurb) = decide_blurbs();
     do_blurb_box( $top_blurb );
@@ -89,7 +89,7 @@ if ( $user_is_logged_in )
 output_header($title_for_theme, NO_STATSBAR);
 if ($detail_level==1)
 {
-    echo "<h1>".html_safe($title)."</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_expected_state();
     do_detail_level_switch();
@@ -110,7 +110,7 @@ else
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    echo "<h1>".html_safe($title)."</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_detail_level_switch();
     do_expected_state();

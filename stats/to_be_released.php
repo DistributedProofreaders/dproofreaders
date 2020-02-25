@@ -56,7 +56,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     echo "<tr>";
     echo "<td>$rownum</td>";
-    echo "<td>".html_safe($nameofwork)."</td>";
+    echo "<td>" . html_safe($nameofwork) . "</td>";
     echo "<td style='white-space: nowrap;'>$username</td>";
     echo "<td style='white-space: nowrap;'>$datestamp</td>";
     echo "<td>$language</td>";
