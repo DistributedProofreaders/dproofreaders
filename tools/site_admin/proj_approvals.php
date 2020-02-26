@@ -71,7 +71,7 @@ echo "<table class='themed'>\n";
 
         echo "
             <tr>
-            <td class='right-align'><a href='$code_url/project.php?id=$projectid'>".html_safe($name)."</a></td>
+            <td class='right-align'><a href='$code_url/project.php?id=$projectid'>" . html_safe($name) . "</a></td>
             <td class='right-align'>" . html_safe($author) . "</td>
             <td><input type='text' size='67' name='clearance' value='$clearance'></td>
             <td>
