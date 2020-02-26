@@ -57,35 +57,6 @@ function test_and_enable_nonregex()
     }
 }
 
-function show_regex_help()
-{
-    var regex_help_para = document.getElementById('regex_help');
-    regex_help_para.style.display = 'block';
-    var arrow_span = document.getElementById('regex_arrow');
-    arrow_span.innerHTML = '&#9660;';
-}
-
-function hide_regex_help()
-{
-    var regex_help_para = document.getElementById('regex_help');
-    regex_help_para.style.display = 'none';
-    var arrow_span = document.getElementById('regex_arrow');
-    arrow_span.innerHTML = '&#9654;';
-}
-
-function toggle_regex_help()
-{
-    var regex_help_para = document.getElementById('regex_help');
-    if (regex_help_para.style.display == 'none')
-    {
-        show_regex_help();
-    }
-    else
-    {
-        hide_regex_help();
-    }
-}
-
 function preg_quote(str)
 {
    escapees = new Array("\\",".","+","*","?","[","^","]","$","(",")","{","}","=","!","<",">","|");
@@ -104,10 +75,6 @@ function preg_quote(str)
 
 window.onload = test_and_enable_nonregex;
 </script>
-<style type='text/css'>
-#regex_help {display: none;}
-#regex_help_title {color: blue; cursor: pointer; cursor: hand;}
-</style>
 <form>
 <table id="tbl">
 <tr><td class="right-align">
@@ -131,23 +98,8 @@ window.onload = test_and_enable_nonregex;
     <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled>
 </center>
 </form>
-<p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
-<p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
-<?php echo _('Regular Expression?'); ?></p>
-<p id='regex_help'><?php
-// TRANSLATORS: Description of the . character in a regualar expression
-echo ". &mdash; " . _("any character") . "<br>\n";
-// TRANSLATORS: Description of the [a-z0-9] class in a regular expression
-echo "[a-z0-9] &mdash; " . _("lowercase letters and numbers") . "<br>\n";
-// TRANSLATORS: Description of a{4} in a regular expression for an example
-echo "a{4} &mdash; " . _("four lowercase As") . "<br>\n";
-// TRANSLATORS: Description of [Aa]{6} in a regular expression for an example
-echo "[Aa]{6} &mdash; " . _("six As of either case") . "<br>\n";
-// TRANSLATORS: Description of A{2,8} in a regular expression for an example
-echo "A{2,8} &mdash; " . _("between 2 and 8 capital As") . "<br>\n";
-// TRANSLATORS: Description of [hb]e in a regular expression for an example
-echo "[hb]e &mdash; " . _("'he' or 'be'") . "<br>\n";
-?></p>
+<p><?php echo _("Warning: Only the most recent replace operation may be reverted!"); ?></p>
+<a href='<?php echo "$code_url/faq/prooffacehelp.php#srchrep"; ?>' target='helpNewWin'><?php echo _('Regular Expression Help'); ?></a>
 
 <?php
 // vim: sw=4 ts=4 expandtab
