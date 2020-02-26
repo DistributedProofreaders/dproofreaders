@@ -42,8 +42,8 @@ echo "<table class='themed theme_striped'>\n";
            $numpages = Project_getNumPages( $projectid );
 
       echo "<tr>";
-      echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">$name</a></td>\n";
-      echo "<td align='right'>$author</td>\n";
+      echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
+      echo "<td align='right'>" . html_safe($author) . "</td>\n";
       echo "<td align='right'>$numpages</td>\n";
 //      echo "<td align='right'>#pages</td>\n";
 
@@ -86,8 +86,8 @@ echo "<br>";
            $availpages = Project_getNumPagesInState( $projectid, 'avail_md_second');
 
       echo "<tr>";
-      echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">$name</a></td>\n";
-      echo "<td align='right'>$author</td>\n";
+      echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
+      echo "<td align='right'>" . html_safe($author) . "</td>\n";
       echo "<td align='right'>$numpages</td>\n";
       echo "<td align='right'>$availpages</td>\n";
 

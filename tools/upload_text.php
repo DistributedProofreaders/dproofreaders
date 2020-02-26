@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes(), html_safe()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file
 
@@ -160,7 +160,7 @@ if (!isset($action))
     output_header($title, NO_STATSBAR, get_upload_args());
 
     echo "<h1>$title</h1>";
-    echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
+    echo "<h2>" . sprintf("Project: %s", html_safe($project->nameofwork)) . "</h2>";
 
     try
     {
@@ -225,7 +225,7 @@ else
 
     slim_header($title);
     echo "<h1>$title</h1>";
-    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+    echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);

@@ -3,7 +3,7 @@ include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
 
 // get_cutoff_string
@@ -236,7 +236,7 @@ function prep_numeric_keys_for_multisort(&$assocArray) {
 function echo_page_header($title,$projectid) {
     echo "<h1>$title</h1>";
 
-    $project_text = sprintf(_("Project: %s"),get_project_name($projectid));
+    $project_text = sprintf(_("Project: %s"),html_safe(get_project_name($projectid)));
     echo "<h2>$project_text</h2>\n";
 }
 
