@@ -89,7 +89,7 @@ function ensure_project_blurb( $project )
         echo "\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
         echo "projectid  = {$project['projectid']}\n";
-        echo "nameofwork = \"".html_safe($project['nameofwork'])."\"\n";
+        echo "nameofwork = \"" . html_safe($project['nameofwork']) . "\"\n";
         echo "state      = {$project['state']}\n";
         echo "\n";
         $have_echoed_blurb_for_this_project = 1;
