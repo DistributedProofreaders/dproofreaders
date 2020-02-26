@@ -99,7 +99,7 @@ window.onload = test_and_enable_nonregex;
 </center>
 </form>
 <p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
-<a href='<?php echo "$code_url/faq/prooffacehelp.php"; ?>' target='helpNewWin'><?php echo _('Regular Expression?'); ?></a>
+<a href='<?php echo "$code_url/faq/prooffacehelp.php#srchrep"; ?>' target='helpNewWin'><?php echo _('Regular Expression Help'); ?></a>
 
 <?php
 // vim: sw=4 ts=4 expandtab

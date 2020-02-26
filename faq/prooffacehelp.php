@@ -679,29 +679,32 @@ on a character will insert it into the text.
 </p>
 
 
-<h3>Search/Replace Popup</h3>
+<h3 id="srchrep">Search/Replace Popup</h3>
 
 <p>
-    To make it easier to make repetative changes, this tool has been provided.
+    This tool makes it easier to make repetitive changes.
     Click on the Search/Replace button and a small window pops up,
     containing a search value and a replace value.
 </p>
 <p>
-    Clicking <input type='button' value='Replace all.'> will replace all
-    all matched instances of the search text with the value from the replace text.
-    You may undo this change by clicking <input type='button' value='Undo.'>, but only
+    Clicking <input type='button' value='Replace all'> will replace all
+    matched instances of the search text with the value from the replace text.
+    You may undo this change by clicking <input type='button' value='Undo'>, but only
     the most recent replace operation may be reverted.
 </p>
 <p>
     For more complex search matching, regular expressions may be used.
     <blockquote>
-        &mdash; any character<br>
+        . &mdash; any character, excluding new line characters<br>
         [a-z0-9] &mdash; lowercase letters and numbers<br>
         a{4} &mdash; four lowercase As<br>
         [Aa]{6} &mdash; six As of either case<br>
         A{2,8} &mdash; between 2 and 8 capital As<br>
         [hb]e &mdash; 'he' or 'be'<br>
     </blockquote>
+</p>
+<p>
+    To replace matched text with a new line, \n may be used in the replace field.
 </p>
 
 
