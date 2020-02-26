@@ -9,6 +9,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), get_enumerated_param()
+include_once($relPath.'codepoint_validator.inc');
 include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
@@ -71,9 +72,23 @@ if (!$resolution) {
     {
         $header = _("Fix Page");
     }
-    
+
+    $json_code_points = get_json_codepoints($projectid);
+
+    $header_args = [
+        "js_files" => [
+            "$code_url/scripts/character_test.js",
+            "$code_url/scripts/text_validator.js",
+            "$code_url/tools/project_manager/handle_bad_page.js",
+        ],
+        "js_data" => "
+            var codePoints = $json_code_points;
+        ",
+    ];
+
+
     //Display form
-    output_header($header);
+    output_header($header, NO_STATSBAR, $header_args);
 
     echo "<h1>$header</h1>";
 
@@ -248,12 +263,6 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
 
     echo "<h2>" . _("Update page text") . "</h2>";
 
-    echo "<form action='handle_bad_page.php' method='post'>";
-    echo "<input type='hidden' name='modify' value='$modify'>";
-    echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='image' value='$image'>";
-    echo "<input type='hidden' name='text_column' value='$text_column'>";
-
     // look up the round_id from the $text_column
     $round_id = _("OCR");
     foreach($Round_for_round_id_ as $round)
@@ -265,6 +274,11 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
     // TRANSLATORS: %s is the round ID
     echo "<p class='warning'>" . sprintf(_("You are updating the text for round <b>%s</b>."), $round_id) . "</p>";
 
+    echo "<div class='nodisp replace_check' id='validator'>";
+    render_validator();
+    echo "</div>";
+
+    echo "<div id='proofdiv'>";
     if($modify == 'current_text')
     {
         // TRANSLATORS: %s is the image name.
@@ -277,16 +291,22 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
         echo sprintf(_("The textarea below contains the text from round <b>%1\$s</b> for %2\$s."), $round_id, $image) . "<br>";
     }
 
+    echo "<form action='handle_bad_page.php' method='post'>";
+    echo "<input type='hidden' name='modify' value='$modify'>";
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
+    echo "<input type='hidden' name='image' value='$image'>";
+    echo "<input type='hidden' name='text_column' value='$text_column'>";
     // newline after <textarea> needed to prevent the text box from eating the first blank line
-    echo "<textarea name='prev_text' cols=70 rows=10>\n";
+    echo "<textarea name='prev_text' id='text_data' cols=70 rows=10>\n";
     echo html_safe($prev_text);
     echo "</textarea><br><br>";
 
     // TRANSLATORS: %s is the round ID
-    echo "<input type='submit' value='" . attr_safe(sprintf(_("Update %s Text"), $round_id)) . "'> ";
+    echo "<input type='submit' id='update_text' value='" . attr_safe(sprintf(_("Update %s Text"), $round_id)) . "'> ";
 
     echo "<button type='submit' name='cancel' value='cancel'>" . _("Cancel") . "</button>";
     echo "</form>";
+    echo "</div>";
 }
 
 function show_image_update_form($projectid, $image)

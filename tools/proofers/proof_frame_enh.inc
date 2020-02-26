@@ -2,11 +2,11 @@
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'codepoint_validator.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
 include_once('preview.inc');
-include_once('codepoint_validator.inc');
 
 function echo_proof_frame_enh( $ppage )
 {
@@ -22,8 +22,10 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
-            "$code_url/tools/proofers/character_test.js",
-            "$code_url/tools/proofers/codepoint_validator.js",
+            "$code_url/scripts/character_test.js",
+            "$code_url/scripts/text_validator.js",
+            "$code_url/tools/proofers/proof_validate.js",
+            "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
         "js_data" => ibe_get_js() . "
         function ldAll() {
@@ -51,7 +53,12 @@ function echo_proof_frame_enh( $ppage )
 
     ?>
     <div id="controlframe">
-        <?php output_preview_div(); render_validator();?>
+        <?php
+        output_preview_div();
+        echo "<div class='nodisp' id='validator'>";
+        render_validator();
+        echo "</div>";
+        ?>
         <div id='proofdiv'>
             <form name="editform" id="editform" method="POST" action="processtext.php">
                 <?php $ppage->echo_hidden_fields(); ?>

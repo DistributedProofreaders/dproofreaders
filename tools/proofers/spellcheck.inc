@@ -33,7 +33,7 @@ $word_check_messages = json_encode([
 $header_args = array(
     "js_files" => array(
         "$code_url/tools/proofers/wordcheck.js",
-        "$code_url/tools/proofers/character_test.js",
+        "$code_url/scripts/character_test.js",
     ),
     "js_data" => get_page_js($userP['i_type']==1 ? 2 : 3)
         . "var codePoints = $json_code_points; var wordCheckMessages = $word_check_messages;",

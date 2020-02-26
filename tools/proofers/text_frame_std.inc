@@ -2,8 +2,8 @@
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'codepoint_validator.inc');
 include_once('preview.inc');
-include_once('codepoint_validator.inc');
 
 function echo_text_frame_std( $ppage )
 {
@@ -19,8 +19,10 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/tools/proofers/preview_strings.php",
-            "$code_url/tools/proofers/character_test.js",
-            "$code_url/tools/proofers/codepoint_validator.js",
+            "$code_url/scripts/character_test.js",
+            "$code_url/scripts/text_validator.js",
+            "$code_url/tools/proofers/proof_validate.js",
+            "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
         "js_data" => "
         function ldAll() {
@@ -40,7 +42,10 @@ function echo_text_frame_std( $ppage )
     <div style = 'height: 100vh'>
     <?php
     output_preview_div();
-    render_validator(); ?>
+    echo "<div class='nodisp' id='validator'>";
+    render_validator();
+    echo "</div>";
+    ?>
     <div id = 'proofdiv' class='center-align'>
         <?php
 
