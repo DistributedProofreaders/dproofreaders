@@ -98,7 +98,7 @@ window.onload = test_and_enable_nonregex;
     <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled>
 </center>
 </form>
-<p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
+<p><?php echo _("Warning: Only the most recent replace operation may be reverted!"); ?></p>
 <a href='<?php echo "$code_url/faq/prooffacehelp.php#srchrep"; ?>' target='helpNewWin'><?php echo _('Regular Expression Help'); ?></a>
 
 <?php
