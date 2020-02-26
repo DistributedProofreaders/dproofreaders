@@ -1021,7 +1021,7 @@ class ProjectInfoHolder
         if (user_is_a_sitemanager())
         {
             // SAs are the only ones who can change this.
-            echo "<tr><th>", _("Project Manager"), "</th><td>", html_safe($this->projectmanager), "</td></tr>\n";
+            echo "<tr><th>", _("Project Manager"), "</th><td>", $this->projectmanager, "</td></tr>\n";
         }
         echo "<tr><th>", _("Last Proofread"), "</th><td>$now</td></tr>\n";
         echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";
