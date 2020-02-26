@@ -524,7 +524,7 @@ function _test_project_for_valid_clearance($projectid)
     $test_name = _("Clearance");
     $test_desc = _("This test checks if the project has a clearance in a valid form. This doesn't mean that the clearance itself is good, just that it looks like it could be.");
 
-    $details = "<p><b>" . _("Clearance Line") . "</b>: $clearance</p>";
+    $details = "<p><b>" . _("Clearance Line") . "</b>: " . html_safe($clearance) . "</p>";
 
     $valid_pattern_1 = '/^20[0-9]{12}[a-z]+\.?$/';
     $valid_pattern_2 = '/^gbn[0-9]/';

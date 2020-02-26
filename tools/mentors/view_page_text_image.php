@@ -102,7 +102,7 @@ elseif ($frame=="top") {
         $myresult = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)));
         $row = mysqli_fetch_assoc($myresult);
         $project_name = $row['nameofwork'];
-        echo "<h3>".sprintf(_("Viewing %1\$s text for %2\$s in '%3\$s'"),$round_id,$page,$project_name)."</h3>\n";
+        echo "<h3>".sprintf(_("Viewing %1\$s text for %2\$s in '%3\$s'"),$round_id,$page,html_safe($project_name))."</h3>\n";
     } else {
         echo "<h3>"._("Choose a page image/text to view");
         echo " - " . implode("; ",$error_messages);
