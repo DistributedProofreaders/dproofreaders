@@ -14,15 +14,15 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["p_ir"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>ir</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>ir</kbd>' in the text where there is the Greek letter &pi; (pi, transliterated '<kbd>p</kbd>') in the image."),
 );
 $messages["m_u"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>u</tt>' in the text where there is the Greek letter &mu; (mu, transliterated '<tt>m</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>u</kbd>' in the text where there is the Greek letter &mu; (mu, transliterated '<kbd>m</kbd>') in the image."),
 );
 $messages["missingperiod"] = array(
     "message_title" => _("Missing punctuation"),
-    "message_body" => _("A period (<tt>.</tt>) in the image is missing in your transliteration."),
+    "message_body" => _("A period (<kbd>.</kbd>) in the image is missing in your transliteration."),
 );
 
 

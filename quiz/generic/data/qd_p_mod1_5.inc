@@ -13,15 +13,15 @@ $solutions                    = array("when she discovered a new suitor, she had
 
 $messages["accenta"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<tt>a</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<kbd>a</kbd>' was omitted by the OCR software."),
 );
 $messages["accentu"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno' in the text: an accent over a '<tt>u</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over a '<kbd>u</kbd>' was omitted by the OCR software."),
 );
 $messages["accenti"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<tt>i</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<kbd>i</kbd>' was omitted by the OCR software."),
 );
 $messages["tbmarkup"] = array(
     "message_title" => _("Thought break markup added"),
@@ -39,17 +39,17 @@ $messages["fnspace"] = array(
 );
 $messages["fnsuper"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[b]</tt>."),
+    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <kbd>[b]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
     "message_title" => _("Footnote marker brackets"),
-    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <tt>[b]</tt>."),
+    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <kbd>[b]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_title" => _("Footnote marker spacing"),
-    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[c] word</tt>."),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><kbd>word[c] word</kbd>."),
     "guideline" => "footnotes",
 );
 

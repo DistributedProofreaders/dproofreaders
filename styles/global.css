@@ -36,6 +36,9 @@
 .really-small {
   font-size: x-small;
 }
+.mono {
+  font-family: monospace;
+}
 .nowrap {
   white-space: nowrap;
 }

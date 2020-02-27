@@ -167,6 +167,9 @@ h6 {
 .button {
   font-family: Verdana, Arial, sans-serif;
 }
+kbd {
+  color: #cc0000;
+}
 /* ------------------------------------------------------------------------ */
 /* FAQ */
 div.faqheader {
@@ -226,9 +229,6 @@ table.striped tr:nth-child(even) td {
 }
 .sans-serif {
   font-family: Verdana, Arial, sans-serif;
-}
-.mono {
-  font-family: monospace;
 }
 /* ------------------------------------------------------------------------ */
 /* PPV Report */

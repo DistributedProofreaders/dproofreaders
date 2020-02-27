@@ -8,7 +8,7 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-maybe_redirect_to_external_faq("pt");
+#maybe_redirect_to_external_faq("pt");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -349,24 +349,24 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="double_q">Aspas</a></h3>
-<p>Reveja as &ldquo;aspas&rdquo; como as aspas ASCII (<tt>"</tt>). N&atilde;o as converta em
+<p>Reveja as &ldquo;aspas&rdquo; como as aspas ASCII (<kbd>"</kbd>). N&atilde;o as converta em
    plicas ('). Deixe-as como o autor as escreveu.
    Consulte a sec&ccedil;&atilde;o <a href="#chap_head">T&iacute;tulos de
    Cap&iacute;tulo</a> se faltar um s&iacute;mbolo de aspas no in&iacute;cio
    de um cap&iacute;tulo.
 </p>
-<p>Para aspas diferentes de <tt>"</tt>, utilize as mesmas que surgem na
+<p>Para aspas diferentes de <kbd>"</kbd>, utilize as mesmas que surgem na
    imagem, se estas estiverem dispon&iacute;veis. O equivalente &agrave;s
-   aspas francesas &eacute; <tt>&laquo;isto&raquo;</tt>, e est&atilde;o
+   aspas francesas &eacute; <kbd>&laquo;isto&raquo;</kbd>, e est&atilde;o
    dispon&iacute;veis nos menus do ecr&atilde; de revis&atilde;o, uma
    vez que fazem parte do Latin-1. Lembre-se de remover o espa&ccedil;o
    entre as aspas e o texto citado; se for necess&aacute;rio, ser&aacute;
    adicionado no p&oacute;s-processamento. O mesmo se aplica nos idiomas
-   em que se utilizam aspas inversas, <tt>&raquo;como estas&laquo;</tt>.
+   em que se utilizam aspas inversas, <kbd>&raquo;como estas&laquo;</kbd>.
 </p>
-<p>As aspas utilizadas em alguns textos (em alem&atilde;o e outros idiomas),&nbsp; <tt>&bdquo;como estas&rdquo;</tt>
+<p>As aspas utilizadas em alguns textos (em alem&atilde;o e outros idiomas),&nbsp; <kbd>&bdquo;como estas&rdquo;</kbd>
    est&atilde;o tamb&eacute;m dispon&iacute;veis nos menus. Para simplificar,
-   deve utilizar sempre&nbsp; <tt>&bdquo;</tt>&nbsp; e&nbsp; <tt>&ldquo;</tt>&nbsp;
+   deve utilizar sempre&nbsp; <kbd>&bdquo;</kbd>&nbsp; e&nbsp; <kbd>&ldquo;</kbd>&nbsp;
    independentemente das aspas que surjam no texto original, desde que as
    aspas utilizadas no texto original estejam claramente em baixo e em cima. Se necess&aacute;rio,
    as aspas ser&atilde;o alteradas para as utilizadas no texto, na fase de p&oacute;s-processamento.
@@ -381,7 +381,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="single_q">Plicas</a></h3>
-<p>Reveja-as como <tt>'</tt> (ap&oacute;strofes). N&atilde;o as converta em
+<p>Reveja-as como <kbd>'</kbd> (ap&oacute;strofes). N&atilde;o as converta em
    aspas ("). Deixe-as como o autor as escreveu.
 </p>
 <!-- END RR -->
@@ -437,7 +437,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -450,7 +450,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -495,7 +495,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -511,8 +511,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    extra relativo &agrave; pontua&ccedil;&atilde;o, tra&ccedil;os, aspas, etc.,
    quando estes sinais surgem separados da palavra.
 </p>
-<p>Por exemplo, em <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
-   horse.</tt> o espa&ccedil;o entre a palavra "horse" e o ponto e
+<p>Por exemplo, em <kbd>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
+   horse.</kbd> o espa&ccedil;o entre a palavra "horse" e o ponto e
    v&iacute;rgula deve ser removido. Mas os dois espa&ccedil;os
    ap&oacute;s o ponto e v&iacute;rgula n&atilde;o s&atilde;o
    problem&aacute;ticos&mdash;n&atilde;o &eacute; necess&aacute;rio apagar
@@ -590,107 +590,107 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>H&iacute;fen</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>H&iacute;fenes</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>H&iacute;fen</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>H&iacute;fen &amp; Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside.</td>
-      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside.</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>Tra&ccedil;os</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>Tra&ccedil;os</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>Tra&ccedil;os</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
     <tr>
       <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>Tra&ccedil;os, H&iacute;fen,<br> &amp; Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>Tra&ccedil;o Longo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>Tra&ccedil;o</td>
     </tr>
   </tbody>
@@ -715,8 +715,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    levam h&iacute;fen s&atilde;o por vezes hifenizadas em livros antigos
    como os que trabalhamos. Deixe-as hifenizadas como o autor as deixou.
    Se n&atilde;o tiver a certeza se o autor as hifenizou ou n&atilde;o,
-   deixe o h&iacute;fen, marque com um <tt>*</tt> depois e junte as partes.
-   Assim: <tt>to-*day</tt>. O asterisco chamar&aacute; a
+   deixe o h&iacute;fen, marque com um <kbd>*</kbd> depois e junte as partes.
+   Assim: <kbd>to-*day</kbd>. O asterisco chamar&aacute; a
    aten&ccedil;&atilde;o do p&oacute;s-processador, que tem
    acesso a todas as p&aacute;ginas, e pode saber o modo como o autor escreve
    geralmente determinada palavra.
@@ -737,7 +737,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <h3><a name="eop_hyphen">Hifeniza&ccedil;&atilde;o no Final da P&aacute;gina</a></h3>
 <p>Reveja os h&iacute;fens e ou tra&ccedil;os existentes no final da p&aacute;gina,
    deixando-os no fim da &uacute;ltima linha, e
-   sinalize-os com um <tt>*</tt> depois destes. Por exemplo:
+   sinalize-os com um <kbd>*</kbd> depois destes. Por exemplo:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
   <tbody>
@@ -747,13 +747,13 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
 <p>Nas p&aacute;ginas que come&ccedil;arem com apenas uma parte da
    palavra da p&aacute;gina anterior ou um tra&ccedil;o,
-   coloque um <tt>*</tt> antes da palavra parcial ou tra&ccedil;o.
+   coloque um <kbd>*</kbd> antes da palavra parcial ou tra&ccedil;o.
    Continuando o exemplo anterior:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Start-of-page Hyphenation example">
@@ -764,7 +764,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -805,7 +805,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    Acrescente espa&ccedil;os, se existirem espa&ccedil;os antes ou entre os
    pontos, e utilize o mesmo n&uacute;mero de pontos que surgem na imagem.
    Por vezes, a p&aacute;gina impressa n&atilde;o &eacute;
-   percept&iacute;vel: neste caso, coloque uma nota <tt>[**unclear]</tt>
+   percept&iacute;vel: neste caso, coloque uma nota <kbd>[**unclear]</kbd>
    de forma a chamar a aten&ccedil;&atilde;o do p&oacute;s-processador. (Nota: os
    P&oacute;s-processadores devem substituir os esses espa&ccedil;os, por
    espa&ccedil;os que n&atilde;o provoquem quebras de linha).
@@ -821,31 +821,31 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -854,9 +854,9 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 <h3><a name="contract">Contrac&ccedil;&otilde;es</a></h3>
 <p>Em ingl&ecirc;s, remova todo e qualquer espa&ccedil;o extra nas
-   contrac&ccedil;&otilde;es, por exemplo <tt>would&nbsp;n't</tt>
-   deve ser revisto como <tt>wouldn't</tt>, e <tt>'t&nbsp;is</tt>
-   como <tt>'tis</tt>.
+   contrac&ccedil;&otilde;es, por exemplo <kbd>would&nbsp;n't</kbd>
+   deve ser revisto como <kbd>wouldn't</kbd>, e <kbd>'t&nbsp;is</kbd>
+   como <kbd>'tis</kbd>.
 </p>
 <p>Esta era uma conven&ccedil;&atilde;o frequente entre os
    editores do s&eacute;culo XIX, que mantinham o espa&ccedil;o para indicar que "would" e
@@ -874,8 +874,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="fract_s">Frac&ccedil;&otilde;es</a></h3>
-<p>Reveja as frac&ccedil;&otilde;es da seguinte forma: <tt>2&frac12;</tt>
-   &eacute; revista como <tt>2-1/2</tt>. O h&iacute;fen impede que o n&uacute;mero e a
+<p>Reveja as frac&ccedil;&otilde;es da seguinte forma: <kbd>2&frac12;</kbd>
+   &eacute; revista como <kbd>2-1/2</kbd>. O h&iacute;fen impede que o n&uacute;mero e a
    frac&ccedil;&atilde;o sejam separados na formata&ccedil;&atilde;o
    autom&aacute;tica, realizada no p&oacute;s-processamento.
    N&atilde;o utilize os s&iacute;mbolos de frac&ccedil;&atilde;o,
@@ -945,8 +945,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    revisor ou p&oacute;s-processador para essa quest&atilde;o.
 </p>
 <p>Para aqueles caracteres um pouco mais complicados de submeter, como &eacute; o caso do &aacute;rabe, sinalize-o
-   entre os s&iacute;mbolos apropriados: <tt>[Arabic:&nbsp;**]</tt>.
-   Coloque <tt>**</tt> para que o p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
+   entre os s&iacute;mbolos apropriados: <kbd>[Arabic:&nbsp;**]</kbd>.
+   Coloque <kbd>**</kbd> para que o p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
@@ -955,10 +955,10 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <h3><a name="supers">Texto Superescrito (Superscripts)</a></h3>
 <p>Os livros antigos abreviam frequentemente palavras em
    contrac&ccedil;&otilde;es, e imprimem-nas como texto superescrito.
-   Reveja estas contrac&ccedil;&otilde;es inserindo o caracter (<tt>^</tt>),
+   Reveja estas contrac&ccedil;&otilde;es inserindo o caracter (<kbd>^</kbd>),
    seguido do texto superescrito. Se o superescrito se mantiver em mais do
    que um caracter, rodeie temb&eacute;m o texto com chavetas
-   <tt>{</tt> e <tt>}</tt>. Por exemplo:
+   <kbd>{</kbd> e <kbd>}</kbd>. Por exemplo:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
   <tbody>
@@ -968,7 +968,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -986,8 +986,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <h3><a name="subscr">Texto Subescrito (Subscripts)</a></h3>
 <p>O texto subescrito encontra-se geralmente em trabalhos
    cient&iacute;ficos, mas n&atilde;o &eacute; comum nos
-   outros livros. Reveja-o colocando um caracter <tt>_</tt>,
-   e rodeando o texto com chavetas <tt>{</tt> e <tt>}</tt>.
+   outros livros. Reveja-o colocando um caracter <kbd>_</kbd>,
+   e rodeando o texto com chavetas <kbd>{</kbd> e <kbd>}</kbd>.
    Por exemplo:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
@@ -998,7 +998,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1025,8 +1025,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    N&atilde;o se preocupe com as altera&ccedil;&otilde;es de tamanho.
    Se o texto de OCR j&aacute; est&aacute; TODO EM MAI&Uacute;SCULAS, em
    Texto Mixto ou em min&uacute;sculas, deixe-o tal como est&aacute;.
-   As small caps podem aparecer ocasionalmente entre <tt>&lt;sc&gt;</tt>
-   e <tt>&lt;/sc&gt;</tt>; neste caso, consulte a sec&ccedil;&atilde;o
+   As small caps podem aparecer ocasionalmente entre <kbd>&lt;sc&gt;</kbd>
+   e <kbd>&lt;/sc&gt;</kbd>; neste caso, consulte a sec&ccedil;&atilde;o
    <a href="#formatting">Formata&ccedil;&atilde;o</a>.
 </p>
 <!-- END RR -->
@@ -1128,7 +1128,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -1172,7 +1172,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1189,7 +1189,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    dentro da figura.
 </p>
 <p>A maioria das p&aacute;ginas sem texto, que contenham uma imagem,
-   estar&atilde;o representadas com <tt>[Blank Page]</tt>. Mantenha-as assim.
+   estar&atilde;o representadas com <kbd>[Blank Page]</kbd>. Mantenha-as assim.
 </p>
 <!-- END RR -->
 
@@ -1207,12 +1207,12 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1233,19 +1233,19 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1260,14 +1260,14 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
    &eacute; referenciada no texto.
 </p>
 <p>No texto principal, o caracter que sinaliza uma localiza&ccedil;&atilde;o de
-   nota de rodap&eacute; deve ser rodeado de par&ecirc;nteses rectos (<tt>[</tt>
-   e <tt>]</tt>), e ser colocado junto &agrave; palavra
-   referente<tt>[1]</tt> ou &agrave; pontua&ccedil;&atilde;o,<tt>[2]</tt>
+   nota de rodap&eacute; deve ser rodeado de par&ecirc;nteses rectos (<kbd>[</kbd>
+   e <kbd>]</kbd>), e ser colocado junto &agrave; palavra
+   referente<kbd>[1]</kbd> ou &agrave; pontua&ccedil;&atilde;o,<kbd>[2]</kbd>
    como mostramos na imagem e nos dois exemplos desta frase.
    Estes sinalizadores de notas de rodap&eacute; podem ser n&uacute;meros,
    letras ou s&iacute;mbolos. No caso de um s&iacute;mbolo,
    ou de um conjunto de s&iacute;mbolos (*, &dagger;, &Dagger;,
-   &sect;, etc.), substituimo-los a todos por <tt>[*]</tt> no texto, e <tt>*</tt> junto
+   &sect;, etc.), substituimo-los a todos por <kbd>[*]</kbd> no texto, e <kbd>*</kbd> junto
    &agrave; nota de rodap&eacute;.
 </p>
 <p>No fim da p&aacute;gina, reveja o texto da nota de rodap&eacute; tal como foi impressa,
@@ -1286,8 +1286,8 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
 <p>As <b>Notas</b> s&atilde;o notas de rodap&eacute; que foram agrupadas
    no final do cap&iacute;tulo ou do livro, em vez de se situarem no final
    da p&aacute;gina. Estas s&atilde;o revistas da mesma forma. Onde
-   encontrar uma refer&ecirc;ncia para uma nota, rodeie-a com <tt>[</tt> e
-   <tt>]</tt>. Se estiver a rever uma das p&aacute;ginas finais que
+   encontrar uma refer&ecirc;ncia para uma nota, rodeie-a com <kbd>[</kbd> e
+   <kbd>]</kbd>. Se estiver a rever uma das p&aacute;ginas finais que
    contenha notas, coloque uma linha em branco entre cada uma, para que
    fiquem separadas de forma clara.
 </p>
@@ -1317,13 +1317,13 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -1346,7 +1346,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1354,7 +1354,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1389,7 +1389,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1470,7 +1470,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1520,7 +1520,7 @@ output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1537,7 +1537,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1553,7 +1553,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1564,7 +1564,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1597,7 +1597,7 @@ Plural   {   2d   "  ye, or you,   you,
     <tr><th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1611,7 +1611,7 @@ Plural   {   2d   "  ye, or you,   you,
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1662,7 +1662,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 <h3><a name="blank_pg">P&aacute;gina em Branco</a></h3>
 <p>A maioria das p&aacute;ginas em branco, ou apenas com uma imagem,
-   estar&aacute; sinalizada com <tt>[Blank Page]</tt>. Mantenha esta
+   estar&aacute; sinalizada com <kbd>[Blank Page]</kbd>. Mantenha esta
    marca&ccedil;&atilde;o. Se existir uma p&aacute;gina em branco, em que
    esta marca&ccedil;&atilde;o n&atilde;o apare&ccedil;a n&atilde;o
    &eacute; necess&aacute;rio adicion&aacute;-la.
@@ -1701,17 +1701,17 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1746,8 +1746,8 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1794,7 +1794,7 @@ Plural   {   2d   "  ye, or you,   you,
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1862,35 +1862,35 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1911,14 +1911,14 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1936,13 +1936,13 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <p>Deve tamb&eacute;m colocar uma nota no texto revisto para explicar ao revisor
    seguinte, ao formatador e ao p&oacute;s-processador qual o problema ou quest&atilde;o.
-   Coloque a sua nota a seguir a um par&ecirc;ntese recto e dois asteriscos <tt>[**</tt>
-   e termine-a fechando o par&ecirc;ntese recto <tt>]</tt>. Esta
+   Coloque a sua nota a seguir a um par&ecirc;ntese recto e dois asteriscos <kbd>[**</kbd>
+   e termine-a fechando o par&ecirc;ntese recto <kbd>]</kbd>. Esta
    ac&ccedil;&atilde;o far&aacute; a nota sobressair do texto do autor, e
    alertar&aacute; o revisor seguinte para uma compara&ccedil;&atilde;o
    mais cuidadosa entre esta parte do texto e a imagem correspondente,
    de forma a resolver o problema. Deve tamb&eacute;m identificar a ronda
-   em que est&aacute; a trabalhar antes do <tt>]</tt>, para que os
+   em que est&aacute; a trabalhar antes do <kbd>]</kbd>, para que os
    volunt&aacute;rios seguintes saibam quem foi.
    Qualquer coment&aacute;rio deixado por um revisor anterior <b>tem de</b>
    ser mantido. Consulte a sec&ccedil;&atilde;o seguinte para mais
@@ -2088,19 +2088,19 @@ Plural   {   2d   "  ye, or you,   you,
    incorrecta):
 </p>
 <ul>
-  <li>O s&iacute;mbolo do grau <tt style="font-size:150%;">&deg;</tt>:
+  <li>O s&iacute;mbolo do grau <kbd style="font-size:150%;">&deg;</kbd>:
       Deve ser utilizado apenas para indicar graus (de temperatura,
       de &acirc;ngulo, etc.).</li>
   <li>O 'o' superescrito: Na pr&aacute;tica todas as ocorr&ecirc;ncias
-      de 'o' superescrito devem ser revistas como <tt>^o</tt>, de acordo com
+      de 'o' superescrito devem ser revistas como <kbd>^o</kbd>, de acordo com
       as regras de <a href="#supers">Texto Superescrito (Superscripts)</a>.</li>
-  <li>O ordinal masculino <tt style="font-size:150%;">&ordm;</tt>:
+  <li>O ordinal masculino <kbd style="font-size:150%;">&ordm;</kbd>:
       Reveja-o tamb&eacute;m como um 'o' superescrito, a n&atilde;o ser
       que o caracter especial seja solicitado nos <a href="#comments">Coment&eacute;rios
       do Projecto</a>. Pode ser utilizado em idiomas como o Castelhano e o
       Portugu&ecirc;s, sendo o equivalente para o -th em English (4th, 5th, etc.).
       &Eacute; precedido de n&uacute;meros e o equivalente feminino em superescrito
-      &eacute; (<tt>&ordf;</tt>), devendo ser revisto como ^a.</li>
+      &eacute; (<kbd>&ordf;</kbd>), devendo ser revisto como ^a.</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
@@ -2200,11 +2200,11 @@ Plural   {   2d   "  ye, or you,   you,
    que usamos actualmente, e n&oacute;s preservamos estes dizeres antigos,
    incluindo caracteres acentuados.
 </p>
-<p>Se tiver d&uacute;vidas, coloque uma nota no tetxo <tt>[**typo deveria ser texto&nbsp;?]</tt>
+<p>Se tiver d&uacute;vidas, coloque uma nota no tetxo <kbd>[**typo deveria ser texto&nbsp;?]</kbd>
    e esclare&ccedil;a-se no t&oacute;pico de <a href="#forums">Discuss&atilde;o do Projecto</a>.
    Se alterar algo, inclua uma nota com uma descri&ccedil;&atilde;o do que
-   alterou: <tt>[**typo corrigido, alterado de "tetxo" para "texto"]</tt>. Inclua
-   <tt>**</tt>, para chamar a aten&ccedil;&atilde;o do p&oacute;s-processador.
+   alterou: <kbd>[**typo corrigido, alterado de "tetxo" para "texto"]</kbd>. Inclua
+   <kbd>**</kbd>, para chamar a aten&ccedil;&atilde;o do p&oacute;s-processador.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>

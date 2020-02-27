@@ -33,7 +33,7 @@ $messages["hyphenrej"] = array(
 );
 $messages["spacedem"] = array(
     "message_title" => _("Spaced em-dash in text"),
-    "message_body" => "<tt>" . _("Remove the spaces surrounding any dashes--like this!") . "</tt>",
+    "message_body" => "<kbd>" . _("Remove the spaces surrounding any dashes--like this!") . "</kbd>",
 );
 $messages["missingline"] = array(
     "message_title" => _("Missing blank line"),

@@ -168,7 +168,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
                 <li>Small caps are now completely handled by the Formatters.</li>
                 <li>The five-star thought break is now indicated by &lt;tb&gt;.</li>
                 <li>Drama guidelines and examples enhanced.</li>
-                <li>Proofreader notes are now to be indicated by <tt>[**Note]</tt>.</li>
+                <li>Proofreader notes are now to be indicated by <kbd>[**Note]</kbd>.</li>
                 <li>Explicitly state that notes from previous proofreaders are not to be removed.</li>
         </ul>
         <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.17 -->
@@ -179,7 +179,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
                 <li>Em-dashes are no longer normalized to two hyphens, they are now
                     proofread as four hyphens if long, two hyphens if short.</li>
                 <li>Drama guidelines and examples enhanced.</li>
-                <li>Proofreader notes are now to be indicated by <tt>[**Note]</tt>.</li>
+                <li>Proofreader notes are now to be indicated by <kbd>[**Note]</kbd>.</li>
                 <li>Explicitly state that notes from previous proofreaders are not to be removed.</li>
         </ul>
       </td>

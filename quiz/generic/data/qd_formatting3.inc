@@ -33,17 +33,17 @@ $messages["extraline"] = array(
 );
 $messages["extratb"] = array(
     "message_title" => _("Extra thought break markup"),
-    "message_body" => _("There is only one thought break (<tt>&lt;tb&gt;</tt>) on the page.  Separate the chapter heading from the regular text using blank lines, not thought break markup."),
+    "message_body" => _("There is only one thought break (<kbd>&lt;tb&gt;</kbd>) on the page.  Separate the chapter heading from the regular text using blank lines, not thought break markup."),
     "guideline" => "chap_head"
 );
 $messages["nothoughtbreak"] = array(
     "message_title" => _("Missing thought break"),
-    "message_body" => _("A thought break (<tt>&lt;tb&gt;</tt>) should be placed between the paragraphs that have a break between them."),
+    "message_body" => _("A thought break (<kbd>&lt;tb&gt;</kbd>) should be placed between the paragraphs that have a break between them."),
     "guideline" => "extra_s"
 );
 $messages["thoughtbreakspc"] = array(
     "message_title" => _("Incorrect thought break spacing"),
-    "message_body" => _("A thought break (<tt>&lt;tb&gt;</tt>) should have a blank line before and after it."),
+    "message_body" => _("A thought break (<kbd>&lt;tb&gt;</kbd>) should have a blank line before and after it."),
     "guideline" => "extra_s"
 );
 $messages["nobold"] = array(

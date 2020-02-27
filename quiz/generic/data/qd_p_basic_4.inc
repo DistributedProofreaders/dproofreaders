@@ -14,20 +14,20 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["datescanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a '<tt>|</tt>' (vertical bar) in the text where there is a '<tt>1</tt>' (number one) in the image."),
+    "message_body" => _("There is still a 'scanno': a '<kbd>|</kbd>' (vertical bar) in the text where there is a '<kbd>1</kbd>' (number one) in the image."),
 );
 $messages["lie"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': '<kbd>li</kbd>' in the text where there is an '<kbd>h</kbd>' in the image."),
 );
 $messages["nobrackets"] = array(
     "message_title" => _("Footnote marker brackets"),
-    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <tt>[*]</tt>."),
+    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <kbd>[*]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_title" => _("Footnote marker spacing"),
-    "message_body" => _("Put the footnote marker right next to the word being footnoted (or its punctuation mark), like this: <br><tt>word,[*] word</tt>."),
+    "message_body" => _("Put the footnote marker right next to the word being footnoted (or its punctuation mark), like this: <br><kbd>word,[*] word</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerplace"] = array(

@@ -7,10 +7,10 @@ output_header(_('Moderate Proofreading Tutorial'));
 
 echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 2) . "</h2>\n";
 echo "<h3>" . _("End-of-line Hyphenation") . "</h3>\n";
-echo "<p>" . _("Words like to-day and to-morrow that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. If you're not sure if the author hyphenated it or not, leave the hyphen, put an <tt>*</tt> after it, and join the word together like this: <tt>to-*day</tt>. The asterisk will bring it to the attention of the post-processor, who has access to all the pages and can determine how the author typically wrote this word.") . "</p>\n";
+echo "<p>" . _("Words like to-day and to-morrow that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. If you're not sure if the author hyphenated it or not, leave the hyphen, put an <kbd>*</kbd> after it, and join the word together like this: <kbd>to-*day</kbd>. The asterisk will bring it to the attention of the post-processor, who has access to all the pages and can determine how the author typically wrote this word.") . "</p>\n";
 
 echo "<h3>" . _("Contractions") . "</h3>\n";
-echo "<p>" . _("In English, remove any extra space in contractions. For example, <tt>would&nbsp;n't</tt> should be proofread as <tt>wouldn't</tt> and <tt>'t&nbsp;is</tt> as <tt>'tis</tt>.") . "</p>\n";
+echo "<p>" . _("In English, remove any extra space in contractions. For example, <kbd>would&nbsp;n't</kbd> should be proofread as <kbd>wouldn't</kbd> and <kbd>'t&nbsp;is</kbd> as <kbd>'tis</kbd>.") . "</p>\n";
 
 echo "<h3>" . _("Dashes") . "</h3>\n";
 echo "<p><i>" . _("Dashes in Deliberately Omitted or Censored Words or Names.") . "</i><br>\n";

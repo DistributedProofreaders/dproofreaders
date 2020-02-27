@@ -20,15 +20,15 @@ echo "<table width='100%' align='center' border='1'  cellpadding='4' cellspacing
 echo "  <tbody>\n    <tr>\n      <th valign='top' bgcolor='cornsilk'>" . _("Original Image:") . "</th>\n";
 echo "      <th valign='top' bgcolor='cornsilk'>" . _("Correctly Proofread Text:") . "</th>\n    </tr>\n";
 echo "    <tr>\n      <td valign='top'>sensations&mdash;sweet, bitter, salt, and sour<br>\n        &mdash;if even all of these are simple tastes. What</td>\n";
-echo "      <td valign='top'><tt>sensations--sweet, bitter, salt, and sour--if<br>\n        even all of these are simple tastes. What</tt></td>\n    </tr>\n";
+echo "      <td valign='top'><kbd>sensations--sweet, bitter, salt, and sour--if<br>\n        even all of these are simple tastes. What</kbd></td>\n    </tr>\n";
 echo "    <tr>\n      <td valign='top'>senses&mdash;touch, smell, hearing, and sight&mdash;<br>\n        with which we are here concerned,</td>\n";
-echo "      <td valign='top'><tt>senses--touch, smell, hearing, and sight--with<br>\n        which we are here concerned,</tt></td>\n    </tr>\n";
+echo "      <td valign='top'><kbd>senses--touch, smell, hearing, and sight--with<br>\n        which we are here concerned,</kbd></td>\n    </tr>\n";
 echo "    <tr>\n      <td valign='top'><img src='../../faq/dashes.png' width='300' height='28' alt=''></td>\n";
-echo "      <td valign='top'><tt>how a--a--cannon-ball goes----\"</tt></td>\n";
+echo "      <td valign='top'><kbd>how a--a--cannon-ball goes----\"</kbd></td>\n";
 echo "    </tr>\n  </tbody>\n</table>\n";
 
 echo "<h3>" . _("End-of-page Hyphenation and Dashes") . "</h3>\n";
-echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end of the last line, and mark it with a <tt>*</tt> after the hyphen or dash.") . "</p>\n";
+echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end of the last line, and mark it with a <kbd>*</kbd> after the hyphen or dash.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_2'>" . _("Continue to quiz") . "</a></p>\n";
 

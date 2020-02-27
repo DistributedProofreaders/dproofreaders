@@ -54,41 +54,41 @@ $messages["P_spellingchange"] = array(
 );
 $messages["P_commascanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a period (<tt>.</tt>) in the text where there is a comma (<tt>,</tt>) in the image."),
+    "message_body" => _("There is still a 'scanno': a period (<kbd>.</kbd>) in the text where there is a comma (<kbd>,</kbd>) in the image."),
 );
 $messages["P_accentbracket"] = array(
     "message_title" => _("Accent"),
-    "message_body" => _("Where possible, proofread accented letters using the actual characters, like <tt>&aacute;</tt>. You can insert accented letters using the character picker below."),
+    "message_body" => _("Where possible, proofread accented letters using the actual characters, like <kbd>&aacute;</kbd>. You can insert accented letters using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_oe"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <tt>oe</tt> or <tt>[oe]</tt>. You can insert the symbol using the character picker below."),
+    "message_body" => _("Proofread the 'oe' ligature (&oelig;) using the symbol directly, not as <kbd>oe</kbd> or <kbd>[oe]</kbd>. You can insert the symbol using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_macron"] = array(
     "message_title" => _("Macron"),
-    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the macron appears over an '<tt>e</tt>' it would be <tt>&#275</tt>, and so forth.") . " " . _("If the project's character suites do not include the character, use the diacritical markup as described in the Proofreading Guidelines."),
+    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<kbd>a</kbd>' with a macron over it as <kbd>&#257;</kbd>.  If the macron appears over an '<kbd>e</kbd>' it would be <kbd>&#275</kbd>, and so forth.") . " " . _("If the project's character suites do not include the character, use the diacritical markup as described in the Proofreading Guidelines."),
     "guideline" => "d_chars"
 );
 $messages["P_aebracket"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'ae' ligature (<tt>&aelig;</tt>) using the symbol directly; brackets are not necessary for this character. You can insert the symbol using the character picker below."),
+    "message_body" => _("Proofread the 'ae' ligature (<kbd>&aelig;</kbd>) using the symbol directly; brackets are not necessary for this character. You can insert the symbol using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_ae"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'ae' ligature (&aelig;) using the symbol directly, not as <tt>ae</tt> or <tt>[ae]</tt>. You can insert the symbol using the character picker below."),
+    "message_body" => _("Proofread the 'ae' ligature (&aelig;) using the symbol directly, not as <kbd>ae</kbd> or <kbd>[ae]</kbd>. You can insert the symbol using the character picker below."),
     "guideline" => "a_chars"
 );
 $messages["P_oelig"] = array(
     "message_title" => _("Ligature"),
-    "message_body" => _("Proofread the 'oe' ligature (&oelig;) using brackets: <tt>[oe]</tt>, not the actual &oelig; character."),
+    "message_body" => _("Proofread the 'oe' ligature (&oelig;) using brackets: <kbd>[oe]</kbd>, not the actual &oelig; character."),
     "guideline" => "a_chars"
 );
 $messages["P_contracspace"] = array(
     "message_title" => _("Contraction"),
-    "message_body" => _("Remove any extra space in contractions. For example, <tt>would&nbsp;n't</tt> should be proofread as <tt>wouldn't</tt>."),
+    "message_body" => _("Remove any extra space in contractions. For example, <kbd>would&nbsp;n't</kbd> should be proofread as <kbd>wouldn't</kbd>."),
     "guideline" => "contract"
 );
 
@@ -159,7 +159,7 @@ $messages["P_eolhyphen"] = array(
 );
 $messages["P_eolhyphenaster"] = array(
     "message_title" => _("Questionable hyphenation"),
-    "message_body" => _("Words that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. When rejoining a hyphenated word, if you're not sure whether the author hyphenated it or not, leave the hyphen, put an * after it, and join the word together like this: <tt>to-*day</tt>."),
+    "message_body" => _("Words that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. When rejoining a hyphenated word, if you're not sure whether the author hyphenated it or not, leave the hyphen, put an * after it, and join the word together like this: <kbd>to-*day</kbd>."),
     "guideline" => "eol_hyphen"
 );
 $messages["P_hyphenlower"] = array(
@@ -174,37 +174,37 @@ $messages["P_hyphenleft"] = array(
 );
 $messages["P_eophyphen"] = array(
     "message_title" => _("End-of-page Hyphenation"),
-    "message_body" => _("If there is a hyphen at the end of a page, it should be marked by a '<tt>*</tt>' directly following the hyphen."),
+    "message_body" => _("If there is a hyphen at the end of a page, it should be marked by a '<kbd>*</kbd>' directly following the hyphen."),
     "guideline" => "eop_hyphen"
 );
 $messages["P_sophyphen"] = array(
     "message_title" => _("Start-of-page Hyphenation"),
-    "message_body" => _("If a page starts with part of a word continued from the previous page, place a '<tt>*</tt>' before the partial word."),
+    "message_body" => _("If a page starts with part of a word continued from the previous page, place a '<kbd>*</kbd>' before the partial word."),
     "guideline" => "eop_hyphen"
 );
 $messages["P_em_long"] = array(
     "message_title" => _("Em-dash proofread as long dash"),
-    "message_body" => _("There is an em-dash in the image that has been marked with four hyphens.  Proofread em-dashes using only two hyphens (<tt>--</tt>).  Four hyphens (<tt>----</tt>) are only used for very long dashes, which are about as long as 4-5 regular letters."),
+    "message_body" => _("There is an em-dash in the image that has been marked with four hyphens.  Proofread em-dashes using only two hyphens (<kbd>--</kbd>).  Four hyphens (<kbd>----</kbd>) are only used for very long dashes, which are about as long as 4-5 regular letters."),
     "guideline" => "em_dashes"
 );
 $messages["P_long_em"] = array(
     "message_title" => _("Long dash proofread as em-dash"),
-    "message_body" => _("There is a long dash in the image that has been marked with two hyphens.  Proofread long dashes using four hyphens (<tt>----</tt>).  Two hyphens (<tt>--</tt>) are only used for em-dashes, which are about as long as 2-3 regular letters."),
+    "message_body" => _("There is a long dash in the image that has been marked with two hyphens.  Proofread long dashes using four hyphens (<kbd>----</kbd>).  Two hyphens (<kbd>--</kbd>) are only used for em-dashes, which are about as long as 2-3 regular letters."),
     "guideline" => "em_dashes"
 );
 $messages["P_longdashwrong"] = array(
     "message_title" => _("Long dash missing"),
-    "message_body" => _("Proofread long dashes using four hyphens (<tt>----</tt>)."),
+    "message_body" => _("Proofread long dashes using four hyphens (<kbd>----</kbd>)."),
     "guideline" => "em_dashes"
 );
 $messages["P_spacedlongdash"] = array(
     "message_title" => _("Spaced Long Dash"),
-    "message_body" => _("There should not be any spaces around a long dash (<tt>----</tt>)."),
+    "message_body" => _("There should not be any spaces around a long dash (<kbd>----</kbd>)."),
     "guideline" => "em_dashes"
 );
 $messages["P_spacedemdash"] = array(
     "message_title" => _("Spaced Em-dash"),
-    "message_body" => _("There should not be any spaces around an em-dash (<tt>--</tt>)."),
+    "message_body" => _("There should not be any spaces around an em-dash (<kbd>--</kbd>)."),
     "guideline" => "em_dashes"
 );
 $messages["P_eoldash"] = array(
@@ -241,7 +241,7 @@ $messages["P_midellips"] = array(
 );
 $messages["P_endellips"] = array(
     "message_title" => _("End-of-sentence Ellipsis"),
-    "message_body" => _("At the end of a sentence an ellipsis should have four dots, or three dots plus a '<tt>!</tt>' or '<tt>?</tt>', and no space before it."),
+    "message_body" => _("At the end of a sentence an ellipsis should have four dots, or three dots plus a '<kbd>!</kbd>' or '<kbd>?</kbd>', and no space before it."),
     "guideline" => "period_p"
 );
 $messages["P_openquotespace"] = array(
@@ -276,12 +276,12 @@ $messages["P_addedquotes"] = array(
 // Footnotes
 $messages["P_fnneedaster"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
+    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
     "guideline" => "footnotes"
 );
 $messages["P_fnmarkermissing"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("Use the same footnote marker as the original book does.  The exception is for footnotes marked with symbols, where we replace them with <tt>*</tt>."),
+    "message_body" => _("Use the same footnote marker as the original book does.  The exception is for footnotes marked with symbols, where we replace them with <kbd>*</kbd>."),
     "guideline" => "footnotes"
 );
 $messages["P_fnbottombrackets"] = array(
@@ -347,22 +347,22 @@ $messages["P_columns"] = array(
 );
 $messages["P_supnomark"] = array(
     "message_title" => _("Superscript not marked"),
-    "message_body" => _("Proofread superscripted text by inserting a caret (<tt>^</tt>) before the raised letter or letters."),
+    "message_body" => _("Proofread superscripted text by inserting a caret (<kbd>^</kbd>) before the raised letter or letters."),
     "guideline" => "supers"
 );
 $messages["P_supnobraces"] = array(
     "message_title" => _("Superscript markup"),
-    "message_body" => _("If more than one character is superscripted, surround the raised characters with curly braces <tt>{</tt> and <tt>}</tt>."),
+    "message_body" => _("If more than one character is superscripted, surround the raised characters with curly braces <kbd>{</kbd> and <kbd>}</kbd>."),
     "guideline" => "supers"
 );
 $messages["P_subnomark"] = array(
     "message_title" => _("Subscript not marked"),
-    "message_body" => _("Proofread subscripted text by inserting an underscore (<tt>_</tt>) at the start and curly braces <tt>{</tt> and <tt>}</tt> around the subscript."),
+    "message_body" => _("Proofread subscripted text by inserting an underscore (<kbd>_</kbd>) at the start and curly braces <kbd>{</kbd> and <kbd>}</kbd> around the subscript."),
     "guideline" => "subscr"
 );
 $messages["P_subnobraces"] = array(
     "message_title" => _("Subscript markup"),
-    "message_body" => _("Surround subscripted characters with curly braces <tt>{</tt> and <tt>}</tt>."),
+    "message_body" => _("Surround subscripted characters with curly braces <kbd>{</kbd> and <kbd>}</kbd>."),
     "guideline" => "subscr"
 );
 
@@ -453,7 +453,7 @@ $messages["P_catchword"] = array(
 );
 $messages["P_ctlig"] = array(
     "message_title" => _("Decorative ligature"),
-    "message_body" => _("A decorative mark connecting the letters '<tt>ct</tt>' can be ignored when proofreading."),
+    "message_body" => _("A decorative mark connecting the letters '<kbd>ct</kbd>' can be ignored when proofreading."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Ligatures' target='_blank'>Ligatures</a> section of the wiki page for details."), $old_texts_url),
 );
 $messages["P_uvchange"] = array(
@@ -487,36 +487,36 @@ $messages["G_lcgreek"] = array(
 );
 $messages["G_nomarkup"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("When transliterating Greek, put '<tt>[Greek:</tt>' at the start and '<tt>]</tt>' at the end."),
+    "message_body" => _("When transliterating Greek, put '<kbd>[Greek:</kbd>' at the start and '<kbd>]</kbd>' at the end."),
     "guideline" => "f_chars"
 );
 $messages["G_markupline"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("The '<tt>[Greek:</tt>' markup should be placed directly before the Greek transliteration, on the same line."),
+    "message_body" => _("The '<kbd>[Greek:</kbd>' markup should be placed directly before the Greek transliteration, on the same line."),
 );
 $messages["G_markupspace"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("There should be a space between the colon of '<tt>[Greek:</tt>' and the Greek transliteration."),
+    "message_body" => _("There should be a space between the colon of '<kbd>[Greek:</kbd>' and the Greek transliteration."),
 );
 $messages["G_endbracket"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("The '<tt>]</tt>' that marks the end of the Greek transliteration is missing."),
+    "message_body" => _("The '<kbd>]</kbd>' that marks the end of the Greek transliteration is missing."),
 );
 $messages["G_markupline2"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("The closing bracket '<tt>]</tt>' should be placed directly after the end of the Greek transliteration, on the same line."),
+    "message_body" => _("The closing bracket '<kbd>]</kbd>' should be placed directly after the end of the Greek transliteration, on the same line."),
 );
 $messages["G_markuprepeat"] = array(
     "message_title" => _("Greek markup"),
-    "message_body" => _("You do not need to stop and start the Greek markup on each line.  Just put '<tt>[Greek:</tt>' at the beginning of the Greek transliteration and '<tt>]</tt>' at the very end."),
+    "message_body" => _("You do not need to stop and start the Greek markup on each line.  Just put '<kbd>[Greek:</kbd>' at the beginning of the Greek transliteration and '<kbd>]</kbd>' at the very end."),
 );
 $messages["G_missingcirc"] = array(
     "message_title" => _("Missing circumflex accent"),
-    "message_body" => _("Two Greek vowels should be transliterated with circumflex accents, to distinguish them from other similar vowels: &omega; (omega) is transliterated as '<tt>&ocirc;</tt>' and &eta; (eta) as '<tt>&ecirc;</tt>'.  Please do not transliterate these letters as plain '<tt>o</tt>' and '<tt>e</tt>'."),
+    "message_body" => _("Two Greek vowels should be transliterated with circumflex accents, to distinguish them from other similar vowels: &omega; (omega) is transliterated as '<kbd>&ocirc;</kbd>' and &eta; (eta) as '<kbd>&ecirc;</kbd>'.  Please do not transliterate these letters as plain '<kbd>o</kbd>' and '<kbd>e</kbd>'."),
 );
 $messages["G_punctplace"] = array(
     "message_title" => _("Punctuation placement"),
-    "message_body" => _("If a whole sentence is Greek, place ending punctuation inside the '<tt>]</tt>'. If the Greek text is only a few words or phrase, place the ending punctuation outside the '<tt>]</tt>'."),
+    "message_body" => _("If a whole sentence is Greek, place ending punctuation inside the '<kbd>]</kbd>'. If the Greek text is only a few words or phrase, place the ending punctuation outside the '<kbd>]</kbd>'."),
 );
 $messages["G_missingcomma"] = array(
     "message_title" => _("Missing punctuation"),
@@ -530,73 +530,73 @@ $messages["G_missinglb"] = array(
 // Individual characters
 $messages["G_n_u"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<tt>u</tt>' in your transliteration that should be an '<tt>n</tt>'.  The Greek letter &upsilon; (upsilon, transliterated '<tt>u</tt>' or '<tt>y</tt>') is rounded at the bottom, while the Greek letter &nu; (nu, transliterated '<tt>n</tt>') has a sharp point."),
+    "message_body" => _("There is a '<kbd>u</kbd>' in your transliteration that should be an '<kbd>n</kbd>'.  The Greek letter &upsilon; (upsilon, transliterated '<kbd>u</kbd>' or '<kbd>y</kbd>') is rounded at the bottom, while the Greek letter &nu; (nu, transliterated '<kbd>n</kbd>') has a sharp point."),
 );
 $messages["G_u_n"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is an '<tt>n</tt>' in your transliteration that should be a '<tt>u</tt>' or '<tt>y</tt>'.  The Greek letter &upsilon; (upsilon, transliterated '<tt>u</tt>' or '<tt>y</tt>') is rounded at the bottom, while the Greek letter &nu; (nu, transliterated '<tt>n</tt>') has a sharp point."),
+    "message_body" => _("There is an '<kbd>n</kbd>' in your transliteration that should be a '<kbd>u</kbd>' or '<kbd>y</kbd>'.  The Greek letter &upsilon; (upsilon, transliterated '<kbd>u</kbd>' or '<kbd>y</kbd>') is rounded at the bottom, while the Greek letter &nu; (nu, transliterated '<kbd>n</kbd>') has a sharp point."),
 );
 $messages["G_s_o"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is an '<tt>o</tt>' in your transliteration that should be an '<tt>s</tt>'.  The Greek letter &omicron; (omicron, transliterated '<tt>o</tt>') is a plain circle, while the Greek letter &sigma; (sigma, transliterated '<tt>s</tt>') has a bump sticking out on the upper right part of the letter."),
+    "message_body" => _("There is an '<kbd>o</kbd>' in your transliteration that should be an '<kbd>s</kbd>'.  The Greek letter &omicron; (omicron, transliterated '<kbd>o</kbd>') is a plain circle, while the Greek letter &sigma; (sigma, transliterated '<kbd>s</kbd>') has a bump sticking out on the upper right part of the letter."),
 );
 $messages["G_u_o"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is an '<tt>o</tt>' in your transliteration that should be a '<tt>u</tt>' or '<tt>y</tt>'.  The Greek letter &upsilon; (upsilon, transliterated '<tt>u</tt>' or '<tt>y</tt>') may be nearly closed at the top, but there should be a little gap, while the Greek letter &omicron; (omicron, transliterated '<tt>o</tt>') is a full circle."),
+    "message_body" => _("There is an '<kbd>o</kbd>' in your transliteration that should be a '<kbd>u</kbd>' or '<kbd>y</kbd>'.  The Greek letter &upsilon; (upsilon, transliterated '<kbd>u</kbd>' or '<kbd>y</kbd>') may be nearly closed at the top, but there should be a little gap, while the Greek letter &omicron; (omicron, transliterated '<kbd>o</kbd>') is a full circle."),
 );
 $messages["G_k_ch"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<tt>ch</tt>' in your transliteration that should be a '<tt>k</tt>'.  The Greek letters &chi; (chi, transliterated '<tt>ch</tt>') and &kappa; (kappa, transliterated '<tt>k</tt>') both often look like an x, but chi is larger, and both of its 'legs' always drop down below the line. Kappa is much smaller, and normally sits on the line of text."),
+    "message_body" => _("There is a '<kbd>ch</kbd>' in your transliteration that should be a '<kbd>k</kbd>'.  The Greek letters &chi; (chi, transliterated '<kbd>ch</kbd>') and &kappa; (kappa, transliterated '<kbd>k</kbd>') both often look like an x, but chi is larger, and both of its 'legs' always drop down below the line. Kappa is much smaller, and normally sits on the line of text."),
 );
 $messages["G_ph_ps"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<tt>ps</tt>' in your transliteration that should be '<tt>ph</tt>'.  The Greek letter &phi; (phi, transliterated '<tt>ph</tt>') has a circular shape in the center, while the Greek letter &psi; (psi, transliterated '<tt>ps</tt>') has 'arms' curving out away from the center."),
+    "message_body" => _("There is a '<kbd>ps</kbd>' in your transliteration that should be '<kbd>ph</kbd>'.  The Greek letter &phi; (phi, transliterated '<kbd>ph</kbd>') has a circular shape in the center, while the Greek letter &psi; (psi, transliterated '<kbd>ps</kbd>') has 'arms' curving out away from the center."),
 );
 $messages["G_s_c"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>c</tt>' in the text where there is the Greek letter &sigmaf; (sigma, transliterated '<tt>s</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>c</kbd>' in the text where there is the Greek letter &sigmaf; (sigma, transliterated '<kbd>s</kbd>') in the image."),
 );
 $messages["G_r_p"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>p</tt>' in the text where there is the Greek letter &rho; (rho, transliterated '<tt>r</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>p</kbd>' in the text where there is the Greek letter &rho; (rho, transliterated '<kbd>r</kbd>') in the image."),
 );
 $messages["G_n_v"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>v</tt>' in the text where there is the Greek letter &nu; (nu, transliterated '<tt>n</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>v</kbd>' in the text where there is the Greek letter &nu; (nu, transliterated '<kbd>n</kbd>') in the image."),
 );
 $messages["G_k_x"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>x</tt>' in the text where there is the Greek letter &kappa; (kappa, transliterated '<tt>k</tt>') in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>x</kbd>' in the text where there is the Greek letter &kappa; (kappa, transliterated '<kbd>k</kbd>') in the image."),
 );
 $messages["G_ph_f"] = array(
     "message_title" => _("Phi transliterated as f"),
-    "message_body" => _("We do not use the letter '<tt>f</tt>' in Greek transliteration.  Please transliterate &phi; (phi) as '<tt>ph</tt>', as shown in the Greek transliteration tool."),
+    "message_body" => _("We do not use the letter '<kbd>f</kbd>' in Greek transliteration.  Please transliterate &phi; (phi) as '<kbd>ph</kbd>', as shown in the Greek transliteration tool."),
 );
 $messages["G_phicase"] = array(
     "message_title" => _("Capital/lower case letter"),
-    "message_body" => _("There is a '<tt>Ph</tt>' in your transliteration that should be '<tt>ph</tt>'.  The lower case Greek letter &phi; (phi, transliterated '<tt>ph</tt>') drops below the line, while the capital letter &Phi; does not."),
+    "message_body" => _("There is a '<kbd>Ph</kbd>' in your transliteration that should be '<kbd>ph</kbd>'.  The lower case Greek letter &phi; (phi, transliterated '<kbd>ph</kbd>') drops below the line, while the capital letter &Phi; does not."),
 );
 $messages["G_thetacase"] = array(
     "message_title" => _("Capital/lower case letter"),
-    "message_body" => _("There is a '<tt>Th</tt>' in your transliteration that should be '<tt>th</tt>'.  The Greek letter &Theta; (capital theta, transliterated '<tt>Th</tt>') is rounder, and its horizontal line does not go all the way across as it does in the lower case form &theta; (transliterated '<tt>th</tt>')."),
+    "message_body" => _("There is a '<kbd>Th</kbd>' in your transliteration that should be '<kbd>th</kbd>'.  The Greek letter &Theta; (capital theta, transliterated '<kbd>Th</kbd>') is rounder, and its horizontal line does not go all the way across as it does in the lower case form &theta; (transliterated '<kbd>th</kbd>')."),
 );
 $messages["G_chicase"] = array(
     "message_title" => _("Capital/lower case letter"),
-    "message_body" => _("There is a '<tt>Ch</tt>' in your transliteration that should be '<tt>ch</tt>'.  The lower case Greek letter &chi; (chi, transliterated '<tt>ch</tt>') drops below the line, while the capital letter &Chi; does not."),
+    "message_body" => _("There is a '<kbd>Ch</kbd>' in your transliteration that should be '<kbd>ch</kbd>'.  The lower case Greek letter &chi; (chi, transliterated '<kbd>ch</kbd>') drops below the line, while the capital letter &Chi; does not."),
 );
 $messages["G_upsilon"] = array(
     "message_title" => _("Upsilon transliteration"),
-    "message_body" => _("The letter &upsilon; (upsilon) can be transliterated as either u or y. If upsilon follows another vowel, use '<tt>u</tt>'. Otherwise, use '<tt>y</tt>'."),
+    "message_body" => _("The letter &upsilon; (upsilon) can be transliterated as either u or y. If upsilon follows another vowel, use '<kbd>u</kbd>'. Otherwise, use '<kbd>y</kbd>'."),
 );
 $messages["G_gg"] = array(
     "message_title" => _("Gamma exception"),
-    "message_body" => _("The letter &gamma; (gamma) is usually transliterated as '<tt>g</tt>', but '<tt>n</tt>' is used instead when it occurs before certain letters.  These exceptions are listed at the right in the Greek Transliteration tool."),
+    "message_body" => _("The letter &gamma; (gamma) is usually transliterated as '<kbd>g</kbd>', but '<kbd>n</kbd>' is used instead when it occurs before certain letters.  These exceptions are listed at the right in the Greek Transliteration tool."),
 );
 
 // Accents
 $messages["G_missingh"] = array(
     "message_title" => _("Rough breathing not marked"),
-    "message_body" => sprintf(_("If a vowel has the rough breathing mark: %s over it, indicate this by placing an '<tt>h</tt>' at the start of the word."), "<br><img src='images/roughbr.png' width='12' height='30'> <br>"),
+    "message_body" => sprintf(_("If a vowel has the rough breathing mark: %s over it, indicate this by placing an '<kbd>h</kbd>' at the start of the word."), "<br><img src='images/roughbr.png' width='12' height='30'> <br>"),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_extraaccent"] = array(
@@ -614,7 +614,7 @@ $messages["G_extrah"] = array(
 );
 $messages["G_smooth_rough"] = array(
     "message_title" => _("Smooth breathing not ignored"),
-    "message_body" => _("If the word begins with a vowel, it should have either a rough breathing mark (curls like a C) or a smooth breathing mark (curls like a comma).  If it's rough breathing, add an '<tt>h</tt>' at the beginning of the word in the transliteration. If it's smooth breathing, ignore it."),
+    "message_body" => _("If the word begins with a vowel, it should have either a rough breathing mark (curls like a C) or a smooth breathing mark (curls like a comma).  If it's rough breathing, add an '<kbd>h</kbd>' at the beginning of the word in the transliteration. If it's smooth breathing, ignore it."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_rough_apos"] = array(
@@ -634,17 +634,17 @@ $messages["G_capmissingh"] = array(
 );
 $messages["G_rbrho"] = array(
     "message_title" => _("Rough breathing on rho"),
-    "message_body" => _("When the rough breathing mark appears over the letter &rho; (rho, transliterated '<tt>r</tt>'), place the '<tt>h</tt>' <i>after</i> the '<tt>r</tt>', not before it like for vowels."),
+    "message_body" => _("When the rough breathing mark appears over the letter &rho; (rho, transliterated '<kbd>r</kbd>'), place the '<kbd>h</kbd>' <i>after</i> the '<kbd>r</kbd>', not before it like for vowels."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_rbcap"] = array(
     "message_title" => _("Rough breathing and capitalization"),
-    "message_body" => _("If a word starts with a capital letter and has rough breathing, adjust the capitalization to follow the normal English practice: <tt>h&Ocirc;s</tt> becomes <tt>H&ocirc;s</tt>."),
+    "message_body" => _("If a word starts with a capital letter and has rough breathing, adjust the capitalization to follow the normal English practice: <kbd>h&Ocirc;s</kbd> becomes <kbd>H&ocirc;s</kbd>."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_rbdiph"] = array(
     "message_title" => _("Rough breathing with diphthong"),
-    "message_body" => _("If a word begins with a diphthong (two vowels together), the breathing mark will appear over the second vowel, but the '<tt>h</tt>' for rough breathing still goes at the very beginning of the word in the transliteration."),
+    "message_body" => _("If a word begins with a diphthong (two vowels together), the breathing mark will appear over the second vowel, but the '<kbd>h</kbd>' for rough breathing still goes at the very beginning of the word in the transliteration."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_iotasub"] = array(
@@ -660,20 +660,20 @@ $messages["G_missingapos"] = array(
 );
 $messages["G_missingpunct"] = array(
     "message_title" => _("Greek punctuation"),
-    "message_body" => _("A vertically centered single dot in Greek text represents a medium stop; replace that with an English semicolon (<tt>;</tt>)."),
+    "message_body" => _("A vertically centered single dot in Greek text represents a medium stop; replace that with an English semicolon (<kbd>;</kbd>)."),
     "wiki_ref" => sprintf(_("See the <a href='%s#Punctuation' target='_blank'>Punctuation</a> section of the wiki page for details."), $Greek_translit_url),
 );
 $messages["G_oulig"] = array(
     "message_title" => _("Ou ligature"),
-    "message_body" => sprintf(_("This letter is a shorthand way of writing ou: %s.  Transliterate it as plain '<tt>ou</tt>'."), "<img src='images/ou_lig.png' width='20' height='23'>"),
+    "message_body" => sprintf(_("This letter is a shorthand way of writing ou: %s.  Transliterate it as plain '<kbd>ou</kbd>'."), "<img src='images/ou_lig.png' width='20' height='23'>"),
 );
 $messages["G_varrho"] = array(
     "message_title" => _("Variant form"),
-    "message_body" => sprintf(_("This letter is a variant form of &rho; (rho, transliterated '<tt>r</tt>'): %s.  Transliterate it like a normal rho."), "<img src='images/rho_var.png' width='16' height='30'>"),
+    "message_body" => sprintf(_("This letter is a variant form of &rho; (rho, transliterated '<kbd>r</kbd>'): %s.  Transliterate it like a normal rho."), "<img src='images/rho_var.png' width='16' height='30'>"),
 );
 $messages["G_stigma"] = array(
     "message_title" => _("Stigma"),
-    "message_body" => _("This form of sigma: &sigmaf; normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called 'stigma' and the top bit of it usually extends further to the right. It gets transliterated as '<tt>st</tt>'."),
+    "message_body" => _("This form of sigma: &sigmaf; normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called 'stigma' and the top bit of it usually extends further to the right. It gets transliterated as '<kbd>st</kbd>'."),
 );
 
 // vim: sw=4 ts=4 expandtab

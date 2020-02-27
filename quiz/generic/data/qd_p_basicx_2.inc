@@ -22,7 +22,7 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("of\n"), "case_
 
 $messages["arid"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': '<kbd>ri</kbd>' in the text where there is an '<kbd>n</kbd>' in the image."),
     "hints" => array(
         array(
             "hint_title" => _("Scanno: hints"),

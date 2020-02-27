@@ -15,23 +15,23 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["beta_eszett"] = array(
     "message_title" => _("Beta proofread as &szlig;"),
-    "message_body" => _("The &szlig; character is not a Greek letter.  Please transliterate &beta; (beta) as '<tt>b</tt>', as shown in the Greek transliteration tool."),
+    "message_body" => _("The &szlig; character is not a Greek letter.  Please transliterate &beta; (beta) as '<kbd>b</kbd>', as shown in the Greek transliteration tool."),
 );
 $messages["Brotoi"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a capital '<tt>B</tt>' in the text where there is the Greek letter &beta; (beta, transliterated '<tt>b</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a capital '<kbd>B</kbd>' in the text where there is the Greek letter &beta; (beta, transliterated '<kbd>b</kbd>') in the image."),
 );
 $messages["p_t"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is the Greek letter &pi; (pi, transliterated '<kbd>p</kbd>') in the image."),
 );
 $messages["missings"] = array(
     "message_title" => _("Missing letter"),
-    "message_body" => _("There is an '<tt>s</tt>' (the transliteration of &sigma;, sigma) missing in your transliteration."),
+    "message_body" => _("There is an '<kbd>s</kbd>' (the transliteration of &sigma;, sigma) missing in your transliteration."),
 );
 $messages["missingperiod"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a period (<kbd>.</kbd>) was omitted by the OCR software."),
 );
 
 

@@ -6,9 +6,6 @@ body {
 img {
   border: 0;
 }
-tt {
-  color: #cc0000;
-}
 table {
   border-collapse: collapse;
 }
@@ -258,6 +255,9 @@ div.calloutheader {
 .error,
 .warning {
   font-weight: bold;
+}
+kbd {
+  font-family: monospace;
 }
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */

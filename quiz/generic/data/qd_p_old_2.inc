@@ -26,15 +26,15 @@ $messages["aposadded"] = array(
 );
 $messages["sliort"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>li</kbd>' in the text where there is an '<kbd>h</kbd>' in the image."),
 );
 $messages["longsscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an asterisk (<tt>*</tt>) in the text where there is a long s in the image."),
+    "message_body" => _("There is still a scanno: an asterisk (<kbd>*</kbd>) in the text where there is a long s in the image."),
 );
 $messages["stray_comma"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is no punctuation in the image."),
+    "message_body" => _("There is still a scanno: a comma (<kbd>,</kbd>) in the text where there is no punctuation in the image."),
 );
 $messages["Side"] = array(
     "message_title" => _("Scanno"),
@@ -46,7 +46,7 @@ $messages["youany"] = array(
 );
 $messages["instruft"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>ft</tt>' in the text where there is '<tt>ct</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>ft</kbd>' in the text where there is '<kbd>ct</kbd>' in the image."),
 );
 $messages["flyspeck2"] = array(
     "message_title" => _("Scanno"),

@@ -341,7 +341,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 
 <h3><a name="double_q">Doppelte Anf&uuml;hrungszeichen</a></h3>
 <p>Verwenden Sie bitte die gew&ouml;hnlichen ASCII-Anf&uuml;hrungszeichen
-   <tt>"</tt>. Ersetzen Sie keine doppelten durch einfache
+   <kbd>"</kbd>. Ersetzen Sie keine doppelten durch einfache
    Anf&uuml;hrungszeichen. Lassen Sie sie so, wie der Autor sie
    geschrieben hat.
    Siehe <a href="#chap_head">Kapitel-&Uuml;berschriften</a> f&uuml;r den Fall, dass ein
@@ -349,19 +349,19 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 </p>
 <p>F&uuml;r andere Anf&uuml;hrungszeichen als " benutzen Sie die gleichen
    Zeichen, die im Originalbild erscheinen, sofern sie
-   verf&uuml;gbar sind. Die franz&ouml;sischen Guillemets <tt>&laquo;wie
-   hier&raquo;</tt> sind in den Pulldown-Men&uuml;s der
+   verf&uuml;gbar sind. Die franz&ouml;sischen Guillemets <kbd>&laquo;wie
+   hier&raquo;</kbd> sind in den Pulldown-Men&uuml;s der
    Korrekturlese-Oberfl&auml;che zu finden, weil sie zum Latin-1-Zeichensatz
    geh&ouml;ren. Bitten denken Sie daran, eventuelle Leerzeichen zwischen
    den Guillemets und dem zitierten Text zu entfernen; falls sie ben&ouml;tigt
    werden, werden sie bei der Nachbearbeitung eingef&uuml;gt. Das gleiche
-   gilt f&uuml;r Sprachen, die umgekehrte Guillemets&nbsp; <tt>&raquo;wie
-   hier&laquo;</tt>&nbsp; verwenden.
+   gilt f&uuml;r Sprachen, die umgekehrte Guillemets&nbsp; <kbd>&raquo;wie
+   hier&laquo;</kbd>&nbsp; verwenden.
 </p>
 <p>Die in manchen Texten (in Deutsch oder anderen Sprachen) benutzten
-   Anf&uuml;hrungszeichen&nbsp; <tt>&bdquo;wie diese&ldquo;</tt>&nbsp;
+   Anf&uuml;hrungszeichen&nbsp; <kbd>&bdquo;wie diese&ldquo;</kbd>&nbsp;
    sind auch in den Pulldown-Men&uuml;s enthalten. Der Einfachheit
-   halber sollten Sie immer&nbsp; <tt>&bdquo;</tt>&nbsp; und&nbsp; <tt>&ldquo;</tt>&nbsp;
+   halber sollten Sie immer&nbsp; <kbd>&bdquo;</kbd>&nbsp; und&nbsp; <kbd>&ldquo;</kbd>&nbsp;
    benutzen, egal welche Anf&uuml;hrungszeichen im Originaltext benutzt
    werden, solange diese deutlich erkennbar untere und obere sind. Falls
    erforderlich, werden die Anf&uuml;hrungszeichen in der Nachbearbeitung
@@ -379,7 +379,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 
 <h3><a name="single_q">Einfache Anf&uuml;hrungszeichen</a></h3>
 <p>Lesen Sie diese bitte Korrektur als gew&ouml;hnliches einfaches
-   ASCII-Anf&uuml;hrungszeichen <tt>'</tt> (Apostroph). Ersetzen Sie
+   ASCII-Anf&uuml;hrungszeichen <kbd>'</kbd> (Apostroph). Ersetzen Sie
    keine einfachen durch doppelte Anf&uuml;hrungszeichen. Lassen Sie
    sie so, wie der Autor sie geschrieben hat.
 </p>
@@ -436,7 +436,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -449,7 +449,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -494,7 +494,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -510,8 +510,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    Anf&uuml;hrungszeichen herum usw. <b>m&uuml;ssen</b> jedoch entfernt
    werden, wenn sie das Symbol vom Wort trennen.
 </p>
-<p>Im folgenden Beispiel: <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
-   horse.</tt> muss das Leerzeichen zwischen &bdquo;horse&ldquo; und
+<p>Im folgenden Beispiel: <kbd>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
+   horse.</kbd> muss das Leerzeichen zwischen &bdquo;horse&ldquo; und
    dem Semikolon entfernt werden. Die zwei Leerzeichen nach dem Semikolon
    sind in Ordnung &ndash; Sie brauchen keines der beiden zu l&ouml;schen.
 </p>
@@ -590,107 +590,107 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>Bindestrich</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>Bindestriche</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>Bindestrich</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>Bindestrich, langer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>kurzer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside</td>
-      <td valign="top"><tt>It was -14&deg;C outside</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside</kbd></td>
       <td>kurzer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>kurzer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>kurzer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>lange Gedankenstriche</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>lange Gedankenstriche</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>lange Gedankenstriche</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>langer Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>lange Gedankenstriche, Bindestrich &amp; extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>extralanger Gedankenstrich</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>langer Gedankenstrich</td>
     </tr>
   </tbody>
@@ -716,7 +716,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    noch mit Bindestrich. Lassen Sie sie mit Bindestrich, wenn sie so
    im Text stehen. Wenn Sie nicht sicher sind, ob der Autor einen
    Bindestrich verwendet hat, so lassen Sie ihn stehen, setzen ein
-   <tt>*</tt> dahinter und verbinden das Wort wie hier: <tt>to-*day</tt>.
+   <kbd>*</kbd> dahinter und verbinden das Wort wie hier: <kbd>to-*day</kbd>.
    Das Sternchen macht den Nachbearbeiter darauf aufmerksam, der den
    &Uuml;berblick &uuml;ber alle Seiten hat und feststellen kann,
    wie der Autor das Wort &uuml;blicherweise geschrieben hat.
@@ -738,7 +738,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 <p>Trenn- und Gedankenstriche am Ende einer Seite werden Korrektur
    gelesen, indem Sie das Trennzeichen oder den Gedankenstrich am
    Ende der letzten Zeile stehen lassen. Setzen Sie ein Sternchen
-   <tt>*</tt> hinter den Trenn- oder Gedankenstrich. Beispiel:
+   <kbd>*</kbd> hinter den Trenn- oder Gedankenstrich. Beispiel:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Trennstriche am Seitenende">
   <tbody>
@@ -748,12 +748,12 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
 <p>Auf Seiten, die mit einem Teil eines Wortes der vorhergehenden Seite
-   bzw. mit einem Gedankenstrich beginnen, setzen Sie ein <tt>*</tt>
+   bzw. mit einem Gedankenstrich beginnen, setzen Sie ein <kbd>*</kbd>
    vor das Teilwort bzw. den Gedankenstrich.
    Um das obige Beispiel fortzusetzen: Lesen Sie
 </p>
@@ -765,7 +765,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -803,7 +803,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    sie vor oder zwischen den Punkten vorhanden sind, und verwenden Sie
    die gleiche Zahl von Punkten wie auf der Vorlage. Manchmal ist das
    auf der gedruckten Seite nicht deutlich zu erkennen; in diesem Fall
-   f&uuml;gen Sie ein <tt>[**unclear]</tt> ein, um den Nachbearbeiter
+   f&uuml;gen Sie ein <kbd>[**unclear]</kbd> ein, um den Nachbearbeiter
    auf die Stelle aufmerksam zu machen. (Anmerkung: Nachbearbeiter sollten
    diese regul&auml;ren Leerzeichen durch gesch&uuml;tzte Leerzeichen ersetzen.)
 </p>
@@ -818,31 +818,31 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -851,8 +851,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 
 <h3><a name="contract">Zusammenziehungen</a></h3>
 <p>Entfernen Sie im Englischen Leerzeichen in Zusammenziehungen: zum Beispiel sollte
-   <tt>would&nbsp;n't</tt> als <tt>wouldn't</tt> Korrektur gelesen werden
-   und <tt>'t&nbsp;is</tt> als <tt>'tis</tt>.
+   <kbd>would&nbsp;n't</kbd> als <kbd>wouldn't</kbd> Korrektur gelesen werden
+   und <kbd>'t&nbsp;is</kbd> als <kbd>'tis</kbd>.
 </p>
 <p>Diese L&uuml;cken waren h&auml;ufig eine Konvention der Drucker des 19.
    Jahrhunderts. Sie behielten den Zwischenraum bei, um darauf hinzuweisen,
@@ -871,8 +871,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 
 <h3><a name="fract_s">Br&uuml;che</a></h3>
 <p>Korrigieren Sie <b>Br&uuml;che</b> folgenderma&szlig;en:
-   <tt>&frac14;</tt> wird zu <tt>1/4</tt> und <tt>2&frac12;</tt>
-   wird zu <tt>2-1/2</tt>. Der Bindestrich
+   <kbd>&frac14;</kbd> wird zu <kbd>1/4</kbd> und <kbd>2&frac12;</kbd>
+   wird zu <kbd>2-1/2</kbd>. Der Bindestrich
    zwischen ganzer Zahl und Bruch verhindert bei der Nachbearbeitung,
    dass die Zeile an dieser Stelle umgebrochen wird.
    Wenn es nicht ausdr&uuml;cklich in den <a href="#comments">
@@ -948,8 +948,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 </p>
 <p>Bei Schriften, die nicht so einfach transliteriert werden k&ouml;nnen,
    wie z.B. Arabisch, umgeben Sie den Text mit der entsprechenden Markierung
-   <tt>[Arabic:&nbsp;**]</tt> und lassen ihn wie eingescannt stehen.
-   Schlie&szlig;en Sie die <tt>**</tt> ein, damit der Nachbearbeiter
+   <kbd>[Arabic:&nbsp;**]</kbd> und lassen ihn wie eingescannt stehen.
+   Schlie&szlig;en Sie die <kbd>**</kbd> ein, damit der Nachbearbeiter
    den Text sp&auml;ter leichter finden und bearbeiten kann.
 </p>
 <!-- END RR -->
@@ -962,7 +962,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    Lesen Sie diese Korrektur, indem Sie einen einzelnen Zirkumflex ^
    einsetzen, gefolgt von dem hochgestellten Text. Wenn der hochgestellte
    Text mehr als ein Zeichen hat, umgeben Sie ihn zus&auml;tzlich mit
-   geschweiften Klammern <tt>{</tt> und <tt>}</tt>. Zum Beispiel:
+   geschweiften Klammern <kbd>{</kbd> und <kbd>}</kbd>. Zum Beispiel:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
   <tbody>
@@ -972,7 +972,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -989,9 +989,9 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
 <h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
 <p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor,
    in anderen Werken sind sie nicht &uuml;blich. Korrektur gelesen
-   werden sie durch Einsetzen eines Unterstrichs <tt>_</tt> und
-   Umschlie&szlig;en des Textes mit geschweiften Klammern <tt>{</tt>
-   und <tt>}</tt>. Zum Beispiel:
+   werden sie durch Einsetzen eines Unterstrichs <kbd>_</kbd> und
+   Umschlie&szlig;en des Textes mit geschweiften Klammern <kbd>{</kbd>
+   und <kbd>}</kbd>. Zum Beispiel:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
   <tbody>
@@ -1001,7 +1001,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1027,8 +1027,8 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    keine Gedanken &uuml;ber Gro&szlig;- und Kleinschreibung. Sind die
    Zeichen schon GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht, so
    lassen Sie sie in GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht stehen.
-   Kapit&auml;lchen erscheinen manchmal mit <tt>&lt;sc&gt;</tt> davor
-   und <tt>&lt;/sc&gt;</tt> dahinter.
+   Kapit&auml;lchen erscheinen manchmal mit <kbd>&lt;sc&gt;</kbd> davor
+   und <kbd>&lt;/sc&gt;</kbd> dahinter.
    Siehe hierzu <a href="#formatting">Formatierungen</a>.
 </p>
 <!-- END RR -->
@@ -1130,7 +1130,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -1174,7 +1174,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1191,7 +1191,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    Titel in den Grenzen der Illustration.
 </p>
 <p>Die meisten Seiten mit Abbildung, aber ohne Text sind schon mit
-   <tt>[Blank Page]</tt> gekennzeichnet. Belassen Sie diese
+   <kbd>[Blank Page]</kbd> gekennzeichnet. Belassen Sie diese
    Markierung so, wie sie ist.
 </p>
 <!-- END RR -->
@@ -1210,12 +1210,12 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1236,19 +1236,19 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1263,14 +1263,14 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    Fu&szlig;notenzeichen an die Stelle setzen, auf die der Text sich bezieht.
 </p>
 <p>Im Haupttext sollte das Zeichen, das den Ort der
-   Fu&szlig;note kennzeichnet, mit eckigen Klammern (<tt>[</tt>
-   und <tt>]</tt>) umgeben und unmittelbar rechts neben das Wort<tt>[1]</tt>
-   oder das Satzzeichen gesetzt werden,<tt>[2]</tt> auf das sich die
+   Fu&szlig;note kennzeichnet, mit eckigen Klammern (<kbd>[</kbd>
+   und <kbd>]</kbd>) umgeben und unmittelbar rechts neben das Wort<kbd>[1]</kbd>
+   oder das Satzzeichen gesetzt werden,<kbd>[2]</kbd> auf das sich die
    Fu&szlig;note bezieht (wie im Text dargestellt und in den beiden
    Beispielen in diesem Satz).
    Sind Fu&szlig;noten mit einer Reihe von Sonderzeichen markiert (*,
    &dagger;, &Dagger;, &sect; usw.), dann ersetzen wir sie alle durch
-   <tt>[*]</tt> sowohl im Text als auch durch <tt>*</tt> bei der
+   <kbd>[*]</kbd> sowohl im Text als auch durch <kbd>*</kbd> bei der
    Fu&szlig;note selbst.
 </p>
 <p>Am Ende der Seite lesen Sie den Text der Fu&szlig;note Korrektur, wie er gedruckt
@@ -1292,7 +1292,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
    Kapitels oder am Ende des Buches zusammengefasst sind, statt unten
    auf jeder Seite. Sie werden in der gleichen Weise Korrektur gelesen
    wie Fu&szlig;noten. Wo Sie ein Endnotenzeichen im Text finden, umgeben
-   Sie es mit eckigen Klammern (<tt>[</tt> und <tt>]</tt>).  Wenn Sie
+   Sie es mit eckigen Klammern (<kbd>[</kbd> und <kbd>]</kbd>).  Wenn Sie
    eine Seite mit Endnoten Korrektur lesen, setzen Sie Leerzeilen
    vor jede Endnote, damit klar ist, wo jede beginnt und endet.
 </p>
@@ -1322,13 +1322,13 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -1351,7 +1351,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1359,7 +1359,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1397,7 +1397,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1478,7 +1478,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1524,7 +1524,7 @@ output_header('Korrekturlese-Richtlinien', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1541,7 +1541,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1557,7 +1557,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1568,7 +1568,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1601,7 +1601,7 @@ Plural   {   2d   "  ye, or you,   you,
     <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1615,7 +1615,7 @@ Plural   {   2d   "  ye, or you,   you,
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1666,7 +1666,7 @@ Plural   {   2d   "  ye, or you,   you,
 <h3><a name="blank_pg">Leere Seiten</a></h3>
 <p>Die meisten leeren Seiten bzw. Seiten, die zwar eine Abbildung,
    aber keinen Text enthalten, sind bereits mit der Markierung
-   <tt>[Blank Page]</tt> gekennzeichnet. K&uuml;mmern Sie sich
+   <kbd>[Blank Page]</kbd> gekennzeichnet. K&uuml;mmern Sie sich
    nicht darum. Wenn die Seite leer und ohne [Blank Page] ist,
    braucht die Markierung nicht eingef&uuml;gt zu werden.
 </p>
@@ -1706,17 +1706,17 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1751,8 +1751,8 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1799,7 +1799,7 @@ Plural   {   2d   "  ye, or you,   you,
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1859,35 +1859,35 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1908,14 +1908,14 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1936,14 +1936,14 @@ Plural   {   2d   "  ye, or you,   you,
    erl&auml;utert. Durch Ihre Anmerkung werden nachfolgende Korrekturleser,
    Formatierer und Nachbearbeiter auf das Problem hingewiesen.
    Beginnen Sie die Anmerkung mit einer eckigen Klammer und zwei Sternchen
-   <tt>[**</tt> und schlie&szlig;en Sie sie wiederum mit einer eckigen
-   Klammer <tt>]</tt>. Dadurch ist sie deutlich vom Text des Autors
+   <kbd>[**</kbd> und schlie&szlig;en Sie sie wiederum mit einer eckigen
+   Klammer <kbd>]</kbd>. Dadurch ist sie deutlich vom Text des Autors
    getrennt und signalisiert dem Nachbearbeiter innezuhalten. Er wird
    diesen Teil des Textes und die dazugeh&ouml;rige Vorlage sorgf&auml;ltig
    untersuchen, um etwaige Probleme zu l&ouml;sen. Alle Kommentare von
    Lesern aus fr&uuml;heren Runden <b>m&uuml;ssen</b> an Ort und Stelle
    bleiben. Sie k&ouml;nnen auch die Runde angeben, in der Sie arbeiten,
-   direkt vor der <tt>]</tt>, damit sp&auml;tere Freiwillige wissen,
+   direkt vor der <kbd>]</kbd>, damit sp&auml;tere Freiwillige wissen,
    wer die Anmerkung hinterlassen hat. Siehe den n&auml;chsten Abschnitt f&uuml;r Einzelheiten.
 </p>
 <!-- END RR -->
@@ -2088,17 +2088,17 @@ Plural   {   2d   "  ye, or you,   you,
    interpretiert werden (und zwar normalerweise falsch):
 </p>
 <ul>
-  <li>Das Grad-Zeichen <tt style="font-size:150%;">&deg;</tt>: Es sollte
+  <li>Das Grad-Zeichen <kbd style="font-size:150%;">&deg;</kbd>: Es sollte
       nur benutzt werden, um Gradangaben zu bezeichnen (Temperatur, Winkel usw.)</li>
   <li>Das hochgestellte o: Beinahe alle anderen Vorkommen eines angehobenen o
-      sollten als <tt>^o</tt> Korrektur gelesen werden, entsprechend den Richtlinien
+      sollten als <kbd>^o</kbd> Korrektur gelesen werden, entsprechend den Richtlinien
       f&uuml;r <a href="#supers">hochgestellten Text</a>.</li>
-  <li>Der m&auml;nnliche Ordnungszahlanzeiger <tt style="font-size:150%;">&ordm;</tt>:
+  <li>Der m&auml;nnliche Ordnungszahlanzeiger <kbd style="font-size:150%;">&ordm;</kbd>:
       Lesen sie auch diesen als hochgestellt, wenn nicht das spezielle Zeichen
       in den <a href="#comments">Projektkommentaren</a> verlangt wird. Es kann
       in Sprachen wie Spanisch und Portugiesisch benutzt werden und ist das
       &Auml;quivalent zum Englischen -th in 4th, 5th usw. Es folgt auf Zahlen
-      und hat ein weibliches Gegenst&uuml;ck im hochgestellten a (<tt>&ordf;</tt>).</li>
+      und hat ein weibliches Gegenst&uuml;ck im hochgestellten a (<kbd>&ordf;</kbd>).</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
@@ -2195,13 +2195,13 @@ Plural   {   2d   "  ye, or you,   you,
    aller Buchstaben mit Akzenten.
 </p>
 <p>Setzen Sie eine Anmerkung in den Text neben einen Dreckfuhler
-   <tt>[**typo for Druckfehler]</tt>. Wenn Sie sich nicht sicher sind, ob es sich
+   <kbd>[**typo for Druckfehler]</kbd>. Wenn Sie sich nicht sicher sind, ob es sich
    wirklich um einen Fehler handelt, fragen Sie auch in der
    <a href="#forums"> Projektdiskussion</a> nach.
    &Auml;ndern Sie etwas, so erkl&auml;ren Sie mit einer Anmerkung,
-   was Sie ge&auml;ndert haben: <tt>[**typo "Dreckfuhler" fixed]</tt>.
+   was Sie ge&auml;ndert haben: <kbd>[**typo "Dreckfuhler" fixed]</kbd>.
    Verwenden Sie hierbei
-   die beiden Sternchen <tt>**</tt>, damit der Nachbearbeiter auf
+   die beiden Sternchen <kbd>**</kbd>, damit der Nachbearbeiter auf
    diese Stelle aufmerksam wird.
 </p>
 <!-- END RR -->

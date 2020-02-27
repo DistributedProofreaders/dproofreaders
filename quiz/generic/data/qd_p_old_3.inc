@@ -32,39 +32,39 @@ $messages["projcomm"] = array(
 );
 $messages["flyspeck"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>)</tt>' in the text where there is a stray mark in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>)</kbd>' in the text where there is a stray mark in the image."),
 );
 $messages["coolcnes"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>c</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["Cucnye"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>n</tt>' in the text where there is a '<tt>u</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>n</kbd>' in the text where there is a '<kbd>u</kbd>' in the image."),
 );
 $messages["admitable"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is an '<tt>r</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is an '<kbd>r</kbd>' in the image."),
 );
 $messages["Hscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>lj</tt>' in the text where there is a capital '<tt>H</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>lj</kbd>' in the text where there is a capital '<kbd>H</kbd>' in the image."),
 );
 $messages["itinges"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>it</tt>' in the text where there is a '<tt>w</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>it</kbd>' in the text where there is a '<kbd>w</kbd>' in the image."),
 );
 $messages["parenscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a curly bracket '<tt>}</tt>' in the text where there is a closing parenthesis '<tt>)</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a curly bracket '<kbd>}</kbd>' in the text where there is a closing parenthesis '<kbd>)</kbd>' in the image."),
 );
 $messages["njght"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>j</tt>' in the text where there is a '<tt>y</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>j</kbd>' in the text where there is a '<kbd>y</kbd>' in the image."),
 );
 $messages["commascanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a subscripted letter in the text where there is a comma (<tt>,</tt>) in the image."),
+    "message_body" => _("There is still a scanno: a subscripted letter in the text where there is a comma (<kbd>,</kbd>) in the image."),
 );
 $messages["bltext"] = array(
     "message_title" => _("Blackletter font"),

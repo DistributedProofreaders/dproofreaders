@@ -16,7 +16,7 @@ echo "<p><img src='../generic/images/amp.png' width='39' height='41' alt='&amp;'
 echo " <img src='../generic/images/amp_ital.png' width='49' height='44' alt='&amp;'>";
 echo " <img src='../generic/images/amp_blackletter.png' width='33' height='45' alt='&amp;'>";
 echo " <img src='../generic/images/amp_blackletter2.png' width='31' height='41' alt='&amp;'></p>\n";
-echo "<p>" . _("As in many books through the 1800s, the phrase <i>et cetera</i> may be abbreviated as <tt>&amp;c.</tt> rather than the modern <tt>etc</tt>.  Leave it as the author wrote it.") . "</p>\n";
+echo "<p>" . _("As in many books through the 1800s, the phrase <i>et cetera</i> may be abbreviated as <kbd>&amp;c.</kbd> rather than the modern <kbd>etc</kbd>.  Leave it as the author wrote it.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_2'>" . _("Continue to quiz") . "</a></p>\n";
 

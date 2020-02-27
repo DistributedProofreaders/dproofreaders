@@ -16,32 +16,32 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["ceuvre"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>ce</tt>' in the text where there is an '<tt>oe</tt>' ligature in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>ce</kbd>' in the text where there is an '<kbd>oe</kbd>' ligature in the image."),
 );
 $messages["vinant"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>n</tt>' in the text where there is a '<tt>v</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>n</kbd>' in the text where there is a '<kbd>v</kbd>' in the image."),
 );
 $messages["quotescanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a single quote mark (<tt>'</tt>) in the text where there is a double quote mark (<tt>\"</tt>) in the image."),
+    "message_body" => _("There is still a scanno: a single quote mark (<kbd>'</kbd>) in the text where there is a double quote mark (<kbd>\"</kbd>) in the image."),
 );
 $messages["Baternan"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>rn</tt>' in the text where there is an '<tt>m</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>rn</kbd>' in the text where there is an '<kbd>m</kbd>' in the image."),
 );
 $messages["borc"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>c</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["oe_ae"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &oelig; ('<tt>oe</tt>' ligature) in the image that is marked as an &aelig; ('<tt>ae</tt>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
+    "message_body" => _("There is an &oelig; ('<kbd>oe</kbd>' ligature) in the image that is marked as an &aelig; ('<kbd>ae</kbd>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 $messages["ae_oe"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &aelig; ('<tt>ae</tt>' ligature) in the image that is marked as an &oelig; ('<tt>oe</tt>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
+    "message_body" => _("There is an &aelig; ('<kbd>ae</kbd>' ligature) in the image that is marked as an &oelig; ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 

@@ -18,43 +18,43 @@ $messages["fraktext"] = array(
 );
 $messages["Rarren"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>R</tt>' in the text where there is an '<tt>N</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>R</kbd>' in the text where there is an '<kbd>N</kbd>' in the image."),
 );
 $messages["preoigen"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>o</tt>' in the text where there is a '<tt>d</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>o</kbd>' in the text where there is a '<kbd>d</kbd>' in the image."),
 );
 $messages["Bei"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>i</tt>' in the text where there is a '<tt>y</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>i</kbd>' in the text where there is a '<kbd>y</kbd>' in the image."),
 );
 $messages["wtrd"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is an '<tt>i</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is an '<kbd>i</kbd>' in the image."),
 );
 $messages["colonscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a semicolon (<tt>;</tt>) in the text where there is a colon (<tt>:</tt>) in the image."),
+    "message_body" => _("There is still a scanno: a semicolon (<kbd>;</kbd>) in the text where there is a colon (<kbd>:</kbd>) in the image."),
 );
 $messages["Daun"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>u</tt>' in the text where there is an '<tt>n</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>u</kbd>' in the text where there is an '<kbd>n</kbd>' in the image."),
 );
 $messages["rv"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>rv</tt>' in the text where there is a '<tt>w</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>rv</kbd>' in the text where there is a '<kbd>w</kbd>' in the image."),
 );
 $messages["Ter"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>T</tt>' in the text where there is a '<tt>D</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>T</kbd>' in the text where there is a '<kbd>D</kbd>' in the image."),
 );
 $messages["accenta"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: an accent over an '<tt>a</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: an accent over an '<kbd>a</kbd>' was omitted by the OCR software."),
 );
 $messages["verstebt"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>b</tt>' in the text where there is an '<tt>h</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>b</kbd>' in the text where there is an '<kbd>h</kbd>' in the image."),
 );
 $messages["longs2"] = array(
     "message_title" => _("Long s"),
@@ -62,11 +62,11 @@ $messages["longs2"] = array(
 );
 $messages["longs"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>f</tt>' in the text where there is a long s in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>f</kbd>' in the text where there is a long s in the image."),
 );
 $messages["y_n"] = array(
     "message_title" => _("Fraktur characters"),
-    "message_body" => _("There is a '<tt>y</tt>' in the image that is marked as an '<tt>n</tt>' in the text."),
+    "message_body" => _("There is a '<kbd>y</kbd>' in the image that is marked as an '<kbd>n</kbd>' in the text."),
 );
 
 

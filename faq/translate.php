@@ -56,10 +56,10 @@ Server MPM:     Prefork
 <h3>System preparation</h3>
 <p>In order for a translation to be used, the underlying operating system must be aware of the locale first. You can view all system locales with:</p>
 <blockquote>
-<tt>locale -a</tt>
+<kbd>locale -a</kbd>
 </blockquote>
 
-<p>If a locale isn't listed there, gettext can't use a DP site translation for that locale. Consult your system documentation on how to install system locales. CentOS/Redhat distros install many locales by default whereas for Ubuntu you need to install additional language packages, such as <tt>language-pack-fr</tt>. See the <a href='https://help.ubuntu.com/community/Locale'>Ubuntu locale documentation</a> for more information.
+<p>If a locale isn't listed there, gettext can't use a DP site translation for that locale. Consult your system documentation on how to install system locales. CentOS/Redhat distros install many locales by default whereas for Ubuntu you need to install additional language packages, such as <kbd>language-pack-fr</kbd>. See the <a href='https://help.ubuntu.com/community/Locale'>Ubuntu locale documentation</a> for more information.
 
 <p>Note that locales can come in various different character sets, eg:</p>
 <ul>
@@ -72,11 +72,11 @@ Server MPM:     Prefork
 <p>After you install new locales, you <b>must restart your web server</b> for the locales to be usable by the DP code!</p>
 
 <h3>Installing translations</h3>
-<p>The DP code comes with a set of translations provided by the community at pgdp.net. These are in the <tt>SETUP/locale</tt> directory. The translations may not be complete if strings were added or changed in the code since the translation was done. Strings that haven't been translated will display in English.</p>
+<p>The DP code comes with a set of translations provided by the community at pgdp.net. These are in the <kbd>SETUP/locale</kbd> directory. The translations may not be complete if strings were added or changed in the code since the translation was done. Strings that haven't been translated will display in English.</p>
 
 <p>To install the translations:<ol>
-    <li>Change into the <tt>SETUP/locale</tt> directory and run <tt>compile.sh</tt> to compile the PO files into MO files</li>
-    <li>Copy the desired language directories to <tt><?php echo $dyn_locales_dir; ?></tt></li>
+    <li>Change into the <kbd>SETUP/locale</kbd> directory and run <kbd>compile.sh</kbd> to compile the PO files into MO files</li>
+    <li>Copy the desired language directories to <kbd><?php echo $dyn_locales_dir; ?></kbd></li>
     <li>Confirm the web server has full read/write permissions on the files and directories</li>
 </ol></p>
 

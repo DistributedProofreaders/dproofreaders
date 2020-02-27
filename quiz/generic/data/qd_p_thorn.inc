@@ -13,43 +13,43 @@ $solutions                    = array("them to beware of green meat, as it weake
 
 $messages["greno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>o</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["bey"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>b</tt>' in the text where there is a '<tt>&thorn;</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>b</kbd>' in the text where there is a '<kbd>&thorn;</kbd>' in the image."),
 );
 $messages["liaue"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>li</kbd>' in the text where there is an '<kbd>h</kbd>' in the image."),
 );
 $messages["thornscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>]></tt>' in the text where there is a '<tt>&THORN;</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>]></kbd>' in the text where there is a '<kbd>&THORN;</kbd>' in the image."),
 );
 $messages["lustas"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>a</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>a</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["ai"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>i</tt>' in the text where there is an '<tt>r</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>i</kbd>' in the text where there is an '<kbd>r</kbd>' in the image."),
 );
 $messages["macronmissing"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a macron (horizontal line) over an '<tt>n</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a macron (horizontal line) over an '<kbd>n</kbd>' was omitted by the OCR software."),
 );
 /*
 // The current unicode implementation does not support combining characters, so
 // don't instruct the user to use them.
 $messages["macron"] = array(
     "message_title" => _("Macron"),
-    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
+    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<kbd>a</kbd>' with a macron over it as <kbd>&#257;</kbd>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
     "guideline" => "d_chars",
 );
 $messages["macron2"] = array(
     "message_title" => _("Macron"),
-    "message_body" => _("Since the letter 'n' with a macron (straight line) over it does not exist in Unicode, you should proofread it by first entering the <tt>n</tt> and then the combining macron character."),
+    "message_body" => _("Since the letter 'n' with a macron (straight line) over it does not exist in Unicode, you should proofread it by first entering the <kbd>n</kbd> and then the combining macron character."),
     "guideline" => "d_chars",
 );
 */
@@ -60,7 +60,7 @@ $messages["thorn"] = array(
 );
 $messages["thorncase"] = array(
     "message_title" => _("Capital/Lower Case Thorn"),
-    "message_body" => _("In the books that we proofread generally the capital thorn (<tt>&THORN;</tt>) has a much larger loop.  The lower case thorn (<tt>&thorn;</tt>) has a smaller loop and often sticks down farther below the line."),
+    "message_body" => _("In the books that we proofread generally the capital thorn (<kbd>&THORN;</kbd>) has a much larger loop.  The lower case thorn (<kbd>&thorn;</kbd>) has a smaller loop and often sticks down farther below the line."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url),
 );
 $messages["blankline2"] = array(

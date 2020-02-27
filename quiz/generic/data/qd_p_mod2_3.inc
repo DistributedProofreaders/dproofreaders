@@ -12,7 +12,7 @@ $solutions                    = array("*tween the quercus[*] and the olive[*] th
 
 $messages["accente"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: an accent over an '<kbd>e</kbd>' was omitted by the OCR software."),
 );
 $messages["ampchange"] = array(
     "message_title" => _("Primary Rule"),
@@ -20,15 +20,15 @@ $messages["ampchange"] = array(
 );
 $messages["oescanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>oe</tt>' in the text where there is an '&oelig;' ('oe' ligature) in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>oe</kbd>' in the text where there is an '&oelig;' ('oe' ligature) in the image."),
 );
 $messages["fnscannot"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
 );
 $messages["fnscannoI"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>I</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
+    "message_body" => _("There is still a scanno: an '<kbd>I</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
 );
 $messages["fnspace"] = array(
     "message_title" => _("Space around footnote"),
@@ -37,17 +37,17 @@ $messages["fnspace"] = array(
 );
 $messages["fnmarkermissing"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
+    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
     "message_title" => _("Footnote marker brackets"),
-    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <tt>[*]</tt>."),
+    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <kbd>[*]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_title" => _("Footnote marker spacing"),
-    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><tt>word[*] word</tt>."),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><kbd>word[*] word</kbd>."),
     "guideline" => "footnotes",
 );
 

@@ -14,7 +14,7 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["x_z"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<tt>z</tt>' in your transliteration that should be an '<tt>x</tt>'.  The Greek letter zeta (transliterated '<tt>z</tt>') looks like &zeta;, while the Greek letter xi (transliterated '<tt>x</tt>') looks like &xi;."),
+    "message_body" => _("There is a '<kbd>z</kbd>' in your transliteration that should be an '<kbd>x</kbd>'.  The Greek letter zeta (transliterated '<kbd>z</kbd>') looks like &zeta;, while the Greek letter xi (transliterated '<kbd>x</kbd>') looks like &xi;."),
 );
 
 

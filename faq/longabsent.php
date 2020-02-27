@@ -115,7 +115,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
 <p>If some formatting has already been included, for example, indented lines in 
    poetry, the formatting can be left in place or removed. Even if 
-   the formatting is wrong as in <tt>&lt;i&gt;</tt>i.e<tt>&lt;/i&gt;</tt>., 
+   the formatting is wrong as in <kbd>&lt;i&gt;</kbd>i.e<kbd>&lt;/i&gt;</kbd>., 
    please do not move it.  Leave it to the formatters to repair and concentrate on the text.
 </p>
 

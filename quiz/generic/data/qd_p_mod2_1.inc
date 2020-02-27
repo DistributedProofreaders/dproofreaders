@@ -14,7 +14,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["hyphenomit"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a hyphen (<tt>-</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a hyphen (<kbd>-</kbd>) was omitted by the OCR software."),
 );
 $messages["quotespace"] = array(
     "message_title" => _("Punctuation spacing"),
@@ -23,11 +23,11 @@ $messages["quotespace"] = array(
 );
 $messages["punctscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a colon (<tt>:</tt>) in the text where there is a semicolon (<tt>;</tt>) in the image."),
+    "message_body" => _("There is still a scanno: a colon (<kbd>:</kbd>) in the text where there is a semicolon (<kbd>;</kbd>) in the image."),
 );
 $messages["flyspeck"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an accent mark (<tt>`</tt>) in the text where there is a speck in the image."),
+    "message_body" => _("There is still a scanno: an accent mark (<kbd>`</kbd>) in the text where there is a speck in the image."),
 );
 $messages["listspace"] = array(
     "message_title" => _("Blank lines in list"),
@@ -39,7 +39,7 @@ $messages["listspace2"] = array(
 );
 $messages["longasem"] = array(
     "message_title" => _("Long dash missing"),
-    "message_body" => _("Proofread long dashes using four hyphens (<tt>----</tt>)."),
+    "message_body" => _("Proofread long dashes using four hyphens (<kbd>----</kbd>)."),
     "guideline" => "em_dashes",
 );
 

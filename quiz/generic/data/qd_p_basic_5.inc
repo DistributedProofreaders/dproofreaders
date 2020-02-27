@@ -14,11 +14,11 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["hands"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>h</tt>' in the text where there is a '<tt>b</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>h</kbd>' in the text where there is a '<kbd>b</kbd>' in the image."),
 );
 $messages["capital"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a lower case '<tt>c</tt>' in the text where there is a capital '<tt>C</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': a lower case '<kbd>c</kbd>' in the text where there is a capital '<kbd>C</kbd>' in the image."),
 );
 $messages["indent"] = array(
     "message_title" => _("Indentation"),

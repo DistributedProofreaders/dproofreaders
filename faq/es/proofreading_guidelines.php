@@ -256,13 +256,13 @@ En la P&aacute;gina del Proyecto, en la l&iacute;nea "Forum" (Foro), hay un enla
 
 <h3><a name="double_q">Comillas dobles</a></h3>
 <p>
-Revise las &ldquo;comillas dobles&rdquo; como comillas dobles rectas ASCII <tt>"</tt>. No cambie las comillas dobles a comillas simples. D&eacute;jelas como las escribi&oacute; el autor. Vea la secci&oacute;n <a href="#chap_head">T&iacute;tulos de cap&iacute;tulos</a> si se encuentra con una comilla doble que falta al comienzo de un cap&iacute;tulo.
+Revise las &ldquo;comillas dobles&rdquo; como comillas dobles rectas ASCII <kbd>"</kbd>. No cambie las comillas dobles a comillas simples. D&eacute;jelas como las escribi&oacute; el autor. Vea la secci&oacute;n <a href="#chap_head">T&iacute;tulos de cap&iacute;tulos</a> si se encuentra con una comilla doble que falta al comienzo de un cap&iacute;tulo.
 </p>
-<p>Para comillas diferentes de <tt>"</tt>, use las mismas comillas que aparecen en la imagen si est&aacute;n disponibles. Las comillas francesas, guillemets, <tt>&laquo;como estas&raquo;</tt>, est&aacute;n disponibles en el men&uacute; desplegable de la interfaz de revisi&oacute;n, dado que son parte del conjunto de caracteres Latin-1. Recuerde eliminar los espacios entre las comillas y el texto entre comillas; si el espacio es necesario por alguna raz&oacute;n, se a&ntilde;adir&aacute; en el posproceso. Esta regla se aplica tambi&eacute;n en los idiomas que utilizan comillas guillemets invertidas, <tt>&raquo;as&iacute;&laquo;</tt>.
+<p>Para comillas diferentes de <kbd>"</kbd>, use las mismas comillas que aparecen en la imagen si est&aacute;n disponibles. Las comillas francesas, guillemets, <kbd>&laquo;como estas&raquo;</kbd>, est&aacute;n disponibles en el men&uacute; desplegable de la interfaz de revisi&oacute;n, dado que son parte del conjunto de caracteres Latin-1. Recuerde eliminar los espacios entre las comillas y el texto entre comillas; si el espacio es necesario por alguna raz&oacute;n, se a&ntilde;adir&aacute; en el posproceso. Esta regla se aplica tambi&eacute;n en los idiomas que utilizan comillas guillemets invertidas, <kbd>&raquo;as&iacute;&laquo;</kbd>.
 </p>
 <p>
-Las comillas de <tt>&bdquo;este tipo&ldquo;</tt>, utilizadas en algunos textos en alem&aacute;n o en otros idiomas, 
-est&aacute;n tambi&eacute;n disponibles en el men&uacute; desplegable; por razones de simplicidad, usted deber&iacute;a siempre usar&nbsp; <tt>&bdquo;</tt>&nbsp; y&nbsp; <tt>&ldquo;</tt>&nbsp;, independientemente del tipo de comillas que se utilicen en el texto original, siempre que las comillas usadas en el mismo sean claramente inferiores y superiores. Si es necesario, las comillas ser&aacute;n cambiadas a las que se utilizan en el libro original durante el posprocesamiento. 
+Las comillas de <kbd>&bdquo;este tipo&ldquo;</kbd>, utilizadas en algunos textos en alem&aacute;n o en otros idiomas, 
+est&aacute;n tambi&eacute;n disponibles en el men&uacute; desplegable; por razones de simplicidad, usted deber&iacute;a siempre usar&nbsp; <kbd>&bdquo;</kbd>&nbsp; y&nbsp; <kbd>&ldquo;</kbd>&nbsp;, independientemente del tipo de comillas que se utilicen en el texto original, siempre que las comillas usadas en el mismo sean claramente inferiores y superiores. Si es necesario, las comillas ser&aacute;n cambiadas a las que se utilizan en el libro original durante el posprocesamiento. 
 </p>
 <p>El Gestor del Proyecto (Project Manager) puede pedir en los <a href="#comments">Comentarios del Proyecto</a> que las comillas sean tratadas de manera diferente para un libro en particular. Por favor, no aplique esas instrucciones en otros proyectos.
 </p>
@@ -273,7 +273,7 @@ est&aacute;n tambi&eacute;n disponibles en el men&uacute; desplegable; por razon
 
 <h3><a name="single_q">Comillas simples</a></h3>
 <p>
-Rev&iacute;selas como comillas simples ASCII o ap&oacute;strofos, as&iacute;: <tt>'</tt>. No cambie las comillas simples a dobles. D&eacute;jelas como el autor las escribi&oacute;.
+Rev&iacute;selas como comillas simples ASCII o ap&oacute;strofos, as&iacute;: <kbd>'</kbd>. No cambie las comillas simples a dobles. D&eacute;jelas como el autor las escribi&oacute;.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -316,7 +316,7 @@ Los p&aacute;rrafos que tienen comillas al comienzo de cada l&iacute;nea se corr
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -329,7 +329,7 @@ Los p&aacute;rrafos que tienen comillas al comienzo de cada l&iacute;nea se corr
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -361,7 +361,7 @@ Los p&aacute;rrafos que tienen comillas al comienzo de cada l&iacute;nea se corr
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto correctamente revisado:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -372,7 +372,7 @@ Los p&aacute;rrafos que tienen comillas al comienzo de cada l&iacute;nea se corr
 <p>Varios espacios en blanco entre palabras aparecen a menudo en los resultados de OCR. No se moleste en eliminarlos&---;eso se har&aacute; autom&aacute;ticamente en el posprocesamiento. Por el contrario, <b>s&iacute;</b> es necesario eliminar espacios en blanco que aparecen entre las palabras y los signos de puntuaci&oacute;n (comillas, puntos, punto y coma, etc.).
 </p>
 <p>
-Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt> el espacio entre la palabra "caballo" y el punto y coma debe ser eliminado. Pero no es necesario eliminar el espacio extra que aparece despu&eacute;s del punto y coma.
+Por ejemplo, en <kbd>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</kbd> el espacio entre la palabra "caballo" y el punto y coma debe ser eliminado. Pero no es necesario eliminar el espacio extra que aparece despu&eacute;s del punto y coma.
 </p>
 <p>Adem&aacute;s, si usted encuentra alg&uacute;n car&aacute;cter de tabulaci&oacute;n en el texto, debe eliminarlo.
 </p>
@@ -421,107 +421,107 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>Gui&oacute;n de separaci&oacute;n &amp; gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside.</td>
-      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside.</kbd></td>
       <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>Guiones largos, gui&oacute;n de separaci&oacute;n,<br> &amp; gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>Gui&oacute;n largo</td>
     </tr>
   </tbody>
@@ -532,7 +532,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
 <h3><a name="eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></h3>
 <p>Cuando hay un gui&oacute;n que corta la palabra al final de la l&iacute;nea, junte las dos partes de la palabra. Si la palabra normalmente lleva gui&oacute;n (como te&oacute;rico-pr&aacute;ctico), junte sus dos partes dejando el gui&oacute;n donde est&aacute;. Si el gui&oacute;n se puso solamente para partir una palabra que no cabe entera en la l&iacute;nea (y no se trata de una palabra que normalmente lleva gui&oacute;n), junte las dos partes de la palabra y quite el gui&oacute;n. Coloque la palabra unida al final de la l&iacute;nea superior, y corte la l&iacute;nea despu&eacute;s de ella para mantener el salto de l&iacute;nea. Esto facilitar&aacute; el trabajo de los voluntarios que contin&uacute;en la revisi&oacute;n en las siguientes rondas. Si la palabra tiene un signo de puntuaci&oacute;n despu&eacute;s, el signo de puntuaci&oacute;n debe subirse, junto con la palabra, a la l&iacute;nea superior.
 </p>
-<p>Palabras como "to-day" y "to-morrow", que en la actualidad no llevan gui&oacute;n, aparecen con gui&oacute;n en muchos libros antiguos. Deje estas palabras con gui&oacute;n como el autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra con gui&oacute;n o sin &eacute;l, conserve el gui&oacute;n con un asterisco  <tt>*</tt> tras &eacute;l, y una la palabra, as&iacute;: <tt>to-*day</tt>. El asterisco llamar&aacute; la atenci&oacute;n del posprocesador, quien tiene acceso a todas las p&aacute;ginas y puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
+<p>Palabras como "to-day" y "to-morrow", que en la actualidad no llevan gui&oacute;n, aparecen con gui&oacute;n en muchos libros antiguos. Deje estas palabras con gui&oacute;n como el autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra con gui&oacute;n o sin &eacute;l, conserve el gui&oacute;n con un asterisco  <kbd>*</kbd> tras &eacute;l, y una la palabra, as&iacute;: <kbd>to-*day</kbd>. El asterisco llamar&aacute; la atenci&oacute;n del posprocesador, quien tiene acceso a todas las p&aacute;ginas y puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
 </p>
 <p>De igual manera, si un gui&oacute;n largo (o gui&oacute;n "eme") aparece al principio o al final de una l&iacute;nea en el texto resultado del OCR, debe unirlo con la l&iacute;nea anterior de modo tal que no haya espacios o saltos de l&iacute;nea alrededor del gui&oacute;n. Sin embargo, si el autor utiliz&oacute; un gui&oacute;n largo para comenzar o terminar un p&aacute;rrafo o un verso en una poes&iacute;a, debe dejar el gui&oacute;n tal cual est&aacute;, sin unirlo con otra l&iacute;nea. Consulte <a href="#em_dashes">Guiones, el signo menos "-" y rayas</a> para ver ejemplos.
 </p>
@@ -541,7 +541,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
 
 
 <h3><a name="eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></h3>
-<p>Cuando encuentre un gui&oacute;n corto o largo al final de una p&aacute;gina, deje el gui&oacute;n donde est&aacute; y agregue un asterisco <tt>*</tt> despu&eacute;s del mismo. Por ejemplo:
+<p>Cuando encuentre un gui&oacute;n corto o largo al final de una p&aacute;gina, deje el gui&oacute;n donde est&aacute; y agregue un asterisco <kbd>*</kbd> despu&eacute;s del mismo. Por ejemplo:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
   <tbody>
@@ -551,11 +551,11 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
-<p>En p&aacute;ginas que comienzan con parte de una palabra, cortada en la p&aacute;gina anterior, o con un gui&oacute;n largo, coloque un asterisco <tt>*</tt> antes de la palabra cortada o el gui&oacute;n. Continuando con el ejemplo de arriba:
+<p>En p&aacute;ginas que comienzan con parte de una palabra, cortada en la p&aacute;gina anterior, o con un gui&oacute;n largo, coloque un asterisco <kbd>*</kbd> antes de la palabra cortada o el gui&oacute;n. Continuando con el ejemplo de arriba:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Start-of-page Hyphenation example">
   <tbody>
@@ -565,7 +565,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -582,7 +582,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
 </p>
 <p>Tenga en cuenta que tambi&eacute;n habr&aacute; un signo de puntuaci&oacute;n final para la oraci&oacute;n. Si se trata de un punto, habr&aacute; cuatro puntos en total. Elimine cualquier punto que exista; o a&ntilde;ada los que sean necesarios para llegar a los tres o cuatro puntos requeridos. Una buena pista para saber si uno se encuentra al final de una oraci&oacute;n es el uso de may&uacute;sculas al comienzo de la siguiente palabra, o la existencia de puntuaci&oacute;n que marque el final (como por ejemplo un signo de pregunta o de exclamaci&oacute;n).
 </p>
-<p><b>IDIOMAS DISTINTOS DEL INGL&Eacute;S (LOTE)</b>: Use la regla principal: "siga lo m&aacute;s exactamente posible el estilo de la p&aacute;gina impresa". Inserte espacios en blanco si es necesario antes o entre los puntos suspensivos, y use el mismo n&uacute;mero de puntos que aparece en la imagen de la p&aacute;gina impresa. A veces la imagen no se ve bien. En ese caso, deje una nota para llamar atenci&oacute;n del posprocesador, as&iacute;: <tt>[**unclear]</tt> o <tt>[**poco claro]</tt>. (Nota: los posprocesadores deber&aacute;n remplazar estos espacios regulares por espacios que no ocasionen quiebres de l&iacute;nea.)
+<p><b>IDIOMAS DISTINTOS DEL INGL&Eacute;S (LOTE)</b>: Use la regla principal: "siga lo m&aacute;s exactamente posible el estilo de la p&aacute;gina impresa". Inserte espacios en blanco si es necesario antes o entre los puntos suspensivos, y use el mismo n&uacute;mero de puntos que aparece en la imagen de la p&aacute;gina impresa. A veces la imagen no se ve bien. En ese caso, deje una nota para llamar atenci&oacute;n del posprocesador, as&iacute;: <kbd>[**unclear]</kbd> o <kbd>[**poco claro]</kbd>. (Nota: los posprocesadores deber&aacute;n remplazar estos espacios regulares por espacios que no ocasionen quiebres de l&iacute;nea.)
 </p>
 <!-- END RR -->
 <p>Ejemplos para el idioma ingl&eacute;s:
@@ -595,31 +595,31 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -628,7 +628,7 @@ Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt>
 
 <h3><a name="contract">Contracciones</a></h3>
 <p>
-En ingl&eacute;s, elimine el espacio en blanco de las contracciones. Por ejemplo: <tt>would&nbsp;n't</tt> se revisa como <tt>wouldn't</tt> y <tt>'t&nbsp;is</tt> como <tt>'tis</tt>.
+En ingl&eacute;s, elimine el espacio en blanco de las contracciones. Por ejemplo: <kbd>would&nbsp;n't</kbd> se revisa como <kbd>wouldn't</kbd> y <kbd>'t&nbsp;is</kbd> como <kbd>'tis</kbd>.
 </p>
 <p>El espacio en blanco es com&uacute;n en los libros del siglo XIX y se dejaba para indicar que, en principio, se trata de dos palabras diferentes: 'would' y 'not.' A veces lo deja el OCR sin raz&oacute;n aparente. Siempre elimine el espacio en blanco.
 </p>
@@ -639,7 +639,7 @@ En ingl&eacute;s, elimine el espacio en blanco de las contracciones. Por ejemplo
 
 
 <h3><a name="fract_s">Fracciones</a></h3>
-<p>Revise las fracciones as&iacute;: <tt>&frac14;</tt> se convierte en <tt>1/4</tt>; <tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>. El gui&oacute;n evita que se separen el n&uacute;mero y la fracci&oacute;n cuando las l&iacute;neas se reordenen durante el el posproceso. A menos que sea especificamente solicitado en los <a href="#comments">Comentarios del Proyecto</a> (Project Comments), por favor no utilice los s&iacute;mbolos fraccionales (&frac14;, 2&frac12;, etc.).
+<p>Revise las fracciones as&iacute;: <kbd>&frac14;</kbd> se convierte en <kbd>1/4</kbd>; <kbd>2&frac12;</kbd> se convierte en <kbd>2-1/2</kbd>. El gui&oacute;n evita que se separen el n&uacute;mero y la fracci&oacute;n cuando las l&iacute;neas se reordenen durante el el posproceso. A menos que sea especificamente solicitado en los <a href="#comments">Comentarios del Proyecto</a> (Project Comments), por favor no utilice los s&iacute;mbolos fraccionales (&frac14;, 2&frac12;, etc.).
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -676,14 +676,14 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
 </p>
 <p>Si no est&aacute; seguro sobre un car&aacute;cter o un acento, m&aacute;rquelo con una [**nota] para llamar la atenci&oacute;n del revisor de la siguiente ronda o del posprocesador. 
 </p>
-<p>Para alfabetos que no pueden ser ingresados tan sencillamente, como por ejemplo &aacute;rabe, identif&iacute;quelos con la marca apropiada: <tt>[Arabic:&nbsp;**]</tt>. Incluya los asteriscos <tt>**</tt> para que el posprocesador pueda tratar el tema m&aacute;s tarde. 
+<p>Para alfabetos que no pueden ser ingresados tan sencillamente, como por ejemplo &aacute;rabe, identif&iacute;quelos con la marca apropiada: <kbd>[Arabic:&nbsp;**]</kbd>. Incluya los asteriscos <kbd>**</kbd> para que el posprocesador pueda tratar el tema m&aacute;s tarde. 
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="supers">Super&iacute;ndices</a></h3>
-<p>En los libros antiguos frecuentemente se abreviaban las palabras con contracciones que eran impresas como super&iacute;ndices. Revise este tipo de palabras insertando un acento circunflejo (car&aacute;cter <tt>^</tt>) antes del car&aacute;cter que aparece como super&iacute;ndice. Si m&aacute;s de una letra aparece como super&iacute;ndice, rodee el texto con llaves <tt>{ }</tt>. Por ejemplo:
+<p>En los libros antiguos frecuentemente se abreviaban las palabras con contracciones que eran impresas como super&iacute;ndices. Revise este tipo de palabras insertando un acento circunflejo (car&aacute;cter <kbd>^</kbd>) antes del car&aacute;cter que aparece como super&iacute;ndice. Si m&aacute;s de una letra aparece como super&iacute;ndice, rodee el texto con llaves <kbd>{ }</kbd>. Por ejemplo:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
   <tbody>
@@ -693,7 +693,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -706,7 +706,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
 
 
 <h3><a name="subscr">Sub&iacute;ndices</a></h3>
-<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro tipo de libros. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <tt>_</tt>) y rodeando el texto en sub&iacute;ndice con llaves <tt>{</tt> <tt>}</tt>, as&iacute;:
+<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro tipo de libros. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <kbd>_</kbd>) y rodeando el texto en sub&iacute;ndice con llaves <kbd>{</kbd> <kbd>}</kbd>, as&iacute;:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
   <tbody>
@@ -716,7 +716,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -732,7 +732,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
 
 
 <h3><a name="small_caps">Versalitas</a></h3>
-<p>Por favor revise solamente que la palabra sea correcta cuando se trata de palabras impresas en <span style="font-variant: small-caps">Versalitas</span>. No se preocupe por cambiar de may&uacute;sculas a min&uacute;sculas o viceversa. Si la palabra aparece toda en may&uacute;sculas, toda en min&uacute;scula o con may&uacute;scula solo al principio, d&eacute;jela como est&aacute;. Las versalitas pueden ocasionalmente aparecer con etiquetas <tt>&lt;sc&gt;</tt> y <tt>&lt;/sc&gt;</tt> alrededor; vea las <a href="#formatting">Reglas de Formato</a> en ese caso.
+<p>Por favor revise solamente que la palabra sea correcta cuando se trata de palabras impresas en <span style="font-variant: small-caps">Versalitas</span>. No se preocupe por cambiar de may&uacute;sculas a min&uacute;sculas o viceversa. Si la palabra aparece toda en may&uacute;sculas, toda en min&uacute;scula o con may&uacute;scula solo al principio, d&eacute;jela como est&aacute;. Las versalitas pueden ocasionalmente aparecer con etiquetas <kbd>&lt;sc&gt;</kbd> y <kbd>&lt;/sc&gt;</kbd> alrededor; vea las <a href="#formatting">Reglas de Formato</a> en ese caso.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -796,7 +796,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -840,7 +840,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -852,7 +852,7 @@ Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a hre
 <p>Revise cualquier texto que acompa&ntilde;e la ilustraci&oacute;n, preservando los saltos de l&iacute;nea. Si la nota que acompa&ntilde;a la ilustraci&oacute;n o imagen se encuentra en medio de un p&aacute;rrafo, sep&aacute;rela del resto del texto del p&aacute;rrafo con una l&iacute;nea en blanco antes y otra despu&eacute;s. Todo el texto que forma parte de la leyenda de la imagen debe ser incluido, como por ejemplo "Ver p&aacute;gina 66" o un t&iacute;tulo que se encuentre dentro de la ilustraci&oacute;n.
 </p>
 <p>
-La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oacute;n sin ning&uacute;n texto asociado aparecen marcadas como <tt>[Blank Page]</tt> (p&aacute;gina en blanco). Deje esta marca tal y como est&aacute;.
+La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oacute;n sin ning&uacute;n texto asociado aparecen marcadas como <kbd>[Blank Page]</kbd> (p&aacute;gina en blanco). Deje esta marca tal y como est&aacute;.
 </p>
 <!-- END RR -->
 
@@ -870,12 +870,12 @@ La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oa
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -896,19 +896,19 @@ La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oa
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -921,7 +921,7 @@ La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oa
 <p>Revise las notas al pie dejando el texto de la nota al final de la p&aacute;gina y colocando una etiqueta en el lugar en que la nota est&aacute; referenciada en el texto.
 </p>
 <p>
-En el texto principal, el car&aacute;cter que marca la ubicaci&oacute;n de la nota al pie debe ser rodeado con corchetes <tt>[ ]</tt> y colocado junto a la palabra en la que est&aacute; la referencia<tt>[1]</tt> o a la puntuaci&oacute;n que la acompa&ntilde;a,<tt>[2]</tt> tal como se muestra en la imagen y en los dos ejemplos de esta oraci&oacute;n. Las referencias de las notas al pie pueden ser n&uacute;meros, letras o s&iacute;mbolos. Cuando las notas al pie est&aacute;n indicadas con s&iacute;mbolos *, &dagger;, &Dagger;, &sect;, etc.), los remplazamos con <tt>[*]</tt> en el texto y <tt>*</tt> al comienzo de la nota al pie.
+En el texto principal, el car&aacute;cter que marca la ubicaci&oacute;n de la nota al pie debe ser rodeado con corchetes <kbd>[ ]</kbd> y colocado junto a la palabra en la que est&aacute; la referencia<kbd>[1]</kbd> o a la puntuaci&oacute;n que la acompa&ntilde;a,<kbd>[2]</kbd> tal como se muestra en la imagen y en los dos ejemplos de esta oraci&oacute;n. Las referencias de las notas al pie pueden ser n&uacute;meros, letras o s&iacute;mbolos. Cuando las notas al pie est&aacute;n indicadas con s&iacute;mbolos *, &dagger;, &Dagger;, &sect;, etc.), los remplazamos con <kbd>[*]</kbd> en el texto y <kbd>*</kbd> al comienzo de la nota al pie.
 </p>
 <p>Al final de la p&aacute;gina, revise el texto de la nota al pie compar&aacute;ndolo con el texto original y preservando los saltos de l&iacute;nea. Utilice el mismo tipo de marca para la referencia a la nota al pie en el texto principal y la nota al pie misma. Use solamente el car&aacute;cter del s&iacute;mbolo para la referencia, sin corchetes ni ninguna otra marca.
 </p>
@@ -931,7 +931,7 @@ En el texto principal, el car&aacute;cter que marca la ubicaci&oacute;n de la no
 <p>No incluya ning&uacute;n car&aacute;cter ajeno para separar las notas al pie de texto principal. Solamente deje una l&iacute;nea en blanco.
 </p>
 <p>
-Las <b>notas al final</b> son similares a las notas al pie pero han sido colocadas al final del cap&iacute;tulo o al final del libro. Se revisan de la misma manera que las notas al pie. Cuando encuentre una referencia a una nota al final en el texto, solamente col&oacute;quela entre <tt>[ ]</tt>. Si usted est&aacute; revisando una de las p&aacute;ginas donde se encuentran las notas al final, coloque una l&iacute;nea en blanco antes de cada nota de manera tal que sea claro cuando cada una comienza y finaliza.
+Las <b>notas al final</b> son similares a las notas al pie pero han sido colocadas al final del cap&iacute;tulo o al final del libro. Se revisan de la misma manera que las notas al pie. Cuando encuentre una referencia a una nota al final en el texto, solamente col&oacute;quela entre <kbd>[ ]</kbd>. Si usted est&aacute; revisando una de las p&aacute;ginas donde se encuentran las notas al final, coloque una l&iacute;nea en blanco antes de cada nota de manera tal que sea claro cuando cada una comienza y finaliza.
 </p>
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
@@ -959,13 +959,13 @@ Las notas al pie que forman parte de una <a href="#tables">tabla</a> deben ser c
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -988,7 +988,7 @@ Las notas al pie que forman parte de una <a href="#tables">tabla</a> deben ser c
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -996,7 +996,7 @@ Las notas al pie que forman parte de una <a href="#tables">tabla</a> deben ser c
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1024,7 +1024,7 @@ En algunos libros existen breves descripciones del p&aacute;rrafo al margen del 
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1105,7 +1105,7 @@ En algunos libros existen breves descripciones del p&aacute;rrafo al margen del 
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1139,7 +1139,7 @@ Las <b>notas al pie</b> que aparecen dentro de una tabla deben conservarse en el
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1156,7 +1156,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1172,7 +1172,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1183,7 +1183,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1213,7 +1213,7 @@ Revise los <a href="#comments">Comentarios del Proyecto</a> en caso de que exist
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1227,7 +1227,7 @@ Revise los <a href="#comments">Comentarios del Proyecto</a> en caso de que exist
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1264,7 +1264,7 @@ Revise los <a href="#comments">Comentarios del Proyecto</a> en caso de que exist
 
 <h3><a name="blank_pg">P&aacute;gina en blanco</a></h3>
 <p>
-La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin texto, ya est&aacute;n marcadas con <tt>[Blank Page]</tt>. D&eacute;jelas como est&aacute;n. Si la p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con <tt>[Blank Page]</tt> no es necesario a&ntilde;adir esta marca.
+La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin texto, ya est&aacute;n marcadas con <kbd>[Blank Page]</kbd>. D&eacute;jelas como est&aacute;n. Si la p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con <kbd>[Blank Page]</kbd> no es necesario a&ntilde;adir esta marca.
 </p>
 <p>Si el texto est&aacute; donde normalmente tiene que estar pero la imagen de la p&aacute;gina del libro original est&aacute; en blanco, o si la imagen est&aacute; pero no aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;genes de baja calidad</a> o <a href="#bad_text">Imagen que no corresponde al texto</a>, respectivamente.
 </p>
@@ -1293,17 +1293,17 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1332,8 +1332,8 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1380,7 +1380,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1424,35 +1424,35 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1473,14 +1473,14 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1491,7 +1491,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
 <h3><a name="anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></h3>
 <p>Si se encuentra con algo que no est&aacute; explicado en estas reglas de revisi&oacute;n o que usted cree que puede necesitar un tratamiento especial o no est&aacute; seguro de c&oacute;mo revisarlo, publique su pregunta en la <a href="#forums">Discusi&oacute;n del Proyecto</a> (Project Discussion), dando cuenta del n&uacute;mero de png (p&aacute;gina).
 </p>
-<p>Usted deber&iacute;a agregar tambi&eacute;n una nota en el texto para explicar el problema o la pregunta al siguiente revisor, al formateador o al posprocesador. Comience su nota con corchete y dos asteriscos <tt>[**</tt> y coloque un corchete de cierre al final <tt>]</tt>. De esta manera, quedar&aacute; claramente separada del texto del autor y llamar&aacute; la atenci&oacute;n del posprocesador para que revise cuidadosamente esta parte del texto. Usted puede identificar tambi&eacute;n en qu&eacute; ronda se coloc&oacute; la nota de manera tal que los voluntarios que trabajen despu&eacute;s de usted en esa p&aacute;gina sepan qui&eacute;n dejo la nota. Todos los comentarios de los revisores que trabajaron en la p&aacute;gina antes de usted <b>deben</b> ser conservados. Vea la secci&oacute;n siguiente para m&aacute;s detalles.
+<p>Usted deber&iacute;a agregar tambi&eacute;n una nota en el texto para explicar el problema o la pregunta al siguiente revisor, al formateador o al posprocesador. Comience su nota con corchete y dos asteriscos <kbd>[**</kbd> y coloque un corchete de cierre al final <kbd>]</kbd>. De esta manera, quedar&aacute; claramente separada del texto del autor y llamar&aacute; la atenci&oacute;n del posprocesador para que revise cuidadosamente esta parte del texto. Usted puede identificar tambi&eacute;n en qu&eacute; ronda se coloc&oacute; la nota de manera tal que los voluntarios que trabajen despu&eacute;s de usted en esa p&aacute;gina sepan qui&eacute;n dejo la nota. Todos los comentarios de los revisores que trabajaron en la p&aacute;gina antes de usted <b>deben</b> ser conservados. Vea la secci&oacute;n siguiente para m&aacute;s detalles.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -1578,10 +1578,10 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
 <p>Existen tres s&iacute;mbolos diferentes que puede ser muy similares en la imagen y que el programa de OCR intepreta de la misma manera (y a menudo de forma incorrecta):
 </p>
 <ul>
-  <li>El s&iacute;mbolo de grados <tt style="font-size:150%;">&deg;</tt>: este s&iacute;mbolo solo debe ser usado para indicar grados (de temperatura, en un &aacute;ngulo, etc.).
+  <li>El s&iacute;mbolo de grados <kbd style="font-size:150%;">&deg;</kbd>: este s&iacute;mbolo solo debe ser usado para indicar grados (de temperatura, en un &aacute;ngulo, etc.).
   </li>
-  <li>La o super&iacute;ndice: todas las otras instancias de una "o" elevada deben ser revisadas como <tt>^o</tt>, de acuerdo a las reglas de revisi&oacute;n para <a href="#supers">super&iacute;ndices</a>.</li>
-  <li>El ordinal masculino <tt style="font-size:150%;">&ordm;</tt>: revise este s&iacute;mbolo como una "o" super&iacute;ndice al menos que el car&aacute;cter especial sea requerido en los <a href="#comments">Comentarios del Proyecto</a>. Puede ser utilizado en idiomas tales como espa&ntilde;ol y portugu&eacute;s y es el equivalente del -th en ingl&eacute;s (4th, 5th, etc.). Siempre se ubica despu&eacute;s de un n&uacute;mero y tiene un equivalente femenino en la "a" super&iacute;ndice (<tt>&ordf;</tt>).</li>
+  <li>La o super&iacute;ndice: todas las otras instancias de una "o" elevada deben ser revisadas como <kbd>^o</kbd>, de acuerdo a las reglas de revisi&oacute;n para <a href="#supers">super&iacute;ndices</a>.</li>
+  <li>El ordinal masculino <kbd style="font-size:150%;">&ordm;</kbd>: revise este s&iacute;mbolo como una "o" super&iacute;ndice al menos que el car&aacute;cter especial sea requerido en los <a href="#comments">Comentarios del Proyecto</a>. Puede ser utilizado en idiomas tales como espa&ntilde;ol y portugu&eacute;s y es el equivalente del -th en ingl&eacute;s (4th, 5th, etc.). Siempre se ubica despu&eacute;s de un n&uacute;mero y tiene un equivalente femenino en la "a" super&iacute;ndice (<kbd>&ordf;</kbd>).</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>
@@ -1626,7 +1626,7 @@ La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilus
 <h3><a name="p_errors">Errores de impresi&oacute;n o de ortograf&iacute;a</a></h3>
 <p>Corrija todos los errores del OCR (scannos) pero no corrija lo que le pueden parecen errores de impresi&oacute;n o de ortograf&iacute;a que aparecen en la imagen original. La ortograf&iacute;a de los textos antiguos puede diferir de la que usamos actualmente y nosotros conservamos esas caracter&iacute;sticas, incluyendo los caracteres acentuados.
 </p>
-<p>Coloque una nota en el texto junto al error de impressi&oacute;n<tt>[**error por "impresi&oacute;n"?]</tt>. Si no est&aacute; seguro de que sea efectivamente un error, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>. Si usted realiza un cambio, incluya una nota para describirlo<tt>[**error "impressi&oacute;n" arreglado]</tt>. Incluya los dos asteriscos <tt>**</tt> para que el posprocesador pueda encontrar la nota.
+<p>Coloque una nota en el texto junto al error de impressi&oacute;n<kbd>[**error por "impresi&oacute;n"?]</kbd>. Si no est&aacute; seguro de que sea efectivamente un error, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>. Si usted realiza un cambio, incluya una nota para describirlo<kbd>[**error "impressi&oacute;n" arreglado]</kbd>. Incluya los dos asteriscos <kbd>**</kbd> para que el posprocesador pueda encontrar la nota.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Volver al comienzo</a></p>

@@ -21,9 +21,9 @@ echo "<p>" . _("These combinations are listed in the Greek Transliterator tool, 
 echo "<h3>" . _("Diacritical Marks") . "</h3>\n";
 echo "<p>" . _("Special cases:") . "</p>\n";
 echo "<ul>\n";
-echo "<li>" . _("If a word begins with a capitalized vowel, the accents and breathing marks are often printed to the left of the letter, rather than above it.  If it has rough breathing, make the vowel lower case and capitalize the H: <tt>h&Ecirc;rakl&ecirc;s</tt> becomes <tt>H&ecirc;rakl&ecirc;s</tt>.") . "</li>\n";
-echo "<li>" . _("If the word begins with a diphthong (two vowels together), the breathing mark will appear over the second vowel, but the \"<tt>h</tt>\" for rough breathing still goes at the very beginning of the word in the transliteration.") . "</li>\n";
-echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over one consonant: &rho; (rho).  If a word begins with rho, it always has rough breathing, with the rho transliterated as \"<tt>rh</tt>\" (note that the \"<tt>h</tt>\" goes <i>after</i> the rho, rather than before as with vowels).") . "</li>\n";
+echo "<li>" . _("If a word begins with a capitalized vowel, the accents and breathing marks are often printed to the left of the letter, rather than above it.  If it has rough breathing, make the vowel lower case and capitalize the H: <kbd>h&Ecirc;rakl&ecirc;s</kbd> becomes <kbd>H&ecirc;rakl&ecirc;s</kbd>.") . "</li>\n";
+echo "<li>" . _("If the word begins with a diphthong (two vowels together), the breathing mark will appear over the second vowel, but the \"<kbd>h</kbd>\" for rough breathing still goes at the very beginning of the word in the transliteration.") . "</li>\n";
+echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over one consonant: &rho; (rho).  If a word begins with rho, it always has rough breathing, with the rho transliterated as \"<kbd>rh</kbd>\" (note that the \"<kbd>h</kbd>\" goes <i>after</i> the rho, rather than before as with vowels).") . "</li>\n";
 echo "</ul>";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_3'>" . _("Continue to quiz") . "</a></p>";

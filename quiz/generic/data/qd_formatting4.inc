@@ -66,22 +66,22 @@ $messages["listindent"] = array(
 );
 $messages["wrongmarkuplist"] = array(
     "message_title" => _("List marked incorrectly"),
-    "message_body" => _("Mark lists with the markup <tt>/* */</tt> to preserve the line breaks."),
+    "message_body" => _("Mark lists with the markup <kbd>/* */</kbd> to preserve the line breaks."),
     "guideline" => "lists"
 );
 $messages["wrongmarkuppoem"] = array(
     "message_title" => _("Poem marked incorrectly"),
-    "message_body" => _("Mark poetry with the markup <tt>/* */</tt> to preserve the line breaks."),
+    "message_body" => _("Mark poetry with the markup <kbd>/* */</kbd> to preserve the line breaks."),
     "guideline" => "poetry"
 );
 $messages["wrongmarkupbq"] = array(
     "message_title" => _("Block quote marked incorrectly"),
-    "message_body" => _("Mark block quotes with the markup <tt>/# #/</tt> to allow the text to be rewrapped."),
+    "message_body" => _("Mark block quotes with the markup <kbd>/# #/</kbd> to allow the text to be rewrapped."),
     "guideline" => "block_qt"
 );
 $messages["nolist"] = array(
     "message_title" => _("List not marked"),
-    "message_body" => _("Mark lists with the markup <tt>/* */</tt>."),
+    "message_body" => _("Mark lists with the markup <kbd>/* */</kbd>."),
     "guideline" => "lists"
 );
 $messages["ellipsis"] = array(

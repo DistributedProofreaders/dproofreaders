@@ -312,15 +312,15 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="inline">Plaatsing van Inline Formattering Markering</a>
  (<i><a href="#inline">Placement of Inline Formatting Markup</a></i>)</h3>
-<p>Inline formattering verwijst naar markering zoals <tt>&lt;i&gt;</tt>&nbsp;<tt>&lt;/i&gt;</tt>,
-   <tt>&lt;b&gt;</tt>&nbsp;<tt>&lt;/b&gt;</tt>, <tt>&lt;sc&gt;</tt>&nbsp;<tt>&lt;/sc&gt;</tt>,
-   <tt>&lt;f&gt;</tt>&nbsp;<tt>&lt;/f&gt;</tt>, of <tt>&lt;g&gt;</tt>&nbsp;<tt>&lt;/g&gt;</tt>.
+<p>Inline formattering verwijst naar markering zoals <kbd>&lt;i&gt;</kbd>&nbsp;<kbd>&lt;/i&gt;</kbd>,
+   <kbd>&lt;b&gt;</kbd>&nbsp;<kbd>&lt;/b&gt;</kbd>, <kbd>&lt;sc&gt;</kbd>&nbsp;<kbd>&lt;/sc&gt;</kbd>,
+   <kbd>&lt;f&gt;</kbd>&nbsp;<kbd>&lt;/f&gt;</kbd>, of <kbd>&lt;g&gt;</kbd>&nbsp;<kbd>&lt;/g&gt;</kbd>.
    Plaats interpunctie <b>buiten</b> de opmaak tenzij de markering rond een hele zin of alinea staat,
    of de interpunctie zelf is deel van de frase, titel of een afkorting die je markeert
    Wanneer de formattering meerdere alinea's beslaat, dan markeer je elke alinea.
 </p>
 <p>De punten die een afgekort woord in de titel van een tijdschrift aangeven, zoals <i>Phil. Trans.</i>,
-   horen bij de titel en worden daarom opgenomen binnen de markering: <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+   horen bij de titel en worden daarom opgenomen binnen de markering: <kbd>&lt;i&gt;Phil. Trans.&lt;/i&gt;</kbd>.
 </p>
 <p>Veel lettertypes in oudere boeken hebben dezelfde vormgeving voor cijfers in zowel de normale tekst
    als in de cursieve of vette tekst. Formatteer bij een datum en vergelijkbare frasen de complete frase met
@@ -342,35 +342,35 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+      <td valign="top"><kbd>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</kbd> </td>
     </tr>
     <tr>
       <td valign="top">It cost 9<i>l.</i> 4<i>s.</i> 1<i>d.</i></td>
-      <td valign="top"><tt>It cost 9&lt;i&gt;l.&lt;/i&gt; 4&lt;i&gt;s.&lt;/i&gt; 1&lt;i&gt;d.&lt;/i&gt;</tt></td>
+      <td valign="top"><kbd>It cost 9&lt;i&gt;l.&lt;/i&gt; 4&lt;i&gt;s.&lt;/i&gt; 1&lt;i&gt;d.&lt;/i&gt;</kbd></td>
     </tr>
     <tr>
       <td valign="top"><b>God knows what she saw in me!</b> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;b&gt;God knows what she saw in me!&lt;/b&gt; I spoke<br> in such an affected manner.</tt></td>
+      <td valign="top"><kbd>&lt;b&gt;God knows what she saw in me!&lt;/b&gt; I spoke<br> in such an affected manner.</kbd></td>
     </tr>
     <tr>
       <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+      <td valign="top"><kbd>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</kbd></td>
     </tr>
     <tr>
       <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+      <td valign="top"><kbd>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</kbd></td>
     </tr>
     <tr>
       <td valign="top">L. Robinson, art. "<span style="font-variant:small-caps;">Ticklishness</span>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;sc&gt;Ticklishness&lt;/sc&gt;,"</tt></td>
+      <td valign="top"><kbd>L. Robinson, art. "&lt;sc&gt;Ticklishness&lt;/sc&gt;,"</kbd></td>
     </tr>
     <tr>
       <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br>
+      <td valign="top"><kbd>/*<br>
          &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
          1323 Picadilly Circus<br>
-         */</tt></td>
+         */</kbd></td>
     </tr>
     <tr>
       <td valign="top">
@@ -380,23 +380,23 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
       and <i>Ticklishness, Laughter and Humour</i>.
       </td>
       <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
+      <kbd>Volunteers may be tickled pink to read<br>
       &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
       &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</kbd>
       </td>
     </tr>
     <tr>
       <td valign="top">&ldquo;<i>That's the idea!</i>&rdquo; exclaimed Tacks.</td>
-      <td valign="top"><tt>"&lt;i&gt;That's the idea!&lt;/i&gt;" exclaimed Tacks.</tt></td>
+      <td valign="top"><kbd>"&lt;i&gt;That's the idea!&lt;/i&gt;" exclaimed Tacks.</kbd></td>
     </tr>
     <tr>
       <td valign="top">The professor set the reading assignment<br>
         for&nbsp; <span style="letter-spacing: .2em;">Erlebnis Geschichte Deutschland<br>
         seit 184</span>5.</td>
-      <td valign="top"><tt>The professor set the reading assignment<br>
+      <td valign="top"><kbd>The professor set the reading assignment<br>
         for &lt;g&gt;Erlebnis Geschichte Deutschland<br>
-        seit 1845&lt;/g&gt;.</tt></td>
+        seit 1845&lt;/g&gt;.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -405,8 +405,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="italics">Cursief gedrukte tekst</a>
  (<i><a href="#italics">Italics</a></i>)</h3>
-<p>Formatteer <i>cursief gedrukte</i> tekst met <tt>&lt;i&gt;</tt> aan het begin en
-   <tt>&lt;/i&gt;</tt> aan het eind van het cursief.
+<p>Formatteer <i>cursief gedrukte</i> tekst met <kbd>&lt;i&gt;</kbd> aan het begin en
+   <kbd>&lt;/i&gt;</kbd> aan het eind van het cursief.
    (Let op de "/" in de laatste markering.)
 </p>
 <p>Zie ook <a href="#inline">Plaatsing van Inline Formattering Markering</a>.
@@ -418,7 +418,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="bold">Vet gedrukte tekst</a>
  (<i><a href="#bold">Bold Text</a></i>)</h3>
 <p>Formatteer <b>vet gedrukte</b> tekst (tekst die is gedrukt in een dikkere versie van het lettertype),
-   met <tt>&lt;b&gt;</tt> ervoor en <tt>&lt;/b&gt;</tt> erachter. (Let op de "/" in de laatste markering.)
+   met <kbd>&lt;b&gt;</kbd> ervoor en <kbd>&lt;/b&gt;</kbd> erachter. (Let op de "/" in de laatste markering.)
 </p>
 <p>Zie ook <a href="#inline">Plaatsing van Inline Formattering Markering</a> en
    <a href="#chap_head">Hoofdstuktitels</a>.
@@ -430,14 +430,14 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="underl">Onderstreepte Tekst</a>
  (<i><a href="#underl">Underlined Text</a></i>)</h3>
 <p>Formatteer <u>onderstreepte tekst</u> op dezelfde manier als <a href="#italics">Cursieve Tekst</a>,
-   met <tt>&lt;i&gt;</tt> en <tt>&lt;/i&gt;</tt>. (Let op de "/" in de laatste markering.)
+   met <kbd>&lt;i&gt;</kbd> en <kbd>&lt;/i&gt;</kbd>. (Let op de "/" in de laatste markering.)
    Onderstreping werd vaak gebruikt om nadruk aan te geven, als de zetter geen mogelijkheden had
    om de tekst te cursiveren, bijv. in getypte documenten.
 </p>
 <p>Zie ook <a href="#inline">Plaatsing van Inline Formattering Markering</a>.
 </p>
 <p>Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
-   onderstreepte tekst met <tt>&lt;u&gt;</tt> en <tt>&lt;/u&gt;</tt> moet worden gemarkeerd.
+   onderstreepte tekst met <kbd>&lt;u&gt;</kbd> en <kbd>&lt;/u&gt;</kbd> moet worden gemarkeerd.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -445,8 +445,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="spaced"><span style="letter-spacing: .2em;">Uitgespatieerde Tekst</span></a>
  (<i><a href="#spaced"><span style="letter-spacing: .2em;">Spaced Out Text</span> (gesperrt)</a></i>)</h3>
-<p>Formatteer <span style="letter-spacing: .2em;">uitgespatieerde tekst</span> door er <tt>&lt;g&gt;</tt> voor en
-   <tt>&lt;/g&gt;</tt> na te zetten. (Let op de "/" in de laatste markering.)
+<p>Formatteer <span style="letter-spacing: .2em;">uitgespatieerde tekst</span> door er <kbd>&lt;g&gt;</kbd> voor en
+   <kbd>&lt;/g&gt;</kbd> na te zetten. (Let op de "/" in de laatste markering.)
    Verwijder de extra spaties binnen de woorden.
    Uitspati&euml;ring was een zettechniek die vooral in Duitse en Nederlandse boeken gebruikt werd
    om een deel van de tekst te benadrukken.
@@ -461,7 +461,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="font_ch">Verandering van Lettertype</a>
  (<i><a href="#font_ch">Font Changes</a></i>)</h3>
 <p>Sommige Project Managers kunnen vragen om een verandering van lettertype binnen een alinea of een zin normale tekst
-   te markeren door <tt>&lt;f&gt;</tt> voor de tekst in het andere lettertype te zetten en <tt>&lt;/f&gt;</tt> erna.
+   te markeren door <kbd>&lt;f&gt;</kbd> voor de tekst in het andere lettertype te zetten en <kbd>&lt;/f&gt;</kbd> erna.
    (Let op de "/" in de laatste markering.)
    Deze markering kan gebruikt worden om speciale lettertypes of andere formattering aan te geven,
    die niet al hun eigen opmaak hebben (zoals cursief en vet gedrukte tekst).
@@ -494,7 +494,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
    gemengd Hoofd- en Kleine Letters.
    Formatteer woorden die <span style="font-variant: small-caps;">helemaal in klein kapitaal</span>
    als HOOFDLETTERS.
-   Voeg rond zowel het gemengd als helemaal klein kapitaal <tt>&lt;sc&gt;</tt> en <tt>&lt;/sc&gt;</tt> markering toe.<br>
+   Voeg rond zowel het gemengd als helemaal klein kapitaal <kbd>&lt;sc&gt;</kbd> en <kbd>&lt;/sc&gt;</kbd> markering toe.<br>
 </p>
 <p>Titels (<a href="#chap_head">Hoofdstuktitels</a>, <a href="#sect_head">paragraaftitels</a>, bijschriften enz.)
    kunnen in <span style="font-variant: small-caps;">helemaal klein kapitaal</span> lijken te staan,
@@ -512,11 +512,11 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top"><span style="font-variant: small-caps;">This is Small Caps</span></td>
-      <td valign="top"><tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt></td>
+      <td valign="top"><kbd>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</kbd></td>
     </tr>
     <tr>
       <td valign="top">You cannot be serious about <span style="font-variant: small-caps;">aardvarks</span>!</td>
-      <td valign="top"><tt>You cannot be serious about &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt></td>
+      <td valign="top"><kbd>You cannot be serious about &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -530,7 +530,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 </p>
 <p>De uitzondering hierop is <a href="#chap_head">eerste woord van een hoofdstuk</a>:
    veel oude boeken drukken dit eerste woord in allemaal hoofdletters; dit moet veranderd worden 
-   in hoofd- en kleine letters, dus "OOIT heel lang geleden," wordt "<tt>Ooit heel lang geleden,</tt>".
+   in hoofd- en kleine letters, dus "OOIT heel lang geleden," wordt "<kbd>Ooit heel lang geleden,</kbd>".
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -553,7 +553,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
    Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
    Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
    verwijderd worden als ze tussen het symbool en het woord staan. Zorg er daarnaast voor dat iedere
-   extra spatie binnen de <tt>/* */</tt> markering, dat de spati&euml;ring behoudt, wordt verwijderd;
+   extra spatie binnen de <kbd>/* */</kbd> markering, dat de spati&euml;ring behoudt, wordt verwijderd;
    deze spaties worden uiteindelijk niet automatisch verwijderd.
 </p>
 <p>Tenslotte, als je in de tekst een tab-teken vindt dan moet deze verwijderd worden.
@@ -566,8 +566,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="supers">Superscript</a>
  (<i><a href="#supers">Superscripts</a></i>)</h3>
 <p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
-   Formatteer deze dan door een dakje (<tt>^</tt>) in te voegen gevolgd door de 'verhoogde' tekst.
-   Wanneer meerdere letters in superscript staan, voeg dan ook accolades <tt>{</tt> en <tt>}</tt>
+   Formatteer deze dan door een dakje (<kbd>^</kbd>) in te voegen gevolgd door de 'verhoogde' tekst.
+   Wanneer meerdere letters in superscript staan, voeg dan ook accolades <kbd>{</kbd> en <kbd>}</kbd>
    toe om de tekst in superscript. Bijvoorbeeld:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
@@ -578,7 +578,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -596,8 +596,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="subscr">Subscript</a>
  (<i><a href="#subscr">Subscripts</a></i>)</h3>
 <p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
-   Formatteer tekst in subscript door eerst een laag streepje <tt>_</tt> neer te zetten en zet
-   vervolgens accolades <tt>{</tt> en <tt>}</tt> om de tekst die in subscript staat. Bijvoorbeeld:
+   Formatteer tekst in subscript door eerst een laag streepje <kbd>_</kbd> neer te zetten en zet
+   vervolgens accolades <kbd>{</kbd> en <kbd>}</kbd> om de tekst die in subscript staat. Bijvoorbeeld:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
   <tbody>
@@ -607,7 +607,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -617,7 +617,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a>
  (<i><a href="#page_ref">Page References &quot;See p. 123&quot;</a></i>)</h3>
-<p>Formatteer verwijzingen naar paginanummers zoals ze in het origineel voorkomen: <tt>(zie pg. 123)</tt>.
+<p>Formatteer verwijzingen naar paginanummers zoals ze in het origineel voorkomen: <kbd>(zie pg. 123)</kbd>.
 </p>
 <p>Kijk wel na in de <a href="#comments">Project Comments</a> of de Project Manager speciale
    vereisten heeft voor de verwijzingen naar pagina's.
@@ -668,7 +668,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>
+        <kbd>
         <br>
         <br>
         <br>
@@ -704,7 +704,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         stockings like a boy on Sunday, and hob-nail shoes,<br>
         and a funny coat with "pleats" and a belt, and a<br>
         green hat with a feather sticking up from the band.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -721,7 +721,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
+        <kbd>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -769,7 +769,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         <br>
         [Footnote A: The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.]
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -804,7 +804,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         and numerous, found in collections of well-authenticated<br>
         specimens. The suggested caution implied<br>
         is not unnecessary, for the periods overlap, and there<br>
@@ -817,7 +817,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         In tracing the development of lighting from quite<br>
         homely beginnings, rushlights, prepared by the<br>
         cottager and the farm hand for the winter supply,<br>
-        seem to come first on the list. Rushlights, however,</tt>
+        seem to come first on the list. Rushlights, however,</kbd>
         </p>
       </td>
     </tr>
@@ -859,15 +859,15 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 </p>
 <p>Een gedachtesprong kan een verandering van omgeving of van onderwerp betekenen, een verandering in
    tijdstip, of een stuk spanning. Dit is zo bedoeld door de schrijver, dus we handhaven het,
-   door een lege regel in te voegen, vervolgens <tt>&lt;tb&gt;</tt> en dan nog een lege regel.
+   door een lege regel in te voegen, vervolgens <kbd>&lt;tb&gt;</kbd> en dan nog een lege regel.
 </p>
 <p>Soms gebruikten de zetters gedecoreerde lijnen om het eind van <a href="#chap_head">hoofdstukken</a>
    of <a href="#sect_head">paragrafen</a> aan te geven. Dit zijn geen gedachtesprongen en moeten
-   <b>niet</b> met <tt>&lt;tb&gt;</tt> gemarkeerd worden.
+   <b>niet</b> met <kbd>&lt;tb&gt;</kbd> gemarkeerd worden.
 </p>
 <p>Lees de <a href="#comments">Project Comments</a> zorgvuldig door, aangezien de Project Manager kan vragen
    om aanvullende informatie in de gedachtesprong-markering te handhaven, zoals bijvoorbeeld
-   <tt>&lt;tb stars&gt;</tt> voor een regel met sterretjes.
+   <kbd>&lt;tb stars&gt;</kbd> voor een regel met sterretjes.
 </p>
 <!-- END RR -->
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Thought Break example">
@@ -880,22 +880,22 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         last week, but my dressmaker put me off, because she<br>
-        was working for Phillis B.'s wedding."</tt>
+        was working for Phillis B.'s wedding."</kbd>
         </p>
-        <p><tt>
+        <p><kbd>
         We both gave a glance at Hattie. She sat gazing at<br>
         Miss ----, her lips partly open, her eyes moistened,--a<br>
         picture in which delight and incredulity were in pleasant<br>
-        strife.</tt>
+        strife.</kbd>
         </p>
-        <p><tt>&lt;tb&gt;</tt>
+        <p><kbd>&lt;tb&gt;</kbd>
         </p>
-        <p><tt>
+        <p><kbd>
         We have been in the interior a fortnight. One thing<br>
         filled me with astonishment, soon after I came here, namely,<br>
-        to find widow ladies and their daughters, all through the</tt>
+        to find widow ladies and their daughters, all through the</kbd>
         </p>
       </td>
     </tr>
@@ -907,20 +907,20 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="illust">Illustraties</a>
  (<i><a href="#illust">Illustrations</a></i>)</h3>
 <p>Tekst bij een illustratie moet omgeven worden door een illustratiemarkering:
-   <tt>[Illustration:&nbsp;</tt> en <tt>]</tt>, met de tekst ertussen.
+   <kbd>[Illustration:&nbsp;</kbd> en <kbd>]</kbd>, met de tekst ertussen.
    Formatteer de tekst zoals hij gedrukt is, handhaaf regelafbrekingen, cursief, enz.
    Tekst wat een (onderdeel van een) bijschrift kan zijn, moet aanwezig zijn,
    zoals bijvoorbeeld "Zie Pagina 66" of een titel binnen de afmeting van de illustratie. 
 </p>
-<p>Als een illustratie geen bijschrift heeft, voeg dan alleen een markering toe: <tt>[Illustration]</tt>.
-   (Let er op dat je in dit geval de dubbele punt en de spatie voor de <tt>]</tt> verwijdert.)
+<p>Als een illustratie geen bijschrift heeft, voeg dan alleen een markering toe: <kbd>[Illustration]</kbd>.
+   (Let er op dat je in dit geval de dubbele punt en de spatie voor de <kbd>]</kbd> verwijdert.)
 </p>
 <p>Als de illustratie midden in of naast een alinea staat, verplaats dan de illustratiemarkering
    naar voor of na de alinea, omgeven door lege regels om ze apart te houden.
    Verwijder evt. lege regels in de alinea.
 </p>
 <p>Als er op de pagina geen alinea begint of eindigt, markeer de illustratiemarkering dan met een
-   <tt>*</tt>, zo: <tt>*[Illustration:&nbsp;<font color="red">(tekst bijschrift)</font>]</tt> en verplaats
+   <kbd>*</kbd>, zo: <kbd>*[Illustration:&nbsp;<font color="red">(tekst bijschrift)</font>]</kbd> en verplaats
    de markering naar de bovenkant van de bladzijde. Laat een lege regel over na de markering.
 </p>
 <!-- END RR -->
@@ -939,7 +939,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>[Illustration: Martha told him that he had always been her ideal and<br>
+        <p><kbd>[Illustration: Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         /*<br>
@@ -947,7 +947,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         &lt;i&gt;Her Weight in Gold&lt;/i&gt;<br>
         */<br>
         ]
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -968,17 +968,17 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>[Illustration: &lt;sc&gt;Fig. 1.&lt;/sc&gt;--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.]</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>[Illustration: &lt;sc&gt;Fig. 1.&lt;/sc&gt;--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.]</kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -994,14 +994,14 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
    Dit houdt in:
 </p>
 <p>1. In de hoofdtekst: het teken dat de plaats van de voetnoot markeert,
-   moet tussen vierkante haken gezet worden (<tt>[</tt> en <tt>]</tt>) en meteen na het woord waar
-   de voetnoot bij hoort, gezet worden<tt>[1]</tt>. Als er interpunctie naast het woord staat,
-   dan komt het symbool dat de voetnoot markeert, meteen naast de interpunctie.<tt>[2]</tt>
+   moet tussen vierkante haken gezet worden (<kbd>[</kbd> en <kbd>]</kbd>) en meteen na het woord waar
+   de voetnoot bij hoort, gezet worden<kbd>[1]</kbd>. Als er interpunctie naast het woord staat,
+   dan komt het symbool dat de voetnoot markeert, meteen naast de interpunctie.<kbd>[2]</kbd>
    Zie de voorbeelden hieronder, en ook in deze tekst.
    Als voetnoten gemarkeerd zijn met een symbool of een serie bijzondere tekens (*, &dagger;, &Dagger;, &sect;,
    etc.) dan vervangen we deze door hoofdletters op volgorde van het alfabet (A, B, C, enz.).
 </p>
-<p>2. Onderaan de pagina: een voetnoot moet door een voetnootmarkering omgeven worden: <tt>[Footnote #:&nbsp;</tt> en <tt>]</tt>,
+<p>2. Onderaan de pagina: een voetnoot moet door een voetnootmarkering omgeven worden: <kbd>[Footnote #:&nbsp;</kbd> en <kbd>]</kbd>,
    met de voetnoot ertussen. Het cijfer of de letter van de voetnoot komt op de plaats van #.
    Formatteer de voetnoot zoals hij gedrukt is, en behoud regelafbrekingen, cursief enz.
    Zorg er wel voor, dat je dezelfde markering gebruikt voor de voetnoot,
@@ -1012,26 +1012,26 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 <!-- END RR -->
 
 <p>Wanneer een voetnoot aan het eind van een pagina incompleet is, laat deze dan onderaan de bladzijde staan en voeg een
-   <tt>*</tt> toe waar de voetnoot eindigt, bijvoorbeeld: <tt>[Footnote 1: <font color="red">(tekst van de voetnoot)</font>]*</tt>.
-   De <tt>*</tt> brengt het onder de aandacht van de Post-Processor, die uiteindelijk de delen van de voetnoot zal samenvoegen.
+   <kbd>*</kbd> toe waar de voetnoot eindigt, bijvoorbeeld: <kbd>[Footnote 1: <font color="red">(tekst van de voetnoot)</font>]*</kbd>.
+   De <kbd>*</kbd> brengt het onder de aandacht van de Post-Processor, die uiteindelijk de delen van de voetnoot zal samenvoegen.
 </p>
 <p>Wanneer een voetnoot op een eerdere pagina begon, laat deze dan onderaan de bladzijde staan en zet er
-   <tt>*[Footnote: <font color="red">(tekst van de voetnoot)</font>]</tt> om heen. (zonder een voetnoot nummer of markering)
-   De <tt>*</tt> brengt het onder de aandacht van de Post-Processor, die uiteindelijk de delen van de voetnoot zal samenvoegen.
+   <kbd>*[Footnote: <font color="red">(tekst van de voetnoot)</font>]</kbd> om heen. (zonder een voetnoot nummer of markering)
+   De <kbd>*</kbd> brengt het onder de aandacht van de Post-Processor, die uiteindelijk de delen van de voetnoot zal samenvoegen.
 </p>
 <p>Als een voetnoot begint of eindigt met een afgebroken woord, markeer dan <b>zowel</b> de voetnoot
-   <b>als</b> het afgebroken woord met <tt>*</tt>, zo:<br>
-   <tt>[Footnote 1: Deze voetnoot gaat nog door en het laatste woord erin is afge-*]*</tt><br>
+   <b>als</b> het afgebroken woord met <kbd>*</kbd>, zo:<br>
+   <kbd>[Footnote 1: Deze voetnoot gaat nog door en het laatste woord erin is afge-*]*</kbd><br>
    voor het eerste deel, en<br>
-   <tt>*[Footnote: *broken, en loopt door op de volgende pagina.]</tt>.
+   <kbd>*[Footnote: *broken, en loopt door op de volgende pagina.]</kbd>.
 </p>
 <p>Voeg geen enkele horizontale lijn toe die de voetnoot van de normale tekst scheidt.
 </p>
 <p><b>Eindnoten</b> zijn voetnoten die samen aan het eind van een hoofdstuk of aan het eind van een boek
    staan. Ze worden op dezelfde manier geformatteerd als voetnoten.
-   Als je ergens in de tekst een verwijzing naar een eindnoot vindt, zet er <tt>[</tt> en <tt>]</tt> omheen.
+   Als je ergens in de tekst een verwijzing naar een eindnoot vindt, zet er <kbd>[</kbd> en <kbd>]</kbd> omheen.
    Als je een van de pagina's met eindnoten aan het formatteren bent, zet dan
-   <tt>[Footnote #:&nbsp;<font color="red">(tekst van de eindnoot)</font>]</tt>, met de tekst van de eindnoot ertussen.
+   <kbd>[Footnote #:&nbsp;<font color="red">(tekst van de eindnoot)</font>]</kbd>, met de tekst van de eindnoot ertussen.
    Het cijfer of de letter van de voetnoot komt op de plaats van #. Voeg voor elke noot een lege regel in,
    zodat ze aparte alinea's blijven als de tekst wordt <span style="border-bottom: 1px dotted green;"
     title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen"><i>gerewrapped</i></span> tijdens het post-processen.
@@ -1059,13 +1059,13 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
       <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[A], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[B]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[A], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[B]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>[Footnote A: Gaius Julius Caesar.]</tt><br>
+        <kbd>[Footnote A: Gaius Julius Caesar.]</kbd><br>
         <br>
-        <tt>[Footnote B: Marcus Tullius Cicero.]</tt>
+        <kbd>[Footnote B: Marcus Tullius Cicero.]</kbd>
       </td>
     </tr>
   </tbody>
@@ -1088,7 +1088,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td valign="top">
-        <tt>/*<br>
+        <kbd>/*<br>
         Mary had a little lamb[1]<br>
         &nbsp;&nbsp;Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1097,7 +1097,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         <br>
         [Footnote 1: This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.]<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1109,7 +1109,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
  (<i><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
 <p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze beschrijvingen worden sidenotes genoemd.
    Verplaats de sidenotes naar vlak boven de alinea waar ze bij horen. Een sidenote moet omgeven worden
-   door een sidenote markering: <tt>[Sidenote:&nbsp;</tt> en <tt>]</tt>, met de tekst van de sidenote er tussenin.
+   door een sidenote markering: <kbd>[Sidenote:&nbsp;</kbd> en <kbd>]</kbd>, met de tekst van de sidenote er tussenin.
    Formatteer de tekst van de sidenote zoals hij gedrukt is, en handhaaf regelafbrekingen, cursief enz.
    (terwijl het koppelteken en de streepjes aan het eind van een regel normaal behandeld worden).
    Zet een lege regel voor en na de sidenote, zodat deze gescheiden blijft van de normale tekst.
@@ -1118,8 +1118,8 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
    Laat een lege regel tussen de verschillende sidenotes.
 </p>
 <p>Als de alinea al op de vorige pagina begonnen is, zet dan de sidenote bovenaan de pagina en
-   markeer hem met een sterretje (<tt>*</tt>), zodat de Post-Processor kan zien dat de sidenote op de vorige pagina hoort.
-   Doe het zo: <tt>*[Sidenote: <font color="red">(tekst van de sidenote)</font>]</tt>.
+   markeer hem met een sterretje (<kbd>*</kbd>), zodat de Post-Processor kan zien dat de sidenote op de vorige pagina hoort.
+   Doe het zo: <kbd>*[Sidenote: <font color="red">(tekst van de sidenote)</font>]</kbd>.
    De Post-Processor zal de sidenote verplaatsen naar waar hij hoort.
 </p>
 <p>Soms zal een Project Manager vragen, of je de sidenotes naast de zin waar ze bij horen,
@@ -1142,7 +1142,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         *[Sidenote: Burning<br>
         discs<br>
         thrown into<br>
@@ -1223,7 +1223,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
         423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
         p. 510.]<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1234,12 +1234,12 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="outofline">Plaatsing van Out-of-Line Formattering Markering</a>
  (<i><a href="#outofline">Placement of Out-of-Line Formatting Markup</a></i>)</h3>
-<p>Out-of-line formattering verwijst naar de <tt>/#</tt> <tt>#/</tt> en <tt>/*</tt> <tt>*/</tt> markering.
-   De <tt>/#</tt> <tt>#/</tt> "<span style="border-bottom: 1px dotted green;"
+<p>Out-of-line formattering verwijst naar de <kbd>/#</kbd> <kbd>#/</kbd> en <kbd>/*</kbd> <kbd>*/</kbd> markering.
+   De <kbd>/#</kbd> <kbd>#/</kbd> "<span style="border-bottom: 1px dotted green;"
    title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">rewrap</span>" markering geeft aan dat de
    tekst anders is gedrukt, maar dat deze nog steeds kan worden <span style="border-bottom: 1px dotted green;"
    title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">gerewrapped</span> tijdens het post-processen.
-   De <tt>/*</tt> <tt>*/</tt> "<span style="border-bottom: 1px dotted green;"
+   De <kbd>/*</kbd> <kbd>*/</kbd> "<span style="border-bottom: 1px dotted green;"
    title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">no-wrap</span>" markering geeft aan dat de
    tekst tijdens het post-processen niet moet worden <span style="border-bottom: 1px dotted green;"
    title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">gerewrapped</span>&mdash;waar de regelafbrekingen,
@@ -1260,7 +1260,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
  (<i><a href="#block_qt">Block Quotations</a></i>)</h3>
 <p>Blok citaten zijn lange citaten (vaak meerdere regels, soms meerdere pagina's)
    welke zich onderscheiden van de andere tekst door bredere kantlijnen, een kleiner lettertype, verschillende
-   inspringing, of iets dergelijks. Omgeef de blok citaten <tt>/#</tt> en <tt>#/</tt> markeringen. 
+   inspringing, of iets dergelijks. Omgeef de blok citaten <kbd>/#</kbd> en <kbd>#/</kbd> markeringen. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over
    deze markering.
 </p>
@@ -1278,9 +1278,9 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>later day was welcomed in their home on the Hudson.<br>
-        Dr. Bakewell's contribution was as follows:[24]</tt></p>
-        <p><tt>/#<br>
+        <p><kbd>later day was welcomed in their home on the Hudson.<br>
+        Dr. Bakewell's contribution was as follows:[24]</kbd></p>
+        <p><kbd>/#<br>
         The uncertainty as to the place of Audubon's birth has been<br>
         put to rest by the testimony of an eye witness in the person<br>
         of old Mandeville Marigny now dead some years. His repeated<br>
@@ -1293,12 +1293,12 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
         given to Audubon's mother, and his ability to bear witness as<br>
         to the place of Audubon's birth, thus establishing the fact that<br>
         he was a Louisianian by birth.<br>
-        #/<br></tt>
+        #/<br></kbd>
         </p>
-        <p><tt>We do not doubt the candor and sincerity of the<br>
+        <p><kbd>We do not doubt the candor and sincerity of the<br>
         excellent Dr. Bakewell, but are bound to say that the<br>
         incidents as related above betray a striking lapse of<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1308,7 +1308,7 @@ output_header('Formatteer-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="lists">Lijsten</a>
  (<i><a href="#lists">Lists of Items</a></i>)</h3>
-<p>Zet lijsten tussen <tt>/*</tt> en <tt>*/</tt> markeringen. 
+<p>Zet lijsten tussen <kbd>/*</kbd> en <kbd>*/</kbd> markeringen. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
 </p>
 <!-- END RR -->
@@ -1333,7 +1333,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         /*<br>
         Andersen, Hans Christian<br>
         Bach, Johann Sebastian<br>
@@ -1360,7 +1360,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
         Shakespeare, William<br>
         Tesla, Nikola<br>
         */
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1370,7 +1370,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 
 <h3><a name="tables">Tabellen</a>
  (<i><a href="#tables">Tables</a></i>)</h3>
-<p>Zet tabellen tussen <tt>/*</tt> en <tt>*/</tt> markeringen. 
+<p>Zet tabellen tussen <kbd>/*</kbd> en <kbd>*/</kbd> markeringen. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
    Formatteer de tabel met spaties (<b>geen tabs</b>), zo dat de tabel er ongeveer uitziet zoals het origineel.
    Probeer waar mogelijk extreem brede tabellen te vermijden; is het algemeen is een breedte onder
@@ -1383,10 +1383,10 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p>Wanneer inline formatting (cursief, vet, enz.) nodig is in de tabel, markeer dan elke cel
    van de tabel apart. Denk er bij het uitlijnen van de tekst aan dat inline opmaak in de
-   uiteindelijke tekst versie anders wordt weergegeven. Bijvoorbeeld, <tt>&lt;i&gt;</tt>cursieve
-   opmaak<tt>&lt;/i&gt;</tt> wordt normaal gesproken <tt>_</tt>lage streepjes<tt>_</tt>,
+   uiteindelijke tekst versie anders wordt weergegeven. Bijvoorbeeld, <kbd>&lt;i&gt;</kbd>cursieve
+   opmaak<kbd>&lt;/i&gt;</kbd> wordt normaal gesproken <kbd>_</kbd>lage streepjes<kbd>_</kbd>,
    en de meeste andere inline opmaak wordt vergelijkbaar behandeld. Aan de andere kant wordt
-   <tt>&lt;sc&gt;</tt>Klein Kapitaal Opmaak<tt>&lt;/sc&gt;</tt> helemaal verwijderd.
+   <kbd>&lt;sc&gt;</kbd>Klein Kapitaal Opmaak<kbd>&lt;/sc&gt;</kbd> helemaal verwijderd.
 </p>
 <p>Het is vaak moeilijk een tabel in normale tekst te formatteren; doe gewoon je best.
    Let er op dat je een 'mono-spaced' lettertype gebruikt, zoals
@@ -1411,7 +1411,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>
+<pre><kbd>
 TABLE II.
 
 /*
@@ -1436,7 +1436,7 @@ Same, 5 mm. wide       | 13 |  20 || Two  similar wires      | 12 |   30
 Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   the form of wire     | 17 |  15 ||   close together        | 18 |   12
 -----------------------+----+-----++-------------------------+----+------
-*/</tt></pre>
+*/</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1452,7 +1452,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>/*
+<pre><kbd>/*
                         &lt;i&gt;Agents.&lt;/i&gt;      &lt;i&gt;Objects.&lt;/i&gt;
             { 1st person,  I,             me,
             { 2d    "      thou,          thee,
@@ -1464,7 +1464,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
  &lt;i&gt;Plural&lt;/i&gt;   { 2d    "      ye, or you,    you,
             { 3d    "      they,          them,
                            who,           whom.
-*/</tt></pre>
+*/</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1474,7 +1474,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 <h3><a name="poetry">Po&euml;zie/Epigrammen</a>
  (<i><a href="#poetry">Poetry/Epigrams</a></i>)</h3>
-<p>Markeer po&euml;zie of epigrammen met <tt>/*</tt> en <tt>*/</tt> zo dat de regelafbrekingen en
+<p>Markeer po&euml;zie of epigrammen met <kbd>/*</kbd> en <kbd>*/</kbd> zo dat de regelafbrekingen en
    spati&euml;ring behouden blijft. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
 </p>
@@ -1511,9 +1511,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>
-        to the scenery of his own country:<br></tt>
-        <p><tt>
+        <kbd>
+        to the scenery of his own country:<br></kbd>
+        <p><kbd>
         /*<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
@@ -1522,8 +1522,8 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         That the lowest boughs and the brushwood sheaf<br>
         Round the elm-tree bole are in tiny leaf,<br>
         While the chaffinch sings on the orchard bough<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-        </p><p><tt>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</kbd>
+        </p><p><kbd>
         And after April, when May follows,<br>
         And the whitethroat builds, and all the swallows!<br>
         Hark! where my blossomed pear-tree in the hedge<br>
@@ -1536,10 +1536,10 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         All will be gay, when noontide wakes anew<br>
         The buttercups, the little children's dower;<br>
         --Far brighter than this gaudy melon-flower!<br>
-        */<br></tt>
-        </p><p><tt>
+        */<br></kbd>
+        </p><p><kbd>
         So it runs; but it is only a momentary memory;<br>
-        and he knew, when he had done it, and to his</tt>
+        and he knew, when he had done it, and to his</kbd>
         </p>
       </td>
     </tr>
@@ -1569,7 +1569,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    Zet een lege regel voor het begin van de brief. Eventuele inspringing wordt genegeerd.
 </p>
 <p>Bij elkaar horende regels van kop- of voettekst (bijvoorbeeld adres, datum, begroeting, ondertekening)
-   moet in een blok gezet worden, door er <tt>/*</tt> en <tt>*/</tt> markeringen omheen te zetten.
+   moet in een blok gezet worden, door er <kbd>/*</kbd> en <kbd>*/</kbd> markeringen omheen te zetten.
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
 </p>
 <p>Voeg geen inspringing toe aan kop- of voetteksten, ook niet als ze in het origineel zijn
@@ -1590,20 +1590,20 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-        <p><tt>[Letter No. 1, addressed]</tt></p>
-        <p><tt>/*<br>
+        <p><kbd>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</kbd></p>
+        <p><kbd>[Letter No. 1, addressed]</kbd></p>
+        <p><kbd>/*<br>
         &lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
         Merchant-Nantes.<br>
-        &lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807&lt;/i&gt;.</tt></p>
-        <p><tt>
+        &lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807&lt;/i&gt;.</kbd></p>
+        <p><kbd>
         &lt;sc&gt;Dear Sir&lt;/sc&gt;:<br>
-        */</tt></p>
-        <p><tt>
+        */</kbd></p>
+        <p><kbd>
         We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
         consignment of 20 pieces of linen cloth, for which we send our<br>
         thanks. As soon as we have sold them, we shall take great<br>
-        pleasure in making our return.</tt>
+        pleasure in making our return.</kbd>
         </p>
       </td>
     </tr>
@@ -1620,20 +1620,20 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/#<br>
+        <p><kbd>/#<br>
         lack of memory which &lt;i&gt;baffles belief&lt;/i&gt;, I have a certain<br>
         "uptaking" knack. My preachment will bore you, but you<br>
         will (if you read it) detect an &lt;i&gt;ensemble&lt;/i&gt;; but, for goodness'<br>
         sake, &lt;i&gt;zitti&lt;/i&gt;! They'll think, when they hear the P.R.A., that,<br>
         Lor' bless him! he'd known it all his life. Nevertheless,<br>
-        enough for the day, &amp;c. Best love to Gussey.--Affect. bro.,</tt></p>
-        <p><tt>/*<br>
+        enough for the day, &amp;c. Best love to Gussey.--Affect. bro.,</kbd></p>
+        <p><kbd>/*<br>
         &lt;sc&gt;Fred.&lt;/sc&gt;<br>
         */<br>
-        #/</tt></p>
-        <p><tt>I remember--when my husband and I were<br>
+        #/</kbd></p>
+        <p><kbd>I remember--when my husband and I were<br>
         sitting with him one afternoon after his return<br>
-        home that autumn--his saying, "I feel distinctly I</tt>
+        home that autumn--his saying, "I feel distinctly I</kbd>
         </p>
       </td>
     </tr>
@@ -1644,7 +1644,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 <h3><a name="r_align">Rechts-uitgelijnde Tekst</a>
  (<i><a href="#r_align">Right-aligned Text</a></i>)</h3>
-<p>Omgeef de regels met rechts-uitgelijnde tekst met <tt>/*</tt> en <tt>*/</tt> opmaak.
+<p>Omgeef de regels met rechts-uitgelijnde tekst met <kbd>/*</kbd> en <kbd>*/</kbd> opmaak.
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details
    over deze markering, en de <a href="#letter">Brieven/Correspondentie</a> paragraaf voor voorbeelden.
 </p>
@@ -1663,7 +1663,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 <h3><a name="blank_pg">Lege Pagina</a>
  (<i><a href="#blank_pg">Blank Page</a></i>)</h3>
-<p>Formatteer als <tt>[Blank Page]</tt> als zowel de tekst als het origineel leeg zijn.
+<p>Formatteer als <kbd>[Blank Page]</kbd> als zowel de tekst als het origineel leeg zijn.
 </p>
 <p>Als er wel tekst is, waar de te formatteren tekst hoort te staan, maar niet in het origineel,
    of als er tekst in het origineel staat maar geen tekst in het tekstvak, volg dan de aanwijzingen voor een
@@ -1696,19 +1696,19 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
-        GREEN FANCY</tt></p>
-        <p><tt>BY<br>
-        GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>&lt;i&gt;WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-        <p><tt>[Illustration]</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>/*<br>
+        GREEN FANCY</kbd></p>
+        <p><kbd>BY<br>
+        GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>&lt;i&gt;WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT&lt;/i&gt;</kbd></p>
+        <p><kbd>[Illustration]</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
         1917<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1719,7 +1719,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <h3><a name="toc">Inhoudsopgave</a>
  (<i><a href="#toc">Table of Contents</a></i>)</h3>
 <p>Formatteer de inhoudsopgave precies zoals deze in het boek gedrukt staat, hoofdletters, kleine letters enz.,
-   en zet er <tt>/*</tt> en <tt>*/</tt> achter. 
+   en zet er <kbd>/*</kbd> en <kbd>*/</kbd> achter. 
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
 </p>
 <p>Verwijzingen naar paginanummers moeten <b>tenminste zes spaties</b> voorbij het eind van tekst gezet worden.
@@ -1740,7 +1740,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt><br><br><br><br>CONTENTS<br>
+        <p><kbd><br><br><br><br>CONTENTS<br>
         <br>
         <br>
         /*<br>
@@ -1791,7 +1791,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         <br>
         XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
         Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1801,7 +1801,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 <h3><a name="bk_index">Indexen</a>
  (<i><a href="#bk_index">Indexes</a></i>)</h3>
-<p>Markeer de index met <tt>/*</tt> en <tt>*/</tt> markering.
+<p>Markeer de index met <kbd>/*</kbd> en <kbd>*/</kbd> markering.
    Zie <a href="#outofline">Plaatsing van Out-of-Line Formattering Markering</a> voor details over deze markering.
    Je hoeft de nummers niet netjes op een rij te zetten, zoals ze in het origineel staan.
    Zet gewoon een komma neer, gevolgd door de paginanummers.
@@ -1813,7 +1813,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen"><i>gerewrapped</i></span>.
 </p>
 <p>Voeg voor elke ingang in de index (<i>entry</i>) een lege regel toe.
-   Als er sub-topics zijn (vaak gescheiden door een puntkomma <tt>;</tt>), zet die dan op een nieuwe
+   Als er sub-topics zijn (vaak gescheiden door een puntkomma <kbd>;</kbd>), zet die dan op een nieuwe
    regel en spring 2 spaties in.
 </p>
 <p>Behandel elke nieuwe sectie in een index (A, B, C....) als een  <a href="#sect_head">paragraaftitel</a>
@@ -1848,14 +1848,14 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Elizabeth I, her royal Majesty the Queen, 123, 144-155.<br>
         &nbsp;&nbsp;birth of, 145.<br>
         &nbsp;&nbsp;christening, 146-147.<br>
         &nbsp;&nbsp;death and burial, 152.<br>
         <br>
         Ethelred II, the Unready, 33.<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -1885,7 +1885,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Hooker, Jos., maj. gen. U. S. V., 345;<br>
         &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
         &nbsp;&nbsp;afterwards, McDowell's, 367;<br>
@@ -1902,7 +1902,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         <br>
         James, Lewis M., 187;<br>
         &nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -1917,7 +1917,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Sales committee, 52<br>
         <br>
         Sales manager, 30<br>
@@ -1937,7 +1937,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Shipping department, 183-229<br>
         &nbsp;&nbsp;back orders, 199<br>
         &nbsp;&nbsp;checking shipments, 200<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -1969,11 +1969,11 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <ul compact>
  <li>Veel toneelstukken zijn metrisch, en net als po&euml;zie moeten ze niet
      <span style="border-bottom: 1px dotted green;" title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen"><i>gerewrapped</i></span> worden.
-     Zet <tt>/*</tt> voor en <tt>*/</tt> na metrische tekst, net als bij <a href="#poetry">po&euml;zie</a>.
-     Als de regieaanwijzingen op een aparte regel staan, zet er dan geen <tt>/*</tt> en <tt>*/</tt> omheen.
+     Zet <kbd>/*</kbd> voor en <kbd>*/</kbd> na metrische tekst, net als bij <a href="#poetry">po&euml;zie</a>.
+     Als de regieaanwijzingen op een aparte regel staan, zet er dan geen <kbd>/*</kbd> en <kbd>*/</kbd> omheen.
      (Aangezien regieaanwijzingen niet metrisch zijn, en dus veilig kunnen worden <span style="border-bottom: 1px dotted green;"
        title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen"><i>gerewrapped</i></span>, hoeven ze niet binnen de
-     <tt>/*</tt> <tt>*/</tt> markering te staan, die de metrische dialoog beschermt.)</li>
+     <kbd>/*</kbd> <kbd>*/</kbd> markering te staan, die de metrische dialoog beschermt.)</li>
  <li>Handhaaf het inspringen van dialoog net zo als <a href="#poetry">po&euml;zie</a>.</li>
  <li>Voeg metrische regels, die gesplitst moesten worden omdat het papier te smal was, samen, net als bij <a href="#poetry">po&euml;zie</a>.<br>
      Als het laatste stukje uit alleen maar &eacute;&eacute;n of twee woorden bestaat, dan staat het vaak op de regel
@@ -1998,36 +1998,36 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;La.&lt;/i&gt; But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; How slave? look you, Sir,<br>
         Did not I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this &lt;i&gt;Bob&lt;/i&gt;,<br>
         Should be both &lt;i&gt;Pica Roman&lt;/i&gt;.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; So said I, Sir, both &lt;i&gt;Picked Romans&lt;/i&gt;,<br>
         And he has made 'em &lt;i&gt;Welch&lt;/i&gt; Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, &lt;i&gt;Italica&lt;/i&gt;?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
         &lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2047,7 +2047,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         &lt;sc&gt;Clin.&lt;/sc&gt; And do I hold thee, my Antiphila,<br>
         Thou only wish and comfort of my soul!<br>
         <br>
@@ -2097,7 +2097,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Yonder he stands. I'll go and speak with him.<br>
         Good-morrow, neighbor! I have news for you;<br>
         Such news as you'll be overjoy'd to hear.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2118,7 +2118,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
+        <p><kbd>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
         <br>
         /*<br>
         &lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
@@ -2127,7 +2127,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
         <br>
         &lt;i&gt;Her.&lt;/i&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give them, sir.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2148,14 +2148,14 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         &lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
         Or not slept well to night; some dream (&lt;i&gt;Ismena?&lt;/i&gt;)<br>
         <br>
         &lt;i&gt;Ism.&lt;/i&gt; My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2172,11 +2172,11 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </p>
 <p>Je moet ook een aantekening (noot) in de geformatteerde tekst zetten, waarin je aan de volgende
    formatteerder of de Post-Processor uitlegt wat het probleem of de vraag is.
-   Begin je aantekening met een vierkant haakje en twee sterretjes <tt>[**</tt> en sluit hem
-   af met een vierkant haakje <tt>]</tt>. Dit onderscheidt je aantekening duidelijk van de tekst
+   Begin je aantekening met een vierkant haakje en twee sterretjes <kbd>[**</kbd> en sluit hem
+   af met een vierkant haakje <kbd>]</kbd>. Dit onderscheidt je aantekening duidelijk van de tekst
    van de schrijver en geeft de Post-Processor een signaal om even te stoppen en zorgvuldig dit
    gedeelte tekst &amp; origineel te vergelijken om een evt. probleem aan te pakken.
-   Je kunt ook aangeven in welke ronde je werkt (bv. net voor de <tt>]</tt>) zodat
+   Je kunt ook aangeven in welke ronde je werkt (bv. net voor de <kbd>]</kbd>) zodat
    volgende vrijwilligers weten wie de aantekening heeft achtergelaten.
    Al het commentaar welke door een vorige vrijwilliger is toegevoegd <b>moet</b> blijven staan.
    Zie de volgende paragraaf voor details.
@@ -2259,10 +2259,10 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    geen spel- of zetfouten die op het origineel voorkomen. In veel oudere teksten werden woorden
    anders gespeld dan we tegenwoordig doen. We handhaven deze oude spelling, inclusief eventuele accenten.
 </p>
-<p>Maak een aantekening in de tekst direct naast de drukvaut<tt>[**typo voor drukfout?]</tt>.
+<p>Maak een aantekening in de tekst direct naast de drukvaut<kbd>[**typo voor drukfout?]</kbd>.
    Als je niet zeker weet of het werkelijk een fout is, vraag het dan na in de Project Discussie.
-   Als je iets verandert, maak dan een aantekening wat je veranderd hebt: <tt>[**typo "drukvaut" verbeterd]</tt>. 
-   Zorg dat de twee sterretjes <tt>**</tt> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet.
+   Als je iets verandert, maak dan een aantekening wat je veranderd hebt: <kbd>[**typo "drukvaut" verbeterd]</kbd>. 
+   Zorg dat de twee sterretjes <kbd>**</kbd> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>

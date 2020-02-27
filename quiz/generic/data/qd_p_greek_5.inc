@@ -15,19 +15,19 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["d_b"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>b</tt>' in the text where there is the Greek letter &delta; (delta, transliterated '<tt>d</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>b</kbd>' in the text where there is the Greek letter &delta; (delta, transliterated '<kbd>d</kbd>') in the image."),
 );
 $messages["g_y"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>y</tt>' in the text where there is the Greek letter &gamma; (gamma, transliterated '<tt>g</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>y</kbd>' in the text where there is the Greek letter &gamma; (gamma, transliterated '<kbd>g</kbd>') in the image."),
 );
 $messages["t_r"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>r</tt>' in the text where there is the Greek letter &tau; (tau, transliterated '<tt>t</tt>') in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>r</kbd>' in the text where there is the Greek letter &tau; (tau, transliterated '<kbd>t</kbd>') in the image."),
 );
 $messages["Bissa"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>i</tt>' in the text where there is the Greek letter &epsilon; (epsilon, transliterated '<tt>e</tt>') in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>i</kbd>' in the text where there is the Greek letter &epsilon; (epsilon, transliterated '<kbd>e</kbd>') in the image."),
 );
 $messages["missingparen"] = array(
     "message_title" => _("Missing punctuation"),

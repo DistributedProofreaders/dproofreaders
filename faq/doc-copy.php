@@ -48,15 +48,15 @@ and also some common guidelines.
         <b>&oacute;</b>, etc.                                                   </li>
     <li>Follow the normal rules for hyphens (remove hyphens that split a word
         across lines and join the word back together on the top line).          </li>
-    <li>Check very carefully the sequences like <tt>A867103. R111277</tt>.
+    <li>Check very carefully the sequences like <kbd>A867103. R111277</kbd>.
         The usual format is a capital letter followed by 6 numbers, but the OCR
         scanner often has trouble with this, and frequently mis-reads them.     </li>
     <li>Contrary to the
         <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php#abbrev">General Guidelines</a>,
 	do not remove spaces between initials in names.
 	For example, do not change
-	<tt>G.&nbsp;B.&nbsp;Shaw</tt> to
-	<tt>G.B.&nbsp;Shaw</tt>.
+	<kbd>G.&nbsp;B.&nbsp;Shaw</kbd> to
+	<kbd>G.B.&nbsp;Shaw</kbd>.
 
 
 </ul>
@@ -90,7 +90,7 @@ and also some common guidelines.
   <tbody>
     <tr valign="top">
       <td>
-      <tt>
+      <kbd>
 
 ABAILARD, PIERRE.                                                <br>
 &nbsp;&nbsp;&nbsp;The letters of Abelard and Heloise;            <br>
@@ -119,7 +119,7 @@ BENNETT, MARIE MARGUERITE                                        <br>
 &nbsp;&nbsp;&nbsp;Things that have interested me.                <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R109181. SEE Bennett, Arnold.      <br>
 
-      </tt>
+      </kbd>
       </td>
    <!-- would be good to have the corresponding image here, too! -->
     </tr>

@@ -279,7 +279,7 @@ different pages.  This will significantly speed up the proofreading process.
 <p>Also, feel free to leave short notes in the pages as you do them, just make certain
     to mark them with an asterisk so that the next proofreader can find them.  Like this: <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <tt>John Smyth* [**image too faint--I can't tell if it's Smythe or Smith here.] </tt></p>
+    <kbd>John Smyth* [**image too faint--I can't tell if it's Smythe or Smith here.] </kbd></p>
 
 
 <h3><a name="11">11. I'm having trouble on the webpage trying to ... Log in/Proofread a page/Get a new page </a></h3>
