@@ -323,6 +323,7 @@ function _test_project_for_bad_bytes($projectid)
             <th>" . _("Text") . "</th>
             <th>" . _("#") . "</th>
             <th>" . _("Raw") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Bytes") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
@@ -431,12 +432,15 @@ function tds_for_bad_bytes($raw)
         // It's a named or numeric character reference
         // so just show the reference itself,
         // rather than converting it to hex.
-        $tds .= "<td>" . htmlspecialchars($raw) . "</td>";
+        $tds .= "<td colspan='2'>" . htmlspecialchars($raw) . "</td>";
     }
     else
     {
-        $hex = utf8_chr_to_hex($raw);
-        $tds .= "<td>$hex</td>";
+        $codepoints = combined_character_to_hex($raw);
+        $tds .= "<td>$codepoints</td>";
+
+        $bytes = string_to_hex($raw);
+        $tds .= "<td>$bytes</td>";
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
