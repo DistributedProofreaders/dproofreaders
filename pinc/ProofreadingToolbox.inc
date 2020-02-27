@@ -66,10 +66,10 @@ class ProofreadingToolbox
         }
     }
 
-    public function output($projectid, $round)
+    public function output($charsuitesid, $round)
     {
         echo "<div class='display-flex' id='toolbox'>";
-        $character_selector = new CharacterSelector($projectid);
+        $character_selector = new CharacterSelector($charsuitesid);
         echo "<div id='char-picker'>";
         echo "<button type='button' id='hide-picker' class='hide-picker-button' title='", attr_safe(_("Hide the character picker")), "'>&lang;</button>";
         $character_selector->draw();

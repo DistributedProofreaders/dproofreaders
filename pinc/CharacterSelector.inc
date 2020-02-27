@@ -4,18 +4,10 @@ include_once($relPath."unicode.inc"); // convert_codepoint_ranges_to_characters(
 
 class CharacterSelector
 {
-    function __construct ($projectid)
+    function __construct ($charsuitesid)
     {
-        // quizzes use a 'fake' project that still needs a pickerset
-        if($projectid == 'projectID0000000000000')
-        {
-            $this->picker_sets = [ CharSuites::get('basic-latin')->pickerset ];
-        }
-        else
-        {
-            $project = new Project($projectid);
-            $this->picker_sets = $project->get_pickersets();
-        }
+        $charsuite_set = get_charsuiteset($charsuitesid);
+        $this->picker_sets = $charsuite_set->get_pickersets();
     }
 
     function draw()

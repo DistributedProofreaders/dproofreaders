@@ -16,6 +16,7 @@ class UTF8ConversionException extends Exception { }
 
 class Project
 {
+    use CharSuiteSet;
     function __construct( $arg )
     {
         if ( is_string($arg) )
@@ -241,32 +242,6 @@ class Project
         }
         mysqli_free_result($result);
         return $charsuites;
-    }
-
-    public function get_valid_codepoints()
-    {
-        # Codepoints applicable to all projects
-        $global_codepoints = [
-            'U+000A', # new lines
-            'U+000D', # carriage returns
-        ];
-
-        $codepoints = $global_codepoints;
-        foreach($this->get_charsuites() as $charsuite)
-        {
-            $codepoints = array_merge($codepoints, $charsuite->codepoints);
-        }
-        return $codepoints;
-    }
-
-    public function get_pickersets()
-    {
-        $pickersets = [];
-        foreach($this->get_charsuites() as $charsuite)
-        {
-            $pickersets[] = $charsuite->pickerset;
-        }
-        return $pickersets;
     }
 
     // -------------------------------------------------------------------------
@@ -1010,7 +985,7 @@ function validate_projectID($param_name, $value, $allownull = false)
 {
     if (!isset($value) && $allownull)
         return null;
-    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value))
+    if (is_valid_longprojectid($value))
         return $value;
     if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
         return "projectID$value";
@@ -1019,6 +994,11 @@ function validate_projectID($param_name, $value, $allownull = false)
         $param_name,
         $value
     ));
+}
+
+function is_valid_longprojectid($value)
+{
+    return (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value));
 }
 
 // Checks if $value contains only legitimate characters for

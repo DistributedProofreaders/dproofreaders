@@ -1,4 +1,4 @@
-/*global $ projectID mruTitle mruAbbrev */
+/*global $ charsuiteSet mruTitle mruAbbrev */
 
 $(function () {
     "use strict";
@@ -28,7 +28,7 @@ $(function () {
     // on page unload, save data
 
     var mru;
-    var storageKey = "mru_" + projectID;
+    var storageKey = "mru_" + charsuiteSet;
     var mruString = localStorage.getItem(storageKey);
     if (mruString) {
         mru = JSON.parse(mruString);

@@ -5,6 +5,7 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
+include_once($relPath.'codepoint_validator.inc');
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
@@ -26,7 +27,16 @@ else
     $font_settings = '';
 }
 
+$json_code_points = get_json_codepoints("quiz_basic");
+
 $header_args = array(
+    "js_files" => array(
+        "$code_url/scripts/character_test.js",
+        "$code_url/tools/proofers/process_diacritcal_markup.js",
+        ),
+    "js_data" => "
+        var codePoints = $json_code_points;
+    ",
     'body_attributes' => "onload='top.initializeStuff(1)'",
 );
 

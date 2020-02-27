@@ -18,8 +18,8 @@ $bad_char_message
 END;
 }
 
-function get_json_codepoints($projectid)
+function get_json_codepoints($charsuitesid)
 {
-    $project = new Project($projectid);
-    return json_encode($project->get_valid_codepoints());
+    $charsuite_set = get_charsuiteset($charsuitesid);
+    return json_encode($charsuite_set->get_valid_codepoints());
 }
