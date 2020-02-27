@@ -331,14 +331,18 @@ function _test_project_for_bad_bytes($projectid)
     ";
 
     $n_bad_pages = 0;
+    $valid_codepoints = $project->get_valid_codepoints();
+
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
                 $text = "test 𐌄 file Β M̆  T̆  X̉̎ΔΗ &̇̇  &amp; &#161; \u{e2}\u{80}\u{94} \xe2\x80\x94";
 
         $round_num = get_round_num_from_proofers($proofers);
-        $occurrences = find_bad_byte_sequences_in_text($text, $projectid);
+        $occurrences = find_bad_byte_sequences_in_text($text);
+        $invalid_chars = get_invalid_characters($text, $valid_codepoints);
 
-        if (count($occurrences) == 0)
+        $number_bad_chars = count($occurrences) + count($invalid_chars);
+        if ($number_bad_chars == 0)
         {
             // Nothing bad on this page!
             continue;
@@ -354,7 +358,7 @@ function _test_project_for_bad_bytes($projectid)
         {
             if ($details_for_this_page == "")
             {
-                $rowspan = count($occurrences);
+                $rowspan = $number_bad_chars;
                 $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
                 $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
                 $details_for_this_page = "<tr>\n";
@@ -379,6 +383,15 @@ function _test_project_for_bad_bytes($projectid)
 
             $details_for_this_page .= tds_for_bad_bytes($raw);
 
+            $details_for_this_page .= "</tr>\n";
+        }
+
+        ksort($invalid_chars);
+        foreach ($invalid_chars as $raw => $n_occurrences)
+        {
+            $details_for_this_page .= "<tr>\n";
+            $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
+            $details_for_this_page .= tds_for_invalid_chars($raw);
             $details_for_this_page .= "</tr>\n";
         }
 
@@ -448,6 +461,17 @@ function tds_for_bad_bytes($raw)
     $tds .= "<td>" . htmlspecialchars($intended_character) . "</td>";
 
     $tds .= "<td>" . htmlspecialchars($why_bad) . "</td>";
+
+    return $tds;
+}
+
+function tds_for_invalid_chars($raw)
+{
+    $tds = "<td>$raw</td>";
+    $tds .= "<td>" . combined_character_to_hex($raw) . "</td>"; // codepoints
+    $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
+    $tds .= "<td></td>"; // intended character
+    $tds .= "<td>" . "Codepoint not valid for project" . "</td>";
 
     return $tds;
 }
