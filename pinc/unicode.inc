@@ -171,11 +171,11 @@ function guess_string_encoding($text)
     return 'ISO-8859-1';
 }
 
-function combined_character_to_hex($char)
+function codepoints_to_hex($string)
 {
     // find the components of combined character as hex strings
     $codepoints = [];
-    preg_match_all("/./u", $char, $matches);
+    preg_match_all("/./u", $string, $matches);
     foreach($matches[0] as $match)
     {
         $codepoints[] = str_pad(dechex(IntlChar::ord($match)), 4, "0", STR_PAD_LEFT);

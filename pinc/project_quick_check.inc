@@ -447,11 +447,8 @@ function tds_for_bad_bytes($raw)
     }
     else
     {
-        $codepoints = combined_character_to_hex($raw);
-        $tds .= "<td>$codepoints</td>";
-
-        $bytes = string_to_hex($raw);
-        $tds .= "<td>$bytes</td>";
+        $tds .= "<td>" . codepoints_to_hex($raw) . "</td>"; // codepoints
+        $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
@@ -466,7 +463,7 @@ function tds_for_bad_bytes($raw)
 function tds_for_invalid_chars($raw)
 {
     $tds = "<td>$raw</td>";
-    $tds .= "<td>" . combined_character_to_hex($raw) . "</td>"; // codepoints
+    $tds .= "<td>" . codepoints_to_hex($raw) . "</td>"; // codepoints
     $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
     $tds .= "<td></td>"; // intended character
     $tds .= "<td>" . "Codepoint not valid for project" . "</td>";
