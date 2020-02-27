@@ -275,6 +275,7 @@ class Project
             $charsuites[] = CharSuites::get($row["charsuite_name"]);
         }
         mysqli_free_result($result);
+        $charsuites[] = CharSuites::get("combined");
         return $charsuites;
     }
 

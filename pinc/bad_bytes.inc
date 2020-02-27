@@ -786,24 +786,20 @@ define_bad_byte_sequences();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function find_bad_byte_sequences_in_text($text, $projectid)
+define("BOM", "\u{feff}");
+
+// note that this can change $text
+function find_bad_byte_sequences_in_text(&$text)
 {
     global $_unanchored_bad_bytes_regex, $_bad_byte_sequences;
 
     $occurrences = array();
 
-    // find any characters in the text that are not valid for the project
     if(utf8_string_has_bom($text))
     {
-        $occurrences['BOM'] = 1;
+        $occurrences[BOM] = 1;
+        //remove it so not reported again as an invalid character
         $text = utf8_str_replace(utf8_bom(), '', $text);
-    }
-
-    $project = new Project($projectid);
-    $invalid_chars = get_invalid_characters($text, $project->get_valid_codepoints());
-    foreach($invalid_chars as $char => $num)
-    {
-        $occurrences[$char] = $num;
     }
 
     $n_matches = preg_match_all($_unanchored_bad_bytes_regex, $text, $matches);
@@ -881,6 +877,10 @@ function get_remarks_for_bad_byte_sequence($raw)
 {
     global $_bad_byte_sequences, $_character_data;
 
+    if(BOM === $raw)
+    {
+        return array("", "Byte Order Mark");
+    }
     if (startswith($raw, '&#'))
     {
         // This is a numeric character reference.
@@ -898,30 +898,22 @@ function get_remarks_for_bad_byte_sequence($raw)
 
         $why_bad = "HTML numeric character reference";
     }
-    elseif(utf8_strlen($raw) == 1 && is_utf8($raw))
-    {
-        $why_bad = "Codepoint not valid for project";
-        $intended_character = "";
-    }
     else
     {
         list($code_point, $why_bad) = $_bad_byte_sequences[$raw];
     }
 
-    if(!isset($intended_character))
+    $info = $_character_data[$code_point] ?? null;
+    if ($info)
     {
-        @$info = $_character_data[$code_point];
-        if ($info)
-        {
-            $char_name = $info['name'];
-        }
-        else
-        {
-            // $_character_data doesn't have an entry for that code point
-            $char_name = '???';
-        }
-        $intended_character = sprintf("U+%04x %s", $code_point, $char_name);
+        $char_name = $info['name'];
     }
+    else
+    {
+        // $_character_data doesn't have an entry for that code point
+        $char_name = '???';
+    }
+    $intended_character = sprintf("U+%04x %s", $code_point, $char_name);
 
     return array($intended_character, $why_bad);
 }

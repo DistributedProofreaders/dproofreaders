@@ -991,6 +991,7 @@ table.search-column tr th {
 }
 .gs-codepoint {
   font-size: 0.7em;
+  white-space: pre;
 }
 /* ------------------------------------------------------------------------ */
 /* replace text validator */

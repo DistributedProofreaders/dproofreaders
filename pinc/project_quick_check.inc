@@ -324,18 +324,25 @@ function _test_project_for_bad_bytes($projectid)
             <th>" . _("#") . "</th>
             <th>" . _("Raw") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>
     ";
 
     $n_bad_pages = 0;
+    $valid_codepoints = $project->get_valid_codepoints();
+
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
         $round_num = get_round_num_from_proofers($proofers);
-        $occurrences = find_bad_byte_sequences_in_text($text, $projectid);
 
-        if (count($occurrences) == 0)
+        // note that this can change $text
+        $occurrences = find_bad_byte_sequences_in_text($text);
+        $invalid_chars = get_invalid_characters($text, $valid_codepoints);
+
+        $number_bad_chars = count($occurrences) + count($invalid_chars);
+        if ($number_bad_chars == 0)
         {
             // Nothing bad on this page!
             continue;
@@ -344,38 +351,43 @@ function _test_project_for_bad_bytes($projectid)
         // page had at least one bad byte-sequence
         $n_bad_pages += 1;
 
-        $details_for_this_page = "";
+        // write image and round columns
+        $rowspan = $number_bad_chars;
+        $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
+        $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
+        $details_for_this_page = "<tr>\n";
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
+        if($round_num == 0)
+        {
+            $round_name = 'OCR';
+        }
+        else
+        {
+            $round = get_Round_for_round_number($round_num);
+            $round_name = $round->id;
+        }
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
 
+        // on the first row <tr> is already written out with image and round
+        // columns so only write it on subsequent rows
+        $first_row = true;
+        // write bad bytes data
         ksort( $occurrences );
+
         foreach ($occurrences as $raw => $n_occurrences)
         {
-            if ($details_for_this_page == "")
-            {
-                $rowspan = count($occurrences);
-                $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
-                $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
-                $details_for_this_page = "<tr>\n";
-                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-                if($round_num == 0)
-                {
-                    $round_name = 'OCR';
-                }
-                else
-                {
-                    $round = get_Round_for_round_number($round_num);
-                    $round_name = $round->id;
-                }
-                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
-            }
-            else
-            {
-                $details_for_this_page .= "<tr>\n";
-            }
-
+            $details_for_this_page .= write_row_start($first_row);
             $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
-
             $details_for_this_page .= tds_for_bad_bytes($raw);
+            $details_for_this_page .= "</tr>\n";
+        }
 
+        ksort($invalid_chars);
+        foreach ($invalid_chars as $raw => $n_occurrences)
+        {
+            $details_for_this_page .= write_row_start($first_row);
+            $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
+            $details_for_this_page .= tds_for_invalid_chars($raw);
             $details_for_this_page .= "</tr>\n";
         }
 
@@ -398,6 +410,20 @@ function _test_project_for_bad_bytes($projectid)
     }
 
     return $r;
+}
+
+// write <tr> if not the first row
+function write_row_start(&$first_row)
+{
+    if($first_row)
+    {
+        $first_row = false;
+        return "";
+    }
+    else
+    {
+        return "<tr>\n";
+    }
 }
 
 // We can calculate what round number a page text was selected from by
@@ -429,12 +455,12 @@ function tds_for_bad_bytes($raw)
         // It's a named or numeric character reference
         // so just show the reference itself,
         // rather than converting it to hex.
-        $tds .= "<td>" . htmlspecialchars($raw) . "</td>";
+        $tds .= "<td>" . htmlspecialchars($raw) . "</td><td></td>";
     }
     else
     {
-        $hex = utf8_chr_to_hex($raw);
-        $tds .= "<td>$hex</td>";
+        $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
+        $tds .= "<td>" . string_to_codepoints_string($raw) . "</td>"; // codepoints
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
@@ -442,6 +468,17 @@ function tds_for_bad_bytes($raw)
     $tds .= "<td>" . htmlspecialchars($intended_character) . "</td>";
 
     $tds .= "<td>" . htmlspecialchars($why_bad) . "</td>";
+
+    return $tds;
+}
+
+function tds_for_invalid_chars($raw)
+{
+    $tds = "<td>$raw</td>";
+    $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
+    $tds .= "<td>" . string_to_codepoints_string($raw) . "</td>"; // codepoints
+    $tds .= "<td></td>"; // intended character
+    $tds .= "<td>" . "Codepoint not valid for project" . "</td>";
 
     return $tds;
 }

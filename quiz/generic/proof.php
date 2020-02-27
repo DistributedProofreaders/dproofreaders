@@ -26,8 +26,9 @@ else
 {
     $font_settings = '';
 }
-// 'quiz' will result in codepoints for quizes
-$json_code_points = get_json_codepoints("quiz");
+
+$project = new QuizCharSuites();
+$codepoint_regex_class = javascript_safe(build_codepoint_regex_filter($project->get_valid_codepoints()));
 
 $header_args = array(
     "js_files" => array(
@@ -35,7 +36,7 @@ $header_args = array(
         "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
     "js_data" => "
-        var codePoints = $json_code_points;
+        var codePointRegexCharClass = \"$codepoint_regex_class\";
     ",
     'body_attributes' => "onload='top.initializeStuff(1)'",
 );

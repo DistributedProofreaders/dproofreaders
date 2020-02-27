@@ -1,4 +1,4 @@
-/*global $ codePoints XRegExp */
+/*global $ codePointRegexCharClass XRegExp */
 /* exported testText */
 
 // this regular expression (constructed below) matches good characters
@@ -24,21 +24,5 @@ function testText(text) {
 }
 
 $(function () {
-    function utf8Chr(codePoint) {
-        return "\\u{" + codePoint.slice(2) + "}";
-    }
-
-    var charClass = "";
-    codePoints.forEach(function (codePoint) {
-        if(codePoint.indexOf("-") === -1) {
-            // single code point
-            charClass += utf8Chr(codePoint);
-        } else {
-            // range
-            let code = codePoint.split("-");
-            charClass += utf8Chr(code[0]) + "-" + utf8Chr(code[1]);
-        }
-    });
-
-    goodChars = new RegExp("^[" + charClass + "]$", "u");
+    goodChars = new RegExp(codePointRegexCharClass, "u");
 });

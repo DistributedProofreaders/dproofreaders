@@ -15,7 +15,8 @@ $revert_text=isset($_POST['revert_text']) ? $_POST['revert_text'] : $text_data;
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
-$json_code_points = get_json_codepoints($ppage->projectid());
+$project = new Project($ppage->projectid());
+$codepoint_regex_class = javascript_safe(build_codepoint_regex_filter($project->get_valid_codepoints()));
 
 $keep_corrections = _("Keep corrections and return to proofreading this page");
 $rerun = _("Check page against an additional language");
@@ -36,7 +37,7 @@ $header_args = array(
         "$code_url/scripts/character_test.js",
     ),
     "js_data" => get_page_js($userP['i_type']==1 ? 2 : 3)
-        . "var codePoints = $json_code_points; var wordCheckMessages = $word_check_messages;",
+        . "var codePointRegexCharClass = \"$codepoint_regex_class\"; var wordCheckMessages = $word_check_messages;",
 
     "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
 );

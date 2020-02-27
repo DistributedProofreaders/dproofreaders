@@ -89,6 +89,38 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
         $this->assertEquals("___1Ж3___", $new_string);
     }
 
+    // Confirm that combined characters are properly filtered, specifically
+    // we use a string that has characters that decompose into overlapping
+    // codepoints to ensure we handle them all.
+
+    public function testFilterToCodepointsCombined()
+    {
+        $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
+        $new_string = utf8_filter_to_codepoints($string, $this->combined_codepoints);
+        $this->assertEquals("NN̆N̆", $new_string);
+    }
+
+    public function testFilterToCodepointsCombinedReplace()
+    {
+        $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
+        $new_string = utf8_filter_to_codepoints($string, $this->combined_codepoints, "_");
+        $this->assertEquals("___NN̆N̆_______", $new_string);
+    }
+
+    public function testFilterOutCodepointsCombined()
+    {
+        $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
+        $new_string = utf8_filter_out_codepoints($string, $this->combined_codepoints);
+        $this->assertEquals("abcN͉̅A̅ĂȦxyz", $new_string);
+    }
+
+    public function testFilterOutCodepointsCombinedReplace()
+    {
+        $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
+        $new_string = utf8_filter_out_codepoints($string, $this->combined_codepoints, "_");
+        $this->assertEquals("abc___N͉̅A̅ĂȦxyz", $new_string);
+    }
+
     public function testConvertCodepointsToCharacters()
     {
         $chars = str_split("abcdefghijklmnopqrstuvwxyz");
@@ -110,6 +142,19 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
             "#" => 2,
             "@" => 1,
             "Ж" => 1,
+        ];
+        $invalid_chars = get_invalid_characters($string, $this->a_to_z_codepoints);
+        $this->assertEquals($chars, $invalid_chars);
+    }
+
+    public function testGetInvalidCharactersCombined()
+    {
+        $string = "abc@##ЖN̆N̆abc";
+        $chars = [
+            "#" => 2,
+            "@" => 1,
+            "Ж" => 1,
+            "N̆" => 2,
         ];
         $invalid_chars = get_invalid_characters($string, $this->a_to_z_codepoints);
         $this->assertEquals($chars, $invalid_chars);

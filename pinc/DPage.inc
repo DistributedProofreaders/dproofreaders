@@ -719,18 +719,21 @@ function get_normalize_page_text_changes($text, $projectid)
         $invalid_char_names = [];
         foreach(array_keys($invalid_chars) as $char)
         {
-            $name = IntlChar::charName($char);
-            # if it doesn't have a name it's a control character which can't
-            # be printed anyway, or if it's a soft hyphen
-            if(!$name || utf8_chr_to_hex($char) == 'U+00ad')
+            // in case its a combined character
+            $codepoints = utf8_split($char);
+            $base_codepoint = $codepoints[0];
+            // if not defined or is a control character or soft hyphen
+            if(!IntlChar::isdefined($base_codepoint) || IntlChar::iscntrl($base_codepoint) || ($base_codepoint === "\x{ad}"))
             {
-                $name = utf8_chr_to_hex($char);
+                // put U+xxxx instead of utf8 string
+                $invalid_char_names[] = utf8_chr_to_hex($base_codepoint);
             }
             else
             {
-                $name = $char;
+                // combined characters will get here unless first component is caught above
+                $title = utf8_character_name($char);
+                $invalid_char_names[] = "<span title='$title'>$char</span>";
             }
-            $invalid_char_names[] = $name;
         }
         $invalid_char_string = implode(", ", $invalid_char_names);
         $changes[] = sprintf(_("Invalid characters will be removed: <span class='mono'>%s</span>"), $invalid_char_string);

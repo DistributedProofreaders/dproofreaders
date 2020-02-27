@@ -18,10 +18,10 @@ function utf8_normalize($string)
 # Given one or more codepoints, return the UTF-8 character that it describes.
 # This is very similar to utf8_chr(), except if $codepoint contains a >, it
 # is assumed to represent a combined character.
-function utf8_combined_chr($codepoint)
+function utf8_combined_chr($character)
 {
-    $codepoints = explode('>', $codepoint);
-    return utf8_normalize(implode('', array_map('utf8_chr', $codepoints)));
+    $codepoints = explode('>', $character);
+    return implode('', array_map('utf8_chr', $codepoints));
 }
 
 # Given a single character, or a combined character, return its name
@@ -36,32 +36,28 @@ function utf8_character_name($characters)
 }
 
 # Given a string, return a string of codepoints in U+ format
-function string_to_codepoints_string($string, $imploder=" ")
+function string_to_codepoints_string($string, $imploder = " ")
 {
     return implode($imploder, utf8_codepoints($string, true));
 }
 
-# Filter to only characters in $string that are in $valid_codepoints.
-function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
+# Filter to only characters in $string that are in $valid_characters.
+function utf8_filter_to_codepoints($string, $valid_characters, $replacement="")
 {
-    $char_class = "";
-    foreach($valid_codepoints as $codepoint)
-    {
-        if(strpos($codepoint, '-') === False)
+    $pattern_string = build_codepoint_regex_filter($valid_characters);
+    $pattern_string = "/$pattern_string/u";
+    return preg_replace_callback(
+        "/\X/u",
+        function ($matches) use($pattern_string, $replacement)
         {
-            $char_class .= utf8_chr($codepoint);
-        }
-        else
-        {
-            list($start, $end) = explode('-', $codepoint);
-            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
-        }
-    }
-    if(!$char_class)
-        return $string;
-
-    $pattern_string = "/[^$char_class]/u";
-    return preg_replace($pattern_string, $replacement, $string);
+            $match = $matches[0];
+            if(1 === preg_match($pattern_string, $match))
+            {
+                return $match;
+            }
+            return $replacement;
+        },
+        $string);
 }
 
 # Filter out any characters in $string that are in $remove_codepoints
@@ -118,25 +114,65 @@ function convert_codepoint_ranges_to_characters($codepoints)
 }
 
 # Return an array of invalid characters and their count
-function get_invalid_characters($string, $codepoints)
+function get_invalid_characters($string, $valid_characters)
 {
-    $string = utf8_filter_out_codepoints($string, $codepoints);
+    $char_class = build_codepoint_regex_filter($valid_characters);
+    $pattern_string = "/$char_class/u";
     $char_count = [];
     if($string)
     {
-        foreach(utf8_split($string) as $char)
-        {
-            if(!isset($char_count[$char]))
+        preg_replace_callback(
+            "/\X/u",
+            function ($matches) use($pattern_string, &$char_count)
             {
-                $char_count[$char] = 1;
-            }
-            else
-            {
-                $char_count[$char]++;
-            }
-        }
+                $char = $matches[0];
+                if(0 === preg_match($pattern_string, $char))
+                {
+                    if(!isset($char_count[$char]))
+                    {
+                        $char_count[$char] = 1;
+                    }
+                    else
+                    {
+                        $char_count[$char]++;
+                    }
+                }
+            },
+            $string);
     }
     return $char_count;
+}
+
+# Take an array of Unicode codepoints (U+####), codepoint ranges
+# (U+####-U+####), or combined characters (U+####>U+####) and
+# return a regular expression character class to match them.
+function build_codepoint_regex_filter($characters)
+{
+    $char_class = "";
+    $alternatives = [];
+    foreach($characters as $character)
+    {
+        if(strpos($character, '-') !== False)
+        {
+            # we have a character range
+            list($start, $end) = explode('-', $character);
+            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
+        }
+        elseif(strpos($character, '>') !== False)
+        {
+            # we have a combined character
+            $alternatives[] = utf8_combined_chr($character);
+        }
+        else
+        {
+            # just a regular unicode character
+            $char_class .= utf8_chr($character);
+        }
+    }
+    $alternatives[] = "[$char_class]";
+    // add begin and end anchors
+    // don't add /.../u yet so we can use it also in javascript
+    return "^(?:" . implode("|", $alternatives) . ")$";
 }
 
 # Convert a text file to UTF-8, guessing its encoding returns:

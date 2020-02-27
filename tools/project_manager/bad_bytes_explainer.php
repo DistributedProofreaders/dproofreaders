@@ -50,10 +50,10 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
         e.g., tab, no-break space, or soft hyphen.
     </li>
 
-    <li><b>Bytes</b>:
+    <li><b>Codepoints and Bytes</b>:
         If the byte-sequence is an HTML character-reference,
-        this column just shows the reference.
-        Otherwise, it shows the values of the bytes, written in hexadecimal.
+        these columns just show the reference.
+        Otherwise, they show the values of the unicode codepoints and bytes, written in hexadecimal.
     </li>
 
     <li><b>Likely intended character</b>:
@@ -154,6 +154,7 @@ function show_a_table_of_bads($desired_badness)
         <tr>
             <th>" . _("Raw") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>
