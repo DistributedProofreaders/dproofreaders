@@ -786,7 +786,9 @@ define_bad_byte_sequences();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function find_bad_byte_sequences_in_text($text)
+define("BOM", "\u{feff}");
+
+function find_bad_byte_sequences_in_text(&$text)
 {
     global $_unanchored_bad_bytes_regex, $_bad_byte_sequences;
 
@@ -794,7 +796,8 @@ function find_bad_byte_sequences_in_text($text)
 
     if(utf8_string_has_bom($text))
     {
-        $occurrences['BOM'] = 1;
+        $occurrences[BOM] = 1;
+        //remove it so not reported again as an invalid character
         $text = utf8_str_replace(utf8_bom(), '', $text);
     }
 
@@ -873,6 +876,10 @@ function get_remarks_for_bad_byte_sequence($raw)
 {
     global $_bad_byte_sequences, $_character_data;
 
+    if(BOM === $raw)
+    {
+        return array("", "Byte Order Mark");
+    }
     if (startswith($raw, '&#'))
     {
         // This is a numeric character reference.
