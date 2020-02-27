@@ -332,6 +332,8 @@ function _test_project_for_bad_bytes($projectid)
     $n_bad_pages = 0;
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
+                $text = "test 𐌄 file Β M̆  T̆  X̉̎ΔΗ &̇̇  &amp; &#161; \u{e2}\u{80}\u{94} \xe2\x80\x94";
+
         $round_num = get_round_num_from_proofers($proofers);
         $occurrences = find_bad_byte_sequences_in_text($text, $projectid);
 
