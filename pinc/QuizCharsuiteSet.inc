@@ -8,6 +8,7 @@ class QuizCharsuiteSet
     public function get_charsuites()
     {
         $charsuites[] = CharSuites::get('basic-latin');
+        $charsuites[] = CharSuites::get('extended-european-latin');
         return $charsuites;
     }
 }
