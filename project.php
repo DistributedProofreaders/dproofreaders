@@ -399,6 +399,15 @@ function do_project_info_table()
     echo_row_a( _("Author"),          $project->authorsname );
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           _($project->genre) );
+
+    $project_charsuites = $project->get_charsuites();
+    $charsuites = [];
+    foreach($project_charsuites as $project_charsuite)
+    {
+        array_push($charsuites, $project_charsuite->title);
+    }
+    echo_row_a( _("Character Suites"), implode(", ", $charsuites));
+
     echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
     // -------------------------------------------------------------------------

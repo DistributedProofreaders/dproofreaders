@@ -7,6 +7,7 @@ include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
 include_once($relPath.'User.inc');
+include_once($relPath.'CharSuites.inc');
 
 function just_echo( $field_value )
 {
@@ -86,6 +87,39 @@ function genre_list($genre)
     {
         echo "<option value='".attr_safe($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
+        echo ">$v</option>";
+        echo "\n";
+    }
+    echo "</select>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function charsuite_list($charsuites, $project_charsuites)
+{
+    $global_charsuites = CharSuites::get_enabled();
+    $project_charsuites = [];
+
+    $all_charsuites = [];
+    foreach($global_charsuites as $global_charsuite)
+    {
+        $all_charsuites[$global_charsuite->name] = $global_charsuite->title;
+    }
+    foreach($project_charsuites as $project_charsuite)
+    {
+        $all_charsuites[$project_charsuite->name] = $project_charsuite->title;
+    }
+    $existing_charsuites = [];
+    foreach($charsuites as $charsuite)
+    {
+        $existing_charsuites[$charsuite] = TRUE;
+    }
+
+    echo "<select name='charsuites[]' required multiple size='3'>\n";
+    foreach($all_charsuites as $k=>$v)
+    {
+        echo "<option value='".attr_safe($k)."'";
+        if ($existing_charsuites[$k]) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
     }
