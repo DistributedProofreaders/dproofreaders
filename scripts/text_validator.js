@@ -25,9 +25,6 @@ function htmlSafe(str) {
 var validateText;
 
 $(function () {
-    // to remove combining chars at line start which are not markable
-    const linecheckRegex = XRegExp("^\\pM", "Amg");
-
     var textArea = document.getElementById("text_data");
 
     // check each character, if bad mark or remove it
@@ -52,7 +49,6 @@ $(function () {
     function _validateText() {
         var text = textArea.value;
         text = text.normalize("NFC");
-        text = text.replace(linecheckRegex, "");
         // replace the text with normalised version
         textArea.value = text;
         // convert any markup so does not get interpreted in the checker div
