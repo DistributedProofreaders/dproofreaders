@@ -6,16 +6,8 @@ class CharacterSelector
 {
     function __construct ($projectid)
     {
-        // quizzes use a 'fake' project that still needs a pickerset
-        if($projectid == 'projectID0000000000000')
-        {
-            $this->picker_sets = [ CharSuites::get('basic-latin')->pickerset ];
-        }
-        else
-        {
-            $project = new Project($projectid);
-            $this->picker_sets = $project->get_pickersets();
-        }
+        // if in a quiz this will be a deliberately invalid projectid
+        $this->picker_sets = get_pickersets(get_charsuites($projectid));
     }
 
     function draw()

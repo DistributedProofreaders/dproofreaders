@@ -20,6 +20,5 @@ END;
 
 function get_json_codepoints($projectid)
 {
-    $project = new Project($projectid);
-    return json_encode($project->get_valid_codepoints());
+    return json_encode(get_valid_codepoints(get_charsuites($projectid)));
 }

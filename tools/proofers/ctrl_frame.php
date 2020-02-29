@@ -8,11 +8,12 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'ProofreadingToolbox.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 
-
-$projectid = validate_projectID($_GET, $_GET["projectid"]);
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
-$projectid = validate_projectID('projectid', @$_GET['projectid']);
+// if this is used in a quiz there will not be a projectid, 'quiz' will be used
+// for the MRU local storage prefix and the toolbox output will discover the
+// projectid is invalid and provide the quiz charsuites
+$projectid = array_get($_GET, 'projectid', 'quiz');
 $mru_title = javascript_safe(_("Most recently used"));
 // TRANSLATORS: This is an abbreviation for "Most recently used"
 $mru_abbreviation = javascript_safe(_("MRU"));

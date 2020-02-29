@@ -178,3 +178,45 @@ foreach($charsuite_files as $charsuite_file)
 {
     include_once($charsuite_file);
 }
+
+function get_pickersets($charsuites)
+{
+    $pickersets = [];
+    foreach($charsuites as $charsuite)
+    {
+        $pickersets[] = $charsuite->pickerset;
+    }
+    return $pickersets;
+}
+
+function get_valid_codepoints($charsuites)
+{
+    # Codepoints applicable to all projects
+    $global_codepoints = [
+        'U+000A', # new lines
+        'U+000D', # carriage returns
+    ];
+
+    $codepoints = $global_codepoints;
+    foreach($charsuites as $charsuite)
+    {
+        $codepoints = array_merge($codepoints, $charsuite->codepoints);
+    }
+    return $codepoints;
+}
+
+function get_charsuites($identifier=NULL)
+{
+    try
+    {
+        $project = new Project($identifier);
+        return $project->get_charsuites();
+    }
+    catch (NonexistentProjectException $e)
+    {
+        return [
+            CharSuites::get('basic-latin'),
+            CharSuites::get('extended-european-latin'),
+        ];
+    }
+}
