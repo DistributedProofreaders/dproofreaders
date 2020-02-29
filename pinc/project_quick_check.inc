@@ -349,45 +349,41 @@ function _test_project_for_bad_bytes($projectid)
         // page had at least one bad byte-sequence
         $n_bad_pages += 1;
 
-        $details_for_this_page = "";
+        // write image and round columns
+        $rowspan = $number_bad_chars;
+        $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
+        $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
+        $details_for_this_page = "<tr>\n";
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
+        if($round_num == 0)
+        {
+            $round_name = 'OCR';
+        }
+        else
+        {
+            $round = get_Round_for_round_number($round_num);
+            $round_name = $round->id;
+        }
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
 
+        // on the first row <tr> is already written out with image and round
+        // columns so only write it on subsequent rows
+        $first_row = true;
+        // write bad bytes data
         ksort( $occurrences );
+
         foreach ($occurrences as $raw => $n_occurrences)
         {
-            if ($details_for_this_page == "")
-            {
-                $rowspan = $number_bad_chars;
-                $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
-                $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
-                $details_for_this_page = "<tr>\n";
-                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-                if($round_num == 0)
-                {
-                    $round_name = 'OCR';
-                }
-                else
-                {
-                    $round = get_Round_for_round_number($round_num);
-                    $round_name = $round->id;
-                }
-                $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
-            }
-            else
-            {
-                $details_for_this_page .= "<tr>\n";
-            }
-
+            $details_for_this_page .= write_row_start($first_row);
             $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
-
             $details_for_this_page .= tds_for_bad_bytes($raw);
-
             $details_for_this_page .= "</tr>\n";
         }
 
         ksort($invalid_chars);
         foreach ($invalid_chars as $raw => $n_occurrences)
         {
-            $details_for_this_page .= "<tr>\n";
+            $details_for_this_page .= write_row_start($first_row);
             $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
             $details_for_this_page .= tds_for_invalid_chars($raw);
             $details_for_this_page .= "</tr>\n";
@@ -412,6 +408,20 @@ function _test_project_for_bad_bytes($projectid)
     }
 
     return $r;
+}
+
+// write <tr> if not the first row
+function write_row_start(&$first_row)
+{
+    if($first_row)
+    {
+        $first_row = false;
+        return "";
+    }
+    else
+    {
+        return "<tr>\n";
+    }
 }
 
 // We can calculate what round number a page text was selected from by
