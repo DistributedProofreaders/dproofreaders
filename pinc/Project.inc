@@ -198,6 +198,21 @@ class Project
         return $projectids;
     }
 
+    public function set_charsuites($charsuites)
+    {
+        $existing_charsuites = $this->get_charsuites();
+
+        foreach($existing_charsuites as $charsuite)
+        {
+            $this->remove_charsuite($charsuite);
+        }
+
+        foreach($charsuites as $charsuite)
+        {
+            $this->add_charsuite($charsuite);
+        }
+    }
+
     public function add_charsuite($charsuite)
     {
         $charsuite = CharSuites::resolve($charsuite);
@@ -220,6 +235,24 @@ class Project
         $sql = sprintf("
             INSERT INTO project_charsuites
             SET projectid='%s', charsuite_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
+    public function remove_charsuite($charsuite)
+    {
+        $charsuite = CharSuites::resolve($charsuite);
+
+        $existing_charsuites = $this->get_charsuites();
+        if(!in_array($charsuite, $existing_charsuites))
+        {
+            return;
+        }
+
+        $sql = sprintf("
+            DELETE FROM project_charsuites
+            WHERE projectid='%s' AND charsuite_name='%s'
         ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
 
         mysqli_query(DPDatabase::get_connection(), $sql);

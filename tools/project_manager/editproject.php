@@ -152,6 +152,19 @@ else
     $pih->show_form();
 }
 
+function get_default_character_suites()
+{
+    foreach(CharSuites::get_enabled() as $enabled_char_suite)
+    {
+        if ($enabled_char_suite->name == 'basic-latin')
+        {
+            return ['basic-latin'];
+        }
+    }
+
+    return [];
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class ProjectInfoHolder
@@ -169,6 +182,7 @@ class ProjectInfoHolder
         $this->comments         = '';
         $this->clearance        = '';
         $this->postednum        = '';
+        $this->charsuites       = get_default_character_suites();
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
@@ -206,6 +220,7 @@ class ProjectInfoHolder
         $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
         $this->language    = $marc_record->language;
+        $this->charsuites  = get_default_character_suites();
         $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
@@ -344,7 +359,7 @@ class ProjectInfoHolder
         {
             $this->projectid        = $project->projectid;
             $this->deletion_reason  = $project->deletion_reason;
-            $this->posted           = @$_GET['posted'];        
+            $this->posted           = @$_GET['posted'];
             $this->postednum        = $project->postednum;
             $this->state            = $project->state;
         }
@@ -357,6 +372,12 @@ class ProjectInfoHolder
             $this->state            = '';
         }
         $this->up_projectid     = $project->up_projectid;
+        $project_charsuites = $project->get_charsuites();
+        $this->charsuites = [];
+        foreach($project_charsuites as $project_charsuite)
+        {
+            array_push($this->charsuites, $project_charsuite->name);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -440,8 +461,20 @@ class ProjectInfoHolder
             ? "$pri_language with $sec_language"
             : $pri_language );
 
+        $this->charsuites = [];
+        foreach(@$_POST['charsuites'] as $charsuite)
+        {
+            array_push($this->charsuites, $charsuite);
+        }
+        if (sizeof($this->charsuites) == 0)
+        {
+            $errors .= _("At least one Character Suite is required.")."<br>";
+        }
+
         $this->genre = @$_POST['genre'];
         if ( $this->genre == '' ) { $errors .= _("Genre is required.")."<br>"; }
+
+        // read post and set up
 
         $this->image_source = @$_POST['image_source'];
         if ($this->image_source == '')
@@ -467,7 +500,7 @@ class ProjectInfoHolder
             }
         }
 
-	*/
+    */
 
 
         $this->special_code = @$_POST['special_code'];
@@ -824,8 +857,7 @@ class ProjectInfoHolder
         $project = new Project($this->projectid);
         $project->create_dc_xml_oai($marc_record);
 
-        // Add the Basic Latin charsuite to the project
-        $project->add_charsuite("basic-latin");
+        $project->set_charsuites($this->charsuites);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
@@ -951,6 +983,15 @@ class ProjectInfoHolder
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
+
+        $project_charsuites = [];
+        if (isset($this->projectid))
+        {
+            $project = new Project($this->projectid);
+            $project_charsuites = $project->get_charsuites();
+        }
+
+        $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      $project_charsuites);
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
