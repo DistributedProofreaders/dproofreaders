@@ -10,10 +10,15 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
-// if this is used in a quiz there will not be a projectid, 'quiz' will be used
-// for the MRU local storage prefix and the toolbox output will discover the
-// projectid is invalid and provide the quiz charsuites
+// if this is used in a quiz there will not be a real projectid, 'quiz' will be
+// used for the MRU local storage prefix and the character selector will
+// provide the quiz pickers
 $projectid = array_get($_GET, 'projectid', 'quiz');
+if($projectid != "quiz")
+{
+    $projectid = validate_projectID('projectid', $projectid);
+}
+
 $mru_title = javascript_safe(_("Most recently used"));
 // TRANSLATORS: This is an abbreviation for "Most recently used"
 $mru_abbreviation = javascript_safe(_("MRU"));

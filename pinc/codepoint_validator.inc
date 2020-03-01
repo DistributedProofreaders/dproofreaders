@@ -20,5 +20,6 @@ END;
 
 function get_json_codepoints($projectid)
 {
-    return json_encode(get_valid_codepoints(get_charsuites($projectid)));
+    $project = get_real_or_quiz_project($projectid);
+    return json_encode($project->get_valid_codepoints());
 }

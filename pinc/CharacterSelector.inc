@@ -6,8 +6,8 @@ class CharacterSelector
 {
     function __construct ($projectid)
     {
-        // if in a quiz this will be a deliberately invalid projectid
-        $this->picker_sets = get_pickersets(get_charsuites($projectid));
+        $project = get_real_or_quiz_project($projectid);
+        $this->picker_sets = $project->get_pickersets();
     }
 
     function draw()

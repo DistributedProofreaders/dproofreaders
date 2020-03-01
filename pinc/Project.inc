@@ -16,6 +16,8 @@ class UTF8ConversionException extends Exception { }
 
 class Project
 {
+    use CharSuiteSet;
+
     function __construct( $arg )
     {
         if ( is_string($arg) )

@@ -26,8 +26,7 @@ else
 {
     $font_settings = '';
 }
-
-// 'quiz' is a deliberately invalid projectid
+// 'quiz' will result in codepoints for quizes
 $json_code_points = get_json_codepoints("quiz");
 
 $header_args = array(

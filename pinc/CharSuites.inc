@@ -179,44 +179,55 @@ foreach($charsuite_files as $charsuite_file)
     include_once($charsuite_file);
 }
 
-function get_pickersets($charsuites)
+trait CharSuiteSet
 {
-    $pickersets = [];
-    foreach($charsuites as $charsuite)
+    public function get_pickersets()
     {
-        $pickersets[] = $charsuite->pickerset;
+        $pickersets = [];
+        foreach($this->get_charsuites() as $charsuite)
+        {
+            $pickersets[] = $charsuite->pickerset;
+        }
+        return $pickersets;
     }
-    return $pickersets;
-}
 
-function get_valid_codepoints($charsuites)
-{
-    # Codepoints applicable to all projects
-    $global_codepoints = [
-        'U+000A', # new lines
-        'U+000D', # carriage returns
-    ];
-
-    $codepoints = $global_codepoints;
-    foreach($charsuites as $charsuite)
+    public function get_valid_codepoints()
     {
-        $codepoints = array_merge($codepoints, $charsuite->codepoints);
-    }
-    return $codepoints;
-}
-
-function get_charsuites($identifier=NULL)
-{
-    try
-    {
-        $project = new Project($identifier);
-        return $project->get_charsuites();
-    }
-    catch (NonexistentProjectException $e)
-    {
-        return [
-            CharSuites::get('basic-latin'),
-            CharSuites::get('extended-european-latin'),
+        # Codepoints applicable to all projects
+        $global_codepoints = [
+            'U+000A', # new lines
+            'U+000D', # carriage returns
         ];
+
+        $codepoints = $global_codepoints;
+        foreach($this->get_charsuites() as $charsuite)
+        {
+            $codepoints = array_merge($codepoints, $charsuite->codepoints);
+        }
+        return $codepoints;
+    }
+}
+
+class QuizProject
+{
+    use CharSuiteSet;
+
+    public function get_charsuites()
+    {
+        $charsuites[] = CharSuites::get('basic-latin');
+        $charsuites[] = CharSuites::get('extended-european-latin');
+        return $charsuites;
+    }
+}
+
+function get_real_or_quiz_project($identifier=NULL)
+{
+    if($identifier == "quiz")
+    {
+        return new QuizProject();
+    }
+    else
+    {
+        return new Project($identifier);
     }
 }
