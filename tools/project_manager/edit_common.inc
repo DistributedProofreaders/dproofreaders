@@ -119,7 +119,7 @@ function charsuite_list($charsuites, $project_charsuites)
     foreach($all_charsuites as $k=>$v)
     {
         echo "<option value='".attr_safe($k)."'";
-        if ($existing_charsuites[$k]) { echo " SELECTED"; }
+        if (@$existing_charsuites[$k]) { echo " SELECTED"; }
         echo ">" . html_safe($v) . "</option>";
         echo "\n";
     }

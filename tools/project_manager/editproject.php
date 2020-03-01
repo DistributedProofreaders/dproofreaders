@@ -982,7 +982,6 @@ class ProjectInfoHolder
             $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation), array("required" => true));
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
-        $this->row( _("Genre"),                       'genre_list',          $this->genre            );
 
         $project_charsuites = [];
         if (isset($this->projectid))
@@ -990,8 +989,10 @@ class ProjectInfoHolder
             $project = new Project($this->projectid);
             $project_charsuites = $project->get_charsuites();
         }
-
         $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      $project_charsuites);
+
+        $this->row( _("Genre"),                       'genre_list',          $this->genre            );
+
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
