@@ -100,9 +100,9 @@ function charsuite_list($charsuites, $project_charsuites)
     $enabled_charsuites = CharSuites::get_enabled();
 
     $all_charsuites = [];
-    foreach($enabled_charsuites as $global_charsuite)
+    foreach($enabled_charsuites as $enabled_charsuite)
     {
-        $all_charsuites[$global_charsuite->name] = $global_charsuite->title;
+        $all_charsuites[$enabled_charsuite->name] = $enabled_charsuite->title;
     }
     foreach($project_charsuites as $project_charsuite)
     {
@@ -120,7 +120,7 @@ function charsuite_list($charsuites, $project_charsuites)
     {
         echo "<option value='".attr_safe($k)."'";
         if ($existing_charsuites[$k]) { echo " SELECTED"; }
-        echo ">$v</option>";
+        echo ">" . html_safe($v) . "</option>";
         echo "\n";
     }
     echo "</select>";

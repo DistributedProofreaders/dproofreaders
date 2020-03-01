@@ -152,6 +152,19 @@ else
     $pih->show_form();
 }
 
+function get_default_character_suites()
+{
+    foreach(CharSuites::get_enabled() as $enabled_char_suite)
+    {
+        if ($enabled_char_suite->name == 'basic-latin')
+        {
+            return ['basic-latin'];
+        }
+    }
+
+    return [];
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class ProjectInfoHolder
@@ -169,7 +182,7 @@ class ProjectInfoHolder
         $this->comments         = '';
         $this->clearance        = '';
         $this->postednum        = '';
-        $this->charsuites       = ['basic-latin'];
+        $this->charsuites       = get_default_character_suites();
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
@@ -207,7 +220,7 @@ class ProjectInfoHolder
         $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
         $this->language    = $marc_record->language;
-        $this->charsuites  = ['basic-latin'];
+        $this->charsuites  = get_default_character_suites();
         $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
