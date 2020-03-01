@@ -73,7 +73,7 @@ if (!$resolution) {
         $header = _("Fix Page");
     }
 
-    $json_code_points = get_json_codepoints($projectid);
+    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints()));
 
     $header_args = [
         "js_files" => [
@@ -82,7 +82,7 @@ if (!$resolution) {
             "$code_url/tools/project_manager/handle_bad_page.js",
         ],
         "js_data" => "
-            var codePoints = $json_code_points;
+            var validCharacterPattern = '$valid_character_pattern';
         ",
     ];
 

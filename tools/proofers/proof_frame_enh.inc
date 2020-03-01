@@ -12,7 +12,8 @@ function echo_proof_frame_enh( $ppage )
 {
     global $code_url, $userP;
 
-    $json_code_points = get_json_codepoints($ppage->projectid());
+    $project = new Project($ppage->projectid());
+    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints()));
     $switch_confirm = javascript_safe(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = javascript_safe(_("Are you sure you want to save the current page and revert to the original text for this round?"));
 
@@ -32,7 +33,7 @@ function echo_proof_frame_enh( $ppage )
             top.initializeStuff(1);
             previewControl = initPrev();
         }
-        var codePoints = $json_code_points;
+        var validCharacterPattern = '$valid_character_pattern';
         var standardInterface = false;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';

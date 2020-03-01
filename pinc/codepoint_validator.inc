@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."Project.inc");
 
 function render_validator()
 {
@@ -18,8 +17,3 @@ $bad_char_message
 END;
 }
 
-function get_json_codepoints($projectid)
-{
-    $project = get_project_or_quiz($projectid);
-    return json_encode($project->get_valid_codepoints());
-}
