@@ -400,14 +400,6 @@ function do_project_info_table()
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           _($project->genre) );
 
-    $project_charsuites = $project->get_charsuites();
-    $charsuites = [];
-    foreach($project_charsuites as $project_charsuite)
-    {
-        array_push($charsuites, "<a href='tools/charsuites.php?charsuite=" . attr_safe($project_charsuite->name) . "'>" . html_safe($project_charsuite->title) . "</a>");
-    }
-    echo_row_a(_("Character Suites"), implode(", ", $charsuites));
-
     echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
     // -------------------------------------------------------------------------
@@ -560,9 +552,12 @@ function do_project_info_table()
         echo_row_a( _("Word Lists"), $links );
     }
 
-    echo_row_a( _("Character Suites"),
-        "<a href='tools/charsuites.php?projectid=$projectid'>" . _("View project's character suites") . "</a>",
-        FALSE);
+    $project_charsuites = [];
+    foreach($project->get_charsuites() as $charsuite)
+    {
+        $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
+    }
+    echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
 
     // -------------------------------------------------------------------------
 
