@@ -1,4 +1,4 @@
-/*global $ goodChars */
+/*global $ testChar */
 
 $(function () {
     var textArea = document.getElementById("text_data");
@@ -55,7 +55,7 @@ $(function () {
         function maybeSubstitute() {
             // if replaceChar is good use it
             // this uses the local variables of the containing function
-            if(goodChars.test(replaceChar)) {
+            if(testChar(replaceChar)) {
                 // replace markup with character and move caret back 4 places
                 // and forward by length of replaceChar
                 let newCaret = char0Index + replaceChar.length;

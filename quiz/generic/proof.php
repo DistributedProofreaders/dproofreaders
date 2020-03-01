@@ -27,7 +27,8 @@ else
     $font_settings = '';
 }
 // 'quiz' will result in codepoints for quizes
-$json_code_points = get_json_codepoints("quiz");
+$quiz = get_project_or_quiz("quiz");
+$valid_character_pattern = javascript_safe(build_character_regex_filter($quiz->get_valid_codepoints()));
 
 $header_args = array(
     "js_files" => array(
@@ -35,7 +36,7 @@ $header_args = array(
         "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
     "js_data" => "
-        var codePoints = $json_code_points;
+        var validCharacterPattern = '$valid_character_pattern';
     ",
     'body_attributes' => "onload='top.initializeStuff(1)'",
 );

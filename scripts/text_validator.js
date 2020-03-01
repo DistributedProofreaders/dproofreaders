@@ -1,7 +1,6 @@
-/*global $ goodChars charMatch XRegExp */
+/*global $ charMatch testChar XRegExp */
 /* exported validateText */
 
-// goodChars (constructed in character_test.js) matches good unicode characters
 // charMatch (constructed in character_test.js) matches any unicode character
 // possibly with combining marks: non-mark codepoint + 0 or more mark codes
 
@@ -32,7 +31,7 @@ $(function () {
         var bad = false;
 
         function charReplacer(match) {
-            if(goodChars.test(match)) {
+            if(testChar(match)) {
                 return match;
             }
             if(clean) {
