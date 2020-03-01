@@ -97,11 +97,10 @@ function genre_list($genre)
 
 function charsuite_list($charsuites, $project_charsuites)
 {
-    $global_charsuites = CharSuites::get_enabled();
-    $project_charsuites = [];
+    $enabled_charsuites = CharSuites::get_enabled();
 
     $all_charsuites = [];
-    foreach($global_charsuites as $global_charsuite)
+    foreach($enabled_charsuites as $global_charsuite)
     {
         $all_charsuites[$global_charsuite->name] = $global_charsuite->title;
     }
@@ -115,6 +114,7 @@ function charsuite_list($charsuites, $project_charsuites)
         $existing_charsuites[$charsuite] = TRUE;
     }
 
+    ksort($all_charsuites);
     echo "<select name='charsuites[]' required multiple size='3'>\n";
     foreach($all_charsuites as $k=>$v)
     {

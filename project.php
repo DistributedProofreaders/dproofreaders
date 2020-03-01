@@ -406,7 +406,13 @@ function do_project_info_table()
     {
         array_push($charsuites, $project_charsuite->title);
     }
-    echo_row_a( _("Character Suites"), implode(", ", $charsuites));
+    echo_row_a(
+        _("Character Suites"),
+        implode(", ", $charsuites) .
+          " | <a href='tools/charsuites.php?projectid=$projectid'>".
+          _("View project's character suites") .
+          "</a>",
+        FALSE);
 
     echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
@@ -559,10 +565,6 @@ function do_project_info_table()
 
         echo_row_a( _("Word Lists"), $links );
     }
-
-    echo_row_a( _("Character Suites"),
-        "<a href='tools/charsuites.php?projectid=$projectid'>" . _("View project's character suites") . "</a>",
-        FALSE);
 
     // -------------------------------------------------------------------------
 

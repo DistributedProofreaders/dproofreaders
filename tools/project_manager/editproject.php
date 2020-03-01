@@ -169,7 +169,7 @@ class ProjectInfoHolder
         $this->comments         = '';
         $this->clearance        = '';
         $this->postednum        = '';
-        $this->charsuites       = [];
+        $this->charsuites       = ['basic-latin'];
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
@@ -207,7 +207,7 @@ class ProjectInfoHolder
         $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
         $this->language    = $marc_record->language;
-        $this->charsuites  = [];
+        $this->charsuites  = ['basic-latin'];
         $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
@@ -455,7 +455,7 @@ class ProjectInfoHolder
         }
         if (sizeof($this->charsuites) == 0)
         {
-            $errors .= _("Character Suites is required.")."<br>";
+            $errors .= _("At least one Character Suite is required.")."<br>";
         }
 
         $this->genre = @$_POST['genre'];
@@ -977,7 +977,8 @@ class ProjectInfoHolder
             $project = new Project($this->projectid);
             $project_charsuites = $project->get_charsuites();
         }
-        $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      project_charsuites);
+
+        $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      $project_charsuites);
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
