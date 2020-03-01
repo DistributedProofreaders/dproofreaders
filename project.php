@@ -409,7 +409,7 @@ function do_project_info_table()
     echo_row_a(
         _("Character Suites"),
         implode(", ", $charsuites) .
-          " | <a href='tools/charsuites.php?projectid=$projectid'>".
+          " &middot; <a href='tools/charsuites.php?projectid=$projectid'>".
           _("View project's character suites") .
           "</a>",
         FALSE);
