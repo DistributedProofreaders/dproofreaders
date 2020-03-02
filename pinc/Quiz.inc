@@ -3,6 +3,7 @@ include_once($relPath."base.inc");
 include_once($relPath."Stage.inc");
 include_once($relPath."stages.inc");
 include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 
 // for groups of quizzes that go together
 class QuizLevel
@@ -190,6 +191,18 @@ class Quiz
                 <tr><td colspan='$n_columns' style='background-color: $bgcolor; font-weight: bold; text-align: center;'>$text</td></tr>";
         }
         echo "</table>\n";
+    }
+}
+
+class QuizCharSuites
+{
+    use CharSuiteSet;
+
+    public function get_charsuites()
+    {
+        $charsuites[] = CharSuites::get('basic-latin');
+        $charsuites[] = CharSuites::get('extended-european-latin');
+        return $charsuites;
     }
 }
 

@@ -208,23 +208,11 @@ trait CharSuiteSet
     }
 }
 
-class QuizProject
-{
-    use CharSuiteSet;
-
-    public function get_charsuites()
-    {
-        $charsuites[] = CharSuites::get('basic-latin');
-        $charsuites[] = CharSuites::get('extended-european-latin');
-        return $charsuites;
-    }
-}
-
 function get_real_or_quiz_project($identifier=NULL)
 {
     if($identifier == "quiz")
     {
-        return new QuizProject();
+        return new QuizCharSuites();
     }
     else
     {
