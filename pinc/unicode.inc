@@ -171,14 +171,7 @@ function guess_string_encoding($text)
     return 'ISO-8859-1';
 }
 
-function codepoints_to_hex($string)
+function string_to_codepoints($string)
 {
-    // find the components of combined character as hex strings
-    $codepoints = [];
-    preg_match_all("/./u", $string, $matches);
-    foreach($matches[0] as $match)
-    {
-        $codepoints[] = str_pad(dechex(IntlChar::ord($match)), 4, "0", STR_PAD_LEFT);
-    }
-    return implode(" ", $codepoints);
+    return implode(" ", utf8_codepoints($string, true));
 }

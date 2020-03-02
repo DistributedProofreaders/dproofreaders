@@ -788,6 +788,7 @@ define_bad_byte_sequences();
 
 define("BOM", "\u{feff}");
 
+// note that this can change $text
 function find_bad_byte_sequences_in_text(&$text)
 {
     global $_unanchored_bad_bytes_regex, $_bad_byte_sequences;
@@ -902,7 +903,7 @@ function get_remarks_for_bad_byte_sequence($raw)
         list($code_point, $why_bad) = $_bad_byte_sequences[$raw];
     }
 
-    @$info = $_character_data[$code_point];
+    $info = $_character_data[$code_point] ?? null;
     if ($info)
     {
         $char_name = $info['name'];

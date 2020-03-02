@@ -153,8 +153,8 @@ function show_a_table_of_bads($desired_badness)
         <table class='basic striped'>
         <tr>
             <th>" . _("Raw") . "</th>
-            <th>" . _("Codepoints") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>

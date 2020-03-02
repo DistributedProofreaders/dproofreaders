@@ -323,8 +323,8 @@ function _test_project_for_bad_bytes($projectid)
             <th>" . _("Text") . "</th>
             <th>" . _("#") . "</th>
             <th>" . _("Raw") . "</th>
-            <th>" . _("Codepoints") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>
@@ -336,6 +336,8 @@ function _test_project_for_bad_bytes($projectid)
     while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
     {
         $round_num = get_round_num_from_proofers($proofers);
+
+        // note that this can change $text
         $occurrences = find_bad_byte_sequences_in_text($text);
         $invalid_chars = get_invalid_characters($text, $valid_codepoints);
 
@@ -453,12 +455,12 @@ function tds_for_bad_bytes($raw)
         // It's a named or numeric character reference
         // so just show the reference itself,
         // rather than converting it to hex.
-        $tds .= "<td colspan='2'>" . htmlspecialchars($raw) . "</td>";
+        $tds .= "<td>" . htmlspecialchars($raw) . "</td><td></td>";
     }
     else
     {
-        $tds .= "<td>" . codepoints_to_hex($raw) . "</td>"; // codepoints
         $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
+        $tds .= "<td>" . string_to_codepoints($raw) . "</td>"; // codepoints
     }
 
     list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
@@ -473,8 +475,8 @@ function tds_for_bad_bytes($raw)
 function tds_for_invalid_chars($raw)
 {
     $tds = "<td>$raw</td>";
-    $tds .= "<td>" . codepoints_to_hex($raw) . "</td>"; // codepoints
     $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
+    $tds .= "<td>" . string_to_codepoints($raw) . "</td>"; // codepoints
     $tds .= "<td></td>"; // intended character
     $tds .= "<td>" . "Codepoint not valid for project" . "</td>";
 
