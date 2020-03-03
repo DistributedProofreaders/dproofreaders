@@ -178,3 +178,44 @@ foreach($charsuite_files as $charsuite_file)
 {
     include_once($charsuite_file);
 }
+
+trait CharSuiteSet
+{
+    public function get_pickersets()
+    {
+        $pickersets = [];
+        foreach($this->get_charsuites() as $charsuite)
+        {
+            $pickersets[] = $charsuite->pickerset;
+        }
+        return $pickersets;
+    }
+
+    public function get_valid_codepoints()
+    {
+        # Codepoints applicable to all projects
+        $global_codepoints = [
+            'U+000A', # new lines
+            'U+000D', # carriage returns
+        ];
+
+        $codepoints = $global_codepoints;
+        foreach($this->get_charsuites() as $charsuite)
+        {
+            $codepoints = array_merge($codepoints, $charsuite->codepoints);
+        }
+        return $codepoints;
+    }
+}
+
+function get_real_or_quiz_project($identifier=NULL)
+{
+    if($identifier == "quiz")
+    {
+        return new QuizCharSuites();
+    }
+    else
+    {
+        return new Project($identifier);
+    }
+}
