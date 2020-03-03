@@ -6,7 +6,7 @@ class CharacterSelector
 {
     function __construct ($projectid)
     {
-        $project = get_real_or_quiz_project($projectid);
+        $project = get_project_or_quiz($projectid);
         $this->picker_sets = $project->get_pickersets();
     }
 

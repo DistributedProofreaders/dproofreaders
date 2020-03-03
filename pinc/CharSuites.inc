@@ -208,7 +208,7 @@ trait CharSuiteSet
     }
 }
 
-function get_real_or_quiz_project($identifier=NULL)
+function get_project_or_quiz($identifier)
 {
     if($identifier == "quiz")
     {
