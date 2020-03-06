@@ -1,4 +1,5 @@
 <?php
+include_once($relPath.'base.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc');
@@ -53,11 +54,17 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 // or an associative array containing various attributes of a project.
 {
     global $code_url, $site_name, $site_signoff;
+    global $charset, $dyn_locales_dir, $system_locales_dir;
 
     $project = new Project($project);
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
+    $user = new User($username);
+    $locale = get_valid_locale_for_translation($user->u_intlang);
+
+    // restore user locale for any future messages.
+    configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
     $body =
 _("Hello")." $username,\n".
@@ -72,9 +79,7 @@ $info
 
 $site_signoff
 ";
-
-    $user = new User($username);
-
+    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
     return maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
 }
 

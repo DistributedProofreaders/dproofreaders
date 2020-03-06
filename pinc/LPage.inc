@@ -320,7 +320,7 @@ class LPage
         Page_markAsBad( $this->projectid, $this->imagefile, $this->round, $user, $reason );
 
         // Advise PM that the page has been marked bad.
-		$body_blurb =
+        $body_blurb =
 "Page {$this->imagefile} of this project has been marked bad due to {$PAGE_BADNESS_REASONS[$reason]}.
 Please visit
     $code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}
