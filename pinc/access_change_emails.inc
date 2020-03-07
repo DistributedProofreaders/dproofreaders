@@ -4,16 +4,13 @@ include_once($relPath."maybe_mail.inc");
 function pp_access_change_email($user, $access_change)
 {
     global $site_name, $site_abbreviation, $site_signoff, $db_requests_email_addr;
-    global $charset, $dyn_locales_dir, $system_locales_dir;
 
     // only send emails on grant
     if($access_change != "grant")
         return;
 
-    $locale = get_valid_locale_for_translation($user->u_intlang);
-
     // configure gettext to translate user email
-    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
+    configure_gettext_for_user($user);
 
     // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
     $subject = sprintf(_("%s: Welcome to Post-Processing"), $site_abbreviation);
@@ -42,4 +39,7 @@ function pp_access_change_email($user, $access_change)
     $headers = [ "Reply-To: $db_requests_email_addr" ];
 
     $mail_accepted = maybe_mail($email, $subject, $message_string, $headers);
+
+    // restore gettext to current user's locale
+    configure_gettext_for_user();
 }
