@@ -10,7 +10,7 @@ $number_of_arguments = $argc - 2;
 
 if ($argc < 2) {
     echo "No operation was chosen.\n";
-    echo "Supported operations are: generate, verify\n";
+    echo "Supported operations are: generate, verify, update\n";
 
     exit(1);
 }
@@ -43,7 +43,7 @@ if ($argv[1] === 'generate') {
 // verify <directory_path> <table_name or all>
 elseif ($argv[1] === 'verify') {
     if ($argc !== 4) {
-        echo "Operation generate requires 2 arguments, $number_of_arguments were given.\n";
+        echo "Operation verify requires 2 arguments, $number_of_arguments were given.\n";
         echo "Supported syntax for verify command is 'verify <directory path> <table name or all>'.\n";
 
         exit(1);
@@ -65,9 +65,34 @@ elseif ($argv[1] === 'verify') {
         verify_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
     }
 }
+// update <directory_path> <table_name or all>
+elseif ($argv[1] === 'update') {
+    if ($argc !== 4) {
+        echo "Operation update requires 2 arguments, $number_of_arguments were given.\n";
+        echo "Supported syntax for update command is 'update <directory path> <table name or all>'.\n";
+
+        exit(1);
+    }
+
+    $directory_path = $argv[2];
+    $table_name = $argv[3];
+
+    if (!is_dir($directory_path)) {
+        echo "File path '$directory_path' does not exist or is not a directory.\n";
+
+        exit(1);
+    }
+
+    if ($table_name === 'all') {
+        run_operation_for_all_tables($directory_path, 'update_file_for_table');
+    }
+    else {
+        update_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
+    }
+}
 else {
     echo "Invalid operation '{$argv[1]}'\n";
-    echo "Supported operations are: generate, verify\n";
+    echo "Supported operations are: generate, verify, update\n";
 
     exit(1);
 }
@@ -167,7 +192,7 @@ function verify_file_for_table(string $table_name, string $file_path, string $di
 
     // Check field definitions
     $column_definitions_in_file = TableDocumentation::detect_columns_in_text($lines);
-    $column_definitions_from_table = TableDocumentation::detect_columns_in_text(explode("\n", (string) $table_documentation));
+    $column_definitions_from_table = $table_documentation->get_column_names();
 
     $added_columns = array_diff($column_definitions_from_table, $column_definitions_in_file);
     $deleted_columns = array_diff($column_definitions_in_file, $column_definitions_from_table);
@@ -186,6 +211,39 @@ function verify_file_for_table(string $table_name, string $file_path, string $di
 
         exit(1);
     }
+}
+
+/**
+ * Updates the markdown documentation file. Updating has two steps:
+ *
+ * 1. The documentation table is regenerated from the database information.
+ * 2. Missing column definitions are added, redundant column definitions for deleted columns are deleted.
+ *
+ * After update the file should pass verification.
+ *
+ * @param string $table_name the name of the table in the database, used for looking up columns
+ * @param string $file_path which file to verify
+ * @param string $display_name the title of the markdown file -- is not used
+ */
+function update_file_for_table(string $table_name, string $file_path, string $display_name) {
+    echo " - updating documentation for table '$table_name' in '$file_path'\n";
+
+    $columns = query_columns_for_table($table_name);
+
+    $table_documentation = new TableDocumentation($display_name, $columns);
+
+    $documentation_text = file_get_contents($file_path);
+    $lines = explode("\n", $documentation_text);
+
+    // Regenerate field table
+    $lines = TableDocumentation::replace_first_table($lines, [$table_documentation->generate_documentation_table()]);
+
+    // Add/remove field definitions
+    $column_definitions_from_table = $table_documentation->get_column_names();
+
+    $lines = TableDocumentation::update_column_definitions($lines, $column_definitions_from_table);
+
+    file_put_contents($file_path, implode("\n", $lines));
 }
 
 // ---------- Database functions ----------
