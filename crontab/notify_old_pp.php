@@ -37,13 +37,11 @@ function send_pp_reminders($PPer, $projects, $which_message)
     global $code_url, $db_requests_email_addr,
            $site_signoff, $site_abbreviation;
     global $pp_alert_threshold_days;
-    global $charset, $dyn_locales_dir, $system_locales_dir;
 
     $user = new User($PPer);
-    $locale = get_valid_locale_for_translation($user->u_intlang);
 
     // configure gettext to translate user email
-    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
+    configure_gettext_for_user($user);
 
     $projects_list = [];
     foreach($projects as $project)
@@ -114,6 +112,9 @@ function send_pp_reminders($PPer, $projects, $which_message)
     {
         echo "WARNING: Email failed to send for $PPer <$email>\n";
     }
+
+    // restore gettext to current user's locale
+    configure_gettext_for_user();
 }
 
 // vim: sw=4 ts=4 expandtab
