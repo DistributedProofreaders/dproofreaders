@@ -17,7 +17,7 @@ $team_icons_url   = "$dyn_url/teams/icon";
 
 function select_from_teams( $where_body, $other_clauses='' )
 {
-    global $teams_ELR_page_tallyboard;
+    list(, $teams_ELR_page_tallyboard) = get_ELR_tallyboards();
     list($joined_with_team_ELR_page_tallies,$team_ELR_page_tally_column) =
         $teams_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('id');
 

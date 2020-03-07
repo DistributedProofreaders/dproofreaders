@@ -36,9 +36,10 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         echo html_safe("To: $to\n");
         echo html_safe("Subject: $subject\n");
         echo html_safe("$additional_headers");
-        echo "\n";
-        echo html_safe("$message\n");
-        echo "</pre>\n";
+        echo "</pre>";
+        echo "<span class='mono'>";
+        echo nl2br(html_safe("$message\n"));
+        echo "</span>\n";
         echo "<hr>\n";
 
         return True;
