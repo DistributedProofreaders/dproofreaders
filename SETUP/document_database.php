@@ -1,92 +1,50 @@
 <?php
 
-// If this is not a PHPUnit test, include the dependencies, otherwise the bootstrap file will handle them
-if (!defined('PHPUNIT')) {
-    $relPath='../pinc/';
-    include_once($relPath.'base.inc');
-    include_once($relPath.'misc.inc');
+$relPath='../pinc/';
+include_once($relPath.'base.inc');
+include_once($relPath.'misc.inc');
+include_once($relPath . 'TableDocumentation.inc');
 
-    // Do not define the functions if we are in a PHPUnit test.
-    // The test will define a fake function suitable for testing.
+// First is the script name, the second is the operation name
+$number_of_arguments = $argc - 2;
 
-    // ---------- Database functions ----------
+if ($argc < 2) {
+    echo "No operation was chosen.\n";
+    echo "Supported operations are: generate\n";
 
-    /**
-     * Runs a "DESCRIBE $table_name" query and returns the result.
-     */
-    function query_columns_for_table(string $table_name): array {
-        $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
+    exit(1);
+}
 
-        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        mysqli_free_result($result);
-
-        return $rows;
-    }
-
-    /**
-     * Runs a "SHOW TABLES" query and returns the result.
-     */
-    function query_table_names_in_current_database(): array {
-        $result = mysqli_query(DPDatabase::get_connection(), "SHOW TABLES");
-
-        $rows = mysqli_fetch_all($result);
-        mysqli_free_result($result);
-
-        return $rows;
-    }
-
-    // ---------- Other helper functions ----------
-
-    /**
-     * Saves the contents to the specified file path.
-     *
-     * Wrapper around file_put_contents which allows for easier mocking and unit testing.
-     */
-    function write_to_file(string $file_path, string $contents) {
-        file_put_contents($file_path, $contents);
-    }
-
-    // First is the script name, the second is the operation name
-    $number_of_arguments = $argc - 2;
-
-    if ($argc < 2) {
-        echo "No operation was chosen.\n";
-        echo "Supported operations are: generate\n";
+// generate <directory_path> <table_name or all>
+if ($argv[1] === 'generate') {
+    if ($argc !== 4) {
+        echo "Operation generate requires 2 arguments, $number_of_arguments were given.\n";
+        echo "Supported syntax for generate command is 'generate <directory path> <table name or all>'.\n";
 
         exit(1);
     }
 
-    // generate <directory_path> <table_name or all>
-    if ($argv[1] === 'generate') {
-        if ($argc !== 4) {
-            echo "Operation generate requires 2 arguments, $number_of_arguments were given.\n";
-            echo "Supported syntax for generate command is 'generate <directory path> <table name or all>'.\n";
+    $directory_path = $argv[2];
+    $table_name = $argv[3];
 
-            exit(1);
-        }
+    if (!is_dir($directory_path)) {
+        echo "File path '$directory_path' does not exist or is not a directory.\n";
 
-        $directory_path = $argv[2];
-        $table_name = $argv[3];
+        exit(1);
+    }
 
-        if (!is_dir($directory_path)) {
-            echo "File path '$directory_path' does not exist or is not a directory.\n";
-
-            exit(1);
-        }
-
-        if ($table_name === 'all') {
-            generate_files_for_all_tables($directory_path);
-        }
-        else {
-            generate_file_for_table($table_name, $directory_path . '/' . $table_name . '.md', $table_name);
-        }
+    if ($table_name === 'all') {
+        generate_files_for_all_tables($directory_path);
     }
     else {
-        echo "Invalid operation '{$argv[1]}'\n";
-        echo "Supported operations are: generate\n";
-
-        exit(1);
+        generate_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
     }
+}
+else {
+    echo "Invalid operation '{$argv[1]}'\n";
+    echo "Supported operations are: generate\n";
+
+    exit(1);
 }
 
 // ---------- All tables operation functions ----------
@@ -113,10 +71,10 @@ function run_operation_for_all_tables(string $directory_path, callable $operatio
 
             $was_projectid_table_generated = true;
 
-            $operation($table_name, $directory_path . '/$projectid.md', '$projectid');
+            $operation($table_name, "$directory_path/projectIDxxxxxxxxxxxxx.md", 'projectIDxxxxxxxxxxxxx');
         }
         else {
-            $operation($table_name, $directory_path . '/' . $table_name . '.md', $table_name);
+            $operation($table_name, "$directory_path/$table_name.md", $table_name);
         }
     }
 }
@@ -142,86 +100,35 @@ function generate_files_for_all_tables(string $directory_path) {
 function generate_file_for_table(string $table_name, string $file_path, string $display_name) {
     $columns = query_columns_for_table($table_name);
 
-    // Add hyper links to field names
-    foreach ($columns as $index => $column_information) {
-        $field = $column_information['Field'];
+    $table_documentation = new TableDocumentation($display_name, $columns);
 
-        $columns[$index]['Name'] = $field; // Save field name before adding the hyper link for column definition
-        $columns[$index]['Field'] = "[$field](#$field)";
-    }
+    echo " - generating documentation for table '$table_name' to '$file_path'\n";
 
-    $lines = ['# ' . $display_name, ''];
-    $lines = array_merge($lines, create_markdown_table($columns, [ 'Field', 'Type', 'Null', 'Key', 'Default', 'Extra' ]));
+    file_put_contents($file_path, (string) $table_documentation);
+}
 
-    // Add column definitions
-    foreach ($columns as $index => $column_information) {
-        $lines[] = '';
-        $lines[] = '## ' . $column_information['Name'];
-    }
+// ---------- Database functions ----------
 
-    $lines[] = '';
+/**
+ * Runs a "DESCRIBE $table_name" query and returns the result.
+ */
+function query_columns_for_table(string $table_name): array {
+    $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
 
-    write_to_file($file_path, implode("\n", $lines));
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_free_result($result);
+
+    return $rows;
 }
 
 /**
- * Creates a markdown table of the data with the only the specified columns shown and in the specified order.
- * Every cell is padded right with spaces to ensure every column is as wide as the widest cell in that column.
- *
- * @param array $contents the data that is shown within the table
- * @param array $table_columns the columns to display
- * @return array array of strings -- the generate markdown table
+ * Runs a "SHOW TABLES" query and returns the result.
  */
-function create_markdown_table(array $contents, array $table_columns): array {
-    // For each column find the length of the longest value (used for padding in the table)
-    $column_lengths = [];
+function query_table_names_in_current_database(): array {
+    $result = mysqli_query(DPDatabase::get_connection(), "SHOW TABLES");
 
-    foreach ($contents as $row) {
-        foreach ($row as $column => $value) {
-            $column_lengths[$column] = max(strlen($value), array_get($column_lengths, $column, strlen($column)));
-        }
-    }
+    $rows = mysqli_fetch_all($result);
+    mysqli_free_result($result);
 
-    $output_table = [];
-
-    // Add headers
-    $header = '|';
-    $line_under_header = '|';
-
-    foreach ($table_columns as $column) {
-        $header .= str_pad($column, $column_lengths[$column]) . '|';
-        $line_under_header .= str_repeat('-', $column_lengths[$column]) . '|';
-    }
-
-    $output_table[] = $header;
-    $output_table[] = $line_under_header;
-
-    // Add data
-    foreach ($contents as $row) {
-        $output_row = '|';
-
-        foreach ($table_columns as $column) {
-            $output_row .= str_pad(array_get($row, $column, ''), $column_lengths[$column]) . '|';
-        }
-
-        $output_table[] = $output_row;
-    }
-
-    return $output_table;
-}
-
-/**
- * Detects columns in the text by finding column descriptions. A column description contains the name of the column
- * prefixed by "## " (without quotes).
- *
- * For example, for a column named something_useful, its column description would look like this:
- *
- * ## something_useful
- *
- * @param array $lines an array of strings -- the lines of the text
- * @return array an array of strings containing the column names detected in text
- */
-function detect_columns_in_text(array $lines): array {
-    // array_values is used to reindex the array
-    return array_values(preg_filter('/^## ([a-zA-Z0-9_]+)/', '$1', $lines));
+    return $rows;
 }
