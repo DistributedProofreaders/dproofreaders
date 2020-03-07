@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'base.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc');
@@ -51,13 +50,10 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 }
 
 function maybe_mail_project_manager( $project, $info, $prefix)
-// $project is either a string containing a projectid,
-// or an associative array containing various attributes of a project.
 {
-    global $code_url, $site_name, $site_signoff;
+    global $code_url, $site_name, $site_signoff, $site_abbreviation;
     global $charset, $dyn_locales_dir, $system_locales_dir;
 
-    $project = new Project($project);
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
@@ -81,7 +77,7 @@ $info
 $site_signoff
 ";
     configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
-    return maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
+    return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab
