@@ -64,8 +64,8 @@ class CharacterSelector
             }
             else
             {
-                $title_string = attr_safe(IntlChar::charName($character));
-                $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe(IntlChar::chr($character)) . "</button>";
+                $title_string = attr_safe(utf8_character_name($character));
+                $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe($character) . "</button>";
             }
             $row .= "</div>";
         }
