@@ -52,16 +52,11 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 function maybe_mail_project_manager( $project, $info, $prefix)
 {
     global $code_url, $site_name, $site_signoff, $site_abbreviation;
-    global $charset, $dyn_locales_dir, $system_locales_dir;
 
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
-    $user = new User($username);
-    $locale = get_valid_locale_for_translation($user->u_intlang);
-
-    // restore user locale for any future messages.
-    configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
+    configure_gettext_for_user($username);
 
     $body =
 _("Hello")." $username,\n".
@@ -76,7 +71,7 @@ $info
 
 $site_signoff
 ";
-    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
+    configure_gettext_for_user();
     return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
