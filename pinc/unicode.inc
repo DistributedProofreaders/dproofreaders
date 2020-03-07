@@ -15,6 +15,32 @@ function utf8_normalize($string)
     return $normalizer->normalize($string);
 }
 
+# Given one or more codepoints, return the UTF-8 character that it describes.
+# This is very similar to utf8_chr(), except if $codepoint contains a >, it
+# is assumed to represent a combined character.
+function utf8_combined_chr($codepoint)
+{
+    $codepoints = explode('>', $codepoint);
+    return utf8_normalize(implode('', array_map('utf8_chr', $codepoints)));
+}
+
+# Given a single character, or a combined character, return its name
+function utf8_character_name($characters)
+{
+    $title_pieces = [];
+    foreach(utf8_split($characters) as $char)
+    {
+        $title_pieces[] = IntlChar::charName($char);
+    }
+    return implode(" + ", $title_pieces);
+}
+
+# Given a string, return a string of codepoints in U+ format
+function string_to_codepoints_string($string, $imploder=" ")
+{
+    return implode($imploder, utf8_codepoints($string, true));
+}
+
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
@@ -61,27 +87,31 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement=""
     return preg_replace($pattern_string, $replacement, $string);
 }
 
-# Take an array of Unicode codepoints (U+####), or codepoint ranges
-# (U+####-U+####) and return an array of unicode characters.
+# Take an array of Unicode codepoints (U+####), codepoint ranges
+# (U+####-U+####), or combined characters (U+####>U+####) and
+# return an array of unicode characters.
 function convert_codepoint_ranges_to_characters($codepoints)
 {
     $return_array = [];
     if(!is_array($codepoints))
         $codepoints = [$codepoints];
+
     foreach($codepoints as $codepoint)
     {
         if($codepoint === NULL)
         {
             $return_array[] = NULL;
         }
-        elseif(strpos($codepoint, '-') === False)
+        elseif(strpos($codepoint, '-') !== False)
         {
-            $return_array[] = utf8_chr($codepoint);
+            # we have a character range
+            list($start, $end) = explode('-', $codepoint);
+            $return_array = array_merge($return_array, utf8_range($start, $end));
         }
         else
         {
-            list($start, $end) = explode('-', $codepoint);
-            $return_array = array_merge($return_array, utf8_range($start, $end));
+            # a single character or a combined character
+            $return_array[] = utf8_combined_chr($codepoint);
         }
     }
     return $return_array;

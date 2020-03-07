@@ -201,8 +201,8 @@ function output_codepoints_slice($slice)
     {
         if($char !== NULL)
         {
-            $title = IntlChar::charName($char);
-            $codepoint = utf8_chr_to_hex($char);
+            $title = utf8_character_name($char);
+            $codepoint = string_to_codepoints_string($char, "<br>");
             echo "<td class='center-align' title='$title'>";
             echo "<span class='gs-char'>$char</span><br>";
             echo "<span class='gs-codepoint'>$codepoint</span>";
