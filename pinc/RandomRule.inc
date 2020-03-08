@@ -5,6 +5,15 @@ class RandomRule
 {
     private $table_row = [];
 
+    // Because these are static class variables we can't use _() to translate
+    // them. But they're only used in the Admin interface so that's probably
+    // OK anyway. If, in the future, we want to translate them we can move
+    // them to a class function (get_document_values()) instead.
+    public static $document_values = [
+        "proofreading_guidelines.php" => "Proofreading Guidelines",
+        "formatting_guidelines.php" => "Formatting Guidelines",
+    ];
+
     public function __construct($id=NULL)
     {
         if($id !== NULL)
