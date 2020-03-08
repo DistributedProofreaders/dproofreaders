@@ -172,9 +172,12 @@ class User
         log_access_change($this->username, $requester, $activity, $action_type);
 
         // do callback if defined
-        $callback_function = $Activity_for_id_[$activity]->access_change_callback;
-        if($callback_function)
-            $callback_function($this, $action_type);
+        if(isset($Activity_for_id_[$activity]))
+        {
+            $callback_function = $Activity_for_id_[$activity]->access_change_callback;
+            if($callback_function)
+                $callback_function($this, $action_type);
+        }
     }
 
     // static functions
