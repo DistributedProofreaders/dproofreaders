@@ -407,6 +407,7 @@ CREATE TABLE `quiz_passes` (
 CREATE TABLE `rules` (
   `id` int(4) NOT NULL auto_increment,
   `document` varchar(255) default NULL,
+  `langcode` varchar(5) default NULL,
   `anchor` varchar(255) default NULL,
   `subject` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,

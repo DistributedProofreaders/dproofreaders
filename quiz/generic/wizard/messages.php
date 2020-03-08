@@ -148,20 +148,9 @@ echo "<p>" . sprintf(_("If you want you can also provide a link to a relevant se
 echo "<p>" . _("Proofreading Guidelines section:") . "<br>\n";
 echo "<select size='1' name='P_guideline'>\n<option></option>\n";
 
-$query = "SELECT count(*) AS numrules FROM rules";
-$result = mysqli_query(DPDatabase::get_connection(), $query);
-$row = mysqli_fetch_assoc($result);
-$num_rules = $row["numrules"];
-
-for ($i=1;$i<=$num_rules;$i++)
+foreach(RandomRule::get_rules('proofreading_guidelines.php') as $rule)
 {
-    $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND document = 'proofreading_guidelines.php'";
-    $result = mysqli_query(DPDatabase::get_connection(), $query);
-    $rule = mysqli_fetch_assoc($result);
-    if ($rule != "")
-    {
-        echo "<option value='$rule[anchor]'>$rule[subject]</option>\n";
-    }
+    echo "<option value='$rule->anchor'>$rule->subject</option>\n";
 }
 
 echo "</select><br>\n";
@@ -170,15 +159,9 @@ echo _("or") . "<br>\n";
 echo _("Formatting Guidelines section:") . "<br>\n";
 echo "<select size='1' name='F_guideline'>\n<option></option>";
 
-for ($i=1;$i<=$num_rules;$i++)
+foreach(RandomRule::get_rules('formatting_guidelines.php') as $rule)
 {
-    $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND (document = 'document.php' OR document = 'formatting_guidelines.php')";
-    $result = mysqli_query(DPDatabase::get_connection(), $query);
-    $rule = mysqli_fetch_assoc($result);
-    if ($rule != "")
-    {
-        echo "<option value='$rule[anchor]'>$rule[subject]</option>\n";
-    }
+    echo "<option value='$rule->anchor'>$rule->subject</option>\n";
 }
 
 echo "</select>\n</p>\n";
