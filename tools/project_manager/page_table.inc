@@ -179,16 +179,18 @@ function echo_page_table(
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
             length($round->text_column_name),
-            (wordcheck_events$rn.projectid IS NOT NULL) AS `wordcheck_status$rn`
+            (
+                SELECT count(*)
+                FROM wordcheck_events
+                WHERE projectid = '$projectid' AND
+                    image = $projectid.image AND
+                    username = $round->user_column_name AND
+                    round_id = '$round->id'
+            ) as wordcheck_status$rn
         ";
         $tables .= "
             LEFT OUTER JOIN users AS users$rn
                 ON (users$rn.username = $round->user_column_name)
-            LEFT OUTER JOIN wordcheck_events AS wordcheck_events$rn
-                ON (wordcheck_events$rn.projectid = '$projectid' AND 
-                    wordcheck_events$rn.image = $projectid.image AND 
-                    wordcheck_events$rn.username = $round->user_column_name AND 
-                    wordcheck_events$rn.round_id = '$round->id')
             $joined_with_user_page_tallies
         ";
         $prev_text_column_name = $round->text_column_name;
@@ -233,12 +235,13 @@ function echo_page_table(
         $where_condition = "image IN ($imagenames_str)";
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT DISTINCT $fields_to_get
+    $sql = "
+        SELECT $fields_to_get
         FROM $tables
         WHERE $where_condition
         ORDER BY image ASC
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ";
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
     $num_rows = mysqli_num_rows($res);
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
