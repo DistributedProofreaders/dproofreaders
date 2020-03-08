@@ -6,21 +6,25 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header("Random Rule Database Validation");
+$title = _("Random Rules");
+output_header($title, NO_STATSBAR);
 
-$query = "SELECT * FROM rules ORDER BY id";
-$result = mysqli_query(DPDatabase::get_connection(), $query);
-$num_rules = mysqli_num_rows($result);
+echo "<h1>" . html_safe($title) . "</h1>";
 
-echo "<p>There are $num_rules Random Rules in the database...</p>";
+$documents = [
+    "proofreading_guidelines.php",
+    "formatting_guidelines.php",
+];
 
-$rule_number = 1;
-while ($rule = mysqli_fetch_assoc($result))
+foreach($documents as $document)
 {
-    echo "<hr>\n";
-    echo "<div><b>ID:</b> $rule_number &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
-    echo "<div>$rule[rule]</div>\n";
-    $rule_number++;
+    echo "<h2>" . sprintf(_("Rules from %s"), $document) . "</h2>";
+    foreach(RandomRule::get_rules($document) as $rule)
+    {
+        echo "<hr>\n";
+        echo "<div><b>ID:</b> $rule->id &mdash; $rule->subject (anchored as \"#$rule->anchor\")</div>\n";
+        echo "<div>$rule->rule</div>\n";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
