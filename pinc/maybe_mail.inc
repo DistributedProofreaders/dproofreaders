@@ -59,11 +59,10 @@ function maybe_mail_project_manager( $project, $info, $prefix)
     configure_gettext_for_user($username);
 
     $body =
-_("Hello")." $username,\n".
+sprintf(_("Hello %s,"), $username) . "\n".
 sprintf(_("This is an automated message from the %s site."),$site_name)."
 
-"._("Regarding").":
-\"$nameofwork\"
+" . sprintf(_("Regarding project \"%s\""), $nameofwork) . ":
   ($projectid)
   $code_url/project.php?id=$projectid
 
