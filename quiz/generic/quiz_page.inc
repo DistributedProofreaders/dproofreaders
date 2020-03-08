@@ -63,17 +63,6 @@ $quiz_feedbacktext = sprintf($default_feedbacktext, $quiz_feedbackurl);
 
 // called by main.php:
 
-function qp_full_browser_title()
-{
-    global $site_abbreviation; // from site_vars.php
-    global $browser_title; // from the qd file
-
-    if (isset($browser_title))
-        return "$site_abbreviation: $browser_title";
-    else
-        return $site_abbreviation;
-}
-
 function qp_round_id_for_pi_toolbox()
 {
     global $quiz;

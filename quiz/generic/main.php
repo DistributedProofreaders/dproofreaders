@@ -6,7 +6,7 @@ include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
-include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
+include "./quiz_page.inc"; // qp_round_id_for_pi_toolbox
 
 $header_args = array(
     'js_files' => array(
@@ -15,7 +15,8 @@ $header_args = array(
     ),
 );
 
-slim_header_frameset(qp_full_browser_title(), $header_args);
+// $browser_title is from qd file which is included via quiz_page.inc
+slim_header_frameset($browser_title, $header_args);
 ?>
 <frameset rows="*,73">
 <frameset cols="60%,*">
