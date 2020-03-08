@@ -3,12 +3,12 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'page_tally.inc');
+include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
 // -----------------------------------

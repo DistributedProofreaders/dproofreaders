@@ -18,16 +18,22 @@ include_once($relPath.'User.inc');
 
 // -----------------------------------------------------------------------------
 
-$page_tally_names = array();
-if ( TRUE )
+function get_page_tally_names()
 {
-    $page_tally_names['R*'] =
-        _('Pages saved-as-done in old rounds R1+R2');
-}
-foreach ( $Round_for_round_id_ as $round )
-{
-    $page_tally_names[$round->id] =
-        sprintf( _('Pages saved-as-done in round %s'), $round->id );
+    global $Round_for_round_id_;
+
+    $page_tally_names = array();
+    if ( TRUE )
+    {
+        $page_tally_names['R*'] =
+            _('Pages saved-as-done in old rounds R1+R2');
+    }
+    foreach ( $Round_for_round_id_ as $round )
+    {
+        $page_tally_names[$round->id] =
+            sprintf( _('Pages saved-as-done in round %s'), $round->id );
+    }
+    return $page_tally_names;
 }
 
 // -----------------------------------------------------------------------------

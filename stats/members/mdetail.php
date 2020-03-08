@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'privacy.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'page_tally.inc'); // $page_tally_names
+include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once($relPath.'User.inc');
 include_once('../includes/team.inc');
@@ -12,7 +12,7 @@ include_once('../includes/member.inc');
 $id = get_integer_param($_GET, 'id', null, 0, null);
 $user = User::load_from_uid($id);
 
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);
 
 $can_reveal = can_reveal_details_about( $user->username, $user->u_privacy );

@@ -383,9 +383,8 @@ function showMbrAccess( $user )
 
 function showMbrTallySelector( $u_id, $tally_name )
 {
-    global $page_tally_names;
-
     $choices = '';
+    $page_tally_names = get_page_tally_names();
     foreach ( $page_tally_names as $t_name => $t_title )
     {
         if (!empty($choices))

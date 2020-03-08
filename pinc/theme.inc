@@ -430,8 +430,7 @@ function html_statsbar($nameofpage) {
     // (i.e., to the main content of the page).
 
     // The tally_name may be unspecified, or a tally name.
-    global $page_tally_names;
-    $valid_tally_names = array_keys($page_tally_names);
+    $valid_tally_names = array_keys(get_page_tally_names());
     $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $valid_tally_names, true);
 
     // If tally_name is unspecfied, try to see if round_id is set.
@@ -685,8 +684,7 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        global $page_tally_names;
-        $valid_tally_names = array_keys($page_tally_names);
+        $valid_tally_names = array_keys(get_page_tally_names());
         $site_total = 0;
         foreach($valid_tally_names as $tally_name_temp)
         {

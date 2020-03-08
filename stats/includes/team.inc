@@ -220,11 +220,10 @@ function team_get_member_count_rank( $team_id )
 
 function showTeamTallySelector( $curTeam, $tally_name )
 {
-    global $page_tally_names;
-
     $team_id = $curTeam['id'];
 
     $choices = '';
+    $page_tally_names = get_page_tally_names();
     foreach ( $page_tally_names as $t_name => $t_title )
     {
         if (!empty($choices))

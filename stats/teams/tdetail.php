@@ -8,7 +8,7 @@ include_once('../includes/team.inc'); // showTeamInformation()
 
 
 # tally_name may be empty/unspecified, or a round name.
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);
 $req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 

@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
 $title = sprintf( _('Graphs for Pages Saved-as-Done in Round %s'), $tally_name );
