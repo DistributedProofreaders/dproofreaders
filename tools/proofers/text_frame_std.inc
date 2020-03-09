@@ -42,7 +42,7 @@ function echo_text_frame_std( $ppage )
     <div style = 'height: 100vh'>
     <?php
     output_preview_div();
-    echo "<div class='nodisp' id='validator'>";
+    echo "<div class='nodisp full-height' id='validator'>";
     render_validator();
     echo "</div>";
     ?>

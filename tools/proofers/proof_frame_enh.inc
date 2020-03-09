@@ -55,7 +55,7 @@ function echo_proof_frame_enh( $ppage )
     <div id="controlframe">
         <?php
         output_preview_div();
-        echo "<div class='nodisp' id='validator'>";
+        echo "<div class='nodisp full-height' id='validator'>";
         render_validator();
         echo "</div>";
         ?>
