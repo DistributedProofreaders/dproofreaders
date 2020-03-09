@@ -79,6 +79,10 @@ DirectoryIndex index.php default.php index.html default.html
         ExpiresByType image/jpg  "access plus 1 month"
         ExpiresByType image/jpeg "access plus 1 month"
 
+        # Expire woff/woff2 font files after one month
+        ExpiresByType font/woff "access plus 1 month"
+        ExpiresByType font/woff2 "access plus 1 month"
+
         # Expire static css/js after one week
         ExpiresByType text/css "access plus 1 week"
         ExpiresByType application/x-javascript "access plus 1 week"
