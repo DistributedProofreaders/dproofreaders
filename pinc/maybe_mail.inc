@@ -63,14 +63,15 @@ sprintf(_("Hello %s,"), $username) . "\n".
 sprintf(_("This is an automated message from the %s site."),$site_name)."
 
 " . sprintf(_("Regarding project \"%s\""), $nameofwork) . ":
-  ($projectid)
   $code_url/project.php?id=$projectid
 
 $info
 
 $site_signoff
 ";
+
     configure_gettext_for_user();
+    $user = new User($username); 
     return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 

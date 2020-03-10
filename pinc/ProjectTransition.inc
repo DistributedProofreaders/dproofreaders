@@ -872,11 +872,9 @@ function round_release_collateral( $old_project, $project, $transition, $who )
 function bad_project_collateral( $old_project, $project, $transition, $who )
 {
     configure_gettext_for_user($project->username);
-    $body_blurb_messages[] = _("This project has been shut down.");
-    $body_blurb_messages[] = _("This is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.");
-    $body_blurb_messages[] = _("Please visit the Project Manager page to view a list of your bad projects and make any necessary changes.");
-    $body_blurb_messages[] = _("You will then be able to put the project back up on the site.");
-    $body_blurb = implode("\n", $body_blurb_messages);
+    $body_blurb_messages[] = _("This project has been shut down. This is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.");
+    $body_blurb_messages[] = _("Please visit the Project Manager page to view a list of your bad projects and make any necessary changes. You will then be able to put the project back up on the site.");
+    $body_blurb = implode("\n\n", $body_blurb_messages);
     maybe_mail_project_manager($project, $body_blurb, _("Bad Project"));
     configure_gettext_for_user();
 }
@@ -929,7 +927,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
     configure_gettext_for_user($project->username);
     $body_blurb_messages[] = _("This project has completed all rounds and has been made available for someone else to do the post-processing.");
     $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
-    $body_blurb = implode("\n", $body_blurb_messages);
+    $body_blurb = implode("\n\n", $body_blurb_messages);
     maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
     configure_gettext_for_user();
 
@@ -977,9 +975,7 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
         // Yes, PPer == PM, send one message.
 
         configure_gettext_for_user($project->username);
-        $body_blurb_messages[] = _("This project has completed all rounds and is ready for you to do the post-processing.");
-        $body_blurb_messages[] = _("If you do not want to work on it, set it to Available for Post-Processing.");
-        $body_blurb = implode("\n", $body_blurb_messages);
+        $body_blurb = _("This project has completed all rounds and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.");
         maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
         configure_gettext_for_user();
     }
@@ -995,7 +991,7 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
             _("This project has completed all rounds and has been checked out to the PPer who had it reserved, %s."),
             $PPer_username);
         $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
-        $body_blurb = implode("\n", $body_blurb_messages);
+        $body_blurb = implode("\n\n", $body_blurb_messages);
         maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
         configure_gettext_for_user();
 

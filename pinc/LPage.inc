@@ -329,7 +329,7 @@ class LPage
             "$code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}");
         $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
         $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
-        $body_blurb = implode("\n", $body_blurb_messages);
+        $body_blurb = implode("\n\n", $body_blurb_messages);
         maybe_mail_project_manager($project, $body_blurb, _("Bad Page"));
         configure_gettext_for_user();
 
