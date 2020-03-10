@@ -50,23 +50,19 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 }
 
 function maybe_mail_project_manager( $project, $info, $prefix)
-// $project is either a string containing a projectid,
-// or an associative array containing various attributes of a project.
 {
-    global $code_url, $site_name, $site_signoff;
+    global $code_url, $site_name, $site_signoff, $site_abbreviation;
 
-    $project = new Project($project);
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
+    configure_gettext_for_user($username);
 
     $body =
-_("Hello")." $username,\n".
+sprintf(_("Hello %s,"), $username) . "\n".
 sprintf(_("This is an automated message from the %s site."),$site_name)."
 
-"._("Regarding").":
-\"$nameofwork\"
-  ($projectid)
+" . sprintf(_("Regarding project \"%s\""), $nameofwork) . ":
   $code_url/project.php?id=$projectid
 
 $info
@@ -74,9 +70,9 @@ $info
 $site_signoff
 ";
 
-    $user = new User($username);
-
-    return maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
+    configure_gettext_for_user();
+    $user = new User($username); 
+    return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab
