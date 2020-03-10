@@ -5,7 +5,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg, attr_safe
+include_once($relPath.'misc.inc'); // get_upload_err_msg, get_enumerated_param, attr_safe
 
 require_login();
 
@@ -25,35 +25,68 @@ if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add
 }
 
 $project = new Project($projectid);
+$operation = get_enumerated_param($_REQUEST, 'operation', 'replace', array('replace', 'delete'));
 
-$replace_image_str = _('Replace Image');
+$operation_image_str;
+if ($operation == 'replace') {
+    $operation_image_str = _('Replace Image');
+} else {
+    $operation_image_str = _('Delete Image');
+}
 
-output_header("$replace_image_str: {$project->nameofwork}");
+output_header("$operation_image_str: {$project->nameofwork}");
 
 echo "<h1>{$project->nameofwork}</h1>\n";
-echo "<h2>$replace_image_str: $image</h2>\n";
+echo "<h2>$operation_image_str: $image</h2>\n";
 
 if (!$project->can_be_managed_by_current_user)
 {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
 }
 
-if (!is_file("$projects_dir/$projectid/$image"))
+$page_image_names = array();
+$res = mysqli_query(DPDatabase::get_connection(), "
+    SELECT image
+    FROM $projectid
+    ORDER BY image
+") or die(mysqli_error(DPDatabase::get_connection()));
+while (list($page_image) = mysqli_fetch_row($res))
+{
+    $page_image_names[] = $page_image;
+}
+
+chdir("$projects_dir/$projectid");
+$existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+// That returns a sorted list of the .png files
+// followed by a sorted list of the .jpg files,
+// but we want the two lists interleaved...
+$nonpage_image_names = array_diff($existing_image_names, $page_image_names);
+if (!in_array($image, $nonpage_image_names) || !is_file("$projects_dir/$projectid/$image"))
 {
     // This too should only happen if someone is URL-tweaking.
     // (Or conceivably, the file was recently deleted, and the user
     // has an image_index that was generated before the deletion.)
-
-    echo "<p>", _('There is no such image in the project.'), "</p>\n";
+    echo "<p>", _('There is no such illustration in the project.'), "</p>\n";
+    return;
 }
 
+$err_msg;
+$success_msg;
 if ( isset($_FILES['replacement_image']) )
 {
     // The user has uploaded a file.
     $err_msg = handle_upload( $_FILES['replacement_image'] );
+    $success_msg = _('Image successfully replaced.');
+} elseif (@$_REQUEST['confirmed'] == 'yes') {
+    // The user has uploaded a file.
+    $err_msg = handle_delete();
+    $success_msg = _('Image successfully deleted.');
+}
+
+if (isset($success_msg)) {
     if ( $err_msg == '' )
     {
-        echo "<p>", _('Image successfully replaced.'), "</p>\n";
+        echo "<p>", $success_msg, "</p>\n";
         echo "<p>",
             "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>",
             _('Return to Images Index'),
@@ -72,16 +105,31 @@ if ( isset($_FILES['replacement_image']) )
     }
 }
 
-echo "<p>", _('Select a replacement image to upload:'), "</p>\n";
-echo "
-    <form enctype='multipart/form-data' action='replace_image.php' method='post'>
-    <input type='hidden' name='projectid' value='$projectid'>
-    <input type='hidden' name='image' value='$image'>
-    <input type='file' name='replacement_image' size='50'>
-    <br>
-    <input type='submit' value='", attr_safe(_("Upload Image")), "'>
-    </form>
-";
+if ($operation == 'replace') {
+    echo "<p>", _('Select a replacement image to upload:'), "</p>\n";
+    echo "
+        <form enctype='multipart/form-data' action='update_illos.php' method='post'>
+        <input type='hidden' name='projectid' value='$projectid'>
+        <input type='hidden' name='image' value='$image'>
+        <input type='hidden' name='operation' value='$operation'>
+        <input type='file' name='replacement_image' size='50'>
+        <br>
+        <input type='submit' value='", attr_safe(_("Upload Image")), "'>
+        </form>
+    ";
+} else {
+    echo "<p>", _('Are you sure you want to delete this image?'), "</p>\n";
+    echo "
+        <form enctype='multipart/form-data' action='update_illos.php' method='post'>
+        <input type='hidden' name='projectid' value='$projectid'>
+        <input type='hidden' name='image' value='$image'>
+        <input type='hidden' name='operation' value='$operation'>
+        <input type='hidden' name='confirmed' value='yes'>
+        <br>
+        <input type='submit' value='", attr_safe(_("Do It")), "'>
+        </form>
+    ";
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -127,6 +175,26 @@ function handle_upload( $replacement_image_info )
     else
     {
         return _('The uploaded file cannot be moved into the project directory for some reason.');
+    }
+}
+
+function handle_delete()
+// If there's a problem, return a string containing an error message.
+// If no problem, return the empty string.
+{
+    global $projectid, $image;
+    global $projects_dir;
+
+    // Check the error code.
+    $image_path = "$projects_dir/$projectid/$image";
+    $r = unlink($image_path);
+    if ( $r )
+    {
+        return '';
+    }
+    else
+    {
+        return _('The uploaded file cannot be deleted from the project directory for some reason.');
     }
 }
 
