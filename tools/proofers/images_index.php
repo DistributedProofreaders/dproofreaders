@@ -127,6 +127,10 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         if ( $show_replace_links )
         {
             echo "<th>", _('Replace'), "</th>\n";
+            if (!$these_are_page_images) 
+            {
+                echo "<th>", _('Delete'), "</th>\n";
+            }
         }
         echo "</tr>\n";
     }
@@ -169,9 +173,15 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
             }
             else
             {
-                $replace_url = "$code_url/tools/project_manager/replace_image.php?projectid=$projectid&amp;image=$image_name";
+                $replace_url = "$code_url/tools/project_manager/update_illos.php?projectid=$projectid&amp;image=$image_name&amp;operation=replace";
+                $delete_url = "$code_url/tools/project_manager/update_illos.php?projectid=$projectid&amp;image=$image_name&amp;operation=delete";
             }
             echo "<td><a href='$replace_url'>", _('Replace'), "</a></td>\n";
+
+            if ( !$these_are_page_images)
+            {
+                echo "<td><a href='$delete_url'>", _('Delete'), "</a></td>\n";
+            }
         }
 
         echo "</tr>\n";
