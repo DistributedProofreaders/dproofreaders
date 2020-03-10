@@ -9,7 +9,6 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
         'U+004E',  # N
         'U+004E>U+0305',  # N̅
         'U+004E>U+0306',  # N̆
-        'U+004E>U+0307',  # Ṅ
     ];
 
     public function testSubstrReplace()
@@ -24,6 +23,18 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
         $codepoint = 'U+004E';  # N
         $char = utf8_combined_chr($codepoint);
         $this->assertEquals("N", $char);
+    }
+
+    public function testAreCodepointsNormalized()
+    {
+        $codepoints = [ 'U+004E>U+0305' ];  # N̅
+        $this->assertEquals(get_nonnormalized_codepoints($codepoints), []);
+    }
+
+    public function testAreCodepointsNormalizedFail()
+    {
+        $codepoints = [ 'U+004e>U+0307'];  # Ṅ but normalizes to U+1e44
+        $this->assertEquals(get_nonnormalized_codepoints($codepoints), [ "U+004e>U+0307" => "U+1e44" ]);
     }
 
     public function testUtf8CombinedChrCombined()
@@ -98,7 +109,7 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
 
     public function testConvertCodepointsToCharactersCombined()
     {
-        $chars = ["N", "N̅", "N̆", "Ṅ"];
+        $chars = ["N", "N̅", "N̆"];
         $string = convert_codepoint_ranges_to_characters($this->combined_codepoints);
         $this->assertEquals($chars, $string);
     }

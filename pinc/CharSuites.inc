@@ -83,6 +83,11 @@ class CharSuite
         $enabled_sets = CharSuites::get_enabled();
         return in_array($this, $enabled_sets);
     }
+
+    public function get_nonnormalized_codepoints()
+    {
+        return get_nonnormalized_codepoints($this->codepoints);
+    }
 }
 
 class CharSuites
