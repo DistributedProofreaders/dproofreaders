@@ -21,7 +21,28 @@ function utf8_normalize($string)
 function utf8_combined_chr($codepoint)
 {
     $codepoints = explode('>', $codepoint);
-    return utf8_normalize(implode('', array_map('utf8_chr', $codepoints)));
+    return implode('', array_map('utf8_chr', $codepoints));
+}
+
+# Get codepoints that are not normalized.
+# Returns an associative array where the key is the nonnormalized codepoint
+# and the value is the normalized version. If all codepoints are normalized
+# it returns an empty array.
+function get_nonnormalized_codepoints($codepoints)
+{
+    $characters = convert_codepoint_ranges_to_characters($codepoints);
+    $nonnorm_codepoints = [];
+    foreach($characters as $character)
+    {
+        $norm_character = utf8_normalize($character);
+        if($character != $norm_character)
+        {
+            $norm_codepoint = implode('>', array_map('utf8_chr_to_hex', utf8_split($norm_character)));
+            $orig_codepoint = implode('>', array_map('utf8_chr_to_hex', utf8_split($character)));
+            $nonnorm_codepoints[$orig_codepoint] = $norm_codepoint;
+        }
+    }
+    return $nonnorm_codepoints;
 }
 
 # Given a single character, or a combined character, return its name
