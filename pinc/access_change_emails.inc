@@ -3,7 +3,7 @@ include_once($relPath."maybe_mail.inc");
 
 function pp_access_change_email($user, $access_change)
 {
-    global $site_name, $site_abbreviation, $site_signoff, $db_requests_email_addr;
+    global $site_name, $site_abbreviation, $db_requests_email_addr;
 
     // only send emails on grant
     if($access_change != "grant")
@@ -16,7 +16,6 @@ function pp_access_change_email($user, $access_change)
     $subject = sprintf(_("%s: Welcome to Post-Processing"), $site_abbreviation);
 
     $message[] = sprintf(_("Hello %s,"), $user->username);
-    $message[] = _("This is an automated message.");
     // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
     $message[] = sprintf(_("Congratulations! You are now eligible to learn to transform %s projects into their final formats, ready for upload to Project Gutenberg. If you're already familiar with HTML and CSS, it may make learning Post-Processing (PP) somewhat easier, but many prolific Post-Processors (PPers) knew no HTML or CSS when they first started, so if you aren't already familiar with them, don't be discouraged!"), $site_abbreviation);
     
@@ -31,7 +30,6 @@ function pp_access_change_email($user, $access_change)
     
     // TRANSLATORS: %s is the site name (eg: 'Distributed Proofreaders')
     $message[] = sprintf(_("Thank you for deciding to work as a Post-Processor! Although the work can be daunting at first, it can be the most rewarding and motivating activity here at %s."), $site_name);
-    $message[] = $site_signoff;
 
     $email = $user->email;
     $message_string = implode("\n\n", $message);

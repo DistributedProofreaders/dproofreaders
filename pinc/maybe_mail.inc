@@ -8,7 +8,7 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 // If this is for real, send the message.
 // If we're testing, just report what would have been sent.
 {
-    global $testing, $auto_email_addr;
+    global $testing, $auto_email_addr, $site_name, $site_url;
 
     assert(is_null($additional_headers) || is_array($additional_headers));
     if (empty($additional_headers))
@@ -16,6 +16,7 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         $additional_headers = array();
     }
 
+    // Ensure that the From and Reply-To headers are set
     if (!preg_grep('/^From: /', $additional_headers))
     {
         array_unshift($additional_headers, "From: $auto_email_addr");
@@ -26,6 +27,23 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
     }
 
     $additional_headers = implode($additional_headers, "\r\n") . "\r\n";
+
+    // Append a standard footer to all emails sent out by the system.
+    // This replaces the $site_signoff in prior versions that was not
+    // translatable.
+    if(!endswith($message, "\n"))
+    {
+        $message .= "\n";
+    }
+
+    $message .= implode("\n", [
+        "",
+        "--",
+        $site_name,
+        $site_url,
+        "",
+        _("This is an automated message."),
+    ]);
 
     if ( $testing )
     {
@@ -51,24 +69,19 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 
 function maybe_mail_project_manager( $project, $info, $prefix)
 {
-    global $code_url, $site_name, $site_signoff, $site_abbreviation;
+    global $code_url, $site_abbreviation, $site_name;
 
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
     configure_gettext_for_user($username);
 
-    $body =
-sprintf(_("Hello %s,"), $username) . "\n".
-sprintf(_("This is an automated message from the %s site."),$site_name)."
-
-" . sprintf(_("Regarding project \"%s\""), $nameofwork) . ":
-  $code_url/project.php?id=$projectid
-
-$info
-
-$site_signoff
-";
+    $body = implode("\n", [
+        sprintf(_("Hello %s,"), $username),
+        $project->email_introduction(),
+        $info,
+        sprintf(_("Thank you for volunteering with %s!"), $site_name),
+    ]);
 
     configure_gettext_for_user();
     $user = new User($username); 

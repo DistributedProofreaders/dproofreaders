@@ -161,17 +161,18 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 
 function notify_user($user, $actions)
 {
-    global $site_name, $site_signoff;
+    global $site_name, $site_abbreviation;
+;
     if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
     {
         // Special case: If the user has been granted access to
         // a single round, send a congratulations! email.
         list($activity_id) = array_keys($actions);
-        $subject = "DP: You have been granted access to $activity_id!";
-        $message = "Hello $user->username,\n\nThis is a message from the $site_name website.\n\n" .
+        $subject = "$site_abbreviation: You have been granted access to $activity_id!";
+        $message = "Hello $user->username,\n\n" .
                    "Congratulations, you have been granted access to $activity_id projects!\n" .
-                   "You can access this stage by following the link to it at the Activity Hub.\n\n" .
-                   "$site_signoff";
+                   "You can access this stage by following the link to it at the Activity Hub.\n";
+        $message .= sprintf(_("Thank you for volunteering with %s!"), $site_name);
         // XXX: Note that this wording works when the activity is a stage (round or pool),
         // but not otherwise.
         maybe_mail($user->email,$subject,$message);
@@ -179,19 +180,18 @@ function notify_user($user, $actions)
     }
     else
     {
-        $subject =  "DP: Your access has been modified";
-        $message =  "Hello $user->username,\n\nThis is a message from the $site_name website.\n\n" .
+        $subject =  "$site_abbreviation: Your access has been modified";
+        $message =  "Hello $user->username,\n\n" .
                     "The following modifications have been made to the stages in which you can work:\n";
         foreach ( $actions as $activity_id => $action_type )
         {
-            $message .= "\n";
-            $message .= "  $activity_id: ";
+            $message .= "* $activity_id: ";
             $message .=
                 ( $action_type == 'deny_request_for' ? 'Your request for access has not been approved. Please try again in a few weeks.' :
                 ( $action_type == 'grant' ? 'Access granted.' :
                 'Access revoked.' ) );
         }
-        $message .= "\n\n$site_signoff";
+        $message .= "\n";
         maybe_mail($user->email,$subject,$message);
         return "notified user.";
     }
