@@ -595,7 +595,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
         }
         else
         {
-            $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+            $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
         }
 
         echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed)$wordcheck_status</td>\n";
