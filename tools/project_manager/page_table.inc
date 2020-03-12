@@ -173,20 +173,30 @@ function echo_page_table(
         list($joined_with_user_page_tallies,$user_page_tally_column) =
             $tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
 
+        if(is_formatting_round($round))
+        {
+            $wordcheck_query = "NULL as wordcheck_status$rn";
+        }
+        else
+        {
+            $wordcheck_query = "
+                (
+                    SELECT count(*)
+                    FROM wordcheck_events
+                    WHERE projectid = '$projectid' AND
+                        image = $projectid.image AND
+                        username = $round->user_column_name AND
+                        round_id = '$round->id'
+                ) as wordcheck_status$rn
+            ";
+        }
         $fields_to_get .= ",
             $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
             $round->time_column_name,
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
             length($round->text_column_name),
-            (
-                SELECT count(*)
-                FROM wordcheck_events
-                WHERE projectid = '$projectid' AND
-                    image = $projectid.image AND
-                    username = $round->user_column_name AND
-                    round_id = '$round->id'
-            ) as wordcheck_status$rn
+            $wordcheck_query
         ";
         $tables .= "
             LEFT OUTER JOIN users AS users$rn
@@ -575,14 +585,20 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     {
         $R_pages_completed = $page_res["$round_num.user_page_tally"];
 
-        $wordcheck_status = '<span title="' . _('This page was WordChecked.') . '">&check;</span>';
-
-        if (!$page_res["wordcheck_status$round_num"])
+        if ($page_res["wordcheck_status$round_num"] == NULL)
         {
-            $wordcheck_status = '<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+            $wordcheck_status = '';
+        }
+        elseif ($page_res["wordcheck_status$round_num"] > 0)
+        {
+            $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+        }
+        else
+        {
+            $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
         }
 
-        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed) $wordcheck_status</td>\n";
+        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed)$wordcheck_status</td>\n";
     }
     else
     {
