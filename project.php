@@ -797,14 +797,27 @@ function recentlyproofed( $wlist )
 
     $recentNum=5; // if this is > 5 more rows will be shown
 
+    if(is_formatting_round($round))
+    {
+        $wordcheck_query = "NULL as wordcheck_status";
+    }
+    else
+    {
+        $wordcheck_query = "
+            (
+                SELECT count(*)
+                FROM wordcheck_events
+                WHERE projectid = '$projectid' AND
+                    image = $projectid.image AND
+                    username = $round->user_column_name AND
+                    round_id = '$round->id'
+            ) as wordcheck_status
+        ";
+    }
+
     $sql = "
-        SELECT DISTINCT $projectid.image, $projectid.state, {$round->time_column_name}, (wordcheck_events.projectid IS NOT NULL) AS `wordcheck_status`
+        SELECT $projectid.image, $projectid.state, {$round->time_column_name}, $wordcheck_query
         FROM $projectid
-        LEFT OUTER JOIN wordcheck_events
-        ON (wordcheck_events.projectid = '$projectid' AND 
-            wordcheck_events.image = $projectid.image AND 
-            wordcheck_events.username = $round->user_column_name AND 
-            wordcheck_events.round_id = '$round->id')
         WHERE {$round->user_column_name}='$pguser' AND $state_condition
         ORDER BY {$round->time_column_name} DESC
         LIMIT $recentNum
@@ -826,17 +839,24 @@ function recentlyproofed( $wlist )
             $eURL = url_for_pi_do_particular_page(
                 $projectid, $state, $imagefile, $pagestate, TRUE );
 
-            $wordcheck_status = '<span title="' . _('This page was WordChecked.') . '">&check;</span>';
-
-            if (!$row["wordcheck_status"])
+            if ($row["wordcheck_status"] == NULL)
             {
-                $wordcheck_status = '<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+                $wordcheck_status = '';
             }
-
+            elseif ($row["wordcheck_status"] > 0)
+            {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+            }
+            else
+            {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+            }
             echo "<td class='center-align'>";
-            echo "<A HREF=\"$eURL\">";
+            echo "<a href=\"$eURL\">";
             // TRANSLATORS: This is an strftime-formatted string
-            echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a> $wordcheck_status</td> \r\n";
+            echo strftime(_("%b %d"), $timestamp) . ": " . $imagefile;
+            echo "</a>$wordcheck_status";
+            echo "</td>";
             $colnum++;
             $rownum++;
         }
