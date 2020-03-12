@@ -49,14 +49,14 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
     {
         echo "\n<hr>\n";
         echo "\$testing is $testing. If it were FALSE, the following mail would have been sent:\n";
-        echo "<pre>\n";
+        echo "<pre style='white-space: pre-wrap'>\n";
         echo html_safe("To: $to\n");
         echo html_safe("Subject: $subject\n");
         echo html_safe("$additional_headers");
         echo "</pre>";
-        echo "<span class='mono'>";
-        echo nl2br(html_safe("$message\n"));
-        echo "</span>\n";
+        echo "<pre style='white-space: pre-wrap'>";
+        echo html_safe("$message\n");
+        echo "</pre>\n";
         echo "<hr>\n";
 
         return True;
