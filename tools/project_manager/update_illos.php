@@ -6,6 +6,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg, get_enumerated_param, attr_safe, html_safe
+include_once($relPath.'project_states.inc'); // PROJ_NEW
 
 require_login();
 
@@ -42,6 +43,13 @@ echo "<h2>$operation_image_str: $image</h2>\n";
 if (!$project->can_be_managed_by_current_user)
 {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
+    return;
+}
+
+if ($operation == 'delete' && $project->state != PROJ_NEW)
+{
+    echo "<p>", _('You can only delete illustrations for a project in the new state.'), "</p>\n";
+    return;
 }
 
 $page_image_names = array();

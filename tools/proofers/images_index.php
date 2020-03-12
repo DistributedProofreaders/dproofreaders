@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
+include_once($relPath.'project_states.inc'); // PROJ_NEW
 
 require_login();
 
@@ -127,7 +128,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         if ( $show_replace_links )
         {
             echo "<th>", _('Replace'), "</th>\n";
-            if (!$these_are_page_images) 
+            if (!$these_are_page_images && $project->state == PROJ_NEW) 
             {
                 echo "<th>", _('Delete'), "</th>\n";
             }
@@ -178,7 +179,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
             }
             echo "<td><a href='$replace_url'>", _('Replace'), "</a></td>\n";
 
-            if ( !$these_are_page_images)
+            if ( !$these_are_page_images && $project->state == PROJ_NEW)
             {
                 echo "<td><a href='$delete_url'>", _('Delete'), "</a></td>\n";
             }
