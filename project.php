@@ -849,7 +849,7 @@ function recentlyproofed( $wlist )
             }
             else
             {
-                $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#10008;</span>';
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
             echo "<td class='center-align'>";
             echo "<a href=\"$eURL\">";
