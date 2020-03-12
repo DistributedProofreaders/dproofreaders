@@ -936,7 +936,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
     if ( !empty($old_project->checkedoutby))
     {
         $reserved_PPer = $old_project->checkedoutby;
-        global $site_manager_email_addr, $site_signoff;
+        global $site_manager_email_addr;
 
         $PPer = new User($reserved_PPer);
         $PPer_email_addr = $PPer->email;
@@ -948,8 +948,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
              "It has not been checked out to you because you are not currently  \n" .
              "permitted to check projects out for PPing.\n" .
              "If you believe you are receiving this message in error, please contact\n" .
-             "a site manager by emailing $site_manager_email_addr.\n\n" .
-             "$site_signoff";
+             "a site manager by emailing $site_manager_email_addr.\n";
 
         maybe_mail(
             $PPer_email_addr,
@@ -962,7 +961,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
 
 function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 {
-    global $site_abbreviation, $site_signoff;
+    global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files( $project->projectid, $from_round->id, 'LE', False, '' );
 
@@ -1006,8 +1005,7 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
             $project->email_introduction().
             "This project, which is reserved for you to Post-Process,\n".
             "is now ready for you to work on, and should shortly appear in your list\n".
-            "of checked out projects.\n".
-            "$site_signoff";
+            "of checked out projects.\n";
 
         maybe_mail(
             $PPer_email_addr,

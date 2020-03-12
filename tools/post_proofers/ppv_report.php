@@ -813,8 +813,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             "General comments"
         )
 
-        . "\n"
-        . "\n" . $site_signoff;
+        . "\n";
 
     echo _("Please check the information below to make sure everything is correct.
         To return to the form, simply use your browser's back button.") . "<br>\n";

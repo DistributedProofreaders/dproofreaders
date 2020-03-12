@@ -70,7 +70,6 @@ $teams_forum_idx                  = '<<FORUMS_TEAMS_IDX>>';
 
 $site_name = '<<SITE_NAME>>';
 $site_abbreviation = '<<SITE_ABBREVIATION>>';
-$site_signoff = "<<SITE_SIGNOFF>>";
 $site_url = '<<SITE_URL>>';
 
 $preceding_proofer_restriction = '<<PRECEDING_PROOFER_RESTRICTION>>';

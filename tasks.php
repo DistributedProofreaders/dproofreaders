@@ -532,7 +532,7 @@ function create_task_from_form_submission($formsub)
         maybe_mail(
             $task_assignee_user->email,
             "$site_abbreviation Task Center: Task #$task_id has been assigned to you",
-            $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
+            $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'."
         );
     }
 
@@ -1562,11 +1562,7 @@ function NotificationMail($tid, $message, $new_task = false)
     $task_summary = $row['task_summary'];
 
     $subject = "$site_abbreviation Task #$tid: $task_summary";
-    $footer = "\n\n"
-        . "--\n"
-        . "$site_name\n"
-        . "$tasks_url?task_id=$tid\n\n"
-        . "This is an automated message, please do not respond directly to this e-mail.";
+    $footer  = "\n\n$tasks_url?task_id=$tid";
 
     if($new_task)
     {
