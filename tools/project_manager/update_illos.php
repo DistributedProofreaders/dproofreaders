@@ -1,5 +1,5 @@
 <?php
-// Replace an image file.
+// Replace an illustration file.
 
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
@@ -78,17 +78,15 @@ if (!in_array($image, $nonpage_image_names) || !is_file("$projects_dir/$projecti
     return;
 }
 
-$err_msg;
-$success_msg;
 if ( isset($_FILES['replacement_image']) )
 {
     // The user has uploaded a file.
-    $err_msg = handle_upload( $_FILES['replacement_image'] );
-    $success_msg = _('Image successfully replaced.');
+    $err_msg = handle_upload($projectid, $image, $_FILES['replacement_image'] );
+    $success_msg = _('Illustration successfully replaced.');
 } elseif (@$_REQUEST['confirmed'] == 'yes') {
     // The user has uploaded a file.
-    $err_msg = handle_delete();
-    $success_msg = _('Image successfully deleted.');
+    $err_msg = handle_delete($projectid, $image);
+    $success_msg = _('Illustration successfully deleted.');
 }
 
 if (isset($success_msg)) {
@@ -104,7 +102,7 @@ if (isset($success_msg)) {
     }
     else
     {
-        echo "<p>";
+        echo "<p class='error'>";
         echo _('An error occurred.'), "\n";
         echo $err_msg, "\n";
         echo _('Please try again.'), "\n";
@@ -114,7 +112,7 @@ if (isset($success_msg)) {
 }
 
 if ($operation == 'replace') {
-    echo "<p>", _('Select a replacement image to upload:'), "</p>\n";
+    echo "<p>", _('Select a replacement illustration to upload:'), "</p>\n";
     echo "
         <form enctype='multipart/form-data' action='update_illos.php' method='post'>
         <input type='hidden' name='projectid' value='$projectid'>
@@ -122,11 +120,11 @@ if ($operation == 'replace') {
         <input type='hidden' name='operation' value='$operation'>
         <input type='file' name='replacement_image' size='50'>
         <br>
-        <input type='submit' value='", attr_safe(_("Upload Image")), "'>
+        <input type='submit' value='", attr_safe(_("Upload Illustration")), "'>
         </form>
     ";
 } else {
-    echo "<p>", _('Are you sure you want to delete this image?'), "</p>\n";
+    echo "<p>", _('Are you sure you want to delete this illustration?'), "</p>\n";
     echo "
         <form enctype='multipart/form-data' action='update_illos.php' method='post'>
         <input type='hidden' name='projectid' value='$projectid'>
@@ -141,11 +139,10 @@ if ($operation == 'replace') {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function handle_upload( $replacement_image_info )
+function handle_upload( $projectid, $image, $replacement_image_info )
 // If there's a problem, return a string containing an error message.
 // If no problem, return the empty string.
 {
-    global $projectid, $image;
     global $projects_dir;
 
     // Check the error code.
@@ -186,11 +183,10 @@ function handle_upload( $replacement_image_info )
     }
 }
 
-function handle_delete()
+function handle_delete( $projectid, $image)
 // If there's a problem, return a string containing an error message.
 // If no problem, return the empty string.
 {
-    global $projectid, $image;
     global $projects_dir;
 
     // Check the error code.
