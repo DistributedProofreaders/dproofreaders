@@ -478,7 +478,7 @@ function tds_for_invalid_chars($raw)
     $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
     $tds .= "<td>" . string_to_codepoints_string($raw) . "</td>"; // codepoints
     $tds .= "<td></td>"; // intended character
-    $tds .= "<td>" . "Codepoint not valid for project" . "</td>";
+    $tds .= "<td>" . _("Codepoint not valid for project") . "</td>";
 
     return $tds;
 }

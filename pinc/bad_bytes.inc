@@ -903,16 +903,8 @@ function get_remarks_for_bad_byte_sequence($raw)
         list($code_point, $why_bad) = $_bad_byte_sequences[$raw];
     }
 
-    $info = $_character_data[$code_point] ?? null;
-    if ($info)
-    {
-        $char_name = $info['name'];
-    }
-    else
-    {
-        // $_character_data doesn't have an entry for that code point
-        $char_name = '???';
-    }
+    $char_name = $_character_data[$code_point]['name'] ?? '???';
+
     $intended_character = sprintf("U+%04x %s", $code_point, $char_name);
 
     return array($intended_character, $why_bad);
