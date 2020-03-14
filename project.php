@@ -552,6 +552,11 @@ function do_project_info_table()
         echo_row_a( _("Word Lists"), $links );
     }
 
+    if(!$project->is_utf8)
+    {
+        echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
+    }
+
     $project_charsuites = [];
     foreach($project->get_charsuites() as $charsuite)
     {

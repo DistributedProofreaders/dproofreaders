@@ -396,6 +396,7 @@ class Project
     var $CBP_PROJECT_NOT_AVAILABLE        = 2;
     var $CBP_REQUESTOR_NOT_LOGGED_IN      = 3;
     var $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
+    var $CBP_PROJECT_REQUIRES_MAINTENANCE = 5;
 
     function can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
@@ -414,6 +415,15 @@ class Project
             return array(
                 $this->CBP_PROJECT_NOT_IN_ROUND,
                 _('The project is not in a round.')
+            );
+        }
+
+        if (!$this->is_utf8)
+        {
+            // Project has not been converted to UTF-8 yet
+            return array(
+                $this->CBP_PROJECT_REQUIRES_MAINTENANCE,
+                _('The project requires maintenance.') . ' ' . _("Project table is not UTF-8.")
             );
         }
 

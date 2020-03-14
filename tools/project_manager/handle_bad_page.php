@@ -27,6 +27,14 @@ if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
     die("You are not authorized to manage this project.");
 }
 
+$project = new Project($projectid);
+
+// prevent changes to the project table if it isn't UTF-8
+if(!$project->is_utf8)
+{
+    die(_("Project table is not UTF-8."));
+}
+
 // If the user hit a cancel button, return them to the starting form
 if($cancel)
     $modify = '';
@@ -39,8 +47,6 @@ if (!$resolution) {
     $b_User = $page['b_user'];
     $b_Code = $page['b_code'];
 
-    $project = new Project($projectid);
-    
     $round = get_Round_for_page_state($state);
     $current_round_num = $round->round_number;
 

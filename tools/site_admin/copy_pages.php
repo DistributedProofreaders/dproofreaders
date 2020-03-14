@@ -233,6 +233,14 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
     foreach ( array( 'from', 'to' ) as $which )
     {
+        $projectid = $projectid_[$which];
+        $project = new Project($projectid);
+
+        if(!$project->is_utf8)
+        {
+            die("Project table $projectid is not UTF-8.");
+        }
+
         $res= mysqli_query(DPDatabase::get_connection(),
             sprintf("DESCRIBE %s",
             mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_[$which]))
@@ -249,6 +257,9 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
     foreach ( array( 'from', 'to' ) as $which )
     {
+        $projectid = $projectid_[$which];
+        $project = new Project($projectid);
+
         // clever use of $which above means we need label uses translated
         // separately, which is convenient, since 'to/from' could be mistaken
         // as indicating a range.
@@ -265,11 +276,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         echo "<table class='copy'>";
 
-        $projectid = $projectid_[$which];
-
         echo "<tr><th>" . _("Project ID") . ":</th><td>" . $projectid . "</td></tr>\n";
-
-        $project = new Project($projectid);
 
         echo "<tr><th>" . _("Title") . ":</th><td>" . $project->nameofwork. "</td></tr>\n";
 
