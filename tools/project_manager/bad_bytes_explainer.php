@@ -3,7 +3,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // startswith str_contains
-include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences string_to_hex
+include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences
 include_once($relPath.'project_quick_check.inc'); // $css_for_bad_bytes_tables tds_for_bad_bytes
 
 output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
@@ -154,6 +154,7 @@ function show_a_table_of_bads($desired_badness)
         <tr>
             <th>" . _("Raw") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>
