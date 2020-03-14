@@ -31,6 +31,17 @@ abort_if_cant_edit_project( $projectid );
 
 echo "<h1>$title</h1>";
 
+$project = new Project($projectid);
+if(!$project->is_utf8)
+{
+    echo "<p>"
+        . _("Pages cannot be added to the project in its current state.")
+        . " "
+        . _("Project table is not UTF-8.")
+        . "</p>";
+    exit();
+}
+
 if(!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal"))
 {
     // abort if a load_disabled user is trying to load normal pages into an empty project 
