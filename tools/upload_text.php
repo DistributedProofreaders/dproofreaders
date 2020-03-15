@@ -335,12 +335,33 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                 throw new FileUploadException("failed to extract files");
             }
             // extract any zips in smooth_dir
+            // there should not now be any but keep for compatibility for now
             $zips = glob("$smooth_dir/*.zip");
             foreach($zips as $zip)
             {
                 if(!extract_zip_to($zip, $smooth_dir))
                 {
                     throw new FileUploadException("failed to extract files");
+                }
+            }
+            // if there is an htm or html file, zip it with images directory
+            $htm_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
+            if($htm_files)
+            {
+                $htm_file = $htm_files[0];
+                $files_to_zip[] = $htm_file;
+                // make the zip file with same name but zip extension.
+                // we don't know if it is htm or html so can't use basename()
+                $path_parts = pathinfo($htm_file);
+                $path_to_zip = "{$path_parts['dirname']}/{$path_parts['filename']}.zip";
+                $images_dir = "$smooth_dir/images";
+                if(file_exists($images_dir))
+                {
+                    $files_to_zip[] = $images_dir;
+                }
+                if(!create_zip_from($files_to_zip, $path_to_zip))
+                {
+                    throw new FileUploadException("Could not create zip file");
                 }
             }
         }
