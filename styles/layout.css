@@ -70,7 +70,7 @@ nav,
   height: 1.66666667em;
   margin: 0;
   border: 0;
-  padding: 3px;
+  padding: 0.5em 0.5em 7px 7px;
   font-size: 0.75em;
 }
 #navbar span.currentpage {
@@ -101,6 +101,13 @@ nav,
 #navbar form div {
   display: inline;
 }
+#navbar form input {
+  background-color: white;
+  border: 3px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 3px;
+}
 /* ------------------------------------------------------------------------ */
 /* Alert & Test bar*/
 #alertbar-outer,
@@ -113,7 +120,7 @@ nav,
   height: 1.66666667em;
   margin: 0;
   border: 0;
-  padding: 3px;
+  padding: 0.5em 0.5em 7px 7px;
   font-size: 0.75em;
   font-weight: bold;
   text-align: center;
@@ -154,6 +161,14 @@ nav,
 #alertbar form div,
 #testbar form div {
   display: inline;
+}
+#alertbar form input,
+#testbar form input {
+  background-color: white;
+  border: 3px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 3px;
 }
 #alertbar p,
 #testbar p {
