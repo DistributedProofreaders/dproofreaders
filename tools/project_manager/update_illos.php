@@ -22,7 +22,7 @@ $image     = @$_REQUEST['image'];
 if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add_files.php
 {
     // This should only happen if someone is URL-tweaking.
-    die(_("Parameter 'image' is not a valid image filename."));
+    die(_("Parameter 'image' is not a valid illustration filename."));
 }
 
 $project = new Project($projectid);
@@ -30,9 +30,9 @@ $operation = get_enumerated_param($_REQUEST, 'operation', 'replace', array('repl
 
 $operation_image_str;
 if ($operation == 'replace') {
-    $operation_image_str = _('Replace Image');
+    $operation_image_str = _('Replace Illustration');
 } else {
-    $operation_image_str = _('Delete Image');
+    $operation_image_str = _('Delete Illustration');
 }
 
 output_header("$operation_image_str: {$project->nameofwork}");
