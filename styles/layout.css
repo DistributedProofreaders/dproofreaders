@@ -108,6 +108,9 @@ nav,
   border-style: solid;
   border-radius: 3px;
 }
+#navbar form #loginform-userNM #loginform-userPW {
+  width: 100px;
+}
 /* ------------------------------------------------------------------------ */
 /* Alert & Test bar*/
 #alertbar-outer,
@@ -169,6 +172,10 @@ nav,
   border-color: white;
   border-style: solid;
   border-radius: 3px;
+}
+#alertbar form #loginform-userNM #loginform-userPW,
+#testbar form #loginform-userNM #loginform-userPW {
+  width: 100px;
 }
 #alertbar p,
 #testbar p {
