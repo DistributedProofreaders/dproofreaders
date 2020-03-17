@@ -1763,6 +1763,7 @@ function echo_download_zip( $link_text, $discriminator )
 
         $url = "$project->url/$p";
         $filesize_b = filesize("$project->dir/$p");
+        $last_modified = filemtime("$project->dir/$p");
     }
 
     echo "<li>";
@@ -1770,8 +1771,19 @@ function echo_download_zip( $link_text, $discriminator )
     echo $link_text;
     echo "</a>";
     echo_byte_size($filesize_b);
+    echo_last_modified($last_modified);
     echo "</li>";
     echo "\n";
+}
+
+function echo_last_modified($last_modified)
+{
+    global $datetime_format;
+
+    if (isset($last_modified))
+    {
+        echo " (", strftime($datetime_format, $last_modified), ")";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
