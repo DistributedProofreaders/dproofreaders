@@ -344,16 +344,12 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                     throw new FileUploadException("failed to extract files");
                 }
             }
-            // if there is an htm or html file, zip it with images directory
-            $htm_files = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
-            if($htm_files)
+            // if there are htm or html files, zip them with images directory
+            $files_to_zip = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
+            if($files_to_zip)
             {
-                $htm_file = $htm_files[0];
-                $files_to_zip[] = $htm_file;
-                // make the zip file with same name but zip extension.
-                // we don't know if it is htm or html so can't use basename()
-                $path_parts = pathinfo($htm_file);
-                $path_to_zip = "{$path_parts['dirname']}/{$path_parts['filename']}.zip";
+                // make the zip file with the original name but -html.zip.
+                $path_to_zip = $smooth_dir . "/" . pathinfo($original_name, PATHINFO_FILENAME) . "-html.zip";
                 $images_dir = "$smooth_dir/images";
                 if(file_exists($images_dir))
                 {
