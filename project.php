@@ -1782,7 +1782,7 @@ function echo_last_modified($last_modified)
 
     if (isset($last_modified))
     {
-        echo " (", strftime($datetime_format, filemtime($file)), ")";
+        echo " (", strftime($datetime_format, $last_modified), ")";
     }
 }
 
