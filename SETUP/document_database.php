@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 $relPath='../pinc/';
@@ -5,78 +6,50 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath . 'TableDocumentation.inc');
 
+$OPERATIONS = [
+    'generate' => 'generate_file_for_table',
+    'verify' => 'verify_file_for_table',
+    'update' => 'update_file_for_table'
+];
+$OPERATION_NAMES = implode(', ', array_keys($OPERATIONS));
+
+$DEFAULT_DIRECTORY_PATH = "$relPath/../SETUP/dbdocs/";
+
 // First is the script name, the second is the operation name
 $number_of_arguments = $argc - 2;
 
-if ($argc < 2) {
+if ($number_of_arguments < 1) {
     echo "No operation was chosen.\n";
-    echo "Supported operations are: generate, verify, update\n";
+    echo "Supported operations are: $OPERATION_NAMES\n";
+
+    exit(1);
+}
+elseif ($number_of_arguments > 2) {
+    $operation_names = implode(', ', array_keys($OPERATIONS));
+
+    echo "Too many arguments given.\n";
+    echo "Supported syntax is: <operation> <table_name or all> [directory_path]\n";
+    echo "Supported operations are: $OPERATION_NAMES\n";
 
     exit(1);
 }
 
-// generate <directory_path> <table_name or all>
-if ($argv[1] === 'generate') {
-    if ($argc !== 4) {
-        echo "Operation generate requires 2 arguments, $number_of_arguments were given.\n";
-        echo "Supported syntax for generate command is 'generate <directory path> <table name or all>'.\n";
+$operation_name = $argv[1];
+$directory_path = '';
+$table_name = '';
 
-        exit(1);
-    }
-
-    $directory_path = $argv[2];
-    $table_name = $argv[3];
-
-    if (!is_dir($directory_path)) {
-        echo "File path '$directory_path' does not exist or is not a directory.\n";
-
-        exit(1);
-    }
-
-    if ($table_name === 'all') {
-        run_operation_for_all_tables($directory_path, 'generate_file_for_table');
-    }
-    else {
-        generate_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
-    }
+// <operation> <table_name or all>
+if ($number_of_arguments == 1) {
+    $table_name = $argv[2];
+    $directory_path = $DEFAULT_DIRECTORY_PATH;
 }
-// verify <directory_path> <table_name or all>
-elseif ($argv[1] === 'verify') {
-    if ($argc !== 4) {
-        echo "Operation verify requires 2 arguments, $number_of_arguments were given.\n";
-        echo "Supported syntax for verify command is 'verify <directory path> <table name or all>'.\n";
-
-        exit(1);
-    }
-
-    $directory_path = $argv[2];
-    $table_name = $argv[3];
-
-    if (!is_dir($directory_path)) {
-        echo "File path '$directory_path' does not exist or is not a directory.\n";
-
-        exit(1);
-    }
-
-    if ($table_name === 'all') {
-        run_operation_for_all_tables($directory_path, 'verify_file_for_table');
-    }
-    else {
-        verify_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
-    }
+// <operation> <table_name or all> <directory_path>
+elseif ($number_of_arguments == 2) {
+    $table_name = $argv[2];
+    $directory_path = $argv[3];
 }
-// update <directory_path> <table_name or all>
-elseif ($argv[1] === 'update') {
-    if ($argc !== 4) {
-        echo "Operation update requires 2 arguments, $number_of_arguments were given.\n";
-        echo "Supported syntax for update command is 'update <directory path> <table name or all>'.\n";
 
-        exit(1);
-    }
-
-    $directory_path = $argv[2];
-    $table_name = $argv[3];
-
+if (array_key_exists($operation_name, $OPERATIONS)) {
     if (!is_dir($directory_path)) {
         echo "File path '$directory_path' does not exist or is not a directory.\n";
 
@@ -84,15 +57,15 @@ elseif ($argv[1] === 'update') {
     }
 
     if ($table_name === 'all') {
-        run_operation_for_all_tables($directory_path, 'update_file_for_table');
+        run_operation_for_all_tables($directory_path, $OPERATIONS[$operation_name]);
     }
     else {
-        update_file_for_table($table_name, "$directory_path/$table_name.md", $table_name);
+        $OPERATIONS[$operation_name]($table_name, "$directory_path/$table_name.md", $table_name);
     }
 }
 else {
-    echo "Invalid operation '{$argv[1]}'\n";
-    echo "Supported operations are: generate, verify, update\n";
+    echo "Invalid operation '{$operation_name}'\n";
+    echo "Supported operations are: $OPERATION_NAMES\n";
 
     exit(1);
 }
