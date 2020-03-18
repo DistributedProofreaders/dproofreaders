@@ -28,7 +28,6 @@ if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add
 $project = new Project($projectid);
 $operation = get_enumerated_param($_REQUEST, 'operation', 'replace', array('replace', 'delete'));
 
-$operation_image_str;
 if ($operation == 'replace') {
     $operation_image_str = _('Replace Illustration');
 } else {
@@ -37,45 +36,37 @@ if ($operation == 'replace') {
 
 output_header("$operation_image_str: {$project->nameofwork}");
 
-echo "<h1>" . html_safe($project->nameofwork) . "</h1>\n";
-echo "<h2>$operation_image_str: $image</h2>\n";
+echo "<h1>" . _("Update Illustration") . "</h1>\n";
+
+echo "<p>";
+echo "<b>" . _("Project") . ":</b> " . html_safe($project->nameofwork) . "<br>";
+echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
+echo "<b>" . _("Project state") . ":</b> {$project->state}<br>";
+echo "<b>" . _("Illustration") . ":</b> $image<br>";
+echo "</p>";
+
+echo "<h2>$operation_image_str</h2>\n";
 
 if (!$project->can_be_managed_by_current_user)
 {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
-    return;
+    exit;
 }
 
 if ($operation == 'delete' && $project->state != PROJ_NEW)
 {
     echo "<p>", _('You can only delete illustrations for a project in the new state.'), "</p>\n";
-    return;
+    exit;
 }
 
-$page_image_names = array();
-$res = mysqli_query(DPDatabase::get_connection(), "
-    SELECT image
-    FROM $projectid
-    ORDER BY image
-") or die(mysqli_error(DPDatabase::get_connection()));
-while (list($page_image) = mysqli_fetch_row($res))
-{
-    $page_image_names[] = $page_image;
-}
-
-chdir("$projects_dir/$projectid");
-$existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
-// That returns a sorted list of the .png files
-// followed by a sorted list of the .jpg files,
-// but we want the two lists interleaved...
-$nonpage_image_names = array_diff($existing_image_names, $page_image_names);
+$nonpage_image_names = $project->get_illustrations();
 if (!in_array($image, $nonpage_image_names) || !is_file("$projects_dir/$projectid/$image"))
 {
     // This too should only happen if someone is URL-tweaking.
     // (Or conceivably, the file was recently deleted, and the user
     // has an image_index that was generated before the deletion.)
     echo "<p>", _('There is no such illustration in the project.'), "</p>\n";
-    return;
+    exit;
 }
 
 if ( isset($_FILES['replacement_image']) )
@@ -114,7 +105,7 @@ if (isset($success_msg)) {
 if ($operation == 'replace') {
     echo "<p>", _('Select a replacement illustration to upload:'), "</p>\n";
     echo "
-        <form enctype='multipart/form-data' action='update_illos.php' method='post'>
+        <form enctype='multipart/form-data' method='post'>
         <input type='hidden' name='projectid' value='$projectid'>
         <input type='hidden' name='image' value='$image'>
         <input type='hidden' name='operation' value='$operation'>
@@ -126,7 +117,7 @@ if ($operation == 'replace') {
 } else {
     echo "<p>", _('Are you sure you want to delete this illustration?'), "</p>\n";
     echo "
-        <form enctype='multipart/form-data' action='update_illos.php' method='post'>
+        <form method='post'>
         <input type='hidden' name='projectid' value='$projectid'>
         <input type='hidden' name='image' value='$image'>
         <input type='hidden' name='operation' value='$operation'>
@@ -203,4 +194,3 @@ function handle_delete( $projectid, $image)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
