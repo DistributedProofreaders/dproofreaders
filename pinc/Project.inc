@@ -327,6 +327,27 @@ class Project
         return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
     }
 
+    function get_illustrations()
+    {
+        global $projects_dir;
+
+        $projectid = $this->projectid;
+        $page_image_names = array();
+        $res = mysqli_query(DPDatabase::get_connection(), "
+            SELECT image
+            FROM $projectid
+            ORDER BY image
+        ") or die(mysqli_error(DPDatabase::get_connection()));
+        while (list($page_image) = mysqli_fetch_row($res))
+        {
+            $page_image_names[] = $page_image;
+        }
+
+        chdir("$projects_dir/$projectid");
+        $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+        return array_diff($existing_image_names, $page_image_names);
+    }
+
     // -------------------------------------------------------------------------
 
     private function _create_credit_line()
