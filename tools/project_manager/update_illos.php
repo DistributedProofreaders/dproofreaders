@@ -46,7 +46,7 @@ else
     $is_delete_all_operation = true;
 }
 
-output_header("$operation_image_str: {$project->nameofwork}");
+output_header(_("Update Illustration"));
 
 echo "<h1>" . _("Update Illustration") . "</h1>\n";
 
