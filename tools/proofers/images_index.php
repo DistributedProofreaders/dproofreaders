@@ -94,6 +94,7 @@ else
     echo "</td>\n";
     echo "<td class='center-align'>\n";
     show_dl_link( $projectid, $nonpage_image_names, FALSE );
+    show_delete_all_link( $projectid, $nonpage_image_names );
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -211,8 +212,24 @@ function show_dl_link( $projectid, $image_names, $these_are_page_images )
     if(!empty($image_names))
     {
 	$form_target="$code_url/tools/proofers/images_index.php?project=$projectid&zip_type=$ztype";
-	echo "<form name='idl' id='idl' action='$form_target' method='POST'>\n";
+	echo "<form name='idl' id='idl' style='display: inline' action='$form_target' method='POST'>\n";
         echo "<input id='zip_type' type='submit' value='$tvalue'>";
+        echo "</form>";
+    }
+}
+
+function show_delete_all_link( $projectid, $image_names )
+{
+    global $code_url;
+
+    if(!empty($image_names))
+    {
+        $form_target="$code_url/tools/project_manager/update_illos.php";
+        $submit_label=_("Delete Illustrations");
+        echo "<form action='$form_target' method='GET' style='display: inline'>\n";
+        echo "<input type='hidden' name='projectid' value='$projectid'>";
+        echo "<input type='hidden' name='operation' value='delete_all'>";
+        echo "<input type='submit' value='$submit_label'>";
         echo "</form>";
     }
 }
