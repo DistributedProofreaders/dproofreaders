@@ -32,6 +32,7 @@ if ($operation !== 'delete_all')
 
 $project = new Project($projectid);
 
+$is_delete_all_operation = false;
 if ($operation == 'replace')
 {
     $operation_image_str = _('Replace Illustration');
