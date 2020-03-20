@@ -94,7 +94,7 @@ else
     echo "</td>\n";
     echo "<td class='center-align'>\n";
     show_dl_link( $projectid, $nonpage_image_names, FALSE );
-    show_delete_all_link( $projectid, $nonpage_image_names );
+    show_delete_all_link( $project, $nonpage_image_names );
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -218,16 +218,16 @@ function show_dl_link( $projectid, $image_names, $these_are_page_images )
     }
 }
 
-function show_delete_all_link( $projectid, $image_names )
+function show_delete_all_link( $project, $image_names )
 {
     global $code_url;
 
-    if(!empty($image_names))
+    if($project->state == PROJ_NEW && !empty($image_names))
     {
         $form_target="$code_url/tools/project_manager/update_illos.php";
         $submit_label=_("Delete Illustrations");
         echo "<form action='$form_target' method='GET' style='display: inline'>\n";
-        echo "<input type='hidden' name='projectid' value='$projectid'>";
+        echo "<input type='hidden' name='projectid' value='{$project->projectid}'>";
         echo "<input type='hidden' name='operation' value='delete_all'>";
         echo "<input type='submit' value='$submit_label'>";
         echo "</form>";
