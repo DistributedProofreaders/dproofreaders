@@ -403,22 +403,6 @@ function html_statsbar($nameofpage) {
     global $Round_for_round_id_;
     maybe_show_language_selector();
 
-    // SITE-SPECIFIC
-    // Display the donation icon and link to donate.
-    //
-    // It was decided that, at pgdp.net, we would show the donation block
-    // only on the front page and the Activity Hub.
-    // It's somewhat kludgey to effect that here -- a better design
-    // would express that in the respective calls to output_header() -- 
-    // but this approach has a much lower impact (code diff),
-    // and its drawbacks probably won't bite us.
-    if (endswith($_SERVER['SCRIPT_NAME'], "/default.php") || 
-        endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
-    {
-        show_donation_stuff();
-        echo "<hr class='divider'>\n";
-    }
-
     // For logged-in users, show links to key help documents:
     if (isset($pguser))
     {
@@ -929,30 +913,6 @@ function show_key_help_links()
         echo "<li>$item</li>\n";
     }
     echo "</ul>\n";
-    echo "</div>\n";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function show_donation_stuff()
-{
-    $pgdp_wiki_url = "http://www.pgdp.net/wiki";
-    $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
-    $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
-
-    echo "<div class='center-align'>";
-    echo "<p class='small sans-serif no-margin'>";
-    echo sprintf(
-        _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
-        $DPF_home_url
-    );
-    echo "</p>\n";
-    echo "<br>\n";
-
-    echo "<button type='button' onclick='window.open(\"$DPF_donor_url\");' style='margin-top: 0.25em; border-color: #9E00E3; border-radius: 6px; background-color: white; color: #9E00E3; font-size: 1em; font-weight: bold; font-style: italic;'>";
-    echo _("Donate");
-    echo "</button>";
-
     echo "</div>\n";
 }
 
