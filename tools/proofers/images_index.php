@@ -227,7 +227,7 @@ function show_delete_all_link( $project, $image_names )
     {
         $form_target="$code_url/tools/project_manager/update_illos.php";
         $submit_label=_("Delete Illustrations");
-        echo "<form action='$form_target' method='GET' style='display: inline'>\n";
+        echo "<form action='$form_target' method='POST' style='display: inline'>\n";
         echo "<input type='hidden' name='projectid' value='{$project->projectid}'>";
         echo "<input type='hidden' name='operation' value='delete_all'>";
         echo "<input type='submit' value='$submit_label'>";
