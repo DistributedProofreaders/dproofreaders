@@ -3,8 +3,8 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
-include_once($relPath.'project_states.inc'); // PROJ_NEW
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
+include_once($relPath.'project_states.inc'); // PROJ_NEW, PROJ_P1_UNAVAILABLE
 
 require_login();
 
@@ -119,6 +119,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
     echo "<h4 class='center-align'>$header</h4>";
 
     $show_replace_links = $project->can_be_managed_by_current_user;
+    $show_delete_links = !$these_are_page_images && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
 
     echo "<table>\n";
 
@@ -129,7 +130,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         if ( $show_replace_links )
         {
             echo "<th>", _('Replace'), "</th>\n";
-            if (!$these_are_page_images && $project->state == PROJ_NEW) 
+            if ($show_delete_links)
             {
                 echo "<th>", _('Delete'), "</th>\n";
             }
@@ -180,7 +181,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
             }
             echo "<td><a href='$replace_url'>", _('Replace'), "</a></td>\n";
 
-            if ( !$these_are_page_images && $project->state == PROJ_NEW)
+            if ( $show_delete_links)
             {
                 echo "<td><a href='$delete_url'>", _('Delete'), "</a></td>\n";
             }
@@ -222,7 +223,7 @@ function show_delete_all_link( $project, $image_names )
 {
     global $code_url;
 
-    if($project->state == PROJ_NEW && !empty($image_names))
+    if(($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE) && !empty($image_names))
     {
         $form_target="$code_url/tools/project_manager/update_illos.php";
         $submit_label=_("Delete Illustrations");
