@@ -329,8 +329,6 @@ class Project
 
     function get_illustrations()
     {
-        global $projects_dir;
-
         $projectid = $this->projectid;
         $page_image_names = array();
         $res = mysqli_query(DPDatabase::get_connection(), "
@@ -343,7 +341,7 @@ class Project
             $page_image_names[] = $page_image;
         }
 
-        chdir("$projects_dir/$projectid");
+        chdir($this->dir);
         $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
         return array_diff($existing_image_names, $page_image_names);
     }

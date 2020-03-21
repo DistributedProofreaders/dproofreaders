@@ -94,7 +94,8 @@ if ( isset($_FILES['replacement_image']) )
     // The user has uploaded a file.
     $err_msg = handle_upload($projectid, $image, $_FILES['replacement_image'] );
     $success_msg = _('Illustration successfully replaced.');
-} elseif (@$_REQUEST['confirmed'] == 'yes')
+}
+elseif (@$_REQUEST['confirmed'] == 'yes')
 {
     if ($is_delete_all_operation)
     {
