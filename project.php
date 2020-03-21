@@ -1763,6 +1763,7 @@ function echo_download_zip( $link_text, $discriminator )
         {
             $filesize_b += filesize($image_path);
         }
+        $last_modified = NULL;
     }
     else
     {
