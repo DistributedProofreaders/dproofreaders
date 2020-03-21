@@ -21,10 +21,15 @@ $t_90_days_ago = $now - (90 * $seconds_per_day);
 $t_28_days_ago = $now - (28 * $seconds_per_day);
 $t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 
+list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+
+list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
+    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
 // how many bars in the graph?
 $result0 = mysqli_query(DPDatabase::get_connection(), "
-    SELECT max($user_ELR_page_tally_column) as maxpages FROM users $joined_with_user_ELR_page_tallies 
+    SELECT max($user_ELR_page_tally_column) as maxpages
+    FROM users $joined_with_user_ELR_page_tallies
 ");
 $row = mysqli_fetch_assoc($result0);
 $maxpages = $row["maxpages"];

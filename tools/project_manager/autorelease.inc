@@ -23,19 +23,19 @@ function autorelease()
 
 function attempt_to_release( $round, $project, $queue_name )
 {
-    global $site_abbreviation;
     $projectid = $project['projectid'];
 
     $errors = project_pre_release_check( $project, $round );
 
     if ( $errors )
     {
-        maybe_mail_project_manager( $project,
-            "Some errors have been found:\n".
-            "$errors\n".
-            "Please correct the errors and put the project back into Waiting for Release.",
-            "$site_abbreviation: Errors Before Release"
-        );
+        $project = new Project($projectid);
+        configure_gettext_for_user($project->username);
+        $body_blurb_messages[] = _("Some errors have been found:");
+        $body_blurb_messages[] = $errors;
+        $body_blurb_messages[] = _("Please correct the errors and put the project back into Waiting for Release.");
+        $body_blurb = implode("\n", $body_blurb_messages);
+        maybe_mail_project_manager($project, $body_blurb, _("Errors Before Release"));
         $new_state = $round->project_bad_state;
     }
     else

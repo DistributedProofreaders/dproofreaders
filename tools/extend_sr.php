@@ -51,7 +51,7 @@ catch(ActionException $e)
 {
     slim_header($title);
     echo "<h1>$title</h1>";
-    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
+    echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
     echo "<p class='error'>", $e->getMessage(), "</p>\n";
     echo "<a href='$back_url'>", _("Return to the Project Page"), "</a>";
 }

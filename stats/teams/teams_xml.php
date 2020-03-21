@@ -50,7 +50,7 @@ $data = "<teaminfo id='$team_id'>
         <currentmembers>".$curTeam['active_members']."</currentmembers>
         <retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
 
-foreach ( $page_tally_names as $tally_name => $tally_title )
+foreach ( get_page_tally_names() as $tally_name => $tally_title )
 {
     $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 

@@ -166,13 +166,8 @@ _SITE_NAME=PICK_A_NAME
 # of each page ('%s: Welcome') and in the subject line of emails.
 _SITE_ABBREVIATION=PICK_AN_ABBREVIATION
 
-# Something like 'Thank you!\nThe Management' would be good. It will be
-# used in the footer of emails from the site. (Does not affect phpBB
-# emails; use the Administration Panel to change that.)
-_SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
-
 # You can think of this as the "publishable" HTTP URL for the site.
-# So far, it's only used when generating credit lines.
+# So far, it's used in email footers and project credits.
 # -- It could be exactly the same as $_CODE_URL.
 # -- Or it might be a more memorable or more permanent URL that simply
 #    redirects to $_CODE_URL.

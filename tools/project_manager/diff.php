@@ -16,6 +16,7 @@ $image       = validate_page_image_filename('image', @$_GET['image'], true);
 $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $format = get_enumerated_param($_GET, "format", null, array("keep", "remove"), true);
+$only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';
 
 $project = new Project( $projectid );
 $state = $project->state;
@@ -29,7 +30,7 @@ if (!$project->pages_table_exists)
     // But a user might have a bookmarked or otherwise saved a 'diff' URL.
     echo "<p>", _("Page details are not available for this project."), "</p>\n";
     echo "<p>", _("Project ID"), ": $projectid</p>\n";
-    echo "<p>", _("Title"), ":$project_title</p>\n";
+    echo "<p>", _("Title"), ":" . html_safe($project_title) . "</p>\n";
     exit;
 }
 
@@ -112,11 +113,11 @@ $extra_args = array(
 );
 output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 
-echo "<h1>$project_title</h1>\n";
+echo "<h1>" . html_safe($project_title) . "</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
-do_navigation($projectid, $image, $L_round_num, $R_round_num, 
-              $L_user_column_name, $L_user, $format);
+do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
+              $L_text_column_name, $R_text_column_name, $only_nonempty_diffs);
 echo $navigation_text;
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
@@ -161,8 +162,8 @@ if ($L_text != $R_text)
 
 // build up the text for the navigation bit, so we can repeat it
 // again at the bottom of the page
-function do_navigation($projectid, $image, $L_round_num, $R_round_num, 
-                       $L_user_column_name, $L_user, $format) 
+function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
+                       $L_text_column_name, $R_text_column_name, $only_nonempty_diffs)
 {
     global $navigation_text;
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
@@ -175,33 +176,41 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
-    $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
+    $query = "SELECT image, $L_user_column_name, ($L_text_column_name = $R_text_column_name) AS is_empty_diff FROM $projectid ORDER BY image ASC";
     $res = mysqli_query(DPDatabase::get_connection(),  $query) or die(mysqli_error(DPDatabase::get_connection()));
     $prev_image = "";
     $next_image = "";
     $prev_from_proofer = "";
     $next_from_proofer = "";
     $got_there = FALSE;
-    $got_to_next = FALSE;
     // construct the dropdown; work out where previous and next buttons should take us
-    while ( list($this_val, $this_user) = mysqli_fetch_row($res) )
+    while ( list($this_val, $this_user, $is_empty_diff) = mysqli_fetch_row($res) )
     {
         $navigation_text .= "\n<option value='$this_val'";
+
         if ($this_val == $image)
         {
             $navigation_text .= " selected";  // make the correct element of the drop down selected
             $got_there = TRUE;
         }
-        else if ($got_there && ! $got_to_next) {
-            // we are at the one after the current one
-            $got_to_next = TRUE;
-            $next_image = $this_val;
-        }
-        if ($got_to_next && $next_from_proofer == "" && $this_user == $L_user)
+        else if ($only_nonempty_diffs && $is_empty_diff)
         {
-            $next_from_proofer = $this_val;
+            $navigation_text .= " disabled"; // Disable empty diffs in the dropdown and skip the other checks
         }
-        if ( !$got_there )
+        else if ($got_there)
+        {
+            // we are at the one after the current one
+            if ($next_image == "")
+            {
+                $next_image = $this_val;
+            }
+
+            if ($next_from_proofer == "" && $this_user == $L_user)
+            {
+                $next_from_proofer = $this_val;
+            }
+        }
+        else if ( !$got_there )
         {
             $prev_image = $this_val;  // keep track of what the previous image was
             if ($this_user == $L_user)
@@ -209,6 +218,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
                 $prev_from_proofer = $this_val;
             }
         }
+
         $navigation_text .= ">$this_val</option>";
     }
     $navigation_text .= "\n</select>";
@@ -242,6 +252,11 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
         $navigation_text .=  ">";
 
     }
+
+    $checked_attribute = $only_nonempty_diffs ? 'checked' : '';
+
+    $navigation_text .= "\n<input type='checkbox' name='only_nonempty_diffs' $checked_attribute id='only_nonempty_diffs' onclick='this.form.submit()'>\n";
+    $navigation_text .= "\n<label for='only_nonempty_diffs'>" . html_safe(_('Skip empty diffs')) . "</label>\n";
     $navigation_text .=  "\n</form>\n";
 }
 

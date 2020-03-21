@@ -4,23 +4,28 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 
+$document = get_enumerated_param($_GET, "document", key(RandomRule::$document_values), array_keys(RandomRule::$document_values));
+$langcode = strtolower(array_get($_GET, "langcode", "en"));
+
 require_login();
 
-output_header("Random Rule Database Validation");
+$title = _("Random Rules");
+output_header($title, NO_STATSBAR);
 
-$query = "SELECT * FROM rules ORDER BY id";
-$result = mysqli_query(DPDatabase::get_connection(), $query);
-$num_rules = mysqli_num_rows($result);
+echo "<h1>" . html_safe($title) . "</h1>";
 
-echo "<p>There are $num_rules Random Rules in the database...</p>";
+if ( user_is_a_sitemanager() )
+{
+    echo "<p><a href='manage_random_rules.php'>" . _("Manage Random Rules") . "</a></p>";
+}
 
-$rule_number = 1;
-while ($rule = mysqli_fetch_assoc($result))
+echo "<p>" . sprintf(_('Rules from document %1$s for langcode %2$s.'), RandomRule::$document_values[$document], $langcode) . "</hp>";
+
+foreach(RandomRule::get_rules($document, $langcode) as $rule)
 {
     echo "<hr>\n";
-    echo "<div><b>ID:</b> $rule_number &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
-    echo "<div>$rule[rule]</div>\n";
-    $rule_number++;
+    echo "<div><b>ID:</b> $rule->id &mdash; $rule->subject (anchored as \"#$rule->anchor\")</div>\n";
+    echo "<div>$rule->rule</div>\n";
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -63,17 +63,6 @@ $quiz_feedbacktext = sprintf($default_feedbacktext, $quiz_feedbackurl);
 
 // called by main.php:
 
-function qp_full_browser_title()
-{
-    global $site_abbreviation; // from site_vars.php
-    global $browser_title; // from the qd file
-
-    if (isset($browser_title))
-        return "$site_abbreviation: $browser_title";
-    else
-        return $site_abbreviation;
-}
-
 function qp_round_id_for_pi_toolbox()
 {
     global $quiz;
@@ -355,25 +344,19 @@ function qp_echo_error_html($message_id)
             $see_named_section = _("See the %s section of the Formatting Guidelines for details.");
             $see_unnamed_section = _("See <a %s>this</a> section of the Formatting Guidelines for details.");
         }
+
         $guidelines_url = get_faq_url($guidelines_doc) . "#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
-
-        $result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT subject
-            FROM rules
-            WHERE document = '$guidelines_doc' AND anchor = '$anchor'
-        ");
-        $rule = mysqli_fetch_assoc($result);
-        if ($rule)
+        try
         {
-            $subject = $rule['subject'];
-            $guidelines_link = "<a $guidelines_attrs>$subject</a>";
+            $rule = RandomRule::load_from_anchor($guidelines_doc, $anchor);
+            $guidelines_link = "<a $guidelines_attrs>$rule->subject</a>";
 
             echo "<p>";
             echo sprintf($see_named_section, $guidelines_link);
             echo "</p>\n";
         }
-        else
+        catch(UnexpectedValueException $e)
         {
             echo "<p>";
             echo sprintf($see_unnamed_section, $guidelines_attrs);

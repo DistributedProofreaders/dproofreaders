@@ -315,20 +315,23 @@ class LPage
     function markAsBad( $user, $reason )
     // Return TRUE if this report causes project to be marked bad.
     {
-        global $code_url, $site_abbreviation, $PAGE_BADNESS_REASONS;
+        global $code_url, $PAGE_BADNESS_REASONS;
 
         Page_markAsBad( $this->projectid, $this->imagefile, $this->round, $user, $reason );
 
         // Advise PM that the page has been marked bad.
-		$body_blurb =
-"Page {$this->imagefile} of this project has been marked bad due to {$PAGE_BADNESS_REASONS[$reason]}.
-Please visit
-    $code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}
-to make any needed changes and make the page available for proofreading again.
-Until this report has been resolved, the project will not be able to leave
-the current round. If 10 pages are marked bad by at least 3 different users,
-the project will automatically be made unavailable.";
-        maybe_mail_project_manager($this->projectid, $body_blurb, "$site_abbreviation: Bad Page");
+        $project = new Project($this->projectid);
+        configure_gettext_for_user($project->username);
+        $body_blurb_messages[] = sprintf(_('Page %1$s of this project has been marked bad due to %2$s.'), $this->imagefile, $PAGE_BADNESS_REASONS[$reason]);
+        // TRANSLATORS: %s is a url
+        $body_blurb_messages[] = sprintf(
+            _("Please visit %s to make any needed changes and make the page available for proofreading again."),
+            "$code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}");
+        $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
+        $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
+        $body_blurb = implode("\n\n", $body_blurb_messages);
+        maybe_mail_project_manager($project, $body_blurb, _("Bad Page"));
+        configure_gettext_for_user();
 
         // Now determine whether the project as a whole should be marked bad.
         // We need 10 or more bad pages reported by 3 or more distinct users.

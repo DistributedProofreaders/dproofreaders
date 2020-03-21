@@ -34,16 +34,13 @@ foreach($projects_by_PPer as $PPer => $projects)
 
 function send_pp_reminders($PPer, $projects, $which_message)
 {
-    global $code_url, $db_requests_email_addr,
-           $site_signoff, $site_abbreviation;
+    global $code_url, $db_requests_email_addr, $site_abbreviation, $site_name;
     global $pp_alert_threshold_days;
-    global $charset, $dyn_locales_dir, $system_locales_dir;
 
     $user = new User($PPer);
-    $locale = get_valid_locale_for_translation($user->u_intlang);
 
     // configure gettext to translate user email
-    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
+    configure_gettext_for_user($user);
 
     $projects_list = [];
     foreach($projects as $project)
@@ -73,7 +70,6 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $subject = sprintf(_("%s: Renew or Return Post-Processing Projects"), $site_abbreviation);
 
         $message[] = sprintf(_("Hello %s,"), $PPer);
-        $message[] = _("This is an automated message.");
         $message[] = sprintf(_("Our database system indicates that you have had one or more projects checked out for Post-Processing for more than %d days:"), $pp_alert_threshold_days);
         $message[] = $projects_list_string;
         $message[] = _("It is important that books don't get stuck in the Post-Processing process but keep moving towards being posted at Project Gutenberg. As a community, we have a lot vested in each project -- each represents many hours of volunteer work. We are all eager to see each book posted and there is also a risk that that work would be lost should other organizations produce and post a book before we finish.");
@@ -90,7 +86,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
 
         $message[] = "==" . _("Are there any problems?") . "==";
         $message[] = sprintf(_("If any project is missing page images or illustrations, please contact the Project Manager (PM) for assistance. If the PM does not respond within a reasonable amount of time, please email %s and request help concerning any problems."), $db_requests_email_addr);
-        $message[] = $site_signoff;
+        $message[] = sprintf(_("Thank you for volunteering with %s!"), $site_name);
     }
     else
     {
@@ -101,7 +97,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $message[] = _("An automated reminder was sent to you on the first of the month to ask whether you wished to renew the projects you have checked out for Post-Processing. You are receiving this second automated notice because you have not renewed or returned the projects.");
         $message[] = $projects_list_string;
         $message[] = sprintf(_("If you have already notified %s of an expected absence, you may safely ignore this message. Otherwise, any projects in your queue for which a previous notice has been sent may be reclaimed if you do not respond or renew within the next 7 days."), $db_requests_email_addr);
-        $message[] = $site_signoff;
+        $message[] = sprintf(_("Thank you for volunteering with %s!"), $site_name);
     }
 
     $email = $user->email;
@@ -114,6 +110,9 @@ function send_pp_reminders($PPer, $projects, $which_message)
     {
         echo "WARNING: Email failed to send for $PPer <$email>\n";
     }
+
+    // restore gettext to current user's locale
+    configure_gettext_for_user();
 }
 
 // vim: sw=4 ts=4 expandtab

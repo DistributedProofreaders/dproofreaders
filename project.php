@@ -67,7 +67,7 @@ if ( !$user_is_logged_in )
 
     output_header($title_for_theme, NO_STATSBAR);
 
-    echo "<h1>$title</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     list($top_blurb, $bottom_blurb) = decide_blurbs();
     do_blurb_box( $top_blurb );
@@ -89,7 +89,7 @@ if ( $user_is_logged_in )
 output_header($title_for_theme, NO_STATSBAR);
 if ($detail_level==1)
 {
-    echo "<h1>$title</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_expected_state();
     do_detail_level_switch();
@@ -110,7 +110,7 @@ else
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    echo "<h1>$title</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_detail_level_switch();
     do_expected_state();
@@ -185,7 +185,7 @@ function do_expected_state()
         echo "<p class='warning'>";
         echo sprintf(
             _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
-            $project->nameofwork,
+            html_safe($project->nameofwork),
             project_states_text($expected_state),
             project_states_text($project->state)
         );
@@ -395,8 +395,8 @@ function do_project_info_table()
         );
     }
 
-    echo_row_a( _("Title"),           $project->nameofwork );
-    echo_row_a( _("Author"),          $project->authorsname );
+    echo_row_a( _("Title"),           $project->nameofwork,  TRUE );
+    echo_row_a( _("Author"),          $project->authorsname, TRUE );
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           _($project->genre) );
 
@@ -810,8 +810,26 @@ function recentlyproofed( $wlist )
 
     $recentNum=5; // if this is > 5 more rows will be shown
 
+    if(is_formatting_round($round))
+    {
+        $wordcheck_query = "NULL as wordcheck_status";
+    }
+    else
+    {
+        $wordcheck_query = "
+            (
+                SELECT count(*)
+                FROM wordcheck_events
+                WHERE projectid = '$projectid' AND
+                    image = $projectid.image AND
+                    username = $round->user_column_name AND
+                    round_id = '$round->id'
+            ) as wordcheck_status
+        ";
+    }
+
     $sql = "
-        SELECT image, state, {$round->time_column_name}
+        SELECT $projectid.image, $projectid.state, {$round->time_column_name}, $wordcheck_query
         FROM $projectid
         WHERE {$round->user_column_name}='$pguser' AND $state_condition
         ORDER BY {$round->time_column_name} DESC
@@ -833,10 +851,25 @@ function recentlyproofed( $wlist )
             $pagestate = $row["state"];
             $eURL = url_for_pi_do_particular_page(
                 $projectid, $state, $imagefile, $pagestate, TRUE );
+
+            if ($row["wordcheck_status"] == NULL)
+            {
+                $wordcheck_status = '';
+            }
+            elseif ($row["wordcheck_status"] > 0)
+            {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+            }
+            else
+            {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
+            }
             echo "<td class='center-align'>";
-            echo "<A HREF=\"$eURL\">";
+            echo "<a href=\"$eURL\">";
             // TRANSLATORS: This is an strftime-formatted string
-            echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
+            echo strftime(_("%b %d"), $timestamp) . ": " . $imagefile;
+            echo "</a>$wordcheck_status";
+            echo "</td>";
             $colnum++;
             $rownum++;
         }
@@ -1763,6 +1796,7 @@ function echo_download_zip( $link_text, $discriminator )
 
         $url = "$project->url/$p";
         $filesize_b = filesize("$project->dir/$p");
+        $last_modified = filemtime("$project->dir/$p");
     }
 
     echo "<li>";
@@ -1770,8 +1804,19 @@ function echo_download_zip( $link_text, $discriminator )
     echo $link_text;
     echo "</a>";
     echo_byte_size($filesize_b);
+    echo_last_modified($last_modified);
     echo "</li>";
     echo "\n";
+}
+
+function echo_last_modified($last_modified)
+{
+    global $datetime_format;
+
+    if (isset($last_modified))
+    {
+        echo " (", strftime($datetime_format, $last_modified), ")";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

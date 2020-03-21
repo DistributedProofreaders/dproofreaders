@@ -11,6 +11,7 @@ include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 include_once($relPath.'misc.inc'); // str_contains startswith
+include_once($relPath.'access_change_emails.inc'); // pp_access_change_email()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -23,6 +24,7 @@ new Stage(
     array(),
     'REQ-HUMAN',
     '',
+    NULL, /* access_change_callback */
     _('A qualified person must confirm that the work is in the public domain.'),
     NULL,
     array(
@@ -45,6 +47,7 @@ new Stage(
     array(),
     'REQ-HUMAN',
     '',
+    NULL, /* access_change_callback */
     _('We collect various bits of metadata for each page in a project.'),
     NULL,
     array(
@@ -81,6 +84,7 @@ new Round(
     array(),
     'IMMEDIATE',
     '',
+    NULL, /* access_change_callback */
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
     array(
@@ -121,9 +125,10 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
     'REQ-AUTO',
     '',
+    NULL, /* access_change_callback */
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     array(
@@ -167,6 +172,7 @@ new Round(
     array( 'P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_mod2' => 1 ),
     'REQ-HUMAN',
     _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofread them to P3 standards, you'll be granted access."),
+    NULL, /* access_change_callback */
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     array(
@@ -207,9 +213,10 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
     'REQ-AUTO',
     '',
+    NULL, /* access_change_callback */
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     array(
@@ -253,6 +260,7 @@ new Round(
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("Once you have met the requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages that have been completed in F2. If they've been formatted to F2 standards, you'll be granted access."),
+    NULL, /* access_change_callback */
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting errors."),
     'formatting_guidelines.php',
     array(
@@ -571,6 +579,7 @@ new Pool(
     array( 'F1' => 400 ),
     'REQ-AUTO',
     '',
+    "pp_access_change_email", /* access_change_callback */
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
     array(
@@ -642,6 +651,7 @@ new Stage(
     array(),
     'IMMEDIATE',
     '',
+    NULL, /* access_change_callback */
     _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
     NULL,
     array(
@@ -659,6 +669,7 @@ new Pool(
     array(),
     'NOREQ', // "Peer approval. Also gives F2 access."
     '',
+    NULL, /* access_change_callback */
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
     array(
@@ -699,6 +710,7 @@ new Pool(
     array( 'F1' => 400 ),
     'REQ-AUTO',
     '',
+    NULL, /* access_change_callback */
     _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
     NULL,
     array(
@@ -731,7 +743,8 @@ new Activity(
     _('Uploading to Project Gutenberg'),
     array(),
     'NOREQ',
-    'OOGA'
+    'OOGA',
+    NULL /* access_change_callback */
 );
 
 new Activity(
@@ -739,7 +752,8 @@ new Activity(
     sprintf( _("Mentoring in round %s"), 'P2' ),
     array(),
     'NOREQ',
-    ''
+    '',
+    NULL /* access_change_callback */
 );
 
 // vim: sw=4 ts=4 expandtab

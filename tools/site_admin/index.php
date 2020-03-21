@@ -34,7 +34,7 @@ $sections = array(
     ),
     _("Site") => array(
         "sitenews.php" => _("Manage Site News"),
-        "displayrandrules.php" => _("Display Random Rules"),
+        "manage_random_rules.php" => _("Manage Random Rules"),
         "manage_special_days.php" => _("Manage Special Days"),
         "shared_postednums.php" => _("Detect duplicate postednum"),
         "manage_site_charsuites.php" => _("Manage site character suites"),

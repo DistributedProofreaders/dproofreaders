@@ -41,7 +41,7 @@ if ($user->u_privacy == PRIVACY_PUBLIC)
             <website>".xmlencode($forum_profile['website'])."</website>";
 
 
-    foreach ( $page_tally_names as $tally_name => $tally_title )
+    foreach ( get_page_tally_names() as $tally_name => $tally_title )
     {
         $tallyboard = new TallyBoard( $tally_name, 'U' );
 

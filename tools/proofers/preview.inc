@@ -2,18 +2,18 @@
 $relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 
-function shared_strings($escape_function="html_safe")
+function get_style_strings()
 {
     return array(
-        "italic" => $escape_function(_("Italic")),
-        "bold" => $escape_function(_("Bold")),
-        "gesperrt" => $escape_function(_("Gesperrt")),
-        "small_caps" => $escape_function(_("Small caps")),
-        "font_change" => $escape_function(_("Font change")),
+        "italic" => _("Italic"),
+        "bold" => _("Bold"),
+        "gesperrt" => _("Gesperrt"),
+        "small_caps" => _("Small caps"),
+        "font_change" => _("Font change"),
     );
 }
 
-function get_preview_strings()
+function get_preview_messages()
 {
     return array(
         "noStartTag" => _("No start tag for this end tag"),
@@ -58,38 +58,33 @@ function get_preview_strings()
     );
 }
 
-function output_preview_strings()
+function get_preview_js_vars()
 {
-    global $charset;
+    global $charset, $utf8_site;
 
-    $messages = get_preview_strings();
-    $plain = javascript_safe(_("Plain text"));
-    $superscript = javascript_safe(_("superscript"));
-    $subscript = javascript_safe(_("subscript"));
-    $ss = shared_strings("javascript_safe");
+    $messages = get_preview_messages();
+    $plain = _("Plain text");
+    $superscript = _("superscript");
+    $subscript = _("subscript");
+    $styles = get_style_strings();
 
-    $demo_string = "$plain _{{$subscript}} <i>$ss[italic]</i> ^{{$superscript}} <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>";
+    $demo_string = javascript_safe("$plain _{{$subscript}} <i>$styles[italic]</i> ^{{$superscript}} <b>$styles[bold]</b> <g>$styles[gesperrt]</g> <sc>$styles[small_caps]</sc> <f>$styles[font_change]</f>");
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
 
-
-    // json_encode() assumes everything is in UTF-8, but we may not be so
-    // just build the JSON object ourselves
-    $json_entries = [];
-    foreach($messages as $key => $value)
+    if(!$utf8_site)
     {
-        $value = javascript_safe($value);
-        $json_entries[] = "\"$key\": \"$value\"";
+        array_walk($messages, function(&$item) { $item = utf8_encode($item);} );
     }
-    $preview_msg = "{" . implode(",", $json_entries) . "}";
+    $preview_msg = json_encode($messages);
 
-    echo "var previewMessages = JSON.parse('$preview_msg'); var previewDemo = '$demo_string'; var ieWarn = '$ie_warn'";
+    return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
 }
 
 function output_preview_div()
 {
     global $code_url;
 
-    $messages = get_preview_strings();
+    $messages = get_preview_messages();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
     $add_font = attr_safe(_("Add Font"));
@@ -108,12 +103,13 @@ function output_preview_div()
     $poss_iss = html_safe(_("Poss. Issues"));
     $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
-    $ss = shared_strings("html_safe");
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
     $initial_mode = html_safe(_("Initial view mode"));
+    $styles = get_style_strings();
+    array_walk($styles, function(&$item) { $item = html_safe($item);} );
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -158,15 +154,16 @@ function output_preview_div()
 <div id="id_config_panel" class='no_display'>
   <div id='color_test'>
   </div>
-  <fieldset class="clearfix">
+  <fieldset>
     <legend>$choose_colors</legend>
+    <div class="display-flex">
     <div id="id_markmenu">
         <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $ss[bold]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $ss[gesperrt]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $ss[small_caps]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $ss[font_change]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $styles[bold]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $styles[gesperrt]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $styles[small_caps]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $styles[font_change]<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
         <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
@@ -176,6 +173,7 @@ function output_preview_div()
         <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
         <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
         <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
+    </div>
     </div>
   </fieldset>
   <div class="box2">

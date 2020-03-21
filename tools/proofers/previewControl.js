@@ -8,8 +8,7 @@ When the preview button is pressed the function "show" changes its display style
 to "block" and changes the display style of the normal view (proofDiv) to "none"
 This is reversed when "Quit" is pressed.
 The configuration screen is handled in the same way.
-The strings previewDemo and ieWarn are loaded by the function
-output_preview_strings() defined in preview.inc, called in preview_strings.php
+The strings previewDemo and ieWarn are translated strings in header args
 */
 var previewControl;
 

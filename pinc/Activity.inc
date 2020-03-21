@@ -15,12 +15,6 @@ $ACCESS_CRITERIA = array(
     'quiz/p_mod2'    => sprintf(_('<a href="%1$s">moderate proofreading quiz %2$d</a> pass'),"$code_url/quiz/start.php?show_level=P_MOD", 2),
     'quiz/f_only'    => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
 );
-if ( TRUE )
-{
-    // kludge
-    // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
-    $ACCESS_CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
-}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -47,8 +41,14 @@ class Activity
             //     'NOREQ'      They don't request access (or at least, we don't supply
             //                  a link by which to request access). Instead, they just
             //                  wait until they are approved.
-        $evaluation_criteria
+        $evaluation_criteria,
             // A brief description of what the evaluation criteria are.
+        $access_change_callback
+            // A callback function that will be called when a user's access for this
+            // round has changed. The function will be passed a User object representing
+            // the user with the access change in addition to the access change itself
+            //     eg: p1_access_change_callback($user, $change)
+            // where $change is one of [ "grant", "revoke", "request", "deny_request_for" ]
     )
     {
         $this->id            = $id;
@@ -56,6 +56,7 @@ class Activity
         $this->access_minima = $access_minima;
         $this->after_satisfying_minima = $after_satisfying_minima;
         $this->evaluation_criteria = $evaluation_criteria;
+        $this->access_change_callback = $access_change_callback;
 
         global $testing;
         if ($testing && !is_null($this->access_minima))
@@ -290,17 +291,6 @@ function get_user_scores($username)
 
 function get_user_score( $user_obj, $criterion_code )
 {
-    $terms = explode( '+', $criterion_code );
-    if ( count($terms) > 1 )
-    {
-        $sum = 0;
-        foreach ( $terms as $term )
-        {
-            $sum += get_user_score( $user_obj, $term );
-        }
-        return $sum;
-    }
-
     if ( $criterion_code == 'days since reg' )
     {
         $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );

@@ -473,7 +473,7 @@ class ImageSource
 
     function approve()
     {
-        global $pguser, $site_abbreviation, $site_signoff, $site_name;
+        global $pguser, $site_abbreviation, $site_name;
         $this->_set_field('is_active',1);
         $this->_set_field('info_page_visibility',1);
 
@@ -490,10 +490,9 @@ class ImageSource
             $subject = sprintf(_('%1$s: Image Source %2$s has been approved!'),$site_abbreviation,$this->display_name);
 
             $body = "Hello $username,\n\n" .
-                "This is a message from the $site_name website.\n\n".
                 "The Image Source that you proposed, $this->display_name, has been\n".
                 "approved by $pguser. You can select it, and apply it to projects, from\n".
-                "your project manager's page.\n\n$site_signoff";
+                "your project manager's page.\n";
 
             maybe_mail($user->email,$subject,$body);
         }
@@ -569,7 +568,7 @@ class ImageSource
 
     function log_request_for_approval($requestor_username)
     {
-        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name,$site_signoff;
+        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name;
 
         $userSettings =& Settings::get_Settings($requestor_username);
         $userSettings->add_value('is_approval_notify', $this->code_name);
@@ -582,7 +581,7 @@ class ImageSource
         "$requestor_username has proposed that $this->display_name be added\n".
         "to the list of Image Sources. To edit or approve this Image Source,\n".
         "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
-        "\n\n$site_signoff";
+        "\n";
 
         maybe_mail($image_sources_manager_addr,$subject,$body);
     }

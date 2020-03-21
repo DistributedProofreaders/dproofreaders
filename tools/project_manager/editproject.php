@@ -592,7 +592,7 @@ class ProjectInfoHolder
             {
                 $errors .= sprintf(
                     _("Posted Number \"%s\" is not of the correct format."),
-                    $this->postednum) . "<br>";
+                    html_safe($this->postednum)) . "<br>";
                 // You'll sometimes see PG etext numbers with a 'C' appended.
                 // The 'C' is not part of the etext number
                 // (e.g., it does not appear in PG's RDF catalog),
@@ -1061,12 +1061,12 @@ class ProjectInfoHolder
         echo "<h2 id='preview'>", _("Preview Project"), "</h2>";
         echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";
         echo "<table class='basic'>";
-        echo "<tr><th>", _("Title"), "</th><td>$this->nameofwork</td></tr>\n";
-        echo "<tr><th>", _("Author"), "</th><td>$this->authorsname</td></tr>\n";
+        echo "<tr><th>", _("Title"), "</th><td>", html_safe($this->nameofwork), "</td></tr>\n";
+        echo "<tr><th>", _("Author"), "</th><td>", html_safe($this->authorsname), "</td></tr>\n";
         if (user_is_a_sitemanager())
         {
             // SAs are the only ones who can change this.
-            echo "<tr><th>", _("Project Manager"), "</th><td>$this->projectmanager</td></tr>\n";
+            echo "<tr><th>", _("Project Manager"), "</th><td>", $this->projectmanager, "</td></tr>\n";
         }
         echo "<tr><th>", _("Last Proofread"), "</th><td>$now</td></tr>\n";
         echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";

@@ -3,11 +3,11 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'TallyBoard.inc');
-include_once($relPath.'page_tally.inc');
+include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('common.inc');
 
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 $timeframe  = get_enumerated_param($_GET, 'timeframe', null, array('curr_month', 'prev_month', 'all_time'));
 $c_or_i     = get_enumerated_param($_GET, 'cori', null, array('cumulative', 'increments'));

@@ -2,10 +2,10 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'page_tally.inc'); // $page_tally_names get_pages_per_day_for_past_n_days
+include_once($relPath.'page_tally.inc'); // get_page_tally_names() get_pages_per_day_for_past_n_days
 include_once('common.inc');
 
-$valid_tally_names = array_keys($page_tally_names);
+$valid_tally_names = array_keys(get_page_tally_names());
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 $holder_type  = get_enumerated_param($_GET, 'holder_type', null, array('U', 'T'));
 $holder_id    = get_integer_param($_GET, 'holder_id', null, 0, null);

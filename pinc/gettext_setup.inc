@@ -71,6 +71,28 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
     }
 }
 
+// Configure gettext for a specific user, useful for sending emails. $user
+// can be a User object or a username. If $user is NULL, the current user's
+// locale is configured.
+function configure_gettext_for_user($user=NULL)
+{
+    global $charset, $dyn_locales_dir, $system_locales_dir;
+
+    if(!$user)
+    {
+        $locale = get_desired_language();
+    }
+    else
+    {
+        if($user instanceof User == FALSE)
+        {
+            $user = new User($user);
+        }
+        $locale = get_valid_locale_for_translation($user->u_intlang);
+    }
+    configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
+}
+
 // If the gettext extension is compiled into PHP, then the function named '_'
 // (an alias for 'gettext') will be defined.
 // If it's not defined, define it to simply return its argument.

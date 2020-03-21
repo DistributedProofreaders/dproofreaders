@@ -628,17 +628,14 @@ EOS;
         $projectid = $this->projectid;
         $title = $this->nameofwork;
 
-        return
-            sprintf(
-                _("This is an automated message from the %s site regarding the following project:"),
-                // Should really be localized according to the preferences of the *recipient*.
-                $site_name
-            )
-            . "\n"
-            . "    \"$title\"\n"
-            . "    ($projectid)\n"
-            . "    $code_url/project.php?id=$projectid\n"
-            . "\n";
+        return implode("\n", [
+            // Should really be localized according to the preferences of the *recipient*.
+            _("This message is regarding the following project:"),
+            "",
+            "\"$title\"",
+            "    $code_url/project.php?id=$projectid",
+            "",
+        ]);
     }
 
     // -------------------------------------------------------------------------

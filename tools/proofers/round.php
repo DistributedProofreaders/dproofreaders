@@ -61,8 +61,9 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
 
 // What guideline document are we needing?
 $round_doc_url = get_faq_url($round->document);
+$rule = RandomRule::get_random($round->document, short_lang_code());
 
-if ($pagesproofed >= 10)
+if ($rule && $pagesproofed >= 10)
 {
     echo "<h2>";
     echo _("Random Rule");
@@ -80,13 +81,11 @@ if ($pagesproofed >= 10)
 
     echo "<div id='random-rule'>";
 
-    $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
-    $rule = mysqli_fetch_assoc($result);
-    echo "<i>".$rule['subject']."</i><br>";
-    echo "<p>".$rule['rule']."</p>";
+    echo "<i>".$rule->subject."</i><br>";
+    echo "<p>".$rule->rule."</p>";
     // TRANSLATORS: %1$s is the linked name of a random Guideline section.
     printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
-        "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>",
+        "<a href='$round_doc_url#".$rule->anchor."'>".$rule->subject."</a>",
         $round_doc_url);
     echo "</div>";
 }

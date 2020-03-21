@@ -190,7 +190,7 @@ $table = new ThemedTable(
     _("Pages in Rounds")
 );
 
-foreach ( $page_tally_names as $tally_name => $tally_title )
+foreach ( get_page_tally_names() as $tally_name => $tally_title )
 {
     $qs = "tally_name=$tally_name";
     $table->row(

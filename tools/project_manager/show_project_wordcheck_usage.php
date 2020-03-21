@@ -22,16 +22,6 @@ output_header($title, NO_STATSBAR);
 echo "<h1>$title</h1>";
 echo "<h2>" . get_project_name($projectid) . "</h2>";
 
-// load the events
-$events = load_wordcheck_events($projectid);
-if(is_array($events)) {
-    // parse the events complex array
-    foreach( $events as $event) {
-        list($time,$roundID,$page,$proofer,$words,$corrections)=$event;
-        @$wordcheck_usage[$page][$roundID]++;
-    }
-}
-
 echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in each round and the last user to work on the page. Click the proofreader's username to compose a private message to them.") . "</p>";
 
 echo "<p><b>" . _("Legend") . "</b></p>";
@@ -60,18 +50,33 @@ echo "</ul>";
 // with its value set to the timestamp of when WordCheck was
 // deployed on the site
 
-// build a list of user column names for the select statement
-// this avoids "select *" which unnecessarily pulls in the large
-// text fields
-$roundColumns=array();
+// build the SQL to return the fields and WordCheck status for each round
+$round_fields_select = "";
 foreach($Round_for_round_id_ as $round) {
-    $roundColumns[]=$round->user_column_name;
-    $roundColumns[]=$round->time_column_name;
+    $rn = $round->round_number;
+    $round_fields_select .= "
+        $round->user_column_name,
+        $round->time_column_name,
+        (
+            SELECT count(*)
+            FROM wordcheck_events
+            WHERE projectid = '$projectid' AND
+                image = $projectid.image AND
+                username = $round->user_column_name AND
+                round_id = '$round->id'
+        ) as wordcheck_status$rn,
+    ";
 }
-$roundColumns=implode(", ",$roundColumns);
 
-// cycle through all pages, creating rows as we go
-$res = mysqli_query(DPDatabase::get_connection(),  "SELECT image, state, $roundColumns FROM $projectid ORDER BY image ASC" ) or die(mysqli_error(DPDatabase::get_connection()));
+$sql = "
+    SELECT
+        $projectid.image AS image,
+        $round_fields_select
+        state
+    FROM $projectid
+    ORDER BY image ASC
+";
+$res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 while($result = mysqli_fetch_assoc($res)) {
     $page = $result["image"];
     echo "<tr>";
@@ -84,9 +89,10 @@ while($result = mysqli_fetch_assoc($res)) {
     // foreach round print out the available info
     foreach($Round_for_round_id_ as $round) {
         $roundID = $round->id;
+        $rn = $round->round_number;
 
         // the ' + 0' forces timesChecked to be numeric
-        $timesChecked = @$wordcheck_usage[$page][$roundID] + 0;
+        $timesChecked = $result["wordcheck_status$rn"];
         $lastProofer = $result[$round->user_column_name];
         $timeProofed = $result[$round->time_column_name];
 

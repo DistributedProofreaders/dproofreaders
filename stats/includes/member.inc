@@ -129,7 +129,7 @@ function showMbrDpProfile( $user)
 
 function showMbrRoles($user)
 {
-    global $users_ELR_page_tallyboard;
+    list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
     $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $user->u_id );
 
     $settings =& Settings::get_Settings($user->username);
@@ -383,9 +383,8 @@ function showMbrAccess( $user )
 
 function showMbrTallySelector( $u_id, $tally_name )
 {
-    global $page_tally_names;
-
     $choices = '';
+    $page_tally_names = get_page_tally_names();
     foreach ( $page_tally_names as $t_name => $t_title )
     {
         if (!empty($choices))

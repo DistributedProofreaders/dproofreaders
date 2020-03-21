@@ -139,8 +139,6 @@ function can_user_subscribe_to_project_event( $username, $projectid, $event )
 
 function notify_project_event_subscribers( $project, $event, $extras=array() )
 {
-    global $site_signoff;
-
     $event_label = get_label_for_event( $event );
 
     $projectid = $project->projectid;
@@ -201,8 +199,6 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
         default:
             assert(0);
     }
-
-    $msg_body .= "\n" . $site_signoff;
 
     $res1 = mysqli_query(DPDatabase::get_connection(), "
         SELECT username

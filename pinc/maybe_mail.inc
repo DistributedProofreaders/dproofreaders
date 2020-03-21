@@ -8,7 +8,7 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 // If this is for real, send the message.
 // If we're testing, just report what would have been sent.
 {
-    global $testing, $auto_email_addr;
+    global $testing, $auto_email_addr, $site_name, $site_url;
 
     assert(is_null($additional_headers) || is_array($additional_headers));
     if (empty($additional_headers))
@@ -16,6 +16,7 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         $additional_headers = array();
     }
 
+    // Ensure that the From and Reply-To headers are set
     if (!preg_grep('/^From: /', $additional_headers))
     {
         array_unshift($additional_headers, "From: $auto_email_addr");
@@ -27,15 +28,33 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 
     $additional_headers = implode($additional_headers, "\r\n") . "\r\n";
 
+    // Append a standard footer to all emails sent out by the system.
+    // This replaces the $site_signoff in prior versions that was not
+    // translatable.
+    if(!endswith($message, "\n"))
+    {
+        $message .= "\n";
+    }
+
+    $message .= implode("\n", [
+        "",
+        "--",
+        $site_name,
+        $site_url,
+        "",
+        _("This is an automated message."),
+    ]);
+
     if ( $testing )
     {
         echo "\n<hr>\n";
         echo "\$testing is $testing. If it were FALSE, the following mail would have been sent:\n";
-        echo "<pre>\n";
+        echo "<pre style='white-space: pre-wrap'>\n";
         echo html_safe("To: $to\n");
         echo html_safe("Subject: $subject\n");
         echo html_safe("$additional_headers");
-        echo "\n";
+        echo "</pre>";
+        echo "<pre style='white-space: pre-wrap'>";
         echo html_safe("$message\n");
         echo "</pre>\n";
         echo "<hr>\n";
@@ -49,33 +68,24 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
 }
 
 function maybe_mail_project_manager( $project, $info, $prefix)
-// $project is either a string containing a projectid,
-// or an associative array containing various attributes of a project.
 {
-    global $code_url, $site_name, $site_signoff;
+    global $code_url, $site_abbreviation, $site_name;
 
-    $project = new Project($project);
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
+    configure_gettext_for_user($username);
 
-    $body =
-_("Hello")." $username,\n".
-sprintf(_("This is an automated message from the %s site."),$site_name)."
+    $body = implode("\n", [
+        sprintf(_("Hello %s,"), $username),
+        $project->email_introduction(),
+        $info,
+        sprintf(_("Thank you for volunteering with %s!"), $site_name),
+    ]);
 
-"._("Regarding").":
-\"$nameofwork\"
-  ($projectid)
-  $code_url/project.php?id=$projectid
-
-$info
-
-$site_signoff
-";
-
-    $user = new User($username);
-
-    return maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
+    configure_gettext_for_user();
+    $user = new User($username); 
+    return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab

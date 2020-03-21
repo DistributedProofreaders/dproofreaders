@@ -17,15 +17,9 @@ function get_pages_proofed_maybe_simulated()
 // to pretend to have a different number of pages,
 // as long as it's less than their actual number.
 {
-    global $pguser, $userP;
+    global $pguser;
 
     $pagesproofed = user_get_ELR_page_tally( $pguser );
-    if ( TRUE )
-    {
-        $ru_tallyboard = new TallyBoard('R*', 'U');
-        $pagesproofed += $ru_tallyboard->get_current_tally( $userP['u_id'] );
-    }
-
     $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $pagesproofed);
 
     return $pagesproofed;
