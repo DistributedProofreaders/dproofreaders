@@ -57,9 +57,8 @@ echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
 echo "<b>" . _("Project state") . ":</b> {$project->state}<br>";
 if (!$is_delete_all_operation)
 {
-    echo "<b>" . _("Illustration") . ":</b> $image<br>";
-    $image_link = "<a href='$projects_url/$projectid/" . rawurlencode($image) . "'>" . _("Illustration") . "</a>";
-    echo "<b>" . _("View") . ":</b> $image_link";
+    $image_link = "<a href='$projects_url/$projectid/" . rawurlencode($image) . "'>" . html_safe($image) . "</a>";
+    echo "<b>" . _("Illustration") . ":</b> $image_link<br>";
 }
 echo "</p>";
 
@@ -72,9 +71,9 @@ if (!$project->can_be_managed_by_current_user)
     exit;
 }
 
-if ($operation == 'delete' && $project->state != PROJ_NEW)
+if (($is_delete_all_operation || $operation == 'delete') && $project->state != PROJ_NEW && $project->state != PROJ_P1_UNAVAILABLE)
 {
-    echo "<p>", _('You can only delete illustrations for a project in the new state.'), "</p>\n";
+    echo "<p>", _('You can only delete illustrations for a project in the new or P1 unavailable states.'), "</p>\n";
     provide_escape_links();
     exit;
 }
@@ -244,6 +243,7 @@ function handle_delete_all( $projectid, $nonpage_image_names)
 {
     global $projects_dir;
 
+    $has_error = false;
     // Check the error code.
     foreach ($nonpage_image_names as $nonpage_image_name)
     {
