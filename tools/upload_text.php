@@ -344,6 +344,15 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                     throw new FileUploadException("failed to extract files");
                 }
             }
+            // if there is an overall directory move files up
+            $top_files = glob("$smooth_dir/*");
+            if((count($top_files) === 1) && is_dir($top_files[0]))
+            {
+                $temp_dir = "$project->dir/temp";
+                rename($top_files[0], $temp_dir);
+                // smooth_dir is now empty so we can rename to it
+                rename($temp_dir, $smooth_dir);
+            }
             // if there are htm or html files, zip them with images directory
             $files_to_zip = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
             if($files_to_zip)
