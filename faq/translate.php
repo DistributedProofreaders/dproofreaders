@@ -17,6 +17,9 @@ output_header('Site translation', NO_STATSBAR);
     <li>For registered users, see the 'Interface Language' setting in your <a href='../userprefs.php'>user preferences</a>.</li>
 </ul>
 
+<h2>Troubleshooting</h2>
+<p>If the site is not showing up in the language you expect, the <a href='../locale/debug_ui_language.php'>UI Language Debugger</a> is a useful page for determining why. Providing information on this page to a developer or squirrel can assist in troubleshooting.</p>
+
 <h2>Languages vs locales</h2>
 <p>Many people think of translations as done from one language into another, such as from English into Spanish. But this is an oversimplification: which English -- US? Canadian? British? -- and which Spanish -- Spain? Mexico? Instead, they are done from one localization, such as US English, into another, such as Mexican Spanish. Computers term these localizations locales and they have unique identifiers. For example, US English is en_US and Mexican Spanish is es_MX.</p>
 
