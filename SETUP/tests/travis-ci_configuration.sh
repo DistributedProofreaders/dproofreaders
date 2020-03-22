@@ -19,6 +19,8 @@ _PHPBB_TABLE_PREFIX=phpbb3.phpbb
 _FORUMS_DIR=$HOME/phpBB3
 _FORUMS_URL='http://localhost/phpBB3'
 
+_DEFAULT_CHAR_SUITES='[ "basic-latin" ]'
+
 _SITE_NAME='Travis-CI'
 _SITE_ABBREVIATION=TCI
 _SITE_SIGNOFF="Ciao!"

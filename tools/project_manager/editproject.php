@@ -154,15 +154,8 @@ else
 
 function get_default_character_suites()
 {
-    foreach(CharSuites::get_enabled() as $enabled_char_suite)
-    {
-        if ($enabled_char_suite->name == 'basic-latin')
-        {
-            return ['basic-latin'];
-        }
-    }
-
-    return [];
+    global $default_project_char_suites;
+    return $default_project_char_suites;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
