@@ -4,6 +4,13 @@ Major changes to this project are documented here. For minor changes,
 see the git history.
 
 
+## ???????
+Scripts supporting this upgrade are in `SETUP/upgrade/14`
+
+* **Unicode support** - the site is now fully UTF-8 compatible. See
+  [UNICODE.md](UNICODE.md) for more information on what this means for you.
+
+
 ## R202002
 Scripts supporting this upgrade are in `SETUP/upgrade/13`
 

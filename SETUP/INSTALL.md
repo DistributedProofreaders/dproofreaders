@@ -421,6 +421,10 @@ mysql> INSERT INTO usersettings
 The `site_admin_notes.txt` contains information for site admins such as
 configuring rounds, defining queues, etc.
 
+### Manage Character Suites
+You may want to enable additional character suites. See [UNICODE.md](UNICODE.md)
+for more information.
+
 ### Install the modified `dp.cron`
 `dp.cron` contains entries for various processes necessary for site
 statistics and project archiving, as well as managing the project release
