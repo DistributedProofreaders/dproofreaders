@@ -22,8 +22,8 @@ are located, as long as they are accessible by URL.
 Rules are parsed out of the raw HTML pages of the guildelines. In the HTML the
 parser looks for and pulls out the following pieces of information:
 
-* anchor - an HTML anchor for jumping to this rule on the page
-* subject - name of the rule to present to the user
+* anchor - an HTML anchor for jumping to this rule on the page; limited to 255 characters
+* subject - name of the rule to present to the user; limited to 255 characters
 * rule - the contents of the rule itself
 
 ### Code-based guidelines

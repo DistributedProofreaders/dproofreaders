@@ -263,6 +263,10 @@ class RandomRule
             $rule
         );
 
+        // prevent anchor and subject from being too big for their fields
+        $anchor = substr($anchor, 0, 255);
+        $subject = substr($subject, 0, 255);
+
         $sql = sprintf("
             INSERT INTO rules
             SET
