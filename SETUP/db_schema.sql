@@ -409,9 +409,10 @@ CREATE TABLE `rules` (
   `document` varchar(255) default NULL,
   `langcode` varchar(5) default NULL,
   `anchor` varchar(255) default NULL,
-  `subject` varchar(100) NOT NULL default '',
+  `subject` varchar(255) NOT NULL default '',
   `rule` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `document_langcode` (`document`,`langcode`)
 ) DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
