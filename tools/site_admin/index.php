@@ -37,7 +37,7 @@ $sections = array(
         "manage_random_rules.php" => _("Manage Random Rules"),
         "manage_special_days.php" => _("Manage Special Days"),
         "shared_postednums.php" => _("Detect duplicate postednum"),
-        "manage_site_charsuites.php" => _("Manage site character suites"),
+        "manage_site_charsuites.php" => _("Manage Site Character Suites"),
         "manage_site_word_lists.php" => _("Manage site word lists"),
         "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
     ),
