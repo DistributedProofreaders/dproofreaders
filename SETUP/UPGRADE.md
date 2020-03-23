@@ -71,6 +71,15 @@ order is probably safest, as that's been tested the most.
 
 Each script will print 'Done!' if it completes without fatal errors.
 
+If you have placed the site into maintenance mode the scripts will bail out.
+To force the upgrade scripts to run while in maintenance mode, edit the ones
+you want to run and add the following line immediately after the opening
+`<?php` tag before `base.inc` is included.
+
+```php
+$maintenance_override = TRUE;
+```
+
 ### Upgrading from release 1.3 or earlier
 Sorry, there's no automated upgrade mechanism. If you post
 to the 'DP Site Code' forum, we might be able to help you.

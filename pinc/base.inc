@@ -72,7 +72,7 @@ if(DPDatabase::get_connection())
 
 configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
-if ($maintenance)
+if ($maintenance && !@$maintenance_override)
 {
     /*
     Including user_is.inc causes a perf impact because it includes
