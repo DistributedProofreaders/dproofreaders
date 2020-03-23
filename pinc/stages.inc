@@ -508,8 +508,8 @@ function get_reserve_length($project, $round)
         // so are Children's Book Week projects (in 2017)
         if ($project->special_code == 'ChBookWk') return 0;
 
-        // Otherwise, reserve for 7 days.
-        return 7;
+        // Otherwise, reserve for 3 days.
+        return 3;
     }
 
     // Anything not covered above
