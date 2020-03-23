@@ -491,25 +491,13 @@ function get_reserve_length($project, $round)
     // for inexperienced users on their first pass through P1.
     if (str_contains($project->nameofwork, '->P1}')) return 0;
 
-    if ($project->language == 'English')
+    if ($project->language == 'English' || $project->language == 'French')
     {
         // All 'special day' projects are exempted.
         if ($project->special_code != '') return 0;
 
         // Otherwise, reserve for 3 days.
         return 3;
-    }
-
-    if ($project->language == 'French')
-    {
-        // The 15th anniversary projects are exempted.
-        if ($project->special_code == '15thDPAnniversary') return 0;
-
-        // so are Children's Book Week projects (in 2017)
-        if ($project->special_code == 'ChBookWk') return 0;
-
-        // Otherwise, reserve for 7 days.
-        return 7;
     }
 
     // Anything not covered above
