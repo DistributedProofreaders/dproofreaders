@@ -271,7 +271,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $project = new Project($projectid);
 
-        echo "<tr><th>" . _("Title") . ":</th><td>" . html_safe($project->nameofwork) . "</td></tr>\n";
+        echo "<tr><th>" . _("Title") . ":</th><td>" . $project->nameofwork. "</td></tr>\n";
 
         // ----------------------
 

@@ -5,7 +5,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg, attr_safe, html_safe
+include_once($relPath.'misc.inc'); // get_upload_err_msg, attr_safe
 
 require_login();
 
@@ -30,7 +30,7 @@ $replace_image_str = _('Replace Image');
 
 output_header("$replace_image_str: {$project->nameofwork}");
 
-echo "<h1>" . html_safe($project->nameofwork) . "</h1>\n";
+echo "<h1>{$project->nameofwork}</h1>\n";
 echo "<h2>$replace_image_str: $image</h2>\n";
 
 if (!$project->can_be_managed_by_current_user)

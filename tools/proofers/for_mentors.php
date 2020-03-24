@@ -12,7 +12,7 @@ include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
-include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
@@ -131,7 +131,7 @@ while ($proj =  mysqli_fetch_object($result))
     $proj_url = "$code_url/project.php?id=$proj->projectid";
     echo "<p>";
     // TRANSLATORS: format is <title> by <author>.
-    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>" . html_safe($proj->nameofwork) . "</a>", html_safe($proj->authorsname)) . "</b>";
+    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>$proj->nameofwork</a>", $proj->authorsname) . "</b>";
     echo "</p>" ;
 
     dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
