@@ -4,7 +4,7 @@
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath . 'TableDocumentation.inc');
+include_once($relPath.'TableDocumentation.inc');
 
 $OPERATIONS = [
     'generate' => 'generate_file_for_table',
@@ -14,6 +14,8 @@ $OPERATIONS = [
 $OPERATION_NAMES = implode(', ', array_keys($OPERATIONS));
 
 $DEFAULT_DIRECTORY_PATH = "$relPath/../SETUP/dbdocs/";
+
+$ADDITIONAL_TABLE_NAMES = [ 'projectIDxxxxxxxxxxxxx' ];
 
 // First is the script name, the second is the operation name
 $number_of_arguments = $argc - 2;
@@ -83,22 +85,10 @@ else {
  * @param callable $operation the operation to perform for each table
  */
 function run_operation_for_all_tables(string $directory_path, callable $operation) {
-    $table_names = query_table_names_in_current_database();
-    $was_projectid_table_generated = false;
+    $table_names = get_table_names_to_document();
 
-    foreach ($table_names as $row) {
-        $table_name = $row[0];
-
-        if (startswith($table_name, 'projectID')) {
-            if ($was_projectid_table_generated) continue;
-
-            $was_projectid_table_generated = true;
-
-            $operation($table_name, "$directory_path/projectIDxxxxxxxxxxxxx.md", 'projectIDxxxxxxxxxxxxx');
-        }
-        else {
-            $operation($table_name, "$directory_path/$table_name.md", $table_name);
-        }
+    foreach ($table_names as $table_name) {
+        $operation($table_name, "$directory_path/$table_name.md", $table_name);
     }
 }
 
@@ -227,6 +217,11 @@ function update_file_for_table(string $table_name, string $file_path, string $di
 function query_columns_for_table(string $table_name): array {
     $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
 
+    if (!$result) {
+        echo "Failed to fetch column information for table '$table_name'.";
+        exit(1);
+    }
+
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     mysqli_free_result($result);
 
@@ -234,13 +229,20 @@ function query_columns_for_table(string $table_name): array {
 }
 
 /**
- * Runs a "SHOW TABLES" query and returns the result.
+ * Returns the names of the tables that should be documented.
  */
-function query_table_names_in_current_database(): array {
-    $result = mysqli_query(DPDatabase::get_connection(), "SHOW TABLES");
+function get_table_names_to_document(): array {
+    global $ADDITIONAL_TABLE_NAMES;
 
-    $rows = mysqli_fetch_all($result);
-    mysqli_free_result($result);
+    $table_names = [];
 
-    return $rows;
+    foreach (explode("\n", file_get_contents("./db_schema.sql")) as $line)
+    {
+        if (preg_match('/create table `(\w+)`/i', $line, $matches))
+        {
+            $table_names[] = $matches[1];
+        }
+    }
+
+    return array_merge($table_names, $ADDITIONAL_TABLE_NAMES);
 }
