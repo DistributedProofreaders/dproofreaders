@@ -758,20 +758,21 @@ table.dirlist caption {
 #toolbox .char_box {
   padding-top: 1px;
 }
+#toolbox .big_text,
+#toolbox .picker {
+  font-family: DejaVu Sans Mono;
+  vertical-align: middle;
+  text-align: center;
+  width: 1.1em;
+}
 #toolbox .big_text {
   font-size: 300%;
-  width: 1.3em;
   margin: 2px;
-  text-align: center;
 }
 #toolbox .picker {
-  margin-top: 1px;
   font-size: 1em;
+  margin-top: 1px;
   padding: 0 1px 0 0;
-  vertical-align: middle;
-  width: 100%;
-  min-width: 1em;
-  max-width: 1.1em;
 }
 #toolbox .invisible {
   visibility: hidden;
