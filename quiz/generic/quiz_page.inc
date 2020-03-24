@@ -347,16 +347,16 @@ function qp_echo_error_html($message_id)
 
         $guidelines_url = get_faq_url($guidelines_doc) . "#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
-        try
+        $rule = RandomRule::load_from_anchor($guidelines_doc, $anchor);
+        if($rule)
         {
-            $rule = RandomRule::load_from_anchor($guidelines_doc, $anchor);
             $guidelines_link = "<a $guidelines_attrs>$rule->subject</a>";
 
             echo "<p>";
             echo sprintf($see_named_section, $guidelines_link);
             echo "</p>\n";
         }
-        catch(UnexpectedValueException $e)
+        else
         {
             echo "<p>";
             echo sprintf($see_unnamed_section, $guidelines_attrs);
