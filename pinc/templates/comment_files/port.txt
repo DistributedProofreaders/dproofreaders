@@ -6,7 +6,7 @@
 
 <p>Por favor conserve a ortografia original. O software de reconhecimento de caracters "actualizou" incorrectamente algumas palavras.</p>
 
-<p>Use as novas regras para revis„o de notas de rodapÈ. Marque-as como [1], [2], ... no texto. No local onde est· o texto da nota de rodapÈ escreva [Footnote 1: texto da nota de rodapÈ]</p>
+<p>Use as novas regras para revis√£o de notas de rodap√©. Marque-as como [1], [2], ... no texto. No local onde est√° o texto da nota de rodap√© escreva [Footnote 1: texto da nota de rodap√©]</p>
 
 <hr />
 

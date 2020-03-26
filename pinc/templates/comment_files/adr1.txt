@@ -10,19 +10,19 @@ bold marks and keep only those specific ones, please. </p>
 <p>P2 and P3 don't use modern Spanish spellchecker (such as Microsoft Word) as
 it is useless.</p>
 
-<div align="center"><font color="maroon" size="+1">RevisiÛn</font></div>
-<p>Este texto esta escrito en espaÒol antiguo, y posee muchas formas y
+<div align="center"><font color="maroon" size="+1">Revisi√≥n</font></div>
+<p>Este texto esta escrito en espa√±ol antiguo, y posee muchas formas y
 convenciones gramaticales antiguas. Por favor no las corriga y conserve el
 texto original. Ante cualquier duda remitase a la <a
 href="http://www.pgdp.net/wiki/Reglas_de_revisi%C3%B3n_en_espa%C3%B1ol/Spanish_Proofreading_Guidelines"
-target="_blank" class="postlink">La guÌa de revisiÛn est· disponible</a>.</p>
+target="_blank" class="postlink">La gu√≠a de revisi√≥n est√° disponible</a>.</p>
 
-<p>Este libro fue impreso usando una tipografÌa la cual es reconocida como
+<p>Este libro fue impreso usando una tipograf√≠a la cual es reconocida como
 negrita. Por favor elimine las marcas de negrita generales y deje solo aquellas
 que sean pertinentes.</p>
 
-<p>P2 y P3 no utilicen los correctores ortogr·ficos modernos (por ejemplo
-Microsoft Word) ya que son in˙tiles.</p>
+<p>P2 y P3 no utilicen los correctores ortogr√°ficos modernos (por ejemplo
+Microsoft Word) ya que son in√∫tiles.</p>
 
 <div align="center"><font color="maroon" size="+1">Post-Processing</font></div>
 
