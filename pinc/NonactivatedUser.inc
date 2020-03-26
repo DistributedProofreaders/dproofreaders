@@ -130,7 +130,7 @@ class NonactivatedUser
             $this->table_row["id"] = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
         }
 
-        $referrer_explanation = $this->referrer == 'other' ? $this->referrer_explanation : '';
+        $referrer_details = $this->referrer == 'other' ? $this->referrer_details : '';
 
         // This function persists the object in the database, either by
         // creating a new row or updating an existing one. It does updates
@@ -149,7 +149,7 @@ class NonactivatedUser
                 email = '%s',
                 email_updates = %d,
                 referrer = '%s',
-                referrer_explanation = '%s',
+                referrer_details = '%s',
                 http_referrer = '%s',
                 u_intlang = '%s',
                 user_password = '%s'
@@ -158,7 +158,7 @@ class NonactivatedUser
                 email = '%s',
                 email_updates = %d,
                 referrer = '%s',
-                referrer_explanation = '%s',
+                referrer_details = '%s',
                 http_referrer = '%s',
                 u_intlang = '%s',
                 user_password = '%s'
@@ -168,7 +168,7 @@ class NonactivatedUser
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
             (int)$this->email_updates,
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_explanation),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_details),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password),
@@ -177,7 +177,7 @@ class NonactivatedUser
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
             (int)$this->email_updates,
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_explanation),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_details),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password)

@@ -8,7 +8,7 @@ function AddProofer() {
     "use strict";
 
     that.referrerOption = $('select[name=referrer]');
-    that.referrerExplanation = $('#referrer_explanation');
+    that.referrerExplanation = $('#referrer_details');
     that.setOtherExplanation();
     that.referrerOption.change(that.setOtherExplanation);
   };

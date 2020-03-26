@@ -16,7 +16,7 @@ $email = array_get($_POST, 'email', '');
 $email2 = array_get($_POST, 'email2', '');
 $email_updates = array_get($_POST, 'email_updates', 1);
 $referrer = array_get($_POST, 'referrer', '');
-$referrer_explanation = array_get($_POST, 'referrer_explanation', '');
+$referrer_details = array_get($_POST, 'referrer_details', '');
 
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
@@ -53,7 +53,7 @@ if(count($_POST))
     // Run all form validators against the data
     foreach($form_validators as $func)
     {
-        $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_explanation);
+        $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details);
         if(!empty($error))
             break;
     }
@@ -68,7 +68,7 @@ if(count($_POST))
         $register->email = $email;
         $register->email_updates = $email_updates;
         $register->referrer = $referrer;
-        $register->referrer_explanation = $referrer_explanation;
+        $register->referrer_details = $referrer_details;
         $register->http_referrer = array_get($_COOKIE, "http_referer", "");
         $register->u_intlang = $intlang;
         $register->user_password = forum_password_hash($userpass);
@@ -107,7 +107,7 @@ if(count($_POST))
 // to this file & run the above commands.
 
 $header = _("Create An Account");
-output_header($header, true, array("js_files" => array("$code_url/accounts/addproofer.js")));
+output_header($header, SHOW_STATSBAR, array("js_files" => array("$code_url/accounts/addproofer.js")));
 
 echo "<h1>" . _("Account Registration") . "</h1>";
 echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
@@ -186,9 +186,9 @@ echo "    </select>";
 echo "  </td>";
 echo "</tr>\n";
 
-echo "<tr id='referrer_explanation'>";
+echo "<tr id='referrer_details'>";
 echo "  <th>" . _("Other Explanation") . ":</th>";
-echo "  <td><input type='text' name='referrer_explanation' value='". attr_safe($referrer_explanation) . "' maxlength='255'></td>";
+echo "  <td><input type='text' name='referrer_details' value='". attr_safe($referrer_details) . "' maxlength='255'></td>";
 echo "</tr>\n";
 
 echo "<tr>";
@@ -203,7 +203,7 @@ include($relPath.'/../faq/privacy.php');
 
 // Validate the user input fields
 // Returns an empty string upon success and an error message upon failure
-function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_explanation)
+function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details)
 {
     global $testing;
 
@@ -270,7 +270,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     // forum software which, if used, will cause account creation to fail in
     // activate.php.
 
-    if(!$referrer || ($referrer == 'other' && !$referrer_explanation))
+    if(!$referrer || ($referrer == 'other' && !$referrer_details))
     {
         return _("Please tell us how you heard about us.");
     }
