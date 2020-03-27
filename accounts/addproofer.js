@@ -8,18 +8,18 @@ function AddProofer() {
     "use strict";
 
     that.referrerOption = $('select[name=referrer]');
-    that.referrerExplanation = $('#referrer_details');
-    that.setOtherExplanation();
-    that.referrerOption.change(that.setOtherExplanation);
+    that.referrerDetails = $('#referrer_details');
+    that.setOtherDetails();
+    that.referrerOption.change(that.setOtherDetails);
   };
 
-  this.setOtherExplanation = function() {
+  this.setOtherDetails = function() {
     "use string";
 
     if (that.referrerOption.val() !== 'other') {
-      that.referrerExplanation.hide();
+      that.referrerDetails.hide();
     } else {
-      that.referrerExplanation.show();
+      that.referrerDetails.show();
     }
   }
 };
