@@ -187,7 +187,7 @@ echo "  </td>";
 echo "</tr>\n";
 
 echo "<tr id='referrer_details'>";
-echo "  <th>" . _("Other Details") . ":</th>";
+echo "  <th>" . _("Other, Details") . ":</th>";
 echo "  <td><input type='text' name='referrer_details' value='". attr_safe($referrer_details) . "' maxlength='255'></td>";
 echo "</tr>\n";
 
