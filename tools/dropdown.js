@@ -1,3 +1,4 @@
+/* exported toggleList */
 /* When the user clicks on a button,
 toggle between hiding and showing the dropdown content
 if off close all the others before turning on */

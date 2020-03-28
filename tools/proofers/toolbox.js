@@ -1,4 +1,4 @@
-/*global $ localStorage */
+/*global $ */
 
 $(function () {
     "use strict";

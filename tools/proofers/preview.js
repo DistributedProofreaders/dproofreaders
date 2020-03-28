@@ -1,4 +1,7 @@
-/*global previewMessages */
+/* eslint-disable no-constant-condition, no-useless-escape, camelcase */
+/* exported makePreview */
+/* global previewMessages */
+
 /*
 This function checks the text for formatting issues and adds the markup
 for colouring and issue highlighting.
@@ -223,9 +226,9 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
     }
 
-// the parsers for inline and out-of-line tags work with a stack:
-// for correct nesting opening tags are pushed onto the stack and popped off
-// when a corresponding closing tag is found
+    // the parsers for inline and out-of-line tags work with a stack:
+    // for correct nesting opening tags are pushed onto the stack and popped off
+    // when a corresponding closing tag is found
 
     // parse the out-of-line tags
     // cases for tag on stack top:
@@ -523,14 +526,14 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             }
             var tagMark = "";
             switch (viewMode) {
-                case "show_tags":
-                    tagMark = match;
-                    break;
-                case "flat":
-                    tagMark = tagMap[p2];
-                    break;
-                default: // no_tags
-                    break;
+            case "show_tags":
+                tagMark = match;
+                break;
+            case "flat":
+                tagMark = tagMap[p2];
+                break;
+            default: // no_tags
+                break;
             }
             if (p1 === '/') {   // end tag
                 return tagMark + endSpan;

@@ -1,36 +1,44 @@
-language: php
-php:
-    # Test on a wide array of PHP versions. 7.3 and later can't be added until
-    # the phpunit tests are updated and a more recent version of phpunit is
-    # specified below.
-    - 7.0
-    - 7.1
-    - 7.2
-services:
-    - mysql
-before_install:
-    - sudo apt-get update
-    - sudo apt-get install -y php-zip aspell aspell-en
-    - mysql -e "CREATE DATABASE dp_db CHARACTER SET LATIN1;"
-    - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';"
-    - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
-install:
-    # install the database schema
-    - cd SETUP
-    - php install_db.php
-    - cd ..
-before_script:
-    # our phpunit tests won't work with phpunit8 (see SETUP/tests/README.md)
-    # so specify a version that works with php 7.0, 7.1, 7.2 (see
-    # https://phpunit.de/supported-versions.html)
-    - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-6.phar
-    - phpunit --version
-script:
-    # linting is SUCH a low bar, but it is a bar!
-    - ./SETUP/lint_php_files.sh
-    # now lets get crazy and run our meager unit tests...
-    - cd SETUP/tests
-    - phpunit --bootstrap phpunit_bootstrap.php --verbose .
+matrix:
+  include:
+    - language: php
+      php:
+          # Test on a wide array of PHP versions. 7.3 and later can't be added until
+          # the phpunit tests are updated and a more recent version of phpunit is
+          # specified below.
+          - 7.0
+          - 7.1
+          - 7.2
+      services:
+          - mysql
+      before_install:
+          - sudo apt-get update
+          - sudo apt-get install -y php-zip aspell aspell-en
+          - mysql -e "CREATE DATABASE dp_db CHARACTER SET LATIN1;"
+          - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';"
+          - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
+      install:
+          # install the database schema
+          - cd SETUP
+          - php install_db.php
+          - cd ..
+      before_script:
+          # our phpunit tests won't work with phpunit8 (see SETUP/tests/README.md)
+          # so specify a version that works with php 7.0, 7.1, 7.2 (see
+          # https://phpunit.de/supported-versions.html)
+          - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-6.phar
+          - phpunit --version
+      script:
+          # linting is SUCH a low bar, but it is a bar!
+          - ./SETUP/lint_php_files.sh
+          # now lets get crazy and run our meager unit tests...
+          - cd SETUP/tests
+          - phpunit --bootstrap phpunit_bootstrap.php --verbose .
+
+    - language: node_js
+      node_js:
+        - 12
+      script:
+        - npm run lint
 notifications:
   slack:
     secure: n6nXPAG1FEak12O8DUxKbIo1NMWx+mssaiXgExTF/tpNA+C+p/puu0HZ8jUIodQ9iOWuC857oNCmvAliCw8nBl52DInnCKVjy2t0q5pAGJCEkNRktpp67GqhgkZ/dkmKYrqs1KOMAUS6zFaMsyte8nVOjPYsTCj1ZN+XjfphtsiC+BSj7SIuaVAfuTTVcs+TawI3Pwh513mOmfW1vko+JGwMgoK9dGtpBea2E+zCAQu00gGNEtKB6hfJ0ZJCqWBwgzjX869iGVPjpuwJqIDWzzL5nWuAsyiyB9zYIC4dk7ILqnSxt2ixgmmDkS5uF7unLVjgc5QDMRl2VQ6rwHYDPc7UEYDJSoD8/ThIvkWp/tW07QsF4SBnX/aLUUr/lSXH45em4QWZbYOf5zUzFUK13sdugiEouSmb8Wvj60I2LhF4hBo7W7HzEJKdcY2UlvrhESPhRzWJo2GJQf2ifvUEb0pGPdQoHyekqpHfR85Pb/XrBHnXOCIGxoZ2f/7zzMYxAQZgvth2jsEPws/l0a2gm9U0iM1G1BRy+bDxJKzre4D183sZpIWKpQ05iwkJGTiw2UVvO0fvpUKb5aaoxHACpsuvSW0R4QQyJTKTInnF9LrUO45Tm0ztBBN3vHfFFF6roRIKWX/b0zMH24eMD4kZZHHXsYPzs+tLpe8WJPRFTto=
