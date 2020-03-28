@@ -38,11 +38,8 @@ function setText() {
 }
 
 function fixText() {
-    //if (document.all)
-    //{
     docRef.editform.text_data.style.width = ieW;
     docRef.editform.text_data.style.height = ieH;
-    //}
 }
 
 function changeFontFamily(font_index, font, fallback) {
@@ -110,26 +107,26 @@ function showNW() {
     nW.document.close();
 }
 
+// Entity-encode str's HTML-special characters,
+// but reinstate <i> and <b> and <hr> tags,
+// because we want the browser to interpret them (but nothing else) as markup.
+// Also convert <sc></sc> to <spans> that do the right thing.
 function showNW_safe(str) {
-    // Entity-encode str's HTML-special characters,
-    // but reinstate <i> and <b> and <hr> tags,
-    // because we want the browser to interpret them (but nothing else) as markup.
-    // Also convert <sc></sc> to <spans> that do the right thing.
     return html_safe(str)
         .replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
         .replace(/&lt;sc&gt;/ig, '<span style="font-variant: small-caps;">')
         .replace(/&lt;\/sc&gt;/ig, '</span>');
 }
 
+// Return a version of str that is safe to send as element-content
+// in an HTML document.
+// That is, make the following replacements:
+//    &  ->  &amp;
+//    <  ->  &lt;
+//    >  ->  &gt;
+// This should be equivalent to PHP's
+//     htmlspecialchars($str,ENT_NOQUOTES)
 function html_safe(str) {
-    // Return a version of str that is safe to send as element-content
-    // in an HTML document.
-    // That is, make the following replacements:
-    //    &  ->  &amp;
-    //    <  ->  &lt;
-    //    >  ->  &gt;
-    // This should be equivalent to PHP's
-    //     htmlspecialchars($str,ENT_NOQUOTES)
     return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
