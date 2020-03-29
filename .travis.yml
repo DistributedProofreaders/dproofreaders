@@ -25,15 +25,16 @@ before_script:
     # https://phpunit.de/supported-versions.html)
     - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-6.phar
     - phpunit --version
+    # We need npm for eslint
     - nvm install 12 --lts
     - npm install
 script:
     # linting is SUCH a low bar, but it is a bar!
     - ./SETUP/lint_php_files.sh
+    - npm run lint
     # now lets get crazy and run our meager unit tests...
     - cd SETUP/tests
     - phpunit --bootstrap phpunit_bootstrap.php --verbose .
-    - npm run lint
 notifications:
   slack:
     secure: n6nXPAG1FEak12O8DUxKbIo1NMWx+mssaiXgExTF/tpNA+C+p/puu0HZ8jUIodQ9iOWuC857oNCmvAliCw8nBl52DInnCKVjy2t0q5pAGJCEkNRktpp67GqhgkZ/dkmKYrqs1KOMAUS6zFaMsyte8nVOjPYsTCj1ZN+XjfphtsiC+BSj7SIuaVAfuTTVcs+TawI3Pwh513mOmfW1vko+JGwMgoK9dGtpBea2E+zCAQu00gGNEtKB6hfJ0ZJCqWBwgzjX869iGVPjpuwJqIDWzzL5nWuAsyiyB9zYIC4dk7ILqnSxt2ixgmmDkS5uF7unLVjgc5QDMRl2VQ6rwHYDPc7UEYDJSoD8/ThIvkWp/tW07QsF4SBnX/aLUUr/lSXH45em4QWZbYOf5zUzFUK13sdugiEouSmb8Wvj60I2LhF4hBo7W7HzEJKdcY2UlvrhESPhRzWJo2GJQf2ifvUEb0pGPdQoHyekqpHfR85Pb/XrBHnXOCIGxoZ2f/7zzMYxAQZgvth2jsEPws/l0a2gm9U0iM1G1BRy+bDxJKzre4D183sZpIWKpQ05iwkJGTiw2UVvO0fvpUKb5aaoxHACpsuvSW0R4QQyJTKTInnF9LrUO45Tm0ztBBN3vHfFFF6roRIKWX/b0zMH24eMD4kZZHHXsYPzs+tLpe8WJPRFTto=
