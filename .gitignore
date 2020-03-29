@@ -6,3 +6,5 @@ pinc/site_vars.php
 pinc/udb_user.php
 # Ignore compiled message files
 messages.mo
+
+node_modules

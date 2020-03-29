@@ -1,55 +1,48 @@
+/* eslint-disable no-use-before-define, no-undef, camelcase */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showActual, showNW, replaceAllText, doBU, transformText */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
 // image width
-var iW='1000';
+var iW = '1000';
 
 // image actual width
-var cW='0';
+var cW = '0';
 // image copy for width
 var imageCopy = new Image();
 imageCopy.onload = loadImageSize;
 
 // picker character selection
-function insertCharacter(wM)
-{
+function insertCharacter(wM) {
     insertTags(wM, '', true, false);
 }
 
 // standard tag selection
-function surroundSelection(wOT, wCT)
-{
+function surroundSelection(wOT, wCT) {
     insertTags(wOT, wCT, false, true);
 }
 
 // start of general interface functions
 
-ieW=0;
-ieH=0;
-ieSt=0;
+ieW = 0;
+ieH = 0;
+ieSt = 0;
 
-function setText()
-{
+function setText() {
     //if (document.all && !ieSt)
-    if (!ieSt)
-    {
-        ieW=docRef.editform.text_data.style.width;
-        ieH=docRef.editform.text_data.style.height;
-        ieSt=1;
+    if (!ieSt) {
+        ieW = docRef.editform.text_data.style.width;
+        ieH = docRef.editform.text_data.style.height;
+        ieSt = 1;
     }
 }
 
-function fixText()
-{
-    //if (document.all)
-    //{
-        docRef.editform.text_data.style.width=ieW;
-        docRef.editform.text_data.style.height=ieH;
-    //}
+function fixText() {
+    docRef.editform.text_data.style.width = ieW;
+    docRef.editform.text_data.style.height = ieH;
 }
 
-function changeFontFamily(font_index, font, fallback)
-{
+function changeFontFamily(font_index, font, fallback) {
     setText();
     // if the index is 0, we're to use the browser default
     if (font_index == 0) {
@@ -61,8 +54,7 @@ function changeFontFamily(font_index, font, fallback)
     fixText();
 }
 
-function changeFontSize(font_size_index, font_size)
-{
+function changeFontSize(font_size_index, font_size) {
     setText();
     // if the index is 0, we're to use the browser default
     if (font_size_index == 0) {
@@ -72,72 +64,60 @@ function changeFontSize(font_size_index, font_size)
     fixText();
 }
 
-function showAllText()
-{
-    alert(docRef.editform.text_data.value);
-}
-
-function showIZ()
-{
-    nP=docRef.editform.zmSize.value;
-    zP=Math.round(iW*(nP/100));
-    zP=reSize(zP); // the two Zp's will be the same unless reSize doesn't
+function showIZ() {
+    nP = docRef.editform.zmSize.value;
+    zP = Math.round(iW * (nP / 100));
+    zP = reSize(zP); // the two Zp's will be the same unless reSize doesn't
     //succeed in making the image the requested size, i.e. if the
     //requested size is too small.
 
-    docRef.editform.zmSize.value=Math.round(100*(zP/iW));
+    docRef.editform.zmSize.value = Math.round(100 * (zP / iW));
     return false;
 }
 
-function showActual()
-{
-    docRef.editform.zmSize.value = cW/10;
+function showActual() {
+    docRef.editform.zmSize.value = cW / 10;
     return showIZ();
 }
 
-function loadImageSize()
-{
+function loadImageSize() {
     if (imageCopy.complete) {
         // This needs to be fixed properly.
         // There is a varying maximum limit to image size, above which the
         // image vanishes from the proofing interface.  Don't know why, yet.
         if (imageCopy.width > 2000) {
-          cW = 2000;
+            cW = 2000;
         } else {
-          cW = imageCopy.width;
+            cW = imageCopy.width;
         }
     }
 }
 
-function makeImageCopy()
-{
+function makeImageCopy() {
     imageCopy.src = frameRef.scanimage.src;
 }
 
-function showNW()
-{
-    nW=window.open();
+function showNW() {
+    nW = window.open();
     nW.document.open();
     // SENDING PAGE-TEXT TO USER
     // We're sending it in a HTML document,
     // so we entity-encode its HTML-special characters.
-    nW.document.write('<PRE>'+showNW_safe(docRef.editform.text_data.value)+'</PRE>');
+    nW.document.write('<PRE>' + showNW_safe(docRef.editform.text_data.value) + '</PRE>');
     nW.document.close();
 }
 
-function showNW_safe(str)
 // Entity-encode str's HTML-special characters,
 // but reinstate <i> and <b> and <hr> tags,
 // because we want the browser to interpret them (but nothing else) as markup.
 // Also convert <sc></sc> to <spans> that do the right thing.
-{
+function showNW_safe(str) {
     return html_safe(str)
         .replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
         .replace(/&lt;sc&gt;/ig, '<span style="font-variant: small-caps;">')
         .replace(/&lt;\/sc&gt;/ig, '</span>');
 }
 
-function html_safe(str)
 // Return a version of str that is safe to send as element-content
 // in an HTML document.
 // That is, make the following replacements:
@@ -146,20 +126,18 @@ function html_safe(str)
 //    >  ->  &gt;
 // This should be equivalent to PHP's
 //     htmlspecialchars($str,ENT_NOQUOTES)
-{
+function html_safe(str) {
     return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
 
-function replaceAllText(wM)
-{
-    docRef.editform.text_data.value=wM;
+function replaceAllText(wM) {
+    docRef.editform.text_data.value = wM;
 }
 
-function doBU()
-{
+function doBU() {
     if (frameRef.scanimage) {
         makeImageCopy();
         showIZ();
@@ -167,8 +145,7 @@ function doBU()
 }
 
 // apply tagOpen/tagClose to selection in textarea,
-function insertTags(tagOpen, tagClose, replace, retainSelection)
-{
+function insertTags(tagOpen, tagClose, replace, retainSelection) {
     var txtArea;
     if(inFace < 2) {
         txtArea = docRef.editform.text_data;
@@ -196,8 +173,7 @@ function insertTags(tagOpen, tagClose, replace, retainSelection)
     if (selection === '') {
         if (tagOpen === '[Illustration: ') {
             tagOpen = '[Illustration';
-        }
-        else if ((tagOpen[0] === '<') && (tagOpen.length > 1)) {
+        } else if ((tagOpen[0] === '<') && (tagOpen.length > 1)) {
             // do not tag empty strings but insert a single '<'
             tagOpen = '';
             tagClose = '';
@@ -217,7 +193,7 @@ function insertTags(tagOpen, tagClose, replace, retainSelection)
             // A string is a footnote label if it's a letter A-Z, or an integer > 0
             if ((/^[A-Za-z]$|^[1-9]\d*$/).test(first)) {
                 label = ' ' + first;
-                selection = selection.substr(i+1);
+                selection = selection.substr(i + 1);
             }
         }
         tagOpen = tagOpen.replace(' #', label);
@@ -236,8 +212,7 @@ function insertTags(tagOpen, tagClose, replace, retainSelection)
     $(txtArea).trigger("input");
 }
 
-function lc_common(str)
-{
+function lc_common(str) {
     var words = str.split(' ');
     var common_lc_words = ':At:Under:Near:Upon:By:Of:In:On:For' + // prepositions
                       ':Is:Was:Are' +    // 'small' verbs
@@ -249,11 +224,9 @@ function lc_common(str)
     // Start at i=1 to avoid changing the first word (leave it Titlecased).
     // E.g. if str is "A Winter's Tale", we don't want to lowercase the "A".
     var i;
-    for(i = 1; i < words.length; i += 1)
-    {
+    for(i = 1; i < words.length; i += 1) {
         // If the word appears in the :-delimited list above, it should be lower case
-        if (common_lc_words.indexOf(':' + words[i] + ':') !== -1)
-        {
+        if (common_lc_words.indexOf(':' + words[i] + ':') !== -1) {
             words[i] = words[i].toLowerCase();
         }
     }
@@ -261,14 +234,12 @@ function lc_common(str)
     return words.join(' ');
 }
 
-function title_case(str)
-{
+function title_case(str) {
     str = str.toLowerCase();
     var newStr = '';
     var i;
 
-    for (i = 0; i < str.length; i += 1)
-    {
+    for (i = 0; i < str.length; i += 1) {
         // Capitalise the first letter, or anything after a space, newline or period.
         if (i === 0 || ' \n.'.indexOf(str.charAt(i - 1)) !== -1) {
             newStr += str.charAt(i).toUpperCase();
@@ -281,25 +252,24 @@ function title_case(str)
     return newStr;
 }
 
-function transformText(transformType)
-{
+function transformText(transformType) {
     var txtArea = docRef.editform.text_data;
     var startPos = txtArea.selectionStart;
     var endPos = txtArea.selectionEnd;
     var selection = (txtArea.value).substring(startPos, endPos);
     switch(transformType) {
-        case 'title-case':
-            selection=title_case(selection);
-            break;
-        case 'upper-case':
-            selection=selection.toUpperCase();
-            break;
-        case 'lower-case':
-            selection=selection.toLowerCase();
-            break;
-        case 'remove_markup':
-            selection=selection.replace(/<\/?([ibfg]|sc)>/gi,'');
-            break;
+    case 'title-case':
+        selection = title_case(selection);
+        break;
+    case 'upper-case':
+        selection = selection.toUpperCase();
+        break;
+    case 'lower-case':
+        selection = selection.toLowerCase();
+        break;
+    case 'remove_markup':
+        selection = selection.replace(/<\/?([ibfg]|sc)>/gi,'');
+        break;
     }
     txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);
     var curPos = startPos + selection.length;
