@@ -1,4 +1,4 @@
-/*global $ charMatch testChar XRegExp */
+/*global $ charMatch testChar */
 /* exported validateText */
 
 // charMatch (constructed in character_test.js) matches any unicode character

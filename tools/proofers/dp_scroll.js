@@ -90,7 +90,7 @@ function setScrollWidths() {
     setMaxScrolls();
 }
 
-function getNSLayer(layroot,layname) {
+function getNSLayer(layroot, layname) {
 
     for (i = 0;i < layroot.layers.length;i++) {
         curLay = layroot.layers[i];
@@ -98,7 +98,7 @@ function getNSLayer(layroot,layname) {
             return curLay;
         } else {
             if (curLay.document.layers.length > 0) {
-                curLay = getNSLayer(curLay.document,layname);
+                curLay = getNSLayer(curLay.document, layname);
                 if (curLay != null) {
                     return curLay;
                 }
@@ -116,7 +116,7 @@ function setLayer() {
         imgblock = frameRef.all['imagedisplay'];
         imgWin = frameRef.all['imageframe'];
     } else if (imgblock.layers) {
-        imgWin = getNSLayer(frameRef,'imageframe');
+        imgWin = getNSLayer(frameRef, 'imageframe');
     } else {
         imgblock = null;imgWin = null;
     }
@@ -208,7 +208,7 @@ function scrollOver(sDir) {
                 imgstyle.left = 0 + bPX;
             }
         }
-        scrollTime = setTimeout("scrollOver('" + sDir + "')",20);
+        scrollTime = setTimeout("scrollOver('" + sDir + "')", 20);
     }
 }
 

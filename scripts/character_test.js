@@ -16,6 +16,10 @@ $(function () {
     goodChar = RegExp(validCharacterPattern, "u");
 });
 
+function testChar(character) {
+    return goodChar.test(character);
+}
+
 // return false if text contains any bad characters
 function testText(text) {
     text = text.normalize("NFC");
@@ -27,8 +31,4 @@ function testText(text) {
         }
     }
     return true;
-}
-
-function testChar(character) {
-    return goodChar.test(character);
 }

@@ -268,7 +268,7 @@ function transformText(transformType) {
         selection = selection.toLowerCase();
         break;
     case 'remove_markup':
-        selection = selection.replace(/<\/?([ibfg]|sc)>/gi,'');
+        selection = selection.replace(/<\/?([ibfg]|sc)>/gi, '');
         break;
     }
     txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);

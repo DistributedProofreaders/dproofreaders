@@ -1,8 +1,89 @@
 /* exported acceptWord evaluateWordChange markBox confirmExit */
-/* global testText wordCheckMessages */
+/* global $ testText wordCheckMessages */
 
 // the number of edit boxes with bad characters
 var badBoxes = 0;
+
+function isWordChanged(wordID) {
+    var input = document.getElementById("input_" + wordID);
+    let wordText = input.value;
+    let isBad = !testText(wordText);
+    let wasBad = $(input).data().bad; // undefined will give false
+    if(!wasBad && isBad) {
+        badBoxes += 1;
+        let spCorrect = document.getElementById("spcorrect");
+        spCorrect.disabled = true;
+        spCorrect.title = wordCheckMessages.badCharsError;
+        let spRerun = document.getElementById("rerunauxlanguage");
+        spRerun.disabled = true;
+        spRerun.title = wordCheckMessages.badCharsError;
+    } else if(wasBad && !isBad) {
+        badBoxes -= 1;
+        if(0 === badBoxes) {
+            let spCorrect = document.getElementById("spcorrect");
+            spCorrect.title = wordCheckMessages.keepCorrectons;
+            spCorrect.disabled = false;
+            let spRerun = document.getElementById("rerunauxlanguage");
+            spRerun.disabled = false;
+            spRerun.title = wordCheckMessages.rerun;
+        }
+    }
+    $(input).data("bad", isBad);
+    input.style.border = isBad ? '2px solid red' : '';
+    return !(input && (wordText == input.defaultValue));
+}
+
+// function to mark the page as changed
+function markPageChanged() {
+    // mark the page as having been changed
+    document.getElementById("is_changed").value = 1;
+
+    // Disable the save as done and proof next button.
+    let spsaveandnext = document.getElementById("spsaveandnext");
+    spsaveandnext.title = wordCheckMessages.pageChangedError;
+    spsaveandnext.disabled = true;
+    return false;
+}
+
+// Enable an already-disabled button
+function enableAW(wordID) {
+    var button = document.getElementById("button_" + wordID);
+    var a = document.getElementById("a_" + wordID);
+    if(button && a) {
+        button.src = "../../graphics/Book-Plus-Small.gif";
+        button.title = wordCheckMessages.enableAwLabel;
+        a.href = "#";
+    }
+    return false;
+}
+
+// Disable a bad word's Unflag button
+function disableAW(wordID) {
+    var a = document.getElementById("a_" + wordID);
+
+    // If the value of the input field hasn't changed, don't disable
+    if (!isWordChanged(wordID)) {
+        // if the current and original values are the same
+        // and the button has been disabled, re-enable it
+        if(a && !a.href) {
+            enableAW(wordID);
+        }
+        return false;
+    }
+
+    // If we're here, we should be disabling the button
+    var button = document.getElementById("button_" + wordID);
+    if(button && a && a.href) {
+        button.src = "../../graphics/Book-Plus-Small-Disabled.gif";
+        button.title = wordCheckMessages.disableAwLabel;
+        a.removeAttribute('href');
+    }
+
+    markPageChanged();
+
+    return false;
+}
+
 // function to accept specified words in the spellcheck
 // it works by finding (span) elements with IDs in the format
 // word_# and when found sets the content of the span
@@ -51,35 +132,6 @@ function acceptWord(wordIDprefix, wordNumber) {
     return false;
 }
 
-function isWordChanged(wordID) {
-    var input = document.getElementById("input_" + wordID);
-    let wordText = input.value;
-    let isBad = !testText(wordText);
-    let wasBad = $(input).data().bad; // undefined will give false
-    if(!wasBad && isBad) {
-        badBoxes += 1;
-        let spCorrect = document.getElementById("spcorrect");
-        spCorrect.disabled = true;
-        spCorrect.title = wordCheckMessages.badCharsError;
-        let spRerun = document.getElementById("rerunauxlanguage");
-        spRerun.disabled = true;
-        spRerun.title = wordCheckMessages.badCharsError;
-    } else if(wasBad && !isBad) {
-        badBoxes -= 1;
-        if(0 === badBoxes) {
-            let spCorrect = document.getElementById("spcorrect");
-            spCorrect.title = wordCheckMessages.keepCorrectons;
-            spCorrect.disabled = false;
-            let spRerun = document.getElementById("rerunauxlanguage");
-            spRerun.disabled = false;
-            spRerun.title = wordCheckMessages.rerun;
-        }
-    }
-    $(input).data("bad", isBad);
-    input.style.border = isBad ? '2px solid red' : '';
-    return !(input && (wordText == input.defaultValue));
-}
-
 function evaluateWordChange(wordID) {
     if (isWordChanged(wordID))
         markPageChanged();
@@ -90,44 +142,6 @@ function markBox(wordID) {
     top.txtBoxID = wordID;
 }
 
-// Disable a bad word's Unflag button
-function disableAW(wordID) {
-    var a = document.getElementById("a_" + wordID);
-
-    // If the value of the input field hasn't changed, don't disable
-    if (!isWordChanged(wordID)) {
-        // if the current and original values are the same
-        // and the button has been disabled, re-enable it
-        if(a && !a.href) {
-            enableAW(wordID);
-        }
-        return false;
-    }
-
-    // If we're here, we should be disabling the button
-    var button = document.getElementById("button_" + wordID);
-    if(button && a && a.href) {
-        button.src = "../../graphics/Book-Plus-Small-Disabled.gif";
-        button.title = wordCheckMessages.disableAwLabel;
-        a.removeAttribute('href');
-    }
-
-    markPageChanged();
-
-    return false;
-}
-
-// Enable an already-disabled button
-function enableAW(wordID) {
-    var button = document.getElementById("button_" + wordID);
-    var a = document.getElementById("a_" + wordID);
-    if(button && a) {
-        button.src = "../../graphics/Book-Plus-Small.gif";
-        button.title = wordCheckMessages.enableAwLabel;
-        a.href = "#";
-    }
-    return false;
-}
 
 // Confirm exit if changes have been made
 function confirmExit() {
@@ -139,16 +153,4 @@ function confirmExit() {
 
     // return true (ie: confirm exit) if no changes were made
     return true;
-}
-
-// function to mark the page as changed
-function markPageChanged() {
-    // mark the page as having been changed
-    document.getElementById("is_changed").value = 1;
-
-    // Disable the save as done and proof next button.
-    let spsaveandnext = document.getElementById("spsaveandnext");
-    spsaveandnext.title = wordCheckMessages.pageChangedError;
-    spsaveandnext.disabled = true;
-    return false;
 }
