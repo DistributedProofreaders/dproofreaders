@@ -86,6 +86,9 @@
 .nodisp {
   display: none;
 }
+.overflow-auto {
+  overflow: auto;
+}
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
 /* DPCustomMono2 */

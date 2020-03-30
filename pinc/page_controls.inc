@@ -1,0 +1,187 @@
+<?php
+include_once($relPath.'stages.inc'); // $Round_for_round_id_
+include_once($relPath.'metarefresh.inc');
+
+class PageData
+{
+    function __construct()
+    {
+        global $code_url;
+
+        $this->error_message = "";
+        $this->projectid = array_get($_GET, "project", "");
+        $this->page = array_get($_GET, "imagefile", "");
+        $this->round_id = get_enumerated_param($_GET, 'round_id', 'master_text', $this->get_expanded_rounds());
+        $this->project = null;
+        $this->project_selector_url = "$code_url/tools/project_manager/project_selector.php?origin={$_SERVER['PHP_SELF']}";
+
+        if(!$this->projectid)
+        {
+            return;
+        }
+        try
+        {
+            $this->projectid = validate_projectID('projectid', $this->projectid); // throws InvalidProjectIDException
+            $this->project = new Project($this->projectid); // throws NonexistentProjectException
+            if($this->page !== "")
+            {
+                $esc_page = mysqli_real_escape_string(DPDatabase::get_connection(), $this->page);
+                $res = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM $this->projectid WHERE image LIKE '%$esc_page%'") or die(mysqli_error(DPDatabase::get_connection()));
+                if (mysqli_num_rows($res) !== 0)
+                {
+                    $this->page = mysqli_fetch_assoc($res)["image"];
+                }
+                mysqli_free_result($res);
+            }
+        }
+        catch(Exception $exception)
+        {
+            $this->error_message = html_safe($exception->getMessage());
+        }
+    }
+
+    function validate()
+    {
+        if(!$this->project)
+        {
+            $error_message = urlencode($this->error_message);
+            metarefresh(0, "{$this->project_selector_url}&error=$error_message");
+        }
+    }
+
+    function draw_page_selector()
+    {
+        echo _("Page") . ":&nbsp;<select name='imagefile' id='page-select'>\n";
+        $images = array();
+        $res = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM {$this->projectid} ORDER BY image ASC") or die(mysqli_error(DPDatabase::get_connection()));
+        while($row = mysqli_fetch_assoc($res))
+        {
+            $images[] = $row["image"];
+        }
+        mysqli_free_result($res);
+        foreach($images as $image)
+        {
+            $selected = ($image == $this->page) ? " selected" : "";
+            echo "<option value='$image'$selected>$image</option>\n";
+        }
+        echo "</select>\n";
+
+        echo "<input type='button' id='prev-button' value='" . attr_safe(_("Previous")) . "'>\n";
+        echo "<input type='button' id='next-button' value='" . attr_safe(_("Next")) . "'>\n";
+    }
+
+    function draw_round_selector()
+    {
+        echo _("Round") . ":&nbsp;<select name='round_id' id='round'>\n";
+        foreach ($this->get_expanded_rounds() as $round => $text_column_name)
+        {
+            $selected = ($text_column_name == $this->round_id) ? " selected" : "";
+            echo "<option value='$text_column_name'$selected>$round</option>\n";
+        }
+        echo "</select>\n";
+    }
+
+    function get_expanded_rounds()
+    {
+        global $Round_for_round_id_;
+
+        $expanded_rounds = array('OCR' => 'master_text');
+        foreach($Round_for_round_id_ as $id => $round)
+        {
+            $expanded_rounds[$id] = $round->text_column_name;
+        }
+        return $expanded_rounds;
+    }
+
+    function draw_heading()
+    {
+        global $code_url;
+        echo "<p>", html_safe($this->project->nameofwork),
+            "\n&nbsp;<a href='$code_url/project.php?id=$this->projectid'>", _("Go to Project Page"), "</a>
+            &nbsp; <a href='{$this->project_selector_url}'>", _("Select a Different Project"), "</a></p>\n";
+    }
+
+    function draw_hidden_projectid()
+    {
+        echo "<input type='hidden' name='project' value='" . attr_safe($this->projectid) . "'>";
+    }
+}
+
+function draw_text_button()
+{
+    global $code_url;
+    echo "<input type='submit' formaction='$code_url/tools/project_manager/display_text.php' value='", attr_safe(_("Show Text only")), "'>\n";
+}
+
+function draw_image_button()
+{
+    global $code_url;
+    echo "<input type='submit' formaction='$code_url/tools/project_manager/displayimage.php' value='", attr_safe(_("Show Image only")), "'>\n";
+}
+
+function draw_image_text_button()
+{
+    global $code_url;
+    echo "<input type='submit' formaction='$code_url/tools/project_manager/display_image_text.php' value='", attr_safe(_("Show Image & Text")), "'>\n";
+}
+
+function draw_size_controls()
+{
+    echo _("Image"), ": <input type='number' id='percent' min='1' max='999' value='100'>%\n";
+    echo "<button type='button' id='resize'>", _("Resize"), "</button>\n";
+}
+
+function draw_split_control()
+{
+    echo "<input type='button' id='v-switch' value='&#x2503;' title='", attr_safe(_("Change split direction")), "'>";
+    echo "<input type='button' id='h-switch' value='&#x2501;' title='", attr_safe(_("Change split direction")), "'>\n";
+}
+
+function draw_font_selector()
+{
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $font_family_fallback = get_proofreading_font_family_fallback();
+
+    echo "<select name='fntFace' id='fntFace' class='dropsmall' title='", attr_safe(_("Change Font Face")), "'>\n";
+    foreach($proofreading_font_faces as $index => $font)
+    {
+        if($index == 0)
+        {
+            $font_text = BROWSER_DEFAULT_STR;
+            $font = $font_family_fallback;
+        }
+        else
+        {
+            if($index == 1)
+            {
+                $font = get_user_proofreading_font_other();
+                if(!$font)
+                    continue;
+            }
+            $font_text = $font;
+        }
+
+        echo "<option value='" . attr_safe($font) . "'>" . html_safe($font_text) . "</option>\n";
+    }
+    echo "</select>\n";
+}
+
+function draw_font_size_selector()
+{
+    $proofreading_font_sizes = get_available_proofreading_font_sizes();
+
+    echo "<select name='fntSize' ID='fntSize' class='dropsmall' title='", attr_safe(_("Change Font Size")),"'>\n";
+    foreach($proofreading_font_sizes as $size)
+    {
+        if($size == '')
+        {
+            $size_text = BROWSER_DEFAULT_STR;
+        }
+        else
+        {
+            $size_text = $size;
+        }
+        echo "<option value='$size'>$size_text</option>\n";
+    }
+    echo "</select>\n";
+}
