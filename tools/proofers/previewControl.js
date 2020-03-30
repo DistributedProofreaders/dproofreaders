@@ -1,5 +1,6 @@
-/*global $ previewDemo, top, makePreview, window, alert, ieWarn
-document localStorage */
+/* eslint-disable no-use-before-define, camelcase */
+/* exported previewControl, initPrev */
+/* global $ previewDemo, makePreview, ieWarn */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -94,8 +95,8 @@ function initPrev() {
         preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
         prevWin.style.whiteSpace = (
             (preview.ok && wrapMode)
-            ? "normal"
-            : "pre"
+                ? "normal"
+                : "pre"
         );
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
@@ -112,8 +113,8 @@ function initPrev() {
         });
         someSupp.style.display = (
             warn
-            ? "inline"
-            : "none"
+                ? "inline"
+                : "none"
         );
     }
 
@@ -166,8 +167,8 @@ function initPrev() {
             if (!keep) {
                 dest = (
                     Array.isArray(source)
-                    ? []
-                    : {}
+                        ? []
+                        : {}
                 );
             }
             if (dest) {
@@ -237,15 +238,15 @@ function initPrev() {
         foreColor.disabled = useDefaultForeground;
         foreColor.value = (
             useDefaultForeground
-            ? tempStyle.t.fg
-            : foregroundColor
+                ? tempStyle.t.fg
+                : foregroundColor
         );
         backgroundCheckbox.checked = useDefaultBackground;
         backColor.disabled = useDefaultBackground;
         backColor.value = (
             useDefaultBackground
-            ? tempStyle.t.bg
-            : backgroundColor
+                ? tempStyle.t.bg
+                : backgroundColor
         );
     }
 
@@ -386,8 +387,8 @@ function initPrev() {
             var useDefaultForeground = foregroundCheckbox.checked;
             var colorValue = (
                 useDefaultForeground
-                ? ""
-                : foreColor.value
+                    ? ""
+                    : foreColor.value
             );
             if (useDefaultForeground) {
                 foreColor.value = tempStyle.t.fg;
@@ -406,8 +407,8 @@ function initPrev() {
             var useDefaultBackground = backgroundCheckbox.checked;
             var colorValue = (
                 useDefaultBackground
-                ? ""
-                : backColor.value
+                    ? ""
+                    : backColor.value
             );
             if (useDefaultBackground) {
                 backColor.value = tempStyle.t.bg;

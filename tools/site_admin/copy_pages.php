@@ -278,7 +278,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         echo "<tr><th>" . _("Project ID") . ":</th><td>" . $projectid . "</td></tr>\n";
 
-        echo "<tr><th>" . _("Title") . ":</th><td>" . html_safe($project->nameofwork) . "</td></tr>\n";
+        echo "<tr><th>" . _("Title") . ":</th><td>" . $project->nameofwork. "</td></tr>\n";
 
         // ----------------------
 

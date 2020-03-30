@@ -5,7 +5,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'metarefresh.inc');
 
 require_login();
@@ -102,7 +102,7 @@ output_header($title);
 echo "<h1>$title</h1>";
 
 echo "<p>";
-echo "<b>" . _("Project Name") . "</b>: " . html_safe($name) . "<br>";
+echo "<b>" . _("Project Name") . "</b>: $name<br>";
 echo "<b>" . _("Total Number of Master Pages") . "</b>: $numpages<br>";
 echo "<b>" . _("Language") . "</b>: $language<br>";
 echo "</p>";

@@ -23,6 +23,12 @@ DirectoryIndex index.php default.php index.html default.html
 
     ErrorLog ${APACHE_LOG_DIR}/error.log
 
+    <IfModule mod_rewrite.c>
+        # make the sitemap work with an .xml extension
+        RewriteEngine On
+        RewriteRule ^(.*)sitemap\.xml$ $1sitemap.php [R,L]
+    </IfModule>
+
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel warn

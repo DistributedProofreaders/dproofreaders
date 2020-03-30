@@ -55,6 +55,11 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
 {
     if($charset == "UTF-8")
         $locale .= ".$charset";
+
+    // if the LANGUAGE environment variable is set, gettext will use that and
+    // ignore whatever is here, so unset it
+    putenv("LANGUAGE=");
+
     $locale = setlocale(LC_ALL, $locale);
 
     // Specify location of translation tables and choose domain

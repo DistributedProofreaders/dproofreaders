@@ -61,13 +61,33 @@ $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
 // -----------------------------------------------------------------------------
 
+// Include structured metadata in LD+JSON format for this book
+$ld_json_object = [
+    "@context" => "http://schema.org",
+    "@type" => "Book",
+    "name" => $project->nameofwork,
+    "author" => [
+        "@type" => "Person",
+        "name" => $project->authorsname,
+    ],
+    "inLanguage" => explode(" with ", $project->language)[0],
+    "genre" => $project->genre,
+];
+
+$extra_args = [
+    "head_data" => '<script type="application/ld+json">' .
+        json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
+    '</script>',
+];
+
+output_header($title_for_theme, NO_STATSBAR, $extra_args);
+
+echo "<h1>$title</h1>\n";
+
+
 if ( !$user_is_logged_in )
 {
     // Guests see a reduced version of the project page.
-
-    output_header($title_for_theme, NO_STATSBAR);
-
-    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     list($top_blurb, $bottom_blurb) = decide_blurbs();
     do_blurb_box( $top_blurb );
@@ -86,10 +106,8 @@ if ( $user_is_logged_in )
         $pguser, $project->projectid, $project->t_retrieved );
 }
 
-output_header($title_for_theme, NO_STATSBAR);
 if ($detail_level==1)
 {
-    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_expected_state();
     do_detail_level_switch();
@@ -109,8 +127,6 @@ else
     // Detail level 2 should show the information
     // that is usually wanted by the people who usually work with
     // the project in its current state.
-
-    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     do_detail_level_switch();
     do_expected_state();
@@ -185,7 +201,7 @@ function do_expected_state()
         echo "<p class='warning'>";
         echo sprintf(
             _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
-            html_safe($project->nameofwork),
+            $project->nameofwork,
             project_states_text($expected_state),
             project_states_text($project->state)
         );
@@ -395,8 +411,8 @@ function do_project_info_table()
         );
     }
 
-    echo_row_a( _("Title"),           $project->nameofwork,  TRUE );
-    echo_row_a( _("Author"),          $project->authorsname, TRUE );
+    echo_row_a( _("Title"),           $project->nameofwork );
+    echo_row_a( _("Author"),          $project->authorsname );
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           _($project->genre) );
 
@@ -1776,6 +1792,7 @@ function echo_download_zip( $link_text, $discriminator )
         {
             $filesize_b += filesize($image_path);
         }
+        $last_modified = NULL;
     }
     else
     {

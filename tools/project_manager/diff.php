@@ -30,7 +30,7 @@ if (!$project->pages_table_exists)
     // But a user might have a bookmarked or otherwise saved a 'diff' URL.
     echo "<p>", _("Page details are not available for this project."), "</p>\n";
     echo "<p>", _("Project ID"), ": $projectid</p>\n";
-    echo "<p>", _("Title"), ":" . html_safe($project_title) . "</p>\n";
+    echo "<p>", _("Title"), ":$project_title</p>\n";
     exit;
 }
 
@@ -113,7 +113,7 @@ $extra_args = array(
 );
 output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 
-echo "<h1>" . html_safe($project_title) . "</h1>\n";
+echo "<h1>$project_title</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
 do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,

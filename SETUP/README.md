@@ -11,6 +11,9 @@ instructions, and other tools.
 * [phpbb3-conversion.txt](phpbb3-conversion.txt) includes helpful information
   for upgrading phpBB2 installations to phpBB3.
 
+For more information about code style and linting:
+* [CODE_STYLE.md](CODE_STYLE.md)
+
 For information on site styling and theming, see:
 * [Styling system](../styles/README.md)
 * [Theming](../styles/themes/README.md)

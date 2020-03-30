@@ -11,7 +11,7 @@ include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 include_once($relPath.'misc.inc'); // str_contains startswith
-include_once($relPath.'access_change_emails.inc'); // pp_access_change_email()
+include_once($relPath.'access_change_emails.inc'); // pp_access_change_email(), f1_access_change_email()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -216,7 +216,7 @@ new Round(
     array( 'P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
     'REQ-AUTO',
     '',
-    NULL, /* access_change_callback */
+    "f1_access_change_email", /* access_change_callback */
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     array(
@@ -491,25 +491,13 @@ function get_reserve_length($project, $round)
     // for inexperienced users on their first pass through P1.
     if (str_contains($project->nameofwork, '->P1}')) return 0;
 
-    if ($project->language == 'English')
+    if ($project->language == 'English' || $project->language == 'French')
     {
         // All 'special day' projects are exempted.
         if ($project->special_code != '') return 0;
 
         // Otherwise, reserve for 3 days.
         return 3;
-    }
-
-    if ($project->language == 'French')
-    {
-        // The 15th anniversary projects are exempted.
-        if ($project->special_code == '15thDPAnniversary') return 0;
-
-        // so are Children's Book Week projects (in 2017)
-        if ($project->special_code == 'ChBookWk') return 0;
-
-        // Otherwise, reserve for 7 days.
-        return 7;
     }
 
     // Anything not covered above

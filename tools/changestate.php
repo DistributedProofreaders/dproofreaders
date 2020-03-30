@@ -6,7 +6,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
@@ -53,7 +53,7 @@ function fatal_error( $msg )
 
     echo "<pre>\n";
     echo _("You requested:") . "\n";
-    echo "    projectid  = $projectid (" . html_safe($project->nameofwork) . ")\n";
+    echo "    projectid  = $projectid ($project->nameofwork)\n";
     echo "    curr_state = $curr_state\n";
     echo "    next_state = $next_state\n";
     echo "\n";
@@ -69,8 +69,8 @@ function fatal_error( $msg )
 if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
 {
     echo "<p><b>" . _("Project ID") . ":</b> $projectid<br>\n";
-    echo "<b>" . _("Title") . ":</b> " . html_safe($project->nameofwork) . "<br>\n";
-    echo "<b>" . _("Author") . ":</b> " . html_safe($project->authorsname) . "</p>\n";
+    echo "<b>" . _("Title") . ":</b> {$project->nameofwork}<br>\n";
+    echo "<b>" . _("Author") . ":</b> {$project->authorsname}</p>\n";
     echo $transition->confirmation_question;
     echo "<br>
         <form action='changestate.php' method='POST'>

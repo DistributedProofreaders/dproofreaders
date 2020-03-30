@@ -70,6 +70,8 @@ class RandomRule
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
+        if(!$row)
+            return NULL;
         return new RandomRule($row["id"]);
     }
 
@@ -262,6 +264,10 @@ class RandomRule
             },
             $rule
         );
+
+        // prevent anchor and subject from being too big for their fields
+        $anchor = substr($anchor, 0, 255);
+        $subject = substr($subject, 0, 255);
 
         $sql = sprintf("
             INSERT INTO rules

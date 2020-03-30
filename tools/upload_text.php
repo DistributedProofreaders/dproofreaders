@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file
 
@@ -160,7 +160,7 @@ if (!isset($action))
     output_header($title, NO_STATSBAR, get_upload_args());
 
     echo "<h1>$title</h1>";
-    echo "<h2>" . sprintf("Project: %s", html_safe($project->nameofwork)) . "</h2>";
+    echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
 
     try
     {
@@ -225,7 +225,7 @@ else
 
     slim_header($title);
     echo "<h1>$title</h1>";
-    echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
+    echo "<h2>", sprintf("Project: %s", $project->nameofwork), "</h2>";
 
     // if files have been uploaded, process them and mangle the postcomments
     $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
@@ -335,12 +335,38 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                 throw new FileUploadException("failed to extract files");
             }
             // extract any zips in smooth_dir
+            // there should not now be any but keep for compatibility for now
             $zips = glob("$smooth_dir/*.zip");
             foreach($zips as $zip)
             {
                 if(!extract_zip_to($zip, $smooth_dir))
                 {
                     throw new FileUploadException("failed to extract files");
+                }
+            }
+            // if there is an overall directory move files up
+            $top_files = glob("$smooth_dir/*");
+            if((count($top_files) === 1) && is_dir($top_files[0]))
+            {
+                $temp_dir = "$project->dir/temp";
+                rename($top_files[0], $temp_dir);
+                // smooth_dir is now empty so we can rename to it
+                rename($temp_dir, $smooth_dir);
+            }
+            // if there are htm or html files, zip them with images directory
+            $files_to_zip = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
+            if($files_to_zip)
+            {
+                // make the zip file with the original name but -html.zip.
+                $path_to_zip = $smooth_dir . "/" . pathinfo($original_name, PATHINFO_FILENAME) . "-html.zip";
+                $images_dir = "$smooth_dir/images";
+                if(file_exists($images_dir))
+                {
+                    $files_to_zip[] = $images_dir;
+                }
+                if(!create_zip_from($files_to_zip, $path_to_zip))
+                {
+                    throw new FileUploadException("Could not create zip file");
                 }
             }
         }

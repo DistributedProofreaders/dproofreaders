@@ -738,6 +738,7 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
 // Creates a zip archive containing the specified files.
 //
 // The first argument represents the files to add to the zip archive and globing is allowed.
+// If there is a directory the files from it are added with its name prefixed (only one level)
 // The second argument represents the path to the zip archive which should be created.
 //
 // Returns whether the zip file was created successfully.
@@ -755,12 +756,19 @@ function create_zip_from(array $files_to_zip, string $path_to_zip): bool
             $path_to_zip));
     }
 
-
-    foreach ($files_to_zip as $file) {
-        if (!$zip->addGlob($file, 0, ['remove_all_path' => TRUE])) {
-            throw new InvalidArgumentException(sprintf(
-                _("Could not add '%1\$s' to '%2\$s' ZipArchive."),
-                $file, $path_to_zip));
+    foreach ($files_to_zip as $file)
+    {
+        if(is_dir($file))
+        {
+            $status = $zip->addGlob("$file/*", 0, ['remove_all_path' => TRUE, 'add_path' => basename($file) . "/"]);
+        }
+        else
+        {
+            $status = $zip->addGlob($file, 0, ['remove_all_path' => TRUE]);
+        }
+        if (!$status)
+        {
+            throw new InvalidArgumentException(sprintf(_("Could not add '%1\$s' to '%2\$s' ZipArchive."), $file, $path_to_zip));
         }
     }
 

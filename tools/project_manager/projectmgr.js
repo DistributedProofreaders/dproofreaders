@@ -1,4 +1,4 @@
-/*global $ setInterval moment serverTimezone*/
+/*global $ moment serverTimezone*/
 $(function () {
     "use strict";
 

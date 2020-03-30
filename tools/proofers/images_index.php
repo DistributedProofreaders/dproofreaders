@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
+include_once($relPath.'project_states.inc'); // PROJ_NEW, PROJ_P1_UNAVAILABLE
 
 require_login();
 
@@ -22,7 +23,7 @@ if (is_null($zip_type))
 output_header("$image_index_str: {$project->nameofwork}");
 
 echo "
-    <h1>" . html_safe($project->nameofwork) . "</h1>
+    <h1>{$project->nameofwork}</h1>
     <p>$projectid</p>
     <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
     <h2>$image_index_str</h2>
@@ -93,6 +94,7 @@ else
     echo "</td>\n";
     echo "<td class='center-align'>\n";
     show_dl_link( $projectid, $nonpage_image_names, FALSE );
+    show_delete_all_link( $project, $nonpage_image_names );
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -117,6 +119,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
     echo "<h4 class='center-align'>$header</h4>";
 
     $show_replace_links = $project->can_be_managed_by_current_user;
+    $show_delete_links = !$these_are_page_images && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
 
     echo "<table>\n";
 
@@ -127,6 +130,10 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         if ( $show_replace_links )
         {
             echo "<th>", _('Replace'), "</th>\n";
+            if ($show_delete_links)
+            {
+                echo "<th>", _('Delete'), "</th>\n";
+            }
         }
         echo "</tr>\n";
     }
@@ -169,9 +176,15 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
             }
             else
             {
-                $replace_url = "$code_url/tools/project_manager/replace_image.php?projectid=$projectid&amp;image=$image_name";
+                $replace_url = "$code_url/tools/project_manager/update_illos.php?projectid=$projectid&amp;image=$image_name&amp;operation=replace";
+                $delete_url = "$code_url/tools/project_manager/update_illos.php?projectid=$projectid&amp;image=$image_name&amp;operation=delete";
             }
             echo "<td><a href='$replace_url'>", _('Replace'), "</a></td>\n";
+
+            if ( $show_delete_links)
+            {
+                echo "<td><a href='$delete_url'>", _('Delete'), "</a></td>\n";
+            }
         }
 
         echo "</tr>\n";
@@ -200,8 +213,24 @@ function show_dl_link( $projectid, $image_names, $these_are_page_images )
     if(!empty($image_names))
     {
 	$form_target="$code_url/tools/proofers/images_index.php?project=$projectid&zip_type=$ztype";
-	echo "<form name='idl' id='idl' action='$form_target' method='POST'>\n";
+	echo "<form name='idl' id='idl' style='display: inline' action='$form_target' method='POST'>\n";
         echo "<input id='zip_type' type='submit' value='$tvalue'>";
+        echo "</form>";
+    }
+}
+
+function show_delete_all_link( $project, $image_names )
+{
+    global $code_url;
+
+    if(($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE) && !empty($image_names))
+    {
+        $form_target="$code_url/tools/project_manager/update_illos.php";
+        $submit_label=_("Delete Illustrations");
+        echo "<form action='$form_target' method='POST' style='display: inline'>\n";
+        echo "<input type='hidden' name='projectid' value='{$project->projectid}'>";
+        echo "<input type='hidden' name='operation' value='delete_all'>";
+        echo "<input type='submit' value='$submit_label'>";
         echo "</form>";
     }
 }

@@ -12,7 +12,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
-include_once($relPath.'misc.inc'); // requester_is_localhost(), html_safe()
+include_once($relPath.'misc.inc'); // requester_is_localhost()
 include_once('autorelease.inc');
 
 $one_project = validate_projectID('project', @$_GET['project'], true);
@@ -89,7 +89,7 @@ function ensure_project_blurb( $project )
         echo "\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
         echo "projectid  = {$project['projectid']}\n";
-        echo "nameofwork = \"" . html_safe($project['nameofwork']) . "\"\n";
+        echo "nameofwork = \"{$project['nameofwork']}\"\n";
         echo "state      = {$project['state']}\n";
         echo "\n";
         $have_echoed_blurb_for_this_project = 1;
@@ -265,7 +265,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
             }
 
             $state = $round->project_complete_state;
-            if ($verbose) echo "    Advancing \"" . html_safe($nameofwork) . "\" to $state\n";
+            if ($verbose) echo "    Advancing \"$nameofwork\" to $state\n";
 
             $error_msg = project_transition( $projectid, $state, PT_AUTO );
             if ($error_msg)
@@ -306,7 +306,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
         if ($verbose)
         {
             ensure_project_blurb( $project );
-            echo "    Promoting \"" . html_safe($nameofwork) . "\" to $new_state\n";
+            echo "    Promoting \"$nameofwork\" to $new_state\n";
         }
 
         $error_msg = project_transition( $projectid, $new_state, PT_AUTO );

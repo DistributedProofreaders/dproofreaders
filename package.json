@@ -1,0 +1,27 @@
+{
+  "name": "dproofreaders",
+  "version": "1.0.0",
+  "description": "Distributed Proofreaders is a web application intended to ease the process of converting public domain books into e-texts.",
+  "scripts": {
+    "lint": "eslint \"./**/*.js\"",
+    "lint-fix": "eslint --fix \"./**/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DistributedProofreaders/dproofreaders.git"
+  },
+  "keywords": [
+    "ebooks",
+    "proofreading",
+    "public-domain"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://www.pgdp.net/c/tasks.php"
+  },
+  "homepage": "https://github.com/DistributedProofreaders/dproofreaders",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}

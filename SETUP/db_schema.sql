@@ -210,6 +210,7 @@ CREATE TABLE `non_activated_users` (
   `date_created` int(20) NOT NULL default '0',
   `email_updates` tinyint(1) NOT NULL default 0,
   `referrer` varchar(32) NOT NULL DEFAULT '',
+  `referrer_details` varchar(256) DEFAULT '',
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_intlang` varchar(25) default '',
   `user_password` varchar(128) NOT NULL default '',
@@ -442,9 +443,10 @@ CREATE TABLE `rules` (
   `document` varchar(255) default NULL,
   `langcode` varchar(5) default NULL,
   `anchor` varchar(255) default NULL,
-  `subject` varchar(100) NOT NULL default '',
+  `subject` varchar(255) NOT NULL default '',
   `rule` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `document_langcode` (`document`,`langcode`)
 );
 # --------------------------------------------------------
 
@@ -819,6 +821,7 @@ CREATE TABLE `users` (
   `t_last_activity` int(10) unsigned NOT NULL default '0',
   `email_updates` tinyint(1) default '1',
   `referrer` varchar(32) NOT NULL DEFAULT '',
+  `referrer_details` varchar(256) DEFAULT '',
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_neigh` tinyint(4) NOT NULL default '0',
   `u_align` tinyint(1) NOT NULL default '0',
