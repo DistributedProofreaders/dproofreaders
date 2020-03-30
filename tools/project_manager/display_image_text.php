@@ -16,9 +16,7 @@ $page_data->validate();
 $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/splitter_interface.js",
-    "$code_url/tools/mentors/page_text_image.js",
     "$code_url/scripts/image_size.js",
-    "$code_url/scripts/text_control.js",
     "$code_url/scripts/page_change.js",
     "$code_url/scripts/text_change.js",
     ];
@@ -30,8 +28,8 @@ $header_args = [
 
 slim_header(_("Image and text for page"), $header_args);
 
-echo "<div class='flex_container'>";
-echo "<div class='fixedbox control-form'>";
+echo "<div class='flex_container'>
+<div class='fixedbox control-form'>\n";
 
 $page_data->draw_heading();
 
@@ -40,32 +38,22 @@ $page_data->draw_hidden_projectid();
 draw_size_controls();
 $page_data->draw_page_selector();
 $page_data->draw_round_selector();
-draw_font_selector();
-draw_font_size_selector();
-echo "<label for='wrap'>", _("Wrap"), ":</label><input type='checkbox' id='wrap'>\n";
 draw_split_control();
-echo "</form>";
-echo "</div>\n"; // fixedbox
-
-echo "<div id='pane_container' class='stretchbox'>\n";
-
-echo "<div class='overflow-auto image-back'>\n";
+draw_text_button();
+draw_image_button();
+echo "</form>
+</div>
+<div id='pane_container' class='stretchbox'>
+<div class='overflow-auto image-back'>";
 $page_data->draw_image();
-echo "</div>\n"; // image pane
-echo "<div class='dragbar'></div>";
-echo "<div id='text_pane' class='pane_2'>";
-
-echo "<div class='overflow-auto'>"; // top text pane
-//The text div, we show the saved text in a textarea
-echo "<textarea name='text_data' id='text_data' class='full-text'>";
+echo "</div>
+<div class='dragbar'></div>
+<div class='overflow-auto'>
+<div id='text_data' class='pre-text'>";
 $page_data->show_text();
-echo "</textarea>\n";
-echo "</div>"; // top text pane
-echo "<div class='dragbar'></div>";
-echo "<div class='pane_2'></div>";
-
-echo "</div>\n"; // text_pane
-echo "</div>\n"; // pane_container
-echo "</div>"; // flex_container
+echo "</div>
+</div>
+</div>
+</div>"; // flex_container
 
 // vim: sw=4 ts=4 expandtab

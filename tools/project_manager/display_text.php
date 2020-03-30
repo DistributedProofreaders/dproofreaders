@@ -12,12 +12,12 @@ require_login();
 $page_data = new PageData();
 $page_data->validate();
 
-$title = _("Display Image for page");
+$title = _("Display Text for page");
 
 $js_files = [
-    "$code_url/scripts/image_size.js",
     "$code_url/scripts/page_change.js",
-    ];
+    "$code_url/scripts/text_change.js",
+];
 
 $header_args = [
     "js_files" => $js_files,
@@ -27,20 +27,20 @@ $header_args = [
 slim_header($title, $header_args);
 
 echo "<div class='flex_container'>
-<div class='fixedbox control-form'>\n";
+<div class='fixedbox control-form'>";
 
 $page_data->draw_heading();
 
 echo "<form method='get'>\n";
 $page_data->draw_hidden_projectid();
-draw_size_controls();
 $page_data->draw_page_selector();
-draw_text_button();
+$page_data->draw_round_selector();
+draw_image_button();
 draw_image_text_button();
 echo "</form>
 </div>
-<div class='stretchbox overflow-auto image-back'>";
-$page_data->draw_image();
+<div id='text_data' class='stretchbox pre-text overflow-auto'>";
+$page_data->show_text();
 echo "</div>
 </div>"; // flex_container
 

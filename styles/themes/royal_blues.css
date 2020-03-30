@@ -294,6 +294,34 @@ table.snapshottable th {
   border: 1px solid black;
   background: #FFF8DC;
 }
+/* ------------------------------------------------------------------------ */
+/* page views */
+.control-form {
+  background-color: #CDC0B0;
+  padding: 0 1em 3px 1em;
+  overflow: auto;
+}
+.control-form input {
+  background-color: #FFF8DC;
+  border-width: 2px;
+}
+.control-form select {
+  background-color: #FFF8DC;
+}
+.control-form .img-button {
+  vertical-align: middle;
+  border: 0;
+  padding: 0;
+}
+.control-form img {
+  display: block;
+}
+.control-form input[type=checkbox] {
+  vertical-align: middle;
+}
+.image-back {
+  background-color: #CDCDC1;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab
