@@ -1,9 +1,8 @@
 <?php
 $relPath="../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'site_vars.php'); // $utf8_site
 include_once($relPath.'misc.inc'); // array_get()
-
-//include_once($relPath.'RoundDescriptor.inc');
 
 if(!$user_is_logged_in)
 {
@@ -11,11 +10,9 @@ if(!$user_is_logged_in)
 }
 else
 {
-    $projectid = trim(array_get($_GET,"projectid",""));
-    $page = trim(array_get($_GET,"page",""));
-//    $expanded_rounds = array_keys($Round_for_round_id_);
-  //  array_unshift($expanded_rounds, 'OCR');
-    $text_column_name = trim(array_get($_GET,"text_column",""));
+    $projectid = array_get($_GET,"projectid","");
+    $page = array_get($_GET,"page","");
+    $text_column_name = array_get($_GET,"text_column","");
 
     $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $text_column_name FROM $projectid WHERE image = '%s'",mysqli_real_escape_string(DPDatabase::get_connection(), $page)));
     if($result)
@@ -31,7 +28,8 @@ else
 
 header('Content-Type: application/json');
 
-//$data = "test message";
-$data = utf8_encode($data);
-$retval = json_encode($data);
-echo $retval;
+if(!$utf8_site)
+{
+    $data = utf8_encode($data);
+}
+echo json_encode($data);
