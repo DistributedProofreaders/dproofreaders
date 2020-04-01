@@ -9,7 +9,10 @@ $(function () {
     }
 
     function showText() {
-        $.getJSON(textUrl + "&page=" + pageSelector.value + "&text_column=" + roundSelector.value, "", loadText);
+        $.getJSON(textUrl + "&page=" + pageSelector.value + "&text_column=" + roundSelector.value, "", loadText)
+            .fail(function(jqxhr, textStatus, error) {
+                $("#text_data").text(textStatus + " " + error);
+            });
     }
 
     changeWatcher.newPage.add(showText);
