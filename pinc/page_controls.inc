@@ -128,13 +128,14 @@ function draw_image_text_button()
 function draw_size_controls()
 {
     echo _("Image"), ": <input type='number' id='percent' min='1' max='999' value='100'>%\n";
-    echo "<button type='button' id='resize'>", _("Resize"), "</button>\n";
+    echo "<input type='button' id='resize' value='", _("Resize"), "'>\n";
 }
 
 function draw_split_control()
 {
-    echo "<input type='button' id='v-switch' value='&#x2503;' title='", attr_safe(_("Change split direction")), "'>";
-    echo "<input type='button' id='h-switch' value='&#x2501;' title='", attr_safe(_("Change split direction")), "'>\n";
+    global $code_url;
+    echo "<button type='button' class='img-button' id='v-switch' title='", attr_safe(_("Switch to Vertical Layout")), "'><img src='$code_url/tools/proofers/gfx/bt4.png'></button>";
+    echo "<button type='button' class='img-button' id='h-switch' title='", attr_safe(_("Switch to Horizontal Layout")), "'><img src='$code_url/tools/proofers/gfx/bt5.png'></button>\n";
 }
 
 function draw_font_selector()

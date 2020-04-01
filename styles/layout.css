@@ -684,13 +684,11 @@ table.dirlist caption {
   padding: 2px;
   outline: none;
 }
-#enhanced_interface .boxnormal {
+#enhanced_interface .dropsmall {
+  font-size: 75%;
   background-color: #FFF8DC;
 }
-/* ------------------------------------------------------------------------ */
-/* Font selectors */
-.dropsmall {
-  font-size: 75%;
+#enhanced_interface .boxnormal {
   background-color: #FFF8DC;
 }
 /* ------------------------------------------------------------------------ */
