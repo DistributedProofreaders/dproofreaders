@@ -30,10 +30,6 @@ foreach($fixed_pages as $page => $frequency)
     if($url_count >= $MAX_URLS)
         break;
 
-    // skip entries with no modifieddate
-    if($row["modifieddate"] == 0)
-        continue;
-
     $url = "$code_url/$page";
     $lastmod = strftime("%Y-%m-%d", filemtime("$code_dir/$page"));
     echo <<<URL
@@ -65,6 +61,10 @@ while($row = mysqli_fetch_assoc($result))
 {
     if($url_count >= $MAX_URLS)
         break;
+
+    // skip entries with no modifieddate
+    if($row["modifieddate"] == 0)
+        continue;
 
     $url = "$code_url/project.php?id=" . $row["projectid"];
     $lastmod = strftime("%Y-%m-%d", $row["modifieddate"]);
