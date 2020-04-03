@@ -57,7 +57,7 @@ echo "<div id='text_pane' class='pane_2'>";
 
 echo "<div class='overflow-auto'>"; // top text pane
 //The text div, we show the saved text in a textarea
-echo "<textarea name='text_data' id='text_data' class='full-text'>";
+echo "<textarea id='text_data' class='full-text'>";
 $page_data->show_text();
 echo "</textarea>\n";
 echo "</div>"; // top text pane
