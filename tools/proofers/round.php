@@ -41,6 +41,7 @@ alert_re_unread_messages( $pagesproofed );
 
 welcome_see_beginner_forum( $pagesproofed, $round->id );
 
+encourage_p1_to_p2($round->id);
 
 show_news_for_page($round_id);
 
