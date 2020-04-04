@@ -56,10 +56,12 @@ class PageData
             if(array_get($_GET, "next-button", ""))
             {
                 $this->selected_index += 1;
+                $this->page = $this->images[$this->selected_index];
             }
             if(array_get($_GET, "prev-button", ""))
             {
                 $this->selected_index -= 1;
+                $this->page = $this->images[$this->selected_index];
             }
         }
         catch(Exception $exception)
