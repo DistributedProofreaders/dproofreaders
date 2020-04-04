@@ -129,7 +129,7 @@ class PageData
         }
         else
         {
-            $text_column_name = get_Round_for_round_id($round_id)->text_column_name;
+            $text_column_name = get_Round_for_round_id($this->round_id)->text_column_name;
         }
         $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $text_column_name FROM $this->projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $this->page)));
         $row = mysqli_fetch_assoc($result);
