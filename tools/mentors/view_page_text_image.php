@@ -53,16 +53,16 @@ echo "<div class='overflow-auto image-back'>\n";
 $page_data->draw_image();
 echo "</div>\n"; // image pane
 echo "<div class='dragbar'></div>";
-echo "<div id='text_pane' class='pane_2'>";
+echo "<div id='text_pane'>";
 
-echo "<div class='overflow-auto'>"; // top text pane
+echo "<div>"; // top text pane
 //The text div, we show the saved text in a textarea
 echo "<textarea id='text_data' class='full-text'>";
 $page_data->show_text();
 echo "</textarea>\n";
 echo "</div>"; // top text pane
 echo "<div class='dragbar'></div>";
-echo "<div class='pane_2'></div>";
+echo "<div></div>";
 
 echo "</div>\n"; // text_pane
 echo "</div>\n"; // pane_container
