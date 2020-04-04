@@ -10,7 +10,7 @@ class PageData
 
         $this->error_message = "";
         $this->projectid = array_get($_GET, "project", "");
-        $page = array_get($_GET, "imagefile", "");
+        $this->page = array_get($_GET, "imagefile", "");
         $this->round_id = get_enumerated_param($_GET, 'round_id', 'master_text', $this->get_expanded_rounds());
         $this->project = null;
         $this->project_selector_url = "$code_url/tools/project_manager/project_selector.php?origin={$_SERVER['PHP_SELF']}";
@@ -33,18 +33,18 @@ class PageData
             }
             mysqli_free_result($res);
 
-            if($page !== "")
+            if($this->page !== "")
             {
-                $esc_page = mysqli_real_escape_string(DPDatabase::get_connection(), $page);
+                $esc_page = mysqli_real_escape_string(DPDatabase::get_connection(), $this->page);
                 $res = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM $this->projectid WHERE image LIKE '%$esc_page%'") or die(mysqli_error(DPDatabase::get_connection()));
                 if (mysqli_num_rows($res) !== 0)
                 {
-                    $page = mysqli_fetch_assoc($res)["image"];
+                    $this->page = mysqli_fetch_assoc($res)["image"];
                 }
                 mysqli_free_result($res);
                 foreach($this->images as $index => $image)
                 {
-                    if($image === $page)
+                    if($image === $this->page)
                     {
                         $this->selected_index = $index;
                     }
@@ -127,14 +127,19 @@ class PageData
     function draw_image()
     {
         global $projects_url;
-        echo "<img id='image' src='$projects_url/{$this->projectid}/{$this->images[$this->selected_index]}'>\n";
+        echo "<img id='image' src='$projects_url/{$this->projectid}/$this->page'>\n";
+    }
+
+    function get_text()
+    {
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $this->round_id FROM $this->projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $this->page)));
+        $row = mysqli_fetch_assoc($result);
+        return $row[$this->round_id];
     }
 
     function show_text()
     {
-        $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $this->round_id FROM $this->projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $this->images[$this->selected_index])));
-        $row = mysqli_fetch_assoc($result);
-        echo html_safe($row[$this->round_id]);
+        echo html_safe($this->get_text());
     }
 }
 
