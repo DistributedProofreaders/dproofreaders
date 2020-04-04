@@ -6,12 +6,15 @@ class PageData
 {
     function __construct()
     {
-        global $code_url;
+        global $code_url, $Round_for_round_id_;
+
+        $this->expanded_rounds = array_keys($Round_for_round_id_);
+        array_unshift($this->expanded_rounds, 'OCR');
 
         $this->error_message = "";
         $this->projectid = array_get($_GET, "project", "");
         $this->page = array_get($_GET, "imagefile", "");
-        $this->round_id = get_enumerated_param($_GET, 'round_id', 'master_text', $this->get_expanded_rounds());
+        $this->round_id = get_enumerated_param($_GET, 'round_id', 'OCR', $this->expanded_rounds);
         $this->project = null;
         $this->project_selector_url = "$code_url/tools/project_manager/project_selector.php?origin={$_SERVER['PHP_SELF']}";
         $this->selected_index = 0;
@@ -79,7 +82,7 @@ class PageData
         echo _("Page") . ":&nbsp;<select name='imagefile' id='page-select'>\n";
         foreach($this->images as $index => $image)
         {
-            $selected = ($index === $this->selected_index) ? " selected" : "";
+            $selected = selected_text($index === $this->selected_index);
             echo "<option value='$image'$selected>$image</option>\n";
         }
         echo "</select>\n";
@@ -91,24 +94,12 @@ class PageData
     function draw_round_selector()
     {
         echo _("Round") . ":&nbsp;<select name='round_id' id='round'>\n";
-        foreach ($this->get_expanded_rounds() as $round => $text_column_name)
+        foreach ($this->expanded_rounds as $round)
         {
-            $selected = ($text_column_name == $this->round_id) ? " selected" : "";
-            echo "<option value='$text_column_name'$selected>$round</option>\n";
+            $selected = selected_text($round === $this->round_id);
+            echo "<option value='$round'$selected>$round</option>\n";
         }
         echo "</select>\n";
-    }
-
-    function get_expanded_rounds()
-    {
-        global $Round_for_round_id_;
-
-        $expanded_rounds = array('OCR' => 'master_text');
-        foreach($Round_for_round_id_ as $id => $round)
-        {
-            $expanded_rounds[$id] = $round->text_column_name;
-        }
-        return $expanded_rounds;
     }
 
     function draw_heading()
@@ -132,9 +123,17 @@ class PageData
 
     function get_text()
     {
-        $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $this->round_id FROM $this->projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $this->page)));
+        if ($this->round_id == "OCR")
+        {
+            $text_column_name = 'master_text';
+        }
+        else
+        {
+            $text_column_name = get_Round_for_round_id($round_id)->text_column_name;
+        }
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("SELECT $text_column_name FROM $this->projectid WHERE image = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $this->page)));
         $row = mysqli_fetch_assoc($result);
-        return $row[$this->round_id];
+        return $row[$text_column_name];
     }
 
     function show_text()
@@ -145,7 +144,12 @@ class PageData
 
 function disabled_text($disabled)
 {
-    return $disabled ?  " disabled" : "";
+    return $disabled ? " disabled" : "";
+}
+
+function selected_text($selected)
+{
+    return $selected ? " selected" : "";
 }
 
 function draw_text_button()
