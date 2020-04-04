@@ -148,7 +148,7 @@ function encourage_p1_to_p2($round)
 
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo _("Consider working on projects in $round_target!");
+        echo "Consider working on projects in $round_target!";
         echo "</div>";
 
         echo "<p>Please consider proofreading a project in $round_target rather than here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=$round_target'>$round_target</a> helps significantly.</p>";
@@ -164,7 +164,7 @@ function encourage_p1_to_p2($round)
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo _("You are eligible to work in P2!");
+        echo "You are eligible to work in P2!";
         echo "</div>";
 
         echo "<p>You are eligible to work on projects in P2! Simply <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and find a <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> project that interests you.</p>";
@@ -182,10 +182,10 @@ function encourage_p1_to_p2($round)
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo _("You are just a few quizzes away from P2!");
+        echo "You are just a few quizzes away from P2!";
         echo "</div>";
 
-        echo "<p>You are almost eligible to work in the P2 round! The only thing left is to pass the short <a href='$code_url/quiz/start.php?show_level=P_MOD'>moderate proofreading quizes</a>. After you pass them you can <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and you'll be able to work on projects in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a>.</p>";
+        echo "<p>You are almost eligible to work in the P2 round! The only thing left is to pass the short <a href='$code_url/quiz/start.php?show_level=P_MOD'>moderate proofreading quizzes</a>. After you pass them you can <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and you'll be able to work on projects in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a>.</p>";
         echo "<p>Please consider working on P2 projects rather than projects here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> helps significantly.</p>";
         echo "<p>Thank you!</p>";
         echo "</div>";
