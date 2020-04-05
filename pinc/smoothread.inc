@@ -283,7 +283,7 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
         SET $smoothread_deadline_sql
             postcomments = CONCAT(postcomments, '%s')
         WHERE projectid = '$projectid'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), html_entity_decode($postcomments)));
     mysqli_query(DPDatabase::get_connection(), $qstring);
 
     notify_project_event_subscribers($project, 'sr_available');
