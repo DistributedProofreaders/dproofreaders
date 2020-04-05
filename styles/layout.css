@@ -1,5 +1,8 @@
 /* ------------------------------------------------------------------------ */
 /* Global */
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
 }
@@ -67,32 +70,33 @@ nav,
   display: table;
 }
 #navbar {
-  height: 1.66666667em;
+  height: 2.2em;
   margin: 0;
   border: 0;
-  padding: 3px;
   font-size: 0.75em;
+  display: table-row;
 }
 #navbar span.currentpage {
   font-weight: bold;
 }
 #navbar #navbar-left {
   float: left;
-  padding: 2px;
+  padding: 3px;
+  margin: 2px;
   display: table-cell;
 }
 #navbar #navbar-right,
 #navbar #navbar-login {
   text-align: right;
   float: right;
-  white-space: nowrap;
   display: table-cell;
 }
 #navbar #navbar-right {
-  padding: 2px;
+  margin: 2px;
+  padding: 3px;
 }
 #navbar #navbar-login {
-  padding: 0px 2px;
+  margin: 3px;
 }
 #navbar form {
   margin: 0;
@@ -110,14 +114,11 @@ nav,
 }
 #alertbar,
 #testbar {
-  height: 1.66666667em;
+  height: 2.2em;
   margin: 0;
   border: 0;
-  padding: 3px;
   font-size: 0.75em;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
+  display: table-row;
 }
 #alertbar span.currentpage,
 #testbar span.currentpage {
@@ -126,7 +127,8 @@ nav,
 #alertbar #navbar-left,
 #testbar #navbar-left {
   float: left;
-  padding: 2px;
+  padding: 3px;
+  margin: 2px;
   display: table-cell;
 }
 #alertbar #navbar-right,
@@ -135,16 +137,16 @@ nav,
 #testbar #navbar-login {
   text-align: right;
   float: right;
-  white-space: nowrap;
   display: table-cell;
 }
 #alertbar #navbar-right,
 #testbar #navbar-right {
-  padding: 2px;
+  margin: 2px;
+  padding: 3px;
 }
 #alertbar #navbar-login,
 #testbar #navbar-login {
-  padding: 0px 2px;
+  margin: 3px;
 }
 #alertbar form,
 #testbar form {
@@ -157,7 +159,10 @@ nav,
 }
 #alertbar p,
 #testbar p {
-  margin: 3px 0;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */
@@ -192,8 +197,32 @@ footer small,
   text-align: left;
   vertical-align: top;
   width: 100%;
-  padding: 0.5em;
+  padding: 0 0.5em;
   display: table-cell;
+}
+/*
+ If the screen is "narrow enough" we move the statsbar below the page
+ content using a flex layout. We don't use a flex layout for the
+ regular content because doing so cuts off the project listings on
+ the round pages. Until we are able to make full use of the window
+ for the round pages (death to the statsbar??) we need to keep a
+ table-style layout to force the statsbar off the screen when the
+ window gets too narrow
+*/
+@media only screen and (max-width: 768px) {
+  #header #titles-preserved {
+    display: none;
+  }
+  #page-body-container {
+    display: flex;
+    display: -ms-flexbox;
+    /* for IE 11 */
+    flex-direction: column;
+  }
+  #page-container,
+  #content-container {
+    display: block;
+  }
 }
 /* ------------------------------------------------------------------------ */
 /* Section dividers */
@@ -209,10 +238,11 @@ div.news {
   margin: 1em 0;
 }
 div.newsitem {
-  background: url('../graphics/box_shadow.png') no-repeat !important;
-  padding: 1.2em 0.5em 0.5em 1.2em;
-  margin-left: 1em;
-  margin-top: 0.5em;
+  box-shadow: -5px -5px 5px lightgrey;
+  border-radius: 5px;
+  padding: 0.75em;
+  margin-left: 0.5em;
+  margin-top: 1em;
 }
 div.newsitem p {
   margin: 0 0.5em 0.5em 0;
@@ -308,7 +338,6 @@ table.snapshottable {
   margin: 0;
   padding: 0;
   border-collapse: collapse;
-  width: 100%;
 }
 table.snapshottable td,
 table.snapshottable th {
@@ -325,24 +354,41 @@ table.snapshottable img {
 table.snapshottable th {
   font-weight: normal;
 }
+table.snapshottable td.stage-column {
+  text-align: left;
+}
 table.snapshottable td.nocell {
   border: none;
 }
 table.snapshottable th.activity-icon-header {
   border: none;
   background-color: #ffffff;
-  width: 35%;
 }
-table.snapshottable td.stage-icon {
-  border-right: 0;
+.stage-icon {
+  display: inline-block;
+  width: 40px;
+  vertical-align: middle;
+  text-align: center;
 }
-table.snapshottable td.stage-name {
+.stage-name {
+  display: inline-block;
+  padding-left: 5px;
   text-align: left;
-  border-left: 0;
-  border-right: 0;
+  vertical-align: middle;
 }
-table.snapshottable td.stage-access {
-  border-left: 0;
+.stage-access {
+  display: inline-block;
+  padding-left: 5px;
+  float: right;
+  vertical-align: middle;
+}
+@media only screen and (max-width: 768px) {
+  .stage-name,
+  .stage-access,
+  .pages-goal,
+  .pages-completed {
+    display: none;
+  }
 }
 /* ------------------------------------------------------------------------ */
 /* Progress bar */

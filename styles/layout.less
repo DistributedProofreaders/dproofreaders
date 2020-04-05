@@ -2,6 +2,10 @@
 
 /* ------------------------------------------------------------------------ */
 /* Global */
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
 }
@@ -55,6 +59,7 @@ header, #header {
     }
 }
 
+
 /* ------------------------------------------------------------------------ */
 /* Navbar */
 nav, #navbar-outer {
@@ -63,30 +68,31 @@ nav, #navbar-outer {
 }
 
 #navbar {
-    height: 5/3em;
+    height: 2.2em;
     margin: 0;
     border: 0;
-    padding: 3px;
     font-size: 0.75em;
+    display: table-row;
     span.currentpage {
         .bold;
     }
     #navbar-left {
         float: left;
-        padding: 2px;
+        padding: 3px;
+        margin: 2px;
         display: table-cell;
     }
     #navbar-right, #navbar-login {
         .right-align;
         float: right;
-        white-space: nowrap;
         display: table-cell;
     }
     #navbar-right {
-        padding: 2px;
+        margin: 2px;
+        padding: 3px;
     }
     #navbar-login {
-        padding: 0px 2px;
+        margin: 3px;
     }
     form {
         margin: 0;
@@ -105,11 +111,11 @@ nav, #navbar-outer {
 
 #alertbar, #testbar {
     #navbar;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
     p {
-        margin: 3px 0;
+        .bold;
+        .center-align;
+        .middle-align;
+        display: table-cell;
     }
 }
 
@@ -145,9 +151,36 @@ footer, #footer {
 #content-container {
     .left-align;
     .top-align;
-    width: 100%;
-    padding: 0.5em;
+    .full-width;
+    padding: 0 0.5em;
     display: table-cell;
+}
+
+/*
+ If the screen is "narrow enough" we move the statsbar below the page
+ content using a flex layout. We don't use a flex layout for the
+ regular content because doing so cuts off the project listings on
+ the round pages. Until we are able to make full use of the window
+ for the round pages (death to the statsbar??) we need to keep a
+ table-style layout to force the statsbar off the screen when the
+ window gets too narrow
+*/
+@media only screen and (max-width: 768px) {
+    #header {
+        #titles-preserved {
+            display: none;
+        }
+    }
+
+    #page-body-container {
+        display: flex;
+        display: -ms-flexbox; /* for IE 11 */
+        flex-direction: column;
+    }
+
+    #page-container, #content-container {
+        display: block;
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -168,10 +201,11 @@ div.news {
 div.newsheader {
 }
 div.newsitem {
-    background: url('../graphics/box_shadow.png') no-repeat !important;
-    padding: 1.2em 0.5em 0.5em 1.2em;
-    margin-left: 1em;
-    margin-top: 0.5em;
+    box-shadow: -5px -5px 5px lightgrey;
+    border-radius: 5px;
+    padding: 0.75em;
+    margin-left: 0.5em;
+    margin-top: 1em;
     p {
         margin: 0 0.5em 0.5em 0;
     }
@@ -277,7 +311,6 @@ table.snapshottable {
     margin: 0;
     padding: 0;
     border-collapse: collapse;
-    width: 100%;
     td, th {
         border: 1px solid black;
         padding: 2px;
@@ -292,24 +325,43 @@ table.snapshottable {
     th {
         font-weight: normal;
     }
+    td.stage-column {
+        .left-align;
+    }
     td.nocell {
         border: none;
     }
     th.activity-icon-header {
         border: none;
         background-color: #ffffff;
-        width: 35%;
     }
-    td.stage-icon {
-        border-right: 0;
-    }
-    td.stage-name {
-        text-align: left;
-        border-left: 0;
-        border-right: 0;
-    }
-    td.stage-access {
-        border-left: 0;
+}
+
+.stage-icon {
+    display: inline-block;
+    width: 40px;
+    .middle-align;
+    .center-align;
+}
+.stage-name {
+    display: inline-block;
+    padding-left: 5px;
+    .left-align;
+    .middle-align;
+}
+.stage-access {
+    display: inline-block;
+    padding-left: 5px;
+    float: right;
+    .middle-align;
+}
+
+@media only screen and (max-width: 768px) {
+    .stage-name,
+    .stage-access,
+    .pages-goal,
+    .pages-completed {
+        display: none;
     }
 }
 

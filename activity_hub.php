@@ -167,7 +167,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     // Round headers
     echo "\n<tr>";
     $img_alt = attr_safe(_("Proofreading/Formatting Activities"));
-    echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></th>";
+    echo "<th rowspan='2' class='activity-icon-header'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='4'>" .  _("Projects") . " - ";
     if($show_filtered_projects)
     {
@@ -190,8 +190,8 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "<th>" . _("Waiting") . "</th>";
     echo "<th>" . _("Available") . "</th>";
     echo "<th>" . _("Completed<br>Today") . "</th>";
-    echo "<th>" . _("Goal") . "</th>";
-    echo "<th>" . _("Completed") . "</th>";
+    echo "<th class='pages-goal'>" . _("Goal") . "</th>";
+    echo "<th class='pages-completed'>" . _("Completed") . "</th>";
     echo "<th>" . _("Progress") . "</th>";
     echo "</tr>\n";
 
@@ -209,7 +209,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     // Pool and Stage headers
     echo "\n<tr>";
     $img_alt = attr_safe(_("Post-Processing Activities"));
-    echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></th>";
+    echo "<th rowspan='2' class='activity-icon-header'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='3'>" . _("Projects") . " - ";
     if($show_filtered_projects)
     {
@@ -379,18 +379,21 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         $span_rows = "";
 
     // Every row gets a label, name, and access information.
-    echo "<td class='stage-icon' $span_rows>$stage_id_bit</td>";
-    echo "<td class='stage-name' $span_rows><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></td>";
+    echo "<td class='stage-column' $span_rows>";
+    echo "<div class='stage-icon'>$stage_id_bit</div>";
 
     // Output the access status icon. If the user does not yet have access
     // make the image a link to the access requirements.
-    echo "<td class='stage-access' $span_rows>";
+    echo "<div class='stage-access'>";
     if($access_link)
         echo "<a href='$access_link'>";
     echo "<img src='$access_icon' alt='" . attr_safe($access_text)
         . "' title='" . attr_safe($access_text) . "'>";
     if($access_link)
         echo "</a>";
+    echo "</div>";
+    echo "<div class='stage-name'><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></div>";
+
     echo "</td>";
 
     // Rounds and Pools also get project totals.
@@ -415,8 +418,8 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     // Rounds also get page totals.
     if ( is_a( $stage, 'Round' ) )
     {
-        echo "<td>{$round_stats->curr_day_goal}</td>";
-        echo "<td>{$round_stats->curr_day_actual}</td>";
+        echo "<td class='pages-goal'>{$round_stats->curr_day_goal}</td>";
+        echo "<td class='pages-completed'>{$round_stats->curr_day_actual}</td>";
         echo "<td><div class='progressbar' style='background-color: $progress_bar_color; width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
     }
     else
