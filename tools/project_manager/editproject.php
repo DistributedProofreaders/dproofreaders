@@ -627,8 +627,8 @@ class ProjectInfoHolder
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize(html_entity_decode($this->nameofwork)))."',
-            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize(html_entity_decode($this->authorsname)))."',
+            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->nameofwork))."',
+            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->authorsname))."',
             language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
             genre          = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->genre)."',
             difficulty     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->difficulty_level)."',
@@ -641,7 +641,7 @@ class ProjectInfoHolder
             postednum      = $postednum_str,
             image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
             text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
-            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize(html_entity_decode($this->extra_credits)))."',
+            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->extra_credits))."',
             deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."'
         ";
         $pm_setter = '';
