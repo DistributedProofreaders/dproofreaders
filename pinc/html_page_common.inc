@@ -28,6 +28,7 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     echo "<!DOCTYPE html>\n"; // HTML 5
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta charset='$output_charset'>\n";
+    echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n";
 
     # iOS and Android icons
     echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";

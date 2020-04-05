@@ -23,9 +23,7 @@
 }
 
 #content-container {
-    &.left-statsbar, &.right-statsbar {
-        width: 74%;
-    }
+    width: 74%;
     &.left-statsbar {
         padding-right: 1em;
     }
@@ -42,6 +40,27 @@
     }
     &.right-statsbar {
         border-top-right-radius: 20px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #content-container {
+        &.left-statsbar, &.right-statsbar {
+            .full-width;
+        }
+    }
+
+    #statsbar {
+        display: block;
+        .full-width;
+        &.left-statsbar {
+            display: block;
+            order: 2;
+        }
+    }
+
+    #rounded-corner {
+        display: none;
     }
 }
 

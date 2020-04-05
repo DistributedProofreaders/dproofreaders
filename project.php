@@ -377,7 +377,7 @@ function do_blurb_box( $blurb )
     if ( is_null($blurb) ) return;
 
 //    echo "<br>";
-    echo "<table style='width: 630px; background-color: #DDDDDD;'>";
+    echo "<table style='width: 100%; max-width: 630px; background-color: #DDDDDD;'>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
     echo "</td></tr>";
@@ -400,7 +400,7 @@ function do_project_info_table()
     $round = get_Round_for_project_state($state);
     // Note that $round may be NULL;
 
-    echo "<table class='basic' style='width: 630px' id='project_info_table'>";
+    echo "<table class='basic' style='max-width: 630px' id='project_info_table'>";
 
     // -------------------------------------------------------------------------
     // The state of the project
@@ -1130,7 +1130,7 @@ function do_event_subscriptions()
 
     echo "<h2 id='event_subscriptions'>", _("Event Subscriptions"), "</h2>\n";
 
-    echo "<div style='margin-left:3em'>\n";
+    echo "<div>\n";
 
     $user_email_address = get_forum_email_address($pguser);
     echo "<p>";
@@ -1189,7 +1189,7 @@ function do_holds()
 
     echo "<h2 id='holds'>", _("Project Holds"), "</h2>\n";
 
-    echo "<div style='margin-left:3em'>\n";
+    echo "<div>\n";
 
     echo "<p>", _("Each <b>hold</b> is characterized by a project state, and prevents the project from undergoing an automatic state transition from that state:"), "</p>\n";
     echo "<ul>\n";
