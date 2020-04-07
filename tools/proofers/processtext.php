@@ -377,8 +377,7 @@ function attempt_to_save_as_done($ppage, $text_data, $and_do_another)
         . "</ul>\n"
         ;
 
-    slim_footer();
-
+    // Do not return to caller.
     exit;
 }
 
