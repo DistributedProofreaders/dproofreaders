@@ -357,7 +357,7 @@ function attempt_to_save_as_done($ppage, $text_data, $and_do_another)
     echo "<ul>\n"
         .   "<li>"
         .     sprintf(
-                _("Return to <a %s>the Project Page</a>"),
+                _("Return to the <a %s>project page</a>"),
                 "href='$code_url/project.php?id=$projectid' target='_top'"
               )
         .   "</li>\n"
@@ -370,7 +370,7 @@ function attempt_to_save_as_done($ppage, $text_data, $and_do_another)
         .   "</li>\n"
         .   "<li>"
         .     sprintf(
-                _("Return to <a %s>the Activity Hub</a>"),
+                _("Return to the <a %s>Activity Hub</a>."),
                 "href='$code_url/activity_hub.php' target='_top'"
               )
         .   "</li>\n"
