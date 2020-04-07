@@ -123,13 +123,13 @@ switch( $tbutton )
         break;
 
     case B_SAVE_AND_DO_ANOTHER:
-        attempt_to_save_as_done($ppage, $text_data, TRUE);
+        attempt_to_save_as_done($ppage, $text_data);
         $url = $ppage->url_for_do_another_page();
         metarefresh(1,$url,_("Save as 'Done' & Proofread Next Page"),_("Page Saved."));
         break;
 
     case B_SAVE_AND_QUIT:
-        attempt_to_save_as_done($ppage, $text_data, FALSE);
+        attempt_to_save_as_done($ppage, $text_data);
         leave_proofing_interface( _("Save as 'Done'") );
         break;
 
@@ -229,7 +229,7 @@ switch( $tbutton )
             $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
 
         // 2. Save the current page as done
-        attempt_to_save_as_done($ppage, $correct_text, TRUE);
+        attempt_to_save_as_done($ppage, $correct_text);
 
         // Redirect to the next available page
         $url = $ppage->url_for_do_another_page();
@@ -306,7 +306,7 @@ function leave_spellcheck_mode( $ppage )
     }
 }
 
-function attempt_to_save_as_done($ppage, $text_data, $and_do_another)
+function attempt_to_save_as_done($ppage, $text_data)
 // This is only an attempt, because a daily page limit might block the save,
 // or prevent further saves.
 // If there's a problem, this function does not return to the caller.
