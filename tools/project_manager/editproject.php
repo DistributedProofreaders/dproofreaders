@@ -627,21 +627,21 @@ class ProjectInfoHolder
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->nameofwork)."',
-            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->authorsname)."',
+            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->nameofwork))."',
+            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->authorsname))."',
             language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
             genre          = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->genre)."',
             difficulty     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->difficulty_level)."',
             special_code   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->special_code)."',
             clearance      = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->clearance)."',
-            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->comments)."',
+            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->comments))."',
             image_source   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_source)."',
             scannercredit  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->scannercredit)."',
             checkedoutby   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->checkedoutby)."',
             postednum      = $postednum_str,
             image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
             text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
-            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->extra_credits)."',
+            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->extra_credits))."',
             deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."'
         ";
         $pm_setter = '';
