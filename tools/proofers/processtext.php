@@ -311,9 +311,10 @@ function attempt_to_save_as_done($ppage, $text_data, $and_do_another)
 // or prevent further saves.
 // If there's a problem, this function does not return to the caller.
 {
-    global $code_url, $pguser, $projectid, $proj_state;
+    global $code_url, $pguser;
 
-    $round = get_Round_for_project_state($proj_state);
+    $projectid = $ppage->lpage->projectid;
+    $round = $ppage->lpage->round;
 
     list($saved, $dpl_reached) = $ppage->attemptSaveAsDone($text_data, $pguser);
 
