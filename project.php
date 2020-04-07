@@ -253,7 +253,6 @@ function decide_blurbs()
     // but we also want to produce a warning (when the project is covered by a DPL)
     // even when the user *isn't* blocked, which you can't really expect of that function.
     //
-    $blocked_by_limit_message = "";
     $page_limit_warning = "";
     if ($round->has_a_daily_page_limit())
     {
@@ -266,6 +265,7 @@ function decide_blurbs()
                 $round->id,
                 $round->daily_page_limit
             );
+            return array($blocked_by_limit_message, $blocked_by_limit_message);
         }
         elseif ($user_dpl_count >= 0.9 * $round->daily_page_limit)
         {
@@ -284,10 +284,6 @@ function decide_blurbs()
             // They're not that close to reaching the DPL,
             // so don't bother warning them about it.
         }
-    }
-    if ($blocked_by_limit_message)
-    {
-        return array($blocked_by_limit_message, $blocked_by_limit_message);
     }
 
     {
