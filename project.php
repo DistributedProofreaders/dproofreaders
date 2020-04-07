@@ -261,7 +261,7 @@ function decide_blurbs()
         {
             // User has reached this round's DPL.
             $msg = sprintf(
-                _("This project contributes to the '%s' limit of %d page-saves per day, and you have already reached that limit today."),
+                _('%1$s limits you to %2$d page-saves per day, and you have already reached that limit today.'),
                 $round->id,
                 $round->daily_page_limit
             );
@@ -273,9 +273,9 @@ function decide_blurbs()
             // User hasn't reached this round's DPL,
             // but they should be warned that there *is* a DPL for this round.
             $msg = sprintf(
-                _("This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
-                $round->id,
+                _('You may save up to %1$d pages in %2$s before server midnight. Your current count is <b>%3$d</b>.'),
                 $round->daily_page_limit,
+                $round->id,
                 $user_dpl_count
             );
             $page_limit_warning = "<br>\n<span class='warning'>$msg</span>\n";
