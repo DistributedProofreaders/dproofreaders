@@ -267,10 +267,10 @@ function decide_blurbs()
                 $round->daily_page_limit
             );
         }
-        else
+        elseif ($user_dpl_count >= 0.9 * $round->daily_page_limit)
         {
             // User hasn't reached this round's DPL,
-            // but they should be warned that there *is* a DPL for this round?
+            // but they should be warned that there *is* a DPL for this round.
             $msg = sprintf(
                 _("Warning: This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
                 $round->id,
@@ -278,6 +278,11 @@ function decide_blurbs()
                 $user_dpl_count
             );
             $page_limit_warning = "<br>\n$msg\n";
+        }
+        else
+        {
+            // They're not that close to reaching the DPL,
+            // so don't bother warning them about it.
         }
     }
     if ($blocked_by_limit_message)
