@@ -260,11 +260,12 @@ function decide_blurbs()
         if ($user_dpl_count >= $round->daily_page_limit)
         {
             // User has reached this round's DPL.
-            $blocked_by_limit_message = sprintf(
+            $msg = sprintf(
                 _("This project contributes to the '%s' limit of %d page-saves per day, and you have already reached that limit today."),
                 $round->id,
                 $round->daily_page_limit
             );
+            $blocked_by_limit_message = "<span class='warning'>$msg</span>";
             return array($blocked_by_limit_message, $blocked_by_limit_message);
         }
         elseif ($user_dpl_count >= 0.9 * $round->daily_page_limit)
@@ -272,12 +273,12 @@ function decide_blurbs()
             // User hasn't reached this round's DPL,
             // but they should be warned that there *is* a DPL for this round.
             $msg = sprintf(
-                _("Warning: This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
+                _("This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
                 $round->id,
                 $round->daily_page_limit,
                 $user_dpl_count
             );
-            $page_limit_warning = "<br>\n$msg\n";
+            $page_limit_warning = "<br>\n<span class='warning'>$msg</span>\n";
         }
         else
         {
