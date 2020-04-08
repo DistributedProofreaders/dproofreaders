@@ -304,7 +304,7 @@ class PPage
         
         echo "<p>"
             . sprintf(
-                _("You will not be allowed to save any more pages in %s until the next server midnight."),
+                _("You will be able to save more pages in %s after server midnight."),
                 $round->id
               )
             . "</p>\n";
