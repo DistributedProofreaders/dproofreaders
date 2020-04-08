@@ -11,6 +11,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -297,7 +298,7 @@ class LPage
     {
         if ($this->round->has_a_daily_page_limit())
         {
-            $pre_save_dpl_count = $this->round->get_dpl_count_for_user($pguser);
+            $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
             if ($pre_save_dpl_count >= $this->round->daily_page_limit)
                 // The user has already reached their limit of this kind of page.
                 return array(FALSE, TRUE);

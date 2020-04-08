@@ -22,6 +22,7 @@ include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
+include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -256,7 +257,7 @@ function decide_blurbs()
     $page_limit_warning = "";
     if ($round->has_a_daily_page_limit())
     {
-        $user_dpl_count = $round->get_dpl_count_for_user($pguser);
+        $user_dpl_count = get_dpl_count_for_user_in_round($pguser, $round);
         if ($user_dpl_count >= $round->daily_page_limit)
         {
             // User has reached this round's DPL.

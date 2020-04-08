@@ -187,20 +187,6 @@ class Round extends Stage
         return !is_null($this->daily_page_limit);
     }
 
-    // XXX This probably doesn't belong here, but I'm not sure where it does.
-    function get_dpl_count_for_user($username)
-    // The current "dpl count" for a user (in a given round)
-    // is the delta in their page-tally for that round
-    // since the last snapshot.
-    // (i.e., the net number of save-as-dones in that round today.)
-    {
-        $round_tallyboard = new TallyBoard($this->id, 'U');
-
-        $user = new User($username);
-
-        return $round_tallyboard->get_delta_since_latest_snapshot($user->u_id);
-    }
-
     // -----------
 
     function get_honorific_for_page_tally( $page_tally )
