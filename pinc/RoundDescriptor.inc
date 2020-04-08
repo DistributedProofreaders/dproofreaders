@@ -197,15 +197,8 @@ class Round extends Stage
         $round_tallyboard = new TallyBoard($this->id, 'U');
 
         $user = new User($username);
-        $u_id = $user->u_id;
 
-        $current_tally = $round_tallyboard->get_current_tally($u_id);
-        $snapshot_info = $round_tallyboard->get_info_from_latest_snapshot($u_id);
-        $latest_snapshot_tally = $snapshot_info['tally_value'];
-        $tally_delta_since_snapshot = $current_tally - $latest_snapshot_tally;
-        // (Alternatively, could extract it from the result of 'get_vitals')
-
-        return $tally_delta_since_snapshot;
+        return $round_tallyboard->get_delta_since_latest_snapshot($user->u_id);
     }
 
     // -----------
