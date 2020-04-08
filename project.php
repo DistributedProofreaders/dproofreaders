@@ -22,6 +22,7 @@ include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
+include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -248,6 +249,45 @@ function decide_blurbs()
     if ( $blurb )
         return array( $blurb, $blurb );
 
+    // Check whether the user is blocked by a daily page limit.
+    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // but we also want to produce a warning (when the project is covered by a DPL)
+    // even when the user *isn't* blocked, which you can't really expect of that function.
+    //
+    $page_limit_warning = "";
+    if ($round->has_a_daily_page_limit())
+    {
+        $user_dpl_count = get_dpl_count_for_user_in_round($pguser, $round);
+        if ($user_dpl_count >= $round->daily_page_limit)
+        {
+            // User has reached this round's DPL.
+            $msg = sprintf(
+                _('%1$s limits you to %2$d page-saves per day, and you have already reached that limit today.'),
+                $round->id,
+                $round->daily_page_limit
+            );
+            $blocked_by_limit_message = "<span class='warning'>$msg</span>";
+            return array($blocked_by_limit_message, $blocked_by_limit_message);
+        }
+        elseif ($user_dpl_count >= 0.9 * $round->daily_page_limit)
+        {
+            // User hasn't reached this round's DPL,
+            // but they should be warned that there *is* a DPL for this round.
+            $msg = sprintf(
+                _('You may save up to %1$d pages in %2$s before server midnight. Your current count is <b>%3$d</b>.'),
+                $round->daily_page_limit,
+                $round->id,
+                $user_dpl_count
+            );
+            $page_limit_warning = "<br>\n<span class='warning'>$msg</span>\n";
+        }
+        else
+        {
+            // They're not that close to reaching the DPL,
+            // so don't bother warning them about it.
+        }
+    }
+
     {
         // If there's any proofreading to be done, this is the link to use.
         $url = url_for_pi_do_whichever_page( $projectid, $state, TRUE );
@@ -271,6 +311,7 @@ function decide_blurbs()
 
         $bottom_blurb =
             $comments_last_modified_blurb
+            . $page_limit_warning
             . "<br>"
             . $proofreading_link;
 
@@ -319,6 +360,7 @@ function decide_blurbs()
                     $please_scroll_down
                     . "<br>"
                     . $comments_last_modified_blurb
+                    . $page_limit_warning
                     . "<br>"
                     . $proofreading_link;
             }

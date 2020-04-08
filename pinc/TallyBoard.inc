@@ -629,6 +629,14 @@ class TallyBoard
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+    function get_delta_since_latest_snapshot( $holder_id )
+    {
+        $current_tally = $this->get_current_tally($holder_id);
+        $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
+        $latest_snapshot_tally = $snapshot_info['tally_value'];
+        return ($current_tally - $latest_snapshot_tally);
+    }
+
     function get_vitals( $holder_id )
     // Return an object whose members are various useful quantities
     // from this tallyboard for the given holder.

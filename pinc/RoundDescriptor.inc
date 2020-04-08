@@ -53,6 +53,10 @@ class Round extends Stage
             // See pinc/ProofreadingToolbox.inc for which tools are avaialble
             // and their names.
 
+        $daily_page_limit,
+            // This is either NULL (indicating no daily page limit for this round)
+            // or a non-negative (though likely positive) integer.
+
         $other_rounds_with_visible_usernames,
             // An array of round_ids.
             // If user X worked on a page in this round, they can see the
@@ -87,6 +91,7 @@ class Round extends Stage
         $this->round_number       = $n_rounds;
 
         $this->pi_tools = $pi_tools;
+        $this->daily_page_limit = $daily_page_limit;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
@@ -174,6 +179,15 @@ class Round extends Stage
 
     function is_a_mentee_round() { return !is_null($this->mentor_round); }
     function is_a_mentor_round() { return !is_null($this->mentee_round); }
+
+    // -----------
+
+    function has_a_daily_page_limit()
+    {
+        return !is_null($this->daily_page_limit);
+    }
+
+    // -----------
 
     function get_honorific_for_page_tally( $page_tally )
     {
