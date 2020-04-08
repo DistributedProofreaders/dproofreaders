@@ -260,6 +260,84 @@ class PPage
 
     // -------------------------------------------------------------------------
 
+    function attempt_to_save_as_done($text_data)
+    // This is only an attempt, because a daily page limit might block the save,
+    // or prevent further saves.
+    // If there's a problem, this function does not return to the caller.
+    {
+        global $code_url, $pguser;
+
+        $projectid = $this->lpage->projectid;
+        $round = $this->lpage->round;
+
+        list($saved, $dpl_reached) = $this->attemptSaveAsDone($text_data, $pguser);
+
+        if (!$dpl_reached)
+        {
+            assert($saved);
+            return; // to let the caller do the appropriate normal thing
+        }
+
+        assert($dpl_reached);
+
+        if ($saved)
+        {
+            $title = _("Saved, but at limit");
+            $sentence = sprintf(
+                _("Your page has been saved as 'Done'. However, you have now reached the daily page limit for %s."),
+                $round->id
+            );
+        }
+        else
+        {
+            $this->saveAsInProgress($text_data, $pguser);
+            $title = _("Already at limit");
+            $sentence = sprintf(
+                _("Your page was saved as 'In Progress' rather than 'Done', because you have already reached the daily page limit for %s."),
+                $round->id
+            );
+        }
+
+        slim_header( $title );
+
+        echo "<p>$sentence</p>\n";
+        
+        echo "<p>"
+            . sprintf(
+                _("You will not be allowed to save any more pages in %s until the next server midnight."),
+                $round->id
+              )
+            . "</p>\n";
+
+        echo "<ul>\n"
+            .   "<li>"
+            .     sprintf(
+                    _("Return to the <a %s>project page</a>"),
+                    "href='$code_url/project.php?id=$projectid' target='_top'"
+                  )
+            .   "</li>\n"
+            .   "<li>"
+            .     sprintf(
+                    _("Return to <a %s>round %s</a>"),
+                    "href='round.php?round_id={$round->id}' target='_top'",
+                    $round->id
+                  )
+            .   "</li>\n"
+            .   "<li>"
+            .     sprintf(
+                    _("Return to the <a %s>Activity Hub</a>."),
+                    "href='$code_url/activity_hub.php' target='_top'"
+                  )
+            .   "</li>\n"
+            . "</ul>\n"
+            ;
+
+        // Do not return to caller.
+        exit;
+    }
+
+    // -------------------------------------------------------------------------
+
     // The remaining functions just delegate to $this->lpage...
 
     function revertToOriginal()

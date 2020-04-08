@@ -123,13 +123,13 @@ switch( $tbutton )
         break;
 
     case B_SAVE_AND_DO_ANOTHER:
-        attempt_to_save_as_done($ppage, $text_data);
+        $ppage->attempt_to_save_as_done($text_data);
         $url = $ppage->url_for_do_another_page();
         metarefresh(1,$url,_("Save as 'Done' & Proofread Next Page"),_("Page Saved."));
         break;
 
     case B_SAVE_AND_QUIT:
-        attempt_to_save_as_done($ppage, $text_data);
+        $ppage->attempt_to_save_as_done($text_data);
         leave_proofing_interface( _("Save as 'Done'") );
         break;
 
@@ -229,7 +229,7 @@ switch( $tbutton )
             $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
 
         // 2. Save the current page as done
-        attempt_to_save_as_done($ppage, $correct_text);
+        $ppage->attempt_to_save_as_done($correct_text);
 
         // Redirect to the next available page
         $url = $ppage->url_for_do_another_page();
@@ -304,82 +304,6 @@ function leave_spellcheck_mode( $ppage )
         // So generate the (normal-mode) image-and-text doc of the enh interface.
         echo_proof_frame($ppage);
     }
-}
-
-function attempt_to_save_as_done($ppage, $text_data)
-// This is only an attempt, because a daily page limit might block the save,
-// or prevent further saves.
-// If there's a problem, this function does not return to the caller.
-{
-    global $code_url, $pguser;
-
-    $projectid = $ppage->lpage->projectid;
-    $round = $ppage->lpage->round;
-
-    list($saved, $dpl_reached) = $ppage->attemptSaveAsDone($text_data, $pguser);
-
-    if (!$dpl_reached)
-    {
-        assert($saved);
-        return; // to let the caller do the appropriate normal thing
-    }
-
-    assert($dpl_reached);
-
-    if ($saved)
-    {
-        $title = _("Saved, but at limit");
-        $sentence = sprintf(
-            _("Your page has been saved as 'Done'. However, you have now reached the daily page limit for %s."),
-            $round->id
-        );
-    }
-    else
-    {
-        $ppage->saveAsInProgress($text_data, $pguser);
-        $title = _("Already at limit");
-        $sentence = sprintf(
-            _("Your page was saved as 'In Progress' rather than 'Done', because you have already reached the daily page limit for %s."),
-            $round->id
-        );
-    }
-
-    slim_header( $title );
-
-    echo "<p>$sentence</p>\n";
-    
-    echo "<p>"
-        . sprintf(
-            _("You will not be allowed to save any more pages in %s until the next server midnight."),
-            $round->id
-          )
-        . "</p>\n";
-
-    echo "<ul>\n"
-        .   "<li>"
-        .     sprintf(
-                _("Return to the <a %s>project page</a>"),
-                "href='$code_url/project.php?id=$projectid' target='_top'"
-              )
-        .   "</li>\n"
-        .   "<li>"
-        .     sprintf(
-                _("Return to <a %s>round %s</a>"),
-                "href='round.php?round_id={$round->id}' target='_top'",
-                $round->id
-              )
-        .   "</li>\n"
-        .   "<li>"
-        .     sprintf(
-                _("Return to the <a %s>Activity Hub</a>."),
-                "href='$code_url/activity_hub.php' target='_top'"
-              )
-        .   "</li>\n"
-        . "</ul>\n"
-        ;
-
-    // Do not return to caller.
-    exit;
 }
 
 function leave_proofing_interface( $title )
