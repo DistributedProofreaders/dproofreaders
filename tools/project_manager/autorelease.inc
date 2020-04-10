@@ -421,7 +421,7 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
+        // If an author is Anonymous, Unknown, or Various, we should allow 4 books by that 'Author'
         // Otherwise we only allow one book by the author to be available in this round
 
         // TODO: Add a flag to some queues that all have identical authors that allows
@@ -429,9 +429,9 @@ class ReleaseRestrictor
         // issues
 
         $authorsname = $project['authorsname'];
-        if ((($authorsname == 'Anonymous') && (@$this->this_round_authors[$authorsname] > 3)) ||
-            (($authorsname == 'Unknown') && (@$this->this_round_authors[$authorsname] > 3)) ||
-            (($authorsname == 'Various') && (@$this->this_round_authors[$authorsname] > 3)) ||
+        if ((($authorsname == 'Anonymous') && (@$this->this_round_authors[$authorsname] >= 4)) ||
+            (($authorsname == 'Unknown') && (@$this->this_round_authors[$authorsname] >= 4)) ||
+            (($authorsname == 'Various') && (@$this->this_round_authors[$authorsname] >= 4)) ||
             (array_key_exists($authorsname, $this->this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
         {
             echo "        Its author, $authorsname, already has a project(s) in this round.\n";
@@ -439,10 +439,10 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has more than 10 books already in this round, their books should be skipped
+        // If a PM has 11 or more books already in this round, their books should be skipped
 
         $pm = $project['username'];
-        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] > 10))
+        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] >= 11))
         {
             echo "        The PM, $pm, already has {$this->this_round_pms[$pm]} projects in this round.\n";
             return FALSE;
