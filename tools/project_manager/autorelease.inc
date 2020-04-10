@@ -421,8 +421,9 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If an author is Anonymous, Unknown, or Various, we should allow 4 books by that 'Author'
-        // Otherwise we only allow one book by the author to be available in this round
+        // Block the project's release if there are projects by its author available in this round.
+        // If the author is 'Anonymous', 'Unknown', or 'Various', we block when there are 4 or more
+        // by that author available, but otherwise, we block at even a single project by that author.
 
         // TODO: Add a flag to some queues that all have identical authors that allows
         // a queue-defined limit of identical authors - eg some of the periodicals that have short
@@ -439,7 +440,7 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has 13 or more books already in this round, their books should be skipped
+        // Block the project's release if its PM has 13 or more projects available in this round.
 
         $pm = $project['username'];
         if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] >= 13))
@@ -449,7 +450,8 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has had a book released in this execution of the script, pass over it until next time
+        // Block the project's release if its PM has already had a project released
+        // in the current execution of this script.
 
         if (array_key_exists($pm, $this->fresh_released_pms))
         {
