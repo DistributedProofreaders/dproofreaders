@@ -439,10 +439,10 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has 11 or more books already in this round, their books should be skipped
+        // If a PM has 13 or more books already in this round, their books should be skipped
 
         $pm = $project['username'];
-        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] >= 11))
+        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] >= 13))
         {
             echo "        The PM, $pm, already has {$this->this_round_pms[$pm]} projects in this round.\n";
             return FALSE;
