@@ -3,13 +3,21 @@ $relPath='./../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_("User Logon Statistics"));
-echo "<h1>" . _("User Logon Statistics") . "</h1>";
+$title = _("User Logon Statistics");
+output_header($title);
+echo "<h1>$title</h1>";
 
-echo "<img src=\"jpgraph_files/users_logging_on.php?past=day&amp;preceding=hour\"><br>";
-echo "<img src=\"jpgraph_files/users_logging_on.php?past=year&amp;preceding=hour\"><br>";
-echo "<img src=\"jpgraph_files/users_logging_on.php?past=year&amp;preceding=day\"><br>";
-echo "<img src=\"jpgraph_files/users_logging_on.php?past=year&amp;preceding=week\"><br>";
-echo "<img src=\"jpgraph_files/users_logging_on.php?past=year&amp;preceding=fourweek\"><br>";
+$images = [
+    "jpgraph_files/users_logging_on.php?past=day&amp;preceding=hour",
+    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=hour",
+    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=day",
+    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=week",
+    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=fourweek",
+];
+
+foreach($images as $image)
+{
+    echo "<img style='max-width: 100%' src='$image'><br>\n";
+}
 
 // vim: sw=4 ts=4 expandtab

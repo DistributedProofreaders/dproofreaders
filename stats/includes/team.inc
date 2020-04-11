@@ -433,7 +433,7 @@ function showTeamHistory($curTeam, $tally_name) {
 
     $t->row(
         "<p style='text-align: center;'>$choices_str</p>" .
-        "<p style='text-align: center;'><img src='$image_url' style='width: 600px; height: 300px;'></p>"
+        "<p style='text-align: center;'><img src='$image_url' style='max-width: 100%'></p>"
     );
 
     $t->end();
