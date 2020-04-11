@@ -2,8 +2,53 @@
 include_once('RoundDescriptor.inc'); // get_Round_for_round_number()
 include_once('wordcheck_engine.inc'); // get_file_info_object()
 include_once('links.inc'); // new_window_link()
+include_once('slim_header.inc'); // slim_header()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
+
+// Transition callback function to prevent a project state change if PQC
+// results return an error.
+function gate_on_pqc($projectid)
+{
+    global $code_url;
+
+    $results = get_pqc_test_results($projectid);
+
+    // loop thorugh results looking for errors
+    $found_error = FALSE;
+    foreach($results as $function => $test_result)
+    {
+        if($test_result["status"] == _("Error"))
+        {
+            $found_error = TRUE;
+            break;
+        }
+    }
+
+    if($found_error)
+    {
+        $title = _("Change Project State");
+        slim_header($title);
+        echo "<h1>$title</h1>";
+
+        echo "<p>";
+        echo sprintf(_("One or more errors were found when checking the project. Review the <a href='%s'>project quick check results</a>, address any problems found, and try the project transition again."), "$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid");
+        echo "</p>";
+
+        echo "<p>";
+        echo _("If you believe these results are incorrect, please contact db-req for assistance.");
+        echo "</p>";
+
+        echo "<p>";
+        echo sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid'");
+        echo "</p>";
+
+        echo "<h2>" . _("Project Quick Check Summary") . "</h2>";
+        show_pqc_result_summary($results, FALSE);
+
+        exit();
+    }
+}
 
 function show_pqc_result_summary($results, $output_links = True)
 {
@@ -463,7 +508,7 @@ function _test_project_for_bad_bytes($projectid)
     }
     else
     {
-        $r['status'] = _('Warning');
+        $r['status'] = _('Error');
         $r['summary'] = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
         $r['details'] = $details_for_this_project;
     }

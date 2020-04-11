@@ -7,6 +7,7 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
+include_once($relPath.'project_quick_check.inc'); // needed for gate_on_pqc() callable
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
@@ -96,12 +97,22 @@ if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
 
 if ( !empty($transition->detour) )
 {
-    // Detour (to collect data).
-    $title = _("Transferring...");
-    $body = "";
-    $refresh_url = prepare_url( $transition->detour );
-    metarefresh(2, $refresh_url, $title, $body);
-    exit;
+    // Detour (to collect data, etc)
+    if (is_callable($transition->detour))
+    {
+        $detour_function = $transition->detour;
+        $detour_function($projectid);
+        // detour function will either do it's thing and return here,
+        // or output content and exit
+    }
+    else
+    {
+        $title = _("Transferring...");
+        $body = "";
+        $refresh_url = prepare_url( $transition->detour );
+        metarefresh(2, $refresh_url, $title, $body);
+        exit;
+    }
 }
 
 // There's no detour, so we can proceed with the actual state-transition.
