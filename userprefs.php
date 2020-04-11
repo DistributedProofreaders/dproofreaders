@@ -308,7 +308,7 @@ function echo_general_tab() {
         _('Name'), 'real_name', 'name',
         $user->real_name,
         'textfield',
-        array( '20', 'required', '' )
+        array( '100%', 'required', '' )
         // About 98% of pgdp.net's users have length(real_name) <= 20
     );
     show_blank();
@@ -328,8 +328,7 @@ function echo_general_tab() {
         _('E-mail'), 'email', 'email',
         $user->email,
         'emailfield',
-        array( '26', 'required', $email_warning )
-        // About 92% of pgdp.net's users have length(email) <= 26
+        array( '100%', 'required', $email_warning )
     );
     show_preference(
         _('Interface Language'), 'u_intlang', 'intlang',
@@ -478,8 +477,7 @@ function echo_proofreading_tab() {
         _('Current Profile'), 'profilename', 'profilename',
         $userP['profilename'],
         'textfield',
-        array( '20', 'required', '' )
-        // About 99.96% of pgdp.net's user_profiles have length(profilename) <= 20
+        array( '100%', 'required', '' )
     );
     echo "<td colspan='2' class='center-align'>";
     // show all profiles
@@ -613,14 +611,14 @@ function echo_proofreading_tab() {
         $userP['v_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, 'required', _("% of 1000 pixels") )
+        array( '3em', 'required', _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, 'required', _("% of 1000 pixels") )
+        array( '3em', 'required', _("% of 1000 pixels") )
     );
     echo "</tr>\n";
 
@@ -630,14 +628,14 @@ function echo_proofreading_tab() {
         $userP['v_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, 'required', _("% of browser width") )
+        array( '3em', 'required', _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( 3, 'required', _("% of browser height") )
+        array( '3em', 'required', _("% of browser height") )
     );
     echo "</tr>\n";
 
@@ -661,13 +659,13 @@ function echo_proofreading_tab() {
         _('Number of Text Lines'), 'v_tlines', 'v_textlines',
         $userP['v_tlines'],
         'numberfield',
-        array( 3, 'required', "" )
+        array( '3em', 'required', "" )
     );
     show_preference(
         _('Number of Text Lines'), 'h_tlines', 'h_textlines',
         $userP['h_tlines'],
         'numberfield',
-        array( 3, 'required', "" )
+        array( '3em', 'required', "" )
     );
     echo "</tr>\n";
 
@@ -676,13 +674,13 @@ function echo_proofreading_tab() {
         _('Length of Text Lines'), 'v_tchars', 'v_textlength',
         $userP['v_tchars'],
         'numberfield',
-        array( 3, 'required', " "._("characters") )
+        array( '3em', 'required', " "._("characters") )
     );
     show_preference(
         _('Length of Text Lines'), 'h_tchars', 'h_textlength',
         $userP['h_tchars'],
         'numberfield',
-        array( 3, 'required', " "._("characters") )
+        array( '3em', 'required', " "._("characters") )
     );
     echo "</tr>\n";
 
@@ -1012,7 +1010,7 @@ function _show_radio_group( $field_name, $current_value, $options )
         {
             echo " CHECKED";
         }
-        echo ">$option_label&nbsp;&nbsp;";
+        echo ">&nbsp;$option_label &nbsp;";
     }
 }
 
@@ -1024,7 +1022,7 @@ function _show_text_input_field($field_type, $field_name, $current_value, $extra
         $min_attr = "min='1'";
     else
         $min_attr = "";
-    echo "<input type='$field_type' style='width: ${size}em' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
+    echo "<input type='$field_type' style='width: ${size}' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
 }
 
 function _show_textfield( $field_name, $current_value, $extras )
