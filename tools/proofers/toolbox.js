@@ -1,4 +1,7 @@
 /*global $ */
+/* exported openToolboxPopup */
+
+var openedToolboxPopups = [];
 
 $(function () {
     "use strict";
@@ -27,4 +30,17 @@ $(function () {
     if (pickerState && (pickerState === "hide")) {
         hidePicker();
     }
+
+    $(window).on("beforeunload", function () {
+        openedToolboxPopups.forEach(function (openedToolboxPopup) {
+            openedToolboxPopup.close();
+        });
+    });
 });
+
+function openToolboxPopup(url, width, height, name) {
+    var features = "width=" + width + ", height=" + height + ", directories=0, location=0, menubar=0, resizable, scrollbars, status=0, toolbar=0";
+    openedToolboxPopups.push(window.open(url, name, features));
+
+    return false;
+}
