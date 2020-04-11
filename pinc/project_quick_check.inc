@@ -1,11 +1,81 @@
 <?php
-include_once('stages.inc'); // $Round_for_round_id_
-include_once('wordcheck_engine.inc'); // $word_characters $puncCharacters get_file_info_object()
+include_once('RoundDescriptor.inc'); // get_Round_for_round_number()
+include_once('wordcheck_engine.inc'); // get_file_info_object()
 include_once('links.inc'); // new_window_link()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
-include_once('wordcheck_engine.inc');
 
+function show_pqc_result_summary($results, $output_links = True)
+{
+    echo "<table class='basic striped'>";
+    echo "<tr>";
+    echo "<th>" . _("Test") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
+    echo "<th>" . _("Summary") . "</th>";
+    echo "</tr>";
+    foreach($results as $function => $test_result)
+    {
+        echo "<tr>";
+        echo "<td>" . $test_result["name"] . "</td>";
+        echo "<td>";
+        if($output_links)
+            echo "<a href='#$function'>";
+        echo $test_result["status"];
+        if($output_links)
+            echo "</a>";
+        echo "</td>";
+        $css = get_css_for_pqc_status($test_result["status"]);
+        echo "<td $css>" . $test_result["summary"] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+
+function get_css_for_pqc_status($status)
+{
+    if($status == _("Warning"))
+        $css = "class='warning'";
+    elseif($status == _("Error"))
+        $css = "class='error'";
+    else
+        $css = '';
+    return $css;
+}
+
+function get_pqc_test_results($projectid)
+{
+    global $test_functions;
+
+    $result = array();
+    foreach($test_functions as $function)
+    {
+        $result[$function] = $function($projectid);
+    }
+    return $result;
+}
+
+// ---------------------------------------------------------------------------
+// Test functions
+
+// $test_functions, an array of function names, specifies the list of test
+// functions that will be applied to the project.
+//
+// Each test function:
+// - is declared later in this file
+// - by convention has a name that begins "_test_project_"
+// - is called with a single $projectid argument
+// - performs a particular kind of check on the given project
+// - returns an associative array of the form
+//    [
+//        "name" => $test_name,  # name of the test
+//        "description" => $test_desc,  # description of the test
+//        "status" => $status,  # overall result of the test
+//            # one of [ _("Success"), _("Warning"), _("Error"), _("Skipped") ]
+//        "summary" => $summary,  # result summary string (no HTML)
+//        "details" => $details,  # result details (can contain HTML)
+//    ]
+
+global $test_functions;
 $test_functions  = array(
     // Automatic tests
     "_test_project_has_all_page_images",
@@ -580,8 +650,5 @@ function _test_project_has_all_page_images($projectid)
         "details" => $details,
     );
 }
-
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab
