@@ -3,6 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
@@ -41,24 +42,25 @@ if ( !$transition->is_valid_for( $project, $pguser ) )
 
 if ($transition->why_disabled($project) == 'SR')
 {
-    $body = '<p>' . _("This function is disabled while the project is in the Smooth Reading Pool.")  . '</p>' .
-            '<p>' . _("If you believe this is an error, please contact db-req for assistance.")      . '</p>';
+    $body = _("This function is disabled while the project is in the Smooth Reading Pool.") . "<br>";
+            _("If you believe this is an error, please contact db-req for assistance.");
 
     fatal_error($body);
 }
 
 function fatal_error( $msg )
 {
-    global $projectid, $project, $curr_state, $next_state;
+    global $project, $curr_state, $next_state;
+
+    output_page_header();
 
     echo "<pre>\n";
     echo _("You requested:") . "\n";
-    echo "    projectid  = $projectid ($project->nameofwork)\n";
+    echo "    projectid  = $project->projectid ($project->nameofwork)\n";
     echo "    curr_state = $curr_state\n";
     echo "    next_state = $next_state\n";
-    echo "\n";
-    echo "$msg\n";
     echo "</pre>\n";
+    echo "<p class='error'>$msg</p>\n";
     exit;
 }
 
@@ -68,6 +70,8 @@ function fatal_error( $msg )
 // and we haven't just asked it, ask it now.
 if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
 {
+    output_page_header();
+
     echo "<p><b>" . _("Project ID") . ":</b> $projectid<br>\n";
     echo "<b>" . _("Title") . ":</b> {$project->nameofwork}<br>\n";
     echo "<b>" . _("Author") . ":</b> {$project->authorsname}</p>\n";
@@ -121,10 +125,7 @@ if ( !empty($transition->detour) )
                 _("Something went wrong, and your request ('%s') has probably not been carried out."), 
                 $transition->action_name
             )
-            . "\n"
-            . _("Error") . ":"
-            . "\n"
-            . $error_msg
+            . "<br>" . _("Error") . ": $error_msg"
         );
     }
 }
@@ -149,6 +150,13 @@ function prepare_url( $url_template )
     $url .= "{$connector}return_uri=$encoded_return_uri";
 
     return $url;
+}
+
+function output_page_header()
+{
+    $title = _("Change Project State");
+    slim_header($title);
+    echo "<h1>$title</h1>";
 }
 
 // vim: sw=4 ts=4 expandtab
