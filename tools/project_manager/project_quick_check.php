@@ -82,50 +82,20 @@ if (!$project->user_can_do_quick_check())
 
 // -----------------------------------------------------------------------------
 
-$results = array();
-foreach($test_functions as $function)
-{
-    $result[$function] = $function($projectid);
-}
+$results = get_pqc_test_results($projectid);
 
 echo "<h1>" . _("Result Summary") . "</h1>";
-echo "<table class='basic striped'>";
-echo "<tr>";
-echo "<th>" . _("Test") . "</th>";
-echo "<th>" . _("Status") . "</th>";
-echo "<th>" . _("Summary") . "</th>";
-echo "</tr>";
-foreach($test_functions as $function)
-{
-    echo "<tr>";
-    echo "<td>" . $result[$function]["name"] . "</td>";
-    echo "<td><a href='#$function'>" . $result[$function]["status"] . "</a></td>";
-    $css = get_css_for_status($result[$function]["status"]);
-    echo "<td $css>" . $result[$function]["summary"] . "</td>";
-    echo "</tr>";
-}
-echo "</table>";
+show_pqc_result_summary($results);
 
 echo "<h1>" . _("Result Details") . "</h1>";
-foreach($test_functions as $function)
+foreach($results as $function => $test_result)
 {
     echo "<a name='$function'></a>";
-    echo "<h2>" . $result[$function]["name"] . "</h2>";
-    $css = get_css_for_status($result[$function]["status"]);
-    echo "<p $css>" . sprintf(_("Status: %s"), $result[$function]["status"]) . "</p>";
-    echo "<p>" . $result[$function]["description"] . "</p>";
-    echo $result[$function]["details"];
-}
-
-function get_css_for_status($status)
-{
-    if($status == _("Warning"))
-        $css = "class='warning'";
-    elseif($status == _("Error"))
-        $css = "class='error'";
-    else
-        $css = '';
-    return $css;
+    echo "<h2>" . $test_result["name"] . "</h2>";
+    $css = get_css_for_pqc_status($test_result["status"]);
+    echo "<p $css>" . sprintf(_("Status: %s"), $test_result["status"]) . "</p>";
+    echo "<p>" . $test_result["description"] . "</p>";
+    echo $test_result["details"];
 }
 
 // vim: sw=4 ts=4 expandtab
