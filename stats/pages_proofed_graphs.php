@@ -12,11 +12,18 @@ $title = sprintf( _('Graphs for Pages Saved-as-Done in Round %s'), $tally_name )
 output_header($title);
 echo "<h1>$title</h1>";
 
-echo "<img src=\"jpgraph_files/pages_daily.php?tally_name=$tally_name&cori=increments&timeframe=curr_month\"><br>";
-echo "<img src=\"jpgraph_files/pages_daily.php?tally_name=$tally_name&cori=cumulative&timeframe=curr_month\"><br>";
-echo "<img src=\"jpgraph_files/pages_daily.php?tally_name=$tally_name&cori=increments&timeframe=prev_month\"><br>";
-echo "<img src=\"jpgraph_files/pages_daily.php?tally_name=$tally_name&cori=increments&timeframe=all_time\"><br>";
-echo "<img src=\"jpgraph_files/pages_daily.php?tally_name=$tally_name&cori=cumulative&timeframe=all_time\"><br>";
-echo "<img src=\"jpgraph_files/total_pages_by_month_graph.php?tally_name=$tally_name\"><br>";
+$images = [
+    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=curr_month",
+    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=cumulative&amp;timeframe=curr_month",
+    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=prev_month",
+    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=all_time",
+    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=cumulative&amp;timeframe=all_time",
+    "jpgraph_files/total_pages_by_month_graph.php?tally_name=$tally_name",
+];
+
+foreach($images as $image)
+{
+    echo "<img style='max-width: 100%' src='$image'></br>\n";
+}
 
 // vim: sw=4 ts=4 expandtab
