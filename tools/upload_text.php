@@ -334,16 +334,6 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
             {
                 throw new FileUploadException("failed to extract files");
             }
-            // extract any zips in smooth_dir
-            // there should not now be any but keep for compatibility for now
-            $zips = glob("$smooth_dir/*.zip");
-            foreach($zips as $zip)
-            {
-                if(!extract_zip_to($zip, $smooth_dir))
-                {
-                    throw new FileUploadException("failed to extract files");
-                }
-            }
             // if there is an overall directory move files up
             $top_files = glob("$smooth_dir/*");
             if((count($top_files) === 1) && is_dir($top_files[0]))
@@ -352,6 +342,17 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                 rename($top_files[0], $temp_dir);
                 // smooth_dir is now empty so we can rename to it
                 rename($temp_dir, $smooth_dir);
+            }
+            // extract any zips in smooth_dir and delete them
+            // there should not now be any but keep for compatibility for now
+            $zips = glob("$smooth_dir/*.zip");
+            foreach($zips as $zip)
+            {
+                if(!extract_zip_to($zip, $smooth_dir))
+                {
+                    throw new FileUploadException("failed to extract files");
+                }
+                unlink($zip);
             }
             // if there are htm or html files, zip them with images directory
             $files_to_zip = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
