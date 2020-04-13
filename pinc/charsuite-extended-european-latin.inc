@@ -29,9 +29,9 @@ $pickerset->add_subset(utf8_chr("\u011C"), [
 # L-O with diacriticals
 $pickerset->add_subset(utf8_chr("\u0139"), [
     [ 'U+0139', 'U+013b', 'U+013d', 'U+013f', 'U+0141', 'U+0143', 'U+0145',
-      'U+0147', 'U+0149', 'U+014a', 'U+014c', 'U+014e', 'U+0150', 'U+0152'  ],
+      'U+0147', 'U+014a', 'U+014c', 'U+014e', 'U+0150', 'U+0152'  ],
     [ 'U+013a', 'U+013c', 'U+013e', 'U+0140', 'U+0142', 'U+0144', 'U+0146',
-      'U+0148', 'U+014a', 'U+014b', 'U+014d', 'U+014f', 'U+0151', 'U+0153' ],
+      'U+0148', 'U+014b', 'U+014d', 'U+014f', 'U+0151', 'U+0153' ],
 ]);
 # R-T with diacriticals
 $pickerset->add_subset(utf8_chr("\u0154"), [
