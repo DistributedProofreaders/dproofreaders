@@ -713,7 +713,7 @@ function list_files_in_zip(string $file_path): array
 // If the output directory does not exist or is not a valid directory, an InvalidArgumentException is thrown.
 //
 // Returns whether the extraction was successful.
-function extract_zip_to(string $path_to_zip, string $output_directory): bool
+function extract_zip_to(string $path_to_zip, string $output_directory, bool $remove_top_dir = false): bool
 {
     if (!is_valid_zip_file($path_to_zip)) {
         throw new InvalidArgumentException(sprintf(
@@ -732,6 +732,30 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
     // No need to check the result of the function since it is checked in is_valid_zip_file
     $zip->open($path_to_zip);
 
+    if($remove_top_dir)
+    {
+        // find if there is a common prefix implying a common directory, remove it
+        $filenames = [];
+        $last_index = $zip->numFiles - 1;
+        for ($i = 0; $i <= $last_index; $i++)
+        {
+            $filenames[] = $zip->getNameIndex($i);
+        }
+        sort($filenames);
+        $prefix = $filenames[0];
+        if(endswith($prefix, "/") && startswith($filenames[$last_index], $prefix))
+        {
+            $prefix_len = strlen($prefix);
+            for ($i = 1; $i <= $last_index; $i++)
+            {
+                $zip->renameName($filenames[$i], substr($filenames[$i], $prefix_len));
+            }
+            $zip->deleteName($prefix);
+            // extract fails unless close and re-open
+            $zip->close();
+            $zip->open($path_to_zip);
+        }
+    }
     return $zip->extractTo($output_directory);
 }
 

@@ -10,7 +10,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
-include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file
+include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file, zip_check()
 
 detect_too_large();
 require_login();
@@ -330,25 +330,18 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
             {
                 throw new FileUploadException("Could not create smooth directory");
             }
-            if(!extract_zip_to($location, $smooth_dir))
+            // 3rd parameter removes an overall directory
+            if(!extract_zip_to($location, $smooth_dir, true))
             {
                 throw new FileUploadException("failed to extract files");
             }
-            // if there is an overall directory move files up
-            $top_files = glob("$smooth_dir/*");
-            if((count($top_files) === 1) && is_dir($top_files[0]))
-            {
-                $temp_dir = "$project->dir/temp";
-                rename($top_files[0], $temp_dir);
-                // smooth_dir is now empty so we can rename to it
-                rename($temp_dir, $smooth_dir);
-            }
+
             // extract any zips in smooth_dir and delete them
             // there should not now be any but keep for compatibility for now
             $zips = glob("$smooth_dir/*.zip");
             foreach($zips as $zip)
             {
-                if(!extract_zip_to($zip, $smooth_dir))
+                if(!extract_zip_to($zip, $smooth_dir, true))
                 {
                     throw new FileUploadException("failed to extract files");
                 }
