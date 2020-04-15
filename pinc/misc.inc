@@ -735,6 +735,46 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
     return $zip->extractTo($output_directory);
 }
 
+// If there is a common base directory remove it.
+// Use is_valid_zip_file() to check the zip file,
+// if it is not valid, throw an InvalidArgumentException.
+function remove_common_basedir_from_zip(string $path_to_zip)
+{
+    if (!is_valid_zip_file($path_to_zip))
+    {
+        throw new InvalidArgumentException(sprintf(
+            _("Argument '%1\$s' is not a valid zip file."),
+            $path_to_zip));
+    }
+
+    $zip = new ZipArchive();
+    $zip->open($path_to_zip);
+
+    $filenames = [];
+    $last_index = $zip->numFiles - 1;
+    for ($i = 0; $i <= $last_index; $i++)
+    {
+        $filenames[] = $zip->getNameIndex($i);
+    }
+
+    sort($filenames);
+
+    // If the first entry is a directory (ending in /) and the last entry
+    // starts with that directory, then all files in the archives are within
+    // the directory and we remove it from all files in the archive.
+    $basedir = $filenames[0];
+    if(endswith($basedir, "/") && startswith($filenames[$last_index], $basedir))
+    {
+        $basedir_len = strlen($basedir);
+        for ($i = 1; $i <= $last_index; $i++)
+        {
+            $zip->renameName($filenames[$i], substr($filenames[$i], $basedir_len));
+        }
+        $zip->deleteName($basedir);
+        $zip->close();
+    }
+}
+
 // Creates a zip archive containing the specified files.
 //
 // The first argument represents the files to add to the zip archive and globing is allowed.
