@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes()
+include_once($relPath.'misc.inc'); // attr_safe(), extract_zip_to(), return_bytes(), remove_common_basedir_from_zip()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file, zip_check()
 
@@ -330,8 +330,8 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
             {
                 throw new FileUploadException("Could not create smooth directory");
             }
-            // 3rd parameter removes an overall directory
-            if(!extract_zip_to($location, $smooth_dir, true))
+            remove_common_basedir_from_zip($location);
+            if(!extract_zip_to($location, $smooth_dir))
             {
                 throw new FileUploadException("failed to extract files");
             }
@@ -341,7 +341,8 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
             $zips = glob("$smooth_dir/*.zip");
             foreach($zips as $zip)
             {
-                if(!extract_zip_to($zip, $smooth_dir, true))
+                remove_common_basedir_from_zip($zip);
+                if(!extract_zip_to($zip, $smooth_dir))
                 {
                     throw new FileUploadException("failed to extract files");
                 }
