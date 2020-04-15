@@ -243,9 +243,13 @@ div.newsitem {
   padding: 0.75em;
   margin-left: 0.5em;
   margin-top: 1em;
+  overflow: auto;
 }
 div.newsitem p {
   margin: 0 0.5em 0.5em 0;
+}
+div.newsitem img {
+  max-width: 100%;
 }
 /* ------------------------------------------------------------------------ */
 /* Editing news items */
