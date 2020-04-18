@@ -44,8 +44,8 @@ $messages["P_macron2"] = array(
     "guideline" => "d_chars",
 );
 /*
-// The current unicode implementation does not support combining characters, so
-// don't instruct the user to use them.
+// The quizzes use Basic Latin & Extended European Latin character suites
+// which do not contain n-with-macron so don't instruct the user to use them.
 $messages["macron"] = array(
     "message_title" => _("Macron"),
     "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<kbd>a</kbd>' with a macron over it as <kbd>ā</kbd>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
@@ -82,7 +82,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("]>"), "case_
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("lustas"), "case_sensitive" => TRUE, "error" => "lustas");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("ai"), "case_sensitive" => TRUE, "error" => "ai");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("man "), "case_sensitive" => TRUE, "error" => "macronmissing");
-// Not using combining characters
+// Using diacritical markup
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[n=]", "[=x]", "ñ"), "case_sensitive" => TRUE, "error" => "P_macron");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("ma[=n]"), "case_sensitive" => TRUE, "error" => "P_macron2");
 /*
