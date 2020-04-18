@@ -95,7 +95,7 @@ function f1_access_change_email($user, $access_change)
     $message[] = "- " . _("If you don't know whether the question is a general question or specific to the project, start by asking in the Project Discussion.");
 
     $message[] = "- " . _("If you'd rather ask a question privately or would like more information on formatting in general, you can send a Private Message to one of our F2 Evaluators:") .
-        sprintf("\ncmspence (Carol): %1\$s\nor\nK7UQT (Lisa): %2\$s",
+        sprintf("\ncmspence (Carol): %1\$s\nK7UQT (Lisa): %2\$s",
             "https://www.pgdp.net/phpBB3/ucp.php?i=pm&mode=compose&u=69533",
             "https://www.pgdp.net/phpBB3/ucp.php?i=pm&mode=compose&u=24945");
 

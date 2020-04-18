@@ -421,17 +421,18 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
-        // Otherwise we only allow one book by the author to be available in this round
+        // Block the project's release if there are projects by its author available in this round.
+        // If the author is 'Anonymous', 'Unknown', or 'Various', we block when there are 4 or more
+        // by that author available, but otherwise, we block at even a single project by that author.
 
         // TODO: Add a flag to some queues that all have identical authors that allows
         // a queue-defined limit of identical authors - eg some of the periodicals that have short
         // issues
 
         $authorsname = $project['authorsname'];
-        if ((($authorsname == 'Anonymous') && (@$this->this_round_authors[$authorsname] > 3)) ||
-            (($authorsname == 'Unknown') && (@$this->this_round_authors[$authorsname] > 3)) ||
-            (($authorsname == 'Various') && (@$this->this_round_authors[$authorsname] > 3)) ||
+        if ((($authorsname == 'Anonymous') && (@$this->this_round_authors[$authorsname] >= 4)) ||
+            (($authorsname == 'Unknown') && (@$this->this_round_authors[$authorsname] >= 4)) ||
+            (($authorsname == 'Various') && (@$this->this_round_authors[$authorsname] >= 4)) ||
             (array_key_exists($authorsname, $this->this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
         {
             echo "        Its author, $authorsname, already has a project(s) in this round.\n";
@@ -439,17 +440,18 @@ class ReleaseRestrictor
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has more than 10 books already in this round, their books should be skipped
+        // Block the project's release if its PM has 13 or more projects available in this round.
 
         $pm = $project['username'];
-        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] > 10))
+        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] >= 13))
         {
             echo "        The PM, $pm, already has {$this->this_round_pms[$pm]} projects in this round.\n";
             return FALSE;
         }
 
         // ---------------------------------------------------------------------
-        // If a PM has had a book released in this execution of the script, pass over it until next time
+        // Block the project's release if its PM has already had a project released
+        // in the current execution of this script.
 
         if (array_key_exists($pm, $this->fresh_released_pms))
         {

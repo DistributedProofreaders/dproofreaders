@@ -7,9 +7,16 @@ $title=_("Miscellaneous User Statistics");
 output_header($title);
 echo "<h1>$title</h1>";
 
-echo "<img src=\"jpgraph_files/average_hour_users_logging_on.php\"><br>";
-echo "<img src=\"jpgraph_files/users_by_language.php\"><br>";
-echo "<img src=\"jpgraph_files/users_by_country.php\"><br>";
-echo "<img src=\"jpgraph_files/new_users.php?time_interval=month\"><br>";
+$images = [
+    "jpgraph_files/average_hour_users_logging_on.php",
+    "jpgraph_files/users_by_language.php",
+    "jpgraph_files/users_by_country.php",
+    "jpgraph_files/new_users.php?time_interval=month",
+];
+
+foreach($images as $image)
+{
+    echo "<img style='max-width: 100%' src='$image'><br>\n";
+}
 
 // vim: sw=4 ts=4 expandtab

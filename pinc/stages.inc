@@ -92,6 +92,7 @@ new Round(
         1 => '#FFF8DC', // cornsilk
     ),
     $pi_tools_for_P,
+    NULL, /* daily_page_limit */
     array(),
     array(
              0 => _('Novice'),
@@ -136,6 +137,7 @@ new Round(
         1 => '#FFF8DC', // cornsilk
     ),
     $pi_tools_for_P,
+    NULL, /* daily_page_limit */
     array( 'P1' ),
     array(
              0 => _('Precise Proofreader'),
@@ -180,6 +182,7 @@ new Round(
         1 => '#D8BFD8', // thistle
     ),
     $pi_tools_for_P,
+    NULL, /* daily_page_limit */
     array( 'P1', 'P2' ),
     array(
              0 => _('Specialist Proofreader'),
@@ -224,6 +227,7 @@ new Round(
         1 => '#FFF8DC', // cornsilk
     ),
     $pi_tools_for_F,
+    NULL, /* daily_page_limit */
     array(),
     array(
              0 => _('Formatting Neophyte'),
@@ -268,6 +272,7 @@ new Round(
         1 => '#D8BFD8', // thistle
     ),
     $pi_tools_for_F,
+    NULL, /* daily_page_limit */
     array( 'F1' ),
     array(
              0 => _('Refurbisher of Texts'),

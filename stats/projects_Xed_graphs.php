@@ -13,9 +13,17 @@ output_header($psd->graphs_title);
 
 echo "<h1>$psd->graphs_title</h1>";
 
-echo "<img src=\"jpgraph_files/curr_month_proj.php?which=$which\"><br>";
-echo "<img src=\"jpgraph_files/cumulative_month_proj.php?which=$which\"><br>";
-echo "<img src=\"jpgraph_files/total_proj_graph.php?which=$which\"><br>";
-echo "<img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=$which\"><br>";
+$images = [
+    "jpgraph_files/curr_month_proj.php?which=$which",
+    "jpgraph_files/cumulative_month_proj.php?which=$which",
+    "jpgraph_files/total_proj_graph.php?which=$which",
+    "jpgraph_files/cumulative_total_proj_graph.php?which=$which",
+];
+
+foreach($images as $image)
+{
+    echo "<img style='max-width: 100%' src='$image'><br>\n";
+}
+
 
 // vim: sw=4 ts=4 expandtab

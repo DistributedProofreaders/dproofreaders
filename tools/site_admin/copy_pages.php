@@ -41,7 +41,7 @@ $action = get_enumerated_param($_POST, 'action', 'showform', array('showform', '
 $page_name_handling = get_enumerated_param($_POST, 'page_name_handling', null, array('PRESERVE_PAGE_NAMES', 'RENUMBER_PAGES'), true);
 $transfer_notifications = get_integer_param($_POST, 'transfer_notifications', 0, 0, 1);
 $add_deletion_reason = get_integer_param($_POST, 'add_deletion_reason', 0, 0, 1);
-$merge_wordcheck_files = get_integer_param($_POST, 'merge_wordcheck_files', 0, 0, 1);
+$merge_wordcheck_data = get_integer_param($_POST, 'merge_wordcheck_data', 0, 0, 1);
 $repeat_project = get_enumerated_param($_POST, 'repeat_project', null, array('TO', 'FROM', 'NONE'), true);
 
 switch ($action)
@@ -49,24 +49,24 @@ switch ($action)
     case 'showform':
         display_form($projectid_, $from_image_, $page_name_handling, 
                      $transfer_notifications, $add_deletion_reason,
-                     $merge_wordcheck_files, $repeat_project, FALSE);
+                     $merge_wordcheck_data, $repeat_project, FALSE);
         break;
 
     case 'showagain':
         display_form($projectid_, $from_image_, $page_name_handling, 
                      $transfer_notifications, $add_deletion_reason,
-                     $merge_wordcheck_files, $repeat_project, TRUE);
+                     $merge_wordcheck_data, $repeat_project, TRUE);
         break;
 
     case 'check':
         do_stuff( $projectid_, $from_image_, $page_name_handling, 
                   $transfer_notifications, $add_deletion_reason, 
-                  $merge_wordcheck_files, TRUE );
+                  $merge_wordcheck_data, TRUE );
 
         echo "<form method='post'>\n";
         display_hiddens($projectid_, $from_image_, $page_name_handling, 
                         $transfer_notifications, $add_deletion_reason, 
-                        $merge_wordcheck_files);
+                        $merge_wordcheck_data);
         echo "\n<input type='hidden' name='action' value='docopy'>";
         echo "\n<input type='submit' name='submit_button' value='" . attr_safe(_("Do it")) ."'>";
         echo "\n</form>";
@@ -76,7 +76,7 @@ switch ($action)
     case 'docopy':
         do_stuff( $projectid_, $from_image_, $page_name_handling,
                   $transfer_notifications, $add_deletion_reason,
-                  $merge_wordcheck_files, FALSE );
+                  $merge_wordcheck_data, FALSE );
 
         echo "<hr>\n";
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
@@ -94,7 +94,7 @@ switch ($action)
 
         display_hiddens($projectid_, $from_image_, $page_name_handling, 
                         $transfer_notifications, $add_deletion_reason, 
-                        $merge_wordcheck_files);
+                        $merge_wordcheck_data);
         
         echo "<input type='hidden' name='action' value='showagain'>\n";
         echo "<input type='submit' name='submit_button' value='" . attr_safe(_("Again!")) . "'>\n";
@@ -110,7 +110,7 @@ switch ($action)
 
 function display_form($projectid_, $from_image_, $page_name_handling, 
                       $transfer_notifications, $add_deletion_reason, 
-                      $merge_wordcheck_files, $repeat_project, $repeating)
+                      $merge_wordcheck_data, $repeat_project, $repeating)
 {
     echo "<form method='post'>\n";
     echo "<table class='copy'>\n";
@@ -166,8 +166,8 @@ function display_form($projectid_, $from_image_, $page_name_handling,
         "transfer_notifications", $repeating, $transfer_notifications );
     do_radio_button_pair( _("Add deletion reason to source project:"),
         "add_deletion_reason", $repeating, $add_deletion_reason  );
-    do_radio_button_pair( _("Merge WordCheck files into destination project:"),
-        "merge_wordcheck_files", $repeating, $merge_wordcheck_files );
+    do_radio_button_pair( _("Merge WordCheck files and events into destination project:"),
+        "merge_wordcheck_data", $repeating, $merge_wordcheck_data );
 
     echo "<tr><td></td><td>";
     echo "<input type='hidden' name='action' value='check'>\n";
@@ -209,7 +209,7 @@ function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checke
 
 function display_hiddens($projectid_, $from_image_, $page_name_handling, 
                          $transfer_notifications, $add_deletion_reason,
-                         $merge_wordcheck_files)
+                         $merge_wordcheck_data)
 {
     echo "\n<input type='hidden' name='from_image_[lo]'        value='" . attr_safe($from_image_['lo']) . "'>";
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
@@ -218,12 +218,12 @@ function display_hiddens($projectid_, $from_image_, $page_name_handling,
     echo "\n<input type='hidden' name='page_name_handling'     value='" . attr_safe($page_name_handling) . "'>";
     echo "\n<input type='hidden' name='transfer_notifications' value='" . attr_safe($transfer_notifications) . "'>";
     echo "\n<input type='hidden' name='add_deletion_reason'    value='" . attr_safe($add_deletion_reason) . "'>";
-    echo "\n<input type='hidden' name='merge_wordcheck_files'  value='" . attr_safe($merge_wordcheck_files) . "'>";
+    echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . attr_safe($merge_wordcheck_data) . "'>";
 }
 
 function do_stuff( $projectid_, $from_image_, $page_name_handling, 
                    $transfer_notifications, $add_deletion_reason,
-                   $merge_wordcheck_files, 
+                   $merge_wordcheck_data,
                    $just_checking )
 {
     if ( is_null($projectid_) )
@@ -526,13 +526,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     echo "</li>\n";
 
     echo "<li>\n";
-    if ($merge_wordcheck_files) 
+    if ($merge_wordcheck_data)
     {
-        echo _("The WordCheck files from the source project WILL be merged into the destination project");
+        echo _("WordCheck files and events from the source project WILL be merged into the destination project");
     }
     else
     {
-        echo _("The WordCheck files WILL NOT be merged");
+        echo _("WordCheck files and events WILL NOT be merged");
     }
     echo "</li>\n";
     echo "</ul>\n";
@@ -686,62 +686,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         }
     }
 
-    if ($merge_wordcheck_files) {
-        echo "<p>" . _("Merging wordcheck files.") . "</p>\n";
+    if ($merge_wordcheck_data) {
+        echo "<p>" . _("Merging WordCheck files and events.") . "</p>\n";
         if ($for_real)
         {
-            merge_wordcheck_files($projectid_['from'], $projectid_['to']);
+            merge_project_wordcheck_data($projectid_['from'], $projectid_['to']);
         }
     }
-}
-
-function merge_wordcheck_files($from_id, $to_id)
-{
-    global $projects_dir;
-
-    // good words
-    $from_words = load_project_good_words( $from_id );
-    $to_words = load_project_good_words( $to_id );
-    $to_words = array_merge($to_words, $from_words);
-    save_project_good_words( $to_id, $to_words );
-
-    // crying out for some abstraction here?
-
-    // bad words
-    $from_words = load_project_bad_words( $from_id );
-    $to_words = load_project_bad_words( $to_id );
-    $to_words = array_merge($to_words, $from_words);
-    save_project_bad_words( $to_id, $to_words );
-
-    // suggestions
-    // the file format is complicated and may change
-    // so we take the sledgehammer approach, as suggested by cpeel...
-    $from_path = "$projects_dir/$from_id/good_word_suggestions.txt";
-    if ( !is_file($from_path) )
-    {
-        // The file does not exist.
-        // Treat that the same as if it existed and was empty.
-        $from_suggs = "";
-    }
-    else 
-    {
-        $from_suggs = file_get_contents($from_path);
-    }
-    $to_path = "$projects_dir/$to_id/good_word_suggestions.txt";
-    if ( !is_file($to_path) )
-    {
-        // The file does not exist.
-        // Treat that the same as if it existed and was empty.
-        $to_suggs =  "";
-    }
-    else 
-    {
-        $to_suggs = file_get_contents($to_path);
-    }
-    file_put_contents($to_path, $to_suggs . $from_suggs);
-    // we're assuming the projects are in unavailable or waiting, so there
-    // is going to be no need to put locks on the files or anything fancy
-
 }
 
 function str_max( & $arr )

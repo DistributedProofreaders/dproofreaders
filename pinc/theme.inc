@@ -56,7 +56,7 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
             // * A 25% width column with the stats bar in it
             // * A 1% column with the rounded corner
             // * A 74% width column for the main page content, and return.
-            echo "<div id='statsbar'>\n";
+            echo "<div id='statsbar' class='left-statsbar'>\n";
             html_statsbar($nameofpage);
             echo "</div>\n";
             echo "<div id='rounded-corner' class='left-statsbar'></div>\n";
@@ -1037,7 +1037,7 @@ function get_translated_graphic_or_text($directory, $image, $text)
     $dyn_url = get_dyn_image_url_for_file("$directory/$locale/$image");
 
     if($dyn_url)
-        return sprintf("<img src='$dyn_url' alt='%s'>", attr_safe($text));
+        return sprintf("<img style='max-width: 100%%' src='$dyn_url' alt='%s'>", attr_safe($text));
     else
         return $text;
 }

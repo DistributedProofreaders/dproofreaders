@@ -17,8 +17,7 @@ class PopupLink
 {
     public function __construct($label, $url, $window_name, $width, $height )
     {
-        $window_features = "width=$width, height=$height, directories=0, location=0, menubar=0, resizable, scrollbars, status=0, toolbar=0";
-        $js = "window.open('$url', '$window_name', '$window_features'); return false;";
+        $js = "return openToolboxPopup('$url', $width, $height, '$window_name');";
         $this->html = "<a href='#' class='nowrap' onClick=\"$js\"\n>$label</a>\n";
     }
 }

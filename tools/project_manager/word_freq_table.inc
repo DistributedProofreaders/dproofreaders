@@ -165,8 +165,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
 
     // now start processing the rows
     $freqCutoff = 100000;
-    $printLines = 1;
-    echo "<tbody id='${freqCutoff}_${instance}'>\n";
+    $printedTbody = false;
     $nextCutoff = array_pop($cutoffOptions);
     // print it out in a real-HTML table
     foreach($wordCount as $word => $freq) {
@@ -178,15 +177,19 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
                 $nextCutoff=array_pop($cutoffOptions);
             $freqCutoff=$nextCutoff;
 
-            echo "</tbody>\n";
+            if ($printedTbody) {
+                echo "</tbody>\n";
+                $printedTbody = false;
+            }
+        }
+
+        if (!$printedTbody) {
 
             // hide any span sections past our initialFreq
-            if($freqCutoff < $initialFreq) $printLines=0;
-
-            // start the new cutoff
             echo "<tbody id='${freqCutoff}_${instance}'";
-            if(!$printLines) echo " style='display: none;'";
+            if($freqCutoff < $initialFreq) echo " style='display: none;'";
             echo ">\n";
+            $printedTbody = true;
         }
 
         // start of the row

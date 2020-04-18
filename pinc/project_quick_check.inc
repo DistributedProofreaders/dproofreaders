@@ -1,12 +1,127 @@
 <?php
-include_once('stages.inc'); // $Round_for_round_id_
-include_once('wordcheck_engine.inc'); // $word_characters $puncCharacters get_file_info_object()
+include_once('RoundDescriptor.inc'); // get_Round_for_round_number()
+include_once('wordcheck_engine.inc'); // get_file_info_object()
 include_once('links.inc'); // new_window_link()
+include_once('slim_header.inc'); // slim_header()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
-include_once('wordcheck_engine.inc');
-include_once('image_check.inc');
+include_once('image_check.inc'); // get_image_size_error()
 
+// Transition callback function to prevent a project state change if PQC
+// results return an error.
+function gate_on_pqc($projectid)
+{
+    global $code_url;
+
+    $results = get_pqc_test_results($projectid);
+
+    // loop thorugh results looking for errors
+    $found_error = FALSE;
+    foreach($results as $function => $test_result)
+    {
+        if($test_result["status"] == _("Error"))
+        {
+            $found_error = TRUE;
+            break;
+        }
+    }
+
+    if($found_error)
+    {
+        $title = _("Change Project State");
+        slim_header($title);
+        echo "<h1>$title</h1>";
+
+        echo "<p>";
+        echo sprintf(_("One or more errors were found when checking the project. Review the <a href='%s'>project quick check results</a>, address any problems found, and try the project transition again."), "$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid");
+        echo "</p>";
+
+        echo "<p>";
+        echo _("If you believe these results are incorrect, please contact db-req for assistance.");
+        echo "</p>";
+
+        echo "<p>";
+        echo sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid'");
+        echo "</p>";
+
+        echo "<h2>" . _("Project Quick Check Summary") . "</h2>";
+        show_pqc_result_summary($results, FALSE);
+
+        exit();
+    }
+}
+
+function show_pqc_result_summary($results, $output_links = True)
+{
+    echo "<table class='basic striped'>";
+    echo "<tr>";
+    echo "<th>" . _("Test") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
+    echo "<th>" . _("Summary") . "</th>";
+    echo "</tr>";
+    foreach($results as $function => $test_result)
+    {
+        echo "<tr>";
+        echo "<td>" . $test_result["name"] . "</td>";
+        echo "<td>";
+        if($output_links)
+            echo "<a href='#$function'>";
+        echo $test_result["status"];
+        if($output_links)
+            echo "</a>";
+        echo "</td>";
+        $css = get_css_for_pqc_status($test_result["status"]);
+        echo "<td $css>" . $test_result["summary"] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+
+function get_css_for_pqc_status($status)
+{
+    if($status == _("Warning"))
+        $css = "class='warning'";
+    elseif($status == _("Error"))
+        $css = "class='error'";
+    else
+        $css = '';
+    return $css;
+}
+
+function get_pqc_test_results($projectid)
+{
+    global $test_functions;
+
+    $result = array();
+    foreach($test_functions as $function)
+    {
+        $result[$function] = $function($projectid);
+    }
+    return $result;
+}
+
+// ---------------------------------------------------------------------------
+// Test functions
+
+// $test_functions, an array of function names, specifies the list of test
+// functions that will be applied to the project.
+//
+// Each test function:
+// - is declared later in this file
+// - by convention has a name that begins "_test_project_"
+// - is called with a single $projectid argument
+// - performs a particular kind of check on the given project
+// - returns an associative array of the form
+//    [
+//        "name" => $test_name,  # name of the test
+//        "description" => $test_desc,  # description of the test
+//        "status" => $status,  # overall result of the test
+//            # one of [ _("Success"), _("Warning"), _("Error"), _("Skipped") ]
+//        "summary" => $summary,  # result summary string (no HTML)
+//        "details" => $details,  # result details (can contain HTML)
+//    ]
+
+global $test_functions;
 $test_functions  = array(
     // Automatic tests
     "_test_project_has_all_page_images",
@@ -404,7 +519,7 @@ function _test_project_for_bad_bytes($projectid)
     }
     else
     {
-        $r['status'] = _('Warning');
+        $r['status'] = _('Error');
         $r['summary'] = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
         $r['details'] = $details_for_this_project;
     }
@@ -616,8 +731,5 @@ function _test_project_has_all_page_images($projectid)
         "details" => $details,
     );
 }
-
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab

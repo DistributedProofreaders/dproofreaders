@@ -257,7 +257,7 @@ $img_url = "jpgraph_files/cumulative_total_proj_summary_graph.php";
 $alt_text = _("Total Projects Created, Proofread, Post-Processed and Posted");
 
 $table->row(
-    "<img src='$img_url' alt='" . attr_safe($alt_text) . "'>"
+    "<img style='max-width: 100%' src='$img_url' alt='" . attr_safe($alt_text) . "'>"
 );
 
 $table->end();
