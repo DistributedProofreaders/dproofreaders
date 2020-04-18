@@ -23,6 +23,7 @@ function echo_text_frame_std( $ppage )
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
+            "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
         ),
         "js_data" => get_preview_js_vars() . "
         function ldAll() {

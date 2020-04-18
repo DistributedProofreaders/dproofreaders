@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ previewDemo, makePreview, ieWarn */
+/* global $ previewDemo, makePreview, ieWarn MathJax */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -99,6 +99,9 @@ function initPrev() {
                 : "pre"
         );
         prevWin.innerHTML = preview.txtout;
+        if (preview.ok) {
+            MathJax.typeset([prevWin]);
+        }
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
         // if there are any issues the tags will be shown

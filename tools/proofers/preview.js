@@ -485,6 +485,49 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
     }
 
+    // check that math delimiters \[ \], \( \) are correctly matched
+    function checkMath() {
+        var mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+        var result;
+        var tag, openTag = null;
+        var openStart = 0;
+        while (true) {
+            result = mathRe.exec(txt);
+            if (null === result) {
+                // if there is a tag open mark it as an error
+                if (openTag) {
+                    reportIssue(openStart, 2, "noEndTag");
+                }
+                break;
+            }
+            tag = result[0].charAt(1);
+            // if no open tag and ( or [ set open else error
+            if (!openTag) {
+                if ((tag === '(') || (tag === '[')) {
+                    openTag = tag;
+                    openStart = result.index;
+                } else {
+                    reportIssue(result.index, 2, "noStartTag");
+                }
+            } else {
+                if (((openTag === '(') && (tag === ')')) || ((openTag === '[') && (tag === ']'))) {
+                    // correctly matched
+                    openTag = null;
+                } else if (((openTag === '(') && (tag === ']')) || ((openTag === '[') && (tag === ')'))) {
+                    // mismatched
+                    openTag = null;
+                    reportIssue(openStart, 2, "misMatchTag");
+                    reportIssue(result.index, 2, "misMatchTag");
+                } else {
+                    // a start tag of either sort follows a start tag
+                    reportIssue(openStart, 2, "noEndTag");
+                    openTag = tag;
+                    openStart = result.index;
+                }
+            }
+        }
+    }
+
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
@@ -566,12 +609,36 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         if (viewMode !== "show_tags") {
             colorString = colorString0 + '>$1</span>';
         }
-        // sub- and super-scripts
-        txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
-        txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
-        // single char superscript -  any char except {
-        // do not allow < incase it's a tag which would screw up
-        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + colorString);
+
+        function ssProcess(text) {
+            // sub- and super-scripts
+            text = text.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
+            text = text.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
+            // single char superscript -  any char except {
+            // do not allow < incase it's a tag which would screw up
+            return text.replace(/\^([^\{<])/g, '<span class="sup"' + colorString);
+        }
+
+        function superSub(text) {
+            // process sub- and super-scripts, excluding Latex markup
+            // find math start, assume correctly matched
+            var math_start_regex = /\\\[|\\\(/;
+            var math_end_regex = /\\\]|\\\)/;
+            var end_index;
+            var start_index = text.search(math_start_regex);
+            if(start_index < 0) { // none found
+                return ssProcess(text);
+            } else {
+                end_index = text.search(math_end_regex);
+                if(end_index < 0) { // shouldn't happen
+                    return text;
+                }
+                end_index += 2;
+                return ssProcess(text.slice(0, start_index)) + text.slice(start_index, end_index) + superSub(text.slice(end_index));
+            }
+        }
+
+        txt = superSub(txt);
     }
 
     // attempt to make an approximate representation of formatted text
@@ -1032,6 +1099,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         unRecog();
         checkTab();
         checkBlankLines();
+        checkMath();
         return (issueCount[1] === 0);
     }
 
