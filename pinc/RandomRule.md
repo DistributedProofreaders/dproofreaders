@@ -8,7 +8,7 @@ The rules are populated directly from the rendered HTML versions of the
 guidelines via the Manage Random Rules page off the Site Admin UI. There
 are two versions of HTML supported:
 
-* HTML from the `faq/proofreading_guidelines.php` and `faq/formatting-guidelines.php`
+* HTML from the `faq/proofreading_guidelines.php` and `faq/formatting_guidelines.php`
   pages within the code.
 * HTML from the [Proofreading Guidelines](https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines)
   and [Formatting Guidelines](https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines)
