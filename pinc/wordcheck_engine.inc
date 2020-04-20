@@ -153,6 +153,9 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
             get_bad_words_via_external_checker($input_words_w_freq, $languages);
         $acc->messages += $messages;
         $acc->add_bad_words($external_bad_words, WC_WORLD);
+
+        $acc->add_bad_words(
+            get_bad_words_with_diacritical_markup($input_words_w_freq), WC_WORLD);
     }
 
     // The site
@@ -310,7 +313,24 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     }
     unset($misspellings);
 
-    // Consider non-Latin-1 characters, which we represent with []-notations.
+    // Finally, only return words that were in our original set. This ensures
+    // that aspell hasn't parsed words differently than we did and we then
+    // return partial words that aren't actually in the list.
+    $finalMisspellings = array_intersect($finalMisspellings, array_keys($input_words_w_freq));
+
+    return array($finalMisspellings, $messages);
+}
+
+// Return all words containing diacritical markup
+// Arguments:
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
+//
+// Returns:
+//       -- an array of bad words
+//
+function get_bad_words_with_diacritical_markup($input_words_w_freq)
+{
+    // Consider words that contain diacritical markup via []-notation.
     // For example, consider the oe ligature, which we represent as "[oe]",
     // and the words "b[oe]uf" (which we want the word-checker to not flag),
     // and "b[oe]ut", a scanno for the former (which we do want flagged).
@@ -321,10 +341,6 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // don't see 'oe' and 'uf' (or 'ut') as words, and won't ever ask if 'oe' or
     // 'uf' (or 'ut') are misspelled.
     //
-    // Note that aspell appears to have no way to represent non-Latin-1
-    // characters, so there's no way to transform "b[oe]uf" into something
-    // (distinct from just "boeuf") that it understands.
-    //
     // So we give up on aspell being any help with such words, and instead put
     // the burden on site-level and project-level word lists.
     //
@@ -334,20 +350,16 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // and put those in a bad word list. Instead, we simply mark *all* words
     // containing non-Latin-1 characters as bad at the world-level.
     //
+    $bad_words = [];
     foreach($input_words_w_freq as $word => $freq)
     {
         if(str_contains($word, '['))
         {
-            $finalMisspellings[] = $word;
+            $bad_words[] = $word;
         }
     }
 
-    // Finally, only return words that were in our original set. This ensures
-    // that aspell hasn't parsed words differently than we did and we then
-    // return partial words that aren't actually in the list.
-    $finalMisspellings = array_intersect($finalMisspellings, array_keys($input_words_w_freq));
-
-    return array($finalMisspellings, $messages);
+    return($bad_words);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

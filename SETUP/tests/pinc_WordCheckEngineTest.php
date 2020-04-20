@@ -23,6 +23,8 @@ N̈oon
 
 Γreat
 
+b[oe]uf
+
 EOTEXT;
 
     protected function setUp()
@@ -80,6 +82,14 @@ EOTEXT;
         $this->assertEquals($words["words"], 1 * $array_size);
     }
 
+    public function testGetBadWordsWithDiacriticalMarkup()
+    {
+        $words = get_distinct_words_in_text($this->TEXT1);
+        $bad_words = get_bad_words_with_diacritical_markup($words);
+        $this->assertEquals(count($bad_words), 1);
+        $this->assertEquals($bad_words[0], "b[oe]uf");
+    }
+
     public function testGetBadWordsViaPattern()
     {
         $languages = [ "English" ];
@@ -106,8 +116,9 @@ EOTEXT;
             get_bad_words_for_text($this->TEXT1, $languages);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 3);
+        $this->assertEquals(count($bad_words), 4);
         $this->assertEquals($bad_words["Snelling"], WC_WORLD);
+        $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
         $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
@@ -118,7 +129,7 @@ EOTEXT;
 
         $word_lists = [
             "site_bad" => [ "disembarked" ],
-            "site_good" =>  [ "Snelling" ],
+            "site_good" =>  [ "Snelling", "b[oe]uf" ],
         ];
 
         list($input_words_w_freq, $bad_words, $messages) =
@@ -144,7 +155,8 @@ EOTEXT;
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 3);
+        $this->assertEquals(count($bad_words), 4);
+        $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["disembarked"], WC_PROJECT);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
         $this->assertEquals($bad_words["Γreat"], WC_SITE);
@@ -164,7 +176,8 @@ EOTEXT;
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 4);
+        $this->assertEquals(count($bad_words), 5);
+        $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["disembarked"], WC_SITE);
         $this->assertEquals($bad_words["opposite"], WC_PROJECT);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
@@ -183,7 +196,8 @@ EOTEXT;
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 2);
+        $this->assertEquals(count($bad_words), 3);
+        $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
         $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
