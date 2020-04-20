@@ -15,7 +15,7 @@ $mark = '[=:.`\\\\\'/v)(~,^\\\\\*]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
 // This is used when splitting a text into words.
-$char_pattern = "(?:\w|$bracketed_character_pattern)";
+$char_pattern = "(?:\w\pM*|$bracketed_character_pattern)";
 $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)

@@ -19,6 +19,8 @@ about the great transformation.
 
 a1l 1st 33rd
 
+N̈oon
+
 EOTEXT;
 
     protected function setUp()
@@ -33,6 +35,7 @@ EOTEXT;
         $words = get_all_words_in_text($this->TEXT1);
         $this->assertEquals($words[0], "Not");
         $this->assertEquals($words[89], "words");
+        $this->assertEquals($words[93], "N̈oon");
     }
 
     public function testGetAllWordsInTextWithOffsets()
