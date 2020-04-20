@@ -162,6 +162,9 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
         $acc->add_bad_words(
             get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
+
+        $acc->add_bad_words(
+            get_bad_words_with_multi_scripts($input_words_w_freq), WC_SITE);
     }
 
     // The project
@@ -339,6 +342,11 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
         }
     }
 
+    // Finally, only return words that were in our original set. This ensures
+    // that aspell hasn't parsed words differently than we did and we then
+    // return partial words that aren't actually in the list.
+    $finalMisspellings = array_intersect($finalMisspellings, array_keys($input_words_w_freq));
+
     return array($finalMisspellings, $messages);
 }
 
@@ -391,6 +399,31 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
     // placeholder for future patterns
 
     return $badWords;
+}
+
+// Return a list of "bad" words where characters within a word are not all
+// of the same Unicode script type. For instance, this detects words that
+// contain a mix of Latin and Cyrillic characters.
+// Arguments:
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
+//
+// Returns:
+//       -- an array of bad words
+//
+function get_bad_words_with_multi_scripts($input_words_w_freq)
+{
+    $bad_words = [];
+
+    foreach($input_words_w_freq as $word => $freq)
+    {
+        $scripts = utf8_string_scripts($word);
+        if(count(array_diff($scripts, ["Common", "Inherited"])) > 1)
+        {
+            $bad_words[] = $word;
+        }
+    }
+
+    return $bad_words;
 }
 
 // -----------------------------------------------------------------------------
