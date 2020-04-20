@@ -666,6 +666,9 @@ function get_normalize_page_text_changes($text, $projectid)
         $text = utf8_str_replace(utf8_bom(), '', $text);
     }
 
+    # normalize UTF-8 string
+    $text = utf8_normalize($text);
+
     $invalid_chars = get_invalid_characters($text, $project->get_valid_codepoints());
     if($invalid_chars)
     {
