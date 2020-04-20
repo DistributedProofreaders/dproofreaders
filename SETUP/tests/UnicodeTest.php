@@ -170,4 +170,18 @@ class UnicodeTests extends PHPUnit\Framework\TestCase
         $invalid_chars = get_invalid_characters($string, $this->a_to_z_codepoints);
         $this->assertEquals($chars, $invalid_chars);
     }
+
+    public function testUtf8CharScript()
+    {
+        $char = 'a';
+        $script = utf8_char_script($char);
+        $this->assertEquals('Latin', $script);
+    }
+
+    public function testUtf8StringScripts()
+    {
+        $string = 'a.';
+        $scripts = utf8_string_scripts($string);
+        $this->assertEquals(['Latin', 'Common'], $scripts);
+    }
 }

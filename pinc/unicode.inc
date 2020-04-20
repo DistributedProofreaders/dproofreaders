@@ -24,6 +24,46 @@ function utf8_combined_chr($codepoint)
     return implode('', array_map('utf8_chr', $codepoints));
 }
 
+# Given a character, return the Unicode script it belongs to
+function utf8_char_script($char)
+{
+    $enum = IntlChar::getIntPropertyValue($char, IntlChar::PROPERTY_SCRIPT);
+    return IntlChar::getPropertyValueName(IntlChar::PROPERTY_SCRIPT, $enum);
+}
+
+# Given a string, return an array of Unicode scripts used within the string.
+function utf8_string_scripts($string)
+{
+    $scripts = [];
+
+    // Reduce the string completely, or after 20 iterations in case PHP's
+    // PREG library doesn't have the complete set of Unicode scripts.
+    // Most strings will be through here in only as many Unicode scripts it
+    // contains, usually just one or two.
+    for($i = 0; $i < 20; $i++)
+    {
+        if(strlen($string) == 0)
+            break;
+
+        $char = utf8_substr($string, 0, 1);
+        $script_name = utf8_char_script($char);
+        $scripts[] = $script_name;
+        $string = preg_replace("/\p{".$script_name."}/u", "", $string);
+    }
+
+    // Fall back to character by character to make sure we have everything.
+    // Most cases will skip this.
+    if($string)
+    {
+        foreach(utf8_split($string) as $char)
+        {
+            $scripts[] = utf8_char_script($char);
+        }
+    }
+
+    return array_unique($scripts);
+}
+
 # Get codepoints that are not normalized.
 # Returns an associative array where the key is the nonnormalized codepoint
 # and the value is the normalized version. If all codepoints are normalized
