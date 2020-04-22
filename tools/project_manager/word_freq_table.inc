@@ -51,6 +51,11 @@ function get_cutoff_script($cutoffOptions,$instances) {
         }
         if(document.getElementById("freqCutoffValue")) document.getElementById("freqCutoffValue").value=newCutoff;
         document.getElementById("current_cutoff").innerHTML=newCutoff;
+
+        // set new value for forms so the value is persisted through actions
+        $('form input[name=freqCutoff').each(function (index, value) {
+            $(value).val(newCutoff);
+        });
         return false;
     }
 

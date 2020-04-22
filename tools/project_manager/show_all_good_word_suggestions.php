@@ -11,6 +11,9 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
+define("GOOD_WORD_LIST", "good_word_list");
+define("BAD_WORD_LIST", "bad_word_list");
+
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
@@ -37,6 +40,7 @@ $frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'lef
 
 if($frame=="update") {
     $newProjectWords=array();
+    $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
     foreach($_POST as $key => $val) {
         if(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
             $projectid=$matches[1];
@@ -48,9 +52,16 @@ if($frame=="update") {
     }
 
     foreach($newProjectWords as $projectid => $projectWords) {
-        $words = load_project_good_words($projectid);
+        $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
         $words = array_merge($words,$projectWords);
-        save_project_good_words($projectid,$words);
+        if ($destination_list == GOOD_WORD_LIST)
+        {
+            save_project_good_words($projectid,$words);
+        }
+        else
+        {
+            save_project_bad_words($projectid,$words);
+        }
     }
 
     $frame="left";
@@ -80,6 +91,7 @@ if($frame=="left") {
     $projects = _get_projects_for_pm($pm);
 
     $submitLabel = _("Add selected words to Good Words List");
+    $rejectLabel = _("Add selected words to Bad Words List");
 
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;
@@ -97,6 +109,7 @@ if($frame=="left") {
 
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
     echo "<input type='hidden' name='frame' value='left'>";
+    echo "<input type='hidden' name='freqCutoff' value='$freqCutoff'>";
     echo "<p>";
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
         echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
@@ -117,7 +130,7 @@ echo "</select>";
 echo "<br>";
 
 
-    echo "<input type='submit' value='Submit'></p>";
+    echo "<input type='submit' value='" . _("Submit") . "'></p>";
     echo "</form>";
 
     if($timeCutoff==-1)
@@ -139,6 +152,7 @@ echo "<br>";
     echo "<input type='hidden' name='frame' value='update'>";
     echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
     echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
+    echo "<input type='hidden' name='freqCutoff' value='$freqCutoff'>";
 
     $projectsNeedingAttention=0;
     // loop through the projects
@@ -187,7 +201,8 @@ echo "<br>";
 
         printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurrences,$context_array),$word_checkbox);
 
-        echo "<p><input type='submit' value='$submitLabel'></p>";
+        echo "<p><input type='submit' name='" . GOOD_WORD_LIST . "' value='$submitLabel'>";
+        echo "<input style='margin-left: 5px' type='submit' name='" . BAD_WORD_LIST . "' value='$rejectLabel'></p>";
     }
 
     if($projectsNeedingAttention==0) {
