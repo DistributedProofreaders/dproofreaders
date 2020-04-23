@@ -9,6 +9,7 @@ Scripts supporting this upgrade are in `SETUP/upgrade/14`
 
 * **Unicode support** - the site is now fully UTF-8 compatible. See
   [UNICODE.md](UNICODE.md) for more information on what this means for you.
+* Support jpgraph version 4.3.0 (cpeel)
 
 
 ## R202002
