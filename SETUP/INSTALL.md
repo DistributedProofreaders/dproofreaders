@@ -53,8 +53,10 @@ change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ### jpgraph
 [jpgraph](http://jpgraph.net) versions 4.0.2, 4.1.0, 4.2.0, and 4.3.0 will
-all work. For versions < 4.3.0 it is recommended to apply the included patch
-(4.0.2 patch will work with 4.1.0 and 4.2.0). Version 4.3.0 is recommended.
+all work. Version 4.3.0 is recommended.
+
+To enable graph caching, apply `jpgraph-4.0.2.patch` (4.0.2 patch will work
+with all versions above).
 
 ## Distro support
 These middleware components match the following major distribution releases:
@@ -121,7 +123,7 @@ If you want to localize the site messages, install gettext and xgettext.
 ### Install jpgraph
 The statistics code depends on jpgraph for graph generation.
 Follow the installation instructions included with jpgraph.
-If using a version < 4.3.0, apply `jpgraph-4.0.2.patch`.
+Apply `jpgraph-4.0.2.patch` (will work with all 4.x versions).
 
 The simplest place to install jpgraph is in your document root.
 You will need the location of the jpgraph installation to put into the
