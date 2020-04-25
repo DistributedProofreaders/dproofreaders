@@ -11,65 +11,64 @@ $OPERATIONS = [
     'verify' => 'verify_file_for_table',
     'update' => 'update_file_for_table'
 ];
-$OPERATION_NAMES = implode(', ', array_keys($OPERATIONS));
 
-$DEFAULT_DIRECTORY_PATH = "$relPath/../SETUP/dbdocs/";
+$DEFAULT_DIRECTORY_PATH = realpath("$relPath/../SETUP/dbdocs/");
 
 $ADDITIONAL_TABLE_NAMES = [ 'projectIDxxxxxxxxxxxxx' ];
 
-// First is the script name, the second is the operation name
-$number_of_arguments = $argc - 2;
+list($operation_name, $table_name, $directory_path) =
+    get_arguments(array_keys($OPERATIONS), $DEFAULT_DIRECTORY_PATH);
 
-if ($number_of_arguments < 1) {
-    echo "No operation was chosen.\n";
-    echo "Supported operations are: $OPERATION_NAMES\n";
-
-    exit(1);
+if ($table_name === 'all') {
+    run_operation_for_all_tables($directory_path, $OPERATIONS[$operation_name]);
 }
-elseif ($number_of_arguments > 2) {
-    $operation_names = implode(', ', array_keys($OPERATIONS));
-
-    echo "Too many arguments given.\n";
-    echo "Supported syntax is: <operation> <table_name or all> [directory_path]\n";
-    echo "Supported operations are: $OPERATION_NAMES\n";
-
-    exit(1);
+else {
+    $OPERATIONS[$operation_name]($table_name, "$directory_path/$table_name.md", $table_name);
 }
 
-$operation_name = $argv[1];
-$directory_path = '';
-$table_name = '';
 
-// <operation> <table_name or all>
-if ($number_of_arguments == 1) {
-    $table_name = $argv[2];
-    $directory_path = $DEFAULT_DIRECTORY_PATH;
-}
-// <operation> <table_name or all> <directory_path>
-elseif ($number_of_arguments == 2) {
-    $table_name = $argv[2];
-    $directory_path = $argv[3];
-}
+/**
+ * Return a validated set of command line arguments
+ *
+ * @param array $operations the set of valid operations
+ * @param string $default_dir_path the default directory path
+ */
+function get_arguments(array $operations, string $default_dir_path): array {
+    global $argv;
 
-if (array_key_exists($operation_name, $OPERATIONS)) {
-    if (!is_dir($directory_path)) {
-        echo "File path '$directory_path' does not exist or is not a directory.\n";
+    try {
+        $program_name = array_shift($argv);
+        if(!$argv)
+            throw new InvalidArgumentException("No operation specified.");
 
+        $operation = array_shift($argv);
+        if(!in_array($operation, $operations))
+            throw new InvalidArgumentException("Invalid operation.");
+
+        if(!$argv)
+            throw new InvalidArgumentException("No table name, or 'all', specified.");
+        $table = array_shift($argv);
+
+        if(!$argv)
+            $directory = $default_dir_path;
+        else
+            $directory = array_shift($argv);
+        if(!is_dir($directory))
+            throw new InvalidArgumentException("$directory does not exist or is not a directory.");
+
+        if($argv)
+            throw new InvalidArgumentException("Found unexpected arguments.");
+    } catch (Exception $e) {
+        echo "ERROR: " . $e->getMessage() . "\n";
+        echo "Usage: $program_name operation table [directory]\n";
+        echo "    operation - operation to perform, one of: " . implode(", ", $operations) . "\n";
+        echo "    table     - table to operate against, or 'all' for all tables\n";
+        echo "    directory - directory to use; default: $default_dir_path\n";
+        echo "\n";
         exit(1);
     }
 
-    if ($table_name === 'all') {
-        run_operation_for_all_tables($directory_path, $OPERATIONS[$operation_name]);
-    }
-    else {
-        $OPERATIONS[$operation_name]($table_name, "$directory_path/$table_name.md", $table_name);
-    }
-}
-else {
-    echo "Invalid operation '{$operation_name}'\n";
-    echo "Supported operations are: $OPERATION_NAMES\n";
-
-    exit(1);
+    return [ $operation, $table, $directory ];
 }
 
 // ---------- All tables operation functions ----------
