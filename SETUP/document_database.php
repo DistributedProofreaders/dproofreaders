@@ -217,7 +217,7 @@ function query_columns_for_table(string $table_name): array {
     $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
 
     if (!$result) {
-        echo "Failed to fetch column information for table '$table_name'.";
+        echo "Failed to fetch column information for table '$table_name'.\n";
         exit(1);
     }
 
