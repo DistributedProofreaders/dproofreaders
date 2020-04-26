@@ -10,6 +10,7 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
+define("REJECT_SUGGESTIONS", "reject_suggestions");
 $datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
@@ -37,9 +38,27 @@ $format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file'
 if($format=="update") {
     $postedWords = parse_posted_words($_POST);
 
-    $words = load_project_good_words($projectid);
-    $words = array_merge($words,$postedWords);
-    save_project_good_words($projectid,$words);
+    $is_reject = isset($_POST[REJECT_SUGGESTIONS]);
+    $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
+
+    if ($is_reject)
+    {
+        $postedWords = array();
+    }
+
+    if ($destination_list == GOOD_WORD_LIST)
+    {
+        $words = load_project_good_words($projectid);
+        $words = array_merge($words,$postedWords);
+        save_project_good_words($projectid,$words);
+    }
+    else
+    {
+        var_dump("bad word list");
+        $words = load_project_bad_words($projectid);
+        $words = array_merge($words,$postedWords);
+        save_project_bad_words($projectid,$words);
+    }
 
     $format="html";
 }
@@ -151,6 +170,7 @@ echo_download_text( $projectid, $format, "timeCutoff=$timeCutoff" );
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
 $submit_label=_("Add selected words to Good Words List");
+$reject_label = _("Add selected words to Bad Words List");
 
 $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
@@ -179,11 +199,13 @@ if($roundsWithData>1) {
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
     echo_checkbox_selects(count($all_suggestions_w_freq),'all');
-    echo_checkbox_form_submit($submit_label);
+    echo_checkbox_form_submit($submit_label, GOOD_WORD_LIST);
+    echo_checkbox_form_submit($reject_label, BAD_WORD_LIST);
 
     printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurrences,$context_array), $word_checkbox);
 
-    echo_checkbox_form_submit($submit_label);
+    echo_checkbox_form_submit($submit_label, GOOD_WORD_LIST);
+    echo_checkbox_form_submit($reject_label, BAD_WORD_LIST);
 }
 
 // now per round
@@ -204,6 +226,8 @@ foreach($rounds as $round) {
     echo "<h2>$round_string</h2>";
     echo "<p>$page_num_string</p>";
 
+    echo "<input type='submit' value='" . _("Reject all suggestions") . "' name='". REJECT_SUGGESTIONS . "'>";
+
     if(count($round_suggestions_w_freq[$round])==0)
     {
         echo "<p>" . _("None of the suggested words remain in the saved text for this round.") . "</p>";
@@ -212,11 +236,13 @@ foreach($rounds as $round) {
 
     $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
     echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
-    echo_checkbox_form_submit($submit_label);
+    echo_checkbox_form_submit($submit_label, GOOD_WORD_LIST);
+    echo_checkbox_form_submit($reject_label, BAD_WORD_LIST);
 
     printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurrences[$round],$context_array),$word_checkbox );
 
-    echo_checkbox_form_submit($submit_label);
+    echo_checkbox_form_submit($submit_label, GOOD_WORD_LIST);
+    echo_checkbox_form_submit($reject_label, BAD_WORD_LIST);
 }
 
 echo_checkbox_form_end();

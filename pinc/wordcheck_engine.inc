@@ -10,7 +10,7 @@ include_once($relPath.'misc.inc'); // str_contains, array_get
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$word_letters = "a-zA-ZÀ-ÖØ-öø-ÿ";
+$word_letters = "a-zA-Zï¿½-ï¿½ï¿½-ï¿½ï¿½-ï¿½";
 $word_characters = "0-9$word_letters";
 
 // Handle dp-specific notation for non-Latin-1 characters
@@ -30,7 +30,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
-$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¦ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 // -----------------------------------------------------------------------------
 
@@ -777,17 +777,6 @@ function save_word_list($path, $words)
     // needed for the array == array comparison below
     $words = array_values($words);
 
-    // see if list has changed before saving it
-    $oldWords = load_word_list($path);
-
-    // if no change was made, return Success
-    // without modifying file
-    if($words == $oldWords)
-    {
-        return "Success";
-    }
-
-
     // now open the file
     $fh = @fopen($path, "w");
 
@@ -804,6 +793,7 @@ function save_word_list($path, $words)
         // skip any blank words
         if ($word == "") continue;
 
+        var_dump($word);
         fputs($fh, "$word\r\n");
     }
     fclose($fh);

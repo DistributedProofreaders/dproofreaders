@@ -107,11 +107,11 @@ $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
 echo_checkbox_selects(count($bad_words_w_freq));
 echo_checkbox_form_start($checkbox_form);
-echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
+echo_checkbox_form_submit(_("Add selected words to Bad Words List"), BAD_WORD_LIST);
 
 printTableFrequencies($initialFreq,$cutoffOptions,$bad_words_w_freq,$instances--,$context_array,$word_checkbox);
 
-echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
+echo_checkbox_form_submit(_("Add selected words to Bad Words List"), BAD_WORD_LIST);
 echo_checkbox_form_end();
 
 

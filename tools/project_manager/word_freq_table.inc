@@ -6,6 +6,9 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'faq.inc');
 
+define("GOOD_WORD_LIST", "good_word_list");
+define("BAD_WORD_LIST", "bad_word_list");
+
 // get_cutoff_string
 // Arguments:
 //   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
@@ -423,8 +426,8 @@ function echo_checkbox_form_start($checkbox_form) {
     }
 }
 
-function echo_checkbox_form_submit($submit_label) {
-    echo "<input type='submit' value='$submit_label'>";
+function echo_checkbox_form_submit($submit_label, $name) {
+    echo "<input type='submit' value='$submit_label' name='$name' style='margin-right: 5px'>";
 }
 
 function echo_checkbox_form_end() {

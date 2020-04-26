@@ -11,9 +11,6 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-define("GOOD_WORD_LIST", "good_word_list");
-define("BAD_WORD_LIST", "bad_word_list");
-
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
