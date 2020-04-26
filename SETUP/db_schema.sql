@@ -373,7 +373,7 @@ CREATE TABLE `queue_defns` (
   `round_id` char(2) NOT NULL default '',
   `ordering` mediumint(5) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
-  `name` varchar(30) NOT NULL default '',
+  `name` varchar(64) NOT NULL default '',
   `project_selector` text NOT NULL,
   `release_criterion` text NOT NULL,
   `comment` text,
