@@ -5,6 +5,7 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'TableDocumentation.inc');
+include_once($relPath.'DPage.inc'); // project_allow_pages()
 
 $OPERATIONS = [
     'generate' => 'generate_file_for_table',
@@ -14,10 +15,14 @@ $OPERATIONS = [
 
 $DEFAULT_DIRECTORY_PATH = realpath("$relPath/../SETUP/dbdocs/");
 
-$ADDITIONAL_TABLE_NAMES = [ 'projectIDxxxxxxxxxxxxx' ];
+$PROJECT_TEMPLATE_TABLE = 'projectIDxxxxxxxxxxxxx';
+
+$ADDITIONAL_TABLE_NAMES = [ $PROJECT_TEMPLATE_TABLE ];
 
 list($operation_name, $table_name, $directory_path) =
     get_arguments(array_keys($OPERATIONS), $DEFAULT_DIRECTORY_PATH);
+
+prepare_project_template_table();
 
 if ($table_name === 'all') {
     run_operation_for_all_tables($directory_path, $OPERATIONS[$operation_name]);
@@ -244,4 +249,18 @@ function get_table_names_to_document(): array {
     }
 
     return array_merge($table_names, $ADDITIONAL_TABLE_NAMES);
+}
+
+/**
+ * Prepares the projectIDxxxxxxxxxxxxx table
+ */
+function prepare_project_template_table() {
+    global $PROJECT_TEMPLATE_TABLE;
+
+    // attempt to delete an existing table but continue of it doesn't exist
+    $sql = "DROP TABLE $PROJECT_TEMPLATE_TABLE";
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+
+    // now create a new one
+    project_allow_pages($PROJECT_TEMPLATE_TABLE);
 }
