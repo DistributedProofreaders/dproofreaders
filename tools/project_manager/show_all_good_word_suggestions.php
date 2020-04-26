@@ -37,9 +37,14 @@ $frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'lef
 
 if($frame=="update") {
     $newProjectWords=array();
+    $rejectProject = false;
     $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
     foreach($_POST as $key => $val) {
-        if(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
+        if(preg_match("/" . REJECT_SUGGESTIONS . "_(projectID[0-9a-f]{13})/", $key, $matches))
+        {
+            $rejectProject = $matches[1];
+        }
+        elseif(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
             $projectid=$matches[1];
             $word=decode_word($val);
             if(!is_array(@$newProjectWords[$projectid]))
@@ -48,16 +53,24 @@ if($frame=="update") {
         }
     }
 
-    foreach($newProjectWords as $projectid => $projectWords) {
-        $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
-        $words = array_merge($words,$projectWords);
-        if ($destination_list == GOOD_WORD_LIST)
-        {
-            save_project_good_words($projectid,$words);
-        }
-        else
-        {
-            save_project_bad_words($projectid,$words);
+    if ($rejectProject)
+    {
+        $words = load_project_good_words($rejectProject);
+        save_project_good_words($rejectProject, $words);
+    }
+    else
+    {
+        foreach($newProjectWords as $projectid => $projectWords) {
+            $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
+            $words = array_merge($words,$projectWords);
+            if ($destination_list == GOOD_WORD_LIST)
+            {
+                save_project_good_words($projectid,$words);
+            }
+            else
+            {
+                save_project_bad_words($projectid,$words);
+            }
         }
     }
 
@@ -87,6 +100,7 @@ if($frame=="left") {
     // get all projects for this PM
     $projects = _get_projects_for_pm($pm);
 
+    $rejectAlllabel = _("Reject all suggestions");
     $submitLabel = _("Add selected words to Good Words List");
     $rejectLabel = _("Add selected words to Bad Words List");
 
@@ -180,6 +194,8 @@ echo "<br>";
         echo "<hr>";
         echo "<h3>$projectname</h3>";
         echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
+
+        echo "<input type='submit' name='" . REJECT_SUGGESTIONS . "_" . $projectid . "' value='$rejectAlllabel'>";
 
         echo_checkbox_selects(count($suggestions_w_freq),$projectid);
 

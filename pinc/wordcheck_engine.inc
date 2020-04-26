@@ -10,7 +10,7 @@ include_once($relPath.'misc.inc'); // str_contains, array_get
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$word_letters = "a-zA-ZÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿";
+$word_letters = "a-zA-ZÀ-ÖØ-öø-ÿ";
 $word_characters = "0-9$word_letters";
 
 // Handle dp-specific notation for non-Latin-1 characters
@@ -30,7 +30,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
-$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_Â¬Â¢Â£Â¥Â©Â®Â§Â°Â±Â¶Â·Â´Â¸ÂºÃ—Â¦Â¡Â¿-Â»Â«Â¯Ã·Â¹Â²Â³Â¼Â½Â¾Â¤';
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
 
 // -----------------------------------------------------------------------------
 
@@ -793,7 +793,6 @@ function save_word_list($path, $words)
         // skip any blank words
         if ($word == "") continue;
 
-        var_dump($word);
         fputs($fh, "$word\r\n");
     }
     fclose($fh);

@@ -10,23 +10,14 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-define("REJECT_SUGGESTIONS", "reject_suggestions");
 $datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
 
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
-$fileObject = get_project_word_file($projectid,"good");
-$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
 $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 enforce_edit_authorization($projectid);
-
-if($timeCutoff==0)
-    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
-else
-    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
-
 
 // $format determines what is presented from this page:
 //   'html' - page is rendered with frequencies included
@@ -36,32 +27,32 @@ else
 $format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
 
 if($format=="update") {
-    $postedWords = parse_posted_words($_POST);
-
     $is_reject = isset($_POST[REJECT_SUGGESTIONS]);
     $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
 
-    if ($is_reject)
-    {
-        $postedWords = array();
-    }
+    $postedWords = $is_reject ? array() : parse_posted_words($_POST);
 
+    $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
+    $words = array_merge($words, $postedWords);
     if ($destination_list == GOOD_WORD_LIST)
     {
-        $words = load_project_good_words($projectid);
-        $words = array_merge($words,$postedWords);
-        save_project_good_words($projectid,$words);
+        save_project_good_words($projectid, $words);
     }
     else
     {
-        var_dump("bad word list");
-        $words = load_project_bad_words($projectid);
-        $words = array_merge($words,$postedWords);
-        save_project_bad_words($projectid,$words);
+        save_project_bad_words($projectid, $words);
     }
 
     $format="html";
 }
+
+$fileObject = get_project_word_file($projectid,"good");
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
+
+if($timeCutoff==0)
+    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
+else
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
 
 list($all_suggestions_w_freq,$all_suggestions_w_occurrences,$round_suggestions_w_freq,$round_suggestions_w_occurrences,$rounds,$round_page_count,$messages) =
     _get_word_list($projectid,$timeCutoff);

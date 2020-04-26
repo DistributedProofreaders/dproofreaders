@@ -8,6 +8,7 @@ include_once($relPath.'faq.inc');
 
 define("GOOD_WORD_LIST", "good_word_list");
 define("BAD_WORD_LIST", "bad_word_list");
+define("REJECT_SUGGESTIONS", "reject_suggestions");
 
 // get_cutoff_string
 // Arguments:
