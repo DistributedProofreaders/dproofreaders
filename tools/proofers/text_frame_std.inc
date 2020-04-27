@@ -19,7 +19,6 @@ function echo_text_frame_std( $ppage )
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
-            "$code_url/tools/proofers/preview_strings.php",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
