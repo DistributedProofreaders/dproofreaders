@@ -77,6 +77,9 @@ $(function () {
                 maybeSubstitute();
                 return;
             }
+            if(!("normalize" in String.prototype)) {
+                return;
+            }
             let char1 = text[char1Index];
             let char2 = text[endIndex - 2];
             var code = above[char1];

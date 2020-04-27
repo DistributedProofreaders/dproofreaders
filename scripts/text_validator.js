@@ -47,7 +47,9 @@ $(function () {
 
     function _validateText() {
         var text = textArea.value;
-        text = text.normalize("NFC");
+        if("normalize" in String.prototype) {
+            text = text.normalize("NFC");
+        }
         // replace the text with normalised version
         textArea.value = text;
         // convert any markup so does not get interpreted in the checker div

@@ -13,7 +13,9 @@ var goodChar;
 $(function () {
     // need to define this after the page has loaded so validCharacterPattern
     // is available
-    goodChar = RegExp(validCharacterPattern, "u");
+    // need "u" flag if using astral plane but IE doesn't handle it
+    goodChar = RegExp(validCharacterPattern);
+    console.log(goodChar);
 });
 
 function testChar(character) {
@@ -22,7 +24,9 @@ function testChar(character) {
 
 // return false if text contains any bad characters
 function testText(text) {
-    text = text.normalize("NFC");
+    if("normalize" in String.prototype) {
+        text = text.normalize("NFC");
+    }
     let result;
     charMatch.lastIndex = 0;
     while(null != (result = charMatch.exec(text))) {
