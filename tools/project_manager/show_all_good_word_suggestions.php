@@ -55,8 +55,7 @@ if($frame=="update") {
 
     if ($rejectProject)
     {
-        $words = load_project_good_words($rejectProject);
-        save_project_good_words($rejectProject, $words);
+        touch_project_good_words($rejectProject);
     }
     else
     {

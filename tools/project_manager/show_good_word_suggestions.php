@@ -25,22 +25,27 @@ enforce_edit_authorization($projectid);
 //            downloaded file
 // 'update' - update the list
 $format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
+$destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
 
 if($format=="update") {
-    $is_reject = isset($_POST[REJECT_SUGGESTIONS]);
-    $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
-
-    $postedWords = $is_reject ? array() : parse_posted_words($_POST);
-
-    $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
-    $words = array_merge($words, $postedWords);
-    if ($destination_list == GOOD_WORD_LIST)
+    if (isset($_POST[REJECT_SUGGESTIONS]))
     {
-        save_project_good_words($projectid, $words);
+        touch_project_good_words($projectid);
     }
     else
     {
-        save_project_bad_words($projectid, $words);
+        $postedWords = parse_posted_words($_POST);
+
+        $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
+        $words = array_merge($words, $postedWords);
+        if ($destination_list == GOOD_WORD_LIST)
+        {
+            save_project_good_words($projectid, $words);
+        }
+        else
+        {
+            save_project_bad_words($projectid, $words);
+        }
     }
 
     $format="html";
@@ -56,6 +61,11 @@ else
 
 list($all_suggestions_w_freq,$all_suggestions_w_occurrences,$round_suggestions_w_freq,$round_suggestions_w_occurrences,$rounds,$round_page_count,$messages) =
     _get_word_list($projectid,$timeCutoff);
+
+if ($destination_list == BAD_WORD_LIST && $timeCutoff == $fileObject->mod_time && $all_suggestions_w_occurrences == 0)
+{
+    touch_project_good_words($projectid);
+}
 
 $title = _("Candidates for Good Words List from Proofreaders");
 $page_text = sprintf(_("Displayed below are the words that proofreaders have suggested (via the %s button) in the WordCheck interface that have not been already included in the project's Good Words List."),"<img src='$code_url/graphics/Book-Plus-Small.gif'>");
