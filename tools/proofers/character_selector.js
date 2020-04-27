@@ -71,7 +71,7 @@ $(function () {
     function addMru(char, titletext) {
         // is the character in MRU array?
         var index = mru.length - 1;
-        while(index >=0) {
+        while(index >= 0) {
             if(mru[index].character === char) {
                 break;
             }
