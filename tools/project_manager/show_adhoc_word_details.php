@@ -127,11 +127,11 @@ if(count($queryWords)) {
 
     echo_checkbox_selects(count($words_w_freq));
 
-    echo_checkbox_form_submit(_("Add selected words"), GOOD_WORD_LIST);
+    echo_checkbox_form_submit(_("Add selected words"), GOOD_WORDS_LIST);
 
     printTableFrequencies($initialFreq,$cutoffOptions,$words_w_freq,$instances--,array($context_array,$word_notes), $word_checkbox);
 
-    echo_checkbox_form_submit(_("Add selected words"), GOOD_WORD_LIST);
+    echo_checkbox_form_submit(_("Add selected words"), GOOD_WORDS_LIST);
     echo_checkbox_form_end();
 }
 

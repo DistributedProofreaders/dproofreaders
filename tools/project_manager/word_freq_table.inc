@@ -6,8 +6,8 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'faq.inc');
 
-define("GOOD_WORD_LIST", "good_word_list");
-define("BAD_WORD_LIST", "bad_word_list");
+define("GOOD_WORDS_LIST", "good_words_list");
+define("BAD_WORDS_LIST", "bad_words_list");
 define("REJECT_SUGGESTIONS", "reject_suggestions");
 
 // get_cutoff_string

@@ -38,7 +38,7 @@ $frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'lef
 if($frame=="update") {
     $newProjectWords=array();
     $rejectProject = false;
-    $destination_list = isset($_POST[BAD_WORD_LIST]) ? BAD_WORD_LIST : GOOD_WORD_LIST;
+    $destination_list = isset($_POST[BAD_WORDS_LIST]) ? BAD_WORDS_LIST : GOOD_WORDS_LIST;
     foreach($_POST as $key => $val) {
         if(preg_match("/" . REJECT_SUGGESTIONS . "_(projectID[0-9a-f]{13})/", $key, $matches))
         {
@@ -60,9 +60,9 @@ if($frame=="update") {
     else
     {
         foreach($newProjectWords as $projectid => $projectWords) {
-            $words = $destination_list == GOOD_WORD_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
+            $words = $destination_list == GOOD_WORDS_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
             $words = array_merge($words,$projectWords);
-            if ($destination_list == GOOD_WORD_LIST)
+            if ($destination_list == GOOD_WORDS_LIST)
             {
                 save_project_good_words($projectid,$words);
             }
@@ -101,7 +101,7 @@ if($frame=="left") {
 
     $rejectAlllabel = _("Reject all suggestions");
     $submitLabel = _("Add selected words to Good Words List");
-    $rejectLabel = _("Add selected words to Bad Words List");
+    $submit_bad_label = _("Add selected words to Bad Words List");
 
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;
@@ -186,7 +186,17 @@ echo "<br>";
 
         // if no words are returned (probably because something was
         // suggested but is no longer in the text) skip this project
-        if(count($suggestions_w_freq)==0) continue;
+        if(count($suggestions_w_freq)==0)
+        {
+            // If the time cutoff is the same as the good words file and
+            // we still have no suggestions, touch the good words file to
+            // reset the time so no alert appears for this project.
+            if($timeCutoffActual == $goodFileObject->mod_time)
+            {
+                touch_project_good_words($projectid);
+            }
+            continue;
+        }
 
         $projectsNeedingAttention++;
 
@@ -213,8 +223,8 @@ echo "<br>";
 
         printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurrences,$context_array),$word_checkbox);
 
-        echo "<p><input type='submit' name='" . GOOD_WORD_LIST . "' value='$submitLabel'>";
-        echo "<input style='margin-left: 5px' type='submit' name='" . BAD_WORD_LIST . "' value='$rejectLabel'></p>";
+        echo "<p><input type='submit' name='" . GOOD_WORDS_LIST . "' value='$submitLabel'>";
+        echo "<input style='margin-left: 5px' type='submit' name='" . BAD_WORDS_LIST . "' value='$submit_bad_label'></p>";
     }
 
     if($projectsNeedingAttention==0) {
