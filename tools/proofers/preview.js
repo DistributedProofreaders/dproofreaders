@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition, no-useless-escape, camelcase */
 /* exported makePreview */
-/* global previewMessages */
+/* global previewMessages XRegExp */
 
 /*
 This function checks the text for formatting issues and adds the markup
