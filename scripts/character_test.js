@@ -13,18 +13,21 @@ var goodChar;
 $(function () {
     // need to define this after the page has loaded so validCharacterPattern
     // is available
-    // need "u" flag if using astral plane but IE doesn't handle it
-    goodChar = RegExp(validCharacterPattern);
-    console.log(goodChar);
+    goodChar = XRegExp(validCharacterPattern, "A");
 });
 
 function testChar(character) {
+    if(!goodChar) {
+        // IE HACK - IE sometimes says goodChar is undefined
+        goodChar = XRegExp(validCharacterPattern, "A");
+    }
     return goodChar.test(character);
 }
 
 // return false if text contains any bad characters
 function testText(text) {
-    if("normalize" in String.prototype) {
+    // IE HACK - IE11 does not support string normalization
+    if(String.prototype.normalize) {
         text = text.normalize("NFC");
     }
     let result;

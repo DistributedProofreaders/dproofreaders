@@ -47,7 +47,8 @@ $(function () {
 
     function _validateText() {
         var text = textArea.value;
-        if("normalize" in String.prototype) {
+        // IE HACK - IE11 does not support string normalization
+        if(String.prototype.normalize) {
             text = text.normalize("NFC");
         }
         // replace the text with normalised version

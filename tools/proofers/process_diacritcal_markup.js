@@ -77,7 +77,8 @@ $(function () {
                 maybeSubstitute();
                 return;
             }
-            if(!("normalize" in String.prototype)) {
+            // IE HACK - IE11 does not support string normalization
+            if(!(String.prototype.normalize)) {
                 return;
             }
             let char1 = text[char1Index];
