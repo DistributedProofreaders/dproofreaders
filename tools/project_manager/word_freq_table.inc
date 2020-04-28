@@ -6,6 +6,10 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'faq.inc');
 
+define("GOOD_WORDS_LIST", "good_words_list");
+define("BAD_WORDS_LIST", "bad_words_list");
+define("REJECT_SUGGESTIONS", "reject_suggestions");
+
 // get_cutoff_string
 // Arguments:
 //   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
@@ -51,6 +55,11 @@ function get_cutoff_script($cutoffOptions,$instances) {
         }
         if(document.getElementById("freqCutoffValue")) document.getElementById("freqCutoffValue").value=newCutoff;
         document.getElementById("current_cutoff").innerHTML=newCutoff;
+
+        // set new value for forms so the value is persisted through actions
+        $('form input[name=freqCutoff]').each(function (index, value) {
+            $(value).val(newCutoff);
+        });
         return false;
     }
 
@@ -414,12 +423,15 @@ function echo_checkbox_form_start($checkbox_form) {
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
     echo "<input type='hidden' name='format' value='update'>";
     foreach($checkbox_form as $name => $value) {
-        echo "<input type='hidden' name='$name' value='$value'>";
+        if($value != '')
+        {
+            echo "<input type='hidden' name='$name' value='$value'>";
+        }
     }
 }
 
-function echo_checkbox_form_submit($submit_label) {
-    echo "<input type='submit' value='$submit_label'>";
+function echo_checkbox_form_submit($submit_label, $name) {
+    echo "<input type='submit' value='$submit_label' name='$name' style='margin-right: 5px'>";
 }
 
 function echo_checkbox_form_end() {
