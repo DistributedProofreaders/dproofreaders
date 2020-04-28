@@ -175,7 +175,7 @@ $submit_bad_label = _("Add selected words to Bad Words List");
 
 $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
-$checkbox_form["timeCutoff"]=$timeCutoff;
+$checkbox_form["timeCutoff"]=$timeCutoff == $fileObject->mod_time ? "" : $timeCutoff;
 echo_checkbox_form_start($checkbox_form);
 
 $context_array["[[TITLE]]"]=_("Show Context");

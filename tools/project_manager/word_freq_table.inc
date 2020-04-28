@@ -423,7 +423,10 @@ function echo_checkbox_form_start($checkbox_form) {
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
     echo "<input type='hidden' name='format' value='update'>";
     foreach($checkbox_form as $name => $value) {
-        echo "<input type='hidden' name='$name' value='$value'>";
+        if($value != '')
+        {
+            echo "<input type='hidden' name='$name' value='$value'>";
+        }
     }
 }
 
