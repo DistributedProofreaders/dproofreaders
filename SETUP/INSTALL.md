@@ -66,6 +66,20 @@ These middleware components match the following major distribution releases:
 * RHEL / CentOS 6.x family (with PHP 7.0 upgrade)
 * RHEL / CentOS 7.x family (with PHP 7.0 upgrade)
 
+## Browser support
+The following are the lowest known supported browser versions for the code:
+* Chrome 50
+* Firefox 50
+* Internet Explorer 11
+  * IE11 does not support `String.prototype.normalize()`, so proofreader inputs
+    are not normalized before being compared against a project's character
+    suites. This could result in a confusing UX if the user added combining
+    characters that would normalize down to a valid character in the project's
+    character suites.
+* Microsoft Edge
+* Opera 40
+* Safari 10
+
 ## Installing from scratch
 This section assumes that you don't have an existing installation of DP.
 If you're upgrading from a previous version, see [UPGRADE.md](UPGRADE.md).
