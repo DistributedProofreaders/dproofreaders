@@ -13,16 +13,23 @@ var goodChar;
 $(function () {
     // need to define this after the page has loaded so validCharacterPattern
     // is available
-    goodChar = RegExp(validCharacterPattern, "u");
+    goodChar = XRegExp(validCharacterPattern, "A");
 });
 
 function testChar(character) {
+    if(!goodChar) {
+        // IE HACK - IE sometimes says goodChar is undefined
+        goodChar = XRegExp(validCharacterPattern, "A");
+    }
     return goodChar.test(character);
 }
 
 // return false if text contains any bad characters
 function testText(text) {
-    text = text.normalize("NFC");
+    // IE HACK - IE11 does not support string normalization
+    if(String.prototype.normalize) {
+        text = text.normalize("NFC");
+    }
     let result;
     charMatch.lastIndex = 0;
     while(null != (result = charMatch.exec(text))) {
