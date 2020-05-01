@@ -1,6 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url
-
 
 
 $browser_title                = _("Ligatures Proofreading Quiz");

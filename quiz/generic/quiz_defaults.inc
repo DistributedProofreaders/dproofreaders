@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'base.inc');
 
 // General-purpose default messages
 

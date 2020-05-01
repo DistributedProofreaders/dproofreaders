@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $Greek_translit_url
 
 
 $browser_title                = _("Greek Transliteration Quiz");

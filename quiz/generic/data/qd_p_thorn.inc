@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $thorn_url
 
 
 $browser_title                = _("Thorn Proofreading Quiz");

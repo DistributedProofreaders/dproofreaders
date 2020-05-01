@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."Quiz.inc");
 
 
 $browser_title                = _("Formatting Quiz");
