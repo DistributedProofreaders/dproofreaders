@@ -8,8 +8,8 @@ output_header(_('Greek Transliteration Tutorial'));
 echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 5) . "</h2>\n";
 
 echo "<h3>" . _("Two Double Letters") . "</h3>\n";
-echo "<p>" . _("This form of sigma: &sigmaf; normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called \"stigma\" and the top bit of it usually extends further to the right. It gets transliterated as <kbd>st</kbd>.") . "</p>\n";
-echo "<p><img src='../generic/images/ou_lig.png' width='20' height='23' alt='" . _("Greek ou ligature") . "'> " . _("This letter is a shorthand way of writing <kbd>ou</kbd>. Think of it as &upsilon; (upsilon) balanced on top of &omicron; (omicron).  ") . "</p>\n";
+echo "<p>" . _("This form of sigma: ς normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called \"stigma\" and the top bit of it usually extends further to the right. It gets transliterated as <kbd>st</kbd>.") . "</p>\n";
+echo "<p><img src='../generic/images/ou_lig.png' width='20' height='23' alt='" . _("Greek ou ligature") . "'> " . _("This letter is a shorthand way of writing <kbd>ou</kbd>. Think of it as υ (upsilon) balanced on top of ο (omicron).  ") . "</p>\n";
 
 echo "<h3>" . _("Variant Forms") . "</h3>\n";
 echo "<p>" . _("Some other forms of Greek letters are:") . "</p>\n";

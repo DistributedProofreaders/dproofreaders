@@ -7,7 +7,7 @@ output_header(_('Greek Transliteration Tutorial'));
 
 echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 2) . "</h2>\n";
 echo "<h3>" . _("Letters with Multiple Transliterations") . "</h3>\n";
-echo "<p>" . _("The letter &upsilon; (upsilon) can be transliterated as either u or y. Generally, if upsilon follows another vowel, use \"u\". Otherwise, use \"y\". This isn't required, though; you can use u everywhere if you want.") . "</p>\n";
+echo "<p>" . _("The letter υ (upsilon) can be transliterated as either u or y. Generally, if upsilon follows another vowel, use \"u\". Otherwise, use \"y\". This isn't required, though; you can use u everywhere if you want.") . "</p>\n";
 echo "<p>" . _("<b>Note:</b> For the purposes of this quiz, please use the vowel/consonant distinction described above when transliterating.  This is only due to the limitations of the quiz, and is not required when proofreading normally.") . "</p>\n";
 
 echo "<h3>" . _("Diacritical Marks") . "</h3>\n";

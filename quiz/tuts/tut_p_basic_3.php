@@ -14,7 +14,7 @@ echo "<p>" . _("Watch out for a missing double quote at the start of the first p
 echo "<h3>" . _("Large, Ornate opening Capital letter (Drop Cap)") . "</h3>\n";
 echo "<p>" . _("Proofread a large and ornate graphic first letter of a chapter, section, or paragraph as if it were an ordinary letter.") . "</p>\n";
 
-echo "<h3>" . _("Period Pause &quot;...&quot; (Ellipsis)") . "</h3>\n";
+echo "<h3>" . _("Period Pause \"...\" (Ellipsis)") . "</h3>\n";
 echo "<p>" . _("An ellipsis should have three dots.  Regarding the spacing, in the middle of a sentence treat the three dots as a single word (i.e., usually a space before the 3 dots and a space after). At the end of a sentence treat the ellipsis as ending punctuation, with no space before it.") . "</p>\n";
 echo "<p>" . _("Note that there will also be an ending punctuation mark at the end of a sentence, so in the case of a period there will be 4 dots total. Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.") . "</p>\n";
 

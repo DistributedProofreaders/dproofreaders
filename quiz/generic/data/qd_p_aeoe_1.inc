@@ -16,7 +16,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["ceuvre"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<kbd>ce</kbd>' in the text where there is an '<kbd>oe</kbd>' ligature in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>ce</kbd>' in the text where there is an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the image."),
 );
 $messages["vinant"] = array(
     "message_title" => _("Scanno"),
@@ -36,12 +36,12 @@ $messages["borc"] = array(
 );
 $messages["oe_ae"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &oelig; ('<kbd>oe</kbd>' ligature) in the image that is marked as an &aelig; ('<kbd>ae</kbd>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
+    "message_body" => _("There is an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the image that is marked as an <kbd>æ</kbd> ('<kbd>ae</kbd>' ligature) in the text.  In italics they may look very similar, but the <kbd>œ</kbd> ligature is usually rounder at the top, while the 'a' of <kbd>æ</kbd> is more teardrop-shaped."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 $messages["ae_oe"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &aelig; ('<kbd>ae</kbd>' ligature) in the image that is marked as an &oelig; ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the &oelig; ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped."),
+    "message_body" => _("There is an <kbd>æ</kbd> ('<kbd>ae</kbd>' ligature) in the image that is marked as an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the <kbd>œ</kbd> ligature is usually rounder at the top, while the 'a' of <kbd>æ</kbd> is more teardrop-shaped."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 

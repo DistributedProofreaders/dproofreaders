@@ -14,7 +14,7 @@ $solutions                    = array("the necessity of nursing her.\"\n\n\"Come
 // error messages
 $messages["sqbr"] = array(
     "message_title" => _("Incorrect brackets."),
-    "message_body" => _("Please use square brackets [] for illustration and footnote markup."),
+    "message_body" => _("Please use square brackets <kbd>[]</kbd> for illustration and footnote markup."),
 );
 $messages["pageheader"] = array(
     "message_title" => _("Page header left in"),

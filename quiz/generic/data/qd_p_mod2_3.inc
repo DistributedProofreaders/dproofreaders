@@ -20,11 +20,11 @@ $messages["ampchange"] = array(
 );
 $messages["oescanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<kbd>oe</kbd>' in the text where there is an '&oelig;' ('oe' ligature) in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>oe</kbd>' in the text where there is an '<kbd>œ</kbd>' ('oe' ligature) in the image."),
 );
 $messages["fnscannot"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, †, ‡, §, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
 );
 $messages["fnscannoI"] = array(
     "message_title" => _("Scanno"),
@@ -37,7 +37,7 @@ $messages["fnspace"] = array(
 );
 $messages["fnmarkermissing"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
+    "message_body" => _("When footnotes are marked with a series of special characters (*, †, ‡, §, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
