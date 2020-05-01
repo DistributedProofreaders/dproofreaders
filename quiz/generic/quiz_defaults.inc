@@ -103,11 +103,6 @@ $messages["P_paratop"] = array(
     "message_body" => _("Leave a single blank line before each paragraph, even at the top of the page."),
     "guideline" => "para_space"
 );
-$messages["P_toomanylb"] = array(
-    "message_title" => _("Too many line breaks inserted"),
-    "message_body" => _("Paragraphs should be divided by exactly one blank line."),
-    "guideline" => "para_space"
-);
 $messages["P_header"] = array(
     "message_title" => _("Page header not removed"),
     "message_body" => _("Remove page headers and page footers, but <i>not</i> footnotes, from the text.  The page header is normally at the top of the image and has a page number opposite it.  Remove the entire header, including the page number."),
@@ -185,11 +180,6 @@ $messages["P_em_long"] = array(
 $messages["P_long_em"] = array(
     "message_title" => _("Long dash proofread as em-dash"),
     "message_body" => _("There is a long dash in the image that has been marked with two hyphens.  Proofread long dashes using four hyphens (<kbd>----</kbd>).  Two hyphens (<kbd>--</kbd>) are only used for em-dashes, which are about as long as 2-3 regular letters."),
-    "guideline" => "em_dashes"
-);
-$messages["P_longdashwrong"] = array(
-    "message_title" => _("Long dash missing"),
-    "message_body" => _("Proofread long dashes using four hyphens (<kbd>----</kbd>)."),
     "guideline" => "em_dashes"
 );
 $messages["P_spacedlongdash"] = array(

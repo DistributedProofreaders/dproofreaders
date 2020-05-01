@@ -39,6 +39,11 @@ $messages["macronmissing"] = array(
     "message_title" => _("Scanno"),
     "message_body" => _("There is still a scanno in the text: a macron (horizontal line) over an '<kbd>n</kbd>' was omitted by the OCR software."),
 );
+$messages["P_macron2"] = array(
+    "message_title" => _("Macron"),
+    "message_body" => _("Since the letter 'n' with a macron (straight line) over it does not exist as a single character in Unicode, enter it as <kbd>[=n]</kbd>."),
+    "guideline" => "d_chars",
+);
 /*
 // The current unicode implementation does not support combining characters, so
 // don't instruct the user to use them.
