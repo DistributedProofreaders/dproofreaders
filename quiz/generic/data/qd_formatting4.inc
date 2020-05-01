@@ -18,12 +18,12 @@ $messages["missingline"] = array(
 );
 $messages["nobc"] = array(
     "message_title" => _("Block Quotation"),
-    "message_body" => _("You have not or incorrectly marked the block quotation in the text. Enclose it with /# ... #/, with each marker on a line of its own."),
+    "message_body" => _("You have not marked or have incorrectly marked the block quotation in the text. Enclose it with <kbd>/#</kbd> and <kbd>#/</kbd>, with each marker on a line of its own."),
     "guideline" => "block_qt"
 );
 $messages["nopoetry"] = array(
     "message_title" => _("Poetry markup"),
-    "message_body" => _("You have not or incorrectly marked the poem in the text. Enclose it with /* ... */, with each marker on a line of its own."),
+    "message_body" => _("You have not marked or have incorrectly marked the poem in the text. Enclose it with <kbd>/*</kbd> and <kbd>*/</kbd>, with each marker on a line of its own."),
     "guideline" => "poetry"
 );
 $messages["otherpindent"] = array(
@@ -43,7 +43,7 @@ $messages["plinenotjoined"] = array(
 );
 $messages["pmspacing"] = array(
     "message_title" => _("Poetry markup"),
-    "message_body" => _("Please leave exactly one empty line before the poetry starting marker /*. Also leave one blank line after the poetry closing marker */."),
+    "message_body" => _("Please leave exactly one empty line before the poetry starting marker <kbd>/*</kbd>. Also leave one blank line after the poetry closing marker <kbd>*/</kbd>."),
     "guideline" => "outofline"
 );
 $messages["lbchange"] = array(
@@ -52,17 +52,17 @@ $messages["lbchange"] = array(
 );
 $messages["bqspacing"] = array(
     "message_title" => _("Blockquote markup"),
-    "message_body" => _("Please leave exactly one empty line before the blockquote starting marker /#. Also leave one blank line after the blockquote closing marker #/. The blockquote marker should be on its own line."),
+    "message_body" => _("Please leave exactly one empty line before the blockquote starting marker <kbd>/#</kbd>. Also leave one blank line after the blockquote closing marker <kbd>#/</kbd>. The blockquote marker should be on its own line."),
     "guideline" => "outofline"
 );
 $messages["bqindent"] = array(
     "message_title" => _("Block quote indented"),
-    "message_body" => _("It seems you have indented the block quote. The /# #/ markup indicates that the text was printed differently; there is no need to add indentation to a block quote."),
+    "message_body" => _("It seems you have indented the block quote. The <kbd>/# #/</kbd> markup indicates that the text was printed differently; there is no need to add indentation to a block quote."),
     "guideline" => "block_qt"
 );
 $messages["listindent"] = array(
     "message_title" => _("List indented"),
-    "message_body" => _("It seems you have indented the list. Since the whole list is indented the same amount, the /* */ markup alone is sufficient; indentation is not needed."),
+    "message_body" => _("It seems you have indented the list. Since the whole list is indented the same amount, the <kbd>/* */</kbd> markup alone is sufficient; indentation is not needed."),
 );
 $messages["wrongmarkuplist"] = array(
     "message_title" => _("List marked incorrectly"),

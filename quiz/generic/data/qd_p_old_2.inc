@@ -30,7 +30,7 @@ $messages["sliort"] = array(
 );
 $messages["longsscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an asterisk (<kbd>*</kbd>) in the text where there is a long s in the image."),
+    "message_body" => _("There is still a scanno: an asterisk (<kbd>*</kbd>) in the text where there is a <kbd>long s</kbd> in the image."),
 );
 $messages["stray_comma"] = array(
     "message_title" => _("Scanno"),

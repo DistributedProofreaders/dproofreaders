@@ -37,17 +37,17 @@ $messages["Pieroglossus"] = array(
 );
 $messages["oe_ae"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &oelig; ('<kbd>oe</kbd>' ligature) in the image that is marked as an &aelig; ('<kbd>ae</kbd>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a."),
+    "message_body" => _("There is an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the image that is marked as an <kbd>æ</kbd> ('<kbd>ae</kbd>' ligature) in the text.  In italics they may look very similar, but the <kbd>æ</kbd> often has a little bump sticking up in the middle showing the vertical line of the a."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 $messages["ae_oe"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &aelig; ('<kbd>ae</kbd>' ligature) in the image that is marked as an &oelig; ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a."),
+    "message_body" => _("There is an <kbd>æ</kbd> ('<kbd>ae</kbd>' ligature) in the image that is marked as an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the <kbd>æ</kbd> often has a little bump sticking up in the middle showing the vertical line of the a."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 $messages["ae_oe2"] = array(
     "message_title" => _("Ligature incorrectly identified"),
-    "message_body" => _("There is an &aelig; ('<kbd>ae</kbd>' ligature) in the image that is marked as an &oelig; ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a.  Additionally, in Latin words the '<kbd>oe</kbd>' ligature never appears at the end of the word."),
+    "message_body" => _("There is an <kbd>æ</kbd> ('<kbd>ae</kbd>' ligature) in the image that is marked as an <kbd>œ</kbd> ('<kbd>oe</kbd>' ligature) in the text.  In italics they may look very similar, <kbd>æ</kbd> often has a little bump sticking up in the middle showing the vertical line of the a.  Additionally, in Latin words the '<kbd>oe</kbd>' ligature never appears at the end of the word."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url),
 );
 

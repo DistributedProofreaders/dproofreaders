@@ -19,37 +19,37 @@ $messages["nosmallcaps"] = array(
 );
 $messages["smcappunct"] = array(
     "message_title" => _("Error in small caps markup"),
-    "message_body" => _("Place the &lt;sc&gt; at the start of small caps and the &lt;/sc&gt; at the end.  As with other markup, only include punctuation if the punctuation is part of an entire phrase or sentence that you are marking."),
+    "message_body" => _("Place the <kbd>&lt;sc&gt;</kbd> at the start of small caps and the <kbd>&lt;/sc&gt;</kbd> at the end.  As with other markup, only include punctuation if the punctuation is part of an entire phrase or sentence that you are marking."),
     "guideline" => "small_caps",
 );
 $messages["smcapwholeword"] = array(
     "message_title" => _("Error in small caps markup"),
-    "message_body" => sprintf(_("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase.  Place the &lt;sc&gt; at the start of small-capped word or phrase and the &lt;/sc&gt; at the end."), "font-variant: small-caps;"),
+    "message_body" => sprintf(_("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase.  Place the <kbd>&lt;sc&gt;</kbd> at the start of small-capped word or phrase and the <kbd>&lt;/sc&gt;</kbd> at the end."), "font-variant: small-caps;"),
     "guideline" => "small_caps",
 );
 $messages["noital"] = array(
     "message_title" => _("Italics missed"),
-    "message_body" => _("There is one word in italics in the text, please surround it with &lt;i&gt; &lt;/i&gt;."),
+    "message_body" => _("There is one word in italics in the text; please surround it with <kbd>&lt;i&gt;</kbd> <kbd>&lt;/i&gt;</kbd>."),
     "guideline" => "italics",
 );
 $messages["nobold"] = array(
     "message_title" => _("Bold text missed"),
-    "message_body" => _("There is one bold word in the text, please surround it with &lt;b&gt; &lt;/b&gt;."),
+    "message_body" => _("There is one bold word in the text; please surround it with <kbd>&lt;b&gt;</kbd> <kbd>&lt;/b&gt;</kbd>."),
     "guideline" => "bold",
 );
 $messages["italcorrupt"] = array(
     "message_title" => _("Error in italics markup"),
-    "message_body" => _("Somehow the italics markup you've done seems to be corrupt. Start the italics with &lt;i&gt; and end it with &lt;/i&gt;."),
+    "message_body" => _("Somehow the italics markup you've done seems to be corrupt. Start the italics with <kbd>&lt;i&gt;</kbd> and end it with <kbd>&lt;/i&gt;</kbd>."),
     "guideline" => "italics",
 );
 $messages["boldcorrupt"] = array(
     "message_title" => _("Error in bold markup"),
-    "message_body" => _("Somehow the bold markup you've done seems to be corrupt. Start the bold text with &lt;b&gt; and end it with &lt;/b&gt;."),
+    "message_body" => _("Somehow the bold markup you've done seems to be corrupt. Start the bold text with <kbd>&lt;b&gt;</kbd> and end it with <kbd>&lt;/b&gt;</kbd>."),
     "guideline" => "bold",
 );
 $messages["smcapcorrupt"] = array(
     "message_title" => _("Error in small caps markup"),
-    "message_body" => _("Somehow the small caps markup you've done seems to be incorrect. Start the small caps with &lt;sc&gt; and end it with &lt;/sc&gt;."),
+    "message_body" => _("Somehow the small caps markup you've done seems to be incorrect. Start the small caps with <kbd>&lt;sc&gt;</kbd> and end it with <kbd>&lt;/sc&gt;</kbd>."),
     "guideline" => "small_caps",
 );
 $messages["missingline"] = array(

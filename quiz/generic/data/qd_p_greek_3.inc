@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 3);
 $initial_instructions         = $initial_instructions__greek;
-$initial_text                 = "the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton '&Ecirc;rhaklea ton Di&ograve;s aneipov\nellonon kai t&ocirc; t&ecirc;s A&ecirc;das niee,\nMin&ocirc; te ohimai nomo0et&ecirc;n ka&igrave;\n'Radamanthnn ton Kn&ocirc;oion";
+$initial_text                 = "the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton 'Êrhaklea ton Diòs aneipov\nellonon kai tô tês Aêdas niee,\nMinô te ohimai nomo0etên kaì\n'Radamanthnn ton Knôoion";
 $solutions                    = array("the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton Hêraklea tou Dios aneipon\nengonon kai tô tês Lêdas hyiee,\nMinô te oimai ton nomothetên kai\nRhadamanthyn ton Knôsion]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("The spelling of the letter 'rho' can help you to remember that the '<kbd>h</kbd>' goes after the '<kbd>r</kbd>' when marking rough breathing on rho.") . "</p>";
@@ -14,19 +14,19 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["L_D"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<kbd>D</kbd>' in your transliteration that should be an '<kbd>L</kbd>'.  The Greek letter &Delta; (capital delta, transliterated '<kbd>D</kbd>') is a triangle, while &Lambda; (capital lambda, transliterated '<kbd>L</kbd>') looks like an upside-down V."),
+    "message_body" => _("There is a '<kbd>D</kbd>' in your transliteration that should be an '<kbd>L</kbd>'.  The Greek letter <kbd>Δ</kbd> (capital delta, transliterated '<kbd>D</kbd>') is a triangle, while <kbd>Λ</kbd> (capital lambda, transliterated '<kbd>L</kbd>') looks like an upside-down V."),
 );
 $messages["g_l"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is an '<kbd>l</kbd>' in your transliteration that should be a '<kbd>g</kbd>' or '<kbd>n</kbd>'.  The Greek letter lambda (transliterated '<kbd>l</kbd>') looks like &lambda;, while the Greek letter gamma (transliterated '<kbd>g</kbd>' or '<kbd>n</kbd>') looks like &gamma;."),
+    "message_body" => _("There is an '<kbd>l</kbd>' in your transliteration that should be a '<kbd>g</kbd>' or '<kbd>n</kbd>'.  The Greek letter lambda (transliterated '<kbd>l</kbd>') looks like <kbd>λ</kbd>, while the Greek letter gamma (transliterated '<kbd>g</kbd>' or '<kbd>n</kbd>') looks like <kbd>γ</kbd>."),
 );
 $messages["L_A"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<kbd>A</kbd>' in the text where there is the Greek letter &Lambda; (capital lambda, transliterated '<kbd>L</kbd>') in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>A</kbd>' in the text where there is the Greek letter <kbd>Λ</kbd> (capital lambda, transliterated '<kbd>L</kbd>') in the image."),
 );
 $messages["mo0et"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<kbd>0</kbd>' (zero) in the text where there is the Greek letter &theta; (theta, transliterated '<kbd>th</kbd>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>0</kbd>' (zero) in the text where there is the Greek letter <kbd>θ</kbd> (theta, transliterated '<kbd>th</kbd>') in the image."),
 );
 $messages["missingword"] = array(
     "message_title" => _("Missing word"),
@@ -39,7 +39,7 @@ $messages["missingword"] = array(
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/#", "#/"), "case_sensitive" => TRUE, "error" => "P_blockmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\""), "case_sensitive" => TRUE, "error" => "P_addedquotes");
-$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("&#964;", "&#959;", "&#957;", "&#945;"), "case_sensitive" => TRUE, "error" => "G_unicode");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("τ", "ο", "ν", "α"), "case_sensitive" => TRUE, "error" => "G_unicode");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Dios", "aneipon", "Lêdas", "oimai", "kai\n"), "case_sensitive" => TRUE, "error" => "G_nochange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("greek"), "case_sensitive" => TRUE, "error" => "G_lcgreek");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Greek:"), "case_sensitive" => TRUE, "error" => "G_nomarkup");

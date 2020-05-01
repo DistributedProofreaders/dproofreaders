@@ -14,14 +14,14 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["x_z"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<kbd>z</kbd>' in your transliteration that should be an '<kbd>x</kbd>'.  The Greek letter zeta (transliterated '<kbd>z</kbd>') looks like &zeta;, while the Greek letter xi (transliterated '<kbd>x</kbd>') looks like &xi;."),
+    "message_body" => _("There is a '<kbd>z</kbd>' in your transliteration that should be an '<kbd>x</kbd>'.  The Greek letter zeta (transliterated '<kbd>z</kbd>') looks like <kbd>ζ</kbd>, while the Greek letter xi (transliterated '<kbd>x</kbd>') looks like <kbd>ξ</kbd>."),
 );
 
 
 // error checks
 
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
-$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("&#945;", "&#959;", "&#961;"), "case_sensitive" => TRUE, "error" => "G_unicode");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("α", "ο", "ρ"), "case_sensitive" => TRUE, "error" => "G_unicode");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("aproc", "§rjpoe"), "case_sensitive" => TRUE, "error" => "G_nochange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("greek"), "case_sensitive" => TRUE, "error" => "G_lcgreek");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Greek:"), "case_sensitive" => TRUE, "error" => "G_nomarkup");

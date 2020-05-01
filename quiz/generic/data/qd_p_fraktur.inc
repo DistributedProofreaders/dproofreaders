@@ -58,11 +58,11 @@ $messages["verstebt"] = array(
 );
 $messages["longs2"] = array(
     "message_title" => _("Long s"),
-    "message_body" => _("There is an 'f' in the text that is actually a 'long s' in the image.  Although the letters look similar, the long s is a different letter: it has a missing or incomplete crossbar, while the f has a full crossbar.  Proofread the long s just like a normal s."),
+    "message_body" => _("There is an '<kbd>f</kbd>' in the text that is actually a '<kbd>long s</kbd>' in the image.  Although the letters look similar, the <kbd>long s</kbd> is a different letter: it has a missing or incomplete crossbar (<kbd>ſ</kbd>), while the <kbd>f</kbd> has a full crossbar.  Proofread the <kbd>long s</kbd> just like a normal <kbd>s</kbd>."),
 );
 $messages["longs"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<kbd>f</kbd>' in the text where there is a long s in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>f</kbd>' in the text where there is a <kbd>long s</kbd> in the image."),
 );
 $messages["y_n"] = array(
     "message_title" => _("Fraktur characters"),

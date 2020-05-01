@@ -17,7 +17,7 @@ $messages["greno"] = array(
 );
 $messages["bey"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<kbd>b</kbd>' in the text where there is a '<kbd>&thorn;</kbd>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>b</kbd>' in the text where there is a '<kbd>þ</kbd>' in the image."),
 );
 $messages["liaue"] = array(
     "message_title" => _("Scanno"),
@@ -25,7 +25,7 @@ $messages["liaue"] = array(
 );
 $messages["thornscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<kbd>]></kbd>' in the text where there is a '<kbd>&THORN;</kbd>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>]></kbd>' in the text where there is a '<kbd>Þ</kbd>' in the image."),
 );
 $messages["lustas"] = array(
     "message_title" => _("Scanno"),
@@ -44,7 +44,7 @@ $messages["macronmissing"] = array(
 // don't instruct the user to use them.
 $messages["macron"] = array(
     "message_title" => _("Macron"),
-    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<kbd>a</kbd>' with a macron over it as <kbd>&#257;</kbd>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
+    "message_body" => _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<kbd>a</kbd>' with a macron over it as <kbd>ā</kbd>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter."),
     "guideline" => "d_chars",
 );
 $messages["macron2"] = array(
@@ -55,12 +55,12 @@ $messages["macron2"] = array(
 */
 $messages["thorn"] = array(
     "message_title" => _("Thorn incorrectly proofread"),
-    "message_body" => _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts. These characters are available in the character picker at the bottom of the screen."),
+    "message_body" => _("The capital and lower case thorns (<kbd>Þ</kbd> and <kbd>þ</kbd>) often appear in Old and Middle English texts. These characters are available in the character picker at the bottom of the screen."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url),
 );
 $messages["thorncase"] = array(
     "message_title" => _("Capital/Lower Case Thorn"),
-    "message_body" => _("In the books that we proofread generally the capital thorn (<kbd>&THORN;</kbd>) has a much larger loop.  The lower case thorn (<kbd>&thorn;</kbd>) has a smaller loop and often sticks down farther below the line."),
+    "message_body" => _("In the books that we proofread generally the capital thorn (<kbd>Þ</kbd>) has a much larger loop.  The lower case thorn (<kbd>þ</kbd>) has a smaller loop and often sticks down farther below the line."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url),
 );
 $messages["blankline2"] = array(
