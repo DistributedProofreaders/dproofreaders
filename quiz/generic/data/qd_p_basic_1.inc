@@ -1,7 +1,6 @@
 <?php
 
 
-
 $browser_title                = _("Basic Proofreading Quiz");
 $intro_title                  = sprintf(_("Basic Proofreading Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__P;

@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
