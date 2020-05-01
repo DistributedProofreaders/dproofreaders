@@ -16,11 +16,6 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 // error messages
 
-$messages["longsbracket"] = array(
-    "message_title" => _("Long s"),
-    "message_body" => _("Unless the project comments instruct otherwise, please proofread the long s as plain s without any brackets."),
-    "wiki_ref" => sprintf(_("See the <a href='%s#Long_s' target='_blank'>Long s</a> section of the wiki page for details."), $old_texts_url),
-);
 $messages["blhyphen"] = array(
     "message_title" => _("End-of-line Hyphenation"),
     "message_body" => _("In blackletter fonts the hyphen often looks like an equals sign (=).  Treat this like a normal hyphen, rejoining the word as necessary."),
