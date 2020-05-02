@@ -18,7 +18,7 @@ $header_args = array(
 // $browser_title is from qd file which is included via quiz_page.inc
 slim_header_frameset($browser_title, $header_args);
 ?>
-<frameset rows="*,73">
+<frameset rows="*,85">
 <frameset cols="60%,*">
 <frameset name="left" rows="40%,*">
 <frame name="imageframe" src="orig.php?quiz_page_id=<?php echo $quiz_page_id;?>">
