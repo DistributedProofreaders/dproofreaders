@@ -207,25 +207,25 @@ class PPage
 
     function echo_proofing_textarea()
     {
-        global $userP;
+        $user = User::load_current();
 
         $page_text = $this->lpage->get_text();
 
         $lang = $this->lpage->get_language();
 
-        if ( $userP['i_layout']==1 )
+        if ($user->profile->i_layout == 1)
         {
             // "vertical"
-            $n_cols      = $userP['v_tchars'];
-            $n_rows      = $userP['v_tlines'];
-            $line_wrap   = $userP['v_twrap'];
+            $n_cols      = $user->profile->v_tchars;
+            $n_rows      = $user->profile->v_tlines;
+            $line_wrap   = $user->profile->v_twrap;
         }
         else
         {
             // "horizontal"
-            $n_cols      = $userP['h_tchars'];
-            $n_rows      = $userP['h_tlines'];
-            $line_wrap   = $userP['h_twrap'];
+            $n_cols      = $user->profile->h_tchars;
+            $n_rows      = $user->profile->h_tlines;
+            $line_wrap   = $user->profile->h_twrap;
         }
 
         echo "<textarea

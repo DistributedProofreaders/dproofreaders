@@ -8,10 +8,12 @@ include_once($relPath."theme.inc");
 $title = "UI Language Debugger";
 output_header($title, NO_STATSBAR);
 
+$user = User::load_current();
+
 $detected_language = get_desired_language();
 $url_language = array_get($_GET, 'lang', "<i>not set</i>");
-$pref_language = array_get($userP, 'u_intlang', "<i>not set</i>");
-$user_logged_in = $pguser ? $pguser : "<i>not logged in</i>";
+$pref_language = $user ? $user->u_intlang : "<i>not set</i>";
+$user_logged_in = $user ? $user->username : "<i>not logged in</i>";
 if($pref_language == "") $pref_language = "<i>browser detect</i>";
 $cookie_language = array_get($_COOKIE, 'language', "<i>not set</i>");
 $http_accept_language = array_get($_SERVER, 'HTTP_ACCEPT_LANGUAGE', "<i>not set </i>");

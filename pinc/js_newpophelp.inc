@@ -2,9 +2,11 @@
 include_once($relPath.'resolution.inc');
 
 function get_newHelpWin_javascript($popHelpDir) {
-    global $userP, $i_resolutions;
+    global $i_resolutions;
 
-    $wSize=explode("x",$i_resolutions[$userP['i_res']]);
+    $user = User::load_current();
+
+    $wSize=explode("x",$i_resolutions[$user->profile->i_res]);
     $top=($wSize[1]-300)/2;
     $left=($wSize[0]-400)/2;
 
@@ -18,4 +20,3 @@ function get_newHelpWin_javascript($popHelpDir) {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

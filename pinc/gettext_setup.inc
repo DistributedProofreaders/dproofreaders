@@ -20,7 +20,7 @@ include_once($relPath.'languages.inc');
 // * If everything else fails, default to en_US.
 function get_desired_language()
 {
-    global $pguser, $userP, $use_secure_cookies;
+    global $use_secure_cookies;
 
     // This function maybe called multiple times within a page load.
     // Only do the calculations to determine the locale once.
@@ -28,16 +28,16 @@ function get_desired_language()
     if($locale)
         return $locale;
 
+    $user = User::load_current();
     // If the below logic changes, update locale/debug_ui_language.php too
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         // User requested a specific language for this page
         $locale = lang_code($_GET['lang']);
         setcookie("language", $locale, time()+31536000, "/", "", $use_secure_cookies);
-    } else if (isset($userP)  && $userP['u_intlang']){
+    } else if ($user && $user->u_intlang){
         // User is logged in and has set their language preference
-        $locale = $userP['u_intlang'];
-    } else if (!$pguser &&
-               isset($_COOKIE['language']) && $_COOKIE['language']) {
+        $locale = $user->u_intlang;
+    } else if (!$user && isset($_COOKIE['language']) && $_COOKIE['language']) {
         // User is not logged in but we have a language cookie
         $locale=$_COOKIE['language'];
     } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {

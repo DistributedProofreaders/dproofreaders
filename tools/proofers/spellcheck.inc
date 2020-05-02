@@ -31,12 +31,14 @@ $word_check_messages = json_encode([
     "rerun" => $rerun,
 ]);
 
+$user = User::load_current();
+
 $header_args = array(
     "js_files" => array(
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
     ),
-    "js_data" => get_page_js($userP['i_type']==1 ? 2 : 3) . "
+    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
         var validCharacterPattern = '$valid_character_pattern';
         var wordCheckMessages = $word_check_messages;
     ",
@@ -44,7 +46,7 @@ $header_args = array(
     "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
 );
 
-if($userP['i_type']==1)
+if($user->profile->i_type == 1)
 {
     $header_args["js_data"] .= ibe_get_js();
     $header_args["css_data"] = ibe_get_styles();
@@ -53,10 +55,10 @@ if($userP['i_type']==1)
 slim_header(_("WordCheck"), $header_args);
 
 // print basic image html
-if ($userP['i_type']==1) {
-    if ($userP['i_layout']==1)
-       { $iWidth = $userP['v_zoom']; }
-    else { $iWidth = $userP['h_zoom']; }
+if ($user->profile->i_type != 1) {
+    if ($user->profile->i_layout == 1)
+       { $iWidth = $user->profile->v_zoom; }
+    else { $iWidth = $user->profile->h_zoom; }
     $iWidth = round((1000*$iWidth)/100);
 
     ibe_echo_block( $ppage->url_for_image(TRUE), $iWidth );
@@ -119,7 +121,7 @@ if ($userP['i_type']==1) {
 
     // for the vertical layout, stick in a line break
     // for the horizontal one, stick in a space
-    if ($userP['i_layout']==1) echo "<br>";
+    if ($user->profile->i_layout == 1) echo "<br>";
     else echo " ";
 
     // output the code allowing the user to select another language

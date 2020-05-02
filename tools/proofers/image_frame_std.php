@@ -11,10 +11,11 @@ $ppage = get_requested_PPage($_GET);
 
 slim_header("Image Frame", array('body_attributes' => 'id="standard_interface"'));
 
-if ($userP['i_layout']==1)
-    $iWidth=$userP['v_zoom'];
+$user = User::load_current();
+if ($user->profile->i_layout == 1)
+    $iWidth = $user->profile->v_zoom;
 else
-    $iWidth=$userP['h_zoom'];
+    $iWidth = $user->profile->h_zoom;
 $iWidth=round((1000*$iWidth)/100);
 ?>
 

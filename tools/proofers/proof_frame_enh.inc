@@ -10,7 +10,7 @@ include_once('preview.inc');
 
 function echo_proof_frame_enh( $ppage )
 {
-    global $code_url, $userP;
+    global $code_url;
 
     $project = new Project($ppage->projectid());
     $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints()));
@@ -42,10 +42,11 @@ function echo_proof_frame_enh( $ppage )
 
     slim_header(_("Proofreading Page"), $header_args);
 
-    if ($userP['i_layout']==1)
-        $iWidth=$userP['v_zoom'];
+    $user = User::load_current();
+    if ($user->profile->i_layout == 1)
+        $iWidth = $user->profile->v_zoom;
     else
-        $iWidth=$userP['h_zoom'];
+        $iWidth = $user->profile->h_zoom;
     $iWidth=round((1000*$iWidth)/100);
 
     ibe_echo_block( $ppage->url_for_image(TRUE), $iWidth );

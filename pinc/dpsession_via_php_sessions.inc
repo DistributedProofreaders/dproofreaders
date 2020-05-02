@@ -16,16 +16,15 @@ function dpsession_begin_( $userID )
 
     $pguser = $userID;
     $_SESSION['pguser'] = $pguser;
-    dpsession_set_preferences_from_db();
 }
 
 function dpsession_resume_()
 {
-    global $pguser, $userP, $use_secure_cookies;
+    global $pguser, $use_secure_cookies;
 
     session_set_handlers_and_start();
 
-    if ( isset($_SESSION['userP']) && !empty($_SESSION['userP']) )
+    if ( isset($_SESSION['pguser']) && !empty($_SESSION['pguser']) )
     {
         // Refresh the cookie
         // (session_start() used to do this for us,
@@ -39,10 +38,9 @@ function dpsession_resume_()
             $use_secure_cookies
         );
 
-        // set global variables $pguser and $userP.
+        // set global variable $pguser
         if (isset($_SESSION['pguser'])) 
             $pguser = $_SESSION['pguser'];
-        $userP = $_SESSION['userP'];
         return TRUE;
     }
     else
@@ -51,43 +49,6 @@ function dpsession_resume_()
         session_destroy();
         return FALSE;
     }
-}
-
-function dpsession_set_preferences_from_db()
-{
-    global $pguser;
-
-    $users_res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT
-            u_id, u_profile, email_updates,
-            u_neigh, u_align,
-            i_prefs, i_theme, i_pmdefault, id,
-            team_1, team_2, team_3,
-            u_intlang, u_privacy, last_login
-        FROM users
-        WHERE username='$pguser'
-        ");
-    $users_data = mysqli_fetch_assoc($users_res);
-
-    $user_profiles_res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT
-            profilename,
-            i_res, i_type, i_layout, i_toolbar, i_statusbar, i_newwin,
-            v_fnts, v_fntf, v_fntf_other, v_zoom, v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap,
-            h_fnts, h_fntf, h_fntf_other, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap
-        FROM user_profiles
-        WHERE u_ref='{$users_data['u_id']}' AND id='{$users_data['u_profile']}'
-        ");
-    $user_profiles_data = mysqli_fetch_assoc($user_profiles_res);
-
-    $prefsChanged_data = array("prefschanged" => 0);
-
-    $_SESSION['userP'] = array_merge($users_data, $user_profiles_data, $prefsChanged_data);
-}
-
-function dpsession_set_preferences_temp( $user_prefs )
-{
-    $_SESSION['userP'] = $user_prefs;
 }
 
 function dpsession_end()

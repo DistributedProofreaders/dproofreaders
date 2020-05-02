@@ -43,6 +43,8 @@ if ($tname) {
     $tname = "";
 }
 
+$user = User::load_current();
+
 $name = _("Team List");
 
 output_header($name);
@@ -68,7 +70,7 @@ if (!empty($tRows)) {
         echo "<td>", html_safe($row['teamname']), "</td>\n";
         echo "<td class='center-align'>".$row['member_count']."</td>\n";
         echo "<td class='center-align'><b><a href='tdetail.php?tid=".$row['id']."'>"._("View")."</a>&nbsp;";
-        if ($userP['team_1'] != $row['id'] && $userP['team_2'] != $row['id'] && $userP['team_3'] != $row['id']) {
+        if ($user->team_1 != $row['id'] && $user->team_2 != $row['id'] && $user->team_3 != $row['id']) {
             echo "<a href='../members/jointeam.php?tid=".$row['id']."'>"._("Join")."</a></b></td>";
         } else {
             echo "<a href='../members/quitteam.php?tid=".$row['id']."'>"._("Quit")."</a></b></td>";

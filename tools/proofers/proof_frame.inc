@@ -8,9 +8,9 @@ include_once('proof_frame_enh.inc');
 
 function echo_proof_frame( $ppage )
 {
-    global $userP;
+    $user = User::load_current();
 
-    $interface_type = $userP['i_type'];
+    $interface_type = $user->profile->i_type;
     switch ($interface_type)
     {
         case 0:

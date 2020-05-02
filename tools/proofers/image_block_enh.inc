@@ -29,21 +29,21 @@ function ibe_get_styles()
 // as percentages of its container box
 // (which is typically the "proofframe" of the proofing interface).
 {
-    global $userP;
+    $user = User::load_current();
 
-    if ($userP['i_layout']=='1') {
-        $textWidth=$userP['v_tframe'];
-        $block_width_pc=(100-$userP['v_tframe'])-1;
+    if ($user->profile->i_layout == '1') {
+        $textWidth = $user->profile->v_tframe;
+        $block_width_pc = (100 - $user->profile->v_tframe) - 1;
         $textHeight=99;
         $block_height_pc=99;
         $textTop="0px";
-        $textLeft=(100-$userP['v_tframe'])."%";
+        $textLeft = (100 - $user->profile->v_tframe) . "%";
     } else {
         $textWidth=99;
         $block_width_pc=99;
-        $textHeight=$userP['h_tframe'];
-        $block_height_pc=(100-$userP['h_tframe'])-1;
-        $textTop=100-$userP['h_tframe']."%";
+        $textHeight = $user->profile->h_tframe;
+        $block_height_pc = (100 - $user->profile->h_tframe) - 1;
+        $textTop = (100 - $user->profile->h_tframe) . "%";
         $textLeft="1%";
     }
 

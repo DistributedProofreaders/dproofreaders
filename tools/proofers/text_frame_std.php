@@ -7,12 +7,6 @@ include_once('text_frame_std.inc');
 
 require_login();
 
-// This script is invoked only for the standard interface now.
-// cpeel - disabled assert 2016-04-04. foofAid is loading this
-// page even if the user's editing interface is set to enhanced
-// resulting in PHP errors.
-//assert($userP['i_type'] == 0);
-
 $ppage = get_requested_PPage($_GET);
 
 echo_text_frame_std($ppage);

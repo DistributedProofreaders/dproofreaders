@@ -7,7 +7,7 @@ include_once('PPage.inc');
 
 function echo_button_menu( $ppage )
 {
-    global $userP;
+    $user = User::load_current();
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
     $font_family_fallback = get_proofreading_font_family_fallback();
@@ -75,9 +75,11 @@ name="fntSize" ID="fntSize"  class="dropsmall" title="<?php
 ?></select>
 <input
 type="text" value="<?php
-  if ($userP['i_layout']==1)
-    {echo $userP['v_zoom'];}
-  else{echo $userP['h_zoom'];}
+    if ($user->profile->i_layout == 1) {
+        echo $user->profile->v_zoom;
+    } else {
+        echo $user->profile->h_zoom;
+    }
 ?>" name="zmSize" ID="zmSize" class="boxnormal bottom-align" size="3" title="<?php 
     # xgettext:no-php-format
     echo attr_safe(_("Input Zoom %"));

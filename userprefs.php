@@ -50,22 +50,19 @@ if (user_is_PM())
 
 $selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs)));
 
-$uid = $userP['u_id'];
-
-$userSettings =& Settings::get_Settings($pguser);
+$user = User::load_current();
+$userSettings =& Settings::get_Settings($user->username);
 
 if (isset($_POST["swProfile"]))
 {
     // User clicked "Switch profile"
     // get profile from database
     $c_profile=get_integer_param($_POST, "c_profile", NULL, 0, NULL);
-    mysqli_query(DPDatabase::get_connection(), sprintf("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE users
         SET u_profile='$c_profile'
-        WHERE u_id=$uid  AND username='%s'",
-        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser))
-    );
-    dpsession_set_preferences_from_db();
+        WHERE u_id = $user->u_id
+    ");
     $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
 }
@@ -85,11 +82,11 @@ if (array_get($_POST, "insertdb", "") != "") {
     // determine which and let that tab save 'itself'.
 
     if ($selected_tab == 0)
-        save_general_tab();
+        save_general_tab($user);
     else if ($selected_tab == 1)
-        save_proofreading_tab();
+        save_proofreading_tab($user);
     else if ($selected_tab == 2)
-        save_pm_tab();
+        save_pm_tab($user);
 
     if (isset($_POST["saveAndQuit"]) || isset($_POST["mkProfileAndQuit"]))
     {
@@ -105,21 +102,18 @@ if (array_get($_POST, "insertdb", "") != "") {
         // Deletion is prevented when the user has only one profile by disabling
         // the button in the options at the bottom of the proofreading tab.
 
-        // Get and delete currently selected profile.
-        $profile = new UserProfile($userP['u_profile']);
-        $profile->delete();
+        // Delete currently selected profile.
+        $user->profile->delete();
 
         // Set the first remaining available profile to be active.
-        $profiles = UserProfile::load_user_profiles($uid);
+        $profiles = UserProfile::load_user_profiles($user->u_id);
         $new_profile_id = $profiles[0]->id;
     
         mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE users
             SET u_profile = %d
             WHERE u_id = %d
-        ", $new_profile_id, $uid));
-        // Reload preferences to reflect changed active profile.
-        dpsession_set_preferences_from_db();
+        ", $new_profile_id, $user->u_id));
 
         // Bounce user back to the proofreading preferences tab.
         $selected_tab=1;
@@ -225,18 +219,17 @@ echo "<input type='hidden' name='tab' value='$selected_tab'>";
 // Keep remembering the URL from which the preferences where entered.
 echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
 echo "<input type='hidden' name='insertdb' value='true'>";
-echo "<input type='hidden' name='user_id' value='$uid'>";
 
 echo "<table class='preferences'>";
 
 // display one of the tabs
 
 if ($selected_tab == 1)
-    echo_proofreading_tab();
+    echo_proofreading_tab($user);
 else if ($selected_tab == 2 && user_is_PM())
-    echo_pm_tab();
+    echo_pm_tab($user);
 else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
-    echo_general_tab();
+    echo_general_tab($user);
 
 echo "</table></form>\n";
 echo "<br>";
@@ -271,8 +264,7 @@ function echo_tabs($tab_names, $selected_tab) {
 
 /*************** GENERAL TAB ***************/
 
-function echo_general_tab() {
-    global $uid, $pguser, $userP;
+function echo_general_tab($user) {
     global $userSettings;
 
     $options = get_locale_translation_selection_options();
@@ -286,8 +278,6 @@ function echo_general_tab() {
         PRIVACY_PRIVATE   => _("Private"),
     );
 
-    $user = User::load_current();
-
     echo "<tr>\n";
     show_preference(
         _('Name'), 'real_name', 'name',
@@ -300,7 +290,7 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     // Check for DP/forum email mismatch, warn user if not the same
-    $bb_user_info = get_forum_user_details($pguser);
+    $bb_user_info = get_forum_user_details($user->username);
     $email_warning = '';
     if ( $bb_user_info["email"] != $user->email) {
         $edit_url = get_url_to_edit_profile();
@@ -317,7 +307,7 @@ function echo_general_tab() {
     );
     show_preference(
         _('Interface Language'), 'u_intlang', 'intlang',
-        $userP['u_intlang'],
+        $user->u_intlang,
         'dropdown',
         $u_intlang_options
     );
@@ -326,7 +316,7 @@ function echo_general_tab() {
     echo "<tr>\n";
     show_preference(
         _('E-mail Updates'), 'email_updates', 'updates',
-        $userP['email_updates'],
+        $user->email_updates,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -339,7 +329,7 @@ function echo_general_tab() {
     }
     show_preference(
         _('Theme'), 'i_theme', 'theme',
-        $userP['i_theme'],
+        $user->i_theme,
         'dropdown',
         $theme_options
     );
@@ -354,7 +344,7 @@ function echo_general_tab() {
     );
     show_preference(
         _('Statistics Bar Alignment'), 'u_align', 'align',
-        $userP['u_align'],
+        $user->u_align,
         'radio_group',
         array( 1 => _("Left"), 0 => _("Right") )
     );
@@ -363,13 +353,13 @@ function echo_general_tab() {
     echo "<tr>\n";
     show_preference(
         _('Statistics'), 'u_privacy', 'privacy',
-        $userP['u_privacy'],
+        $user->u_privacy,
         'dropdown',
         $i_stats_privacy
     );
     show_preference(
         _('Show Rank Neighbors'), 'u_neigh', 'neighbors',
-        $userP['u_neigh'],
+        $user->u_neigh,
         'dropdown',
         get_rank_neighbor_options()
     );
@@ -406,8 +396,7 @@ function echo_general_tab() {
     echo_bottom_button_row();
 }
 
-function save_general_tab() {
-    global $uid, $pguser;
+function save_general_tab($user) {
     global $userSettings;
 
     // set users values
@@ -417,11 +406,11 @@ function save_general_tab() {
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
     $update_string .= ", i_prefs=1";
 
-    $users_query=sprintf("
+    $users_query = "
         UPDATE users
         SET $update_string
-        WHERE u_id=$uid AND username='%s'",
-        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+        WHERE u_id = $user->u_id
+    ";
     mysqli_query(DPDatabase::get_connection(), $users_query) or
         print(DPDatabase::log_error());
 
@@ -439,17 +428,15 @@ function save_general_tab() {
 
     $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
 
-    dpsession_set_preferences_from_db();
 }
 
 /*************** PROOFREADING TAB ***************/
 
-function echo_proofreading_tab() {
-    global $userP;
+function echo_proofreading_tab($user) {
     global $i_resolutions;
 
     // see if they already have 10 profiles, etc.
-    $profiles = UserProfile::load_user_profiles($userP['u_id']);
+    $profiles = UserProfile::load_user_profiles($user->u_id);
     $pf_num = count($profiles);
 
     echo "<tr>\n";
@@ -459,7 +446,7 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Current Profile'), 'profilename', 'profilename',
-        $userP['profilename'],
+        $user->profile->profilename,
         'textfield',
         array( '100%', 'required', '' )
     );
@@ -469,7 +456,7 @@ function echo_proofreading_tab() {
     foreach($profiles as $profile)
     {
         echo "<option value='$profile->id'";
-        if ($profile->id == $userP['u_profile']) { echo " SELECTED"; }
+        if ($profile->id == $user->u_profile) { echo " SELECTED"; }
         echo ">$profile->profilename</option>";
     }
     echo "</select>";
@@ -481,13 +468,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Screen Resolution'), 'i_res', 'screenres',
-        $userP['i_res'],
+        $user->profile->i_res,
         'dropdown',
         $i_resolutions
     );
     show_preference(
         _('Launch in New Window'), 'i_newwin', 'newwindow',
-        $userP['i_newwin'],
+        $user->profile->i_newwin,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -496,13 +483,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Interface Type'), 'i_type', 'facetype',
-        $userP['i_type'],
+        $user->profile->i_type,
         'radio_group',
         array( 0 => _("Standard"), 1 => _("Enhanced") )
     );
     show_preference(
         _('Show Toolbar'), 'i_toolbar', 'toolbar',
-        $userP['i_toolbar'],
+        $user->profile->i_toolbar,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -511,7 +498,7 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Interface Layout'), 'i_layout', 'layout',
-        $userP['i_layout'],
+        $user->profile->i_layout,
         'radio_group',
         array(
             1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'.attr_safe(_("Vertical")).'">',
@@ -520,7 +507,7 @@ function echo_proofreading_tab() {
     );
     show_preference(
         _('Show Status Bar'), 'i_statusbar', 'statusbar',
-        $userP['i_statusbar'],
+        $user->profile->i_statusbar,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -539,15 +526,15 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Font Face'), 'v_fntf', 'v_fontface',
-        $userP['v_fntf'],
+        $user->profile->v_fntf,
         'fontface_selection',
-        @$userP['v_fntf_other']
+        $user->profile->v_fntf_other
     );
     show_preference(
         _('Font Face'), 'h_fntf', 'h_fontface',
-        $userP['h_fntf'],
+        $user->profile->h_fntf,
         'fontface_selection',
-        @$userP['h_fntf_other']
+        $user->profile->h_fntf_other
     );
     echo "</tr>\n";
 
@@ -562,13 +549,13 @@ function echo_proofreading_tab() {
     $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
     show_preference(
         _('Font Size'), 'v_fnts', 'v_fontsize',
-        $userP['v_fnts'],
+        $user->profile->v_fnts,
         'dropdown',
         $proofreading_font_sizes
     );
     show_preference(
         _('Font Size'), 'h_fnts', 'h_fontsize',
-        $userP['h_fnts'],
+        $user->profile->h_fnts,
         'dropdown',
         $proofreading_font_sizes
     );
@@ -590,14 +577,14 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Image Zoom'), 'v_zoom', 'v_zoom',
-        $userP['v_zoom'],
+        $user->profile->v_zoom,
         'numberfield',
         # xgettext:no-php-format
         array( '5em', 'required', _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
-        $userP['h_zoom'],
+        $user->profile->h_zoom,
         'numberfield',
         # xgettext:no-php-format
         array( '5em', 'required', _("% of 1000 pixels") )
@@ -607,14 +594,14 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Text Frame Size'), 'v_tframe', 'v_textsize',
-        $userP['v_tframe'],
+        $user->profile->v_tframe,
         'numberfield',
         # xgettext:no-php-format
         array( '5em', 'required', _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
-        $userP['h_tframe'],
+        $user->profile->h_tframe,
         'numberfield',
         # xgettext:no-php-format
         array( '5em', 'required', _("% of browser height") )
@@ -624,13 +611,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Scroll Text Frame'), 'v_tscroll', 'v_scroll',
-        $userP['v_tscroll'],
+        $user->profile->v_tscroll,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
     show_preference(
         _('Scroll Text Frame'), 'h_tscroll', 'h_scroll',
-        $userP['h_tscroll'],
+        $user->profile->h_tscroll,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -639,13 +626,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Number of Text Lines'), 'v_tlines', 'v_textlines',
-        $userP['v_tlines'],
+        $user->profile->v_tlines,
         'numberfield',
         array( '5em', 'required', "" )
     );
     show_preference(
         _('Number of Text Lines'), 'h_tlines', 'h_textlines',
-        $userP['h_tlines'],
+        $user->profile->h_tlines,
         'numberfield',
         array( '5em', 'required', "" )
     );
@@ -654,13 +641,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Length of Text Lines'), 'v_tchars', 'v_textlength',
-        $userP['v_tchars'],
+        $user->profile->v_tchars,
         'numberfield',
         array( '5em', 'required', " "._("characters") )
     );
     show_preference(
         _('Length of Text Lines'), 'h_tchars', 'h_textlength',
-        $userP['h_tchars'],
+        $user->profile->h_tchars,
         'numberfield',
         array( '5em', 'required', " "._("characters") )
     );
@@ -669,13 +656,13 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     show_preference(
         _('Wrap Text'), 'v_twrap', 'v_wrap',
-        $userP['v_twrap'],
+        $user->profile->v_twrap,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
     show_preference(
         _('Wrap Text'), 'h_twrap', 'h_wrap',
-        $userP['h_twrap'],
+        $user->profile->h_twrap,
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
@@ -706,8 +693,7 @@ function echo_proofreading_tab() {
     echo "</td></tr>\n";
 }
 
-function save_proofreading_tab() {
-    global $uid, $userP;
+function save_proofreading_tab($user) {
 
     $create_new_profile = FALSE;
     if(isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"]))
@@ -724,7 +710,7 @@ function save_proofreading_tab() {
     ];
 
     $profile = new UserProfile();
-    $profile->u_ref = $uid;
+    $profile->u_ref = $user->u_id;
     foreach($profile_fields as $field)
     {
         $profile->$field = $_POST[$field];
@@ -732,7 +718,7 @@ function save_proofreading_tab() {
 
     if (!$create_new_profile)
     {
-        $profile->id = $userP['u_profile'];
+        $profile->id = $user->u_profile;
     }
     $profile->save();
 
@@ -742,20 +728,17 @@ function save_proofreading_tab() {
         $users_query = "
             UPDATE users
             SET u_profile = $profile->id
-            WHERE u_id = $uid
+            WHERE u_id = $user->u_id
         ";
         mysqli_query(DPDatabase::get_connection(), $users_query) or
             print(DPDatabase::log_error());
     }
-
-    dpsession_set_preferences_from_db();
 }
 
 /*************** PM TAB ***************/
 
-function echo_pm_tab() {
+function echo_pm_tab($user) {
 
-    global $userP;
     global $userSettings;
 
     $i_pm= array(_("All Projects"), _("Active Projects"), _("Basic Page"));
@@ -764,7 +747,7 @@ function echo_pm_tab() {
     show_preference(
         // TRANSLATORS: PM = project manager
         _('Default PM Page'), 'i_pmdefault', 'pmdefault',
-        $userP['i_pmdefault'],
+        $user->i_pmdefault,
         'dropdown',
         $i_pm
     );
@@ -795,8 +778,7 @@ function echo_pm_tab() {
     echo_bottom_button_row();
 }
 
-function save_pm_tab() {
-    global $uid, $pguser;
+function save_pm_tab($user) {
     global $userSettings;
 
     // set users values
@@ -806,11 +788,11 @@ function save_pm_tab() {
 
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
 
-    $users_query=sprintf("
+    $users_query = "
         UPDATE users
         SET $update_string
-        WHERE u_id=$uid AND username='%s'",
-        mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+        WHERE u_id = $user->u_id
+    ";
     mysqli_query(DPDatabase::get_connection(), $users_query) or
         print(DPDatabase::log_error());
 
@@ -823,8 +805,6 @@ function save_pm_tab() {
     // to them for PP 
      
     $userSettings->set_boolean('send_to_post', $_POST["send_to_post"] == 'yes');
-
-    dpsession_set_preferences_from_db();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
