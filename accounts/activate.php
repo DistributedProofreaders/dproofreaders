@@ -122,13 +122,13 @@ $u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented user
 $user->delete();
 
 // create profile
-$profileString="INSERT INTO user_profiles SET u_ref=$u_id";
-$makeProfile = mysqli_query(DPDatabase::get_connection(), $profileString);
-$profile_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented user_profiles.id
+$profile = new UserProfile();
+$profile->u_ref = $u_id;
+$profile->save();
 
 // add ref to profile
 $refString=sprintf("
-    UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'
+    UPDATE users SET u_profile=$profile->id WHERE id='%s' AND username='%s'
     ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->username)
 );

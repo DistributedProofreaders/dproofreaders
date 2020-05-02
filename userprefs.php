@@ -117,13 +117,13 @@ if (array_get($_POST, "insertdb", "") != "") {
     $del_target_profile_id =$userP['u_profile'];
     $del_target_profile_name = $userP['profilename'];
     echo sprintf(_("Deleting usersettings profile: %1\$s (id=%2\$d)..."),$del_target_profile_name,$del_target_profile_id) . "\n<br>\n";
-    mysqli_query(DPDatabase::get_connection(), "delete from user_profiles WHERE u_ref = '$uid' AND id = '$del_target_profile_id'");
+    $profile = new UserProfile($del_target_profile_id);
+    $profile->delete();
 
     // Set the first remaining available profile to be active.
-    $result=mysqli_query(DPDatabase::get_connection(), "SELECT * FROM user_profiles WHERE  u_ref=$uid");
-    $row = mysqli_fetch_assoc($result);
-    $new_profile_name = $row["profilename"];
-    $new_profile_id = $row["id"];
+    $profiles = UserProfile::load_user_profiles($uid);
+    $new_profile_name = $profiles[0]->profilename;
+    $new_profile_id = $profiles[0]->id;
     echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
     
     mysqli_query(DPDatabase::get_connection(), sprintf("
@@ -465,8 +465,8 @@ function echo_proofreading_tab() {
     global $i_resolutions;
 
     // see if they already have 10 profiles, etc.
-    $pf_query=mysqli_query(DPDatabase::get_connection(), "SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
-    $pf_num=mysqli_num_rows($pf_query);
+    $profiles = UserProfile::load_user_profiles($userP['u_id']);
+    $pf_num = count($profiles);
 
     echo "<tr>\n";
     th_label_long( 6, _('Profiles') );
@@ -482,13 +482,11 @@ function echo_proofreading_tab() {
     echo "<td colspan='2' class='center-align'>";
     // show all profiles
     echo "<select name='c_profile' ID='c_profile'>";
-    while ($row = mysqli_fetch_assoc($pf_query))
+    foreach($profiles as $profile)
     {
-        $pf_Dex = $row["id"];
-        $pf_Val = $row["profilename"];
-        echo "<option value=\"$pf_Dex\"";
-        if ($pf_Dex == $userP['u_profile']) { echo " SELECTED"; }
-        echo ">$pf_Val</option>";
+        echo "<option value='$profile->id'";
+        if ($profile->id == $userP['u_profile']) { echo " SELECTED"; }
+        echo ">$profile->profilename</option>";
     }
     echo "</select>";
     echo " <input type=\"submit\" value=\"".attr_safe(_("Switch Profiles"))."\" name=\"swProfile\">&nbsp;";
@@ -731,13 +729,7 @@ function echo_proofreading_tab() {
 }
 
 function save_proofreading_tab() {
-    global $uid, $userP, $pguser;
-
-    // set user_profiles values
-    $input_string_fields = array("profilename", "v_fntf_other", "h_fntf_other");
-    $input_numeric_fields = array("i_res", "i_type", "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts", "v_zoom", "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap", "h_fntf", "h_fnts", "h_zoom", "h_tframe", "h_tscroll", "h_tlines", "h_tchars", "h_twrap");
-
-    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
+    global $uid, $userP;
 
     $create_new_profile = FALSE;
     if(isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"]))
@@ -745,27 +737,35 @@ function save_proofreading_tab() {
         $create_new_profile = TRUE;
     }
 
-    // set/create user_profile values
-    if ($create_new_profile)
+    $profile_fields = [
+        "profilename", "v_fntf_other", "h_fntf_other", "i_res", "i_type", 
+        "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts",
+        "v_zoom", "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap",
+        "h_fntf", "h_fnts", "h_zoom", "h_tframe", "h_tscroll", "h_tlines",
+        "h_tchars", "h_twrap"
+    ];
+
+    $profile = new UserProfile();
+    $profile->u_ref = $uid;
+    foreach($profile_fields as $field)
     {
-        $prefs_query="INSERT INTO user_profiles SET u_ref='$uid', $update_string";
-    }
-    else
-    {
-        $prefs_query="UPDATE user_profiles SET $update_string WHERE u_ref='$uid' AND id='{$userP['u_profile']}'";
+        $profile->$field = $_POST[$field];
     }
 
-    mysqli_query(DPDatabase::get_connection(), $prefs_query);
-    echo mysqli_error(DPDatabase::get_connection());
+    if (!$create_new_profile)
+    {
+        $profile->id = $userP['u_profile'];
+    }
+    $profile->save();
 
     // set users values
     if ($create_new_profile)
     {
-        $users_query=sprintf("
+        $users_query = "
             UPDATE users
-            SET u_profile=".mysqli_insert_id(DPDatabase::get_connection())."
-            WHERE u_id=$uid AND username='%s'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
+            SET u_profile = $profile->id
+            WHERE u_id = $uid
+        ";
         mysqli_query(DPDatabase::get_connection(), $users_query);
         echo mysqli_error(DPDatabase::get_connection());
     }
@@ -1099,22 +1099,13 @@ function _create_mysql_update_string($source_array, $string_fields = array(), $n
 {
     $fields = array_merge($string_fields, $numeric_fields);
 
-    $update_fields = array();
+    $data = [];
     foreach($fields as $field)
     {
-        if(in_array($field, $string_fields))
-        {
-            $value = trim(array_get($source_array, $field, ""));
-            $value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $value));
-        }
-        else
-        {
-            $value = get_integer_param( $source_array, $field, 0, NULL, NULL );
-        }
-        array_push($update_fields, "$field = $value");
+        $data[$field] = $source_array[$field];
     }
 
-    return implode(", ", $update_fields);
+    return create_mysql_update_string($data, $string_fields);
 }
 
 // vim: sw=4 ts=4 expandtab
