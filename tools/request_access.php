@@ -58,7 +58,7 @@ else
             break;
 
         case 'sat-available':
-            $user = new User($pguser);
+            $user = User::load_current();
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
                 $user->grant_access($stage_id, 'AUTO-GRANTED');

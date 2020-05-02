@@ -657,8 +657,7 @@ function show_tally_specific_stats( $tally_name )
             }
         }
 
-        // Get userid for personal stats link
-        $user = new User($pguser);
+        $user = User::load_current();
 
         // get yesterday's and today's page count
         $snapshot_info = $tallyboard->get_info_from_latest_snapshot($user->u_id);

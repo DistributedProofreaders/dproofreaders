@@ -286,7 +286,7 @@ function echo_general_tab() {
         PRIVACY_PRIVATE   => _("Private"),
     );
 
-    $user = new User($pguser);
+    $user = User::load_current();
 
     echo "<tr>\n";
     show_preference(
