@@ -291,7 +291,7 @@ div.calloutheader {
   font-weight: bold;
 }
 kbd {
-  font-family: monospace;
+  font-family: DejaVu Sans Mono, monospace;
 }
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
