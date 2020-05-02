@@ -10,7 +10,8 @@ if ( isset($_GET['i_type']) )
 }
 else
 {
-    $i_type = $userP['i_type'];
+    $user = User::load_current();
+    $i_type = $user->profile->i_type;
 }
 
 // -----------------------------------------------------------------------------

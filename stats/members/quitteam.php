@@ -9,15 +9,16 @@ require_login();
 
 $tid = get_integer_param($_GET, 'tid', null, 0, null);
 
-if ($userP['team_1'] == $tid || $userP['team_2'] == $tid || $userP['team_3'] == $tid) {
+$user = User::load_current();
+
+if ($user->team_1 == $tid || $user->team_2 == $tid || $user->team_3 == $tid) {
     $quitQuery = "UPDATE users SET ";
-    if ($userP['team_1'] == $tid) { $quitQuery .= "team_1 = '0'"; }
-    if ($userP['team_2'] == $tid) { $quitQuery .= "team_2 = '0'"; }
-    if ($userP['team_3'] == $tid) { $quitQuery .= "team_3 = '0'"; }
-    $quitQuery.=" WHERE username='$pguser' AND u_id='".$userP['u_id']."'";
+    if ($user->team_1 == $tid) { $quitQuery .= "team_1 = '0'"; }
+    if ($user->team_2 == $tid) { $quitQuery .= "team_2 = '0'"; }
+    if ($user->team_3 == $tid) { $quitQuery .= "team_3 = '0'"; }
+    $quitQuery.=" WHERE u_id = $user->u_id";
     $teamResult=mysqli_query(DPDatabase::get_connection(), $quitQuery);
     mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET active_members = active_members-1 WHERE id='".$tid."'");
-    dpsession_set_preferences_from_db();
     $title = _("Quit the Team");
     $desc = _("Quitting the team....");
     metarefresh(0,"../teams/tdetail.php?tid=".$tid."",$title,$desc);

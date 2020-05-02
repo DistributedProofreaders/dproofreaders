@@ -17,7 +17,8 @@ require_login();
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
-$requester_u_id = $userP['u_id'];
+$user = User::load_current();
+$requester_u_id = $user->u_id;
 
 $now_sse = time();
 // The current time, expressed as Seconds Since the (Unix) Epoch.

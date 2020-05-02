@@ -24,7 +24,6 @@ define('PREVIEW',                     'S');
 
 function echo_button( $button_id, $which_interface )
 {
-    global $userP;
     global $charset;
     $CRLF = '\r\n';
     if ($which_interface == 's')
@@ -43,7 +42,8 @@ function echo_button( $button_id, $which_interface )
     switch ($button_id)
     {
         case CHANGE_LAYOUT:
-            if ( $userP['i_layout']==1)
+            $user = User::load_current();
+            if ( $user->profile->i_layout==1)
             {
                 $horvert = _("Horizontal");
                 $n = "5";

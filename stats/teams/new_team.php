@@ -8,6 +8,8 @@ include_once('../includes/team.inc'); // showEdit()
 
 require_login();
 
+$user = User::load_current();
+
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 if (isset($_POST['mkPreview']))
@@ -20,8 +22,8 @@ if (isset($_POST['mkPreview']))
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
     $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
-    $curTeam['createdby'] = $pguser;
-    $curTeam['owner'] = $userP['u_id'];
+    $curTeam['createdby'] = $user->username;
+    $curTeam['owner'] = $user->u_id;
     $curTeam['created'] = time();
     $curTeam['member_count'] = 0;
     $curTeam['active_members'] = 0;
@@ -62,7 +64,7 @@ else if (isset($_POST['mkMake']))
         ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
-            $pguser, $userP['u_id'], time()));
+            $user->username, $user->u_id, time()));
         $tid = mysqli_insert_id(DPDatabase::get_connection());
         if (!empty($_POST['tavatar']))
         {
@@ -95,20 +97,19 @@ else if (isset($_POST['mkMake']))
         $otid=0;
         if (!isset($_POST['teamall']))
         {
-            if ($userP['team_1'] == $_POST['tteams'])
+            if ($user->team_1 == $_POST['tteams'])
             {
                 $otid=1;
             }
-            elseif ($userP['team_2'] == $_POST['tteams'])
+            elseif ($user->team_2 == $_POST['tteams'])
             {
                 $otid=2;
             }
-            else if ($userP['team_3'] == $_POST['tteams'])
+            else if ($user->team_3 == $_POST['tteams'])
             {
                 $otid=3;
             }
         }
-        dpsession_set_preferences_from_db();
     
         $title = _("Join the Team");
         $desc = _("Creating the team....");

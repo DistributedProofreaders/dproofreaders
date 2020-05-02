@@ -54,7 +54,8 @@ if (isset($_POST['spsaveandnext']))    {$tbutton=103;} // Save and do another fr
 if (isset($_POST['rerunauxlanguage'])) {$tbutton=104;} // Spellcheck against another language
 
 // set prefs
-if ($userP['i_type']==1)
+$user = User::load_current();
+if ($user->profile->i_type == 1)
 {
     if(isset($_POST['fntFace']))
         $fntFace = $_POST['fntFace'];
@@ -63,21 +64,21 @@ if ($userP['i_type']==1)
     if(isset($_POST['zmSize']))
         $zmSize  = $_POST['zmSize'];
     
-    $isChg=0;
-    if ($userP['i_layout']==1)
+    if ($user->profile->i_layout == 1)
     {
-        if (isset($fntFace) && $userP['v_fntf']!=$fntFace) {$userP['v_fntf']=$fntFace;$isChg=1;}
-        if (isset($fntSize) && $userP['v_fnts']!=$fntSize) {$userP['v_fnts']=$fntSize;$isChg=1;}
-        if (isset($zmSize) && $userP['v_zoom']!=$zmSize) {$userP['v_zoom']=$zmSize;$isChg=1;}
+        if (isset($fntFace)) { $user->profile->v_fntf = $fntFace; }
+        if (isset($fntSize)) { $user->profile->v_fnts = $fntSize; }
+        if (isset($zmSize))  { $user->profile->v_zoom = $zmSize; }
     }
     else
     {
-        if (isset($fntFace) && $userP['h_fntf']!=$fntFace) {$userP['h_fntf']=$fntFace;$isChg=1;}
-        if (isset($fntSize) && $userP['h_fnts']!=$fntSize) {$userP['h_fnts']=$fntSize;$isChg=1;}
-        if (isset($zmSize) && $userP['h_zoom']!=$zmSize) {$userP['h_zoom']=$zmSize;$isChg=1;}
+        if (isset($fntFace)) { $user->profile->h_fntf = $fntFace; }
+        if (isset($fntSize)) { $user->profile->h_fnts = $fntSize; }
+        if (isset($zmSize))  { $user->profile->h_zoom = $zmSize; }
     }
-    $userP['prefschanged']=$isChg;
-    dpsession_set_preferences_temp( $userP );
+
+    if(isset($fntFace) || isset($fntSize) || isset($zmSize))
+        $user->profile->save();
 }
 
 // If the user simply wants to leave the proofing interface,
@@ -274,21 +275,21 @@ switch( $tbutton )
 
 function switch_layout()
 {
-    global $userP;
-    $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
-    $userP['prefschanged'] = 1;
-    dpsession_set_preferences_temp( $userP );
+    $user = User::load_current();
+    $user->profile->i_layout = $user->profile->i_layout == 1 ? 0 : 1;
+    $user->profile->save();
 }
 
 function leave_spellcheck_mode( $ppage )
 {
-    global $userP;
+
+    $user = User::load_current();
 
     // The user has requested a return from spellcheck mode.
     // The response that we send will replace the frame/document
     // containing the spellcheck form.
 
-    if ( $userP['i_type'] == 0 )
+    if ($user->profile->i_type == 0)
     {
         // standard interface:
         // The spellcheck document (containing text only) is in 'textframe'.

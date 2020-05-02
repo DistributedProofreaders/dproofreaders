@@ -168,9 +168,12 @@ output_header(_("Image Frame"));
 echo "<table cols ='2' border = '1'>";
 
 //Display image
-if ($userP['i_layout']==1)
-    {$iWidth=$userP['v_zoom'];}
-else {$iWidth=$userP['h_zoom'];}
+$user = User::load_current();
+if ($user->profile->i_layout == 1) {
+    $iWidth = $user->profile->v_zoom;
+} else {
+    $iWidth = $user->profile->h_zoom;
+}
 $iWidth=round((1000*$iWidth)/100);
 
 // The outside table has a single row containing two cells.

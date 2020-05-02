@@ -15,7 +15,8 @@ include_once('projectmgr.inc'); // echo_manager_links();
 
 require_login();
 
-switch ($userP['i_pmdefault'])
+$user = User::load_current();
+switch ($user->i_pmdefault)
 {
     case 0:
         $default_view = "user_all";
@@ -87,16 +88,16 @@ if ($show_view == 'search_form')
 
 if($show_view == "user_all")
 {
-    $condition = "username = '$pguser'";
+    $condition = "username = '$user->username'";
     // adjust $_GET so will work corectly with refine search and sort and navigate
     // keep "user_all" or we won't know it is user all
-    $_GET = array_merge($_GET, array('project_manager' => $pguser));
+    $_GET = array_merge($_GET, array('project_manager' => $user->username));
 }
 elseif ($show_view == "user_active")
 {
-    $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
+    $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$user->username'";
     $_GET = array_merge($_GET, array(
-        'project_manager' => $pguser,
+        'project_manager' => $user->username,
         'state' => array_diff($PROJECT_STATES_IN_ORDER, array(PROJ_SUBMIT_PG_POSTED, PROJ_DELETE))
     ));
 }

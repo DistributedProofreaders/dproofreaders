@@ -19,10 +19,10 @@ include_once($relPath.'faq.inc');
 // to close the page after the caller finishes output.
 function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
 {
-    global $pguser, $userP;
+    $user = User::load_current();
 
     // Display stats bar on left (1) or right (0)
-    $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
+    $statsbar_align = $user ? $user->u_align : 0;
 
     // The theme layout consists of:
     // * Two full width headers at the top,
@@ -65,10 +65,10 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 
 function output_footer($nameofpage, $show_statsbar = True) {
     global $code_url, $site_name, $PAGE_START_TIME;
-    global $pguser, $userP;
 
+    $user = User::load_current();
     // Display stats bar on left (1) or right (0)
-    $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
+    $statsbar_align = $user ? $user->u_align : 0;
 
     // The main page content has been emited so close the main page content column.
     echo "</div>\n";
@@ -197,13 +197,14 @@ function html_navbar()
 // Display the horizontal bar containing links to various important points
 // within the site (and the login form if the user is not logged in).
 {
-    global $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
+    global $code_url, $site_abbreviation, $forums_url, $blog_url, $wiki_url;
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
 
     //Code to display login form if not logged in
-    if (!isset($pguser)) {
+    $user = User::load_current();
+    if (!$user) {
         $links = array();
         $links[] = array('text' => $site_abbreviation, 'url' => "default.php");
         if ( !empty($blog_url) )
@@ -254,7 +255,7 @@ function html_navbar()
         //Code to display if the user is logged in
 
         // Fetch some values from the database for use in links later
-        $numofPMs = get_number_of_unread_messages($pguser);
+        $numofPMs = get_number_of_unread_messages($user->username);
 
         // left side
         echo "<span id='navbar-left'>";
@@ -267,7 +268,7 @@ function html_navbar()
 
         // use white-space: nowrap; to keep the rounds within []s together
         $activities_string = "<span style='white-space: nowrap;'>[ ";
-        if(get_pages_proofed_maybe_simulated($pguser) < 100)
+        if(get_pages_proofed_maybe_simulated() < 100)
             $activities_string .= "<span class='text'>" . _("Activities") . ": </span>";
 
         $activities_string .= headerbar_text_array(get_activity_links());
@@ -311,7 +312,7 @@ function html_navbar()
         $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
         $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
         $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
-        $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "accounts/logout.php");
+        $links[] = array('text' => sprintf(_("Log Out (%s)"), $user->username), 'url' => "accounts/logout.php");
 
         echo headerbar_text_array($links);
         echo "</span>";
@@ -396,12 +397,13 @@ function headerbar_text_array($entries)
 
 function html_statsbar($nameofpage) {
 
-    global $code_url, $PG_home_url, $pguser;
+    global $code_url, $PG_home_url;
     global $Round_for_round_id_;
     maybe_show_language_selector();
 
     // For logged-in users, show links to key help documents:
-    if (isset($pguser))
+    $user = User::load_current();
+    if ($user)
     {
         show_key_help_links();
         echo "<hr class='divider'>\n";
@@ -459,7 +461,7 @@ function html_statsbar($nameofpage) {
 
         // Only show completed projects list to signed in users, to
         // keep front page uncluttered for visitors.
-        if (isset($pguser)) {
+        if ($user) {
             echo "<div id='completed-projects'>\n";
             show_completed_projects();
             echo "</div>\n";
@@ -476,7 +478,7 @@ function html_statsbar($nameofpage) {
     echo "</a>";
     echo "</p>";
 
-    if (isset($pguser))
+    if ($user)
     {
         // requestor is a logged-in user.
         echo "<hr class='divider'>\n";
@@ -485,7 +487,7 @@ function html_statsbar($nameofpage) {
 
     // SITE-SPECIFIC
     //Display the "About DP" section if user is not logged in
-    if (!isset($pguser))
+    if (!$user)
     {
         echo "<hr><p id='about-dp'>";
         echo sprintf(_("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG."), $PG_home_url);
@@ -497,7 +499,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $user_is_logged_in;
+    global $code_url, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
     if($user_is_logged_in)
@@ -532,9 +534,11 @@ function get_activity_links()
 // return a list of round/stage links for the user
 // the returned links are in a format usable by headerbar_text_array
 {
-    global $Stage_for_id_, $pguser;
+    global $Stage_for_id_;
 
-    if (is_null($pguser)) return;
+    $user = User::load_current();
+
+    if (!$user) return;
     // Should show links to stages that are accessible to people
     // that aren't logged in? (i.e., SR)?
 
@@ -546,7 +550,7 @@ function get_activity_links()
     }
 
     // Get all stages the user has access to
-    $stages_can_access_and_access_prereqs = get_stages_user_can_work_in($pguser);
+    $stages_can_access_and_access_prereqs = get_stages_user_can_work_in($user->username);
 
     // we still need to loop through $Stage_for_id_ to output the stages
     // in order
@@ -559,7 +563,7 @@ function get_activity_links()
             // for PPers, get the number of their projects requiring attention
             if($stage->id == "PP")
             {
-                $total = count_pp_projects_past_threshold($pguser);
+                $total = count_pp_projects_past_threshold($user->username);
                 if($total)
                     $text .= " ($total)";
             }
@@ -584,7 +588,7 @@ function get_activity_links()
 
 function show_tally_specific_stats( $tally_name )
 {
-    global $code_url, $userP, $pguser;
+    global $code_url;
 
     // Put the whole thing in a div, just so we can put a box around it.
     echo "<div id='tally-stats'>\n";
@@ -624,7 +628,8 @@ function show_tally_specific_stats( $tally_name )
 
     // ---------------------------------------------------------------------
 
-    if (isset($pguser))
+    $user = User::load_current();
+    if ($user)
     {
         // The requestor is a logged-in user.
         // Show the user's personal statistics
@@ -632,7 +637,7 @@ function show_tally_specific_stats( $tally_name )
         //Get the personal statistics array
         $neighbors =
             user_get_page_tally_neighborhood(
-                $tally_name, $pguser, $userP['u_neigh']);
+                $tally_name, $user->username, $user->u_neigh);
         $usern = $neighbors[0];
 
         //get rank
@@ -688,11 +693,11 @@ function show_tally_specific_stats( $tally_name )
         echo "$rankname<br>\n";
         echo "</p>\n";
         echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&amp;tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
-        echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
-        if ($userP['u_neigh']) {
+        $user = User::load_current();
+        if ($user->u_neigh) {
             echo "<h2>" . sprintf(_("Your %s Neighborhood"), $tally_name) . "</h2>\n";
             echo "<p>\n";
 
@@ -728,7 +733,9 @@ function show_tally_vs_goal($label, $goal, $actual)
 
 function show_user_teams()
 {
-    global $code_url, $userP;
+    global $code_url;
+
+    $user = User::load_current();
 
     echo "<div id='teams-nav'>\n";
     echo "<h2>" .  _("Your Teams") . "</h2>\n";
@@ -736,7 +743,7 @@ function show_user_teams()
     $teamRes=mysqli_query(DPDatabase::get_connection(), "
         SELECT teamname, id
         FROM user_teams
-        WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})
+        WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})
     ");
     while($row = mysqli_fetch_assoc($teamRes))
     {

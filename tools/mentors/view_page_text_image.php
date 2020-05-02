@@ -234,19 +234,21 @@ elseif ($frame=="text") {
         $row = mysqli_fetch_assoc($result);
         $data = $row[$text_column_name];
 
+        $user = User::load_current();
+
         // Use the font and wrap prefs for the user's default interface layout, 
         // since they're more likely to have set those prefs
-        if ( $userP['i_layout']==1 ) {
-            $line_wrap   = $userP['v_twrap'];
+        if ($user->profile->i_layout == 1) {
+            $line_wrap = $user->profile->v_twrap;
         } else {
-            $line_wrap   = $userP['h_twrap'];
+            $line_wrap = $user->profile->h_twrap;
         }
         list($font_face, $font_size) = get_user_proofreading_font();
 
         // Since this page doesn't have a vertical layout version, 
         // we'll use their horizontal prefs for textarea size
-        $n_cols = $userP['h_tchars'];
-        $n_rows = $userP['h_tlines'];
+        $n_cols = $user->profile->h_tchars;
+        $n_rows = $user->profile->h_tlines;
 
         list( , $font_size, $font_family) = get_user_proofreading_font();
         $font_size_string = '';

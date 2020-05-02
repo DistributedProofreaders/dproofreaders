@@ -60,28 +60,28 @@ function get_available_proofreading_font_sizes()
 // $full_font_family is the current selection from get_full_font_families() below.
 function get_user_proofreading_font($interface=NULL)
 {
-    global $userP;
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
 
+    $user = User::load_current();
     if($interface === NULL)
     {
-        $interface = @$userP['i_layout'];
+        $interface = $user ? $user->profile->i_layout : NULL;
     }
 
-    if( !$userP ) {
+    if( !$user ) {
         $font_size_i = 0;
         $font_style_i = 0;
     }
-    elseif ( $interface  == 1 )   // "vertical"
+    elseif ( $interface == 1 )   // "vertical"
     {
-        $font_size_i = $userP['v_fnts'];
-        $font_style_i = $userP['v_fntf'];
+        $font_size_i = $user->profile->v_fnts;
+        $font_style_i = $user->profile->v_fntf;
     }
     else   // "horizontal"
     {
-        $font_size_i = $userP['h_fnts'];
-        $font_style_i = $userP['h_fntf'];
+        $font_size_i = $user->profile->h_fnts;
+        $font_style_i = $user->profile->h_fntf;
     }
 
     if($font_style_i == 1) // other
@@ -145,19 +145,26 @@ function get_full_font_families($interface = NULL)
 
 function get_user_proofreading_font_other($interface=NULL)
 {
-    global $userP;
+    $user = User::load_current();
+
+    // If we don't have a current user, they can't have an other font
+    if(!$user)
+    {
+        return "";
+    }
+
     if($interface === NULL)
     {
-        $interface = @$userP['i_layout'];
+        $interface = $user->profile->i_layout;
     }
 
     if ( $interface == 1 )   // "vertical"
     {
-        return @$userP['v_fntf_other'];
+        return $user->profile->v_fntf_other;
     }
     else   // "horizontal"
     {
-        return @$userP['h_fntf_other'];
+        return $user->profile->h_fntf_other;
     }
 }
 
