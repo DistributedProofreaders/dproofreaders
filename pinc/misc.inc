@@ -562,6 +562,39 @@ function surround_and_join( $strings, $L, $R, $joiner )
     return implode($joiner,$parts);
 }
 
+// Given an associative array, return a MySQL string that can be use in an
+// INSERT or UPDATE string.
+// $source_array is an associative array where the keys are MySQL column
+//    names and the values are the desired values to set in the database
+// $string_fields
+//    is a list of keys such that $source_array[$key] should be a string,
+//    otherwise the value is assumed to be an integer
+// This function checks that those expectations are satisfied, and constructs a
+// string of column=value 'assignments' that can be used in an SQL UPDATE
+// command (where each $key is assumed to be a column name). (String values
+// will be properly escaped in this string.)
+//
+// Currently this function will set default values ("" for strings, 0 for
+// numeric values) for all fields that are not within $source_array.
+function create_mysql_update_string($source_array, $string_fields = [])
+{
+    $update_fields = array();
+    foreach($source_array as $field => $value)
+    {
+        if(in_array($field, $string_fields))
+        {
+            $value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), trim($value)));
+        }
+        else
+        {
+            $value = $value ? intval($value) : 0;
+        }
+        array_push($update_fields, "$field = $value");
+    }
+
+    return implode(", ", $update_fields);
+}
+
 // Return a list of only the files directly inside in the specified directory.
 // On error, returns False.
 //

@@ -10,6 +10,7 @@ class NonuniqueUserException extends Exception { }
 class User
 {
     private $table_row;
+    private $current_profile;
 
     // List of fields that when set for a user should never change
     private $immutable_fields = array(
@@ -55,7 +56,15 @@ class User
 
     public function __get($name)
     {
-        return $this->table_row[$name];
+        switch($name)
+        {
+            case "profile":
+                if(!$this->current_profile)
+                    $this->current_profile = new UserProfile($this->u_profile);
+                return $this->current_profile;
+            default:
+                return $this->table_row[$name];
+        }
     }
 
     public function __isset($name)
