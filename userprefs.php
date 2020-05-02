@@ -281,7 +281,6 @@ function echo_tabs($tab_names, $selected_tab) {
 function echo_general_tab() {
     global $uid, $pguser, $userP;
     global $userSettings;
-    global $u_n;
 
     $options = get_locale_translation_selection_options();
 
@@ -379,7 +378,7 @@ function echo_general_tab() {
         _('Show Rank Neighbors'), 'u_neigh', 'neighbors',
         $userP['u_neigh'],
         'dropdown',
-        $u_n
+        get_rank_neighbor_options()
     );
     echo "</tr>\n";
 

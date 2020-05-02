@@ -167,8 +167,10 @@ function get_proofreading_font_family_fallback()
     return "monospace";
 }
 
-// $u_n = show rank neighbors
-$u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
+function get_rank_neighbor_options()
+{
+    return ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
+}
 
 define('PRIVACY_PUBLIC',    0);
 define('PRIVACY_ANONYMOUS', 1);
