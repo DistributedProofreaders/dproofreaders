@@ -191,6 +191,37 @@ class User
 
     // static functions
 
+    // Return the username of the currently-logged-in user
+    public static function current_username()
+    {
+        global $pguser;
+        return $pguser;
+    }
+
+    // Load the current user object
+    public static function load_current()
+    {
+        static $current_user = NULL;
+
+        if(is_null(User::current_username()))
+        {
+            return NULL;
+        }
+
+        if(!$current_user)
+        {
+            try
+            {
+                $current_user = new User(User::current_username());
+            }
+            catch(NonexistentUserException $e)
+            {
+                return NULL;
+            }
+        }
+        return $current_user;
+    }
+
     // Load a User record by u_id
     // e.g. $user = User::load_from_uid($u_id);
     public static function load_from_uid($u_id)
