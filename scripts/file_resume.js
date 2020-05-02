@@ -5,8 +5,8 @@ $(function() {
     // which should be updated if the below logic changes.
     function validate(name) {
         // the name must contain only a-z,A-Z,0-9,-,_ and not start with -
-        // and end with .zip
-        var validChars = /^\w[\w-]+\.\w+$/;
+        // and end with .zip (length is enforced a few lines down)
+        var validChars = /^\w[\w-]*\.\w+$/;
         if(!validChars.test(name)) {
             alert(uploadMessages.invalidChars);
             return false;
