@@ -830,7 +830,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 else if ($action == SEND_OUT_REPORTCARD)
 {
     $pper = new User($project->postproofer);
-    $ppver = new User($pguser);
+    $ppver = User::load_current();
 
     $reportcard = $_POST["reportcard"];
 
