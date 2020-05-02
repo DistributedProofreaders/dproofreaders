@@ -80,13 +80,6 @@ if (isset($_POST["quitnc"]))
     metarefresh(0, $origin, _("Quit"), "");
 }
 
-// restore session values from db
-if (isset($_POST["restorec"]))
-{
-    dpsession_set_preferences_from_db();
-    metarefresh(0, $origin, _("Restore"), "");
-}
-
 if (array_get($_POST, "insertdb", "") != "") {
     // one of the tabs was displayed and now it has been posted
     // determine which and let that tab save 'itself'.
@@ -690,12 +683,6 @@ function echo_proofreading_tab() {
 
     // buttons
     echo "<tr><td colspan='6' class='center-align'>";
-    if ($userP['prefschanged']==1)
-    {
-        echo "<input type='submit' value='" 
-            . attr_safe(_("Restore to Saved Preferences")) 
-            . "' name='restorec'> &nbsp;";
-    }
     echo "<input type='submit' value='" . attr_safe(_("Save Preferences"))
         . "' name='change'> &nbsp;";
     echo "<input type='submit' value='" 
