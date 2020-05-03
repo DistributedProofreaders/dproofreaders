@@ -35,8 +35,10 @@ finishes the table it is working on.
 
 EOF;
 
-echo count($projects) . " possible tables to convert.\n";
+$total = count($projects);
+echo "$total possible tables to convert.\n";
 
+$index = 1;
 foreach($projects as $projectid)
 {
     if(file_exists($stop_file))
@@ -48,14 +50,15 @@ foreach($projects as $projectid)
     }
 
     $project = new Project($projectid);
+    echo sprintf("%d/%d (%0.1f%%) $projectid ", $index, $total, ($index / $total) * 100);
     $was_converted = $project->convert_to_utf8();
     if($was_converted)
     {
-        echo "$projectid was converted\n";
+        echo "was converted";
     }
     else
     {
-        echo "$projectid was not converted because ";
+        echo "was not converted because ";
         if($project->is_utf8)
             echo "project is already UTF-8";
         elseif($project->archived)
@@ -66,11 +69,11 @@ foreach($projects as $projectid)
             echo "project page table does not exist";
         else
             echo "unknown";
-        echo "\n";
     }
-}
+    echo "\n";
 
-echo "\n";
+    $index++;
+}
 
 // ------------------------------------------------------------
 
