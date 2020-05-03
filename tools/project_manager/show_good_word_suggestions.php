@@ -187,6 +187,8 @@ foreach($rounds as $round) {
         $roundsWithData++;
 }
 
+echo "<input type='submit' value='" . _("Reject all suggestions") . "' name='". REJECT_SUGGESTIONS . "'>";
+
 // print out the complete list first but only if
 // we have more than one round with data
 if($roundsWithData>1) {
@@ -226,8 +228,6 @@ foreach($rounds as $round) {
     $page_num_string=sprintf(_("Number of pages with suggestions: %d"), $round_page_count[$round]);
     echo "<h2>$round_string</h2>";
     echo "<p>$page_num_string</p>";
-
-    echo "<input type='submit' value='" . _("Reject all suggestions") . "' name='". REJECT_SUGGESTIONS . "'>";
 
     if(count($round_suggestions_w_freq[$round])==0)
     {

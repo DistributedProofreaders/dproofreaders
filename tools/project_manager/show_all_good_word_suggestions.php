@@ -202,9 +202,8 @@ echo "<br>";
 
         echo "<hr>";
         echo "<h3>$projectname</h3>";
-        echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
-
         echo "<input type='submit' name='" . REJECT_SUGGESTIONS . "_" . $projectid . "' value='$rejectAlllabel'>";
+        echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
 
         echo_checkbox_selects(count($suggestions_w_freq),$projectid);
 
