@@ -15,9 +15,17 @@ $datetime_format = "%A, %B %e, %Y %X";
 set_time_limit(0); // no time limit
 
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$fileObject = get_project_word_file($projectid,"good");
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
 $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 enforce_edit_authorization($projectid);
+
+if($timeCutoff==0)
+    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
+else
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
+
 
 // $format determines what is presented from this page:
 //   'html' - page is rendered with frequencies included
@@ -25,47 +33,19 @@ enforce_edit_authorization($projectid);
 //            downloaded file
 // 'update' - update the list
 $format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
-$destination_list = isset($_POST[BAD_WORDS_LIST]) ? BAD_WORDS_LIST : GOOD_WORDS_LIST;
 
 if($format=="update") {
-    if (isset($_POST[REJECT_SUGGESTIONS]))
-    {
-        touch_project_good_words($projectid);
-    }
-    else
-    {
-        $postedWords = parse_posted_words($_POST);
+    $postedWords = parse_posted_words($_POST);
 
-        $words = $destination_list == GOOD_WORDS_LIST ? load_project_good_words($projectid) : load_project_bad_words($projectid);
-        $words = array_merge($words, $postedWords);
-        if ($destination_list == GOOD_WORDS_LIST)
-        {
-            save_project_good_words($projectid, $words);
-        }
-        else
-        {
-            save_project_bad_words($projectid, $words);
-        }
-    }
+    $words = load_project_good_words($projectid);
+    $words = array_merge($words,$postedWords);
+    save_project_good_words($projectid,$words);
 
     $format="html";
 }
 
-$fileObject = get_project_word_file($projectid,"good");
-$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
-
-if($timeCutoff==0)
-    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
-else
-    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
-
 list($all_suggestions_w_freq,$all_suggestions_w_occurrences,$round_suggestions_w_freq,$round_suggestions_w_occurrences,$rounds,$round_page_count,$messages) =
     _get_word_list($projectid,$timeCutoff);
-
-if ($destination_list == BAD_WORDS_LIST && $timeCutoff == $fileObject->mod_time && count($all_suggestions_w_occurrences) == 0)
-{
-    touch_project_good_words($projectid);
-}
 
 $title = _("Candidates for Good Words List from Proofreaders");
 $page_text = sprintf(_("Displayed below are the words that proofreaders have suggested (via the %s button) in the WordCheck interface that have not been already included in the project's Good Words List."),"<img src='$code_url/graphics/Book-Plus-Small.gif'>");
@@ -171,11 +151,10 @@ echo_download_text( $projectid, $format, "timeCutoff=$timeCutoff" );
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
 $submit_label=_("Add selected words to Good Words List");
-$submit_bad_label = _("Add selected words to Bad Words List");
 
 $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
-$checkbox_form["timeCutoff"]=$timeCutoff == $fileObject->mod_time ? "" : $timeCutoff;
+$checkbox_form["timeCutoff"]=$timeCutoff;
 echo_checkbox_form_start($checkbox_form);
 
 $context_array["[[TITLE]]"]=_("Show Context");
@@ -200,13 +179,11 @@ if($roundsWithData>1) {
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
     echo_checkbox_selects(count($all_suggestions_w_freq),'all');
-    echo_checkbox_form_submit($submit_label, GOOD_WORDS_LIST);
-    echo_checkbox_form_submit($submit_bad_label, BAD_WORDS_LIST);
+    echo_checkbox_form_submit($submit_label);
 
     printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurrences,$context_array), $word_checkbox);
 
-    echo_checkbox_form_submit($submit_label, GOOD_WORDS_LIST);
-    echo_checkbox_form_submit($submit_bad_label, BAD_WORDS_LIST);
+    echo_checkbox_form_submit($submit_label);
 }
 
 // now per round
@@ -227,8 +204,6 @@ foreach($rounds as $round) {
     echo "<h2>$round_string</h2>";
     echo "<p>$page_num_string</p>";
 
-    echo "<input type='submit' value='" . _("Reject all suggestions") . "' name='". REJECT_SUGGESTIONS . "'>";
-
     if(count($round_suggestions_w_freq[$round])==0)
     {
         echo "<p>" . _("None of the suggested words remain in the saved text for this round.") . "</p>";
@@ -237,13 +212,11 @@ foreach($rounds as $round) {
 
     $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
     echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
-    echo_checkbox_form_submit($submit_label, GOOD_WORDS_LIST);
-    echo_checkbox_form_submit($submit_bad_label, BAD_WORDS_LIST);
+    echo_checkbox_form_submit($submit_label);
 
     printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurrences[$round],$context_array),$word_checkbox );
 
-    echo_checkbox_form_submit($submit_label, GOOD_WORDS_LIST);
-    echo_checkbox_form_submit($submit_bad_label, BAD_WORDS_LIST);
+    echo_checkbox_form_submit($submit_label);
 }
 
 echo_checkbox_form_end();

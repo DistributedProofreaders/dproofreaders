@@ -455,12 +455,6 @@ function save_project_good_words($projectid, $words)
     return save_word_list($fileObject->abs_path, $words);
 }
 
-function touch_project_good_words($projectid)
-{
-    $fileObject = get_project_word_file($projectid, "good");
-    touch($fileObject->abs_path);
-}
-
 // -----------------------------------------------------------------------------
 
 function load_project_bad_words($projectid)
@@ -783,7 +777,7 @@ function save_word_list($path, $words)
     // needed for the array == array comparison below
     $words = array_values($words);
 
-     // see if list has changed before saving it
+    // see if list has changed before saving it
     $oldWords = load_word_list($path);
 
     // if no change was made, return Success
