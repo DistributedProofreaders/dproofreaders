@@ -1,7 +1,8 @@
 <?php
 function mentor_banner($round)
 {
-    global $wiki_url;
+    global $code_url;
+
     $r_avail_state = $round->project_available_state;
     $round_id = $round->id;
 
@@ -31,21 +32,20 @@ function mentor_banner($round)
         case 0:
         case 1:
         case 2:
-            $font_boost = "large";
+            $font_boost = "1em";
             $font_col = '#339933';
             break;
         case 3:
         case 4:
-            $font_boost = "x-large";
+            $font_boost = "large";
             $font_col = "#FF6600";
-        break;
+            break;
         default:
-            $font_boost = "xx-large";
+            $font_boost = "x-large";
             $font_col = "#FF0000";
             break;
     }
 
-    echo "<br>";
     echo "<p style='color: $font_col; font-weight: bold; font-size: $font_boost; text-align: center'>";
     printf(ngettext(
             /* TRANSLATORS: %4 is the name of the user's UI language in their language;
@@ -53,10 +53,9 @@ function mentor_banner($round)
             _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d day old."),
             _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d days old."),
             $oldest),
-        "$wiki_url/Mentoring",
+        "$code_url/tools/proofers/for_mentors.php",
         $round_id,
         $oldest,
         $lang_name);
     echo "</p>";
-    echo "<br>";
 }
