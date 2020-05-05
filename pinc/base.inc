@@ -37,7 +37,7 @@ if(!$testing)
     function production_exception_handler($exception)
     {
         echo "<br>\n";
-        echo html_safe($exception->getMessage());
+        echo $exception->getMessage();
     }
     set_exception_handler('production_exception_handler');
 }
@@ -61,7 +61,24 @@ try {
     // If we're in maintenance mode, don't die here - we'll more gracefully
     // error out later
     if(!$maintenance)
-        die("Error: $e");
+    {
+        // We output the timestamp in the same format and timezone (UTC) as
+        // the MySQL error log (sans microseconds) for easier correlation.
+        $error_message = gmstrftime("%FT%TZ") . " " .  $e->getMessage();
+
+        // Dump the error to the php error log
+        error_log("base.inc - $error_message");
+
+        // And output a pretty message for the user. gettext isn't loaded yet
+        // (because we need a connection to the DB to get the user's language)
+        // so output it in English.
+        echo "An error occurred connecting to the database. This is unexpected ";
+        echo "as the site is not in maintenance mode. Please try again later.";
+        echo "<br>";
+        echo "The following error has been logged:";
+        echo "<blockquote>$error_message</blockquote>";
+        exit(1);
+    }
 }
 
 include_once($relPath.'dpsession.inc');
