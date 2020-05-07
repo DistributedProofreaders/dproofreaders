@@ -60,7 +60,7 @@ function output_small_header($quiz)
     echo "</div>";
     echo "</div>";
 
-    echo "<div id='content-container'>";
+    echo "<div id='content-container' style='width: 100%'>";
 
     // Call output_small_footer when the main page content has been emitted so
     // we can emit the footer
