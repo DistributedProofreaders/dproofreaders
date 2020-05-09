@@ -187,7 +187,20 @@ else if ($func == "xgettext")
     if(chdir($code_dir) == FALSE)
         die ("Unable to change to requested directory.");
 
-    exec("$xgettext_executable `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/ -o messages.pot --keyword=_ -L PHP --keyword=\"pgettext:1c,2\" --add-comments=TRANSLATORS 2>&1", $exec_out, $ret_var);
+    $xgettext_arguments = [
+        $xgettext_executable,
+        "--output-dir=$dyn_locales_dir/",
+        "--output=messages.pot",
+        "--language=PHP",
+        "--keyword=_",
+        "--keyword='pgettext:1c,2'",
+        "--add-comments=TRANSLATORS",
+        "--from-code=UTF-8",
+        "--sort-by-file",
+        "`find -name '*.php' -o -name '*.inc'`",
+        "2>&1",
+    ];
+    exec(implode(" ", $xgettext_arguments), $exec_out, $ret_var);
     if ($ret_var)
     {
         echo "<p class='center-align'>" . _("Strings <b>not</b> rebuilt!") . "<br>"

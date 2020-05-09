@@ -126,7 +126,7 @@ class POFile
         else
             $fuzzy_option = "-N";
 
-        exec("msgmerge -U $fuzzy_option '$this->po_filename' '$template' 2>&1",
+        exec("msgmerge --sort-by-file -U $fuzzy_option '$this->po_filename' '$template' 2>&1",
             $exec_out, $return_value);
 
         if($return_value != 0)
