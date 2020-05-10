@@ -9,7 +9,20 @@ Scripts supporting this upgrade are in `SETUP/upgrade/14`
 
 * **Unicode support** - the site is now fully UTF-8 compatible. See
   [UNICODE.md](UNICODE.md) for more information on what this means for you.
+  (cpeel, 70ray, chrismiceli, numerous others)
 * Support jpgraph version 4.3.0 (cpeel)
+* Optional daily page limits (jmdyck)
+* File upload abstraction enables large file uploads for PP and SR (70ray)
+* Many SR improvements (70ray)
+* Access change callbacks for activities allows emails to be sent when
+  access to an activity is granted or revoked (cpeel)
+* WordCheck status added to diff page and project pages (mlazaric)
+* Global news items (chrismiceli)
+* CSS updates for improved mobile layout (cpeel)
+* SEO improvements (cpeel)
+  * dynamic sitemap added
+  * LD+JSON metadata added to project pages
+* DB schema documentation (mlazaric)
 
 
 ## R202002
