@@ -12,6 +12,7 @@ include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
+include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
@@ -110,56 +111,119 @@ if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
 
 // ---------------------------------------------------------------
 
-// For each mentorable project (in this round),
-// show a summary (one line per mentee)
-// and then a listing (one line per page).
+$mentored_round = $mentoring_round->mentee_round;
 
+// output a table of contents with links to anchors on this page
 echo "<p>";
-echo sprintf(_("Pages available to Mentors in round %s."), "<b>" . $mentoring_round->id . "</b>");
+echo sprintf(_("Projects with pages available to Mentors in round %s."), "<b>$mentoring_round->id</b>");
 echo " ";
 echo _("Oldest project listed first.");
 echo "</p>";
 
-
-$mentored_round = $mentoring_round->mentee_round;
-$result = mysqli_query(DPDatabase::get_connection(), project_sql($mentoring_round));
-while ($proj =  mysqli_fetch_object($result))
+$projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state);
+if($projects_available)
 {
+    echo "<ol>";
+    foreach($projects_available as $proj_obj)
+    {
+        echo "<li><a href='#$proj_obj->projectid'>";
+        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
+        echo "</a></li>";
+    }
+    echo "</ol>";
+}
+else
+{
+    echo "<p><i>" . _("none") . "</i></p>";
+}
+
+// output a listing of projects in this mentoring round that are in a waiting state
+echo "<p>";
+echo sprintf(_("Projects for Mentors, waiting to be released into round %s."), "<b>$mentoring_round->id</b>");
+echo " ";
+echo _("Oldest project listed first.");
+echo "</p>";
+
+$projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state);
+if($projects_waiting)
+{
+    echo "<ol>";
+    foreach($projects_waiting as $proj_obj)
+    {
+        $project = new Project($proj_obj->projectid);
+        echo "<li>";
+        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
+        if(in_array($mentoring_round->project_waiting_state, $project->get_hold_states()))
+        {
+            // TRANSLATORS: string indicates that the project is "on hold"
+            echo " <b>[" . _("On hold") . "]</b>";
+        }
+        echo "</li>";
+    }
+    echo "</ol>";
+}
+else
+{
+    echo "<p><i>" . _("none") . "</i></p>";
+}
+
+// output details about each available project
+foreach($projects_available as $proj_obj)
+{
+    output_project_details($mentored_round, $proj_obj->projectid, $proj_obj->nameofwork, $proj_obj->authorsname);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function output_project_label($nameofwork, $authorsname)
+{
+    // TRANSLATORS: format is <title> by <author>.
+    echo sprintf("%1\$s by %2\$s", $nameofwork, $authorsname);
+}
+
+// For each mentorable project (in this round), show a summary (one line per mentee)
+// and then a listing (one line per page).
+function output_project_details($mentored_round, $projectid, $nameofwork, $authorsname)
+{
+    global $code_url;
+
     echo "<hr>";
 
     // Display project summary info
-    $proj_url = "$code_url/project.php?id=$proj->projectid";
-    echo "<p>";
-    // TRANSLATORS: format is <title> by <author>.
-    echo "<b>" . sprintf("%1\$s by %2\$s", "<a href='$proj_url'>" . html_safe($proj->nameofwork) . "</a>", html_safe($proj->authorsname)) . "</b>";
+    $proj_url = "$code_url/project.php?id=$projectid";
+    echo "<p id='$projectid' style='font-weight: bold'>";
+    output_project_label("<a href='$proj_url'>" . html_safe($nameofwork) . "</a>", html_safe($authorsname));
     echo "</p>" ;
 
-    dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
+    dpsql_dump_query(page_summary_sql($mentored_round, $projectid));
 
     echo "<p>" ;
     echo _('Which proofreader did each page...') ;
     echo "</p>";
 
-    dpsql_dump_query(page_list_sql($mentored_round, $proj->projectid));
+    dpsql_dump_query(page_list_sql($mentored_round, $projectid));
 }
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// -------------------------------------------------------------------
 
-function project_sql($mentoring_round)
+function get_beginner_projects_in_state($state)
 {
-    return "
-        SELECT
-            projectid,
-            nameofwork,
-            authorsname
-        FROM
-            projects
+    $sql = "
+        SELECT projectid, nameofwork, authorsname
+        FROM projects
         WHERE
-            difficulty = 'BEGINNER'
-        AND
-            state='{$mentoring_round->project_available_state}'
+            difficulty = 'BEGINNER' AND
+            state='$state'
         ORDER BY
-            modifieddate ASC" ;
+            modifieddate ASC
+    ";
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    $projects = [];
+    while($proj_obj = mysqli_fetch_object($result))
+    {
+        $projects[] = $proj_obj;
+    }
+    return $projects;
 }
 
 // -------------------------------------------------------------------

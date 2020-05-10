@@ -246,14 +246,16 @@ class User
     public static function get_referrer_options()
     {
         return array(
+            "pg" => _("Project Gutenberg"),
             "blog" => _("Distributed Proofreaders Blog"),
+            "ebook" => _("Within an E-book"),
+            "search" => _("Search Engine (Google, Bing, etc)"),
+            "friend" => _("Friend / Family"),
+            "school" => _("School / College / University"),
+            "work" => _("Work"),
+            "news" => _("News Article"),
             "twitter" => _("Twitter"),
             "facebook" => _("Facebook"),
-            "friend" => _("Friend/Family"),
-            "news" => _("News Article"),
-            "pg" => _("Project Gutenberg"),
-            "search" => _("Search Engine"),
-            "ebook" => _("Within an E-book"),
             "other" => _("Other"),
         );
     }

@@ -285,11 +285,12 @@ function is_valid_filename($filename, $restrict_extension=False)
     if ($restrict_extension === False) {
         // Ordinarly we allow filenames to start with an alphanumeric, followed
         // by 0 or more alphanumerics, hypens, dashes or periods.
-        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
+        $regexp = '/^\w[\w\.-]{0,199}$/';
     } else {
         // If we want to restrict filename extensions, '.'s aren't allowed in the
         // body of the filename, and the filename must end with '.$restrict_extension'
-        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/i';
+        $limit = 199 - (strlen($restrict_extension) + 1);
+        $regexp = "/^\w+[\w-]{0,$limit}\." . $restrict_extension . '$/i';
     }
 
     // The filename is valid if the regexp matches exactly once.
