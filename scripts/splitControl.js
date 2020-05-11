@@ -1,7 +1,7 @@
 /*global $ */
 /* exported initSplit */
 
-function initSplit(newData) {//paneContainer, verticalSplit, splitPercent, minSiz0, minSiz1) {
+function initSplit(newData) {
     // use these defaults if any newData not set
     let data = {paneContainer: "#window", verticalSplit: false, splitPercent: 50, minSiz0: 50, minSiz1: 50};
     for(let key in newData) {
