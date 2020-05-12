@@ -41,9 +41,11 @@ var pageChanger = function () {
 var splitter = function(container) {
     const textImageSplitID = "text_image_split";
     const splitPercentID = "split_percent";
-    // stored value is "H" or "V", vSplit is true or false
-    // if not set vSplit will be false
-    let vSplit = ("V" === localStorage.getItem(textImageSplitID));
+    // stored value is "horizontal" or "vertical"
+    let splitDirection = localStorage.getItem(textImageSplitID);
+    if(!splitDirection) {
+        splitDirection = "horizontal";
+    }
     var splitPercent = localStorage.getItem(splitPercentID);
     if(!splitPercent) {
         splitPercent = 50;
@@ -53,8 +55,8 @@ var splitter = function(container) {
     let vSwitchButton = $("<button>", {type: 'button', class: 'img-button', title: attrSafe(dpData.strings.switchVert)}).append($("<img>", {src: dpData.buttonImages.imgVSplit}));
     let hSwitchButton = $("<button>", {type: 'button', class: 'img-button', title: attrSafe(dpData.strings.switchHoriz)}).append($("<img>", {src: dpData.buttonImages.imgHSplit}));
 
-    function setSplitControls(vSplit) {
-        if (vSplit) {
+    function setSplitControls(splitDirection) {
+        if (splitDirection === "vertical") {
             hSwitchButton.show();
             vSwitchButton.hide();
         } else {
@@ -63,22 +65,22 @@ var splitter = function(container) {
         }
     }
 
-    function changeSplit(vSplit) {
-        mainSplit.setSplit(vSplit);
-        setSplitControls(vSplit);
-        localStorage.setItem(textImageSplitID, vSplit ? "V" : "H");
+    function changeSplit(splitDirection) {
+        mainSplit.setSplit(splitDirection);
+        setSplitControls(splitDirection);
+        localStorage.setItem(textImageSplitID, splitDirection);
     }
 
     vSwitchButton.click(function () {
-        changeSplit(true);
+        changeSplit("vertical");
     });
 
     hSwitchButton.click(function () {
-        changeSplit(false);
+        changeSplit("horizontal");
     });
 
-    mainSplit = initSplit(container, {verticalSplit: vSplit, splitPercent: splitPercent});
-    setSplitControls(vSplit);
+    mainSplit = initSplit(container, {splitDirection: splitDirection, splitPercent: splitPercent});
+    setSplitControls(splitDirection);
 
     $(window).resize(mainSplit.reLayout);
 

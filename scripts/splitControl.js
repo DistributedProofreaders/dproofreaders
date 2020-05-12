@@ -3,7 +3,7 @@
 
 function initSplit(container, config) {
     // use these defaults if any config not set
-    let theConfig = {verticalSplit: false, splitPercent: 50, minSiz0: 50, minSiz1: 50};
+    let theConfig = {splitDirection: "horizontal", splitPercent: 50, minSiz0: 50, minSiz1: 50};
     for(let key in config) {
         theConfig[key] = config[key];
     }
@@ -39,7 +39,7 @@ function initSplit(container, config) {
         }
         var sp6 = splitPos + 6;
         var p1Size;
-        if (theConfig.verticalSplit) {
+        if (theConfig.splitDirection === "vertical") {
             p1Size = splitPos;
             pane1.width(splitPos);
             dragBar.offset({top: divTop, left: splitPos});
@@ -64,7 +64,7 @@ function initSplit(container, config) {
         divTop = containerOffset.top;
         divLeft = containerOffset.left;
         pane1.offset({top: divTop, left: divLeft});
-        if (theConfig.verticalSplit) {
+        if (theConfig.splitDirection === "vertical") {
             range = width;
             base = 0;
             pane1.height(height);
@@ -89,7 +89,7 @@ function initSplit(container, config) {
     }
 
     function windowMouseMove(event) {
-        splitPos = (theConfig.verticalSplit
+        splitPos = ((theConfig.splitDirection === "vertical")
             ? event.pageX
             : event.pageY);
         moveSplit();
@@ -117,8 +117,8 @@ function initSplit(container, config) {
     return {
         pane1: pane1,
         pane2: pane2,
-        setSplit: function (vertical) {
-            theConfig.verticalSplit = vertical;
+        setSplit: function (splitDirection) {
+            theConfig.splitDirection = splitDirection;
             reLayout();
         },
 
