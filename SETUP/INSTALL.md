@@ -209,7 +209,6 @@ installed.
 ### Configure MySQL
 Choose names for various MySQL items:
 * the DP database
-* the DP archive database (to house DP data of finished projects)
 * the DP user (to handle all DP and phpBB queries)
 * the DP user's password
 
@@ -218,7 +217,6 @@ as it confuses the code.
 
 In the examples in this document, we will use the following:
 * `dp_db`
-* `dp_archive`
 * `dp_user`
 * `dp_password`
 
@@ -243,12 +241,6 @@ CREATE DATABASE dp_db CHARACTER SET utf8mb4;
 Create the user. (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
 ```
 GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
-```
-
-Similarly for the archive database (if you want one):
-```
-CREATE DATABASE dp_archive CHARACTER SET utf8mb4;
-GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 ```
 
 Exit from the MySQL client.
@@ -439,6 +431,9 @@ configuring rounds, defining queues, etc.
 ### Manage Character Suites
 You may want to enable additional character suites. See [UNICODE.md](UNICODE.md)
 for more information.
+
+### Set up project archiving (optional)
+If you want to enable project archiving, see [ARCHIVING.md](ARCHIVING.md).
 
 ### Install the modified `dp.cron`
 `dp.cron` contains entries for various processes necessary for site

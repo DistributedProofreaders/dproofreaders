@@ -39,7 +39,6 @@ _DB_SERVER=localhost
 _DB_USER=PICK_A_USER_NAME
 _DB_PASSWORD=PICK_A_HARD_PASSWORD
 _DB_NAME=PICK_A_DB_NAME
-_ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -263,12 +262,6 @@ _PROJECTS_URL=$base_url/projects
 #
 # The project directory also holds other files relating to the project.
 
-_ARCHIVE_PROJECTS_DIR=$base_dir/archive
-
-# After projects are completed, they are eventually archived to a separate
-# database and project directory. This specifies where the project files
-# are archived to. See also: _ARCHIVE_DB_NAME
-
 # ----------------------------------------------------------------------
 
 _EXTERNAL_CATALOG_LOCATOR='lx2.loc.gov:210/LCDB'
@@ -350,6 +343,23 @@ _WIKIHIERO_URL=
 # these variables to the location you installed it, and a link will
 # appear in the proofreading interface. See INSTALL.md for more info.
 # If you haven't installed wikihiero, leave them empty.
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Archiving Projects
+# ------------------
+
+# After projects are completed, they are eventually archived to a separate
+# database and project directory. See SETUP/ARCHIVING.md for how to set up
+# project archiving.
+
+_ARCHIVE_DB_NAME=
+
+# Archive database name.
+
+_ARCHIVE_PROJECTS_DIR=$base_dir/archive
+
+# Where the project files are archived to.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
