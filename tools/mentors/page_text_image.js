@@ -21,7 +21,7 @@ $(function () {
     theSplitter.mainSplit.pane1.addClass('overflow-auto image-back').append(theImageControl.image);
     theImageControl.setZoom();
 
-    let theSubSplit = initSplit({paneContainer: theSplitter.mainSplit.pane2, verticalSplit: false, splitPercent: 50, minSiz0: 30, minSiz1: 2});
+    let theSubSplit = initSplit(theSplitter.mainSplit.pane2, {verticalSplit: false, splitPercent: 50, minSiz0: 30, minSiz1: 2});
 
     theSubSplit.pane1.append(theTextControl.textArea);
     theSplitter.mainSplit.reSize.add(theSubSplit.reLayout);

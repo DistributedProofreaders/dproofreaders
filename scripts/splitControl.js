@@ -1,22 +1,22 @@
 /*global $ */
 /* exported initSplit */
 
-function initSplit(newData) {
-    // use these defaults if any newData not set
-    let data = {paneContainer: "#window", verticalSplit: false, splitPercent: 50, minSiz0: 50, minSiz1: 50};
-    for(let key in newData) {
-        data[key] = newData[key];
+function initSplit(container, config) {
+    // use these defaults if any config not set
+    let theConfig = {verticalSplit: false, splitPercent: 50, minSiz0: 50, minSiz1: 50};
+    for(let key in config) {
+        theConfig[key] = config[key];
     }
     // paneContainer is the id of a div which will contain three divs:
     // referred to in this function as pane1, dragBar and pane2.
     // More split views can be set up within the panes.
     // minSiz0, minSiz1 minimum allowed size of panes top/left and bottom/right
-    var splitRatio = data.splitPercent / 100;
+    var splitRatio = theConfig.splitPercent / 100;
     var splitPos;     // position of split
     var range;
     var minPos;
     var maxPos;
-    var container = $(data.paneContainer);
+    var container = $(container);
 
     let pane1 = $("<div>").css({"position": "absolute"});
     let dragBar = $("<div>").css({"background-color": "darkgray", "position": "absolute"});
@@ -39,7 +39,7 @@ function initSplit(newData) {
         }
         var sp6 = splitPos + 6;
         var p1Size;
-        if (data.verticalSplit) {
+        if (theConfig.verticalSplit) {
             p1Size = splitPos;
             pane1.width(splitPos);
             dragBar.offset({top: divTop, left: splitPos});
@@ -64,7 +64,7 @@ function initSplit(newData) {
         divTop = containerOffset.top;
         divLeft = containerOffset.left;
         pane1.offset({top: divTop, left: divLeft});
-        if (data.verticalSplit) {
+        if (theConfig.verticalSplit) {
             range = width;
             base = 0;
             pane1.height(height);
@@ -82,14 +82,14 @@ function initSplit(newData) {
             dragBar.height(6);
         }
         splitPos = base + (range * splitRatio);
-        minPos = base + data.minSiz0;
+        minPos = base + theConfig.minSiz0;
         // mouse sets top/left of dragbar
-        maxPos = base + range - data.minSiz1 - 6;
+        maxPos = base + range - theConfig.minSiz1 - 6;
         moveSplit();
     }
 
     function windowMouseMove(event) {
-        splitPos = (data.verticalSplit
+        splitPos = (theConfig.verticalSplit
             ? event.pageX
             : event.pageY);
         moveSplit();
@@ -118,7 +118,7 @@ function initSplit(newData) {
         pane1: pane1,
         pane2: pane2,
         setSplit: function (vertical) {
-            data.verticalSplit = vertical;
+            theConfig.verticalSplit = vertical;
             reLayout();
         },
 

@@ -77,7 +77,7 @@ var splitter = function(container) {
         changeSplit(false);
     });
 
-    mainSplit = initSplit({paneContainer: container, verticalSplit: vSplit, splitPercent: splitPercent});
+    mainSplit = initSplit(container, {verticalSplit: vSplit, splitPercent: splitPercent});
     setSplitControls(vSplit);
 
     $(window).resize(mainSplit.reLayout);
