@@ -5,6 +5,8 @@ instructions, and other tools.
 
 * [CHANGELOG.md](CHANGELOG.md) notes major changes in each version.
 * [INSTALL.md](INSTALL.md) includes installation instructions.
+* [ARCHIVING.md](ARCHIVING.md) describes how to set up the optional project
+  archiving.
 * [site_admin_notes.txt](site_admin_notes.txt) discusses some post-installation
   activities for administrators.
 * [UPGRADE.md](UPGRADE.md) covers upgrading existing DP installs.

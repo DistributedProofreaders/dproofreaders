@@ -9,7 +9,8 @@
 # daily:
 01  0 * * * URL=<<CODE_URL>>/crontab/take_tally_snapshots.php; <<URL_DUMP_PROGRAM>> $URL
 01  0 * * * URL=<<CODE_URL>>/crontab/log_project_states.php; <<URL_DUMP_PROGRAM>> $URL
-10  0 * * * URL=<<CODE_URL>>/crontab/archive_projects.php; <<URL_DUMP_PROGRAM>> $URL
+# See SETUP/ARCHIVING.md to set up archiving before enabling the line below
+#10  0 * * * URL=<<CODE_URL>>/crontab/archive_projects.php; <<URL_DUMP_PROGRAM>> $URL
 50  0 * * * URL=<<CODE_URL>>/crontab/clean_tmp.php; <<URL_DUMP_PROGRAM>> $URL
 50  0 * * * URL=<<CODE_URL>>/crontab/clean_uploads_trash.php; <<URL_DUMP_PROGRAM>> $URL
 55  0 * * * URL=<<CODE_URL>>/crontab/extend_site_tally_goals.php; <<URL_DUMP_PROGRAM>> $URL
