@@ -17,7 +17,7 @@ echo "<h2>" . _("Open Source"). "</h2>";
 echo "<p>" . _("The following open source code is used and bundled with the DP code.") . "</p>";
 
 echo "<ul>";
-$dir_iter = new RecursiveDirectoryIterator($code_dir);
+$dir_iter = new PermissiveRecursiveDirectoryIterator($code_dir);
 $files = new RecursiveIteratorIterator($dir_iter);
 foreach($files as $file_info)
 {
@@ -32,3 +32,18 @@ foreach($files as $file_info)
     echo "</li>";
 }
 echo "</ul>";
+
+#----------------------------------------------------------------------------
+
+# Ignore exceptions when iterating over the directory, such as permission
+# errors from SETUP/
+# from antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
+class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator {
+    function getChildren() {
+        try {
+            return new PermissiveRecursiveDirectoryIterator($this->getPathname());
+        } catch(UnexpectedValueException $e) {
+            return new RecursiveArrayIterator(array());
+        }
+    }
+}
