@@ -63,8 +63,6 @@ foreach($projects as $projectid)
             echo "project is already UTF-8";
         elseif($project->archived)
             echo "project was archived";
-        elseif($project->state == PROJ_SUBMIT_PG_POSTED)
-            echo "project has been posted to PG";
         elseif(!$project->check_pages_table_exists($message))
             echo "project page table does not exist";
         else
