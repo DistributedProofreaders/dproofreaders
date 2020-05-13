@@ -51,7 +51,7 @@ while($row = mysqli_fetch_assoc($result))
     $latin1_tables[] = $row['table_name'];
 }
 
-$stop_file = '/tmp/utf8_conversion';
+$stop_file = '/tmp/stop_utf8_conversion';
 
 echo <<<EOF
 This will now start converting all of the non-project latin1 tables in
