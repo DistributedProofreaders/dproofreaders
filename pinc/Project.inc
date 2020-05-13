@@ -143,9 +143,10 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    function convert_to_utf8($force=False)
+    function convert_to_utf8()
     {
         // nothing to do if the project table doesn't exist
+        // this covers archived projects which are moved into a different DB
         if(!$this->check_pages_table_exists($message))
         {
             return false;
@@ -153,13 +154,6 @@ class Project
 
         // and nothing to do if it is already UTF-8
         if($this->is_utf8)
-        {
-            return false;
-        }
-
-        // and don't convert tables that have been posted unless
-        // $force is True
-        if(!$force && ($this->state == PROJ_SUBMIT_PG_POSTED))
         {
             return false;
         }
