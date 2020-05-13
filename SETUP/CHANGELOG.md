@@ -7,10 +7,13 @@ see the git history.
 ## ???????
 Scripts supporting this upgrade are in `SETUP/upgrade/14`
 
+**This is the last version to include support for Internet Explorer 11.**
+
 * **Unicode support** - the site is now fully UTF-8 compatible. See
   [UNICODE.md](UNICODE.md) for more information on what this means for you.
   (cpeel, 70ray, chrismiceli, numerous others)
 * Support jpgraph version 4.3.0 (cpeel)
+* Supported browsers now listed in [INSTALL.md](INSTALL.md)
 * Optional daily page limits (jmdyck)
 * File upload abstraction enables large file uploads for PP and SR (70ray)
 * Many SR improvements (70ray)
@@ -214,7 +217,7 @@ Scripts supporting this upgrade are in `SETUP/upgrade/07`
 * Round number column in queue_defns table changed to round ID (jmdyck)
 * Simplify/tidy/de-bug site news. Show update news link even when no news exists. (jmdyck)
 * mentoring-related properties added to rounds (jmdyck)
-* [New round and related scripts] (jmdyck)
+* New round and related scripts (jmdyck)
 * Allow post files to be generated from mix of current or previous rounds (jmdyck)
 * Three new genres added -- Engineering, Geography, Picture Book (JulietS/mike_cie)
 * Transition to go back 1 round added (jmdyck)

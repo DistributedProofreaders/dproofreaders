@@ -148,12 +148,7 @@ enabled. See jpgraph documentation on how to enable the cache.
 
 ### Install aspell
 The code uses aspell for the spellchecker in the proofreading interface.
-Note that for aspell 0.50 you may have to symlink the .dat files due to
-some filename inconsistencies. For example, iso8859-1.dat should have a
-symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
-
-This is not required for aspell 0.60 or higher.
-You need aspell 0.60 if you want to support UTF-8.
+aspell 0.60 or later is required.
 
 ### Install optional components
 
@@ -422,9 +417,9 @@ wiki authenticate against phpBB for a single source of user credentials.
 ### Define a site administrator
 The code is based on users having particular roles. To manage these,
 a site administrator is needed. Assuming you are administering the
-site and have registered yourself as a new user, sign into mysql (or
-use the phpMyAdmin interface) and add a usersetting entry for the
-username you registered with setting='sitemanager' and value='yes';
+site and have registered yourself as a new user, sign into the `mysql` client
+and add an entry in the `usersettings` table for the username you registered
+with `setting='sitemanager'` and `value='yes'`.
 
 From the mysql command line, this would be:
 ```
