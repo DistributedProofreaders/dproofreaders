@@ -79,10 +79,13 @@ var splitter = function(container) {
         changeSplit("horizontal");
     });
 
-    mainSplit = initSplit(container, {splitDirection: splitDirection, splitPercent: splitPercent});
-    setSplitControls(splitDirection);
+    var reDraw = $.Callbacks();
+    $(window).resize(function () {
+        reDraw.fire();
+    });
 
-    $(window).resize(mainSplit.reLayout);
+    mainSplit = initSplit(container, reDraw, {splitDirection: splitDirection, splitPercent: splitPercent});
+    setSplitControls(splitDirection);
 
     mainSplit.dragEnd.add(function (percent) {
         localStorage.setItem(splitPercentID, percent);

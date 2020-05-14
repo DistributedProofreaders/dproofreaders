@@ -65,7 +65,7 @@ $(function () {
         theTextControl.textArea.prop("readonly", true);
         theSplitter.mainSplit.pane2.append(theTextControl.textArea);
 
-        // re-layout after filling panes so scroll-bars are considered
+        // re-layout after drawing fixed div
         theSplitter.mainSplit.reLayout();
         break;
     }

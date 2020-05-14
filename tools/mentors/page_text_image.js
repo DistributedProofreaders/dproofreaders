@@ -21,11 +21,10 @@ $(function () {
     theSplitter.mainSplit.pane1.addClass('overflow-auto image-back').append(theImageControl.image);
     theImageControl.setZoom();
 
-    let theSubSplit = initSplit(theSplitter.mainSplit.pane2, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
+    let theSubSplit = initSplit(theSplitter.mainSplit.pane2, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
 
     theSubSplit.pane1.append(theTextControl.textArea);
-    theSplitter.mainSplit.reSize.add(theSubSplit.reLayout);
 
-    // re-layout after filling panes so scroll-bars are considered
+    // re-layout after drawing fixed div
     theSplitter.mainSplit.reLayout();
 });

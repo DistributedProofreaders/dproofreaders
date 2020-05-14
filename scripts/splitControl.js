@@ -1,7 +1,7 @@
 /*global $ */
 /* exported initSplit */
 
-function initSplit(container, config) {
+function initSplit(container, reDraw, config) {
     // use these defaults if any config not set
     let theConfig = {splitDirection: "horizontal", splitPercent: 50, minSiz0: 50, minSiz1: 50};
     for(let key in config) {
@@ -113,6 +113,7 @@ function initSplit(container, config) {
     }
 
     dragBar.mousedown(dragBarMouseDown);
+    reDraw.add(reLayout);
 
     return {
         pane1: pane1,
