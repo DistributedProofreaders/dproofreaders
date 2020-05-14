@@ -25,12 +25,10 @@ $(function () {
     imageDiv.addClass('overflow-auto image-back').append(theImageControl.image);
     theImageControl.setZoom();
 
-    let topTextDiv = $("<div>");
+    let topTextDiv = $("<div>").append(theTextControl.textArea);
     let blankDiv = $("<div>");
     textDiv.append(topTextDiv, blankDiv);
-    let theSubSplit = initSplit(textDiv, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
-
-    topTextDiv.append(theTextControl.textArea);
+    initSplit(textDiv, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
 
     // re-layout after drawing fixed div
     theSplitter.mainSplit.reLayout();

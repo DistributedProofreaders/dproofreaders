@@ -54,19 +54,18 @@ $(function () {
         break;
     }
     case "imageText": {
-        let imageDiv = $("<div>");
-        let textDiv = $("<div>");
-        stretchDiv.append(imageDiv, textDiv);
-        let theSplitter = splitter(stretchDiv);
         let theImageControl = imageControl();
         let theTextControl = textControl();
+        let imageDiv = $("<div>").addClass('overflow-auto image-back')
+            .append(theImageControl.image);
+        let textDiv = $("<div>").append(theTextControl.textArea);
+        stretchDiv.append(imageDiv, textDiv);
+        let theSplitter = splitter(stretchDiv);
         pageControlForm.append(theImageControl.controls, pageChanger(), roundSelect(), theSplitter.buttons, theTextControl.controls);
 
-        imageDiv.addClass('overflow-auto image-back').append(theImageControl.image);
         theImageControl.setZoom();
 
         theTextControl.textArea.prop("readonly", true);
-        textDiv.append(theTextControl.textArea);
 
         // re-layout after drawing fixed div
         theSplitter.mainSplit.reLayout();

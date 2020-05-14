@@ -3,7 +3,7 @@
 
 function initSplit(container, reDraw, config) {
     // use these defaults if any config not set
-    let theConfig = {splitDirection: "horizontal", splitPercent: 50, minSiz0: 50, minSiz1: 50};
+    let theConfig = {splitDirection: "horizontal", splitPercent: 50, minSizePane1: 50, minSizePane2: 50};
     for(let key in config) {
         theConfig[key] = config[key];
     }
@@ -12,13 +12,13 @@ function initSplit(container, reDraw, config) {
     // the dragBar is created between pane1 and pane2
     // More split views can be set up within the panes.
     // reDraw is a jquery callback which is fired when the container changes size.
-    // minSiz0, minSiz1 minimum allowed size of panes top/left and bottom/right
+    // minSizePane1, minSizePane2 minimum allowed size of panes top/left and bottom/right
     var splitRatio = theConfig.splitPercent / 100;
     var splitPos;     // position of split
     var range;
     var minPos;
     var maxPos;
-    var container = $(container);
+    container = $(container);
 
     let children = container.children();
     let pane1 = $(children[0]).css({"position": "absolute"});
@@ -86,9 +86,9 @@ function initSplit(container, reDraw, config) {
             dragBar.height(6);
         }
         splitPos = base + (range * splitRatio);
-        minPos = base + theConfig.minSiz0;
+        minPos = base + theConfig.minSizePane1;
         // mouse sets top/left of dragbar
-        maxPos = base + range - theConfig.minSiz1 - 6;
+        maxPos = base + range - theConfig.minSizePane2 - 6;
         moveSplit();
     }
 
