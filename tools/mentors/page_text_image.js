@@ -11,6 +11,10 @@ $(function () {
 
     fixHead.append(pageBrowserData.heading, pageControlForm);
 
+    let imageDiv = $("<div>");
+    let textDiv = $("<div>");
+    stretchDiv.append(imageDiv, textDiv);
+
     let theSplitter = splitter(stretchDiv);
     let theImageControl = imageControl();
     let theTextControl = textControl();
@@ -18,12 +22,15 @@ $(function () {
     pageControlForm.append(hiddenProject(), theImageControl.controls, pageChanger(), roundSelect(),
         theSplitter.buttons, theTextControl.controls);
 
-    theSplitter.mainSplit.pane1.addClass('overflow-auto image-back').append(theImageControl.image);
+    imageDiv.addClass('overflow-auto image-back').append(theImageControl.image);
     theImageControl.setZoom();
 
-    let theSubSplit = initSplit(theSplitter.mainSplit.pane2, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
+    let topTextDiv = $("<div>");
+    let blankDiv = $("<div>");
+    textDiv.append(topTextDiv, blankDiv);
+    let theSubSplit = initSplit(textDiv, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
 
-    theSubSplit.pane1.append(theTextControl.textArea);
+    topTextDiv.append(theTextControl.textArea);
 
     // re-layout after drawing fixed div
     theSplitter.mainSplit.reLayout();

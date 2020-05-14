@@ -7,9 +7,11 @@ function initSplit(container, reDraw, config) {
     for(let key in config) {
         theConfig[key] = config[key];
     }
-    // paneContainer is the id of a div which will contain three divs:
-    // referred to in this function as pane1, dragBar and pane2.
+    // container is the id of a div which contains two divs:
+    // referred to in this function as pane1 and pane2.
+    // the dragBar is created between pane1 and pane2
     // More split views can be set up within the panes.
+    // reDraw is a jquery callback which is fired when the container changes size.
     // minSiz0, minSiz1 minimum allowed size of panes top/left and bottom/right
     var splitRatio = theConfig.splitPercent / 100;
     var splitPos;     // position of split
@@ -18,10 +20,12 @@ function initSplit(container, reDraw, config) {
     var maxPos;
     var container = $(container);
 
-    let pane1 = $("<div>").css({"position": "absolute"});
+    let children = container.children();
+    let pane1 = $(children[0]).css({"position": "absolute"});
+    let pane2 = $(children[1]).css({"position": "absolute"});
+
     let dragBar = $("<div>").css({"background-color": "darkgray", "position": "absolute"});
-    let pane2 = $("<div>").css({"position": "absolute"});
-    container.append(pane1, dragBar, pane2);
+    pane1.after(dragBar);
 
     var divTop;
     var divLeft;
@@ -116,8 +120,6 @@ function initSplit(container, reDraw, config) {
     reDraw.add(reLayout);
 
     return {
-        pane1: pane1,
-        pane2: pane2,
         setSplit: function (splitDirection) {
             theConfig.splitDirection = splitDirection;
             reLayout();
