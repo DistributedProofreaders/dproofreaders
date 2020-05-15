@@ -44,8 +44,8 @@ function initSplit(container, reDraw, config) {
         var sp6 = splitPos + 6;
         var p1Size;
         if (theConfig.splitDirection === "vertical") {
-            p1Size = splitPos;
-            pane1.width(splitPos);
+            p1Size = splitPos - divLeft;
+            pane1.width(p1Size);
             dragBar.offset({top: divTop, left: splitPos});
             pane2.offset({top: divTop, left: sp6});
             pane2.width(width + divLeft - sp6);
@@ -70,7 +70,7 @@ function initSplit(container, reDraw, config) {
         pane1.offset({top: divTop, left: divLeft});
         if (theConfig.splitDirection === "vertical") {
             range = width;
-            base = 0;
+            base = divLeft;
             pane1.height(height);
             pane2.height(height);
             dragBar.height(height);
