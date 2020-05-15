@@ -28,7 +28,7 @@ $(function () {
     let topTextDiv = $("<div>").append(theTextControl.textArea);
     let blankDiv = $("<div>");
     textDiv.append(topTextDiv, blankDiv);
-    initSplit(textDiv, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSiz0: 30, minSiz1: 2});
+    initSplit(textDiv, theSplitter.mainSplit.reSize, {splitDirection: "horizontal", splitPercent: 50, minSizePane1: 30, minSizePane2: 2});
 
     // re-layout after drawing fixed div
     theSplitter.mainSplit.reLayout();
