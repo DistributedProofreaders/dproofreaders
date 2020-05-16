@@ -31,12 +31,12 @@ $messages["illuswrong"] = array(
 );
 $messages["nofn"] = array(
     "message_title" => _("Footnote markup missing."),
-    "message_body" => _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is."),
+    "message_body" => _("It seems you haven't marked the footnote at the bottom of the page correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is."),
     "guideline" => "footnotes"
 );
 $messages["wrongfn"] = array(
     "message_title" => _("Footnote markup wrong."),
-    "message_body" => _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."),
+    "message_body" => _("It seems you haven't marked the footnote at the bottom of the page correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."),
     "guideline" => "footnotes"
 );
 $messages["wrongblank"] = array(

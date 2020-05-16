@@ -8,7 +8,7 @@ output_header(_('Greek Transliteration Tutorial'));
 echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 3) . "</h2>\n";
 
 echo "<h3>" . _("Letters with Multiple Transliterations") . "</h3>\n";
-echo "<p>" . _("The letter &gamma; (gamma) is usually transliterated as g, but n is used instead when it occurs before certain letters:") . "</p>\n";
+echo "<p>" . _("The letter γ (gamma) is usually transliterated as g, but n is used instead when it occurs before certain letters:") . "</p>\n";
 echo "<table border='1' cellspacing='0' cellpadding='5' style='text-align:center'>\n";
 echo "  <tr><th>" . _("Greek") . "</th><th>" ._("Transliteration") . "</th></tr>\n";
 echo "  <tr><td>γγ</td> <td>ng</td> </tr>\n";

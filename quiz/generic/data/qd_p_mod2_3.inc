@@ -27,7 +27,7 @@ $messages["fnscannot"] = array(
 );
 $messages["fnscannoI"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<kbd>I</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
+    "message_body" => _("There is still a scanno: an '<kbd>I</kbd>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (<kbd>*</kbd>, <kbd>†</kbd>, <kbd>‡</kbd>, <kbd>§</kbd>, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
 );
 $messages["fnspace"] = array(
     "message_title" => _("Space around footnote"),

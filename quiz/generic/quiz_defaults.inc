@@ -260,7 +260,7 @@ $messages["P_addedquotes"] = array(
 // Footnotes
 $messages["P_fnneedaster"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
+    "message_body" => _("When footnotes are marked with a series of special characters (<kbd>*</kbd>, <kbd>†</kbd>, <kbd>‡</kbd>, <kbd>§</kbd>, etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself."),
     "guideline" => "footnotes"
 );
 $messages["P_fnmarkermissing"] = array(

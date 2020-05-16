@@ -11,7 +11,7 @@ $solutions                    = array(
                                     "pedagogue, of Birmingham manufacture, viz.,\nDr. Parr, had amassed a considerable quantity of\ngold plate. But growing every day more afraid\nof being murdered, which he knew that he could\nnot stand, he transferred the whole to the blacksmith;\nconceiving, no doubt, that the murder of\na blacksmith would fall more lightly on the\nsalus reipublicæ, than that of a pedagogue. But I\nhave heard this greatly disputed; and it seems\nnow generally agreed, that one good horse-shoe\nis worth about 2-1/4 Spital sermons.",
                                 );
 $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
-                                    "<p>" . _("During proofreading we write out fractions as <kbd>1/4</kbd> rather than <kbd>&frac14;</kbd> because not all fractions are available as single symbols. Other fractions such as 2/7 may also appear in the text and it would be inconsistent to mix the two notations.") . "</p>";
+                                    "<p>" . _("During proofreading we write out fractions as <kbd>1/4</kbd> rather than <kbd>¼</kbd> because not all fractions are available as single symbols. Other fractions such as 2/7 may also appear in the text and it would be inconsistent to mix the two notations.") . "</p>";
 
 // error messages
 
@@ -25,16 +25,16 @@ $messages["fracscanno"] = array(
 );
 $messages["ae"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<kbd>ae</kbd>' in the text where there is an '<kbd>&aelig;</kbd>' ('ae' ligature) in the image.  You can insert the &aelig; character using the character picker below."),
+    "message_body" => _("There is still a 'scanno': '<kbd>ae</kbd>' in the text where there is an '<kbd>æ</kbd>' ('ae' ligature) in the image.  You can insert the <kbd>æ</kbd> character using the character picker below."),
 );
 $messages["fracsymbol"] = array(
     "message_title" => _("Fraction"),
-    "message_body" => _("Write out fractions when proofreading.  For instance, <kbd>2&frac12;</kbd> becomes <kbd>2-1/2</kbd>."),
+    "message_body" => _("Write out fractions when proofreading.  For instance, <kbd>2½</kbd> becomes <kbd>2-1/2</kbd>."),
     "guideline" => "fract_s",
 );
 $messages["frachyphen"] = array(
     "message_title" => _("Fraction"),
-    "message_body" => _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <kbd>2&frac12;</kbd> becomes <kbd>2-1/2</kbd>."),
+    "message_body" => _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <kbd>2½</kbd> becomes <kbd>2-1/2</kbd>."),
     "guideline" => "fract_s",
 );
 $messages["eolhyphen2"] = array(

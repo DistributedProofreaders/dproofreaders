@@ -1380,7 +1380,8 @@ function do_history()
 
                 if ( $changed_fields == 'NONE' )
                 {
-                    $list_of_changed_fields = pgettext("no changes", "none");
+                    // TRANSLATORS: i.e. no fields changed
+                    $list_of_changed_fields = pgettext("no fields", "none");
                 }
                 else
                 {
@@ -1418,7 +1419,8 @@ function do_history()
                     if ( count($labels) == 0 )
                     {
                         // This shouldn't happen.
-                        $list_of_changed_fields = pgettext("no changes", "none");
+                        // TRANSLATORS: i.e. no fields changed
+                        $list_of_changed_fields = pgettext("no fields", "none");
                     }
                     else
                     {
