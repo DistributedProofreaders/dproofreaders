@@ -78,7 +78,7 @@ foreach ( $activity_ids as $activity_id )
 
     if ( mysqli_num_rows($res) == 0 )
     {
-        $word = pgettext("no requests", "none");
+        $word = pgettext("no user", "none");
         echo "<i>$word</i>";
     }
     else

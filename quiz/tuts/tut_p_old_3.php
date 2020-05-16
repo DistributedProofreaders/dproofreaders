@@ -26,7 +26,7 @@ echo "    <td>complete</td>\n";
 echo "  </tr>\n";
 echo "</table>\n";
 
-echo "<p>" . _("These may be proofread as macrons <kbd>&#363;</kbd>, tildes <kbd>&#361;</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.") . "</p>\n";
+echo "<p>" . _("These may be proofread as macrons <kbd>ū</kbd>, tildes <kbd>ũ</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.") . "</p>\n";
 
 echo "<h3>" . _("Blackletter") . "</h3>\n";
 echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blackletter</i>.  If you have trouble reading it, see the wiki article on <a href='%2\$s' target='_blank'>Proofing blackletter</a> for images of the alphabet in that font."),
