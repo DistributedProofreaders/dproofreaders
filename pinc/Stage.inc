@@ -8,7 +8,6 @@
 // It's a generalization of the existing ideas of 'round' and 'pool',
 // and a specialization of the concept of 'Activity'.
 
-include_once($relPath.'base.inc');
 include_once($relPath.'Activity.inc');
 include_once($relPath.'misc.inc'); // attr_safe
 

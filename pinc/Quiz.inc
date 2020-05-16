@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."base.inc");
 include_once($relPath."Stage.inc");
 include_once($relPath."stages.inc");
 include_once($relPath.'misc.inc'); // get_enumerated_param
