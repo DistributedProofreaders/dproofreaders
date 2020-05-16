@@ -1,84 +1,25 @@
 <?php
+// This file sets up code infrastructure for pages that output HTML.
+// ../api/index.php handles similar infrastructure for the JSON API.
+//
 // This file sets up the vital infrastructure for the site, including:
-// * including site_vars.php to set global variables
-// * creating uncaught exception handler
-// * connecting to the database
+// * providing exception handlers
 // * (re)establishing the session
 // * setting up gettext
 // * enforcing maintenance mode
 // * providing the require_login() function
 //
-// This file should be included at the top of EVERY .php page. This
-// is not a catch-all. The kitchen sink does not belong in here!
-// Keeping this and its dependencies slim improves overall page
+// This file should be included at the top of EVERY .php page that renders
+// HTML. Keeping this and its dependencies slim improves overall page
 // performance.
 //
 // The order of the include_once()s in this file is important!
 
-// Override $relPath to be the absolute path to the directory that
-// contains this file. This allows registered shutdown functions
-// to know where to find files (working directory of the script
-// can change inside the shutdown function based on PHP docs).
-// This also helps things like APC which can bypass stat calls
-// on includes that use absolute paths.
-$relPath=dirname(__FILE__)."/";
-
-// store the current time to calculate total page build time
-$PAGE_START_TIME = microtime(true);
-
-include_once($relPath.'site_vars.php');
-
-// Register autoloader
-spl_autoload_register('dp_class_autoloader');
-
-// If we're not testing, whitewash any uncaught exceptions
-if(!$testing)
-{
-    function production_exception_handler($exception)
-    {
-        echo "<br>\n";
-        echo $exception->getMessage();
-    }
-    set_exception_handler('production_exception_handler');
-}
+include_once($relPath."bootstrap.inc");
 
 if(!headers_sent())
 {
     header("Content-Type: text/html; charset=$charset");
-
-    // Tell proxies to vary the caching based on the Accept-Language header
-    // to ensure others behind the proxy don't inadvertantly get a language
-    // they aren't expecting.
-    header("Vary: Accept-Language");
-}
-
-include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'DPDatabase.inc');
-
-try {
-    DPDatabase::connect();
-} catch (Exception $e) {
-    // If we're in maintenance mode, don't die here - we'll more gracefully
-    // error out later
-    if(!$maintenance)
-    {
-        // We output the timestamp in the same format and timezone (UTC) as
-        // the MySQL error log (sans microseconds) for easier correlation.
-        $error_message = gmstrftime("%FT%TZ") . " " .  $e->getMessage();
-
-        // Dump the error to the php error log
-        error_log("base.inc - $error_message");
-
-        // And output a pretty message for the user. gettext isn't loaded yet
-        // (because we need a connection to the DB to get the user's language)
-        // so output it in English.
-        echo "An error occurred connecting to the database. This is unexpected ";
-        echo "as the site is not in maintenance mode. Please try again later.";
-        echo "<br>";
-        echo "The following error has been logged:";
-        echo "<blockquote>$error_message</blockquote>";
-        exit(1);
-    }
 }
 
 include_once($relPath.'dpsession.inc');
@@ -119,6 +60,39 @@ if ($maintenance && !@$maintenance_override)
 
 //----------------------------------------------------------------------------
 
+function production_exception_handler($exception)
+{
+    global $maintenance;
+
+    if($exception instanceof DBConnectionError && !$maintenance)
+    {
+        // We output the timestamp in the same format and timezone (UTC) as
+        // the MySQL error log (sans microseconds) for easier correlation.
+        $error_message = gmstrftime("%FT%TZ") . " " .  $exception->getMessage();
+
+        // Dump the error to the php error log
+        error_log("base.inc - $error_message");
+
+        // And output a pretty message for the user. gettext isn't loaded yet
+        // (because we need a connection to the DB to get the user's language)
+        // so output it in English.
+        echo "An error occurred connecting to the database. This is unexpected ";
+        echo "as the site is not in maintenance mode. Please try again later.";
+        echo "<br>";
+        echo "The following error has been logged:";
+        echo "<blockquote>$error_message</blockquote>";
+        exit(1);
+    }
+
+    echo "<br>\n";
+    echo html_safe($exception->getMessage());
+}
+
+function test_exception_handler($exception)
+{
+    throw $exception;
+}
+
 function require_login()
 {
     global $user_is_logged_in;
@@ -141,20 +115,6 @@ function require_login()
     $title = _("Please Sign In");
 
     metarefresh(0,$url,$title,$body);
-}
-
-// Autoloading functions for DP classes in pinc/
-function dp_class_autoloader($class)
-{
-    global $relPath;
-    if(is_file($relPath.$class.".inc"))
-    {
-        include_once($relPath.$class.".inc");
-    }
-    elseif(is_file($relPath.$class."Class.inc"))
-    {
-        include_once($relPath.$class."Class.inc");
-    }
 }
 
 // vim: sw=4 ts=4 expandtab
