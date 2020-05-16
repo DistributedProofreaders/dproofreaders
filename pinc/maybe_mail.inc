@@ -16,6 +16,9 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         $additional_headers = array();
     }
 
+    // All emails are sent as UTF-8
+    $additional_headers[] = "Content-Type: text/plain; charset=UTF-8";
+
     // Ensure that the From and Reply-To headers are set
     if (!preg_grep('/^From: /', $additional_headers))
     {
