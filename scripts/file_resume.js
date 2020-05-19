@@ -8,7 +8,7 @@ $(function() {
         // and end with .zip (length is enforced a few lines down)
         var validChars = /^\w[\w-]*\.\w+$/;
         if(!validChars.test(name)) {
-            alert(uploadMessages.invalidChars);
+            alert(uploadMessages.invalidChars + ": '" + name + "'");
             return false;
         }
         var zipTest = /^.+\.zip$/;
