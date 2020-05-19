@@ -2,7 +2,7 @@
 
 _Preserving history, one page at a time._
 
-This repository contains the code that powers http://www.pgdp.net and other
+This repository contains the code that powers https://www.pgdp.net and other
 sister DP sites world-wide.
 
 ## About
@@ -10,7 +10,7 @@ sister DP sites world-wide.
 Distributed Proofreaders is a web application (written in PHP and backed by a
 MySQL database) that is intended to ease the process of converting public
 domain books and other printed materials into e-texts.
-The main site is at http://www.pgdp.net
+The main site is at https://www.pgdp.net
 
 By breaking the work into individual pages, many proofreaders can be working
 on the same book at the same time. This significantly speeds up the
@@ -30,8 +30,9 @@ site.
 ## Installation
 
 See the [installation guide](SETUP/INSTALL.md) for information on system
-pre-requisites and installation instructions. This file also has information on
-upgrading from an earlier release of the code.
+pre-requisites, installation instructions, and upgrading from an earlier release
+of the code. [Additional documentation](SETUP/README.md) is available in the
+`SETUP` directory.
 
 If you need assistance with the code, inquire within the
 [DP Site Code](https://www.pgdp.net/phpBB3/viewforum.php?f=32) forum at pgdp.net.

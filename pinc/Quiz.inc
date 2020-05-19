@@ -3,6 +3,7 @@ include_once($relPath."base.inc");
 include_once($relPath."Stage.inc");
 include_once($relPath."stages.inc");
 include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 
 // for groups of quizzes that go together
 class QuizLevel
@@ -174,8 +175,8 @@ class Quiz
                 $date_ok = ((time() - $date) < $max) || empty($max);
                 $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
                 echo "<td style='background-color: $bgcolor'>$text</td>";
-                $text = ($passed && $date_ok) ?	"<img src='$code_url/quiz/tick.png' alt='Tick!' title='Quiz page passed!' width='25' height='24'>"
-                    : "<img src='$code_url/quiz/cross.png' alt='Cross' title='Quiz page not passed' width='22' height='25'>";
+                $text = ($passed && $date_ok) ?	"<span style='font-size: 1.5em' title='Quiz page passed!'>&check;</span>"
+                    : "<span style='font-size: 1.5em' title='Quiz page not passed'>&#x2717;</span>";
                 $bgcolor = ($passed && $date_ok) ? '#88ff88' : '#ff8888';
                 echo "<td style='background-color: $bgcolor'>$text</td>";
             }
@@ -190,6 +191,18 @@ class Quiz
                 <tr><td colspan='$n_columns' style='background-color: $bgcolor; font-weight: bold; text-align: center;'>$text</td></tr>";
         }
         echo "</table>\n";
+    }
+}
+
+class QuizCharSuites
+{
+    use CharSuiteSet;
+
+    public function get_charsuites()
+    {
+        $charsuites[] = CharSuites::get('basic-latin');
+        $charsuites[] = CharSuites::get('extended-european-latin');
+        return $charsuites;
     }
 }
 

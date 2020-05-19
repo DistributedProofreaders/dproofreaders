@@ -152,6 +152,12 @@ else
     $pih->show_form();
 }
 
+function get_default_character_suites()
+{
+    global $default_project_char_suites;
+    return $default_project_char_suites;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class ProjectInfoHolder
@@ -169,6 +175,7 @@ class ProjectInfoHolder
         $this->comments         = '';
         $this->clearance        = '';
         $this->postednum        = '';
+        $this->charsuites       = get_default_character_suites();
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
@@ -206,6 +213,7 @@ class ProjectInfoHolder
         $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
         $this->language    = $marc_record->language;
+        $this->charsuites  = get_default_character_suites();
         $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
@@ -344,7 +352,7 @@ class ProjectInfoHolder
         {
             $this->projectid        = $project->projectid;
             $this->deletion_reason  = $project->deletion_reason;
-            $this->posted           = @$_GET['posted'];        
+            $this->posted           = @$_GET['posted'];
             $this->postednum        = $project->postednum;
             $this->state            = $project->state;
         }
@@ -357,6 +365,12 @@ class ProjectInfoHolder
             $this->state            = '';
         }
         $this->up_projectid     = $project->up_projectid;
+        $project_charsuites = $project->get_charsuites();
+        $this->charsuites = [];
+        foreach($project_charsuites as $project_charsuite)
+        {
+            array_push($this->charsuites, $project_charsuite->name);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -440,8 +454,20 @@ class ProjectInfoHolder
             ? "$pri_language with $sec_language"
             : $pri_language );
 
+        $this->charsuites = [];
+        foreach(@$_POST['charsuites'] as $charsuite)
+        {
+            array_push($this->charsuites, $charsuite);
+        }
+        if (sizeof($this->charsuites) == 0)
+        {
+            $errors .= _("At least one Character Suite is required.")."<br>";
+        }
+
         $this->genre = @$_POST['genre'];
         if ( $this->genre == '' ) { $errors .= _("Genre is required.")."<br>"; }
+
+        // read post and set up
 
         $this->image_source = @$_POST['image_source'];
         if ($this->image_source == '')
@@ -467,7 +493,7 @@ class ProjectInfoHolder
             }
         }
 
-	*/
+    */
 
 
         $this->special_code = @$_POST['special_code'];
@@ -559,7 +585,7 @@ class ProjectInfoHolder
             {
                 $errors .= sprintf(
                     _("Posted Number \"%s\" is not of the correct format."),
-                    $this->postednum) . "<br>";
+                    html_safe($this->postednum)) . "<br>";
                 // You'll sometimes see PG etext numbers with a 'C' appended.
                 // The 'C' is not part of the etext number
                 // (e.g., it does not appear in PG's RDF catalog),
@@ -601,21 +627,21 @@ class ProjectInfoHolder
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->nameofwork)."',
-            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->authorsname)."',
+            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->nameofwork))."',
+            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->authorsname))."',
             language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
             genre          = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->genre)."',
             difficulty     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->difficulty_level)."',
             special_code   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->special_code)."',
             clearance      = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->clearance)."',
-            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->comments)."',
+            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->comments))."',
             image_source   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_source)."',
             scannercredit  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->scannercredit)."',
             checkedoutby   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->checkedoutby)."',
             postednum      = $postednum_str,
             image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
             text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
-            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->extra_credits)."',
+            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->extra_credits))."',
             deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."'
         ";
         $pm_setter = '';
@@ -824,6 +850,8 @@ class ProjectInfoHolder
         $project = new Project($this->projectid);
         $project->create_dc_xml_oai($marc_record);
 
+        $project->set_charsuites($this->charsuites);
+
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
         {
@@ -947,7 +975,17 @@ class ProjectInfoHolder
             $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation), array("required" => true));
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
+
+        $project_charsuites = [];
+        if (isset($this->projectid))
+        {
+            $project = new Project($this->projectid);
+            $project_charsuites = $project->get_charsuites();
+        }
+        $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      $project_charsuites);
+
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
+
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
@@ -1016,12 +1054,12 @@ class ProjectInfoHolder
         echo "<h2 id='preview'>", _("Preview Project"), "</h2>";
         echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";
         echo "<table class='basic'>";
-        echo "<tr><th>", _("Title"), "</th><td>$this->nameofwork</td></tr>\n";
-        echo "<tr><th>", _("Author"), "</th><td>$this->authorsname</td></tr>\n";
+        echo "<tr><th>", _("Title"), "</th><td>", html_safe($this->nameofwork), "</td></tr>\n";
+        echo "<tr><th>", _("Author"), "</th><td>", html_safe($this->authorsname), "</td></tr>\n";
         if (user_is_a_sitemanager())
         {
             // SAs are the only ones who can change this.
-            echo "<tr><th>", _("Project Manager"), "</th><td>$this->projectmanager</td></tr>\n";
+            echo "<tr><th>", _("Project Manager"), "</th><td>", $this->projectmanager, "</td></tr>\n";
         }
         echo "<tr><th>", _("Last Proofread"), "</th><td>$now</td></tr>\n";
         echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";

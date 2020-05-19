@@ -13,7 +13,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 // error messages
 $messages["cat"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': a '<kbd>c</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["chapchange"] = array(
     "message_title" => _("Chapter heading changed"),

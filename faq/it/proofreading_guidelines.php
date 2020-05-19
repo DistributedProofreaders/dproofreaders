@@ -335,38 +335,28 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 <h3><a name="double_q">Virgolette doppie</a></h3>
 <p>Correggi le &ldquo;virgolette doppie&rdquo; come semplici virgolette
-   doppie ASCII <tt>"</tt>. Non cambiare le virgolette doppie in virgolette
+   doppie ASCII <kbd>"</kbd>. Non cambiare le virgolette doppie in virgolette
    semplici. Lasciale come le ha scritte l'autore.
    Vedi <a href="#chap_head">Titoli dei Capitoli</a> nel caso in cui manchi una
    virgoletta doppia all'inizio del capitolo.
 </p>
-<p>Per le citazioni introdotte da caratteri diversi da <tt>"</tt>, usa gli stessi
+<p>Per le citazioni introdotte da caratteri diversi da <kbd>"</kbd>, usa gli stessi
    caratteri che appaiono nell'immagine se sono disponibili.
-   Gli equivalenti francesi, guillemets (caporali)&nbsp; <tt>&laquo;come questi&raquo;</tt>,
+   Gli equivalenti francesi, guillemets (caporali)&nbsp; <kbd>&laquo;come questi&raquo;</kbd>,
    sono disponibili nei menu a discesa nell'interfaccia di correzione, poich&eacute;
    fanno parte del Latin-1. Ricordati di rimuovere lo spazio tra le virgolette
    e il testo citato; se necessario sar&agrave; aggiunto in post-correzione.
-   Lo stesso dicasi per le lingue che usano le guillemets inverse,&nbsp; <tt>&raquo;come
-   queste&laquo;</tt>.
+   Lo stesso dicasi per le lingue che usano le guillemets inverse,&nbsp; <kbd>&raquo;come
+   queste&laquo;</kbd>.
 </p>
-<p>Le virgolette usate in alcuni testi (in Tedesco o altre lingue)&nbsp; <tt>&bdquo;come
-   queste&ldquo;</tt>&nbsp;
-<?php if(!$utf8_site) { ?>
-   non sono disponibili nei men&ugrave; a discesa, poich&eacute; non
-   appartengono al Latin-1. Sono spesso convertite in guillemets&nbsp;
-   <tt>&raquo;come queste&laquo;</tt>&nbsp; (o&nbsp; <tt>&laquo;come
-   queste&raquo;</tt>&nbsp; per le lingue che usano le virgolette&nbsp;
-   <tt>&ldquo;cos&igrave;&bdquo;</tt>), ma assicurati di aver controllato i
-   <a href="#comments">Project Comments</a> (Commenti al progetto)
-   nel caso in cui il Project Manager abbia dato istruzioni diverse.
-<?php } else { ?>
+<p>Le virgolette usate in alcuni testi (in Tedesco o altre lingue)&nbsp; <kbd>&bdquo;come
+   queste&ldquo;</kbd>&nbsp;
    sono anche disponibili nei men&ugrave; a discesa; per semplicit&agrave;,
-   dovresti sempre usare&nbsp; <tt>&bdquo;</tt>&nbsp; e&nbsp; <tt>&ldquo;</tt>&nbsp;
+   dovresti sempre usare&nbsp; <kbd>&bdquo;</kbd>&nbsp; e&nbsp; <kbd>&ldquo;</kbd>&nbsp;
    indipendentemente dalle virgolette effettivamente usate nel testo originale, se
    le virgolette usate nel testo originale sono chiaramente basse e alte. Se
    necessario, le virgolette saranno sostituite con quelle effettivamente usate
    nel testo in post-correzione.
-<?php } ?>
 </p>
 <p>Nei <a href="#comments">Project Comments</a> (Commenti al Progetto) il
    Project Manager potrebbe darti istruzioni di rendere le virgolette di lingue
@@ -378,7 +368,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="single_q">Virgolette semplici</a></h3>
-<p>Rendile come la virgoletta singola <tt>'</tt> in ASCII (apostrofo). Non
+<p>Rendile come la virgoletta singola <kbd>'</kbd> in ASCII (apostrofo). Non
    cambiare le virgolette semplici in virgolette doppie. Lasciale come
    l'autore le ha scritte.
 </p>
@@ -434,7 +424,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -447,7 +437,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -490,7 +480,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -505,7 +495,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
    alle virgolette, ecc. <b>devono</b> essere rimossi quando separano
    il segno dalla parola.
 </p>
-<p>Per esempio, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt>
+<p>Per esempio, in <kbd>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</kbd>
    lo spazio tra la parola "horse" e il punto e virgola deve essere rimosso.
    Ma i due spazi dopo il punto e virgola vanno bene&mdash;non &egrave;
    necessario che tu ne rimuova uno.
@@ -580,107 +570,107 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>Trattino</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>Trattini</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>Trattino</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>Trattino &amp; Lineetta emme</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>Lineetta enne</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside.</td>
-      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside.</kbd></td>
       <td>Lineetta enne</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>Lineetta enne</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>Lineetta enne</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>Lineetta emme</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>Lineetta emme</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>Lineetta emme</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>Lineetta emme</td>
     </tr>
     <tr>
       <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>Lineetta emme, Trattino,<br> &amp; Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>Lineetta lunga</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>Lineetta emme</td>
     </tr>
   </tbody>
@@ -703,8 +693,8 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
    trattino, venivano spesso scritte con il trattino nei vecchi libri su cui
    lavoriamo. Lasciale col trattino nel modo in cui ha fatto l'autore. Se non sei
    certo che la parola abbia o meno il trattino, lascia il trattino,
-   metti un <tt>*</tt> dopo il trattino, e riunisci la parola in questo modo:
-   <tt>to-*day</tt>. L'asterisco attirer&agrave; l'attenzione del post-correttore,
+   metti un <kbd>*</kbd> dopo il trattino, e riunisci la parola in questo modo:
+   <kbd>to-*day</kbd>. L'asterisco attirer&agrave; l'attenzione del post-correttore,
    che ha accesso a tutte le pagine e pu&ograve; determinare il modo in cui l'autore
    scriveva normalmente la parola.
 </p>
@@ -721,7 +711,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 <h3><a name="eop_hyphen">Andare a capo con trattino o lineetta a fine pagina</a></h3>
 <p>Correggi i trattini e le lineette alla fine della pagina lasciando il
-   trattino o la lineetta alla fine dell'ultima riga e segnalalo con un <tt>*</tt>
+   trattino o la lineetta alla fine dell'ultima riga e segnalalo con un <kbd>*</kbd>
    dopo la lineetta. Per esempio:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
@@ -732,12 +722,12 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
 <p>Nelle pagine che cominciano con una parte di una parola che continua dalla
-   pagina precedente o con una lineetta, metti un <tt>*</tt> prima della parte
+   pagina precedente o con una lineetta, metti un <kbd>*</kbd> prima della parte
    della parola o della lineetta.
    Per continuare l'esempio precedente:
 </p>
@@ -749,7 +739,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -783,7 +773,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
    attentamente lo stile usato nella pagina stampata." In particolare,
    inserisci spazi, se ci sono spazi prima o tra i puntini, e usa lo stesso
    numero di puntini che appaiono nell'immagine. A volte la pagina stampata
-   non &egrave; chiara; in quel caso, inserisci un <tt>[**non chiaro]</tt>
+   non &egrave; chiara; in quel caso, inserisci un <kbd>[**non chiaro]</kbd>
    per attirare l'attenzione del post-correttore. (Nota: il Post-correttore
    dovrebbe sostituire gli spazi regolari con spazi senza interruzioni.)
 </p>
@@ -798,31 +788,31 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -831,8 +821,8 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 <h3><a name="contract">Contrazioni</a></h3>
 <p>In Inglese, rimuovi gli spazi nelle contrazioni. Per esempio,
-   <tt>would&nbsp;n't</tt> deve essere corretto come <tt>wouldn't</tt>
-   e <tt>'t&nbsp;is</tt> come <tt>'tis</tt>.
+   <kbd>would&nbsp;n't</kbd> deve essere corretto come <kbd>wouldn't</kbd>
+   e <kbd>'t&nbsp;is</kbd> come <kbd>'tis</kbd>.
 </p>
 <p>Questa era una convenzione di stampa del 19. secolo per la quale
    lo spazio veniva mantenuto per indicare che 'would' e 'not' erano
@@ -849,8 +839,8 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="fract_s">Frazioni</a></h3>
-<p>Correggi le frazioni in questo modo: <tt>&frac14;</tt> diventa <tt>1/4</tt>,
-   e <tt>2&frac12;</tt> diventa <tt>2-1/2</tt>.
+<p>Correggi le frazioni in questo modo: <kbd>&frac14;</kbd> diventa <kbd>1/4</kbd>,
+   e <kbd>2&frac12;</kbd> diventa <kbd>2-1/2</kbd>.
    Il trattino impedisce che la parte intera e fratta vengano
    separate quando le righe vengono reimpaginate durante la post-correzione.
    A meno che sia specificamente richiesto nei <a href="#comments">Project Comments</a>
@@ -861,35 +851,13 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Caratteri accentati/non-ASCII</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Per favore correggi questi caratteri usando i simboli appropriati o i
-   caratteri accentati che corrispondono all'immagine, dove possibile, incluso
-   l'uso o il non-uso di accenti.
-   Possiamo usare solo caratteri Latin-1 durante la correzione; se non sei sicuro
-   se il carattere &egrave; nella codifica Latin-1, controlla le
-   <a href="#insert_char">tabelle seguenti</a>.
-<?php } else { ?>
 <p>Correggi questi caratteri usando il corrispondente carattere UTF-8. Per caratteri
    che non sono in Unicode, vedi le istruzioni del Project Manager nei
    <a href="#comments">Project Comments</a> (Commenti al progetto).
-<?php } ?>
    Se non appartengono alla tua tastiera, vedi <a href="#insert_char">Inserimento
    dei caratteri speciali</a> per informazioni su come inserire questi caratteri
    nella correzione.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>Il carattere &oelig; (legatura oe) non &egrave; in Latin-1, cos&igrave; lo
-   indichiamo in parentesi quadre come in <tt>man[oe]uvre</tt>, o <tt>[OE]dipus</tt>
-   per &OElig; maiuscolo. Nota che il carattere &aelig; (legatura ae, come in
-   <tt>encyclop&aelig;dia</tt>) appartiene al Latin-1, quindi il carattere deve
-   essere inserito direttamente.
-</p>
-<p>Per altri caratteri all'infuori del Latin-1, vedi <a href="#d_chars">Segni Diacritici</a>
-   per come correggere gli accenti e altri segni sotto o sopra le lettere Latine.
-   Per caratteri che non sono presenti in questa guida, vedi le istruzioni del Project
-   Manager nei <a href="#comments">Project Comments</a> (Commenti al progetto).
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
@@ -898,7 +866,6 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
 <p>In alcuni progetti, troverai caratteri con segni speciali sotto o sopra
    il normale carattere latino A...Z. Questi segni sono detti <i>segni diacritici</i>, e
    indicano una pronuncia speciale per questo carattere.
-<?php if($utf8_site) { ?>
 </p>
 <p>Se questo tipo di carattere non esiste in Unicode, deve essere inserito usando
    <i>segni diacritici combinati</i>: questi sono simboli Unicode che non possono
@@ -915,109 +882,7 @@ output_header('Regole di Correzione', NO_STATSBAR, $theme_args);
    Nota che esistono anche le <i>Spacing modifier letters</i>; queste
    non dovrebbero essere usati.
 </p>
-<?php } else { ?>
-   Per la correzione, li indichiamo nel testo usando una simbologia speciale,
-   per esempio: <span style="font-size:110%;">&#259;</span> diventa <tt>[)a]</tt>
-   per una breve (l'accento a forma di u) sopra una a, o <tt>[a)]</tt> per una
-   breve sotto. Assicurati di includere le lettere in parentesi
-   quadre (<tt>[&nbsp;]</tt>). Nei rari casi in cui un diacritico sia sopra due
-   lettere, includile entrambe nelle parentesi quadre.
-</p>
-<p>Il post-correttore eventualmente sostituir&agrave; questa notazione con
-   un simbolo che possa andare bene in ogni versione prodotta del testo,
-   come 7-bit ASCII, 8-bit, Unicode, html, ecc.
-</p>
-<p>Nota che quando alcuni di questi segni appaiono su qualche carattere
-   (soprattutto le vocali) la nostra codifica standard Latin-1 gi&agrave;
-   include questi caratteri con il segno diacritico. <b>In questi casi,
-   usa il carattere Latin-1 (vedi <a href="#a_chars">qui</a>), disponibile dai
-   men&ugrave; a discesa nell'interfaccia di correzione.</b>
-</p>
 <!-- END RR -->
-
-<p>Nella tabella sottostante, la "x" rappresenta una lettera con un segno
-   diacritico. Durante la correzione, usa il carattere del testo, non la
-   <tt>x</tt> mostrata negli esempi.
-</p>
-
-<!--
-  segno diacritico                 sopra  sotto
-macron (trattino alto)             [=x]   [x=]
-2 punti (dieresi o umlaut)         [:x]   [x:]
-1 punto                            [.x]   [x.]
-accento grave                      ['x]   [x']
-accento acuto                      [`x]   [x`]
-circonflesso                       [^x]   [x^]
-antiflesso (simbolo a forma di v)  [vx]   [xv]
-breve (simbolo a forma di u)       [)x]   [x)]
-tilde                              [~x]   [x~]
-cediglia                           [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Simboli di Correzione per i Segni Diacritici</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>segno diacritico</th>
-      <th>esempio</th>
-      <th style="padding-left:4; padding-right:4;">sopra</th>
-      <th style="padding-left:4; padding-right:4;">sotto</th>
-    </tr>
-    <tr><td>macron (trattino alto)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 punti (dieresis, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 punto</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>accento grave</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>accento acuto</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circonflesso</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>antiflesso (simbolo a forma di v)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (simbolo a forma di u)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cediglia</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
 
@@ -1026,53 +891,6 @@ cediglia                           [,x]   [x,]
    caratteri diversi dai Latini A...Z&mdash;per esempio, caratteri Greci, Cirillici
    (usati in Russo, Slavo, e altre lingue), Ebraici, o Arabi.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Per il Greco, devi tentare una traslitterazione. La traslitterazione consiste
-   nel convertire ogni carattere del testo straniero nelle equivalenti lettere latine.
-   Un'utilit&agrave; di traslitterazione dal Greco viene proposta nell'interfaccia di
-   correzione per rendere questo compito pi&ugrave; semplice.
-</p>
-<p>Clicca sul bottone "Greek Transliterator" in basso nell'interfaccia di correzione
-   per aprire l'utilit&agrave;. Nella finestra dell'utilit&agrave;, clicca i caratteri
-   greci che coincidono con quelli della parola o frase che stai traslitterando,
-   e nella finestra di testo appariranno i caratteri in Latin-1 corrispondenti.
-   Quando hai finito, copia ed incolla il testo traslitterato nella pagina che stai
-   correggendo. Metti attorno al testo i marcatori del Greco <tt>[Greek:&nbsp;</tt>
-   e <tt>]</tt>. Per esempio, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   diventa <tt>[Greek: Biblos]</tt>. ("Libro"&mdash;cos&igrave; appropriato
-   per <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>Se non sei sicuro della tua traslitterazione, segnalalo con <tt>**</tt> per
-   portarlo all'attenzione del prossimo correttore o del post-correttore.
-</p>
-<p>Per gli altri alfabeti che non possono essere facilmente traslitterati, come
-   il Cirillico, l'Ebraico o l'Arabo, sostituisci i caratteri non latini o quello
-   che ha riconosciuto l'OCR con il segno appropriato: <tt>[Cyrillic:&nbsp;**]</tt>,
-   <tt>[Hebrew:&nbsp;**]</tt>, o <tt>[Arabic:&nbsp;**]</tt>.
-   Includi gli <tt>**</tt> in modo che il post-correttore possa trattarli
-   pi&ugrave; avanti.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Greco: vedi la pagina della wiki <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating
-      Greek</a>, <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> da
-      Project Gutenberg, o l'utilit&agrave; "Greek Transliterator" dell'interfaccia di
-      correzione.
-  </li>
-  <li>Cirillico: Nonostante uno schema di traslitterazione standard esista per
-      il cirillico, ti raccomandiamo di tentare una traslitterazione se sei
-      fluente nella lingua che lo usa. Altrimenti, segnalalo semplicemente
-      come indicato sopra.
-  </li>
-  <li>Ebraico e Arabo:
-      Non raccomandato a meno che tu sia fluente. Ci sono difficolt&agrave;
-      significative nel traslitterare queste lingue e n&eacute; Distributed
-      Proofreaders n&eacute; <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
-      hanno ancora scelto un metodo standard.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Questi caratteri devono essere inseriti nel testo proprio come vengono inseriti
    i caratteri latini. (<b>SENZA traslitterazione!</b>)
 </p>
@@ -1088,18 +906,18 @@ cediglia                           [,x]   [x,]
    portarlo all'attenzione del correttore successivo o del post-correttore.
 </p>
 <p>Per alfabeti che non possono essere inseriti facilmente, come l'Arabo, identificalo
-   con la marcatura appropriata: <tt>[Arabic:&nbsp;**]</tt>.
-   Includi <tt>**</tt> affinch&eacute; il post-correttore possa occuparsene dopo.
+   con la marcatura appropriata: <kbd>[Arabic:&nbsp;**]</kbd>.
+   Includi <kbd>**</kbd> affinch&eacute; il post-correttore possa occuparsene dopo.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
 
 
 <h3><a name="supers">Apici/Esponenti</a></h3>
 <p>Nei vecchi libri spesso si abbreviavano le parole in contrazioni, e le si scriveva in
-   apice. Correggile inserendo un singolo circonflesso (<tt>^</tt>) seguito dal
+   apice. Correggile inserendo un singolo circonflesso (<kbd>^</kbd>) seguito dal
    testo in apice. Se l'apice &egrave; pi&ugrave; lungo di un carattere,
-   allora in aggiunta delimita il testo con le parentesi graffe <tt>{</tt> e <tt>}</tt>.
+   allora in aggiunta delimita il testo con le parentesi graffe <kbd>{</kbd> e <kbd>}</kbd>.
    Per esempio:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
@@ -1110,7 +928,7 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1127,7 +945,7 @@ cediglia                           [,x]   [x,]
 <h3><a name="subscr">Pedici</a></h3>
 <p>Il testo in pedice si trova spesso nelle opere scientifiche, ma non &egrave;
    comune in altri tipi di testo. Rendi il testo in pedice inserendo un trattino
-   basso <tt>_</tt> e circonda il testo con parentesi graffe <tt>{</tt> e <tt>}</tt>.
+   basso <kbd>_</kbd> e circonda il testo con parentesi graffe <kbd>{</kbd> e <kbd>}</kbd>.
    Per esempio:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
@@ -1138,7 +956,7 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1162,8 +980,8 @@ cediglia                           [,x]   [x,]
    Non preoccuparti dei cambiamenti nell'altezza tra maiuscolo e minuscolo.
    Se il testo riconosciuto &egrave; gi&agrave; TUTTO MAIUSCOLO, Misto, o tutto
    minuscolo, lascialo TUTTO MAIUSCOLO, Misto, o tutto minuscolo.
-   Potresti trovare il maiuscoletto circondato da <tt>&lt;sc&gt;</tt> e
-   <tt>&lt;/sc&gt;</tt>; vedi <a href="#formatting">Formattazione</a> in questo caso.
+   Potresti trovare il maiuscoletto circondato da <kbd>&lt;sc&gt;</kbd> e
+   <kbd>&lt;/sc&gt;</kbd>; vedi <a href="#formatting">Formattazione</a> in questo caso.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
@@ -1256,7 +1074,7 @@ cediglia                           [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -1300,7 +1118,7 @@ cediglia                           [,x]   [x,]
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1316,7 +1134,7 @@ cediglia                           [,x]   [x,]
   "Vedi pagina 66" o un titolo all'interno dei margini dell'illustrazione.
 </p>
 <p>La maggior parte delle pagine con illustrazioni ma senza testo avranno gi&agrave;
-   inserito <tt>[Blank Page]</tt>. Lascia questa dicitura com'&egrave;.
+   inserito <kbd>[Blank Page]</kbd>. Lascia questa dicitura com'&egrave;.
 </p>
 <!-- END RR -->
 
@@ -1334,12 +1152,12 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1360,19 +1178,19 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1387,13 +1205,13 @@ cediglia                           [,x]   [x,]
    nel testo.
 </p>
 <p>Nel testo principale, i caratteri che indicano il piazzamento di una nota devono
-   essere circondati da parentesi quadre (<tt>[</tt> e <tt>]</tt>) e inseriti
-   vicino alla parola annotata<tt>[1]</tt> o al suo segno di punteggiatura,<tt>[2]</tt>
+   essere circondati da parentesi quadre (<kbd>[</kbd> e <kbd>]</kbd>) e inseriti
+   vicino alla parola annotata<kbd>[1]</kbd> o al suo segno di punteggiatura,<kbd>[2]</kbd>
    come mostrato nell'immagine e nei due esempi di questa frase.
    I rimandi delle note a pi&egrave; pagina possono essere numeri, lettere o simboli.
    Quando le note sono segnalate con un simbolo o una serie di simboli
-   (*, &dagger;, &Dagger;, &sect;, ecc.) li sostituiamo tutti con <tt>[*]</tt> nel testo,
-   e <tt>*</tt> anche nella nota a pi&egrave; pagina.
+   (*, &dagger;, &Dagger;, &sect;, ecc.) li sostituiamo tutti con <kbd>[*]</kbd> nel testo,
+   e <kbd>*</kbd> anche nella nota a pi&egrave; pagina.
 </p>
 <p>A fondo pagina, correggi il testo della nota come &egrave; stampato,
    mantenendo le interruzioni di riga. Assicurati che il rimando
@@ -1412,7 +1230,7 @@ cediglia                           [,x]   [x,]
    alla fine di un capitolo o alla fine di un libro, invece che in fondo ad
    ogni pagina. Sono corrette nello stesso modo delle note a pi&egrave; di pagina.
    Dove trovi un riferimento ad una nota di chiusura nel testo, semplicemente
-   circondala con <tt>[</tt> e <tt>]</tt>. Se stai correggendo la pagina con
+   circondala con <kbd>[</kbd> e <kbd>]</kbd>. Se stai correggendo la pagina con
    le note di chiusura, inserisci una riga vuota dopo ogni nota in modo che
    sia chiaro dove ognuna comincia e termina.
 </p>
@@ -1442,13 +1260,13 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -1471,7 +1289,7 @@ cediglia                           [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1479,7 +1297,7 @@ cediglia                           [,x]   [x,]
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1514,7 +1332,7 @@ cediglia                           [,x]   [x,]
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1595,7 +1413,7 @@ cediglia                           [,x]   [x,]
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1640,7 +1458,7 @@ cediglia                           [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1657,7 +1475,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1673,7 +1491,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1684,7 +1502,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1715,7 +1533,7 @@ Plural   {   2d   "  ye, or you,   you,
     <tr><th align="left" bgcolor="cornsilk">Testo corretto:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1729,7 +1547,7 @@ Plural   {   2d   "  ye, or you,   you,
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1776,7 +1594,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 <h3><a name="blank_pg">Pagina vuota</a></h3>
 <p>La maggior parte delle pagine vuote, o pagine con un'illustrazione ma senza testo,
-   riporteranno gi&agrave; la dicitura <tt>[Blank Page]</tt>. Lascia la dicitura
+   riporteranno gi&agrave; la dicitura <kbd>[Blank Page]</kbd>. Lascia la dicitura
    come &egrave;. Se la pagina &egrave; vuota, ma [Blank Page] non c'&egrave;,
    non &egrave; necessario aggiungerlo.
 </p>
@@ -1813,17 +1631,17 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1856,8 +1674,8 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1904,7 +1722,7 @@ Plural   {   2d   "  ye, or you,   you,
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1964,35 +1782,35 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2013,14 +1831,14 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2037,11 +1855,11 @@ Plural   {   2d   "  ye, or you,   you,
 <p>Dovresti inserire inoltre una nota nel testo in correzione per spiegare ai
    successivi correttori, impaginatori o al post-correttore qual &egrave; il
    problema o la domanda. La nota viene inserita iniziando con una parentesi
-   quadra e due asterischi <tt>[**</tt> e termina con un'altra parentesi quadra <tt>]</tt>.
+   quadra e due asterischi <kbd>[**</kbd> e termina con un'altra parentesi quadra <kbd>]</kbd>.
    Questo la separa chiaramente dal testo dell'autore e segnala al post-correttore di
    fermarsi ad esaminare attentamente questa parte del testo e l'immagine
    corrispondente per considerare ogni questione. Puoi anche identificare
-   in che turno stai lavorando appena prima di <tt>]</tt> cos&igrave; che i
+   in che turno stai lavorando appena prima di <kbd>]</kbd> cos&igrave; che i
    volontari sappiano chi ha lasciato la nota. Qualsiasi commento inserito da
    un volontario precedente <b>deve</b> deve essere lasciato al suo posto.
    Vedi la sezione seguente per maggiori dettagli.
@@ -2171,16 +1989,16 @@ Plural   {   2d   "  ye, or you,   you,
    il software OCR interpreta allo stesso modo (e normalmente sbagliato):
 </p>
 <ul>
-  <li>Il simbolo di grado <tt style="font-size:150%;">&deg;</tt>: deve essere usato
+  <li>Il simbolo di grado <kbd style="font-size:150%;">&deg;</kbd>: deve essere usato
       solo per indicare i gradi (di temperatura, di angoli, ecc.).</li>
   <li>La o in apice: praticamente tutti i casi di una o in apice deve essere
-      corretta in <tt>^o</tt>, seguendo le regole per <a href="#supers">Apici/Esponenti</a>.</li>
-  <li>L'ordinale maschile <tt style="font-size:150%;">&ordm;</tt>: correggi anche
+      corretta in <kbd>^o</kbd>, seguendo le regole per <a href="#supers">Apici/Esponenti</a>.</li>
+  <li>L'ordinale maschile <kbd style="font-size:150%;">&ordm;</kbd>: correggi anche
       questo come un apice a meno che il carattere speciale sia richiesto nei
       <a href="#comments">Project Comments</a> (Commenti al progetto).
       Pu&ograve; essere usato in lingue come lo spagnolo e il portoghese,
       ed &egrave; l'equivalente del -th nell'Inglese 4th, 5th, ecc.
-      Segue dei numeri e ha il corrispondente femminile nella a in apice (<tt>&ordf;</tt>).</li>
+      Segue dei numeri e ha il corrispondente femminile nella a in apice (<kbd>&ordf;</kbd>).</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
@@ -2265,11 +2083,11 @@ Plural   {   2d   "  ye, or you,   you,
    Molti testi antichi contengono parole scritte in modo diverso dall'uso moderno e
    noi conserviamo l'ortografia antica, inclusi i caratteri accentati.
 </p>
-<p>Metti una nota nel testo accanto ad un errore di stapma<tt>[**typo per stampa?]</tt>.
+<p>Metti una nota nel testo accanto ad un errore di stapma<kbd>[**typo per stampa?]</kbd>.
    Se non sei certo che sia veramente un errore, chiedi nella
    <a href="#forums">discussione del progetto</a>. Se fai un cambiamento, includi
-   una nota che descriva cosa hai cambiato: <tt>[**typo "stapma" corretto]</tt>.
-   Includi i due asterischi <tt>**</tt> in modo che il post-correttore li noti.
+   una nota che descriva cosa hai cambiato: <kbd>[**typo "stapma" corretto]</kbd>.
+   Includi i due asterischi <kbd>**</kbd> in modo che il post-correttore li noti.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
@@ -2293,10 +2111,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>I menu a discesa nell'interfaccia di correzione.</li>
   <li>Gli Applets inclusi nel tuo sistema operativo.
-<?php if(!$utf8_site) { ?>
-Se usi uno di questi, assicurati di inserire solo i caratteri del Latin-1
-(quelli elencati nelle tabelle sottostanti).
-<?php } ?>
     <ul compact>
       <li>Windows: "Mappa dei Caratteri"<br> Accedi attraverso:<br>
           Avvio: Esegui: charmap, o<br>

@@ -1,13 +1,13 @@
 Cuidad	Ciudad
 Oue	Que
-abí	ahí
+abÃ­	ahÃ­
 ai	al
 aon	son
 ana	una
 antas	antes
 apenus	apenas
 aus	sus
-aí	al
+aÃ­	al
 ban	han
 cado	cada
 ccn	con
@@ -44,7 +44,7 @@ misino	mismo
 misnio	mismo
 motro	metro
 mujeras	mujeres
-muía	mula
+muÃ­a	mula
 nenos	menos
 nn	un
 oflicial	oficial
@@ -54,7 +54,7 @@ ontre	entre
 ooncurso	concurso
 oristiana	cristiana
 oristiano	cristiano
-oájeto	objeto
+oÃ¡jeto	objeto
 palabre	palabra
 pinlura	pintura
 qne	que
@@ -66,8 +66,8 @@ qve	que
 ralor	valor
 sa	se
 sania	santa
-sanía	santa
-serla	sería
+sanÃ­a	santa
+serla	serÃ­a
 so	se
 sn	su
 sulud	salud
@@ -76,4 +76,4 @@ uns	una
 uoa	una
 uua	una
 uuas	unas
-ía	la
+Ã­a	la

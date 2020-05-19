@@ -2,25 +2,50 @@
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'codepoint_validator.inc');
 include_once('preview.inc');
 
 function echo_text_frame_std( $ppage )
 {
     global $code_url;
     
+    $project = new Project($ppage->projectid());
+    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints()));
+    $switch_confirm = javascript_safe(_('Are you sure you want to save the current page and change layout?'));
+    $revert_confirm = javascript_safe(_("Are you sure you want to save the current page and revert to the original text for this round?"));
+
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),
         "js_files" => array(
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
+            "$code_url/scripts/character_test.js",
+            "$code_url/scripts/text_validator.js",
+            "$code_url/tools/proofers/proof_validate.js",
+            "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
-        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();} ' . get_preview_js_vars(),
-        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
+        "js_data" => get_preview_js_vars() . "
+        function ldAll() {
+            top.initializeStuff(0);
+            previewControl = initPrev();
+        }
+        var validCharacterPattern = '$valid_character_pattern';
+        var standardInterface = true;
+        var switchConfirm = '$switch_confirm';
+        var revertConfirm = '$revert_confirm';
+        ",
+        "body_attributes" => "onload='ldAll()'  onresize='previewControl.adjustHeight()' class='no-margin'",
         );
     slim_header(_("Text Frame"), $header_args);
     ?>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-    <?php output_preview_div(); ?>
+    <div style = 'height: 100vh'>
+    <?php
+    output_preview_div();
+    echo "<div class='nodisp full-height' id='validator'>";
+    render_validator();
+    echo "</div>";
+    ?>
     <div id = 'proofdiv' class='center-align'>
         <?php
 
@@ -68,6 +93,7 @@ function echo_text_frame_std( $ppage )
         <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="<?php echo attr_safe(_("Original")); ?>" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
       </div> <!-- proofdiv -->
+    </div>
     </form>
     <?php
 }

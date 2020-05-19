@@ -89,7 +89,7 @@ prevnext_buttons();
 if($showreturnlink) {
     $project = new Project($projectid);
 
-    $label = sprintf(_("Return to Project Page for %s"), $project->nameofwork);
+    $label = sprintf(_("Return to Project Page for %s"), html_safe($project->nameofwork));
 
     echo "<br>\n";
     echo "<a href='$code_url/project.php?id=$projectid'>$label</a>";

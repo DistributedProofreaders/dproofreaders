@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
+include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param(), html_safe()
 include_once('./post_files.inc');
 
 require_login();
@@ -51,7 +51,7 @@ set_time_limit(0); // no time limit
 
 if ($save_files)
 {
-    echo "<p>generating files for $projectid ($project->nameofwork) ...</p>\n";
+    echo "<p>generating files for $projectid (" . html_safe($project->nameofwork) . ") ...</p>\n";
     flush();
     generate_post_files( $projectid, $round_id, $which_text, $include_proofers,  '' );
     flush();

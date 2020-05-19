@@ -313,35 +313,26 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="double_q">Dubbele Aanhalingstekens</a>
  (<i><a href="#double_q">Double Quotes</a></i>)</h3>
-<p>Proeflees &ldquo;dubbele aanhalingstekens&rdquo; als gewone ASCII <tt>"</tt> dubbele aanhalingstekens.
+<p>Proeflees &ldquo;dubbele aanhalingstekens&rdquo; als gewone ASCII <kbd>"</kbd> dubbele aanhalingstekens.
    Verander geen dubbele aanhalingstekens in enkele aanhalingstekens. Laat de aanhalingstekens staan zoals
    de auteur ze geschreven heeft.
    Zie <a href="#chap_head">Hoofdstuktitels</a> voor het geval dat een dubbel aanhalingsteken aan het begin van een hoofdstuk mist.
 </p>
 <p>Aanhalingstekens in andere talen: gebruik de aanhalingstekens die voor die taal gewoon zijn,
-   Voor aanhalingstekens anders dan <tt>"</tt>, gebruiken we dezelfde tekens zoals ze in de scan voorkomen,
-   als deze beschikbaar zijn. Het Franse equivalent, de guillemets&nbsp; <tt>&laquo;zoals dit&raquo;</tt>,
+   Voor aanhalingstekens anders dan <kbd>"</kbd>, gebruiken we dezelfde tekens zoals ze in de scan voorkomen,
+   als deze beschikbaar zijn. Het Franse equivalent, de guillemets&nbsp; <kbd>&laquo;zoals dit&raquo;</kbd>,
    kunnen gekozen worden in de uitklapmenu's in de proofreading interface, aangezien ze deel uitmaken
    van de Latin-1 tekenset. Vergeet niet spaties te verwijderen tussen de aanhalingstekens en de geciteerde tekst.
    Als er toch spaties gewenst zijn, zullen die tijdens het post-processen worden toegevoegd.
-   Hetzelfde geldt voor talen waar omgekeerde guillemets worden gebruikt&nbsp; <tt>&raquo;zoals dit&laquo;</tt>.
+   Hetzelfde geldt voor talen waar omgekeerde guillemets worden gebruikt&nbsp; <kbd>&raquo;zoals dit&laquo;</kbd>.
 </p>
 <p>De lage aanhalingstekens die in sommige teksten voorkomen (in het Nederlands en Duits, en sommige andere talen)&nbsp;
-   <tt>&bdquo;zoals dit&ldquo;</tt>
-<?php if(!$utf8_site) { ?>
-   kunnen niet gekozen worden in de uitklapmenu's, aangezien ze niet in de Latin-1 tekenset voorkomen.
-   Deze worden vaak omgezet in guillemets&nbsp; <tt>&raquo;zoals dit&laquo;</tt>&nbsp; (of&nbsp;
-   <tt>&laquo;zoals dit&raquo;</tt>&nbsp; voor talen die de aanhalingstekens&nbsp;
-   <tt>&ldquo;op deze manier&bdquo;</tt> gebruiken), maar vergeet niet om de
-   <a href="#comments">Project Comments </a> te lezen, in het geval dat de
-   Project Manager andere instructies heeft gegeven.
-<?php } else { ?>
+   <kbd>&bdquo;zoals dit&ldquo;</kbd>
    zijn ook beschikbaar in de uitklapmenu's. Om de zaak eenvoudig te houden, moet je altijd&nbsp;
-   <tt>&bdquo;</tt>&nbsp; en&nbsp; <tt>&ldquo;</tt>&nbsp; gebruiken als de aanhalingstekens in het
+   <kbd>&bdquo;</kbd>&nbsp; en&nbsp; <kbd>&ldquo;</kbd>&nbsp; gebruiken als de aanhalingstekens in het
    origineel duidelijk lage en hoge aanhalingstekens zijn, ongeacht welke aanhalingstekens in de
    originele tekst gebruikt worden. De aanhalingstekens zullen zo nodig tijden het post-processen
    veranderd worden in de aanhalingstekens die in de tekst gebruikt zijn.
-<?php } ?>
 </p>
 <p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> voor een bepaald
    boek instructies geeft om aanhalingstekens uit een niet-Engelse taal anders te behandelen.
@@ -353,7 +344,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="single_q">Enkele Aanhalingstekens</a>
  (<i><a href="#single_q">Single Quotes</a></i>)</h3>
-<p>Proeflees deze als gewone ASCII <tt>'</tt> enkele aanhalingstekens (apostrof).
+<p>Proeflees deze als gewone ASCII <kbd>'</kbd> enkele aanhalingstekens (apostrof).
    Verander enkele aanhalingstekens niet in dubbele aanhalingstekens.
    Laat de aanhalingstekens staan zoals de auteur ze geschreven heeft.
 </p>
@@ -408,7 +399,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -421,7 +412,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -462,7 +453,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -476,7 +467,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
    Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
    verwijderd worden als ze tussen het symbool en het woord staan. 
 </p>
-<p>Bijvoorbeeld: in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> moet de spatie
+<p>Bijvoorbeeld: in <kbd>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</kbd> moet de spatie
    tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
    blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
 </p>
@@ -546,107 +537,107 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>Koppelteken</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>Koppeltekens</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>Koppelteken</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>Koppelteken &amp; Em-dash</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside.</td>
-      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside.</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>Em-dash</td>
     </tr>
     <tr>
       <td valign="top"><img src="../dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>Em-dashes, Koppelteken,<br> &amp; Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>Lange Em-dash</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>Em-dash</td>
     </tr>
   </tbody>
@@ -669,7 +660,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
    bevatten, hadden dat vaak wel in de oude boeken die wij onder handen hebben. Dergelijke woorden
    behouden hun koppelteken zoals de auteur het heeft geschreven. Als je niet zeker weet of de auteur
    dit woord wel of niet met koppelteken zou hebben geschreven, voeg dan het woord samen tot &eacute;&eacute;n woord,
-   laat het koppelteken staan, en zet een <tt>*</tt> achter het koppelteken. Bijvoorbeeld: <tt>to-*day</tt>.
+   laat het koppelteken staan, en zet een <kbd>*</kbd> achter het koppelteken. Bijvoorbeeld: <kbd>to-*day</kbd>.
    Het sterretje zorgt ervoor dat er naar wordt gekeken door de Post-Processor, die alle pagina's kan
    bekijken, en kan bepalen hoe de auteur dit woord schreef of geschreven zou hebben.
 </p>
@@ -686,7 +677,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 <h3><a name="eop_hyphen">Koppelteken en Streepjes aan het Eind van een Bladzijde</a>
  (<i><a href="#eop_hyphen">End-of-page Hyphenation and Dashes</a></i>)</h3>
 <p>Laat bij een woordafbreking aan het eind van een bladzijde het streepje of koppelteken aan het eind
-   van de laatste regel staan, en markeer het met een <tt>*</tt> na het streepje of koppelteken.
+   van de laatste regel staan, en markeer het met een <kbd>*</kbd> na het streepje of koppelteken.
    Bijvoorbeeld:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
@@ -697,12 +688,12 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
 <p>Als een bladzijde begint met het tweede deel van een woord dat op de vorige bladzijde is afgebroken,
-   of met een em-dash, zet dan een <tt>*</tt> voor het gedeeltelijke woord of de em-dash.
+   of met een em-dash, zet dan een <kbd>*</kbd> voor het gedeeltelijke woord of de em-dash.
    Dus om het bovenstaande voorbeeld te vervolgen:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Start-of-page Hyphenation example">
@@ -713,7 +704,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekstt:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -745,7 +736,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 <p><b>LOTE</b>: (Andere talen dan het Engels)
    De algemene regel is: <i>Doe het zoals op de pagina gedrukt staat</i>. Voeg spaties in,
    als er spaties voor of tussen de punten staan. Gebruik evenveel punten als in het origineel.
-   Soms is het origineel niet helemaal duidelijk. Voeg dan <tt>[**unclear]</tt> in om de aandacht
+   Soms is het origineel niet helemaal duidelijk. Voeg dan <kbd>[**unclear]</kbd> in om de aandacht
    van de Post-Processor er op te vestigen.
    (Noot: Post-Processors dienen deze spaties te vervangen door <i>non-breaking</i> spaties.)
 </p>
@@ -760,31 +751,31 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -793,8 +784,8 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="contract">Samentrekkingen</a>
  (<i><a href="#contract">Contractions</a></i>)</h3>
-<p>Verwijder bij het Engels extra spaties in samentrekkingen. Bijvoorbeeld: <tt>would&nbsp;n't</tt>
-   dient te worden proefgelezen als <tt>wouldn't</tt> en <tt>'t&nbsp;is</tt> als <tt>'tis</tt>.
+<p>Verwijder bij het Engels extra spaties in samentrekkingen. Bijvoorbeeld: <kbd>would&nbsp;n't</kbd>
+   dient te worden proefgelezen als <kbd>wouldn't</kbd> en <kbd>'t&nbsp;is</kbd> als <kbd>'tis</kbd>.
 </p>
 <p>Zetters behielden in de 19<sup>e</sup> eeuw vaak een spatie om aan te geven dat 'would' en 'not'
    oorspronkelijk afzonderlijke woorden waren. Het kan ook een bijverschijnsel van het OCR-proces zijn.
@@ -810,8 +801,8 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="fract_s">Breuken</a>
    (<i><a href="#fract_s">Fractions</a></i>)</h3>
-<p>Proeflees breuken als volgt: <tt>&frac14;</tt> wordt <tt>1/4</tt> en
-   en <tt>2&frac12;</tt> wordt <tt>2-1/2</tt>.
+<p>Proeflees breuken als volgt: <kbd>&frac14;</kbd> wordt <kbd>1/4</kbd> en
+   en <kbd>2&frac12;</kbd> wordt <kbd>2-1/2</kbd>.
    Het streepje voorkomt dat het hele getal en de breuk tijdens het post-processen bij het
    <span style="border-bottom: 1px dotted green;" title="rewrap: het opnieuw aanbrengen/verplaatsen van regelafbrekingen">rewrappen</span>
    van elkaar worden gescheiden.
@@ -824,30 +815,11 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
 <h3><a name="a_chars">Letters met Accenten/Niet-ASCII Letters</a>
  (<i><a href="#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
-<?php if(!$utf8_site) { ?>
-<p>Proeflees deze door de passende symbolen of letters met accenten te gebruiken om het overeen te
-   laten komen met het origineel, waar mogelijk inclusief het wel of niet gebruiken van accenten.
-   We kunnen alleen Latin-1 tekens gebruiken tijdens het proeflezen; wanneer je niet zeker bent of
-   een letter in de Latin-1-tekenset voorkomt, controleer dat dan in de
-   <a href="#insert_char">tabellen hieronder</a>.
-<?php } else { ?>
 <p>Proeflees deze a.u.b. door de juiste UTF-8 tekens te gebruiken. Voor tekens die niet in
    Unicode zitten, zie de Project Manager instructies in de <a href="#comments">Project Comments</a>.
-<?php } ?>
    Als je ze niet op je toetsenbord hebt, zie dan <a href="#insert_char">Toevoegen van Speciale Letters</a>
    voor meer informatie over hoe deze tekens tijdens het proeflezen in te voegen.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>Het &oelig; teken (oe ligature) is niet beschikbaar in Latin-1, we markeren het daar om met blokhaken
-   in <tt>man[oe]uvre</tt>, of <tt>[OE]dipus</tt> voor de hoofdletter &OElig;. Let op dat het &aelig; teken
-   (ae ligature, zoals in <tt>encyclop&aelig;dia</tt>) wel Latin-1 is, dus dit teken kan direct ingevoegd worden.
-</p>
-<p>Voor andere letters buiten Latin-1, zie <a href="#d_chars">Diakritische tekens</a> over hoe de
-   accenten en andere tekens boven en onder Latijnse letters worden proefgelezen.
-   Zie de instructies van de Project Manager in de <a href="#comments">Project Comments</a> voor letters
-   die niet in deze richtlijnen worden behandeld.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
@@ -856,7 +828,6 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
  (<i><a href="#d_chars">Characters with Diacritical Marks</a></i>)</h3>
 <p>In sommige projecten vind je lettertekens met speciale tekens boven of onder de letters van A tot Z.
    Deze heten <i>diakritische tekens</i> en geven een bijzondere uitspraak van de letter aan.
-<?php if($utf8_site) { ?>
 </p>
 <p>Als een dergelijk karakter in Unicode niet bestaat, dan moet het worden
    ingegeven door <i>gecombineerde diakritische tekens</i>: dit zijn symbolen in Unicode die niet
@@ -871,104 +842,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
    tekens niet goed kunt zien, markeer zo'n letter dan met een [**noot]. Overigens bestaan
    er ook <i>Spacing modifier letters</i>; deze mogen niet gebruikt worden.
 </p>
-<?php } else { ?>
-   Voor het proeflezen geven we ze in de tekst aan met speciale codes, bijvoorbeeld
-   <span style="font-size:110%;">&#259;</span> wordt <tt>[)a]</tt> voor een breve
-   (het accent als een omgekeerd boogje) boven een a, of <tt>[a)]</tt> voor een breve onder de a.
-   Zet er in ieder geval vierkante haken (<tt>[&nbsp;]</tt>) eromheen. In het zeldzame geval dat
-   een diakritisch teken boven twee letters staat, zet je beide letters binnen de blokhaken.
-</p>
-<p>De Post-Processor zal uiteindelijk het geheel vervangen door het symbool dat werkt
-   in elke versie van de tekst die hij/zij produceert, zoals 7-bit ASCII, 8-bit, Unicode, html enz.
-</p>
-<p>Houd in de gaten dat onze standaard Latin-1 tekenset al een aantal tekens met een diakritisch teken bevat.
-   <b>Gebruik dan het teken uit Latin-1 (zie <a href="#a_chars">hier</a>) dat beschikbaar is vanuit
-   de uitklapmenu's in de proofreading interface.</b>
-</p>
 <!-- END RR -->
-
-<p>De tabel hieronder staat de "x" voor een letter met een diakritisch teken..<br>
-   Gebruik bij het proeflezen de letter die in de tekst staat, en niet de <tt>x</tt> uit de voorbeelden.
-</p>
-
-<!--
-  diakritisch teken        erboven eronder
-makron (rechte lijn)         [=x]   [x=]
-2 stippen (trema, umlaut)    [:x]   [x:]
-1 stip                       [.x]   [x.]
-accent grave                 ['x]   [x']
-accent acute (aigu)          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-vorm symbool)       [vx]   [xv]
-breve (u-vorm symbool)       [)x]   [x)]
-tilde                        [~x]   [x~]
-cedille                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Symbolen voor het Proeflezen van Diakritische Tekens</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>diakritisch teken</th>
-      <th>voorbeeld</th>
-      <th style="padding-left:4; padding-right:4;">erboven</th>
-      <th style="padding-left:4; padding-right:4;">eronder</th>
-    </tr>
-    <tr><td>makron (rechte lijn)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 stippen (trema, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 stip</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>accent grave</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>accent acute (aigu)</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circumflex</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>caron (symbool in de vorm van een v)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (symbool in de vorm van een u)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cedille</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
@@ -978,43 +852,6 @@ cedille                      [,x]   [x,]
    de Latijnse A...Z. Het kan dan gaan om Griekse, Cyrillische (dat wordt gebruikt in Russisch,
    Slavisch en andere talen), Hebreeuwse of Arabische letters.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Voor het Grieks moet je proberen elke letter om te zetten in de equivalente Latijnse letter(s).
-   (Transliteration). In de proofreading interface vindt je een "Greek transliteration" hulpmiddel,
-   waar dit heel gemakkelijk mee gaat.
-</p>
-<p>Klik op de "Greek Transliterator" knop bijna onderaan de proofreading interface om het hulpmiddel
-   te openen. In het gereedschap, klik op de Griekse letters die je ziet in het woord of de zin die
-   je aan het omzetten bent. De bijpassende Latin-1 tekens verschijnen in de tekstbox.
-   Als je klaar bent, knip en plak je de omgezette tekst in de bladzijde die je aan het proeflezen bent.
-   Zet om de omgezette tekst de volgende markering: <tt>[Greek:&nbsp;</tt> en <tt>]</tt>.
-   Bijvoorbeeld: <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span> wordt
-   <tt>[Greek: Biblos]</tt>. ("Boek"&mdash;erg toepasselijk bij <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>Als je onzeker bent over je omzetting, markeer hem dan met <tt>**</tt> om te zorgen dat de
-   aandacht van de volgende proeflezer of de Post-Processor er op gevestigd wordt.
-</p>
-<p>Andere alfabetten, zoals Cyrillisch, Hebreeuws of Arabisch kunnen niet zo gemakkelijk worden omgezet.
-   Verander je de niet-Latijnse letters of OCR-rotzooi van de toepassende markering:
-   <tt>[Cyrillic:&nbsp;**]</tt>, <tt>[Hebrew:&nbsp;**]</tt> of <tt>[Arabic:&nbsp;**]</tt>.
-   Zorg wel dat de <tt>**</tt> erbij staan, zodat de Post-Processor het later op kan lossen.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Grieks: Zie de <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki-pagina (Engels), 
-      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (van het Project Gutenberg)
-      of gebruik de "Greek Transliterator" pop-up in de proofreading interface.
-  </li>
-  <li>Cyrillisch: Er is een standaard omzetschema voor Cyrillisch. We bevelen aan dat je dit alleen maar gebruikt
-      als je de taal waar het om gaat, vloeiend beheerst. Markeer de tekst anders zoals boven omschreven.
-  </li>
-  <li>Hebreeuws en Arabisch: niet aanbevolen tenzij je de taal vloeiend beheerst. Het omzetten
-      van deze talen stuit op grote moeilijkheden en noch Distributed Proofreaders noch
-      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> heeft al een standaard methode gekozen.
-  </li>
-</ul>
-<?php } else { ?>
 <p>Deze lettertekens moeten, net als de Latijnse letters, in de tekst worden gezet.
    (<b>ZONDER omzetting!</b>)
 </p>
@@ -1030,18 +867,18 @@ cedille                      [,x]   [x,]
    om te zorgen dat de volgende proeflezer of de Post-Processor het opmerkt.
 </p>
 <p>Zet om schrift dat niet zo gemakkelijk kan worden ingegeven, zoals Arabisch, passende markering:
-   <tt>[Arabic:&nbsp;**]</tt>. Zorg voor de <tt>**</tt> zodat
+   <kbd>[Arabic:&nbsp;**]</kbd>. Zorg voor de <kbd>**</kbd> zodat
    de Post-Processor het later kan oplossen.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="supers">Superscript</a>
  (<i><a href="#supers">Superscripts</a></i>)</h3>
 <p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
-   Proeflees deze dan door een dakje (<tt>^</tt>) in te voegen gevolgd door de 'verhoogde' tekst.
-   Wanneer meerdere letters in superscript staan, voeg dan ook accolades <tt>{</tt> en <tt>}</tt>
+   Proeflees deze dan door een dakje (<kbd>^</kbd>) in te voegen gevolgd door de 'verhoogde' tekst.
+   Wanneer meerdere letters in superscript staan, voeg dan ook accolades <kbd>{</kbd> en <kbd>}</kbd>
    toe om de tekst in superscript. Bijvoorbeeld:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
@@ -1052,7 +889,7 @@ cedille                      [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1069,8 +906,8 @@ cedille                      [,x]   [x,]
 <h3><a name="subscr">Subscript</a>
  (<i><a href="#subscr">Subscripts</a></i>)</h3>
 <p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
-   Proeflees tekst in subscript door een laag streepje <tt>_</tt> neer te zetten, en
-   zet accolades <tt>{</tt> en <tt>}</tt> voor en na de tekst. Bijvoorbeeld:
+   Proeflees tekst in subscript door een laag streepje <kbd>_</kbd> neer te zetten, en
+   zet accolades <kbd>{</kbd> en <kbd>}</kbd> voor en na de tekst. Bijvoorbeeld:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
   <tbody>
@@ -1080,7 +917,7 @@ cedille                      [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1104,8 +941,8 @@ cedille                      [,x]   [x,]
    Maak je niet druk over verandering van hoofdletter of kleine letter.
    Wanneer de tekst vanuit de OCR in HOOFDLETTERS, Klein Kapitaal of kleine letters staat,
    dan laten we het in HOOFDLETTERS, Klein Kapitaal of kleine letters staan.
-   Een enkele keer zie je <tt>&lt;sc&gt;</tt> v&oacute;&oacute;r het <span style="font-variant: small-caps">klein kapitaal</span>
-   en <tt>&lt;/sc&gt;</tt> na het <span style="font-variant: small-caps">klein kapitaal</span> staan:
+   Een enkele keer zie je <kbd>&lt;sc&gt;</kbd> v&oacute;&oacute;r het <span style="font-variant: small-caps">klein kapitaal</span>
+   en <kbd>&lt;/sc&gt;</kbd> na het <span style="font-variant: small-caps">klein kapitaal</span> staan:
    zie in dat geval <a href="#formatting">Formattering</a>.
 </p>
 <!-- END RR -->
@@ -1193,7 +1030,7 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -1237,7 +1074,7 @@ cedille                      [,x]   [x,]
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1254,7 +1091,7 @@ cedille                      [,x]   [x,]
    zoals bijvoorbeeld "Zie Pagina 66" of een titel binnen de afmeting van de illustratie.
 </p>
 <p>De meeste pagina's met een illustratie zonder bijschrift zullen al gemarkeerd zijn
-   met <tt>[Blank Page]</tt>. Laat deze markering voor wat hij is.
+   met <kbd>[Blank Page]</kbd>. Laat deze markering voor wat hij is.
 </p>
 <!-- END RR -->
 
@@ -1272,12 +1109,12 @@ cedille                      [,x]   [x,]
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1298,19 +1135,19 @@ cedille                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1325,13 +1162,13 @@ cedille                      [,x]   [x,]
    de plaats in de tekst, waar naar de voetnoot verwezen wordt, wordt een markering geplaatst.
 </p>
 <p>In de hoofdtekst moet het teken dat de plaats van de voetnoot markeert, tussen
-   vierkante haken gezet worden (<tt>[</tt> and <tt>]</tt>) en meteen naast het woord waar
-   de voetnoot bij hoort, gezet worden<tt>[1]</tt>. Als er interpunctie naast het woord
-   staat, dan komt het symbool dat de voetnoot markeert, meteen naast de interpunctie.<tt>[2]</tt>
+   vierkante haken gezet worden (<kbd>[</kbd> and <kbd>]</kbd>) en meteen naast het woord waar
+   de voetnoot bij hoort, gezet worden<kbd>[1]</kbd>. Als er interpunctie naast het woord
+   staat, dan komt het symbool dat de voetnoot markeert, meteen naast de interpunctie.<kbd>[2]</kbd>
    Zie de voorbeelden in het plaatje hieronder, en die in deze tekst.
    Voetnoot tekens kunnen cijfers, letters en symbolen zijn.
    Als voetnoten gemarkeerd zijn door een symbool of een serie bijzondere symbolen (*, &dagger;, &Dagger;, &sect;, enz.),
-   dan vervangen we deze door <tt>[*]</tt> in de tekst en <tt>*</tt> bij de voetnoot zelf.
+   dan vervangen we deze door <kbd>[*]</kbd> in de tekst en <kbd>*</kbd> bij de voetnoot zelf.
 </p>
 <p>Proeflees aan het eind van de pagina de tekst van de voetnoot zoals hij gedrukt is, en handhaaf de
    regelafbrekingen. Zorg er wel voor, dat je dezelfde markering gebruikt voor de voetnoot,
@@ -1346,8 +1183,8 @@ cedille                      [,x]   [x,]
 </p>
 <p><b>Eindnoten</b> zijn voetnoten die samen aan het eind van een hoofdstuk of aan het eind
    van een boek staan. Ze worden op dezelfde manier proefgelezen als voetnoten.
-   Als je ergens in de tekst een verwijzing naar een eindnoot vindt, zet er <tt>[</tt> en
-   <tt>]</tt> omheen. Als je een van de pagina's met eindnoten aan het proeflezen bent, voeg
+   Als je ergens in de tekst een verwijzing naar een eindnoot vindt, zet er <kbd>[</kbd> en
+   <kbd>]</kbd> omheen. Als je een van de pagina's met eindnoten aan het proeflezen bent, voeg
    dan voor elke noot een lege regel in, zodat het duidelijk is waar elke noot begint en eindigt.
 </p>
 <!-- Need an example of Endnotes, maybe? Good idea!-->
@@ -1375,13 +1212,13 @@ cedille                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -1404,7 +1241,7 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1412,7 +1249,7 @@ cedille                      [,x]   [x,]
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1446,7 +1283,7 @@ cedille                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1527,7 +1364,7 @@ cedille                      [,x]   [x,]
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1572,7 +1409,7 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1589,7 +1426,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1605,7 +1442,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1616,7 +1453,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1647,7 +1484,7 @@ Plural   {   2d   "  ye, or you,   you,
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1661,7 +1498,7 @@ Plural   {   2d   "  ye, or you,   you,
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1711,7 +1548,7 @@ Plural   {   2d   "  ye, or you,   you,
 <h3><a name="blank_pg">Lege Pagina</a>
  (<i><a href="#blank_pg">Blank Page</a></i>)</h3>
 <p>De meeste lege bladzijden, of bladzijden met een illustratie zonder tekst, zullen al gemarkeerd
-   zijn met <tt>[Blank Page]</tt>. Laat deze markering zoals hij is. Als de bladzijde leeg is,
+   zijn met <kbd>[Blank Page]</kbd>. Laat deze markering zoals hij is. Als de bladzijde leeg is,
    en er staat ook geen [Blank Page], hoef je het ook niet toe te voegen.
 </p>
 <p>Als er wel tekst is, waar de te proeflezen tekst hoort te staan, maar niet in het origineel, of als
@@ -1745,17 +1582,17 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1787,8 +1624,8 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1835,7 +1672,7 @@ Plural   {   2d   "  ye, or you,   you,
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1865,7 +1702,7 @@ Plural   {   2d   "  ye, or you,   you,
 <p>Regieaanwijzingen worden gehouden zoals ze in het origineel staan.
    Wanneer ze op een aparte regel staan, proeflees het dan op die manier.
    Staan ze aan het eind van een regel met dialoog, dan laat ze daar.
-   Regieaanwijzingen beginnen vaak met een haakje openen <tt>[</tt> en laten het haakje sluiten <tt>]</tt> weg.
+   Regieaanwijzingen beginnen vaak met een haakje openen <kbd>[</kbd> en laten het haakje sluiten <kbd>]</kbd> weg.
    Deze gewoonte wordt gehandhaafd; sluit de haakjes niet.
 </p>
 <p>Soms, vooral in metrische toneelstukken, wordt een woord gesplitst omdat de bladzijde te smal is.
@@ -1891,35 +1728,35 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1940,14 +1777,14 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1963,10 +1800,10 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <p>Je moet ook een aantekening in de proefleestekst zetten, waarin je het probleem uitlegt aan de volgende
    proeflezer, formatteerder of de Post-Processor uitleggen wat het probleem of de vraag is.
-   Begin je aantekening met een vierkant haakje en twee sterretjes <tt>[**</tt> en sluit hem af met een vierkant
-   haakje <tt>]</tt>. Dit onderscheidt je aantekening duidelijk van de tekst van de schrijver en geeft de Post-Processor
+   Begin je aantekening met een vierkant haakje en twee sterretjes <kbd>[**</kbd> en sluit hem af met een vierkant
+   haakje <kbd>]</kbd>. Dit onderscheidt je aantekening duidelijk van de tekst van de schrijver en geeft de Post-Processor
    een signaal om even te stoppen en zorgvuldig dit gedeelte tekst &amp; origineel te vergelijken om een evt.
-   probleem aan te pakken. Je kunt ook aangeven in welke ronde je werkt (bv. net voor de <tt>]</tt>) zodat
+   probleem aan te pakken. Je kunt ook aangeven in welke ronde je werkt (bv. net voor de <kbd>]</kbd>) zodat
    volgende vrijwilligers weten wie de aantekening heeft achtergelaten.
    Al het commentaar welke door een vorige vrijwilliger is toegevoegd <b>moet</b> blijven staan.
    Zie de volgende paragraaf voor meer details.
@@ -2089,14 +1926,14 @@ Plural   {   2d   "  ye, or you,   you,
    die de OCR software hetzelfde interpreteert (en meestal incorrect):
 </p>
 <ul>
-  <li>Het graden symbool <tt style="font-size:150%;">&deg;</tt>: Deze moet alleen gebruikt worden om graden aan te geven (temperatuur, hoek, etc.).</li>
-  <li>De superscript o: In eigenlijk alle andere gevallen van een verhoogde o moet deze worden gelezen worden als <tt>^o</tt>,
+  <li>Het graden symbool <kbd style="font-size:150%;">&deg;</kbd>: Deze moet alleen gebruikt worden om graden aan te geven (temperatuur, hoek, etc.).</li>
+  <li>De superscript o: In eigenlijk alle andere gevallen van een verhoogde o moet deze worden gelezen worden als <kbd>^o</kbd>,
       gebruik makend van de richtlijnen voor <a href="#supers">Superscript</a>.</li>
-  <li>Het mannelijke rangorde-teken (ordinal) <tt style="font-size:150%;">&ordm;</tt>: Proeflees deze ook als een superscript tenzij er
+  <li>Het mannelijke rangorde-teken (ordinal) <kbd style="font-size:150%;">&ordm;</kbd>: Proeflees deze ook als een superscript tenzij er
       in de <a href="#comments">Project Comments</a> om het speciale teken wordt gevraagd.
       Het kan gebruikt worden in talen zoals het Spaans en Portguees, en is het equivalent van het -th in het Engelse 4th, 5th, etc.
       (-ste, -de, -e in het Nederlandse 1ste, 2de, 3e).
-      Het volgt na cijfers en heeft een vrouwelijk equivalent in de superscript a (<tt>&ordf;</tt>).</li>
+      Het volgt na cijfers en heeft een vrouwelijk equivalent in de superscript a (<kbd>&ordf;</kbd>).</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -2174,10 +2011,10 @@ Plural   {   2d   "  ye, or you,   you,
    geen spel- of zetfouten die in het origineel voorkomen. In veel oudere teksten werden woorden
    anders gespeld dan we tegenwoordig doen. We handhaven deze oude spelling, inclusief eventuele accenten.
 </p>
-<p>Maak een aantekening in de tekst direct naast de drukvaut<tt>[**typo voor drukfout?]</tt>.
+<p>Maak een aantekening in de tekst direct naast de drukvaut<kbd>[**typo voor drukfout?]</kbd>.
    Ben je onzeker of iets ook werkelijk fout is, doe dan navraag in de Project Discussie.
-   Als je iets verandert, maak dan een aantekening wat je veranderd hebt: <tt>[**typo "drukvaut" verbeterd]</tt>.
-   Zorg dat de twee sterretjes <tt>**</tt> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet.
+   Als je iets verandert, maak dan een aantekening wat je veranderd hebt: <kbd>[**typo "drukvaut" verbeterd]</kbd>.
+   Zorg dat de twee sterretjes <kbd>**</kbd> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -2202,9 +2039,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>De uitklapmenu's in de proofreading interface.</li>
   <li>Hulpprogrammaatjes inbegrepen in je besturingssysteem.
-<?php if(!$utf8_site) { ?>
-Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (degene opgesomd in de tabellen hieronder).
-<?php } ?>
     <ul compact>
       <li>Windows: "Speciale tekens"<br> Te benaderen door:<br>
           Start: Uitvoeren: charmap, ofr<br>

@@ -730,7 +730,7 @@ where 60&ndash;72 characters falls, and insert line breaks manually at this poin
 It's painful, but it works. (Be grateful that you chose a book with a low page count!)
 Alternatively, type a line like this:
 </p>
-<pre><tt>123456789012345678901234567890123456789012345678901234567890123456789012</tt></pre>
+<pre><kbd>123456789012345678901234567890123456789012345678901234567890123456789012</kbd></pre>
 <p>
 at the top of your text and use this as your guide. However, manually rewrapping
 in this way should not be necessary.
@@ -814,7 +814,7 @@ to the proofreading guidelines, that's good enough for Gutenberg posting.
 If you make any changes to the text it is a good idea to include a
 Transcriber's Note. Sometimes these are quite simple:
 </p>
-<pre><tt>Transcriber's Note: Punctuation has been normalized.</tt></pre>
+<pre><kbd>Transcriber's Note: Punctuation has been normalized.</kbd></pre>
 
 <p>
 Sometimes the writing of the Transcriber's Note is not always as straightforward
@@ -826,7 +826,7 @@ the book was written.
 </p>
 
 <p>A useful general one, especially for older, less regular texts, is:</p>
-<pre><tt>Transcriber's Note: All apparent printer's errors retained.</tt></pre>
+<pre><kbd>Transcriber's Note: All apparent printer's errors retained.</kbd></pre>
 <p>
 This one stops the <a href="<?php echo $wiki_url; ?>/PG_Posting_Team">PG
 whitewashers</a> from getting long errata requests to "fix" your text.
@@ -835,13 +835,13 @@ similar detectable problems that are wrong in comparison to the page scan.
 </p>
 
 <p>Sometimes the notes can be quite lengthy.</p>
-<pre><tt>Transcriber's Notes:
+<pre><kbd>Transcriber's Notes:
 
 Page 13, "10,00 troops" changed to "10,000 troops." (We fought 10,000 troops at St Germaine.)
 
 Page 27, "Faw-cett" changed to "Fawcett". (Major Fawcett dictated the memo.)
 
-etc. etc.</tt></pre>
+etc. etc.</kbd></pre>
 
 <p>
 While we don't retain the individual page numbers in the text version,
@@ -986,7 +986,7 @@ This is all as per
 <li>
 &lt;tb&gt; should be replaced with a line of asterisks&mdash;that is,
 7 spaces, followed by 5 stars, each spaced by 7 from the next, like this:<br>
-<pre><tt>       *       *       *       *       *</tt></pre>
+<pre><kbd>       *       *       *       *       *</kbd></pre>
 </li>
 
 <li>

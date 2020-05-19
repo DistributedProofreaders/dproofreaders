@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url $utf8_site
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
@@ -9,23 +8,13 @@ $constant_message             = "\n" .
                                     "<h2>" . _("Project Comments") . "</h2>\n" .
                                     "<p>" . sprintf(_("Proofread the nasal abbreviations, which can look like tildes or macrons, as macrons.  If you have trouble with the blackletter font, see <a href='%s' target='_blank'>Proofing Blackletter</a>."), $blackletter_url) . "</p>";
 $initial_text                 = "for coolcnes in Summer. )\n\nCucnye. An admitable byrde in ljifpa=\nniola (no bigger then a thobe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her itinges (which are\ndouble, a greater and a smaller payre} so\nshining in the njght (wherin onely she\nflyeth) that fiue or fixe of the tyed toge-\nther_{j} gyue as moch light as a torch. Further";
-if(!$utf8_site) {
-    $solutions                = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a th[=o]be) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of th[=e] tyed together,\ngyue as moch light as a torch. Fur-*");
-}
-else {
-    $solutions                = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a thōbe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of thē tyed together,\ngyue as moch light as a torch. Fur-*");
-}
+$solutions                    = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a thōbe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of thē tyed together,\ngyue as moch light as a torch. Fur-*");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("If you come across any unusual symbols or characters when proofreading, please bring it up in the project discussion.  This will alert the project manager and post-processor to the situation, and help to improve consistency among the various proofreaders during the rounds.") . "</p>";
 
 
 // error messages
 
-$messages["longsbracket"] = array(
-    "message_title" => _("Long s"),
-    "message_body" => _("Unless the project comments instruct otherwise, please proofread the long s as plain s without any brackets."),
-    "wiki_ref" => sprintf(_("See the <a href='%s#Long_s' target='_blank'>Long s</a> section of the wiki page for details."), $old_texts_url),
-);
 $messages["blhyphen"] = array(
     "message_title" => _("End-of-line Hyphenation"),
     "message_body" => _("In blackletter fonts the hyphen often looks like an equals sign (=).  Treat this like a normal hyphen, rejoining the word as necessary."),
@@ -37,39 +26,39 @@ $messages["projcomm"] = array(
 );
 $messages["flyspeck"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>)</tt>' in the text where there is a stray mark in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>)</kbd>' in the text where there is a stray mark in the image."),
 );
 $messages["coolcnes"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>c</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["Cucnye"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>n</tt>' in the text where there is a '<tt>u</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>n</kbd>' in the text where there is a '<kbd>u</kbd>' in the image."),
 );
 $messages["admitable"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is an '<tt>r</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is an '<kbd>r</kbd>' in the image."),
 );
 $messages["Hscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>lj</tt>' in the text where there is a capital '<tt>H</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>lj</kbd>' in the text where there is a capital '<kbd>H</kbd>' in the image."),
 );
 $messages["itinges"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>it</tt>' in the text where there is a '<tt>w</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>it</kbd>' in the text where there is a '<kbd>w</kbd>' in the image."),
 );
 $messages["parenscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a curly bracket '<tt>}</tt>' in the text where there is a closing parenthesis '<tt>)</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a curly bracket '<kbd>}</kbd>' in the text where there is a closing parenthesis '<kbd>)</kbd>' in the image."),
 );
 $messages["njght"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>j</tt>' in the text where there is a '<tt>y</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>j</kbd>' in the text where there is a '<kbd>y</kbd>' in the image."),
 );
 $messages["commascanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a subscripted letter in the text where there is a comma (<tt>,</tt>) in the image."),
+    "message_body" => _("There is still a scanno: a subscripted letter in the text where there is a comma (<kbd>,</kbd>) in the image."),
 );
 $messages["bltext"] = array(
     "message_title" => _("Blackletter font"),
@@ -91,12 +80,7 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Fur-*"), "cas
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("having", "five", "gyve"), "case_sensitive" => TRUE, "error" => "P_uvchange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("underneath"), "case_sensitive" => TRUE, "error" => "P_italu");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("thobe", "thombe", "~", "õ", "ẽ", "the tyed", "them"), "case_sensitive" => TRUE, "error" => "projcomm");
-if(!$utf8_site) {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[o=]", "[e=]", "[=x]", "[-o]", "[-e]"), "case_sensitive" => TRUE, "error" => "P_macron");
-}
-else {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=o]", "[=e]"), "case_sensitive" => TRUE, "error" => "P_macron");
-}
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=o]", "[=e]"), "case_sensitive" => TRUE, "error" => "P_macron");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("coolcnes"), "case_sensitive" => TRUE, "error" => "coolcnes");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("er. )", "er.)"), "case_sensitive" => TRUE, "error" => "flyspeck");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("cny"), "case_sensitive" => TRUE, "error" => "Cucnye");

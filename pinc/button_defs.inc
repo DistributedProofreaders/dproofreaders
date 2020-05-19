@@ -58,9 +58,6 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button4",
                 $label      => attr_safe(sprintf(_("Switch to %s"), $horvert)),
                 'title'     => attr_safe(sprintf(_("Save and Switch to %s Layout"), $horvert)),
-                'onclick'   => "return(confirm('" 
-                    . javascript_safe(_("Are you sure you want to change layout & save the current document?"), $charset)
-                    . "'));",
                 'src'       => "gfx/bt$n.png",
             );
             break;
@@ -119,9 +116,6 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button8",
                 $label      => attr_safe(_("Revert to Original Document")),
                 'title'     => attr_safe(_("Revert to Original Document")),
-                'onclick'   => "return(confirm('"
-                    . javascript_safe(_("Are you sure you want to revert to the original text for this round?"), $charset)
-                    . "'));",
                 'src'       => "gfx/bt8.png",
             );
             break;
@@ -133,6 +127,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'Done' & Proofread Next Page")),
                 'title'     => attr_safe(_("Save as 'Done' & Proofread Next Page")),
                 'src'       => "gfx/bt2.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -143,6 +138,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'Done'")),
                 'title'     => attr_safe(_("Save as 'Done'")),
                 'src'       => "gfx/bt13.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -153,6 +149,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Save as 'In Progress'")),
                 'title'     => attr_safe(_("Save as 'In Progress'")),
                 'src'       => "gfx/bt3.png",
+                'class'     => "check_button",
             );
             break;
 
@@ -183,13 +180,6 @@ function echo_button( $button_id, $which_interface )
                 'title'     => attr_safe(_("Run WordCheck")),
                 'src'       => "gfx/bt16.png",
             );
-            if ($userP['i_type']==0)
-            {
-                // standard interface:
-                // Direct the (text-only) spellcheck doc to 'textframe'
-                // (rather than 'proofframe', the statically defined target).
-                $attrs['onclick']="document.getElementById('editform').target='textframe'; return 1;";
-            }
             break;
 
         case CONVERT_UTF8:

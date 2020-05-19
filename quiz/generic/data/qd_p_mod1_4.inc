@@ -14,11 +14,11 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["onescanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>l</tt>' (lower case L) in the text where there is a '<tt>1</tt>' (number one) in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>l</kbd>' (lower case L) in the text where there is a '<kbd>1</kbd>' (number one) in the image."),
 );
 $messages["zeroscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>O</tt>' (capital letter o) in the text where there is a '<tt>0</tt>' (zero) in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>O</kbd>' (capital letter o) in the text where there is a '<kbd>0</kbd>' (zero) in the image."),
 );
 $messages["quotescanno"] = array(
     "message_title" => _("Scanno"),
@@ -30,17 +30,17 @@ $messages["eolellips"] = array(
 );
 $messages["fnsuper"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[6]</tt>."),
+    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <kbd>[6]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
     "message_title" => _("Footnote marker brackets"),
-    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <tt>[6]</tt>."),
+    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <kbd>[6]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_title" => _("Footnote marker spacing"),
-    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[6] word</tt>."),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><kbd>word[6] word</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["bracket"] = array(

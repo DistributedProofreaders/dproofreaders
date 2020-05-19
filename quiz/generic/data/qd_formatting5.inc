@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."Quiz.inc");
 
 
 $browser_title                = _("Formatting Quiz");
@@ -14,7 +13,7 @@ $solutions                    = array("the necessity of nursing her.\"\n\n\"Come
 // error messages
 $messages["sqbr"] = array(
     "message_title" => _("Incorrect brackets."),
-    "message_body" => _("Please use square brackets [] for illustration and footnote markup."),
+    "message_body" => _("Please use square brackets <kbd>[]</kbd> for illustration and footnote markup."),
 );
 $messages["pageheader"] = array(
     "message_title" => _("Page header left in"),
@@ -22,7 +21,7 @@ $messages["pageheader"] = array(
 );
 $messages["illusmissing"] = array(
     "message_title" => _("Illustration markup missing."),
-    "message_body" => _("It seems you haven't marked the illustration correctly. Put the illustration caption within <tt>[Illustration: ]</tt>"),
+    "message_body" => _("It seems you haven't marked the illustration correctly. Put the illustration caption within <kbd>[Illustration: ]</kbd>"),
     "guideline" => "illust"
 );
 $messages["illuswrong"] = array(
@@ -32,12 +31,12 @@ $messages["illuswrong"] = array(
 );
 $messages["nofn"] = array(
     "message_title" => _("Footnote markup missing."),
-    "message_body" => _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is."),
+    "message_body" => _("It seems you haven't marked the footnote at the bottom of the page correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is."),
     "guideline" => "footnotes"
 );
 $messages["wrongfn"] = array(
     "message_title" => _("Footnote markup wrong."),
-    "message_body" => _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."),
+    "message_body" => _("It seems you haven't marked the footnote at the bottom of the page correctly. Put the footnote text within <kbd>[Footnote _: ]</kbd> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."),
     "guideline" => "footnotes"
 );
 $messages["wrongblank"] = array(

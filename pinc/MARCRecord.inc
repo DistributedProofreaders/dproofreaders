@@ -1,21 +1,33 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc'); // load_genre_translation_array
+include_once($relPath.'unicode.inc'); // guess_string_encoding()
 
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
     private $record = array();
     private $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non-Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown");
+    private $force_utf8;
 
-    public function __construct()
+    public function __construct($force_utf8=True)
     {
+        $this->force_utf8 = $force_utf8;
     }
 
     public function __get($field)
     {
         $func = "get_$field";
-        return $this->{$func}();
+        $string = $this->{$func}();
+        if($this->force_utf8)
+        {
+            $encoding = guess_string_encoding($string);
+            if($encoding && $encoding != 'UTF-8')
+            {
+                $string = mb_convert_encoding($string, "UTF-8", $encoding);
+            }
+        }
+        return $string;
     }
 
     public function __set($field, $value)

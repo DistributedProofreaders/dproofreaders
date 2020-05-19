@@ -18,7 +18,7 @@ $header_args = array(
 // $browser_title is from qd file which is included via quiz_page.inc
 slim_header_frameset($browser_title, $header_args);
 ?>
-<frameset rows="*,73">
+<frameset rows="*,85">
 <frameset cols="60%,*">
 <frameset name="left" rows="40%,*">
 <frame name="imageframe" src="orig.php?quiz_page_id=<?php echo $quiz_page_id;?>">
@@ -26,5 +26,5 @@ slim_header_frameset($browser_title, $header_args);
 </frameset>
 <frame name="right" src="right.php?quiz_page_id=<?php echo $quiz_page_id;?>">
 </frameset>
-<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>&amp;projectid=projectID0000000000000" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>

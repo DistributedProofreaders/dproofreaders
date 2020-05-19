@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 4);
 $initial_instructions         = $initial_instructions__greek;
-$initial_text                 = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"&Ocirc; popoi, ohion d&ecirc; nu theous\nBroto&igrave; aitio&ocirc;ntai,\nex &ecirc;me&ocirc;n gap phaoi kak\nemmenai oi de kai antoi\noph&ecirc;ioin ataothali&ecirc;oin nter\nmoron alge eChouin]";
+$initial_text                 = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"Ô popoi, ohion dê nu theous\nBrotoì aitioôntai,\nex êmeôn gap phaoi kak\nemmenai oi de kai antoi\nophêioin ataothaliêoin nter\nmoron alge eChouin]";
 $solutions                    = array("how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: Ô popoi, hoion dê ny theous\nbrotoi aitioôntai,\nex hêmeôn gar phasi kak'\nemmenai; hoi de kai autoi\nsphêsin atasthaliêsin hyper\nmoron alge' echousin.]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                 // TRANSLATORS: PM = project manager
@@ -14,24 +14,24 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 // error messages
 
 $messages["beta_eszett"] = array(
-    "message_title" => _("Beta proofread as &szlig;"),
-    "message_body" => _("The &szlig; character is not a Greek letter.  Please transliterate &beta; (beta) as '<tt>b</tt>', as shown in the Greek transliteration tool."),
+    "message_title" => _("Beta proofread as ß"),
+    "message_body" => _("The <kbd>ß</kbd> character is not a Greek letter.  Please transliterate <kbd>β</kbd> (beta) as '<kbd>b</kbd>', as shown in the Greek transliteration tool."),
 );
 $messages["Brotoi"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a capital '<tt>B</tt>' in the text where there is the Greek letter &beta; (beta, transliterated '<tt>b</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a capital '<kbd>B</kbd>' in the text where there is the Greek letter <kbd>β</kbd> (beta, transliterated '<kbd>b</kbd>') in the image."),
 );
 $messages["p_t"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>t</kbd>' in the text where there is the Greek letter <kbd>π</kbd> (pi, transliterated '<kbd>p</kbd>') in the image."),
 );
 $messages["missings"] = array(
     "message_title" => _("Missing letter"),
-    "message_body" => _("There is an '<tt>s</tt>' (the transliteration of &sigma;, sigma) missing in your transliteration."),
+    "message_body" => _("There is an '<kbd>s</kbd>' (the transliteration of <kbd>σ</kbd>, sigma) missing in your transliteration."),
 );
 $messages["missingperiod"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a period (<kbd>.</kbd>) was omitted by the OCR software."),
 );
 
 
@@ -40,7 +40,7 @@ $messages["missingperiod"] = array(
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case_sensitive" => TRUE, "error" => "P_indent");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/*", "*/"), "case_sensitive" => TRUE, "error" => "P_poemmarkup");
-$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("&#964;", "&#945;", "&#954;", "&#959;"), "case_sensitive" => TRUE, "error" => "G_unicode");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("τ", "α", "κ", "ο"), "case_sensitive" => TRUE, "error" => "G_unicode");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("brotoi", "gar", "phasi", "autoi", "echousin"), "case_sensitive" => TRUE, "error" => "G_nochange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("greek"), "case_sensitive" => TRUE, "error" => "G_lcgreek");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Greek:"), "case_sensitive" => TRUE, "error" => "G_nomarkup");

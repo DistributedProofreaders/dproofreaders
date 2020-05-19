@@ -83,7 +83,7 @@ $extra_args = [
 
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
-echo "<h1>$title</h1>\n";
+echo "<h1>" . html_safe($title) . "</h1>\n";
 
 
 if ( !$user_is_logged_in )
@@ -202,7 +202,7 @@ function do_expected_state()
         echo "<p class='warning'>";
         echo sprintf(
             _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
-            $project->nameofwork,
+            html_safe($project->nameofwork),
             project_states_text($expected_state),
             project_states_text($project->state)
         );
@@ -453,10 +453,11 @@ function do_project_info_table()
         );
     }
 
-    echo_row_a( _("Title"),           $project->nameofwork );
-    echo_row_a( _("Author"),          $project->authorsname );
+    echo_row_a( _("Title"),           $project->nameofwork,  TRUE );
+    echo_row_a( _("Author"),          $project->authorsname, TRUE );
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           _($project->genre) );
+
     echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
     // -------------------------------------------------------------------------
@@ -608,6 +609,18 @@ function do_project_info_table()
 
         echo_row_a( _("Word Lists"), $links );
     }
+
+    if(!$project->is_utf8)
+    {
+        echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
+    }
+
+    $project_charsuites = [];
+    foreach($project->get_charsuites() as $charsuite)
+    {
+        $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
+    }
+    echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
 
     // -------------------------------------------------------------------------
 
@@ -1367,7 +1380,8 @@ function do_history()
 
                 if ( $changed_fields == 'NONE' )
                 {
-                    $list_of_changed_fields = pgettext("no changes", "none");
+                    // TRANSLATORS: i.e. no fields changed
+                    $list_of_changed_fields = pgettext("no fields", "none");
                 }
                 else
                 {
@@ -1405,7 +1419,8 @@ function do_history()
                     if ( count($labels) == 0 )
                     {
                         // This shouldn't happen.
-                        $list_of_changed_fields = pgettext("no changes", "none");
+                        // TRANSLATORS: i.e. no fields changed
+                        $list_of_changed_fields = pgettext("no fields", "none");
                     }
                     else
                     {

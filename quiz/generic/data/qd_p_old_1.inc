@@ -14,31 +14,31 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["flyspeck"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a period (<tt>.</tt>) in the text where there is a stray mark in the image."),
+    "message_body" => _("There is still a scanno: a period (<kbd>.</kbd>) in the text where there is a stray mark in the image."),
 );
 $messages["refled"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>d</tt>' in the text where there is '<tt>ct</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>d</kbd>' in the text where there is '<kbd>ct</kbd>' in the image."),
 );
 $messages["flyspeck2"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an apostrophe (<tt>'</tt>) in the text where there is a stray mark in the image."),
+    "message_body" => _("There is still a scanno: an apostrophe (<kbd>'</kbd>) in the text where there is a stray mark in the image."),
 );
 $messages["ctamp"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an ampersand (<tt>&amp;</tt>) in the text where there is '<tt>ct</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an ampersand (<kbd>&amp;</kbd>) in the text where there is '<kbd>ct</kbd>' in the image."),
 );
 $messages["matters"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>tt</tt>' in the text where there is '<tt>st</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>tt</kbd>' in the text where there is '<kbd>st</kbd>' in the image."),
 );
 $messages["aslonish"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>l</tt>' in the text where there is a '<tt>t</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>l</kbd>' in the text where there is a '<kbd>t</kbd>' in the image."),
 );
 $messages["cloubt"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>cl</tt>' in the text where there is a '<tt>d</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>cl</kbd>' in the text where there is a '<kbd>d</kbd>' in the image."),
 );
 
 

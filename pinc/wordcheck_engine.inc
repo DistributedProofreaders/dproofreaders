@@ -4,24 +4,19 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'languages.inc'); // proj_lang_code
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains, array_get
-
-// regex of word characters
-// This is used when splitting a text into words.
-// NOTE: This should probably be changed when moving to UTF-8
-//       at that time we can probably move to using \W instead of
-//       the mess below
-$word_letters = "a-zA-ZÀ-ÖØ-öø-ÿ";
-$word_characters = "0-9$word_letters";
+include_once($relPath.'unicode.inc');
 
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
+// and tools/proofers/process_diacritcal_markup.js
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = "[$word_letters]";    // pattern for: markable base character
-$mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
+$base = "\w+";    // pattern for: markable base character
+$mark = '[=:.`\\\\\'/v)(~,^\\\\\*]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
-$char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
+// This is used when splitting a text into words.
+$char_pattern = "(?:\w\pM*|$bracketed_character_pattern)";
+$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
 // (Supposedly, the 'S' modifier makes the regex engine spend more time
@@ -30,7 +25,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
-$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_Â¬Â¢Â£Â¥Â©Â®Â§Â°Â±Â¶Â·Â´Â¸ÂºÃ—Â¦Â¡Â¿-Â»Â«Â¯Ã·Â¹Â²Â³Â¼Â½Â¾Â¤';
 
 // -----------------------------------------------------------------------------
 
@@ -158,6 +153,9 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
             get_bad_words_via_external_checker($input_words_w_freq, $languages);
         $acc->messages += $messages;
         $acc->add_bad_words($external_bad_words, WC_WORLD);
+
+        $acc->add_bad_words(
+            get_bad_words_with_diacritical_markup($input_words_w_freq), WC_WORLD);
     }
 
     // The site
@@ -167,6 +165,9 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
         $acc->add_bad_words(
             get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
+
+        $acc->add_bad_words(
+            get_bad_words_with_multi_scripts($input_words_w_freq), WC_SITE);
     }
 
     // The project
@@ -312,7 +313,24 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     }
     unset($misspellings);
 
-    // Consider non-Latin-1 characters, which we represent with []-notations.
+    // Finally, only return words that were in our original set. This ensures
+    // that aspell hasn't parsed words differently than we did and we then
+    // return partial words that aren't actually in the list.
+    $finalMisspellings = array_intersect($finalMisspellings, array_keys($input_words_w_freq));
+
+    return array($finalMisspellings, $messages);
+}
+
+// Return all words containing diacritical markup
+// Arguments:
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
+//
+// Returns:
+//       -- an array of bad words
+//
+function get_bad_words_with_diacritical_markup($input_words_w_freq)
+{
+    // Consider words that contain diacritical markup via []-notation.
     // For example, consider the oe ligature, which we represent as "[oe]",
     // and the words "b[oe]uf" (which we want the word-checker to not flag),
     // and "b[oe]ut", a scanno for the former (which we do want flagged).
@@ -323,10 +341,6 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // don't see 'oe' and 'uf' (or 'ut') as words, and won't ever ask if 'oe' or
     // 'uf' (or 'ut') are misspelled.
     //
-    // Note that aspell appears to have no way to represent non-Latin-1
-    // characters, so there's no way to transform "b[oe]uf" into something
-    // (distinct from just "boeuf") that it understands.
-    //
     // So we give up on aspell being any help with such words, and instead put
     // the burden on site-level and project-level word lists.
     //
@@ -336,15 +350,16 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // and put those in a bad word list. Instead, we simply mark *all* words
     // containing non-Latin-1 characters as bad at the world-level.
     //
+    $bad_words = [];
     foreach($input_words_w_freq as $word => $freq)
     {
         if(str_contains($word, '['))
         {
-            $finalMisspellings[] = $word;
+            $bad_words[] = $word;
         }
     }
 
-    return array($finalMisspellings, $messages);
+    return($bad_words);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -361,8 +376,6 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 //
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
-    global $word_letters;
-
     list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
 
     $badWords = array();
@@ -382,11 +395,11 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
         $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
     }
     $exceptions = implode('|', $exceptions);
-    $exceptions_pattern = "/^($exceptions)$/";
+    $exceptions_pattern = "/^($exceptions)$/u";
 
     foreach($input_words_w_freq as $word => $freq) {
         // if the word has both a digit and a word_letter
-        if(preg_match("/\d/", $word) && preg_match("/[$word_letters]/", $word)) {
+        if(preg_match("/\d/u", $word) && preg_match("/\D/u", $word)) {
 
             // ignore common <digit><letter> combinations
             if(preg_match($exceptions_pattern, $word)) continue;
@@ -398,6 +411,31 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
     // placeholder for future patterns
 
     return $badWords;
+}
+
+// Return a list of "bad" words where characters within a word are not all
+// of the same Unicode script type. For instance, this detects words that
+// contain a mix of Latin and Cyrillic characters.
+// Arguments:
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
+//
+// Returns:
+//       -- an array of bad words
+//
+function get_bad_words_with_multi_scripts($input_words_w_freq)
+{
+    $bad_words = [];
+
+    foreach($input_words_w_freq as $word => $freq)
+    {
+        $scripts = utf8_string_scripts($word);
+        if(count(array_diff($scripts, ["Common", "Inherited"])) > 1)
+        {
+            $bad_words[] = $word;
+        }
+    }
+
+    return $bad_words;
 }
 
 // -----------------------------------------------------------------------------
@@ -448,9 +486,9 @@ function save_project_good_words($projectid, $words)
     $fileObject = get_project_word_file($projectid, "good");
 
     // trim out leading spaces
-    $words = preg_replace('/^\s+/', '', $words);
+    $words = preg_replace('/^\s+/u', '', $words);
     // trim out any word frequencies if they exist
-    $words = preg_replace('/\s.*$/', '', $words);
+    $words = preg_replace('/\s.*$/u', '', $words);
 
     return save_word_list($fileObject->abs_path, $words);
 }
@@ -469,9 +507,9 @@ function save_project_bad_words($projectid, $words)
     $fileObject = get_project_word_file($projectid, "bad");
 
     // trim out leading spaces
-    $words = preg_replace('/^\s+/', '', $words);
+    $words = preg_replace('/^\s+/u', '', $words);
     // trim out any word frequencies if they exist
-    $words = preg_replace('/\s.*$/', '', $words);
+    $words = preg_replace('/\s.*$/u', '', $words);
 
     return save_word_list($fileObject->abs_path, $words);
 }
@@ -862,6 +900,8 @@ function get_site_possible_bad_word_lists()
 //   $pattern - regex that files must match to be included
 //              in the returned array. If blank all files
 //              will be returned.
+//   $urlbase - if TRUE files will be turned as a URL,
+//              if FALSE absolute filesystem paths are returned
 //
 // Returns an associative array of words ifiles in the site's words
 // with their corresponding URL
@@ -869,28 +909,30 @@ function get_site_possible_bad_word_lists()
 //
 // Note: 'empty' files (2 bytes in size or smaller) are not returned
 // regardless of the pattern specified
-function get_site_word_files($pattern="")
+function get_site_word_files($pattern="", $urlbase=TRUE)
 {
     global $dyn_dir;
     global $dyn_url;
 
-    $wordLists=array();
+    if($urlbase)
+        $base = $dyn_url;
+    else
+        $base = $dyn_dir;
+
+    $wordLists = [];
 
     $wordsDir="$dyn_dir/words";
     if(is_dir($wordsDir)) {
-       if($dirHandle=@opendir($wordsDir)) {
-          while(($filename = readdir($dirHandle)) !== false) {
-             // skip files that don't match the pattern
-             if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
+        foreach(scandir($wordsDir) as $filename) {
+            // skip files that don't match the pattern
+            if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
 
-             // skip files that are only two bytes or smaller
-             // as these usually contain just \r and/or \n
-             if(filesize("$wordsDir/$filename")<=2) continue;
+            // skip files that are only two bytes or smaller
+            // as these usually contain just \r and/or \n
+            if(filesize("$wordsDir/$filename")<=2) continue;
 
-             $wordLists["$wordsDir/$filename"]="$dyn_url/words/$filename";
-          }
-       closedir($dirHandle);
-       }
+            $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
+        }
     }
 
     // sort the list before returning
@@ -999,7 +1041,11 @@ function get_all_words_in_text($text, $with_offsets=FALSE)
         $result = array();
         foreach($matches[0] as $item)
         {
-            list($word, $offset) = $item;
+            $search_offset = 0;
+            list($word, $offset_bytes) = $item;
+            // offsets from preg_match_all() are in bytes, but we need the
+            // offset in characters
+            $offset = utf8_strlen(substr($text, 0, $offset_bytes));
             $result[$offset] = $word;
         }
         return $result;

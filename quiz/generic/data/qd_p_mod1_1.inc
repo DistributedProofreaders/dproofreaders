@@ -18,11 +18,11 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["qmark"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a question mark (<tt>?</tt>) in the text where there is an exclamation point (<tt>!</tt>) in the image."),
+    "message_body" => _("There is still a 'scanno': a question mark (<kbd>?</kbd>) in the text where there is an exclamation point (<kbd>!</kbd>) in the image."),
 );
 $messages["Eritish"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>E</tt>' in the text where there is a '<tt>B</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>E</kbd>' in the text where there is a '<kbd>B</kbd>' in the image."),
 );
 
 

@@ -3,7 +3,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // startswith str_contains
-include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences string_to_hex
+include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences
 include_once($relPath.'project_quick_check.inc'); // $css_for_bad_bytes_tables tds_for_bad_bytes
 
 output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
@@ -70,84 +70,12 @@ output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
 <h2>Explanation of 'Why Bad'</h2>
 
 <ul>
-<li><a href='#control_characters'>ISO-8859-1 control character</a></li>
-<li><a href='#windows-1252'>Windows-1252-encoded</a></li>
-<li><a href='#utf8-encoded'>UTF8-encoded</a></li>
 <li><a href='#double-utf8-encoded'>Double-UTF8-encoded</a></li>
 <li><a href='#html-char-entity-refs'>HTML character entity references</a></li>
 <li><a href='#html-numeric-char-refs'>HTML numeric character references</a></li>
 </ul>
 
 <?php
-
-echo "<h3 id='control_characters'>ISO-8859-1 control character</h3>\n";
-
-echo "
-    <p>
-    Any non-printable character other than Space is considered bad.
-    At pgdp.net, the most common of these are
-    U+0009 'character tabulation' [TAB]
-    and
-    U+00a0 'no-break space' [NBSP]
-    </p>
-";
-show_a_table_of_bads("ISO-8859-1 control character");
-
-echo "
-    <p>
-    Technically, 'delete', 'no-break space', and 'soft hyphen' aren't control characters,
-    but the distinction is not important for this explainer.
-    Also, this table omits most of the C1 control characters
-    (those in the range x80-x9f),
-    because those byte values are better explained as Windows-1252 encodings
-    (see the next section).
-    </p>
-";
-
-// -----------------------------------------------------------------------------
-
-echo "<h3 id='windows-1252'>Windows-1252-encoded</h3>\n";
-
-echo "
-    <p>
-    <a href='http://en.wikipedia.org/wiki/Windows-1252'>Windows code page 1252</a>
-    is largely the same as ISO-8859-1,
-    but it assigns some non-ISO-8859-1 characters
-    to most of the bytes in the range x80-x9f
-    (which are control characters in ISO-8859-1).
-    Any byte in that range is considered bad.
-    At pgdp.net, the most common of these is x97,
-    which is Windows-1252's encoding of U+2014 'em dash'.
-    </p>
-";
-
-show_a_table_of_bads("Windows-1252");
-
-// -----------------------------------------------------------------------------
-
-echo "<h3 id='utf8-encoded'>UTF8-encoded</h3>\n";
-
-echo "
-    <p>
-    <a href='http://en.wikipedia.org/wiki/UTF-8'>UTF-8</a>
-    encodes all Unicode code points into sequences of 1 to 6 bytes.
-    Theoretically, any multi-byte UTF-8 encoding would be considered bad,
-    but that would cause too many false positives
-    (where the bytes in question
-    were actually intended as the ISO-8859-1 encoding of 2 to 6 characters,
-    and just happen to look like a UTF-8 encoding).
-    To lessen the chance of false positives,
-    we restrict attention to the characters in the Windows-1252 repertoire
-    (which includes the ISO-8859-1 repertoire),
-    plus a few more that show up in practice.
-    Any multi-byte sequence that is the UTF-8 encoding of such a character
-    is considered bad.
-    </p>
-";
-
-show_a_table_of_bads("/(?<!double-)UTF8-encoded/");
-
-// -----------------------------------------------------------------------------
 
 echo "<h3 id='double-utf8-encoded'>Double-UTF8-encoded</h3>\n";
 
@@ -180,8 +108,6 @@ echo "
     (A triple-encoding has even been observed in the wild,
     but only once,
     so it's not really worth looking for specifically.
-    Such occurrences will still be flagged as bad,
-    because they are UTF-8 encodings.)
     </p>
 ";
 
@@ -228,6 +154,7 @@ function show_a_table_of_bads($desired_badness)
         <tr>
             <th>" . _("Raw") . "</th>
             <th>" . _("Bytes") . "</th>
+            <th>" . _("Codepoints") . "</th>
             <th>" . _("Likely intended character") . "</th>
             <th>" . _("Why bad") . "</th>
         </tr>

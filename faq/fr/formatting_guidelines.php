@@ -326,9 +326,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 </table>
 
 <h3><a name="inline">Placement des marques intra-paragraphe</a></h3>
-<p>Le formatage intra-paragraphe d&eacute;signe les marques comme <tt>&lt;i&gt;</tt>&nbsp;<tt>&lt;/i&gt;</tt>,
-   <tt>&lt;b&gt;</tt>&nbsp;<tt>&lt;/b&gt;</tt>, <tt>&lt;sc&gt;</tt>&nbsp;<tt>&lt;/sc&gt;</tt>,
-   <tt>&lt;f&gt;</tt>&nbsp;<tt>&lt;/f&gt;</tt>, ou <tt>&lt;g&gt;</tt>&nbsp;<tt>&lt;/g&gt;</tt>.
+<p>Le formatage intra-paragraphe d&eacute;signe les marques comme <kbd>&lt;i&gt;</kbd>&nbsp;<kbd>&lt;/i&gt;</kbd>,
+   <kbd>&lt;b&gt;</kbd>&nbsp;<kbd>&lt;/b&gt;</kbd>, <kbd>&lt;sc&gt;</kbd>&nbsp;<kbd>&lt;/sc&gt;</kbd>,
+   <kbd>&lt;f&gt;</kbd>&nbsp;<kbd>&lt;/f&gt;</kbd>, ou <kbd>&lt;g&gt;</kbd>&nbsp;<kbd>&lt;/g&gt;</kbd>.
    Placez la ponctuation <b>en dehors</b> des marques, sauf si les marques sont
    dispos&eacute;es autour d'une phrase enti&egrave;re ou d'un paragraphe entier, ou si la
    ponctuation elle-m&ecirc;me fait partie de la phrase, du titre ou de l'abr&eacute;viation
@@ -337,7 +337,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 </p>
 <p>Le point qui indique un mot abr&eacute;g&eacute; dans le titre d'un journal tel que
    <i>Phil. Trans.</i> fait partie du titre, et est donc inclus entre les marques:
-   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+   <kbd>&lt;i&gt;Phil. Trans.&lt;/i&gt;</kbd>.
 </p>
 <p>Dans de nombreux cas les polices de caract&egrave;res utilis&eacute;es dans les livres
    anciens ne pr&eacute;sentaient pas de forme diff&eacute;rente pour les chiffres normaux, en
@@ -361,35 +361,35 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+      <td valign="top"><kbd>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</kbd> </td>
     </tr>
     <tr>
       <td valign="top">It cost 9<i>l.</i> 4<i>s.</i> 1<i>d.</i></td>
-      <td valign="top"><tt>It cost 9&lt;i&gt;l.&lt;/i&gt; 4&lt;i&gt;s.&lt;/i&gt; 1&lt;i&gt;d.&lt;/i&gt;</tt></td>
+      <td valign="top"><kbd>It cost 9&lt;i&gt;l.&lt;/i&gt; 4&lt;i&gt;s.&lt;/i&gt; 1&lt;i&gt;d.&lt;/i&gt;</kbd></td>
     </tr>
     <tr>
       <td valign="top"><b>God knows what she saw in me!</b> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;b&gt;God knows what she saw in me!&lt;/b&gt; I spoke<br> in such an affected manner.</tt></td>
+      <td valign="top"><kbd>&lt;b&gt;God knows what she saw in me!&lt;/b&gt; I spoke<br> in such an affected manner.</kbd></td>
     </tr>
     <tr>
       <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+      <td valign="top"><kbd>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</kbd></td>
     </tr>
     <tr>
       <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+      <td valign="top"><kbd>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</kbd></td>
     </tr>
     <tr>
       <td valign="top">L. Robinson, art. "<span style="font-variant:small-caps;">Ticklishness</span>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;sc&gt;Ticklishness&lt;/sc&gt;,"</tt></td>
+      <td valign="top"><kbd>L. Robinson, art. "&lt;sc&gt;Ticklishness&lt;/sc&gt;,"</kbd></td>
     </tr>
     <tr>
       <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br>
+      <td valign="top"><kbd>/*<br>
          &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
          1323 Picadilly Circus<br>
-         */</tt></td>
+         */</kbd></td>
     </tr>
     <tr>
       <td valign="top">
@@ -399,23 +399,23 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
       and <i>Ticklishness, Laughter and Humour</i>.
       </td>
       <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
+      <kbd>Volunteers may be tickled pink to read<br>
       &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
       &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</kbd>
       </td>
     </tr>
     <tr>
       <td valign="top">&ldquo;<i>That's the idea!</i>&rdquo; exclaimed Tacks.</td>
-      <td valign="top"><tt>"&lt;i&gt;That's the idea!&lt;/i&gt;" exclaimed Tacks.</tt></td>
+      <td valign="top"><kbd>"&lt;i&gt;That's the idea!&lt;/i&gt;" exclaimed Tacks.</kbd></td>
     </tr>
     <tr>
       <td valign="top">The professor set the reading assignment<br>
         for&nbsp; <span style="letter-spacing: .2em;">Erlebnis Geschichte Deutschland<br>
         seit 184</span>5.</td>
-      <td valign="top"><tt>The professor set the reading assignment<br>
+      <td valign="top"><kbd>The professor set the reading assignment<br>
         for &lt;g&gt;Erlebnis Geschichte Deutschland<br>
-        seit 1845&lt;/g&gt;.</tt></td>
+        seit 1845&lt;/g&gt;.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -423,9 +423,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="italics">Italiques</a></h3>
-<p>Le texte en <i>italique</i> doit avoir <tt>&lt;i&gt;</tt> ins&eacute;r&eacute; avant et
-   <tt>&lt;/i&gt;</tt> ins&eacute;r&eacute; &agrave; la fin de l'italique.
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans le symbole de fin).
+<p>Le texte en <i>italique</i> doit avoir <kbd>&lt;i&gt;</kbd> ins&eacute;r&eacute; avant et
+   <kbd>&lt;/i&gt;</kbd> ins&eacute;r&eacute; &agrave; la fin de l'italique.
+   (remarquez le &ldquo;<kbd>/</kbd>&rdquo; dans le symbole de fin).
 </p>
 <p>Voyez &eacute;galement le <a href="#inline">placement des marques intra-paragraphe</a>.
 </p>
@@ -434,9 +434,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="bold">Texte en gras</a></h3>
-<p>Le <b>texte en gras</b> doit &ecirc;tre marqu&eacute; par <tt>&lt;b&gt;</tt> avant et
-   <tt>&lt;/b&gt;</tt> apr&egrave;s.
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+<p>Le <b>texte en gras</b> doit &ecirc;tre marqu&eacute; par <kbd>&lt;b&gt;</kbd> avant et
+   <kbd>&lt;/b&gt;</kbd> apr&egrave;s.
+   (remarquez le &ldquo;<kbd>/</kbd>&rdquo; dans la marque de fin).
 </p>
 <p>Voyez &eacute;galement le <a href="#inline">placement des marques intra-paragraphe</a>
    et la section des <a href="#chap_head">t&ecirc;tes de chapitre</a>.
@@ -447,8 +447,8 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 <h3><a name="underl">Texte soulign&eacute;</a></h3>
 <p>Marquez le <u>texte soulign&eacute;</u> comme &eacute;tant de l'<a href="#italics">Italique</a>,
-   avec <tt>&lt;i&gt;</tt> et <tt>&lt;/i&gt;</tt>.
-   (Remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+   avec <kbd>&lt;i&gt;</kbd> et <kbd>&lt;/i&gt;</kbd>.
+   (Remarquez le &ldquo;<kbd>/</kbd>&rdquo; dans la marque de fin).
    On avait souvent recours au texte soulign&eacute; pour mettre l'accent sur
    certains passages quand l'&eacute;diteur &eacute;tait incapable d'imprimer en italique,
    par exemple pour un document tap&eacute; &agrave; la machine.
@@ -456,16 +456,16 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Voyez &eacute;galement le <a href="#inline">placement des marques intra-paragraphe</a>.
 </p>
 <p>Certains responsables de projet peuvent demander dans les <a href="#comments">commentaires de projet</a>
-   que le texte soulign&eacute; soit marqu&eacute; avec <tt>&lt;u&gt;</tt> et <tt>&lt;/u&gt;</tt>.
+   que le texte soulign&eacute; soit marqu&eacute; avec <kbd>&lt;u&gt;</kbd> et <kbd>&lt;/u&gt;</kbd>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="spaced"><span style="letter-spacing: .2em;">Texte espac&eacute;</span> (gesperrt)</a></h3>
-<p>Formatez le <span style="letter-spacing: .2em;">texte espac&eacute;</span> avec les marques <tt>&lt;g&gt;</tt> avant et
-   <tt>&lt;/g&gt;</tt> apr&egrave;s.
-   (Remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+<p>Formatez le <span style="letter-spacing: .2em;">texte espac&eacute;</span> avec les marques <kbd>&lt;g&gt;</kbd> avant et
+   <kbd>&lt;/g&gt;</kbd> apr&egrave;s.
+   (Remarquez le &ldquo;<kbd>/</kbd>&rdquo; dans la marque de fin).
    Enlevez les espaces exc&eacute;dentaires entre les lettres d'un m&ecirc;me mot.
    Cette technique &eacute;tait utilis&eacute;e pour mettre l'accent sur certains passages
    dans les livres anciens, principalement en allemand.
@@ -480,8 +480,8 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <h3><a name="font_ch">Changement de police</a></h3>
 <p>Certains responsables de projet pourront demander que le changement de police
    &agrave; l'int&eacute;rieur d'un paragraphe soit indiqu&eacute; en mettant
-   <tt>&lt;f&gt;</tt> avant et <tt>&lt;/f&gt;</tt> apr&egrave;s le passage.
-   (Remarquez la barre oblique &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+   <kbd>&lt;f&gt;</kbd> avant et <kbd>&lt;/f&gt;</kbd> apr&egrave;s le passage.
+   (Remarquez la barre oblique &ldquo;<kbd>/</kbd>&rdquo; dans la marque de fin).
    Ces marques peuvent &ecirc;tre utilis&eacute;es pour noter la pr&eacute;sence de toute
    police sp&eacute;ciale ou de typographie particuli&egrave;re qui ne disposent pas
    d&eacute;j&agrave; de leurs marques d&eacute;di&eacute;es (comme l'italique et le gras).
@@ -517,7 +517,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    <span style="font-variant: small-caps;">uniquement en petites capitales</span>
    avec les mots TOUT EN MAJUSCULES.
    Dans les deux cas, entourez le texte par les marques
-   <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>.
+   <kbd>&lt;sc&gt;</kbd> et <kbd>&lt;/sc&gt;</kbd>.
 </p>
 <p>Un titre (une <a href="#chap_head">t&ecirc;te de chapitre</a>,
    ou <a href="#sect_head">de section</a>), peut ressembler &agrave; un passage
@@ -538,11 +538,11 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top"><span style="font-variant: small-caps;">This is Small Caps</span></td>
-      <td valign="top"><tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt></td>
+      <td valign="top"><kbd>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</kbd></td>
     </tr>
     <tr>
       <td valign="top">You cannot be serious about <span style="font-variant: small-caps;">aardvarks</span>!</td>
-      <td valign="top"><tt>You cannot be serious about &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt></td>
+      <td valign="top"><kbd>You cannot be serious about &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -556,7 +556,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Une exception &agrave; cette r&egrave;gle est le <a href="#chap_head">premier mot d'un chapitre</a>:
    certains livres anciens mettaient le premier mot de chaque chapitre en majuscule;
    ceci doit &ecirc;tre chang&eacute; en un mot normal (premi&egrave;re lettre en majuscule,
-   le reste en minuscule). Donc "DEMAIN, d&egrave;s l'aube" devient "<tt>Demain, d&egrave;s l'aube</tt>".
+   le reste en minuscule). Donc "DEMAIN, d&egrave;s l'aube" devient "<kbd>Demain, d&egrave;s l'aube</kbd>".
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
@@ -580,7 +580,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    Cependant les espaces exc&eacute;dentaires autour de la ponctuation, des tirets,
    des guillemets, etc.
    doivent &ecirc;tre supprim&eacute;s car il est difficile de le faire automatiquement.
-   De plus, entre les marques <tt>/* */</tt> (qui pr&eacute;servent les espaces), il
+   De plus, entre les marques <kbd>/* */</kbd> (qui pr&eacute;servent les espaces), il
    est n&eacute;cessaire de retirer tous les espaces exc&eacute;dentaires car ceux-ci ne seront
    pas retir&eacute;s automatiquement.
 </p>
@@ -595,9 +595,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <h3><a name="supers">Exposants</a></h3>
 <p>Les livres anciens abr&eacute;geaient souvent les mots en contractions, et les
    imprimaient en exposant. Nous repr&eacute;sentons ceci en ins&eacute;rant un
-   chapeau (<tt>^</tt>) suivi par le texte en exposant. Si le texte en exposant
+   chapeau (<kbd>^</kbd>) suivi par le texte en exposant. Si le texte en exposant
    se compose de plus d'un caract&egrave;re, entourez &eacute;galement ce texte par des accolades
-   <tt>{</tt> et <tt>}</tt>. Par exemple:
+   <kbd>{</kbd> et <kbd>}</kbd>. Par exemple:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Exemple de texte en exposant">
   <tbody>
@@ -607,7 +607,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -625,7 +625,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <h3><a name="subscr">Texte en Indice</a></h3>
 <p>On trouve la notation &ldquo;indice&rdquo; dans des ouvrages scientifiques, rarement
    ailleurs. Indiquez l'indice en le faisant pr&eacute;c&eacute;der d'un signe &ldquo;soulign&eacute;&rdquo;
-   <tt>_</tt>, et mettez le texte en indice entre accolades <tt>{</tt> et <tt>}</tt>.
+   <kbd>_</kbd>, et mettez le texte en indice entre accolades <kbd>{</kbd> et <kbd>}</kbd>.
    Par exemple:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Exemple de texte en indice">
@@ -636,7 +636,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -646,7 +646,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 <h3><a name="page_ref">R&eacute;f&eacute;rences aux pages &ldquo;cf. p. 123&rdquo;</a></h3>
 <p>Laissez ces r&eacute;f&eacute;rences telles qu'elles apparaissent dans l'image,
-   par exemple <tt>(cf. p. 123)</tt>.
+   par exemple <kbd>(cf. p. 123)</kbd>.
 </p>
 <p>V&eacute;rifiez les <a href="#comments">Commentaires de Projet</a>, au cas o&ugrave; le
    responsable de projet prescrive autre chose pour les r&eacute;f&eacute;rences aux pages.
@@ -702,7 +702,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>
+        <kbd>
         <br>
         <br>
         <br>
@@ -738,7 +738,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         stockings like a boy on Sunday, and hob-nail shoes,<br>
         and a funny coat with "pleats" and a belt, and a<br>
         green hat with a feather sticking up from the band.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -755,7 +755,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
+        <kbd>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -803,7 +803,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         <br>
         [Footnote A: The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.]
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -844,7 +844,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         and numerous, found in collections of well-authenticated<br>
         specimens. The suggested caution implied<br>
         is not unnecessary, for the periods overlap, and there<br>
@@ -857,7 +857,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         In tracing the development of lighting from quite<br>
         homely beginnings, rushlights, prepared by the<br>
         cottager and the farm hand for the winter supply,<br>
-        seem to come first on the list. Rushlights, however,</tt>
+        seem to come first on the list. Rushlights, however,</kbd>
         </p>
       </td>
     </tr>
@@ -901,17 +901,17 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Ceci est utilis&eacute; pour exprimer une pause, un changement de sc&egrave;ne ou de
    sujet, l'&eacute;coulement du temps, ou pour cr&eacute;er un peu de suspense. Ceci
    refl&egrave;te l'intention de l'auteur, donc nous pr&eacute;servons ces lignes en
-   ins&eacute;rant une ligne vierge suivie de <tt>&lt;tb&gt;</tt>, puis une autre ligne
+   ins&eacute;rant une ligne vierge suivie de <kbd>&lt;tb&gt;</kbd>, puis une autre ligne
    vierge.
 </p>
 <p>Parfois, les imprimeurs ajoutent une ligne d&eacute;corative en fin de chapitre ou
    de section. Ce ne sont pas des pauses telles que d&eacute;crites ici, il <b>ne faut
-   pas</b> utiliser <tt>&lt;tb&gt;</tt> pour ces d&eacute;corations.
+   pas</b> utiliser <kbd>&lt;tb&gt;</kbd> pour ces d&eacute;corations.
 </p>
 <p>V&eacute;rifiez les <a href="#comments">commentaires de projet</a> car certains
    responsables de projet peuvent demander de faire la
    diff&eacute;rence entre les diff&eacute;rents types de pause, par exemple en notant
-   par <tt>&lt;tb stars&gt;</tt> une rang&eacute;e d'ast&eacute;risques.
+   par <kbd>&lt;tb stars&gt;</kbd> une rang&eacute;e d'ast&eacute;risques.
 </p>
 <!-- END RR -->
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Exemple de pause">
@@ -924,22 +924,22 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         last week, but my dressmaker put me off, because she<br>
-        was working for Phillis B.'s wedding."</tt>
+        was working for Phillis B.'s wedding."</kbd>
         </p>
-        <p><tt>
+        <p><kbd>
         We both gave a glance at Hattie. She sat gazing at<br>
         Miss ----, her lips partly open, her eyes moistened,--a<br>
         picture in which delight and incredulity were in pleasant<br>
-        strife.</tt>
+        strife.</kbd>
         </p>
-        <p><tt>&lt;tb&gt;</tt>
+        <p><kbd>&lt;tb&gt;</kbd>
         </p>
-        <p><tt>
+        <p><kbd>
         We have been in the interior a fortnight. One thing<br>
         filled me with astonishment, soon after I came here, namely,<br>
-        to find widow ladies and their daughters, all through the</tt>
+        to find widow ladies and their daughters, all through the</kbd>
         </p>
       </td>
     </tr>
@@ -949,13 +949,13 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="illust">Illustrations</a></h3>
-<p>Le texte d'une illustration (l&eacute;gende) doit &ecirc;tre entour&eacute; de <tt>[Illustration:&nbsp;le texte]</tt>.
+<p>Le texte d'une illustration (l&eacute;gende) doit &ecirc;tre entour&eacute; de <kbd>[Illustration:&nbsp;le texte]</kbd>.
    Gardez la l&eacute;gende comme elle est imprim&eacute;e, avec ses retours &agrave; la
    ligne, italiques, etc.
    Des indications comme &ldquo;Voir page 66&rdquo;, ou un titre faisant partie
    de l'illustration, doivent &ecirc;tre compris dans la l&eacute;gende.
 </p>
-<p>S'il n'y a pas de l&eacute;gende, indiquez juste <tt>[Illustration]</tt> &agrave; l'endroit
+<p>S'il n'y a pas de l&eacute;gende, indiquez juste <kbd>[Illustration]</kbd> &agrave; l'endroit
    o&ugrave; elle se trouve. (Dans ce cas n'oubliez pas de retirer le deux-points et l'espace
    avant le crochet fermant.)
 </p>
@@ -966,7 +966,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    du paragraphe qui &eacute;taient s&eacute;par&eacute;s par l'illustration en effa&ccedil;ant l'espace ainsi cr&eacute;&eacute;.
 </p>
 <p>Si le paragraphe coup&eacute; par l'illustration prend toute la page, ajoutez un
-   ast&eacute;risque comme ceci: <tt>*[Illustration: <font color="red">(texte de l'illustration)</font>]</tt>,
+   ast&eacute;risque comme ceci: <kbd>*[Illustration: <font color="red">(texte de l'illustration)</font>]</kbd>,
    mettez l'illustration tout en haut de la page, et laissez une ligne blanche apr&egrave;s.
 </p>
 <!-- END RR -->
@@ -985,7 +985,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>[Illustration: Martha told him that he had always been her ideal and<br>
+        <p><kbd>[Illustration: Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         /*<br>
@@ -993,7 +993,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         &lt;i&gt;Her Weight in Gold&lt;/i&gt;<br>
         */<br>
         ]
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1014,17 +1014,17 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>[Illustration: &lt;sc&gt;Fig. 1.&lt;/sc&gt;--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.]</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>[Illustration: &lt;sc&gt;Fig. 1.&lt;/sc&gt;--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.]</kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1039,9 +1039,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    dans le texte, l&agrave; o&ugrave; la note est r&eacute;f&eacute;renc&eacute;e.
 </p>
 <p>1. Dans le texte principal, le caract&egrave;re qui marque l'appel de note doit
-   &ecirc;tre entour&eacute; de crochets <tt>[</tt> et <tt>]</tt> et plac&eacute; sans espace
+   &ecirc;tre entour&eacute; de crochets <kbd>[</kbd> et <kbd>]</kbd> et plac&eacute; sans espace
    imm&eacute;diatement &agrave; c&ocirc;t&eacute; du mot sur lequel porte la
-   note<tt>[1]</tt> ou &agrave; c&ocirc;t&eacute; de son signe de ponctuation,<tt>[2]</tt>
+   note<kbd>[1]</kbd> ou &agrave; c&ocirc;t&eacute; de son signe de ponctuation,<kbd>[2]</kbd>
    comme dans l'image et dans les deux exemples de cette phrase.
    Les appels de notes peuvent &ecirc;tre des lettres, des chiffres ou
    des symboles sp&eacute;ciaux.
@@ -1050,7 +1050,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    des lettres majuscules dans l'ordre alphab&eacute;tique (A, B, C, etc.).
 </p>
 <p>2. Au bas de la page, la note est entour&eacute;e par la marque de note
-   <tt>[Footnote #:&nbsp;</tt><font color="red">(texte de la note)</font><tt>]</tt>,
+   <kbd>[Footnote #:&nbsp;</kbd><font color="red">(texte de la note)</font><kbd>]</kbd>,
    avec le texte de la note entre les deux crochets, et le num&eacute;ro (ou la lettre)
    de la note &agrave; la place du signe #. Formatez le texte de la note tel qu'il est
    imprim&eacute;, avec ses retours &agrave; la ligne, italiques, etc.
@@ -1062,24 +1062,24 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <!-- END RR -->
 
 <p>Si une note est interrompue &agrave; la fin de la page,
-   laissez la note &agrave; la fin de la page, et mettez une ast&eacute;risque <tt>*</tt>
+   laissez la note &agrave; la fin de la page, et mettez une ast&eacute;risque <kbd>*</kbd>
    l&agrave; o&ugrave; la note s'arr&ecirc;te, comme ceci:
-   <tt>[Footnote 1: </tt><font color="red">(texte de la note)</font><tt>]*</tt>.
-   Le <tt>*</tt> indique que la note s'arr&ecirc;te
+   <kbd>[Footnote 1: </kbd><font color="red">(texte de la note)</font><kbd>]*</kbd>.
+   Le <kbd>*</kbd> indique que la note s'arr&ecirc;te
    pr&eacute;matur&eacute;ment, et attire l'attention du post-processeur qui fusionnera les deux
    parties de la note.
 </p>
 <p>Si le bas d'une page contient une note commenc&eacute;e sur une page pr&eacute;c&eacute;dente,
    laissez le fragment de note au bas de la page et entourez-le par
-   <tt>*[Footnote: <font color="red">(texte de la note)</font>]</tt> (sans marque ou
+   <kbd>*[Footnote: <font color="red">(texte de la note)</font>]</kbd> (sans marque ou
    num&eacute;ro de note). L'ast&eacute;risque indique que c'est une continuation de note, et attire
    l'attention du post-processeur.
 </p>
 <p>Si une note fragment&eacute;e sur plusieurs pages commence ou s'arr&ecirc;te sur un mot
    coup&eacute;, marquez le mot coup&eacute; <b>et</b> la note par une &eacute;toile, comme ceci:<br>
-   <tt>[Footnote 1: Cette note se poursuit et son dernier mot se poursuit &eacute;ga-*]*</tt><br>
+   <kbd>[Footnote 1: Cette note se poursuit et son dernier mot se poursuit &eacute;ga-*]*</kbd><br>
    pour le premier fragment, et<br>
-   <tt>*[Footnote: *lement sur la page suivante.]</tt><br>
+   <kbd>*[Footnote: *lement sur la page suivante.]</kbd><br>
    pour le second fragment.
 </p>
 <p>N'incluez pas les &eacute;ventuelles lignes horizontales s&eacute;parant les notes du texte principal.
@@ -1087,11 +1087,11 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Les <b>notes de fin</b> sont simplement des notes de bas de page qui ont &eacute;t&eacute;
    plac&eacute;es en fin de chapitre, ou en fin de livre, au lieu d'&ecirc;tre en bas de page.
    Formatez-les comme des notes de bas de page. Quand vous voyez la r&eacute;f&eacute;rence dans le
-   texte, entourez-la par des crochets <tt>[</tt> et <tt>]</tt>.
+   texte, entourez-la par des crochets <kbd>[</kbd> et <kbd>]</kbd>.
    Si vous formatez une des pages de fin, l&agrave; o&ugrave; sont les notes,
    entourez le texte de chaque note par
-   <tt>[Footnote #: <font color="red">(texte de la note de fin)</font>]</tt>,
-   avec le num&eacute;ro ou la marque de la note &agrave; la place du signe <tt>#</tt>.
+   <kbd>[Footnote #: <font color="red">(texte de la note de fin)</font>]</kbd>,
+   avec le num&eacute;ro ou la marque de la note &agrave; la place du signe <kbd>#</kbd>.
    Mettez une ligne blanche avant chaque note, pour qu'elles restent des paragraphes
    s&eacute;par&eacute;s lorsque le texte est remis en forme par le post-processeur.
 </p>
@@ -1119,13 +1119,13 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
       <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[A], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[B]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[A], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[B]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>[Footnote A: Gaius Julius Caesar.]</tt><br>
+        <kbd>[Footnote A: Gaius Julius Caesar.]</kbd><br>
         <br>
-        <tt>[Footnote B: Marcus Tullius Cicero.]</tt>
+        <kbd>[Footnote B: Marcus Tullius Cicero.]</kbd>
       </td>
     </tr>
   </tbody>
@@ -1148,7 +1148,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td valign="top">
-        <tt>/*<br>
+        <kbd>/*<br>
         Mary had a little lamb[1]<br>
         &nbsp;&nbsp;Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1157,7 +1157,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         <br>
         [Footnote 1: This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.]<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1169,7 +1169,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>Certains livres ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
    texte. Ce sont les notes en marge (&ldquo;Sidenotes&rdquo;). D&eacute;placez ces notes juste au-dessus du paragraphe
    auquel elles se r&eacute;f&egrave;rent. Une note en marge est entour&eacute;e par les marques
-   suivantes: <tt>[Sidenote:&nbsp;</tt> avant et <tt>]</tt> apr&egrave;s. Formatez la note
+   suivantes: <kbd>[Sidenote:&nbsp;</kbd> avant et <kbd>]</kbd> apr&egrave;s. Formatez la note
    pour qu'elle ressemble au texte imprim&eacute;, en gardant les retours &agrave; la ligne, les
    italiques, etc. (tout en traitant les tirets et traits d'union normalement).
    Laissez une ligne blanche avant et apr&egrave;s la note, pour la s&eacute;parer du texte ordinaire.
@@ -1178,9 +1178,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    l'autre au d&eacute;but du paragraphe. S&eacute;parez-les par des lignes blanches.
 </p>
 <p>Si le paragraphe a commenc&eacute; sur une page pr&eacute;c&eacute;dente, mettez la note en haut
-   de la page et marquez-la avec une ast&eacute;risque <tt>*</tt> de mani&egrave;re &agrave; ce que
+   de la page et marquez-la avec une ast&eacute;risque <kbd>*</kbd> de mani&egrave;re &agrave; ce que
    le post-processeur puisse voir qu'elle appartient &agrave; la page pr&eacute;c&eacute;dente, ainsi:
-   <tt>*[Sidenote: <font color="red">(texte de la note)</font>]</tt>. Le post-processeur
+   <kbd>*[Sidenote: <font color="red">(texte de la note)</font>]</kbd>. Le post-processeur
    d&eacute;placera la note &agrave; l'endroit appropri&eacute;.
 </p>
 <p>Parfois, le responsable de projet vous demandera de placer la note &agrave; c&ocirc;t&eacute; de la
@@ -1203,7 +1203,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         *[Sidenote: Burning<br>
         discs<br>
         thrown into<br>
@@ -1284,7 +1284,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
         423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
         p. 510.]<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1293,12 +1293,12 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="outofline">Formatage hors texte</a></h3>
-<p>Les marques de formatage hors texte sont les marques <tt>/#</tt> <tt>#/</tt> et <tt>/*</tt> <tt>*/</tt>.
-   Les marques <tt>/#</tt> <tt>#/</tt> (changement de mise en forme) indiquent
+<p>Les marques de formatage hors texte sont les marques <kbd>/#</kbd> <kbd>#/</kbd> et <kbd>/*</kbd> <kbd>*/</kbd>.
+   Les marques <kbd>/#</kbd> <kbd>#/</kbd> (changement de mise en forme) indiquent
    du texte imprim&eacute; diff&eacute;remment, mais pour lequel on ne conserve pas les sauts de ligne
    lors de l'assemblage final. (Les paragraphes seront remis en forme en fonction
    de la largeur de ligne du r&eacute;sultat final).
-   Les marques <tt>/*</tt> <tt>*/</tt> (pas de mise en forme) indiquent du texte qui doit
+   Les marques <kbd>/*</kbd> <kbd>*/</kbd> (pas de mise en forme) indiquent du texte qui doit
    conserver ses sauts de ligne, indentation et espacement lors de l'assemblage final.
 </p>
 <p>&Agrave; chaque fois que vous utilisez une marque de d&eacute;but sur une page, veillez &agrave; inclure &eacute;galement
@@ -1316,7 +1316,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
    lignes, parfois m&ecirc;me plusieurs pages) qui se distinguent du texte pr&eacute;c&eacute;dent et suivant
    par de plus grandes marges, une police de caract&egrave;res plus petite, une
    indentation diff&eacute;rente, ou d'autres diff&eacute;rences. Entourez les blocs de citations
-   par les marques <tt>/#</tt> avant et <tt>#/</tt>
+   par les marques <kbd>/#</kbd> avant et <kbd>#/</kbd>
    apr&egrave;s.
    Voyez les d&eacute;tails &agrave; la section <a href="#outofline">Formatage hors texte</a>.
 </p>
@@ -1335,9 +1335,9 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>later day was welcomed in their home on the Hudson.<br>
-        Dr. Bakewell's contribution was as follows:[24]</tt></p>
-        <p><tt>/#<br>
+        <p><kbd>later day was welcomed in their home on the Hudson.<br>
+        Dr. Bakewell's contribution was as follows:[24]</kbd></p>
+        <p><kbd>/#<br>
         The uncertainty as to the place of Audubon's birth has been<br>
         put to rest by the testimony of an eye witness in the person<br>
         of old Mandeville Marigny now dead some years. His repeated<br>
@@ -1350,12 +1350,12 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
         given to Audubon's mother, and his ability to bear witness as<br>
         to the place of Audubon's birth, thus establishing the fact that<br>
         he was a Louisianian by birth.<br>
-        #/<br></tt>
+        #/<br></kbd>
         </p>
-        <p><tt>We do not doubt the candor and sincerity of the<br>
+        <p><kbd>We do not doubt the candor and sincerity of the<br>
         excellent Dr. Bakewell, but are bound to say that the<br>
         incidents as related above betray a striking lapse of<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1364,7 +1364,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="lists">Listes de choses</a></h3>
-<p>Entourez les listes par les marques <tt>/*</tt> et <tt>*/</tt>.
+<p>Entourez les listes par les marques <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails &agrave; la section <a href="#outofline">Formatage hors texte</a>.
 </p>
 <!-- END RR -->
@@ -1389,7 +1389,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         /*<br>
         Andersen, Hans Christian<br>
         Bach, Johann Sebastian<br>
@@ -1416,7 +1416,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
         Shakespeare, William<br>
         Tesla, Nikola<br>
         */
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1425,7 +1425,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 
 
 <h3><a name="tables">Tableaux</a></h3>
-<p>Entourez les tableaux par les marques <tt>/*</tt> et <tt>*/</tt>.
+<p>Entourez les tableaux par les marques <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails &agrave; la section <a href="#outofline">Formatage hors texte</a>.
    Formatez les tableaux avec des espaces (<b>pas de tabulation</b>)
    de mani&egrave;re &agrave; ce qu'ils ressemblent approximativement au tableau original.
@@ -1441,10 +1441,10 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    marquez chaque case du tableau ind&eacute;pendamment des autres.
    En alignant le texte, ayez en t&ecirc;te que les marques intra-paragraphe appara&icirc;tront
    diff&eacute;remment dans la version texte finale. Par exemple, les marques
-   <tt>&lt;i&gt;</tt>italique<tt>&lt;/i&gt;</tt> deviennent normalement un
-   caract&egrave;re <tt>_</tt>soulign&eacute;<tt>_</tt>, et la plupart des autres marques
+   <kbd>&lt;i&gt;</kbd>italique<kbd>&lt;/i&gt;</kbd> deviennent normalement un
+   caract&egrave;re <kbd>_</kbd>soulign&eacute;<kbd>_</kbd>, et la plupart des autres marques
    intra-paragraphe seront trait&eacute;es de fa&ccedil;on similaire. &Agrave; l'inverse, le
-   marquage des <tt>&lt;sc&gt;</tt>Petites Capitales<tt>&lt;/sc&gt;</tt>
+   marquage des <kbd>&lt;sc&gt;</kbd>Petites Capitales<kbd>&lt;/sc&gt;</kbd>
    est retir&eacute; compl&egrave;tement.
 </p>
 <p>Il est souvent difficile de formater des tableaux en texte brut; faites
@@ -1473,7 +1473,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>
+<pre><kbd>
 TABLE II.
 
 /*
@@ -1498,7 +1498,7 @@ Same, 5 mm. wide       | 13 |  20 || Two  similar wires      | 12 |   30
 Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   the form of wire     | 17 |  15 ||   close together        | 18 |   12
 -----------------------+----+-----++-------------------------+----+------
-*/</tt></pre>
+*/</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1514,7 +1514,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>/*
+<pre><kbd>/*
                         &lt;i&gt;Agents.&lt;/i&gt;      &lt;i&gt;Objects.&lt;/i&gt;
             { 1st person,  I,             me,
             { 2d    "      thou,          thee,
@@ -1526,7 +1526,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
  &lt;i&gt;Plural&lt;/i&gt;   { 2d    "      ye, or you,    you,
             { 3d    "      they,          them,
                            who,           whom.
-*/</tt></pre>
+*/</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1535,7 +1535,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
-<p>Marquez les po&eacute;sies ou les &eacute;pigrammes avec <tt>/*</tt> <tt>*/</tt>
+<p>Marquez les po&eacute;sies ou les &eacute;pigrammes avec <kbd>/*</kbd> <kbd>*/</kbd>
    de fa&ccedil;on &agrave; pr&eacute;server les espaces et les retours &agrave; la ligne.
    Voyez les d&eacute;tails &agrave; la section <a href="#outofline">Formatage hors texte</a>.
 </p>
@@ -1554,7 +1554,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    r&eacute;guli&egrave;rement au cours du po&egrave;me.
 </p>
 <p>Une rang&eacute;e de points pr&eacute;sente dans un po&egrave;me est trait&eacute;e comme une
-   <a href="#extra_s">interruption du fil du discours</a> <tt>&lt;tb&gt;</tt>.
+   <a href="#extra_s">interruption du fil du discours</a> <kbd>&lt;tb&gt;</kbd>.
 </p>
 <p>Les <a href="#line_no">Num&eacute;ros de ligne</a> sont conserv&eacute;s.
 </p>
@@ -1575,9 +1575,9 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>
-        to the scenery of his own country:<br></tt>
-        <p><tt>
+        <kbd>
+        to the scenery of his own country:<br></kbd>
+        <p><kbd>
         /*<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
@@ -1586,8 +1586,8 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         That the lowest boughs and the brushwood sheaf<br>
         Round the elm-tree bole are in tiny leaf,<br>
         While the chaffinch sings on the orchard bough<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-        </p><p><tt>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</kbd>
+        </p><p><kbd>
         And after April, when May follows,<br>
         And the whitethroat builds, and all the swallows!<br>
         Hark! where my blossomed pear-tree in the hedge<br>
@@ -1600,10 +1600,10 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         All will be gay, when noontide wakes anew<br>
         The buttercups, the little children's dower;<br>
         --Far brighter than this gaudy melon-flower!<br>
-        */<br></tt>
-        </p><p><tt>
+        */<br></kbd>
+        </p><p><kbd>
         So it runs; but it is only a momentary memory;<br>
-        and he knew, when he had done it, and to his</tt>
+        and he knew, when he had done it, and to his</kbd>
         </p>
       </td>
     </tr>
@@ -1631,7 +1631,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    indentation.
 </p>
 <p>Entourez en-t&ecirc;tes et les fins de lettres (adresse, date, salutations, signature) par
-   les marques <tt>/*</tt> et <tt>*/</tt>.
+   les marques <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails &agrave; la section <a href="#outofline">Formatage hors texte</a>.
 </p>
 <p>N'indentez pas les lignes d'en-t&ecirc;te et de fin de lettres, m&ecirc;me si,
@@ -1653,20 +1653,20 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-        <p><tt>[Letter No. 1, addressed]</tt></p>
-        <p><tt>/*<br>
+        <p><kbd>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</kbd></p>
+        <p><kbd>[Letter No. 1, addressed]</kbd></p>
+        <p><kbd>/*<br>
         &lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
         Merchant-Nantes.<br>
-        &lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807&lt;/i&gt;.</tt></p>
-        <p><tt>
+        &lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807&lt;/i&gt;.</kbd></p>
+        <p><kbd>
         &lt;sc&gt;Dear Sir&lt;/sc&gt;:<br>
-        */</tt></p>
-        <p><tt>
+        */</kbd></p>
+        <p><kbd>
         We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
         consignment of 20 pieces of linen cloth, for which we send our<br>
         thanks. As soon as we have sold them, we shall take great<br>
-        pleasure in making our return.</tt>
+        pleasure in making our return.</kbd>
         </p>
       </td>
     </tr>
@@ -1683,20 +1683,20 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/#<br>
+        <p><kbd>/#<br>
         lack of memory which &lt;i&gt;baffles belief&lt;/i&gt;, I have a certain<br>
         "uptaking" knack. My preachment will bore you, but you<br>
         will (if you read it) detect an &lt;i&gt;ensemble&lt;/i&gt;; but, for goodness'<br>
         sake, &lt;i&gt;zitti&lt;/i&gt;! They'll think, when they hear the P.R.A., that,<br>
         Lor' bless him! he'd known it all his life. Nevertheless,<br>
-        enough for the day, &amp;c. Best love to Gussey.--Affect. bro.,</tt></p>
-        <p><tt>/*<br>
+        enough for the day, &amp;c. Best love to Gussey.--Affect. bro.,</kbd></p>
+        <p><kbd>/*<br>
         &lt;sc&gt;Fred.&lt;/sc&gt;<br>
         */<br>
-        #/</tt></p>
-        <p><tt>I remember--when my husband and I were<br>
+        #/</kbd></p>
+        <p><kbd>I remember--when my husband and I were<br>
         sitting with him one afternoon after his return<br>
-        home that autumn--his saying, "I feel distinctly I</tt>
+        home that autumn--his saying, "I feel distinctly I</kbd>
         </p>
       </td>
     </tr>
@@ -1707,7 +1707,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 <h3><a name="r_align">Texte align&eacute; &agrave; droite</a></h3>
 <p>Entourez les lignes de texte align&eacute; &agrave; droite par les marques
-   <tt>/*</tt> et <tt>*/</tt>.
+   <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails de ces marques &agrave; la section
    <a href="#outofline">Formatage hors texte</a>, ainsi que les
    exemples de la section <a href="#letter">Lettres (courrier)</a>.
@@ -1726,7 +1726,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="blank_pg">Page blanche</a></h3>
-<p>Veuillez mettre comme texte <tt>[Blank Page]</tt> si le texte et l'image sont vides.
+<p>Veuillez mettre comme texte <kbd>[Blank Page]</kbd> si le texte et l'image sont vides.
 </p>
 <p>Si le texte seulement est pr&eacute;sent et que l'image est blanche, ou s'il
    y a du texte sur la page mais aucun texte dans le cadre &eacute;ditable, suivez la
@@ -1760,19 +1760,19 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
-        GREEN FANCY</tt></p>
-        <p><tt>BY<br>
-        GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>&lt;i&gt;WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-        <p><tt>[Illustration]</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>/*<br>
+        GREEN FANCY</kbd></p>
+        <p><kbd>BY<br>
+        GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>&lt;i&gt;WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT&lt;/i&gt;</kbd></p>
+        <p><kbd>[Illustration]</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
         1917<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1783,7 +1783,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <h3><a name="toc">Table des mati&egrave;res</a></h3>
 <p>Formatez le la table des mati&egrave;res comme elle est imprim&eacute;e, que ce soit
    tout en capitales, petites capitales, minuscules, etc. et entourez-la
-   avec <tt>/*</tt> et <tt>*/</tt>.
+   avec <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails sur ces marques &agrave; la section
    <a href="#outofline">Formatage hors texte</a>.
 </p>
@@ -1807,7 +1807,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt><br><br><br><br>CONTENTS<br>
+        <p><kbd><br><br><br><br>CONTENTS<br>
         <br>
         <br>
         /*<br>
@@ -1858,7 +1858,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         <br>
         XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
         Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1867,7 +1867,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 <h3><a name="bk_index">Index</a></h3>
-<p>Entourez l'index avec les marques <tt>/*</tt> et <tt>*/</tt>.
+<p>Entourez l'index avec les marques <kbd>/*</kbd> et <kbd>*/</kbd>.
    Voyez les d&eacute;tails sur ces marques &agrave; la section <a href="#outofline">Formatage hors texte</a>.
    N'alignez pas les num&eacute;ros les uns sur les autres (comme sur l'image):
    mettez simplement une virgule, suivie du num&eacute;ro de page.
@@ -1881,7 +1881,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </p>
 <p>Mettez une ligne blanche entre chaque entr&eacute;e de l'index.
    Commencez chaque sous-sujet de l'index (souvent s&eacute;par&eacute; par
-   un point-virgule <tt>;</tt>) sur une nouvelle ligne, indent&eacute;e de 2 espaces.
+   un point-virgule <kbd>;</kbd>) sur une nouvelle ligne, indent&eacute;e de 2 espaces.
 </p>
 <p>Si un index est en plusieurs sections (A, B, C...), traitez-les comme des
    <a href="#sect_head">t&ecirc;tes de section</a>,
@@ -1918,14 +1918,14 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Elizabeth I, her royal Majesty the Queen, 123, 144-155.<br>
         &nbsp;&nbsp;birth of, 145.<br>
         &nbsp;&nbsp;christening, 146-147.<br>
         &nbsp;&nbsp;death and burial, 152.<br>
         <br>
         Ethelred II, the Unready, 33.<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -1955,7 +1955,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Hooker, Jos., maj. gen. U. S. V., 345;<br>
         &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
         &nbsp;&nbsp;afterwards, McDowell's, 367;<br>
@@ -1972,7 +1972,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         <br>
         James, Lewis M., 187;<br>
         &nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -1987,7 +1987,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td valign="top">
-        <tt><br>/*<br>
+        <kbd><br>/*<br>
         Sales committee, 52<br>
         <br>
         Sales manager, 30<br>
@@ -2007,7 +2007,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Shipping department, 183-229<br>
         &nbsp;&nbsp;back orders, 199<br>
         &nbsp;&nbsp;checking shipments, 200<br>
-        */</tt>
+        */</kbd>
       </td>
     </tr>
   </tbody>
@@ -2043,14 +2043,14 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <p>Pour les pi&egrave;ces en vers:</p>
 <ul compact>
  <li>Les r&egrave;gles de po&eacute;sie s'appliquent aux pi&egrave;ces en vers. Entourez les vers
-     par les marques <tt>/*</tt> et <tt>*/</tt>, comme pour la <a href="#poetry">po&eacute;sie</a>,
+     par les marques <kbd>/*</kbd> et <kbd>*/</kbd>, comme pour la <a href="#poetry">po&eacute;sie</a>,
      pour conserver les retours &agrave; la ligne entre chaque vers.
-     Mais une didascalie ne doit pas &ecirc;tre entour&eacute;e par <tt>/*</tt> et <tt>*/</tt>
+     Mais une didascalie ne doit pas &ecirc;tre entour&eacute;e par <kbd>/*</kbd> et <kbd>*/</kbd>
      si elle se trouve sur une ligne s&eacute;par&eacute;e.
      (Ces indications sc&eacute;niques ne sont pas en vers, et doivent &ecirc;tre reformat&eacute;es
      comme un paragraphe de texte ordinaire, sans conserver les retours &agrave; la ligne de
      l'original: c'est pourquoi elles ne sont pas incluses dans
-     les marques <tt>/*</tt> et <tt>*/</tt> qui conservent les retours &agrave; la ligne.)</li>
+     les marques <kbd>/*</kbd> et <kbd>*/</kbd> qui conservent les retours &agrave; la ligne.)</li>
  <li>Conservez l'indentation relative des dialogues, comme pour la <a href="#poetry">po&eacute;sie</a>.</li>
  <li>Si un vers est coup&eacute; parce qu'il est trop long sur la page imprim&eacute;e,
      rejoignez les deux parties du vers sur une m&ecirc;me ligne (comme pour la
@@ -2079,36 +2079,36 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;La.&lt;/i&gt; But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; How slave? look you, Sir,<br>
         Did not I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this &lt;i&gt;Bob&lt;/i&gt;,<br>
         Should be both &lt;i&gt;Pica Roman&lt;/i&gt;.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; So said I, Sir, both &lt;i&gt;Picked Romans&lt;/i&gt;,<br>
         And he has made 'em &lt;i&gt;Welch&lt;/i&gt; Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, &lt;i&gt;Italica&lt;/i&gt;?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         &lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
         &lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2128,7 +2128,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         &lt;sc&gt;Clin.&lt;/sc&gt; And do I hold thee, my Antiphila,<br>
         Thou only wish and comfort of my soul!<br>
         <br>
@@ -2178,7 +2178,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Yonder he stands. I'll go and speak with him.<br>
         Good-morrow, neighbor! I have news for you;<br>
         Such news as you'll be overjoy'd to hear.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2199,7 +2199,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
+        <p><kbd>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
         <br>
         /*<br>
         &lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
@@ -2208,7 +2208,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
         Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
         <br>
         &lt;i&gt;Her.&lt;/i&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give them, sir.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2229,14 +2229,14 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>/*<br>
+        <p><kbd>/*<br>
         &lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
         Or not slept well to night; some dream (&lt;i&gt;Ismena?&lt;/i&gt;)<br>
         <br>
         &lt;i&gt;Ism.&lt;/i&gt; My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        */</tt></p>
+        */</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -2253,13 +2253,13 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </p>
 <p>Il est &eacute;galement recommand&eacute; d'ajouter une note dans le texte pour expliquer
    quel est le probl&egrave;me &agrave; la personne qui travaillera sur cette page ensuite.
-   Commencez la note par un crochet ouvrant et deux &eacute;toiles <tt>[**</tt> et
-   terminez-la par un crochet fermant <tt>]</tt> pour bien s&eacute;parer
+   Commencez la note par un crochet ouvrant et deux &eacute;toiles <kbd>[**</kbd> et
+   terminez-la par un crochet fermant <kbd>]</kbd> pour bien s&eacute;parer
    votre note du texte de l'auteur. Ceci signale
    au post-processeur qu'il doit s'arr&ecirc;ter et examiner ce texte et l'image
    correspondante et r&eacute;soudre le probl&egrave;me.
    Vous pouvez indiquer dans quel tour de formatage vous &ecirc;tes intervenu,
-   &agrave; la fin de la note juste avant le <tt>]</tt>, pour que les personnes
+   &agrave; la fin de la note juste avant le <kbd>]</kbd>, pour que les personnes
    intervenant ensuite savent qui a laiss&eacute; la note.
    Toute note laiss&eacute;e par une personne qui a travaill&eacute; sur cette page dans un
    tour pr&eacute;c&eacute;dent <b>doit absolument</b>
@@ -2351,13 +2351,13 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    aujourd'hui &agrave; l'&eacute;poque o&ugrave; le livre a &eacute;t&eacute; imprim&eacute;. Gardez
    l'ancienne orthographe, <b>en particulier en ce qui concerne les accents</b>.
 </p>
-<p>Mettez une note dans le texte &agrave; la suite de l'erruer<tt>[**typo pour erreur?]</tt>.
+<p>Mettez une note dans le texte &agrave; la suite de l'erruer<kbd>[**typo pour erreur?]</kbd>.
    Si vous n'&ecirc;tes pas certain qu'il s'agisse r&eacute;ellement d'une erreur, demandez
    &eacute;galement confirmation dans le
    <a href="#forums">forum du projet</a>. Si vous changez vraiment quelque chose,
    alors mettez une note d&eacute;crivant ce que vous avez chang&eacute;:
-   <tt>[**corrig&eacute; "erruer"]</tt>.
-   N'oubliez pas les deux &eacute;toiles <tt>**</tt> pour que le post-processeur
+   <kbd>[**corrig&eacute; "erruer"]</kbd>.
+   N'oubliez pas les deux &eacute;toiles <kbd>**</kbd> pour que le post-processeur
    rep&egrave;re votre note.</p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>

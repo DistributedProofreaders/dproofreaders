@@ -1,7 +1,6 @@
 <?php
 
 
-
 $browser_title                = _("Basic Proofreading Quiz");
 $intro_title                  = sprintf(_("Basic Proofreading Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__P;
@@ -15,15 +14,15 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["tbings"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a '<tt>b</tt>' in the text where there is an '<tt>h</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': a '<kbd>b</kbd>' in the text where there is an '<kbd>h</kbd>' in the image."),
 );
 $messages["arid"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': '<kbd>ri</kbd>' in the text where there is an '<kbd>n</kbd>' in the image."),
 );
 $messages["hut"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>h</tt>' in the text where there is a '<tt>b</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>h</kbd>' in the text where there is a '<kbd>b</kbd>' in the image."),
 );
 $messages["eolhyphen2"] = array(
     "message_title" => _("Hyphenation"),

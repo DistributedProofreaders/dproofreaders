@@ -7,12 +7,22 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
-include_once($relPath.'slim_header.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'prefs_options.inc');
+include_once($relPath.'image_check.inc');
 
 require_login();
 
+$extra_args = [
+    'css_data' => '
+        .mono {
+            font-family: ' . get_proofreading_font_family_fallback() . ';
+        }
+    ',
+];
+
 $title = _("Add files");
-slim_header($title);
+output_header($title, NO_STATSBAR, $extra_args);
 
 $projectid    = validate_projectID('project', @$_GET['project']);
 $loading_tpnv = (@$_GET['tpnv'] == '1');
@@ -20,6 +30,17 @@ $loading_tpnv = (@$_GET['tpnv'] == '1');
 abort_if_cant_edit_project( $projectid );
 
 echo "<h1>$title</h1>";
+
+$project = new Project($projectid);
+if(!$project->is_utf8)
+{
+    echo "<p>"
+        . _("Pages cannot be added to the project in its current state.")
+        . " "
+        . _("Project table is not UTF-8.")
+        . "</p>";
+    exit();
+}
 
 if(!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal"))
 {
@@ -147,6 +168,13 @@ else
     {
         $loader->display();
 
+        if ( $loader->has_warnings() )
+        {
+            echo "<p class='warning'>";
+            echo _("Some warnings issued, please check them before continuing.");
+            echo "</p>";
+        }
+
         echo "<p>";
         if ( $loader->has_errors() )
         {
@@ -209,6 +237,7 @@ class Loader
     function analyze()
     {
         $this->n_errors = 0;
+        $this->n_warnings = 0;
         $this->n_ops = 0;
         $this->adding_pages = FALSE; // is this load adding any pages to the project?
 
@@ -365,7 +394,8 @@ class Loader
         {
             $row =& $this->page_file_table[$base];
 
-            $error_msgs = '';
+            $error_msgs = array();
+            $warning_msgs = array();
 
             foreach ( array('text','image') as $toi )
             {
@@ -379,7 +409,27 @@ class Loader
                 if ( $action == 'error' )
                 {
                     $this->n_errors++;
-                    $error_msgs .= "$error_msg\n";
+                    array_push($error_msgs, $error_msg);
+                }
+            }
+
+            // check new text for valid codepoints
+            if( isset($row['text']['src'][0]) )
+            {
+                $text_filename = $base . $row['text']['src'][0];
+                $warnings = get_load_page_from_file_changes($text_filename, $this->projectid);
+                $this->n_warnings += count($warnings);
+                $warning_msgs = array_merge($warning_msgs, $warnings);
+            }
+
+            if (isset($row['image']['src'][0]))
+            {
+                $image_filename = $base . $row['image']['src'][0];
+                $warning_msg = get_image_size_error(filesize($image_filename));
+                if (isset($warning_msg))
+                {
+                    $this->n_warnings += 1;
+                    array_push($warning_msgs, $warning_msg);
                 }
             }
 
@@ -431,7 +481,7 @@ class Loader
                     case 'add|':
                         $this->n_errors++;
                         $row['image']['action'] = 'error';
-                        $error_msgs .= _('Adding text without image') . "\n";
+                        array_push($error_msgs, _('Adding text without image'));
                         break;
 
                     case '|':
@@ -456,6 +506,7 @@ class Loader
             }
 
             $row['error_msgs'] = $error_msgs;
+            $row['warning_msgs'] = $warning_msgs;
         }
 
     }
@@ -608,7 +659,7 @@ class Loader
         if ( $toi == 'text' )
         {
             $same = (
-                file_get_contents($src_file)
+                load_page_from_file($src_file, $this->projectid)
                 ==
                 $this->db_text_for_base[$base]
             );
@@ -639,6 +690,11 @@ class Loader
     function has_errors()
     {
         return ( $this->n_errors > 0 );
+    }
+
+    function has_warnings()
+    {
+        return ( $this->n_warnings > 0 );
     }
 
     function would_do_nothing()
@@ -725,6 +781,7 @@ class Loader
                 echo "<th rowspan='2'>", _("Base"), "</th>";
                 echo "<th colspan='3'>", _("Text"), "</th>";
                 echo "<th colspan='3'>", _("Image"), "</th>";
+                echo "<th rowspan='2'>", _("Warnings"), "</th>";
                 echo "<th rowspan='2'>", _("Errors"), "</th>";
                 echo "</tr>";
             }
@@ -780,8 +837,10 @@ class Loader
                     echo $action_labels[$action];
                     echo "</td>";
                 }
+                $warning_msgs = nl2br(implode("\n", $row['warning_msgs']));
+                echo "<td>$warning_msgs</td>";
 
-                $error_msgs = $row['error_msgs'];
+                $error_msgs = nl2br(implode("\n", $row['error_msgs']));
                 echo "<td>$error_msgs</td>";
 
                 echo "</tr>\n";
@@ -972,4 +1031,3 @@ function split_filename( $filename )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

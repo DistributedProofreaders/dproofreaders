@@ -14,10 +14,6 @@ img {
     border: 0;
 }
 
-tt {
-    color: #cc0000;
-}
-
 table {
     border-collapse: collapse;
     th {
@@ -260,6 +256,10 @@ div.calloutheader {
 
 .error, .warning {
     .bold;
+}
+
+kbd {
+    font-family: DejaVu Sans Mono, monospace;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -831,20 +831,22 @@ table.dirlist {
         padding-top: 1px;
     }
 
+    .big_text, .picker {
+        font-family: DejaVu Sans Mono;
+        vertical-align: middle;
+        text-align: center;
+        width: 1.1em;
+    }
+
     .big_text {
         font-size: 300%;
-        width: 1.3em;
         margin: 2px;
-        text-align: center;
     }
+
     .picker {
-        margin-top: 1px;
         font-size: 1em;
+        margin-top: 1px;
         padding: 0 1px 0 0;
-        vertical-align: middle;
-        width: 100%;
-        min-width: 1em;
-        max-width: 1.1em;
     }
 
     .invisible {
@@ -1049,6 +1051,59 @@ table.search-column {
 .list-head {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+
+.flex_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fixedbox {
+    flex: 0 0 auto;
+    background-color: #CDC0B0;
+    padding: 2px;
+}
+
+.stretchbox {
+    flex: auto;
+    min-height: 10px;
+    overflow: auto;
+    background-color: HoneyDew;
+}
+
+.ws-pre {
+    white-space: pre;
+    padding-left: 0.5em;
+    text-align: left;
+    font-family: monospace;
+}
+
+.bad-char {
+    background: #ff99cc;
+}
+
+/* ------------------------------------------------------------------------ */
+/* CharSuite Explorer */
+
+.gs-char {
+    font-size: 1.5em;
+}
+
+.gs-codepoint {
+    font-size: 0.7em;
+}
+
+/* ------------------------------------------------------------------------ */
+/* replace text validator */
+
+.replace_check {
+    height: 20em;
+    width: 50em;
+    border: 1px solid black;
 }
 
 /* vim: sw=4 ts=4 expandtab

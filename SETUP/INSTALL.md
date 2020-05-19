@@ -23,6 +23,7 @@ The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
 * GD - php-gd
 * Internationalization - php-intl
+* mbstring - php-mbstring
 * MySQL - php-mysql
 * zip - php-zip
 
@@ -32,10 +33,9 @@ and using InnoDB as the default engine (which are the defaults for that
 version and later). Non-project tables will be created with the default engine
 and InnoDB tables are easier to manage in their own files.
 
-Version 5.5 will also work but consider setting your default engine to MyISAM
-rather than have all of the InnoDB tables created in your system tablespace.
-
-Versions below 5.5, down to 5.1, may work but are untested.
+A minimum version of 5.5 is required to support UTF-8 using the utf8mb4
+encoding, but consider setting your default engine to MyISAM rather than have
+all of the InnoDB tables created in your system tablespace.
 
 MariaDB version 5.5 and later should also work but has not been tested.
 
@@ -52,9 +52,11 @@ In the phpBB code edit:
 change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ### jpgraph
-[jpgraph](http://jpgraph.net) versions 3.5.0b1, 4.0.2, 4.1.0, and 4.2.0 will
-work after applying the included patches (4.0.2 patch will work with 4.1.0
-and 4.2.0). Version 4.2.0 is recommended.
+[jpgraph](http://jpgraph.net) versions 4.0.2, 4.1.0, 4.2.0, and 4.3.0 will
+all work. Version 4.3.0 is recommended.
+
+To enable graph caching, apply `jpgraph-4.0.2.patch` (4.0.2 patch will work
+with all versions above).
 
 ## Distro support
 These middleware components match the following major distribution releases:
@@ -63,6 +65,20 @@ These middleware components match the following major distribution releases:
 * Ubuntu 18.04, Bionic
 * RHEL / CentOS 6.x family (with PHP 7.0 upgrade)
 * RHEL / CentOS 7.x family (with PHP 7.0 upgrade)
+
+## Browser support
+The following are the lowest known supported browser versions for the code:
+* Chrome 50
+* Firefox 50
+* Internet Explorer 11
+  * IE11 does not support `String.prototype.normalize()`, so proofreader inputs
+    are not normalized before being compared against a project's character
+    suites. This could result in a confusing UX if the user added combining
+    characters that would normalize down to a valid character in the project's
+    character suites.
+* Microsoft Edge
+* Opera 40
+* Safari 10
 
 ## Installing from scratch
 This section assumes that you don't have an existing installation of DP.
@@ -121,8 +137,7 @@ If you want to localize the site messages, install gettext and xgettext.
 ### Install jpgraph
 The statistics code depends on jpgraph for graph generation.
 Follow the installation instructions included with jpgraph.
-If using version 4.0.2 or 4.2.0, apply `jpgraph-4.0.2.patch`.
-If using version 3.5.0b1, apply `jpgraph-3.5.0b1.patch`.
+Apply `jpgraph-4.0.2.patch` (will work with all 4.x versions).
 
 The simplest place to install jpgraph is in your document root.
 You will need the location of the jpgraph installation to put into the
@@ -133,12 +148,7 @@ enabled. See jpgraph documentation on how to enable the cache.
 
 ### Install aspell
 The code uses aspell for the spellchecker in the proofreading interface.
-Note that for aspell 0.50 you may have to symlink the .dat files due to
-some filename inconsistencies. For example, iso8859-1.dat should have a
-symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
-
-This is not required for aspell 0.60 or higher.
-You need aspell 0.60 if you want to support UTF-8.
+aspell 0.60 or later is required.
 
 ### Install optional components
 
@@ -194,7 +204,6 @@ installed.
 ### Configure MySQL
 Choose names for various MySQL items:
 * the DP database
-* the DP archive database (to house DP data of finished projects)
 * the DP user (to handle all DP and phpBB queries)
 * the DP user's password
 
@@ -203,7 +212,6 @@ as it confuses the code.
 
 In the examples in this document, we will use the following:
 * `dp_db`
-* `dp_archive`
 * `dp_user`
 * `dp_password`
 
@@ -222,18 +230,12 @@ mysql -h localhost -u root -p
 
 Create the database.
 ```
-CREATE DATABASE dp_db CHARACTER SET LATIN1;
+CREATE DATABASE dp_db CHARACTER SET utf8mb4;
 ```
 
 Create the user. (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
 ```
 GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
-```
-
-Similarly for the archive database (if you want one):
-```
-CREATE DATABASE dp_archive CHARACTER SET LATIN1;
-GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 ```
 
 Exit from the MySQL client.
@@ -407,9 +409,9 @@ wiki authenticate against phpBB for a single source of user credentials.
 ### Define a site administrator
 The code is based on users having particular roles. To manage these,
 a site administrator is needed. Assuming you are administering the
-site and have registered yourself as a new user, sign into mysql (or
-use the phpMyAdmin interface) and add a usersetting entry for the
-username you registered with setting='sitemanager' and value='yes';
+site and have registered yourself as a new user, sign into the `mysql` client
+and add an entry in the `usersettings` table for the username you registered
+with `setting='sitemanager'` and `value='yes'`.
 
 From the mysql command line, this would be:
 ```
@@ -420,6 +422,13 @@ mysql> INSERT INTO usersettings
 ### Consult Site Admin Notes
 The `site_admin_notes.txt` contains information for site admins such as
 configuring rounds, defining queues, etc.
+
+### Manage Character Suites
+You may want to enable additional character suites. See [UNICODE.md](UNICODE.md)
+for more information.
+
+### Set up project archiving (optional)
+If you want to enable project archiving, see [ARCHIVING.md](ARCHIVING.md).
 
 ### Install the modified `dp.cron`
 `dp.cron` contains entries for various processes necessary for site

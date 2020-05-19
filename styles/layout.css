@@ -9,9 +9,6 @@ body {
 img {
   border: 0;
 }
-tt {
-  color: #cc0000;
-}
 table {
   border-collapse: collapse;
 }
@@ -292,6 +289,9 @@ div.calloutheader {
 .error,
 .warning {
   font-weight: bold;
+}
+kbd {
+  font-family: DejaVu Sans Mono, monospace;
 }
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
@@ -808,20 +808,21 @@ table.dirlist caption {
 #toolbox .char_box {
   padding-top: 1px;
 }
+#toolbox .big_text,
+#toolbox .picker {
+  font-family: DejaVu Sans Mono;
+  vertical-align: middle;
+  text-align: center;
+  width: 1.1em;
+}
 #toolbox .big_text {
   font-size: 300%;
-  width: 1.3em;
   margin: 2px;
-  text-align: center;
 }
 #toolbox .picker {
-  margin-top: 1px;
   font-size: 1em;
+  margin-top: 1px;
   padding: 0 1px 0 0;
-  vertical-align: middle;
-  width: 100%;
-  min-width: 1em;
-  max-width: 1.1em;
 }
 #toolbox .invisible {
   visibility: hidden;
@@ -1007,6 +1008,48 @@ table.search-column tr th {
 .list-head {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+.flex_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fixedbox {
+  flex: 0 0 auto;
+  background-color: #CDC0B0;
+  padding: 2px;
+}
+.stretchbox {
+  flex: auto;
+  min-height: 10px;
+  overflow: auto;
+  background-color: HoneyDew;
+}
+.ws-pre {
+  white-space: pre;
+  padding-left: 0.5em;
+  text-align: left;
+  font-family: monospace;
+}
+.bad-char {
+  background: #ff99cc;
+}
+/* ------------------------------------------------------------------------ */
+/* CharSuite Explorer */
+.gs-char {
+  font-size: 1.5em;
+}
+.gs-codepoint {
+  font-size: 0.7em;
+}
+/* ------------------------------------------------------------------------ */
+/* replace text validator */
+.replace_check {
+  height: 20em;
+  width: 50em;
+  border: 1px solid black;
 }
 /* vim: sw=4 ts=4 expandtab
 */

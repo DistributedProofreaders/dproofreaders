@@ -8,12 +8,16 @@ include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'project_events.inc'); // log_project_event
+include_once($relPath.'CharSuites.inc');
 
 class NonexistentProjectException extends Exception { }
 class InvalidProjectIDException extends Exception { }
+class UTF8ConversionException extends Exception { }
 
 class Project
 {
+    use CharSuiteSet;
+
     function __construct( $arg )
     {
         if ( is_string($arg) )
@@ -65,6 +69,8 @@ class Project
 
         switch($name)
         {
+            case "is_utf8":
+                return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
                 return is_dir($this->dir);
             case "pages_table_exists":
@@ -133,6 +139,137 @@ class Project
             $credits_line = "$credits_line ({$this->image_source_credit})";
         }
         return $credits_line;
+    }
+
+    // -------------------------------------------------------------------------
+
+    function convert_to_utf8()
+    {
+        // nothing to do if the project table doesn't exist
+        // this covers archived projects which are moved into a different DB
+        if(!$this->check_pages_table_exists($message))
+        {
+            return false;
+        }
+
+        // and nothing to do if it is already UTF-8
+        if($this->is_utf8)
+        {
+            return false;
+        }
+
+        $sql = "
+            ALTER TABLE $this->projectid CONVERT TO CHARACTER SET utf8mb4;
+        ";
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        if(!$result)
+        {
+            throw new UTF8ConversionException(
+                "Database error converting $this->projectid to utf8mb4"
+            );
+        }
+
+        return true;
+    }
+
+    // -------------------------------------------------------------------------
+
+    static public function projects_using_charsuite($charsuite)
+    {
+        $charsuite = CharSuites::resolve($charsuite);
+
+        $sql = sprintf("
+            SELECT projectid
+            FROM project_charsuites
+            WHERE charsuite_name='%s'
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
+
+        $projectids = [];
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $projectids[] = $row['projectid'];
+        }
+        mysqli_free_result($result);
+        return $projectids;
+    }
+
+    public function set_charsuites($charsuites)
+    {
+        $existing_charsuites = $this->get_charsuites();
+
+        foreach($existing_charsuites as $charsuite)
+        {
+            $this->remove_charsuite($charsuite);
+        }
+
+        foreach($charsuites as $charsuite)
+        {
+            $this->add_charsuite($charsuite);
+        }
+    }
+
+    public function add_charsuite($charsuite)
+    {
+        $charsuite = CharSuites::resolve($charsuite);
+
+        $existing_charsuites = $this->get_charsuites();
+        if(in_array($charsuite, $existing_charsuites))
+        {
+            return;
+        }
+
+        // ensure that the charsuite is enabled, otherwise it can't be added
+        if(!$charsuite->is_enabled())
+        {
+            throw new CharSuiteNotEnabledException(sprintf(
+                _("CharSuite '%s' is not enabled and cannot be added to a project"),
+                $charsuite->title
+            ));
+        }
+
+        $sql = sprintf("
+            INSERT INTO project_charsuites
+            SET projectid='%s', charsuite_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
+    public function remove_charsuite($charsuite)
+    {
+        $charsuite = CharSuites::resolve($charsuite);
+
+        $existing_charsuites = $this->get_charsuites();
+        if(!in_array($charsuite, $existing_charsuites))
+        {
+            return;
+        }
+
+        $sql = sprintf("
+            DELETE FROM project_charsuites
+            WHERE projectid='%s' AND charsuite_name='%s'
+        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
+
+        mysqli_query(DPDatabase::get_connection(), $sql);
+    }
+
+    public function get_charsuites()
+    {
+        $sql = "
+            SELECT charsuite_name
+            FROM project_charsuites
+            WHERE projectid='$this->projectid'
+        ";
+
+        $charsuites = [];
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $charsuites[] = CharSuites::get($row["charsuite_name"]);
+        }
+        mysqli_free_result($result);
+        return $charsuites;
     }
 
     // -------------------------------------------------------------------------
@@ -253,6 +390,7 @@ class Project
     var $CBP_PROJECT_NOT_AVAILABLE        = 2;
     var $CBP_REQUESTOR_NOT_LOGGED_IN      = 3;
     var $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
+    var $CBP_PROJECT_REQUIRES_MAINTENANCE = 5;
 
     function can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
@@ -271,6 +409,15 @@ class Project
             return array(
                 $this->CBP_PROJECT_NOT_IN_ROUND,
                 _('The project is not in a round.')
+            );
+        }
+
+        if (!$this->is_utf8)
+        {
+            // Project has not been converted to UTF-8 yet
+            return array(
+                $this->CBP_PROJECT_REQUIRES_MAINTENANCE,
+                _('The project requires maintenance.') . ' ' . _("Project table is not UTF-8.")
             );
         }
 
@@ -465,6 +612,12 @@ EOS;
             $this->username,
             TRUE,
             $sign_PM_up );
+
+        // if topic_id is NULL, something went wrong when creating the topic
+        if($topic_id === NULL)
+        {
+            return $topic_id;
+        }
 
         // Save $topic_id in db and in $this.
         $update_project = mysqli_query(DPDatabase::get_connection(), "

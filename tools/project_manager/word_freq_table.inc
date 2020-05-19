@@ -3,8 +3,9 @@ include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
+include_once($relPath.'unicode.inc');
 
 // get_cutoff_string
 // Arguments:
@@ -239,7 +240,7 @@ function prep_numeric_keys_for_multisort(&$assocArray) {
 function echo_page_header($title,$projectid) {
     echo "<h1>$title</h1>";
 
-    $project_text = sprintf(_("Project: %s"),get_project_name($projectid));
+    $project_text = sprintf(_("Project: %s"),html_safe(get_project_name($projectid)));
     echo "<h2>$project_text</h2>\n";
 }
 
@@ -342,7 +343,7 @@ function _highlight_word($text,$hlWord) {
 
     // now do the replacements
     foreach($wordOffsets as $offset) {
-        $text=substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,strlen($hlWord));
+        $text=utf8_substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,utf8_strlen($hlWord));
     }
 
     return $text;

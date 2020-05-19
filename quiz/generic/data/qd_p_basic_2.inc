@@ -14,7 +14,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["skirt"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a lower case '<tt>s</tt>' in the text where there is a capital '<tt>S</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': a lower case '<kbd>s</kbd>' in the text where there is a capital '<kbd>S</kbd>' in the image."),
 );
 $messages["para"] = array(
     "message_title" => _("Paragraph spacing"),

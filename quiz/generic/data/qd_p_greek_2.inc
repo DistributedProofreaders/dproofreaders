@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 2);
 $initial_instructions         = $initial_instructions__greek;
-$initial_text                 = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
+$initial_text                 = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaivó,usvoi.";
 $solutions                    = array("quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\n[Greek: pheu tines hydôr\npinousi maniên sôphrona mainomenoi.]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("In focusing your attention on the letters, it's easy not to notice that there are also punctuation marks in the Greek text. Check to be sure that all the punctuation is present in and around your transliterations.") . "</p>";
@@ -14,15 +14,15 @@ $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
 
 $messages["p_ir"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>ir</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>ir</kbd>' in the text where there is the Greek letter <kbd>π</kbd> (pi, transliterated '<kbd>p</kbd>') in the image."),
 );
 $messages["m_u"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>u</tt>' in the text where there is the Greek letter &mu; (mu, transliterated '<tt>m</tt>') in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>u</kbd>' in the text where there is the Greek letter <kbd>μ</kbd> (mu, transliterated '<kbd>m</kbd>') in the image."),
 );
 $messages["missingperiod"] = array(
     "message_title" => _("Missing punctuation"),
-    "message_body" => _("A period (<tt>.</tt>) in the image is missing in your transliteration."),
+    "message_body" => _("A period (<kbd>.</kbd>) in the image is missing in your transliteration."),
 );
 
 
@@ -33,7 +33,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/*", "*/"), 
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("out,\n\n"), "case_sensitive" => TRUE, "error" => "P_poetryblanklines");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\""), "case_sensitive" => TRUE, "error" => "P_addedquotes");
-$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("&#961;", "&#945;", "&#953;", "&#956;", "µ"), "case_sensitive" => TRUE, "error" => "G_unicode");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("ρ", "α", "ι", "µ"), "case_sensitive" => TRUE, "error" => "G_unicode");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("pheu", "tines", "pinousi", "mani", "rona", "main", "enoi"), "case_sensitive" => TRUE, "error" => "G_nochange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("greek"), "case_sensitive" => TRUE, "error" => "G_lcgreek");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Greek:"), "case_sensitive" => TRUE, "error" => "G_nomarkup");

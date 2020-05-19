@@ -52,7 +52,7 @@ $_character_data = array(
 0x007f => array('name' => "delete"                                 , 'cc'=>1),
 
 // latin-1 supplement
-0x0080 => array('name' => "<control>"                              , 'cc'=>1 , 'utf8'=>1),
+0x0080 => array('name' => "<control>"                              , 'cc'=>1),
 0x0081 => array('name' => "<control>"                              , 'cc'=>1),
 0x0082 => array('name' => "break permitted here"                   , 'cc'=>1),
 0x0083 => array('name' => "no break here"                          , 'cc'=>1),
@@ -84,102 +84,102 @@ $_character_data = array(
 0x009d => array('name' => "operating system command"               , 'cc'=>1),
 0x009e => array('name' => "privacy message"                        , 'cc'=>1),
 0x009f => array('name' => "application program command"            , 'cc'=>1),
-0x00a0 => array('name' => "no-break space"                         , 'cc'=>1, 'utf8'=>1 , 'e'=>"nbsp"),
-0x00a1 => array('name' => "inverted exclamation mark"                       , 'utf8'=>1),
-0x00a2 => array('name' => "cent sign"                                       , 'utf8'=>1 , 'e'=>"cent"),
-0x00a3 => array('name' => "pound sign"                                      , 'utf8'=>1 , 'utf8x2'=>1),
-0x00a4 => array('name' => "currency sign"                                   , 'utf8'=>1),
-0x00a5 => array('name' => "yen sign"                                        , 'utf8'=>1),
-0x00a6 => array('name' => "broken bar"                                      , 'utf8'=>1),
-0x00a7 => array('name' => "section sign"                                    , 'utf8'=>1),
-0x00a8 => array('name' => "diaeresis"                                       , 'utf8'=>1),
-0x00a9 => array('name' => "copyright sign"                                  , 'utf8'=>1 , 'utf8x2'=>1),
-0x00aa => array('name' => "feminine ordinal indicator"                      , 'utf8'=>1),
-0x00ab => array('name' => "left-pointing double angle quotation mark"       , 'utf8'=>1 , 'utf8x2'=>1),
-0x00ac => array('name' => "not sign"                                        , 'utf8'=>1),
-0x00ad => array('name' => "soft hyphen"                            , 'cc'=>1, 'utf8'=>1),
-0x00ae => array('name' => "registered sign"                                 , 'utf8'=>1 , 'utf8x2'=>1),
-0x00af => array('name' => "macron"                                          , 'utf8'=>1),
-0x00b0 => array('name' => "degree sign"                                     , 'utf8'=>1 , 'utf8x2'=>1),
-0x00b1 => array('name' => "plus-minus sign"                                 , 'utf8'=>1),
-0x00b2 => array('name' => "superscript two"                                 , 'utf8'=>1),
-0x00b3 => array('name' => "superscript three"                               , 'utf8'=>1),
-0x00b4 => array('name' => "acute accent"                                    , 'utf8'=>1),
-0x00b5 => array('name' => "micro sign"                                      , 'utf8'=>1),
-0x00b6 => array('name' => "pilcrow sign"                                    , 'utf8'=>1),
-0x00b7 => array('name' => "middle dot"                                      , 'utf8'=>1),
-0x00b8 => array('name' => "cedilla"                                         , 'utf8'=>1),
-0x00b9 => array('name' => "superscript one"                                 , 'utf8'=>1),
-0x00ba => array('name' => "masculine ordinal indicator"                     , 'utf8'=>1),
-0x00bb => array('name' => "right-pointing double angle quotation mark"      , 'utf8'=>1 , 'utf8x2'=>1),
-0x00bc => array('name' => "vulgar fraction one quarter"                     , 'utf8'=>1),
-0x00bd => array('name' => "vulgar fraction one half"                        , 'utf8'=>1),
-0x00be => array('name' => "vulgar fraction three quarters"                  , 'utf8'=>1),
-0x00bf => array('name' => "inverted question mark"                          , 'utf8'=>1 , 'e'=>"iquest"),
-0x00c0 => array('name' => "latin capital letter a with grave"               , 'utf8'=>1),
-0x00c1 => array('name' => "latin capital letter a with acute"               , 'utf8'=>1),
-0x00c2 => array('name' => "latin capital letter a with circumflex"          , 'utf8'=>1 , 'utf8x2'=>1),
-0x00c3 => array('name' => "latin capital letter a with tilde"               , 'utf8'=>1),
-0x00c4 => array('name' => "latin capital letter a with diaeresis"           , 'utf8'=>1),
-0x00c5 => array('name' => "latin capital letter a with ring above"          , 'utf8'=>1),
-0x00c6 => array('name' => "latin capital ligature ae"                       , 'utf8'=>1),
-0x00c7 => array('name' => "latin capital letter c with cedilla"             , 'utf8'=>1),
-0x00c8 => array('name' => "latin capital letter e with grave"               , 'utf8'=>1),
-0x00c9 => array('name' => "latin capital letter e with acute"               , 'utf8'=>1),
-0x00ca => array('name' => "latin capital letter e with circumflex"          , 'utf8'=>1),
-0x00cb => array('name' => "latin capital letter e with diaeresis"           , 'utf8'=>1),
-0x00cc => array('name' => "latin capital letter i with grave"               , 'utf8'=>1),
-0x00cd => array('name' => "latin capital letter i with acute"               , 'utf8'=>1),
-0x00ce => array('name' => "latin capital letter i with circumflex"          , 'utf8'=>1),
-0x00cf => array('name' => "latin capital letter i with diaeresis"           , 'utf8'=>1),
-0x00d0 => array('name' => "latin capital letter eth"                        , 'utf8'=>1),
-0x00d1 => array('name' => "latin capital letter n with tilde"               , 'utf8'=>1),
-0x00d2 => array('name' => "latin capital letter o with grave"               , 'utf8'=>1),
-0x00d3 => array('name' => "latin capital letter o with acute"               , 'utf8'=>1),
-0x00d4 => array('name' => "latin capital letter o with circumflex"          , 'utf8'=>1),
-0x00d5 => array('name' => "latin capital letter o with tilde"               , 'utf8'=>1),
-0x00d6 => array('name' => "latin capital letter o with diaeresis"           , 'utf8'=>1),
-0x00d7 => array('name' => "multiplication sign"                             , 'utf8'=>1),
-0x00d8 => array('name' => "latin capital letter o with stroke"              , 'utf8'=>1),
-0x00d9 => array('name' => "latin capital letter u with grave"               , 'utf8'=>1),
-0x00da => array('name' => "latin capital letter u with acute"               , 'utf8'=>1),
-0x00db => array('name' => "latin capital letter u with circumflex"          , 'utf8'=>1),
-0x00dc => array('name' => "latin capital letter u with diaeresis"           , 'utf8'=>1),
-0x00dd => array('name' => "latin capital letter y with acute"               , 'utf8'=>1),
-0x00de => array('name' => "latin capital letter thorn"                      , 'utf8'=>1),
-0x00df => array('name' => "latin small letter sharp s"                      , 'utf8'=>1),
-0x00e0 => array('name' => "latin small letter a with grave"                 , 'utf8'=>1),
-0x00e1 => array('name' => "latin small letter a with acute"                 , 'utf8'=>1),
-0x00e2 => array('name' => "latin small letter a with circumflex"            , 'utf8'=>1),
-0x00e3 => array('name' => "latin small letter a with tilde"                 , 'utf8'=>1),
-0x00e4 => array('name' => "latin small letter a with diaeresis"             , 'utf8'=>1),
-0x00e5 => array('name' => "latin small letter a with ring above"            , 'utf8'=>1),
-0x00e6 => array('name' => "latin small ligature ae"                         , 'utf8'=>1),
-0x00e7 => array('name' => "latin small letter c with cedilla"               , 'utf8'=>1),
-0x00e8 => array('name' => "latin small letter e with grave"                 , 'utf8'=>1),
-0x00e9 => array('name' => "latin small letter e with acute"                 , 'utf8'=>1),
-0x00ea => array('name' => "latin small letter e with circumflex"            , 'utf8'=>1),
-0x00eb => array('name' => "latin small letter e with diaeresis"             , 'utf8'=>1),
-0x00ec => array('name' => "latin small letter i with grave"                 , 'utf8'=>1),
-0x00ed => array('name' => "latin small letter i with acute"                 , 'utf8'=>1),
-0x00ee => array('name' => "latin small letter i with circumflex"            , 'utf8'=>1 , 'e'=>"icirc"),
-0x00ef => array('name' => "latin small letter i with diaeresis"             , 'utf8'=>1),
-0x00f0 => array('name' => "latin small letter eth"                          , 'utf8'=>1),
-0x00f1 => array('name' => "latin small letter n with tilde"                 , 'utf8'=>1),
-0x00f2 => array('name' => "latin small letter o with grave"                 , 'utf8'=>1),
-0x00f3 => array('name' => "latin small letter o with acute"                 , 'utf8'=>1),
-0x00f4 => array('name' => "latin small letter o with circumflex"            , 'utf8'=>1),
-0x00f5 => array('name' => "latin small letter o with tilde"                 , 'utf8'=>1),
-0x00f6 => array('name' => "latin small letter o with diaeresis"             , 'utf8'=>1),
-0x00f7 => array('name' => "division sign"                                   , 'utf8'=>1),
-0x00f8 => array('name' => "latin small letter o with stroke"                , 'utf8'=>1 , 'e'=>"oslash"),
-0x00f9 => array('name' => "latin small letter u with grave"                 , 'utf8'=>1),
-0x00fa => array('name' => "latin small letter u with acute"                 , 'utf8'=>1),
-0x00fb => array('name' => "latin small letter u with circumflex"            , 'utf8'=>1),
-0x00fc => array('name' => "latin small letter u with diaeresis"             , 'utf8'=>1),
-0x00fd => array('name' => "latin small letter y with acute"                 , 'utf8'=>1),
-0x00fe => array('name' => "latin small letter thorn"                        , 'utf8'=>1),
-0x00ff => array('name' => "latin small letter y with diaeresis"             , 'utf8'=>1),
+0x00a0 => array('name' => "no-break space"                         , 'cc'=>1, 'e'=>"nbsp"),
+0x00a1 => array('name' => "inverted exclamation mark"),
+0x00a2 => array('name' => "cent sign"                                       , 'e'=>"cent"),
+0x00a3 => array('name' => "pound sign"                                      , 'utf8x2'=>1),
+0x00a4 => array('name' => "currency sign"),
+0x00a5 => array('name' => "yen sign"),
+0x00a6 => array('name' => "broken bar"),
+0x00a7 => array('name' => "section sign"),
+0x00a8 => array('name' => "diaeresis"),
+0x00a9 => array('name' => "copyright sign"                                  , 'utf8x2'=>1),
+0x00aa => array('name' => "feminine ordinal indicator"),
+0x00ab => array('name' => "left-pointing double angle quotation mark"       , 'utf8x2'=>1),
+0x00ac => array('name' => "not sign"),
+0x00ad => array('name' => "soft hyphen"                            , 'cc'=>1),
+0x00ae => array('name' => "registered sign"                                 , 'utf8x2'=>1),
+0x00af => array('name' => "macron"),
+0x00b0 => array('name' => "degree sign"                                     , 'utf8x2'=>1),
+0x00b1 => array('name' => "plus-minus sign"),
+0x00b2 => array('name' => "superscript two"),
+0x00b3 => array('name' => "superscript three"),
+0x00b4 => array('name' => "acute accent"),
+0x00b5 => array('name' => "micro sign"),
+0x00b6 => array('name' => "pilcrow sign"),
+0x00b7 => array('name' => "middle dot"),
+0x00b8 => array('name' => "cedilla"),
+0x00b9 => array('name' => "superscript one"),
+0x00ba => array('name' => "masculine ordinal indicator"),
+0x00bb => array('name' => "right-pointing double angle quotation mark"      , 'utf8x2'=>1),
+0x00bc => array('name' => "vulgar fraction one quarter"),
+0x00bd => array('name' => "vulgar fraction one half"),
+0x00be => array('name' => "vulgar fraction three quarters"),
+0x00bf => array('name' => "inverted question mark"                          , 'e'=>"iquest"),
+0x00c0 => array('name' => "latin capital letter a with grave"),
+0x00c1 => array('name' => "latin capital letter a with acute"),
+0x00c2 => array('name' => "latin capital letter a with circumflex"          , 'utf8x2'=>1),
+0x00c3 => array('name' => "latin capital letter a with tilde"),
+0x00c4 => array('name' => "latin capital letter a with diaeresis"),
+0x00c5 => array('name' => "latin capital letter a with ring above"),
+0x00c6 => array('name' => "latin capital ligature ae"),
+0x00c7 => array('name' => "latin capital letter c with cedilla"),
+0x00c8 => array('name' => "latin capital letter e with grave"),
+0x00c9 => array('name' => "latin capital letter e with acute"),
+0x00ca => array('name' => "latin capital letter e with circumflex"),
+0x00cb => array('name' => "latin capital letter e with diaeresis"),
+0x00cc => array('name' => "latin capital letter i with grave"),
+0x00cd => array('name' => "latin capital letter i with acute"),
+0x00ce => array('name' => "latin capital letter i with circumflex"),
+0x00cf => array('name' => "latin capital letter i with diaeresis"),
+0x00d0 => array('name' => "latin capital letter eth"),
+0x00d1 => array('name' => "latin capital letter n with tilde"),
+0x00d2 => array('name' => "latin capital letter o with grave"),
+0x00d3 => array('name' => "latin capital letter o with acute"),
+0x00d4 => array('name' => "latin capital letter o with circumflex"),
+0x00d5 => array('name' => "latin capital letter o with tilde"),
+0x00d6 => array('name' => "latin capital letter o with diaeresis"),
+0x00d7 => array('name' => "multiplication sign"),
+0x00d8 => array('name' => "latin capital letter o with stroke"),
+0x00d9 => array('name' => "latin capital letter u with grave"),
+0x00da => array('name' => "latin capital letter u with acute"),
+0x00db => array('name' => "latin capital letter u with circumflex"),
+0x00dc => array('name' => "latin capital letter u with diaeresis"),
+0x00dd => array('name' => "latin capital letter y with acute"),
+0x00de => array('name' => "latin capital letter thorn"),
+0x00df => array('name' => "latin small letter sharp s"),
+0x00e0 => array('name' => "latin small letter a with grave"),
+0x00e1 => array('name' => "latin small letter a with acute"),
+0x00e2 => array('name' => "latin small letter a with circumflex"),
+0x00e3 => array('name' => "latin small letter a with tilde"),
+0x00e4 => array('name' => "latin small letter a with diaeresis"),
+0x00e5 => array('name' => "latin small letter a with ring above"),
+0x00e6 => array('name' => "latin small ligature ae"),
+0x00e7 => array('name' => "latin small letter c with cedilla"),
+0x00e8 => array('name' => "latin small letter e with grave"),
+0x00e9 => array('name' => "latin small letter e with acute"),
+0x00ea => array('name' => "latin small letter e with circumflex"),
+0x00eb => array('name' => "latin small letter e with diaeresis"),
+0x00ec => array('name' => "latin small letter i with grave"),
+0x00ed => array('name' => "latin small letter i with acute"),
+0x00ee => array('name' => "latin small letter i with circumflex"            , 'e'=>"icirc"),
+0x00ef => array('name' => "latin small letter i with diaeresis"),
+0x00f0 => array('name' => "latin small letter eth"),
+0x00f1 => array('name' => "latin small letter n with tilde"),
+0x00f2 => array('name' => "latin small letter o with grave"),
+0x00f3 => array('name' => "latin small letter o with acute"),
+0x00f4 => array('name' => "latin small letter o with circumflex"),
+0x00f5 => array('name' => "latin small letter o with tilde"),
+0x00f6 => array('name' => "latin small letter o with diaeresis"),
+0x00f7 => array('name' => "division sign"),
+0x00f8 => array('name' => "latin small letter o with stroke"                , 'e'=>"oslash"),
+0x00f9 => array('name' => "latin small letter u with grave"),
+0x00fa => array('name' => "latin small letter u with acute"),
+0x00fb => array('name' => "latin small letter u with circumflex"),
+0x00fc => array('name' => "latin small letter u with diaeresis"),
+0x00fd => array('name' => "latin small letter y with acute"),
+0x00fe => array('name' => "latin small letter thorn"),
+0x00ff => array('name' => "latin small letter y with diaeresis"),
 
 
 // latin extended-a
@@ -569,8 +569,8 @@ $_character_data = array(
 0x22bd => array('name' => "nor"),
 
 // geometic shapes
-0x25a0 => array('name' => "black square",                    'utf8'=>1),
-0x25ba => array('name' => "black right-pointing pointer",    'utf8'=>1),
+0x25a0 => array('name' => "black square"),
+0x25ba => array('name' => "black right-pointing pointer"),
 0x25cf => array('name' => "black circle"),
 
 // miscellaneous symbols
@@ -579,7 +579,7 @@ $_character_data = array(
 0x2642 => array('name' => "male sign"),
 0x2649 => array('name' => "taurus"),
 0x264d => array('name' => "virgo"),
-0x2666 => array('name' => "black diamond suit",              'utf8'=>1),
+0x2666 => array('name' => "black diamond suit"),
 
 // dingbats
 0x2720 => array('name' => "maltese cross"),
@@ -628,7 +628,7 @@ $_character_data = array(
 0xfb35 => array('name' => "hebrew letter vav with dagesh"),
 
 // arabic presentation forms-b
-0xfeff => array('name' => "zero width no-break space [bom]", 'utf8'=>1),
+0xfeff => array('name' => "zero width no-break space [bom]"),
 
 // halfwidth and fullwidth forms
 0xff03 => array('name' => "fullwidth number sign"),
@@ -636,7 +636,7 @@ $_character_data = array(
 0xff3d => array('name' => "fullwidth right square bracket"),
 
 // specials
-0xfffd => array('name' => "replacement character",           'utf8'=>1),
+0xfffd => array('name' => "replacement character"),
 );
 
 function define_bad_byte_sequences()
@@ -649,15 +649,6 @@ function define_bad_byte_sequences()
     {
         $char_name = $info['name'];
 
-        // $utf8_encoding = ?;
-        if (@$info['cc'] == 1)
-        {
-            // This character is a control character
-            // (or something similar enough for our purposes).
-            assert( $code_point <= 0xff );
-            _install_bad_sequence( chr($code_point), $code_point, "ISO-8859-1 control character" );
-        }
-
         @$entity_name = $info['e'];
         if ($entity_name)
         {
@@ -665,23 +656,14 @@ function define_bad_byte_sequences()
             _install_bad_sequence( $entity_ref, $code_point, "HTML character entity reference" );
         }
 
+        // multibyte UTF-8 encoding
         @$windows_1252_byte = $info['w'];
         if ($windows_1252_byte)
         {
-            // This character is in the Windows-1252 repertoire
-            // and *not* in the ISO-8859-1 repertoire.
-            _install_bad_sequence( chr($windows_1252_byte), $code_point, "Windows-1252-encoded" );
-        }
-
-        // multibyte UTF-8 encoding:
-        if ($windows_1252_byte || @$info['utf8'] == 1)
-        {
-            $utf8_enc = _utf8_encode_code_point($code_point);
-            _install_bad_sequence( $utf8_enc, $code_point, "UTF8-encoded" );
-
             // double-UTF8-encoding
             if (@$info['utf8x2'] == 1)
             {
+                $utf8_enc = _utf8_encode_code_point($code_point);
                 $double_enc = _utf8_encode_string($utf8_enc);
                 _install_bad_sequence( $double_enc, $code_point, "double-UTF8-encoded" );
 
@@ -780,11 +762,6 @@ function _install_bad_sequence($bytes, $code_point, $why_bad)
         die("$hex ($code_point $why_bad) is not covered by \$_bad_bytes_pattern\n");
     }
 
-    if ($code_point > 0xff)
-    {
-        $why_bad = "not in ISO-8859-1; $why_bad";
-    }
-
     $_bad_byte_sequences[$bytes] = array($code_point, $why_bad);
 }
 
@@ -800,14 +777,6 @@ $_bad_bytes_pattern = '
     \xc3\x82 \xc2[\xa3\xa9\xab\xae\xb0\xbb] # 4-byte double-UTF8-encoding
     |
     \xc3\x83 \xc2\x82 # ditto
-    |
-    [\xE2\xEF][\x80-\xBF]{2}  # 3 bytes that might be a UTF8-encoding
-    |
-    [\xC2-\xCF][\x80-\xBF]    # 2 bytes that might be a UTF8-encoding
-    |
-    [\x00-\x09\x0b\x0c\x0e-\x1F] # C0 control characters minus LF, CR
-    |
-    [\x7F-\xa0\xad] # DEL, C1 control chars, NBSP, SHY
 ';
 
 $_anchored_bad_bytes_regex = "/^($_bad_bytes_pattern)$/x";
@@ -817,11 +786,21 @@ define_bad_byte_sequences();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function find_bad_byte_sequences_in_text($text)
+define("BOM", "\u{feff}");
+
+// note that this can change $text
+function find_bad_byte_sequences_in_text(&$text)
 {
     global $_unanchored_bad_bytes_regex, $_bad_byte_sequences;
 
     $occurrences = array();
+
+    if(utf8_string_has_bom($text))
+    {
+        $occurrences[BOM] = 1;
+        //remove it so not reported again as an invalid character
+        $text = utf8_str_replace(utf8_bom(), '', $text);
+    }
 
     $n_matches = preg_match_all($_unanchored_bad_bytes_regex, $text, $matches);
     if ($n_matches === FALSE)
@@ -898,6 +877,10 @@ function get_remarks_for_bad_byte_sequence($raw)
 {
     global $_bad_byte_sequences, $_character_data;
 
+    if(BOM === $raw)
+    {
+        return array("", "Byte Order Mark");
+    }
     if (startswith($raw, '&#'))
     {
         // This is a numeric character reference.
@@ -914,27 +897,14 @@ function get_remarks_for_bad_byte_sequence($raw)
         }
 
         $why_bad = "HTML numeric character reference";
-
-        if ($code_point > 0xff)
-        {
-            $why_bad = "not in ISO-8859-1; $why_bad";
-        }
     }
     else
     {
         list($code_point, $why_bad) = $_bad_byte_sequences[$raw];
     }
 
-    @$info = $_character_data[$code_point];
-    if ($info)
-    {
-        $char_name = $info['name'];
-    }
-    else
-    {
-        // $_character_data doesn't have an entry for that code point
-        $char_name = '???';
-    }
+    $char_name = $_character_data[$code_point]['name'] ?? '???';
+
     $intended_character = sprintf("U+%04x %s", $code_point, $char_name);
 
     return array($intended_character, $why_bad);

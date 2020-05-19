@@ -14,7 +14,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["periodomit"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a period (<kbd>.</kbd>) was omitted by the OCR software."),
 );
 $messages["extraquote"] = array(
     "message_title" => _("Quote marks on each line"),

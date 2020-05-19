@@ -82,9 +82,9 @@ slim_header_frameset($nameofwork." - "._("Proofreading Interface"), $header_args
 
 $frameGet="?" . $_SERVER['QUERY_STRING'];
 ?>
-<frameset id="proof_frames" rows="*,73">
+<frameset id="proof_frames" rows="*,85">
 <frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
-<frame name="menuframe" src="ctrl_frame.php?round_id=<?php echo $round->id; ?>&projectid=<?php echo $projectid; ?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="ctrl_frame.php?projectid=<?php echo $projectid; ?>&amp;round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>

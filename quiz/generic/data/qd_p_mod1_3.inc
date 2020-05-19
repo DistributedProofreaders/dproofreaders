@@ -11,30 +11,30 @@ $solutions                    = array(
                                     "pedagogue, of Birmingham manufacture, viz.,\nDr. Parr, had amassed a considerable quantity of\ngold plate. But growing every day more afraid\nof being murdered, which he knew that he could\nnot stand, he transferred the whole to the blacksmith;\nconceiving, no doubt, that the murder of\na blacksmith would fall more lightly on the\nsalus reipublicæ, than that of a pedagogue. But I\nhave heard this greatly disputed; and it seems\nnow generally agreed, that one good horse-shoe\nis worth about 2-1/4 Spital sermons.",
                                 );
 $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
-                                    "<p>" . _("During proofreading we write out fractions as <tt>1/4</tt> rather than <tt>&frac14;</tt> because not all fractions are available as single symbols. Other fractions such as 2/7 may also appear in the text and it would be inconsistent to mix the two notations.") . "</p>";
+                                    "<p>" . _("During proofreading we write out fractions as <kbd>1/4</kbd> rather than <kbd>¼</kbd> because not all fractions are available as single symbols. Other fractions such as 2/7 may also appear in the text and it would be inconsistent to mix the two notations.") . "</p>";
 
 // error messages
 
 $messages["periodmissing"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno' in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a 'scanno' in the text: a period (<kbd>.</kbd>) was omitted by the OCR software."),
 );
 $messages["fracscanno"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': a percent sign (<tt>%</tt>) in the text where there is a fraction in the image."),
+    "message_body" => _("There is still a 'scanno': a percent sign (<kbd>%</kbd>) in the text where there is a fraction in the image."),
 );
 $messages["ae"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the \"A\" menu below."),
+    "message_body" => _("There is still a 'scanno': '<kbd>ae</kbd>' in the text where there is an '<kbd>æ</kbd>' ('ae' ligature) in the image.  You can insert the <kbd>æ</kbd> character using the character picker below."),
 );
 $messages["fracsymbol"] = array(
     "message_title" => _("Fraction"),
-    "message_body" => _("Write out fractions when proofreading.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>."),
+    "message_body" => _("Write out fractions when proofreading.  For instance, <kbd>2½</kbd> becomes <kbd>2-1/2</kbd>."),
     "guideline" => "fract_s",
 );
 $messages["frachyphen"] = array(
     "message_title" => _("Fraction"),
-    "message_body" => _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>."),
+    "message_body" => _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <kbd>2½</kbd> becomes <kbd>2-1/2</kbd>."),
     "guideline" => "fract_s",
 );
 $messages["eolhyphen2"] = array(
@@ -43,7 +43,7 @@ $messages["eolhyphen2"] = array(
 );
 $messages["italmarkup"] = array(
     "message_title" => _("Italics markup moved"),
-    "message_body" => _("Italicized text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and <tt>&lt;/i&gt;</tt> inserted at the end of the italics. Do not change this formatting markup, even if it is incorrect, unless it is so distracting that you find it hard to proofread.  In that case, remove it completely.  The formatters will fix or add markup later in the process."),
+    "message_body" => _("Italicized text may occasionally appear with <kbd>&lt;i&gt;</kbd> inserted at the start and <kbd>&lt;/i&gt;</kbd> inserted at the end of the italics. Do not change this formatting markup, even if it is incorrect, unless it is so distracting that you find it hard to proofread.  In that case, remove it completely.  The formatters will fix or add markup later in the process."),
     "guideline" => "formatting",
 ); 
 

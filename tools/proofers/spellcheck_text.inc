@@ -3,6 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'misc.inc');  // attr_safe(), javascript_safe()
+include_once($relPath.'unicode.inc');
 
 // Arguments:
 //   orig_text - original text to run through dictionary
@@ -60,7 +61,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                    "</style>";
     $returnString.="<pre>\n";
 
-    $puncArray = str_split($puncCharacters);
+    $puncArray = utf8_split($puncCharacters);
 
     // initialize the wordCount and the numBadWords
     $numBadWords = 0;
@@ -84,12 +85,12 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         $lineIndex = $indexArray = array();
 
         // find the index for each punctuation
-        for($lineIndex = 0; $lineIndex<strlen($origLine); $lineIndex++) {
-            $character = $origLine[$lineIndex];
+        for($lineIndex = 0; $lineIndex<utf8_strlen($origLine); $lineIndex++) {
+            $character = utf8_access($origLine, $lineIndex);
             if(in_array($character,$puncArray)) {
                 // check to see if we're dealing with an escaped HTML char
                 // (aka: &amp; &lt; &gt) and if so, skip it
-                if($character==';' && preg_match("/&\w+;$|&#\d+;$/",substr($origLine,0,$lineIndex+1))) {
+                if($character==';' && preg_match("/&\w+;$|&#\d+;$/",utf8_substr($origLine,0,$lineIndex+1))) {
                    continue;
                 }
                 $indexArray[$lineIndex] = $character;
@@ -100,7 +101,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         foreach ( get_all_words_in_text($origLine,TRUE) as $lineIndex => $word ) {
             if($word != "" && (in_array($word,$badWords) || in_array($word,$accepted_words))) {
                 // erase any punctuation-markers covered by this word
-                for( $li = $lineIndex; $li < $lineIndex + strlen($word); $li++ )
+                for( $li = $lineIndex; $li < $lineIndex + utf8_strlen($word); $li++ )
                 {
                     unset($indexArray[$li]);
                 }
@@ -114,14 +115,14 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         foreach($indexArray as $lineIndex => $word) {
             if($word == "") continue;
 
-            $wordLen = strlen($word);
+            $wordLen = utf8_strlen($word);
 
             // see if we are punctuation
             if(in_array($word,$puncArray)) {
-                $newLine=substr_replace($newLine,_wrapPunc($word),$lineIndex,$wordLen);
+                $newLine=utf8_substr_replace($newLine,_wrapPunc($word),$lineIndex,$wordLen);
             } elseif(in_array($word,$accepted_words)) {
                 // see if we're an AW word
-                $newLine=substr_replace($newLine,_wrapAW($word),$lineIndex,$wordLen);
+                $newLine=utf8_substr_replace($newLine,_wrapAW($word),$lineIndex,$wordLen);
             } else {
                 // not punctuation, handle word
 
@@ -163,7 +164,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                         "</span>";
                 }
 
-                $newLine = substr_replace($newLine,$replaceString,$lineIndex,strlen($word));
+                $newLine = utf8_substr_replace($newLine,$replaceString,$lineIndex,utf8_strlen($word));
             }
         }
 
@@ -185,146 +186,6 @@ function _wrapPunc($word) {
 // adds HTML code to an accepted word to highlight it
 function _wrapAW($word) {
     return "<span class='aw'>$word</span>";
-}
-
-function spellcheck_get_js()
-{
-    global $charset;
-
-    $disable_aw_label = \
-        javascript_safe(_("Word has been edited; unable to Suggest"), $charset);
-    $enable_aw_label = \
-        javascript_safe(_("Unflag All & Suggest Word"), $charset);
-    $confirm_exit_string = \
-        javascript_safe(_("Changes have been made. OK to quit without saving?"), $charset);
-    $page_changed_error = \
-        javascript_safe(_("Cannot save page from WordCheck. Words have been modified."), $charset);;
-
-    return <<<SPELLCHECK_JS
-    // function to accept specified words in the spellcheck
-    // it works by finding (span) elements with IDs in the format
-    // word_# and when found sets the content of the span
-    // to be just the word thereby removing the select and button
-    function acceptWord(wordIDprefix,wordNumber) {
-        var wordID=wordIDprefix + "_" + wordNumber;
-
-        // Get the original word
-        var input = document.getElementById("input_" + wordID);
-
-        // Double-check that the value hadn't changed
-        if(input && input.value != input.defaultValue) {
-            // what? it has? disable that button & bail!
-            disableAW(wordID);
-            return false;
-        }
-        // get the original word value
-        var wordOrig = input.value;
-
-        // loop through all bad words
-        var totalNumWords = document.getElementById("sptotal").value;
-        for(wordIndex=1; wordIndex<=totalNumWords; wordIndex++) {
-            // find occurrences of the word
-            var wordOccurID = wordIDprefix + "_" + wordIndex;
-
-            // check to see if this instance has been edited already
-            // by comparing the before and after words
-            var input = document.getElementById("input_" + wordOccurID);
-            if(input && input.value == input.defaultValue) {
-                // get the span
-                var wordSpan = document.getElementById(wordOccurID);
-                // set contents to be the word itself
-                wordSpan.innerHTML=wordOrig;
-                wordSpan.className="aw";
-            }
-        }
-
-        // save the word in the accepted_words list
-        var acceptedWordsInput = document.getElementById("accepted_words");
-        if(acceptedWordsInput.value == "") {
-            acceptedWordsInput.value = wordOrig;
-        } else {
-            acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
-        }
-
-        return false;
-    }
-    
-    function isWordChanged(wordID) {
-        var input = document.getElementById("input_" + wordID);
-        return !(input && (input.value == input.defaultValue));
-    }
-
-    function evaluateWordChange(wordID) {
-        if (isWordChanged(wordID))
-            markPageChanged();
-    }
-
-    // store wordID for char pickers to use
-    function markBox(wordID) {
-        top.txtBoxID = wordID;
-    }
-
-    // Disable a bad word's Unflag button
-    function disableAW(wordID) {
-        var a = document.getElementById("a_" + wordID);
-
-        // If the value of the input field hasn't changed, don't disable
-        if (!isWordChanged(wordID)) {
-           // if the current and original values are the same
-           // and the button has been disabled, re-enable it
-           if(a && !a.href) { enableAW(wordID); }
-           return false;
-        }
-
-        // If we're here, we should be disabling the button
-        var button = document.getElementById("button_" + wordID);
-        if(button && a && a.href) {
-            button.src = "../../graphics/Book-Plus-Small-Disabled.gif";
-            button.title = "$disable_aw_label";
-            a.removeAttribute('href');
-        }
-
-        markPageChanged();
-
-        return false;
-    }
-
-    // Enable an already-disabled button
-    function enableAW(wordID) {
-        var button = document.getElementById("button_" + wordID);
-        var a = document.getElementById("a_" + wordID);
-        if(button && a) {
-            button.src = "../../graphics/Book-Plus-Small.gif";
-            button.title = "$enable_aw_label";
-            a.href="#";
-        }
-        return false;
-    }
-
-    // Confirm exit if changes have been made
-    function confirmExit() {
-        // see if changes have been made
-        var changesMade = document.getElementById("is_changed").value;
-        if(changesMade==1) {
-            return confirm("$confirm_exit_string");
-        }
-
-        // return true (ie: confirm exit) if no changes were made
-        return true;
-    }
-
-    // function to mark the page as changed
-    function markPageChanged() {
-        // mark the page as having been changed
-        document.getElementById("is_changed").value=1;
-
-        // Disable the save as done and proof next button.
-        spsaveandnext = document.getElementById("spsaveandnext");
-        spsaveandnext.title    = "$page_changed_error";
-        spsaveandnext.disabled = true;
-        return false;
-    }
-SPELLCHECK_JS;
 }
 
 // --------------------------------------------
@@ -392,16 +253,16 @@ function spellcheck_apply_corrections() {
                 $correct_word = rtrim($_POST['sp'.$i]);
 
                 // pull the original word
-                $orig_word = substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);
+                $orig_word = utf8_substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);
 
                 if($orig_word!=$correct_word)
                     $corrections[]=array($orig_word,$correct_word);
 
                 // replace word in string
                 $text_array[$orig_line_i] =
-                    substr($text_array[$orig_line_i],0,$orig_word_offset) .
+                    utf8_substr($text_array[$orig_line_i],0,$orig_word_offset) .
                     $correct_word .
-                    substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
+                    utf8_substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
             }
         }
         $correct_text = implode("\r\n",$text_array);

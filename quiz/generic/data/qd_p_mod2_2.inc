@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc'); // $utf8_site
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
@@ -8,26 +7,26 @@ $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "its terrestrial excursions. Just above\nthe gills, lie climbing perch has\ninvented a wholly original water chamber\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen\n--or O2 to scientists--from\nthe stored-up water\nduring the course of its aerial peregrinations\n. While on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of us own,\nand does not despise fruits and berries";
 $solutions                    = array("its terrestrial excursions. Just above\nthe gills, the climbing perch has\ninvented a wholly original water chamber,\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen--or\nO_{2} to scientists--from\nthe stored-up water\nduring the course of its aërial peregrinations.\nWhile on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of its own,\nand does not despise fruits and berries.");
 $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
-                                    "<p>" . _("The texts that we proofread sometimes have different spellings than what we use today, including accents in words like <tt>co&ouml;perate</tt> and <tt>pre&euml;minent</tt>. OCR programs often miss the accents, so be sure to check the image carefully when proofreading.") . "</p>";
+                                    "<p>" . _("The texts that we proofread sometimes have different spellings than what we use today, including accents in words like <kbd>coöperate</kbd> and <kbd>preëminent</kbd>. OCR programs often miss the accents, so be sure to check the image carefully when proofreading.") . "</p>";
 
 
 // error messages
 
 $messages["lie"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: '<tt>li</tt>' in the text where there is '<tt>th</tt>' in the image."),
+    "message_body" => _("There is still a scanno: '<kbd>li</kbd>' in the text where there is '<kbd>th</kbd>' in the image."),
 );
 $messages["us"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a '<tt>u</tt>' in the text where there is '<tt>it</tt>' in the image."),
+    "message_body" => _("There is still a scanno: a '<kbd>u</kbd>' in the text where there is '<kbd>it</kbd>' in the image."),
 );
 $messages["periodomit"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a period (<kbd>.</kbd>) was omitted by the OCR software."),
 );
 $messages["lbpunct"] = array(
     "message_title" => _("Punctuation placement"),
-    "message_body" => _("There is a period (<tt>.</tt>) at the start of a line in the text.  Please move it so that it is at the end of the preceding word, without any spaces or line breaks between the word and the period."),
+    "message_body" => _("There is a period (<kbd>.</kbd>) at the start of a line in the text.  Please move it so that it is at the end of the preceding word, without any spaces or line breaks between the word and the period."),
 );
 $messages["indent"] = array(
     "message_title" => _("Indentation"),
@@ -35,11 +34,11 @@ $messages["indent"] = array(
 );
 $messages["commaomit"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: a comma (<tt>,</tt>) was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: a comma (<kbd>,</kbd>) was omitted by the OCR software."),
 );
 $messages["accente"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software."),
+    "message_body" => _("There is still a scanno in the text: an accent over an '<kbd>e</kbd>' was omitted by the OCR software."),
 );
 
 
@@ -67,12 +66,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("chamber\n"),
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("_"), "case_sensitive" => TRUE, "error" => "P_subnomark");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("_2"), "case_sensitive" => TRUE, "error" => "P_subnobraces");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("aer"), "case_sensitive" => TRUE, "error" => "accente");
-if(!$utf8_site) {
-    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[:e]"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
-}
-else {
-    $tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
-}
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Illustration"), "case_sensitive" => FALSE, "error" => "P_illmarkup");
 

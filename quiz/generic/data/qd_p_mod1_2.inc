@@ -15,7 +15,7 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["wore"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a 'scanno': an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image."),
+    "message_body" => _("There is still a 'scanno': an '<kbd>o</kbd>' in the text where there is an '<kbd>e</kbd>' in the image."),
 );
 $messages["asterspace"] = array(
     "message_title" => _("Punctuation spacing"),

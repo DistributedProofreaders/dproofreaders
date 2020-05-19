@@ -3,6 +3,8 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'user_project_info.inc');
+include_once($relPath.'Project.inc');
+include_once($relPath.'unicode.inc');
 
 // This file brings together code that accesses the projectID* tables.
 
@@ -106,7 +108,7 @@ function project_add_page(
     $user,
     $now )
 {
-    $txt_expr = file_content_expr( $txt_file_path );
+    $txt_expr = file_content_expr( $txt_file_path, $projectid );
 
     $round = get_Round_for_round_number(1);
     $page_state = $round->page_avail_state;
@@ -150,18 +152,44 @@ function project_add_page(
     return $errs;
 }
 
-function file_content_expr( $file_path )
+function load_page_from_file( $file_path, $projectid )
+// Load a page from a file. This function should always be used to load
+// page contents from a file to ensure consistency.
+{
+    $text = file_get_contents( $file_path );
+    if( $text === FALSE)
+    {
+        return NULL;
+    }
+
+    // If not UTF-8, attempt to detect and convert it
+    if(!is_utf8($text))
+    {
+        $encoding = guess_string_encoding($text);
+        if($encoding === FALSE)
+        {
+            $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1");
+        }
+        elseif($encoding != 'UTF-8')
+        {
+            $text = mb_convert_encoding($text, "UTF-8", $encoding);
+        }
+    }
+
+    return _normalize_page_text($text, $projectid);
+}
+
+function file_content_expr( $file_path, $projectid )
 // Return an SQL expression that will yield:
 // -- the contents of the given file as a string
 // -- or NULL if the file can't be read.
 // $file_path must be absolute.
 {
-        $txt = file_get_contents( $file_path );
-        if ( $txt === FALSE )
+        $txt = load_page_from_file( $file_path, $projectid );
+        if ( $txt === NULL )
         {
             return 'NULL';
         }
-        $txt = _normalize_page_text($txt);
         return sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $txt));
 }
 
@@ -204,7 +232,7 @@ function Page_replaceImage( $projectid, $image, $new_image, $user )
 
 function Page_replaceText( $projectid, $image, $text_file_path, $user )
 {
-    $text_file_content_expr = file_content_expr( $text_file_path );
+    $text_file_content_expr = file_content_expr( $text_file_path, $projectid );
     _Page_UPDATE( $projectid, $image, "
         master_text=$text_file_content_expr
     ");
@@ -216,7 +244,7 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
 
 function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         $text_column='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
@@ -261,7 +289,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_temp_state}',
         {$round->time_column_name}=$timestamp,
@@ -286,7 +314,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
-    $page_text = _normalize_page_text($page_text);
+    $page_text = _normalize_page_text($page_text, $projectid);
     _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_save_state}',
         {$round->time_column_name}=$timestamp,
@@ -516,13 +544,89 @@ function _Page_UPDATE( $projectid, $image, $settings )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _normalize_page_text( $page_text )
-// Normalize a page-text before we store it in the db,
-// mainly so that inconsequential/inadvertent/invisible
-// changes to a page don't show up as differences.
+function get_utf8_to_ascii_codepoints()
+// Return a list of UTF-8 codepoints we want to replace with some ASCII
+// equivalence.
 {
+    return [
+        '-' => [
+            'U+2011', # non-breaking hyphen
+            'U+2013', # en-dash
+        ],
+        '--' => [
+            'U+2014', # em-dash
+        ],
+        '"' => [
+            'U+201C', # open curly double quote
+            'U+201D', # closing curly double quote
+        ],
+        "'" => [
+            'U+2018', # open curly single quote
+            'U+2019', # closing curly single quote
+        ],
+        "..." => [
+            'U+2026', # ellipsis
+        ],
+        " " => [
+            'U+0009', # tab
+            'U+00A0', # no-break space
+            'U+1680', # ogham space mark
+            'U+2000', # en quad
+            'U+2001', # em quad
+            'U+2002', # en space
+            'U+2003', # em space
+            'U+2004', # three-per-em space
+            'U+2005', # four-per-em space
+            'U+2006', # six-per-em space
+            'U+2007', # figure space
+            'U+2008', # punctuation space
+            'U+2009', # thin space
+            'U+20A0', # hair space
+            'U+202F', # narrow no-break space
+            'U+205F', # medium mathematical space
+            'U+3000', # ideographic space
+        ],
+        "\n" => [
+            'U+000B', # vertical tab
+            'U+000C', # form feed
+            'U+0085', # next line
+            'U+2028', # line separator
+            'U+2029', # paragraph separator
+        ],
+    ];
+}
+
+function _normalize_page_text( $page_text, $projectid )
+// Normalize a page-text before we store it in the db. This does several
+// transformations to ensure we have a UTF-8 string with codepoints
+// allowed for the project. This function assumes that $page_text is
+// valid UTF-8.
+// When updating this function, also update get_normalize_page_text_changes()
+// used to report page text changes to users elsewhere.
+{
+    // Filter characters to just the Latin-1 set
+    $project = new Project($projectid);
+
+    // Remove BOM if it exists
+    if(utf8_string_has_bom($page_text))
+    {
+        $page_text = utf8_str_replace(utf8_bom(), '', $page_text);
+    }
+
+    # normalize UTF-8 string
+    $page_text = utf8_normalize($page_text);
+
+    # replace some Unicode characters with ASCII-equivalents
+    foreach(get_utf8_to_ascii_codepoints() as $ascii_replace => $codepoints)
+    {
+        $page_text = utf8_filter_out_codepoints($page_text, $codepoints, $ascii_replace);
+    }
+
+    # filter to desired codepoints
+    $page_text = utf8_filter_to_codepoints($page_text, $project->get_valid_codepoints());
+
     // 1. Eliminate blank lines at the end of the text.
-    $result = rtrim($page_text);
+    $page_text = rtrim($page_text);
 
     // 2. Ensure all line-ends are CR-LF.
     // 3. Eliminate whitespace at the end of each line.
@@ -530,23 +634,145 @@ function _normalize_page_text( $page_text )
     $patterns = array();
     $repls = array();
 
-        // For each CR that isn't immediately followed by a LF,
-        // change it to a CRLF. (Convert Max line-ends to DOS.)
-        $patterns[] = '/\r(?!\n)/';
-        $repls[]    = "\r\n";
+    // For each CR that isn't immediately followed by a LF,
+    // change it to a CRLF. (Convert Max line-ends to DOS.)
+    $patterns[] = '/\r(?!\n)/';
+    $repls[]    = "\r\n";
 
-        // For each LF that isn't immediately preceded by a CR,
-        // change it to a CRLF. (Convert Unix line-ends to DOS.)
-        $patterns[] = '/(?<!\r)\n/';
-        $repls[]    = "\r\n";
+    // For each LF that isn't immediately preceded by a CR,
+    // change it to a CRLF. (Convert Unix line-ends to DOS.)
+    $patterns[] = '/(?<!\r)\n/';
+    $repls[]    = "\r\n";
 
-        // Remove any blanks/tabs at the end of each line
-        $patterns[] = '/[ \t]+\r\n/';
-        $repls[]    = "\r\n";
+    // Remove any blanks/tabs at the end of each line
+    $patterns[] = '/[ \t]+\r\n/';
+    $repls[]    = "\r\n";
 
-    $result = preg_replace( $patterns, $repls, $result );
+    return preg_replace( $patterns, $repls, $page_text );
+}
 
-    return $result;
+function get_normalize_page_text_changes($text, $projectid)
+// Return a list of "notable" changes that a page text will undergo for
+// user consumption. This should be updated when _normalize_page_text()
+// is updated.
+{
+    $project = new Project($projectid);
+
+    $changes = [];
+
+    // Remove BOM if it exists
+    if(utf8_string_has_bom($text))
+    {
+        $text = utf8_str_replace(utf8_bom(), '', $text);
+    }
+
+    # normalize UTF-8 string
+    $text = utf8_normalize($text);
+
+    $invalid_chars = get_invalid_characters($text, $project->get_valid_codepoints());
+    if($invalid_chars)
+    {
+        $whitespace_codepoints = array_get(get_utf8_to_ascii_codepoints(), " ", []);
+        $unicode_whitespace_chars = array_map('utf8_chr', $whitespace_codepoints);
+        $found_whitespace_chars = array_intersect(array_keys($invalid_chars), $unicode_whitespace_chars);
+        if($found_whitespace_chars)
+        {
+            $whitespace_char_names = [];
+            foreach($found_whitespace_chars as $char)
+            {
+                $name = IntlChar::charName($char);
+                if(!$name)
+                    $name = IntlChar::charName($char, IntlChar::UNICODE_10_CHAR_NAME);
+                $whitespace_char_names[] = $name;
+                unset($invalid_chars[$char]);
+            }
+            $whitespace_char_string = implode(", ", $whitespace_char_names);
+            $changes[] = sprintf(_("Whitespace characters will be converted to a space: <span class='mono'>%s</span>"), $whitespace_char_string);
+        }
+    }
+
+    if($invalid_chars)
+    {
+        foreach(get_utf8_to_ascii_codepoints() as $ascii_replace => $codepoints)
+        {
+            # space are handled above, so skip them here
+            if($ascii_replace == " ")
+                continue;
+
+            $found_chars = [];
+            foreach($codepoints as $codepoint)
+            {
+                $char = utf8_chr($codepoint);
+                if(isset($invalid_chars[$char]))
+                {
+                    $found_chars[] = $char;
+                    unset($invalid_chars[$char]);
+                }
+            }
+            if($found_chars)
+            {
+                $char_string = implode($found_chars);
+                $changes[] = sprintf(_("<span class='mono'>%1\$s</span> will be converted to <span class='mono'>%2\$s</span>"), $char_string, $ascii_replace);
+            }
+        }
+    }
+
+    if($invalid_chars)
+    {
+        $invalid_char_names = [];
+        foreach(array_keys($invalid_chars) as $char)
+        {
+            // in case its a combined character
+            $codepoints = utf8_split($char);
+            $base_codepoint = $codepoints[0];
+            // if not defined or is a control character or soft hyphen
+            if(!IntlChar::isdefined($base_codepoint) || IntlChar::iscntrl($base_codepoint) || ($base_codepoint === "\x{ad}"))
+            {
+                // put U+xxxx instead of utf8 string
+                $invalid_char_names[] = utf8_chr_to_hex($base_codepoint);
+            }
+            else
+            {
+                // combined characters will get here unless first component is caught above
+                $title = utf8_character_name($char);
+                $invalid_char_names[] = "<span title='$title'>$char</span>";
+            }
+        }
+        $invalid_char_string = implode(", ", $invalid_char_names);
+        $changes[] = sprintf(_("Invalid characters will be removed: <span class='mono'>%s</span>"), $invalid_char_string);
+    }
+
+    return $changes;
+}
+
+function get_load_page_from_file_changes($filename, $projectid)
+// Return a list of text page changes should $filename be loaded into a project.
+// This should be updated if load_page_from_file() is updated.
+{
+    $changes = [];
+
+    $text = file_get_contents($filename);
+    if( $text === FALSE)
+    {
+        return $changes;
+    }
+
+    if(!is_utf8($text))
+    {
+        $encoding = guess_string_encoding($text);
+        if($encoding === FALSE)
+        {
+            $changes[] = _("Unable to determine file encoding, will convert from ISO-8859-1");
+            $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1");
+        }
+        elseif($encoding != 'UTF-8')
+        {
+            $changes[] = sprintf(_("Non-UTF-8 file; will convert from %s"), $encoding);
+            $text = mb_convert_encoding($text, "UTF-8", $encoding);
+        }
+    }
+
+    return array_merge($changes, get_normalize_page_text_changes($text, $projectid));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

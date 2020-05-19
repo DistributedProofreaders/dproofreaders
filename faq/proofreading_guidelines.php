@@ -299,30 +299,23 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="double_q">Double Quotes</a></h3>
-<p>Proofread &ldquo;double quotes&rdquo; as plain ASCII <tt>"</tt> double quotes. Do not change
+<p>Proofread &ldquo;double quotes&rdquo; as plain ASCII <kbd>"</kbd> double quotes. Do not change
    double quotes to single quotes. Leave them as the author wrote them.
    See <a href="#chap_head">Chapter Headings</a> if a double quote is missing at the start of a chapter.
 </p>
-<p>For quotation marks other than <tt>"</tt>, use the same marks that
+<p>For quotation marks other than <kbd>"</kbd>, use the same marks that
    appear in the image if they are available. The
-   French equivalent, guillemets&nbsp; <tt>&laquo;like this&raquo;</tt>, are available
+   French equivalent, guillemets&nbsp; <kbd>&laquo;like this&raquo;</kbd>, are available
    from the pulldown menus in the proofreading interface, since they are part of
    Latin-1. Remember to remove space between the quotation marks and the quoted text;
    if needed, it will be added in post-processing. The same applies to languages
-   which use reversed guillemets,&nbsp; <tt>&raquo;like this&laquo;</tt>.
+   which use reversed guillemets,&nbsp; <kbd>&raquo;like this&laquo;</kbd>.
 </p>
-<p>The quotation marks used in some texts (in German or other languages)&nbsp; <tt>&bdquo;like this&ldquo;</tt>&nbsp;
-<?php if(!$utf8_site) { ?>
-   are not available in the pulldown menus, as they are not in Latin-1. They are often
-   converted into guillemets&nbsp; <tt>&raquo;like this&laquo;</tt>&nbsp; (or&nbsp; <tt>&laquo;like this&raquo;</tt>&nbsp; for languages
-   that use the quotes&nbsp; <tt>&ldquo;this way&bdquo;</tt>), but be sure to check the <a href="#comments">Project Comments</a>
-   in case the Project Manager has given different instructions.
-<?php } else { ?>
+<p>The quotation marks used in some texts (in German or other languages)&nbsp; <kbd>&bdquo;like this&ldquo;</kbd>&nbsp;
    are also available in the pulldown menus; for the sake of simplicity, you should always
-   use&nbsp; <tt>&bdquo;</tt>&nbsp; and&nbsp; <tt>&ldquo;</tt>&nbsp; regardless of the actual quotes used in the original
+   use&nbsp; <kbd>&bdquo;</kbd>&nbsp; and&nbsp; <kbd>&ldquo;</kbd>&nbsp; regardless of the actual quotes used in the original
    text, as long as the quotes used in the original text are clearly lower and upper. If needed,
    the quotes will be changed to ones used in the text in post-processing.
-<?php } ?>
 </p>
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
    to proofread non-English language quotation marks differently for a particular book.
@@ -333,7 +326,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="single_q">Single Quotes</a></h3>
-<p>Proofread these as the plain ASCII <tt>'</tt> single quote (apostrophe). Do not
+<p>Proofread these as the plain ASCII <kbd>'</kbd> single quote (apostrophe). Do not
    change single quotes to double quotes. Leave them as the author wrote them.
 </p>
 <!-- END RR -->
@@ -385,7 +378,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr valign="top">
       <td>
-        <tt>
+        <kbd>
         Clearly he wasn't an academic with a preface like this<br>
         one. "I do not give the name of the play, act or scene,<br>
         in head or foot lines, in my numerous quotations from<br>
@@ -398,7 +391,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
         present and future generations to give rare and rich<br>
         food for thought, and cannot undertake to furnish the<br>
         reader brains with each book!"
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -436,7 +429,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
+      <td valign="top"><kbd>and so it goes; ever and ever.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -449,7 +442,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
    However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
    removed when they separate the symbol from the word.
 </p>
-<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
+<p>For example, in <kbd>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</kbd> the space between
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
 </p>
@@ -515,107 +508,107 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
+      <td valign="top"><kbd>semi-detached</kbd></td>
       <td>Hyphen</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td valign="top"><kbd>three- and four-part harmony</kbd></td>
       <td>Hyphens</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
+      <td valign="top"><kbd>discoveries which the Crusaders<br>
+        made and brought home with</kbd></td>
       <td>Hyphen</td>
     </tr>
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt></td>
+      <td valign="top"><kbd>factors which mold character--environment,<br>
+        training and heritage,</kbd></td>
       <td>Hyphen &amp; Em-dash</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td valign="top"><kbd>See pages 21-25</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">It was &ndash;14&deg;C outside.</td>
-      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td valign="top"><kbd>It was -14&deg;C outside.</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td valign="top"><kbd>X - Y = Z</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
+      <td valign="top"><kbd>2-1/2</kbd></td>
       <td>En-dash</td>
     </tr>
     <tr>
       <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
+      <td valign="top"><kbd>--A plague on both<br> your houses!--I am dead.</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
+      <td valign="top"><kbd>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
+      <td valign="top"><kbd>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</kbd></td>
       <td>Em-dashes</td>
     </tr>
     <tr>
       <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
+      <td valign="top"><kbd>It is the east, and Juliet is the sun--!</kbd></td>
       <td>Em-dash</td>
     </tr>
     <tr>
       <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
-      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td valign="top"><kbd>how a--a--cannon-ball goes----"</kbd></td>
       <td>Em-dashes, Hyphen,<br> &amp; Long Dash</td>
     </tr>
     <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
-        say, but the left-hand cat interrupted her.</tt></td>
+      <td valign="top"><kbd>"Three hundred----" "years," she was going to<br>
+        say, but the left-hand cat interrupted her.</kbd></td>
       <td>Long Dash</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. ---- testified,</kbd></td>
       <td>Long Dash</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td valign="top"><kbd>As the witness Mr. S---- testified,</kbd></td>
       <td>Long Dash</td>
     </tr>
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td valign="top"><kbd>the famous detective of ----B Baker St.</kbd></td>
       <td>Long Dash</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td valign="top"><kbd>"You ---- Yankee", she yelled.</kbd></td>
       <td>Long Dash</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td valign="top"><kbd>"I am not a d--d Yankee", he replied.</kbd></td>
       <td>Em-dash</td>
     </tr>
   </tbody>
@@ -635,8 +628,8 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
    hyphenated in the old books we are working on. Leave them hyphenated the way the
    author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
-   put an <tt>*</tt> after it, and join the word together like this:
-   <tt>to-*day</tt>. The asterisk will bring it to the attention of the post-processor,
+   put an <kbd>*</kbd> after it, and join the word together like this:
+   <kbd>to-*day</kbd>. The asterisk will bring it to the attention of the post-processor,
    who has access to all the pages and can determine how the author
    typically wrote this word.
 </p>
@@ -652,7 +645,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation and Dashes</a></h3>
 <p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
-   of the last line, and mark it with a <tt>*</tt> after the hyphen or dash. For example:
+   of the last line, and mark it with a <kbd>*</kbd> after the hyphen or dash. For example:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
   <tbody>
@@ -662,12 +655,12 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+      <td valign="top"><kbd>something Pat had already become accus-*</kbd></td>
     </tr>
   </tbody>
 </table>
 <p>On pages that start with part of a word from the previous page or an em-dash,
-   place a <tt>*</tt> before the partial word or em-dash.
+   place a <kbd>*</kbd> before the partial word or em-dash.
    To continue the above example:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Start-of-page Hyphenation example">
@@ -678,7 +671,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+      <td valign="top"><kbd>*tomed to from having to do his own family</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -708,7 +701,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style
    used in the printed page." In particular, insert spaces, if there are spaces before or
    between the periods, and use the same number of periods as appear in the image. Sometimes
-   the printed page is unclear; in that case, insert a <tt>[**unclear]</tt> to draw the
+   the printed page is unclear; in that case, insert a <kbd>[**unclear]</kbd> to draw the
    attention of the post-processor.
    (Note: Post-processors should replace those regular spaces with non-breaking spaces.)
 </p>
@@ -723,31 +716,31 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
     </tr>
     <tr>
       <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
-      <td valign="top"><tt>That I know ... is true.</tt></td>
+      <td valign="top"><kbd>That I know ... is true.</kbd></td>
     </tr>
     <tr>
       <td valign="top">This is the end....</td>
-      <td valign="top"><tt>This is the end....</tt></td>
+      <td valign="top"><kbd>This is the end....</kbd></td>
     </tr>
     <tr>
       <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
-      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+      <td valign="top"><kbd>The moving finger writes; and.... The poet<br> surely had a pen though! </kbd></td>
     </tr>
     <tr>
       <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
-      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+      <td valign="top"><kbd>Wherefore art thou Romeo...?</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
-      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+      <td valign="top"><kbd>"I went to the store, ..." said Harry.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
-      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+      <td valign="top"><kbd>"... And I did too!" said Sally.</kbd></td>
     </tr>
     <tr>
       <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
-      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+      <td valign="top"><kbd>"Really?... Oh, Harry!"</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -755,8 +748,8 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="contract">Contractions</a></h3>
-<p>In English, remove any extra space in contractions. For example, <tt>would&nbsp;n't</tt> should
-   be proofread as <tt>wouldn't</tt> and <tt>'t&nbsp;is</tt> as <tt>'tis</tt>.
+<p>In English, remove any extra space in contractions. For example, <kbd>would&nbsp;n't</kbd> should
+   be proofread as <kbd>wouldn't</kbd> and <kbd>'t&nbsp;is</kbd> as <kbd>'tis</kbd>.
 </p>
 <p>This was a 19th century printers' convention in which the space was retained
    to indicate that 'would' and 'not' were originally separate words. It is
@@ -771,8 +764,8 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="fract_s">Fractions</a></h3>
-<p>Proofread fractions as follows: <tt>&frac14;</tt> becomes <tt>1/4</tt>,
-   and <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
+<p>Proofread fractions as follows: <kbd>&frac14;</kbd> becomes <kbd>1/4</kbd>,
+   and <kbd>2&frac12;</kbd> becomes <kbd>2-1/2</kbd>.
    The hyphen prevents the whole and fractional part from becoming
    separated when the lines are rewrapped during post-processing.
    Unless specifically requested in the <a href="#comments">Project Comments</a>,
@@ -783,29 +776,11 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
-<?php if(!$utf8_site) { ?>
-<p>Please proofread these using the proper symbols or accented characters to match
-   the image, where possible, including the use or non-use of accents.
-   We can only use Latin-1 characters during proofreading; if you aren't sure
-   if a character is in the Latin-1 character set, check the <a href="#insert_char">tables below</a>.
-<?php } else { ?>
 <p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
    the Project Manager's instructions in the <a href="#comments">Project Comments</a>.
-<?php } ?>
    If they are not on your keyboard, see <a href="#insert_char">Inserting Special Characters</a>
    for information on how to input these characters during proofreading.
 </p>
-<?php if(!$utf8_site) { ?>
-<p>The &oelig; character (oe ligature) is not in Latin-1, so we mark it with brackets like
-   in <tt>man[oe]uvre</tt>, or <tt>[OE]dipus</tt> for the capital &OElig;. Note that the &aelig; character
-   (ae ligature, as in <tt>encyclop&aelig;dia</tt>) is in Latin-1, so that character should be inserted directly.
-</p>
-<p>For other characters outside of Latin-1, see <a href="#d_chars">Diacritical marks</a> for how to
-   proofread accents or other marks above or below Latin letters. For characters that are not
-   addressed in these guidelines, see the Project Manager's instructions in the
-   <a href="#comments">Project Comments</a>.
-</p>
-<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
@@ -814,7 +789,6 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 <p>In some projects, you will find characters with special marks either above or below
    the normal Latin A...Z character. These are called <i>diacritical marks</i>, and
    indicate a special pronunciation for this character.
-<?php if($utf8_site) { ?>
 </p>
 <p>If such a character does not exist in Unicode, it should be entered by using
    <i>combining diacritical marks</i>: these are Unicode symbols which can't
@@ -830,106 +804,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
    Note that <i>Spacing modifier letters</i> also exist; these
    should not be used.
 </p>
-<?php } else { ?>
-   For proofreading, we indicate them in the text by using a
-   specific coding, such as: <span style="font-size:110%;">&#259;</span> becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
-   above an a, or <tt>[a)]</tt> for a breve below. Be sure to include the square
-   brackets (<tt>[&nbsp;]</tt>). In the rare case when a diacritic is over two
-   letters, include both letters in the brackets.
-</p>
-<p>The post-processor will eventually replace these with
-   whatever symbol works in each version of the text produced, such as 7-bit ASCII,
-   8-bit, Unicode, html, etc.
-</p>
-<p>Note that when some of these marks appear on some characters (mainly vowels) our standard
-   Latin-1 character set already includes that character with the diacritical mark. <b>In those
-   cases, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
-   character picker in the proofreading interface.</b>
-</p>
 <!-- END RR -->
-
-<p>In the table below, the "x" represents a letter with a diacritical mark.
-   When proofreading, use the actual character from the text, not the <tt>x</tt> shown in the examples.
-</p>
-
-<!--
-  diacritical mark           above  below
-macron (straight line)       [=x]   [x=]
-2 dots (dieresis or umlaut)  [:x]   [x:]
-1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x']
-acute (aigu) accent          [`x]   [x`]
-circumflex                   [^x]   [x^]
-caron (v-shaped symbol)      [vx]   [xv]
-breve (u-shaped symbol)      [)x]   [x)]
-tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
-  <tbody>
-    <tr bgcolor="cornsilk">
-      <th colspan=4>Proofreading Symbols for Diacritical Marks</th>
-    </tr>
-    <tr bgcolor="cornsilk">
-      <th>diacritical mark</th>
-      <th>sample</th>
-      <th style="padding-left:4; padding-right:4;">above</th>
-      <th style="padding-left:4; padding-right:4;">below</th>
-    </tr>
-    <tr><td>macron (straight line)</td>
-      <td align="center"><span style="font-size:150%;">&macr;</span></td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-    </tr>
-    <tr><td>2 dots (dieresis, umlaut)</td>
-      <td align="center"><span style="font-size:150%;">&uml;</span></td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-    </tr>
-    <tr><td>1 dot</td>
-      <td align="center"><span style="font-size:150%;">&middot;</span></td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-    </tr>
-    <tr><td>grave accent</td>
-      <td align="center"><span style="font-size:150%;">`</span></td>
-      <td align="center"><tt>[`x]</tt></td>
-      <td align="center"><tt>[x`]</tt></td>
-    </tr>
-    <tr><td>acute accent (aigu)</td>
-      <td align="center"><span style="font-size:150%;">&acute;</span></td>
-      <td align="center"><tt>['x]</tt></td>
-      <td align="center"><tt>[x']</tt></td>
-    </tr>
-    <tr><td>circumflex</td>
-      <td align="center"><span style="font-size:150%;">&circ;</span></td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-    </tr>
-    <tr><td>caron (v-shaped symbol)</td>
-      <td align="center"><font size="-1">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-    </tr>
-    <tr><td>breve (u-shaped symbol)</td>
-      <td align="center"><font size="-1">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-    </tr>
-    <tr><td>tilde</td>
-      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-    </tr>
-    <tr><td>cedilla</td>
-      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-    </tr>
-  </tbody>
-</table>
-<?php } ?>
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
@@ -938,47 +813,6 @@ cedilla                      [,x]   [x,]
    other than the Latin A...Z&mdash;for example, Greek, Cyrillic (used in
    Russian, Slavic, and other languages), Hebrew, or Arabic characters.
 </p>
-<?php if(strcasecmp($charset,"UTF-8")) { ?>
-<p>For Greek, you should attempt a transliteration. Transliteration involves converting
-   each character of the foreign text into the equivalent Latin letter(s). A Greek
-   transliteration tool is provided in the proofreading interface to make this task much easier.
-</p>
-<p>Press the "Greek Transliterator" button near the bottom of the proofreading interface to open the tool.
-   In the tool, click on the Greek characters that match the word or phrase you are transliterating,
-   and the appropriate Latin-1 characters will appear in the text box. When you are done,
-   simply cut and paste this transliterated text into the page you are proofreading.
-   Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>.
-   For example, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for <?php echo "$site_abbreviation"; ?>!)
-</p>
-<p>If you are uncertain about your transliteration, mark it with <tt>**</tt> to bring it to
-   the attention of the next proofreader or the post-processor.
-</p>
-<p>For other alphabets that cannot be so easily transliterated, such as Cyrillic,
-   Hebrew, or Arabic, replace the non-Latin characters or OCR garbage
-   with the appropriate mark: <tt>[Cyrillic:&nbsp;**]</tt>,
-   <tt>[Hebrew:&nbsp;**]</tt>, or <tt>[Arabic:&nbsp;**]</tt>.
-   Include the <tt>**</tt> so the post-processor can address it later.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Greek: See the <a href="<?php echo get_faq_url('transliterating-greek'); ?>">Transliterating Greek</a> wiki page,
-      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> from
-      Project Gutenberg, or the "Greek Transliterator" pop-up tool in the proofreading interface.
-  </li>
-  <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
-      you attempt a transliteration if you are fluent in a language that uses it. Otherwise, just mark
-      it as indicated above.
-  </li>
-  <li>Hebrew and Arabic:
-      Not recommended unless you are fluent. There are significant
-      difficulties transliterating these languages and neither Distributed
-      Proofreaders nor <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
-      have yet chosen a standard method.
-  </li>
-</ul>
-<?php } else { ?>
 <p>These characters should be entered in the text just as Latin characters are.
    (<b>WITHOUT transliteration!</b>)
 </p>
@@ -993,18 +827,18 @@ cedilla                      [,x]   [x,]
    bring it to the attention of the next proofreader or the post-processor.
 </p>
 <p>For scripts which cannot be so easily entered, such as Arabic, identify it
-   with the appropriate mark: <tt>[Arabic:&nbsp;**]</tt>.
-   Include the <tt>**</tt> so the post-processor can address it later.
+   with the appropriate mark: <kbd>[Arabic:&nbsp;**]</kbd>.
+   Include the <kbd>**</kbd> so the post-processor can address it later.
 </p>
-<?php } ?>
+<!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
-   superscripts. Proofread these by inserting a single caret (<tt>^</tt>) followed by the
+   superscripts. Proofread these by inserting a single caret (<kbd>^</kbd>) followed by the
    superscripted text. If the superscript continues for more than one character,
-   then surround the text with curly braces <tt>{</tt> and <tt>}</tt> as well. For example:
+   then surround the text with curly braces <kbd>{</kbd> and <kbd>}</kbd> as well. For example:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
   <tbody>
@@ -1014,7 +848,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+      <td valign="top"><kbd>Gen^{rl} Washington defeated L^d Cornwall's army.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1030,8 +864,8 @@ cedilla                      [,x]   [x,]
 
 <h3><a name="subscr">Subscripts</a></h3>
 <p>Subscripted text is often found in scientific works, but is not common in other
-   material. Proofread subscripted text by inserting an underline character <tt>_</tt> and
-   surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>. For example:
+   material. Proofread subscripted text by inserting an underline character <kbd>_</kbd> and
+   surrounding the text with curly braces <kbd>{</kbd> and <kbd>}</kbd>. For example:
 </p>
 <table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
   <tbody>
@@ -1041,7 +875,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top"><tt>H_{2}O.</tt></td>
+      <td valign="top"><kbd>H_{2}O.</kbd></td>
     </tr>
   </tbody>
 </table>
@@ -1064,7 +898,7 @@ cedilla                      [,x]   [x,]
    Do not worry about case changes.
    If the OCR'd text is already ALL-CAPPED, Mixed-Cased, or lower-cased,
    leave it ALL-CAPPED, Mixed-Cased, or lower-cased.
-   Small caps may occasionally appear with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> around
+   Small caps may occasionally appear with <kbd>&lt;sc&gt;</kbd> and <kbd>&lt;/sc&gt;</kbd> around
    it; see <a href="#formatting">Formatting</a> in that case.
 </p>
 <!-- END RR -->
@@ -1149,7 +983,7 @@ cedilla                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        <kbd>In the United States?[*] In a railroad? In a mining company?<br>
         In a bank? In a church? In a college?<br>
         <br>
         Write a list of all the corporations that you know or have<br>
@@ -1193,7 +1027,7 @@ cedilla                      [,x]   [x,]
         <br>
         * The United States: "Its charter, the constitution. * * * Its flag the<br>
         symbol of its power; its seal, of its authority."--Dole.
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1208,7 +1042,7 @@ cedilla                      [,x]   [x,]
    "See page 66" or a title within the bounds of the illustration.
 </p>
 <p>Most pages with an illustration but no text will already be
-   marked with <tt>[Blank Page]</tt>. Leave this marking as is.
+   marked with <kbd>[Blank Page]</kbd>. Leave this marking as is.
 </p>
 <!-- END RR -->
 
@@ -1226,12 +1060,12 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>Martha told him that he had always been her ideal and<br>
+        <p><kbd>Martha told him that he had always been her ideal and<br>
         that she worshipped him.<br>
         <br>
         Frontispiece<br>
         Her Weight in Gold
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1252,19 +1086,19 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <p><tt>
+        <p><kbd>
         such study are due to Italians. Several of these instruments<br>
         have already been described in this journal, and on the present<br>
-        </tt></p>
-        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-        SEISMIC MOVEMENTS.</tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</kbd></p>
+        <p><kbd>
         occasion we shall make known a few others that will<br>
         serve to give an idea of the methods employed.<br>
-        </tt></p>
-        <p><tt>
+        </kbd></p>
+        <p><kbd>
         For the observation of the vertical and horizontal motions<br>
-        of the ground, different apparatus are required. The</tt>
+        of the ground, different apparatus are required. The</kbd>
         </p>
       </td>
     </tr>
@@ -1278,12 +1112,12 @@ cedilla                      [,x]   [x,]
    at the bottom of the page and placing a tag where it is referenced in the text.
 </p>
 <p>In the main text, the character that marks a footnote location should
-   be surrounded with square brackets (<tt>[</tt> and <tt>]</tt>) and
-   placed right next to the word being footnoted<tt>[1]</tt> or its
-   punctuation mark,<tt>[2]</tt> as shown in the image and the two examples in this sentence.
+   be surrounded with square brackets (<kbd>[</kbd> and <kbd>]</kbd>) and
+   placed right next to the word being footnoted<kbd>[1]</kbd> or its
+   punctuation mark,<kbd>[2]</kbd> as shown in the image and the two examples in this sentence.
    Footnote markers may be numbers, letters, or symbols.
    When footnotes are marked with a symbol or a series of symbols (*, &dagger;, &Dagger;, &sect;,
-   etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself.
+   etc.) we replace them all with <kbd>[*]</kbd> in the text, and <kbd>*</kbd> next to the footnote itself.
 </p>
 <p>At the bottom of the page, proofread the footnote text as it is printed, preserving the line breaks.
    Be sure to use the same tag before the footnote as
@@ -1299,7 +1133,7 @@ cedilla                      [,x]   [x,]
 <p><b>Endnotes</b> are just footnotes that have been located together at the end of a
    chapter or at the end of the book, instead of on the bottom of each page. These
    are proofread in the same manner as footnotes. Where you find an
-   endnote reference in the text, just surround it with <tt>[</tt> and <tt>]</tt>.
+   endnote reference in the text, just surround it with <kbd>[</kbd> and <kbd>]</kbd>.
    If you are proofreading one of the pages with endnotes,
    put a blank line before each endnote so that it is clear where each begins and ends.
 </p>
@@ -1328,13 +1162,13 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td>
-        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
-        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
-        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <kbd>The principal persons involved in this argument were Caesar[*], former military</kbd><br>
+        <kbd>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</kbd><br>
+        <kbd>(Patrician) class, and were quite wealthy.</kbd><br>
         <br>
-        <tt>* Gaius Julius Caesar.</tt><br>
+        <kbd>* Gaius Julius Caesar.</kbd><br>
         <br>
-        <tt>* Marcus Tullius Cicero.</tt>
+        <kbd>* Marcus Tullius Cicero.</kbd>
       </td>
     </tr>
   </tbody>
@@ -1357,7 +1191,7 @@ cedilla                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td valign="top">
-        <tt>
+        <kbd>
         Mary had a little lamb[1]<br>
         Whose fleece was white as snow<br>
         And everywhere that Mary went<br>
@@ -1365,7 +1199,7 @@ cedilla                      [,x]   [x,]
         <br>
         1 This lamb was obviously of the Hampshire breed,<br>
         well known for the pure whiteness of their wool.<br>
-        </tt>
+        </kbd>
       </td>
     </tr>
   </tbody>
@@ -1399,7 +1233,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td width="100%">
-        <p><tt>
+        <p><kbd>
         Burning<br>
         discs<br>
         thrown into<br>
@@ -1480,7 +1314,7 @@ cedilla                      [,x]   [x,]
         aus Schwaben (Stuttgart, 1852), pp.<br>
         423 sqq.; W. Mannhardt, Der Baumkultus,<br>
         p. 510.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1520,7 +1354,7 @@ cedilla                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>TABLE II.
+<pre><kbd>TABLE II.
 
 Flat strips compared    Copper.                            Copper.
 with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
@@ -1537,7 +1371,7 @@ Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
  "   40  "    "          9   13     Sixteen "    "     7    6
 Same strip rolled up in           Same, 16 wires bound
   the form of wire  .. 17   15    close together .....  18    12
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1553,7 +1387,7 @@ Same strip rolled up in           Same, 16 wires bound
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre><tt>Agents.   Objects.
+<pre><kbd>Agents.   Objects.
         {     1st person, I,       me,
             {  2d   "    thou,   thee,
 Singular  {      "  mas.  {  he,   him,
@@ -1564,7 +1398,7 @@ Singular  {      "  mas.  {  he,   him,
 Plural   {   2d   "  ye, or you,   you,
         {  3d  "   they,         them,
                   who,       whom.
-</tt></pre>
+</kbd></pre>
       </td>
     </tr>
   </tbody>
@@ -1594,7 +1428,7 @@ Plural   {   2d   "  ye, or you,   you,
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-        <tt>THE CHAMBERED NAUTILUS<br>
+        <kbd>THE CHAMBERED NAUTILUS<br>
         <br>
         This is the ship of pearl which, poets<br>
         feign,<br>
@@ -1608,7 +1442,7 @@ Plural   {   2d   "  ye, or you,   you,
         their streaming hair.<br>
         <br>
         Its webs of living gauze no more unfurl;<br>
-        Wrecked is the ship of pearl!</tt>
+        Wrecked is the ship of pearl!</kbd>
       </td>
     </tr>
   </tbody>
@@ -1652,7 +1486,7 @@ Plural   {   2d   "  ye, or you,   you,
 
 <h3><a name="blank_pg">Blank Page</a></h3>
 <p>Most blank pages, or pages with an illustration but no text, will already be
-   marked with <tt>[Blank Page]</tt>. Leave this marking as is. If the page is
+   marked with <kbd>[Blank Page]</kbd>. Leave this marking as is. If the page is
    blank, and [Blank Page] does not appear, there is no need to add it.
 </p>
 <p>If there is text in the proofreading text area and a blank image, or if there is text in the image
@@ -1685,17 +1519,17 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>GREEN FANCY</tt>
+        <p><kbd>GREEN FANCY</kbd>
         </p>
-        <p><tt>BY</tt></p>
-        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-        <p><tt>WITH FRONTISPIECE BY<br>
-        C. ALLAN GILBERT</tt></p>
-        <p><tt>NEW YORK<br>
+        <p><kbd>BY</kbd></p>
+        <p><kbd>GEORGE BARR McCUTCHEON</kbd></p>
+        <p><kbd>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</kbd></p>
+        <p><kbd>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</kbd></p>
+        <p><kbd>NEW YORK<br>
         DODD, MEAD AND COMPANY<br>
-        1917</tt></p>
+        1917</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1726,8 +1560,8 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>CONTENTS</tt></p>
-        <p><tt>
+        <p><kbd>CONTENTS</kbd></p>
+        <p><kbd>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1774,7 +1608,7 @@ Plural   {   2d   "  ye, or you,   you,
         MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
         <br>
         XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1829,35 +1663,35 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Has not his name for nought, he will be trode upon:<br>
         What says my Printer now?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Here's your last Proof, Sir.<br>
         You shall have perfect Books now in a twinkling.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. These marks are ugly.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. He says, Sir, they're proper:<br>
         Blows should have marks, or else they are nothing worth.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         La. But why a Peel-crow here?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. I told 'em so Sir:<br>
         A scare-crow had been better.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. How slave? look you, Sir,<br>
         Did not I say, this Whirrit, and this Bob,<br>
         Should be both Pica Roman.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. So said I, Sir, both Picked Romans,<br>
         And he has made 'em Welch Bills,<br>
         Indeed I know not what to make on 'em.
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Lap. Hay-day; a Souse, Italica?
-        </tt></p><p><tt>
+        </kbd></p><p><kbd>
         Clow. Yes, that may hold, Sir,<br>
-        Souse is a bona roba, so is Flops too.</tt></p>
+        Souse is a bona roba, so is Flops too.</kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1878,14 +1712,14 @@ Plural   {   2d   "  ye, or you,   you,
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt>
+        <p><kbd>
         Am. Sure you are fasting;<br>
         Or not slept well to night; some dream (Ismena?)<br>
         <br>
         Ism. My dreams are like my thoughts, honest and innocent,<br>
         Yours are unhappy; who are these that coast us?<br>
         You told me the walk was private.<br>
-        </tt></p>
+        </kbd></p>
       </td>
     </tr>
   </tbody>
@@ -1900,10 +1734,10 @@ Plural   {   2d   "  ye, or you,   you,
 </p>
 <p>You should also put a note in the proofread text to
    explain to the next proofreader, formatter, or post-processor what the problem or question is.
-   Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
+   Start your note with a square bracket and two asterisks <kbd>[**</kbd> and end it with another square bracket <kbd>]</kbd>.
    This clearly separates it from the author's text and signals the post-processor to
    stop and carefully examine this part of the text and the matching image to address any issues.
-   You may also want to identify which round you are working in just before the <tt>]</tt>
+   You may also want to identify which round you are working in just before the <kbd>]</kbd>
    so that later volunteers know who left the note.
    Any comments put in by a previous volunteer <b>must</b> be left in place. See the next section for details.
 </p>
@@ -2019,13 +1853,13 @@ Plural   {   2d   "  ye, or you,   you,
    the OCR software interprets the same (and usually incorrectly):
 </p>
 <ul>
-  <li>The degree sign <tt style="font-size:150%;">&deg;</tt>: This should be used only to indicate degrees (of temperature, of angle, etc.).</li>
-  <li>The superscript o: Virtually all other occurrences of a raised o should be proofread  as <tt>^o</tt>,
+  <li>The degree sign <kbd style="font-size:150%;">&deg;</kbd>: This should be used only to indicate degrees (of temperature, of angle, etc.).</li>
+  <li>The superscript o: Virtually all other occurrences of a raised o should be proofread  as <kbd>^o</kbd>,
       following the guidelines for <a href="#supers">Superscripts</a>.</li>
-  <li>The masculine ordinal <tt style="font-size:150%;">&ordm;</tt>: Proofread this like a superscript too unless
+  <li>The masculine ordinal <kbd style="font-size:150%;">&ordm;</kbd>: Proofread this like a superscript too unless
       the special character is requested in the <a href="#comments">Project Comments</a>.
       It may be used in languages such as Spanish and Portuguese, and is the equivalent of the -th in English 4th, 5th, etc.
-      It follows numbers and has the feminine equivalent in the superscript a (<tt>&ordf;</tt>).</li>
+      It follows numbers and has the feminine equivalent in the superscript a (<kbd>&ordf;</kbd>).</li>
 </ul>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
@@ -2102,11 +1936,11 @@ Plural   {   2d   "  ye, or you,   you,
    image. Many of the older texts have words spelled differently from modern usage and
    we retain these older spellings, including any accented characters.
 </p>
-<p>Place a note in the text next to a printer's erorr<tt>[**typo for error?]</tt>.
+<p>Place a note in the text next to a printer's erorr<kbd>[**typo for error?]</kbd>.
    If you are unsure whether it is actually an error, please also ask in the
    <a href="#forums">project discussion</a>. If you do make a change, include a note describing what you changed:
-   <tt>[**typo "erorr" fixed]</tt>.
-   Include the two asterisks <tt>**</tt> so the post-processor will notice it.
+   <kbd>[**typo "erorr" fixed]</kbd>.
+   Include the two asterisks <kbd>**</kbd> so the post-processor will notice it.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
@@ -2129,9 +1963,6 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>The pull-down menus in the proofreading interface.</li>
   <li>Applets included with your operating system. 
-<?php if(!$utf8_site) { ?>
-If you use one of these, be sure to insert only Latin-1 characters (those listed in the charts below).
-<?php } ?>
     <ul compact>
       <li>Windows: "Character Map"<br> Access it through:<br>
           Start: Run: charmap, or<br>

@@ -12,8 +12,8 @@ include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
-include_once($relPath.'Project.inc'); // get_enumerated_param()
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'Project.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 
@@ -192,7 +192,7 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
     // Display project summary info
     $proj_url = "$code_url/project.php?id=$projectid";
     echo "<p id='$projectid' style='font-weight: bold'>";
-    output_project_label("<a href='$proj_url'>$nameofwork</a>", $authorsname);
+    output_project_label("<a href='$proj_url'>" . html_safe($nameofwork) . "</a>", html_safe($authorsname));
     echo "</p>" ;
 
     dpsql_dump_query(page_summary_sql($mentored_round, $projectid));

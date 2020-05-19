@@ -23,7 +23,7 @@ if (is_null($zip_type))
 output_header("$image_index_str: {$project->nameofwork}");
 
 echo "
-    <h1>{$project->nameofwork}</h1>
+    <h1>" . html_safe($project->nameofwork) . "</h1>
     <p>$projectid</p>
     <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
     <h2>$image_index_str</h2>

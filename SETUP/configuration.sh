@@ -39,11 +39,10 @@ _DB_SERVER=localhost
 _DB_USER=PICK_A_USER_NAME
 _DB_PASSWORD=PICK_A_HARD_PASSWORD
 _DB_NAME=PICK_A_DB_NAME
-_ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# File and URL locatios
+# File and URL locations
 # -----------------------------
 
 # We don't require a particular arrangement of directories configured in
@@ -74,7 +73,7 @@ _CODE_URL=$base_url/c
 _DYN_DIR=$base_dir/d
 _DYN_URL=$base_url/d
 # This directory houses two classes of DP-related files that must be
-# readable and writeable by the web server.
+# readable and writable by the web server.
 #
 # Optional user-supplied files:
 #     $_DYN_DIR/code_images/ stores files used by the DP code. They are
@@ -149,6 +148,22 @@ _PHPBB_TABLE_PREFIX=phpbb
 _FORUMS_DIR=$base_dir/phpBB3
 _FORUMS_URL=$base_url/phpBB3
 # Locations of the phpBB code via filesystem path and URL.
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Character suites
+# ----------------
+
+# To help provide better quality UTF-8 texts, the code requires project
+# managers to select which characters are valid for a project. These
+# characters are defined in a Character Suite. If you want all new
+# projects to have specific character suites selected upon creation,
+# specify them here using PHP array syntax within a string. An empty
+# array can be used to disable default character suites. All character
+# suites must be installed and enabled on the system.
+# See SETUP/UNICODE.md for more information.
+
+_DEFAULT_CHAR_SUITES='[ "basic-latin" ]'
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -247,12 +262,6 @@ _PROJECTS_URL=$base_url/projects
 #
 # The project directory also holds other files relating to the project.
 
-_ARCHIVE_PROJECTS_DIR=$base_dir/archive
-
-# After projects are completed, they are eventually archived to a separate
-# database and project directory. This specifies where the project files
-# are archived to. See also: _ARCHIVE_DB_NAME
-
 # ----------------------------------------------------------------------
 
 _EXTERNAL_CATALOG_LOCATOR='lx2.loc.gov:210/LCDB'
@@ -334,6 +343,23 @@ _WIKIHIERO_URL=
 # these variables to the location you installed it, and a link will
 # appear in the proofreading interface. See INSTALL.md for more info.
 # If you haven't installed wikihiero, leave them empty.
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Archiving Projects
+# ------------------
+
+# After projects are completed, they are eventually archived to a separate
+# database and project directory. See SETUP/ARCHIVING.md for how to set up
+# project archiving.
+
+_ARCHIVE_DB_NAME=
+
+# Archive database name.
+
+_ARCHIVE_PROJECTS_DIR=$base_dir/archive
+
+# Where the project files are archived to.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -451,11 +477,6 @@ _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
 # Setting it to FALSE means that only site admins and project facilitators
 # can see those columns. (This was the hard-coded behavior in R200609 and
 # earlier.)
-
-_CHARSET='ISO-8859-1'
-# The charset used by the site, which is applied to all relevant pages on the
-# site. Note that changing this to UTF-8 will *not* automatically make the
-# site UTF-8 compatible. Changing this may have wide-reaching implications.
 
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale

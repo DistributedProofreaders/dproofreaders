@@ -14,11 +14,11 @@ $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
 
 $messages["mere"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: an '<tt>e</tt>' in the text where there is an '<tt>o</tt>' in the image."),
+    "message_body" => _("There is still a scanno: an '<kbd>e</kbd>' in the text where there is an '<kbd>o</kbd>' in the image."),
 );
 $messages["flyspeck"] = array(
     "message_title" => _("Scanno"),
-    "message_body" => _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is a stray mark in the image."),
+    "message_body" => _("There is still a scanno: a comma (<kbd>,</kbd>) in the text where there is a stray mark in the image."),
 );
 $messages["bracketremove"] = array(
     "message_title" => _("Bracket removed"),
@@ -32,17 +32,17 @@ $messages["bracketinsert"] = array(
 );
 $messages["fnsuper"] = array(
     "message_title" => _("Footnote marker"),
-    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[2]</tt>."),
+    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <kbd>[2]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
     "message_title" => _("Footnote marker brackets"),
-    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <tt>[2]</tt>."),
+    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <kbd>[2]</kbd>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_title" => _("Footnote marker spacing"),
-    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><tt>word[2] word</tt>."),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><kbd>word[2] word</kbd>."),
     "guideline" => "footnotes",
 );
 

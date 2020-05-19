@@ -461,7 +461,7 @@ function normalize_whitespace($str)
 // Replaces each run of whitespace characters with a single space and
 //   strips the resulting string.
 {
-    return trim(preg_replace('/\s+/', ' ', $str));
+    return trim(preg_replace('/\s+/u', ' ', $str));
 }
 
 

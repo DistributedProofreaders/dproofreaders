@@ -26,17 +26,12 @@ echo "    <td>complete</td>\n";
 echo "  </tr>\n";
 echo "</table>\n";
 
-if(!$utf8_site)
-{
-    echo "<p>" . _("These may be proofread as macrons <tt>[=u]</tt>, tildes <tt>[~u]</tt>, or according to the meaning (i.e. <tt>u[n]</tt> or <tt>u[m]</tt>), depending on the Project Manager's instructions.") . "</p>\n";
-} else {
-    echo "<p>" . _("These may be proofread as macrons <tt>&#363;</tt>, tildes <tt>&#361;</tt>, or according to the meaning (i.e. <tt>u[n]</tt> or <tt>u[m]</tt>), depending on the Project Manager's instructions.") . "</p>\n";
-}
+echo "<p>" . _("These may be proofread as macrons <kbd>ū</kbd>, tildes <kbd>ũ</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.") . "</p>\n";
 
 echo "<h3>" . _("Blackletter") . "</h3>\n";
 echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blackletter</i>.  If you have trouble reading it, see the wiki article on <a href='%2\$s' target='_blank'>Proofing blackletter</a> for images of the alphabet in that font."),
                     "<br>\n<img src='../generic/images/blackletter_sample.png' width='207' height='52' alt='Sample Text'><br>", $blackletter_url) . "</p>\n";
-echo "<p>" . _("The hyphen in blackletter usually looks like a slanted equals sign.  Treat this just like a normal hyphen, and rejoin words that are hyphenated across lines.  You may need to leave hyphens as <tt>-*</tt> more frequently than in other projects, because spelling and hyphenation in older texts is often unpredictable.") . "</p>\n";
+echo "<p>" . _("The hyphen in blackletter usually looks like a slanted equals sign.  Treat this just like a normal hyphen, and rejoin words that are hyphenated across lines.  You may need to leave hyphens as <kbd>-*</kbd> more frequently than in other projects, because spelling and hyphenation in older texts is often unpredictable.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_3'>" . _("Continue to quiz") . "</a></p>\n";
 
