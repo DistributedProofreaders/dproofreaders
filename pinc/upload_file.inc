@@ -199,6 +199,13 @@ function validate_uploaded_file($verbose)
         // do some checks.
         show_upload_message($verbose, _("File successfully uploaded"));
         empty_check($file_size);
+
+        // validate the filename
+        if (!is_valid_filename($file_info["name"]))
+        {
+            throw new FileUploadException(_("Invalid filename"));
+        }
+
         virus_check($file_path, $verbose);
     }
     catch(FileUploadException $e)
