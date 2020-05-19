@@ -485,12 +485,7 @@ function save_project_good_words($projectid, $words)
 {
     $fileObject = get_project_word_file($projectid, "good");
 
-    // trim out leading spaces
-    $words = preg_replace('/^\s+/u', '', $words);
-    // trim out any word frequencies if they exist
-    $words = preg_replace('/\s.*$/u', '', $words);
-
-    return save_word_list($fileObject->abs_path, $words);
+    return save_word_list($fileObject->abs_path, normalize_word_list($words));
 }
 
 // -----------------------------------------------------------------------------
@@ -506,12 +501,23 @@ function save_project_bad_words($projectid, $words)
 {
     $fileObject = get_project_word_file($projectid, "bad");
 
+    return save_word_list($fileObject->abs_path, normalize_word_list($words));
+}
+
+// -----------------------------------------------------------------------------
+
+function normalize_word_list($words)
+{
+    // normalize the strings
+    $words = array_map('utf8_normalize', $words);
+
     // trim out leading spaces
     $words = preg_replace('/^\s+/u', '', $words);
+
     // trim out any word frequencies if they exist
     $words = preg_replace('/\s.*$/u', '', $words);
 
-    return save_word_list($fileObject->abs_path, $words);
+    return $words;
 }
 
 // -----------------------------------------------------------------------------
