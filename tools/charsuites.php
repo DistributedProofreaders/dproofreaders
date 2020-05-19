@@ -58,7 +58,7 @@ else
     $title = _("All Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p>" . _("Below are all enabled charsuites in the system.") . "</p>";
+    echo "<p>" . _("Below are all enabled character suites in the system.") . "</p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
@@ -73,7 +73,7 @@ else
     if(count($all_charsuites) > count($enabled_charsuites))
     {
         echo "<h1>" . _("Disabled Character Suites") . "</h1>";
-        echo "<p>" . _("The following charsuites are installed but not enabled and cannot be used for new projects. They may not be finalized.") . "</p>";
+        echo "<p>" . _("The following character suites are installed but not enabled and cannot be used for new projects. They may not be finalized.") . "</p>";
 
         foreach($all_charsuites as $charsuite)
         {
