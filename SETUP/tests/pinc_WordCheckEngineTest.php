@@ -201,4 +201,24 @@ EOTEXT;
         $this->assertEquals($bad_words["a1l"], WC_SITE);
         $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
+
+    public function testWordListNormalization()
+    {
+        $words = [
+            " one",
+            "two ",
+            "three  3",
+            "Ṅice",  # U+004e>U+0307 but normalizes to U+1e44
+        ];
+        $norm_words = normalize_word_list($words);
+
+        $expected_words = [
+            "one",
+            "two",
+            "three",
+            "Ṅice",  # U+1e44
+        ];
+
+        $this->assertEquals($norm_words, $expected_words);
+    }
 }
