@@ -72,10 +72,7 @@ $(function() {
             // a file has been selected
             resumable.upload();
         } else {
-            // no file selected, the resumable submit button will do nothing
-            // so submit the old form in 'upload' mode, with no file
-            showProgress(uploadMessages.working);
-            $("#upload_form").submit();
+            alert(uploadMessages.noFile);
         }
     });
 
@@ -84,6 +81,9 @@ $(function() {
         let filename = file.fileName;
         if(validate(filename)) {
             $("#resumable_selected_file").text(filename);
+        } else {
+            // if the validation failed, remove it from the list
+            resumable.removeFile(file);
         }
     });
 
@@ -97,7 +97,7 @@ $(function() {
         $("#upload_form").submit();
     });
 
-    // If an error occured, re-enable the upload form and show a message
+    // If an error occurred, re-enable the upload form and show a message
     resumable.on('fileError', function(file, message) {
         $("#resumable_browse").show();
         $("#resumable_submit").show();

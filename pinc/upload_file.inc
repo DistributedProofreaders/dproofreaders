@@ -57,6 +57,7 @@ function get_upload_args()
         'nameTooLong' => _("The filename must have no more than 200 characters (see note)"),
         'mustBeZip' => _("File name extension must be '.zip'"),
         'fileTooBig' => _("The file is too big (see note)."),
+        'noFile' => _("No file selected"),
     ];
     if(!$utf8_site)
     {
@@ -290,7 +291,7 @@ function is_valid_filename($filename, $restrict_extension=False)
     // conceivably be a shell escape, control character etc.
     // See http://www.owasp.org/index.php/Unrestricted_File_Upload
     if ($restrict_extension === False) {
-        // Ordinarly we allow filenames to start with an alphanumeric, followed
+        // Ordinarily we allow filenames to start with an alphanumeric, followed
         // by 0 or more alphanumerics, hypens, dashes or periods.
         $regexp = '/^\w[\w\.-]{0,199}$/';
     } else {
