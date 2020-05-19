@@ -544,7 +544,7 @@ fi
 # Automatically determine an installed program (with parameters) to dump
 # the contents of a URL. The program is then used in SETUP/dp.cron.
 _URL_DUMP_PROGRAM=
-if [ "$_URL_DUMP_PROGRAM" == "" ]; then
+if [ ! -x "$_URL_DUMP_PROGRAM" ]; then
     # No program explicitly specified, attempt to find: wget, curl, lynx
     program_test=`which wget`
     if [ $? -eq 0 ]; then
