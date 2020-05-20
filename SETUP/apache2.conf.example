@@ -9,8 +9,14 @@ DirectoryIndex index.php default.php index.html default.html
 
 # To ensure that word lists and other project artifacts are downloaded
 # with the correct character set, tell Apache to use UTF-8 for those
-# files in the /projects directory.
+# files in the _PROJECTS_DIR directory.
 <DirectoryMatch "/projects">
+    AddCharset utf-8 .txt
+</DirectoryMatch>
+
+# We need to do the same for the _DYN_DIR as things like site word lists
+# are served up from it.
+<DirectoryMatch "/d">
     AddCharset utf-8 .txt
 </DirectoryMatch>
 
