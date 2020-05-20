@@ -4,6 +4,9 @@ This directory provides various documentation, installation & upgrading
 instructions, and other tools.
 
 * [CHANGELOG.md](CHANGELOG.md) notes major changes in each version.
+* [UNICODE.md](UNICODE.md) covers how the site supports Unicode.
+
+Installation and upgrading:
 * [INSTALL.md](INSTALL.md) includes installation instructions.
 * [ARCHIVING.md](ARCHIVING.md) describes how to set up the optional project
   archiving.
