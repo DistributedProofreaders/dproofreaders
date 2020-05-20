@@ -59,7 +59,8 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
 
     // "A" means can use astral plane
     let puncChar = XRegExp("\\pP", "A");
-    let wordChar = XRegExp("\\pL", "A");
+    // wordChar is letter or number
+    let wordChar = XRegExp("\\pL|\\pN", "A");
 
     // ILTags can have "u" for underline added. Used for constructing regexes
     var ILTags = "[ibfg]|sc";
@@ -424,7 +425,10 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 if (postChar === "\n") {
                     reportIssue(start, tagLen, "nlAfterStart");
                 }
-                if (/\S/.test(preChar)) { // non-space before start tag
+
+                // disallow letter or ,.;: before inline start tag
+                let disallowBeforeStart = XRegExp("\\pL|[,.;:]", "A");
+                if (disallowBeforeStart.test(preChar)) {
                     reportIssue(start - 1, 1, "charBeforeStart");
                 }
                 tagStack.push({tag: tagString, start: start, tagLen: tagLen});
