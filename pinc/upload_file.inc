@@ -38,9 +38,7 @@ function get_big_upload_blurb()
 {
     global $db_requests_email_addr;
 
-    return sprintf(_("If you are trying to upload a very big zip file
-        and the upload does not succeed, upload a small placeholder zip file
-        instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
+    return sprintf(_("If you are trying to upload a very big zip file and the upload does not succeed, upload a small placeholder zip file instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 }
 
 // This supplies the arguments for the header in the page containing the upload
@@ -92,8 +90,7 @@ function get_upload_args()
 // and shows approprite messages to the user.
 function show_upload_form($form_content, $submit_label)
 {
-    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.")
-        . "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
+    $standard_blurb = _("The file must be Zipped (not gzip, tar, etc.) and have the .zip extension. The file name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
 
     // TRANSLATORS: %s is an already-translated button label, eg: "Upload file"
     $submit_blurb = "<p>" . sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), $submit_label) . "</p>";
@@ -116,16 +113,20 @@ function show_upload_form($form_content, $submit_label)
     // It is recommended to use an HTML span for the browse button.
     // see https://github.com/23/resumable.js/
     echo "<div id='resumable_uploader' style='display: none;'>
-    <input type='hidden' name='resumable_filename' value=''>
-    <input type='hidden' name='resumable_identifier' value=''>
-    <p>", sprintf(_("Your browser supports uploading large files (up to %s) via javascript. If the upload fails,
-        or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."), humanize_bytes(RESUMABLE_UPLOAD_SIZE)), "</p>
-    <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
-    <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
-    <span id='resumable_submit' class='button'>", html_safe($submit_label), "</span></p>
-    </div>";
+        <input type='hidden' name='resumable_filename' value=''>
+        <input type='hidden' name='resumable_identifier' value=''>
+        <p>", _("File to upload"), ": <span id='resumable_selected_file'></span> &nbsp;
+        <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
+        <span id='resumable_submit' class='button'>", html_safe($submit_label), "</span></p>
+    ";
 
     echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
+
+    echo "<p>", sprintf(
+        _("Your browser supports uploading large files (up to %s) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."),
+        humanize_bytes(RESUMABLE_UPLOAD_SIZE)
+    ), "</p>";
+    echo "</div>";
 
     echo "</form>\n";
 }
