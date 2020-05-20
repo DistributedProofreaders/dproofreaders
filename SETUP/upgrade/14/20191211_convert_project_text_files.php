@@ -9,6 +9,14 @@ header('Content-type: text/plain');
 
 echo "Convert all text files in project directory to UTF-8\n";
 
+echo "\n";
+echo "If you get permission errors, you may need to execute this script as\n";
+echo "the user the web server is running under, eg:\n";
+echo "  sudo su -s /bin/bash \ \n";
+echo "      -c '/usr/bin/php 20191211_convert_project_text_files.php' \ \n";
+echo "      www-data\n";
+echo "\n";
+
 $dirs = get_project_dirs();
 $total = count($dirs);
 $index = 1;

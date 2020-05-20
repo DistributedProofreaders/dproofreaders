@@ -10,6 +10,14 @@ header('Content-type: text/plain');
 
 echo "Convert site word lists to UTF-8\n";
 
+echo "\n";
+echo "If you get permission errors, you may need to execute this script as\n";
+echo "the user the web server is running under, eg:\n";
+echo "  sudo su -s /bin/bash \ \n";
+echo "      -c '/usr/bin/php 20191211_convert_word_lists.php' \ \n";
+echo "      www-data\n";
+echo "\n";
+
 $files = get_site_word_files("/txt/", FALSE);
 
 foreach($files as $file)
