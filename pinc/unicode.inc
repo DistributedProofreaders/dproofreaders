@@ -258,8 +258,18 @@ function convert_text_file_to_utf8($filename)
         return [ TRUE, "$filename already in UTF-8." ];
     }
 
+    if(!is_writeable($filename))
+    {
+        return [ FALSE, "Unable to write to $filename." ];
+    }
+
     $text = mb_convert_encoding($text, "UTF-8", $encoding);
-    file_put_contents($filename, $text);
+    $success = file_put_contents($filename, $text);
+
+    if($success === FALSE)
+    {
+        return [ FALSE, "Failure trying to write to $filename." ];
+    }
 
     return [ TRUE, "$filename was converted from $encoding to UTF-8." ];
 }
