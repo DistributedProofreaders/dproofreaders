@@ -1,5 +1,5 @@
 <?php
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes()
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes(), endswith()
 
 // This contains functions for uploading files using a resumable process if
 // supported by the browser. The process takes place in two stages: Showing
@@ -287,20 +287,40 @@ function show_upload_message($verbose, $message)
 // which should be updated if the below logic changes.
 function is_valid_filename($filename, $restrict_extension=False)
 {
+    // Filenames can't be longer than 200 characters total
+    if(strlen($filename) > 200)
+    {
+        return false;
+    }
+
+    // If we want to restrict the filename extension, check that
+    if($restrict_extension !== FALSE && !endswith($filename, $restrict_extension))
+    {
+        return false;
+    }
+
     // Base the filename restrictions on removing anything that could
     // conceivably be a shell escape, control character etc.
     // See http://www.owasp.org/index.php/Unrestricted_File_Upload
-    if ($restrict_extension === False) {
-        // Ordinarily we allow filenames to start with an alphanumeric, followed
-        // by 0 or more alphanumerics, hypens, dashes or periods.
-        $regexp = '/^\w[\w\.-]{0,199}$/';
-    } else {
-        // If we want to restrict filename extensions, '.'s aren't allowed in the
-        // body of the filename, and the filename must end with '.$restrict_extension'
-        $limit = 199 - (strlen($restrict_extension) + 1);
-        $regexp = "/^\w+[\w-]{0,$limit}\." . $restrict_extension . '$/i';
+
+    // We allow filenames to start with an alphanumeric, followed by 0 more
+    // alphanumerics, underscores, dashes, and ending with a period and an
+    // extension. The filename is valid if the regexp matches exactly once.
+    return preg_match('/^\w[\w-]*\.\w+$/', $filename) == 1;
+}
+
+// This function is used in remote_file_manager to enforce valid
+// directory names. It pairs with is_valid_filename() above.
+function is_valid_dirname($dirname)
+{
+    // Directory names can't be longer than 200 characters total
+    if(strlen($dirname) > 200)
+    {
+        return false;
     }
 
-    // The filename is valid if the regexp matches exactly once.
-    return preg_match($regexp, $filename) == 1;
+    // We allow directory names to start with an alphanumeric, followed by 0
+    // more alphanumerics, underscores, dashes, and periods. The directory
+    // name is valid if the regexp matches exactly once.
+    return preg_match('/^\w[\w-\.]*$/', $dirname) == 1;
 }

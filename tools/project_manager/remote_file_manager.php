@@ -373,7 +373,7 @@ function do_mkdir()
 
     $new_dir_name = @$_POST['new_dir_name'];
 
-    if (!is_valid_filename($new_dir_name)) {
+    if (!is_valid_dirname($new_dir_name)) {
         fatal_error( sprintf(_("Invalid folder name: %s."), $new_dir_name ));
     }
 
@@ -382,7 +382,7 @@ function do_mkdir()
     $new_dir_abspath = "$curr_abspath/$new_dir_name";
     if ( file_exists($new_dir_abspath) ) {
         fatal_error( sprintf(_("%s already exists"), html_safe($new_dir_name)) );
-        // hce isn't needed when is_valid_filename()is so bland,
+        // hce isn't needed when is_valid_dirame() is so bland,
         // but the pattern could change.
     }
 
@@ -432,20 +432,24 @@ function do_rename()
 
     $new_item_name = @$_POST['new_item_name'];
 
-    if (!is_valid_filename($new_item_name)) {
-        fatal_error( sprintf(_("Invalid new item name: %s."), $new_item_name) );
-    }
-
     if ($new_item_name == $item_name) {
         fatal_error( _("Attempt to rename an item as itself.") );
     }
 
     if (is_file($item_path)) {
+        if (!is_valid_filename($new_item_name)) {
+            fatal_error( sprintf(_("Invalid new item name: %s."), $new_item_name) );
+        }
+
         // Don't let them change the extension (much).
         $item_ext = pathinfo($item_name, PATHINFO_EXTENSION);
         $new_item_ext = pathinfo($new_item_name, PATHINFO_EXTENSION);
         if ( strcasecmp($item_ext, $new_item_ext) != 0 ) {
             fatal_error( _("Attempt to change the filename extension.") );
+        }
+    } else {
+        if (!is_valid_dirname($new_item_name)) {
+            fatal_error( sprintf(_("Invalid new item name: %s."), $new_item_name) );
         }
     }
 
