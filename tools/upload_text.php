@@ -44,12 +44,10 @@ if ($stage == 'post_1')
     $title = _("Upload post-processed file for verification");
     $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
     $submit_label = _("Upload file");
-    $is_file_optional = FALSE;
     $indicator = "_second";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
-    $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
 }
@@ -57,13 +55,12 @@ else if ($stage == 'return_1')
 {
     $title = _("Return project to the post-processing pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
-    $submit_label = _("Return project");
-    $is_file_optional = TRUE;
+    $submit_label = _("Return project with file");
+    $submit_label_sans_file  = _("Return project without file");
     $indicator = "_first_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_AVAILABLE;
-    $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
 }
@@ -71,13 +68,12 @@ else if ($stage == 'return_2')
 {
     $title = _("Return project to the post-processing verification pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
-    $submit_label = _("Return project");
-    $is_file_optional = TRUE;
+    $submit_label = _("Return project with file");
+    $submit_label_sans_file  = _("Return project without file");
     $indicator = "_second_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
-    $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Post-Processing Verification Page");
 }
@@ -86,12 +82,10 @@ else if ($site_supports_corrections_after_posting && $stage == 'correct' )
     $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
     $submit_label = _("Upload file");
-    $is_file_optional = FALSE;
     $indicator = "_corrections";
     $project_is_in_valid_state = PROJ_SUBMIT_PG_POSTED == $project->state;
     $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_CORRECT_AVAILABLE;
-    $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
     $back_blurb = _("Gold List");
     $pre_step_instructions = sprintf(
@@ -104,12 +98,10 @@ else if ($stage == 'smooth_avail')
     $title = _("Upload file for Smooth Reading");
     $intro_blurb = _("This page allows you to upload a fully post-processed file for Smooth Reading. Uploading another version will overwrite the previously uploaded file.");
     $submit_label = _("Upload file");
-    $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
     $back_blurb = _("Project Page");
 }
@@ -118,7 +110,6 @@ else if ($stage == 'smooth_done')
     $title = _("Upload a Smooth Read report");
     $intro_blurb = _("This page allows you to upload a smooth read report for the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
     $submit_label = _("Upload file");
-    $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
     // This requirement is in project.php as well
     $project_is_in_valid_state = $project->is_available_for_smoothreading();
@@ -129,7 +120,6 @@ else if ($stage == 'smooth_done')
     }
     $user_is_able_to_perform_action = TRUE;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
 }
@@ -148,6 +138,9 @@ else if(!$stage)
 
     exit;
 }
+
+// if files have been uploaded, process them and mangle the postcomments
+$returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
 
 $return_anchor = "<a href='$back_url'>$back_blurb</a>";
 // TRANSLATORS: %s is an already-translated page name, eg: Project Page
@@ -197,6 +190,10 @@ if (!isset($action))
                 $form_content .= _("Leave instructions for smooth readers:");
             }
             $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
+            if($returning_to_pool)
+            {
+                $form_content .= "<br><input type='submit' value='" . attr_safe($submit_label_sans_file) . "'>\n";
+            }
         }
 
         show_upload_form($form_content, $submit_label);
@@ -227,8 +224,6 @@ else
     echo "<h1>$title</h1>";
     echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
 
-    // if files have been uploaded, process them and mangle the postcomments
-    $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
     try
     {
         $filename = process_file($project, $indicator, $stage, $returning_to_pool);
@@ -255,7 +250,7 @@ else
         }
         // note that $postcomments is used as a global variable inside do_state_change() inside project_transition()
 
-        $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
+        $error_msg = project_transition( $projectid, $new_state, $pguser, []);
         if ($error_msg)
         {
             throw new FileUploadException($error_msg);
