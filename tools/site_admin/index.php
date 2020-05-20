@@ -38,7 +38,7 @@ $sections = array(
         "manage_special_days.php" => _("Manage Special Days"),
         "shared_postednums.php" => _("Detect duplicate postednum"),
         "manage_site_charsuites.php" => _("Manage Site Character Suites"),
-        "manage_site_word_lists.php" => _("Manage site word lists"),
+        "manage_site_word_lists.php" => _("Manage Site Word Lists"),
         "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
         "../../locale/translators/index.php" => _("Translation Center"),
     ),

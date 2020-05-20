@@ -73,7 +73,7 @@ if($display_list)
     echo "<input type='hidden' name='action' value='list'>";
     echo "<input type='submit' value='" . _("Refresh List") . "'>";
     echo "</form>";
-    echo "<table>";
+    echo "<table class='basic striped'>";
     echo "<tr>";
     echo "<th>" . _("Action") . "</th>";
     echo "<th>" . _("List Type") . "</th>";
@@ -102,7 +102,7 @@ if($display_list)
         echo "<td>$list_type</td>";
         echo "<td>$language</td>";
         echo "<td>" . new_window_link($url, $filename) . "</td>";
-        echo "<td>$word_count</td>";
+        echo "<td class='right-align'>$word_count</td>";
         echo "</tr>";
     }
     echo "</table>";
