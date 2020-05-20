@@ -189,7 +189,7 @@ if (!isset($action))
             {
                 $form_content .= _("Leave instructions for smooth readers:");
             }
-            $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
+            $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='5'></textarea>\n";
             if($returning_to_pool)
             {
                 $form_content .= "<br><input type='submit' value='" . attr_safe($submit_label_sans_file) . "'>\n";
