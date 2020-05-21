@@ -10,7 +10,7 @@ include_once($relPath.'unicode.inc');
 // See faq/proofreading_guidelines.php#d_chars
 // and tools/proofers/process_diacritcal_markup.js
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = "\w+";    // pattern for: markable base character
+$base = "\w{1,2}";    // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)(~,^\\\\\*]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
