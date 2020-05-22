@@ -1,20 +1,25 @@
 # Web Fonts
 
-This directory holds web fonts web make available to all DP users.
+This directory holds web fonts we make available to all DP users.
 
-## DPCustomMono2
+## DP Sans Mono
 
-DPCustomMono2 is a DP-created font derived from [Bitstream Vera](https://www.gnome.org/fonts/)
-and licensed under the [Bitstream Vera License](Bitstream Vera License.txt).
-More information about this font is available in the
-[DP Official Documentation](https://www.pgdp.net/w/index.php?title=DP_Official_Documentation:Proofreading/DPCustomMono2_Font#License).
+[DP Sans Mono](https://www.pgdp.net/wiki/DP_Sans_Mono) is a font created by
+DP volunteer lvl with feedback from numerous other volunteers. It is derived
+from DejaVu Sans Mono (see below) and is under the
+[DP Sans Mono License](DP%20Sans%20Mono%20License.txt). This is version "Draft 14".
 
-This web font of DPCustomMono2 was generated using the
-[Font Squirrel webfont generator](https://www.fontsquirrel.com/tools/webfont-generator).
-See `dpcustommono2-generator_config.txt` for settings used during this process.
+Various characters have been tweaked to help disambiguate them from
+similar-looking characters.
+
+This font is the spiritual successor to DPCustomMono2.
+
+The font is available as a
+[True-Type Font](https://github.com/DistributedProofreaders/dproofreaders/raw/master/styles/fonts/DPSansMono.ttf)
+for download and local install.
 
 # DejaVu Sans Mono
 
 DejaVu Sans Mono is a member of the [DejaVu font family](https://dejavu-fonts.github.io/)
-and licensed under the [DejaVu Fonts License](DejaVu Fonts License.txt).
+and licensed under the [DejaVu Fonts License](DejaVu%20Fonts%20License.txt).
 This version was obtained from [Font Squirrel](https://www.fontsquirrel.com/fonts/dejavu-sans-mono).

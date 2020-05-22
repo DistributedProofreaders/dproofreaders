@@ -26,7 +26,7 @@ function get_available_proofreading_font_faces()
     return [
         0 => '', // browser default
         // Insert web fonts provided by the DP CSS here
-        6 => 'DPCustomMono2',
+        6 => 'DP Sans Mono',
         2 => 'DejaVu Sans Mono',
         // Leave "Other" at the end
         1 => '', // user-specified 'other'
