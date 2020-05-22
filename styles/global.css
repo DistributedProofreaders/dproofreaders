@@ -94,10 +94,10 @@
 }
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
-/* DPCustomMono2 */
+/* DP Sans Mono */
 @font-face {
-  font-family: 'DPCustomMono2';
-  src: local('DPCustomMono2'), url('fonts/dpcustommono2-webfont.woff2') format('woff2'), url('fonts/dpcustommono2-webfont.woff') format('woff');
+  font-family: 'DP Sans Mono';
+  src: local('DP Sans Mono'), url('fonts/DPSansMono.woff2') format('woff2'), url('fonts/DPSansMono.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

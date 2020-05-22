@@ -96,7 +96,7 @@ function output_font_test_form($font)
     echo "<input type='submit'>";
     echo "<br>" . _("Available web fonts") . ": ";
     $fonts = [
-        "DPCustomMono2",
+        "DP Sans Mono",
         "DejaVu Sans Mono",
     ];
     $urls = [];
