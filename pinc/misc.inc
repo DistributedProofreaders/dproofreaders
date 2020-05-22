@@ -759,20 +759,41 @@ function remove_common_basedir_from_zip(string $path_to_zip)
 
     sort($filenames);
 
-    // If the first entry is a directory (ending in /) and the last entry
-    // starts with that directory, then all files in the archives are within
-    // the directory and we remove it from all files in the archive.
-    $basedir = $filenames[0];
-    if(endswith($basedir, "/") && startswith($filenames[$last_index], $basedir))
+    // If there is a common base directory there will be a common prefix
+    // ending in /. If the zip was made in Linux or macos the directory itself
+    // will be listed but not for windows.
+    // If the files are sorted, then if the first contains a / there could be
+    // a common directory prefix. Check if the last has this prefix. Then all
+    // files in the archives are within the directory and we remove it from all
+    // of them. If the directory itself is listed (must be first) delete it.
+    $first_file = $filenames[0];
+    $first_solidus = strpos($first_file, "/");
+    if($first_solidus !== false)
     {
-        $basedir_len = strlen($basedir);
-        for ($i = 1; $i <= $last_index; $i++)
+        $basedir_len = $first_solidus + 1;
+        $basedir = substr($first_file, 0, $basedir_len);
+        if(startswith($filenames[$last_index], $basedir))
         {
-            $zip->renameName($filenames[$i], substr($filenames[$i], $basedir_len));
+            // we have a common subdirectory
+            if(strlen($first_file) === $basedir_len)
+            {
+                // it is the dir name itself - delete it and remove basedir from others
+                $zip->deleteName($first_file);
+                $i = 1;
+            }
+            else
+            {
+                // remove basedir from all
+                $i = 0;
+            }
+            while ($i <= $last_index)
+            {
+                $zip->renameName($filenames[$i], substr($filenames[$i], $basedir_len));
+                $i++;
+            }
         }
-        $zip->deleteName($basedir);
-        $zip->close();
     }
+    $zip->close();
 }
 
 // Creates a zip archive containing the specified files.
