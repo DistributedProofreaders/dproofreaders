@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition, no-useless-escape, camelcase */
 /* exported makePreview */
-/* global previewMessages XRegExp */
+/* global previewMessages */
 
 /*
 This function checks the text for formatting issues and adds the markup
@@ -56,10 +56,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         emptyTag: 1,
         multipleAnchors: 0
     };
-
-    // "A" means can use astral plane
-    let puncChar = XRegExp("\\pP", "A");
-    let wordChar = XRegExp("\\pL", "A");
 
     // ILTags can have "u" for underline added. Used for constructing regexes
     var ILTags = "[ibfg]|sc";
@@ -396,7 +392,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 if (preChar === "\n") {
                     reportIssue(start, tagLen, "nlBeforeEnd");
                 }
-                if (wordChar.test(postChar)) { // char after end tag
+                if (/\w/.test(postChar)) { // char after end tag
                     reportIssue(end, 1, "charAfterEnd");
                 }
                 if (tagStack.length === 0) {    // missing start tag
@@ -415,7 +411,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 if (tagStack.some(match)) { // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
                 }
-                if (puncChar.test(postChar)) {
+                if (/[,.;:!\?]/.test(postChar)) {
                     reportIssue(end, 1, "puncAfterStart");
                 }
                 if (postChar === " ") {
@@ -424,7 +420,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 if (postChar === "\n") {
                     reportIssue(start, tagLen, "nlAfterStart");
                 }
-                if (/\S/.test(preChar)) { // non-space before start tag
+                if (/\w|[,.;:]/.test(preChar)) { // non-space before start tag
                     reportIssue(start - 1, 1, "charBeforeStart");
                 }
                 tagStack.push({tag: tagString, start: start, tagLen: tagLen});
