@@ -45,7 +45,7 @@ function get_big_upload_blurb()
 // form below
 function get_upload_args()
 {
-    global $code_url, $utf8_site;
+    global $code_url;
 
     $upload_messages = [
         'working' => _("Working, please wait..."),
@@ -57,10 +57,6 @@ function get_upload_args()
         'fileTooBig' => _("The file is too big (see note)."),
         'noFile' => _("No file selected"),
     ];
-    if(!$utf8_site)
-    {
-        array_walk($upload_messages, function(&$item) { $item = utf8_encode($item);} );
-    }
     $upload_messages = json_encode($upload_messages);
 
     return [
