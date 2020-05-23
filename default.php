@@ -116,18 +116,17 @@ echo "\n"
     . "\n"
     . "\n";
 
-echo "<table><tr><td class='top-align'>";
-
 //Gold E-texts
-showstartexts($etext_limit,'gold'); echo "</td><td class='top-align'>";
+showstartexts($etext_limit,'gold');
 
 //Silver E-texts
-showstartexts($etext_limit,'silver'); echo "</td><td class='top-align'>";
+showstartexts($etext_limit,'silver');
 
 //Bronze E-texts
-showstartexts($etext_limit,'bronze'); echo "</td></tr></table>";
+showstartexts($etext_limit,'bronze');
 
-echo "<hr><p class='center-align'>\n";
+echo "<hr style='clear: both'>";
+echo "<p class='center-align'>\n";
 echo _("Our community of proofreaders, project managers, developers, etc. is composed entirely of volunteers.");
 echo "<br>\n";
 

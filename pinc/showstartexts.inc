@@ -24,13 +24,16 @@ function showstartexts($etext_limit,$type) {
 
     $total = mysqli_num_rows(mysqli_query(DPDatabase::get_connection(), "SELECT projectid FROM projects WHERE $state"));
 
+    echo "<div class='star-text-summary'>";
+
+    echo "<div class='star-header'>";
     // Display star graphic
-    echo "<img src='$code_url/graphics/{$type}_star.jpg' height='38' width='40' alt='$type star'>\n";
+    echo "<img src='$code_url/graphics/{$type}_star.jpg' height='38' width='40' alt='$type star'><br>\n";
 
     // Display count and category as a link
     echo "<span class='large'>";
     echo "<a href='list_etexts.php?x=".substr($type,0,1)."&amp;sort=5'>";
-    echo sprintf($category, number_format($total)) . "</a>.</span><br>\n";
+    echo sprintf($category, number_format($total)) . "</a></span><br>\n";
 
     // Display feed buttons
     echo "
@@ -40,8 +43,14 @@ function showstartexts($etext_limit,$type) {
         <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
 	\n";
 
+    echo "</div>";
+
     // Display description text
+    echo "<div class='star-description'>";
     echo "<p>$description</p>";
+    echo "</div>";
+
+    echo "</div>";
 }
 
 // vim: sw=4 ts=4 expandtab
