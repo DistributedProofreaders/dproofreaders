@@ -17,6 +17,13 @@ body {
 header, #header {
     background-color: @header-background;
     color: @header-text;
+    #titles-preserved {
+        font-size: 0.9em;
+        #x-preserved {
+            .bold;
+            .sans-serif;
+        }
+    }
 }
 
 /* Navbar */
@@ -72,6 +79,9 @@ nav, #navbar-outer, #navbar, #navbar-left, #navbar-right, #navbar-login {
 #sidebar, #statsbar {
     background-color: @sidebar-background;
     color: @sidebar-text;
+    p, li, td, th {
+        .sans-serif;
+    }
 }
 
 footer, #footer {
@@ -183,12 +193,6 @@ table.striped {
 
 /* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
-
-#statsbar {
-    p, li, td, th {
-        .sans-serif;
-    }
-}
 
 .sans-serif {
     font-family: @sans-serif-font;

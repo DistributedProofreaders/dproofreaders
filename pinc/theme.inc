@@ -107,8 +107,11 @@ function output_footer($nameofpage, $show_statsbar = True) {
     echo "<small>\n";
 
     echo "&copy;$site_name";
+
+    echo "<span id='buildtime'>";
     echo " &middot; ";
     echo sprintf(_("Page built at %s in %0.3fs"), strftime("%Y-%m-%d %R %Z"), $totaltime);
+    echo "</span>";
 
     echo " &middot; ";
     echo "<a href='$code_url/credits.php'>";
@@ -148,11 +151,11 @@ function html_logobar() {
             WHERE $psd->state_selector
         ");
         $row = mysqli_fetch_assoc($result);
-        echo "<span class='sans-serif'><b>";
+        echo "<span id='x-preserved'>";
         echo sprintf(
             _('%s projects completed!'),
             number_format($row["numproj"]));
-        echo "</b></span>\n";
+        echo "</span>\n";
     }
 
     if (1) {
@@ -165,12 +168,14 @@ function html_logobar() {
             WHERE $psd->state_selector
         ");
         $row = mysqli_fetch_assoc($result);
-        echo "<span class='sans-serif'><b>";
+        echo "<span id='x-preserved'>";
         echo sprintf(
             _('%s titles preserved for the world!'),
             number_format($row["numproj"]));
-        echo "</b></span>\n";
+        echo "</span>\n";
+        echo "<span id='month-preserved-summary'>";
         show_completed_projects(TRUE);
+        echo "</span>";
     }
 
     echo "</p></div>\n";
