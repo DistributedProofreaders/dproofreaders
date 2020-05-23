@@ -20,6 +20,15 @@ header,
   background-color: #dddddd;
   color: #000000;
 }
+header #titles-preserved,
+#header #titles-preserved {
+  font-size: 0.9em;
+}
+header #titles-preserved #x-preserved,
+#header #titles-preserved #x-preserved {
+  font-weight: bold;
+  font-family: Verdana, Helvetica, sans-serif;
+}
 /* Navbar */
 nav,
 #navbar-outer,
@@ -125,6 +134,16 @@ nav input,
   background-color: #dddddd;
   color: #000000;
 }
+#sidebar p,
+#statsbar p,
+#sidebar li,
+#statsbar li,
+#sidebar td,
+#statsbar td,
+#sidebar th,
+#statsbar th {
+  font-family: Verdana, Helvetica, sans-serif;
+}
 footer,
 #footer {
   background-color: #cccccc;
@@ -221,12 +240,6 @@ table.striped tr:nth-child(even) td {
 }
 /* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
-#statsbar p,
-#statsbar li,
-#statsbar td,
-#statsbar th {
-  font-family: Verdana, Helvetica, sans-serif;
-}
 .sans-serif {
   font-family: Verdana, Helvetica, sans-serif;
 }

@@ -45,13 +45,15 @@ header, #header {
         display: table-cell;
     }
     #logo {
-        left: 0;
-        padding: 3/8em;
+        padding: 0.5em 0.5em 0.1em;
     }
     #titles-preserved {
-        right: 0;
         .center-align;
         .middle-align;
+        font-size: 0.9em;
+        #x-preserved {
+            .bold;
+        }
     }
 }
 
@@ -163,11 +165,13 @@ footer, #footer {
 */
 @media only screen and (max-width: 768px) {
     #header {
-        #titles-preserved {
+        #month-preserved-summary {
             display: none;
         }
+        p {
+            margin: 0.25em 0.5em;
+        }
     }
-
     #page-body-container {
         display: flex;
         display: -ms-flexbox; /* for IE 11 */
@@ -176,6 +180,26 @@ footer, #footer {
 
     #page-container, #content-container {
         display: block;
+    }
+}
+
+/* For even smaller screens, change the header and footer */
+@media only screen and (max-width: 481px) {
+    #header {
+        #titles-preserved {
+            display: table-row;
+            .right-align;
+            font-size: 0.8em;
+        }
+        #logo {
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    #buildtime {
+        display: none;
     }
 }
 
