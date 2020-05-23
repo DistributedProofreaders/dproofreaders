@@ -214,6 +214,34 @@ hr.divider {
 /* Existing styling */
 
 /* ------------------------------------------------------------------------ */
+/* Star texts */
+
+.star-text-summary {
+    width: 33%;
+    float: left;
+    p {
+        padding-right: 0.5em;
+    }
+    .star-header {
+        .center-align;
+    }
+}
+
+@media only screen and (max-width: 481px) {
+    .star-text-summary {
+        width: 100%;
+        padding-bottom: 1em;
+    }
+    .star-header, .star-description {
+        display: table-cell;
+    }
+    .star-header {
+        width: 10em;
+        padding-right: 1em;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* News items */
 div.news {
     margin: 1em 0;
