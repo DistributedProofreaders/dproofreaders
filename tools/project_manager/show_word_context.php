@@ -81,19 +81,17 @@ if($frame=="left") {
     echo "</a>";
     echo "</p>";
 
-    echo "<form method='GET'>";
+    echo "<form method='GET' id='wordInstancesForm'>";
     echo "<input type='hidden' name='projectid' value='$projectid' />";
     echo "<input type='hidden' name='word' value='$encWord' />";
     echo "<input type='hidden' name='layout' value='$layout' />";
     echo "<input type='hidden' name='frame' value='left' />";
     echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
-    echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;'>";
+    echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='$(\"#wordInstancesForm\").submit()'>";
     foreach(range(10, 100, 10) as $option) {
         echo "<option value='$option'" . ($option == $wordInstances ? "selected" : "") . ">$option</option>";
     }
     echo "</select>";
-    echo "<br />";
-    echo "<input type='submit' value='" . _("Update") . "' />";
     echo "</form>";
 
 
