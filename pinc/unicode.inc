@@ -310,3 +310,68 @@ function guess_string_encoding($text)
     # Give up and return ISO-8859-1
     return 'ISO-8859-1';
 }
+
+# Return a list of Unicode codepoints we want to replace with some ASCII
+# equivalence. We convert these codepoints to ASCII up on page save in
+# DPage.inc.
+function get_utf8_to_ascii_codepoints()
+{
+    return [
+        '-' => [
+            'U+2011', # non-breaking hyphen
+            'U+2013', # en-dash
+        ],
+        '--' => [
+            'U+2014', # em-dash
+        ],
+        '"' => [
+            'U+201C', # open curly double quote
+            'U+201D', # closing curly double quote
+        ],
+        "'" => [
+            'U+2018', # open curly single quote
+            'U+2019', # closing curly single quote
+        ],
+        "..." => [
+            'U+2026', # ellipsis
+        ],
+        " " => [
+            'U+0009', # tab
+            'U+00A0', # no-break space
+            'U+1680', # ogham space mark
+            'U+2000', # en quad
+            'U+2001', # em quad
+            'U+2002', # en space
+            'U+2003', # em space
+            'U+2004', # three-per-em space
+            'U+2005', # four-per-em space
+            'U+2006', # six-per-em space
+            'U+2007', # figure space
+            'U+2008', # punctuation space
+            'U+2009', # thin space
+            'U+20A0', # hair space
+            'U+202F', # narrow no-break space
+            'U+205F', # medium mathematical space
+            'U+3000', # ideographic space
+        ],
+        "\n" => [
+            'U+000B', # vertical tab
+            'U+000C', # form feed
+            'U+0085', # next line
+            'U+2028', # line separator
+            'U+2029', # paragraph separator
+        ],
+    ];
+}
+
+# Return a list of disallowed codepoints. These codepoints are converted
+# to ASCII upon page save and are not valid in character suites.
+function get_disallowed_codepoints()
+{
+    $invalid_codepoints = [];
+    foreach(get_utf8_to_ascii_codepoints() as $ascii => $codepoints)
+    {
+        $invalid_codepoints = array_merge($invalid_codepoints, $codepoints);
+    }
+    return $invalid_codepoints;
+}
