@@ -202,7 +202,7 @@ class Project
 
     public function set_charsuites($charsuites)
     {
-        $existing_charsuites = $this->get_charsuites();
+        $existing_charsuites = $this->get_charsuites(FALSE);
 
         foreach($existing_charsuites as $charsuite)
         {
@@ -219,7 +219,7 @@ class Project
     {
         $charsuite = CharSuites::resolve($charsuite);
 
-        $existing_charsuites = $this->get_charsuites();
+        $existing_charsuites = $this->get_charsuites(FALSE);
         if(in_array($charsuite, $existing_charsuites))
         {
             return;
@@ -246,7 +246,7 @@ class Project
     {
         $charsuite = CharSuites::resolve($charsuite);
 
-        $existing_charsuites = $this->get_charsuites();
+        $existing_charsuites = $this->get_charsuites(FALSE);
         if(!in_array($charsuite, $existing_charsuites))
         {
             return;
@@ -260,15 +260,27 @@ class Project
         mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
-    public function get_charsuites()
+    public function get_charsuites($include_custom=TRUE)
     {
+        $charsuites = [];
+
+        // create a custom suite for this project
+        if($include_custom)
+        {
+            $proj_suite = $this->get_custom_charsuite();
+            if($proj_suite)
+            {
+                $charsuites[] = $proj_suite;
+            }
+        }
+
+        // load regular character suites
         $sql = "
             SELECT charsuite_name
             FROM project_charsuites
             WHERE projectid='$this->projectid'
         ";
 
-        $charsuites = [];
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         while($row = mysqli_fetch_assoc($result))
         {
@@ -276,6 +288,22 @@ class Project
         }
         mysqli_free_result($result);
         return $charsuites;
+    }
+
+    public function get_custom_charsuite()
+    {
+        if(!$this->custom_chars)
+            return NULL;
+
+        $codepoints = utf8_codepoints_combining($this->custom_chars);
+        $proj_suite = new CharSuite($this->projectid, _("Custom"), $codepoints, TRUE);
+
+        $pickerset = new PickerSet();
+        $row1 = array_slice($codepoints, 0, round(count($codepoints) / 2));
+        $row2 = array_slice($codepoints, count($row1));
+        $pickerset->add_subset("Proj", [ $row1, $row2 ]);
+        $proj_suite->pickerset = $pickerset;
+        return $proj_suite;
     }
 
     // -------------------------------------------------------------------------

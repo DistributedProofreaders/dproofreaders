@@ -184,6 +184,7 @@ class ProjectInfoHolder
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
         $this->deletion_reason  = '';
+        $this->custom_chars     = '';
         // $this->year          = '';
         $this->state            = '';    
     }
@@ -228,6 +229,7 @@ class ProjectInfoHolder
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
         $this->deletion_reason  = '';
+        $this->custom_chars     = '';
         $this->state            = '';
 
         $this->original_marc_array_encd = $encoded_marc_array;
@@ -276,6 +278,7 @@ class ProjectInfoHolder
         $this->text_preparer    = $up_info['d_text_preparer'];
         $this->extra_credits    = $up_info['d_extra_credits'];
         $this->deletion_reason  = '';
+        $this->custom_chars     = $up_info['d_custom_chars'];
         $this->state            = '';
 
         // $this->year          = $up_info['d_year'];
@@ -364,13 +367,14 @@ class ProjectInfoHolder
             $this->clone_projectid = $project->projectid;
             $this->state            = '';
         }
-        $this->up_projectid     = $project->up_projectid;
-        $project_charsuites = $project->get_charsuites();
+        $this->up_projectid = $project->up_projectid;
+        $project_charsuites = $project->get_charsuites(FALSE);
         $this->charsuites = [];
         foreach($project_charsuites as $project_charsuite)
         {
             array_push($this->charsuites, $project_charsuite->name);
         }
+        $this->custom_chars  = $project->custom_chars;
     }
 
     // -------------------------------------------------------------------------
@@ -599,6 +603,34 @@ class ProjectInfoHolder
             }
         }
 
+        $this->custom_chars = utf8_normalize(@$_POST['custom_chars']);
+        if($this->custom_chars)
+        {
+            $codepoints = utf8_codepoints_combining($this->custom_chars);
+
+            // all characters must be unique
+            if($codepoints != array_unique($codepoints))
+            {
+                $errors .= _("The set of custom characters must be unique.")."<br>";
+            }
+
+            // only allow 32 characters
+            if(count($codepoints) > 32)
+            {
+                $errors .= _("A maximum of 32 custom characters are allowed.")."<br>";
+            }
+
+            // prevent disallowed characters from being added
+            $disallowed_codepoints = array_intersect(get_disallowed_codepoints(), $codepoints);
+            if($disallowed_codepoints != [])
+            {
+                $errors .= sprintf(
+                    _("The following custom characters are not allowed: %s"),
+                    implode(", ", array_map('utf8_chr', $disallowed_codepoints))
+                )."<br>";
+            }
+        }
+
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
         $this->clearance        = @$_POST['clearance'];
@@ -646,7 +678,8 @@ class ProjectInfoHolder
             image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
             text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
             extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->extra_credits))."',
-            deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."'
+            deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."',
+            custom_chars   = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->custom_chars))."'
         ";
         $pm_setter = '';
         if ( user_is_a_sitemanager() )
@@ -984,9 +1017,10 @@ class ProjectInfoHolder
         if (isset($this->projectid))
         {
             $project = new Project($this->projectid);
-            $project_charsuites = $project->get_charsuites();
+            $project_charsuites = $project->get_charsuites(FALSE);
         }
         $this->row( _("Character Suites"),            'charsuite_list',      $this->charsuites,      $project_charsuites);
+        $this->row( _("Custom Characters"),           'text_field',          $this->custom_chars,    'custom_chars'     );
 
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
 

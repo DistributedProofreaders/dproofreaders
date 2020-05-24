@@ -14,11 +14,19 @@ $projectid = get_projectID_param($_REQUEST, "projectid", TRUE);
 
 $charsuite = NULL;
 
-if(!$projectid)
+if($charsuite_name && !$projectid)
 {
     try {
         $charsuite = CharSuites::get($charsuite_name);
     } catch (UnexpectedValueException $e) {
+        // try loading the suite as though it were a project id
+        // for a custom project suite
+        try {
+            $project = new Project($charsuite_name);
+            $charsuite = $project->get_custom_charsuite();
+        } catch (NonexistentProjectException $e) {
+            // continue
+        }
         // continue
     }
 }
@@ -48,7 +56,11 @@ elseif($projectid)
     $title = _("Project Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
     echo "<h1>$title</h1>";
-    echo "<p>" . sprintf(_("Character Suites for <b>%s</b>."), $project->nameofwork) . "</p>";
+    echo "<p>" . sprintf(
+        _("Character Suites for <a href='%s'>%s</a>."),
+        "$code_url/project.php?id=$projectid",
+        html_safe($project->nameofwork)
+    ) . "</p>";
     $charsuites = $project->get_charsuites();
     foreach($charsuites as $charsuite)
     {
@@ -122,7 +134,7 @@ function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
     }
     elseif(!$charsuite->is_enabled())
     {
-        echo "<p class='warning'>". _("This charsuite is installed but not enabled and cannot be used for new projects.") . "</p>";
+        echo "<p class='warning'>". _("This character suite is installed but not enabled and cannot be used for new projects.") . "</p>";
     }
 
     echo "<p>" . _("Below are all the characters with their Unicode codepoints that are available within this character suite. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
@@ -130,7 +142,7 @@ function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
     $characters = convert_codepoint_ranges_to_characters($charsuite->codepoints);
     output_characters_table($characters);
 
-    if(!$title)
+    if(!$title && $charsuite->reference_urls)
     {
         echo "<p>" . _("Reference URLs") . ":";
         echo "<ul>";
@@ -165,18 +177,16 @@ function output_pickerset($pickerset, $all_codepoints)
         // first the menu item
         echo "<h3>$header</h3>";
 
-        // now the 2 rows
+        // now the picker rows
         echo "<table class='basic'>";
-        echo "<tr>";
-        $row1_characters = convert_codepoint_ranges_to_characters($coderows[0]);
-        $picker_characters = array_merge($picker_characters, $row1_characters);
-        output_characters_slice($row1_characters);
-        echo "</tr>";
-        echo "<tr>";
-        $row2_characters = convert_codepoint_ranges_to_characters($coderows[1]);
-        $picker_characters = array_merge($picker_characters, $row2_characters);
-        output_characters_slice($row2_characters);
-        echo "</tr>";
+        foreach($coderows as $row)
+        {
+            echo "<tr>";
+            $characters = convert_codepoint_ranges_to_characters($row);
+            $picker_characters = array_merge($picker_characters, $characters);
+            output_characters_slice($characters);
+            echo "</tr>";
+        }
         echo "</table>";
     }
     $all_characters = convert_codepoint_ranges_to_characters($all_codepoints);
