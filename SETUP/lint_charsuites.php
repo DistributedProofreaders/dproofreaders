@@ -2,6 +2,7 @@
 <?php
 $relPath="../pinc/";
 include_once($relPath."CharSuites.inc");
+include_once($relPath."unicode.inc");
 
 foreach(CharSuites::get_all() as $charsuite)
 {
@@ -15,6 +16,21 @@ foreach(CharSuites::get_all() as $charsuite)
         foreach($nonnormalized_codepoints as $orig => $norm)
         {
             echo sprintf("    %s normalized is %s\n", $orig, $norm);
+        }
+        exit(1);
+    }
+
+    // Validate that the character suite does not contain codepoints we convert
+    // to ASCII
+    $disallowed_characters = convert_codepoint_ranges_to_characters(get_disallowed_codepoints());
+    $charsuite_characters = convert_codepoint_ranges_to_characters($charsuite->codepoints);
+    $characters = array_intersect($disallowed_characters, $charsuite_characters);
+    if($characters != [])
+    {
+        echo "ERROR: disallowed characters found in suite\n";
+        foreach($characters as $char)
+        {
+            echo sprintf("    %s: %s\n", $char, utf8_chr_to_hex($char));
         }
         exit(1);
     }
