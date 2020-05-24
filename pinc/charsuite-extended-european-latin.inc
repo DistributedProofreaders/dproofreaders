@@ -5,7 +5,7 @@ $charsuite = new CharSuite("extended-european-latin", _("Extended European Latin
 $charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Latin_Extended-A
     'U+0100-U+0148',
-    'U+014A-U+017F',
+    'U+014a-U+017f',
 ];
 $charsuite->reference_urls = [
     'https://en.wikipedia.org/wiki/Latin_Extended-A',
@@ -20,7 +20,7 @@ $pickerset->add_subset(utf8_chr("\u0100"), [
       'U+010f', 'U+0111', 'U+0113', 'U+0115', 'U+0117', 'U+0119', 'U+011b' ],
 ]);
 # G-K with diacriticals
-$pickerset->add_subset(utf8_chr("\u011C"), [
+$pickerset->add_subset(utf8_chr("\u011c"), [
     [ 'U+011c', 'U+011e', 'U+0120', 'U+0122', 'U+0124', 'U+0126', 'U+0128',
       'U+012a', 'U+012c', 'U+012e', 'U+0130', 'U+0132', 'U+0134', 'U+0136' ],
     [ 'U+011d', 'U+011f', 'U+0121', 'U+0123', 'U+0125', 'U+0127', 'U+0129',

@@ -35,6 +35,9 @@ foreach(CharSuites::get_all() as $charsuite)
         exit(1);
     }
 
+    // Confirm that all hex codes are in lowercase
+    validate_hex_codes_lowercase($charsuite->codepoints, "uppercase hex values found in charsuite codepoints");
+
     // Validate pickersets only contain characters within the suite
     foreach($charsuite->pickerset->get_subsets() as $title => $picker_subset)
     {
@@ -51,6 +54,31 @@ foreach(CharSuites::get_all() as $charsuite)
                 }
                 exit(1);
             }
+
+            // Confirm hex codes are in lowercase
+            validate_hex_codes_lowercase($codepoints, "uppercase hex values found in picker set");
         }
+    }
+}
+
+function validate_hex_codes_lowercase($codepoints, $error_message)
+{
+    // Confirm that all hex codes are in lowercase
+    $uppercase_codepoints = [];
+    foreach($codepoints as $codepoint)
+    {
+        if(preg_match('/[ABCDEF]/', $codepoint))
+        {
+            $uppercase_codepoints[] = $codepoint;
+        }
+    }
+    if($uppercase_codepoints)
+    {
+        echo "ERROR: $error_message\n";
+        foreach($uppercase_codepoints as $codepoint)
+        {
+            echo sprintf("    %s\n", $codepoint);
+        }
+        exit(1);
     }
 }

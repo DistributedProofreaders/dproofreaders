@@ -325,8 +325,8 @@ function get_utf8_to_ascii_codepoints()
             'U+2014', # em-dash
         ],
         '"' => [
-            'U+201C', # open curly double quote
-            'U+201D', # closing curly double quote
+            'U+201c', # open curly double quote
+            'U+201d', # closing curly double quote
         ],
         "'" => [
             'U+2018', # open curly single quote
@@ -337,7 +337,7 @@ function get_utf8_to_ascii_codepoints()
         ],
         " " => [
             'U+0009', # tab
-            'U+00A0', # no-break space
+            'U+00a0', # no-break space
             'U+1680', # ogham space mark
             'U+2000', # en quad
             'U+2001', # em quad
@@ -349,14 +349,14 @@ function get_utf8_to_ascii_codepoints()
             'U+2007', # figure space
             'U+2008', # punctuation space
             'U+2009', # thin space
-            'U+20A0', # hair space
-            'U+202F', # narrow no-break space
-            'U+205F', # medium mathematical space
+            'U+20a0', # hair space
+            'U+202f', # narrow no-break space
+            'U+205f', # medium mathematical space
             'U+3000', # ideographic space
         ],
         "\n" => [
-            'U+000B', # vertical tab
-            'U+000C', # form feed
+            'U+000b', # vertical tab
+            'U+000c', # form feed
             'U+0085', # next line
             'U+2028', # line separator
             'U+2029', # paragraph separator
