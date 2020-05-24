@@ -2084,7 +2084,7 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
     echo "<form method='GET' action='$action'>";
     echo "<input type='hidden' name='project'  value='{$project->projectid}'>\n";
     echo "<input type='hidden' name='stage' value='smooth_avail'>\n";
-    $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 3em;' value='$default_days'>";
+    $day_input = "&nbsp;<input type='number' name='days' min='$min_days' max='$max_days' style='width: 4em;' value='$default_days'>";
     echo sprintf($label, $day_input, $min_days, $max_days), "&nbsp;<input type='submit' value='", attr_safe(_("Go")), "'>\n";
     echo "</form>\n";
 }
