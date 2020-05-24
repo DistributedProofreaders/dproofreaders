@@ -388,6 +388,7 @@ CREATE TABLE `projects` (
   `smoothread_deadline` int(20) NOT NULL default '0',
   `up_projectid` int(10) default '0',
   `deletion_reason` tinytext NOT NULL,
+  `custom_chars` varchar(64) DEFAULT '',
   PRIMARY KEY  (`projectid`),
   KEY `special_code` (`special_code`),
   KEY `projectid_archived_state` (`projectid`,`archived`,`state`),

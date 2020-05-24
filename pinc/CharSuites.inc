@@ -33,14 +33,16 @@ class CharSuite
     public $name;
     public $title;
     public $codepoints;
+    public $adhoc;
     public $reference_urls = [];
     private $_pickerset = NULL;
 
-    function __construct($name, $title, $codepoints=NULL)
+    function __construct($name, $title, $codepoints=NULL, $adhoc=FALSE)
     {
         $this->name = $name;
         $this->title = $title;
         $this->codepoints = $codepoints;
+        $this->adhoc = $adhoc;
     }
 
     public function __get($name)
@@ -80,6 +82,9 @@ class CharSuite
 
     public function is_enabled()
     {
+        if($this->adhoc)
+            return TRUE;
+
         $enabled_sets = CharSuites::get_enabled();
         return in_array($this, $enabled_sets);
     }

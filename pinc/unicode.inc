@@ -96,6 +96,18 @@ function utf8_character_name($characters)
     return implode(" + ", $title_pieces);
 }
 
+# Split a Unicode string into codepoints keeping combining characters together
+function utf8_codepoints_combining($string)
+{
+    $codepoints = [];
+    preg_match_all("/(\X)/u", $string, $matches);
+    foreach($matches[1] as $character)
+    {
+        $codepoints[] = string_to_codepoints_string($character, ">");
+    }
+    return $codepoints;
+}
+
 # Given a string, return a string of codepoints in U+ format
 function string_to_codepoints_string($string, $imploder=" ")
 {
