@@ -16,6 +16,7 @@ require_login();
 
 define("LAYOUT_HORIZ", "horizontal");
 define("LAYOUT_VERT",  "vertical");
+define("MAX_WORD_INSTANCES", 100);
 
 set_time_limit(0); // no time limit
 
@@ -37,7 +38,7 @@ if($layout != $default_layout)
     $userSettings->set_value("show_word_context_layout", $layout);
 }
 
-$wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, null);
+$wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
 
 // $frame determines which frame we're operating from
 // 'master' - we're the master frame
@@ -81,6 +82,20 @@ if($frame=="left") {
     echo "</a>";
     echo "</p>";
 
+    echo "<form method='GET' id='wordInstancesForm'>";
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
+    echo "<input type='hidden' name='word' value='$encWord'>";
+    echo "<input type='hidden' name='layout' value='$layout'>";
+    echo "<input type='hidden' name='frame' value='left'>";
+    echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
+    echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='$(\"#wordInstancesForm\").submit()'>";
+    foreach(range(10, MAX_WORD_INSTANCES, 10) as $option) {
+        echo "<option value='$option'" . ($option == $wordInstances ? " selected" : "") . ">$option</option>";
+    }
+    echo "</select>";
+    echo "</form>";
+
+
     // get the latest possible round
     $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
     $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
@@ -112,7 +127,7 @@ if($frame=="left") {
     mysqli_free_result($pages_res);
 
     if($foundInstances>=$wordInstances)
-        echo "<p>" . _("More instances were found, stopping after a small sample.") . "</p>";
+        echo "<p>" . _("More instances were found; please choose how many to show from the drop-down.") . "</p>";
 
     exit;
 }
