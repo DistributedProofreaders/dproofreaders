@@ -1,5 +1,5 @@
 <?php
-$relPath="../../../pinc/";
+$relPath="../../../../pinc/";
 include_once($relPath.'base.inc'); // require_login()
 include_once($relPath.'slim_header.inc');
 
