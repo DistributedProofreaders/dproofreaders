@@ -1,11 +1,9 @@
 <?php
 $relPath="../../../../pinc/";
-include_once($relPath.'base.inc'); // require_login()
+include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 
 // Demonstrate two pane vertical split
-
-require_login();
 
 $title = _('Two Pane Vertical Split');
 
