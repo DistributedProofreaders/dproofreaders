@@ -9,7 +9,7 @@ $title = _('Two Pane Horizontal Split with Flex Layout');
 
 $js_files = [
     "$code_url/scripts/splitControl.js",
-    "h_split.js",
+    "horizontal_split.js",
 ];
 
 // overflow: hidden prevents getting incorrect container size

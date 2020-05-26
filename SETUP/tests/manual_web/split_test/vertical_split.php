@@ -9,7 +9,7 @@ $title = _('Two Pane Vertical Split');
 
 $js_files = [
     "$code_url/scripts/splitControl.js",
-    "v_split.js",
+    "vertical_split.js",
     ];
 
 $header_args = [
