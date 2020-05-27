@@ -14,16 +14,19 @@ $js_files = [
 
 $header_args = [
     "js_files" => $js_files,
+    "css_files" => ["split_test.css"],
 ];
 
 slim_header("$title", $header_args);
 
 echo "<h1>$title</h1>\n";
 
+$text = file_get_contents("sample.txt");
+
 echo "<div style='border: 10px solid black;'>\n";
 echo "<div id='container' style='height: 300px;'>\n";
-echo "<div>This is pane1</div>\n";
-echo "<div>This is pane2</div>\n";
+echo "<div class='overflow-auto'><img src='004.png' alt='nobly sacrifice'></div>\n";
+echo "<div class='overflow-auto'>$text</div>\n";
 echo "</div>\n";
 echo "</div>\n";
 

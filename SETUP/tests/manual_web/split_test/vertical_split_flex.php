@@ -16,16 +16,19 @@ $js_files = [
 // when using flex layout and window size is reducing
 $header_args = [
     "js_files" => $js_files,
+    "css_files" => ["split_test.css"],
     "body_attributes" => "style='margin: 0; overflow: hidden;'",
 ];
 
 slim_header("$title", $header_args);
 
-echo "<div style='display: flex; flex-direction: column; height: 100vh;'>\n";
-echo "<div style='background-color: aquamarine;'>";
+$text = file_get_contents("sample.txt");
+
+echo "<div class='column-flex'>\n";
+echo "<div class='top-box'>";
 echo "<h1>$title</h1>\n";
 echo "</div>\n";
-echo "<div id='container' style='background-color: beige; flex: auto;'>\n";
-echo "<div>This is pane1</div>\n";
-echo "<div>This is pane2</div>\n";
+echo "<div id='container' class='flex-auto beige'>\n";
+echo "<div class='overflow-auto'><img src='004.png' alt='nobly sacrifice'></div>\n";
+echo "<div class='overflow-auto'>$text</div>\n";
 echo "</div>\n";
