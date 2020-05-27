@@ -9,16 +9,16 @@
  * Arguments for setup:
  * container - ID of a <div> which contains two <div>s (herein referred
  *     to as pane1 and pane2). The splitter will be created between these.
- * reDraw - jQuery callback which should be fired when the container sizes change.
- *     for the top-level splitter this can be fired by $(window).resize()
- *     for a subsidiary splitter use reSize returned by the parent splitter
  * config - optional dictionary that controls the div: (defaults in brackets)
-  {
-    splitDirection: (DIRECTION.VERTICAL) DIRECTION.VERTICAL or DIRECTION.HORIZONTAL,
-    splitPercent: (50), percentage of contaner occupied by pane1,
-    dragBarSize: (6), the width/height of the splitterbar in pixels,
-    dragBarColor: ("darkgray"),
-  }
+ * {
+ *   splitDirection: (DIRECTION.VERTICAL) DIRECTION.VERTICAL or DIRECTION.HORIZONTAL,
+ *   splitPercent: (50), percentage of contaner occupied by pane1,
+ *   reDraw - jQuery callback which should be fired when the container size changes.
+ *       by default this is fired by $(window).resize()
+ *       for a subsidiary splitter use reSize returned by the parent splitter
+ *   dragBarSize: (6), the width/height of the splitterbar in pixels,
+ *   dragBarColor: ("darkgray"),
+ * }
  *
  * Returns:
  * setSplit(splitDirection): a function to change the splitDirection
@@ -33,9 +33,15 @@
 */
 var splitControl = function() {
     const DIRECTION = {VERTICAL: 1, HORIZONTAL: 0};
+
+    let windowResize = $.Callbacks();
+    $(window).resize(function () {
+        windowResize.fire();
+    });
+
     return {
-        setup: function(container, reDraw, config = {}) {
-            let theConfig = {splitDirection: DIRECTION.VERTICAL, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
+        setup: function(container, config = {}) {
+            let theConfig = {reDraw: windowResize, splitDirection: DIRECTION.VERTICAL, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
             for(let key in config) {
                 theConfig[key] = config[key];
             }
@@ -161,7 +167,7 @@ var splitControl = function() {
 
             dragBar.on("mousedown", dragMouseDown);
             dragBar.on("touchstart", dragTouchStart);
-            reDraw.add(reLayout);
+            theConfig.reDraw.add(reLayout);
 
             return {
                 setSplit: function (splitDirection) {

@@ -1,11 +1,6 @@
-/* global $ splitControl */
+/* global splitControl */
 $(function () {
-    let reDraw = $.Callbacks();
-
-    $(window).resize(function () {
-        reDraw.fire();
-    });
     let splitter = splitControl();
-    let mainSplit = splitter.setup("#container", reDraw);
+    let mainSplit = splitter.setup("#container");
     mainSplit.reLayout();
 });

@@ -1,16 +1,8 @@
 /* global $ splitControl */
 $(function () {
-    let reDraw = $.Callbacks();
-
-    $(window).resize(function () {
-        reDraw.fire();
-    });
-
     let splitter = splitControl();
-    let mainSplit = splitter.setup("#top-container", reDraw, {dragBarColor: "green"});
-
-    splitter.setup("#sub-container", mainSplit.reSize, {splitDirection: splitter.DIRECTION.HORIZONTAL, dragBarSize: 10, dragBarColor: "blue"});
-
+    let mainSplit = splitter.setup("#top-container", {dragBarColor: "green"});
+    splitter.setup("#sub-container", {splitDirection: splitter.DIRECTION.HORIZONTAL, reDraw: mainSplit.reSize, dragBarSize: 10, dragBarColor: "blue"});
     mainSplit.reLayout();
 });
 
