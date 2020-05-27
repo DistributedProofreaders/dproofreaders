@@ -5,8 +5,7 @@ $(function () {
     $(window).resize(function () {
         reDraw.fire();
     });
-
-    let mainSplit = splitControl("#container", reDraw, {splitDirection: "vertical"});
+    let splitter = splitControl();
+    let mainSplit = splitter.setup("#container", reDraw);
     mainSplit.reLayout();
 });
-

@@ -6,7 +6,8 @@ $(function () {
         reDraw.fire();
     });
 
-    let mainSplit = splitControl("#container", reDraw, {splitDirection: "horizontal"});
+    let splitter = splitControl();
+    let mainSplit = splitter.setup("#container", reDraw, {splitDirection: splitter.DIRECTION.HORIZONTAL});
     mainSplit.reLayout();
 });
 

@@ -6,9 +6,10 @@ $(function () {
         reDraw.fire();
     });
 
-    let mainSplit = splitControl("#top-container", reDraw, {splitDirection: "vertical", dragBarColor: "green"});
+    let splitter = splitControl();
+    let mainSplit = splitter.setup("#top-container", reDraw, {dragBarColor: "green"});
 
-    splitControl("#sub-container", mainSplit.reSize, {splitDirection: "horizontal", dragBarSize: 10, dragBarColor: "blue"});
+    splitter.setup("#sub-container", mainSplit.reSize, {splitDirection: splitter.DIRECTION.HORIZONTAL, dragBarSize: 10, dragBarColor: "blue"});
 
     mainSplit.reLayout();
 });
