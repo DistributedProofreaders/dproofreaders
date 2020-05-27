@@ -5,11 +5,11 @@
  * Create a splitter between two <div>s within a container.
  * Arguments:
  * container - ID of a <div> which contains two <div>s (herein referred
- * to as pane1 and pane2). The splitter will be created between these.
+ *     to as pane1 and pane2). The splitter will be created between these.
  * reDraw - jQuery callback which should be fired when the container sizes change.
- * for the top-level splitter this can be fired by $(window).resize()
- * for a subsidiary splitter use reSize returned by the parent splitter
- * config - dictionary that controls the div: (default are shown in brackets)
+ *     for the top-level splitter this can be fired by $(window).resize()
+ *     for a subsidiary splitter use reSize returned by the parent splitter
+ * config - dictionary that controls the div: (defaults are shown in brackets)
   {
     splitDirection: ("horizontal") "horizontal" or "vertical",
     splitPercent: (50), percentage of contaner occupied by pane1,
@@ -22,11 +22,11 @@
  * reLayout(): a function to re-draw the panes, this should be called after
  * drawing any divs surrounding the container.
  * reSize: this jquery callback is fired after relayout has been called
- * and after moving the dragbar. It can be used as the reDraw parameter for
- * subsidiary splitControls.
+ *     and after moving the dragbar. It can be used as the reDraw parameter for
+ *     subsidiary splitControls.
  * dragEnd: this jquery callback is fired at the end of a drag resize with
- * a percentage parameter. It enables the split percentage to be stored so
- * that when splitControl is used again the split ratio can be persisted.
+ *     a percentage parameter. It enables the split percentage to be stored so
+ *     that when splitControl is used again the split ratio can be persisted.
 */
 function splitControl(container, reDraw, config) {
     let theConfig = {splitDirection: "horizontal", splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
@@ -116,7 +116,7 @@ function splitControl(container, reDraw, config) {
     }
 
     function dragMove(event) {
-        splitPos = ((theConfig.splitDirection === "vertical") ? event.pageX : event.pageY);
+        splitPos = (theConfig.splitDirection === "vertical") ? event.pageX : event.pageY;
         moveSplit();
     }
 
