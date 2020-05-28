@@ -30,7 +30,7 @@
  * dragEnd: this jquery callback is fired at the end of a drag resize with
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
-*/
+ */
 var splitControl = function() {
     const DIRECTION = {VERTICAL: 1, HORIZONTAL: 0};
 

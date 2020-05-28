@@ -5,4 +5,3 @@ $(function () {
     splitter.setup("#sub-container", {splitDirection: splitter.DIRECTION.HORIZONTAL, reDraw: mainSplit.reSize, dragBarSize: 10, dragBarColor: "blue"});
     mainSplit.reLayout();
 });
-

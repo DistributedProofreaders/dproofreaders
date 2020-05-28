@@ -5,11 +5,11 @@ include_once($relPath.'slim_header.inc');
 
 // Demonstrate two pane vertical split
 
-$title = _('Two Pane Horizontal Split with Flex Layout');
+$title = _('Two Pane Switchable Split with Flex Layout');
 
 $js_files = [
     "$code_url/scripts/splitControl.js",
-    "horizontal_split.js",
+    "switchable_split.js",
 ];
 
 // overflow: hidden prevents getting incorrect container size
@@ -25,9 +25,12 @@ slim_header("$title", $header_args);
 $text = file_get_contents("sample.txt");
 
 echo "<div class='column-flex'>\n";
+
 echo "<div class='top-box'>";
 echo "<h1>$title</h1>\n";
+echo "<div id='control-div'></div>";
 echo "</div>\n";
+
 echo "<div id='container' class='flex-auto beige'>\n";
 echo "<div class='overflow-auto'><img src='004.png' alt='nobly sacrifice'></div>\n";
 echo "<div class='overflow-auto'>$text</div>\n";
