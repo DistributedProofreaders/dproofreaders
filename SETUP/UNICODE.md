@@ -39,6 +39,8 @@ character suites.
 
 Character suites also define Picker Sets. These are collections of characters
 that are shown to the users in the proofreading interface character picker.
+Picker sets are optional and, if they are used, need not cover the entire set
+of codepoints in the character suite.
 
 The code currently ships with 4 character suites:
 
@@ -47,8 +49,12 @@ The code currently ships with 4 character suites:
 * Basic Greek
 * Polytonic Greek
 
-All character suites can be viewed using the [All Character Suites](tools/charsuites.php)
+All character suites can be viewed using the [All Character Suites](../tools/charsuites.php)
 page.
+
+Character suites are defined by code in `../pinc/`, one file per suite -- for
+example: [charsuite-basic-latin.inc](../pinc/charsuite-basic-latin.inc). All
+files in `../pinc/` matching `charsuite-*.inc` are loaded automatically.
 
 Character suites are enabled or disabled by site administrators using the
 [Manage Site Character Suites](../tools/site_admin/manage_site_charsuites.php)
@@ -58,6 +64,32 @@ using them, but cannot be added to new projects.
 
 If you want all new projects to use one or more character suites by default,
 set `_DEFAULT_CHAR_SUITES` in your `configuration.sh` file.
+
+## Bypassing Character Suites
+
+While there is no way to bypass a character suite, it is possible to create one
+which includes a large swath of the Unicode range. This would effectively bypass
+validation as all characters in the range would be valid. This is not recommended
+as-is because it includes undefined codepoints, but may be desired for some sites.
+
+For example, to allow all characters in the Basic Multilingual Plane, the following
+file could be created in `../pinc/charsuite-bmp.inc` and then enabled.
+
+```php
+<?php
+include_once($relPath."CharSuites.inc");
+
+$charsuite = new CharSuite("bmp", _("Basic Multilingual Plane"));
+$charsuite->codepoints = [
+    # skip the C0 control block
+    'U+0020-U+FFFF',
+];
+$charsuite->reference_urls = [
+    "https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane",
+];
+
+CharSuites::add($charsuite);
+```
 
 ## Upgrading from Latin-1 projects
 
@@ -88,6 +120,9 @@ Upgrade scripts related to the Unicode conversion:
 * `20190819_convert_project_tables_to_utf8mb4.php`
 * `20191211_convert_project_text_files.php`
 * `20191211_convert_word_lists.php`
+* `20200127_add_charsuite_tables.php`
+* `20200404_normalize_project_details.php`
+* `20200511_convert_archive_db_to_utf8mb4.php`
 
 If, after the upgrade, you need to convert individual project tables to UTF-8,
 use the "Convert Project Table to UTF-8" site administrator tool under
