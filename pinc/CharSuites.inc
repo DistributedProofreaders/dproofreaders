@@ -177,13 +177,6 @@ class CharSuites
 
 #----------------------------------------------------------------------------
 
-// load all available charsuites
-$charsuite_files = glob($relPath."charsuite-*.inc");
-foreach($charsuite_files as $charsuite_file)
-{
-    include_once($charsuite_file);
-}
-
 trait CharSuiteSet
 {
     public function get_pickersets()
@@ -223,4 +216,13 @@ function get_project_or_quiz($identifier)
     {
         return new Project($identifier);
     }
+}
+
+#----------------------------------------------------------------------------
+
+// load all available charsuites
+$charsuite_files = glob($relPath."charsuite-*.inc");
+foreach($charsuite_files as $charsuite_file)
+{
+    include_once($charsuite_file);
 }
