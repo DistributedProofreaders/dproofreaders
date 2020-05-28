@@ -223,6 +223,7 @@ function output_codepoints_slice($slice)
         {
             $title = utf8_character_name($char);
             $codepoint = string_to_codepoints_string($char, "<br>");
+            $char = html_safe($char);
             echo "<td class='center-align' title='$title'>";
             echo "<span class='gs-char'>$char</span><br>";
             echo "<span class='gs-codepoint'>$codepoint</span>";
