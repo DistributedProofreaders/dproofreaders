@@ -21,6 +21,11 @@ class CharacterSelector
 
         foreach ($this->picker_sets as $picker_set)
         {
+            if(!$picker_set)
+            {
+                continue;
+            }
+
             if(count($this->picker_sets) == 1)
             {
                 $prefix = "";

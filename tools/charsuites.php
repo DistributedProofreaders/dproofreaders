@@ -143,6 +143,11 @@ function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
 function output_pickerset($pickerset, $all_codepoints)
 {
     echo "<h2>" . _("Character Picker Sets") . "</h2>";
+    if(!$pickerset)
+    {
+        echo "<p>" . _("No picker set is defined for this character suite.") . "</p>";
+        return;
+    }
     echo "<p>" . _("The following groupings represent sets of characters available in the character picker within the proofreading interface for projects using this character suite. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
     $set = $pickerset->get_subsets();
     $picker_characters = [];
