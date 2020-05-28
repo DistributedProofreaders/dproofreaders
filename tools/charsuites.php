@@ -185,12 +185,16 @@ function output_pickerset($pickerset, $all_codepoints)
 
 function output_codepoints_table($charsuite, $table_width=16)
 {
+    # maximum number of codepoints to output
+    $MAX_CODEPOINTS = 2048;
+
     $characters = convert_codepoint_ranges_to_characters($charsuite);
 
     echo "<table class='basic'>";
 
     $offset = 0;
-    while($slice = array_slice($characters, $offset, $table_width))
+    while(($slice = array_slice($characters, $offset, $table_width)) &&
+        $offset < $MAX_CODEPOINTS)
     {
         echo "<tr>";
         output_codepoints_slice($slice);
@@ -198,6 +202,17 @@ function output_codepoints_table($charsuite, $table_width=16)
         $offset += $table_width;
     }
     echo "</table>";
+
+    if($offset >= $MAX_CODEPOINTS)
+    {
+        echo "<p class='warning'>";
+        echo sprintf(
+            _("Only %1\$s of %2\$s codepoints printed."),
+            $offset,
+            count($characters)
+        );
+        echo "</p>";
+    }
 }
 
 function output_codepoints_slice($slice)
