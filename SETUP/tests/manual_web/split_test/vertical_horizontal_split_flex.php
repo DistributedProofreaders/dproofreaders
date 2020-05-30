@@ -12,8 +12,6 @@ $js_files = [
     "vertical_horizontal_split.js",
 ];
 
-// overflow: hidden prevents getting incorrect container size
-// when using flex layout and window size is reducing
 $header_args = [
     "js_files" => $js_files,
     "css_files" => ["split_test.css"],
