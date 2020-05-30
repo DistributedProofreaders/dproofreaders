@@ -3,8 +3,8 @@ $(function () {
     let splitter = splitControl();
 
     function appendControlButton(controlDiv, theSplit, initialDirection) {
-        let vSwitchButton = $("<input>", {type: 'button', value: 'Vertical Split'});
-        let hSwitchButton = $("<input>", {type: 'button', value: 'Horizontal Split'});
+        let vSwitchButton = $("<input>", {type: 'button', value: 'Switch to Vertical Split'});
+        let hSwitchButton = $("<input>", {type: 'button', value: 'Switch to Horizontal Split'});
 
         function setSplitControls(splitDirection) {
             if (splitDirection === splitter.DIRECTION.VERTICAL) {

@@ -37,8 +37,8 @@ echo "<div id='sub-container' style='background-color: honeydew;'>\n";
 echo "<div><textarea>$text</textarea></div>\n";
 echo "<div>This is pane3</div>\n";
 
-echo "</div>\n"; // top-container
-
 echo "</div>\n"; // sub-container
+
+echo "</div>\n"; // top-container
 
 echo "</div>\n"; // flex box
