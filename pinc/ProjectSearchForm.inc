@@ -174,7 +174,7 @@ class ProjectSearchForm
         $this->define_form_widgets();
     }
 
-    private function _get_options_special_day()
+    static public function special_day_options()
     {
         $special_day_options = array();
         $special_day_options[''] = _('Any day');
@@ -194,7 +194,7 @@ class ProjectSearchForm
         return $special_day_options;
     }
 
-    private function _get_options_lang()
+    static public function language_options()
     {
         global $lang_list;
 
@@ -206,12 +206,12 @@ class ProjectSearchForm
         return $lang_options;
     }
 
-    private function _get_options_genre()
+    static public function genre_options()
     {
         return array_merge( array( '' => _('Any') ), load_genre_translation_array());
     }
 
-    private function _get_options_difficulty()
+    static public function difficulty_options()
     {
         return array(
             ''         => _('Any'),
@@ -222,7 +222,7 @@ class ProjectSearchForm
         );
     }
 
-    private function _get_options_state()
+    static public function state_options()
     {
         global $PROJECT_STATES_IN_ORDER;
 
@@ -293,7 +293,7 @@ class ProjectSearchForm
                 'id'         => 'language',
                 'label'      => _('Language'),
                 'type'       => 'select',
-                'options'    => $this->_get_options_lang(),
+                'options'    => $this->language_options(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
                 'q_contrib'  => array('language', 'LIKE'),
@@ -304,7 +304,7 @@ class ProjectSearchForm
                 'id'         => 'genre',
                 'label'      => _('Genre'),
                 'type'       => 'select',
-                'options'    => $this->_get_options_genre(),
+                'options'    => $this->genre_options(),
                 'can_be_multiple' => TRUE,
                 'q_contrib'  => array('genre', '='),
             )),
@@ -312,7 +312,7 @@ class ProjectSearchForm
                 'id'         => 'difficulty',
                 'label'      => _('Difficulty'),
                 'type'       => 'select',
-                'options'    => $this->_get_options_difficulty(),
+                'options'    => $this->difficulty_options(),
                 'can_be_multiple' => TRUE,
                 'q_contrib'  => array('difficulty', '='),
             )),
@@ -320,7 +320,7 @@ class ProjectSearchForm
                 'id'         => 'special_day',
                 'label'      => _('Special day'),
                 'type'       => 'select',
-                'options'    => $this->_get_options_special_day(),
+                'options'    => $this->special_day_options(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
                 'q_contrib'  => array('special_code', '='),
@@ -329,7 +329,7 @@ class ProjectSearchForm
                 'id'           => 'state',
                 'label'        => pgettext('project state', 'State'),
                 'type'         => 'select',
-                'options'      => $this->_get_options_state(),
+                'options'      => $this->state_options(),
                 'can_be_multiple' => TRUE,
                 'q_contrib'    => array('state', '='),
             )),
