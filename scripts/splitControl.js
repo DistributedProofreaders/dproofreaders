@@ -127,12 +127,22 @@ var splitControl = function() {
                 moveSplit();
             }
 
+            function dragStart(event) {
+                event.preventDefault();
+                // need this only if there is an iframe in a pane.
+                pane2.css("pointerEvents", "none");
+                pane1.css("pointerEvents", "none");
+            }
+
             function dragMove(event) {
                 splitPos = (theConfig.splitDirection === DIRECTION.VERTICAL) ? event.pageX : event.pageY;
                 moveSplit();
             }
 
             function dragMoveEnd() {
+                // restore normal operation
+                pane2.css("pointerEvents", "auto");
+                pane1.css("pointerEvents", "auto");
                 if(range > 0) {
                     splitRatio = (splitPos - base) / range;
                     dragEnd.fire((splitRatio * 100).toFixed(0));
@@ -145,7 +155,7 @@ var splitControl = function() {
             }
 
             function dragMouseDown(event) {
-                event.preventDefault();
+                dragStart(event);
                 $(document).on("mousemove", dragMove)
                     .on("mouseup", dragMouseUp);
             }
@@ -160,7 +170,7 @@ var splitControl = function() {
             }
 
             function dragTouchStart(event) {
-                event.preventDefault();
+                dragStart(event);
                 $(document).on("touchmove", dragTouchMove)
                     .on("touchend", dragTouchEnd);
             }
