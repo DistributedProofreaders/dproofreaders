@@ -30,3 +30,4 @@ echo "<div id='container' class='flex-auto beige'>\n";
 echo "<div class='overflow-auto'><img src='004.png' alt='nobly sacrifice'></div>\n";
 echo "<div class='overflow-auto'>$text</div>\n";
 echo "</div>\n";
+echo "</div>\n";

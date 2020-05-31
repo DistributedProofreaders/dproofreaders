@@ -40,7 +40,7 @@ var splitControl = function() {
     });
 
     return {
-        setup: function(container, config = {}) {
+        setup: function(container, config) {
             let theConfig = {reDraw: windowResize, splitDirection: DIRECTION.VERTICAL, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
             for(let key in config) {
                 theConfig[key] = config[key];
