@@ -163,7 +163,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     // Testing create_zip_from
 
     public function testCreatingZipFileFromDirectory () {
-        $this->assertTrue(create_zip_from([ 'manual_web' ],
+        $this->assertTrue(create_zip_from([ 'manual_web/page_compare' ],
             self::TEMPORARY_EXTRACTION_DIRECTORY . '/manual_web.zip'));
 
         $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/manual_web.zip'));
