@@ -15,20 +15,6 @@ include_once($relPath.'post_processing.inc'); // count_pp_projects_past_threshol
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 include_once($relPath.'faq.inc');
 
-// Backwards compatibility function. To be removed once all
-// pages transition to output_header()
-function theme($nameofpage, $location, $extra_args = array())
-{
-    global $no_stats;
-    if ($location == "header") {
-        output_header($nameofpage, !isset($no_stats), $extra_args);
-    } else if ($location == "footer") {
-        // No action is necessary here, because output_header()
-        // registers output_footer() to be called automatically
-        // by PHP before the page is finished.
-    }
-}
-
 // Emit the opening markup and theme tags, and register a callback
 // to close the page after the caller finishes output.
 function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
