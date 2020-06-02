@@ -22,7 +22,7 @@ function do_replace()
     var is_regex = regex_checkbox.checked;
     if (!is_regex)
     {
-        search = preg_quote(search);
+        search = escapeRegExp(search);
     }
     opener.parent.docRef.editform.text_data.value=opener.parent.docRef.editform.text_data.value.replace(new RegExp(search,'gu'),replacetext);
     set_undo_button_disabled(false);
@@ -45,35 +45,10 @@ function set_undo_button_disabled(state)
     undo_button.disabled = state;
 }
 
-function test_and_enable_nonregex()
-{
-    var str = '.^';
-    var newstr = preg_quote(str);
-    if (newstr == '\\.\\^')
-    {
-        var regex_checkbox = document.getElementById('is_regex');
-        regex_checkbox.checked = false;
-        regex_checkbox.disabled = false;
-    }
+function escapeRegExp(string) {
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function preg_quote(str)
-{
-   escapees = new Array("\\",".","+","*","?","[","^","]","$","(",")","{","}","=","!","<",">","|");
-   var i = 0;
-   var subs = "";
-   var repl = "";
-   for (i=0;i<escapees.length; i++)
-   {
-       repl = new RegExp("\\" + escapees[i], "g")
-       subs = "\\" + escapees[i];
-
-       str = str.replace(repl, subs);
-   }
-   return(str);
-}
-
-window.onload = test_and_enable_nonregex;
 </script>
 <form>
 <table id="tbl">
@@ -90,7 +65,7 @@ window.onload = test_and_enable_nonregex;
 <tr><td class="right-align">
 <label for='is_regex'><?php echo _("Regular Expression?"); ?></label>
 </td><td>
-<input type="checkbox" name="is_regex" id='is_regex' checked disabled>
+<input type="checkbox" name="is_regex" id='is_regex'>
 </td></tr>
 </table>
 <p class='center-align'>
