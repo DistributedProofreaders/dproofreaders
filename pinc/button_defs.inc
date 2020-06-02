@@ -204,7 +204,7 @@ function echo_button( $button_id, $which_interface )
                 'name'      => "button14",
                 $label      => attr_safe(_("Preview")),
                 'title'     => attr_safe(_("Format preview")),
-                'onclick'   => "previewControl.show(); return false;",
+                'onclick'   => "event.preventDefault(); previewControl.show();",
                 'src'       => "gfx/bt20.png?16092302",
             );
             break;
