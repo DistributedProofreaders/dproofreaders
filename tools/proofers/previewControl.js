@@ -100,7 +100,11 @@ function initPrev() {
         );
         prevWin.innerHTML = preview.txtout;
         if (preview.ok) {
-            MathJax.typeset([prevWin]);
+            try {
+                MathJax.typeset([prevWin]);
+            } catch(exception) {
+                alert("MathJax error: " + exception);
+            }
         }
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
