@@ -7,13 +7,11 @@ include_once($relPath.'slim_header.inc');
 
 $title = _('Vertical and Horizontal Split with Flex Layout');
 
-$js_files = [
-    "$code_url/scripts/splitControl.js",
-    "vertical_horizontal_split.js",
-];
-
 $header_args = [
-    "js_files" => $js_files,
+    "js_files" => [
+        "$code_url/scripts/splitControl.js",
+        "vertical_horizontal_split.js",
+    ],
     "css_files" => ["split_test.css"],
     "body_attributes" => "style='margin: 0; overflow: hidden'",
 ];
