@@ -60,22 +60,15 @@ function get_preview_messages()
 
 function get_preview_js_vars()
 {
-    global $charset, $utf8_site;
-
-    $messages = get_preview_messages();
     $plain = _("Plain text");
     $superscript = _("superscript");
     $subscript = _("subscript");
     $styles = get_style_strings();
 
     $demo_string = javascript_safe("$plain _{{$subscript}} <i>$styles[italic]</i> ^{{$superscript}} <b>$styles[bold]</b> <g>$styles[gesperrt]</g> <sc>$styles[small_caps]</sc> <f>$styles[font_change]</f>");
-    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
+    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"));
 
-    if(!$utf8_site)
-    {
-        array_walk($messages, function(&$item) { $item = utf8_encode($item);} );
-    }
-    $preview_msg = json_encode($messages);
+    $preview_msg = json_encode(get_preview_messages());
 
     return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
 }
