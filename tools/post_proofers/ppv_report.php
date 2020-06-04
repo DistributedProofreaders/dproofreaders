@@ -836,7 +836,7 @@ else if ($action == SEND_OUT_REPORTCARD)
 
     // The Spanish PPer shouldn't get a French email because that's the PPVer's
     // language, so temporarily change the current locale.
-    setlocale(LC_ALL,$pper->u_intlang);
+    configure_gettext_for_user($pper);
     $ppbita = _("Hello %1\$s,
 
     This is a message that your Post-Processing Verifier, %2\$s,
@@ -846,7 +846,7 @@ else if ($action == SEND_OUT_REPORTCARD)
     A copy of the PPV Summary is below. If you have any questions about it, please contact your PPVer.");
     $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, $site_name);
 
-    setlocale(LC_ALL,$ppver->u_intlang);
+    configure_gettext_for_user($ppver);
     $ppvbita = _("Hello %1\$s,
 
     This is a message that you requested you receive from the %4\$s
