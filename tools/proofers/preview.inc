@@ -98,6 +98,7 @@ function output_preview_div()
     $other_tags = html_safe(_("Other tags"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
+    $math_preview = html_safe(_("Preview Math"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
     $initial_mode = html_safe(_("Initial view mode"));
@@ -175,6 +176,7 @@ function output_preview_div()
    </div>
   <div class="box2">
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
+    <span class='ilb'><label>$math_preview<input type="checkbox" id="id_math_preview"></label></span>
   </div>
   <fieldset>
     <legend>$suppress_warnings</legend>

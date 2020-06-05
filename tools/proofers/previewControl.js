@@ -45,6 +45,7 @@ function initPrev() {
     var fontName = document.getElementById("id_font_name");
     var removeFontSelector = document.getElementById("id_remove_sel");
     var allowUnderlineCheckbox = document.getElementById("id_underline");
+    var allowMathPreviewCheckbox = document.getElementById("id_math_preview");
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
 
@@ -79,7 +80,8 @@ function initPrev() {
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif",
         suppress: {},
-        initialViewMode: "no_tags"
+        initialViewMode: "no_tags",
+        allowMathPreview: false
     };
     supp_set.forEach(function (msg, i) {
         previewStyles.suppress[msg] = false;
@@ -99,7 +101,7 @@ function initPrev() {
                 : "pre"
         );
         prevWin.innerHTML = preview.txtout;
-        if (preview.ok) {
+        if (preview.ok && previewStyles.allowMathPreview) {
             try {
                 MathJax.typeset([prevWin]);
             } catch(exception) {
@@ -204,6 +206,15 @@ function initPrev() {
         setViewColors(outerPrev);
         viewMode = previewStyles.initialViewMode;
         $("#" + viewMode).prop("checked", true);
+        // check if MathJax already loaded. Will break if load more than once
+        if(previewStyles.allowMathPreview && (typeof(MathJax) === 'undefined')) {
+            // allow caching
+            return $.ajax({
+                dataType: "script",
+                cache: true,
+                url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+            });
+        }
     }
 
     initStyle();
@@ -355,6 +366,7 @@ function initPrev() {
             defaultTextRadio.checked = true;
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
+            allowMathPreviewCheckbox.checked = tempStyle.allowMathPreview;
 
             supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
@@ -378,12 +390,15 @@ function initPrev() {
                 tempStyle.suppress[msg] = suppCheckBox[i].checked;
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
+            tempStyle.allowMathPreview = allowMathPreviewCheckbox.checked;
             tempStyle.initialViewMode = $("#id_init_mode").val();
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
-            initView();
-            writePreviewText();
-            hideConfig();
+            // if loading MathJax, wait for it to finish
+            $.when(initView()).done(function() {
+                writePreviewText();
+                hideConfig();
+            });
         },
 
         cancelConfig: function () { // don't change anything

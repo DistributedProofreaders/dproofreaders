@@ -638,7 +638,11 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             }
         }
 
-        txt = superSub(txt);
+        if(styler.allowMathPreview) {
+            txt = superSub(txt);
+        } else {
+            txt = ssProcess(txt);
+        }
     }
 
     // attempt to make an approximate representation of formatted text
@@ -1099,7 +1103,9 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         unRecog();
         checkTab();
         checkBlankLines();
-        checkMath();
+        if(styler.allowMathPreview) {
+            checkMath();
+        }
         return (issueCount[1] === 0);
     }
 
