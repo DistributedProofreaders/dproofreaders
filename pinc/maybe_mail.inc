@@ -32,8 +32,6 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
     $additional_headers = implode($additional_headers, "\r\n") . "\r\n";
 
     // Append a standard footer to all emails sent out by the system.
-    // This replaces the $site_signoff in prior versions that was not
-    // translatable.
     if(!endswith($message, "\n"))
     {
         $message .= "\n";
@@ -45,7 +43,9 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         $site_name,
         $site_url,
         "",
-        _("This is an automated message."),
+        // We intentionally don't translate this message because we don't know
+        // what the recipient's language is at this point.
+        "This is an automated message.",
     ]);
 
     if ( $testing )
