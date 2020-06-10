@@ -60,11 +60,16 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // ILTags can have "u" for underline added. Used for constructing regexes
     var ILTags = "[ibfg]|sc";
     var endSpan = "</span>"; // a constant string
-    var issueCount = [0, 0]; // possible issues, issues
     var issArray = []; // stores issues for markup-insertion later
 
+    // this records issues which could prevent checkSC and boldHeading from
+    // working. Not all definite issues mean bad parse
+    let parseOK = true;
+    function badParse() {
+        parseOK = false;
+    }
+
     function reportIssueLong(start, len, message, type) {
-        issueCount[type] += 1;
         issArray.push({start: start, len: len, msg: message, type: type});
     }
 
@@ -353,6 +358,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
                     reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
+                    badParse();
                 }
                 return;
             }
@@ -363,6 +369,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                     // user note missing ], make an issue to avoid parsing probs
                     // if there are tags in the note
                     reportIssueLong(result.index, 3, previewMessages.noCloseBrack, 1);
+                    badParse();
                 }
                 re.lastIndex = reCloseBrack.lastIndex;
                 continue;
@@ -372,6 +379,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
                     reportIssue(stackTop.start, stackTop.tagLen, "noEndTagInPara");
+                    badParse();
                 }
                 continue;
             }
@@ -397,11 +405,13 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 }
                 if (tagStack.length === 0) {    // missing start tag
                     reportIssue(start, tagLen, "noStartTag");
+                    badParse();
                 } else {
                     stackTop = tagStack.pop();
                     if (stackTop.tag !== tagString) {
                         reportIssue(start, tagLen, "misMatchTag");
                         reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag");
+                        badParse();
                     } else if ((stackTop.start + stackTop.tagLen) === start) {
                         reportIssue(start, tagLen, "emptyTag");
                         reportIssue(stackTop.start, stackTop.tagLen, "emptyTag");
@@ -410,6 +420,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             } else {    // startTag
                 if (tagStack.some(match)) { // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
+                    badParse();
                 }
                 if (/[,.;:!\?]/.test(postChar)) {
                     reportIssue(end, 1, "puncAfterStart");
@@ -707,6 +718,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             re.lastIndex -= 1; // in case only one char, include it in next search
             end = result.index + result[0].length;
             reportIssue(end - 1, 1, "blankLines124");
+            badParse();
         }
     }
 
@@ -1018,21 +1030,20 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // return true if no errors which would cause showstyle() or reWrap() to fail
     function check() {
         parseInLine();
-        var parseOK = (0 === issueCount[1]);
         // if inline parse fails then checkSC might not work
-        checkBlankNumber();
-        if (0 === issueCount[1]) {
-            boldHeading(); // only do this is parseOK and blank lines ok
-        }
         if (parseOK) {
             checkSC();
+        }
+        checkBlankNumber();
+        if (parseOK) {
+            // only do this is inline parse succeeded and blank lines ok
+            boldHeading();
         }
         parseOol();
         checkFootnotes();
         unRecog();
         checkTab();
         checkBlankLines();
-        return (issueCount[1] === 0);
     }
 
     if (styler.allowUnderline) {
@@ -1047,9 +1058,22 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // but then problems e.g. marking the character after 3 blank lines if
     // encoded <  as &lt, so treat these lines separately.
     removeCommentLines();
-    var ok = check();
+    check();
     addMarkUp();
     restoreCommentLines();
+
+    let issues = 0;
+    let possIss = 0;
+    issArray.forEach(function(issue) {
+        if(issue.type === 1) {
+            issues += 1;
+        } else {
+            possIss += 1;
+        }
+    });
+
+    // ok true if no errors which would cause showstyle() or reWrap() to fail
+    let ok = (issues === 0);
     if (ok) {
         showStyle();
         if (wrapMode) {
@@ -1060,7 +1084,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     return {
         ok: ok,
         txtout: txt,
-        issues: issueCount[1],
-        possIss: issueCount[0]
+        issues: issues,
+        possIss: possIss
     };
 };
