@@ -69,13 +69,15 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         parseOK = false;
     }
 
-    function reportIssueLong(start, len, message, type) {
-        issArray.push({start: start, len: len, msg: message, type: type});
-    }
-
-    function reportIssue(start, len, code) {
+    // make an entry in issArray. start, len: position in text to mark
+    // code: issue, optional type overrides issueType,
+    // subText is text to substitute in some messages
+    function reportIssue(start, len, code, type = null, subText = "") {
         if (!(styler.suppress[code])) {
-            reportIssueLong(start, len, previewMessages[code], issueType[code]);
+            if(type === null) {
+                type = issueType[code];
+            }
+            issArray.push({start: start, len: len, code: code, type: type, subText: subText});
         }
     }
 
@@ -137,9 +139,10 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             end = iss.start + iss.len;
             // don't mark 2 issues in one place
             if ((iss.start < start0) && (end <= start0)) {
+                let message = previewMessages[iss.code].replace("%s", iss.subText);
                 start0 = iss.start;
                 tArray.splice(end, 0, endSpan);
-                tArray.splice(start0, 0, errorString + iss.msg + endSpan);
+                tArray.splice(start0, 0, errorString + message + endSpan);
             }
         }
         // since inserting the markups moves all later parts of the array up
@@ -211,11 +214,11 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         var ix = start + len;
         var end = findEnd(ix);
         if (nonComment(txt.slice(ix, end))) {
-            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), type);
+            reportIssue(start, len, "charAfter", type, str1);
             return;
         }
         if (checkBlank && !endNWorBlank(end + 1)) {
-            reportIssueLong(start, len, previewMessages.blankAfter.replace("%s", str1), type);
+            reportIssue(start, len, "blankAfter", type, str1);
         }
     }
 
@@ -223,7 +226,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     function chkAlone(start, len, str1) {
         var ix = start + len;
         if (nonComment(txt.slice(ix, findEnd(ix)))) {
-            reportIssueLong(start, len, previewMessages.charAfter.replace("%s", str1), 1);
+            reportIssue(start, len, "charAfter", 1, str1);
             return;
         }
         if (/./.test(txt.charAt(start - 1))) {
@@ -368,7 +371,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
                 if (res1[0] !== "]") {
                     // user note missing ], make an issue to avoid parsing probs
                     // if there are tags in the note
-                    reportIssueLong(result.index, 3, previewMessages.noCloseBrack, 1);
+                    reportIssue(result.index, 3, "noCloseBrack", 1);
                     badParse();
                 }
                 re.lastIndex = reCloseBrack.lastIndex;
@@ -472,13 +475,13 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
             }
             res1 = result[1];
             if (res1 === res1.toLowerCase()) { //no upper case found - definite
-                reportIssueLong(result.index, 4, previewMessages.scNoCap, 1);
+                reportIssue(result.index, 4, "scNoCap", 1);
                 continue;
             }
             res1 = removeComments(res1);
             if (res1 === res1.toLowerCase()) { //upper case was in a note - poss
                 // mark only a text char incase no tags shown
-                reportIssueLong(result.index + 4, 1, previewMessages.scNoCap, 0);
+                reportIssue(result.index + 4, 1, "scNoCap", 0);
             }
         }
     }
