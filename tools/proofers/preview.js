@@ -2,19 +2,17 @@
 /* exported makePreview */
 /* global previewMessages */
 
-/*
-This function checks the text for formatting issues and adds the markup
-for colouring and issue highlighting.
-It can be used alone with a simple html interface for testing.
-previewMessages are translated strings in header args.
-previewControl.adjustMargin() is defined in previewControl.js
-txt is the text to analyse.
-viewMode determines if the inline tags are to be shown or hidden
-wrapMode whether to re-wrap the text.
-styler is an object containing colour and font options.
-*/
-var makePreview = function (txt, viewMode, wrapMode, styler) {
-    "use strict";
+function removeComments(textLine) {
+    return textLine.replace(/\[\*\*[^\]]*\]/g, '');
+}
+
+// true if txtLine contains anything except only comments or spaces
+function nonComment(textLine) {
+    return (/\S/.test(removeComments(textLine)));
+}
+
+function analyse(txt, ILTags, suppress) {
+    // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
     var issueType = {
         noStartTag: 1,
@@ -57,9 +55,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         multipleAnchors: 0
     };
 
-    // ILTags can have "u" for underline added. Used for constructing regexes
-    var ILTags = "[ibfg]|sc";
-    var endSpan = "</span>"; // a constant string
     var issArray = []; // stores issues for markup-insertion later
 
     // this records issues which could prevent checkSC and boldHeading from
@@ -73,7 +68,7 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // code: issue, optional type overrides issueType,
     // subText is text to substitute in some messages
     function reportIssue(start, len, code, type = null, subText = "") {
-        if (!(styler.suppress[code])) {
+        if (!(suppress[code])) {
             if(type === null) {
                 type = issueType[code];
             }
@@ -81,107 +76,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
     }
 
-    function makeColourStyle(s) {
-        var style = styler[s];
-        var have_style = false;
-        var str = "";
-        // style issues always even if coloring turned off
-        if (!styler.color && (s !== "err") && (s !== "hlt")) {
-            return str;
-        }
-        if (style.fg !== "") {
-            have_style = true;
-            str = 'color:' + style.fg + ';';
-        }
-        if (style.bg !== "") {
-            have_style = true;
-            str += ('background-color:' + style.bg + ';');
-        }
-        if (have_style) {
-            str = ' style="' + str + '"';
-        }
-        return str;
-    }
-
-    function makeErrStr(st1) {
-        return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
-    }
-
-    // we must avoid two issues giving overlapping markup
-    // sort them first and mark from end towards beginning
-    // sort them so that if two start in same place, then the more serious is
-    // marked first
-    function addMarkUp() {
-        // start0 is start of previous issue to check if 2 issues overlap
-        // initially a large number so it works 1st time
-        var start0 = 100000;
-        var end;
-        var errorString;
-        // split up the string into an array of characters
-        var tArray = txt.split("");
-
-        function htmlEncodeChar(s, i) {
-            if (s === "&") {
-                tArray[i] = "&amp;";
-            } else if (s === "<") {
-                tArray[i] = "&lt;";
-            } else if (s === ">") {
-                tArray[i] = "&gt;";
-            }
-        }
-
-        function markIss(iss) {
-            if (iss.type === 0) {
-                errorString = makeErrStr("hlt");
-            } else {
-                errorString = makeErrStr("err");
-            }
-            end = iss.start + iss.len;
-            // don't mark 2 issues in one place
-            if ((iss.start < start0) && (end <= start0)) {
-                let message = previewMessages[iss.code].replace("%s", iss.subText);
-                start0 = iss.start;
-                tArray.splice(end, 0, endSpan);
-                tArray.splice(start0, 0, errorString + message + endSpan);
-            }
-        }
-        // since inserting the markups moves all later parts of the array up
-        // we must start from the last one
-        issArray.sort(function (a, b) {
-            var diff = b.start - a.start;   // last first
-            if (diff === 0) {
-                return b.type - a.type;
-            } else {
-                return diff;
-            }
-        });
-
-        tArray.forEach(htmlEncodeChar);
-        issArray.forEach(markIss);
-        txt = tArray.join("");  // join it back into a string
-    }
-
-    function removeComments(textLine) {
-        return textLine.replace(/\[\*\*[^\]]*\]/g, '');
-    }
-
-    // true if txtLine contains anything except only comments or spaces
-    function nonComment(textLine) {
-        return (/\S/.test(removeComments(textLine)));
-    }
-
-    // find previous line, assume ix > 0
-    function findPrevLine(ix) {
-        var pStart = ix - 1;
-        while (pStart > 0) {
-            pStart -= 1;
-            if (txt.charAt(pStart) === "\n") {
-                pStart += 1;
-                break;
-            }
-        }
-        return txt.slice(pStart, ix - 1);
-    }
 
     // find end of line (or eot) following ix
     function findEnd(ix) {
@@ -251,6 +145,19 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         var result;
         var oolre = /\/\*|\/#|\*\/|#\//g;   // any out-of-line tag
         var prevLin;
+
+        // find previous line, assume ix > 0
+        function findPrevLine(ix) {
+            var pStart = ix - 1;
+            while (pStart > 0) {
+                pStart -= 1;
+                if (txt.charAt(pStart) === "\n") {
+                    pStart += 1;
+                    break;
+                }
+            }
+            return txt.slice(pStart, ix - 1);
+        }
 
         while (true) {
             result = oolre.exec(txt);  // find next tag
@@ -499,6 +406,397 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
     }
 
+    function checkBlankNumber() { // only 1, 2 or 4 blank lines should appear
+        var result;
+        var end;
+        var re = /^\n{3}.|.\n{4}.|^\n{5,}.|.\n{6,}./g;
+
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            re.lastIndex -= 1; // in case only one char, include it in next search
+            end = result.index + result[0].length;
+            reportIssue(end - 1, 1, "blankLines124");
+            badParse();
+        }
+    }
+
+    // there should not be an entire bold single line after 2 or 4 blank lines
+    function boldHeading() {
+        var headLine;
+        var re = /((?:^|\n)\n\n)(.+)\n\n/g; // the whole line
+        // match a tag or any non-space char
+        var re1 = new RegExp("<\\/?(?:" + ILTags + ")>|\\S", "g");
+        var boldEnd = /<\/b>/g;
+
+        function boldLine() {   // false if any non-bold char found
+            var result1;
+            re1.lastIndex = 0;  // else will be left from previous use
+            while (true) {
+                result1 = re1.exec(headLine);
+                if (null === result1) {
+                    return true;
+                }
+                if (result1[0].length === 1) {   // a non-bold char
+                    return false;
+                }
+                if (result1[0] === "<b>") { // advance to </b>
+                    boldEnd.lastIndex = re1.lastIndex;
+                    if (null === boldEnd.exec(headLine)) { // shouldn't happen
+                        return false;
+                    }
+                    re1.lastIndex = boldEnd.lastIndex;
+                }
+                // must be another tag - continue
+            }
+        }
+        var result;
+        var start;
+        // first find the heading lines
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            headLine = result[2];
+            re.lastIndex -= 2;  // so can find another straight after
+            if (boldLine()) {
+                start = result.index + result[1].length;
+                reportIssue(start, 1, "noBold");
+            }
+        }
+    }
+
+    // check that footnote anchors and footnotes correspond
+    // also check footnote id and [*] anchors
+    // first make arrays of anchors and footnote ids, then check correspondence
+    function checkFootnotes() {
+        var anchorArray = [];
+        var footnoteArray = [];
+
+        function checkAnchor(anch) {
+            function match(fNote) {
+                return fNote.id === anch.id;
+            }
+            if (!footnoteArray.some(match)) {
+                reportIssue(anch.index, anch.id.length + 2, "noFootnote");
+            }
+        }
+
+        function checkNote(fNote) {
+            var anchorIx = [];
+            var markLen;
+
+            function findId(anch) {
+                if (anch.id === fNote.id) {
+                    anchorIx.push(anch.index);
+                }
+            }
+
+            function dupReport(index) {
+                reportIssue(index, markLen, "multipleAnchors");
+            }
+
+            // make an array of anchor indexes for this footnote
+            anchorArray.forEach(findId);
+            var noteNum = anchorIx.length;
+            if (0 === noteNum) {
+                reportIssue(fNote.index, 9, "noAnchor");
+            } else if (noteNum > 1) {
+                markLen = fNote.id.length + 2;
+                anchorIx.forEach(dupReport);
+            }
+        }
+
+        // search for footnote anchors and put in an array
+        // match an upper case letter or digits or *
+        var result;
+        var re = /\[(\*|[A-Za-z]|\d+)\]/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            if (result[1] === "*") {    // found [*]
+                reportIssue(result.index, 3, "starAnchor");
+                continue;
+            }
+            anchorArray.push({index: result.index, id: result[1]});
+        }
+        // search for footnotes, get text to end of line
+        re = /\[Footnote(.*)/g;
+        var noteLine, i, rix;
+        function match(fNote) {
+            return fNote.id === noteLine;
+        }
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            noteLine = result[1];
+            // find text up to :
+            i = noteLine.indexOf(":");
+            rix = result.index;
+            if (-1 === i) {
+                reportIssue(rix, 9, "noColon");
+                continue;
+            }
+            if (txt.charAt(rix - 1) === "*") { // continuation
+                if (i !== 0) {
+                    reportIssue(rix, 9, "colonNext");
+                } else if (footnoteArray.length > 0) {
+                    reportIssue(rix, 9, "continueFirst");
+                }
+                continue;
+            }
+            if (!(/^ [^ ]/).test(noteLine)) {
+                reportIssue(rix, 9, "spaceNext");
+                continue;
+            }
+            noteLine = noteLine.slice(1, i);    // the id
+            if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
+                reportIssue(rix, 9, "footnoteId");
+                continue;
+            }
+            if (footnoteArray.some(match)) {
+                reportIssue(rix, 9, "dupNote");
+                continue;
+            }
+            footnoteArray.push({index: rix, id: noteLine});
+        }
+        anchorArray.forEach(checkAnchor);
+        footnoteArray.forEach(checkNote);
+    }
+
+    // check blank lines before and after footnote, sidenote, illustration
+    // & <tb>. Do separately since different special cases for each
+    // possible issue if there is an unmatched ] in the text
+    // message includes "Footnote" etc. to clarify the problem
+    function checkBlankLines() {
+        // find index of next unmatched ] return 0 if none found
+        function findClose(index) {
+            var result;
+            var nestLevel = 0;
+            var re = /\[|\]/g;  // [ or ]
+            re.lastIndex = index;
+            while (true) {
+                result = re.exec(txt);
+                if (null === result) {
+                    return 0;
+                }
+                if ("[" === result[0]) {
+                    nestLevel += 1;
+                } else { // must be ]
+                    if (0 === nestLevel) {
+                        return result.index;
+                    }
+                    nestLevel -= 1;
+                }
+            }
+        }
+
+        var result, start, len, end, end1;
+        var re = /\*?\[(Footnote)/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            end = start + len;
+            chkBefore(start, len, true);
+
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
+                reportIssue(start, len, "noCloseBrack");
+            } else {
+                end = end1 + 1;
+                len = 1;
+                if (txt.charAt(end) === "*") { // allow * after Footnote
+                    end += 1;
+                    len += 1;
+                }
+                chkAfter(end1, len, result[1], 0, true);
+            }
+        }
+        re = /\*?\[(Illustration)/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            end = start + len;
+            chkBefore(start, len, true);
+
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
+                reportIssue(start, len, "noCloseBrack");
+            } else {
+                end = end1 + 1;
+                len = 1;
+                chkAfter(end1, len, result[1], 0, true);
+            }
+        }
+        re = /\*?\[(Sidenote)/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            end = start + len;
+            chkBefore(start, len, !suppress.sideNoteBlank);
+
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
+                reportIssue(start, len, "noCloseBrack");
+            } else {
+                end = end1 + 1;
+                len = 1;
+                chkAfter(end1, len, result[1], 0, !suppress.sideNoteBlank);
+            }
+        }
+        re = /<tb>/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            start = result.index;
+            len = result[0].length;
+            chkBefore(start, len, true);
+            // always an issue to avoid conflict with marking the tag
+            chkAfter(start, len, "&lt;tb&gt;", 1, true);
+        }
+    }
+
+    parseInLine();
+    // if inline parse fails then checkSC might not work
+    if (parseOK) {
+        checkSC();
+    }
+    checkBlankNumber();
+    if (parseOK) {
+        // only do this is inline parse succeeded and blank lines ok
+        boldHeading();
+    }
+    parseOol();
+    checkFootnotes();
+    unRecog();
+    checkTab();
+    checkBlankLines();
+
+    // we must avoid two issues giving overlapping markup
+    // sort them first and mark from end towards beginning
+    // sort them so that if two start in same place, then the more serious is
+    // marked first. Do this here so we can test the result.
+    issArray.sort(function (a, b) {
+        var diff = b.start - a.start;   // last first
+        if (diff === 0) {
+            return b.type - a.type;
+        } else {
+            return diff;
+        }
+    });
+
+    return issArray;
+}
+
+/*
+This function checks the text for formatting issues and adds the markup
+for colouring and issue highlighting.
+It can be used alone with a simple html interface for testing.
+previewMessages are translated strings in header args.
+previewControl.adjustMargin() is defined in previewControl.js
+txt is the text to analyse.
+viewMode determines if the inline tags are to be shown or hidden
+wrapMode whether to re-wrap the text.
+styler is an object containing colour and font options.
+*/
+var makePreview = function (txt, viewMode, wrapMode, styler) {
+    // ILTags can have "u" for underline added. Used for constructing regexes
+    var ILTags = "[ibfg]|sc";
+
+    const endSpan = "</span>";
+
+
+    function makeColourStyle(s) {
+        var style = styler[s];
+        var have_style = false;
+        var str = "";
+        // style issues always even if coloring turned off
+        if (!styler.color && (s !== "err") && (s !== "hlt")) {
+            return str;
+        }
+        if (style.fg !== "") {
+            have_style = true;
+            str = 'color:' + style.fg + ';';
+        }
+        if (style.bg !== "") {
+            have_style = true;
+            str += ('background-color:' + style.bg + ';');
+        }
+        if (have_style) {
+            str = ' style="' + str + '"';
+        }
+        return str;
+    }
+
+    function makeErrStr(st1) {
+        return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
+    }
+
+    function addMarkUp(issArray) {
+        // start0 is start of previous issue to check if 2 issues overlap
+        // initially a large number so it works 1st time
+        var start0 = 100000;
+        var end;
+        var errorString;
+        // split up the string into an array of characters
+        var tArray = txt.split("");
+
+        function htmlEncodeChar(s, i) {
+            if (s === "&") {
+                tArray[i] = "&amp;";
+            } else if (s === "<") {
+                tArray[i] = "&lt;";
+            } else if (s === ">") {
+                tArray[i] = "&gt;";
+            }
+        }
+
+        function markIss(iss) {
+            if (iss.type === 0) {
+                errorString = makeErrStr("hlt");
+            } else {
+                errorString = makeErrStr("err");
+            }
+            end = iss.start + iss.len;
+            // don't mark 2 issues in one place
+            if ((iss.start < start0) && (end <= start0)) {
+                let message = previewMessages[iss.code].replace("%s", iss.subText);
+                start0 = iss.start;
+                tArray.splice(end, 0, endSpan);
+                tArray.splice(start0, 0, errorString + message + endSpan);
+            }
+        }
+        // since inserting the markups moves all later parts of the array up
+        // we must start from the last one
+
+        tArray.forEach(htmlEncodeChar);
+        issArray.forEach(markIss);
+        txt = tArray.join("");  // join it back into a string
+    }
+
+
+
     // add style and optional colouring for marked-up text
     // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
@@ -708,288 +1006,17 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         }
     }
 
-    function checkBlankNumber() { // only 1, 2 or 4 blank lines should appear
-        var result;
-        var end;
-        var re = /^\n{3}.|.\n{4}.|^\n{5,}.|.\n{6,}./g;
-
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            re.lastIndex -= 1; // in case only one char, include it in next search
-            end = result.index + result[0].length;
-            reportIssue(end - 1, 1, "blankLines124");
-            badParse();
-        }
-    }
-
-    // there should not be an entire bold single line after 2 or 4 blank lines
-    function boldHeading() {
-        var headLine;
-        var re = /((?:^|\n)\n\n)(.+)\n\n/g; // the whole line
-        // match a tag or any non-space char
-        var re1 = new RegExp("<\\/?(?:" + ILTags + ")>|\\S", "g");
-        var boldEnd = /<\/b>/g;
-
-        function boldLine() {   // false if any non-bold char found
-            var result1;
-            re1.lastIndex = 0;  // else will be left from previous use
-            while (true) {
-                result1 = re1.exec(headLine);
-                if (null === result1) {
-                    return true;
-                }
-                if (result1[0].length === 1) {   // a non-bold char
-                    return false;
-                }
-                if (result1[0] === "<b>") { // advance to </b>
-                    boldEnd.lastIndex = re1.lastIndex;
-                    if (null === boldEnd.exec(headLine)) { // shouldn't happen
-                        return false;
-                    }
-                    re1.lastIndex = boldEnd.lastIndex;
-                }
-                // must be another tag - continue
-            }
-        }
-        var result;
-        var start;
-        // first find the heading lines
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            headLine = result[2];
-            re.lastIndex -= 2;  // so can find another straight after
-            if (boldLine()) {
-                start = result.index + result[1].length;
-                reportIssue(start, 1, "noBold");
-            }
-        }
-    }
-
-    // check that footnote anchors and footnotes correspond
-    // also check footnote id and [*] anchors
-    // first make arrays of anchors and footnote ids, then check correspondence
-    function checkFootnotes() {
-        var anchorArray = [];
-        var footnoteArray = [];
-
-        function checkAnchor(anch) {
-            function match(fNote) {
-                return fNote.id === anch.id;
-            }
-            if (!footnoteArray.some(match)) {
-                reportIssue(anch.index, anch.id.length + 2, "noFootnote");
-            }
-        }
-
-        function checkNote(fNote) {
-            var anchorIx = [];
-            var markLen;
-
-            function findId(anch) {
-                if (anch.id === fNote.id) {
-                    anchorIx.push(anch.index);
-                }
-            }
-
-            function dupReport(index) {
-                reportIssue(index, markLen, "multipleAnchors");
-            }
-
-            // make an array of anchor indexes for this footnote
-            anchorArray.forEach(findId);
-            var noteNum = anchorIx.length;
-            if (0 === noteNum) {
-                reportIssue(fNote.index, 9, "noAnchor");
-            } else if (noteNum > 1) {
-                markLen = fNote.id.length + 2;
-                anchorIx.forEach(dupReport);
-            }
-        }
-
-        // search for footnote anchors and put in an array
-        // match an upper case letter or digits or *
-        var result;
-        var re = /\[(\*|[A-Za-z]|\d+)\]/g;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            if (result[1] === "*") {    // found [*]
-                reportIssue(result.index, 3, "starAnchor");
-                continue;
-            }
-            anchorArray.push({index: result.index, id: result[1]});
-        }
-        // search for footnotes, get text to end of line
-        re = /\[Footnote(.*)/g;
-        var noteLine, i, rix;
-        function match(fNote) {
-            return fNote.id === noteLine;
-        }
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            noteLine = result[1];
-            // find text up to :
-            i = noteLine.indexOf(":");
-            rix = result.index;
-            if (-1 === i) {
-                reportIssue(rix, 9, "noColon");
-                continue;
-            }
-            if (txt.charAt(rix - 1) === "*") { // continuation
-                if (i !== 0) {
-                    reportIssue(rix, 9, "colonNext");
-                } else if (footnoteArray.length > 0) {
-                    reportIssue(rix, 9, "continueFirst");
-                }
-                continue;
-            }
-            if (!(/^ [^ ]/).test(noteLine)) {
-                reportIssue(rix, 9, "spaceNext");
-                continue;
-            }
-            noteLine = noteLine.slice(1, i);    // the id
-            if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
-                reportIssue(rix, 9, "footnoteId");
-                continue;
-            }
-            if (footnoteArray.some(match)) {
-                reportIssue(rix, 9, "dupNote");
-                continue;
-            }
-            footnoteArray.push({index: rix, id: noteLine});
-        }
-        anchorArray.forEach(checkAnchor);
-        footnoteArray.forEach(checkNote);
-    }
-
-    // find index of next unmatched ] return 0 if none found
-    function findClose(index) {
-        var result;
-        var nestLevel = 0;
-        var re = /\[|\]/g;  // [ or ]
-        re.lastIndex = index;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                return 0;
-            }
-            if ("[" === result[0]) {
-                nestLevel += 1;
-            } else { // must be ]
-                if (0 === nestLevel) {
-                    return result.index;
-                }
-                nestLevel -= 1;
-            }
-        }
-    }
-
-    function checkBlankLines() {
-    // check blank lines before and after footnote, sidenote, illustration
-    // & <tb>. Do separately since different special cases for each
-    // possible issue if there is an unmatched ] in the text
-    // message includes "Footnote" etc. to clarify the problem
-        var result, start, len, end, end1;
-        var re = /\*?\[(Footnote)/g;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            start = result.index;
-            len = result[0].length;
-            end = start + len;
-            chkBefore(start, len, true);
-
-            end1 = findClose(end);
-            if (0 === end1) { // no ] found
-                reportIssue(start, len, "noCloseBrack");
-            } else {
-                end = end1 + 1;
-                len = 1;
-                if (txt.charAt(end) === "*") { // allow * after Footnote
-                    end += 1;
-                    len += 1;
-                }
-                chkAfter(end1, len, result[1], 0, true);
-            }
-        }
-        re = /\*?\[(Illustration)/g;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            start = result.index;
-            len = result[0].length;
-            end = start + len;
-            chkBefore(start, len, true);
-
-            end1 = findClose(end);
-            if (0 === end1) { // no ] found
-                reportIssue(start, len, "noCloseBrack");
-            } else {
-                end = end1 + 1;
-                len = 1;
-                chkAfter(end1, len, result[1], 0, true);
-            }
-        }
-        re = /\*?\[(Sidenote)/g;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            start = result.index;
-            len = result[0].length;
-            end = start + len;
-            chkBefore(start, len, !styler.suppress.sideNoteBlank);
-
-            end1 = findClose(end);
-            if (0 === end1) { // no ] found
-                reportIssue(start, len, "noCloseBrack");
-            } else {
-                end = end1 + 1;
-                len = 1;
-                chkAfter(end1, len, result[1], 0, !styler.suppress.sideNoteBlank);
-            }
-        }
-        re = /<tb>/g;
-        while (true) {
-            result = re.exec(txt);
-            if (null === result) {
-                break;
-            }
-            start = result.index;
-            len = result[0].length;
-            chkBefore(start, len, true);
-            // always an issue to avoid conflict with marking the tag
-            chkAfter(start, len, "&lt;tb&gt;", 1, true);
-        }
-    }
-
-    function htmlEncodeString(s) {
-        return s.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-    }
-
     // these store the removed comment lines for later re-insertion
     var comLine = [];
     var comIndex = [];
 
     function removeCommentLines() {
+        function htmlEncodeString(s) {
+            return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
         var txtLines = [];
         var index;  // counts lines
         var tempLine;
@@ -1030,25 +1057,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         txt = txtLines.join("\n");
     }
 
-    // return true if no errors which would cause showstyle() or reWrap() to fail
-    function check() {
-        parseInLine();
-        // if inline parse fails then checkSC might not work
-        if (parseOK) {
-            checkSC();
-        }
-        checkBlankNumber();
-        if (parseOK) {
-            // only do this is inline parse succeeded and blank lines ok
-            boldHeading();
-        }
-        parseOol();
-        checkFootnotes();
-        unRecog();
-        checkTab();
-        checkBlankLines();
-    }
-
     if (styler.allowUnderline) {
         ILTags += "|u";
     }
@@ -1061,8 +1069,8 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
     // but then problems e.g. marking the character after 3 blank lines if
     // encoded <  as &lt, so treat these lines separately.
     removeCommentLines();
-    check();
-    addMarkUp();
+    let issArray = analyse(txt, ILTags, styler.suppress);
+    addMarkUp(issArray);
     restoreCommentLines();
 
     let issues = 0;
