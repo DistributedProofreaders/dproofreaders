@@ -86,15 +86,6 @@ function analyse(txt, ILTags, suppress) {
         return result.index;
     }
 
-    // check for chars before tag or on previous line
-    function chkBefore(start, len, checkBlank) {
-        if (/./.test(txt.charAt(start - 1))) {
-            reportIssue(start, len, "charBefore");
-        } else if (checkBlank && (/./.test(txt.charAt(start - 2)))) {
-            reportIssue(start, len, "blankBefore");
-        }
-    }
-
     // true if find */ or \n or eot
     function endNWorBlank(pc) {
         if (txt.slice(pc, pc + 2) === "*/") {
@@ -113,18 +104,6 @@ function analyse(txt, ILTags, suppress) {
         }
         if (checkBlank && !endNWorBlank(end + 1)) {
             reportIssue(start, len, "blankAfter", type, str1);
-        }
-    }
-
-    // check that no other characters are on the same line
-    function chkAlone(start, len, str1) {
-        var ix = start + len;
-        if (nonComment(txt.slice(ix, findEnd(ix)))) {
-            reportIssue(start, len, "charAfter", 1, str1);
-            return;
-        }
-        if (/./.test(txt.charAt(start - 1))) {
-            reportIssue(start, len, "charBefore");
         }
     }
 
@@ -157,6 +136,18 @@ function analyse(txt, ILTags, suppress) {
                 }
             }
             return txt.slice(pStart, ix - 1);
+        }
+
+        // check that no other characters are on the same line
+        function chkAlone(start, len, str1) {
+            var ix = start + len;
+            if (nonComment(txt.slice(ix, findEnd(ix)))) {
+                reportIssue(start, len, "charAfter", 1, str1);
+                return;
+            }
+            if (/./.test(txt.charAt(start - 1))) {
+                reportIssue(start, len, "charBefore");
+            }
         }
 
         while (true) {
@@ -598,6 +589,15 @@ function analyse(txt, ILTags, suppress) {
             }
         }
 
+        // check for chars before tag or on previous line
+        function chkBefore(start, len, checkBlank) {
+            if (/./.test(txt.charAt(start - 1))) {
+                reportIssue(start, len, "charBefore");
+            } else if (checkBlank && (/./.test(txt.charAt(start - 2)))) {
+                reportIssue(start, len, "blankBefore");
+            }
+        }
+
         var result, start, len, end, end1;
         var re = /\*?\[(Footnote)/g;
         while (true) {
@@ -721,11 +721,11 @@ wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
 var makePreview = function (txt, viewMode, wrapMode, styler) {
-    // ILTags can have "u" for underline added. Used for constructing regexes
     var ILTags = "[ibfg]|sc";
-
+    if (styler.allowUnderline) {
+        ILTags += "|u";
+    }
     const endSpan = "</span>";
-
 
     function makeColourStyle(s) {
         var style = styler[s];
@@ -1057,9 +1057,6 @@ var makePreview = function (txt, viewMode, wrapMode, styler) {
         txt = txtLines.join("\n");
     }
 
-    if (styler.allowUnderline) {
-        ILTags += "|u";
-    }
     // remove trailing whitespace
     txt = txt.replace(/\s+$/, "");
 
