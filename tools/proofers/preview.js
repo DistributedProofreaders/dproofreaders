@@ -80,7 +80,6 @@ $(function () {
             }
         }
 
-
         // find end of line (or eot) following ix
         function findEnd(ix) {
             var re = /\n|$/g;
