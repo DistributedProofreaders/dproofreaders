@@ -16,7 +16,8 @@ var previewControl;
 // this is called (in proof_frame_enh.inc or text_frame_std.inc) when the
 // preview button is pressed, the returned functions are then members
 // of previewControl
-function initPrev() {
+//function initPrev() {
+$( function() {
     "use strict";
     var i;
     var supp_set = ['charBeforeStart', 'sideNoteBlank'];
@@ -290,7 +291,7 @@ function initPrev() {
         localStorage.preview_data = JSON.stringify(previewStyles);
     }
 
-    return {
+    previewControl = {
         // this is used inside the "hover" markup to move the hover box
         // (by adjusting its margin) so it does not disappear
         // off the edge of the screen
@@ -449,4 +450,4 @@ function initPrev() {
             removeFontSelector.remove(removeFontSelector.selectedIndex);
         }
     };
-}
+});
