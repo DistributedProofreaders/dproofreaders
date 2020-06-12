@@ -1,7 +1,4 @@
-/*QUnit.test( "a basic test example", function( assert ) {
-    var value = "hello";
-    assert.equal( value, "hello", "We expect value to be hello" );
-});*/
+/* global QUnit analyse */
 
 QUnit.test("Format preview test", function( assert ) {
     let inLineTags = "[ibfg]|sc";
@@ -94,7 +91,23 @@ QUnit.test("Format preview test", function( assert ) {
     // non-blank line before Illustration etc.
     text = "abc\n[Illustration]";
     issArray = analyse(text, inLineTags, suppress);
-//    console.log(issArray);
     issueTest(0, 4, 13, "blankBefore", 1);
+
+    // character after out-of-line tag
+    text = "/*\nabc\n*/ x";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 7, 2, "charAfter", 1);
+    assert.deepEqual(issArray[0].subText, "*/");
+
+    // character following Illustration Sidenote <tb> etc.
+    text = "[Sidenote ] x";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 10, 1, "charAfter", 0);
+    assert.deepEqual(issArray[0].subText, "Sidenote");
+
+    // user note following Illustration Sidenote <tb> etc. ok
+    text = "[Sidenote ] [** note]";
+    issArray = analyse(text, inLineTags, suppress);
+    assert.deepEqual(issArray.length, 0);
 
 });

@@ -94,19 +94,6 @@ function analyse(txt, ILTags, suppress) {
         return !(/./).test(txt.charAt(pc));
     }
 
-    // check no non-comment chars follow on same line and next line is blank
-    function chkAfter(start, len, str1, type, checkBlank) {
-        var ix = start + len;
-        var end = findEnd(ix);
-        if (nonComment(txt.slice(ix, end))) {
-            reportIssue(start, len, "charAfter", type, str1);
-            return;
-        }
-        if (checkBlank && !endNWorBlank(end + 1)) {
-            reportIssue(start, len, "blankAfter", type, str1);
-        }
-    }
-
     // the parsers for inline and out-of-line tags work with a stack:
     // for correct nesting opening tags are pushed onto the stack and popped off
     // when a corresponding closing tag is found
@@ -595,6 +582,19 @@ function analyse(txt, ILTags, suppress) {
                 reportIssue(start, len, "charBefore");
             } else if (checkBlank && (/./.test(txt.charAt(start - 2)))) {
                 reportIssue(start, len, "blankBefore");
+            }
+        }
+
+        // check no non-comment chars follow on same line and next line is blank
+        function chkAfter(start, len, str1, type, checkBlank) {
+            var ix = start + len;
+            var end = findEnd(ix);
+            if (nonComment(txt.slice(ix, end))) {
+                reportIssue(start, len, "charAfter", type, str1);
+                return;
+            }
+            if (checkBlank && !endNWorBlank(end + 1)) {
+                reportIssue(start, len, "blankAfter", type, str1);
             }
         }
 
