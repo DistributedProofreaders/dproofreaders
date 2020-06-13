@@ -4,6 +4,7 @@
 
 var makePreview;
 var analyse;
+var getILTags;
 
 $(function () {
     function removeComments(textLine) {
@@ -15,9 +16,10 @@ $(function () {
         return (/\S/.test(removeComments(textLine)));
     }
 
-    analyse = function (txt, ILTags, suppress) {
+    analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
+        const ILTags = getILTags(config);
         var issueType = {
             noStartTag: 1,
             noEndTag: 1,
@@ -72,7 +74,7 @@ $(function () {
         // code: issue, optional type overrides issueType,
         // subText is text to substitute in some messages
         function reportIssue(start, len, code, type = null, subText = "") {
-            if (!(suppress[code])) {
+            if (!(config.suppress[code])) {
                 if(type === null) {
                     type = issueType[code];
                 }
@@ -655,7 +657,7 @@ $(function () {
                 start = result.index;
                 len = result[0].length;
                 end = start + len;
-                chkBefore(start, len, !suppress.sideNoteBlank);
+                chkBefore(start, len, !config.suppress.sideNoteBlank);
 
                 end1 = findClose(end);
                 if (0 === end1) { // no ] found
@@ -663,7 +665,7 @@ $(function () {
                 } else {
                     end = end1 + 1;
                     len = 1;
-                    chkAfter(end1, len, result[1], 0, !suppress.sideNoteBlank);
+                    chkAfter(end1, len, result[1], 0, !config.suppress.sideNoteBlank);
                 }
             }
             re = /<tb>/g;
@@ -712,7 +714,15 @@ $(function () {
         return issArray;
     };
 
-    /*
+    getILTags = function(configuration) {
+        let ILTags = "[ibfg]|sc";
+        if (configuration.allowUnderline) {
+            ILTags += "|u";
+        }
+        return ILTags;
+    }
+
+/*
 This function checks the text for formatting issues and adds the markup
 for colouring and issue highlighting.
 It can be used alone with a simple html interface for testing.
@@ -724,10 +734,7 @@ wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
     makePreview = function (txt, viewMode, wrapMode, styler) {
-        var ILTags = "[ibfg]|sc";
-        if (styler.allowUnderline) {
-            ILTags += "|u";
-        }
+        const ILTags = getILTags(styler);
         const endSpan = "</span>";
 
         function makeColourStyle(s) {
@@ -1069,7 +1076,7 @@ styler is an object containing colour and font options.
         // but then problems e.g. marking the character after 3 blank lines if
         // encoded <  as &lt, so treat these lines separately.
         removeCommentLines();
-        let issArray = analyse(txt, ILTags, styler.suppress);
+        let issArray = analyse(txt, styler);
         addMarkUp(issArray);
         restoreCommentLines();
 
