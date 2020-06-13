@@ -20,10 +20,21 @@ QUnit.test("Format preview test", function( assert ) {
     issArray = analyse(text, inLineTags, suppress);
     issueTest(0, 2, 4, "noStartTag", 1);
 
+    // missing out-of-line start tag
+    text = "abc\n#/";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 4, 2, "noStartTag", 1);
+
     // missing inline end tag
     text = "the <i>df";
     issArray = analyse(text, inLineTags, suppress);
     issueTest(0, 4, 3, "noEndTag", 1);
+
+    // missing out-of-line end tag
+    text = "abc\n\n/*\ndf";
+    issArray = analyse(text, inLineTags, suppress);
+//    console.log(issArray);
+    issueTest(0, 5, 2, "noEndTag", 1);
 
     // no inline end tag in the paragraph
     text = "the <i>df\n\nnew paragraph</b> ab";
@@ -36,11 +47,6 @@ QUnit.test("Format preview test", function( assert ) {
     issArray = analyse(text, inLineTags, suppress);
     issueTest(1, 4, 3, "misMatchTag", 1);
     issueTest(0, 9, 4, "misMatchTag", 1);
-
-    // character before start tag, possible issue
-    text = "as<i>df</i>";
-    issArray = analyse(text, inLineTags, suppress);
-    issueTest(0, 1, 1, "charBeforeStart", 0);
 
     // - before start tag, ok
     text = "as-<i>df</i>";
@@ -93,6 +99,28 @@ QUnit.test("Format preview test", function( assert ) {
     issArray = analyse(text, inLineTags, suppress);
     issueTest(0, 4, 13, "blankBefore", 1);
 
+    // non-blank line after Illustration etc.
+    text = "abc\n\n<tb>\ndef";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 5, 4, "blankAfter", 1);
+    assert.deepEqual(issArray[0].subText, "&lt;tb&gt;");
+
+    // no-wrap inside no-wrap
+    text = "/*\nabc\n\n/*\ndef\n*/\n*/";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 8, 2, "NWinNW", 1);
+
+    // block-quote inside no-wrap
+    text = "/*\nabc\n\n/#\ndef\n#/\n*/";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 8, 2, "BQinNW", 1);
+
+    // block-quote inside block-quote ok
+    text = "/#\nabc\n\n/#\ndef\n#/\n#/";
+    issArray = analyse(text, inLineTags, suppress);
+//    console.log(issArray);
+    assert.deepEqual(issArray.length, 0);
+
     // character after out-of-line tag
     text = "/*\nabc\n*/ x";
     issArray = analyse(text, inLineTags, suppress);
@@ -109,5 +137,32 @@ QUnit.test("Format preview test", function( assert ) {
     text = "[Sidenote ] [** note]";
     issArray = analyse(text, inLineTags, suppress);
     assert.deepEqual(issArray.length, 0);
+
+    // non-blank line before out-of-line start tag
+    text = "x\n/*\nabc\n*/";
+    issArray = analyse(text, inLineTags, suppress);
+//    console.log(issArray);
+    issueTest(0, 2, 2, "OolPrev", 1);
+
+    // non-blank line after out-of-line start tag
+    text = "/*\nabc\n*/\nx";
+    issArray = analyse(text, inLineTags, suppress);
+//    console.log(issArray);
+    issueTest(0, 7, 2, "OolNext", 1);
+
+    // only 1, 2 or 4 blank lines
+    text = "\n\n\nabc\n\n\n\n\ndef\n\n\n\n\n\nghi"
+    issArray = analyse(text, inLineTags, suppress);
+    console.log(issArray);
+    issueTest(0, 20, 1, "blankLines124", 1);
+    issueTest(1, 3, 1, "blankLines124", 1);
+
+
+
+    // character before start tag, possible issue
+    text = "as<i>df</i>";
+    issArray = analyse(text, inLineTags, suppress);
+    issueTest(0, 1, 1, "charBeforeStart", 0);
+
 
 });
