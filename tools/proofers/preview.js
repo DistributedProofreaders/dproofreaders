@@ -720,19 +720,19 @@ $(function () {
             ILTags += "|u";
         }
         return ILTags;
-    }
+    };
 
-/*
-This function checks the text for formatting issues and adds the markup
-for colouring and issue highlighting.
-It can be used alone with a simple html interface for testing.
-previewMessages are translated strings in header args.
-previewControl.adjustMargin() is defined in previewControl.js
-txt is the text to analyse.
-viewMode determines if the inline tags are to be shown or hidden
-wrapMode whether to re-wrap the text.
-styler is an object containing colour and font options.
-*/
+    /*
+    This function checks the text for formatting issues and adds the markup
+    for colouring and issue highlighting.
+    It can be used alone with a simple html interface for testing.
+    previewMessages are translated strings in header args.
+    previewControl.adjustMargin() is defined in previewControl.js
+    txt is the text to analyse.
+    viewMode determines if the inline tags are to be shown or hidden
+    wrapMode whether to re-wrap the text.
+    styler is an object containing colour and font options.
+    */
     makePreview = function (txt, viewMode, wrapMode, styler) {
         const ILTags = getILTags(styler);
         const endSpan = "</span>";

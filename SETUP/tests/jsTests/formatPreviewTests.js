@@ -163,7 +163,7 @@ QUnit.test("Format preview test", function( assert ) {
     issueTest(0, 7, 2, "OolNext", 1);
 
     // only 1, 2 or 4 blank lines
-    text = "\n\n\nabc\n\n\n\n\ndef\n\n\n\n\n\nghi"
+    text = "\n\n\nabc\n\n\n\n\ndef\n\n\n\n\n\nghi";
     issArray = analyse(text, configuration);
     issueTest(0, 20, 1, "blankLines124", 1);
     issueTest(1, 3, 1, "blankLines124", 1);
