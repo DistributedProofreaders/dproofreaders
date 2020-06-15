@@ -91,14 +91,6 @@ $(function () {
             return result.index;
         }
 
-        // true if find */ or \n or eot
-        function endNWorBlank(pc) {
-            if (txt.slice(pc, pc + 2) === "*/") {
-                return true;
-            }
-            return !(/./).test(txt.charAt(pc));
-        }
-
         // the parsers for inline and out-of-line tags work with a stack:
         // for correct nesting opening tags are pushed onto the stack and popped off
         // when a corresponding closing tag is found
@@ -324,7 +316,7 @@ $(function () {
                     if (postChar === "\n") {
                         reportIssue(start, tagLen, "nlAfterStart");
                     }
-                    if (/\w|[,.;:]/.test(preChar)) { // non-space before start tag
+                    if (/\w|[,.;:]/.test(preChar)) {
                         reportIssue(start - 1, 1, "charBeforeStart");
                     }
                     tagStack.push({tag: tagString, start: start, tagLen: tagLen});
@@ -447,7 +439,7 @@ $(function () {
                 re.lastIndex -= 2;  // so can find another straight after
                 if (boldLine()) {
                     start = result.index + result[1].length;
-                    reportIssue(start, 1, "noBold");
+                    reportIssue(start, 3, "noBold");
                 }
             }
         }
@@ -592,6 +584,14 @@ $(function () {
 
             // check no non-comment chars follow on same line and next line is blank
             function chkAfter(start, len, str1, type, checkBlank) {
+                // true if find */ or \n or eot
+                function endNWorBlank(pc) {
+                    if (txt.slice(pc, pc + 2) === "*/") {
+                        return true;
+                    }
+                    return !(/./).test(txt.charAt(pc));
+                }
+
                 var ix = start + len;
                 var end = findEnd(ix);
                 if (nonComment(txt.slice(ix, end))) {
