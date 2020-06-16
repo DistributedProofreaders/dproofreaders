@@ -8,13 +8,15 @@ output_header($title);
 
 echo "<h1>$title</h1>";
 
+echo "<p>" . sprintf(_("This site is powered by the <a href='%s'>dproofreaders</a> source code and licensed under the GPL v2."), "https://github.com/DistributedProofreaders/dproofreaders") . "</p>";
+
 echo "<h2>" . _("Developers") . "</h2>";
 
-echo "<p>" . sprintf(_("This software brought to you by many volunteer developers across the world and years. Recent developer contribution after the move to git can be seen on the project's <a href='%s'>Github Contributors page</a>."), "https://github.com/DistributedProofreaders/dproofreaders/graphs/contributors"). "</p>";
+echo "<p>" . sprintf(_("This software brought to you by many volunteer developers across the world over many years. Recent developer contributions after the move to git can be seen on the project's <a href='%s'>Github Contributors page</a>."), "https://github.com/DistributedProofreaders/dproofreaders/graphs/contributors"). "</p>";
 
-echo "<h2>" . _("Open Source"). "</h2>";
+echo "<h2>" . _("Bundled Software"). "</h2>";
 
-echo "<p>" . _("The following open source code is used and bundled with the DP code.") . "</p>";
+echo "<p>" . _("The following open source code is bundled and used with the dproofreaders code.") . "</p>";
 
 $credit_details = load_credit_details($code_dir);
 asort($credit_details);
