@@ -1,0 +1,16 @@
+[
+    {
+        "name": "DejaVu Sans Mono",
+        "url": "https://dejavu-fonts.github.io/",
+        "license": "DejaVu Fonts license",
+        "license_url": "https://dejavu-fonts.github.io/License.html",
+        "license_file": "DejaVu Fonts License.txt"
+    },
+    {
+        "name": "DP Sans Mono",
+        "url": "https://www.pgdp.net/wiki/DP_Sans_Mono",
+        "license": "DP Sans Mono license",
+        "license_url": "https://www.pgdp.net/wiki/DP_Sans_Mono#License",
+        "license_file": "DP Sans Mono License.txt"
+    }
+]
