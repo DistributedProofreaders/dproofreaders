@@ -13,10 +13,6 @@ The strings previewDemo and ieWarn are translated strings in header args
 */
 var previewControl;
 
-// this is called (in proof_frame_enh.inc or text_frame_std.inc) when the
-// preview button is pressed, the returned functions are then members
-// of previewControl
-//function initPrev() {
 $( function() {
     "use strict";
     var i;
