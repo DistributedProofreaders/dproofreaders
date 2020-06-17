@@ -6,50 +6,12 @@ include_once($relPath."misc.inc");
 
 require_login();
 
-slim_header(_("Search/Replace"));
+slim_header(_("Search/Replace"), array(
+    "js_files" => array(
+        "$code_url/tools/proofers/srchrep.js",
+    ),
+));
 ?>
-
-<script>
-var saved_text = '';
-
-function do_replace()
-{
-    var search_textbox = document.getElementById('search');
-    var search = search_textbox.value;
-    var regex_checkbox = document.getElementById('is_regex');
-    var replacetext = document.getElementById('replace').value.replace(new RegExp('\\\\n', 'g'), '\r\n');
-    save_text();
-    var is_regex = regex_checkbox.checked;
-    if (!is_regex)
-    {
-        search = escapeRegExp(search);
-    }
-    opener.parent.docRef.editform.text_data.value=opener.parent.docRef.editform.text_data.value.replace(new RegExp(search,'gu'),replacetext);
-    set_undo_button_disabled(false);
-}
-
-function save_text()
-{
-    saved_text = opener.parent.docRef.editform.text_data.value;
-}
-
-function restore_saved_text()
-{
-    opener.parent.docRef.editform.text_data.value = saved_text;
-    set_undo_button_disabled(true);
-}
-
-function set_undo_button_disabled(state)
-{
-    var undo_button = document.getElementById('undo');
-    undo_button.disabled = state;
-}
-
-function escapeRegExp(string) {
-    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-</script>
 <form>
 <table id="tbl">
 <tr><td class="right-align">
@@ -69,8 +31,8 @@ function escapeRegExp(string) {
 </td></tr>
 </table>
 <p class='center-align'>
-    <input type="button" value="<?php echo attr_safe(_("Replace all.")); ?>" onClick="do_replace()">
-    <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled>
+    <input type="button" value="<?php echo attr_safe(_("Replace all.")); ?>" onClick="srchrep.doReplace()">
+    <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="srchrep.restoreSavedText()" disabled>
 </center>
 </form>
 <p><?php echo _("Warning: Only the most recent replace operation may be reverted!"); ?></p>
