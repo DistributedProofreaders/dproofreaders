@@ -368,11 +368,10 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 3, 4, "emptyTag", 1);
     });
 
-    QUnit.test("duplicated footnote id", function (assert) {
+    QUnit.test("multiple footnote anchors", function (assert) {
 
         text = "abc[A]\ndef[A]\nghi[A]\njkl[B]\n\n[Footnote A: abc]\n\n[Footnote B: mno]";
         issArray = analyse(text, configuration);
-        console.log(issArray);
         issueTest(assert, 2, 3, 3, "multipleAnchors", 0);
         issueTest(assert, 1, 10, 3, "multipleAnchors", 0);
         issueTest(assert, 0, 17, 3, "multipleAnchors", 0);
