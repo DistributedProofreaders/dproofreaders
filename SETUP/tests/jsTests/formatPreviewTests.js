@@ -1,25 +1,5 @@
 /* global QUnit analyse */
 
-QUnit.log( ( { result, module, name, message, actual, expected, source } ) => {
-  if ( result ) {
-    return;
-  }
-
-  let output = `FAILED: ${module}: ${name}: `;
-
-  if ( message ) {
-    output += `${message}, `;
-  }
-  if ( actual ) {
-    output += `expected: ${expected}, actual: ${actual}`;
-  }
-  if ( source ) {
-    output += `, ${source}`;
-  }
-
-  console.log( output );
-});
-
 QUnit.module("Format preview test", function() {
     let configuration = {
         suppress: {},
@@ -214,7 +194,7 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 1, 3, 1, "blankLines124", 1);
     });
 
-    QUnit.test(",.;:!\? after start tag", function (assert) {
+    QUnit.test(",.;:!? after start tag", function (assert) {
         text = "as<i>,df</i>";
         issArray = analyse(text, configuration);
         issueTest(assert, 0, 5, 1, "puncAfterStart", 0);
@@ -268,8 +248,7 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 1, 1, "charBeforeStart", 0);
     });
 
-    // word character or ,.;: before start tag, possible issue
-    QUnit.test("test for non-basic-latin character", function (assert) {
+    QUnit.test("non-basic-latin character before start tag", function (assert) {
         text = "aÀ<i>df</i>";
         issArray = analyse(text, configuration);
         issueTest(assert, 0, 1, 1, "charBeforeStart", 0);
