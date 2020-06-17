@@ -14,7 +14,7 @@ const firefox = require('selenium-webdriver/firefox');
         .build();
     let succeeded = false;
     try {
-        await driver.get(`file:///${process.cwd()}/SETUP/tests/manual_web/qunit.html`);
+        await driver.get(`file:///${process.cwd()}/SETUP/tests/qunit.html`);
         await driver.wait(until.elementLocated(By.className('passed')), 10000);
         var passed = parseInt(await (await driver.findElement(By.className('passed'))).getText(), 10);
         var total = parseInt(await (await driver.findElement(By.className('total'))).getText(), 10);
