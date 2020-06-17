@@ -1,6 +1,6 @@
 /* global $ QUnit splitControl */
 
-QUnit.module("module A", {
+QUnit.module("splitControl tests", {
     beforeEach: function() {
         $(document.body).append(`
         <div id='split-test'>
