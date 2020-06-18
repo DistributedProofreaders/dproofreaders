@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition, no-useless-escape, camelcase */
 /* exported makePreview analyse */
-/* global $ previewMessages */
+/* global $ previewMessages XRegExp */
 
 var makePreview;
 var analyse;

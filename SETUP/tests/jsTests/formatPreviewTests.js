@@ -19,7 +19,7 @@ QUnit.module("Format preview test", function() {
     let noSideNoteBlankConfig = {
         suppress: {sideNoteBlank: true},
         allowUnderline: false,
-    }
+    };
 
     let text;
     let issArray;
