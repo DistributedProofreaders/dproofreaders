@@ -270,6 +270,12 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 1, 1, "charBeforeStart", 0);
     });
 
+    QUnit.test("number before start tag, ok", function (assert) {
+        text = "It cost 9<i>l.</i> 4<i>s.</i> 1<i>d.</i>";
+        issArray = analyse(text, configuration);
+        noIssueTest(assert);
+    });
+
     QUnit.test("Allow character before start tag", function (assert) {
         text = "a;<i>df</i>";
         issArray = analyse(text, allowCharBeforeStartConfig);
@@ -289,7 +295,7 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("word character after end tag, possible issue", function (assert) {
-        text = "<i>df</i>x";
+        text = "<i>df</i>éx";
         issArray = analyse(text, configuration);
         issueTest(assert, 0, 9, 1, "charAfterEnd", 0);
     });

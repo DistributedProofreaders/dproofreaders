@@ -285,7 +285,7 @@ $(function () {
                     if (preChar === "\n") {
                         reportIssue(start, tagLen, "nlBeforeEnd");
                     }
-                    if (/\w/.test(postChar)) { // char after end tag
+                    if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) { // char after end tag
                         reportIssue(end, 1, "charAfterEnd");
                     }
                     if (tagStack.length === 0) {    // missing start tag
@@ -316,7 +316,8 @@ $(function () {
                     if (postChar === "\n") {
                         reportIssue(start, tagLen, "nlAfterStart");
                     }
-                    if (/\w|[,.;:]/.test(preChar)) {
+                    // letter or ,.;:
+                    if (XRegExp("\\pL|[,.;:]", "Ag").test(preChar)) {
                         reportIssue(start - 1, 1, "charBeforeStart");
                     }
                     tagStack.push({tag: tagString, start: start, tagLen: tagLen});
