@@ -30,7 +30,6 @@ function echo_proof_frame_enh( $ppage )
         "js_data" => ibe_get_js() . get_preview_js_vars() . "
         function ldAll() {
             top.initializeStuff(1);
-            previewControl = initPrev();
         }
         var validCharacterPattern = '$valid_character_pattern';
         var standardInterface = false;

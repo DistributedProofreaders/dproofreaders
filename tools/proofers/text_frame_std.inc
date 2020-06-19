@@ -27,7 +27,6 @@ function echo_text_frame_std( $ppage )
         "js_data" => get_preview_js_vars() . "
         function ldAll() {
             top.initializeStuff(0);
-            previewControl = initPrev();
         }
         var validCharacterPattern = '$valid_character_pattern';
         var standardInterface = true;
