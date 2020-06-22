@@ -1,18 +1,17 @@
+/* preview div */
+#prevdiv {
+    height: 100%;
+}
+
 /* preview wrapper */
 #id_tp_outer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 40px;
-    right: 0;
     margin: 0;
     text-align: left;
     overflow: auto;
 }
 
-/* preview div */
+/* text area */
 #text_preview {
-    position: absolute;
     padding: 0.2em;
     white-space: pre;
 }
@@ -22,8 +21,6 @@
 
 /* control panel */
 #id_controls {
-    position: absolute;
-    bottom: 0;
     border-left: 1px solid black;
     border-right: 1px solid black;
     padding-left: 2px;

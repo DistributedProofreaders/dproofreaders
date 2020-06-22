@@ -247,13 +247,6 @@ $( function() {
         );
     }
 
-    // The control buttons etc. in "controlDiv" will "wrap" according to the
-    // window width so the div height will vary.
-    // this function adjusts the bottom of the preview text area to fit.
-    function adjHeight() {
-        outerPrev.style.bottom = window.getComputedStyle(controlDiv, null).height;
-    }
-
     function leavePreview() {
         prevDiv.style.display = "none";
         window.removeEventListener("keydown", keyQuit, false);
@@ -280,7 +273,6 @@ $( function() {
     function hideConfig() {
         enterPreview();
         configPan.style.display = "none";
-        adjHeight();
     }
 
     function saveStyle() {
@@ -325,7 +317,6 @@ $( function() {
             font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
             this.reSizeText(1.0);
             writePreviewText();
-            adjHeight();
         },
 
         hide: previewToProof,
@@ -417,10 +408,6 @@ $( function() {
             } else {
                 testDraw();
             }
-        },
-
-        adjustHeight: function () { // to fit control box
-            adjHeight();
         },
 
         selectFont: function (font) {

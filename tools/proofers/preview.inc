@@ -120,7 +120,12 @@ function output_preview_div()
 
     echo <<<END
 <div id='prevdiv' class='no_display'>
-  <div id="id_controls">
+ <div class='flex_container'>
+  <div id="id_tp_outer" class='stretchbox'>
+    <div id="text_preview">
+    </div>
+  </div>
+  <div id="id_controls" class="fixedbox">
     <input type='button' onclick="previewControl.hide()" value="$quit">
     <span class='ilb'><label>$color_markup<input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" ></label></span>
     <span class='ilb'>$image
@@ -145,10 +150,7 @@ function output_preview_div()
     <img src='$code_url/graphics/exclamation.gif' id='id_some_supp' title='$some_suppressed'>
     <input type='button' onclick="previewControl.configure()" value="$configure">
   </div>
-  <div id="id_tp_outer">
-    <div id="text_preview">
-    </div>
-  </div>
+ </div>
 </div>
 
 <div id="id_config_panel" class='no_display'>
