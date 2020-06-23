@@ -23,7 +23,6 @@ $( function() {
     var prevWin = document.getElementById("text_preview");
     var txtarea = document.getElementById("text_data");
     var prevDiv = document.getElementById("prevdiv");
-    var controlDiv = document.getElementById("id_controls");
     var tagon = document.getElementById("show_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
