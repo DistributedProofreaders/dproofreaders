@@ -23,11 +23,12 @@ class Project
         if ( is_string($arg) )
         {
             // $arg is the projectid.
-            $res = mysqli_query(DPDatabase::get_connection(), "
+            $sql = sprintf("
                 SELECT *
                 FROM projects
-                WHERE projectid = '$arg'
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+                WHERE projectid = '%s'
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $arg));
+            $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
