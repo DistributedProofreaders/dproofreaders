@@ -602,14 +602,14 @@ function echo_proofreading_tab() {
         $userP['v_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( '3em', 'required', _("% of 1000 pixels") )
+        array( '5em', 'required', _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
         'numberfield',
         # xgettext:no-php-format
-        array( '3em', 'required', _("% of 1000 pixels") )
+        array( '5em', 'required', _("% of 1000 pixels") )
     );
     echo "</tr>\n";
 
@@ -619,14 +619,14 @@ function echo_proofreading_tab() {
         $userP['v_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( '3em', 'required', _("% of browser width") )
+        array( '5em', 'required', _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
         'numberfield',
         # xgettext:no-php-format
-        array( '3em', 'required', _("% of browser height") )
+        array( '5em', 'required', _("% of browser height") )
     );
     echo "</tr>\n";
 
@@ -650,13 +650,13 @@ function echo_proofreading_tab() {
         _('Number of Text Lines'), 'v_tlines', 'v_textlines',
         $userP['v_tlines'],
         'numberfield',
-        array( '3em', 'required', "" )
+        array( '5em', 'required', "" )
     );
     show_preference(
         _('Number of Text Lines'), 'h_tlines', 'h_textlines',
         $userP['h_tlines'],
         'numberfield',
-        array( '3em', 'required', "" )
+        array( '5em', 'required', "" )
     );
     echo "</tr>\n";
 
@@ -665,13 +665,13 @@ function echo_proofreading_tab() {
         _('Length of Text Lines'), 'v_tchars', 'v_textlength',
         $userP['v_tchars'],
         'numberfield',
-        array( '3em', 'required', " "._("characters") )
+        array( '5em', 'required', " "._("characters") )
     );
     show_preference(
         _('Length of Text Lines'), 'h_tchars', 'h_textlength',
         $userP['h_tchars'],
         'numberfield',
-        array( '3em', 'required', " "._("characters") )
+        array( '5em', 'required', " "._("characters") )
     );
     echo "</tr>\n";
 
