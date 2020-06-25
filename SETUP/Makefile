@@ -1,8 +1,13 @@
-.PHONY: all less lint tests
+.PHONY: all less security_checks lint tests
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-all: less lint
+all: less security_checks lint
+
+#----------------------------------------------------------------------------
+# Security checks
+security_checks:
+	$(SELF_DIR)check_security.sh $(SELF_DIR)..
 
 #----------------------------------------------------------------------------
 # PHP file linting
