@@ -59,6 +59,17 @@ final class DPDatabase
         return self::$_connection;
     }
 
+    static public function log_error()
+    {
+        // Log the SQL error to the PHP error log and return a generic error
+        // for display to the user
+        $backtrace = debug_backtrace();
+        $caller = $backtrace[0]['file'] . ":" . $backtrace[0]['line'];
+        $error = str_replace("\n", "\\n", mysqli_error(DPDatabase::get_connection()));
+        error_log("DPDatabase.inc - log_error from $caller: $error");
+        return _("An error occurred during a database query and has been logged.");
+    }
+
     static public function get_default_db_charset()
     {
         $sql = sprintf("
