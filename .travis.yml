@@ -32,6 +32,8 @@ before_script:
     - npm install
 script:
     - cd SETUP
+    # do minimal security checks
+    - make security_checks
     # linting is SUCH a low bar, but it is a bar!
     - make lint
     - npm run lint
