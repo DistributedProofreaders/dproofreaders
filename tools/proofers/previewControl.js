@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies */
+/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies MathJax */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -37,6 +37,7 @@ $( function() {
     var issBox = document.getElementById("id_iss");
     var possIssBox = document.getElementById("id_poss_iss");
     var allowUnderlineCheckbox = document.getElementById("id_underline");
+    var allowMathPreviewCheckbox = document.getElementById("id_math_preview");
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
 
@@ -72,7 +73,8 @@ $( function() {
         allowUnderline: false,
         defFontIndex: 0,
         suppress: {},
-        initialViewMode: "no_tags"
+        initialViewMode: "no_tags",
+        allowMathPreview: false
     };
     supp_set.forEach(function (msg, i) {
         previewStyles.suppress[msg] = false;
@@ -92,6 +94,13 @@ $( function() {
                 : "pre"
         );
         prevWin.innerHTML = preview.txtout;
+        if (preview.ok && previewStyles.allowMathPreview) {
+            try {
+                MathJax.typeset([prevWin]);
+            } catch(exception) {
+                alert("MathJax error: " + exception);
+            }
+        }
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
         // if there are any issues the tags will be shown
@@ -180,6 +189,15 @@ $( function() {
         setViewColors(outerPrev);
         viewMode = previewStyles.initialViewMode;
         $("#" + viewMode).prop("checked", true);
+        // check if MathJax already loaded. Will break if load more than once
+        if(previewStyles.allowMathPreview && (typeof(MathJax) === 'undefined')) {
+            // allow caching
+            return $.ajax({
+                dataType: "script",
+                cache: true,
+                url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js",
+            });
+        }
     }
 
     initStyle();
@@ -321,6 +339,7 @@ $( function() {
             defaultTextRadio.checked = true;
             initPicker();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
+            allowMathPreviewCheckbox.checked = tempStyle.allowMathPreview;
 
             supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
@@ -344,12 +363,15 @@ $( function() {
                 tempStyle.suppress[msg] = suppCheckBox[i].checked;
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
+            tempStyle.allowMathPreview = allowMathPreviewCheckbox.checked;
             tempStyle.initialViewMode = $("#id_init_mode").val();
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
-            initView();
-            writePreviewText();
-            hideConfig();
+            // if loading MathJax, wait for it to finish
+            $.when(initView()).done(function() {
+                writePreviewText();
+                hideConfig();
+            });
         },
 
         cancelConfig: function () { // don't change anything

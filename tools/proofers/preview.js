@@ -333,14 +333,29 @@ $(function () {
 
         // check for an unrecognised tag
         function unRecog() {
-            var re = new RegExp("<(?!(?:\\/?(?:" + ILTags + ")|tb)>)", "g");
-            var result;
+            let reMaybeTag = /<(\/?)(\w{1,3})>/g;
+            let reGoodTag = new RegExp("^(?:" + ILTags + ")$");
             while (true) {
-                result = re.exec(txt);
+                let result = reMaybeTag.exec(txt);
                 if (null === result) {
                     break;
                 }
-                reportIssue(result.index, 1, "unRecTag");
+                let tagString = result[2];
+                let tagLen = result[0].length;
+
+                if(tagString === "tb") {
+                    if(result[1]) {
+                        // found </tb>
+                        reportIssue(result.index, tagLen, "unRecTag");
+                    }
+                    // ignore thought break
+                    continue;
+                }
+
+                if(!reGoodTag.test(tagString)) {
+                    reportIssue(result.index, tagLen, "unRecTag");
+                    continue;
+                }
             }
         }
 
@@ -689,6 +704,49 @@ $(function () {
             }
         }
 
+        // check that math delimiters \[ \], \( \) are correctly matched
+        function checkMath() {
+            var mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+            var result;
+            var tag, openTag = null;
+            var openStart = 0;
+            while (true) {
+                result = mathRe.exec(txt);
+                if (null === result) {
+                    // if there is a tag open mark it as an error
+                    if (openTag) {
+                        reportIssue(openStart, 2, "noEndTag");
+                    }
+                    break;
+                }
+                tag = result[0].charAt(1);
+                // if no open tag and ( or [ set open else error
+                if (!openTag) {
+                    if ((tag === '(') || (tag === '[')) {
+                        openTag = tag;
+                        openStart = result.index;
+                    } else {
+                        reportIssue(result.index, 2, "noStartTag");
+                    }
+                } else {
+                    if (((openTag === '(') && (tag === ')')) || ((openTag === '[') && (tag === ']'))) {
+                        // correctly matched
+                        openTag = null;
+                    } else if (((openTag === '(') && (tag === ']')) || ((openTag === '[') && (tag === ')'))) {
+                        // mismatched
+                        openTag = null;
+                        reportIssue(openStart, 2, "misMatchTag");
+                        reportIssue(result.index, 2, "misMatchTag");
+                    } else {
+                        // a start tag of either sort follows a start tag
+                        reportIssue(openStart, 2, "noEndTag");
+                        openTag = tag;
+                        openStart = result.index;
+                    }
+                }
+            }
+        }
+
         parseInLine();
         // if inline parse fails then checkSC might not work
         if (parseOK) {
@@ -704,6 +762,9 @@ $(function () {
         unRecog();
         checkTab();
         checkBlankLines();
+        if(config.allowMathPreview) {
+            checkMath();
+        }
 
         // we must avoid two issues giving overlapping markup
         // sort them first and mark from end towards beginning
@@ -895,12 +956,42 @@ $(function () {
             if (viewMode !== "show_tags") {
                 colorString = colorString0 + '>$1</span>';
             }
-            // sub- and super-scripts
-            txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
-            txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
-            // single char superscript -  any char except {
-            // do not allow < incase it's a tag which would screw up
-            txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + colorString);
+
+            // process sub- and super-scripts
+            function ssProcess(text) {
+                text = text.replace(/_\{(.+?)\}/g, '<span class="sub"' + colorString);
+                text = text.replace(/\^\{(.+?)\}/g, '<span class="sup"' + colorString);
+                // single char superscript -  any char except {
+                // do not allow < incase it's a tag which would screw up
+                return text.replace(/\^([^{<])/g, '<span class="sup"' + colorString);
+            }
+
+            // processes the text by textFunction but in math mode
+            // only outside math markup
+            function processExMath(text, textFunction) {
+                if(!styler.allowMathPreview) {
+                    return textFunction(txt);
+                } else {
+                    // find whole math strings \[ ... \] or \( ... \)
+                    let txtOut = "";
+                    let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
+                    for(;;) {
+                        // this will start as 0
+                        let startIndex = mathRegex.lastIndex;
+                        let result = mathRegex.exec(text);
+                        if(!result) {
+                            // no more found, process to end
+                            txtOut += textFunction(text.slice(startIndex));
+                            break;
+                        }
+                        txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
+                    }
+                    return txtOut;
+                }
+            }
+
+            // do not process sub- and super-scripts inside math markup
+            txt = processExMath(txt, ssProcess);
         }
 
         // attempt to make an approximate representation of formatted text
