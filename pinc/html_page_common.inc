@@ -69,7 +69,7 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     // Any additional style definitions requested by the caller
     if (isset($extra_args['css_data']))
     {
-        echo "<style type='text/css'>\n" .
+        echo "<style>\n" .
              $extra_args['css_data'] .
              "</style>\n";
     }

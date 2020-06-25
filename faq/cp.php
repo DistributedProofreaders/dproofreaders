@@ -36,9 +36,7 @@ Note that you don't necessarily have to do all these steps yourself.
 It's quite possible to do some steps and hand off your results
 to someone else.
 <!--
-<font style='color: red'>
 [But we need to describe how you find that "someone else".]
-</font>
 -->
 You can also elect to manage the project once the necessary files have
 been uploaded to the DP server.
@@ -93,11 +91,6 @@ In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
 If you find your book listed but the clearance date is over a few years old
 then it is probably OK to go ahead and do it.
-<!--
-<font style='color: red'>
-[Really? -JMD]
-</font>
--->
 </p>
 <p>You might want to stick with a shorter fictional work for the first
 project you contribute.
@@ -361,9 +354,7 @@ are more than happy to OCR images on your behalf.
 </p>
 
 <!--
-<font style='color: red'>
 [Per JulietS: Add paragraph about the OCR pool and how to use it.]
-</font>
 -->
 
 <p>Assuming you DO have OCR software...</p>

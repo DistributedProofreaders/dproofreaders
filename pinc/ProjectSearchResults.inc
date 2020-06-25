@@ -357,7 +357,7 @@ class OptionsColumn extends Column
             {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
                 echo "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>
-                    <img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'></a>";
+                    <img src='$code_url/graphics/exclamation.gif' title='$tooltip' alt='!'></a>";
             }
         }
         if(user_can_work_in_stage($pguser, 'PP'))
@@ -622,7 +622,7 @@ class ProjectSearchResults
         if(!empty($warning))
             echo "\n<p class='warning'>$warning</p>\n";
 
-        echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <u>^</u> that follows the column name.") . "</p>";
+        echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <span style='text-decoration: underline'>^</span> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
 
         echo "\n<table class='themed theme_striped'>\n";

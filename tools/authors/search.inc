@@ -151,7 +151,7 @@ function echo_search_form() {
         <td><input type="text" name="other_names" size="20" value="<?php echo $other_names; ?>"></td></tr>
     <tr><td><input type="submit" value="<?php echo _('Search'); ?>"></td>
         <td class="right-align"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?php echo _('Reset'); ?>"></td></tr>
-    </table></td></table>
+    </table>
     <?php
     echo "<a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a>\n";
 

@@ -184,7 +184,7 @@ function html_logobar() {
             $id = 'testbar';
         }
         if($alert_message)
-            $messages[] = $alert_message;
+            $messages[] = html_safe($alert_message);
         echo "<div id='$id-outer'>";
         echo "<div id='$id'>";
         echo "<p><span>" . implode(" | ", $messages) . "</span></p>";

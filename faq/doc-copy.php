@@ -4,15 +4,12 @@ include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR);
+$theme_args["css_data"] = "tt { color: red } pre { color: red }";
+
+output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR, $theme_args);
 ?>
 
-<style type='text/css'>
-    tt { color: red }
-    pre { color: red }
-</style>
-
-<h2 align="center">Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
+<h2 style='text-align: center'>Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
 <p> These are special additions to the Proofreading Guidelines for Copyright Renewal books.
     They were created because of the specialized content of these books, and the need
     for them to be very consistently formatted to be useful to readers.</p>
@@ -26,10 +23,10 @@ output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR)
     Many people consider this very boring stuff but it is important that we get it
     right. <i>Thanks for proofreading it!</i>
 </p>
-<table border="0" cellspacing="0" width="100%">
+<table style="width: 100%">
   <tbody>
     <tr>
-      <td bgcolor="silver">&nbsp;</td>
+      <td style="background-color: silver">&nbsp;</td>
     </tr>
   </tbody>
 </table>
@@ -85,10 +82,9 @@ and also some common guidelines.
 
 <li>
 <b>Example:</b>
-<table width="50%" border="1"  cellpadding="4"
-       cellspacing="0"> <col width="128*">
+<table style="width: 50%; border: 1px solid black">
   <tbody>
-    <tr valign="top">
+    <tr>
       <td>
       <kbd>
 
@@ -147,10 +143,9 @@ BENNETT, MARIE MARGUERITE                                        <br>
 <li>
 <b>Example:</b>
 (for <a href="<?php echo $projects_url; ?>/projectID3f5be9a8c1685/269.png">this image</a>)
-<table width="50%" border="1"  cellpadding="4"
-       cellspacing="0"> <col width="128*">
+<table style="width: 50%; border: 1px solid black">
   <tbody>
-    <tr valign="top">
+    <tr>
       <td>
       <pre>
 
@@ -204,21 +199,18 @@ R554718.
     </li>
 </ul>
 
-<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
-<tr><td width='10'>&nbsp;</td>
-    <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
-        Return to:
-        <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
-      <br>
-        <a href="..">Distributed Proofreaders home page</a>,
-        &nbsp;&nbsp;&nbsp;
-        <a href="faq_central.php">DP FAQ Central page</a>,
-        &nbsp;&nbsp;&nbsp;
-        <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
-        </font>
-    </td>
-</tr>
-</table>
+<div style='background-color: silver; width: 100%; text-align: center; font: 10px verdana, helvetica, sans-serif'>
+  <div style='padding: 4px'>
+    Return to: <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
+  </div>
+  <div style='padding: 4px'>
+    <a href="..">Distributed Proofreaders home page</a>,
+    &nbsp;&nbsp;&nbsp;
+    <a href="faq_central.php">DP FAQ Central page</a>,
+    &nbsp;&nbsp;&nbsp;
+    <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+  </div>
+</div>
 
 <?php
 // vim: sw=4 ts=4 expandtab
