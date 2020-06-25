@@ -62,7 +62,7 @@ function phpbb_lang($locale=FALSE)
                 WHERE lang_iso='%s'
                 ", mysqli_real_escape_string(DPDatabase::get_connection(), $lang));
             $res = mysqli_query(DPDatabase::get_connection(), $query) or
-                die(mysqli_error(DPDatabase::get_connection()));
+                die(DPDatabase::log_error());
 
             if (mysqli_num_rows($res) == 1)
                 return $lang;
@@ -122,7 +122,7 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
                 SET user_password='%s'
                 WHERE user_id=%d",
                 mysqli_real_escape_string(DPDatabase::get_connection(), $password), $user_id);
-            mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+            mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
         }
 
         return TRUE;
@@ -311,7 +311,7 @@ function get_forum_user_details($username)
         FROM {$phpbb_table_prefix}_users
         WHERE username='%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     if (!$row)
@@ -372,7 +372,7 @@ function get_forum_user_id($username)
         FROM {$phpbb_table_prefix}_users
         WHERE username = '%s' 
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -396,7 +396,7 @@ function get_forum_rank_title($rank)
         FROM {$phpbb_table_prefix}_ranks
         WHERE rank_id = %d
         ",$rank);
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -533,7 +533,7 @@ function get_number_of_unread_messages($username)
             ";
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     list($num_messages) = mysqli_fetch_row($res);
     mysqli_free_result($res);
@@ -554,7 +554,7 @@ function does_topic_exist($topic_id)
         FROM {$phpbb_table_prefix}_topics
         WHERE topic_id = $topic_id;
         ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $exists = (mysqli_num_rows($res) > 0);
 
@@ -579,7 +579,7 @@ function get_last_post_time_in_topic($topic_id)
         FROM {$phpbb_table_prefix}_posts
         WHERE topic_id = $topic_id
         ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -636,7 +636,7 @@ function get_topic_details($topic_id)
         INNER JOIN $phpbb_users ON $phpbb_topics.topic_poster = $phpbb_users.user_id
         WHERE $phpbb_topics.topic_id = $topic_id
         ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);

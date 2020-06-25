@@ -80,7 +80,7 @@ final class DPDatabase
 
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
-            throw new DBQueryError(mysqli_error(DPDatabase::get_connection()));
+            throw new DBQueryError(DPDatabase::log_error());
 
         $row = mysqli_fetch_assoc($result);
         $default_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
@@ -99,7 +99,7 @@ final class DPDatabase
 
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
-            throw new DBQueryError(mysqli_error(DPDatabase::get_connection()));
+            throw new DBQueryError(DPDatabase::log_error());
 
         $row = mysqli_fetch_assoc($result);
         $table_encoding = $row['table_collation'];

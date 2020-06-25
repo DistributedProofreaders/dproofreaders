@@ -31,7 +31,7 @@ function get_news_page_last_modified_date( $news_page_id )
         SELECT t_last_change
         FROM news_pages 
         WHERE news_page_id = '$news_page_id'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     if (!$row)
@@ -72,7 +72,7 @@ function show_news_for_page( $news_page_id )
             AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '$user_locale')
         ORDER BY ORDERING DESC
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     // Get a randomly selected news item from the set of 
     // 'recent' news items defined for the given page.
@@ -83,7 +83,7 @@ function show_news_for_page( $news_page_id )
             AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '$user_locale')
         ORDER BY RAND() LIMIT 1
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     // -------------------------------------------
 

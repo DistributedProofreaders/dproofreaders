@@ -66,7 +66,7 @@ class ProjectFilterElement
     {
         $query = "SELECT distinct $this->id FROM projects WHERE ($this->state_sql) ORDER BY $this->id";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[0];
@@ -91,7 +91,7 @@ class GenreElement extends ProjectFilterElement
             FROM projects NATURAL JOIN genre_translations
             WHERE ($this->state_sql) ORDER BY trans_genre";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[1];
@@ -109,7 +109,7 @@ class SpecialDayElement extends ProjectFilterElement
             FROM projects, special_days
             WHERE projects.special_code = special_days.spec_code AND ($this->state_sql) ORDER BY display_name";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[1];
@@ -401,7 +401,7 @@ function save_raw_data($pguser, $data_name, $data)
 {
     $enc_data = mysqli_real_escape_string(DPDatabase::get_connection(), $data);
     $query = "REPLACE INTO user_filters (username, filtertype, value) VALUES ('$pguser', '$data_name', '$enc_data')";
-    mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 }
 
 function get_saved_data($pguser, $filter_type)
@@ -418,7 +418,7 @@ function get_raw_saved_data($pguser, $data_name)
 {
     $data_name = mysqli_real_escape_string(DPDatabase::get_connection(), $data_name);
     $query = "SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$data_name'";
-    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
     $row = mysqli_fetch_assoc($result);
     if($row)
     {

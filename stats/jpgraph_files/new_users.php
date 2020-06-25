@@ -35,7 +35,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM users
     GROUP BY 1
     ORDER BY date_created
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 list($datax, $datay) = dpsql_fetch_columns($res);
 

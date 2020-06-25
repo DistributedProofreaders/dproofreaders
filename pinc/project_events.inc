@@ -19,7 +19,7 @@ function log_project_event( $projectid, $who, $event_type, $details1='', $detail
     ");
     if ( !$res )
     {
-        return mysqli_error(DPDatabase::get_connection());
+        return DPDatabase::log_error();
     }
     else
     {

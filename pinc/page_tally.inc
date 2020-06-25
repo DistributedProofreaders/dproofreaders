@@ -109,7 +109,7 @@ function user_get_ELR_page_tally( $username )
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
         WHERE username='$username'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_row($res);
 
@@ -304,7 +304,7 @@ function get_site_tally_goal_summed( $tally_name, $date_condition )
         SELECT SUM(goal)
         FROM site_tally_goals
         WHERE tally_name = '$tally_name' AND ($date_condition)
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_row($res);
     return $row[0];

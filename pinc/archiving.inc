@@ -34,7 +34,7 @@ function archive_project( $project, $dry_run )
         mysqli_query(DPDatabase::get_connection(), "
             ALTER TABLE $projectid
             RENAME AS $archive_db_name.$projectid
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
     }
 
     global $projects_dir;
@@ -71,7 +71,7 @@ function archive_project( $project, $dry_run )
             UPDATE projects
             SET archived = '1'
             WHERE projectid='$projectid'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
         log_project_event( $projectid, '[archiver]', 'archive' );
     }
@@ -93,7 +93,7 @@ function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
         WHERE state = '".PROJ_DELETE."'
         AND deletion_reason = 'merged into $project->projectid'
         ORDER BY modifieddate
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     while ( $project2 = mysqli_fetch_object($res2) )
     {
         archive_ancillary_data_for_project( $project2, $indent, $dry_run );
@@ -157,7 +157,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         SELECT *
         FROM $table_name
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $n_copied = mysqli_affected_rows(DPDatabase::get_connection());
     echo sprintf( "%4d rows copied", $n_copied );
 
@@ -171,7 +171,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         DELETE 
         FROM $table_name
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $n_deleted = mysqli_affected_rows(DPDatabase::get_connection());
     if ( $n_deleted == $n_copied )
     {

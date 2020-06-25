@@ -351,7 +351,7 @@ class SpecialDay
                 $std_fields_sql
                 info_url  = '$esc_info_url',
                 image_url = '$esc_image_url'
-            ") or die(_("Couldn't add/edit special day:") . " " . mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
     }
 
     function _set_field($field,$value)

@@ -76,7 +76,7 @@ $sql = "
     FROM $projectid
     ORDER BY image ASC
 ";
-$res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+$res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 while($result = mysqli_fetch_assoc($res)) {
     $page = $result["image"];
     echo "<tr>";

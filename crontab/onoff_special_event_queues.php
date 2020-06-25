@@ -88,7 +88,7 @@ foreach ( array('open', 'close') as $which )
     ";
     echo $specials_query, "\n";
 
-    $res = mysqli_query(DPDatabase::get_connection(), $specials_query) or die(mysqli_error(DPDatabase::get_connection()));
+    $res = mysqli_query(DPDatabase::get_connection(), $specials_query) or die(DPDatabase::log_error());
     $n = mysqli_num_rows($res);
     echo "
         Found $n special events which '$which' now.
@@ -111,7 +111,7 @@ foreach ( array('open', 'close') as $which )
 
         if (!$testing_this_script)
         {    
-            mysqli_query(DPDatabase::get_connection(), $update_query) or die(mysqli_error(DPDatabase::get_connection()));
+            mysqli_query(DPDatabase::get_connection(), $update_query) or die(DPDatabase::log_error());
 
             $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo "

@@ -114,7 +114,7 @@ class Comparator
             FROM $this->projectid
             WHERE $condition
             ORDER BY image ASC
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
         $num_rows = mysqli_num_rows($res);
         if($num_rows == 0)

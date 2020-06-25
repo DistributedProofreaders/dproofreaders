@@ -65,8 +65,9 @@ elseif (isset($_POST['author_id'])) {
         else {
             // failure!
             output_header(_('An error occurred'));
-            echo _('It was not possible to save the biography.') . _('The following error-message was received:') . ' ' .
-                         mysqli_error(DPDatabase::get_connection());
+            echo _('It was not possible to save the biography.');
+            echo "<br>";
+            echo DPDatabase::log_error();
         }
         exit;
     }

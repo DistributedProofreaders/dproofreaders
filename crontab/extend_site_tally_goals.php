@@ -40,7 +40,7 @@ for ( $i = 1; ; $i++ )
     $date = strftime( '%Y-%m-%d', strtotime( "$current_max_date + $i day" ) );
     if ( $date > $desired_max_date ) break;
 
-    mysqli_data_seek( $res2, 0 ) or die(mysqli_error(DPDatabase::get_connection()));
+    mysqli_data_seek( $res2, 0 ) or die(DPDatabase::log_error());
     while ( list($tally_name,$goal) = mysqli_fetch_row($res2) )
     {
         if (!empty($values_list)) $values_list .= ',';

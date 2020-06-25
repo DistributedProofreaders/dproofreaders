@@ -15,7 +15,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM projects
     WHERE state != 'proj_submit_pgposted' AND state != 'project_delete'
     GROUP BY state
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 while (list($state,$sum_n_pages,$sum_n_available_pages) = mysqli_fetch_row($res) )
 {
     $n_pages_[$state] = $sum_n_pages;

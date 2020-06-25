@@ -590,7 +590,7 @@ class ProjectSearchResults
         ";
         if ($testing)
             echo_html_comment($sql);
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
         return $result;
     }
 

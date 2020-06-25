@@ -49,11 +49,7 @@ function dpsql_query( $query )
 	$result = mysqli_query(DPDatabase::get_connection(),  $query );
 	if (!$result)
 	{
-		print "The following mysql query:<br>\n";
-		print $query . "<br>\n";
-		print "raised the following error:<br>\n";
-		print mysqli_error(DPDatabase::get_connection()) . "<br>\n";
-		print "<br>\n";
+		print DPDatabase::log_error();
 	}
 	return $result;
 }

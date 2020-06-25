@@ -1608,7 +1608,7 @@ function RelatedTasks($tid)
     {
         $result = wrapped_mysql_query("
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
         $row = mysqli_fetch_assoc($result);
         if (!$row) {
             // The task must have been deleted from the table manually.
@@ -1643,7 +1643,7 @@ function load_related_tasks($task_id)
     ";
 
     $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die( mysqli_error(DPDatabase::get_connection()) );
+        or die(DPDatabase::log_error());
 
     $related_tasks = [];
     while($row = mysqli_fetch_assoc($result))
@@ -1672,7 +1672,7 @@ function insert_related_task($task1, $task2)
     ";
 
     $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die( mysqli_error(DPDatabase::get_connection()) );
+        or die(DPDatabase::log_error());
     $row = mysqli_fetch_assoc($result);
     if($row['count'] > 0)
         return;
@@ -1683,7 +1683,7 @@ function insert_related_task($task1, $task2)
         SET task_id_1 = $task_id_1, task_id_2 = $task_id_2
     ";
     $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die( mysqli_error(DPDatabase::get_connection()) );
+        or die(DPDatabase::log_error());
 }
 
 function remove_related_task($task1, $task2)
@@ -1698,7 +1698,7 @@ function remove_related_task($task1, $task2)
             AND task_id_2 = $task_id_2
     ";
     $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die( mysqli_error(DPDatabase::get_connection()) );
+        or die(DPDatabase::log_error());
 }
 
 function RelatedPostings($tid)
@@ -1955,7 +1955,7 @@ function wrapped_mysql_query($sql_query)
     global $testing;
     if ($testing) echo_html_comment($sql_query);
     $res = mysqli_query(DPDatabase::get_connection(), $sql_query);
-    if ($res === FALSE) die(mysqli_error(DPDatabase::get_connection()));
+    if ($res === FALSE) die(DPDatabase::log_error());
     return $res;
 }
 

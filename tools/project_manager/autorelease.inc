@@ -73,7 +73,7 @@ function autorelease_for_round( $round )
         FROM queue_defns
         WHERE round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     if ( mysqli_num_rows($q_res) == 0 )
     {
@@ -114,7 +114,7 @@ function autorelease_for_round( $round )
         FROM queue_defns
         WHERE enabled AND round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     while ( $qd = mysqli_fetch_object($q_res) )
     {
@@ -233,7 +233,7 @@ function maybe_release_projects(
         WHERE state = '{$round->project_waiting_state}' $and_extra_condition
             AND project_holds.state IS NULL
         ORDER BY modifieddate ASC, nameofwork ASC
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $n_projects->waiting = mysqli_num_rows($waiting_res);
 
@@ -369,7 +369,7 @@ class ReleaseRestrictor
                 FROM projects
                 WHERE state = '{$round->project_available_state}'
                 ORDER BY authorsname
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
         while ( $author_row = mysqli_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
@@ -391,7 +391,7 @@ class ReleaseRestrictor
                 FROM projects
                 WHERE state = '{$round->project_available_state}'
                 ORDER BY username
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
         while ( $pm_row = mysqli_fetch_assoc($pm_res) )
         {
             $pm = $pm_row['username'];
@@ -544,7 +544,7 @@ function AP_setup( $round )
             projectid  varchar(22),
             pages      INT(4)
         )
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     // Get a list of active projects.
     $projects_res =
@@ -552,7 +552,7 @@ function AP_setup( $round )
         SELECT projectid
         FROM projects
         WHERE state = '{$round->project_available_state}'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     // Run through them and fill up the table.
     while( $project = mysqli_fetch_assoc($projects_res) )
@@ -565,7 +565,7 @@ function AP_teardown( $round )
 {
     mysqli_query(DPDatabase::get_connection(), "
         DROP TABLE active_page_counts
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function AP_add_project( $round, $projectid )
@@ -576,7 +576,7 @@ function AP_add_project( $round, $projectid )
             '$projectid',
             SUM( state != '{$round->page_save_state}' ) as pages
         FROM $projectid
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion )
@@ -589,7 +589,7 @@ function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criter
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $cooked_project_selector
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $env = mysqli_fetch_assoc($res);
     // print_r($env);
 

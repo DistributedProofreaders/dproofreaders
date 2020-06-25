@@ -457,7 +457,7 @@ class ImageSource
                 $std_fields_sql
                 url = '$esc_url',
                 is_active = '$this->is_active'
-        ") or die("Couldn't add/edit source: ".mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
     }
 
     function enable()

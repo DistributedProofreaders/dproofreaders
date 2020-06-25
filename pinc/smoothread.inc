@@ -41,7 +41,7 @@ function sr_user_is_committed($projectid, $username)
         FROM smoothread
         WHERE projectid = '$projectid' 
         AND user = '$username'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_assoc($res);
     if(!$row)
@@ -77,7 +77,7 @@ function sr_commit($projectid, $username)
     mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO smoothread
         SET projectid='$projectid',  user='$username', committed='1'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
 }
 
@@ -101,7 +101,7 @@ function sr_withdraw_commitment($projectid, $username)
         DELETE FROM smoothread
         WHERE projectid = '$projectid' 
         AND user = '$username'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
 }
 
@@ -127,7 +127,7 @@ function sr_get_committed_users($projectid)
         WHERE projectid = '$projectid' 
         AND committed <> '0'
         ORDER BY user
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
     if (mysqli_num_rows($res) == 0)
     {
@@ -165,7 +165,7 @@ function sr_number_users_committed($projectid)
         WHERE projectid = '$projectid' 
         AND committed <> '0'
         ORDER BY user
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_row($res);
     if(!$row)

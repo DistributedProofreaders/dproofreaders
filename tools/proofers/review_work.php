@@ -372,7 +372,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
     else
     {
-        die( mysqli_error(DPDatabase::get_connection()) );
+        die(DPDatabase::log_error());
     }
 
     // don't include this project if none of the user's pages have been proofread in the

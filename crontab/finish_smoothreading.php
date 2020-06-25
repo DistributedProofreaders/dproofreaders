@@ -31,7 +31,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
         smoothread_deadline >= (UNIX_TIMESTAMP() + $from) 
         AND smoothread_deadline <= (UNIX_TIMESTAMP() + $to) 
         AND state = '".PROJ_POST_FIRST_CHECKED_OUT."'
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 $output = "Checking " . mysqli_num_rows($result) . " projects...\n";
 $any_work_done = false;

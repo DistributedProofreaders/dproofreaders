@@ -24,7 +24,7 @@ $_SESSION["displayimage"]["percent"]=$percent;
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
 $images = array();
-$res = mysqli_query(DPDatabase::get_connection(),  "SELECT image FROM $projectid ORDER BY image ASC") or die(mysqli_error(DPDatabase::get_connection()));
+$res = mysqli_query(DPDatabase::get_connection(),  "SELECT image FROM $projectid ORDER BY image ASC") or die(DPDatabase::log_error());
 while($row = mysqli_fetch_assoc($res))
 {
     $images[] = $row["image"];

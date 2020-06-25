@@ -599,7 +599,7 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
             corrections='$correction_list'";
 
     if(mysqli_query(DPDatabase::get_connection(), $sql) === FALSE) {
-        return sprintf(_("Error adding suggestions to wordcheck_events: %s"), mysqli_error(DPDatabase::get_connection()));
+        return DPDatabase::log_error();
     }
 }
 

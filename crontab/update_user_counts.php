@@ -37,6 +37,6 @@ mysqli_query(DPDatabase::get_connection(), "
 
     FROM users
     WHERE    t_last_activity > UNIX_TIMESTAMP() - 60 * 60 * 24 * 7 * 4
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 # vim: sw=4 ts=4 expandtab

@@ -28,7 +28,7 @@ class Project
                 FROM projects
                 WHERE projectid = '%s'
             ", mysqli_real_escape_string(DPDatabase::get_connection(), $arg));
-            $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+            $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
@@ -483,7 +483,7 @@ class Project
             SELECT image
             FROM $projectid
             ORDER BY image
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
         while (list($page_image) = mysqli_fetch_row($res))
         {
             $page_image_names[] = $page_image;
@@ -662,7 +662,7 @@ EOS;
             SELECT state
             FROM project_holds
             WHERE projectid='{$this->projectid}'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
         while( list($state) = mysqli_fetch_row($res) )
         {
             $hold_states[] = $state;
@@ -684,7 +684,7 @@ EOS;
         mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO project_holds
             VALUES $values
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
         log_project_event($this->projectid, $pguser, 'add_holds', join($states, ' '));
     }
 
@@ -697,7 +697,7 @@ EOS;
             DELETE FROM project_holds
             WHERE projectid='$this->projectid'
                 AND state in ($states_str)
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
         log_project_event($this->projectid, $pguser, 'remove_holds', join($states, ' '));
     }
 
@@ -898,7 +898,7 @@ function project_has_a_hold_in_state($projectid, $state)
         SELECT *
         FROM project_holds
         WHERE projectid='$projectid' and state='$state'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     return (mysqli_num_rows($res) > 0);
 }
 

@@ -240,7 +240,7 @@ class Settings
     private function ExecSQL($sql)
     {
         if (!mysqli_query(DPDatabase::get_connection(), $sql))
-            throw new RuntimeException(mysqli_error(DPDatabase::get_connection()));
+            throw new RuntimeException(DPDatabase::log_error());
     }
 
     // -------------------------------------------------------------------------

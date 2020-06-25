@@ -92,7 +92,7 @@ class User
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
+            throw new UnexpectedValueException(DPDatabase::log_error());
         }
         elseif(mysqli_num_rows($result) == 0)
         {

@@ -70,7 +70,7 @@ if (!isset($name))
         FROM queue_defns
         WHERE round_id='$round_id'
         ORDER BY ordering
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     while ( $qd = mysqli_fetch_object($q_res) )
     {
         $cooked_project_selector = cook_project_selector($qd->project_selector);

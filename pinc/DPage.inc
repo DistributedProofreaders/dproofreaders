@@ -56,7 +56,7 @@ function project_allow_pages( $projectid )
                 ) NOT NULL default ''
         ) $engine
     ");
-    return ( $res ? '' : mysqli_error(DPDatabase::get_connection()) );
+    return ( $res ? '' : DPDatabase::log_error() );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -138,7 +138,7 @@ function project_add_page(
     $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if (!$res)
     {
-        $errs .= mysqli_error(DPDatabase::get_connection());
+        $errs .= DPDatabase::log_error();
     }
 
     // If the INSERT raised an error, don't do the other stuff.
@@ -480,11 +480,7 @@ function _Page_require(
     $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ( !$res )
     {
-        echo "The following mysql query:<br>\n";
-        echo $sql, "<br>\n";
-        echo "raised the following error:<br>\n";
-        echo mysqli_error(DPDatabase::get_connection()), "<br>\n";
-        exit;
+        die(DPDatabase::log_error());
     }
 
     list( $curr_page_state, $curr_page_owner ) = mysqli_fetch_row($res);
@@ -534,11 +530,7 @@ function _Page_UPDATE( $projectid, $image, $settings )
     $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ( !$res )
     {
-        echo "The following mysql query:<br>\n";
-        echo $sql, "<br>\n";
-        echo "raised the following error:<br>\n";
-        echo mysqli_error(DPDatabase::get_connection()), "<br>\n";
-        exit;
+        die(DPDatabase::log_error());
     }
 }
 
@@ -740,7 +732,7 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round )
             event_type   = '$event_type',
             username     = '$username',
             round_id     = $round_id_setting
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -751,7 +743,7 @@ function _project_set_t_last_page_done( $projectid, $timestamp )
         UPDATE projects
         SET t_last_page_done = $timestamp
         WHERE projectid = '$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function _project_adjust_n_pages( $projectid, $adjustment )
@@ -769,7 +761,7 @@ function _project_adjust_n_pages( $projectid, $adjustment )
         UPDATE projects
         SET n_pages = $expr
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function _project_adjust_n_available_pages( $projectid, $adjustment )
@@ -804,7 +796,7 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
         UPDATE projects
         SET n_available_pages = $expr
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function project_recalculate_page_counts( $projectid )
@@ -839,7 +831,7 @@ function project_recalculate_page_counts( $projectid )
         UPDATE projects
         SET $settings
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 // vim: sw=4 ts=4 expandtab

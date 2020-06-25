@@ -24,7 +24,7 @@ if ($result === FALSE)
     // Likely the project's page-table does not exist (in this database).
     // This could happen if a user saved a URL involving this script,
     // and the project's page-table later got archived.
-    die(mysqli_error(DPDatabase::get_connection()));
+    die(DPDatabase::log_error());
 }
 $row = mysqli_fetch_assoc($result);
 if (!$row)

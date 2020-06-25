@@ -21,7 +21,7 @@ $sql = "
     WHERE date = '$date_string'
 ";
 $res = mysqli_query(DPDatabase::get_connection(), $sql)
-    or die(mysqli_error(DPDatabase::get_connection()));
+    or die(DPDatabase::log_error());
 $row = mysqli_fetch_assoc($res);
 if($row["count"])
 {
@@ -86,7 +86,7 @@ foreach ( array_keys($num_projects_in_state_) as $state )
     else
     {
         mysqli_query(DPDatabase::get_connection(), $insert_query)
-            or die(mysqli_error(DPDatabase::get_connection()));
+            or die(DPDatabase::log_error());
     }
 }
 

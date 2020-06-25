@@ -33,7 +33,7 @@ function select_from_teams( $where_body, $other_clauses='' )
         $other_clauses
     ";
     $res = mysqli_query(DPDatabase::get_connection(), $q);
-    if (!$res) die(mysqli_error(DPDatabase::get_connection()));
+    if (!$res) die(DPDatabase::log_error());
     return $res;
 }
 
@@ -555,7 +555,7 @@ function uploadImages($preview,$tid,$type)
             $upload_avatar_dir = "$team_avatars_dir/$avatarID";
             move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
             if ($preview != 1) {
-                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(mysqli_error(DPDatabase::get_connection()));
+                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(DPDatabase::log_error());
             }
             $teamimages['avatar'] = $avatarID;
         } else {

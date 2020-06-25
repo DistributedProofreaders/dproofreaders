@@ -137,7 +137,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         LIMIT 1
     ";
     $result = mysqli_query(DPDatabase::get_connection(), $dbQuery);
-    if ($result === FALSE) die(mysqli_error(DPDatabase::get_connection()));
+    if ($result === FALSE) die(DPDatabase::log_error());
     $npage = mysqli_fetch_assoc($result);
     if(!$npage)
     {
@@ -174,7 +174,7 @@ function get_indicated_LPage(
         SELECT state
         FROM $projectid
         WHERE image='$imagefile'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_row($res);
     if (!$row)

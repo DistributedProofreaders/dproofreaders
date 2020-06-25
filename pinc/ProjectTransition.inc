@@ -307,7 +307,7 @@ class ProjectTransition
         ");
         if (!$res)
         {
-            return "mysql error: " . mysqli_error(DPDatabase::get_connection());
+            return "mysql error: " . DPDatabase::log_error();
         }
 
         // ---------------------------------------------------------------------

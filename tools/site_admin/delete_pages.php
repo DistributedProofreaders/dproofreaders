@@ -117,7 +117,7 @@ function do_stuff( $projectid, $from_image_, $just_checking )
             SELECT nameofwork
             FROM projects
             WHERE projectid='$projectid'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
     $n_projects = mysqli_num_rows($res);
     if ( $n_projects == 0 )
@@ -139,7 +139,7 @@ function do_stuff( $projectid, $from_image_, $just_checking )
             SELECT image, fileid
             FROM $projectid
             ORDER BY image
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
     $n_pages = mysqli_num_rows($res);
 
