@@ -37,7 +37,7 @@ function get_all_current_tallyboards()
         SELECT DISTINCT tally_name, holder_type
         FROM current_tallies
         ORDER BY holder_type, tally_name
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     while ( list($tally_name, $holder_type) = mysqli_fetch_row($res) )
     {
         $tallyboards[] = new TallyBoard( $tally_name, $holder_type );
@@ -73,7 +73,7 @@ class TallyBoard
             intval($holder_id),
             intval($amount),
             intval($amount));
-        mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
     }
 
     // -------------------------------------------------------------------------
@@ -132,7 +132,7 @@ class TallyBoard
                 AND tally_value > 0
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
         $row = mysqli_fetch_row($res);
         return $row[0];
     }
@@ -154,7 +154,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $row = mysqli_fetch_assoc($res);
         if ( !$row )
@@ -245,7 +245,7 @@ class TallyBoard
             ORDER BY tally_value DESC, holder_id ASC
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
         // Note that for the purposes of this function,
         // we pretend that holders with tally_value <= 0 don't exist,
         // with the possible exception of the target holder.
@@ -340,7 +340,7 @@ class TallyBoard
                     AND holder_type = '%s'
             ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
                 mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
             while ( list($holder_id, $prev_tally_value) = mysqli_fetch_row($result) )
             {
                 $prev_tally_for_[$holder_id] = $prev_tally_value;
@@ -355,7 +355,7 @@ class TallyBoard
                     AND holder_type = '%s'
             ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
                 mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
             while ( list($holder_id, $best_rank ) = mysqli_fetch_row($result) )
             {
                 $best_rank_for_[$holder_id] = $best_rank;
@@ -372,7 +372,7 @@ class TallyBoard
             ORDER BY tally_value DESC
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $ranker = new Ranker(TRUE);
         while ( list($holder_id, $current_tally) = mysqli_fetch_row($result) )
@@ -400,7 +400,7 @@ class TallyBoard
             }
             else
             {
-                mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+                mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
             }
 
             if ( $rank > 0 && ( !isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id] ) )
@@ -424,7 +424,7 @@ class TallyBoard
                 }
                 else
                 {
-                    mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+                    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
                 }
             }
         }
@@ -444,7 +444,7 @@ class TallyBoard
                 AND holder_type = '%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $row = mysqli_fetch_assoc($result);
         if ( !$row )
@@ -481,7 +481,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $info = mysqli_fetch_assoc($result);
         if (!$info)
@@ -522,7 +522,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $info = mysqli_fetch_row($result);
         if(!$info)
@@ -552,7 +552,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $info = mysqli_fetch_row($result);
         if(!$info)
@@ -587,7 +587,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
         $delta_at_ = array();
         while( list($timestamp, $tally_delta) = mysqli_fetch_row($result) )
@@ -622,7 +622,7 @@ class TallyBoard
         ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
             mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
             intval($holder_id));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
         $row = mysqli_fetch_row($res);
         return $row[0];
     }

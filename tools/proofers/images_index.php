@@ -36,7 +36,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     SELECT image
     FROM $projectid
     ORDER BY image
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 while ( list($image) = mysqli_fetch_row($res) )
 {
     $page_image_names[] = $image;

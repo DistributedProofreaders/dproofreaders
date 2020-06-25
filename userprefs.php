@@ -430,7 +430,8 @@ function save_general_tab() {
         SET $update_string
         WHERE u_id=$uid AND username='%s'",
         mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
-    mysqli_query(DPDatabase::get_connection(), $users_query);
+    mysqli_query(DPDatabase::get_connection(), $users_query) or
+        print(DPDatabase::log_error());
 
     // Opt-out of credits when Content-Providing (deprecated), Image Preparing, 
     // Text Preparing, Project-Managing and/or Post-Processing.
@@ -446,9 +447,7 @@ function save_general_tab() {
 
     $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
 
-    echo mysqli_error(DPDatabase::get_connection());
     dpsession_set_preferences_from_db();
-
 }
 
 /*************** PROOFREADING TAB ***************/
@@ -759,8 +758,8 @@ function save_proofreading_tab() {
             SET u_profile = $profile->id
             WHERE u_id = $uid
         ";
-        mysqli_query(DPDatabase::get_connection(), $users_query);
-        echo mysqli_error(DPDatabase::get_connection());
+        mysqli_query(DPDatabase::get_connection(), $users_query) or
+            print(DPDatabase::log_error());
     }
 
     dpsession_set_preferences_from_db();
@@ -826,8 +825,8 @@ function save_pm_tab() {
         SET $update_string
         WHERE u_id=$uid AND username='%s'",
         mysqli_real_escape_string(DPDatabase::get_connection(), $pguser));
-    mysqli_query(DPDatabase::get_connection(), $users_query);
-    echo mysqli_error(DPDatabase::get_connection());
+    mysqli_query(DPDatabase::get_connection(), $users_query) or
+        print(DPDatabase::log_error());
 
     // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads

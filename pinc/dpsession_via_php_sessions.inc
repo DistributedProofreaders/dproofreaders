@@ -222,7 +222,7 @@ function mysql_session_garbage_collect($lifetime)
 function do_session_query( $query )
 {
     // write_to_session_log( $query );
-    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
     return $result;
 }
 

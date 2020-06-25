@@ -532,7 +532,7 @@ class ProjectInfoHolder
                 SELECT state, checkedoutby, username
                 FROM projects
                 WHERE projectid='{$this->projectid}'
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
             list($state, $PPer, $PM) = mysqli_fetch_row($res);
             $this->state = $state;
 
@@ -661,7 +661,7 @@ class ProjectInfoHolder
                 SELECT username
                 FROM projects
                 WHERE projectid='{$this->clone_projectid}'
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
             list($projectmanager) = mysqli_fetch_row($res);
 
             $pm_setter = sprintf("
@@ -721,7 +721,7 @@ class ProjectInfoHolder
                     $md_setter
                     $common_project_settings
                 WHERE projectid='{$this->projectid}'
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
 
             $details1 = implode(' ', $changed_fields);
 
@@ -778,7 +778,7 @@ class ProjectInfoHolder
                     t_last_change_comments = UNIX_TIMESTAMP(),
                     postcomments = '',
                     $common_project_settings
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
 
             $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'creation' );
             if ( !empty($e) ) die($e);

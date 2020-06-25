@@ -207,7 +207,7 @@ else {
             else {
                 $store_result = mysqli_query(DPDatabase::get_connection(), $query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the author:") . ' ' . mysqli_error(DPDatabase::get_connection()) . "\n";
+                    echo '    ' . _("An error occurred while saving the author:") . ' ' . DPDatabase::log_error() . "\n";
                     exit;
                 }
                 $author_id = mysqli_insert_id(DPDatabase::get_connection());
@@ -224,7 +224,7 @@ else {
             else {
                 $store_result = mysqli_query(DPDatabase::get_connection(), $query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . mysqli_error(DPDatabase::get_connection()) . "\n";
+                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . DPDatabase::log_error() . "\n";
                     exit;
                 }
                 echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysqli_insert_id(DPDatabase::get_connection())) . "\n\n";

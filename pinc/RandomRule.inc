@@ -44,7 +44,7 @@ class RandomRule
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
+            throw new UnexpectedValueException(DPDatabase::log_error());
         }
         $this->table_row = mysqli_fetch_assoc($result);
     }
@@ -66,7 +66,7 @@ class RandomRule
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
+            throw new UnexpectedValueException(DPDatabase::log_error());
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
@@ -92,7 +92,7 @@ class RandomRule
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
+            throw new UnexpectedValueException(DPDatabase::log_error());
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
@@ -117,7 +117,7 @@ class RandomRule
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         if(!$result)
         {
-            throw new UnexpectedValueException(mysqli_error(DPDatabase::get_connection()));
+            throw new UnexpectedValueException(DPDatabase::log_error());
         }
 
         $rules = [];

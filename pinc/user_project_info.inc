@@ -27,7 +27,7 @@ function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
             t_latest_home_visit = $timestamp
         ON DUPLICATE KEY UPDATE
             t_latest_home_visit = $timestamp
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
@@ -40,7 +40,7 @@ function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
             t_latest_page_event = $timestamp
         ON DUPLICATE KEY UPDATE
             t_latest_page_event = $timestamp
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -96,7 +96,7 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
             iste_$event = $bit
         ON DUPLICATE KEY UPDATE
             iste_$event = $bit
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 function user_is_subscribed_to_project_event( $username, $projectid, $event )
@@ -109,7 +109,7 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
         FROM user_project_info
         WHERE username    = '$username'
             AND projectid = '$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $row = mysqli_fetch_row($res);
     if ( !$row )
     {
@@ -205,7 +205,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
         FROM user_project_info
         WHERE projectid = '$projectid'
             AND iste_$event = 1
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $n_subscribers = mysqli_num_rows($res1);
     while ( list($username) = mysqli_fetch_row($res1) )
     {
@@ -225,7 +225,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
             UPDATE projects
             SET int_level = '$n_subscribers'
             WHERE projectid = '$projectid'
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
     }
 }
 
@@ -247,7 +247,7 @@ function get_n_users_subscribed_to_events_for_project( $projectid )
         SELECT $selects
         FROM user_project_info
         WHERE projectid='$projectid'
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $r = mysqli_fetch_assoc($res);
 
     // If there are no rows for this project, the SUMs will all return NULL;
@@ -274,7 +274,7 @@ function create_temporary_project_event_subscription_summary_table()
         FROM user_project_info
         WHERE iste_posted = 1
         GROUP BY projectid
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 }
 
 // -----------------------------------------------------------------------------

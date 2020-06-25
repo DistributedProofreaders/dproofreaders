@@ -62,7 +62,7 @@ $q = sprintf("
     SELECT * FROM users WHERE username='%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $userNM)
 );
-$u_res = mysqli_query(DPDatabase::get_connection(), $q) or die(mysqli_error(DPDatabase::get_connection()));
+$u_res = mysqli_query(DPDatabase::get_connection(), $q) or die(DPDatabase::log_error());
 $u_row = mysqli_fetch_assoc($u_res);
 if (!$u_row)
 {

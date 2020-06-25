@@ -78,7 +78,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM project_events
     WHERE event_type = 'transition' AND timestamp >= $t_start_of_today
     GROUP BY details2
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 $n_projects_transitioned_to_state_ = array();
 while ( list($project_state,$count) = mysqli_fetch_row($res) )
@@ -91,7 +91,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     SELECT state, COUNT(*)
     FROM projects
     GROUP BY state
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 $n_projects_in_state_ = array();
 while ( list($project_state,$count) = mysqli_fetch_row($res) )
@@ -358,7 +358,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
             FROM projects
             WHERE state IN ($states_list) $project_filter
             GROUP BY state
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
 
         $total_projects = 0;
         while ( list($project_state,$count) = mysqli_fetch_row($res) )

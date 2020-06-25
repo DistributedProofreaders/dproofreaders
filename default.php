@@ -137,7 +137,7 @@ foreach ( array(1,7,30) as $days_back )
         SELECT COUNT(*)
         FROM users
         WHERE t_last_activity > UNIX_TIMESTAMP() - $days_back * 24*60*60
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $row = mysqli_fetch_row($res);
     $num_users = $row[0];
     

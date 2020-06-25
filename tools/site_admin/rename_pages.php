@@ -48,7 +48,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     SELECT fileid, image
     FROM $projectid
     ORDER BY image
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 $current_image_for_fileid_ = array();
 while ( list($fileid,$image) = mysqli_fetch_row($res) )
@@ -387,7 +387,7 @@ switch ( $submit_button )
                 echo $query;
                 if ($for_real)
                 {
-                    mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+                    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
                     $n = mysqli_affected_rows(DPDatabase::get_connection());
                     echo "
                         $n rows affected.

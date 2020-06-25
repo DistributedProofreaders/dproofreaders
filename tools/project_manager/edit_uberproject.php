@@ -105,7 +105,7 @@ if ( isset($_REQUEST['action']) &&
         }
         else
         {
-            $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM uber_projects WHERE up_projectid = '$up_projectid'") or die(mysqli_error(DPDatabase::get_connection()));
+            $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM uber_projects WHERE up_projectid = '$up_projectid'") or die(DPDatabase::log_error());
             if (mysqli_num_rows($result))
             {
                 // check that user has permission to edit this UP

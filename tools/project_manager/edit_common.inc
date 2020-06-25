@@ -267,7 +267,7 @@ function image_source_list($image_source)
         FROM image_sources
         WHERE is_active = 1
         ORDER BY display_name
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $imso_array = array(
         // TRANSLATORS: %s is the site abbreviation

@@ -226,7 +226,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
         ");
         if ( !$res )
         {
-            echo mysqli_error(DPDatabase::get_connection()), "\n";
+            echo DPDatabase::log_error(), "\n";
             echo "Skipping further processing of this project.\n";
             continue;
         }

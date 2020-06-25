@@ -115,7 +115,7 @@ $query = sprintf("
         mysqli_real_escape_string(DPDatabase::get_connection(), $user->u_intlang)
 );
 
-$result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+$result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
 $u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented users.u_id
 
 // Delete record in non_activated_users.

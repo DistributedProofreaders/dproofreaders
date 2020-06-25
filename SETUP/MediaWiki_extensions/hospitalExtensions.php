@@ -54,7 +54,7 @@ function listHospitalProjects( $input, $argv )
         ORDER BY nameofwork ASC
     ");
     if (!$result) {
-        die ('Invalid: '. mysqli_error(DPDatabase::get_connection()));
+        die(DPDatabase::log_error());
     }
 
     $output = "";

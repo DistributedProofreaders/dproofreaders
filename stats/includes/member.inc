@@ -575,7 +575,7 @@ function showMbrTeams($user) {
         SELECT *
         FROM user_teams
         WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     while ($row = mysqli_fetch_assoc($result)) {
         $url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];

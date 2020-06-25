@@ -486,7 +486,7 @@ function get_rounds_with_data( $projectid )
     $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $body
         FROM $projectid
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round_id => $round )

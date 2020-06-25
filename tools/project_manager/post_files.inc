@@ -516,9 +516,7 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
     ");
     if ($res === FALSE)
     {
-        echo "page_info_query(): SQL error:\n";
-        echo mysqli_error(DPDatabase::get_connection());
-        echo "\n";
+        echo DPDatabase::log_error();
         return FALSE;
     }
 

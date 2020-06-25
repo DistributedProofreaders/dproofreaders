@@ -62,7 +62,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         $order_clause
         LIMIT $per_page OFFSET $offset
     ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()) . $sql);
+    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
 
     $numrows = mysqli_num_rows($result);
 

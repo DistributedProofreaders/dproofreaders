@@ -28,7 +28,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
     ORDER BY modifieddate
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 echo "Archiving page-tables for ", mysqli_num_rows($result), " projects...\n";
 

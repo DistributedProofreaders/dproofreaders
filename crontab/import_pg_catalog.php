@@ -276,7 +276,7 @@ foreach ($etexts as $etext_number => $formats )
     // echo $etext_number, ": ", $formats_string, "\n";
     $formats_string = mysqli_real_escape_string(DPDatabase::get_connection(), $formats_string);
     mysqli_query(DPDatabase::get_connection(),  "REPLACE INTO pg_books SET etext_number='$etext_number', formats='$formats_string'" )
-        or die( mysqli_error(DPDatabase::get_connection()) );
+        or die(DPDatabase::log_error());
 }
 
 trace("Done");

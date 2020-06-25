@@ -9,7 +9,7 @@ function Project_getNumPagesInState( $projectid, $page_state , $counter = "*")
     $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT($counter) FROM $projectid WHERE state='$page_state'");
     if (!$res)
     {
-        echo mysqli_error(DPDatabase::get_connection());
+        echo DPDatabase::log_error();
         return 0;
     }
 
@@ -23,7 +23,7 @@ function Project_getNumPages( $projectid )
     $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM $projectid");
     if (!$res)
     {
-        echo mysqli_error(DPDatabase::get_connection());
+        echo DPDatabase::log_error();
         return 0;
     }
 

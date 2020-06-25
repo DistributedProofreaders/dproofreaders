@@ -28,7 +28,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     SELECT DISTINCT REPLACE(setting,'.access', '')
     FROM usersettings
     WHERE setting LIKE '%.access' AND value='requested'
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 while ( list($activity_id) = mysqli_fetch_row($res) )
 {
     if ( !in_array( $activity_id, $activity_ids ) )
@@ -48,7 +48,7 @@ mysqli_query(DPDatabase::get_connection(), "
         MAX( timestamp * (action='deny_request_for') ) AS t_latest_deny
     FROM access_log
     GROUP BY activity, subject_username
-") or die(mysqli_error(DPDatabase::get_connection()));
+") or die(DPDatabase::log_error());
 
 foreach ( $activity_ids as $activity_id )
 {
@@ -74,7 +74,7 @@ foreach ( $activity_ids as $activity_id )
             )
         WHERE setting = '$access_name' AND value='requested'
         ORDER BY username
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     if ( mysqli_num_rows($res) == 0 )
     {

@@ -244,7 +244,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         $res= mysqli_query(DPDatabase::get_connection(),
             sprintf("DESCRIBE %s",
             mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_[$which]))
-        ) or die(mysqli_error(DPDatabase::get_connection()));
+        ) or die(DPDatabase::log_error());
 
         $column_names = array();
         while ( $row = mysqli_fetch_assoc($res) )
@@ -287,7 +287,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             FROM %s
             ORDER BY image",
             mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)
-        )) or die(mysqli_error(DPDatabase::get_connection()));
+        )) or die(DPDatabase::log_error());
 
         $n_pages = mysqli_num_rows($res);
 
@@ -614,7 +614,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         echo html_safe($query) . "\n";
         if ($for_real)
         {
-            mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
             $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ( $n != 1 )
@@ -656,7 +656,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
                             iste_$event = 1",
                     mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from'])
             );
-            $res1 = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            $res1 = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
             while ( list($username) = mysqli_fetch_row($res1) )
             {
                 set_user_project_event_subscription( $username, 
@@ -680,7 +680,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         echo "<code>" . html_safe($query) . "</code>";
         if ($for_real)
         {
-            mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
             $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
         }

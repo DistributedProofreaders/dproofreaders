@@ -1083,7 +1083,7 @@ function do_waiting_queues()
         FROM queue_defns
         WHERE round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
     if ( mysqli_num_rows($res) == 0 )
     {
         // No queues defined for this round.
@@ -1110,7 +1110,7 @@ function do_waiting_queues()
                 SELECT projectid
                 FROM projects
                 WHERE projectid='{$project->projectid}' AND ($cooked_project_selector)
-            ") or die(mysqli_error(DPDatabase::get_connection()));
+            ") or die(DPDatabase::log_error());
             if ( mysqli_num_rows($res2) > 0 )
             {
                 $n_queues += 1;
@@ -1268,7 +1268,7 @@ function do_history()
         FROM project_events
         WHERE projectid = '{$project->projectid}'
         ORDER BY event_id
-    ") or die(mysqli_error(DPDatabase::get_connection()));
+    ") or die(DPDatabase::log_error());
 
     $events = array();
     while ( $event = mysqli_fetch_assoc($res) )
@@ -1701,7 +1701,7 @@ function do_post_downloads()
     $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT $sums_str
             FROM $projectid
-        ") or die(mysqli_error(DPDatabase::get_connection()));
+        ") or die(DPDatabase::log_error());
     $sums = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round )
