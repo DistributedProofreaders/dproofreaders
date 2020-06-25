@@ -9,6 +9,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
+require_login();
+
 
 $lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));
 $flavour  = get_enumerated_param($_GET, 'type', null, array('common', 'suspect', 'rare'));

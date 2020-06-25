@@ -8,6 +8,7 @@ all: less security_checks lint
 # Security checks
 security_checks:
 	$(SELF_DIR)check_security.sh $(SELF_DIR)..
+	$(SELF_DIR)check_require_login.php
 
 #----------------------------------------------------------------------------
 # PHP file linting

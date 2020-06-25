@@ -9,6 +9,8 @@ include_once($relPath.'User.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
+require_login();
+
 $id = get_integer_param($_GET, 'id', null, 0, null);
 $user = User::load_from_uid($id);
 

@@ -7,6 +7,8 @@ include_once('../quiz_defaults.inc'); // $messages
 $theme_args["css_data"] = "h2 {font-size:110%; margin: 0;}
     p.message_id {margin: 0 0 .5em 1em; background-color: #dddddd;}";
 
+require_login();
+
 output_header(_('Quiz Messages'), SHOW_STATSBAR, $theme_args);
 
 echo "<h1>" . _("Default Quiz Messages") . "</h1>";

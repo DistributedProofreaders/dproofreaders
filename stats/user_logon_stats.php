@@ -3,6 +3,8 @@ $relPath='./../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
+require_login();
+
 $title = _("User Logon Statistics");
 output_header($title);
 echo "<h1>$title</h1>";

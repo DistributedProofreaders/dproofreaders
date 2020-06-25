@@ -7,6 +7,8 @@ include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc');
 
+require_login();
+
 $title = _("Statistics Central");
 output_header($title);
 

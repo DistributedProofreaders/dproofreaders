@@ -3,6 +3,8 @@ $relPath="../../pinc/";
 include_once($relPath."base.inc");
 include_once($relPath."misc.inc");
 
+require_login();
+
 $charset="UTF-8";
 header("Content-Type: text/html; charset=$charset");
 

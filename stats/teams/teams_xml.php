@@ -9,6 +9,8 @@ include_once($relPath.'misc.inc'); // get_integer_param()
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
+require_login();
+
 if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
     output_header(_("Error!"));
