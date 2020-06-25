@@ -8,6 +8,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'Project.inc');
 
+require_login();
+
 $projectid = validate_projectID('projectid', @$_GET['projectid']);
 
 $zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";

@@ -5,6 +5,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
+require_login();
+
 $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors);
 
 $psd = get_project_status_descriptor($which);

@@ -6,6 +6,8 @@ include_once($relPath.'misc.inc'); // startswith str_contains
 include_once($relPath.'bad_bytes.inc'); // $_bad_byte_sequences
 include_once($relPath.'project_quick_check.inc'); // $css_for_bad_bytes_tables tds_for_bad_bytes
 
+require_login();
+
 output_header(_("Bad Bytes Explainer"), NO_STATSBAR);
 
 ?>

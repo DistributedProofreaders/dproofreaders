@@ -4,6 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 
+require_login();
+
 output_header(_('Quiz Wizard'));
 
 function evalpages()

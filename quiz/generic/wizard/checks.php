@@ -4,6 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../quiz_defaults.inc'); // $messages
 
+require_login();
+
 output_header(_('Quiz Wizard'));
 
 function evalchecks()

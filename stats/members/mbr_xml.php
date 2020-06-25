@@ -9,6 +9,8 @@ include_once($relPath.'User.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
+require_login();
+
 $username = @$_GET['username'];
 $user = new User($username);
 $forum_profile= get_forum_user_details($username);

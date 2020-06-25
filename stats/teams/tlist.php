@@ -6,6 +6,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
 
+require_login();
+
 $order = get_enumerated_param(
         $_GET, 'order', 'id', array('id', 'teamname', 'member_count') );
 $direction = get_enumerated_param(
