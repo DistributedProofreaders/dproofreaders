@@ -3,6 +3,8 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
+require_login();
+
 output_header(_('Greek Transliteration Tutorial'));
 
 echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 3) . "</h2>\n";

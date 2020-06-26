@@ -4,6 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../generic/quiz_defaults.inc'); // $old_texts_url
 
+require_login();
+
 output_header(_('Old Texts Proofreading Tutorial'));
 
 echo "<h1>" . _("Proofreading Tutorial") . "</h1>\n";

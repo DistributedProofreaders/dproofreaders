@@ -4,6 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../generic/quiz_defaults.inc'); // $blackletter_url
 
+require_login();
+
 output_header(_('Old Texts Proofreading Tutorial'));
 
 echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, Page %d"), 3) . "</h2>\n";
