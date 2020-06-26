@@ -4,9 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'Stopwatch.inc');
 
-// check that caller is localhost or bail
-if(!requester_is_localhost() && php_sapi_name() != 'cli' )
-    die("You are not authorized to perform this request.");
+require_localhost_request(TRUE /* deny_cli */);
 
 // Download the XML version of the Project Gutenberg catalog,
 // extract desired data from it, and put that into a MySQL table.

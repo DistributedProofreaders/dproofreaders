@@ -8,9 +8,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');
 
-// check that caller is localhost or bail
-if(!requester_is_localhost())
-    die("You are not authorized to perform this request.");
+require_localhost_request();
 
 header('Content-type: text/plain');
 

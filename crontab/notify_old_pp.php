@@ -7,9 +7,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'post_processing.inc'); // get_pp_projects_past_threshold
 
-// check that caller is localhost or bail
-if(!requester_is_localhost())
-    die("You are not authorized to perform this request.");
+require_localhost_request();
 
 $projects_by_PPer = get_pp_projects_past_threshold();
 
