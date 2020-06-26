@@ -1,6 +1,11 @@
 <?php
   function get_biography($id) {
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT bio FROM biographies WHERE bio_id = $id;");
+    $sql = sprintf("
+        SELECT bio
+        FROM biographies
+        WHERE bio_id = %d
+    ", $id);
+    $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
     if (!$row)
     {
