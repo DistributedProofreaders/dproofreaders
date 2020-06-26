@@ -3,6 +3,8 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
+require_login();
+
 output_header(_('Fraktur Proofreading Tutorial'));
 
 echo "<h2>" . _("Fraktur Proofreading Tutorial") . "</h2>\n";

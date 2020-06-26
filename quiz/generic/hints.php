@@ -5,6 +5,8 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once('../small_theme.inc'); // output_small_header
 
+require_login();
+
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 $error = get_param_matching_regex($_REQUEST, 'error', NULL, '/^\w+$/');
 $number = get_integer_param($_REQUEST, 'number', NULL, 0, NULL);
