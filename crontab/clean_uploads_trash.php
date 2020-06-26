@@ -3,9 +3,7 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // requester_is_localhost()
 
-// check that caller is localhost or bail
-if(!requester_is_localhost())
-    die("You are not authorized to perform this request.");
+require_localhost_request();
 
 $trash_dir = realpath("$uploads_dir/$uploads_subdir_trash");
 if(!$trash_dir)

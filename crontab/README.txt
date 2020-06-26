@@ -11,8 +11,8 @@ them.
 ---------------------------------------
 Script development notes
 
-The function requester_is_localhost(), located in misc.inc, should be used at
-the top of each script to enforce that they are only run locally.
+The function require_localhost_request(), located in misc.inc, should be used
+at the top of each script to enforce that they are only run locally.
 
 Usually, the output of the scripts are collected by crontab and emailed to the
 user. With this in mind they should only output upon error unless you think the

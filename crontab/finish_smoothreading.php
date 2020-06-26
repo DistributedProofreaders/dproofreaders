@@ -7,9 +7,7 @@ include_once($relPath.'project_events.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');
 
-// check that caller is localhost or bail
-if(!requester_is_localhost())
-    die("You are not authorized to perform this request.");
+require_localhost_request();
 
 header('Content-type: text/plain');
 

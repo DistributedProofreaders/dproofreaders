@@ -4,9 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc');
 
-// check that caller is localhost or bail
-if(!requester_is_localhost())
-    die("You are not authorized to perform this request.");
+require_localhost_request();
 
 $res = dpsql_query("
     SELECT MAX(date) FROM site_tally_goals

@@ -1068,6 +1068,11 @@ function factor_strings( $strings )
 function requester_is_localhost()
 // function to determine if page requester is from localhost
 {
+    if(php_sapi_name() == "cli")
+    {
+        return TRUE;
+    }
+
     if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
         $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'])
     {
@@ -1076,6 +1081,16 @@ function requester_is_localhost()
     else
     {
         return FALSE;
+    }
+}
+
+function require_localhost_request($deny_cli=FALSE)
+// If the requester is not localhost, bail
+{
+    if(!requester_is_localhost() ||
+        ($deny_cli && php_sapi_name() == 'cli'))
+    {
+        die("You are not authorized to perform this request.\n");
     }
 }
 
