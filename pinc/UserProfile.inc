@@ -61,12 +61,8 @@ class UserProfile
             WHERE id = %d
         ", $id);
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
-        elseif(mysqli_num_rows($result) == 0)
+        $result = DPDatabase::query($sql);
+        if(mysqli_num_rows($result) == 0)
         {
             throw new NonexistentUserProfileException(sprintf(
                 _('No user profile found with id = %s'),
@@ -110,7 +106,7 @@ class UserProfile
                 WHERE id = %d
             ", $this->id);
         }
-        mysqli_query(DPDatabase::get_connection(), $sql);
+        DPDatabase::query($sql);
 
         if(!isset($this->id))
         {
@@ -131,7 +127,7 @@ class UserProfile
             DELETE FROM user_profiles
             WHERE id = %d
         ", $this->id);
-        mysqli_query(DPDatabase::get_connection(), $sql);
+        DPDatabase::query($sql);
     }
 
     // static functions
@@ -145,7 +141,7 @@ class UserProfile
         ", $u_ref);
 
         $profiles = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         while($row = mysqli_fetch_assoc($result))
         {
             $profiles[] = new UserProfile($row["id"]);

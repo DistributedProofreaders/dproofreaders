@@ -70,8 +70,7 @@ class User
                     SET u_profile = %d
                     WHERE u_id = %d
                 ", $this->current_profile->id, $this->u_id);
-                mysqli_query(DPDatabase::get_connection(), $sql)
-                    or DPDatabase::log_error();
+                DPDatabase::query($sql);
 
                 // now set the profile cookie if this is for the current user
                 if($this->username == User::current_username())
@@ -136,11 +135,11 @@ class User
     {
         if(in_array($field, $this->string_fields))
         {
-            $escaped_value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $value));
+            $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
         }
         else
         {
-            $escaped_value = $value;
+            $escaped_value = sprintf("%d", $value);
         }
 
         $sql = "
@@ -149,12 +148,8 @@ class User
             WHERE $field=$escaped_value
         ";
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
-        elseif(mysqli_num_rows($result) == 0)
+        $result = DPDatabase::query($sql);
+        if(mysqli_num_rows($result) == 0)
         {
             throw new NonexistentUserException(sprintf(
                 _('No user found with %1$s = %2$s'),
@@ -308,8 +303,8 @@ class User
             SELECT username
             FROM users
             WHERE username='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        ", DPDatabase::escape($username));
+        $result = DPDatabase::query($sql);
         if(mysqli_num_rows($result) == 0)
         {
             $is_valid = FALSE;
