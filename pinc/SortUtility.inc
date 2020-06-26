@@ -95,10 +95,6 @@ class SortUtility {
   var $_sortingValue,
       $_sortingDirection;
 
-  // if true, the user's choice of sorting is stored to database
-  // at selection, and read from it at loading
-  var $_storeSortingInDatabase = false;
-
   // constructor
   // $name should be unique on the entire site,
   // since, if db-storing of sorting-options is
@@ -119,20 +115,8 @@ class SortUtility {
     if (isset($_GET[$this->_name.'_order'])) {
       if ($this->_parseSortingRule($_GET[$this->_name.'_order'])) {
         // Parameter was passed and evaluated ok.
-        // Possibly store it in the database
-        if ($this->_storeSortingInDatabase)
-          $this->_storeSorting();
         return true;
       }
-    }
-
-    // Check for a stored preference in the database
-    if ($this->_storeSortingInDatabase) {
-      global $pguser;
-      $result = mysqli_query(DPDatabase::get_connection(), "SELECT value FROM usersettings WHERE username='$pguser' and setting='".$this->_name."_order'");
-      $row = mysqli_fetch_assoc($result);
-      if($row)
-        return $this->_parseSortingRule($row["value"]);
     }
 
     // nothing found
@@ -178,13 +162,6 @@ class SortUtility {
     $this->_sortingValue = null;
     $this->_sortingDirection = null;
     return false;
-  }
-
-  // By default, the users choice of sorting (as registered when
-  // clicking links) is not saved in the database. This function
-  // is used to set that property to true or false.
-  function setStoreSortingInDatabase($storeSortingInDatabase) {
-    $this->_storeSortingInDatabase = $storeSortingInDatabase;
   }
 
   // Returns the SortableValue that should be sorted by.
@@ -314,32 +291,6 @@ class SortUtility {
     return $this->_name . '_order=' . $sortableValue->getName()
            . $direction;
   }
-
-  // Store the user's preference on sorting this particular table in the database
-  function _storeSorting() {
-    // The name used for this particular setting in `usersettings`
-    $setting_name = $this->_name . '_order';
-
-    // The value to store is $setting_value
-    $currentlySortedValue = $this->getSortingValue();
-    $setting_value = $currentlySortedValue->getName() .
-                     ($this->getSortingDirection() == ASCENDING ? 'A' : 'D');
-
-    global $pguser;
-
-    // See if there's a preference already
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT value FROM usersettings WHERE username='$pguser' and setting='$setting_name'");
-
-    if (mysqli_num_rows($result) > 0)
-      // existing preference. UPDATE
-      mysqli_query(DPDatabase::get_connection(), "UPDATE usersettings SET value='$setting_value'" .
-                  "WHERE (username = '$pguser' AND setting='$setting_name')");
-    else
-      // no preference yet. INSERT
-      mysqli_query(DPDatabase::get_connection(), 'INSERT INTO usersettings (username, setting, value) ' .
-                  "VALUES ('$pguser', '$setting_name', '$setting_value')");
-  }
-
 }
 
 ?>
