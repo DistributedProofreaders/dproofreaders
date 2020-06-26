@@ -18,7 +18,7 @@ for file in `find $BASE_DIR -name "*.php" -o -name "*.inc"`; do
     OUTPUT=`php -l $file`
     echo $OUTPUT | grep -q 'No syntax errors detected'
     if [ $? -ne 0 ]; then
-        echo "Lint failure in $file"
+        echo "ERROR: PHP lint failure in $file"
         echo "$OUTPUT"
         exit 1
     fi
@@ -29,7 +29,7 @@ for file in `find $BASE_DIR -name "*.php" -o -name "*.inc"`; do
     echo $OUTPUT | grep -q 'UTF-8'
     UTF8=$?
     if [ $ASCII -eq 1 -a $UTF8 -eq 1 ]; then
-        echo "Unexpected encoding in $file"
+        echo "ERROR: Unexpected encoding in $file"
         echo "$OUTPUT"
         exit 1
     fi

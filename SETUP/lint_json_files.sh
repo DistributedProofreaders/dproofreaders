@@ -17,7 +17,7 @@ for file in `find $BASE_DIR -name "*.json" -not -path "*/node_modules/*"`; do
     echo $file
     OUTPUT=$(php -r "exit(json_decode(file_get_contents('$file')) === NULL);" 2>&1)
     if [ $? -ne 0 -o "$OUTPUT" = '1' ]; then
-        echo "Lint failure in $file"
+        echo "ERROR: JSON lint failure in $file"
         exit 1
     fi
 done
