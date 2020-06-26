@@ -4,12 +4,10 @@ include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-$theme_args["css_data"] = "tt { color: red } pre { color: red }";
-
-output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR, $theme_args);
+output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR);
 ?>
 
-<h2 style='text-align: center'>Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
+<h2>Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
 <p> These are special additions to the Proofreading Guidelines for Copyright Renewal books.
     They were created because of the specialized content of these books, and the need
     for them to be very consistently formatted to be useful to readers.</p>
@@ -23,13 +21,7 @@ output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR,
     Many people consider this very boring stuff but it is important that we get it
     right. <i>Thanks for proofreading it!</i>
 </p>
-<table style="width: 100%">
-  <tbody>
-    <tr>
-      <td style="background-color: silver">&nbsp;</td>
-    </tr>
-  </tbody>
-</table>
+<hr>
 
 <p>
 In mid-1973, the U.S. Copyright Office significantly changed the format
@@ -198,19 +190,6 @@ R554718.
 	you'd probably be better off asking in the project's discussion topic.)
     </li>
 </ul>
-
-<div style='background-color: silver; width: 100%; text-align: center; font: 10px verdana, helvetica, sans-serif'>
-  <div style='padding: 4px'>
-    Return to: <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
-  </div>
-  <div style='padding: 4px'>
-    <a href="..">Distributed Proofreaders home page</a>,
-    &nbsp;&nbsp;&nbsp;
-    <a href="faq_central.php">DP FAQ Central page</a>,
-    &nbsp;&nbsp;&nbsp;
-    <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
-  </div>
-</div>
 
 <?php
 // vim: sw=4 ts=4 expandtab
