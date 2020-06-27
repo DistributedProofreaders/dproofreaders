@@ -42,7 +42,7 @@ that are shown to the users in the proofreading interface character picker.
 Picker sets are optional and, if they are used, need not cover the entire set
 of codepoints in the character suite.
 
-The code currently ships with 4 character suites:
+The code currently ships with the following character suites:
 
 * Basic Latin - characters contained within ISO-8859-1 and CP-1252
 * Extended European Latin A - Esperanto, Welsh, Sami, Romanian, Hungarian
@@ -52,6 +52,7 @@ The code currently ships with 4 character suites:
 * Polytonic Greek
 * Medievalist supplement - for transcription/analysis of medieval writings
 * Semitic and Indic transcriptions - Romanized forms of Arabic, Hebrew, Sanskrit
+* Symbols collection - Astronomical, Music, Zodiac and Apothecary symbols
 
 All character suites can be viewed using the [All Character Suites](../tools/charsuites.php)
 page.
