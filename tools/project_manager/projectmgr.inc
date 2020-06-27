@@ -52,7 +52,7 @@ function echo_manager_links()
         echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Info")."</a>";
     if (user_is_image_sources_manager())
     {
-        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage ")."</a></li>\n";
+        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage ")."</a>\n";
     }
     else if (user_is_PM())
     {

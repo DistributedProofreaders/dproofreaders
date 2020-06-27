@@ -52,7 +52,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     if($font_size != '')
         $font_size = "font-size: $font_size";
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
-    $returnString.="<style type='text/css'>" .
+    $returnString.="<style>" .
                    " pre { $font_size }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
                    "  .hl { background-color: yellow; color: black; }" .

@@ -36,9 +36,7 @@ Note that you don't necessarily have to do all these steps yourself.
 It's quite possible to do some steps and hand off your results
 to someone else.
 <!--
-<font style='color: red'>
 [But we need to describe how you find that "someone else".]
-</font>
 -->
 You can also elect to manage the project once the necessary files have
 been uploaded to the DP server.
@@ -83,7 +81,7 @@ are great places to check publishing dates of books.</p>
 <p>The book should not already be on the Project Gutenberg site. This
 site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
-A different <span style="font-style: italic;">version</span> of an
+A different <span class="italic">version</span> of an
 existing book is OK though. You can check the <a
  href="<?php echo $PG_catalog_url; ?>">Project Gutenberg online catalog</a> to
 see if a book is already on there.</p>
@@ -93,11 +91,6 @@ In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
 If you find your book listed but the clearance date is over a few years old
 then it is probably OK to go ahead and do it.
-<!--
-<font style='color: red'>
-[Really? -JMD]
-</font>
--->
 </p>
 <p>You might want to stick with a shorter fictional work for the first
 project you contribute.
@@ -160,7 +153,7 @@ Since DP needs page images, we can't use those PDF files for DP.)
 University libraries
 and historical societies seem to be rich sources. This is especially
 helpful if you don't have access to a scanner or physical books. There <span
- style="font-style: italic;">are</span> drawbacks: they are usually a
+ class="italic">are</span> drawbacks: they are usually a
 fairly intensive download, especially over dial-up; you don't have
 access to the actual book to check against if there are later problems,
 and the selection is limited. Not having to do the scanning is a big
@@ -179,7 +172,7 @@ source of the scan when the text is submitted to Project Gutenberg.<br>
 <p><big><a name="clearance"><b>How do I ensure that the book is eligible?</b></a></big></p>
 <p> </p>
 <p>Once you have found a book that you think might be a good candidate,
- the first thing you should do is get a <span style="font-weight: bold;">clearance
+ the first thing you should do is get a <span class="bold">clearance
 line</span>. This is an approval, if you will, of the book for the
 Project Gutenberg site, and also registers the book as being a work in
 progress to let other people know it is reserved so as not to duplicate
@@ -193,7 +186,7 @@ and links there also.<br>
 <p>You probably should not invest too much time until you've received
 your clearance line. </p>
 <hr size="3" width="100%" align="left">
-<p style="font-weight: bold;"><big><a name="scan">OK, I have my book, I
+<p class="bold"><big><a name="scan">OK, I have my book, I
 have my clearance line; Now what?</a></big></p>
 <p>Now you need to scan it.<br>
 </p>
@@ -346,7 +339,7 @@ please see our
 <div><br>
 </div>
 <hr size="3" width="100%" align="left">
-<p style="font-weight: bold;"><big><a name="ocr">Whew! I've got the
+<p class="bold"><big><a name="ocr">Whew! I've got the
 image files done. What's next?</a></big></p>
 <p>Now you've got to run the images through an OCR (Optical Character
 Recognition) program. Again, there are too many programs out there to
@@ -361,9 +354,7 @@ are more than happy to OCR images on your behalf.
 </p>
 
 <!--
-<font style='color: red'>
 [Per JulietS: Add paragraph about the OCR pool and how to use it.]
-</font>
 -->
 
 <p>Assuming you DO have OCR software...</p>
@@ -442,10 +433,10 @@ need to do something like the following :<br>
 An excerpt from the <a
  href="http://mywebpages.comcast.net/thundergnat/guiprep.html">guiprep.pl
 manual</a>. (Included with the guiprep script)<br>
-<p style="margin-left: 40px;"><big><span style="font-weight: bold;">Setting
+<p style="margin-left: 40px;"><big><span class="bold">Setting
 up the text files:</span></big><br>
 <br>
-<span style="font-weight: bold;"> RTF Markup Extraction:</span><br>
+<span class="bold"> RTF Markup Extraction:</span><br>
 <br>
 In order to use the dehyphenization features of this script, you NEED
 to save the text from ABBYY FineReader (or possibly other OCR packages,
@@ -460,27 +451,27 @@ File =&gt; Save Text As;&nbsp; A dialog box will pop up. <br>
 </p>
 <div style="margin-left: 40px;"> <br>
 In the "textw" directory, save the text with the settings: Save as type <span
- style="font-weight: bold;">Rich text Format</span>, <span
- style="font-weight: bold;">Create a separate file for each page</span>,<span
- style="font-weight: bold;"> Retain font and font size</span>. On the
-RTF tab of the Formats Settings, check <span style="font-weight: bold;">Keep
-page breaks</span> and <span style="font-weight: bold;">Keep line breaks</span>
+ class="bold">Rich text Format</span>, <span
+ class="bold">Create a separate file for each page</span>,<span
+ class="bold"> Retain font and font size</span>. On the
+RTF tab of the Formats Settings, check <span class="bold">Keep
+page breaks</span> and <span class="bold">Keep line breaks</span>
 and uncheck everything else. It doesn't matter what the File name is set
 to. The name of your batch is probably fine.<br>
 <br>
 In the "textwo" directory, save the text with the settings: Save as
-type <span style="font-weight: bold;">Rich text Format</span>, <span
- style="font-weight: bold;">Create a separate file for each page</span>,<span
- style="font-weight: bold;">Retain font and font size</span>. On the
-RTF tab of the Formats Settings, check <span style="font-weight: bold;">Keep
+type <span class="bold">Rich text Format</span>, <span
+ class="bold">Create a separate file for each page</span>,<span
+ class="bold">Retain font and font size</span>. On the
+RTF tab of the Formats Settings, check <span class="bold">Keep
 page breaks</span> and <span
- style="font-weight: bold; text-decoration: underline;">Remove optional
+ class="bold underlined">Remove optional
 hyphens</span> and uncheck everything else. Make sure the File name is
 set the same as in the textw directory.<br>
 <br>
 <br>
-<span style="font-weight: bold;"> Using the script <span
- style="font-style: italic;">without</span> RTF Markup Extraction:</span><br>
+<span class="bold"> Using the script <span
+ class="italic">without</span> RTF Markup Extraction:</span><br>
 <br>
 If you don't want to do markup extraction, (or your OCR package won't
 support RTF files)&nbsp; you can skip saving the files as RTFs and just
@@ -495,7 +486,7 @@ pages but be aware that they may not be as easy to use on the site and
 may not yield satisfactory results with some of the script functions.<br>
 <br>
 The textwo directory should use all of the same settings except that <span
- style="font-weight: bold;">Keep line breaks</span> needs to be
+ class="bold">Keep line breaks</span> needs to be
 unchecked. Be sure to use the same code page and file names in both the
 textw and textwo directories.<br>
 <br>
@@ -503,30 +494,30 @@ At this point the script is used exactly the same way except you'll
 skip the Extract Markup routine.<br>
 <br>
 <br>
-<span style="font-weight: bold;"> Using the script <span
- style="font-style: italic;">without</span> RTF Markup Extraction <span
- style="font-style: italic;">or</span> Dehyphenization:</span><br>
-<span style="font-weight: bold;"> </span><br>
+<span class="bold"> Using the script <span
+ class="italic">without</span> RTF Markup Extraction <span
+ class="italic">or</span> Dehyphenization:</span><br>
+<span class="bold"> </span><br>
 If you are using a different OCR package that can't save as rtf or do
 automatic line rejoining, you may need to skip those two functions. Save
 the files in a directory named "text" using the same settings as for
 textw without RTF extraction above. Uncheck both Extract and&nbsp;
 Dehyphenate under the Process Text tab. It won't hurt to leave them
 checked but the script will complain that it can't find the other
-directories and/or files.<span style="font-weight: bold;"></span><br>
-<span style="font-weight: bold;"> </span></div>
+directories and/or files.<span class="bold"></span><br>
+<span class="bold"> </span></div>
 <p>If you aren't using guiprep 
 just save the files into the "text" directory. Save as plain text, keep
 line breaks, use blank line as paragraph separator.
 </p>
 <hr size="3" width="100%" align="left">
-<p style="font-weight: bold;"><big><a name="process">You're kidding me!
+<p class="bold"><big><a name="process">You're kidding me!
 I'm not done yet?</a></big></p>
 <p>Now you are going to need to do a little preprocessing on those text
  files.&nbsp; The tools you use will dictate how you proceed. The
 major tool (Guiprep) is covered here.<br>
 </p>
-<p><span style="font-weight: bold;"><a
+<p><span class="bold"><a
  href="http://mywebpages.comcast.net/thundergnat/guiprep.html">Guiprep / Winprep</a>
 :</span><br>
 </p>
@@ -611,7 +602,7 @@ yourself.
 <br>
 </p>
 
-<p><span style="font-weight: bold; font-style: italic;">Scanning / OCR
+<p><span class="bold italic">Scanning / OCR
 software:</span><br>
 </p>
 
@@ -629,13 +620,13 @@ does what is needed. If possible, stick with the Pro version though; the
 scanning, but a little finicky about which scanners it supports.<br>
   <br>
   </font> </blockquote>
-<span style="font-weight: bold; font-style: italic;">Text file
+<span class="bold italic">Text file
 processing tools:</span><br>
 
 <p><br>
 <a href="http://mywebpages.comcast.net/thundergnat/guiprep.html">Guiprep</a>
 <span
- style="font-style: italic;">Free</span> [Win32, Unix] A tool set
+ class="italic">Free</span> [Win32, Unix] A tool set
 specifically geared toward pre-processing text
 files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.
@@ -645,7 +636,7 @@ Please see the guiprep manual for more infomation
 about obtaining a perl interpreter for your system.
 </p>
 
-<span style="font-weight: bold; font-style: italic;"><br>
+<span class="bold italic"><br>
 Image viewing and manipulation:</span><br>
 
 <p><a href="http://www.irfanview.com/">Irfanview32</a> <i>Free</i>
@@ -654,11 +645,11 @@ software.<br>
 </p>
 
 <p><a href="http://www.xnview.com/">XnView</a> <span
- style="font-style: italic;">Free</span> [Win32] - Nice general purpose
+ class="italic">Free</span> [Win32] - Nice general purpose
 image manipulation and conversion software. </p>
 
 <p><a href="http://www.firehand.com/Ember/index.html">Firehand Ember</a> <span
- style="font-style: italic;">Shareware</span> [Win32] - Another nice
+ class="italic">Shareware</span> [Win32] - Another nice
 image viewing and conversion program. <br>
 </p>
 
@@ -670,7 +661,7 @@ including conversion of images between a variety of different formats.
 </p>
 
 <p><br>
-<span style="font-weight: bold; font-style: italic;">Batch file
+<span class="bold italic">Batch file
 renamers:</span><br>
 </p>
 
@@ -679,7 +670,7 @@ renamers:</span><br>
 point 'n click.<br>
 </p>
 <br>
-<span style="font-weight: bold; font-style: italic;">File Archiving and
+<span class="bold italic">File Archiving and
 Compression tools:</span><br>
 
 <p> <a href="http://www.7-zip.org/">7.zip</a> <i>Free-GPL</i> [win32
@@ -687,19 +678,19 @@ Unix] Free utility to uncompress .zip archives.<br>
 </p>
 
 <p><a href="http://www.iceows.com/HomePageUS.html">ICEOWS</a> &nbsp;<span
- style="font-style: italic;">Freeware</span> [Win32] Compress files in
+ class="italic">Freeware</span> [Win32] Compress files in
 ICE and ZIP formats and uncompress nearly any common format. Many
 language interfaces available.<br>
 </p>
 
 <p><a href="http://www.info-zip.org/pub/infozip/">Info-ZIP</a> <span
- style="font-style: italic;">Free-BSD</span> [Nearly all OS's and
+ class="italic">Free-BSD</span> [Nearly all OS's and
 Platforms] A collection of utilities for working with zip format
 compressed files. Support for a large number of platforms and OS's. <br>
 </p>
 
 <p><a href="http://www.filzip.com/en/index.html">FILZIP</a> <span
- style="font-style: italic;">Freeware</span> [Win32] Point and click
+ class="italic">Freeware</span> [Win32] Point and click
 manipulation of compressed files. GUI interface. Multiple file
 extraction. Lots of nice features.<br>
 </p>
@@ -709,7 +700,7 @@ Utility to create and extract .zip archives. Free trial.<br>
 <br>
 </p>
 
-<p><span style="font-weight: bold; font-style: italic;">FTP tools:</span><br>
+<p><span class="bold italic">FTP tools:</span><br>
 </p>
 
 <p><a href="http://www.ftpplanet.com/download.htm">WS_FTP LE</a> <i>Shareware</i>
@@ -717,12 +708,12 @@ Utility to create and extract .zip archives. Free trial.<br>
 </p>
 
 <p><a href="http://www.smartftp.com/">Smart FTP</a> <span
- style="font-style: italic;">Shareware</span> [Win32] Another easy to
+ class="italic">Shareware</span> [Win32] Another easy to
 use FTP client. Free for-non commercial use.<br>
 <br>
 </p>
 
-<p><span style="font-weight: bold; font-style: italic;">Other utilities:</span><br>
+<p><span class="bold italic">Other utilities:</span><br>
 </p>
 
 <p><a href="http://www.foolabs.com/xpdf/">Xpdf</a> <i>Free-GPL</i>

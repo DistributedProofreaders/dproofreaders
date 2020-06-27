@@ -118,7 +118,6 @@ function maybe_output_new_proofer_message()
         echo "</div>";
 
         echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%1\$s'>%2\$s</a> round page."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
-        echo "</p>";
 
         echo "<p><small>";
         echo _("After a period of time, this message will no longer appear.");

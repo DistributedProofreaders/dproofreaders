@@ -110,7 +110,7 @@ little. It is a good idea to make several test scans and test the OCR on
 you can choose to let Abbyy control the brightness level rather than
 the twain driver. This will do adaptive adjustment of the brightness
 level to insure usable scans, but tends to slow down scanning a <span
- style="font-style: italic;">lot</span> especially on slower computers.
+ class="italic">lot</span> especially on slower computers.
 Make sure to press the spine of the book down to flatten out the pages
 against the scanner bed. To much "tenting" will cause guttering where
 it looks like the text is running off on a curve </p>

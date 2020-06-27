@@ -106,7 +106,7 @@ foreach ( $templates as $basename => $long_name )
 <br><hr><br>		
 
 
-<!-- cgehring.html info -->		
+<!-- cgehring.html info -->
 
 <!-- This code was made by cgehring -->
 <h3><a name="cgehlayout">Cgehring's</a> <strong>LAYOUT</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br> 
