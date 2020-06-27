@@ -50,9 +50,15 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "<input type='hidden' name='submitted' value='true'>\n";
 
     echo "<p><b>" . _("Reason") . ":</b> ";
-    echo "<select name='reason'>";
+    echo "<select name='reason' required>";
     foreach($PAGE_BADNESS_REASONS as $i => $reason)
-        echo "<option value='$i'>$reason</option>";
+    {
+        if ($i == 0) {
+            echo "<option value=''></option>";
+        } else {
+            echo "<option value='$i'>$reason</option>";
+        }
+    }
     echo "</select>";
     echo "</p>";
 
@@ -73,7 +79,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 }
 else
 {
-    $reason   = $_POST['reason'];
+    $reason = isset($_POST['reason']) ? $_POST['reason'] : 0;
 
     //See if they filled in a reason.  If not tell them to go back
     if ($reason == 0) {
