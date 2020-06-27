@@ -37,7 +37,7 @@ function echo_proof_frame_enh( $ppage )
         var revertConfirm = '$revert_confirm';
         ",
         "css_data" => ibe_get_styles(),
-        "body_attributes" => 'id="enhanced_interface" onload="ldAll()" onresize="previewControl.adjustHeight()"',
+        "body_attributes" => 'id="enhanced_interface" onload="ldAll()"',
     );
 
     slim_header(_("Proofreading Page"), $header_args);
