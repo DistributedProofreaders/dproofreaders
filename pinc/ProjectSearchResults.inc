@@ -622,7 +622,7 @@ class ProjectSearchResults
         if(!empty($warning))
             echo "\n<p class='warning'>$warning</p>\n";
 
-        echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <span style='text-decoration: underline'>^</span> that follows the column name.") . "</p>";
+        echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <span class='underlined'>^</span> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
 
         echo "\n<table class='themed theme_striped'>\n";

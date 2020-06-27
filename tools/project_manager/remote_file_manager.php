@@ -214,7 +214,7 @@ function do_showdir($action_message)
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (get_access_mode($pguser) == 'common') {
-        show_message('info', _("Your files are located in a common, shared, area.<br><span style='text-decoration: underline'>Please take care to avoid affecting other users' files.</span>"));
+        show_message('info', _("Your files are located in a common, shared, area.<br><span class='underlined'>Please take care to avoid affecting other users' files.</span>"));
         show_message('info', $autoprefix_message);
     }
 
