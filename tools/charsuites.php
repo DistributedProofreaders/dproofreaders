@@ -155,8 +155,14 @@ function output_pickerset($pickerset, $all_codepoints)
     $picker_characters = [];
     foreach($set as $menu => $coderows)
     {
+        $header = $menu;
+        $title = $pickerset->get_title($menu);
+        if($menu != $title)
+        {
+            $header .= " - $title";
+        }
         // first the menu item
-        echo "<h3>$menu</h3>";
+        echo "<h3>$header</h3>";
 
         // now the 2 rows
         echo "<table class='basic'>";
