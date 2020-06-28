@@ -19,6 +19,153 @@ servers:
   description: Development
 
 paths:
+  /projects:
+    get:
+      tags:
+      - project
+      description: Search for projects. If different parameters are included
+        they are ANDed together. To send multiple values of the same parameter
+        to OR together, append the name with [] (e.g. projectid[]).
+      parameters:
+      - name: projectid
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+        description: Title is treated as a subsearch
+      - name: author
+        in: query
+        schema:
+          type: string
+        description: Author is treated as a subsearch
+      - name: languages
+        in: query
+        schema:
+          type: string
+        description: Languages is treated as a subsearch
+      - name: genre
+        in: query
+        schema:
+          type: string
+      - name: difficulty
+        in: query
+        schema:
+          type: string
+      - name: special_day
+        in: query
+        schema:
+          type: string
+      - name: project_manager
+        in: query
+        schema:
+          type: string
+      - name: pg_ebook_number
+        in: query
+        schema:
+          type: integer
+      - name: state
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of projects found in search
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/project'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: Links for accessing paginated response
+            X-Results-Total:
+              schema:
+                type: integer
+              description: Total number of projects matching query
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/difficulties:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project difficulties
+      responses:
+        200:
+          description: List of difficulties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/genres:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project genres
+      responses:
+        200:
+          description: List of genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/languages:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project languages
+      responses:
+        200:
+          description: List of languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/{projectid}:
     get:
       tags:
@@ -46,7 +193,6 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
           $ref: '#/components/responses/UnexpectedError'
-
 
   /projects/{projectid}/wordlists/{type}:
     get:

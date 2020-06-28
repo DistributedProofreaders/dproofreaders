@@ -15,4 +15,8 @@ $router->add_route("GET", "v1/projects", "api_v1_projects");
 $router->add_route("GET", "v1/projects/:projectid", "api_v1_project");
 $router->add_route("GET", "v1/projects/:projectid/wordlists/:wordlist_type", "api_v1_project_wordlists");
 $router->add_route("PUT", "v1/projects/:projectid/wordlists/:wordlist_type", "api_v1_project_wordlists");
+$router->add_route("GET", "v1/projects/difficulties", "api_v1_projects_difficulties");
+$router->add_route("GET", "v1/projects/genres", "api_v1_projects_genres");
+$router->add_route("GET", "v1/projects/languages", "api_v1_projects_languages");
+$router->add_route("GET", "v1/projects/states", "api_v1_projects_states");
 
