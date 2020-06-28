@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'ProjectSearchForm.inc');
 include_once("exceptions.inc");
 
 // DP API v1 -- Projects
@@ -35,8 +36,105 @@ function validate_wordlist($wordlist)
 
 function api_v1_projects($method, $data, $query_params)
 {
-    // searching is not yet implemented
-    throw new NotImplementedError();
+    // set which fields are queryable and their column names
+    $valid_fields = [
+        "projectid" => "projectid",
+        "state" => "state",
+        "title" => "nameofwork",
+        "author" => "authorname",
+        "languages" => "language",
+        "genre" => "genre",
+        "difficulty" => "difficulty",
+        "special_day" => "special_day",
+        "project_manager" => "username",
+        "pg_ebook_number" => "postednum",
+        "pages_available" => "n_pages_available",
+        "pages_total" => "n_pages",
+    ];
+
+    // pull out the query parameters
+    $query = [];
+    foreach(array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field)
+    {
+        $param = $query_params[$field];
+        $query[$field] = is_array($param) ? $param : [ $param ];;
+    }
+
+    // now build project query
+    $where = "1";
+    foreach($query as $field => $values)
+    {
+        $values = array_map("DPDatabase::escape", $values);
+        $column_name = $valid_fields[$field];
+
+        if(in_array($field, [ "author", "title", "languages" ]))
+        {
+            $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
+            $where .= " AND ($likes_str)";
+        }
+        else
+        {
+            $values_list = surround_and_join( $values, "'", "'", "," );
+            $where .= " AND $column_name IN ($values_list)";
+        }
+    }
+
+    // build the order_by
+    $order_by = "projectid";
+    if(isset($query_params["sort"]))
+    {
+        $order_by = [];
+        $sort_fields = explode(",", $query_params["sort"]);
+        foreach($sort_fields as $field)
+        {
+            $order = "ASC";
+            if(startswith($field, "-"))
+            {
+                $order = "DESC";
+                $field = substr($field, 1);
+            }
+
+            if(!isset($valid_fields[$field]))
+            {
+                continue;
+            }
+            $order_by[] = $valid_fields[$field] . " $order";
+        }
+        $order_by[] = "projectid";
+        $order_by = implode(", ", $order_by);
+    }
+
+    $per_page = get_integer_param($query_params, "per_page", 20, 1, 100);
+    $page = get_integer_param($query_params, "page", 1, 1, NULL);
+    $offset = $per_page * ($page - 1);
+
+    $sql = "
+        SELECT SQL_CALC_FOUND_ROWS *
+        FROM projects
+        WHERE $where
+        ORDER BY $order_by
+        LIMIT $per_page OFFSET $offset
+    ";
+    $result = DPDatabase::query($sql, FALSE);
+    if(!$result)
+    {
+        throw new ServerError(DPDatabase::log_error());
+    }
+
+    $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
+    list($total_rows) = mysqli_fetch_row($res_found);
+    $total_pages = round($total_rows / $per_page);
+
+    api_send_pagination_header($query_params, $total_rows, $per_page, $page);
+
+    $output = [];
+    while($row = mysqli_fetch_assoc($result))
+    {
+        $project = new Project($row);
+        $output[] = render_project_json($project);
+    }
+
+    return $output;
 }
 
 //---------------------------------------------------------------------------
@@ -109,3 +207,44 @@ function api_v1_project_wordlists($method, $data, $query_params)
         return [];
     }
 }
+
+//---------------------------------------------------------------------------
+// projects/difficulties
+
+function api_v1_projects_difficulties($method, $data, $query_params)
+{
+    $difficulties = ProjectSearchForm::difficulty_options();
+    unset($difficulties['']);
+    return array_keys($difficulties);
+}
+
+//---------------------------------------------------------------------------
+// projects/genres
+
+function api_v1_projects_genres($method, $data, $query_params)
+{
+    $genres = ProjectSearchForm::genre_options();
+    unset($genres['']);
+    return array_keys($genres);
+}
+
+//---------------------------------------------------------------------------
+// projects/languages
+
+function api_v1_projects_languages($method, $data, $query_params)
+{
+    $languages = ProjectSearchForm::language_options();
+    unset($languages['']);
+    return array_keys($languages);
+}
+
+//---------------------------------------------------------------------------
+// projects/states
+
+function api_v1_projects_states($method, $data, $query_params)
+{
+    $states = ProjectSearchForm::state_options();
+    unset($states['']);
+    return array_keys($states);
+}
+

@@ -129,6 +129,68 @@ function api_output_response($data, $response_code=200)
     exit();
 }
 
+function api_send_pagination_header($query_params, $total_rows, $per_page, $page)
+{
+    header("X-Results-Total: $total_rows");
+
+    // don't send a pagination header if everything fits on one page
+    if($total_rows <= $per_page)
+        return;
+
+    $total_pages = round($total_rows / $per_page);
+
+    // create the link base by parsing $query_params
+    $params = [];
+    foreach($query_params as $key => $value)
+    {
+        if(in_array($key, [ "page", "per_page" ]))
+            continue;
+
+        if(is_array($value))
+        {
+            foreach($value as $subkey => $value)
+            {
+                $params[] = "{$key}[]=" . urlencode($value);
+            }
+        }
+        else
+        {
+            $params[] = "$key=" . urlencode($value);
+        }
+    }
+    $params[] = "per_page=$per_page";
+
+    // If the URI doesn't include the url param (because the Apache config
+    // hasn't been updated) we need to include it here to make valid links.
+    $link_base = $_SERVER["SCRIPT_URI"] . "?";
+    if(stripos($link_base, $_GET["url"]) === FALSE)
+    {
+        $link_base .= "url=" . $_GET["url"] . "&";
+    }
+    $link_base .= implode("&", $params);
+
+    // determine which relative links we need to include
+    $links = [];
+    $links["first"] = "page=1";
+    if($page > 1)
+    {
+        $links["prev"] = "page=" . ($page - 1);
+    }
+    if($page < $total_pages)
+    {
+        $links["next"] = "page=" . ($page + 1);
+    }
+    $links["last"] = "page=$total_pages";
+
+    // build the string
+    $link_header = [];
+    foreach($links as $rel => $url)
+    {
+        $link_header[] = "<$link_base&$url>; rel=\"$rel\"";
+    }
+    header("Link: " . implode(", ", $link_header));
+}
+
 function handle_cors_headers()
 {
     // Enable CORS for some sites
