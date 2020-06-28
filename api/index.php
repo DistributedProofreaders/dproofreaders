@@ -17,7 +17,7 @@ if($maintenance)
     throw new ApiException("Site is in maintenance mode");
 }
 
-if(!$api_enabled)
+if(!@$api_enabled)
 {
     throw new ApiException("API is not enabled");
 }
