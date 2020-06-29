@@ -572,16 +572,10 @@ class ProjectInfoHolder
             $errors .= check_user_exists($this->text_preparer,'Text Preparer') ;
         }
 
-        $this->posted    = @$_POST['posted'];
         $this->postednum = @$_POST['postednum'];
-        if ( $this->posted )
+        if ( $this->postednum != '' )
         {
-            // We are in the process of marking this project as posted.
-            if ( $this->postednum == '' )
-            {
-                $errors .= _("Posted Number is required.")."<br>";
-            }
-            else if ( ! preg_match('/^[1-9][0-9]*$/', $this->postednum ) )
+            if ( ! preg_match('/^[1-9][0-9]*$/', $this->postednum ) )
             {
                 $errors .= sprintf(
                     _("Posted Number \"%s\" is not of the correct format."),
@@ -592,6 +586,16 @@ class ProjectInfoHolder
                 // rather it's a bit of information about the identified text,
                 // namely that it's still under (US) copyright.
                 // Anyhow, the 'C' should not be included here.
+            }
+        }
+
+        $this->posted    = @$_POST['posted'];
+        if ( $this->posted )
+        {
+            // We are in the process of marking this project as posted.
+            if ( $this->postednum == '' )
+            {
+                $errors .= _("Posted Number is required.")."<br>";
             }
         }
 
@@ -618,11 +622,11 @@ class ProjectInfoHolder
     {
         global $projects_dir, $pguser;
 
-        $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
+        // enforce postednum being either NULL or a number
+        $postednum_str = ($this->postednum == "") ? "NULL" : sprintf("%d", $this->postednum);
 
-        // Call mysqli_real_escape_string(DPDatabase::get_connection(), ) on any members of $this that might
-        // contain single-quotes/apostrophes (because they are unescaped, and
-        // would otherwise break the query).
+        // Call mysqli_real_escape_string(DPDatabase::get_connection(), XX) to
+        // escape all strings.
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
@@ -1015,7 +1019,7 @@ class ProjectInfoHolder
             $this->row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
         }
         $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
-        $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
+        $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum', '', array("type" => "number") );
         $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
         // don't show the word list line if we're in the process of cloning
         if(!empty($this->projectid)) {

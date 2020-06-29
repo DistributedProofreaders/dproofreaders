@@ -22,9 +22,10 @@ function text_field( $field_value, $field_name, $args=array())
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
     $required = array_get($args, "required", false);
     $required_attr = $required ? " required" : "";
+    $field_type = array_get($args, "type", "text");
 
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr>";
+    echo "<input type='$field_type' style='width: 30em;' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
