@@ -10,9 +10,13 @@ include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'CharSuites.inc');
 
-class NonexistentProjectException extends Exception { }
-class InvalidProjectIDException extends Exception { }
 class UTF8ConversionException extends Exception { }
+
+class ProjectException extends Exception { }
+class NonexistentProjectException extends ProjectException { }
+class InvalidProjectIDException extends ProjectException { }
+class NoProjectPageTable extends ProjectException { }
+class NoProjectDirectory extends ProjectException { }
 
 class Project
 {
@@ -475,8 +479,11 @@ class Project
         return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
     }
 
-    function get_illustrations()
+    function get_page_names_from_db()
     {
+        if(!$this->pages_table_exists)
+            throw new NoProjectPageTable(_("Project page table does not exist."));
+
         $projectid = $this->projectid;
         $page_image_names = array();
         $res = mysqli_query(DPDatabase::get_connection(), "
@@ -489,8 +496,36 @@ class Project
             $page_image_names[] = $page_image;
         }
 
+        return $page_image_names;
+    }
+
+    function get_page_names_from_dir()
+    {
+        if(!$this->dir_exists)
+            throw new NoProjectDirectory(_("Project directory does not exist."));
+
+        // Because the project directory has both page images as well as
+        // illustrations, the page images are defined as the subset of files in
+        // the directory that also exist in the database.
+
+        $db_names = $this->get_page_names_from_db();
+
+        chdir($this->dir);
+        $disk_names  = glob("*.{png,jpg}", GLOB_BRACE);
+        sort($disk_names);
+        return array_intersect($db_names, $disk_names);
+    }
+
+    function get_illustrations()
+    {
+        // Illustrations are the set of files in the project directory that
+        // do not match existing image names in the database.
+
+        $page_image_names = $this->get_page_names_from_db();
+
         chdir($this->dir);
         $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+        sort($existing_image_names);
         return array_diff($existing_image_names, $page_image_names);
     }
 
