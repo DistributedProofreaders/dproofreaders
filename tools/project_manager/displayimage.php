@@ -20,15 +20,13 @@ $width = 10 * $percent;
 
 $_SESSION["displayimage"]["percent"]=$percent;
 
+$project = new Project($projectid);
+
+
 // Get a list of images in the project so we can populate the prev and
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
-$images = array();
-$res = mysqli_query(DPDatabase::get_connection(),  "SELECT image FROM $projectid ORDER BY image ASC") or die(DPDatabase::log_error());
-while($row = mysqli_fetch_assoc($res))
-{
-    $images[] = $row["image"];
-}
+$images = $project->get_page_names_from_db();
 $prev_image = "";
 $next_image = "";
 $num_rows = count($images);
@@ -42,9 +40,9 @@ for ($row=0; $row<$num_rows; $row++)
 }
 $link_tags = "";
 if ($prev_image != "" && $preload == "prev")
-    $link_tags .= "<link rel=\"prefetch prev\" href=\"$projects_url/$projectid/$prev_image\">\n";
+    $link_tags .= "<link rel=\"prefetch prev\" href=\"$project->url/$prev_image\">\n";
 if ($next_image != "" && $preload == "next")
-    $link_tags .= "<link rel=\"prefetch next\" href=\"$projects_url/$projectid/$next_image\">\n";
+    $link_tags .= "<link rel=\"prefetch next\" href=\"$project->url/$next_image\">\n";
 
 $title = sprintf(_("Display Image: %s"),$imagefile);
 slim_header($title, array("head_data" => $link_tags));
@@ -87,8 +85,6 @@ function prevnext_buttons()
 
 prevnext_buttons();
 if($showreturnlink) {
-    $project = new Project($projectid);
-
     $label = sprintf(_("Return to Project Page for %s"), html_safe($project->nameofwork));
 
     echo "<br>\n";
