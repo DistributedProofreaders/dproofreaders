@@ -14,63 +14,28 @@ $zip_type = get_enumerated_param( $_GET, 'zip_type', NULL, array('pages', 'illos
 
 $project = new Project($projectid);
 
-$image_index_str = _('Image Index');
-
-// Suppress display if we're streaming back a zipfile
-// so that we can control the http headers
-if (is_null($zip_type))
-{
-output_header("$image_index_str: {$project->nameofwork}");
-
-echo "
-    <h1>" . html_safe($project->nameofwork) . "</h1>
-    <p>$projectid</p>
-    <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
-    <h2>$image_index_str</h2>
-    <p>" . _('Below are the individual images for this project.') . "</p>
-";
-}
-
-$page_image_names = array();
-$res = mysqli_query(DPDatabase::get_connection(), "
-    SELECT image
-    FROM $projectid
-    ORDER BY image
-") or die(DPDatabase::log_error());
-while ( list($image) = mysqli_fetch_row($res) )
-{
-    $page_image_names[] = $image;
-}
-
-chdir("$projects_dir/$projectid");
-$existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
-// That returns a sorted list of the .png files
-// followed by a sorted list of the .jpg files,
-// but we want the two lists interleaved...
-sort($existing_image_names);
-
-$nonpage_image_names = array_diff($existing_image_names, $page_image_names);
-
 if (!is_null($zip_type))
 {
-    chdir("$projects_dir/$projectid");
-    $list_name = $projectid."_".$zip_type."_flist.txt";
     switch($zip_type)
     {
-    case "illos":
-	$files_list=$nonpage_image_names;
-	break;
-    default:
-    case "pages":
-	$files_list=$page_image_names;
+        case "illos":
+	       $files_list = $project->get_illustrations();
+	       break;
+        case "pages":
+	       $files_list = $project->get_page_names_from_db();
+           break;
+        default:
+            throw new InvalidArgumentException("Invalid image type specified");
     }
-    $files=implode(chr(10),$files_list);
+    $files = implode("\n", $files_list);
+    $list_name = "{$projectid}_{$zip_type}_flist.txt";
+    chdir($project->dir);
     file_put_contents( $list_name, $files );
 
     // Create the zip on-the-fly and stream it back
-    $zipfile=$projectid . "_" . $zip_type . ".zip";
+    $zipfile = "{$projectid}_{$zip_type}.zip";
     header('Content-type: application/zip');
-    header('Content-Disposition: attachment; filename="'.$zipfile.'"');
+    header("Content-Disposition: attachment; filename=\"$zipfile\"");
     header("Cache-Control: no-cache, must-revalidate");
     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
     passthru("cat $list_name |zip -@ -");
@@ -79,13 +44,38 @@ if (!is_null($zip_type))
 }
 else
 {
+    $image_index_str = _('Image Index');
+
+    output_header("$image_index_str: {$project->nameofwork}");
+
+    echo "
+        <h1>" . html_safe($project->nameofwork) . "</h1>
+        <p>$projectid</p>
+        <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
+        <h2>$image_index_str</h2>
+    ";
+
+    try
+    {
+        $page_image_names = $project->get_page_names_from_db();
+        $nonpage_image_names = $project->get_illustrations();
+    }
+    catch (ProjectException $exception)
+    {
+        echo "<p>" . _("An error occurred when loading the project images. The project may have been deleted or archived.") . "</p>";
+        echo "<p class='error'>" . $exception->getMessage() . "</p>";
+        exit;
+    }
+
+    echo "<p>" . _('Below are the individual images for this project.') . "</p>";
+
     echo "<table border='1'>\n";
     echo "<tr>\n";
     echo "<td class='top-align'>\n";
-    list_images( $project, $page_image_names, $existing_image_names, TRUE);
+    list_images( $project, $page_image_names, TRUE);
     echo "</td>\n";
     echo "<td class='top-align'>\n";
-    list_images( $project, $nonpage_image_names, $existing_image_names, FALSE);
+    list_images( $project, $nonpage_image_names, FALSE);
     echo "</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
@@ -102,11 +92,12 @@ else
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function list_images( $project, $image_names, $existing_image_names, $these_are_page_images )
+function list_images( $project, $image_names, $these_are_page_images )
 {
-    global $code_url, $projects_url;
+    global $code_url;
 
     $projectid=$project->projectid;
+    $existing_image_names = $project->get_page_names_from_dir();
 
     if ( $these_are_page_images )
     {
@@ -149,7 +140,7 @@ function list_images( $project, $image_names, $existing_image_names, $these_are_
         }
         else
         {
-            $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
+            $encoded_url = "$project->url/" . rawurlencode($image_name);
             echo "<td><a href='$encoded_url'><b>$image_name</b></a></td>\n";
 
             // scale image sizes to reasonable units
