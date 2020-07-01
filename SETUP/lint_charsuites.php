@@ -8,6 +8,17 @@ foreach(CharSuites::get_all() as $charsuite)
 {
     echo "Validating charsuite $charsuite->name...\n";
 
+    // Validate that codepoint specifiers don't include both a range and a
+    // combining character.
+    foreach($charsuite->codepoints as $codepoint)
+    {
+        if(stripos($codepoint, "-") !== FALSE && stripos($codepoint, ">") !== FALSE)
+        {
+            echo sprintf("ERROR: %s codepoint has both a range and a combining character\n", $codepoint);
+            exit(1);
+        }
+    }
+
     // Validate that the character suite only contains normalized codepoints
     $nonnormalized_codepoints = $charsuite->get_nonnormalized_codepoints();
     if($nonnormalized_codepoints)
