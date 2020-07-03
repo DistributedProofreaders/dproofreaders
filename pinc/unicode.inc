@@ -320,9 +320,13 @@ function get_utf8_to_ascii_codepoints()
         '-' => [
             'U+2011', # non-breaking hyphen
             'U+2013', # en-dash
+            'U+2010', # hyphen
+            'U+2212', # minus sign
         ],
         '--' => [
             'U+2014', # em-dash
+            'U+2012', # figure dash
+            'U+2015', # horizontal bar
         ],
         '"' => [
             'U+201c', # open curly double quote
