@@ -193,8 +193,9 @@ trait CharSuiteSet
     {
         # Codepoints applicable to all projects
         $global_codepoints = [
-            'U+000A', # new lines
-            'U+000D', # carriage returns
+            'U+000A', # new line
+            'U+000D', # carriage return
+            'U+0020', # space
         ];
 
         $codepoints = $global_codepoints;
