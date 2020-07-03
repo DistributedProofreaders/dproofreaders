@@ -26,8 +26,9 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
+            "$code_url/tools/proofers/font_change.js",
         ),
-        "js_data" => ibe_get_js() . get_preview_js_vars() . "
+        "js_data" => ibe_get_js() . get_preview_js_vars() . get_fallback_font_js() . "
         function ldAll() {
             top.initializeStuff(1);
         }

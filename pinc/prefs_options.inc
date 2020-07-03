@@ -140,6 +140,41 @@ function get_proofreading_font_family_fallback()
     return "monospace";
 }
 
+function draw_font_selector($current_font, $font_face_ID)
+{
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $title = attr_safe(_("Change Font Face"));
+    echo "<select name='fntFace' ID='$font_face_ID' class='dropsmall' title='$title'>";
+
+// onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text, '<?php echo $font_family_fallback; "><?php
+
+    list($current_font, $current_size) = get_user_proofreading_font();
+    foreach($proofreading_font_faces as $index => $font)
+    {
+        if($index == 0)
+            $font = BROWSER_DEFAULT_STR;
+        if($index == 1)
+        {
+            $font = get_user_proofreading_font_other();
+            if(!$font)
+                continue;
+        }
+
+        $optP = "<option \r\n value=\"$index\"";
+        if($font == $current_font)
+            $optP .= " selected";
+        $optP .= ">" . html_safe($font) . "</option>";
+        echo $optP;
+    }
+    echo "</select>";
+}
+
+function get_fallback_font_js()
+{
+    $fallback_font = get_proofreading_font_family_fallback();
+    return "fallbackFont = '$fallback_font'";
+}
+
 // $u_n = show rank neighbors
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 

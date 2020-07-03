@@ -8,7 +8,6 @@ include_once('PPage.inc');
 function echo_button_menu( $ppage )
 {
     global $userP;
-    $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
     $font_family_fallback = get_proofreading_font_family_fallback();
 ?>
@@ -35,29 +34,13 @@ function refuseNonNumeric(event) {
 HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left')"></A><A
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A
 HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"></A><A
-HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
-name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
-    echo attr_safe(_("Change Font Face"));
-?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text, '<?php echo $font_family_fallback; ?>')"><?php
-    list($current_font, $current_size) = get_user_proofreading_font();
-    foreach($proofreading_font_faces as $index => $font)
-    {
-        if($index == 0)
-            $font = BROWSER_DEFAULT_STR;
-        if($index == 1)
-        {
-            $font = get_user_proofreading_font_other();
-            if(!$font)
-                continue;
-        }
+HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><?php
 
-        $optP = "<option \r\n value=\"$index\"";
-        if($font == $current_font)
-            $optP .= " selected";
-        $optP .= ">" . html_safe($font) . "</option>";
-        echo $optP;
-    }
-?></select><select
+list($current_font, $current_size) = get_user_proofreading_font();
+
+draw_font_selector($current_font, "fntFace");
+
+?><select
 name="fntSize" ID="fntSize"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Size"));
 ?>" onChange="top.changeFontSize(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
