@@ -59,12 +59,32 @@ final class DPDatabase
         return self::$_connection;
     }
 
-    static public function log_error()
+    static public function escape($value)
+    {
+        return mysqli_real_escape_string(self::$_connection, $value);
+    }
+
+    static public function query($sql, $throw_on_failure=TRUE)
+    {
+        $result = mysqli_query(self::$_connection, $sql);
+        if(!$result)
+        {
+            // include this function's caller in the backtrace
+            $error = self::log_error(1);
+            if($throw_on_failure)
+            {
+                throw new DBQueryError($error);
+            }
+        }
+        return $result;
+    }
+
+    static public function log_error($backtrace_level=0)
     {
         // Log the SQL error to the PHP error log and return a generic error
         // for display to the user
         $backtrace = debug_backtrace();
-        $caller = $backtrace[0]['file'] . ":" . $backtrace[0]['line'];
+        $caller = $backtrace[$backtrace_level]['file'] . ":" . $backtrace[$backtrace_level]['line'];
         $error = str_replace("\n", "\\n", mysqli_error(DPDatabase::get_connection()));
         error_log("DPDatabase.inc - log_error from $caller: $error");
         return _("An error occurred during a database query and has been logged.");
