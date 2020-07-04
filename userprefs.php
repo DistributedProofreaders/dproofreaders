@@ -437,32 +437,39 @@ function echo_proofreading_tab($user) {
 
     // see if they already have 10 profiles, etc.
     $profiles = UserProfile::load_user_profiles($user->u_id);
-    $pf_num = count($profiles);
-
-    echo "<tr>\n";
-    th_label_long( 6, _('Profiles') );
-    echo "</tr>\n";
 
     echo "<tr>\n";
     show_preference(
-        _('Current Profile'), 'profilename', 'profilename',
+        _('Profile Name'), 'profilename', 'profilename',
         $user->profile->profilename,
         'textfield',
         array( '100%', 'required', '' )
     );
-    echo "<td colspan='2' class='center-align'>";
-    // show all profiles
-    echo "<select name='c_profile' ID='c_profile'>";
-    foreach($profiles as $profile)
+    // show profile switcher if there are more than one
+    if( count($profiles) > 1 )
     {
-        echo "<option value='$profile->id'";
-        if ($profile->id == $user->u_profile) { echo " SELECTED"; }
-        echo ">$profile->profilename</option>";
+        echo "<td colspan='2' class='center-align'>";
+        echo "<select name='c_profile' ID='c_profile'>";
+        foreach($profiles as $profile)
+        {
+            echo "<option value='$profile->id'";
+            if ($profile->id == $user->u_profile) { echo " SELECTED"; }
+            echo ">$profile->profilename</option>";
+        }
+        echo "</select>";
+        echo " <input type='submit' value='".attr_safe(_("Switch Profiles"))."' name='swProfile'>";
+
+        echo "</td>";
+        td_pophelp( 'switch' );
     }
-    echo "</select>";
-    echo " <input type=\"submit\" value=\"".attr_safe(_("Switch Profiles"))."\" name=\"swProfile\">&nbsp;";
-    echo "</td>";
-    td_pophelp( 'switch' );
+    else
+    {
+        echo "<td colspan='3'></td>";
+    }
+    echo "</tr>\n";
+
+    echo "<tr>\n";
+    th_label_long( 6, _('Profile details') );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -675,7 +682,7 @@ function echo_proofreading_tab($user) {
     echo "<input type='submit' value='" 
         . attr_safe(_("Save Preferences and Quit"))
         . "' name='saveAndQuit'> &nbsp;";
-    if ($pf_num < 10)
+    if (count($profiles) < 10)
     {
         echo "<input type='submit' value='"
             . attr_safe(_("Save as New Profile")) 
@@ -686,10 +693,11 @@ function echo_proofreading_tab($user) {
     }
     echo "<input type='submit' value='" . attr_safe(_("Quit")) 
         . "' name='quitnc'> &nbsp;";
-    // Grey out the delete option if user has only one profile
-    $disabled = ($pf_num <= 1) ? "disabled" : "";
-    echo "<input type='submit' value='" . attr_safe(_("Delete this Profile"))
-        . "' name='deletenc' $disabled>";
+    if (count($profiles) > 1)
+    {
+        echo "<input type='submit' value='" . attr_safe(_("Delete this Profile"))
+            . "' name='deletenc'>";
+    }
     echo "</td></tr>\n";
 }
 
