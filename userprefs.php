@@ -56,13 +56,8 @@ $userSettings =& Settings::get_Settings($user->username);
 if (isset($_POST["swProfile"]))
 {
     // User clicked "Switch profile"
-    // get profile from database
-    $c_profile=get_integer_param($_POST, "c_profile", NULL, 0, NULL);
-    mysqli_query(DPDatabase::get_connection(), "
-        UPDATE users
-        SET u_profile='$c_profile'
-        WHERE u_id = $user->u_id
-    ");
+    $c_profile = get_integer_param($_POST, "c_profile", NULL, 0, NULL);
+    $user->profile = new UserProfile($c_profile);
     $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
 }
@@ -107,13 +102,8 @@ if (array_get($_POST, "insertdb", "") != "") {
 
         // Set the first remaining available profile to be active.
         $profiles = UserProfile::load_user_profiles($user->u_id);
-        $new_profile_id = $profiles[0]->id;
-    
-        mysqli_query(DPDatabase::get_connection(), sprintf("
-            UPDATE users
-            SET u_profile = %d
-            WHERE u_id = %d
-        ", $new_profile_id, $user->u_id));
+        $new_profile = $profiles[0];
+        $user->profile = $new_profile;
 
         // Bounce user back to the proofreading preferences tab.
         $selected_tab=1;
@@ -453,7 +443,7 @@ function echo_proofreading_tab($user) {
         foreach($profiles as $profile)
         {
             echo "<option value='$profile->id'";
-            if ($profile->id == $user->u_profile) { echo " SELECTED"; }
+            if ($profile->id == $user->profile->id) { echo " SELECTED disabled"; }
             echo ">$profile->profilename</option>";
         }
         echo "</select>";
@@ -726,20 +716,13 @@ function save_proofreading_tab($user) {
 
     if (!$create_new_profile)
     {
-        $profile->id = $user->u_profile;
+        $profile->id = $user->profile->id;;
     }
     $profile->save();
 
-    // set users values
     if ($create_new_profile)
     {
-        $users_query = "
-            UPDATE users
-            SET u_profile = $profile->id
-            WHERE u_id = $user->u_id
-        ";
-        mysqli_query(DPDatabase::get_connection(), $users_query) or
-            print(DPDatabase::log_error());
+        $user->profile = $profile;
     }
 }
 
