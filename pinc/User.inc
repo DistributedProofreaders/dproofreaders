@@ -51,7 +51,37 @@ class User
             );
         }
 
-        $this->table_row[$name] = $value;
+        switch($name)
+        {
+            case "profile":
+                // set the user's profile, but first make sure it's a valid
+                // profile and they own it
+                if((! $value instanceof UserProfile) || $value->u_ref != $this->u_id)
+                {
+                    throw new NonexistentUserProfileException(
+                        "Invalid profile"
+                    );
+                }
+                $this->current_profile = $value;
+
+                // persist the current profile ID to the database
+                $sql = sprintf("
+                    UPDATE users
+                    SET u_profile = %d
+                    WHERE u_id = %d
+                ", $this->current_profile->id, $this->u_id);
+                mysqli_query(DPDatabase::get_connection(), $sql)
+                    or DPDatabase::log_error();
+
+                // now set the profile cookie if this is for the current user
+                if($this->username == User::current_username())
+                {
+                    setcookie("profile", $this->current_profile->id);
+                }
+                break;
+            default:
+                $this->table_row[$name] = $value;
+        }
     }
 
     public function __get($name)
@@ -59,8 +89,38 @@ class User
         switch($name)
         {
             case "profile":
+                if($this->current_profile)
+                    return $this->current_profile;
+
+                // If this is the current user and a profile cookie is set,
+                // use that profile ID if it exists and belongs to the user.
+                // This allows a user to use different profiles across
+                // different browsers/devices.
+                if($this->username == User::current_username() && @$_COOKIE["profile"])
+                {
+                    try
+                    {
+                        $profile = new UserProfile($_COOKIE["profile"]);
+                        if($profile->u_ref != $this->u_id)
+                        {
+                            throw new NonexistentUserProfileException(
+                                "Profile does not belong to user"
+                            );
+                        }
+                        $this->current_profile = $profile;
+                    }
+                    catch(NonexistentUserProfileException $exception)
+                    {
+                        // reset the cookie since the value was invalid
+                        setcookie("profile");
+
+                        // fall through to getting the profile from the user record
+                    }
+                }
+
                 if(!$this->current_profile)
                     $this->current_profile = new UserProfile($this->u_profile);
+
                 return $this->current_profile;
             default:
                 return $this->table_row[$name];
