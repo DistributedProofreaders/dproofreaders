@@ -68,10 +68,12 @@ class Quiz
             $pages_required_results[$quiz_page_id] = "no";
         }
 
-        $result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT * FROM quiz_passes
-            WHERE username='$username'
-        ");
+        $sql = sprintf("
+            SELECT *
+            FROM quiz_passes
+            WHERE username = '%s'
+        ", DPDatabase::escape($username));
+        $result = DPDatabase::query($sql);
         while ($attempt = mysqli_fetch_object($result))
         {
             if($attempt->result != "pass") continue;
@@ -240,25 +242,37 @@ function get_Quiz_containing_page($quiz_page_id)
 
 function record_quiz_attempt($username, $quiz_page_id, $result)
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT * FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page_id'
-    ");
-    $now = time();
+    $sql = sprintf("
+        SELECT *
+        FROM quiz_passes
+        WHERE username = '%s' AND quiz_page = '%s'
+    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
+    $res = DPDatabase::query($sql);
+
     if (mysqli_num_rows($res) > 0)
     {
         // The user has already passed this page; update the timestamp
-        mysqli_query(DPDatabase::get_connection(), "
-            UPDATE quiz_passes SET date= '$now'
-            WHERE username='$username' AND quiz_page='$quiz_page_id'
-        ");
+        $sql = sprintf("
+            UPDATE quiz_passes
+            SET date = %d
+            WHERE username = '%s' AND quiz_page = '%s'
+        ", time(),
+            DPDatabase::escape($username),
+            DPDatabase::escape($quiz_page_id)
+        );
+        DPDatabase::query($sql);
     }
     else
     {
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             INSERT INTO quiz_passes
-            VALUES('$username', '$now', '$quiz_page_id', '$result')
-        ");
+            VALUES ('%s', %d, '%s', '%s')
+        ", DPDatabase::escape($username),
+            time(),
+            DPDatabase::escape($quiz_page_id),
+            DPDatabase::escape($result)
+        );
+        DPDatabase::query($sql);
     }
 }
 
@@ -266,10 +280,12 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
 {
     // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
     // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT * FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page_id'
-    ");
+    $sql = sprintf("
+        SELECT *
+        FROM quiz_passes
+        WHERE username = '%s' AND quiz_page = '%s'
+    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
+    $res = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($res);
     if(!$row)
         return false;
@@ -284,10 +300,12 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
 
 function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT date FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page_id'
-    ");
+    $sql = sprintf("
+        SELECT *
+        FROM quiz_passes
+        WHERE username = '%s' AND quiz_page = '%s'
+    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
+    $res = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($res);
     if(!$row)
         return false;
