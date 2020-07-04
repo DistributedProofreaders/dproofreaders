@@ -6,6 +6,16 @@ include_once($relPath.'quizzes.inc');
 
 require_login();
 
+$username = $pguser;
+if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
+{
+    $username = array_get( $_GET, 'username', $pguser );
+    if(!User::is_valid_user($username))
+    {
+        die("Invalid username.");
+    }
+}
+
 // Introductory information to be displayed when showing all proofing or
 // all formatting quizzes.
 $quiz_type_intro = array(
@@ -34,7 +44,7 @@ if (
     echo $quiz_level->info;
     foreach ($quiz_level->quizzes as $quiz)
     {
-        $quiz->show_results_table($pguser);
+        $quiz->show_results_table($username);
     }
 
     echo "<p>" . sprintf(_("This page is currently displaying only the %s."), $quiz_level->level_name);
@@ -65,7 +75,25 @@ elseif (
     $intro = $quiz_type_intro[$activity_type];
 
     output_header($intro['title'], SHOW_STATSBAR);
+
+    if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
+    {
+        echo "<div id='pm_links' class='sidebar-color'>";
+        echo "<form action='#' method='get'><p>";
+        echo _("See results for another user") . "<br>";
+        echo "<input type='hidden' name='show_only' value='$activity_type' required>";
+        echo "<input type='text' name='username' value='$username' required>";
+        echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
+        echo "</p></form>\n";
+        echo "</div>";
+    }
+
     echo $intro['head'];
+
+    if($username != $pguser)
+    {
+        echo "<p>" . sprintf(_("Showing quiz results for user <b>%s</b>."), $username) . "</p>";
+    }
 
     $levels_for_current_type = array();
     foreach ($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
@@ -84,7 +112,7 @@ elseif (
         echo $quiz_level->info;
         foreach ($quiz_level->quizzes as $quiz)
         {
-            $quiz->show_results_table($pguser);
+            $quiz->show_results_table($username);
         }
     }
 }
