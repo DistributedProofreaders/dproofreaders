@@ -39,7 +39,6 @@ $( function() {
     var allowUnderlineCheckbox = document.getElementById("id_underline");
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
-    let fontSelector = document.getElementById("previewFntFace");
 
     var suppCheckBox = [];
 
