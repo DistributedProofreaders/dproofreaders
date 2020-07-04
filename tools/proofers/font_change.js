@@ -1,7 +1,7 @@
-/* global $ fallbackFont */
+/* global $ fontFaces */
 
 $(function() {
     $("#fntFace").change(function() {
-        top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text, fallbackFont);
+        $("#text_data").css("font-family", fontFaces[this.value]);
     });
 });

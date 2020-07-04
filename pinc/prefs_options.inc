@@ -97,23 +97,38 @@ function get_user_proofreading_font($interface=NULL)
     }
     $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
 
-    $fallback_font = get_proofreading_font_family_fallback();
-    if($font_style)
-    {
-        $full_font_family = "$font_style, $fallback_font";
-        if(stripos($font_style, ' ') !== FALSE)
-        {
-            $full_font_family = "'$font_style', $fallback_font";
-        }
-    }
-    else
-    {
-        $full_font_family = $fallback_font;
-    }
+    $full_font_family = get_full_font_families()[$font_style_i];
 
     $font_size_family = $font_size ? $font_size : 'unset';
 
     return array($font_style, $font_size, $full_font_family, $font_size_family);
+}
+
+function get_full_font_families($interface = NULL)
+{
+    $full_font_family = [];
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $fallback_font = get_proofreading_font_family_fallback();
+    $proofreading_font_faces[1] = get_user_proofreading_font_other($interface);
+    foreach($proofreading_font_faces as $index => $font_style)
+    {
+        if($font_style)
+        {
+            if(stripos($font_style, ' ') !== FALSE)
+            {
+                $full_font_family[$index] = "'$font_style', $fallback_font";
+            }
+            else
+            {
+                $full_font_family[$index] = "$font_style, $fallback_font";
+            }
+        }
+        else
+        {
+            $full_font_family[$index] = $fallback_font;
+        }
+    }
+    return $full_font_family;
 }
 
 function get_user_proofreading_font_other($interface=NULL)
@@ -146,9 +161,6 @@ function draw_font_selector($current_font, $font_face_ID)
     $title = attr_safe(_("Change Font Face"));
     echo "<select name='fntFace' ID='$font_face_ID' class='dropsmall' title='$title'>";
 
-// onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text, '<?php echo $font_family_fallback; "><?php
-
-    list($current_font, $current_size) = get_user_proofreading_font();
     foreach($proofreading_font_faces as $index => $font)
     {
         if($index == 0)
@@ -169,10 +181,9 @@ function draw_font_selector($current_font, $font_face_ID)
     echo "</select>";
 }
 
-function get_fallback_font_js()
+function get_full_font_families_js()
 {
-    $fallback_font = get_proofreading_font_family_fallback();
-    return "fallbackFont = '$fallback_font'";
+    return "fontFaces = " . json_encode(get_full_font_families()) . ";";
 }
 
 // $u_n = show rank neighbors

@@ -28,7 +28,7 @@ function echo_proof_frame_enh( $ppage )
             "$code_url/tools/proofers/process_diacritcal_markup.js",
             "$code_url/tools/proofers/font_change.js",
         ),
-        "js_data" => ibe_get_js() . get_preview_js_vars() . get_fallback_font_js() . "
+        "js_data" => ibe_get_js() . get_preview_js_vars() . get_full_font_families_js() . "
         function ldAll() {
             top.initializeStuff(1);
         }

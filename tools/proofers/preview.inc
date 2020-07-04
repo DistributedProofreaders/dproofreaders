@@ -87,8 +87,6 @@ function output_preview_div()
     $messages = get_preview_messages();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
-    $add_font = attr_safe(_("Add Font"));
-    $remove_font = attr_safe(_("Remove Font"));
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
     $some_suppressed = attr_safe(_('Some issue types are suppressed'));
@@ -118,7 +116,7 @@ function output_preview_div()
         $supp_item_string .= ("<label><input type='checkbox' id='$supp_item'>" . html_safe($messages[$supp_item]) . "</label><br>\n");
     }
 
-    echo <<<END
+    echo <<<END1
 <div id='prevdiv' class='no_display'>
  <div class='flex_container'>
   <div id="id_tp_outer" class='stretchbox'>
@@ -136,7 +134,12 @@ function output_preview_div()
       <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
       <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
     </span>
-    <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
+    <span class='ilb'>$font&nbsp;
+END1;
+    // the selected option is set by javascript from local storage
+    draw_font_selector("", "previewFntFace");
+    echo <<<END2
+    </span>
     <span class='ilb'>
       <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
       <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
@@ -179,10 +182,6 @@ function output_preview_div()
     </div>
   </fieldset>
   <div class="box2">
-    <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="previewControl.addFont()" value="$add_font"></span>
-    <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
-   </div>
-  <div class="box2">
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
   </div>
   <fieldset>
@@ -199,5 +198,5 @@ function output_preview_div()
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
   </div>
 </div>
-END;
+END2;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showActual, showNW, replaceAllText, doBU, transformText */
+/* exported insertCharacter, surroundSelection, changeFontSize, showActual, showNW, replaceAllText, doBU, transformText */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
@@ -40,18 +40,6 @@ function setText() {
 function fixText() {
     docRef.editform.text_data.style.width = ieW;
     docRef.editform.text_data.style.height = ieH;
-}
-
-function changeFontFamily(font_index, font, fallback) {
-    setText();
-    // if the index is 0, we're to use the browser default
-    if (font_index == 0) {
-        font_family = fallback;
-    } else {
-        font_family = font + ", " + fallback;
-    }
-    docRef.editform.text_data.style.fontFamily = font_family;
-    fixText();
 }
 
 function changeFontSize(font_size_index, font_size) {
