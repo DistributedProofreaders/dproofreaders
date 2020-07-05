@@ -116,6 +116,47 @@ function get_user_proofreading_font($interface=NULL)
     return array($font_style, $font_size, $full_font_family, $font_size_family);
 }
 
+function get_font_styles($interface = NULL)
+{
+    $font_styles = get_available_proofreading_font_faces();
+    $font_styles[0] = BROWSER_DEFAULT_STR;
+    $font_styles[1] = get_user_proofreading_font_other($interface);
+    return $font_styles;
+}
+
+function get_full_font_families($interface = NULL)
+{
+    $full_font_family = [];
+    $proofreading_font_faces = get_available_proofreading_font_faces();
+    $fallback_font = get_proofreading_font_family_fallback();
+    $proofreading_font_faces[1] = get_user_proofreading_font_other($interface);
+    foreach($proofreading_font_faces as $index => $font_style)
+    {
+        if($font_style)
+        {
+            if(stripos($font_style, ' ') !== FALSE)
+            {
+                $full_font_family[$index] = "'$font_style', $fallback_font";
+            }
+            else
+            {
+                $full_font_family[$index] = "$font_style, $fallback_font";
+            }
+        }
+        else
+        {
+            $full_font_family[$index] = $fallback_font;
+        }
+    }
+    return $full_font_family;
+}
+
+function get_font_data_js()
+{
+    return "fontStyles = " . json_encode(get_font_styles()) . ";
+        fontFamilies = " . json_encode(get_full_font_families()) . ";";
+}
+
 function get_user_proofreading_font_other($interface=NULL)
 {
     global $userP;

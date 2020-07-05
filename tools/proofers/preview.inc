@@ -136,7 +136,7 @@ function output_preview_div()
       <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
       <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
     </span>
-    <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
+    <span class='ilb'>$font <select id="id_font_sel"></select></span>
     <span class='ilb'>
       <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
       <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
@@ -178,10 +178,6 @@ function output_preview_div()
     </div>
     </div>
   </fieldset>
-  <div class="box2">
-    <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="previewControl.addFont()" value="$add_font"></span>
-    <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
-   </div>
   <div class="box2">
     <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
   </div>
