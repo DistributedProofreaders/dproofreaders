@@ -24,7 +24,7 @@ function echo_text_frame_std( $ppage )
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
-        "js_data" => get_preview_js_vars() . "
+        "js_data" => get_preview_js_vars() . get_font_data_js() . "
         function ldAll() {
             top.initializeStuff(0);
         }

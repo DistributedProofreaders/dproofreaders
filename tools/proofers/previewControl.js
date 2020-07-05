@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ previewDemo, makePreview, ieWarn */
+/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -15,7 +15,6 @@ var previewControl;
 
 $( function() {
     "use strict";
-    var i;
     var supp_set = ['charBeforeStart', 'sideNoteBlank'];
     // this is a wrapper round text_preview which enables the padding
     // on the right to appear correctly
@@ -37,12 +36,11 @@ $( function() {
     var enableColorCheckbox = document.getElementById("id_color_on");
     var issBox = document.getElementById("id_iss");
     var possIssBox = document.getElementById("id_poss_iss");
-    var fontSelector = document.getElementById("id_font_sel");
-    var fontName = document.getElementById("id_font_name");
-    var removeFontSelector = document.getElementById("id_remove_sel");
     var allowUnderlineCheckbox = document.getElementById("id_underline");
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
+
+    let $fontSelector = $("#id_font_sel");
 
     var suppCheckBox = [];
 
@@ -72,8 +70,7 @@ $( function() {
         hlt: {bg: "#ceff09", fg: ""},
         color: true, // colour the markup or not
         allowUnderline: false,
-        fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
-        defFont: "serif",
+        defFontIndex: 0,
         suppress: {},
         initialViewMode: "no_tags"
     };
@@ -119,31 +116,12 @@ $( function() {
         win.style.color = previewStyles.t.fg;
     }
 
-    // set up a font selector
-    function initSelector(selector, optionSet, def) {
-        var opt;
-        var optionList = [];
-        // remove all incase revisiting, last first
-        for (i = selector.length - 1; i >= 0; i -= 1) {
-            selector.remove(i);
-        }
-        if (!optionSet) {
-            return;
-        }
-        Object.keys(optionSet).forEach(function (i) {
-            optionList.push(i);
-        });
-        optionList.sort();
-        for (i = 0; i < optionList.length; i += 1) {
-            opt = document.createElement("option");
-            opt.value = optionList[i];
-            opt.text = opt.value;
-            if (opt.value === def) {
-                opt.selected = true;
-            }
-            selector.add(opt, null);
-        }
-    }
+    $fontSelector.change( function() {
+        let fontIndex = this.value;
+        prevWin.style.fontFamily = fontFamilies[fontIndex];
+        previewStyles.defFontIndex = fontIndex;
+        saveStyle();
+    });
 
     // this makes a copy of the style data
     // js assignment of objects just makes a reference to the old object
@@ -187,8 +165,20 @@ $( function() {
     }
 
     function initView() {
-        initSelector(fontSelector, previewStyles.fontSet, previewStyles.defFont);
-        prevWin.style.fontFamily = previewStyles.defFont;
+        // set up the font selector
+        Object.keys(fontStyles).forEach(function(index) {
+            let fontStyle = fontStyles[index];
+            if(fontStyle) {
+                // do not add empty string
+                let selected = (index === previewStyles.defFontIndex);
+                let option = new Option(fontStyle, index, selected, selected);
+                $fontSelector[0].add(option, null);
+            }
+        });
+        // use value from selector incase the user defined option has been
+        // removed and value has changed from 1 to 0
+        prevWin.style.fontFamily = fontFamilies[$fontSelector.val()];
+
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
         viewMode = previewStyles.initialViewMode;
@@ -327,7 +317,6 @@ $( function() {
             // make a copy of the styles so that if we cancel we can go back
             // to how it was before.
             tempStyle = deepCopy(tempStyle, previewStyles, false);
-            initSelector(removeFontSelector, tempStyle.fontSet);
             testDiv.style.fontFamily = tempStyle.defFont;
             testDiv.style.fontSize = font_size.toFixed(1) + "px";
             testDraw();
@@ -408,28 +397,5 @@ $( function() {
                 testDraw();
             }
         },
-
-        selectFont: function (font) {
-            prevWin.style.fontFamily = font;
-            previewStyles.defFont = font;
-            saveStyle();
-        },
-
-        addFont: function () {
-            if (fontName.value !== "") {
-                tempStyle.fontSet[fontName.value] = 0;
-                initSelector(removeFontSelector, tempStyle.fontSet);
-                testDiv.style.fontFamily = fontName.value;
-                testDraw();
-            }
-        },
-
-        removeFont: function () {
-            delete tempStyle.fontSet[removeFontSelector.value];
-            if (removeFontSelector.value === tempStyle.defFont) {
-                tempStyle.defFont = "serif";
-            }
-            removeFontSelector.remove(removeFontSelector.selectedIndex);
-        }
     };
 });
