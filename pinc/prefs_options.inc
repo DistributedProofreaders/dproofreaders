@@ -97,20 +97,7 @@ function get_user_proofreading_font($interface=NULL)
     }
     $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
 
-    $fallback_font = get_proofreading_font_family_fallback();
-    if($font_style)
-    {
-        $full_font_family = "$font_style, $fallback_font";
-        if(stripos($font_style, ' ') !== FALSE)
-        {
-            $full_font_family = "'$font_style', $fallback_font";
-        }
-    }
-    else
-    {
-        $full_font_family = $fallback_font;
-    }
-
+    $full_font_family = get_full_font_families($interface)[$font_style_i];
     $font_size_family = $font_size ? $font_size : 'unset';
 
     return array($font_style, $font_size, $full_font_family, $font_size_family);
