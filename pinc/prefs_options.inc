@@ -57,10 +57,7 @@ function get_available_proofreading_font_sizes()
 // And a function to return user's current proofreading font and size
 // This returns [ $font_face, $font_size, $font_family_string, $font_size_string ]
 //
-// $font_family_string is the full font-family to use to render text
-// in the user's proofreading font plus the font fallback. Font faces
-// with spaces in them are esacped in _single quotes_ in
-// $font_family_string/
+// $full_font_family is the current selection from get_full_font_families() below.
 function get_user_proofreading_font($interface=NULL)
 {
     global $userP;
@@ -103,6 +100,9 @@ function get_user_proofreading_font($interface=NULL)
     return array($font_style, $font_size, $full_font_family, $font_size_family);
 }
 
+// return an array of strings which the user sees in the font selector
+// The array is indexed like get_available_proofreading_font_faces()
+// this is used in the format preview font selector.
 function get_font_styles($interface = NULL)
 {
     $font_styles = get_available_proofreading_font_faces();
@@ -111,6 +111,11 @@ function get_font_styles($interface = NULL)
     return $font_styles;
 }
 
+// return an array of font-family strings to use to render text
+// in the user's proofreading font plus the font fallback. Font faces
+// with spaces in them are esacped in _single quotes_
+// The array is indexed like get_available_proofreading_font_faces()
+// This is used above and to select fonts in the format preview.
 function get_full_font_families($interface = NULL)
 {
     $full_font_family = [];
@@ -136,12 +141,6 @@ function get_full_font_families($interface = NULL)
         }
     }
     return $full_font_family;
-}
-
-function get_font_data_js()
-{
-    return "fontStyles = " . json_encode(get_font_styles()) . ";
-        fontFamilies = " . json_encode(get_full_font_families()) . ";";
 }
 
 function get_user_proofreading_font_other($interface=NULL)

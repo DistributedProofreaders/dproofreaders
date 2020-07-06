@@ -197,3 +197,17 @@ function output_preview_div()
 </div>
 END;
 }
+
+function get_preview_font_data_js()
+{
+    $font_styles = get_font_styles();
+    $font_styles["serif"] = _("Browser serif");
+    $font_styles["sans-serif"] = _("Browser sans-serif");
+
+    $font_families = get_full_font_families();
+    $font_families["serif"] = "serif";
+    $font_families["sans-serif"] = "sans-serif";
+
+    return "fontStyles = " . json_encode($font_styles) . ";
+            fontFamilies = " . json_encode($font_families) . ";";
+}
