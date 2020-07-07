@@ -108,6 +108,11 @@ function get_font_styles($interface = NULL)
     $font_styles = get_available_proofreading_font_faces();
     $font_styles[0] = BROWSER_DEFAULT_STR;
     $font_styles[1] = get_user_proofreading_font_other($interface);
+    if(!$font_styles[1])
+    {
+        // remove an empty string
+        unset($font_styles[1]);
+    }
     return $font_styles;
 }
 
@@ -141,6 +146,25 @@ function get_full_font_families($interface = NULL)
         }
     }
     return $full_font_family;
+}
+
+// return an array of strings which the user sees in the font size selector
+// The array is indexed like get_available_proofreading_font_sizes()
+// this is used in the format preview font selector.
+function get_font_sizes()
+{
+    $font_sizes = get_available_proofreading_font_sizes();
+    $font_sizes[0] = BROWSER_DEFAULT_STR;
+    return $font_sizes;
+}
+
+// return an array of strings to use to render text
+// The array is indexed like get_available_proofreading_font_sizes()
+function get_font_size_families()
+{
+    $font_sizes = get_available_proofreading_font_sizes();
+    $font_sizes[0] = 'unset';
+    return $font_sizes;
 }
 
 function get_user_proofreading_font_other($interface=NULL)

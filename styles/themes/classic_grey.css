@@ -307,6 +307,20 @@ table.snapshottable th {
   border: 1px solid black;
   background: #FFF8DC;
 }
+/* ------------------------------------------------------------------------ */
+/* view_page_text_image */
+.control-form {
+  background-color: #CDC0B0;
+}
+.control-form input {
+  background-color: #FFF8DC;
+}
+.control-form select {
+  background-color: #FFF8DC;
+}
+.image-back {
+  background-color: #CDCDC1;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab
