@@ -508,7 +508,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), 'http://upload.pglaf.org/'))
                 . number_box('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
-                . number_box('e2_cover_num',    sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='%s'>current DP guidelines</a>.)"), "http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy"))
+                . number_box('e2_cover_num',    sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet <a href='%s'>current DP guidelines</a>.)"), "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ#Cover_image"))
                 . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
@@ -776,7 +776,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'e2_csscheck_num'   => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)",
             'e2_links_num'      => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
             'e2_file_num'       => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
-            'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)",
+            'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet current DP guidelines.)",
             'e2_epub_num'       => "Project not presentable/useable when put through epubmaker",
             'e2_heading_num'    => "Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)",
         ))
