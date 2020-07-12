@@ -11,7 +11,7 @@ circumflex                   [^x]   [x^]
 caron (v-shaped symbol)      [vx]   [xv]
 breve (u-shaped symbol)      [)x]   [x)]
 tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,] 
+cedilla                             [x,]
 </pre>
 
 <p>If the diacritical mark is in Latin-1 (i.e. available from the

@@ -12,7 +12,6 @@ $(function () {
         "^": "\u0302", // circumflex
         ")": "\u0306", // breve
         "~": "\u0303", // tilde
-        ",": "\u0327", // cedilla
         "v": "\u030C", // caron
         "*": "\u030A", // ring
         "(": "\u0311", // inverted breve
