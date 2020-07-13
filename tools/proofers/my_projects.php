@@ -85,6 +85,18 @@ echo "<h1>" . get_usertext($page_header) . "</h1>";
 
 maybe_output_new_proofer_message();
 
+$can_view_post_processing = in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages);
+$proof_heading = _("Proofreading & Formatting Projects");
+$pool_heading = _("Post-Processing Projects");
+if ($can_view_post_processing)
+{
+    echo _("Jump to:");
+    echo "<ul class='no-margin'>";
+    echo "<li><a href='#round_view'>{$proof_heading}</a></li>";
+    echo "<li><a href='#pool_view'>{$pool_heading}</a></li>";
+    echo "</ul>";
+}
+
 // --------------------------------------------------------------------------
 // Round table
 
@@ -95,7 +107,6 @@ foreach($Round_for_round_number_ as $round)
     $avail_states[] = $round->project_available_state;
 }
 
-$proof_heading = _("Proofreading & Formatting Projects");
 echo "<h2 id='round_view'>" . html_safe($proof_heading) . "</h2>";
 
 show_page_menu($round_view_options, $round_view, $username, 'round_view');
@@ -238,12 +249,11 @@ else
 $allowed_stages = array_keys(get_stages_user_can_work_in($username));
 
 // don't show PP/PPV if the user isn't allowed to work in it
-if(!(in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages)))
+if(!$can_view_post_processing)
 {
     exit;
 }
 
-$pool_heading = _("Post-Processing Projects");
 echo "<h2 id='pool_view'>" . html_safe($pool_heading) . "</h2>\n";
 
 show_page_menu($pool_view_options, $pool_view, $username, 'pool_view');
