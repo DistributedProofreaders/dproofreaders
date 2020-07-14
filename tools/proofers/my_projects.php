@@ -83,19 +83,19 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
-maybe_output_new_proofer_message();
-
 $can_view_post_processing = in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages);
 $proof_heading = _("Proofreading & Formatting Projects");
 $pool_heading = _("Post-Processing Projects");
 if ($can_view_post_processing)
 {
-    echo _("Jump to:");
-    echo "<ul class='no-margin'>";
-    echo "<li><a href='#round_view'>{$proof_heading}</a></li>";
-    echo "<li><a href='#pool_view'>{$pool_heading}</a></li>";
-    echo "</ul>";
+    echo "<div style='padding: .5em 0'>";
+    echo "<a href='#round_view'>{$proof_heading}</a>";
+    echo "<span style='padding: 0 5px'>|</span>";
+    echo "<a href='#pool_view'>{$pool_heading}</a>";
+    echo "</div>";
 }
+
+maybe_output_new_proofer_message();
 
 // --------------------------------------------------------------------------
 // Round table
