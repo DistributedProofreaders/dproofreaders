@@ -83,14 +83,15 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
+$allowed_stages = array_keys(get_stages_user_can_work_in($username));
 $can_view_post_processing = in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages);
 $proof_heading = _("Proofreading & Formatting Projects");
 $pool_heading = _("Post-Processing Projects");
 if ($can_view_post_processing)
 {
-    echo "<div style='padding: .5em 0'>";
+    echo "<div class='quick-links'>";
     echo "<a href='#round_view'>{$proof_heading}</a>";
-    echo "<span style='padding: 0 5px'>|</span>";
+    echo "<span class='quick-links-divider'>|</span>";
     echo "<a href='#pool_view'>{$pool_heading}</a>";
     echo "</div>";
 }
@@ -245,8 +246,6 @@ else
 
 // --------------------------------------------------------------------------
 // Pool table
-
-$allowed_stages = array_keys(get_stages_user_can_work_in($username));
 
 // don't show PP/PPV if the user isn't allowed to work in it
 if(!$can_view_post_processing)
