@@ -197,7 +197,7 @@ footer small,
   text-align: left;
   vertical-align: top;
   width: 100%;
-  padding: 0 0.5em;
+  padding: 0 0.5em 1em 0.5em;
   display: table-cell;
 }
 .quick-links {
