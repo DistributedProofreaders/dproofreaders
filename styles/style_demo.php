@@ -9,14 +9,16 @@ output_header("Style Demos");
 
 <h1>Style Demos</h1>
 
+<p>This page demonstrates how common page elements are rendered in the current theme. Logged-in users can change their theme in their <a href='../userprefs.php'>Preferences</a>.</p>
+
+<h2>Quick Links</h2>
+
 <ul class='quick-links'>
   <li><a href='#headings'>Headings</a></li>
   <li><a href='#paragraphs'>Paragraphs</a></li>
   <li><a href='#links'>Links</a></li>
   <li><a href='#table-formats'>Table formats</a></li>
 </ul>
-
-<p>This page demonstrates how common page elements are rendered in the current theme. Logged-in users can change their theme in their <a href='../userprefs.php'>Preferences</a>.</p>
 
 <h2 id='headings'>Headings</h2>
 <h1>Heading 1</h1>
