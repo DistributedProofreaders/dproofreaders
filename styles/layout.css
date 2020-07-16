@@ -201,10 +201,16 @@ footer small,
   display: table-cell;
 }
 .quick-links {
-  padding: 0.5em 0;
+  padding: 0;
 }
-.quick-links .quick-links-divider {
-  padding: 0 5px;
+.quick-links li {
+  display: inline;
+}
+.quick-links li::before {
+  content: " | ";
+}
+.quick-links li:first-child::before {
+  content: "";
 }
 /*
  If the screen is "narrow enough" we move the statsbar below the page

@@ -89,11 +89,10 @@ $proof_heading = _("Proofreading & Formatting Projects");
 $pool_heading = _("Post-Processing Projects");
 if ($can_view_post_processing)
 {
-    echo "<div class='quick-links'>";
-    echo "<a href='#round_view'>{$proof_heading}</a>";
-    echo "<span class='quick-links-divider'>|</span>";
-    echo "<a href='#pool_view'>{$pool_heading}</a>";
-    echo "</div>";
+    echo "<ul class='quick-links'>";
+    echo "<li><a href='#round_view'>{$proof_heading}</a></li>";
+    echo "<li><a href='#pool_view'>{$pool_heading}</a></li>";
+    echo "</ul>";
 }
 
 maybe_output_new_proofer_message();

@@ -155,10 +155,16 @@ footer, #footer {
 }
 
 .quick-links {
-    padding: .5em 0;
+    padding: 0;
+    li {
+        display: inline;
+        &::before {
+            content: " | ";
+        }
 
-    .quick-links-divider {
-        padding: 0 5px;
+        &:first-child::before {
+            content: "";
+        }
     }
 }
 

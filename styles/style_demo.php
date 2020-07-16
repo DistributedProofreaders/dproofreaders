@@ -9,15 +9,12 @@ output_header("Style Demos");
 
 <h1>Style Demos</h1>
 
-<div class='quick-links'>
-  <a href='#headings'>Headings</a>
-  <span class='quick-links-divider'>|</span>
-  <a href='#paragraphs'>Paragraphs</a>
-  <span class='quick-links-divider'>|</span>
-  <a href='#links'>Links</a>
-  <span class='quick-links-divider'>|</span>
-  <a href='#table-formats'>Table formats</a>
-</div>
+<ul class='quick-links'>
+  <li><a href='#headings'>Headings</a></li>
+  <li><a href='#paragraphs'>Paragraphs</a></li>
+  <li><a href='#links'>Links</a></li>
+  <li><a href='#table-formats'>Table formats</a></li>
+</ul>
 
 <p>This page demonstrates how common page elements are rendered in the current theme. Logged-in users can change their theme in their <a href='../userprefs.php'>Preferences</a>.</p>
 
