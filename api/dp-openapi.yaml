@@ -166,6 +166,29 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/states:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project states
+      responses:
+        200:
+          description: List of states
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/{projectid}:
     get:
       tags:
