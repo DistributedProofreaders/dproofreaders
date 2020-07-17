@@ -289,6 +289,39 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /stats/site:
+    get:
+      tags:
+      - stats
+      description: Get site statistics
+      responses:
+        200:
+          description: Site statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/site_stats'
+
+  /stats/site/rounds/{roundid}:
+    get:
+      tags:
+      - stats
+      description: Gets the site statistics for a round
+      parameters:
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Requested round statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/round_stats'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -370,6 +403,41 @@ components:
         includes a great deal of information, some fields of which are calculated
         and not directly modifyable. Not all fields are available to all users. Fields
         the user does not have access to will not be returned.
+
+    site_stats:
+      type: object
+      properties:
+        server_time:
+          type: string
+          format: dateTime
+          readOnly: true
+        registered_users:
+          type: integer
+          readOnly: true
+      description: Statistics for the site
+
+    round_stats:
+      type: object
+      properties:
+        today_goal:
+          type: integer
+          readOnly: true
+        today_actual:
+          type: integer
+          readOnly: true
+        yesterday_goal:
+          type: integer
+          readOnly: true
+        yesterday_actual:
+          type: integer
+          readOnly: true
+        month_goal:
+          type: integer
+          readOnly: true
+        month_actual:
+          type: integer
+          readOnly: true
+      description: Statistics for a round
 
     wordlist:
       type: array
