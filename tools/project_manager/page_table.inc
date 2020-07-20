@@ -35,7 +35,7 @@ function echo_page_table(
 
     $project_phase = get_phase_containing_project_state($state);
 
-    $show_delete = (($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='PAGE_EDITING') && $can_edit);
+    $show_delete = (($project_phase=='NEW' || $project_phase=='PR') && $can_edit) || user_is_proj_facilitator();
 
     $project_round = get_Round_for_project_state($state);
 
@@ -449,7 +449,10 @@ function changeSelection(sel) {
         echo "<select name='operation'>\n";
         // echo "  <option value='bad'   >" . _("Mark as bad") . "</option>\n";
         echo "  <option value='clear' >" . _("Clear effects of current round") . "</option>\n";
-        echo "  <option value='delete'>" . _("Delete") . "</option>\n";
+        if($show_delete)
+        {
+            echo "  <option value='delete'>" . _("Delete") . "</option>\n";
+        }
         echo "</select>\n";
         echo "<input type='submit' value='" . attr_safe(_("Go")) . "'>\n";
         echo "</form>\n";
