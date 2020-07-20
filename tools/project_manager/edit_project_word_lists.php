@@ -104,7 +104,7 @@ class ProjectWordListHolder
     // load data from database
     function set_from_db()
     {
-        $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+        $projectid = get_projectID_param($_REQUEST, 'projectid');
 
         $ucep_result = user_can_edit_project($projectid);
         // we only let people clone projects that they can edit, so this
@@ -181,7 +181,7 @@ class ProjectWordListHolder
     {
         if ( isset($_POST['projectid']) )
         {
-            $this->projectid = validate_projectID('projectid', @$_POST['projectid']);
+            $this->projectid = get_projectID_param($_POST, 'projectid');
 
             $ucep_result = user_can_edit_project($this->projectid);
             if ( $ucep_result == PROJECT_DOES_NOT_EXIST )
@@ -202,7 +202,7 @@ class ProjectWordListHolder
             }
         }
 
-        $this->projectid        = validate_projectID('projectid', @$_POST['projectid']);
+        $this->projectid        = get_projectID_param($_POST, 'projectid');
         $this->good_words       = @$_POST['good_words'];
         $this->bad_words        = @$_POST['bad_words'];
         $this->gwl_timestamp    = get_integer_param($_POST, 'gwl_timestamp', null, null, null);

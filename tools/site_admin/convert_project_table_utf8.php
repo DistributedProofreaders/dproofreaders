@@ -19,7 +19,7 @@ echo "<h1>$title</h1>";
 
 echo "<p>" . _("This tool will convert individual project tables to UTF-8 if they are not already. If the project table is already UTF-8 no changes will happen.") . "</p>";
 
-$projectid = validate_projectID('projectid', @$_REQUEST['projectid'], true);
+$projectid = get_projectID_param($_REQUEST, 'projectid', true);
 
 if ( !$projectid )
 {

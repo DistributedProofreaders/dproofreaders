@@ -11,8 +11,8 @@ include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
 
-$projectid   = validate_projectID('project', @$_GET['project']);
-$image       = validate_page_image_filename('image', @$_GET['image'], true);
+$projectid   = get_projectID_param($_GET, 'project');
+$image       = get_page_image_param($_GET, 'image', true);
 $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $format = get_enumerated_param($_GET, "format", null, array("keep", "remove"), true);

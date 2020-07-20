@@ -24,7 +24,7 @@ $extra_args = [
 $title = _("Add files");
 output_header($title, NO_STATSBAR, $extra_args);
 
-$projectid    = validate_projectID('project', @$_GET['project']);
+$projectid    = get_projectID_param($_GET, 'project');
 $loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project( $projectid );

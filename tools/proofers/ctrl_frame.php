@@ -6,7 +6,6 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'ProofreadingToolbox.inc');
-include_once($relPath.'Project.inc'); // validate_projectID()
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
@@ -16,7 +15,7 @@ $round = get_Round_for_round_id($round_id);
 $projectid = array_get($_GET, 'projectid', 'quiz');
 if($projectid != "quiz")
 {
-    $projectid = validate_projectID('projectid', $projectid);
+    validate_projectID($projectid);
 }
 
 $mru_title = javascript_safe(_("Most recently used"));

@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
-include_once($relPath.'Project.inc'); // validate_projectID
+include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
@@ -35,7 +35,7 @@ else
 {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
-    $projectid  = validate_projectID('project', @$_REQUEST['projectid']);
+    $projectid  = get_projectID_param($_REQUEST, 'projectid');
     $proj_state = $_REQUEST['proj_state'];
 
     // Consider the page (if any) that this user most recently "opened" in

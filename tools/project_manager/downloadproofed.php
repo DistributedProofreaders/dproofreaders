@@ -7,8 +7,8 @@ include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
 
-$project   = validate_projectID('project', @$_GET['project']);
-$image     = validate_page_image_filename('image', @$_GET['image']);
+$project   = get_projectID_param($_GET, 'project');
+$image     = get_page_image_param($_GET, 'image');
 $round_num = get_integer_param($_GET, 'round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 
 if ($round_num == 0) {

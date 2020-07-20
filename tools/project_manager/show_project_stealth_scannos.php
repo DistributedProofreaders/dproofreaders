@@ -14,7 +14,7 @@ require_login();
 
 set_time_limit(0); // no time limit
 
-$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid = get_projectID_param($_REQUEST, 'projectid');
 
 enforce_edit_authorization($projectid);
 

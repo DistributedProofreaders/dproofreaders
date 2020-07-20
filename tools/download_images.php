@@ -10,7 +10,7 @@ include_once($relPath.'Project.inc');
 
 require_login();
 
-$projectid = validate_projectID('projectid', @$_GET['projectid']);
+$projectid = get_projectID_param($_GET, 'projectid');
 
 $zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";
 $zipfile_url  = "$dyn_url/download_tmp/{$projectid}_images.zip";

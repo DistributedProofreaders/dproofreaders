@@ -26,7 +26,7 @@ $watch->start();
 
 set_time_limit(0); // no time limit
 
-$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid  = get_projectID_param($_REQUEST, 'projectid');
 $encWord    = array_get($_GET, "word", '');
 $word       = decode_word($encWord);
 $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);

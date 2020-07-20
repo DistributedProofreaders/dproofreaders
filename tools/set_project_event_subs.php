@@ -2,11 +2,11 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'user_project_info.inc');
-include_once($relPath.'Project.inc');  // validate_projectID()
+include_once($relPath.'Project.inc');  // get_projectID_param()
 
 require_login();
 
-$projectid = validate_projectID('projectid', @$_POST['projectid']);
+$projectid = get_projectID_param($_POST, 'projectid');
 $return_uri = urldecode($_POST['return_uri']);
 
 $subs = array();

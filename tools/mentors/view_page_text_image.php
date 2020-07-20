@@ -39,7 +39,7 @@ else
 {
     try
     {
-        $projectid = validate_projectID('projectid', $projectid);
+        validate_projectID($projectid);
         $project = new Project($projectid);
     }
     catch(Exception $exception)

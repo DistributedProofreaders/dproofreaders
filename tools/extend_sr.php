@@ -11,7 +11,7 @@ class ActionException extends Exception {}
 
 require_login();
 
-$projectid = validate_projectID('project', @$_REQUEST['project']);
+$projectid = get_projectID_param($_REQUEST, 'project');
 $project = new Project($projectid);
 $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
 

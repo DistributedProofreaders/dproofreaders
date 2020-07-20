@@ -14,8 +14,8 @@ include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
 
-$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
-$image     = validate_page_image_filename('image', @$_REQUEST['image']);
+$projectid = get_projectID_param($_REQUEST, 'projectid');
+$image     = get_page_image_param($_REQUEST, 'image');
 $modify    = array_get($_REQUEST, 'modify', '');
 $cancel    = array_get($_POST, 'cancel', '');
 $prev_text = array_get($_POST, 'prev_text', NULL);

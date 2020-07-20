@@ -10,7 +10,7 @@ require_login();
 
 $charsuite_name = array_get($_GET, "charsuite", NULL);
 $font = array_get($_REQUEST, "font", NULL);
-$projectid = validate_projectID($_REQUEST, @$_REQUEST["projectid"], TRUE);
+$projectid = get_projectID_param($_REQUEST, "projectid", TRUE);
 
 $charsuite = NULL;
 

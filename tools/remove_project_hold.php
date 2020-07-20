@@ -4,12 +4,12 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'Project.inc'); // validate_projectID() Project() remove_holds()
+include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'metarefresh.inc'); // metarefresh()
 
 require_login();
 
-$projectid = validate_projectID('projectid', @$_POST['projectid']);
+$projectid = get_projectID_param($_POST, 'projectid');
 
 $project = new Project($projectid);
 if (!$project->can_be_managed_by_current_user)

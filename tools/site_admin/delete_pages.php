@@ -26,14 +26,12 @@ echo "<h1>$title</h1>";
 echo "<p>" . _("This tool will allow you to delete pages out of a project.") . "</p>";
 
 // validate inputs
-$projectid  = array_get( $_POST, 'projectid',  NULL );
-if($projectid)
-    $projectid = validate_projectID("projectid", $projectid);
+$projectid = get_projectID_param($_POST, 'projectid',  true);
 $from_image_ = array_get( $_POST, 'from_image_', NULL );
 if (is_array($from_image_))
     foreach($from_image_ as $which => $filename)
         if($filename)
-            validate_page_image_filename("from_image_[$which]", $filename);
+            validate_page_image($filename);
 
 $action = get_enumerated_param($_POST, 'action', 'showform', array('showform', 'check', 'dodelete'));
 

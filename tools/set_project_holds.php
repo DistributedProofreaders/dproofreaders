@@ -4,11 +4,11 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'Project.inc'); // validate_projectID() get_hold_states() remove_holds() add_holds()
+include_once($relPath.'Project.inc'); // get_projectID_param()
 
 require_login();
 
-$projectid = validate_projectID('projectid', @$_POST['projectid']);
+$projectid = get_projectID_param($_POST, 'projectid');
 $return_uri = urldecode($_POST['return_uri']);
 
 $project = new Project($projectid);

@@ -12,7 +12,7 @@ require_login();
 $valid_round_ids = array_keys($Round_for_round_id_);
 array_unshift($valid_round_ids, '[OCR]');
 
-$projectid            = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid            = get_projectID_param($_REQUEST, 'projectid');
 $round_id             = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
 $which_text           = get_enumerated_param($_REQUEST, 'which_text', null, array('EQ', 'LE'));
 $include_proofers     = get_integer_param($_REQUEST,'include_proofers',0,0,1);

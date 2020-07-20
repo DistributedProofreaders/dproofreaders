@@ -30,12 +30,12 @@ echo "<p>" . _("This tool will allow you to copy pages from one project to anoth
 $projectid_  = array_get( $_POST, 'projectid_',  NULL );
 if (is_array($projectid_))
     foreach($projectid_ as $which => $projectid)
-        $projectid_[$which] = validate_projectID("projectid_[$which]", $projectid);
+        validate_projectID($projectid);
 $from_image_ = array_get( $_POST, 'from_image_', NULL );
 if (is_array($from_image_))
     foreach($from_image_ as $which => $filename)
         if($filename)
-            validate_page_image_filename("from_image_[$which]", $filename);
+            validate_page_image($filename);
 
 $action = get_enumerated_param($_POST, 'action', 'showform', array('showform', 'showagain', 'check', 'docopy'));
 $page_name_handling = get_enumerated_param($_POST, 'page_name_handling', null, array('PRESERVE_PAGE_NAMES', 'RENUMBER_PAGES'), true);

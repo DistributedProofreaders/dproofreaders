@@ -20,7 +20,7 @@ define("MAX_WORD_INSTANCES", 100);
 
 set_time_limit(0); // no time limit
 
-$projectid = validate_projectID('projectid', @$_GET['projectid']);
+$projectid = get_projectID_param($_GET, 'projectid');
 $encWord   = @$_GET["word"];
 $word      = rtrim(decode_word($encWord));
 

@@ -14,12 +14,8 @@ if (!$site_supports_metadata)
     exit();
 }
 
-$projectid = validate_projectID('projectid', @$_GET['projectid']);
-if (!isset($_GET['imagename'])) {
-    $imagename = null;
-} else {   
-    $imagename = validate_page_image_filename('imagename', @$_GET['imagename']);
-}
+$projectid = get_projectID_param($_GET, 'projectid');
+$imagename = get_page_image_param($_GET, 'imagename', true);
 
 // $ppage = get_requested_PPage();
 

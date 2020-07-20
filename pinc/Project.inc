@@ -15,6 +15,7 @@ class UTF8ConversionException extends Exception { }
 class ProjectException extends Exception { }
 class NonexistentProjectException extends ProjectException { }
 class InvalidProjectIDException extends ProjectException { }
+class InvalidPageException extends ProjectException { }
 class NoProjectPageTable extends ProjectException { }
 class NoProjectDirectory extends ProjectException { }
 
@@ -1068,37 +1069,80 @@ function does_project_page_table_exist($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Checks if $value has the form of a valid project ID, either in its
-// long form (projectID####) or just the project number (####).
-// If it does, it returns it, otherwise throws an exception.
-function validate_projectID($param_name, $value, $allownull = false)
+// Confirm that $projectid is a well-formed project ID or raise an exception.
+function validate_projectID($projectid)
 {
-    if (!isset($value) && $allownull)
-        return null;
-    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value))
-        return $value;
-    if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
-        return "projectID$value";
-    throw new InvalidProjectIDException(sprintf(
-        _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
-        $param_name,
-        $value
-    ));
+    if (1 != preg_match('/^projectID[0-9a-f]{13}$/', $projectid))
+    {
+        throw new InvalidProjectIDException(sprintf(
+            _("%s is not a valid project ID."),
+            $projectid
+        ));
+    }
 }
 
-// Checks if $value contains only legitimate characters for
-// the filename of a page image file in a project.
-// If it does, it returns it, otherwise dies with a warning.
-function validate_page_image_filename($param_name, $value, $allownull = false)
+// Get a projectid from an array (usually $_GET or $_POST) and validate that
+// it is well-formed. This function mirrors the other get_*() functions in
+// misc.inc.
+function get_projectID_param( $arr, $key, $allownull = false )
 {
-    if (!isset($value) && $allownull) return null;
-    if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
-    die(sprintf(
-        _("The value of parameter '%1\$s' ('%2\$s') is not a valid page image filename."),
-        html_safe($param_name),
-        html_safe($value)
-    ));
+    $projectid = @$arr[$key];
+    if($projectid == NULL && $allownull)
+    {
+        return NULL;
+    }
+
+    try
+    {
+        validate_projectID($projectid);
+    }
+    catch(InvalidProjectIDException $exception)
+    {
+        throw new InvalidProjectIDException(sprintf(
+            _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
+            $key,
+            $projectid
+        ));
+    }
+    return $projectid;
+}
+
+// Confirm that $page_name is a well-formed page filename or raise an exception.
+function validate_page_image($page_name)
+{
+    if (1 != preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $page_name))
+    {
+        throw new InvalidPageException(sprintf(
+            _("%s is not a valid page image filename."),
+            $page_name
+        ));
+    }
+}
+
+// Get a page name from an array (usually $_GET or $_POST) and validate that
+// it is well-formed. This function mirrors the other get_*() functions in
+// misc.inc.
+function get_page_image_param($arr, $key, $allownull = false)
+{
+    $page_name = @$arr[$key];
+    if($page_name == NULL && $allownull)
+    {
+        return NULL;
+    }
+
+    try
+    {
+        validate_page_image($page_name);
+    }
+    catch(InvalidPageException $exception)
+    {
+        throw new InvalidPageException(sprintf(
+            _("The value of parameter '%1\$s' ('%2\$s') is not a valid page name."),
+            $key,
+            $page_name
+        ));
+    }
+    return $page_name;
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

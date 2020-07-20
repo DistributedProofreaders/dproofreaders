@@ -8,7 +8,7 @@ include_once('page_table.inc');
 
 require_login();
 
-$projectid = validate_projectID('project', @$_GET['project']);
+$projectid = get_projectID_param($_GET, 'project');
 $show_image_size = get_integer_param($_GET,'show_image_size',0,0,1);
 
 $project = new Project( $projectid );
