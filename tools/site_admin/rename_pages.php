@@ -24,7 +24,7 @@ echo "<h1>$title</h1>";
 
 echo "<p>" . _("This tool will allow you to rename pages in a project.") . "</p>";
 
-$projectid = validate_projectID('projectid', @$_REQUEST['projectid'], true);
+$projectid = get_projectID_param($_REQUEST, 'projectid', true);
 
 if ( !$projectid )
 {

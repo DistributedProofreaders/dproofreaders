@@ -9,7 +9,7 @@ require_login();
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-$projectid      = validate_projectID('projectid', @$_GET['projectid']);
+$projectid      = get_projectID_param($_GET, 'projectid');
 $expected_state = @$_GET['proj_state'];
 
 if (empty($expected_state)) die( "parameter 'proj_state' is empty" );

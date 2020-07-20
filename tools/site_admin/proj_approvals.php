@@ -23,7 +23,7 @@ if (!user_is_a_sitemanager())
 
 //----------------------------------------------------------------------------------
 
-$projectid = validate_projectID('projectid', @$_GET['projectid'], true);
+$projectid = get_projectID_param($_GET, 'projectid', true);
 if (isset($projectid))
 {
     //update project approval status

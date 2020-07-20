@@ -10,7 +10,7 @@ include_once('page_operations.inc');
 
 require_login();
 
-$projectid      = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid      = get_projectID_param($_REQUEST, 'projectid');
 $operation      = get_enumerated_param($_REQUEST, 'operation', null, array('clear', 'delete'));
 $selected_pages = @$_REQUEST['selected_pages'];
 if (!is_array($selected_pages))
@@ -18,7 +18,7 @@ if (!is_array($selected_pages))
     die(_('selected_pages is not a list of pages.'));
 }    
 foreach($selected_pages as $image => $setting)
-    validate_page_image_filename('selected_pages', $image);
+    validate_page_image($image);
 
 output_header( _("Edit Pages Confirmation"), NO_STATSBAR);
 echo "<br>\n";

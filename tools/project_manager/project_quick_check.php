@@ -13,7 +13,7 @@ require_login();
 set_time_limit(0); // no time limit
 
 // get data passed into the page
-$projectid = validate_projectID("projectid", @$_REQUEST['projectid'], true);
+$projectid = get_projectID_param($_REQUEST, "projectid", true);
 
 $title = _("Project Quick Check");
 $page_text = _("This page tests the project in an attempt to uncover some common errors.");

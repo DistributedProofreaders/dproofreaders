@@ -25,7 +25,7 @@ class Comparator
 
     function get_data()
     {
-        $this->projectid = validate_projectID('project', @$_GET['project']);
+        $this->projectid = get_projectID_param($_GET, 'project');
         $this->L_round_id = get_enumerated_param($_GET, "L_round_id", "P3", $this->L_round_options);
         $this->R_round_id = get_enumerated_param($_GET, "R_round_id", "F1", $this->R_round_options);
         $this->page_set = get_enumerated_param($_GET, "page_set", "all", array('left', 'right', 'all'));

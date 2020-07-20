@@ -14,7 +14,7 @@ $datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
 
-$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid  = get_projectID_param($_REQUEST, 'projectid');
 $fileObject = get_project_word_file($projectid,"good");
 $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
 $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);

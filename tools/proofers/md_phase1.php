@@ -12,7 +12,7 @@ require_login();
 
 $show_image_size = '';
 
-$projectid = validate_projectID('projectid', @$_GET['projectid']);
+$projectid = get_projectID_param($_GET, 'projectid');
 
 if (!$site_supports_metadata)
 {

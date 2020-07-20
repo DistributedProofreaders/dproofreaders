@@ -8,7 +8,7 @@ include_once($relPath.'project_states.inc'); // PROJ_NEW, PROJ_P1_UNAVAILABLE
 
 require_login();
 
-$projectid = validate_projectID('project', @$_GET['project']);
+$projectid = get_projectID_param($_GET, 'project');
 
 $zip_type = get_enumerated_param( $_GET, 'zip_type', NULL, array('pages', 'illos'), TRUE );
 

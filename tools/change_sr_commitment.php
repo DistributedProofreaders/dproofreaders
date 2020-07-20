@@ -23,7 +23,7 @@ require_login();
 *
 ****************************************************************************************/
 
-$projectid   = validate_projectID('projectid', @$_POST['projectid']);
+$projectid   = get_projectID_param($_POST, 'projectid');
 $action      = get_enumerated_param($_POST, 'action', null, array('commit', 'withdraw'));
 $refresh_url = @$_POST['next_url'];
 

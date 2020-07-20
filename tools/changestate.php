@@ -15,7 +15,7 @@ require_login();
 header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code
-$projectid  = validate_projectID('projectid', @$_POST['projectid']);
+$projectid  = get_projectID_param($_POST, 'projectid');
 $curr_state = get_enumerated_param($_POST, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $next_state = get_enumerated_param($_POST, 'next_state', null, array_merge($PROJECT_STATES_IN_ORDER, array('automodify')));
 $confirmed  = get_enumerated_param($_POST, 'confirmed', null, array('yes'), true);

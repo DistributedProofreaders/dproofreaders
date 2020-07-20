@@ -3,7 +3,7 @@ $relPath="../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
-include_once($relPath.'Project.inc'); // validate_projectID()
+include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
@@ -72,7 +72,7 @@ else if (isset($_GET['send']))
 else
     $action = SHOW_BLANK_ENTRY_FORM;
 
-$projectid = validate_projectID('project', @$_REQUEST['project']);
+$projectid = get_projectID_param($_REQUEST, 'project');
 
 $project = new Project($projectid);
 

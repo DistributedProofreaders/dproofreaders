@@ -6,7 +6,7 @@ include_once('../../stats/jpgraph_files/common.inc');
 
 require_login();
 
-$projectid = validate_projectID("projectid", @$_GET["projectid"]);
+$projectid = get_projectID_param($_GET, "projectid");
 
 // data for this graph is generated in show_wordcheck_page_stats.php
 $data_filename = sys_get_temp_dir() . "/$projectid-graph_flags_per_page.dat";

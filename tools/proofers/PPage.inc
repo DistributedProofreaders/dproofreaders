@@ -50,9 +50,9 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
 function get_requested_PPage( $request_params )
 {
     global $PROJECT_STATES_IN_ORDER, $PAGE_STATES_IN_ORDER;
-    $projectid  = validate_projectID('projectid', @$request_params['projectid']);
+    $projectid  = get_projectID_param($request_params, 'projectid');
     $proj_state = get_enumerated_param($request_params, 'proj_state', null, $PROJECT_STATES_IN_ORDER);
-    $imagefile  = validate_page_image_filename('imagefile', @$request_params['imagefile']);
+    $imagefile  = get_page_image_param($request_params, 'imagefile');
     $page_state = get_enumerated_param($request_params, 'page_state', null, $PAGE_STATES_IN_ORDER);
     $reverting  = get_integer_param($request_params, 'reverting', 0, 0, 1);
 

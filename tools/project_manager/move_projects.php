@@ -15,7 +15,8 @@ $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN
 $new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
 $projectids = array();
 foreach(explode( ',', @$_GET['projects'] ) as $projectid) {
-    $projectids[] = validate_projectID('projects', $projectid);
+    validate_projectID($projectid);
+    $projectids[] = $projectid;
 }
 
 echo "<pre>\n";

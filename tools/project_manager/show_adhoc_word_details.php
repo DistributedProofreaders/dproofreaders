@@ -13,7 +13,7 @@ require_login();
 
 set_time_limit(0); // no time limit
 
-$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid  = get_projectID_param($_REQUEST, 'projectid');
 $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 $queryWordText = array_get($_POST, "queryWordText", "");

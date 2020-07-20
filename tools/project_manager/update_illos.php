@@ -14,13 +14,13 @@ require_login();
 // (This script's functionality overlaps that of handle_bad_page.php.
 // They should perhaps be refactored.)
 
-$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+$projectid = get_projectID_param($_REQUEST, 'projectid');
 $operation = get_enumerated_param($_REQUEST, 'operation', 'replace', array('replace', 'delete', 'delete_all'));
 
 if ($operation !== 'delete_all')
 {
     $image     = @$_REQUEST['image'];
-    // Note that using validate_page_image_filename() here would be inappropriate,
+    // Note that using validate_page_image() here would be inappropriate,
     // because it's specific to *page* images (which this isn't),
     // and so enforces a maximum filename length.
     if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add_files.php

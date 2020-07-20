@@ -15,7 +15,7 @@ include_once($relPath.'Project.inc'); // project_get_auto_PPer
 include_once($relPath.'misc.inc'); // requester_is_localhost(), html_safe()
 include_once('autorelease.inc');
 
-$one_project = validate_projectID('project', @$_GET['project'], true);
+$one_project = get_projectID_param($_GET, 'project', TRUE);
 $refresh_url = @$_GET['return_uri'];
 
 // The following users are authorized to run this script:

@@ -15,7 +15,7 @@ include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_larg
 detect_too_large();
 require_login();
 
-$projectid = validate_projectID('project', @$_REQUEST['project']);
+$projectid = get_projectID_param($_REQUEST, 'project');
 $valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
 // $stage==smooth_avail controls sr, 2 cases:

@@ -7,7 +7,7 @@ include_once($relPath.'project_trans.inc');
 
 require_login();
 
-$projectid    = validate_projectID('projectid', @$_POST['projectid']);
+$projectid    = get_projectID_param($_POST, 'projectid');
 $postcomments = @$_POST['postcomments'];
 
 // Verify that it's the pp-er trying to perform this action.
