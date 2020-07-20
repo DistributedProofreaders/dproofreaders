@@ -127,7 +127,8 @@ function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
 
     echo "<p>" . _("Below are all the characters with their Unicode codepoints that are available within this character suite. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
 
-    output_codepoints_table($charsuite->codepoints);
+    $characters = convert_codepoint_ranges_to_characters($charsuite->codepoints);
+    output_characters_table($characters);
 
     if(!$title)
     {
@@ -169,12 +170,12 @@ function output_pickerset($pickerset, $all_codepoints)
         echo "<tr>";
         $row1_characters = convert_codepoint_ranges_to_characters($coderows[0]);
         $picker_characters = array_merge($picker_characters, $row1_characters);
-        output_codepoints_slice($row1_characters);
+        output_characters_slice($row1_characters);
         echo "</tr>";
         echo "<tr>";
         $row2_characters = convert_codepoint_ranges_to_characters($coderows[1]);
         $picker_characters = array_merge($picker_characters, $row2_characters);
-        output_codepoints_slice($row2_characters);
+        output_characters_slice($row2_characters);
         echo "</tr>";
         echo "</table>";
     }
@@ -182,21 +183,19 @@ function output_pickerset($pickerset, $all_codepoints)
     $remainder = array_diff($all_characters, array_unique($picker_characters));
     if(count($all_characters) != count(array_unique($picker_characters)) && $remainder)
     {
-        echo "<h3>" . _("Codepoints not in picker") . "</h3>";
+        echo "<h3>" . _("Characters not in a picker set") . "</h3>";
         echo "<table class='basic'>";
         echo "<tr>";
-        output_codepoints_slice($remainder);
+        output_characters_table($remainder);
         echo "</tr>";
         echo "</table>";
     }
 }
 
-function output_codepoints_table($charsuite, $table_width=16)
+function output_characters_table($characters, $table_width=16)
 {
     # maximum number of codepoints to output
     $MAX_CODEPOINTS = 2048;
-
-    $characters = convert_codepoint_ranges_to_characters($charsuite);
 
     echo "<table class='basic'>";
 
@@ -205,7 +204,7 @@ function output_codepoints_table($charsuite, $table_width=16)
         $offset < $MAX_CODEPOINTS)
     {
         echo "<tr>";
-        output_codepoints_slice($slice);
+        output_characters_slice($slice);
         echo "</tr>";
         $offset += $table_width;
     }
@@ -223,7 +222,7 @@ function output_codepoints_table($charsuite, $table_width=16)
     }
 }
 
-function output_codepoints_slice($slice)
+function output_characters_slice($slice)
 {
     foreach($slice as $char)
     {
