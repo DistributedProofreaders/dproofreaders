@@ -105,17 +105,17 @@ $query = sprintf("
                        email_updates, referrer, referrer_details, http_referrer, u_neigh, u_intlang)
     VALUES ('%s', '%s', '%s', '%s', $user->date_created,
             $user->email_updates, '%s', '%s', '%s', 10, '%s')
-    ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->real_name),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->username),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->email),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->referrer),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->referrer_details),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->http_referrer),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->u_intlang)
+    ",  DPDatabase::escape($ID),
+        DPDatabase::escape($user->real_name),
+        DPDatabase::escape($user->username),
+        DPDatabase::escape($user->email),
+        DPDatabase::escape($user->referrer),
+        DPDatabase::escape($user->referrer_details),
+        DPDatabase::escape($user->http_referrer),
+        DPDatabase::escape($user->u_intlang)
 );
 
-$result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+$result = DPDatabase::query($query);
 $u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented users.u_id
 
 // Delete record in non_activated_users.
@@ -128,11 +128,12 @@ $profile->save();
 
 // add ref to profile
 $refString=sprintf("
-    UPDATE users SET u_profile=$profile->id WHERE id='%s' AND username='%s'
-    ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $user->username)
+    UPDATE users SET u_profile=%d WHERE id='%s' AND username='%s'
+    ",  DPDatabase::escape($profile->id),
+        DPDatabase::escape($ID),
+        DPDatabase::escape($user->username)
 );
-$makeRef = mysqli_query(DPDatabase::get_connection(), $refString);
+DPDatabase::query($refString);
 
 // Send them an introduction e-mail
 maybe_welcome_mail($user->email, $user->real_name, $user->username);
