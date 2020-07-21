@@ -60,9 +60,9 @@ if(!$success)
 // Look for user in 'users' table.
 $q = sprintf("
     SELECT * FROM users WHERE username='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $userNM)
+    ", DPDatabase::escape($userNM)
 );
-$u_res = mysqli_query(DPDatabase::get_connection(), $q) or die(DPDatabase::log_error());
+$u_res = DPDatabase::query($q);
 $u_row = mysqli_fetch_assoc($u_res);
 if (!$u_row)
 {
