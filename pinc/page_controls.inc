@@ -2,21 +2,20 @@
 include_once($relPath.'stages.inc'); // $Round_for_round_id_
 include_once($relPath.'metarefresh.inc');
 
-function get_page_data_js($projectid, $page, $round_id)
+function get_page_data_js($projectid, $page, $round_id, $error_message)
 {
     global $code_url;
 
     $heading = "";
     $text = "";
-    $error_message = "";
     $page_names = array();
     $image_url = "";
 
-    if($projectid)
+    if(!$error_message && $projectid)
     {
         try
         {
-            $projectid = validate_projectID('projectid', $projectid); // throws InvalidProjectIDException
+            // $projectid has been validated before we get here
             $project = new Project($projectid); // throws NonexistentProjectException
 
             $page_names = $project->get_page_names_from_db();
@@ -25,23 +24,8 @@ function get_page_data_js($projectid, $page, $round_id)
                 throw new UnexpectedValueException(sprintf(_("There are no pages in %s"), $projectid));
             }
 
-            // page names are sorted so will find first match
-            $page_match = false;
-            if($page !== "")
+            if(!in_array($page, $page_names))
             {
-                foreach($page_names as $page_name)
-                {
-                    if(1 === preg_match("/.*$page.*/", $page_name))
-                    {
-                        $page = $page_name;
-                        $page_match = true;
-                        break;
-                    }
-                }
-            }
-            if(!$page_match)
-            {
-                // no data given or couldn't find a match
                 $page = $page_names[0];
             }
 
@@ -59,7 +43,7 @@ function get_page_data_js($projectid, $page, $round_id)
             $result = DPDatabase::query("SELECT $text_column_name FROM $projectid WHERE image = '$esc_page'");
             $row = mysqli_fetch_assoc($result);
             $text = $row[$text_column_name];
-            $image_url = $project->url/$page;
+            $image_url = "$project->url/$page";
         }
         catch(Exception $exception)
         {

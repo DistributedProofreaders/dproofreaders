@@ -31,7 +31,7 @@ $(function () {
     let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
-    if(pageBrowserData.projectid) {
+    if(pageBrowserData.projectid && !pageBrowserData.errorMessage) {
         let stretchDiv = $("<div>", {class: 'stretch'});
         topDiv.append(stretchDiv);
         fixHead.append(pageControlForm);
