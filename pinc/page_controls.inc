@@ -10,6 +10,7 @@ function get_page_data_js($projectid, $page, $round_id)
     $text = "";
     $error_message = "";
     $page_names = array();
+    $image_url = "";
 
     if($projectid)
     {
@@ -58,6 +59,7 @@ function get_page_data_js($projectid, $page, $round_id)
             $result = DPDatabase::query("SELECT $text_column_name FROM $projectid WHERE image = '$esc_page'");
             $row = mysqli_fetch_assoc($result);
             $text = $row[$text_column_name];
+            $image_url = $project->url/$page;
         }
         catch(Exception $exception)
         {
@@ -74,7 +76,7 @@ function get_page_data_js($projectid, $page, $round_id)
         "text" => $text,
         "heading" => $heading,
         "errorMessage" => $error_message,
-        "imageUrl" => "$project->url/$page"
+        "imageUrl" => "$image_url"
     ];
     $page_browser_data = json_encode($page_browser_data);
 
