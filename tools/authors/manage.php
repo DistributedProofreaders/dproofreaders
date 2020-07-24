@@ -109,23 +109,29 @@ if (isset($_POST) && count($_POST)>0) {
 
     // 1. delete bios
     foreach ($delete_bios as $bio)
-        mysqli_query(DPDatabase::get_connection(), "DELETE FROM biographies WHERE bio_id = $bio");
+        DPDatabase::query(sprintf("DELETE FROM biographies WHERE bio_id = %d", DPDatabase::escape($bio)));
 
     // 2. move bios
     if ($moveTo) {
         foreach ($move_bios as $bio)
-            mysqli_query(DPDatabase::get_connection(), "UPDATE biographies SET author_id = $moveTo WHERE bio_id = $bio");
+            DPDatabase::query(sprintf(
+                "UPDATE biographies SET author_id = %d WHERE bio_id = %d",
+                DPDatabase::escape($moveTo),
+                DPDatabase::escape($bio)));
     }
 
     // 3. delete authors
     foreach ($delete_authors as $author) {
-        mysqli_query(DPDatabase::get_connection(), "DELETE FROM authors WHERE author_id = $author");
+        DPDatabase::query(sprintf("DELETE FROM authors WHERE author_id = %d", DPDatabase::escape($author)));
     }
 
     // 4. enable/disable authors
     $count = count($enable_author_values);
     for ($i = 0; $i < $count; $i++)
-        mysqli_query(DPDatabase::get_connection(), "UPDATE authors SET enabled = '${enable_author_values[$i]}' WHERE author_id = ${enable_author_ids[$i]}");
+        DPDatabase::query(sprintf(
+            "UPDATE authors SET enabled = '%s' WHERE author_id = %d",
+            DPDatabase::escape($enable_author_values[$i]),
+            DPDatabase::escape($enable_author_ids[$i])));
 
 }
 
@@ -468,7 +474,11 @@ $i = 0;
 
 while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     $id = $author['author_id'];
-    $bioresult = mysqli_query(DPDatabase::get_connection(), "SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
+    $bioresult = DPDatabase::query(
+        sprintf(
+            "SELECT bio_id FROM biographies WHERE author_id = %d ORDER BY bio_id;",
+            DPDatabase::escape($id)),
+        false);
     $bio_count = mysqli_num_rows($bioresult);
 
     if ($bio_count > 0) {

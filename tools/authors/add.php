@@ -54,34 +54,46 @@ if (isset($last_name)) {
         // insert into the database
         if ($author_id) {
             // edit existing author
-            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $result = DPDatabase::query(sprintf("
                 UPDATE authors
                 SET last_name='%s', other_names='%s',
-                    byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='%s',
-                    dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$%s'
+                    byear=%d, bmonth=%d, bday=%d, bcomments='%s',
+                    dyear=%d, dmonth=%d, dday=%d, dcomments='$%s'
                 WHERE author_id = $author_id
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $bcomments),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $dcomments)
+            ",  DPDatabase::escape($last_name),
+                DPDatabase::escape($other_names),
+                DPDatabase::escape($byear),
+                DPDatabase::escape($bmonth),
+                DPDatabase::escape($bday),
+                DPDatabase::escape($dyear),
+                DPDatabase::escape($dmonth),
+                DPDatabase::escape($dday),
+                DPDatabase::escape($bcomments),
+                DPDatabase::escape($dcomments)
             ));
             $msg = _('The author was successfully updated in the database!');
         }
         else {
             // add new author to database
-            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $result = DPDatabase::query(sprintf("
                 INSERT INTO authors
                     (last_name, other_names,
                         byear, bmonth, bday, bcomments,
                         dyear, dmonth, dday, dcomments, enabled)
                 VALUES
                     ('%s', '%s',
-                        $byear, $bmonth, $bday, '%s',
-                        $dyear, $dmonth, $dday, '%s', 'yes')
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $bcomments),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $dcomments)
+                        %d, %d, %d, '%s',
+                        %d, %d, %d, '%s', 'yes')
+            ",  DPDatabase::escape($last_name),
+                DPDatabase::escape($other_names),
+                DPDatabase::escape($byear),
+                DPDatabase::escape($bmonth),
+                DPDatabase::escape($bday),
+                DPDatabase::escape($bcomments),
+                DPDatabase::escape($dyear),
+                DPDatabase::escape($dmonth),
+                DPDatabase::escape($dday),
+                DPDatabase::escape($dcomments)
             ));
             $msg = _('The author was successfully entered into the database!');
             $author_id = mysqli_insert_id(DPDatabase::get_connection());
@@ -121,11 +133,9 @@ else {
     if ($author_id) {
         // edit specified author
         // get the values from the database
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors WHERE author_id = $author_id;");
-        if (!$result) {
-            echo "That author doesn't exist!";
-            exit();
-        }
+        $result = DPDatabase::query(sprintf(
+            "SELECT * FROM authors WHERE author_id = %d;",
+            DPDatabase::escape($author_id)));
         $vars = array( 'last_name', 'other_names',
                        'byear', 'bmonth', 'bday', 'bcomments',
                        'dyear', 'dmonth', 'dday', 'dcomments'  );

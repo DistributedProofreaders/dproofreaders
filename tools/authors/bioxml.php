@@ -16,11 +16,11 @@ $author_id      = get_integer_param($_GET, 'author_id', null, 0, null, true);
 $bio_id         = get_integer_param($_GET, 'bio_id', null, 0, null, true);
 $modified_since = get_integer_param($_GET, 'modified_since', null, 0, null, true);
 if (isset($author_id)) {
-    $clause = "WHERE author_id = $author_id";
+    $clause = sprintf("WHERE author_id = %d", DPDatabase::escape($author_id));
     $wrap_in_big_tag = true;
 }
 if (isset($bio_id)) {
-    $clause = "WHERE bio_id = $bio_id";
+    $clause = sprintf("WHERE bio_id = %d", DPDatabase::escape($bio_id));
     $wrap_in_big_tag = false;
 }
 else if (isset($modified_since)) {
@@ -28,7 +28,7 @@ else if (isset($modified_since)) {
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000
     $last_modified = str_pad($modified_since, 14, '0');
-    $clause = "WHERE last_modified >= $last_modified";
+    $clause = sprintf("WHERE last_modified >= %d", DPDatabase::escape($last_modified));
     $wrap_in_big_tag = true;
 }
 else {
@@ -39,7 +39,7 @@ else {
 header("Content-Type: text/xml; charset=$charset");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM biographies $clause");
+$result = DPDatabase::query(sprintf("SELECT * FROM biographies %s", $clause));
 
 if ($wrap_in_big_tag)
     echo "<biographies>\n";

@@ -21,7 +21,7 @@ else if ($modified_since) {
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000
     $modified_since = str_pad($modified_since, 14, '0');
-    $clause = "WHERE last_modified >= $modified_since";
+    $clause = sprintf("WHERE last_modified >= %d", DPDatabase::escape($modified_since));
     $wrap_in_big_tag = true;
 }
 else {
@@ -32,7 +32,7 @@ else {
 header("Content-Type: text/xml; charset=$charset");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors $clause");
+$result = DPDatabase::query(sprintf("SELECT * FROM authors %s", $clause));
 
 if ($wrap_in_big_tag)
     echo "<authors>\n";

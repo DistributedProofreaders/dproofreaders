@@ -33,12 +33,12 @@ if (!table_exists('authors') || !table_exists('biographies')) {
     exit;
 }
 
-$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM authors');
+$result = DPDatabase::query('SELECT * FROM authors', false);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
     exit;
 }
-$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM biographies');
+$result = DPDatabase::query('SELECT * FROM biographies', false);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
     exit;
@@ -196,37 +196,30 @@ else {
                         byear, bmonth, bday,
                         dyear, dmonth, dday,
                         bcomments, dcomments, enabled)
-                VALUES ('%s', '%s', $date_fields_str '', '', 'no')
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names));
+                VALUES ('%s', '%s', %s '', '', 'no')
+            ", DPDatabase::escape($last_name),
+                DPDatabase::escape($other_names),
+                $date_fields_str);
             if ($simulating) {
                 echo "<span style='color: red'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
                 $author_id='#new author id#';
             }
             else {
-                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
-                if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the author:") . ' ' . DPDatabase::log_error() . "\n";
-                    exit;
-                }
+                $store_result = DPDatabase::query($query);
                 $author_id = mysqli_insert_id(DPDatabase::get_connection());
                 echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
             }
             $query = sprintf("
                 INSERT INTO biographies
                     (author_id, bio)
-                VALUES(%s, '%s')
-            ", $author_id, mysqli_real_escape_string(DPDatabase::get_connection(), $bio));
+                VALUES(%d, '%s')
+            ", DPDatabase::escape($author_id), DPDatabase::escape($bio));
             if ($simulating)
                 echo "<span style='color: blue'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
             else {
-                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
-                if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . DPDatabase::log_error() . "\n";
-                    exit;
-                }
+                $store_result = DPDatabase::query($query);
                 echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysqli_insert_id(DPDatabase::get_connection())) . "\n\n";
             }
         }
@@ -242,7 +235,7 @@ echo_menu();
 
 // Returns true if the table exists in the current database, false otherwise.
 function table_exists($tableName) {
-    return ( mysqli_query(DPDatabase::get_connection(), "DESCRIBE $tableName") != FALSE );
+    return ( DPDatabase::query(sprintf("DESCRIBE %s", DPDatabase::escape($tableName)), false) != FALSE );
 }
 
 // vim: sw=4 ts=4 expandtab

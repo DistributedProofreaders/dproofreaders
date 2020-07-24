@@ -28,7 +28,7 @@ if ($author_id) {
     if ($author_id) {
       // this author actually exists - not only Preview before adding
       // list biographies (if any)
-      $result = mysqli_query(DPDatabase::get_connection(), "SELECT bio_id FROM biographies WHERE author_id = $author_id;");
+      $result = DPDatabase::query(sprintf("SELECT bio_id FROM biographies WHERE author_id = %d;", DPDatabase::escape($author_id)));
       $numrow = mysqli_num_rows($result);
       $row = mysqli_fetch_assoc($result);
       $bio_id = $row["bio_id"];
