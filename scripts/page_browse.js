@@ -1,27 +1,18 @@
-/* global $ pageBrowserData proofIntData splitControl mode */
-/* exported viewSplitter hiddenProject projectInput pageInput projectSelectButton hiddenMode topLine
-pageChanger splitter imageControl textControl roundSelect */
+/* global $ pageBrowserData proofIntData splitControl */
+/* exported viewSplitter hiddenProject projectInput projectSelectButton topLine
+pageChanger imageControl textControl roundSelect */
 
 var projectInput = function() {
     return $("<span>", {class: "nowrap"}).append(proofIntData.strings.projectid, " ", $("<input>", {type: 'text', name: 'project', required: true}));
-};
-
-var pageInput = function() {
-    return $("<span>", {class: "nowrap"}).append(proofIntData.strings.page, " ", $("<input>", {type: 'text', name: 'imagefile', size: '8'}), proofIntData.strings.optional, " ");
 };
 
 var projectSelectButton = function() {
     return $("<input>", {type: 'submit', value: proofIntData.strings.selectProject});
 };
 
-var hiddenMode = function() {
-    return $("<input>", {type: 'hidden', name: 'mode', value: mode});
-};
-
 var topLine = function() {
     let resetButton = $("<input>", {type: 'submit', value: proofIntData.strings.reset});
     let hiddenProjectInput = $("<input>", {type: 'hidden', name: 'project', value: pageBrowserData.projectid});
-
     resetButton.click(function () {
         hiddenProjectInput.val("");
     });
@@ -32,30 +23,45 @@ var topLine = function() {
 var pageChanger = function () {
     let pageSelector = document.createElement("select");
     pageSelector.name = 'imagefile';
-    let prevButton = $("<input>", {type: 'submit', value: proofIntData.strings.previous});
-    let nextButton = $("<input>", {type: 'submit', value: proofIntData.strings.next});
-
-    pageBrowserData.pages.forEach(function(page) {
-        let selected = pageBrowserData.currentPage === page;
-        pageSelector.add(new Option(page, page, selected, selected));
-    });
 
     $(pageSelector).change(function() {
         this.form.submit();
     });
 
-    prevButton.prop("disabled", pageSelector.selectedIndex === 0);
-    nextButton.prop("disabled", pageSelector.selectedIndex === (pageSelector.length - 1));
+    let retVal = $("<span>", {class: "nowrap"}).append(proofIntData.strings.page + " ", pageSelector);
 
-    prevButton.click(function () {
-        pageSelector.selectedIndex -= 1;
-    });
+    // if no page is given add a "select a page" line
+    if(!pageBrowserData.currentPage) {
+        pageSelector.required = true;
+        let firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
+        firstOption.disabled = true;
+        pageSelector.add(firstOption);
+        pageBrowserData.pages.forEach(function(page) {
+            pageSelector.add(new Option(page, page, false, false));
+        });
 
-    nextButton.click(function () {
-        pageSelector.selectedIndex += 1;
-    });
+    } else {
+        pageBrowserData.pages.forEach(function(page) {
+            let selected = pageBrowserData.currentPage === page;
+            pageSelector.add(new Option(page, page, selected, selected));
+        });
+        let prevButton = $("<input>", {type: 'submit', value: proofIntData.strings.previous});
+        let nextButton = $("<input>", {type: 'submit', value: proofIntData.strings.next});
 
-    return $("<span>", {class: "nowrap"}).append(proofIntData.strings.page + " ", pageSelector, prevButton, nextButton);
+        prevButton.prop("disabled", pageSelector.selectedIndex === 0);
+        nextButton.prop("disabled", pageSelector.selectedIndex === (pageSelector.length - 1));
+
+        prevButton.click(function () {
+            pageSelector.selectedIndex -= 1;
+        });
+
+        nextButton.click(function () {
+            pageSelector.selectedIndex += 1;
+        });
+
+        retVal.append(prevButton, nextButton);
+    }
+    return retVal;
 };
 
 // Construct the buttons for horizontal/vertical split

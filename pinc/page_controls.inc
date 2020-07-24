@@ -11,7 +11,7 @@ function get_page_data_js($projectid, $page, $round_id, $error_message)
     $page_names = array();
     $image_url = "";
 
-    if(!$error_message && $projectid)
+    if($projectid)
     {
         try
         {
@@ -24,7 +24,8 @@ function get_page_data_js($projectid, $page, $round_id, $error_message)
                 throw new UnexpectedValueException(sprintf(_("There are no pages in %s"), $projectid));
             }
 
-            if(!in_array($page, $page_names))
+            // if page is not null check if it exists else select first page
+            if($page && !in_array($page, $page_names))
             {
                 $page = $page_names[0];
             }
@@ -39,16 +40,18 @@ function get_page_data_js($projectid, $page, $round_id, $error_message)
             {
                 $text_column_name = get_Round_for_round_id($round_id)->text_column_name;
             }
-            $esc_page = DPDatabase::escape($page);
-            $result = DPDatabase::query("SELECT $text_column_name FROM $projectid WHERE image = '$esc_page'");
-            $row = mysqli_fetch_assoc($result);
-            $text = $row[$text_column_name];
-            $image_url = "$project->url/$page";
+            if($page)
+            {
+                $esc_page = DPDatabase::escape($page);
+                $result = DPDatabase::query("SELECT $text_column_name FROM $projectid WHERE image = '$esc_page'");
+                $row = mysqli_fetch_assoc($result);
+                $text = $row[$text_column_name];
+                $image_url = "$project->url/$page";
+            }
         }
         catch(Exception $exception)
         {
             $error_message = html_safe($exception->getMessage());
-            $projectid = "";
         }
     }
 
@@ -105,6 +108,7 @@ function get_proofreading_interface_data_js()
         "optional" => _("(optional)"),
         "reset" => _("Select a different project"),
         "projectid" => _("Project ID"),
+        "selectAPage" => _("Please select a page"),
     ];
 
     global $code_url;

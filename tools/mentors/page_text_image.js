@@ -1,5 +1,5 @@
 /* global $ pageBrowserData topLine viewSplitter imageControl textControl pageChanger splitControl
-roundSelect proofIntData projectInput pageInput projectSelectButton */
+roundSelect proofIntData projectInput projectSelectButton */
 
 $(function () {
     let topDiv = $("#top-div");
@@ -7,39 +7,39 @@ $(function () {
     let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
-    if(pageBrowserData.projectid && !pageBrowserData.errorMessage) {
+    if(pageBrowserData.errorMessage) {
+        fixHead.append($("<p>", {class: 'error'}).append(pageBrowserData.errorMessage));
+    }
+    fixHead.append(pageControlForm);
+    if(!pageBrowserData.projectid) {
+        // just show the project input
+        pageControlForm.append($("<p>").append(proofIntData.strings.selectAProject), projectInput(), projectSelectButton());
+    } else if(!pageBrowserData.currentPage) {
+        // show project name, and page selector
+        pageControlForm.append(topLine(), pageChanger(), " ", roundSelect(false));
+    } else {
+        // if a page is given show it
         let stretchDiv = $("<div>", {class: 'stretch'});
         topDiv.append(stretchDiv);
-        fixHead.append(pageControlForm);
-        pageControlForm.append(topLine());
 
-        let imageDiv = $("<div>");
-        let textDiv = $("<div>");
-        stretchDiv.append(imageDiv, textDiv);
-
-        let theSplitter = viewSplitter(stretchDiv);
         let theImageControl = imageControl();
-        let theTextControl = textControl();
-
-        pageControlForm.append(theImageControl.controls, " ", pageChanger(), " ", roundSelect(),
-            theSplitter.buttons, theTextControl.controls);
-
-        imageDiv.addClass('overflow-auto image-back').append(theImageControl.image);
+        let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
         theImageControl.setZoom();
 
+        let theTextControl = textControl();
         let topTextDiv = $("<div>").append(theTextControl.textArea);
         let blankDiv = $("<div>");
-        textDiv.append(topTextDiv, blankDiv);
+        let textDiv = $("<div>").append(topTextDiv, blankDiv);
 
-        let splitter = splitControl();
-        splitter.setup(textDiv, {splitDirection: splitter.DIRECTION.HORIZONTAL, reDraw: theSplitter.mainSplit.reSize});
+        stretchDiv.append(imageDiv, textDiv);
+        let theSplitter = viewSplitter(stretchDiv);
+
+        pageControlForm.append(topLine(), pageChanger(), " ", roundSelect(true), " ", theImageControl.controls,
+            theSplitter.buttons, theTextControl.controls);
+
+        let subSplitter = splitControl();
+        subSplitter.setup(textDiv, {splitDirection: subSplitter.DIRECTION.HORIZONTAL, reDraw: theSplitter.mainSplit.reSize});
 
         theSplitter.mainSplit.reLayout();
-    } else {
-        if(pageBrowserData.errorMessage) {
-            fixHead.append("<p class='error'>" + pageBrowserData.errorMessage + "</p>");
-        }
-        fixHead.append("<p>" + proofIntData.strings.selectAProject + "</p>", pageControlForm);
-        pageControlForm.append(projectInput(), pageInput(), roundSelect(false), projectSelectButton());
     }
 });

@@ -1,9 +1,13 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-topLine roundSelect hiddenMode projectInput pageInput projectSelectButton */
+topLine roundSelect projectInput projectSelectButton */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
     // and appropriate buttons to switch to other modes
+    var hiddenMode = function() {
+        return $("<input>", {type: 'hidden', name: 'mode', value: mode});
+    };
+
     var modeControl = function() {
         let modeObjs = [
             {type: 'image', caption: proofIntData.strings.showImage},
@@ -31,19 +35,33 @@ $(function () {
     let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
-    if(pageBrowserData.projectid && !pageBrowserData.errorMessage) {
+    if(pageBrowserData.errorMessage) {
+        fixHead.append($("<p>", {class: 'error'}).append(pageBrowserData.errorMessage));
+    }
+    fixHead.append(pageControlForm);
+    if(!pageBrowserData.projectid) {
+        // just show the project input
+        pageControlForm.append($("<p>").append(proofIntData.strings.selectAProject), projectInput(), projectSelectButton(), hiddenMode());
+    } else if(!pageBrowserData.currentPage) {
+        // show project name, and page selector
+        pageControlForm.append(topLine(), hiddenMode(), pageChanger());
+        if(mode !== "image") {
+            // round selector not submitting if changed
+            pageControlForm.append(" ", roundSelect(false));
+        }
+    } else {
+        // if a page is given show it
+        pageControlForm.append(topLine(), modeControl(), pageChanger());
         let stretchDiv = $("<div>", {class: 'stretch'});
         topDiv.append(stretchDiv);
-        fixHead.append(pageControlForm);
-        pageControlForm.append(topLine(), modeControl());
 
         switch (mode) {
         // extra { } to use block-scoped variables here
         case "image": {
             let theImageControl = imageControl();
-            // without the space, the two sets of controls seem to get
-            // combined into a single nowrap span
-            pageControlForm.append(theImageControl.controls, " ", pageChanger());
+            // without the space, the two sets of controls seem to be treated
+            // as a single nowrap span
+            pageControlForm.append(" ", theImageControl.controls);
 
             stretchDiv.addClass("overflow-auto image-back").append(theImageControl.image);
             theImageControl.setZoom();
@@ -51,8 +69,8 @@ $(function () {
         }
         case "text": {
             let theTextControl = textControl();
-            pageControlForm.append(pageChanger(), " ", roundSelect(true), theTextControl.controls);
-
+            // round selector submits if changed
+            pageControlForm.append(roundSelect(true), theTextControl.controls);
             theTextControl.textArea.prop("readonly", true);
             stretchDiv.append(theTextControl.textArea);
             break;
@@ -60,12 +78,12 @@ $(function () {
         case "imageText": {
             let theImageControl = imageControl();
             let theTextControl = textControl();
-            let imageDiv = $("<div>").addClass('overflow-auto image-back')
-                .append(theImageControl.image);
+            theTextControl.textArea.prop("readonly", true);
+            let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
             let textDiv = $("<div>").append(theTextControl.textArea);
             stretchDiv.append(imageDiv, textDiv);
             let theSplitter = viewSplitter(stretchDiv);
-            pageControlForm.append(theImageControl.controls, " ", pageChanger(), " ", roundSelect(true), theSplitter.buttons, theTextControl.controls);
+            pageControlForm.append(" ", roundSelect(true), " ", theImageControl.controls, theSplitter.buttons, theTextControl.controls);
             theImageControl.setZoom();
             theTextControl.textArea.prop("readonly", true);
 
@@ -74,15 +92,5 @@ $(function () {
             break;
         }
         }
-    } else {
-        if(pageBrowserData.errorMessage) {
-            fixHead.append("<p class='error'>" + pageBrowserData.errorMessage + "</p>");
-        }
-        fixHead.append("<p>" + proofIntData.strings.selectAProject + "</p>", pageControlForm);
-        pageControlForm.append(projectInput(), pageInput());
-        if(mode !== "image") {
-            pageControlForm.append(roundSelect(false));
-        }
-        pageControlForm.append(projectSelectButton(), hiddenMode());
     }
 });
