@@ -88,7 +88,7 @@ $mbrQuery = mysqli_query(DPDatabase::get_connection(), "
 ");
 while ($curMbr = mysqli_fetch_assoc($mbrQuery))
 {
-    if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
+    if ($curMbr['u_privacy'] == PRIVACY_PRIVATE)
     {
         $data .= "<member id=\"".$curMbr['u_id']."\">
             <username>".xmlencode($curMbr['username'])."</username>

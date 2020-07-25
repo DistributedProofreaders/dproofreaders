@@ -179,8 +179,7 @@ function get_rank_neighbor_options()
     return ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
 }
 
-define('PRIVACY_PUBLIC',    0);
+define('PRIVACY_PRIVATE',   0);
 define('PRIVACY_ANONYMOUS', 1);
-define('PRIVACY_PRIVATE',   2);
 // See ../faq/pophelp/prefs/set_privacy.html
 // for definitions of these privacy categories.

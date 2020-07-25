@@ -30,7 +30,7 @@ $daysInExistence = floor(($now - $user->date_created)/86400);
 
 
 //User info
-if ($user->u_privacy == PRIVACY_PUBLIC)
+if ($user->u_privacy == PRIVACY_PRIVATE)
 {
     echo "
         <userinfo id='$user->u_id'>
