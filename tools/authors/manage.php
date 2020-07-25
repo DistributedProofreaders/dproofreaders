@@ -108,30 +108,34 @@ if (isset($_POST) && count($_POST)>0) {
     $non_deleted_bios = array();
 
     // 1. delete bios
-    foreach ($delete_bios as $bio)
-        DPDatabase::query(sprintf("DELETE FROM biographies WHERE bio_id = %d", DPDatabase::escape($bio)));
+    foreach ($delete_bios as $bio) {
+        $sql = sprintf("DELETE FROM biographies WHERE bio_id = %d", $bio);
+        DPDatabase::query($sql);
+    }
 
     // 2. move bios
     if ($moveTo) {
-        foreach ($move_bios as $bio)
-            DPDatabase::query(sprintf(
-                "UPDATE biographies SET author_id = %d WHERE bio_id = %d",
-                DPDatabase::escape($moveTo),
-                DPDatabase::escape($bio)));
+        foreach ($move_bios as $bio) {
+            $sql = sprintf("UPDATE biographies SET author_id = %d WHERE bio_id = %d", $moveTo, $bio);
+            DPDatabase::query($sql);
+        }
     }
 
     // 3. delete authors
     foreach ($delete_authors as $author) {
-        DPDatabase::query(sprintf("DELETE FROM authors WHERE author_id = %d", DPDatabase::escape($author)));
+        $sql = sprintf("DELETE FROM authors WHERE author_id = %d", $author);
+        DPDatabase::query($sql);
     }
 
     // 4. enable/disable authors
     $count = count($enable_author_values);
-    for ($i = 0; $i < $count; $i++)
-        DPDatabase::query(sprintf(
+    for ($i = 0; $i < $count; $i++) {
+        $sql = sprintf(
             "UPDATE authors SET enabled = '%s' WHERE author_id = %d",
             DPDatabase::escape($enable_author_values[$i]),
-            DPDatabase::escape($enable_author_ids[$i])));
+            $enable_author_ids[$i]);
+        DPDatabase::query($sql);
+    }
 
 }
 

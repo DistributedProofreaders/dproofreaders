@@ -33,12 +33,14 @@ if (!table_exists('authors') || !table_exists('biographies')) {
     exit;
 }
 
-$result = DPDatabase::query('SELECT * FROM authors', false);
+$sql = 'SELECT * FROM authors';
+$result = DPDatabase::query($sql, false);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
     exit;
 }
-$result = DPDatabase::query('SELECT * FROM biographies', false);
+$sql = 'SELECT * FROM biographies';
+$result = DPDatabase::query($sql, false);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
     exit;
@@ -235,7 +237,8 @@ echo_menu();
 
 // Returns true if the table exists in the current database, false otherwise.
 function table_exists($tableName) {
-    return ( DPDatabase::query(sprintf("DESCRIBE %s", DPDatabase::escape($tableName)), false) != FALSE );
+    $sql = sprintf("DESCRIBE %s", DPDatabase::escape($tableName));
+    return ( DPDatabase::query($sql, false) != FALSE );
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -19,9 +19,8 @@ if (isset($_GET['author_id'])) {
 elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
     $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, TRUE);
-    $result = DPDatabase::query(sprintf(
-        "SELECT * FROM biographies WHERE bio_id = %d;",
-        DPDatabase::escape($bio_id)));
+    $sql = sprintf("SELECT * FROM biographies WHERE bio_id = %d;", $bio_id);
+    $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
     $author_id = $row["author_id"];
     $bio       = $row["bio"];
@@ -38,20 +37,23 @@ elseif (isset($_POST['author_id'])) {
         if (isset($_POST['bio_id'])) {
             // edit existing bio
             $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, TRUE);
-            $result = DPDatabase::query(sprintf("
+            $sql = sprintf("
                 UPDATE biographies
                 SET bio = '%s'
                 WHERE bio_id = %d
-            ", DPDatabase::escape($bio), DPDatabase::escape($bio_id)));
+            ", DPDatabase::escape($bio), $bio_id);
+            $result = DPDatabase::query($sql);
             $msg = _('The biography was successfully updated in the database!');
         }
         else {
             // add to database
-            $result = DPDatabase::query(sprintf("
+            $sql = sprintf("
                 INSERT INTO biographies
                     (author_id, bio)
-                VALUES(%d, '%s')
-            ", DPDatabase::escape($author_id), DPDatabase::escape($bio)));
+                VALUES(%d, '%s')",
+                $author_id,
+                DPDatabase::escape($bio));
+            $result = DPDatabase::query($sql);
             $bio_id = mysqli_insert_id(DPDatabase::get_connection());
             $msg = _('The biography was successfully entered into the database!');
         }

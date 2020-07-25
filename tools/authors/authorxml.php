@@ -13,7 +13,7 @@ $author_id      = get_integer_param($_GET, 'author_id', null, 0, null, true);
 $modified_since = get_integer_param($_GET, 'modified_since', null, 0, null, true);
 
 if ($author_id) {
-    $clause = "WHERE author_id = $author_id";
+    $clause = sprintf("WHERE author_id = %d", $author_id);
     $wrap_in_big_tag = false;
 }
 else if ($modified_since) {
@@ -21,7 +21,7 @@ else if ($modified_since) {
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000
     $modified_since = str_pad($modified_since, 14, '0');
-    $clause = sprintf("WHERE last_modified >= %d", DPDatabase::escape($modified_since));
+    $clause = sprintf("WHERE last_modified >= %d", $modified_since);
     $wrap_in_big_tag = true;
 }
 else {
@@ -32,7 +32,8 @@ else {
 header("Content-Type: text/xml; charset=$charset");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$result = DPDatabase::query(sprintf("SELECT * FROM authors %s", $clause));
+$sql = sprintf("SELECT * FROM authors %s", $clause);
+$result = DPDatabase::query($sql);
 
 if ($wrap_in_big_tag)
     echo "<authors>\n";
