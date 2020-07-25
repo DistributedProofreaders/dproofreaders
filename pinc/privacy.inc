@@ -8,10 +8,6 @@ function can_reveal_details_about( $username, $user_privacy_setting )
 
     switch ($user_privacy_setting)
     {
-        case PRIVACY_PUBLIC:
-            // Details are visible to all.
-            return TRUE;
-
         case PRIVACY_PRIVATE:
             // Details are visible to anyone logged in.
             return !is_null($pguser);
