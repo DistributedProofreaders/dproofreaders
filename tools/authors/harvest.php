@@ -25,22 +25,14 @@ abort_if_not_authors_db_manager(true);
 
 output_header(_("Harvest existing biographies from project comments"));
 
-// Tables must exist (because this script shouldn't need to care about creating them)
-// and be empty (because if they're not, the harvest is likely done in error)
-
-if (!table_exists('authors') || !table_exists('biographies')) {
-    echo _("The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.");
-    exit;
-}
-
 $sql = 'SELECT * FROM authors';
-$result = DPDatabase::query($sql, false);
+$result = DPDatabase::query($sql);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
     exit;
 }
 $sql = 'SELECT * FROM biographies';
-$result = DPDatabase::query($sql, false);
+$result = DPDatabase::query($sql);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
     exit;
@@ -198,10 +190,9 @@ else {
                         byear, bmonth, bday,
                         dyear, dmonth, dday,
                         bcomments, dcomments, enabled)
-                VALUES ('%s', '%s', %s '', '', 'no')
+                VALUES ('%s', '%s', $date_fields_str '', '', 'no')
             ", DPDatabase::escape($last_name),
-                DPDatabase::escape($other_names),
-                $date_fields_str);
+                DPDatabase::escape($other_names));
             if ($simulating) {
                 echo "<span style='color: red'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
@@ -216,7 +207,7 @@ else {
                 INSERT INTO biographies
                     (author_id, bio)
                 VALUES(%d, '%s')
-            ", DPDatabase::escape($author_id), DPDatabase::escape($bio));
+            ", $author_id, DPDatabase::escape($bio));
             if ($simulating)
                 echo "<span style='color: blue'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
@@ -234,11 +225,5 @@ function ensure_digits($digits_or_question_mark) {
 }
 
 echo_menu();
-
-// Returns true if the table exists in the current database, false otherwise.
-function table_exists($tableName) {
-    $sql = sprintf("DESCRIBE %s", DPDatabase::escape($tableName));
-    return ( DPDatabase::query($sql, false) != FALSE );
-}
 
 // vim: sw=4 ts=4 expandtab

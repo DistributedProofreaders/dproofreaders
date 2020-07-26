@@ -25,7 +25,7 @@ else {
 
 // try to get bio
 $sql = sprintf("SELECT author_id, bio FROM biographies WHERE bio_id=%d;", $id);
-$result = DPDatabase::query($sql, false);
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 if (!$row) {
     output_header(_('Invalid biography-id specified'));

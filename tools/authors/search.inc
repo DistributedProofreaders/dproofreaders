@@ -173,10 +173,8 @@ function get_search_title() {
 function search() {
     global $sortUtility, $sql_what_to_list, $search_result;
     $orderby = $sortUtility->getOrderBy();
-    $sql = sprintf("SELECT * FROM authors WHERE %s ORDER BY %s", $sql_what_to_list, $orderby);
-    $search_result = DPDatabase::query(
-        $sql,
-        false);
+    $sql = sprintf("SELECT * FROM authors WHERE $sql_what_to_list ORDER BY $orderby");
+    $search_result = DPDatabase::query($sql);
     return $search_result;
 }
 

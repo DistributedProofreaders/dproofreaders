@@ -32,7 +32,7 @@ else {
 header("Content-Type: text/xml; charset=$charset");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$sql = sprintf("SELECT * FROM authors %s", $clause);
+$sql = "SELECT * FROM authors $clause";
 $result = DPDatabase::query($sql);
 
 if ($wrap_in_big_tag)

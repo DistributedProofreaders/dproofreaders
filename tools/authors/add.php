@@ -58,7 +58,7 @@ if (isset($last_name)) {
                 UPDATE authors
                 SET last_name='%s', other_names='%s',
                     byear=%d, bmonth=%d, bday=%d, bcomments='%s',
-                    dyear=%d, dmonth=%d, dday=%d, dcomments='$%s'
+                    dyear=%d, dmonth=%d, dday=%d, dcomments='%s'
                 WHERE author_id = $author_id",
                 DPDatabase::escape($last_name),
                 DPDatabase::escape($other_names),

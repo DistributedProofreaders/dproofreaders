@@ -478,11 +478,8 @@ $i = 0;
 
 while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     $id = $author['author_id'];
-    $bioresult = DPDatabase::query(
-        sprintf(
-            "SELECT bio_id FROM biographies WHERE author_id = %d ORDER BY bio_id;",
-            DPDatabase::escape($id)),
-        false);
+    $sql = sprintf("SELECT bio_id FROM biographies WHERE author_id = %d ORDER BY bio_id;", $id);
+    $bioresult = DPDatabase::query($sql);
     $bio_count = mysqli_num_rows($bioresult);
 
     if ($bio_count > 0) {
