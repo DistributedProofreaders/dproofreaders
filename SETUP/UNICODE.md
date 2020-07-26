@@ -48,6 +48,7 @@ The code currently ships with 4 character suites:
 * Extended European Latin
 * Basic Greek
 * Polytonic Greek
+* Medievalist supplement - for transcription/analysis of medieval writings
 
 All character suites can be viewed using the [All Character Suites](../tools/charsuites.php)
 page.
