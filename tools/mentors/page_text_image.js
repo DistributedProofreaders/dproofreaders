@@ -3,7 +3,8 @@ roundSelect proofIntData projectInput projectSelectButton */
 
 $(function () {
     let topDiv = $("#top-div");
-    let fixHead = $("<div>", {class: 'fix control-form'});
+    // the non-scrolling area which will contain any error messagfe and the form with controls
+    let fixHead = $("<div>", {class: 'fixed-box control-form'});
     let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
@@ -18,8 +19,8 @@ $(function () {
         // show project name, and page selector
         pageControlForm.append(topLine(), pageChanger(), " ", roundSelect(false));
     } else {
-        // if a page is given show it
-        let stretchDiv = $("<div>", {class: 'stretch'});
+        // if a page is given show it in scrollable area
+        let stretchDiv = $("<div>", {class: 'stretch-box'});
         topDiv.append(stretchDiv);
 
         let theImageControl = imageControl();

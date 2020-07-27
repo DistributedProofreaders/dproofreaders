@@ -31,7 +31,8 @@ $(function () {
     };
 
     let topDiv = $("#top-div");
-    let fixHead = $("<div>", {class: 'fix control-form'});
+    // the non-scrolling area which will contain any error messagfe and the form with controls
+    let fixHead = $("<div>", {class: 'fixed-box control-form'});
     let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
@@ -50,9 +51,9 @@ $(function () {
             pageControlForm.append(" ", roundSelect(false));
         }
     } else {
-        // if a page is given show it
+        // if a page is given show it in scrollable area
         pageControlForm.append(topLine(), modeControl(), pageChanger());
-        let stretchDiv = $("<div>", {class: 'stretch'});
+        let stretchDiv = $("<div>", {class: 'stretch-box'});
         topDiv.append(stretchDiv);
 
         switch (mode) {

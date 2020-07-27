@@ -1145,10 +1145,10 @@ table.search-column tr th {
   display: flex;
   flex-direction: column;
 }
-.flex_100vh .fix {
+.flex_100vh .fixed-box {
   flex: 0 0 auto;
 }
-.flex_100vh .stretch {
+.flex_100vh .stretch-box {
   flex: 1 1 100vh;
   min-height: 10px;
 }
