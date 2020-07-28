@@ -141,6 +141,8 @@ var imageControl = function() {
     }
 
     let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent});
+    // the resize button does nothing but pressing it moves the focus away
+    // from the percent input triggering its change event
     let resizeButton = $("<input>", {type: 'button', value: proofIntData.strings.resize});
 
     let image = $("<img>", {src: pageBrowserData.imageUrl});
@@ -150,10 +152,22 @@ var imageControl = function() {
         image.height("auto");
     };
 
-    resizeButton.click(function () {
+    function changeZoom() {
         percent = percentInput.val();
         localStorage.setItem(imagePercentID, percent);
         setZoom();
+    }
+
+    percentInput.keypress(function(event) {
+        // if enter pressed change zoom and do not submit form
+        if(13 === event.which) {
+            event.preventDefault();
+            changeZoom();
+        }
+    });
+
+    percentInput.change(function() {
+        changeZoom();
     });
 
     return {
