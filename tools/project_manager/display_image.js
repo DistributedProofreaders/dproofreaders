@@ -1,5 +1,5 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-topLine roundSelect projectInput projectSelectButton */
+hiddenProject projectReset roundSelect projectInput projectSelectButton */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
@@ -39,59 +39,61 @@ $(function () {
     if(pageBrowserData.errorMessage) {
         fixHead.append($("<p>", {class: 'error'}).append(pageBrowserData.errorMessage));
     }
-    fixHead.append(pageControlForm);
     if(!pageBrowserData.projectid) {
         // just show the project input
-        pageControlForm.append($("<p>").append(proofIntData.strings.selectAProject), projectInput(), projectSelectButton(), hiddenMode());
-    } else if(!pageBrowserData.currentPage) {
-        // show project name, and page selector
-        pageControlForm.append(topLine(), hiddenMode(), pageChanger());
-        if(mode !== "image") {
-            // round selector not submitting if changed
-            pageControlForm.append(" ", roundSelect(false));
-        }
+        fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
+        pageControlForm.append(projectInput(), projectSelectButton(), hiddenMode());
     } else {
-        // if a page is given show it in scrollable area
-        pageControlForm.append(topLine(), modeControl(), pageChanger());
-        let stretchDiv = $("<div>", {class: 'stretch-box'});
-        topDiv.append(stretchDiv);
+        // show project name
+        fixHead.append($("<p>").append(pageBrowserData.heading), pageControlForm);
+        if(!pageBrowserData.currentPage) {
+            // show page selector
+            pageControlForm.append(hiddenProject(), hiddenMode(), pageChanger());
+            if(mode !== "image") {
+                // round selector not submitting if changed
+                pageControlForm.append(" ", roundSelect(false));
+            }
+        } else {
+            // if a page is given show it in scrollable area with controls
+            // and a button to change project.
+            pageControlForm.append(projectReset(), modeControl(), pageChanger());
+            let stretchDiv = $("<div>", {class: 'stretch-box'});
+            topDiv.append(stretchDiv);
 
-        switch (mode) {
-        // extra { } to use block-scoped variables here
-        case "image": {
-            let theImageControl = imageControl();
-            // without the space, the two sets of controls seem to be treated
-            // as a single nowrap span
-            pageControlForm.append(" ", theImageControl.controls);
-
-            stretchDiv.addClass("overflow-auto image-back").append(theImageControl.image);
-            theImageControl.setZoom();
-            break;
-        }
-        case "text": {
-            let theTextControl = textControl();
-            // round selector submits if changed
-            pageControlForm.append(roundSelect(true), theTextControl.controls);
-            theTextControl.textArea.prop("readonly", true);
-            stretchDiv.append(theTextControl.textArea);
-            break;
-        }
-        case "imageText": {
-            let theImageControl = imageControl();
-            let theTextControl = textControl();
-            theTextControl.textArea.prop("readonly", true);
-            let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
-            let textDiv = $("<div>").append(theTextControl.textArea);
-            stretchDiv.append(imageDiv, textDiv);
-            let theSplitter = viewSplitter(stretchDiv);
-            pageControlForm.append(" ", roundSelect(true), " ", theImageControl.controls, theSplitter.buttons, theTextControl.controls);
-            theImageControl.setZoom();
-            theTextControl.textArea.prop("readonly", true);
-
-            // re-layout after drawing fixed div
-            theSplitter.mainSplit.reLayout();
-            break;
-        }
+            switch (mode) {
+            // extra { } to use block-scoped variables here
+            case "image": {
+                let theImageControl = imageControl();
+                fixHead.append(theImageControl.controls);
+                stretchDiv.addClass("overflow-auto image-back").append(theImageControl.image);
+                theImageControl.setZoom();
+                break;
+            }
+            case "text": {
+                let theTextControl = textControl();
+                // round selector submits if changed
+                pageControlForm.append(roundSelect(true));
+                fixHead.append(theTextControl.controls);
+                theTextControl.textArea.prop("readonly", true);
+                stretchDiv.append(theTextControl.textArea);
+                break;
+            }
+            case "imageText": {
+                let theImageControl = imageControl();
+                let theTextControl = textControl();
+                theTextControl.textArea.prop("readonly", true);
+                let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
+                let textDiv = $("<div>").append(theTextControl.textArea);
+                stretchDiv.append(imageDiv, textDiv);
+                let theSplitter = viewSplitter(stretchDiv);
+                pageControlForm.append(roundSelect(true));
+                fixHead.append(theImageControl.controls, theSplitter.buttons, theTextControl.controls);
+                theImageControl.setZoom();
+                // re-layout after drawing fixed div
+                theSplitter.mainSplit.reLayout();
+                break;
+            }
+            }
         }
     }
 });

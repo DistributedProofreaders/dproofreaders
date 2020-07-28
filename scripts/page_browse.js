@@ -1,5 +1,5 @@
 /* global $ pageBrowserData proofIntData splitControl */
-/* exported viewSplitter hiddenProject projectInput projectSelectButton topLine
+/* exported viewSplitter hiddenProject projectInput projectSelectButton projectReset
 pageChanger imageControl textControl roundSelect */
 
 var projectInput = function() {
@@ -10,13 +10,18 @@ var projectSelectButton = function() {
     return $("<input>", {type: 'submit', value: proofIntData.strings.selectProject});
 };
 
-var topLine = function() {
+var hiddenProject = function() {
+    return $("<input>", {type: 'hidden', name: 'project', value: pageBrowserData.projectid});
+};
+
+var projectReset = function() {
     let resetButton = $("<input>", {type: 'submit', value: proofIntData.strings.reset});
-    let hiddenProjectInput = $("<input>", {type: 'hidden', name: 'project', value: pageBrowserData.projectid});
+    let hiddenProjectInput = hiddenProject();
     resetButton.click(function () {
         hiddenProjectInput.val("");
     });
-    return $("<p>").append(pageBrowserData.heading, resetButton, hiddenProjectInput);
+
+    return [resetButton, hiddenProjectInput];
 };
 
 // Construct the controls to change pages
