@@ -1,5 +1,5 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-hiddenProject projectReset roundSelect projectInput projectSelectButton */
+hiddenProject projectReset roundSelect projectSelector */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
@@ -42,7 +42,7 @@ $(function () {
     if(!pageBrowserData.projectid) {
         // just show the project input
         fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
-        pageControlForm.append(projectInput(), projectSelectButton(), hiddenMode());
+        pageControlForm.append(projectSelector(), hiddenMode());
     } else {
         // show project name
         fixHead.append($("<p>").append(pageBrowserData.heading), pageControlForm);

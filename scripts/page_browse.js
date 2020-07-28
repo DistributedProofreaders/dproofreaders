@@ -1,13 +1,12 @@
 /* global $ pageBrowserData proofIntData splitControl */
-/* exported viewSplitter hiddenProject projectInput projectSelectButton projectReset
+/* exported viewSplitter hiddenProject projectSelector projectReset
 pageChanger imageControl textControl roundSelect */
 
-var projectInput = function() {
-    return $("<span>", {class: "nowrap"}).append(proofIntData.strings.projectid, " ", $("<input>", {type: 'text', name: 'project', required: true}));
-};
-
-var projectSelectButton = function() {
-    return $("<input>", {type: 'submit', value: proofIntData.strings.selectProject});
+var projectSelector = function() {
+    return [
+        $("<span>", {class: "nowrap"}).append(proofIntData.strings.projectid, " ", $("<input>", {type: 'text', name: 'project', required: true})),
+        $("<input>", {type: 'submit', value: proofIntData.strings.selectProject})
+    ];
 };
 
 var hiddenProject = function() {

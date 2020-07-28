@@ -1,5 +1,5 @@
 /* global $ pageBrowserData viewSplitter imageControl textControl pageChanger splitControl
-hiddenProject projectReset roundSelect proofIntData projectInput projectSelectButton */
+hiddenProject projectReset roundSelect proofIntData projectSelector */
 
 $(function () {
     let topDiv = $("#top-div");
@@ -14,7 +14,7 @@ $(function () {
     if(!pageBrowserData.projectid) {
         // just show the project input
         fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
-        pageControlForm.append(projectInput(), projectSelectButton());
+        pageControlForm.append(projectSelector());
     } else {
         // show project name
         fixHead.append($("<p>").append(pageBrowserData.heading), pageControlForm);
