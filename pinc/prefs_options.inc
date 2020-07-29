@@ -160,7 +160,7 @@ function get_font_sizes()
 
 // return an array of strings to use to render text
 // The array is indexed like get_available_proofreading_font_sizes()
-function get_font_size_families()
+function get_font_sizes_css()
 {
     $font_sizes = get_available_proofreading_font_sizes();
     $font_sizes[0] = 'unset';

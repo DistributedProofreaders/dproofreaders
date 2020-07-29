@@ -85,7 +85,7 @@ function get_proofreading_interface_data_js()
         "faces" => get_font_styles(),
         "faceFamilies" => get_full_font_families(),
         "sizes" => get_font_sizes(),
-        "sizeFamilies" => get_font_size_families(),
+        "sizeFamilies" => get_font_sizes_css(),
     ];
 
     $strings = [
