@@ -358,6 +358,8 @@ class User
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+global $valid_username_chars_statement_for_reg_form;
+global $valid_username_chars_statement_for_elsewhere;
 $valid_username_chars_statement_for_reg_form  = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
 $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
 
