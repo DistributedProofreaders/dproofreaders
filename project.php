@@ -142,7 +142,7 @@ else
     do_early_uploads();
     do_waiting_queues();
     do_event_subscriptions();
-    do_post_downloads();
+    do_post_files();
     do_postcomments();
     do_smooth_reading();
     do_ppv_report();
@@ -1632,7 +1632,7 @@ function is_an_extra_file( $filename )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_post_downloads()
+function do_post_files()
 {
     global $project, $pguser, $site_supports_corrections_after_posting;
 
@@ -1644,7 +1644,7 @@ function do_post_downloads()
     if ( user_can_work_in_stage($pguser, 'PP') )
     {
         echo "<h2>";
-        echo _("Post-Processing Downloads");
+        echo _("Post-Processing Files");
         echo "</h2>\n";
 
         echo "<ul>";
@@ -1661,7 +1661,7 @@ function do_post_downloads()
             echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
             echo "</li>";
 
-
+            echo_upload_backup($projectid);
         }
         elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
         {
@@ -1783,6 +1783,16 @@ function do_post_downloads()
     echo "</li>";
 
     echo "</ul>\n";
+}
+
+// -----------------------------------------------------------------------------
+function echo_upload_backup()
+{
+    global $code_url, $project;
+    echo "<li>";
+    $text = _("Upload a partially post-processed file as a backup");
+    echo "<a href='$code_url/tools/upload_text.php?project=$project->projectid&stage=in_prog_1'>$text</a>";
+    echo "</li>";
 }
 
 // -----------------------------------------------------------------------------
