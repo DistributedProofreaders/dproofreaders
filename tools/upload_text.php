@@ -38,6 +38,9 @@ if (($stage == 'post_1' || $stage == 'return_1') &&
     metarefresh(10, "$code_url/project.php?id=$projectid", $title, $body);
 }
 
+// default comment box title, set to null for no comment box
+$comment_title = _("(optional) Leave comments for the next person who checks out this project:");
+
 $error_messages = array();
 if ($stage == 'post_1')
 {
@@ -62,6 +65,7 @@ else if ($stage == 'in_prog_1')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
+    $comment_title = _("Comments:");
 }
 else if ($stage == 'return_1')
 {
@@ -116,6 +120,7 @@ else if ($stage == 'smooth_avail')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
     $back_blurb = _("Project Page");
+    $comment_title = _("Leave instructions for smooth readers:");
 }
 else if ($stage == 'smooth_done')
 {
@@ -134,6 +139,7 @@ else if ($stage == 'smooth_done')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
+    $comment_title = null;
 }
 else if(!$stage)
 {
@@ -191,17 +197,11 @@ if (!isset($action))
             <input type='hidden' name='stage' value='$stage'>
             <input type='hidden' name='days' value='$days'>
             <input type='hidden' name='action' value='1'>";
-        if ($stage != 'smooth_done')
+        if($comment_title)
         {
-            if ($stage != 'smooth_avail')
-            {
-                $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
-            }
-            else
-            {
-                $form_content .= _("Leave instructions for smooth readers:");
-            }
+            $form_content .= $comment_title;
             $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='5'></textarea>\n";
+
             if($returning_to_pool)
             {
                 $form_content .= "<br><input type='submit' value='" . attr_safe($submit_label_sans_file) . "'>\n";
