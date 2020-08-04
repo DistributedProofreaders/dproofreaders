@@ -1663,7 +1663,7 @@ function do_post_files()
 
             if($project->PPer_is_current_user)
             {
-                echo_upload_backup($projectid);
+                echo_upload_backup($projectid, _("Upload a partially post-processed file as a backup"), "in_prog_1");
             }
         }
         elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
@@ -1673,6 +1673,11 @@ function do_post_files()
             echo "<li>";
             echo_uploaded_zips('_second_in_prog_', _('partially verified'));
             echo "</li>";
+
+            if($project->PPVer_is_current_user)
+            {
+                echo_upload_backup($projectid, _("Upload a partially verified file as a backup"), "in_prog_2");
+            }
         }
         elseif ($site_supports_corrections_after_posting
                 && ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT))
@@ -1789,12 +1794,11 @@ function do_post_files()
 }
 
 // -----------------------------------------------------------------------------
-function echo_upload_backup()
+function echo_upload_backup($projectid, $text, $stage)
 {
     global $code_url;
     echo "<li>";
-    $text = _("Upload a partially post-processed file as a backup");
-    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=in_prog_1'>$text</a>";
+    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=$stage'>$text</a>";
     echo "</li>";
 }
 
