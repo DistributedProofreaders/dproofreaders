@@ -3,7 +3,7 @@ $relPath='./pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'ProjectTransition.inc');
+include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
 include_once($relPath.'project_states.inc');
 include_once($relPath.'projectinfo.inc'); // project_getnumavailablepagesinround()
 include_once($relPath.'comment_inclusions.inc'); // parse_project_comments()
@@ -1661,7 +1661,10 @@ function do_post_files()
             echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
             echo "</li>";
 
-            echo_upload_backup($projectid);
+            if($project->PPer_is_current_user)
+            {
+                echo_upload_backup($projectid);
+            }
         }
         elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
         {
@@ -1788,10 +1791,10 @@ function do_post_files()
 // -----------------------------------------------------------------------------
 function echo_upload_backup()
 {
-    global $code_url, $project;
+    global $code_url;
     echo "<li>";
     $text = _("Upload a partially post-processed file as a backup");
-    echo "<a href='$code_url/tools/upload_text.php?project=$project->projectid&stage=in_prog_1'>$text</a>";
+    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=in_prog_1'>$text</a>";
     echo "</li>";
 }
 
