@@ -70,11 +70,12 @@ if ($action == 'update_oneshot')
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
 
-        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             SELECT COUNT(*)
             FROM image_sources
             WHERE code_name = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $new_code_name)));
+        ", DPDatabase::escape($new_code_name));
+        $result = DPDatabase::query($sql);
 
         $row = mysqli_fetch_row($result);
         $new = ($row[0] == 0);
@@ -119,7 +120,8 @@ if ($action == 'show_sources')
 
     show_is_toolbar($action);
 
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT code_name FROM image_sources ORDER BY display_name ASC");
+    $sql = "SELECT code_name FROM image_sources ORDER BY display_name ASC";
+    $result = DPDatabase::query($sql);
 
     echo "<br>";
     echo "<table class='image_source'>";
@@ -172,11 +174,12 @@ class ImageSource
     {
         if( !is_null($code_name) )
         {
-            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $sql = sprintf("
                 SELECT *
                 FROM image_sources
                 WHERE code_name = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $code_name)));
+            ", DPDatabase::escape($code_name));
+            $result = DPDatabase::query($sql);
             $source_fields = mysqli_fetch_assoc($result);
 
             foreach ($source_fields as $field => $value)
@@ -300,13 +303,13 @@ class ImageSource
                 "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."'>";
             $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
-        $this->_show_edit_row('display_name',_('Display Name'),false,30);
-        $this->_show_edit_row('full_name',_('Full Name'));
-        $this->_show_edit_row('url',_('Website'));
-        $this->_show_edit_row('credit',_('Credits Line'),true);
+        $this->_show_edit_row('display_name', _('Display Name'), false, 30);
+        $this->_show_edit_row('full_name', _('Full Name'), false, 100);
+        $this->_show_edit_row('url', _('Website'), false, 200);
+        $this->_show_edit_row('credit', _('Credits Line'), true, 200);
         $this->_show_edit_permissions_row();
-        $this->_show_edit_row('public_comment',_('Description (public comments)'),true);
-        $this->_show_edit_row('internal_comment',_('Notes (internal comments)'),true);
+        $this->_show_edit_row('public_comment', _('Description (public comments)'), true, 255);
+        $this->_show_edit_row('internal_comment', _('Notes (internal comments)'), true);
 
         echo "<tr><td colspan='2' class='center-align'>
             <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."'>
@@ -319,15 +322,16 @@ class ImageSource
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
             : $this->$field;
 
-        $value = html_safe($value);
 
+        $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
         if ($textarea)
         {
-            $editing = "<textarea cols='60' rows='6' name='$field'>$value</textarea>";
+            $value = html_safe($value);
+            $editing = "<textarea cols='60' rows='6' name='$field' $maxlength_attr>$value</textarea>";
         }
         else
         {
-            $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
+            $value = attr_safe($value);
             $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr>";
         }
         echo "  <tr>" .
@@ -405,18 +409,14 @@ class ImageSource
     function save_from_post()
     {
         global $errmsgs,$can_edit,$new;
+
         $std_fields = array(
             'display_name','full_name','credit',
             'ok_keep_images','ok_show_images','info_page_visibility',
             'public_comment','internal_comment');
-        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
-            $std_fields_sql .= sprintf(
-                "$field = '%s',\n",
-                mysqli_real_escape_string(DPDatabase::get_connection(), $this->$field)
-            );
         }
 
         // If the URL has no scheme, prepend http:// (unless it's empty)
@@ -448,16 +448,33 @@ class ImageSource
             die;
         }
 
-        $esc_code_name = mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name);
-        $esc_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->url);
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             REPLACE INTO image_sources
             SET
-                code_name = '$esc_code_name',
-                $std_fields_sql
-                url = '$esc_url',
-                is_active = '$this->is_active'
-        ") or die(DPDatabase::log_error());
+                code_name = LEFT('%s', 10),
+                display_name = LEFT('%s', 30),
+                full_name = LEFT('%s', 100),
+                url = LEFT('%s', 200),
+                credit = LEFT('%s', 200),
+                ok_keep_images = %d,
+                ok_show_images = %d,
+                info_page_visibility = %d,
+                public_comment = LEFT('%s', 255),
+                internal_comment = '%s',
+                is_active = %d
+        ", DPDatabase::escape($this->code_name),
+            DPDatabase::escape($this->display_name),
+            DPDatabase::escape($this->full_name),
+            DPDatabase::escape($this->url),
+            DPDatabase::escape($this->credit),
+            DPDatabase::escape($this->ok_keep_images),
+            DPDatabase::escape($this->ok_show_images),
+            DPDatabase::escape($this->info_page_visibility),
+            DPDatabase::escape($this->public_comment),
+            DPDatabase::escape($this->internal_comment),
+            $this->is_active
+        );
+        DPDatabase::query($sql);
     }
 
     function enable()
@@ -498,14 +515,15 @@ class ImageSource
         }
     }
 
-    function _set_field($field,$value)
+    function _set_field($field, $value)
     {
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             UPDATE image_sources
             SET $field = '%s'
             WHERE code_name = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name)));
+        ", DPDatabase::escape($value),
+            DPDatabase::escape($this->code_name));
+        DPDatabase::query($sql);
         $this->$field = $value;
     }
 
