@@ -168,12 +168,9 @@ $( function() {
         // set up the font selector
         Object.keys(fontStyles).forEach(function(index) {
             let fontStyle = fontStyles[index];
-            if(fontStyle) {
-                // do not add empty string
-                let selected = (index === previewStyles.defFontIndex);
-                let option = new Option(fontStyle, index, selected, selected);
-                $fontSelector[0].add(option, null);
-            }
+            let selected = (index === previewStyles.defFontIndex);
+            let option = new Option(fontStyle, index, selected, selected);
+            $fontSelector[0].add(option, null);
         });
         // use value from selector incase the user defined option has been
         // removed and value has changed from 1 to 0
