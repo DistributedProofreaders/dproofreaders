@@ -24,7 +24,8 @@ else {
 }
 
 // try to get bio
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
+$sql = sprintf("SELECT author_id, bio FROM biographies WHERE bio_id=%d;", $id);
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 if (!$row) {
     output_header(_('Invalid biography-id specified'));
@@ -36,7 +37,8 @@ $author_id = $row["author_id"];
 $bio = $row["bio"];
 
 // the author
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT last_name, other_names FROM authors WHERE author_id=$author_id;");
+$sql = sprintf("SELECT last_name, other_names FROM authors WHERE author_id=%d;", $author_id);
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 $last_name = $row["last_name"];
 $other_names = $row["other_names"];

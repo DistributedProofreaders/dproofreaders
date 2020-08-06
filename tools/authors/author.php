@@ -9,7 +9,8 @@ require_login();
 
 $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors WHERE author_id=$author_id");
+$sql = sprintf("SELECT * FROM authors WHERE author_id=%d", $author_id);
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 $last_name = $row["last_name"];
 $other_names = $row["other_names"];

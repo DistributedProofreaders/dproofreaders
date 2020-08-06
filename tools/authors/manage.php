@@ -108,24 +108,34 @@ if (isset($_POST) && count($_POST)>0) {
     $non_deleted_bios = array();
 
     // 1. delete bios
-    foreach ($delete_bios as $bio)
-        mysqli_query(DPDatabase::get_connection(), "DELETE FROM biographies WHERE bio_id = $bio");
+    foreach ($delete_bios as $bio) {
+        $sql = sprintf("DELETE FROM biographies WHERE bio_id = %d", $bio);
+        DPDatabase::query($sql);
+    }
 
     // 2. move bios
     if ($moveTo) {
-        foreach ($move_bios as $bio)
-            mysqli_query(DPDatabase::get_connection(), "UPDATE biographies SET author_id = $moveTo WHERE bio_id = $bio");
+        foreach ($move_bios as $bio) {
+            $sql = sprintf("UPDATE biographies SET author_id = %d WHERE bio_id = %d", $moveTo, $bio);
+            DPDatabase::query($sql);
+        }
     }
 
     // 3. delete authors
     foreach ($delete_authors as $author) {
-        mysqli_query(DPDatabase::get_connection(), "DELETE FROM authors WHERE author_id = $author");
+        $sql = sprintf("DELETE FROM authors WHERE author_id = %d", $author);
+        DPDatabase::query($sql);
     }
 
     // 4. enable/disable authors
     $count = count($enable_author_values);
-    for ($i = 0; $i < $count; $i++)
-        mysqli_query(DPDatabase::get_connection(), "UPDATE authors SET enabled = '${enable_author_values[$i]}' WHERE author_id = ${enable_author_ids[$i]}");
+    for ($i = 0; $i < $count; $i++) {
+        $sql = sprintf(
+            "UPDATE authors SET enabled = '%s' WHERE author_id = %d",
+            DPDatabase::escape($enable_author_values[$i]),
+            $enable_author_ids[$i]);
+        DPDatabase::query($sql);
+    }
 
 }
 
@@ -468,7 +478,8 @@ $i = 0;
 
 while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     $id = $author['author_id'];
-    $bioresult = mysqli_query(DPDatabase::get_connection(), "SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
+    $sql = sprintf("SELECT bio_id FROM biographies WHERE author_id = %d ORDER BY bio_id;", $id);
+    $bioresult = DPDatabase::query($sql);
     $bio_count = mysqli_num_rows($bioresult);
 
     if ($bio_count > 0) {

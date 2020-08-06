@@ -25,20 +25,14 @@ abort_if_not_authors_db_manager(true);
 
 output_header(_("Harvest existing biographies from project comments"));
 
-// Tables must exist (because this script shouldn't need to care about creating them)
-// and be empty (because if they're not, the harvest is likely done in error)
-
-if (!table_exists('authors') || !table_exists('biographies')) {
-    echo _("The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.");
-    exit;
-}
-
-$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM authors');
+$sql = 'SELECT * FROM authors';
+$result = DPDatabase::query($sql);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
     exit;
 }
-$result = mysqli_query(DPDatabase::get_connection(), 'SELECT * FROM biographies');
+$sql = 'SELECT * FROM biographies';
+$result = DPDatabase::query($sql);
 if (mysqli_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
     exit;
@@ -197,36 +191,28 @@ else {
                         dyear, dmonth, dday,
                         bcomments, dcomments, enabled)
                 VALUES ('%s', '%s', $date_fields_str '', '', 'no')
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $last_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $other_names));
+            ", DPDatabase::escape($last_name),
+                DPDatabase::escape($other_names));
             if ($simulating) {
                 echo "<span style='color: red'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
                 $author_id='#new author id#';
             }
             else {
-                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
-                if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the author:") . ' ' . DPDatabase::log_error() . "\n";
-                    exit;
-                }
+                $store_result = DPDatabase::query($query);
                 $author_id = mysqli_insert_id(DPDatabase::get_connection());
                 echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
             }
             $query = sprintf("
                 INSERT INTO biographies
                     (author_id, bio)
-                VALUES(%s, '%s')
-            ", $author_id, mysqli_real_escape_string(DPDatabase::get_connection(), $bio));
+                VALUES(%d, '%s')
+            ", $author_id, DPDatabase::escape($bio));
             if ($simulating)
                 echo "<span style='color: blue'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
             else {
-                $store_result = mysqli_query(DPDatabase::get_connection(), $query);
-                if (!$store_result) {
-                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . DPDatabase::log_error() . "\n";
-                    exit;
-                }
+                $store_result = DPDatabase::query($query);
                 echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysqli_insert_id(DPDatabase::get_connection())) . "\n\n";
             }
         }
@@ -239,10 +225,5 @@ function ensure_digits($digits_or_question_mark) {
 }
 
 echo_menu();
-
-// Returns true if the table exists in the current database, false otherwise.
-function table_exists($tableName) {
-    return ( mysqli_query(DPDatabase::get_connection(), "DESCRIBE $tableName") != FALSE );
-}
 
 // vim: sw=4 ts=4 expandtab
