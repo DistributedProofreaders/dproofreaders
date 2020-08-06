@@ -5,7 +5,7 @@ QUnit.module("srchrep tests", {
     beforeEach: function() {
         // eslint-disable-next-line camelcase
         window.opener = { parent: { docRef: { editform: { text_data: {
-            value: 'Example search and replace search text <i>value</i>.',
+            value: 'Example search -- and replace search text <i>value</i>.',
         } } } } };
         $(document.body).append(`
         <form id='srchrep-form'>
@@ -27,7 +27,18 @@ QUnit.test("replaces all instances", function(assert) {
     srchrep.doReplace();
     assert.strictEqual(
         window.opener.parent.docRef.editform.text_data.value,
-        'Example search and replace search text value.',
+        'Example search -- and replace search text value.',
+        'Search replace replaces all instances.');
+    assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
+});
+
+QUnit.test("replaces -- instances", function(assert) {
+    $('#search').val('--');
+    $('#replace').val('-');
+    srchrep.doReplace();
+    assert.strictEqual(
+        window.opener.parent.docRef.editform.text_data.value,
+        'Example search - and replace search text <i>value</i>.',
         'Search replace replaces all instances.');
     assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
 });
@@ -50,13 +61,13 @@ QUnit.test("restore saved text undoes replace", function(assert) {
     srchrep.doReplace();
     assert.strictEqual(
         window.opener.parent.docRef.editform.text_data.value,
-        'Example sch and replace sch text <i>value</i>.',
+        'Example sch -- and replace sch text <i>value</i>.',
         'Search replace replaces all instances.');
     assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
     srchrep.restoreSavedText();
     assert.strictEqual(
         window.opener.parent.docRef.editform.text_data.value,
-        'Example search and replace search text <i>value</i>.',
+        'Example search -- and replace search text <i>value</i>.',
         'undo restores original text.');
     assert.ok($('#undo').prop('disabled'), 'Undo should be enabled.');
 });
@@ -67,7 +78,7 @@ QUnit.test("supports \\n for newlines as replace value", function(assert) {
     srchrep.doReplace();
     assert.strictEqual(
         window.opener.parent.docRef.editform.text_data.value,
-        'Example s\r\n and replace s\r\n text <i>value</i>.',
+        'Example s\r\n -- and replace s\r\n text <i>value</i>.',
         'Search replace replaces all instances with regular expressions.');
     assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
 });
