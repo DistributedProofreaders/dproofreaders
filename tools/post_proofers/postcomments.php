@@ -18,11 +18,12 @@ if (! $project->PPer_is_current_user || $project->state != PROJ_POST_FIRST_CHECK
   exit;
 }
 
-$qry =  mysqli_query(DPDatabase::get_connection(), sprintf("
-    UPDATE projects
-    SET postcomments = '%s'
-    WHERE projectid = '$projectid'
-", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments)));
+$sql = sprintf("
+  UPDATE projects
+  SET postcomments = '%s'
+  WHERE projectid = '%s'
+", DPDatabase::escape($postcomments), DPDatabase::escape($projectid));
+$qry = DPDatabase::query($sql);
 
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);

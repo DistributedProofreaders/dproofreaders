@@ -85,12 +85,13 @@ $subdate = date('jS \o\f F, Y');
 
 // number of books post-processed by this PPer (including this one).
 $psd = get_project_status_descriptor('PPd');
-$result = mysqli_query(DPDatabase::get_connection(), "
+$sql = sprintf("
     SELECT COUNT(*) AS num_post_processed
     FROM projects
     WHERE $psd->state_selector
-      AND postproofer = '$project->postproofer'
-");
+    AND postproofer = LEFT('%s', 25)
+", DPDatabase::escape($project->postproofer));
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 $number_post_processed = $row["num_post_processed"];
 mysqli_free_result($result);
@@ -106,13 +107,17 @@ mysqli_free_result($result);
 $pp_date = "";
 
 // earliest transition from PPV.avail to PPV.checked out
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT timestamp FROM project_events
-    WHERE projectid = '$projectid'
+$sql = sprintf("SELECT timestamp FROM project_events
+    WHERE projectid = '%s'
       AND event_type = 'transition'
-      AND details1 = '" . PROJ_POST_SECOND_AVAILABLE . "'
-      AND details2 = '" . PROJ_POST_SECOND_CHECKED_OUT . "'
+      AND details1 = '%s'
+      AND details2 = '%s'
     ORDER BY timestamp ASC
-    LIMIT 1");
+    LIMIT 1", 
+    DPDatabase::escape($projectid),
+    DPDatabase::escape(PROJ_POST_SECOND_AVAILABLE),
+    DPDatabase::escape(PROJ_POST_SECOND_CHECKED_OUT));
+$result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 mysqli_free_result($result);
 if ($row)
@@ -120,14 +125,20 @@ if ($row)
     $earliest_in_ppv = $row["timestamp"];
 
     // latest transition from PP.checked out to PPV.avail
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT timestamp FROM project_events
-        WHERE projectid = '$projectid'
+    $sql = sprintf("SELECT timestamp FROM project_events
+        WHERE projectid = '%s'
           AND event_type = 'transition'
-          AND details1 = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
-          AND details2 = '" . PROJ_POST_SECOND_AVAILABLE . "'
-          AND timestamp < $earliest_in_ppv
+          AND details1 = '%s'
+          AND details2 = '%s'
+          AND timestamp < %d
         ORDER BY timestamp DESC
-        LIMIT 1");
+        LIMIT 1",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape(PROJ_POST_FIRST_CHECKED_OUT),
+        DPDatabase::escape(PROJ_POST_SECOND_AVAILABLE),
+        $earliest_in_ppv
+    );
+    $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     if ($row)
