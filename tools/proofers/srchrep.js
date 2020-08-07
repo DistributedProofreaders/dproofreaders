@@ -24,7 +24,9 @@ var srchrep = (function() {
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(
             new RegExp(search,'gu'),
-            replacetext);
+            function () {
+                return replacetext;
+            });
         setUndoButtonDisabled(false);
     }
 
