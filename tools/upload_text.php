@@ -3,7 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'project_trans.inc');
+include_once($relPath.'project_trans.inc'); // project_transition()
 include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
@@ -293,6 +293,15 @@ else
         if ($stage == 'smooth_done')
         {
             notify_project_event_subscribers( $project, 'sr_reported' );
+        }
+
+        if (($stage == "in_prog_1") || ($stage == "in_prog_2"))
+        {
+            // record postcomments in projects table
+            $esc_comments = DPDatabase::escape($postcomments);
+            DPDatabase::query("UPDATE projects
+                SET postcomments = CONCAT(postcomments, '$esc_comments')
+                WHERE projectid = '$projectid'");
         }
 
         // let them know file uploaded and send back to the right place
