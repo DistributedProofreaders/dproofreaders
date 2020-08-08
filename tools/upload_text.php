@@ -345,7 +345,11 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
         $zipext = ".zip";
         $name = $project->projectid . $indicator . $zipext;
         $location = "$project->dir/$name";
-        ensure_path_is_unused( $location );
+        // for smooth uploads overwrite any previous file without making a backup
+        if (($stage != 'smooth_done') AND ($stage != 'smooth_avail'))
+        {
+            make_backup($location);
+        }
         $move_result = rename($temporary_path, $location);
         if(!$move_result)
         {
@@ -415,32 +419,22 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 }
 
 #----------------------------------------------------------------------------
-
-// Ensure that nothing exists at $path.
-// (If something's there, rename it.)
-// EXCEPT: let people overwrite their finished SR files as often as they want
-function ensure_path_is_unused( $path )
+function make_backup($path)
 {
-    global $stage, $db_requests_email_addr;
+    global $db_requests_email_addr;
 
-    if ( file_exists($path) )
+    if(file_exists($path))
     {
-
-        if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
-
-            $bak = "$path.bak";
-            ensure_path_is_unused( $bak );
-            $success = rename( $path, $bak );
-            if (!$success)
-            {
-                // It will already have printed a warning.
-                die( sprintf(
-                    _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-                    $db_requests_email_addr) );
-            }
-        } else {
-
-            unlink($path);
+        // make a name incorporating the time the file was last modified
+        $path_parts = pathinfo($path);
+        $bakname = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_" . filemtime($path) . "." . $path_parts['extension'];
+        $success = rename($path, $bakname);
+        if (!$success)
+        {
+            // It will already have printed a warning.
+            die( sprintf(
+                _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
+                $db_requests_email_addr) );
         }
     }
 }
