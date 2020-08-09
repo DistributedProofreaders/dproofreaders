@@ -88,9 +88,9 @@ $psd = get_project_status_descriptor('PPd');
 $sql = sprintf("
     SELECT COUNT(*) AS num_post_processed
     FROM projects
-    WHERE $psd->state_selector
+    WHERE %s
     AND postproofer = LEFT('%s', 25)
-", DPDatabase::escape($project->postproofer));
+", $psd->state_selector, DPDatabase::escape($project->postproofer));
 $result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 $number_post_processed = $row["num_post_processed"];
