@@ -1797,7 +1797,7 @@ function do_post_files()
 function echo_upload_backup($projectid, $text, $stage)
 {
     global $code_url;
-    echo "<li>";
+    echo "<li class='spaced'>";
     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=$stage'>$text</a>";
     echo "</li>";
 }
