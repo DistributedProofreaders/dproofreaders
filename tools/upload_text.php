@@ -343,13 +343,20 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
         zip_check($original_name, $temporary_path);
         // replace filename
         $zipext = ".zip";
-        $name = $project->projectid . $indicator . $zipext;
-        $location = "$project->dir/$name";
-        // for smooth uploads overwrite any previous file without making a backup
-        if (($stage != 'smooth_done') AND ($stage != 'smooth_avail'))
+        $base_name = $project->projectid . $indicator;
+
+        if (($stage == 'smooth_done') || ($stage == 'smooth_avail'))
         {
-            make_backup($location);
+            // for smooth uploads overwrite any previous file
+            $name = $base_name . $zipext;
         }
+        else
+        {
+            // make a name with the next serial number
+            $name = make_serial_name($project->dir, $base_name, $zipext);
+        }
+
+        $location = "$project->dir/$name";
         $move_result = rename($temporary_path, $location);
         if(!$move_result)
         {
@@ -419,22 +426,15 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 }
 
 #----------------------------------------------------------------------------
-function make_backup($path)
+// make a file name with next serial number inserted before extension
+function make_serial_name($directory, $base, $ext)
 {
-    global $db_requests_email_addr;
-
-    if(file_exists($path))
+    for($serial = 1; ; $serial += 1)
     {
-        // make a name incorporating the time the file was last modified
-        $path_parts = pathinfo($path);
-        $bakname = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_" . filemtime($path) . "." . $path_parts['extension'];
-        $success = rename($path, $bakname);
-        if (!$success)
+        $file_name = "{$base}_$serial$ext";
+        if(!file_exists("$directory/$file_name"))
         {
-            // It will already have printed a warning.
-            die( sprintf(
-                _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-                $db_requests_email_addr) );
+            return $file_name;
         }
     }
 }
