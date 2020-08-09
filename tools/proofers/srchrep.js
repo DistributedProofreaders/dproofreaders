@@ -8,7 +8,7 @@ var srchrep = (function() {
     }
 
     function escapeRegExp(string) {
-        return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
     }
 
     function setUndoButtonDisabled(state) {
@@ -24,7 +24,9 @@ var srchrep = (function() {
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(
             new RegExp(search,'gu'),
-            replacetext);
+            function () {
+                return replacetext;
+            });
         setUndoButtonDisabled(false);
     }
 
