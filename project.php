@@ -1661,7 +1661,7 @@ function do_post_files()
             echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
             echo "</li>";
 
-            if($project->PPer_is_current_user)
+            if($project->can_be_managed_by_current_user)
             {
                 echo_upload_backup($projectid, _("Upload a partially post-processed file as a backup"), "in_prog_1");
             }
@@ -1674,7 +1674,7 @@ function do_post_files()
             echo_uploaded_zips('_second_in_prog_', _('partially verified'));
             echo "</li>";
 
-            if($project->PPVer_is_current_user)
+            if($project->can_be_managed_by_current_user)
             {
                 echo_upload_backup($projectid, _("Upload a partially verified file as a backup"), "in_prog_2");
             }
