@@ -120,7 +120,7 @@ function charsuite_list($charsuites, $project_charsuites)
     {
         echo "<label><input type='checkbox' name='charsuites[]' value='".attr_safe($k)."'";
         if (@$existing_charsuites[$k]) { echo " checked"; }
-        echo ">" . html_safe($v) . "</label><br />";
+        echo ">" . html_safe($v) . "</label><br>";
         echo "\n";
     }
 }
