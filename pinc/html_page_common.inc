@@ -16,6 +16,10 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     global $code_url, $site_abbreviation;
     global $charset;
 
+    static $was_output = false;
+    if($was_output)
+        return;
+
     $intlang = get_desired_language();
 
     // HTML 5 dictates that ISO-8859-1 documents should declare their charset
