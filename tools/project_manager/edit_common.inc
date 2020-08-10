@@ -116,15 +116,13 @@ function charsuite_list($charsuites, $project_charsuites)
     }
 
     ksort($all_charsuites);
-    echo "<select name='charsuites[]' required multiple size='3'>\n";
     foreach($all_charsuites as $k=>$v)
     {
-        echo "<option value='".attr_safe($k)."'";
-        if (@$existing_charsuites[$k]) { echo " SELECTED"; }
-        echo ">" . html_safe($v) . "</option>";
+        echo "<label><input type='checkbox' name='charsuites[]' value='".attr_safe($k)."'";
+        if (@$existing_charsuites[$k]) { echo " checked"; }
+        echo ">" . html_safe($v) . "</label><br />";
         echo "\n";
     }
-    echo "</select>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
