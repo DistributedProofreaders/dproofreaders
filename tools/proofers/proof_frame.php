@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
@@ -113,7 +114,8 @@ else
 
     setDebounceInfo( $lpage->projectid );
 
-    $ppage = new PPage( $lpage, $proj_state );
+    $url = "$code_url/tools/proofers/proof_frame.php?projectid=$lpage->projectid&imagefile=$lpage->imagefile&proj_state=$proj_state&page_state=$lpage->page_state";
+    metarefresh(0, $url);
 }
 
 echo_proof_frame($ppage);
