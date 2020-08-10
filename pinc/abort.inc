@@ -1,9 +1,12 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'slim_header.inc'); // html_safe()
 include_once($relPath.'misc.inc'); // html_safe()
 
 function abort( $error_message )
 {
+    slim_header(_("Error"));
+
     echo "<p>";
     echo _("We are unable to complete your request.");
     echo "</p>\n";
@@ -17,9 +20,8 @@ function abort( $error_message )
 
     echo "<hr>\n";
 
+    echo "<p class='error'>$error_message</p>\n";
     echo "<pre>\n";
-    echo _("error message"), ": $error_message\n";
-    echo "\n";
     dump_request_info();
 
     if (0)
