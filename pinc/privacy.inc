@@ -14,7 +14,8 @@ function can_reveal_details_about( $username, $user_privacy_setting )
 
         case PRIVACY_ANONYMOUS:
             // Details are visible to the user him/herself and to Site Admins.
-            return !is_null($pguser) && ( $pguser == $username || user_is_a_sitemanager() );
+            // and Project Facilitators
+            return !is_null($pguser) && ( $pguser == $username || user_is_proj_facilitator() );
 
         default:
             // Shouldn't happen.
