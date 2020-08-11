@@ -80,7 +80,7 @@ output_section(
     _('Tracking information'),
     array(
         _('%s tracks your User Name, the date your account was created and your last login date.'),
-        _('If you set your statistics to "anonymous," the date your account was created and your last login date will be visible only to administrators.'),
+        _('If you set your statistics to "anonymous", the date your account was created and your last login date will be visible only to administrators.'),
         _('Otherwise, they will be visible to other logged-in users.'),
      ),
     array(
@@ -96,8 +96,8 @@ output_section(
 output_section(
     _('Sharing Information'),
     array(
-        _('For the purposes of this policy, the term "%s site administrators" includes the General Manager (GM) and the members of the GM\'s staff with the rank of "squirrel."'),
-        _('"%s administrators" includes site administrators and "project facilitators."'),
+        _('For the purposes of this policy, the term "%s site administrators" includes the General Manager (GM) and the members of the GM\'s staff with the rank of "squirrel".'),
+        _('"%s administrators" includes site administrators and "project facilitators".'),
         _('The terms "site administrator" and "administrator" refer to roles associated with the %1$s website.'),
     ),
     array(
