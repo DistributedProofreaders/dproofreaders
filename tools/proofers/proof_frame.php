@@ -74,17 +74,13 @@ else
         $npage=getDebounceInfo();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$projectid)
         {
-                // It probably doesn't matter what we say here.
-                // 1) Indications are that users will never see this.
-                // 2) The important thing is that we neither assign the user a
-                //    new page, nor send a proofing interface.
-                header('HTTP/1.1 409 Conflict');
-                echo "<p>";
-                echo sprintf(_("We received two near-simultaneous requests from you for the same resource, so we are ignoring the second one (other than to send this error message). If you are unsure of why this happened, please inform a <a href='%s'>Site Admin</a> that you received this message."),
-                             "mailto:".$GLOBALS['site_manager_email_addr']);
-                echo "</p>";
-                provide_escape_links();
-                exit();
+            // It probably doesn't matter what we say here.
+            // 1) Indications are that users will never see this.
+            // 2) The important thing is that we neither assign the user a
+            //    new page, nor send a proofing interface.
+            header('HTTP/1.1 409 Conflict');
+            $message = _("We received two near-simultaneous requests from you for the same resource, so we are ignoring the second one (other than to send this error message).");
+            abort($message);
         }
     }
 
