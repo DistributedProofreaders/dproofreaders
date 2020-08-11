@@ -6,8 +6,6 @@ $charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Greek_and_Coptic
     'U+02b9',
     'U+0375',
-    'U+003b',
-    'U+00b7',
     'U+0391-U+03a1',
     'U+03a3-U+03a9',
     'U+03aa-U+03ab',
@@ -93,58 +91,65 @@ $charsuite->reference_urls = [
 ];
 
 $pickerset = new PickerSet();
+
 $pickerset->add_subset(utf8_chr('U+0391') . '-' . utf8_chr('U+03a9'), [
     [ 'U+0391-U+03a1', NULL, 'U+03a3-U+03a9' ], # capital alpha through omega
     [ 'U+03b1-U+03c9' ], # lowercase alpha through omega
 ]);
-$pickerset->add_subset(utf8_chr('U+0386'), [
-    [ 'U+0386', 'U+1fba', NULL, 'U+1f08', 'U+1f09', 'U+1f0c', 'U+1f0d', 'U+1f0a', 
-      'U+1f0b', 'U+1f0e', 'U+1f0f', 'U+1fbc', NULL, NULL, NULL, 'U+1f88', 'U+1f89',
-      'U+1f8c', 'U+1f8d', 'U+1f8a', 'U+1f8b', 'U+1f8e', 'U+1f8f'  ],
+
+$pickerset->add_subset(utf8_chr('U+03ac'), [
+    [ NULL, NULL, NULL, 'U+1f08', 'U+1f09', 'U+1f0c', 'U+1f0d', 'U+1f0a', 
+      'U+1f0b', 'U+1f0e', 'U+1f0f' ],
     [ 'U+03ac', 'U+1f70', 'U+1fb6', 'U+1f00', 'U+1f01', 'U+1f04', 'U+1f05', 'U+1f02', 
       'U+1f03', 'U+1f06', 'U+1f07', 'U+1fb3', 'U+1fb4', 'U+1fb2', 'U+1fb7', 'U+1f80', 
       'U+1f81', 'U+1f84', 'U+1f85', 'U+1f82', 'U+1f83', 'U+1f86', 'U+1f87' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+0388'), [
-    [ 'U+0388', 'U+1fc8', 'U+1f18', 'U+1f19', 'U+1f1c', 'U+1f1d', 'U+1f1a', 'U+1f1b' ],
+
+$pickerset->add_subset(utf8_chr('U+03ad'), [
+    [ NULL, NULL, 'U+1f18', 'U+1f19', 'U+1f1c', 'U+1f1d', 'U+1f1a', 'U+1f1b' ],
     [ 'U+03ad', 'U+1f72', 'U+1f10', 'U+1f11', 'U+1f14', 'U+1f15', 'U+1f12', 'U+1f13' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+0389'), [
-    [ 'U+0389', 'U+1fca', NULL, 'U+1f28', 'U+1f29', 'U+1f2c', 'U+1f2d', 'U+1f2a', 
-      'U+1f2b', 'U+1f2e', 'U+1f2f', 'U+1fcc', NULL, NULL, NULL, 'U+1f98', 'U+1f99',
-      'U+1f9c', 'U+1f9d', 'U+1f9a', 'U+1f9b', 'U+1f9e', 'U+1f9f', ],
+
+$pickerset->add_subset(utf8_chr('U+03ae'), [
+    [ NULL, NULL, NULL, 'U+1f28', 'U+1f29', 'U+1f2c', 'U+1f2d', 'U+1f2a', 
+      'U+1f2b', 'U+1f2e', 'U+1f2f' ],
     [ 'U+03ae', 'U+1f74', 'U+1fc6', 'U+1f20', 'U+1f21', 'U+1f24', 'U+1f25', 'U+1f22',
       'U+1f23', 'U+1f26', 'U+1f27', 'U+1fc3', 'U+1fc4', 'U+1fc2', 'U+1fc7', 'U+1f90',
       'U+1f91', 'U+1f94', 'U+1f95', 'U+1f92', 'U+1f93', 'U+1f96', 'U+1f97' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+038a'), [
-    [ 'U+038a', 'U+1fda', NULL, 'U+1f38', 'U+1f39', 'U+1f3c', 'U+1f3d', 'U+1f3a', 
+
+$pickerset->add_subset(utf8_chr('U+03af'), [
+    [ NULL, NULL, NULL, 'U+1f38', 'U+1f39', 'U+1f3c', 'U+1f3d', 'U+1f3a', 
       'U+1f3b', 'U+1f3e', 'U+1f3f', 'U+03aa' ],
     [ 'U+03af', 'U+1f76', 'U+1fd6', 'U+1f30', 'U+1f31', 'U+1f34', 'U+1f35', 'U+1f32',
       'U+1f33', 'U+1f36', 'U+1f37', 'U+03ca', 'U+0390', 'U+1fd2', 'U+1fd7' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+038c'), [
-    [ 'U+038c', 'U+1ff8', 'U+1f48', 'U+1f49', 'U+1f4c', 'U+1f4d', 'U+1f4a', 'U+1f4b' ],
+
+$pickerset->add_subset(utf8_chr('U+03cc'), [
+    [ NULL, NULL, 'U+1f48', 'U+1f49', 'U+1f4c', 'U+1f4d', 'U+1f4a', 'U+1f4b' ],
     [ 'U+03cc', 'U+1f78', 'U+1f40', 'U+1f41', 'U+1f44', 'U+1f45', 'U+1f42', 'U+1f43' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+1fec'), [
+
+$pickerset->add_subset(utf8_chr('U+1fe4'), [
     [ NULL, 'U+1fec' ],
     [ 'U+1fe4', 'U+1fe5' ],
 ]);
-$pickerset->add_subset(utf8_chr('U+038e'), [
-    [ 'U+038e', 'U+1fea', NULL, NULL, 'U+1f59', NULL, 'U+1f5d', NULL,
+
+$pickerset->add_subset(utf8_chr('U+03cd'), [
+    [ NULL, NULL, NULL, NULL, 'U+1f59', NULL, 'U+1f5d', NULL,
       'U+1f5b',NULL, 'U+1f5f', 'U+03ab' ],
     [ 'U+03cd', 'U+1f7a', 'U+1fe6', 'U+1f50', 'U+1f51', 'U+1f54', 'U+1f55', 'U+1f52',
       'U+1f53', 'U+1f56', 'U+1f57', 'U+03cb', 'U+03b0', 'U+1fe2', 'U+1fe7'  ],
 ]);
-$pickerset->add_subset(utf8_chr('U+038f'), [
-    [ 'U+038f', 'U+1ffa', NULL, 'U+1f68', 'U+1f69', 'U+1f6c', 'U+1f6d', 'U+1f6a',
-     'U+1f6b', 'U+1f6e', 'U+1f6f', 'U+1ffc', NULL, NULL, NULL, 'U+1fa8', 'U+1fa9',
-     'U+1fac', 'U+1fad', 'U+1faa', 'U+1fab', 'U+1fae', 'U+1faf' ],
+
+$pickerset->add_subset(utf8_chr('U+03ce'), [
+    [ NULL, NULL, NULL, 'U+1f68', 'U+1f69', 'U+1f6c', 'U+1f6d', 'U+1f6a',
+     'U+1f6b', 'U+1f6e', 'U+1f6f' ],
     [ 'U+03ce', 'U+1f7c', 'U+1ff6', 'U+1f60', 'U+1f61', 'U+1f64', 'U+1f65', 'U+1f62',
       'U+1f63', 'U+1f66', 'U+1f67', 'U+1ff3', 'U+1ff4', 'U+1ff2', 'U+1ff7', 'U+1fa0',
       'U+1fa1', 'U+1fa4', 'U+1fa5', 'U+1fa2', 'U+1fa3', 'U+1fa6', 'U+1fa7' ],
 ]);
+
 $charsuite->pickerset = $pickerset;
 
 CharSuites::add($charsuite);
