@@ -39,7 +39,7 @@ if ( $can_reveal )
 {
     if ( $user->u_privacy == PRIVACY_ANONYMOUS )
     {
-        $visibility_note = _("These stats are visible to Site Admins and the user only.");
+        $visibility_note = _("These stats are visible to Site Admins, Project Facilitators and the user only.");
         echo "<i>($visibility_note)</i><br>\n";
     }
     showMbrInformation( $user, $tally_name );
