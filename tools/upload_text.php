@@ -87,7 +87,7 @@ else if ($stage == 'in_prog_2')
     $submit_label = _("Upload file");
     $indicator = "_second_in_prog_".$pguser;
     $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
-    $user_is_able_to_perform_action = PPVer_is_current_user || user_is_a_sitemanager();
+    $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
