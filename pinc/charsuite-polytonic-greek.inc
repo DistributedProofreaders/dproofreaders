@@ -99,8 +99,7 @@ $pickerset->add_subset(utf8_chr('U+0391') . '-' . utf8_chr('U+03a9'), [
 
 $pickerset->add_subset(utf8_chr('U+03ac'), [
     [ NULL, NULL, NULL, 'U+1f08', 'U+1f09', 'U+1f0c', 'U+1f0d', 'U+1f0a', 
-      'U+1f0b', 'U+1f0e', 'U+1f0f', NULL, NULL, NULL, NULL, NULL, NULL,
-      NULL, NULL, NULL, NULL, NULL, NULL ],
+      'U+1f0b', 'U+1f0e', 'U+1f0f' ],
     [ 'U+03ac', 'U+1f70', 'U+1fb6', 'U+1f00', 'U+1f01', 'U+1f04', 'U+1f05', 'U+1f02', 
       'U+1f03', 'U+1f06', 'U+1f07', 'U+1fb3', 'U+1fb4', 'U+1fb2', 'U+1fb7', 'U+1f80', 
       'U+1f81', 'U+1f84', 'U+1f85', 'U+1f82', 'U+1f83', 'U+1f86', 'U+1f87' ],
@@ -113,8 +112,7 @@ $pickerset->add_subset(utf8_chr('U+03ad'), [
 
 $pickerset->add_subset(utf8_chr('U+03ae'), [
     [ NULL, NULL, NULL, 'U+1f28', 'U+1f29', 'U+1f2c', 'U+1f2d', 'U+1f2a', 
-      'U+1f2b', 'U+1f2e', 'U+1f2f', NULL, NULL, NULL, NULL, NULL, NULL,
-      NULL, NULL, NULL, NULL, NULL, NULL ],
+      'U+1f2b', 'U+1f2e', 'U+1f2f' ],
     [ 'U+03ae', 'U+1f74', 'U+1fc6', 'U+1f20', 'U+1f21', 'U+1f24', 'U+1f25', 'U+1f22',
       'U+1f23', 'U+1f26', 'U+1f27', 'U+1fc3', 'U+1fc4', 'U+1fc2', 'U+1fc7', 'U+1f90',
       'U+1f91', 'U+1f94', 'U+1f95', 'U+1f92', 'U+1f93', 'U+1f96', 'U+1f97' ],
@@ -146,8 +144,7 @@ $pickerset->add_subset(utf8_chr('U+03cd'), [
 
 $pickerset->add_subset(utf8_chr('U+03ce'), [
     [ NULL, NULL, NULL, 'U+1f68', 'U+1f69', 'U+1f6c', 'U+1f6d', 'U+1f6a',
-     'U+1f6b', 'U+1f6e', 'U+1f6f', NULL, NULL, NULL, NULL, NULL,
-     NULL, NULL, NULL, NULL, NULL, NULL, NULL ],
+     'U+1f6b', 'U+1f6e', 'U+1f6f' ],
     [ 'U+03ce', 'U+1f7c', 'U+1ff6', 'U+1f60', 'U+1f61', 'U+1f64', 'U+1f65', 'U+1f62',
       'U+1f63', 'U+1f66', 'U+1f67', 'U+1ff3', 'U+1ff4', 'U+1ff2', 'U+1ff7', 'U+1fa0',
       'U+1fa1', 'U+1fa4', 'U+1fa5', 'U+1fa2', 'U+1fa3', 'U+1fa6', 'U+1fa7' ],
