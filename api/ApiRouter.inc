@@ -52,7 +52,7 @@ class ApiRouter
             {
                 list($param_name, $validator) = $this->get_validator($url_map);
                 $url_map = &$url_map[$param_name];
-                $data[$param_name] = $validator($part);
+                $data[$param_name] = $validator($part, $data);
             }
         }
         if(!isset($url_map["endpoint"]))
