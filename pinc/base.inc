@@ -26,8 +26,6 @@ if(!headers_sent())
     header("X-Frame-Options: SAMEORIGIN");
 }
 
-include_once($relPath.'dpsession.inc');
-
 // If we don't have a database connection, don't try to resume the session.
 if(DPDatabase::get_connection())
     $user_is_logged_in = dpsession_resume();
