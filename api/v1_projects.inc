@@ -184,6 +184,64 @@ function api_v1_project_wordlists($method, $data, $query_params)
 }
 
 //---------------------------------------------------------------------------
+// projects/:projectid/pages
+
+function api_v1_project_pages($method, $data, $query_params)
+{
+    return $data[":projectid"]->get_page_names_from_db();
+}
+
+//---------------------------------------------------------------------------
+// projects/:projectid/pages/:pagename/pagerounds/:pageroundid
+
+function api_v1_project_page_round($method, $data, $query_params)
+{
+    if($data[":pageroundid"] == "OCR")
+    {
+        $text_column = "master_text";
+        $user_column = "NULL";
+    }
+    else
+    {
+        $round = get_Round_for_round_id($data[":pageroundid"]);
+        $text_column = $round->text_column_name;
+        $user_column = $round->user_column_name;
+    }
+
+    $sql = sprintf("
+        SELECT
+            image,
+            %s AS text,
+            %s AS user,
+            state
+        FROM %s
+        WHERE image = '%s'
+    ", $text_column, $user_column, $data[":projectid"]->projectid,
+        DPDatabase::escape($data[":pagename"])
+    );
+    $result = DPDatabase::query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
+
+    # We can't show the username here unless the user has proofed the page
+    # in one round or they are an PF/SA. We need to abstract the conditional
+    # logic out of tools/project_manager/page_detail.inc
+    unset($row["user"]);
+
+    return render_project_page_json($row);
+}
+
+function render_project_page_json($row)
+{
+    return [
+        "pagename" => $row["image"],
+        "image_url" => $row["image_url"],
+        "text" => $row["text"],
+        "state" => $row["state"],
+    ];
+}
+
+//---------------------------------------------------------------------------
 // projects/difficulties
 
 function api_v1_projects_difficulties($method, $data, $query_params)
@@ -223,3 +281,12 @@ function api_v1_projects_states($method, $data, $query_params)
     return array_keys($states);
 }
 
+//---------------------------------------------------------------------------
+// projects/pagerounds
+
+function api_v1_projects_pagerounds($method, $data, $query_params)
+{
+    global $Round_for_round_id_;
+
+    return array_merge(["OCR"], array_keys($Round_for_round_id_));
+}
