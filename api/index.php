@@ -48,12 +48,21 @@ function api_authenticate()
     $api_key = @$_SERVER['HTTP_X_API_KEY'];
     if($api_key)
     {
-        try {
-            $user = User::load_from_api_key($api_key);
-        } catch (NonexistentUserException $exception) {
-            throw new UnauthorizedError();
+        // If the api_key is "SESSION" attempt to load the user session
+        if($api_key == "SESSION")
+        {
+            dpsession_resume();
         }
-        $pguser = $user->username;
+        // Otherwise use the API key in the HTTP header
+        else
+        {
+            try {
+                $user = User::load_from_api_key($api_key);
+            } catch (NonexistentUserException $exception) {
+                throw new UnauthorizedError();
+            }
+            $pguser = $user->username;
+        }
     }
 
     if(!isset($pguser))

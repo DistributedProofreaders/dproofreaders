@@ -50,6 +50,10 @@ try {
         throw $e;
 }
 
+// Load the session libraries, but allow base.inc and api/index.php to do
+// the start/resume.
+include_once($relPath.'dpsession.inc');
+
 //----------------------------------------------------------------------------
 
 // Autoloading functions for DP classes in pinc/
