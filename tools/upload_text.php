@@ -298,10 +298,13 @@ else
         if (($stage == "in_prog_1") || ($stage == "in_prog_2"))
         {
             // record postcomments in projects table
-            $esc_comments = DPDatabase::escape($postcomments);
-            DPDatabase::query("UPDATE projects
-                SET postcomments = CONCAT(postcomments, '$esc_comments')
-                WHERE projectid = '$projectid'");
+            $sql = sprintf("
+                UPDATE projects
+                SET postcomments = CONCAT(postcomments, '%s')
+                WHERE projectid = '%s'
+            ", DPDatabase::escape($postcomments),
+                DPDatabase::escape($projectid));
+            DPDatabase::query($sql);
         }
 
         // let them know file uploaded and send back to the right place
