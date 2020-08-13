@@ -2,6 +2,7 @@
 include_once("ApiRouter.inc");
 
 // DP API v1
+include_once("v1_validators.inc");
 include_once("v1_projects.inc");
 include_once("v1_stats.inc");
 
