@@ -7,31 +7,6 @@ include_once("exceptions.inc");
 // DP API v1 -- Projects
 
 //===========================================================================
-// Validators
-
-function validate_project($projectid)
-{
-    // validate and load the specified projectid
-    try
-    {
-        return new Project($projectid);
-    }
-    catch(NonexistentProjectException $exception)
-    {
-        throw new NotFoundError("No such project ID");
-    }
-}
-
-function validate_wordlist($wordlist)
-{
-    if(!in_array($wordlist, ["good", "bad"]))
-    {
-        throw new NotFoundError();
-    }
-    return $wordlist;
-}
-
-//===========================================================================
 // projects/
 
 function api_v1_projects($method, $data, $query_params)

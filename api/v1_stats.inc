@@ -3,20 +3,6 @@ include_once("exceptions.inc");
 
 // DP API v1 -- Stats
 
-//===========================================================================
-// Validators
-
-function validate_round($roundid)
-{
-    global $Round_for_round_id_;
-
-    if(!in_array($roundid, array_keys($Round_for_round_id_)))
-    {
-        throw new NotFoundError("Invalid round");
-    }
-    return $Round_for_round_id_[$roundid];
-}
-
 //---------------------------------------------------------------------------
 // stats/site
 
