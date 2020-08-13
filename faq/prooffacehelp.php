@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'faq.inc');
 
+$i_type = 0;
 if ( isset($_GET['i_type']) )
 {
     $i_type = $_GET['i_type'];
@@ -11,7 +12,10 @@ if ( isset($_GET['i_type']) )
 else
 {
     $user = User::load_current();
-    $i_type = $user->profile->i_type;
+    if($user)
+    {
+        $i_type = $user->profile->i_type;
+    }
 }
 
 // -----------------------------------------------------------------------------
