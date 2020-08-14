@@ -93,6 +93,7 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     $js_files = array(
         "$code_url/pinc/3rdparty/jquery/jquery-3.5.1.min.js",
         "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
+        "$code_url/scripts/api.js",
     );
 
     // Per-page JS
@@ -106,12 +107,13 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     }
 
     // Per-page Javascript
+    echo "<script>\n";
+    echo "const codeUrl = '$code_url';\n";
     if (isset($extra_args['js_data']))
     {
-        echo "<script>\n" .
-            $extra_args['js_data'] .
-            "</script>\n";
+        echo $extra_args['js_data'];
     }
+    echo "</script>\n";
 
     // Any additional head tags
     if(isset($extra_args['head_data']))
