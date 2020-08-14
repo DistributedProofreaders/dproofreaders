@@ -25,7 +25,7 @@ $title = _("Display Image for page");
 $js_files = [
     "$code_url/scripts/page_browse.js",
     "$code_url/tools/display_image.js",
-    ];
+];
 
 $header_args = [
     "js_files" => $js_files,
