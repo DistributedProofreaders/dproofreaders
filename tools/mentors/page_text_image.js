@@ -33,7 +33,7 @@ $(function () {
 
             let theTextControl = textControl();
             let topTextDiv = $("<div>").append(theTextControl.textArea);
-            let blankDiv = $("<div>");
+            let blankDiv = $("<div>", {class: 'image-back'});
             let textDiv = $("<div>").append(topTextDiv, blankDiv);
 
             stretchDiv.append(imageDiv, textDiv);
