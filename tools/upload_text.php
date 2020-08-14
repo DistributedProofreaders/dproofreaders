@@ -3,7 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'project_trans.inc');
+include_once($relPath.'project_trans.inc'); // project_transition()
 include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
@@ -16,7 +16,7 @@ detect_too_large();
 require_login();
 
 $projectid = get_projectID_param($_REQUEST, 'project');
-$valid_stages = array('post_1', 'return_1', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
+$valid_stages = array('post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
 // $stage==smooth_avail controls sr, 2 cases:
 // days given: upload a file & make sr available first time or after finished for days from now.
@@ -38,6 +38,9 @@ if (($stage == 'post_1' || $stage == 'return_1') &&
     metarefresh(10, "$code_url/project.php?id=$projectid", $title, $body);
 }
 
+// default comment box title, set to null for no comment box
+$comment_title = _("(optional) Leave comments for the next person who checks out this project:");
+
 $error_messages = array();
 if ($stage == 'post_1')
 {
@@ -51,6 +54,19 @@ if ($stage == 'post_1')
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
 }
+else if ($stage == 'in_prog_1')
+{
+    $title = _("Upload a Backup File");
+    $intro_blurb = _("This page allows you to upload a partially post-processed file as a backup.");
+    $submit_label = _("Upload file");
+    $indicator = "_first_in_prog_".$pguser;
+    $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
+    $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
+    $new_state = PROJ_POST_FIRST_CHECKED_OUT;
+    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
+    $back_blurb = _("Project Page");
+    $comment_title = _("Comments:");
+}
 else if ($stage == 'return_1')
 {
     $title = _("Return project to the post-processing pool");
@@ -63,6 +79,19 @@ else if ($stage == 'return_1')
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
+}
+else if ($stage == 'in_prog_2')
+{
+    $title = _("Upload a Backup File");
+    $intro_blurb = _("This page allows you to upload a partially verified file as a backup.");
+    $submit_label = _("Upload file");
+    $indicator = "_second_in_prog_".$pguser;
+    $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
+    $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
+    $new_state = PROJ_POST_SECOND_CHECKED_OUT;
+    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
+    $back_blurb = _("Project Page");
+    $comment_title = _("Comments:");
 }
 else if ($stage == 'return_2')
 {
@@ -104,6 +133,7 @@ else if ($stage == 'smooth_avail')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
     $back_blurb = _("Project Page");
+    $comment_title = _("Leave instructions for smooth readers:");
 }
 else if ($stage == 'smooth_done')
 {
@@ -122,6 +152,7 @@ else if ($stage == 'smooth_done')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
+    $comment_title = null;
 }
 else if(!$stage)
 {
@@ -179,17 +210,11 @@ if (!isset($action))
             <input type='hidden' name='stage' value='$stage'>
             <input type='hidden' name='days' value='$days'>
             <input type='hidden' name='action' value='1'>";
-        if ($stage != 'smooth_done')
+        if($comment_title)
         {
-            if ($stage != 'smooth_avail')
-            {
-                $form_content .= _("(optional) Leave comments for the next person who checks out this project:");
-            }
-            else
-            {
-                $form_content .= _("Leave instructions for smooth readers:");
-            }
+            $form_content .= $comment_title;
             $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='5'></textarea>\n";
+
             if($returning_to_pool)
             {
                 $form_content .= "<br><input type='submit' value='" . attr_safe($submit_label_sans_file) . "'>\n";
@@ -270,6 +295,18 @@ else
             notify_project_event_subscribers( $project, 'sr_reported' );
         }
 
+        if (($stage == "in_prog_1") || ($stage == "in_prog_2"))
+        {
+            // record postcomments in projects table
+            $sql = sprintf("
+                UPDATE projects
+                SET postcomments = CONCAT(postcomments, '%s')
+                WHERE projectid = '%s'
+            ", DPDatabase::escape($postcomments),
+                DPDatabase::escape($projectid));
+            DPDatabase::query($sql);
+        }
+
         // let them know file uploaded and send back to the right place
         $msg1 = _("File uploaded. Thank you!");
         $msg2 = _("Project returned to pool");
@@ -309,9 +346,20 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
         zip_check($original_name, $temporary_path);
         // replace filename
         $zipext = ".zip";
-        $name = $project->projectid . $indicator . $zipext;
+        $base_name = $project->projectid . $indicator;
+
+        if (($stage == 'smooth_done') || ($stage == 'smooth_avail'))
+        {
+            // for smooth uploads overwrite any previous file
+            $name = $base_name . $zipext;
+        }
+        else
+        {
+            // make a name with the next serial number
+            $name = make_serial_name($project->dir, $base_name, $zipext);
+        }
+
         $location = "$project->dir/$name";
-        ensure_path_is_unused( $location );
         $move_result = rename($temporary_path, $location);
         if(!$move_result)
         {
@@ -381,32 +429,15 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 }
 
 #----------------------------------------------------------------------------
-
-// Ensure that nothing exists at $path.
-// (If something's there, rename it.)
-// EXCEPT: let people overwrite their finished SR files as often as they want
-function ensure_path_is_unused( $path )
+// make a file name with next serial number inserted before extension
+function make_serial_name($directory, $base, $ext)
 {
-    global $stage, $db_requests_email_addr;
-
-    if ( file_exists($path) )
+    for($serial = 1; ; $serial += 1)
     {
-
-        if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
-
-            $bak = "$path.bak";
-            ensure_path_is_unused( $bak );
-            $success = rename( $path, $bak );
-            if (!$success)
-            {
-                // It will already have printed a warning.
-                die( sprintf(
-                    _("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-                    $db_requests_email_addr) );
-            }
-        } else {
-
-            unlink($path);
+        $file_name = "{$base}_$serial$ext";
+        if(!file_exists("$directory/$file_name"))
+        {
+            return $file_name;
         }
     }
 }
