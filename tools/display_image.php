@@ -1,7 +1,7 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'page_controls.inc'); // get_page_data_js()
 
