@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once($relPath.'slim_header.inc');
@@ -24,7 +24,7 @@ $title = _("Display Image for page");
 
 $js_files = [
     "$code_url/scripts/page_browse.js",
-    "$code_url/tools/project_manager/display_image_only.js",
+    "$code_url/tools/display_image.js",
     ];
 
 $header_args = [
