@@ -24,13 +24,21 @@ var projectReset = function() {
 };
 
 // Construct the controls to change pages
-var pageChanger = function () {
+var pageChanger = function (theForm) {
     let pageSelector = document.createElement("select");
     pageSelector.name = 'imagefile';
 
     $(pageSelector).change(function() {
         this.form.submit();
     });
+
+    function prevEnabled() {
+        return pageSelector.selectedIndex > 0;
+    }
+
+    function nextEnabled() {
+        return pageSelector.selectedIndex < (pageSelector.length - 1);
+    }
 
     let retVal = $("<span>", {class: "nowrap"}).append(proofIntData.strings.page + " ", pageSelector);
 
@@ -52,8 +60,8 @@ var pageChanger = function () {
         let prevButton = $("<input>", {type: 'submit', value: proofIntData.strings.previous});
         let nextButton = $("<input>", {type: 'submit', value: proofIntData.strings.next});
 
-        prevButton.prop("disabled", pageSelector.selectedIndex === 0);
-        nextButton.prop("disabled", pageSelector.selectedIndex === (pageSelector.length - 1));
+        prevButton.prop("disabled", !prevEnabled());
+        nextButton.prop("disabled", !nextEnabled());
 
         prevButton.click(function () {
             pageSelector.selectedIndex -= 1;
@@ -61,6 +69,20 @@ var pageChanger = function () {
 
         nextButton.click(function () {
             pageSelector.selectedIndex += 1;
+        });
+
+        $(document).keydown(function(event) {
+            if(event.altKey === true) {
+                if((event.which === 38) && prevEnabled()) {
+                    // up arrow
+                    pageSelector.selectedIndex -= 1;
+                    theForm.submit();
+                } else if((event.which === 40) && nextEnabled()) {
+                    // down arrow
+                    pageSelector.selectedIndex += 1;
+                    theForm.submit();
+                }
+            }
         });
 
         retVal.append(prevButton, nextButton);

@@ -30,7 +30,7 @@ function get_page_data_js($projectid, $page, $round_id, $error_message)
                 $page = $page_names[0];
             }
 
-            $heading = html_safe($project->nameofwork) . "<a href='$code_url/project.php?id=$projectid'>" . _("Go to Project Page") . "</a>";
+            $heading = "<a href='$code_url/project.php?id=$projectid'>" . html_safe($project->nameofwork) . "</a>";
 
             if ($round_id == "OCR")
             {

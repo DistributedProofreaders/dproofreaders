@@ -48,7 +48,7 @@ $(function () {
         fixHead.append($("<p>").append(pageBrowserData.heading), pageControlForm);
         if(!pageBrowserData.currentPage) {
             // show page selector
-            pageControlForm.append(hiddenProject(), hiddenMode(), pageChanger());
+            pageControlForm.append(hiddenProject(), hiddenMode(), pageChanger(pageControlForm));
             if(mode !== "image") {
                 // round selector not submitting if changed
                 pageControlForm.append(" ", roundSelect(false));
@@ -56,7 +56,7 @@ $(function () {
         } else {
             // if a page is given show it in scrollable area with controls
             // and a button to change project.
-            pageControlForm.append(projectReset(), modeControl(), pageChanger());
+            pageControlForm.append(projectReset(), modeControl(), pageChanger(pageControlForm));
             let stretchDiv = $("<div>", {class: 'stretch-box'});
             topDiv.append(stretchDiv);
 
