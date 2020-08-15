@@ -21,12 +21,11 @@ var srchrep = (function() {
         saveText();
         if (!document.getElementById('is_regex').checked) {
             search = escapeRegExp(search);
+            replacetext = replacetext.replace(/\$/g, '$$$$');
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(
             new RegExp(search,'gu'),
-            function () {
-                return replacetext;
-            });
+            replacetext);
         setUndoButtonDisabled(false);
     }
 
