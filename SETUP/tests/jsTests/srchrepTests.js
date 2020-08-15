@@ -60,6 +60,21 @@ QUnit.test("replaces with $ correctly", function(assert) {
     assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
 });
 
+QUnit.test("replaces with regular expression groups correctly", function(assert) {
+    window.opener = { parent: { docRef: { editform: { text_data: {
+        value: 'brave -- new.',
+    } } } } };
+    $('#search').val('(brave) -- (new)');
+    $('#replace').val('$2 __ $1');
+    $('#is_regex').prop('checked', true);
+    srchrep.doReplace();
+    assert.strictEqual(
+        window.opener.parent.docRef.editform.text_data.value,
+        'new __ brave.',
+        'Search replace replaces all instances.');
+    assert.notOk($('#undo').prop('disabled'), 'Undo should be enabled.');
+});
+
 QUnit.test("supports regular expressions", function(assert) {
     window.opener = { parent: { docRef: { editform: { text_data: {
         value: 'Example search text.',
