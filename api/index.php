@@ -204,7 +204,7 @@ function handle_cors_headers()
 {
     // Enable CORS for some sites
     $allowed_origins = [
-        "http://editor.swagger.io",
+        "https://editor.swagger.io",
     ];
     $origin = @$_SERVER["HTTP_ORIGIN"];
     if(in_array($origin, $allowed_origins))

@@ -91,7 +91,7 @@ into JSON error messages and HTTP error codes as appropriate. See
 
 The `dp-openapi.yaml` file should always contain the definitive OpenAPI on what
 is currently implemented. This file is best edited via
-[Swagger Editor](http://editor.swagger.io/). Indeed, that's a great place
+[Swagger Editor](https://editor.swagger.io/). Indeed, that's a great place
 to test out the APIs as well.
 
 ## References
