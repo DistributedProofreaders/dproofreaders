@@ -4,28 +4,38 @@ Major changes to this project are documented here. For minor changes,
 see the git history.
 
 
-## ???????
+## R202009
 Scripts supporting this upgrade are in `SETUP/upgrade/14`
 
 **This is the last version to include support for Internet Explorer 11.**
 
+* **Security fixes** - this release fixes potential SQL injection, XSS, and
+  CSRF vulnerabilities (cpeel, chrismiceli, independent security researcher
+  Dipu1A)
 * **Unicode support** - the site is now fully UTF-8 compatible. See
   [UNICODE.md](UNICODE.md) for more information on what this means for you.
-  (cpeel, 70ray, chrismiceli, numerous others)
-* Support jpgraph version 4.3.0 (cpeel)
+  (cpeel, 70ray, chrismiceli, srjfoo, numerous others)
+* Support phpBB 3.3 (cpeel)
+* Support jpgraph version 4.3.x (cpeel)
 * Supported browsers now listed in [INSTALL.md](INSTALL.md)
+* More pages require authentication, including the quizzes and stats (cpeel)
+* Replaced DPCustomMono2 with DP Sans Mono (lvl)
 * Optional daily page limits (jmdyck)
 * File upload abstraction enables large file uploads for PP and SR (70ray)
 * Many SR improvements (70ray)
+* Search & Replace tooling updates (chrismiceli)
 * Access change callbacks for activities allows emails to be sent when
   access to an activity is granted or revoked (cpeel)
 * WordCheck status added to diff page and project pages (mlazaric)
+* Redesigned display images interface (70ray)
 * Global news items (chrismiceli)
 * CSS updates for improved mobile layout (cpeel)
 * SEO improvements (cpeel)
   * dynamic sitemap added
   * LD+JSON metadata added to project pages
+* Updated French message localization files (srjfoo via Olive)
 * DB schema documentation (mlazaric)
+* Improved parameter validation and SQL error logging (cpeel, chrismiceli)
 
 
 ## R202002

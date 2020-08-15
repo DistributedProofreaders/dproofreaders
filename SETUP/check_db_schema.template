@@ -8,9 +8,9 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R201903
+prev_tag=R202002
 curr_tag=production
-upgrade_number=13
+upgrade_number=14
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -53,6 +53,9 @@ echo "
     _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
     _PUBLIC_PAGE_DETAILS=FALSE
     _ARCHIVE_DB_NAME=ARCHIVE_DB_NAME
+
+    # String values
+    _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
 
     # For update_phpbb_posts_text.php
     _FORUMS_PROJECT_WAITING_IDX=99
