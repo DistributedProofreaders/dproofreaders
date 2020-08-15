@@ -21,6 +21,9 @@ var srchrep = (function() {
         saveText();
         if (!document.getElementById('is_regex').checked) {
             search = escapeRegExp(search);
+
+            // Replace $ in replace text with $$ to avoid special replacement patterns.
+            // Note, $ here is in a .replace function and must be escaped so '$$' becomes '$$$$'.
             replacetext = replacetext.replace(/\$/g, '$$$$');
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(
