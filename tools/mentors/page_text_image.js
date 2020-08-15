@@ -20,7 +20,7 @@ $(function () {
         fixHead.append($("<p>").append(pageBrowserData.heading), pageControlForm);
         if(!pageBrowserData.currentPage) {
         // show page selector
-            pageControlForm.append(hiddenProject(), pageChanger(), roundSelect(false));
+            pageControlForm.append(hiddenProject(), pageChanger(pageControlForm), roundSelect(false));
         } else {
             // if a page is given show it in scrollable area with controls
             // and a button to change project.
@@ -39,7 +39,7 @@ $(function () {
             stretchDiv.append(imageDiv, textDiv);
             let theSplitter = viewSplitter(stretchDiv);
 
-            pageControlForm.append(projectReset(), pageChanger(), roundSelect(true));
+            pageControlForm.append(projectReset(), pageChanger(pageControlForm), roundSelect(true));
             fixHead.append(theImageControl.controls, theSplitter.buttons, theTextControl.controls);
 
             let subSplitter = splitControl();
