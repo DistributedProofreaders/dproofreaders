@@ -16,7 +16,7 @@ $team_icons_dir   = "$dyn_dir/teams/icon";
 $team_icons_url   = "$dyn_url/teams/icon";
 
 // Define the maximum number of teams the user can be a member of.
-define("MAX_USER_TEAM_MEMBERSHIP", 3);
+define("MAX_USER_TEAM_MEMBERSHIP", 6);
 
 function select_from_teams( $where_body, $other_clauses='' )
 {
