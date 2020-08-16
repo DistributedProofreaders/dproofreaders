@@ -49,8 +49,8 @@ $data = "<teaminfo id='$team_id'>
         <website>".xmlencode($curTeam['webpage'])."</website>
         <forums>".xmlencode(get_url_to_view_topic($curTeam['topic_id']))."</forums>
         <totalmembers>".$curTeam['member_count']."</totalmembers>
-        <currentmembers>".$curTeam['active_members']."</currentmembers>
-        <retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
+        <currentmembers>".Team::active_member_count($team_id)."</currentmembers>
+        <retiredmembers>".($curTeam['member_count'] - Team::active_member_count($team_id))."</retiredmembers>";
 
 foreach ( get_page_tally_names() as $tally_name => $tally_title )
 {
@@ -80,12 +80,17 @@ $data .= "
 
 //Team members portion of $data
 $data .= "<teammembers>";
-$mbrQuery = mysqli_query(DPDatabase::get_connection(), "
+$sql = sprintf("
     SELECT username, date_created, u_id, u_privacy
     FROM users
-    WHERE $team_id IN (team_1, team_2, team_3)
+    WHERE u_id IN (
+        SELECT u_id
+        FROM user_teams_membership
+        WHERE t_id = %d
+    )
     ORDER BY username ASC
-");
+", $team_id);
+$mbrQuery = DPDatabase::query($sql);
 while ($curMbr = mysqli_fetch_assoc($mbrQuery))
 {
     if ($curMbr['u_privacy'] == PRIVACY_PRIVATE)

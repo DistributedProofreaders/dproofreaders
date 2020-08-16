@@ -73,14 +73,9 @@ function page_tallies_add( $tally_name, $username, $amount )
 
     // update page tally for each team
     $team_tallyboard = new TallyBoard( $tally_name, 'T' );
-    // (The 'array_unique' shouldn't be necessary, but just in case.)
-    $teams = array_unique(array($user->team_1, $user->team_2, $user->team_3));
-    foreach ($teams as $team_id)
+    foreach ($user->load_teams() as $team_id)
     {
-        if ( $team_id != 0 )
-        {
-            $team_tallyboard->add_to_tally( $team_id, $amount );
-        }
+        $team_tallyboard->add_to_tally( $team_id, $amount );
     }
 }
 

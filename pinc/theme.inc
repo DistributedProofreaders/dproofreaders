@@ -749,17 +749,22 @@ function show_user_teams()
     echo "<div id='teams-nav'>\n";
     echo "<h2>" .  _("Your Teams") . "</h2>\n";
     echo "<ul>\n";
-    $teamRes=mysqli_query(DPDatabase::get_connection(), "
-        SELECT teamname, id
-        FROM user_teams
-        WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})
-    ");
-    while($row = mysqli_fetch_assoc($teamRes))
+    $user_teams = $user->load_teams();
+    if($user_teams)
     {
-        echo "<li>";
-        echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".html_safe($row['teamname'])."</a>";
-        echo "</li>";
-        echo "\n";
+        $sql = sprintf("
+            SELECT id, teamname
+            FROM user_teams
+            WHERE id IN (%s)
+            ORDER BY teamname
+        ", implode(",", $user_teams));
+        $result = DPDatabase::query($sql);
+        while(list($tid, $teamname) = mysqli_fetch_row($result))
+        {
+            echo "<li>";
+            echo "<a href='$code_url/stats/teams/tdetail.php?tid=$tid'>" . html_safe($teamname) . "</a>";
+            echo "</li>\n";
+        }
     }
     echo "</ul>\n";
     echo "<p class='more-link'>";

@@ -15,6 +15,9 @@ $team_avatars_url = "$dyn_url/teams/avatar";
 $team_icons_dir   = "$dyn_dir/teams/icon";
 $team_icons_url   = "$dyn_url/teams/icon";
 
+// Define the maximum number of teams the user can be a member of.
+define("MAX_USER_TEAM_MEMBERSHIP", 3);
+
 function select_from_teams( $where_body, $other_clauses='' )
 {
     list(, $teams_ELR_page_tallyboard) = get_ELR_tallyboards();
@@ -97,7 +100,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
     }
     else
     {
-        if ($user->team_1 != $team_id && $user->team_2 != $team_id && $user->team_3 != $team_id)
+        if(!in_array($team_id, $user->load_teams()))
         {
             $op = 'jointeam';
             $text = _('Join');
@@ -190,11 +193,11 @@ function showTeamProfile($curTeam, $preview=FALSE)
     );
     $t->row(
         _("Current Members"),
-        number_format($curTeam['active_members'])
+        number_format(Team::active_member_count($team_id))
     );
     $t->row(
         _("Retired Members"),
-        number_format($curTeam['member_count'] - $curTeam['active_members'])
+        number_format($curTeam['member_count'] - Team::active_member_count($team_id))
     );
 
     $t->end();
@@ -363,12 +366,17 @@ function showTeamMbrs($curTeam, $tally_name) {
     list( $joined_with_user_tallies, $user_tally_column ) =
         $users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
-    $mbrQuery = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT *, $user_tally_column AS current_tally
         FROM users $joined_with_user_tallies
-        WHERE {$req_team_id} IN (team_1, team_2, team_3)
+        WHERE u_id IN (
+            SELECT u_id
+            FROM user_teams_membership
+            WHERE t_id = %d
+        )
         ORDER BY $orderby $direction
-    ");
+    ", $req_team_id);
+    $mbrQuery = DPDatabase::query($sql);
 
     $totalAnonUsers = 0;
     $totalPagesAnonUsers = 0;
@@ -482,12 +490,12 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
 
     echo "<tr>";
     echo "<td class='right-align'><b>"._("Team Name")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50' required>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50' maxlength='50' required>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
     echo "<td class='right-align'><b>"._("Team Webpage")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
+    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50' maxlength='255'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
@@ -507,12 +515,19 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
 
     echo "<tr>";
     echo "<td class='center-align' colspan='2'>";
-    if ($tedit == 1 && $user->team_1 != 0 && $user->team_2 != 0 && $user->team_3 != 0) {
+    $user_teams = $user->load_teams();
+    if($tedit == 1 && count($user_teams) >= MAX_USER_TEAM_MEMBERSHIP) {
         echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
-        echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
-        $teamQuery = mysqli_query(DPDatabase::get_connection(), "SELECT teamname, id FROM user_teams WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})");
-        while ($row = mysqli_fetch_assoc($teamQuery)) {
-            echo "<option value='".$row['id']."'>".html_safe($row['teamname'])."</option>";
+        echo "<select name='otid' title='".attr_safe(_("Team List"))."'>";
+        $sql = sprintf("
+            SELECT id, teamname
+            FROM user_teams
+            WHERE id IN (%s)
+            ORDER BY teamname
+        ", implode(",", $user_teams));
+        $result = DPDatabase::query($sql);
+        while (list($id, $teamname) = mysqli_fetch_row($result)) {
+            echo "<option value='$id'>" . html_safe($teamname) . "</option>";
         }
         echo "</select>";
     } else {
@@ -525,13 +540,13 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
         echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='mkQuit' value='".attr_safe(_("Quit"))."'>";
+        echo "<input type='submit' name='mkQuit' value='".attr_safe(_("Quit"))."' formnovalidate>";
         echo "</th></tr>";
     } else {
         echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='edPreview' value='".attr_safe(_("Preview Changes"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='edMake' value='".attr_safe(_("Save Changes"))."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='edQuit' value='".attr_safe(_("Quit"))."'>";
+        echo "<input type='submit' name='edQuit' value='".attr_safe(_("Quit"))."' formnovalidate>";
         echo "</th></tr>";
     }
     echo "</table>";
