@@ -33,6 +33,7 @@ class CharSuite
     public $name;
     public $title;
     public $codepoints;
+    public $description;
     public $adhoc;
     public $reference_urls = [];
     private $_pickerset = NULL;
