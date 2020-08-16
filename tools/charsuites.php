@@ -39,15 +39,20 @@ if($font)
 
 if($charsuite)
 {
-    $title = sprintf(_("Character Suite: %s"), $charsuite->title);
+    $title = _("Character Suite");
     output_header($title, NO_STATSBAR, $extra_args);
-    echo "<h1>$title</h1>";
+    echo "<h1>" . html_safe($title) . "</h1>";
     echo "<p><a href='?'>" . _("View all character suites") . "</a></p>";
+    echo "<p>";
+    echo _("Below are all the characters with their Unicode codepoints that are available within this character suite.");
+    echo " ";
+    echo _("Hovering over a character will show its Unicode name in a tooltip.");
+    echo "</p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
     }
-    output_charsuite($charsuite, NULL, $font);
+    output_charsuite($charsuite, TRUE, $font);
     output_pickerset($charsuite->pickerset, $charsuite->codepoints);
 }
 elseif($projectid)
@@ -55,7 +60,7 @@ elseif($projectid)
     $project = new Project($projectid);
     $title = _("Project Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
-    echo "<h1>$title</h1>";
+    echo "<h1>" . html_safe($title) . "</h1>";
     echo "<p>" . sprintf(
         _("Character Suites for <a href='%s'>%s</a>."),
         "$code_url/project.php?id=$projectid",
@@ -64,15 +69,19 @@ elseif($projectid)
     $charsuites = $project->get_charsuites();
     foreach($charsuites as $charsuite)
     {
-        output_charsuite($charsuite, $charsuite->title, $font);
+        output_charsuite($charsuite, FALSE, $font);
     }
 }
 else
 {
     $title = _("All Character Suites");
     output_header($title, NO_STATSBAR, $extra_args);
-    echo "<h1>$title</h1>";
-    echo "<p>" . _("Below are all enabled character suites in the system.") . "</p>";
+    echo "<h1>" . html_safe($title) . "</h1>";
+    echo "<p>";
+    echo _("Below are all enabled character suites in the system.");
+    echo " ";
+    echo _("Hovering over a character will show its Unicode name in a tooltip.");
+    echo "</p>";
     if($font !== NULL)
     {
         output_font_test_form($font);
@@ -80,7 +89,7 @@ else
     $enabled_charsuites = CharSuites::get_enabled();
     foreach($enabled_charsuites as $charsuite)
     {
-        output_charsuite($charsuite, $charsuite->title, $font);
+        output_charsuite($charsuite, FALSE, $font);
     }
 
     $all_charsuites = CharSuites::get_all();
@@ -92,7 +101,7 @@ else
         foreach($all_charsuites as $charsuite)
         {
             if(!$charsuite->is_enabled())
-                output_charsuite($charsuite, $charsuite->title, $font);
+                output_charsuite($charsuite, FALSE, $font);
         }
     }
 }
@@ -122,12 +131,17 @@ function output_font_test_form($font)
     echo "</div>";
 }
 
-function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
+function output_charsuite($charsuite, $show_detail, $test_font=NULL)
 {
-    if($title)
+    $slug = utf8_url_slug($charsuite->title);
+    echo "<h2 id='$slug'>" . html_safe($charsuite->title) . "</h2>";
+    if($charsuite->description)
     {
-        $slug = utf8_url_slug($title);
-        echo "<h2 id='$slug'>$title</h2>";
+        echo "<p>" . html_safe($charsuite->description) . "</p>";
+    }
+
+    if(!$show_detail)
+    {
         $encoded_name = urlencode($charsuite->name);
         $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
         echo "<p><a href='?charsuite=$encoded_name$font_attr'>" . _("View character suite details") . "</a></p>";
@@ -137,12 +151,10 @@ function output_charsuite($charsuite, $title=NULL, $test_font=NULL)
         echo "<p class='warning'>". _("This character suite is installed but not enabled and cannot be used for new projects.") . "</p>";
     }
 
-    echo "<p>" . _("Below are all the characters with their Unicode codepoints that are available within this character suite. Hovering over a character will show its Unicode name in a tooltip.") . "</p>";
-
     $characters = convert_codepoint_ranges_to_characters($charsuite->codepoints);
     output_characters_table($characters);
 
-    if(!$title && $charsuite->reference_urls)
+    if($show_detail && $charsuite->reference_urls)
     {
         echo "<p>" . _("Reference URLs") . ":";
         echo "<ul>";
@@ -175,7 +187,7 @@ function output_pickerset($pickerset, $all_codepoints)
             $header .= " - $title";
         }
         // first the menu item
-        echo "<h3>$header</h3>";
+        echo "<h3>" . html_safe($header) . "</h3>";
 
         // now the picker rows
         echo "<table class='basic'>";
@@ -238,7 +250,7 @@ function output_characters_slice($slice)
     {
         if($char !== NULL)
         {
-            $title = utf8_character_name($char);
+            $title = attr_safe(utf8_character_name($char));
             $codepoint = string_to_codepoints_string($char, "<br>");
             $char = html_safe($char);
             echo "<td class='center-align' title='$title'>";
