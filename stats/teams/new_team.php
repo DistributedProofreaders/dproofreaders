@@ -26,7 +26,6 @@ if (isset($_POST['mkPreview']))
     $curTeam['owner'] = $user->u_id;
     $curTeam['created'] = time();
     $curTeam['member_count'] = 0;
-    $curTeam['active_members'] = 0;
     $curTeam['avatar'] = $teamimages['avatar'];
     echo "<div class='center-align'><br>";
     showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
@@ -60,7 +59,7 @@ else if (isset($_POST['mkMake']))
         mysqli_query(DPDatabase::get_connection(), sprintf("
             INSERT INTO user_teams
                 (teamname, team_info, webpage, createdby, owner, created)
-            VALUES('%s', '%s', '%s', '%s', %s, %s)
+            VALUES(LEFT('%s', 50), '%s', LEFT('%s', 255), '%s', %s, %s)
         ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
@@ -94,22 +93,7 @@ else if (isset($_POST['mkMake']))
         }
 
         //figure out which team to overwrite
-        $otid=0;
-        if (!isset($_POST['teamall']))
-        {
-            if ($user->team_1 == $_POST['tteams'])
-            {
-                $otid=1;
-            }
-            elseif ($user->team_2 == $_POST['tteams'])
-            {
-                $otid=2;
-            }
-            else if ($user->team_3 == $_POST['tteams'])
-            {
-                $otid=3;
-            }
-        }
+        $otid = get_integer_param($_POST, 'otid', 0, 0, null);
     
         $title = _("Join the Team");
         $desc = _("Creating the team....");
@@ -120,7 +104,7 @@ elseif (isset($_POST['mkQuit']))
 {
     $title = _("Quit Without Saving");
     $desc = _("Quitting without saving...");
-    metarefresh(4,"$code_url/activity_hub.php",$title,$desc);
+    metarefresh(0,"$code_url/activity_hub.php",$title,$desc);
     exit;
 }
 else

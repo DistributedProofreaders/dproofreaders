@@ -9,7 +9,7 @@ include_once('../includes/team.inc');
 require_login();
 
 $order = get_enumerated_param(
-        $_GET, 'order', 'id', array('id', 'teamname', 'member_count') );
+        $_GET, 'order', 'teamname', array('id', 'teamname', 'member_count') );
 $direction = get_enumerated_param(
         $_GET, 'direction', 'asc', array('asc', 'desc') );
 $tname = array_get($_REQUEST, 'tname', null);
@@ -44,44 +44,45 @@ if ($tname) {
 }
 
 $user = User::load_current();
+$user_teams = $user->load_teams();
 
 $name = _("Team List");
 
 output_header($name);
-echo "<h1>$name</h1>\n";
+echo "<h1>" . html_safe($name) . "</h1>\n";
+
+echo "<p><a href='new_team.php'>"._("Create a New Team")."</a></p>";
 
 //Display of user teams
 echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
-    echo "<th>"._("Icon")."</th>";
-    if ($order == "id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&amp;order=id&amp;direction=$newdirection'>"._("ID")."</a></th>";
+    echo "<th></th>";
     if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
         echo "<th><a href='tlist.php?".$tname."tstart=$tstart&amp;order=teamname&amp;direction=$newdirection'>"._("Team Name")."</a></th>";
     if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
-    echo "<th>"._("Options")."</th>";
+        echo "<th class='center-align'><a href='tlist.php?".$tname."tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
+    echo "<th class='center-align'>"._("Options")."</th>";
 echo "</tr>\n";
 if (!empty($tRows)) {
     while ($row = mysqli_fetch_assoc($tResult)) {
+        $tid = $row["id"];
         echo "<tr>";
-        echo "<td class='center-align'><a href='tdetail.php?tid=".$row['id']."'><img src='$team_icons_url/".$row['icon']."' width='25' height='25' alt='".attr_safe($row['teamname'])."'></a></td>\n";
-        echo "<td class='center-align'><b>".$row['id']."</b></td>\n";
-        echo "<td>", html_safe($row['teamname']), "</td>\n";
+        echo "<td class='center-align'><a href='tdetail.php?tid=$tid'><img src='$team_icons_url/".$row['icon']."' width='25' height='25' alt='".attr_safe($row['teamname'])."'></a></td>\n";
+        echo "<td><a href='tdetail.php?tid=$tid'>" . html_safe($row['teamname']) . "</a></td>\n";
         echo "<td class='center-align'>".$row['member_count']."</td>\n";
-        echo "<td class='center-align'><b><a href='tdetail.php?tid=".$row['id']."'>"._("View")."</a>&nbsp;";
-        if ($user->team_1 != $row['id'] && $user->team_2 != $row['id'] && $user->team_3 != $row['id']) {
-            echo "<a href='../members/jointeam.php?tid=".$row['id']."'>"._("Join")."</a></b></td>";
+        echo "<td class='center-align'>";
+        if(!in_array($tid, $user_teams)) {
+            echo "<a href='../members/jointeam.php?tid=$tid'>"._("Join")."</a></td>";
         } else {
-            echo "<a href='../members/quitteam.php?tid=".$row['id']."'>"._("Quit")."</a></b></td>";
+            echo "<a href='../members/quitteam.php?tid=$tid'>"._("Quit")."</a></td>";
         }
         echo "</tr>\n";
     }
 } else {
-    echo "<tr><td colspan='5' class='center-align'><b>"._("No more teams available.")."</b></td></tr>\n";
+    echo "<tr><td colspan='4' class='center-align'><b>"._("No more teams available.")."</b></td></tr>\n";
 }
 
-echo "<tr><td colspan='3' class='left-align'>";
+echo "<tr><td colspan='2' class='left-align'>";
 if (!empty($tstart)) {
     echo "<b><a href='tlist.php?".$tname."order=$order&amp;direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
 }
@@ -90,7 +91,6 @@ if ($tRows == 20) {
     echo "<b><a href='tlist.php?".$tname."order=$order&amp;direction=$direction&amp;tstart=".($tstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>\n";
-echo "<tr><th colspan='5' class='center-align'><b><a href='new_team.php'>"._("Create a New Team")."</a></b></th></tr>\n";
 echo "</table>";
 
 // vim: sw=4 ts=4 expandtab

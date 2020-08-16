@@ -794,14 +794,29 @@ CREATE TABLE `user_teams` (
   `owner` int(10) unsigned NOT NULL default '0',
   `created` int(20) NOT NULL default '0',
   `member_count` int(20) NOT NULL default '0',
-  `active_members` int(11) NOT NULL default '0',
-  `daily_average` int(11) NOT NULL default '0',
   `avatar` varchar(25) NOT NULL default 'avatar_default.png',
   `icon` varchar(25) NOT NULL default 'icon_default.png',
   `topic_id` int(10) default NULL,
   `latestUser` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `teamname` (`teamname`)
+);
+# --------------------------------------------------------
+
+#
+# Table structure for table `user_teams_membership`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `user_teams_membership` (
+  `u_id` int(11) unsigned NOT NULL,
+  `t_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`u_id`,`t_id`),
+  KEY (`t_id`),
+  FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
+  FOREIGN KEY (`t_id`) REFERENCES `user_teams` (`id`)
 );
 # --------------------------------------------------------
 
@@ -833,9 +848,6 @@ CREATE TABLE `users` (
   `u_profile` int(10) unsigned NOT NULL default '0',
   `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
-  `team_1` int(10) unsigned NOT NULL default '0',
-  `team_2` int(10) unsigned NOT NULL default '0',
-  `team_3` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`username`),
   UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`),

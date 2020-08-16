@@ -44,7 +44,7 @@ elseif (isset($_POST['edQuit']))
 {
     $title = _("Quit Without Saving");
     $desc = _("Quitting without saving...");
-    metarefresh(4,"tdetail.php?tid=$tid",$title,$desc);
+    metarefresh(0,"tdetail.php?tid=$tid",$title,$desc);
     exit;
 }
 elseif (isset($_POST['edPreview']))
@@ -117,9 +117,9 @@ elseif (isset($_POST['edMake']))
         mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE user_teams
             SET
-                teamname='%s',
-                team_info='%s',
-                webpage='%s'
+                teamname = LEFT('%s', 50),
+                team_info = '%s',
+                webpage = LEFT('%s', 255),
             WHERE id='%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),

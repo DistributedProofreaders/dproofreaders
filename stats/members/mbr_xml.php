@@ -76,15 +76,19 @@ if ($user->u_privacy == PRIVACY_PRIVATE)
         </userinfo>";
 
 //Team info
-    $result = select_from_teams("id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})");
     echo "
         <teaminfo>";
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "
-            <team>
-            <name>".xmlencode($row['teamname'])."</name>
-            <activemembers>".$row['active_members']."</activemembers>
-            </team>";
+    $user_teams = $user->load_teams();
+    if($user_teams) {
+        $teams_clause = implode(",", $user_teams);
+        $result = select_from_teams("id IN ($teams_clause)");
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "
+                <team>
+                <name>".xmlencode($row['teamname'])."</name>
+                <activemembers>".Team::active_member_count($row['id'])."</activemembers>
+                </team>";
+        }
     }
     echo "
         </teaminfo>";

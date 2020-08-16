@@ -186,6 +186,48 @@ class User
         throw new NotImplementedException();
     }
 
+    public function load_teams()
+    {
+        $sql = sprintf("
+            SELECT t_id
+            FROM user_teams_membership
+            WHERE u_id = %d
+        ", $this->u_id);
+        $result = DPDatabase::query($sql);
+        $teams = [];
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $teams[] = $row["t_id"];
+        }
+        mysqli_free_result($result);
+        return $teams;
+    }
+
+    public function add_team($team_id)
+    {
+        if(in_array($team_id, $this->load_teams()))
+        {
+            return;
+        }
+
+        $sql = sprintf("
+            INSERT INTO user_teams_membership
+            SET u_id = %d, t_id = %d
+        ", $this->u_id, $team_id);
+        DPDatabase::query($sql);
+
+        Team::log_recent_join($team_id, $this->u_id);
+    }
+
+    public function remove_team($team_id)
+    {
+        $sql = sprintf("
+            DELETE FROM user_teams_membership
+            WHERE u_id = %d AND t_id = %d
+        ", $this->u_id, $team_id);
+        DPDatabase::query($sql);
+    }
+
     //
     // Activity access functions
     //

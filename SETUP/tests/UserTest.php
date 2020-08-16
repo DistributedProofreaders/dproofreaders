@@ -146,8 +146,8 @@ class UserTest extends PHPUnit\Framework\TestCase
     public function testSetters()
     {
         $user = new User();
-        $user->team_1 = 1;
-        $this->assertEquals($user->team_1, 1);
+        $user->i_theme = 1;
+        $this->assertEquals($user->i_theme, 1);
     }
 
     public function testSetNewImmutable()

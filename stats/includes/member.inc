@@ -556,9 +556,13 @@ function showMbrNeighbors($user, $tally_name) {
     $t->end();
 }
 
-function showMbrTeams($user) {
+function showMbrTeams($user)
+{
+    global $code_url;
 
-    if (empty($user->team_1) && empty($user->team_2) && empty($user->team_3)) { return; }
+    $user_teams = $user->load_teams();
+    if(!$user_teams)
+        return;
 
     $t = new ThemedTable(
         2,
@@ -571,17 +575,19 @@ function showMbrTeams($user) {
         _("Active Members")
     );
 
-    $result = mysqli_query(DPDatabase::get_connection(), "
-        SELECT *
+    $sql = sprintf("
+        SELECT id, teamname
         FROM user_teams
-        WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})
-    ") or die(DPDatabase::log_error());
+        WHERE id IN (%s)
+        ORDER BY teamname
+    ", implode(",", $user_teams));
+    $result = DPDatabase::query($sql);
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        $url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];
+    while (list($tid, $teamname) = mysqli_fetch_row($result)) {
+        $url = "$code_url/stats/teams/tdetail.php?tid=$tid";
         $t->row(
-            "<a href='$url'>".$row['teamname']."</a>",
-            sprintf(_("%s members"), number_format($row['active_members']))
+            "<a href='$url'>" . html_safe($teamname) . "</a>",
+            sprintf(_("%s members"), number_format(Team::active_member_count($tid)))
         );
     }
 
