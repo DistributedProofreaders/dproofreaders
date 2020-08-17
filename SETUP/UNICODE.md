@@ -45,7 +45,9 @@ of codepoints in the character suite.
 The code currently ships with 4 character suites:
 
 * Basic Latin - characters contained within ISO-8859-1 and CP-1252
-* Extended European Latin
+* Extended European Latin A - Esperanto, Welsh, Sami, Romanian, Hungarian
+* Extended European Latin B - Slovenian, Estonian, Czech, Slovak, Latvian
+* Extended European Latin C - Polish, Croatian, Lithuanian, Maltese
 * Basic Greek
 * Polytonic Greek
 * Medievalist supplement - for transcription/analysis of medieval writings
