@@ -22,20 +22,33 @@ catch(Exception $exception)
 }
 
 $round_id = get_enumerated_param($_GET, 'round_id', 'OCR', expanded_rounds());
+$mode = get_enumerated_param($_GET, 'mode', 'image', ['image', 'text', 'imageText']);
 
 $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/page_browse.js",
-    "$code_url/tools/mentors/page_text_image.js",
+    "$code_url/tools/project_manager/display_image.js",
 ];
 
 $header_args = [
     "js_files" => $js_files,
-    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js(),
+    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js() . "
+        let mode = '$mode';
+        let mentorMode = true;
+    ",
     "body_attributes" => 'class="no-margin overflow-hidden"',
 ];
 
-slim_header(_("Image and text for page"), $header_args);
+if($projectid && $imagefile)
+{
+    $title = sprintf(_("Page %s"), $imagefile);
+}
+else
+{
+    $title = _("Image and text for page");
+}
+
+slim_header($title, $header_args);
 
 echo "<div class='flex_100vh' id='top-div'></div>";
 

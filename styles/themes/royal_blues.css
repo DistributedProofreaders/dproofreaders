@@ -311,12 +311,17 @@ table.snapshottable th {
 /* view_page_text_image */
 .control-form {
   background-color: #CDC0B0;
+  border-bottom: solid thin black;
 }
 .control-form input {
   background-color: #FFF8DC;
 }
 .control-form select {
   background-color: #FFF8DC;
+}
+.control-form a:link,
+.control-form a:visited {
+  color: black;
 }
 .image-back {
   background-color: #CDCDC1;

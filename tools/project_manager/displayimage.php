@@ -12,8 +12,10 @@ $projectid = "";
 $imagefile = "";
 try
 {
-    $projectid = get_projectID_param($_GET, 'project', true);
-    $imagefile = get_page_image_param($_GET, 'imagefile', true);
+    $projectid = get_projectID_param($_GET, 'project', true) ??
+        get_projectID_param($_GET, 'projectid', true);
+    $imagefile = get_page_image_param($_GET, 'imagefile', true) ??
+        get_page_image_param($_GET, 'page', true);
 }
 catch(Exception $exception)
 {
@@ -21,24 +23,28 @@ catch(Exception $exception)
 }
 
 $round_id = get_enumerated_param($_GET, 'round_id', 'OCR', expanded_rounds());
+$mode = get_enumerated_param($_GET, 'mode', 'image', ['image', 'text', 'imageText']);
 
-function get_mode_js()
+if($projectid && $imagefile)
 {
-    $mode = get_enumerated_param($_GET, 'mode', 'image', ['image', 'text', 'imageText']);
-    return "var mode = '$mode';";
+    $title = sprintf(_("Page %s"), $imagefile);
 }
-
-$title = _("Display Image for page");
+else
+{
+    $title = _("Display Image for page");
+}
 
 $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/page_browse.js",
     "$code_url/tools/project_manager/display_image.js",
-    ];
+];
 
 $header_args = [
     "js_files" => $js_files,
-    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js() . get_mode_js(),
+    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js() . "
+        let mode = '$mode';
+    ",
     "body_attributes" => 'class="no-margin overflow-hidden"',
 ];
 

@@ -166,18 +166,26 @@ var imageControl = function() {
         percent = 100;
     }
 
-    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent});
-
-    // the resize button does nothing but pressing it moves the focus away
-    // from the percent input triggering its change event
-    let resizeButton = $("<input>", {type: 'button', value: proofIntData.strings.resize});
-
     let image = $("<img>", {src: pageBrowserData.imageUrl});
 
     let setZoom = function () {
         image.width(10 * percent);
         image.height("auto");
     };
+
+    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent});
+
+    // disable the enter key on the input to prevent it from submitting the form
+    percentInput.on('keypress', function(e) {
+        if(e.which === 13) {
+            percent = this.value;
+            localStorage.setItem(imagePercentID, percent);
+            setZoom();
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    });
 
     percentInput.change(function() {
         percent = this.value;
@@ -187,7 +195,7 @@ var imageControl = function() {
 
     return {
         image: image,
-        controls: $("<span>", {class: "nowrap"}).append(proofIntData.strings.image + " ", percentInput, "% ", resizeButton),
+        controls: $("<span>", {class: "nowrap"}).append(proofIntData.strings.image + " ", percentInput, "% "),
         setZoom: setZoom,
     };
 };
