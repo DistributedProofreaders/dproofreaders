@@ -347,21 +347,16 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
         // replace filename
         $zipext = ".zip";
         $base_name = $project->projectid . $indicator;
-
-        if (($stage == 'smooth_done') || ($stage == 'smooth_avail'))
-        {
-            // for smooth uploads overwrite any previous file
-            $name = $base_name . $zipext;
-        }
-        else
-        {
-            // make a name with the next serial number
-            $name = make_serial_name($project->dir, $base_name, $zipext);
-        }
-
+        $name = $base_name . $zipext;
         $location = "$project->dir/$name";
-        $move_result = rename($temporary_path, $location);
-        if(!$move_result)
+
+        if (($stage != 'smooth_done') && ($stage != 'smooth_avail') && file_exists($location))
+        {
+            // for smooth uploads overwrite any previous file, otherwise:
+            make_backup_file("{$project->dir}/$base_name", $zipext);
+        }
+
+        if(!rename($temporary_path, $location))
         {
             throw new FileUploadException(_("Webserver failed to copy uploaded file from temporary location to project directory."));
         }
@@ -429,15 +424,19 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 }
 
 #----------------------------------------------------------------------------
-// make a file name with next serial number inserted before extension
-function make_serial_name($directory, $base, $ext)
+// Rename with the next available serial number
+function make_backup_file($file_name, $ext)
 {
     for($serial = 1; ; $serial += 1)
     {
-        $file_name = "{$base}_$serial$ext";
-        if(!file_exists("$directory/$file_name"))
+        $backup_file_name = "{$file_name}_$serial$ext";
+        if(!file_exists($backup_file_name))
         {
-            return $file_name;
+            if(!rename($file_name . $ext, $backup_file_name))
+            {
+                throw new FileUploadException(_("Failed to make backup file."));
+            }
+            break;
         }
     }
 }
