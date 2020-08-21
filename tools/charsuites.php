@@ -4,12 +4,12 @@ include_once($relPath."base.inc");
 include_once($relPath."theme.inc");
 include_once($relPath."unicode.inc");
 include_once($relPath."CharSuites.inc");
+include_once($relPath."prefs_options.inc");
 include_once($relPath."misc.inc"); // array_get()
 
 require_login();
 
 $charsuite_name = array_get($_GET, "charsuite", NULL);
-$font = array_get($_REQUEST, "font", NULL);
 $projectid = get_projectID_param($_REQUEST, "projectid", TRUE);
 
 $charsuite = NULL;
@@ -31,11 +31,8 @@ if($charsuite_name && !$projectid)
     }
 }
 
-$extra_args = [];
-if($font)
-{
-    $extra_args['css_data'] = ".gs-char { font-family: $font; }";
-}
+list( , , $font_family, ) = get_user_proofreading_font();
+$extra_args['css_data'] = ".gs-char { font-family: $font_family; }";
 
 if($charsuite)
 {
@@ -48,11 +45,7 @@ if($charsuite)
     echo " ";
     echo _("Hovering over a character will show its Unicode name in a tooltip.");
     echo "</p>";
-    if($font !== NULL)
-    {
-        output_font_test_form($font);
-    }
-    output_charsuite($charsuite, TRUE, $font);
+    output_charsuite($charsuite, TRUE);
     output_pickerset($charsuite->pickerset, $charsuite->codepoints);
 }
 elseif($projectid)
@@ -69,7 +62,7 @@ elseif($projectid)
     $charsuites = $project->get_charsuites();
     foreach($charsuites as $charsuite)
     {
-        output_charsuite($charsuite, FALSE, $font);
+        output_charsuite($charsuite);
     }
 }
 else
@@ -82,14 +75,10 @@ else
     echo " ";
     echo _("Hovering over a character will show its Unicode name in a tooltip.");
     echo "</p>";
-    if($font !== NULL)
-    {
-        output_font_test_form($font);
-    }
     $enabled_charsuites = CharSuites::get_enabled();
     foreach($enabled_charsuites as $charsuite)
     {
-        output_charsuite($charsuite, FALSE, $font);
+        output_charsuite($charsuite);
     }
 
     $all_charsuites = CharSuites::get_all();
@@ -101,37 +90,14 @@ else
         foreach($all_charsuites as $charsuite)
         {
             if(!$charsuite->is_enabled())
-                output_charsuite($charsuite, FALSE, $font);
+                output_charsuite($charsuite);
         }
     }
 }
 
 #----------------------------------------------------------------------------
 
-function output_font_test_form($font)
-{
-    echo "<div class='callout'>";
-    echo "<form method='GET'>";
-    echo  _("Try font") . ": ";
-    echo "<input name='font' value='" . attr_safe($font) . "'> ";
-    echo "<input type='submit'>";
-    echo "<br>" . _("Available web fonts") . ": ";
-    $fonts = [
-        "DP Sans Mono",
-        "DejaVu Sans Mono",
-    ];
-    $urls = [];
-    foreach($fonts as $font)
-    {
-        $font_url_encoded = urlencode($font);
-        $font_http_encoded = html_safe($font);
-        $urls[] = "<a href='?font=$font_url_encoded'>$font_http_encoded</a>";
-    }
-    echo implode(", ", $urls);
-    echo "</div>";
-}
-
-function output_charsuite($charsuite, $show_detail, $test_font=NULL)
+function output_charsuite($charsuite, $show_detail=FALSE)
 {
     $slug = utf8_url_slug($charsuite->title);
     echo "<h2 id='$slug'>" . html_safe($charsuite->title) . "</h2>";
@@ -143,8 +109,7 @@ function output_charsuite($charsuite, $show_detail, $test_font=NULL)
     if(!$show_detail)
     {
         $encoded_name = urlencode($charsuite->name);
-        $font_attr = $test_font !== NULL ? ("&amp;font=" . urlencode($test_font)) : "";
-        echo "<p><a href='?charsuite=$encoded_name$font_attr'>" . _("View character suite details") . "</a></p>";
+        echo "<p><a href='?charsuite=$encoded_name'>" . _("View character suite details") . "</a></p>";
     }
     elseif(!$charsuite->is_enabled())
     {
