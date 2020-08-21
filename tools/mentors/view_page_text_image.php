@@ -11,8 +11,10 @@ $projectid = "";
 $imagefile = "";
 try
 {
-    $projectid = get_projectID_param($_GET, 'projectid', true);
-    $imagefile = get_page_image_param($_GET, 'page', true);
+    $projectid = get_projectID_param($_GET, 'project', true) ??
+        get_projectID_param($_GET, 'projectid', true);
+    $imagefile = get_page_image_param($_GET, 'imagefile', true) ??
+        get_page_image_param($_GET, 'page', true);
 }
 catch(Exception $exception)
 {
