@@ -202,16 +202,35 @@ class Project
 
     public function set_charsuites($charsuites)
     {
-        $existing_charsuites = $this->get_charsuites(FALSE);
+        // We want to allow the project to keep any character suites
+        // it already had, even if the character suite was disabled
+        // after it was created.
 
-        foreach($existing_charsuites as $charsuite)
-        {
-            $this->remove_charsuite($charsuite);
-        }
-
+        // Resolve the passed-in charsuites to objects
+        $desired_charsuites = [];
         foreach($charsuites as $charsuite)
         {
-            $this->add_charsuite($charsuite);
+            $desired_charsuites[] = CharSuites::resolve($charsuite);
+        }
+
+        $existing_charsuites = $this->get_charsuites(FALSE);
+
+        // add suites that are in the desired, but not current, set
+        foreach($desired_charsuites as $charsuite)
+        {
+            if(!in_array($charsuite, $existing_charsuites))
+            {
+                $this->add_charsuite($charsuite);
+            }
+        }
+
+        // remove suites that aren't in the desired set
+        foreach($existing_charsuites as $charsuite)
+        {
+            if(!in_array($charsuite, $desired_charsuites))
+            {
+                $this->remove_charsuite($charsuite);
+            }
         }
     }
 
