@@ -46,7 +46,7 @@ $(function () {
             const subSplitID = "sub_split_percent";
             let subSplitPercent = localStorage.getItem(subSplitID);
             if(!subSplitPercent) {
-                subSplitPercent = 50;
+                subSplitPercent = 100;
             }
 
             let subSplitRef = subSplitter.setup(textDiv, {splitDirection: subSplitter.DIRECTION.HORIZONTAL, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
