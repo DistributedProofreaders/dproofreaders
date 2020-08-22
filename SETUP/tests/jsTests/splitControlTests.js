@@ -17,15 +17,8 @@ QUnit.module("splitControl tests", {
     },
 });
 
-QUnit.test("exposes split directions", function(assert) {
-    let splitter = splitControl();
-    assert.strictEqual(splitter.DIRECTION.HORIZONTAL, 0, 'Exposed horizontal');
-    assert.strictEqual(splitter.DIRECTION.VERTICAL, 1, 'Exposed vertical');
-});
-
 QUnit.test("splitter defaults config values", function(assert) {
-    let splitter = splitControl();
-    let mainSplit = splitter.setup("#container");
+    let mainSplit = splitControl("#container");
     mainSplit.reLayout();
 
     const dragBar = $($('#container div').get(1));
@@ -34,8 +27,7 @@ QUnit.test("splitter defaults config values", function(assert) {
 });
 
 QUnit.test("vertical split test draws east west drag bar", function(assert) {
-    let splitter = splitControl();
-    let mainSplit = splitter.setup("#container", {splitDirection: splitter.DIRECTION.VERTICAL});
+    let mainSplit = splitControl("#container", {splitVertical: true});
     mainSplit.reLayout();
 
     assert.strictEqual($($('#container div').get(1))
@@ -43,8 +35,7 @@ QUnit.test("vertical split test draws east west drag bar", function(assert) {
 });
 
 QUnit.test("horizontal split test draws north south drag bar", function(assert) {
-    let splitter = splitControl();
-    let mainSplit = splitter.setup("#container", {splitDirection: splitter.DIRECTION.HORIZONTAL});
+    let mainSplit = splitControl("#container", {splitVertical: false});
     mainSplit.reLayout();
 
     assert.strictEqual($($('#container div').get(1))
@@ -52,8 +43,7 @@ QUnit.test("horizontal split test draws north south drag bar", function(assert) 
 });
 
 QUnit.test("drag bar color is customizable", function(assert) {
-    let splitter = splitControl();
-    let mainSplit = splitter.setup("#container", {dragBarColor: 'rebeccapurple'});
+    let mainSplit = splitControl("#container", {dragBarColor: 'rebeccapurple'});
     mainSplit.reLayout();
 
     assert.strictEqual($($('#container div').get(1))

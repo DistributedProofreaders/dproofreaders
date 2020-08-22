@@ -42,15 +42,14 @@ $(function () {
             pageControlForm.append(projectReset(), pageChanger(pageControlForm), roundSelect(true));
             fixHead.append(theImageControl.controls, theSplitter.buttons, theTextControl.controls);
 
-            let subSplitter = splitControl();
             const subSplitID = "sub_split_percent";
             let subSplitPercent = localStorage.getItem(subSplitID);
             if(!subSplitPercent) {
                 subSplitPercent = 100;
             }
 
-            let subSplitRef = subSplitter.setup(textDiv, {splitDirection: subSplitter.DIRECTION.HORIZONTAL, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
-            subSplitRef.dragEnd.add(function (percent) {
+            let subSplitter = splitControl(textDiv, {splitVertical: false, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
+            subSplitter.dragEnd.add(function (percent) {
                 localStorage.setItem(subSplitID, percent);
             });
 

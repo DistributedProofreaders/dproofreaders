@@ -1,13 +1,12 @@
 /* global $ splitControl */
 $(function () {
-    let splitter = splitControl();
 
-    function appendControlButton(controlDiv, theSplit, initialDirection) {
+    function appendControlButton(controlDiv, theSplit, splitVert) {
         let vSwitchButton = $("<input>", {type: 'button', value: 'Switch to Vertical Split'});
         let hSwitchButton = $("<input>", {type: 'button', value: 'Switch to Horizontal Split'});
 
-        function setSplitControls(splitDirection) {
-            if (splitDirection === splitter.DIRECTION.VERTICAL) {
+        function setSplitControls(splitVertical) {
+            if (splitVertical) {
                 hSwitchButton.show();
                 vSwitchButton.hide();
             } else {
@@ -16,21 +15,21 @@ $(function () {
             }
         }
 
-        function changeSplit(splitDirection) {
-            theSplit.setSplit(splitDirection);
-            setSplitControls(splitDirection);
+        function changeSplit(splitVertical) {
+            theSplit.setSplit(splitVertical);
+            setSplitControls(splitVertical);
         }
 
         vSwitchButton.click(function () {
-            changeSplit(splitter.DIRECTION.VERTICAL);
+            changeSplit(true);
         });
 
         hSwitchButton.click(function () {
-            changeSplit(splitter.DIRECTION.HORIZONTAL);
+            changeSplit(false);
         });
 
         $(controlDiv).append(vSwitchButton, hSwitchButton);
-        setSplitControls(initialDirection);
+        setSplitControls(splitVert);
     }
 
     function appendIndicator(controlDiv, theSplit) {
@@ -41,9 +40,9 @@ $(function () {
         });
     }
 
-    let initialSplitDirection = splitter.DIRECTION.HORIZONTAL;
-    let mainSplit = splitter.setup("#container", {splitDirection: initialSplitDirection});
-    appendControlButton("#control-div", mainSplit, initialSplitDirection);
+    let initialSplitVertical = false;
+    let mainSplit = splitControl("#container", {splitVertical: initialSplitVertical});
+    appendControlButton("#control-div", mainSplit, initialSplitVertical);
     appendIndicator("#control-div", mainSplit);
     mainSplit.reLayout();
 });
