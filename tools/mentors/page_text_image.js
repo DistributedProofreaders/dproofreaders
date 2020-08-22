@@ -43,7 +43,16 @@ $(function () {
             fixHead.append(theImageControl.controls, theSplitter.buttons, theTextControl.controls);
 
             let subSplitter = splitControl();
-            subSplitter.setup(textDiv, {splitDirection: subSplitter.DIRECTION.HORIZONTAL, reDraw: theSplitter.mainSplit.reSize});
+            const subSplitID = "sub_split_percent";
+            let subSplitPercent = localStorage.getItem(subSplitID);
+            if(!subSplitPercent) {
+                subSplitPercent = 100;
+            }
+
+            let subSplitRef = subSplitter.setup(textDiv, {splitDirection: subSplitter.DIRECTION.HORIZONTAL, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
+            subSplitRef.dragEnd.add(function (percent) {
+                localStorage.setItem(subSplitID, percent);
+            });
 
             theSplitter.mainSplit.reLayout();
         }
