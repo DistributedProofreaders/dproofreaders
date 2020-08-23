@@ -45,6 +45,7 @@ $(function () {
             const subSplitID = "sub_split_percent";
             let subSplitPercent = localStorage.getItem(subSplitID);
             if(!subSplitPercent) {
+                // in local storage 0 is stored as "0" and evaluates to true
                 subSplitPercent = 100;
             }
 
