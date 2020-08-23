@@ -95,22 +95,21 @@ var pageChanger = function (theForm) {
 var viewSplitter = function(container) {
     const textImageSplitID = "text_image_split";
     const splitPercentID = "split_percent";
-    let splitter = splitControl();
 
     // stored value is "horizontal" or "vertical"
     let splitDirString = localStorage.getItem(textImageSplitID);
     if(!splitDirString) {
         splitDirString = "horizontal";
     }
-    // splitDirection is a value defined in splitter
-    let splitDirection = (splitDirString === "horizontal") ? splitter.DIRECTION.HORIZONTAL : splitter.DIRECTION.VERTICAL;
+    // splitVertical is true or false
+    let splitVertical = (splitDirString === "vertical");
 
     let splitPercent = localStorage.getItem(splitPercentID);
     if(!splitPercent) {
         splitPercent = 50;
     }
 
-    let mainSplit = splitter.setup(container, {splitDirection: splitDirection, splitPercent: splitPercent});
+    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: splitPercent});
 
     let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
     let vSwitchButton = $("<button>", {type: 'button', class: 'img-button', title: proofIntData.strings.switchVert}).append(vSplitImage);
@@ -121,8 +120,8 @@ var viewSplitter = function(container) {
     vSplitImage.on("load", mainSplit.reLayout);
     hSplitImage.on("load", mainSplit.reLayout);
 
-    function setSplitControls(splitDirection) {
-        if (splitDirection === splitter.DIRECTION.VERTICAL) {
+    function setSplitControls(splitVertical) {
+        if (splitVertical) {
             hSwitchButton.show();
             vSwitchButton.hide();
         } else {
@@ -131,22 +130,22 @@ var viewSplitter = function(container) {
         }
     }
 
-    function changeSplit(splitDirection) {
-        mainSplit.setSplit(splitDirection);
-        setSplitControls(splitDirection);
-        splitDirString = (splitDirection === splitter.DIRECTION.HORIZONTAL) ? "horizontal" : "vertical";
+    function changeSplit(splitVertical) {
+        mainSplit.setSplit(splitVertical);
+        setSplitControls(splitVertical);
+        splitDirString = splitVertical ? "vertical" : "horizontal";
         localStorage.setItem(textImageSplitID, splitDirString);
     }
 
     vSwitchButton.click(function () {
-        changeSplit(splitter.DIRECTION.VERTICAL);
+        changeSplit(true);
     });
 
     hSwitchButton.click(function () {
-        changeSplit(splitter.DIRECTION.HORIZONTAL);
+        changeSplit(false);
     });
 
-    setSplitControls(splitDirection);
+    setSplitControls(splitVertical);
 
     mainSplit.dragEnd.add(function (percent) {
         localStorage.setItem(splitPercentID, percent);
