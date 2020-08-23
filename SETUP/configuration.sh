@@ -130,7 +130,7 @@ _DYN_URL=$base_url/d
 # -------------------------
 
 # The DP code requires phpBB for authentication. phpBB versions 3.0, 3.1,
-# and 3.2 are currently supported.
+# 3.2, and 3.3 are currently supported.
 
 _PHPBB_VERSION=3
 # Valid values: 3 (for phpBB 3.x)

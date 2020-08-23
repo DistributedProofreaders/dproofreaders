@@ -16,8 +16,8 @@ The following lists supported versions for the four primary middleware
 components.
 
 ### PHP
-PHP version 7.0 is the minimum supported version. 7.1 and later should work
-but have not been tested.
+PHP version 7.0 is the minimum supported version. 7.2 has gotten cursory testing
+and seems to work fine. 7.3 and later should work but have not been tested.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
@@ -40,7 +40,7 @@ all of the InnoDB tables created in your system tablespace.
 MariaDB version 5.5 and later should also work but has not been tested.
 
 ### phpBB
-[phpBB](https://www.phpbb.com) 3.1 and 3.2 are supported. Version 3.2 is
+[phpBB](https://www.phpbb.com) 3.1, 3.2, and 3.3 are supported. Version 3.3 is
 recommended.
 
 For phpBB to work with the DP code, you must disable superglobal checking.
@@ -48,15 +48,16 @@ In the phpBB code edit:
 
 * 3.1: `config/parameters.yml`
 * 3.2: `config/default/container/parameters.yml`
+* 3.3: `config/default/container/parameters.yml`
 
 change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ### jpgraph
-[jpgraph](http://jpgraph.net) versions 4.0.2, 4.1.0, 4.2.0, and 4.3.0 will
-all work. Version 4.3.0 is recommended.
+[jpgraph](http://jpgraph.net) versions 4.0.2, 4.1.0, 4.2.0, and 4.3.x will
+all work. The latest 4.3.x release is recommended.
 
-To enable graph caching, apply `jpgraph-4.0.2.patch` (4.0.2 patch will work
-with all versions above).
+To enable graph caching before 4.3.1, apply `jpgraph-4.0.2.patch` (4.0.2 patch
+will work with all 4.x versions before 4.3.1).
 
 ## Distro support
 These middleware components match the following major distribution releases:
