@@ -89,7 +89,7 @@ function get_proofreading_interface_data_js()
     ];
 
     $strings = [
-        "image" => _("Image"),
+        "zoom" => _("Zoom"),
         "resize" => _("Resize"),
         "page" => _("Page"),
         "previous" => _("Previous"),
