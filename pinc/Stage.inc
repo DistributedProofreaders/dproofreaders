@@ -31,10 +31,6 @@ class Stage extends Activity
             // The path (relative to $code_url/faq/) of a document that tells you
             // everything you need to know about working in this stage.
             // Or NULL if there is no such document.
-        $listing_bgcolors,
-            // An array of (two) HTML colors that will be used as the bgcolor
-            // in alternating rows in the listing of projects in this round.
-
         $relative_url
             // The "home" location (relative to $code_url/) of the stage.
     )
@@ -51,7 +47,6 @@ class Stage extends Activity
         $this->description   = $description;
         $this->document      = $document;
         $this->relative_url  = $relative_url;
-        $this->listing_bgcolors = $listing_bgcolors;
 
         global $Stage_for_id_;
         $Stage_for_id_[$id] =& $this;

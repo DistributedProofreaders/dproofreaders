@@ -192,6 +192,42 @@ table.striped {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Available Project Listings */
+
+/* Default stage colors, which can be overridden by the themes */
+@P1-even: #ffe4b5;
+@P1-odd: cornsilk;
+@P2-even: #ffe4b5;
+@P2-odd: cornsilk;
+@P3-even: plum;
+@P3-odd: thistle;
+@F1-even: #ffe4b5;
+@F1-odd: cornsilk;
+@F2-even: plum;
+@F2-odd: thistle;
+@PP-even: #cccccc;
+@PP-odd: #ffffff;
+@PPV-even: #99ffff;
+@PPV-odd: #eaf7f7;
+@SR-even: #ccffcc;
+@SR-odd: #ccff99;
+
+@stages: P1 P2 P3 F1 F2 PP PPV SR;
+
+each(@stages, {
+    @even-color: "@{value}-even";
+    @odd-color: "@{value}-odd";
+    table.stage_@{value} {
+        tr:nth-child(even) {
+            background-color: @@even-color;
+        }
+        tr:nth-child(odd) {
+            background-color: @@odd-color;
+        }
+    }
+})
+
+/* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
 
 .sans-serif {

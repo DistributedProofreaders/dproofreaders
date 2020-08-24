@@ -29,10 +29,6 @@ class Round extends Stage
         $access_change_callback,
         $description,
         $document,
-        $listing_bgcolors,
-            // These parameters have the same semantics as the
-            // corresponding parameters of the Stage constructor.
-            // See Stage.inc for documentation.
 
         $pi_tools,
             // A list of which tools should be available in the proofreading
@@ -82,7 +78,6 @@ class Round extends Stage
             $access_change_callback,
             $description,
             $document,
-            $listing_bgcolors,
             "tools/proofers/round.php?round_id=$round_id"
         );
 

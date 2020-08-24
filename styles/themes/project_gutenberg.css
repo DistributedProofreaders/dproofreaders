@@ -1,7 +1,5 @@
 /* ------------------------------------------------------------------------ */
 /* Theme coloring for Project Gutenberg */
-/* ------------------------------------------------------------------------ */
-/* Import directive */
 body {
   background-color: #ffffff;
   color: #000000;
@@ -237,6 +235,57 @@ table.theme_striped tr:nth-child(odd) {
 }
 table.striped tr:nth-child(even) td {
   background-color: #ddd;
+}
+/* ------------------------------------------------------------------------ */
+/* Available Project Listings */
+/* Default stage colors, which can be overridden by the themes */
+table.stage_P1 tr:nth-child(even) {
+  background-color: #ffe4b5;
+}
+table.stage_P1 tr:nth-child(odd) {
+  background-color: cornsilk;
+}
+table.stage_P2 tr:nth-child(even) {
+  background-color: #ffe4b5;
+}
+table.stage_P2 tr:nth-child(odd) {
+  background-color: cornsilk;
+}
+table.stage_P3 tr:nth-child(even) {
+  background-color: plum;
+}
+table.stage_P3 tr:nth-child(odd) {
+  background-color: thistle;
+}
+table.stage_F1 tr:nth-child(even) {
+  background-color: #ffe4b5;
+}
+table.stage_F1 tr:nth-child(odd) {
+  background-color: cornsilk;
+}
+table.stage_F2 tr:nth-child(even) {
+  background-color: plum;
+}
+table.stage_F2 tr:nth-child(odd) {
+  background-color: thistle;
+}
+table.stage_PP tr:nth-child(even) {
+  background-color: #cccccc;
+}
+table.stage_PP tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+table.stage_PPV tr:nth-child(even) {
+  background-color: #99ffff;
+}
+table.stage_PPV tr:nth-child(odd) {
+  background-color: #eaf7f7;
+}
+table.stage_SR tr:nth-child(even) {
+  background-color: #ccffcc;
+}
+table.stage_SR tr:nth-child(odd) {
+  background-color: #ccff99;
 }
 /* ------------------------------------------------------------------------ */
 /* Sans-serif styling */

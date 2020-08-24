@@ -27,10 +27,6 @@ new Stage(
     NULL, /* access_change_callback */
     _('A qualified person must confirm that the work is in the public domain.'),
     NULL,
-    array(
-        'a',
-        'b',
-    ),
     "tools/site_admin/proj_approvals.php"
 );
 
@@ -50,10 +46,6 @@ new Stage(
     NULL, /* access_change_callback */
     _('We collect various bits of metadata for each page in a project.'),
     NULL,
-    array(
-        'a',
-        'b',
-    ),
     "tools/proofers/md_available.php"
 );
 
@@ -87,10 +79,6 @@ new Round(
     NULL, /* access_change_callback */
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
-    array(
-        0 => '#FFE4B5', // mocassin
-        1 => '#FFF8DC', // cornsilk
-    ),
     $pi_tools_for_P,
     NULL, /* daily_page_limit */
     array(),
@@ -132,10 +120,6 @@ new Round(
     NULL, /* access_change_callback */
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
     'proofreading_guidelines.php',
-    array(
-        0 => '#FFE4B5', // mocassin
-        1 => '#FFF8DC', // cornsilk
-    ),
     $pi_tools_for_P,
     NULL, /* daily_page_limit */
     array( 'P1' ),
@@ -177,10 +161,6 @@ new Round(
     NULL, /* access_change_callback */
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
-    array(
-        0 => '#DDA0DD', // plum
-        1 => '#D8BFD8', // thistle
-    ),
     $pi_tools_for_P,
     NULL, /* daily_page_limit */
     array( 'P1', 'P2' ),
@@ -222,10 +202,6 @@ new Round(
     "f1_access_change_email", /* access_change_callback */
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
-    array(
-        0 => '#FFE4B5', // mocassin
-        1 => '#FFF8DC', // cornsilk
-    ),
     $pi_tools_for_F,
     NULL, /* daily_page_limit */
     array(),
@@ -267,10 +243,6 @@ new Round(
     NULL, /* access_change_callback */
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting errors."),
     'formatting_guidelines.php',
-    array(
-        0 => '#DDA0DD', // plum
-        1 => '#D8BFD8', // thistle
-    ),
     $pi_tools_for_F,
     NULL, /* daily_page_limit */
     array( 'F1' ),
@@ -575,10 +547,6 @@ new Pool(
     "pp_access_change_email", /* access_change_callback */
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
-    array(
-        '#cccccc',
-        '#ffffff'
-    ),
 
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_FIRST_AVAILABLE,
@@ -647,10 +615,6 @@ new Stage(
     NULL, /* access_change_callback */
     _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
     NULL,
-    array(
-        '#CCFFCC',
-        '#CCFF99',
-    ),
     "tools/post_proofers/smooth_reading.php"
 );
 
@@ -665,10 +629,6 @@ new Pool(
     NULL, /* access_change_callback */
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
-    array(
-        '#99FFFF', // "harshflourolightblue"
-        '#EAF7F7', // "paledarkskyblue"
-    ),
 
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
@@ -706,10 +666,6 @@ new Pool(
     NULL, /* access_change_callback */
     _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
     NULL,
-    array(
-        '#e0e8dd',
-        '#ffffff',
-    ),
 
     PROJ_CORRECT_CHECKED_OUT,
     PROJ_CORRECT_AVAILABLE,

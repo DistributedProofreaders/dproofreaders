@@ -20,10 +20,6 @@ class Pool extends Stage
         $access_change_callback,
         $description,
         $document,
-        $listing_bgcolors,
-            // These parameters have the same semantics as the
-            // corresponding parameters of the Stage constructor.
-            // See Stage.inc for documentation.
 
         $project_checkedout_state,
         $project_available_state,
@@ -49,7 +45,6 @@ class Pool extends Stage
             $access_change_callback,
             $description,
             $document,
-            $listing_bgcolors,
             "tools/pool.php?pool_id=$pool_id"
         );
 
