@@ -98,6 +98,9 @@
 .overflow-hidden {
   overflow: hidden;
 }
+.inline {
+  display: inline;
+}
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
 /* DP Sans Mono */
