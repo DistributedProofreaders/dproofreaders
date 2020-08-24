@@ -455,8 +455,8 @@ function show_project_listing(
     }
 
     // Start the table.
-    echo "\n<table id='$anchor' class='availprojectlisting'>";
-    echo "<tr class='center-align' style='background-color: {$stage->listing_bgcolors[1]};'>";
+    echo "\n<table id='$anchor' class='availprojectlisting stage_$stage->id'>";
+    echo "<tr class='center-align'>";
 
     // Print out the header row with links.
     foreach($columns as $col_id => $col_info)
@@ -527,7 +527,7 @@ function show_project_listing(
 
     while ($book=mysqli_fetch_assoc($result))
     {
-        $bgcolor = $stage->listing_bgcolors[$rownum % 2];
+        $style_attr = "";
 
         // Special colours for special books of various types
         if ($show_special_colors)
@@ -535,11 +535,11 @@ function show_project_listing(
             $special_color = get_special_color_for_project($book);
             if (!is_null($special_color))
             {
-                $bgcolor = $special_color;
+                $style_attr = "style='background-color: $special_color;'";
             }
         }
 
-        echo "<tr style='background-color: $bgcolor;'>";
+        echo "<tr $style_attr>";
 
         foreach($columns as $col_id => $col_info)
         {
