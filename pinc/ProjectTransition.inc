@@ -367,6 +367,7 @@ class ProjectTransition
         if ( $this->collateral_actions )
         {
             // Because of the "UPDATE projects" command, $project is now out of date.
+            // *** but maybe not, see above "$project = new Project($projectid);"
             // So get an up-to-date version of the project info (in 
             // $new_project) and pass both versions to the collateral_actions
             // function
@@ -1169,9 +1170,27 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postproofer=''",
-        'collateral_actions'    => null,
+        'collateral_actions'    => "return_to_PP_collateral",
     )
 );
+
+function return_to_PP_collateral( $old_project, $project, $transition, $who )
+{
+    global $site_abbreviation;
+
+    $PPer_username = $project->checkedoutby;
+
+    $PPer = new User($PPer_username);
+    $PPer_email_addr = $PPer->email;
+    $body_blurb =
+        $project->email_introduction() .
+        "\nThis project has been returned to you for further work.\n";
+
+    maybe_mail(
+        $PPer_email_addr,
+        "$site_abbreviation: Book returned to PPer",
+        $body_blurb);
+}
 
 // -----------------------------------------------------------------------------
 // Transitions to and from PROJ_POST_FIRST_UNAVAILABLE:
