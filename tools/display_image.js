@@ -1,4 +1,4 @@
-/*global $ pageBrowserData imageControl */
+/*global $ pageBrowserData imageControl hiddenProject pageChanger */
 
 $(function () {
     let topDiv = $("#top-div");
@@ -13,7 +13,9 @@ $(function () {
     topDiv.append(stretchDiv);
 
     let theImageControl = imageControl();
-    fixHead.append(theImageControl.controls);
+    let pageControlForm = $("<form>", {method: "get", class: "inline"});
+    pageControlForm.append(hiddenProject(), pageChanger(pageControlForm));
+    fixHead.append(theImageControl.controls, pageControlForm);
     stretchDiv.addClass("overflow-auto image-back").append(theImageControl.image);
     theImageControl.setZoom();
 });
