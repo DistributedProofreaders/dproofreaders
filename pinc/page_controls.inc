@@ -84,8 +84,6 @@ function get_proofreading_interface_data_js()
     $font_data = [
         "faces" => get_font_styles(),
         "faceFamilies" => get_full_font_families(),
-        "sizes" => get_font_sizes(),
-        "sizeFamilies" => get_font_sizes_css(),
     ];
 
     $strings = [
@@ -109,6 +107,7 @@ function get_proofreading_interface_data_js()
         "reset" => _("Select a different project"),
         "projectid" => _("Project ID"),
         "selectAPage" => _("Please select a page"),
+        "browserDefault" => BROWSER_DEFAULT_STR,
     ];
 
     global $code_url;

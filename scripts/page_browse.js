@@ -222,23 +222,29 @@ var textControl = function() {
         localStorage.setItem(fontFaceID, fontFaceIndex);
     });
 
-    function setFontSize(fontSizeIndex) {
-        textArea.css("font-size", proofIntData.font.sizeFamilies[fontSizeIndex]);
+    let fontSizes = ["unset", "11px", "12px", "13px", "14px", "15px", "16px", "17px", "18px", "19px", "20px", "21px", "22px", "24px", "26px"];
+
+    function setFontSize(fontSize) {
+        textArea.css("font-size", fontSize);
     }
 
-    let currentFontSizeIndex = localStorage.getItem(fontSizeID);
+    let currentFontSize = localStorage.getItem(fontSizeID);
+    // if key does not exist we get null
+    if(currentFontSize === null) {
+        currentFontSize = "unset";
+    }
 
-    let fontSizes = proofIntData.font.sizes;
-    Object.keys(fontSizes).forEach(function(fontSizeIndex) {
-        let selected = (currentFontSizeIndex === fontSizeIndex);
-        fontSizeSelector.add(new Option(fontSizes[fontSizeIndex], fontSizeIndex, selected, selected));
+    fontSizes.forEach(function(fontSize) {
+        let selected = (currentFontSize === fontSize);
+        let displayFontSize = (fontSize === "unset") ? proofIntData.strings.browserDefault : fontSize;
+        fontSizeSelector.add(new Option(displayFontSize, fontSize, selected, selected));
     });
-    setFontSize(currentFontSizeIndex);
+    setFontSize(currentFontSize);
 
     $(fontSizeSelector).change(function () {
-        let fontSizeIndex = fontSizeSelector.value;
-        setFontSize(fontSizeIndex);
-        localStorage.setItem(fontSizeID, fontSizeIndex);
+        let fontSize = fontSizeSelector.value;
+        setFontSize(fontSize);
+        localStorage.setItem(fontSizeID, fontSize);
     });
 
     function setWrap(textWrap) {
