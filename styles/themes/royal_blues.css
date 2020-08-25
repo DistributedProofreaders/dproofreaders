@@ -238,6 +238,9 @@ table.striped tr:nth-child(even) td {
 }
 /* ------------------------------------------------------------------------ */
 /* Available Project Listings */
+table.availprojectlisting tr:nth-child(even) {
+  background-color: #ddd;
+}
 /* Default stage colors, which can be overridden by the themes */
 table.stage_P1 tr:nth-child(even) {
   background-color: #ffe4b5;
