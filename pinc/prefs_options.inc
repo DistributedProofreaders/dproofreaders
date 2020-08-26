@@ -148,25 +148,6 @@ function get_full_font_families($interface = NULL)
     return $full_font_family;
 }
 
-// return an array of strings which the user sees in the font size selector
-// The array is indexed like get_available_proofreading_font_sizes()
-// this is used in the format preview font selector.
-function get_font_sizes()
-{
-    $font_sizes = get_available_proofreading_font_sizes();
-    $font_sizes[0] = BROWSER_DEFAULT_STR;
-    return $font_sizes;
-}
-
-// return an array of strings to use to render text
-// The array is indexed like get_available_proofreading_font_sizes()
-function get_font_sizes_css()
-{
-    $font_sizes = get_available_proofreading_font_sizes();
-    $font_sizes[0] = 'unset';
-    return $font_sizes;
-}
-
 function get_user_proofreading_font_other($interface=NULL)
 {
     $user = User::load_current();
