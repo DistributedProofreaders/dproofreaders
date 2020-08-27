@@ -63,17 +63,17 @@ function listHospitalProjects( $input, $argv )
         // Get the preformatted remarks from PCs
         $matches = array();
         $problems = preg_match('/<pre>.*?<\/pre>/s', $project->comments,$matches);
-        $pstate   = iconv('ISO-8859-1','UTF-8',project_states_text($project->state));
+        $pstate   = project_states_text($project->state);
         $puri     = "$code_url/project.php?id=$project->projectid";
-        $plink    = iconv('ISO-8859-1','UTF-8',"<a href='$puri'>$project->nameofwork</a>");
+        $plink    = "<a href='$puri'>$project->nameofwork</a>";
 
         $output .= "<table style='border: 1px solid red; padding: 2px; width: 90%; margin: .75em;'>\n";
         $output .= "<tr><th width='12%' style='vertical-align: top;'>Title:</th><td>$plink</td></tr>\n";
-        $output .= "<tr><th>Author:</th><td>".iconv('ISO-8859-1','UTF-8',$project->authorsname)."</td></tr>\n";
-        $output .= "<tr><th>PM/State:</th><td>".iconv('ISO-8859-1','UTF-8',$project->username).": <u>$pstate</u></td></tr>\n";
+        $output .= "<tr><th>Author:</th><td>$project->authorsname</td></tr>\n";
+        $output .= "<tr><th>PM/State:</th><td>$project->username: <u>$pstate</u></td></tr>\n";
         $output .= "<tr><th style='vertical-align: top;'>Issues:</th><td style='font-size:90%;'>";
         if ($problems)
-            $output .= iconv('ISO-8859-1','UTF-8',($matches) ? wordwrap($matches[0],80) : '&nbsp;');
+            $output .= $matches ? wordwrap($matches[0],80) : '&nbsp;';
         $output .= "</td></tr>\n";
         $output .= "</table>\n";
         }

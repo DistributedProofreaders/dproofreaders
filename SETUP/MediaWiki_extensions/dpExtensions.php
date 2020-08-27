@@ -138,11 +138,6 @@ function showProjectInfo($input, $argv, $parser)
     if (empty($project['checkedoutby']))
         $project['checkedoutby'] = '(none)';
 
-    foreach ($project as $a => $b)
-    {
-        $project[$a] = iconv('ISO-8859-1','UTF-8',$b);
-    }
-
     if (isset ($argv['summary']) || empty($input))
     {
         $output = "<table class='projectinfo plainlinks'>".
