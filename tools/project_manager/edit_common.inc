@@ -158,7 +158,7 @@ function difficulty_list($difficulty_level)
 function special_list($special)
 {
     // get info on special days
-    $specs_result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT
             spec_code,
             display_name,
@@ -166,7 +166,8 @@ function special_list($special)
         FROM special_days
         WHERE enable = 1
         ORDER BY open_month, open_day
-    ");
+    ";
+    $specs_result = DPDatabase::query($sql);
 
     // it'd be nice to make this static, or something, so it only was loaded once
     $specials_array = array();
@@ -261,12 +262,13 @@ function image_source_list($image_source)
 {
     global $site_abbreviation;
     // get info on image_sources
-    $imso_result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT code_name, display_name
         FROM image_sources
         WHERE is_active = 1
         ORDER BY display_name
-    ") or die(DPDatabase::log_error());
+    ";
+    $imso_result = DPDatabase::query($sql);
 
     $imso_array = array(
         // TRANSLATORS: %s is the site abbreviation

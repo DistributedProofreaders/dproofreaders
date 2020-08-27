@@ -74,13 +74,19 @@ if(!$format) // no parameter passed
     $format = ($L_format xor $R_format) ? "remove" : "keep";
 }
 
-$query = "
-    SELECT $L_text_column_name, $R_text_column_name,
-           $L_user_column_name, $R_user_column_name
-    FROM $projectid
-    WHERE image='$image'";
+$query = sprintf("
+    SELECT %s, %s,
+           %s, %s
+    FROM %s
+    WHERE image='%s'",
+    $L_text_column_name,
+    $R_text_column_name,
+    $L_user_column_name,
+    $R_user_column_name,
+    DPDatabase::escape($projectid),
+    DPDatabase::escape($image));
 
-$res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+$res = DPDatabase::query($query);
 list($L_text, $R_text, $L_user, $R_user) = mysqli_fetch_row($res);
 $can_see_names_for_this_page = can_see_names_for_page($projectid, $image);
 if ( $can_see_names_for_this_page) {
@@ -176,8 +182,16 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_c
     $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
-    $query = "SELECT image, $L_user_column_name, ($L_text_column_name = $R_text_column_name) AS is_empty_diff FROM $projectid ORDER BY image ASC";
-    $res = mysqli_query(DPDatabase::get_connection(),  $query) or die(DPDatabase::log_error());
+    $query = sprintf("
+        SELECT image,
+            %s,
+            (%s = %s) AS is_empty_diff
+        FROM %s ORDER BY image ASC",
+        $L_user_column_name,
+        $L_text_column_name,
+        $R_text_column_name,
+        DPDatabase::escape($projectid));
+    $res = DPDatabase::query($query);
     $prev_image = "";
     $next_image = "";
     $prev_from_proofer = "";
@@ -280,8 +294,12 @@ function can_see_names_for_page($projectid, $image)
             }
             $fields .= $round->user_column_name;
         }
-        $query = "SELECT $fields from $projectid WHERE image = '$image'";
-        $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        $query = sprintf("
+            SELECT $fields from %s WHERE image = '%s'",
+            $fields,
+            DPDatabase::escape($projectid),
+            DPDatabase::escape($image));
+        $res = DPDatabase::query($query);
         $page_res = mysqli_fetch_array($res);
         foreach ($page_res as $page_user) {
             if ($page_user == $pguser) {

@@ -18,7 +18,12 @@ if ($round_num == 0) {
     $text_column_name = $round->text_column_name;
 }
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT $text_column_name FROM $project WHERE image = '$image'"); 
+$sql = sprintf("
+    SELECT %s FROM %s WHERE image = '%s'",
+    $text_column_name,
+    DPDatabase::escape($project),
+    DPDatabase::escape($image));
+$result = DPDatabase::query($sql);
 if ($result === FALSE)
 {
     // Likely the project's page-table does not exist (in this database).
