@@ -386,7 +386,6 @@ CREATE TABLE `projects` (
   `text_preparer` varchar(25) NOT NULL default '',
   `extra_credits` tinytext NOT NULL,
   `smoothread_deadline` int(20) NOT NULL default '0',
-  `up_projectid` int(10) default '0',
   `deletion_reason` tinytext NOT NULL,
   `custom_chars` varchar(64) DEFAULT '',
   PRIMARY KEY  (`projectid`),
@@ -637,39 +636,6 @@ INSERT INTO themes SET
     name='Royal Blues',
     unixname='royal_blues',
     created_by='USFJoseph';
-
-#
-# Table structure for table `uber_projects`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `uber_projects` (
-  `up_projectid` int(10) NOT NULL auto_increment,
-  `up_nameofwork` varchar(255) NOT NULL default '',
-  `up_topic_id` int(10) default NULL,
-  `up_contents_post_id` int(10) default NULL,
-  `up_modifieddate` int(20) NOT NULL default '0',
-  `up_enabled` tinyint(1) default '1',
-  `up_description` text,
-  `d_nameofwork` varchar(255) default NULL,
-  `d_authorsname` varchar(255) default NULL,
-  `d_language` varchar(255) default NULL,
-  `d_comments` text,
-  `d_special` varchar(20) default NULL,
-  `d_checkedoutby` varchar(25) default NULL,
-  `d_scannercredit` tinytext,
-  `d_clearance` text,
-  `d_year` varchar(4) default NULL,
-  `d_genre` varchar(50) default NULL,
-  `d_difficulty` varchar(20) default NULL,
-  `d_image_source` varchar(10) default NULL,
-  `d_image_preparer` varchar(25) default NULL,
-  `d_text_preparer` varchar(25) default NULL,
-  `d_extra_credits` tinytext,
-  PRIMARY KEY  (`up_projectid`)
-);
 # --------------------------------------------------------
 
 #

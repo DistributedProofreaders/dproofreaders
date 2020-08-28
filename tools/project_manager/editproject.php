@@ -58,11 +58,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     {
         // we're creating a new project
         check_user_can_load_projects(true); // exit if they can't
-        if ( isset($pih->up_projectid) && $pih->up_projectid )
-        {
-            $page_title = _("Create a Project from an Uber Project");
-        }
-        elseif ( isset($pih->original_marc_array_encd) )
+        if ( isset($pih->original_marc_array_encd) )
         {
             $page_title = _("Create a Project from a MARC Record");
         }
@@ -99,9 +95,9 @@ elseif (isset($_POST['quit']))
 }
 else
 {
-    $requested_action = get_enumerated_param($_REQUEST, 'action', null, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record', 'edit'));
+    $requested_action = get_enumerated_param($_REQUEST, 'action', null, array('createnew', 'clone', 'create_from_marc_record', 'edit'));
 
-    if (in_array($requested_action, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record')))
+    if (in_array($requested_action, array('createnew', 'clone', 'create_from_marc_record')))
     {
         check_user_can_load_projects(true); // exit if they can't
     }
@@ -116,11 +112,6 @@ else
         case 'clone':
             $page_title = _("Clone a Project");
             $fatal_error = $pih->set_from_db(FALSE);
-            break;
-
-        case 'createnewfromuber':
-            $page_title = _("Create a Project from an Uber Project");
-            $fatal_error = $pih->set_from_uberproject();
             break;
         
         case 'create_from_marc_record':
@@ -236,57 +227,6 @@ class ProjectInfoHolder
     }
 
     // -------------------------------------------------------------------------
-
-    function set_from_uberproject()
-    {
-        global $pguser;
-        if (!isset($_GET['up_projectid']))
-        {
-            return sprintf(_("parameter '%s' is unset"), 'up_projectid');
-        }
-
-        $up_projectid = intval($_GET['up_projectid']);
-        if ( $up_projectid == '' )
-        {
-            return sprintf(_("parameter '%s' is empty"), 'up_projectid');
-        }
-
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM uber_projects WHERE up_projectid = $up_projectid");
-        if (mysqli_num_rows($result) == 0)
-        {
-            return sprintf(_("parameter '%s' is invalid"), 'up_projectid') . ": '$up_projectid'";
-        }
-
-        // TODO: check that user has permission to create a project from this UP
-
-        $up_info = mysqli_fetch_assoc($result);
-
-        $this->nameofwork       = $up_info['d_nameofwork'];
-        $this->authorsname      = $up_info['d_authorsname'];
-        $this->projectmanager   = $pguser;
-        $this->checkedoutby     = $up_info['d_checkedoutby'];
-        $this->language         = $up_info['d_language'];
-        $this->scannercredit    = $up_info['d_scannercredit'];
-        $this->comments         = $up_info['d_comments'];
-        $this->clearance        = $up_info['d_clearance'];
-        $this->postednum        = $up_info['d_postednum'];
-        $this->genre            = $up_info['d_genre'];
-        $this->difficulty_level = $up_info['d_difficulty'];
-        $this->special_code     = $up_info['d_special'];
-        $this->image_source     = $up_info['d_image_source'];
-        $this->image_preparer   = $up_info['d_image_preparer'];
-        $this->text_preparer    = $up_info['d_text_preparer'];
-        $this->extra_credits    = $up_info['d_extra_credits'];
-        $this->deletion_reason  = '';
-        $this->custom_chars     = $up_info['d_custom_chars'];
-        $this->state            = '';
-
-        // $this->year          = $up_info['d_year'];
-
-        $this->up_projectid     = $up_projectid;
-    }
-
-    // -------------------------------------------------------------------------
     // edit an existing project, or create a new project by
     // cloning an existing project
     function set_from_db($edit_existing, $projectid='')
@@ -367,7 +307,6 @@ class ProjectInfoHolder
             $this->clone_projectid = $project->projectid;
             $this->state            = '';
         }
-        $this->up_projectid = $project->up_projectid;
         $project_charsuites = $project->get_charsuites(FALSE);
         $this->charsuites = [];
         foreach($project_charsuites as $project_charsuite)
@@ -635,7 +574,6 @@ class ProjectInfoHolder
         $this->comments         = @$_POST['comments'];
         $this->clearance        = @$_POST['clearance'];
         $this->difficulty_level = @$_POST['difficulty_level'];
-        $this->up_projectid     = intval(@$_POST['up_projectid']);
         $this->original_marc_array_encd = @$_POST['rec'];
         $this->extra_credits    = @$_POST['extra_credits'];
         $this->deletion_reason  = @$_POST['deletion_reason'];
@@ -662,7 +600,6 @@ class ProjectInfoHolder
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
-            up_projectid   = '{$this->up_projectid}',
             nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->nameofwork))."',
             authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->authorsname))."',
             language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
@@ -869,7 +806,7 @@ class ProjectInfoHolder
             else
             {
                 // We're creating a project by means other than cloning
-                // (from_nothing, from_marc_record, from_uberproject).
+                // (from_nothing, from_marc_record).
                 // Initialize its GWL and BWL to empty.
 
                 $good_words = array();
@@ -947,10 +884,6 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='projectid' value='$this->projectid'>";
         }
-        if (!empty($this->up_projectid))
-        {
-            echo "<input type='hidden' name='up_projectid' value='$this->up_projectid'>";
-        }
         if (!empty($this->clone_projectid))
         {
             echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
@@ -991,18 +924,6 @@ class ProjectInfoHolder
                 $is_checked_out = TRUE;
                 $can_edit_PPer = user_is_a_sitemanager();
             }
-        }
-        if (!empty($this->up_projectid))
-        {
-            $res2 = mysqli_query(DPDatabase::get_connection(), "
-                SELECT up_nameofwork
-                FROM uber_projects
-                WHERE up_projectid = '$this->up_projectid'
-            ");
-            $row = mysqli_fetch_assoc($res2);
-            $up_nameofwork = $row["up_nameofwork"];
-
-            $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
         $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork', '', array("maxlength" => 255, "required" => true));
         $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname', '', array("maxlength" => 255, "required" => true));
