@@ -6,7 +6,7 @@ header('Content-type: text/plain');
 
 // ------------------------------------------------------------
 
-echo "Removing uber project column from project tables...\n";
+echo "Removing up_projectid column from projects table...\n";
 
 $sql = "
     ALTER TABLE projects
@@ -19,7 +19,7 @@ mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase
 
 // ------------------------------------------------------------
 
-echo "Removing uber projects table...\n";
+echo "Removing uber_projects table...\n";
 
 $sql = "
     DROP TABLE uber_projects
