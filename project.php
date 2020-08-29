@@ -1163,7 +1163,6 @@ function do_event_subscriptions()
     $url = "$code_url/tools/set_project_event_subs.php";
     echo "<form method='post' action='$url'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
-    echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#event_subscriptions'>\n";
     echo "<table>\n";
     echo "<tr>";
     echo "<th>", _("Event"), "</th>";
