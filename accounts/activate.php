@@ -43,7 +43,7 @@ output_header(_('Activate account'));
 if(!isset($user->id)) {
     echo "<p>\n";
     echo sprintf(
-        _("There is no account with the id '%s' waiting to be activated."), $ID
+        _("There is no account with the id '%s' waiting to be activated."), html_safe($ID)
     );
 
     if($existing_user) {
