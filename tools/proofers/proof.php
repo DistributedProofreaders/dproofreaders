@@ -10,15 +10,11 @@ require_login();
 // one of the links in "Done" or "In Progress" trays.)
 
 $projectid      = get_projectID_param($_GET, 'projectid');
-$expected_state = @$_GET['proj_state'];
-
-if (empty($expected_state)) die( "parameter 'proj_state' is empty" );
+$expected_state = get_enumerated_param($_GET, 'proj_state', $PROJECT_STATES_IN_ORDER[0], $PROJECT_STATES_IN_ORDER);
 
 $project = new Project($projectid);
 
 // Check $expected_state.
-$expected_state_text = project_states_text($expected_state);
-if (empty($expected_state_text)) die( "parameter 'proj_state' has bad value: '$expected_state'" );
 if ($expected_state != $project->state)
 {
     slim_header( $project->nameofwork );
@@ -27,7 +23,7 @@ if ($expected_state != $project->state)
     echo sprintf(
          ('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
         $project->nameofwork,
-        $expected_state_text,
+        project_states_text($expected_state),
         project_states_text($project->state)
     );
     echo "</p>\n";
