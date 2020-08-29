@@ -297,7 +297,6 @@ at www.pgdp.net (the ones referred to above are prefixed with `**`):
         ** Projects Waiting
         ** Projects Being Proofread or Formatted
         ** Projects Being Post-Processed or Verified
-        -- UberProjects
         ** Archive of Posted Projects
     Community
         -- DP Culture and History
