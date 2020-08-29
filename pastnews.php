@@ -11,23 +11,16 @@ require_login();
 //
 // Sorts the news by their id's and then prints one by one.
 
-if (isset($_GET['news_page_id'])) {
-    $news_page_id = $_GET['news_page_id'];
-    if ( isset($NEWS_PAGES[$news_page_id]) ) {
-        $news_subject = get_news_subject($news_page_id);
-        output_header(sprintf(_("Recent Site News Items for %s"), $news_subject));
-        echo "<br>";
-    } else {
-       echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
-       exit();
-    }
-} else {
-    echo _("No news_page_id specified, exiting.");
-    exit();
-}
-
-
+$news_page_id = get_enumerated_param($_GET, "news_page_id", "FRONT", array_keys($NEWS_PAGES));
 $num = get_integer_param($_GET, 'num', 0, 0, NULL);
+
+$news_subject = get_news_subject($news_page_id);
+
+$title = sprintf(_("Recent Site News Items for %s"), $news_subject);
+output_header($title);
+
+echo "<h1>" . html_safe($title) . "</h1>";
+
 if ($num == 0)
 {
     // Invoking this script with num=0 (or without
@@ -52,7 +45,7 @@ $result = mysqli_query(DPDatabase::get_connection(), sprintf("
 
 if (mysqli_num_rows($result)== 0)
 {
-    echo "<br><br>" . sprintf(_("No recent news items for %s"), $news_subject);
+    echo "<p>" . sprintf(_("No recent news items for %s"), $news_subject) . "</p>";
 } 
 else 
 {
