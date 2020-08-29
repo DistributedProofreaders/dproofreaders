@@ -137,10 +137,7 @@ function require_login()
     // that would confuse parsing of the login.php URL.)
     $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
     $url="$code_url/accounts/require_login.php?destination=$request_uri_encoded";
-    $body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
-    $title = _("Please Sign In");
-
-    metarefresh(0,$url,$title,$body);
+    metarefresh(0, $url);
 }
 
 // Autoloading functions for DP classes in pinc/

@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'misc.inc'); // startswith()
 
-function metarefresh($seconds,$url,$title="",$body="")
+function metarefresh($seconds, $url, $title="", $body="", $allow_external=FALSE)
 // This function will redirect the browser to load a specific page. If
 // possible it will use HTTP header redirection (via Location:). If that
 // isn't possible, it will use a browser redirect (via a <meta> tag).
@@ -10,7 +10,7 @@ function metarefresh($seconds,$url,$title="",$body="")
 // client (determined if headers have been sent or if the output buffer
 // has contents in it).
 {
-    global $testing;
+    global $testing, $code_url;
 
     if ($testing && (headers_sent() || ob_get_length()))
     {
@@ -23,28 +23,35 @@ function metarefresh($seconds,$url,$title="",$body="")
         $sec = $seconds;
     }
 
+    // confirm we have an absolute URL
+    if(!startswith($url,'http'))
+    {
+        // get the proper protocol
+        $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+        $absolute_url .= $_SERVER['HTTP_HOST'];
+        if(!startswith($url,'/'))
+        {
+            $absolute_url .= dirname($_SERVER['SCRIPT_NAME']) . "/";
+        }
+        $absolute_url .= $url;
+    }
+    else
+    {
+        $absolute_url = $url;
+    }
+
+    // If $allow_external is FALSE and the URL isn't local, redirect the
+    // user to the homepage.
+    if(!$allow_external && !startswith($absolute_url, $code_url))
+    {
+        $absolute_url = "$code_url/default.php";
+    }
+
     // If headers haven't been sent yet and the redirect is for 0 seconds
     // do the redirection using HTTP headers instead of relying on a
     // browser refresh.
     if($sec==0 && !headers_sent())
     {
-        // confirm we have an absolute URL
-        if(!startswith($url,'http'))
-        {
-            // get the proper protocol
-            $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
-            $absolute_url .= $_SERVER['HTTP_HOST'];
-            if(!startswith($url,'/'))
-            {
-                $absolute_url .= dirname($_SERVER['SCRIPT_NAME']) . "/";
-            }
-            $absolute_url .= $url;
-        }
-        else
-        {
-            $absolute_url = $url;
-        }
-
         header("Location: $absolute_url");
         exit;
     }
