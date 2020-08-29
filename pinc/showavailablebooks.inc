@@ -447,7 +447,7 @@ function show_project_listing(
     {
         echo_html_comment($query);
     }
-    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $result = DPDatabase::query($query);
 
     if( is_a( $stage, 'Round' ) )
     {
@@ -495,7 +495,7 @@ function show_project_listing(
             $ext_sort = $ext_sort_col . $ext_sort_dir;
 
             $sort_url = "?{$other_settings}{$ext_sort_param_name}={$ext_sort}#{$anchor}";
-            echo "<a href='$sort_url'>$label</a>$caret";
+            echo "<a href='" . attr_safe($sort_url) ."'>$label</a>$caret";
         }
 
         echo "</th>";
@@ -712,15 +712,23 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         if ($local_trace)
         {
             echo "\n<p>";
-            echo sprintf(
+            echo html_safe(
+                sprintf(
                     _("%1\$s supplies value '%2\$s'"),
-                    $provider_noun, $curr_ext_sort );
+                    $provider_noun, $curr_ext_sort )
+            );
             echo "</p>";
         }
 
         if ( is_null($curr_ext_sort) )
         {
             // This (potential) provider isn't supplying a value this time.
+            continue;
+        }
+
+        if ( is_array($curr_ext_sort) )
+        {
+            // Invalid data type for provider, skip it
             continue;
         }
 
@@ -744,9 +752,11 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         if ( !isset($curr_sql_sort_col) )
         {
             echo "\n<p class='error'>\n";
-            echo sprintf(
+            echo html_safe(
+                sprintf(
                     _("%1\$s value '%2\$s' has bad column part: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col );
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col )
+            );
             echo "\n</p>";
             continue;
         }
@@ -762,11 +772,13 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
         else
         {
-            echo "\n<p class='error'>\n";
-            echo sprintf(
+            echo "\n<p class='warning'>\n";
+            echo html_safe(
+                sprintf(
                     // TRANSLATORS: "sort direction" refers to the sort order direction (ascending vs descending)
                     _("%1\$s value '%2\$s' has bad sort direction: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir );
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir )
+            );
 
             // We could skip to the next provider via 'continue',
             // but that seems a bit draconian.
@@ -776,9 +788,11 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             $curr_ext_sort = $curr_ext_sort_col .  $curr_ext_sort_dir;
 
             echo "\n";
-            echo sprintf(
+            echo html_safe(
+                sprintf(
                     _("Using '%s' instead."),
-                    $curr_ext_sort_dir );
+                    $curr_ext_sort_dir )
+            );
             echo "\n</p>";
         }
 
@@ -799,9 +813,11 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             if ($local_trace)
             {
                 echo "\n<p>";
-                echo sprintf(
+                echo html_safe(
+                    sprintf(
                         _("DB setting '%1\$s' receives value '%2\$s'"),
-                        $ext_sort_setting_name, $curr_ext_sort );
+                        $ext_sort_setting_name, $curr_ext_sort )
+                );
                 echo "</p>";
             }
             $userSettings->set_value($ext_sort_setting_name, $curr_ext_sort);
