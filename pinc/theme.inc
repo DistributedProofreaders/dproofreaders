@@ -518,13 +518,20 @@ function maybe_show_language_selector()
     <?php
 
     $intlang = get_desired_language();
-    echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'><div>\n";
+    echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'>";
+    echo "<div>\n";
     echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
     echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
     foreach($options as $locale => $label)
+    {
         echo "<option value='$locale'".(($locale==$intlang)?" selected":"").">$label</option>\n";
-    echo "</select><input type='hidden' name='returnto' value='".$_SERVER['REQUEST_URI']."'>\n</div></form>\n";
+    }
+    echo "</select>\n";
+    $safe_current_url = attr_safe($_SERVER["REQUEST_URI"]);
+    echo "<input type='hidden' name='returnto' value='$safe_current_url'>\n";
+    echo "</div>\n";
+    echo "</form>\n";
     echo "<hr>\n";
 }
 

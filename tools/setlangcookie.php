@@ -2,6 +2,7 @@
 $relPath="../pinc/";
 include_once($relPath."base.inc");
 include_once($relPath."misc.inc");
+include_once($relPath."metarefresh.inc");
 
 // These should always be set if the user got here correctly.
 // They won't be set if someone accesses this URL directly.
@@ -19,6 +20,6 @@ else
     setcookie("language", '', time()-3600, "/");
 }
 
-header("Location: $location");
+metarefresh(0, $location);
 
 // vim: sw=4 ts=4 expandtab
