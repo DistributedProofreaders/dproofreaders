@@ -1,13 +1,13 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');  // get_projectID_param()
 
 require_login();
 
 $projectid = get_projectID_param($_POST, 'projectid');
-$return_uri = urldecode($_POST['return_uri']);
 
 $subs = array();
 $unsubs = array();
@@ -30,6 +30,8 @@ foreach ( $subscribable_project_events as $event => $label )
     }
 }
 
+slim_header(_("Event Subscriptions"));
+
 _html_ul(
     _("You are now subscribed to these events for this project:"),
     $subs );
@@ -40,7 +42,7 @@ _html_ul(
 
 function _html_ul( $header, $items )
 {
-    echo $header;
+    echo "<p>" . html_safe($header) . "</p>";
     echo "<ul>\n";
     if ( $items )
     {
@@ -56,6 +58,6 @@ function _html_ul( $header, $items )
     echo "</ul>\n";
 }
 
-echo "<a href='$return_uri'>", _("Click here to return"), "</a>";
+echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#event_subscriptions'") . "</p>";
 
 // vim: sw=4 ts=4 expandtab
