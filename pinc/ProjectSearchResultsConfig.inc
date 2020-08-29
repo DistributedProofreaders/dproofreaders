@@ -111,11 +111,11 @@ class ConfigForm extends ColumnData
         global $code_url, $pguser;
 
         echo "<h1>$page_title</h1>\n";
-        $origin = array_get($_GET, 'origin', '$code_url/activity_hub.php' );
+        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php" );
         echo "<div style='clear: both;'>
             <form method='GET'>
             <input type='hidden' name='show' value='set_columns'>
-            <input type='hidden' name='origin' value='", $origin , "'>
+            <input type='hidden' name='origin' value='" . attr_safe($origin) . "'>
         ";
         // split the controls across two columns using tables within divs
         $index = 0;
@@ -200,14 +200,14 @@ function get_search_configure_button()
 
 function handle_set_cols($show_view, $search_origin)
 {
-    global $pguser;
+    global $pguser, $code_url;
 
     if ($show_view == 'set_columns')
     {
         $userSettings =& Settings::get_Settings($pguser);
         $config_saver = new ConfigSaver($userSettings, $search_origin);
         $config_saver->store_data();
-        $origin = array_get($_GET, 'origin', '$code_url/activity_hub.php' );
+        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php");
         metarefresh(0, $origin);
     }
 }
