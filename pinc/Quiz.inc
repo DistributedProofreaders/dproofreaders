@@ -203,7 +203,7 @@ class QuizCharSuites
     public function get_charsuites()
     {
         $charsuites[] = CharSuites::get('basic-latin');
-        $charsuites[] = CharSuites::get('extended-european-latin');
+        $charsuites[] = CharSuites::get('extended-european-latin-b');
         return $charsuites;
     }
 }
