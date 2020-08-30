@@ -1134,6 +1134,14 @@ function validate_projectID($projectid)
 function get_projectID_param( $arr, $key, $allownull = false )
 {
     $projectid = @$arr[$key];
+
+    if(isset($projectid) && !is_string($projectid))
+    {
+        throw new InvalidArgumentException(sprintf(
+            _("Parameter '%1\$s' is not a valid type"),
+            $key));
+    }
+
     if($projectid == NULL && $allownull)
     {
         return NULL;
@@ -1172,6 +1180,14 @@ function validate_page_image($page_name)
 function get_page_image_param($arr, $key, $allownull = false)
 {
     $page_name = @$arr[$key];
+
+    if(isset($page_name) && !is_string($page_name))
+    {
+        throw new InvalidArgumentException(sprintf(
+            _("Parameter '%1\$s' is not a valid type"),
+            $key));
+    }
+
     if($page_name == NULL && $allownull)
     {
         return NULL;

@@ -47,7 +47,13 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
     if ( isset($arr[$key]) )
     {
         $s = $arr[$key];
-        assert(is_string($s));
+
+        if(!is_string($s))
+        {
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is not a valid type"),
+                $key));
+        }
 
         // Trim whitespace from both ends of the string.
         $s = trim($s);
@@ -183,7 +189,13 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
     if ( isset($arr[$key]) )
     {
         $s = $arr[$key];
-        assert(is_string($s));
+
+        if(!is_string($s))
+        {
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is not a valid type"),
+                $key));
+        }
 
         // Trim whitespace from both ends of the string.
         $s = trim($s);
@@ -286,7 +298,13 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
     if (isset($arr[$key]))
     {
         $s = $arr[$key];
-        assert(is_string($s));
+
+        if(!is_string($s))
+        {
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is not a valid type"),
+                $key));
+        }
 
         // Trim whitespace from both ends of the string.
         $s = trim($s);
