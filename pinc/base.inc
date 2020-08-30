@@ -74,9 +74,6 @@ try {
         // so output it in English.
         echo "An error occurred connecting to the database. This is unexpected ";
         echo "as the site is not in maintenance mode. Please try again later.";
-        echo "<br>";
-        echo "The following error has been logged:";
-        echo "<blockquote>$error_message</blockquote>";
         exit(1);
     }
 }
