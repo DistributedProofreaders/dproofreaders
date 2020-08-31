@@ -50,6 +50,9 @@ if(!headers_sent())
     // to ensure others behind the proxy don't inadvertantly get a language
     // they aren't expecting.
     header("Vary: Accept-Language");
+
+    // Disallow other sites from embedding pages in frames/iframes
+    header("Content-Security-Policy: frame-ancestors 'self'", false);
 }
 
 include_once($relPath.'gettext_setup.inc');
