@@ -20,6 +20,17 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     if($was_output)
         return;
 
+    $user = User::load_current();
+
+    // If the user isn't logged in, output a CSRF token for the login and
+    // registration form. We need to do this here before we output any other
+    // HTML and the login form can appear on multiple pages since it's in
+    // the navbar.
+    if(!$user)
+    {
+        set_csrf_token(FALSE);
+    }
+
     $intlang = get_desired_language();
 
     // HTML 5 dictates that ISO-8859-1 documents should declare their charset
@@ -49,7 +60,6 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     echo "</title>\n";
 
     // Global CSS
-    $user = User::load_current();
     $theme_name = $user ? $user->i_theme : "project_gutenberg";
     $css_files = array(
         "$code_url/styles/themes/$theme_name.css",

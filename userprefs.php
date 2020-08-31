@@ -76,6 +76,8 @@ if (array_get($_POST, "insertdb", "") != "") {
     // one of the tabs was displayed and now it has been posted
     // determine which and let that tab save 'itself'.
 
+    validate_csrf_token();
+
     if ($selected_tab == 0)
         save_general_tab($user);
     else if ($selected_tab == 1)
@@ -195,7 +197,8 @@ $theme_extra_args["js_data"] =
     var font_size_mapping = " . json_encode(get_available_proofreading_font_sizes()) . ";
     var font_face_fallback = \"" . get_proofreading_font_family_fallback() . "\";
 ";
-    
+
+set_csrf_token();
 output_header($header, NO_STATSBAR, $theme_extra_args);
 echo "<h1>$header</h1>";
 
@@ -204,6 +207,9 @@ echo_tabs($tabs, $selected_tab);
 echo "<p>" . _("Click the ? for help on that specific preference.") . "</p>";
 
 echo "<form action='userprefs.php' method='post'>";
+
+// Output CSRF token
+echo_csrf_token_form_input();
 
 echo "<input type='hidden' name='tab' value='$selected_tab'>";
 // Keep remembering the URL from which the preferences where entered.

@@ -29,6 +29,7 @@ $login_failures = array(
     'unknown_failure'  => sprintf(_("An unexpected failure occurred, please contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
     'too_many_attempts'=> sprintf(_("You exceeded the maxiumum number of failed logins. Go <a href='%s'>log into the forums</a> and answer the CAPTCHA. Once you have successfully logged in there, return here and try again."), "$forums_url/ucp.php?mode=login"),
     'reg_mismatch'     => sprintf(_("You are registered with the forum software, but not with %s."), $site_abbreviation),
+    'form_timeout'     => _("Form submission timeout, go back and try again."),
 );
 
 $error = @$login_failures[@$_GET['error_code']];
