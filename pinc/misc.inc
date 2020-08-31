@@ -1162,6 +1162,50 @@ function return_bytes($size_str)
     }
 }
 
+// -----------------------------------------------------------------------------
+
+class InvalidCSRFTokenException extends UnexpectedValueException {}
+
+function set_csrf_token($force_set = TRUE)
+{
+    global $use_secure_cookies;
+
+    if(!$force_set && @$_COOKIE["CSRFtoken"])
+        return;
+
+    $token = bin2hex(openssl_random_pseudo_bytes(16));
+    setcookie("CSRFtoken", $token, time() + 60 * 60 * 24, '/', '', $use_secure_cookies);
+    $_COOKIE["CSRFtoken"] = $token;
+}
+
+function destroy_csrf_token()
+{
+    global $use_secure_cookies;
+
+    setcookie("CSRFtoken", "", time() - 60, '/', '', $use_secure_cookies);
+}
+
+function get_csrf_token_form_input()
+{
+    return "<input type='hidden' name='CSRFtoken' value='" . attr_safe($_COOKIE["CSRFtoken"]) . "'>";
+}
+
+function echo_csrf_token_form_input()
+{
+    echo get_csrf_token_form_input();
+}
+
+function validate_csrf_token()
+{
+    if(@$_POST["CSRFtoken"] != @$_COOKIE["CSRFtoken"])
+    {
+        throw new InvalidCSRFTokenException(
+            _("Form submission timeout, go back and try again.")
+        );
+    }
+}
+
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Useful exceptions

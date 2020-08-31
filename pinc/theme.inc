@@ -218,6 +218,8 @@ function html_navbar()
 
         $login_form = "<form action='$code_url/accounts/login.php' method='post'><div>\n";
 
+        $login_form .= get_csrf_token_form_input();
+
         // We pass a hidden 'destination' parameter to login.php to indicate
         // where the user should be sent (preferably, where they want to go)
         // after a successful login.

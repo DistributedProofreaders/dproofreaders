@@ -18,20 +18,18 @@ $email_updates = array_get($_POST, 'email_updates', 1);
 $referrer = array_get($_POST, 'referrer', '');
 $referrer_details = array_get($_POST, 'referrer_details', '');
 
+$form_data_inserters = array();
+$form_validators = [
+    "_validate_fields",
+    "_validate_csrf",
+];
+
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
 {
     include_once($site_registration_protection_code);
     $form_data_inserters = get_registration_form_inserters();
-    $form_validators = get_registration_form_validators();
-
-    # prepend the field validator so it runs first
-    array_unshift($form_validators, "_validate_fields");
-}
-else
-{
-    $form_data_inserters = array();
-    $form_validators = array("_validate_fields");
+    $form_validators = array_merge($form_validators, get_registration_form_validators());
 }
 
 // assume there is no error
@@ -138,6 +136,7 @@ foreach($form_data_inserters as $func)
 {
     $func();
 }
+echo_csrf_token_form_input();
 echo "<table class='register'>";
 echo "<tr>";
 echo "  <th>" . _("Real Name") . ":</th>";
@@ -273,6 +272,20 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     if(!$referrer || ($referrer == 'other' && !$referrer_details))
     {
         return _("Please tell us how you heard about us.");
+    }
+
+    return '';
+}
+
+function _validate_csrf()
+{
+    try
+    {
+        validate_csrf_token();
+    }
+    catch(InvalidCSRFTokenException $e)
+    {
+        return $e->getMessage();
     }
 
     return '';

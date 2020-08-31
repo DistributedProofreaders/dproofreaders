@@ -39,6 +39,16 @@ if ($userPW == '')
     login_failure('no_password', $destination);
 }
 
+// Validate CSRF
+try
+{
+    validate_csrf_token();
+}
+catch(InvalidCSRFTokenException $e)
+{
+    login_failure('form_timeout', $destination);
+}
+
 // Attempt to log into forum
 list($success, $reason) = login_forum_user($userNM, $userPW);
 if(!$success)
