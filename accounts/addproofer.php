@@ -6,6 +6,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 
 $real_name = array_get($_POST, 'real_name', '');
@@ -108,6 +109,14 @@ $header = _("Create An Account");
 output_header($header, SHOW_STATSBAR, array("js_files" => array("$code_url/accounts/addproofer.js")));
 
 echo "<h1>" . _("Account Registration") . "</h1>";
+
+// See if the user is already logged in
+if(User::load_current())
+{
+    echo "<p class='error'>" . _("You already have an account and cannot create another one while logged in.") . "</p>";
+    exit;
+}
+
 echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
 
 echo "<h2>" . _("Registration Hints") . "</h2>";
