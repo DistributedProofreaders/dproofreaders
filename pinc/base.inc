@@ -53,6 +53,7 @@ if(!headers_sent())
 
     // Disallow other sites from embedding pages in frames/iframes
     header("Content-Security-Policy: frame-ancestors 'self'", false);
+    header("X-Frame-Options: SAMEORIGIN");
 }
 
 include_once($relPath.'gettext_setup.inc');
