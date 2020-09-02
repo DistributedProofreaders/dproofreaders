@@ -1097,7 +1097,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Available"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
-        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier='', smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => null,
         'disabled_during_SR'    => true,
     )
@@ -1149,7 +1149,7 @@ new ProjectTransition(
         'action_name'           => _("Upload for Verification"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier='', postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => 'PP_to_PPV_collateral',
         'disabled_during_SR'    => true,
     )
@@ -1205,7 +1205,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Post Processing Verifier"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=re_post_1",
-        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=ppverifier, postproofer=checkedoutby, ppverifier=''",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=ppverifier, postproofer=checkedoutby, ppverifier=NULL",
         'collateral_actions'    => "return_from_PP_to_PPV_collateral",
         'disabled_during_SR'    => true,
     )
@@ -1214,13 +1214,13 @@ new ProjectTransition(
 function project_was_not_returned_from_PPV($project, $transition )
 {
     assert( $project->state == $transition->from_state );
-    return $project->ppverifier == "";
+    return $project->ppverifier == NULL;
 }
 
 function project_was_returned_from_PPV($project, $transition )
 {
     assert( $project->state == $transition->from_state );
-    return $project->ppverifier != "";
+    return $project->ppverifier != NULL;
 }
 
 function return_from_PP_to_PPV_collateral( $old_project, $project, $transition, $who )
@@ -1269,7 +1269,7 @@ new ProjectTransition(
         'action_name'           => '[default]',
         'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
         'detour'                => null,
-        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier='', smoothread_deadline='0'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0'",
         'collateral_actions'    => null,
         'disabled_during_SR'    => true,
     )
@@ -1325,7 +1325,7 @@ new ProjectTransition(
         'action_name'           => '[default]',
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
-        'settings_template'     => "ppverifier=''",
+        'settings_template'     => "ppverifier=NULL",
         'collateral_actions'    => null,
         'disabled_during_SR'    => true,
     )
