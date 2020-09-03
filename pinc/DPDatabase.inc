@@ -112,7 +112,7 @@ final class DPDatabase
     static public function is_table_utf8($table_name)
     {
         $sql = sprintf("
-            SELECT table_collation
+            SELECT TABLE_COLLATION
             FROM information_schema.tables
             WHERE table_schema='%s' AND table_name='%s'
         ", self::$_db_name, $table_name);
@@ -122,7 +122,7 @@ final class DPDatabase
             throw new DBQueryError(DPDatabase::log_error());
 
         $row = mysqli_fetch_assoc($result);
-        $table_encoding = $row['table_collation'];
+        $table_encoding = $row['TABLE_COLLATION'];
         mysqli_free_result($result);
 
         return $table_encoding == 'utf8mb4_general_ci';
