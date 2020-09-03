@@ -53,7 +53,7 @@ EOF;
 // Now get all of the tables to iterate over that are still latin1
 
 $sql = "
-    SELECT table_name
+    SELECT TABLE_NAME
     FROM information_schema.tables
     WHERE
         table_schema='$archive_db_name' AND
@@ -67,7 +67,7 @@ $result = mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(
 $latin1_tables = array();
 while($row = mysqli_fetch_assoc($result))
 {
-    $latin1_tables[] = $row['table_name'];
+    $latin1_tables[] = $row['TABLE_NAME'];
 }
 
 $stop_file = '/tmp/stop_utf8_conversion';
