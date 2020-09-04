@@ -41,9 +41,10 @@ if($cancel)
 
 if (!$resolution) {
     //Find out information about the bad page report
+    validate_projectID($projectid);
     $sql = sprintf(
         "SELECT * FROM %s WHERE image='%s'",
-        DPDatabase::escape($projectid),
+        $projectid,
         DPDatabase::escape($image));
     $result = DPDatabase::query($sql);
     $page = mysqli_fetch_assoc($result);

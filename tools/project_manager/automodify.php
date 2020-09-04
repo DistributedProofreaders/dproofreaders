@@ -230,16 +230,15 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
             SELECT image
             FROM $projectid
             WHERE state IN ('%s','%s')
-                AND %d <= %d
+                AND $round->time_column_name <= %d
             ORDER BY image ASC",
-            DPDatabase::escape($round->page_out_state),
-            DPDatabase::escape($round->page_temp_state),
-            $round->time_column_name,
+            $round->page_out_state,
+            $round->page_temp_state,
             $max_reclaimable_time);
-        $res = DPDatabase::query($sql);
-        if ( !$res )
-        {
-            echo DPDatabase::log_error(), "\n";
+        try {
+            $res = DPDatabase::query($sql);
+        } catch(DPQueryError $error) {
+            echo "$error->message\n";
             echo "Skipping further processing of this project.\n";
             continue;
         }

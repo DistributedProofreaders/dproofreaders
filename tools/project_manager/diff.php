@@ -74,16 +74,13 @@ if(!$format) // no parameter passed
     $format = ($L_format xor $R_format) ? "remove" : "keep";
 }
 
+validate_projectID($projectid);
 $query = sprintf("
-    SELECT %s, %s,
-           %s, %s
+    SELECT $L_text_column_name, $R_text_column_name,
+        $L_user_column_name, $R_user_column_name
     FROM %s
     WHERE image='%s'",
-    $L_text_column_name,
-    $R_text_column_name,
-    $L_user_column_name,
-    $R_user_column_name,
-    DPDatabase::escape($projectid),
+    $projectid,
     DPDatabase::escape($image));
 
 $res = DPDatabase::query($query);
@@ -182,15 +179,13 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_c
     $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
+    validate_projectID($projectid);
     $query = sprintf("
         SELECT image,
-            %s,
-            (%s = %s) AS is_empty_diff
-        FROM %s ORDER BY image ASC",
         $L_user_column_name,
-        $L_text_column_name,
-        $R_text_column_name,
-        DPDatabase::escape($projectid));
+            ($L_text_column_name = $R_text_column_name) AS is_empty_diff
+        FROM %s ORDER BY image ASC",
+        $projectid);
     $res = DPDatabase::query($query);
     $prev_image = "";
     $next_image = "";
@@ -294,10 +289,12 @@ function can_see_names_for_page($projectid, $image)
             }
             $fields .= $round->user_column_name;
         }
+
+        validate_projectID($projectid);
         $query = sprintf("
             SELECT $fields from %s WHERE image = '%s'",
             $fields,
-            DPDatabase::escape($projectid),
+            $projectid,
             DPDatabase::escape($image));
         $res = DPDatabase::query($query);
         $page_res = mysqli_fetch_array($res);

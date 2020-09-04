@@ -94,14 +94,12 @@ class Comparator
         switch($this->page_set) {
             case 'right':
                 $condition = sprintf(
-                    "%s = '%s'",
-                    $R_round->user_column_name,
+                    "$R_round->user_column_name = '%s'",
                     DPDatabase::escape($username));
                 break;
             case 'left':
                 $condition = sprintf(
-                    "%s = '%s'",
-                    $L_round->user_column_name,
+                    "$L_round->user_column_name = '%s'",
                     DPDatabase::escape($username));
                 break;
             default: // all
@@ -115,14 +113,13 @@ class Comparator
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
+        validate_projectID($this->projectid);
         $sql = sprintf("
-            SELECT image, %s, %s
+            SELECT image, $L_text_column_name, $R_text_column_name
             FROM %s
             WHERE %s
             ORDER BY image ASC",
-            $L_text_column_name,
-            $R_text_column_name,
-            DPDatabase::escape($this->projectid),
+            $this->projectid,
             $condition);
         $res = DPDatabase::query($sql);
 

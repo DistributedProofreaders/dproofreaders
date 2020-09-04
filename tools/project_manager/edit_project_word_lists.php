@@ -500,10 +500,10 @@ class ProjectWordListHolder
         } else {
             $round_column="master_text";
         }
+        validate_projectID($this->projectid);
         $sql = sprintf(
-            "select count(*) from %s where %s <> ''",
-            DPDatabase::escape($this->projectid),
-            $round_column);
+            "select count(*) from %s where $round_column <> ''",
+            $this->projectid);
 
         $res = DPDatabase::query($sql);
         if ($res === FALSE)

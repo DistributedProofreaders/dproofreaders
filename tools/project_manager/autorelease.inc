@@ -572,15 +572,16 @@ function AP_teardown( $round )
 
 function AP_add_project( $round, $projectid )
 {
+    validate_projectID($projectid);
     $sql = sprintf("
         INSERT INTO active_page_counts
         SELECT
             '%s',
             SUM( state != '%s' ) as pages
         FROM %s",
-        DPDatabase::escape($projectid),
+        $projectid,
         DPDatabase::escape($round->page_save_state),
-        DPDatabase::escape($projectid));
+        $projectid);
     DPDatabase::query($sql);
 }
 
@@ -593,9 +594,8 @@ function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criter
             SUM(projects.state='%s') as projects,
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
-        WHERE %s",
-        DPDatabase::escape($round->project_available_state),
-        $cooked_project_selector);
+        WHERE $cooked_project_selector",
+        DPDatabase::escape($round->project_available_state));
     $res = DPDatabase::query($sql);
     $env = mysqli_fetch_assoc($res);
     // print_r($env);
