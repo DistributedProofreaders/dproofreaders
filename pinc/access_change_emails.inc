@@ -82,7 +82,7 @@ function f1_access_change_email($user, $access_change)
 
     if($daily_limit)
     {
-        $message[] = "***" . sprintf( _("Please keep in mind that we have a limit in F1 of no more than %d pages per day."), $daily_limit) . "*** " .
+        $message[] = "***" . sprintf( _("Please keep in mind that we currently have a limit in F1 of no more than %d pages per day."), $daily_limit) . "*** " .
             _("(This is a daily limit, not an average.) The limit is there to make sure that we have a variety of projects available in the round at all times.");
     // The above paragraph will be added to the email only if the daily limit
     // is a postiive integer. Currently, if the daily limit value is zero or
