@@ -9,6 +9,10 @@ var projectSelector = function() {
     ];
 };
 
+function pageTitle() {
+    document.title = proofIntData.strings.displayImageX.replace("%s", pageBrowserData.currentPage);
+}
+
 var hiddenProject = function() {
     return $("<input>", {type: 'hidden', name: 'project', value: pageBrowserData.projectid});
 };

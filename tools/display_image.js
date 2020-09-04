@@ -19,7 +19,8 @@ $(function () {
         fixHead.append(pageControlForm);
         pageControlForm.append(hiddenProject(), pageChanger(pageControlForm));
     } else {
-        // show zoom controls, page selector and image
+        // show page in title, zoom controls, page selector and image
+        pageTitle();
         let stretchDiv = $("<div>", {class: 'stretch-box'});
         topDiv.append(stretchDiv);
         let theImageControl = imageControl();

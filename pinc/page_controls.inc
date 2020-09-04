@@ -108,6 +108,7 @@ function get_proofreading_interface_data_js()
         "projectid" => _("Project ID"),
         "selectAPage" => _("Please select a page"),
         "browserDefault" => BROWSER_DEFAULT_STR,
+        "displayImageX" => _("Display Image: %s"),
     ];
 
     global $code_url;

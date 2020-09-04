@@ -54,8 +54,9 @@ $(function () {
                 pageControlForm.append(" ", roundSelect(false));
             }
         } else {
-            // if a page is given show it in scrollable area with controls
-            // and a button to change project.
+            // if a page is given show its name in title and display it in
+            // scrollable area with controls and a button to change project.
+            pageTitle();
             pageControlForm.append(projectReset(), modeControl(), pageChanger(pageControlForm));
             let stretchDiv = $("<div>", {class: 'stretch-box'});
             topDiv.append(stretchDiv);
