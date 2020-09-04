@@ -1,6 +1,6 @@
 /* global $ pageBrowserData proofIntData splitControl */
 /* exported viewSplitter hiddenProject projectSelector projectReset
-pageChanger imageControl textControl roundSelect */
+pageChanger imageControl textControl roundSelect pageTitle */
 
 var projectSelector = function() {
     return [

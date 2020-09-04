@@ -1,4 +1,4 @@
-/*global $ pageBrowserData imageControl hiddenProject pageChanger */
+/*global $ pageBrowserData imageControl hiddenProject pageChanger projectSelector pageTitle */
 
 $(function () {
     let topDiv = $("#top-div");

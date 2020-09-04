@@ -1,5 +1,5 @@
 /* global $ pageBrowserData viewSplitter imageControl textControl pageChanger splitControl
-hiddenProject projectReset roundSelect proofIntData projectSelector */
+hiddenProject projectReset roundSelect projectSelector pageTitle */
 
 $(function () {
     let topDiv = $("#top-div");

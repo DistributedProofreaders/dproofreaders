@@ -1,5 +1,5 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-hiddenProject projectReset roundSelect projectSelector */
+hiddenProject projectReset roundSelect projectSelector pageTitle */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
