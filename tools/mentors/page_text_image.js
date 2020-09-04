@@ -13,7 +13,7 @@ $(function () {
     }
     if(!pageBrowserData.projectid) {
         // just show the project input
-        fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
+        fixHead.append(pageControlForm);
         pageControlForm.append(projectSelector());
     } else {
         // show project name
