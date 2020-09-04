@@ -348,6 +348,8 @@ function echo_page_table(
 
         // (It's annoying that we have to pass all those args,
         // or else make them global, which I don't want to do.)
+
+        // Bad Page
         $page_is_in_bad_state = page_state_is_a_bad_state($page_state);
 
         // --------------------------------------------
@@ -383,8 +385,6 @@ function echo_page_table(
                 $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&amp;selected_pages[$imagename]=on&amp;operation=clear'>"._("Clear")."</a>";
             }
             echo "<td>$clear_string</td>";
-
-            // Bad Page
 
             echo "<td>";
             if ($page_is_in_bad_state) {
