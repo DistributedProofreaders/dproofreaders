@@ -348,12 +348,14 @@ function echo_page_table(
 
         // (It's annoying that we have to pass all those args,
         // or else make them global, which I don't want to do.)
+        $page_is_in_bad_state = page_state_is_a_bad_state($page_state);
 
         // --------------------------------------------
         // Link to proofreading interface
         if ($project_phase == 'PAGE_EDITING')
         {
-            if ($page_res[$project_round->user_column_name] == $pguser
+            if (!$page_is_in_bad_state
+                && $page_res[$project_round->user_column_name] == $pguser
                 && $page_state != $project_round->page_avail_state)  
             {
 
@@ -383,7 +385,6 @@ function echo_page_table(
             echo "<td>$clear_string</td>";
 
             // Bad Page
-            $page_is_in_bad_state = page_state_is_a_bad_state($page_state);
 
             echo "<td>";
             if ($page_is_in_bad_state) {
