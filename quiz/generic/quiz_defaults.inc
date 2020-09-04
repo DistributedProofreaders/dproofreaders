@@ -4,7 +4,7 @@
 
 $default_hintlink         = _("Desperate? Can't find it?");
 $default_challenge        = _("Try to correct that or press 'restart'.");
-$default_feedbacktext     = _("The algorithm for finding errors in this quiz is a quite simple one. If you feel the message doesn't make any sense, please visit <a href='%s' target='_blank'>this forum topic</a> and click on the \"post reply\" button to post a feedback message.");
+$default_feedbacktext     = _("If you can't find the error(s) remaining on the page, please visit <a href='%s' target='_blank'>this forum topic</a>, click on the \"post reply\" button to post a feedback request. In your post, provide the link to the quiz you're having trouble with, your version of the quiz text, and the exact error message.");
 
 
 // urls for links
