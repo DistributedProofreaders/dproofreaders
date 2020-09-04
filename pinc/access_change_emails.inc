@@ -58,7 +58,9 @@ function pp_access_change_email($user, $access_change)
 
 function f1_access_change_email($user, $access_change)
 {
-    global $site_name, $site_abbreviation;
+    global $site_name, $site_abbreviation, $Round_for_round_id_;
+
+    $daily_limit = $Round_for_round_id_['F1']->daily_page_limit;
 
     // only send emails on grant
     if($access_change != "grant")
@@ -78,8 +80,15 @@ function f1_access_change_email($user, $access_change)
 
     $message[] = _("After all of the pages of a project are completed in F1, the project moves into F2 for review and any needed corrections. F2 is the final round of formatting before Post-Processing.");
 
-    $message[] = "***" . _("Please keep in mind that we have a 35 page-per-day limit in F1.") . "*** " .
-        _("(This is a daily limit, not an average.) The limit is there to make sure that we have a variety of projects available in the round at all times.");
+    if($daily_limit)
+    {
+        $message[] = "***" . sprintf( _("Please keep in mind that we currently have a limit in F1 of no more than %d pages per day."), $daily_limit) . "*** " .
+            _("(This is a daily limit, not an average.) The limit is there to make sure that we have a variety of projects available in the round at all times.");
+        // The above paragraph will be added to the email only if the daily limit
+        // is a postiive integer. Currently, if the daily limit value is zero or
+        // NULL, the paragraph is not added. This code will need to be adjusted
+        // if there is ever a need for them to be treated differently.
+    }
 
     $message[] = sprintf(_("Before you begin formatting, please read through the Formatting Guidelines: %1\$s . You may also view and print our two-page Formatting Summary: %2\$s to keep on hand while you're formatting. The Guidelines contain a lot of information, so please take your time and ask questions if there's something you don't understand."),
         "https://www.pgdp.net/wiki/DP_Official_Documentation:Formatting/Formatting_Guidelines",
