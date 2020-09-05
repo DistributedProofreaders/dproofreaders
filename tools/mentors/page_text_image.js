@@ -1,5 +1,5 @@
 /* global $ pageBrowserData viewSplitter imageControl textControl pageChanger splitControl
-hiddenProject projectReset roundSelect proofIntData projectSelector */
+hiddenProject projectReset roundSelect projectSelector pageTitle */
 
 $(function () {
     let topDiv = $("#top-div");
@@ -13,7 +13,7 @@ $(function () {
     }
     if(!pageBrowserData.projectid) {
         // just show the project input
-        fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
+        fixHead.append(pageControlForm);
         pageControlForm.append(projectSelector());
     } else {
         // show project name
@@ -22,8 +22,9 @@ $(function () {
         // show page selector
             pageControlForm.append(hiddenProject(), pageChanger(pageControlForm), roundSelect(false));
         } else {
-            // if a page is given show it in scrollable area with controls
-            // and a button to change project.
+            // if a page is given show its name in title and display it in
+            // scrollable area with controls and a button to change project.
+            pageTitle();
             let stretchDiv = $("<div>", {class: 'stretch-box'});
             topDiv.append(stretchDiv);
 

@@ -1,5 +1,5 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-hiddenProject projectReset roundSelect projectSelector */
+hiddenProject projectReset roundSelect projectSelector pageTitle */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
@@ -41,7 +41,7 @@ $(function () {
     }
     if(!pageBrowserData.projectid) {
         // just show the project input
-        fixHead.append($("<p>").append(proofIntData.strings.selectAProject), pageControlForm);
+        fixHead.append(pageControlForm);
         pageControlForm.append(projectSelector(), hiddenMode());
     } else {
         // show project name
@@ -54,8 +54,9 @@ $(function () {
                 pageControlForm.append(" ", roundSelect(false));
             }
         } else {
-            // if a page is given show it in scrollable area with controls
-            // and a button to change project.
+            // if a page is given show its name in title and display it in
+            // scrollable area with controls and a button to change project.
+            pageTitle();
             pageControlForm.append(projectReset(), modeControl(), pageChanger(pageControlForm));
             let stretchDiv = $("<div>", {class: 'stretch-box'});
             topDiv.append(stretchDiv);

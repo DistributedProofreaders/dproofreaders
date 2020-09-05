@@ -1,6 +1,6 @@
 /* global $ pageBrowserData proofIntData splitControl */
 /* exported viewSplitter hiddenProject projectSelector projectReset
-pageChanger imageControl textControl roundSelect */
+pageChanger imageControl textControl roundSelect pageTitle */
 
 var projectSelector = function() {
     return [
@@ -8,6 +8,10 @@ var projectSelector = function() {
         $("<input>", {type: 'submit', value: proofIntData.strings.selectProject})
     ];
 };
+
+function pageTitle() {
+    document.title = proofIntData.strings.displayImageX.replace("%s", pageBrowserData.currentPage);
+}
 
 var hiddenProject = function() {
     return $("<input>", {type: 'hidden', name: 'project', value: pageBrowserData.projectid});

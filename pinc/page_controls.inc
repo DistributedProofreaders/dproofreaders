@@ -102,13 +102,13 @@ function get_proofreading_interface_data_js()
         "showImage" => _("Show Image only"),
         "showText" => _("Show Text only"),
         "showImageText" => _("Show Image & Text"),
-        "selectAProject" => _("Select a Project"),
         "selectProject" => _("Select Project"),
         "optional" => _("(optional)"),
         "reset" => _("Select a different project"),
         "projectid" => _("Project ID"),
         "selectAPage" => _("Please select a page"),
         "browserDefault" => BROWSER_DEFAULT_STR,
+        "displayImageX" => _("Display Image: %s"),
     ];
 
     global $code_url;
