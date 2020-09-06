@@ -125,7 +125,7 @@ final class DPDatabase
         $table_encoding = $row['TABLE_COLLATION'];
         mysqli_free_result($result);
 
-        return $table_encoding == 'utf8mb4_general_ci';
+        return stripos($table_encoding, 'utf8mb4') === 0;
     }
 
     // Prevent this class from being instantiated
