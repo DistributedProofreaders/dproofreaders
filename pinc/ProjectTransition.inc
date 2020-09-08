@@ -4,7 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'forum_interface.inc'); // topic_change_forum
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'maybe_mail.inc'); // maybe_mail_project_manager
 include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
@@ -1198,17 +1198,16 @@ function return_to_PP_collateral( $old_project, $project, $transition, $who )
     global $site_abbreviation;
 
     $PPer_username = $project->checkedoutby;
-
     $PPer = new User($PPer_username);
     $PPer_email_addr = $PPer->email;
-    $body_blurb =
-        $project->email_introduction() .
-        "\nThis project has been returned to you for further work.\n";
 
-    maybe_mail(
-        $PPer_email_addr,
-        "$site_abbreviation: Book returned to PPer",
-        $body_blurb);
+    configure_gettext_for_user($PPer_username);
+    $body_blurb = $project->email_introduction() . "\n" .
+        _("This project has been returned to you for further work.") . "\n";
+    $subject = "$site_abbreviation: " . _("Return to Post-Processor");
+    configure_gettext_for_user();
+
+    maybe_mail($PPer_email_addr, $subject, $body_blurb);
 }
 
 new ProjectTransition(
@@ -1243,17 +1242,16 @@ function return_from_PP_to_PPV_collateral( $old_project, $project, $transition, 
     global $site_abbreviation;
 
     $PPVer_username = $project->checkedoutby;
-
     $PPVer = new User($PPVer_username);
     $PPVer_email_addr = $PPVer->email;
-    $body_blurb =
-        $project->email_introduction() .
-        "\nThis project has been returned to you for verification after further work by the post-processor.\n";
 
-    maybe_mail(
-        $PPVer_email_addr,
-        "$site_abbreviation: Book returned to PPVer",
-        $body_blurb);
+    configure_gettext_for_user($PPVer_username);
+    $body_blurb = $project->email_introduction() . "\n" .
+        _("This project has been returned to you for verification after further work by the post-processor.") . "\n";
+    $subject = "$site_abbreviation: " . _("Return to Post Processing Verifier");
+    configure_gettext_for_user();
+
+    maybe_mail($PPVer_email_addr, $subject, $body_blurb);
 }
 
 // -----------------------------------------------------------------------------
