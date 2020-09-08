@@ -1158,7 +1158,7 @@ new ProjectTransition(
 new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
-    'proj_facilitator',
+    'site_manager',
     array(
         'project_restriction'   => "project_was_returned_from_PPV",
         'action_name'           => _("Upload for Verification"),
@@ -1186,9 +1186,9 @@ new ProjectTransition(
         'detour'                => null,
         // formerly ppverifier was only set when the project was uploaded to PG
         // it is set here so the PPer can return it to the same PPVer
-        // any transition out of PROJ_POST_FIRST_CHECKED_OUT sets it to ''
+        // any transition out of PROJ_POST_FIRST_CHECKED_OUT sets it to NULL
         // this will not affect how the PPVer is ultimately set.
-        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postproofer='', ppverifier=checkedoutby",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', ppverifier=checkedoutby, checkedoutby=postproofer, postproofer=''",
         'collateral_actions'    => "return_to_PP_collateral",
     )
 );
@@ -1219,7 +1219,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Post Processing Verifier"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=re_post_1",
-        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=ppverifier, postproofer=checkedoutby, ppverifier=NULL",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby=ppverifier, ppverifier=NULL",
         'collateral_actions'    => "return_from_PP_to_PPV_collateral",
         'disabled_during_SR'    => true,
     )
