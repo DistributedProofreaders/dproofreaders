@@ -119,7 +119,7 @@ elseif (isset($_POST['edMake']))
             SET
                 teamname = LEFT('%s', 50),
                 team_info = '%s',
-                webpage = LEFT('%s', 255),
+                webpage = LEFT('%s', 255)
             WHERE id='%s'
         ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
             mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
