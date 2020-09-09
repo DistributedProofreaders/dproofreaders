@@ -1145,23 +1145,8 @@ new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
     array(
-        'project_restriction'   => "project_was_not_returned_from_PPV",
-        'action_name'           => _("Upload for Verification"),
-        'confirmation_question' => null,
-        'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions'    => 'PP_to_PPV_collateral',
-        'disabled_during_SR'    => true,
-    )
-);
-
-new ProjectTransition(
-    PROJ_POST_FIRST_CHECKED_OUT,
-    PROJ_POST_SECOND_AVAILABLE,
-    'site_manager',
-    array(
-        'project_restriction'   => "project_was_returned_from_PPV",
-        'action_name'           => _("Upload for Verification"),
+        'project_restriction'   => null,
+        'action_name'           => _("Upload to the PPV pool for verification"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
@@ -1216,7 +1201,7 @@ new ProjectTransition(
     'holder',
     array(
         'project_restriction'   => "project_was_returned_from_PPV",
-        'action_name'           => _("Return to Post Processing Verifier"),
+        'action_name'           => _("Return to your current PPVer for further checking"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=re_post_1",
         'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby=ppverifier, ppverifier=NULL",
@@ -1224,12 +1209,6 @@ new ProjectTransition(
         'disabled_during_SR'    => true,
     )
 );
-
-function project_was_not_returned_from_PPV($project, $transition )
-{
-    assert( $project->state == $transition->from_state );
-    return $project->ppverifier == NULL;
-}
 
 function project_was_returned_from_PPV($project, $transition )
 {
