@@ -231,5 +231,5 @@ function maybe_redirect_to_external_faq($langcode=NULL)
         $url = get_external_faq($faq, "en");
 
     if($url)
-        metarefresh(0, $url);
+        metarefresh(0, $url, '', '', TRUE);
 }
