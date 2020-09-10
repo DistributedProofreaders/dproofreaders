@@ -576,12 +576,10 @@ function AP_add_project( $round, $projectid )
     $sql = sprintf("
         INSERT INTO active_page_counts
         SELECT
-            '%s',
+            '$projectid',
             SUM( state != '%s' ) as pages
-        FROM %s",
-        $projectid,
-        DPDatabase::escape($round->page_save_state),
-        $projectid);
+        FROM $projectid",
+        DPDatabase::escape($round->page_save_state));
     DPDatabase::query($sql);
 }
 

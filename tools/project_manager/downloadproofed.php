@@ -20,8 +20,7 @@ if ($round_num == 0) {
 
 validate_projectID($project);
 $sql = sprintf("
-    SELECT $text_column_name FROM %s WHERE image = '%s'",
-    $project,
+    SELECT $text_column_name FROM $project WHERE image = '%s'",
     DPDatabase::escape($image));
 $result = DPDatabase::query($sql);
 if ($result === FALSE)

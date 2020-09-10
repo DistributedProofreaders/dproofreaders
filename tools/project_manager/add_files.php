@@ -250,7 +250,7 @@ class Loader
         // Get the set of all 'image' fields in the page-table.
         $db_entries = array();
         validate_projectID($this->projectid);
-        $sql = sprintf("SELECT image,master_text FROM %s", $this->projectid);
+        $sql = "SELECT image,master_text FROM $this->projectid";
         $res = DPDatabase::query($sql);
         while( list($image,$text) = mysqli_fetch_row($res) )
         {
@@ -384,11 +384,10 @@ class Loader
 
         // Find out how long the 'image' field is.
         validate_projectID($this->projectid);
-        $sql = sprintf("
+        $sql = "
             SELECT image
-            FROM %s
-            LIMIT 0
-        ", $this->projectid);
+            FROM $this->projectid
+            LIMIT 0";
         $res = DPDatabase::query($sql);
         $field_data = mysqli_fetch_field_direct($res, 0);
         $this->image_field_len = $field_data->length;

@@ -13,9 +13,8 @@ function page_del( $projectid, $image )
     validate_projectID($projectid);
     $sql = sprintf("
         SELECT image
-        FROM %s
+        FROM $projectid
         WHERE image = '%s'",
-        $projectid,
         DPDatabase::escape($image));
     $result = DPDatabase::query($sql);
     if ( mysqli_num_rows($result) == 0 )
@@ -54,10 +53,9 @@ function page_clear( $projectid, $image )
     validate_projectID($projectid);
     $sql = sprintf("
         SELECT state, %s
-        FROM %s
+        FROM $projectid
         WHERE image = '%s'",
         $round->user_column_name,
-        $projectid,
         DPDatabase::escape($image));
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_row($result);

@@ -501,9 +501,7 @@ class ProjectWordListHolder
             $round_column="master_text";
         }
         validate_projectID($this->projectid);
-        $sql = sprintf(
-            "select count(*) from %s where $round_column <> ''",
-            $this->projectid);
+        $sql = "select count(*) from $this->projectid where $round_column <> ''";
 
         $res = DPDatabase::query($sql);
         if ($res === FALSE)

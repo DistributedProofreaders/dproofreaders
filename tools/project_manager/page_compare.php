@@ -114,13 +114,11 @@ class Comparator
         }
 
         validate_projectID($this->projectid);
-        $sql = sprintf("
+        $sql = "
             SELECT image, $L_text_column_name, $R_text_column_name
-            FROM %s
-            WHERE %s
-            ORDER BY image ASC",
-            $this->projectid,
-            $condition);
+            FROM $this->projectid
+            WHERE $condition
+            ORDER BY image ASC";
         $res = DPDatabase::query($sql);
 
         $num_rows = mysqli_num_rows($res);
