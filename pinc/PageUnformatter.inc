@@ -92,7 +92,7 @@ class PageUnformatter
     private function adjust_notes($text)
     {
         // Illustration with text, Sidenote, continuation Footnote without a ref.
-        $match = preg_match ("/\*\[Footnote:|\*?\[Sidenote:|\[Illustration:/", $text, $matches, PREG_OFFSET_CAPTURE);
+        $match = preg_match ("/\*\[Footnote:|\*?\[Sidenote:|\*?\[Illustration:/", $text, $matches, PREG_OFFSET_CAPTURE);
         if(!$match) // if no match or error
         {
             return $text;
@@ -116,7 +116,7 @@ class PageUnformatter
         // these can leave blank lines which will be removed later
         $text = $this->remove_user_notes($text);
         // remove tags [Illustration] (without text)
-        $text = preg_replace("/<\/?(?:[ibfgu]|sc|tb)>|\/[\*#]|[\*#]\/|\[Illustration\]/", "", $text);
+        $text = preg_replace("/<\/?(?:[ibfgu]|sc|tb)>|\/[\*#]|[\*#]\/|\*?\[Illustration\]/", "", $text);
         // change alphabetic footnote anchors to *
         $text = preg_replace("/\[[A-Z]\]/", "[*]", $text);
         $text = $this->adjust_footnotes($text);
