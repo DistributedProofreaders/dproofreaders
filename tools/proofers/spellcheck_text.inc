@@ -53,13 +53,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         $font_size = "font-size: $font_size";
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style>" .
-                   " pre { $font_size }".
+                   "  pre { line-height: 2.25; }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
-    $returnString.="<pre>\n";
+    $returnString.="<pre class='proofingfont'>\n";
 
     $puncArray = utf8_split($puncCharacters);
 
@@ -169,7 +169,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         }
 
         // output the final line
-        $returnString.=$newLine . "<br>\n";
+        $returnString.=$newLine . "\n";
     }
 
     $returnString.="</pre>";
