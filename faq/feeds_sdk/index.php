@@ -49,14 +49,12 @@ Proofreaders XML Feeds SDK</font></b></td>
 files for Project Gutenberg's Distributed Proofreaders are created as 
 well as focusing mostly on how to implement these XML feeds into your 
 site.</p>
-<p>If you are further interested in XML you may want to look into the 
-follow sites as well:</p>
+<p>If you are further interested in XML and RSS you may want to look into the 
+following sites as well:</p>
 <ul>
-<li><a href="http://www.xml.org">http://www.xml.org</a></li>
-<li><a href="http://www.xml.com">http://www.xml.com</a></li>
-<li><a href="http://backend.userland.com/rss">
-http://backend.userland.com/rss</a></li>
-<li><a href="http://www.w3.org/XML">http://www.w3.org/XML</a></li>
+<li><a href="https://www.w3.org/XML/">https://www.w3.org/XML/</a></li>
+<li><a href="https://cyber.harvard.edu/rss/rss.html">
+https://cyber.harvard.edu/rss/rss.html</a></li>
 </ul>
 <p>This is a beta document. If you have comments, find 
 errors, or just have questions, please contact 
@@ -73,7 +71,7 @@ top</a></font></td>
 <blockquote>
 <p>From the World Wide Web Consortium:</p>
 <p><cite>&quot;Extensible Markup Language (XML) is a simple, very flexible 
-text format derived from SGML (<a href="http://www.iso.ch/cate/d16387.html">ISO 
+text format derived from SGML (<a href="https://www.iso.org/standard/16387.html">ISO 
 8879</a>). Originally designed to meet the challenges of large-scale 
 electronic publishing, XML is also playing an increasingly important 
 role in the exchange of a wide variety of data on the Web and 
@@ -122,7 +120,7 @@ them.&nbsp; There are many different ways of putting our content on your
 site.&nbsp; Here are just a few examples:</p>
 <ul>
 <li>A &quot;slashbox&quot;.&nbsp; A term coined by the site
-<a href="http://www.slashdot.org">Slashdot.org</a> to describe a 
+<a href="https://slashdot.org/">Slashdot.org</a> to describe a 
 small table to the side of a page listing small bits of information.&nbsp; 
 E.G.: The names of the last ten projects posted to Project Gutenberg 
 with links to our library.</li>
@@ -150,36 +148,35 @@ top</a></font></td>
 </tr>
 </table>
 <blockquote>
-<p>As stated above there are two different feeds we implement, RSS &amp; our 
-own format which is yet to be named.&nbsp; Below are the links to the 
-different feeds as well as the type of feed it is.</p>
-<ol>
-<li>
-<a href="<?php echo $code_url; ?>/feeds/backend.php?content=projects">
-<?php echo $code_url; ?>/feeds/backend.php?content=projects</a>
-<br>
---The last ten projects posted to Project Gutenberg in our propriety 
-XML format.</li>
-<li>
-<a href="<?php echo $code_url; ?>/feeds/backend.php?content=projects&type=rss">
-<?php echo $code_url; ?>/feeds/backend.php?content=projects&amp;type=rss</a><br>
---The last ten projects posted to Project Gutenberg in RSS format.
-</li>
-<li>
-<a href="<?php echo $code_url; ?>/feeds/backend.php?content=news">
-<?php echo $code_url; ?>/feeds/backend.php?content=news</a><br>
---News headlines for the Distributed Proofreaders site in RSS 
-format.<span style="text-decoration: none">*</span></li>
-<li>
-<a href="<?php echo $code_url; ?>/feeds/backend.php?content=news&type=rss">
-<?php echo $code_url; ?>/feeds/backend.php?content=news&amp;type=rss</a><br>
---News headlines for the Distributed Proofreaders site in RSS 
-format.<span style="text-decoration: none">*</span></li>
-</ol>
-<p>*There was seen no reason to have a DTD drawn up for our news 
-headlines since the headlines fit perfectly into the RSS format.&nbsp; 
-Both feed locations utilize the same XML files so there is no difference 
-in which one you use.</p>
+<p>The site provides access to the following content via feeds
+in RSS &amp; our own format which is yet to be named. Below are
+the links to the different feeds.</p>
+<ul>
+    <li>
+        <b>posted</b> - The most recent projects posted to Project Gutenberg.
+        (<a href="<?php echo $code_url; ?>/feeds/backend.php?content=posted">XML</a>,
+        <a href="<?php echo $code_url; ?>/feeds/backend.php?content=posted&amp;type=rss">
+RSS</a>)
+    </li>
+    <li>
+        <b>postprocessing</b> - The most recent projects available for Post-Processing.
+        (<a href="<?php echo $code_url; ?>/feeds/backend.php?content=postprocessing">XML</a>,
+        <a href="<?php echo $code_url; ?>/feeds/backend.php?content=postprocessing&amp;type=rss">
+RSS</a>)
+    </li>
+    <li>
+        <b>proofing</b> - The most recent projects released into the P1 round for proofreading.
+        (<a href="<?php echo $code_url; ?>/feeds/backend.php?content=proofing">XML</a>,
+        <a href="<?php echo $code_url; ?>/feeds/backend.php?content=proofing&amp;type=rss">
+RSS</a>)
+    </li>
+    <li>
+        <b>smoothreading</b> - The most recent projects available for Smooth Reading.
+        (<a href="<?php echo $code_url; ?>/feeds/backend.php?content=smoothreading">XML</a>,
+        <a href="<?php echo $code_url; ?>/feeds/backend.php?content=smoothreading&amp;type=rss">
+RSS</a>)
+    </li>
+</ul>
 </blockquote>
 <table border="0" style="border-collapse: collapse" width="95%" id="table10" bgcolor="#D8E4F1">
 <tr>
