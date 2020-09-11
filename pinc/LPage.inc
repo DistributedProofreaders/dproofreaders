@@ -15,15 +15,17 @@ include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_roun
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_available_page( $projectid, $proj_state, $pguser, &$err )
-// Returns an LPage, unless no page is available,
-// in which case returns NULL and sets $err.
+function get_available_page_array(
+    $projectid,
+    $proj_state,
+    $pguser,
+    $preceding_proofer_restriction,
+    &$err
+)
+// Returns the best page entry for the user given the specified preceding
+// project restriction. If successful, it returns [ $imagename, $state ],
+// on failure it returns NULL and sets $err;
 {
-    global $preceding_proofer_restriction;
-    // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, TRUE);
-    if ( $err ) return NULL;
-
     $round = get_Round_for_project_state($proj_state);
 
     // Normally, pages are served in order of "page number"
@@ -136,8 +138,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         ORDER BY $order
         LIMIT 1
     ";
-    $result = mysqli_query(DPDatabase::get_connection(), $dbQuery);
-    if ($result === FALSE) die(DPDatabase::log_error());
+    $result = DPDatabase::query($dbQuery);
     $npage = mysqli_fetch_assoc($result);
     if(!$npage)
     {
@@ -145,9 +146,39 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         return NULL;
     }
 
-    $imagefile = $npage['image'];
+    return [ $npage['image'], $npage['state'] ];
+}
 
-    $lpage = new LPage( $projectid, $imagefile, $npage['state'], 0 );
+function get_available_page( $projectid, $proj_state, $pguser, &$err )
+// Returns an LPage, unless no page is available,
+// in which case returns NULL and sets $err.
+{
+    global $preceding_proofer_restriction;
+    // Make sure project is still in same state.
+    $err = project_continuity_test($projectid, $proj_state, TRUE);
+    if ( $err ) return NULL;
+
+    $page_array = NULL;
+    // If the global setting is to not serve the immediately preceding page,
+    // first see if we can serve them a page they haven't at all seen before,
+    // then fall back to not the immediately preceding page.
+    if ($preceding_proofer_restriction == 'not_immediately_preceding')
+    {
+        $page_array = get_available_page_array($projectid, $proj_state, $pguser, 'not_previously_proofed', $err);
+    }
+
+    // If that failed, try again with the global setting. This is also the
+    // common case if $preceding_proofer_restriction != not_immediately_preceding
+    if( !$page_array )
+    {
+        $err = NULL;
+        $page_array = get_available_page_array($projectid, $proj_state, $pguser, $preceding_proofer_restriction, $err);
+    }
+    if ( $err ) return NULL;
+
+    list($imagefile, $state) = $page_array;
+
+    $lpage = new LPage( $projectid, $imagefile, $state, 0 );
 
     $lpage->checkout( $pguser );
 
