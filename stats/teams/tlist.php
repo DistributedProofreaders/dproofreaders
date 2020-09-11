@@ -12,57 +12,63 @@ $order = get_enumerated_param(
         $_GET, 'order', 'teamname', array('id', 'teamname', 'member_count') );
 $direction = get_enumerated_param(
         $_GET, 'direction', 'asc', array('asc', 'desc') );
-$tname = array_get($_REQUEST, 'tname', null);
-$texact = array_get($_REQUEST, 'texact', null);
-
 $tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
+$tname = normalize_whitespace(array_get($_GET, 'tname', ''));
+$texact = array_get($_GET, 'texact', '') == 'yes';
 
 if ($tname) {
-    if ($texact == 'yes')
+    if ($texact)
     {
-        $where_body = sprintf("teamname='%s'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), normalize_whitespace($tname)));
+        $where_body = sprintf("teamname = '%s'", DPDatabase::escape($tname));
     }
     else
     {
         $where_body = sprintf("teamname LIKE '%%%s%%'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), normalize_whitespace($tname)));
+            addcslashes(DPDatabase::escape($tname), "%_"));
     }
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
     $tRows = mysqli_num_rows($tResult);
-    if ($tRows == 1)
+    if ($tstart == 0 && $tRows == 1)
     {
         $row = mysqli_fetch_assoc($tResult);
         metarefresh(0, "tdetail.php?tid=" . $row["id"]);
     }
-    $tname = "tname=" . urlencode($tname) . "&amp;";
 } else {
-    $tResult=select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");
-    $tRows=mysqli_num_rows($tResult);
-    $tname = "";
+    $tResult = select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");
+    $tRows = mysqli_num_rows($tResult);
 }
 
 $user = User::load_current();
 $user_teams = $user->load_teams();
 
-$name = _("Team List");
-
-output_header($name);
-echo "<h1>" . html_safe($name) . "</h1>\n";
+$title = _("Team List");
+output_header($title);
+echo "<h1>" . html_safe($title) . "</h1>\n";
 
 echo "<p><a href='new_team.php'>"._("Create a New Team")."</a></p>";
+
+echo "<form method='get'>";
+echo "<input type='hidden' name='tstart' value='0'>";
+echo "<input type='text' name='tname' size='20' value='" . attr_safe($tname) . "'> ";
+echo "<input type='submit' value='" . attr_safe(_("Search")) . "'>";
+echo "<br>";
+$texact_checked = $texact ? "checked" : "";
+echo "<input type='checkbox' name='texact' value='yes' $texact_checked> " . _("Exact match");
+echo "</form>";
+echo "<br>";
 
 //Display of user teams
 echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
     echo "<th></th>";
     if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&amp;order=teamname&amp;direction=$newdirection'>"._("Team Name")."</a></th>";
+        echo "<th><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=teamname&amp;direction=$newdirection'>"._("Team Name")."</a></th>";
     if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-        echo "<th class='center-align'><a href='tlist.php?".$tname."tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
+        echo "<th class='center-align'><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
     echo "<th class='center-align'>"._("Options")."</th>";
 echo "</tr>\n";
+
 if (!empty($tRows)) {
     while ($row = mysqli_fetch_assoc($tResult)) {
         $tid = $row["id"];
@@ -84,11 +90,11 @@ if (!empty($tRows)) {
 
 echo "<tr><td colspan='2' class='left-align'>";
 if (!empty($tstart)) {
-    echo "<b><a href='tlist.php?".$tname."order=$order&amp;direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
+    echo "<b><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;order=$order&amp;direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
 }
 echo "&nbsp;</td><td colspan='2' class='right-align'>&nbsp;";
 if ($tRows == 20) {
-    echo "<b><a href='tlist.php?".$tname."order=$order&amp;direction=$direction&amp;tstart=".($tstart+20)."'>"._("Next")."</a></b>";
+    echo "<b><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;order=$order&amp;direction=$direction&amp;tstart=".($tstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>\n";
 echo "</table>";

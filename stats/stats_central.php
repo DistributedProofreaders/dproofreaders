@@ -23,7 +23,7 @@ show_news_for_page("STATS");
 <table style='width: 95%; margin: 2em auto;'>
 <tr>
     <td>
-    <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
+    <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='get'>
         <input type='text' name='uname' size='20' style='margin-left: 0;' required>
         <input type='submit' value='<?php echo attr_safe(_("Member Search")); ?>'>
         <br>
@@ -33,7 +33,7 @@ show_news_for_page("STATS");
     </form>
     </td>
     <td>
-    <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
+    <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='get'>
         <input type='text' name='tname' size='20' style='margin-left: 0;' required>
         <input type='submit' value='<?php echo attr_safe(_("Team Search")); ?>'>
         <br>
