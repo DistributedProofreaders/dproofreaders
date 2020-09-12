@@ -141,7 +141,7 @@ $time_limit = time() - $days * 24 * 60 * 60;
 // performant one.
 if($use_eval_query)
 {
-    $sql = "
+    $sql = sprintf("
         SELECT
             page_events.projectid,
             state,
@@ -149,17 +149,19 @@ if($use_eval_query)
             deletion_reason,
             FROM_UNIXTIME(MAX(timestamp)) AS time_of_latest_save
         FROM page_events LEFT OUTER JOIN projects USING (projectid)
-        WHERE round_id='$work_round->id' AND
-              page_events.username='$username' AND
-              event_type='saveAsDone' AND
-              timestamp>$time_limit
+        WHERE round_id = '%s' AND
+              page_events.username = '%s' AND
+              event_type = 'saveAsDone' AND
+              timestamp > %d
         GROUP BY page_events.projectid
         ORDER BY time_of_latest_save DESC
-    ";
+    ", DPDatabase::escape($work_round->id),
+        DPDatabase::escape($username),
+        $time_limit);
 }
 else
 {
-    $sql = "
+    $sql = sprintf("
         SELECT
             user_project_info.projectid,
             state,
@@ -167,13 +169,14 @@ else
             deletion_reason,
             FROM_UNIXTIME(t_latest_page_event) AS time_of_latest_save
         FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
-        WHERE user_project_info.username='$username' AND
-              t_latest_page_event>$time_limit
+        WHERE user_project_info.username = '%s' AND
+              t_latest_page_event > %d
         GROUP BY user_project_info.projectid
         ORDER BY t_latest_page_event DESC
-    ";
+    ", DPDatabase::escape($username),
+        $time_limit);
 }
-$res2 = mysqli_query(DPDatabase::get_connection(), $sql) or die("Aborting");
+$res2 = DPDatabase::query($sql);
 
 // This next message used to start with $num_projects, but that was incorrect.
 // There are two codepaths below that result in the project not showing up in
@@ -184,14 +187,19 @@ echo "</h2>";
 
 // ---------------------------------------------
 // snippets for use in queries
-$has_been_saved_in_review_round = "(state='$review_round->page_save_state'";
+$state_builder = [];
 for ( $rn = $review_round->round_number+1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
     $round = get_Round_for_round_number($rn);
-    $has_been_saved_in_review_round .= " OR state LIKE '{$round->id}.%'";
+    // this will be used in sprintf()s below so for the final query to have a
+    // single % in it, we need to make it 4x here
+    $state_builder[] = sprintf(" OR state LIKE '%s.%%%%'", DPDatabase::escape($round->id));
 }
-$has_been_saved_in_review_round .= ")";
-// echo "$has_been_saved_in_review_round<br>\n";
+
+$has_been_saved_in_review_round = "(" .
+    sprintf("state='%s'", DPDatabase::escape($review_round->page_save_state)) .
+    implode(" ", $state_builder) .
+    ")";
 
 $there_is_a_diff = "
     $work_round->text_column_name
@@ -298,12 +306,15 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
 
     // See if the user worked on any pages in this round
-    $work_pages_done_result = mysqli_query(DPDatabase::get_connection(), "
+    validate_projectID($projectid);
+    $sql = sprintf("
         SELECT COUNT(*)
         FROM ${projectid}
-        WHERE {$work_round->user_column_name} = '$username' AND
-              {$work_round->time_column_name} > $time_limit
-        ");
+        WHERE {$work_round->user_column_name} = '%s' AND
+              {$work_round->time_column_name} > %d
+        ", DPDatabase::escape($username),
+        $time_limit);
+    $work_pages_done_result = DPDatabase::query($sql);
     list($pages_worked_in_review_round) = mysqli_fetch_row($work_pages_done_result);
     mysqli_free_result($work_pages_done_result);
     // if not, skip this project
@@ -313,12 +324,14 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
 
     // see if it finished the work round
-    $work_round_result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT MAX(timestamp)
         FROM project_events
-        WHERE projectid='$projectid' AND
-              details2='{$work_round->project_complete_state}'
-       ");
+        WHERE projectid = '%s' AND
+              details2 = '%s'
+       ", DPDatabase::escape($projectid),
+        DPDatabase::escape($work_round->project_complete_state));
+    $work_round_result = DPDatabase::query($sql);
     list($max_done_timestamp) = mysqli_fetch_row($work_round_result);
     mysqli_free_result($work_round_result);
     if (NULL == $max_done_timestamp) {
@@ -331,13 +344,16 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
 
     // see if it actually went through the review round.
-    $review_round_result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT COUNT(*) 
         FROM project_events
-        WHERE projectid='$projectid' AND
-              details2='{$review_round->project_available_state}' AND
-              timestamp >= $max_done_timestamp
-       ");
+        WHERE projectid = '%s' AND
+              details2 ='%s' AND
+              timestamp >= %d
+       ", DPDatabase::escape($projectid),
+        DPDatabase::escape($review_round->project_available_state),
+        $max_done_timestamp);
+    $review_round_result = DPDatabase::query($sql);
     list($done_in_rround) = mysqli_fetch_row($review_round_result);
     mysqli_free_result($review_round_result);
     if (0 == $done_in_rround) {
@@ -352,28 +368,23 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // OK, we are definitely interested in this project
     $total_valid_projects ++;
 
-    // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
-    $query = "
+    validate_projectID($projectid);
+    $query = sprintf("
         SELECT
             COUNT(*),
             IFNULL( SUM($has_been_saved_in_review_round), 0 ),
             IFNULL( SUM($has_been_saved_in_review_round AND $there_is_a_diff), 0 )
         FROM $projectid
-        WHERE {$work_round->user_column_name}='$username'";
-    $res3 = mysqli_query(DPDatabase::get_connection(), $query);
-    if ( $res3 !== FALSE )
-    {
-        list( $n_saved, $n_latered, $n_with_diff ) = mysqli_fetch_row($res3);
-        mysqli_free_result($res3);
-        if($n_latered > 0)
-            $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_latered)*100);
-        else $n_with_diff_percent = 0;
-        $table_found = 1;
-    }
+        WHERE {$work_round->user_column_name} = '%s'
+    ", DPDatabase::escape($username));
+    $res3 = DPDatabase::query($query);
+    list( $n_saved, $n_latered, $n_with_diff ) = mysqli_fetch_row($res3);
+    mysqli_free_result($res3);
+    if($n_latered > 0)
+        $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_latered)*100);
     else
-    {
-        die(DPDatabase::log_error());
-    }
+        $n_with_diff_percent = 0;
+    $table_found = 1;
 
     // don't include this project if none of the user's pages have been proofread in the
     // review round
@@ -394,22 +405,23 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     $diffLinkString="";
     if ($sampleLimit >0 )
     {
-        $query="
+        validate_projectID($projectid);
+        $query = sprintf("
            SELECT image 
            FROM $projectid AS proj 
            WHERE $has_been_saved_in_review_round AND 
                  $there_is_a_diff AND
-                 {$work_round->user_column_name} = '$username'
+                 {$work_round->user_column_name} = '%s'
            ORDER BY {$work_round->time_column_name} DESC, image 
-           LIMIT $sampleLimit";
-        $result = mysqli_query(DPDatabase::get_connection(), $query);
-        if ( $result !== FALSE ) {
-            $diffLinkString="";
-            while( list($image) = mysqli_fetch_row($result) ) {
-                $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
-            }
-            mysqli_free_result($result);
-        } 
+           LIMIT %d
+        ", DPDatabase::escape($username),
+            $sampleLimit);
+        $result = DPDatabase::query($query);
+        $diffLinkString="";
+        while( list($image) = mysqli_fetch_row($result) ) {
+            $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
+        }
+        mysqli_free_result($result);
     }
 
     // not sure why the pages that have been saved in the review round
