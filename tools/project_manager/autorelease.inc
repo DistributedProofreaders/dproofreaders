@@ -228,14 +228,21 @@ function maybe_release_projects(
     // Projects that are in this round's waiting state,
     // don't have a hold in that state,
     // and, if $qd is set, satisfy its project selector.
-    $sql = sprintf("
+
+    // $cooked_project_selector can contain '%'s so we need to build the
+    // escaped state selector separately.
+    $escaped_state = sprintf(
+        "state = '%s'",
+        DPDatabase::escape($round->project_waiting_state));
+
+    $sql = "
         SELECT *
         FROM projects
             LEFT OUTER JOIN project_holds USING (projectid, state)
-        WHERE state = '%s' $and_extra_condition
+        WHERE $escaped_state $and_extra_condition
             AND project_holds.state IS NULL
-        ORDER BY modifieddate ASC, nameofwork ASC",
-        DPDatabase::escape($round->project_waiting_state));
+        ORDER BY modifieddate ASC, nameofwork ASC
+    ";
     $waiting_res = DPDatabase::query($sql);
 
     $n_projects->waiting = mysqli_num_rows($waiting_res);
@@ -587,13 +594,19 @@ function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criter
 {
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
-    $sql = sprintf("
+
+    // $cooked_project_selector can contain '%'s so we need to build the
+    // escaped state selector separately.
+    $sum_projects = sprintf(
+        "SUM(projects.state='%s')",
+        DPDatabase::escape($round->project_available_state));
+
+    $sql = "
         SELECT
-            SUM(projects.state='%s') as projects,
+            $sum_projects as projects,
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
-        WHERE $cooked_project_selector",
-        DPDatabase::escape($round->project_available_state));
+        WHERE $cooked_project_selector";
     $res = DPDatabase::query($sql);
     $env = mysqli_fetch_assoc($res);
     // print_r($env);
