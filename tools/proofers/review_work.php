@@ -276,12 +276,14 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         $state = $project->state;
         $nameofwork = $project->nameofwork;
         // OK, the information is now all for the project that the deleted one was merged into
-        $messages[] = array("<a href='$deleted_url'>" . html_safe($deleted_nameofwork) . "</a>",
-                            $deleted_state,
-                            sprintf(_("Merged into %s"), "<a href='$url'>" . html_safe($nameofwork) . "</a>"),
-                            MESSAGE_INFO);
+        $messages[] = [
+            "<a href='$deleted_url'>" . html_safe($deleted_nameofwork) . "</a>",
+            $deleted_state,
+            sprintf(_("Merged into %s"), "<a href='$url'>" . html_safe($nameofwork) . "</a>"),
+            MESSAGE_INFO
+        ];
     }
-    // what do we do if it was merged but we haven't found a projectid? TODO
+    // TODO: what do we do if it was merged but we haven't found a projectid?
 
     // see if we've already done this project
     if ("" != @$projects_done[$projectid])
@@ -297,10 +299,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     if (!does_project_page_table_exist($projectid))
     {
         // table doesn't exist. We are not interested.
-        $messages[] = array("<a href='$url'>" . html_safe($nameofwork) . "</a>",
-                            $state,
-                            _("Page information no longer available"),
-                            MESSAGE_ERROR);
+        $messages[] = [
+            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            $state,
+            _("Page information no longer available"),
+            MESSAGE_ERROR
+        ];
         continue;
     }
 
@@ -336,10 +340,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     mysqli_free_result($work_round_result);
     if (NULL == $max_done_timestamp) {
         // hasn't finished the work round. We are not interested.
-        $messages[] = array("<a href='$url'>" . html_safe($nameofwork) . "</a>",
-                            $state,
-                            sprintf(_("Has not finished %s"), $work_round_id),
-                            MESSAGE_INFO);
+        $messages[] = [
+            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            $state,
+            sprintf(_("Has not finished %s"), $work_round_id),
+            MESSAGE_INFO
+        ];
         continue;
     }
 
@@ -358,10 +364,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     mysqli_free_result($review_round_result);
     if (0 == $done_in_rround) {
         // hasn't been proofread in review round. We are not interested.
-        $messages[] = array("<a href='$url'>" . html_safe($nameofwork) . "</a>",
-                            $state,
-                            sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round_id, $pages_worked_in_review_round),
-                            MESSAGE_INFO);
+        $messages[] = [
+            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            $state,
+            sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round_id, $pages_worked_in_review_round),
+            MESSAGE_INFO
+        ];
         continue;
     }
 
@@ -393,10 +401,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         // Don't print a message in the Other Projects table to avoid confusion -- this will
         // need to be re-introduced once we limit the projects to ones that the user has
         // actually worked on in the work round
-        // $messages[] = array("<a href='$url'>" . html_safe($nameofwork) . "</a>",
-        //                     $state,
-        //                     sprintf(_("Has not been proofread in %s"), $review_round_id),
-        //                     MESSAGE_INFO);
+        // $messages[] = [
+        //     "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+        //     $state,
+        //     sprintf(_("Has not been proofread in %s"), $review_round_id),
+        //     MESSAGE_INFO,
+        // ];
         continue;
     }
 
