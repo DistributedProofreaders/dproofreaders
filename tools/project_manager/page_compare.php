@@ -93,10 +93,14 @@ class Comparator
         $username = $pguser;
         switch($this->page_set) {
             case 'right':
-                $condition = "$R_round->user_column_name = '$username'";
+                $condition = sprintf(
+                    "$R_round->user_column_name = '%s'",
+                    DPDatabase::escape($username));
                 break;
             case 'left':
-                $condition = "$L_round->user_column_name = '$username'";
+                $condition = sprintf(
+                    "$L_round->user_column_name = '%s'",
+                    DPDatabase::escape($username));
                 break;
             default: // all
                 $condition = "1";
@@ -106,15 +110,16 @@ class Comparator
         $right_complete = ($this->state_index[$this->project->state] >= $this->state_index["{$this->R_round_id}.proj_done"]);
         if(!$right_complete)
         {
-            $condition .= " AND state='$R_round->page_save_state'";
+            $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        validate_projectID($this->projectid);
+        $sql = "
             SELECT image, $L_text_column_name, $R_text_column_name
             FROM $this->projectid
             WHERE $condition
-            ORDER BY image ASC
-        ") or die(DPDatabase::log_error());
+            ORDER BY image ASC";
+        $res = DPDatabase::query($sql);
 
         $num_rows = mysqli_num_rows($res);
         if($num_rows == 0)

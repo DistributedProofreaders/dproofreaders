@@ -102,12 +102,16 @@ echo "<pre>\n";
 
 if ($one_project) {
     $verbose = $GLOBALS['testing'];
-    $condition = "projectid = '$one_project'";
+    $condition = sprintf("projectid = '%s'", DPDatabase::escape($one_project));
 
     // log tracetimes
     $tracetime = time();
-    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for single proj $one_project')");
+    $sql = sprintf("
+        INSERT INTO job_logs (filename, tracetime, event, comments)
+        VALUES ('automodify.php', %d, 'BEGIN', 'running for single proj %s')",
+        $tracetime,
+        DPDatabase::escape($one_project));
+    DPDatabase::query($sql);
 
 
 
@@ -118,26 +122,31 @@ if ($one_project) {
     for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
         $round = get_Round_for_round_number($rn);
-        $condition .= "
-            OR state = '{$round->project_available_state}'
-            OR state = '{$round->project_complete_state}'
-            OR state = '{$round->project_bad_state}'
-        ";
+        $condition .= sprintf("
+            OR state = '%s'
+            OR state = '%s'
+            OR state = '%s'",
+        DPDatabase::escape($round->project_available_state),
+        DPDatabase::escape($round->project_complete_state),
+        DPDatabase::escape($round->project_bad_state));
     }
 
     // log tracetimes
     $tracetime = time();
-    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for all eligible projects')");
+    $sql = sprintf("
+        INSERT INTO job_logs (filename, tracetime, event, comments)
+        VALUES ('automodify.php', %d, 'BEGIN', 'running for all eligible projects')",
+        $tracetime);
+    DPDatabase::query($sql);
 
 
 }
-$allprojects = mysqli_query(DPDatabase::get_connection(), "
+$sql = "
     SELECT projectid, state, username, nameofwork
     FROM projects
     WHERE $condition
-    ORDER BY projectid
-");
+    ORDER BY projectid";
+$allprojects = DPDatabase::query($sql);
 // The "ORDER BY" clause isn't essential,
 // it's just there to ensure consistency of order when testing.
 
@@ -217,16 +226,19 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
         $n_hours_to_wait = 4;
         $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             SELECT image
             FROM $projectid
-            WHERE state IN ('$round->page_out_state','$round->page_temp_state')
-                AND $round->time_column_name <= $max_reclaimable_time
-            ORDER BY image ASC
-        ");
-        if ( !$res )
-        {
-            echo DPDatabase::log_error(), "\n";
+            WHERE state IN ('%s','%s')
+                AND $round->time_column_name <= %d
+            ORDER BY image ASC",
+            $round->page_out_state,
+            $round->page_temp_state,
+            $max_reclaimable_time);
+        try {
+            $res = DPDatabase::query($sql);
+        } catch(DPQueryError $error) {
+            echo "$error->message\n";
             echo "Skipping further processing of this project.\n";
             continue;
         }
@@ -333,16 +345,25 @@ if (!$one_project)
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetimea, 'MIDDLE', 'pre autorelease, $tooktime seconds so far')");
+    $sql = sprintf("
+        INSERT INTO job_logs (filename, tracetime, event, comments)
+        VALUES ('automodify.php', %d, 'MIDDLE', 'pre autorelease, %d seconds so far')",
+        $tracetimea,
+        $tooktime);
+    DPDatabase::query($sql);
 
     autorelease();
 
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetimea, 'END', 'post autorelease, started at $tracetime, took $tooktime seconds')");
+    $sql = sprintf("
+        INSERT INTO job_logs (filename, tracetime, event, comments)
+        VALUES ('automodify.php', %d, 'END', 'post autorelease, started at %d, took %d seconds')",
+        $tracetimea,
+        $tracetime,
+        $tooktime);
+    DPDatabase::query($sql);
 
 }
 else
@@ -351,8 +372,13 @@ else
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetimea, 'END', 'end single, started at $tracetime, took $tooktime seconds')");
+    $sql = sprintf("
+        INSERT INTO job_logs (filename, tracetime, event, comments)
+        VALUES ('automodify.php', %d, 'END', 'end single, started at %d, took %d seconds')",
+        tracetimea,
+        tracetime,
+        tooktime);
+    DPDatabase::query($sql);
 
 
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";

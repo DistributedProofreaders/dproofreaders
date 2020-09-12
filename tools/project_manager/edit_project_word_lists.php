@@ -500,9 +500,10 @@ class ProjectWordListHolder
         } else {
             $round_column="master_text";
         }
+        validate_projectID($this->projectid);
         $sql = "select count(*) from $this->projectid where $round_column <> ''";
 
-        $res = mysqli_query(DPDatabase::get_connection(), $sql);
+        $res = DPDatabase::query($sql);
         if ($res === FALSE)
         {
             return 0;
