@@ -181,9 +181,10 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_c
     validate_projectID($projectid);
     $query = "
         SELECT image,
-        $L_user_column_name,
+            $L_user_column_name,
             ($L_text_column_name = $R_text_column_name) AS is_empty_diff
-        FROM $projectid ORDER BY image ASC";
+        FROM $projectid
+        ORDER BY image ASC";
     $res = DPDatabase::query($query);
     $prev_image = "";
     $next_image = "";
@@ -291,7 +292,6 @@ function can_see_names_for_page($projectid, $image)
         validate_projectID($projectid);
         $query = sprintf("
             SELECT $fields from $projectid WHERE image = '%s'",
-            $fields,
             DPDatabase::escape($image));
         $res = DPDatabase::query($query);
         $page_res = mysqli_fetch_array($res);
