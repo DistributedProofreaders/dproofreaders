@@ -70,16 +70,7 @@ $extra_args['js_data'] = get_js_for_links_to_project_pages();
 
 output_header(get_usertext($page_header), NO_STATSBAR, $extra_args);
 
-if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
-{
-    echo "<div id='pm_links' class='sidebar-color'>";
-    echo "<form action='#' method='get'><p>";
-    echo _("See projects for another user") . "<br>";
-    echo "<input type='text' name='username' value='$username' required>";
-    echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
-    echo "</p></form>\n";
-    echo "</div>";
-}
+output_link_box($username);
 
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
@@ -346,6 +337,33 @@ else
 
     echo sprintf("(%d projects)", $num_projects);
     echo "<br>\n";
+}
+
+// --------------------------------------------------------------------------
+
+function output_link_box($username)
+{
+    echo "<div id='pm_links' class='sidebar-color'>";
+    if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
+    {
+        echo "<form action='#' method='get'><p>";
+        echo _("See projects for another user") . "<br>";
+        echo "<input type='text' name='username' value='" . attr_safe($username) . "' required>";
+        echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
+        echo "</p></form>\n";
+        echo "<hr>";
+    }
+    $links = [
+        "review_work.php" => _("Review Work"),
+    ];
+    echo "<h2>" . _("Links") . "</h2>";
+    echo "<ul>";
+    foreach($links as $url => $text)
+    {
+        echo "<li><a href='$url'>$text</a></li>";
+    }
+    echo "</ul>";
+    echo "</div>";
 }
 
 // --------------------------------------------------------------------------
