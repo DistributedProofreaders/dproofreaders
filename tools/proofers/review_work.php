@@ -14,17 +14,15 @@ define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
 define("MESSAGE_ERROR",2);
 
-error_reporting(E_ALL);
-
 // get an array of round IDs
-$rounds=array_keys($Round_for_round_id_);
+$rounds = array_keys($Round_for_round_id_);
 
 // load any data passed into the page
 $username = array_get($_GET,"username", $pguser);
-$work_round_id = array_get($_GET, "work_round_id", "");
-$review_round_id = array_get($_GET, "review_round_id", "");
-$sampleLimit = (int)get_float_param($_GET, "sample_limit", 0.0, 0, NULL);
-$days = (int)get_float_param($_GET, "days", 100.0, 0, NULL);
+$work_round_id = get_enumerated_param( $_GET, "work_round_id", NULL, $rounds, true);
+$review_round_id = get_enumerated_param( $_GET, "review_round_id", NULL, $rounds, true);
+$sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, NULL);
+$days = get_integer_param($_GET, "days", 100, 0, NULL);
 $use_eval_query = get_integer_param($_GET, "use_eval_query", 1, 0, 1);
 
 // if the user isn't a site manager or an access request reviewer,
@@ -103,7 +101,7 @@ function _echo_eval_query_select($selected) {
 
 function _echo_round_select($rounds,$selected) {
     foreach($rounds as $round) {
-        echo "<option value='$round'";
+        echo "<option value='" . attr_safe($round) . "'";
         if($round == $selected) echo " selected";
         echo ">$round</option>";
     }
