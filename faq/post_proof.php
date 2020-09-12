@@ -82,7 +82,6 @@ Note that there are additional references at the end of this document under
                 <li><a href="#html2">HTML</a></li>
                 <li><a href="#lilypond">Lilypond</a></li>
                 <li><a href="#latex">LaTeX</a></li>
-                <li><a href="#tei">TEI</a></li>
                 <li><a href="#pdf">PDF</a></li>
                 <li><a href="#proprietary">Proprietary text formats</a></li>
                 <li><a href="#unicode">Unicode, UTF-8, UTF-16, etc.</a></li>
@@ -287,9 +286,6 @@ freeing up your own valuable time for another project!
 <p>
 Download your chosen text by going to its project page,
 scrolling to the bottom of the page, and selecting "Download Zipped Text".
-Do not select "Download Zipped <a href="<?php echo $wiki_url; ?>/TEI">TEI</a> Text"
-(a different encoding) unless you know what TEI is and want to work with it.
-The plain text is the version that you need.
 </p>
 
 <p>
@@ -1451,35 +1447,11 @@ but normally confined to projects containing a lot of math. See the
 Post-Processors</a> for more help.
 </p>
 
-<h4><a name="tei" id="tei"></a>TEI</h4>
-
-<p>
-TEI is a form of markup which is used to generate plaintext, HTML and
-other formats by automatic converters. PG does not currently use
-the full <a href="http://www.tei-c.org/">TEI standard</a>, but is evolving
-a subset. See <a href="http://pgtei.pglaf.org/marcello/0.4/">PGTEI</a>.
-As long as it is a valid PGTEI document, David Widger of the Whitewashing Team
-will take the .tei master file and autogenerate the plain text, HTML and
-PDF files, but, if you have generated these files, include them with the upload
-as they make running Gutcheck easier for the WhiteWasher.
-</p>
-
-<p>
-Check the post-processing forum for more information about PGTEI such as
-the <a href="<?php echo make_forum_url('t', 16829, ''); ?>">PGTEI primer</a>
-and <a href="<?php echo $wiki_url; ?>/PGTEI">PGTEI</a>. Alternatively, you can
-post-process using TEI but submit only the product of your own transformations
-(plaintext, HTML and other formats if desired). Such projects are likely to be
-posted more quickly, and will look more exactly as you specify. PG prefers all
-versions of the files.
-</p>
-
 <h4><a name="pdf" id="pdf"></a>PDF</h4>
 
 <p>
-PDF versions are usually accepted by PG only if an original master file
-is supplied so that making any changes if necessary is not troublesome&mdash;for
-example, projects formatted using <a href="#tei">PGTEI</a>. It is very useful
+PDF versions are usually accepted by PG only if an original master file is
+supplied so that making any changes if necessary is not troublesome. It is very useful
 for certain projects (e.g. those involving LaTeX) which benefit from a fixed
 paginated layout and embedded specialized fonts, but is less helpful for
 other projects because it is difficult to make changes to the PDF once

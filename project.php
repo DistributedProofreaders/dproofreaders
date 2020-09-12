@@ -1612,7 +1612,6 @@ function is_an_extra_file( $filename )
         // These three appear under "Post Downloads":
         $excluded_filenames[$project->projectid . 'images.zip'] = 1;
         $excluded_filenames[$project->projectid . '.zip'] = 1;
-        $excluded_filenames[$project->projectid . '_TEI.zip'] = 1;
 
         // should really exclude uploaded SR, PP and PPV files too,
         // but we can't just add them to excluded_filenames because we
@@ -1653,8 +1652,6 @@ function do_post_files()
         if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
         {
             echo_download_zip( _("Download Zipped Text"), '' );
-
-            echo_download_zip( _("Download Zipped TEI Text"), '_TEI' );
 
             echo "<li>";
             echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
