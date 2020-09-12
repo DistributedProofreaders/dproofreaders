@@ -47,43 +47,45 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
+echo "<p>" . _("This tool allows you to review your work in a round with changes made in later rounds.") . "</p>";
+
 // show form
 echo "<form action='review_work.php' method='GET'>";
-echo "<table>";
+echo "<table class='basic'>";
 if (user_is_a_sitemanager() ||
     user_is_an_access_request_reviewer() ||
     user_is_proj_facilitator())
 {
     // only let site admins or reviewers to access non-self records and eval query
     echo  "<tr>";
-    echo   "<td>" . _("Username") . "</td>";
-    echo   "<td><input name='username' type='text' size='26' value='$username' required></td>";
+    echo   "<th>" . _("Username") . "</th>";
+    echo   "<td><input name='username' type='text' size='26' value='" . attr_safe($username) . "' required></td>";
     echo  "</tr>";
     echo  "<tr>";
-    echo   "<td>" . _("Use Evaluation Query") . "</td>";
+    echo   "<th>" . _("Use Evaluation Query") . "</th>";
     echo   "<td><select name='use_eval_query'>";
     _echo_eval_query_select($use_eval_query);
     echo   "</select></td>";
     echo  "</tr>";
 }
 echo  "<tr>";
-echo   "<td>" . _("Work Round") . "</td>";
+echo   "<th>" . _("Work Round") . "</th>";
 echo   "<td><select name='work_round_id'>";
 _echo_round_select($rounds,$work_round_id);
 echo    "</select>";
 echo  "</tr>";
 echo  "<tr>";
-echo   "<td>" . _("Review Round") . "</td>";
+echo   "<th>" . _("Review Round") . "</th>";
 echo   "<td><select name='review_round_id'>";
 _echo_round_select(array_slice($rounds,1),$review_round_id);
 echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
-echo   "<td>" . _("Max days since last save") . "</td>";
+echo   "<th>" . _("Max days since last save") . "</th>";
 echo   "<td><input name='days' type='number' min='0' value='$days' required></td>";
 echo  "</tr>";
 echo  "<tr>";
-echo   "<td>" . _("Max diffs to show") . "</td>";
+echo   "<th>" . _("Max diffs to show") . "</th>";
 echo   "<td><input name='sample_limit' type='number' min='0' value='$sampleLimit' required></td>";
 echo  "</tr>";
 echo "</table>";
@@ -449,15 +451,18 @@ else
 }
 
 echo "<tr>";
-echo "<th>$total_valid_projects</th>";
-echo "<th></th>";
-echo "<th></th>";
+echo "<th colspan='3'>" . _("Totals") . ":</th>";
 echo "<th class='right-align'>$total_n_saved</th>";
 echo "<th class='right-align'>$total_n_latered</th>";
 echo "<th class='right-align'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
+if($sampleLimit > 0)
+{
+    echo "<th></th>";
+}
 echo "</tr>";
 
 echo "</table>";
+echo sprintf(_("(%d projects)"), $total_valid_projects);
 
 // show messages
 $total_invalid_projects = count($messages); 
@@ -477,11 +482,8 @@ if($total_invalid_projects) {
         echo "</td>";
         echo"<td>{$message[2]}</td></tr>";
     }
-    echo "<tr><th>$total_invalid_projects</th><th></th><th></th></tr>";
-
     echo "</table>";
+    echo sprintf(_("(%d projects)"), $total_invalid_projects);
 }
-
-echo "<br>";
 
 // vim: sw=4 ts=4 expandtab
