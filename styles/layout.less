@@ -759,7 +759,6 @@ table.dirlist {
 #standard_interface {
     .no-padding;
     .no-margin;
-    background-color: #CDC0B0;
 
     #imagedisplay {
         .center-align;
@@ -776,45 +775,27 @@ table.dirlist {
 #enhanced_interface {
     .center-align;
     overflow: hidden;
-    background-color: #CDCDC1;
 
     #tbtext {
         margin-left: auto;
         margin-right: auto;
         border-collapse: collapse;
-        border: 1px solid #000000;
         overflow: auto;
     }
     #tdtop {
         .middle-align;
-        border: 1px solid #000000;
-        background-color: #CDC0B0;
         padding: 2px;
     }
-    #tdtext {
+    #tdtext, #tdbottom {
         .top-align;
-        border: 1px solid #000000;
-        background-color: #CDCDC1;
-        padding: 2px;
-    }
-    #tdbottom {
-        .top-align;
-        border: 1px solid #000000;
-        background-color: #EEDFCC;
         padding: 2px;
     }
     #text_data, #text_data:focus {
-        background-color: #FFF8DC;
-        color: #000000;
         padding: 2px;
         outline: none;
     }
     .dropsmall {
         font-size: 75%;
-        background-color: #FFF8DC;
-    }
-    .boxnormal {
-        background-color: #FFF8DC;
     }
 }
 
@@ -823,33 +804,26 @@ table.dirlist {
 
 #wordcheck_interface {
     .center-align;
-    background-color: #CDCDC1;
     overflow: auto;
 
     #tbtext {
         margin-left: auto;
         margin-right: auto;
-        border: 1px solid #000000;
         padding: 10px;
     }
     #tdtop {
-        border: 1px solid #000000;
-        background-color: #CDC0B0;
         padding: 2px;
     }
     #tdtext {
         .top-align;
         .left-align;
-        border: 1px solid #000000;
-        background-color: #FFF8DC;
         padding: 0.5em;
     }
 }
 
 /* ------------------------------------------------------------------------ */
-/* control frame */
+/* Proofreading control frame */
 .control-frame {
-    background-color: #CDC0B0;
     padding: 0;
     margin: 0;
 }
@@ -864,7 +838,6 @@ table.dirlist {
         margin-top: 1px;
         font-size: 1em;
         padding: 0.1em 0.15em 0 0.15em;
-        border: 1px solid black;
         margin-right: 2px;
         min-width: 1em;
     }
@@ -1134,7 +1107,6 @@ li.spaced {
 
 .fixedbox {
     flex: 0 0 auto;
-    background-color: #CDC0B0;
     padding: 2px;
 }
 
@@ -1142,7 +1114,6 @@ li.spaced {
     flex: auto;
     min-height: 10px;
     overflow: auto;
-    background-color: HoneyDew;
 }
 
 .ws-pre {
@@ -1150,10 +1121,6 @@ li.spaced {
     padding-left: 0.5em;
     text-align: left;
     font-family: monospace;
-}
-
-.bad-char {
-    background: #ff99cc;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1177,38 +1144,51 @@ li.spaced {
 }
 
 /* ------------------------------------------------------------------------ */
-/* view_page_text_image */
+/* Page Browser */
 
-.control-form {
-    padding: 0 1em;
-    overflow: auto;
-    p {
-        margin: 0.2em 0;
+#page-browser {
+    .flex_100vh;
+
+    .control-pane {
+        padding: 0 1em;
+        overflow: auto;
+        p {
+            margin: 0.2em 0;
+        }
+        input {
+            margin: 1px 0.2em;
+        }
+        select {
+            margin-right: 0.4em;
+        }
+        .img-button {
+            vertical-align: middle;
+            padding: 0;
+        }
+        img {
+            display: block;
+        }
+        input[type=checkbox] {
+            vertical-align: middle;
+        }
+        input[type=number] {
+            width: 5em;
+        }
+        a {
+            margin-right: 0.4em;
+            margin-left: 0.4em;
+        }
     }
-    input {
-        border-width: 2px;
-        margin: 1px 0.2em;
-    }
-    select {
-        margin-right: 0.4em;
-    }
-    .img-button {
-        vertical-align: middle;
+
+    .text-pane {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding-left: .25em;
+        resize: none;
         border: 0;
-        padding: 0;
-    }
-    img {
+        margin: 0;
         display: block;
-    }
-    input[type=checkbox] {
-        vertical-align: middle;
-    }
-    input[type=number] {
-        width: 5em;
-    }
-    a {
-        margin-right: 0.4em;
-        margin-left: 0.4em;
     }
 }
 
@@ -1225,16 +1205,6 @@ li.spaced {
     }
 }
 
-.full-text {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding-left: .25em;
-    resize: none;
-    border: 0;
-    margin: 0;
-    display: block;
-}
 
 /* vim: sw=4 ts=4 expandtab
 */

@@ -120,14 +120,16 @@ function output_preview_div()
 
     echo <<<END
 <div id='prevdiv' class='no_display'>
- <div class='flex_container'>
-  <div id="id_tp_outer" class='stretchbox'>
+ <div id='format_preview' class='flex_container'>
+  <div id="id_tp_outer" class='stretchbox text-pane'>
     <div id="text_preview">
     </div>
   </div>
-  <div id="id_controls" class="fixedbox">
+  <div id="id_controls" class="fixedbox control-pane">
     <input type='button' onclick="previewControl.hide()" value="$quit">
-    <span class='ilb'><label>$color_markup<input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" ></label></span>
+    <span class='ilb'><label for="id_color_on">$color_markup</label>
+        <input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" >
+    </span>
     <span class='ilb'>$image
       <input type="button" value="-" onclick="top.reSizeRelative(0.91);">
       <input type="button" value="+" onclick="top.reSizeRelative(1.10);">
@@ -138,12 +140,12 @@ function output_preview_div()
     </span>
     <span class='ilb'>$font <select id="id_font_sel"></select></span>
     <span class='ilb'>
-      <label><input type="radio" name="viewSel" id="show_tags">$tags</label>
-      <label><input type="radio" name="viewSel" id="no_tags">$no_tags</label>
-      <label><input type="radio" name="viewSel" id="flat">$text</label>
+      <input type="radio" name="viewSel" id="show_tags"><label for="show_tags">$tags</label>
+      <input type="radio" name="viewSel" id="no_tags"><label for="no_tags">$no_tags</label>
+      <input type="radio" name="viewSel" id="flat"><label for="flat">$text</label>
     </span>
     <span class='ilb'>
-    <label><input type="checkbox" id="re_wrap">$re_wrap</label>
+    <input type="checkbox" id="re_wrap"><label for="re_wrap">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
@@ -179,13 +181,13 @@ function output_preview_div()
     </div>
   </fieldset>
   <div class="box2">
-    <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
+    <span class='ilb'><label for="id_underline">$allow_underine</label><input type="checkbox" id="id_underline"></span>
   </div>
   <fieldset>
     <legend>$suppress_warnings</legend>
     $supp_item_string
   </fieldset>
-  <br><span class='ilb'>$initial_mode <select id="id_init_mode">
+  <br><span class='ilb'><label for='id_init_mode'>$initial_mode</label> <select id="id_init_mode">
     <option value="show_tags">$tags</option>
     <option value="no_tags">$no_tags</option>
     <option value="flat">$text</option>

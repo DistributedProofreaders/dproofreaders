@@ -63,7 +63,6 @@ function ibe_get_styles()
         width:$textWidth%;
         height:$textHeight%;
         /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
-        background-color:#CDCDC1;
         text-align:center;
         z-index:6;
         overflow:auto;
@@ -101,7 +100,6 @@ function ibe_get_styles()
         left:0px;
         top:0px;
         z-index:1;
-        background-color:#EEDFCC;
     }
 STYLES;
 }

@@ -80,7 +80,7 @@ type="text" value="<?php
     } else {
         echo $user->profile->h_zoom;
     }
-?>" name="zmSize" ID="zmSize" class="boxnormal bottom-align" size="3" title="<?php 
+?>" name="zmSize" ID="zmSize" class="bottom-align" size="3" title="<?php
     # xgettext:no-php-format
     echo attr_safe(_("Input Zoom %"));
 ?>" onkeydown="return refuseNonNumeric(event)"><?php

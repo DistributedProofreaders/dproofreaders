@@ -22,21 +22,15 @@
 
 /* control panel */
 #id_controls {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
     padding-left: 2px;
     padding-right: 2px;
-    background-color: #f1d1b4
 }
 
 /* inline block for grouped controls */
 .ilb {
     display: inline-block;
-    border: 1px solid #404040;
     margin: 1px;
-    padding: 1px 2px 1px 2px;
-    border-radius: 2px;
-    background-color:#ffe1c4
+    padding: 2px 3px;
 }
 
 /* configure divs */

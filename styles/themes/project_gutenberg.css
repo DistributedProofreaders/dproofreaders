@@ -341,41 +341,414 @@ table.snapshottable th {
 .WC {
   background-color: #97fc9e;
 }
+/* ======================================================================== */
+/* Page Interface Structures */
+/*
+ * The following classes all relate to various page interfaces, such as the
+ * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
+ * toolbox, code point validator, display image interface, etc.
+ */
+/* Base layer for page interface */
+/* Text pane */
+/* Control panes */
+.page-interface {
+  background-color: #CDCDC1;
+  color: black;
+}
+.page-interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+.page-interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+.page-interface .control-pane input,
+.page-interface .control-pane select,
+.page-interface .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+.page-interface .control-pane button,
+.page-interface .control-pane input[type=submit],
+.page-interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.page-interface .control-pane input[type=image] {
+  border: none;
+}
+.page-interface .control-pane .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Proofreading control frame */
+.control-frame {
+  background-color: #CDC0B0;
+  color: black;
+}
+.control-frame input,
+.control-frame select,
+.control-frame button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+.control-frame button,
+.control-frame input[type=submit],
+.control-frame input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.control-frame input[type=image] {
+  border: none;
+}
+.control-frame .menu {
+  background-color: Bisque;
+}
 /* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 #toolbox {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #CDC0B0;
+  color: black;
+}
+#toolbox input,
+#toolbox select,
+#toolbox button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#toolbox button,
+#toolbox input[type=submit],
+#toolbox input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#toolbox input[type=image] {
+  border: none;
+}
+#toolbox .menu {
+  background-color: Bisque;
 }
 #toolbox .selector_button {
   background-color: Bisque;
 }
-#toolbox .selected-tab,
-#toolbox .big_text,
-#toolbox .picker {
-  background-color: Beige;
+#toolbox .selected-tab {
+  font-weight: bold;
+  background-color: #FFF8DC;
+  box-shadow: -1px -1px grey;
 }
-#toolbox .proofbutton {
-  border: 1px solid black;
-  background: #FFF8DC;
+#toolbox #hide-picker {
+  box-shadow: -1px -1px grey;
 }
 /* ------------------------------------------------------------------------ */
-/* view_page_text_image */
-.control-form {
+/* Format Preview */
+#format_preview {
+  background-color: #CDCDC1;
+  color: black;
+}
+#format_preview .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#format_preview .control-pane {
   background-color: #CDC0B0;
+  color: black;
+}
+#format_preview .control-pane input,
+#format_preview .control-pane select,
+#format_preview .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#format_preview .control-pane button,
+#format_preview .control-pane input[type=submit],
+#format_preview .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#format_preview .control-pane input[type=image] {
+  border: none;
+}
+#format_preview .control-pane .menu {
+  background-color: Bisque;
+}
+.ilb {
+  border: 1px solid #404040;
+  border-radius: 2px;
+  background-color: #CDC0B0;
+  color: black;
+}
+.ilb input,
+.ilb select,
+.ilb button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+.ilb button,
+.ilb input[type=submit],
+.ilb input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.ilb input[type=image] {
+  border: none;
+}
+.ilb .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Page Browser */
+#page-browser {
+  background-color: #CDCDC1;
+  color: black;
+}
+#page-browser .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#page-browser .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#page-browser .control-pane input,
+#page-browser .control-pane select,
+#page-browser .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#page-browser .control-pane button,
+#page-browser .control-pane input[type=submit],
+#page-browser .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#page-browser .control-pane input[type=image] {
+  border: none;
+}
+#page-browser .control-pane .menu {
+  background-color: Bisque;
+}
+#page-browser .control-pane {
   border-bottom: 1px solid #999;
 }
-.control-form input {
-  background-color: #FFF8DC;
+#page-browser .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
 }
-.control-form select {
-  background-color: #FFF8DC;
-}
-.image-back {
+/* ------------------------------------------------------------------------ */
+/* Standard Editing Interface */
+#standard_interface {
   background-color: #CDCDC1;
+  color: black;
 }
-.full-text {
+#standard_interface .text-pane {
   background-color: #FFF8DC;
+  color: black;
+}
+#standard_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#standard_interface .control-pane input,
+#standard_interface .control-pane select,
+#standard_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#standard_interface .control-pane button,
+#standard_interface .control-pane input[type=submit],
+#standard_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#standard_interface .control-pane input[type=image] {
+  border: none;
+}
+#standard_interface .control-pane .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Enhanced Editing Interface */
+#enhanced_interface {
+  background-color: #CDCDC1;
+  color: black;
+}
+#enhanced_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface .control-pane input,
+#enhanced_interface .control-pane select,
+#enhanced_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#enhanced_interface .control-pane button,
+#enhanced_interface .control-pane input[type=submit],
+#enhanced_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface .control-pane input[type=image] {
+  border: none;
+}
+#enhanced_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tbtext {
+  border: 1px solid black;
+}
+#enhanced_interface #tdtop {
+  border: 1px solid black;
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface #tdtop input,
+#enhanced_interface #tdtop select,
+#enhanced_interface #tdtop button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#enhanced_interface #tdtop button,
+#enhanced_interface #tdtop input[type=submit],
+#enhanced_interface #tdtop input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface #tdtop input[type=image] {
+  border: none;
+}
+#enhanced_interface #tdtop .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tdtext {
+  border: 1px solid black;
+  background-color: #CDCDC1;
+  color: black;
+}
+#enhanced_interface #tdtext .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface #tdtext .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface #tdtext .control-pane input,
+#enhanced_interface #tdtext .control-pane select,
+#enhanced_interface #tdtext .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#enhanced_interface #tdtext .control-pane button,
+#enhanced_interface #tdtext .control-pane input[type=submit],
+#enhanced_interface #tdtext .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface #tdtext .control-pane input[type=image] {
+  border: none;
+}
+#enhanced_interface #tdtext .control-pane .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tdbottom {
+  border: 1px solid black;
+  background-color: #EEDFCC;
+}
+#enhanced_interface #text_data,
+#enhanced_interface #text_data:focus {
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface .dropsmall {
+  font-size: 75%;
+}
+/* ------------------------------------------------------------------------ */
+/* WordCheck Interface */
+#wordcheck_interface {
+  background-color: #CDCDC1;
+  color: black;
+}
+#wordcheck_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#wordcheck_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#wordcheck_interface .control-pane input,
+#wordcheck_interface .control-pane select,
+#wordcheck_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#wordcheck_interface .control-pane button,
+#wordcheck_interface .control-pane input[type=submit],
+#wordcheck_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#wordcheck_interface .control-pane input[type=image] {
+  border: none;
+}
+#wordcheck_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#wordcheck_interface #tbtext {
+  border: 1px solid black;
+}
+#wordcheck_interface #tdtop {
+  border: 1px solid black;
+  background-color: #CDC0B0;
+  color: black;
+}
+#wordcheck_interface #tdtop input,
+#wordcheck_interface #tdtop select,
+#wordcheck_interface #tdtop button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+#wordcheck_interface #tdtop button,
+#wordcheck_interface #tdtop input[type=submit],
+#wordcheck_interface #tdtop input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#wordcheck_interface #tdtop input[type=image] {
+  border: none;
+}
+#wordcheck_interface #tdtop .menu {
+  background-color: Bisque;
+}
+#wordcheck_interface #tdtext {
+  border: 1px solid black;
+  background-color: #FFF8DC;
+  color: black;
+}
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+.stretchbox {
+  background-color: #FFF8DC;
+  color: black;
+}
+.fixedbox {
+  background-color: #CDC0B0;
+  color: black;
+}
+.fixedbox input,
+.fixedbox select,
+.fixedbox button {
+  background-color: #FFF8DC;
+  border: solid thin black;
+}
+.fixedbox button,
+.fixedbox input[type=submit],
+.fixedbox input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.fixedbox input[type=image] {
+  border: none;
+}
+.fixedbox .menu {
+  background-color: Bisque;
+}
+.bad-char {
+  background: #ff99cc;
 }
 /* vim: sw=4 ts=4 expandtab
 */

@@ -43,6 +43,6 @@ $header_args = [
 
 slim_header($title, $header_args);
 
-echo "<div class='flex_100vh' id='top-div'></div>";
+echo "<div id='page-browser'></div>";
 
 // vim: sw=4 ts=4 expandtab
