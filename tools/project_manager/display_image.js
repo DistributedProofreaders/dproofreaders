@@ -34,9 +34,9 @@ $(function () {
         return returnValue;
     };
 
-    let topDiv = $("#top-div");
+    let topDiv = $("#page-browser");
     // the non-scrolling area which will contain any error message and the form with controls
-    let fixHead = $("<div>", {class: 'fixed-box control-form'});
+    let fixHead = $("<div>", {class: 'fixed-box control-pane'});
     topDiv.append(fixHead);
 
     if(pageBrowserData.errorMessage) {
@@ -89,7 +89,7 @@ $(function () {
             } else {
                 fixHead.append(theImageControl.controls);
             }
-            stretchDiv.addClass("overflow-auto image-back").append(theImageControl.image);
+            stretchDiv.addClass("overflow-auto image-pane").append(theImageControl.image);
             theImageControl.setZoom();
             break;
         }
@@ -106,11 +106,11 @@ $(function () {
             let theImageControl = imageControl();
             let theTextControl = textControl();
             theTextControl.textArea.prop("readonly", !mentorMode);
-            let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
+            let imageDiv = $("<div>", {class: 'overflow-auto image-pane'}).append(theImageControl.image);
             let textDiv = $("<div>").append(theTextControl.textArea);
             if(mentorMode) {
                 let topTextDiv = textDiv;
-                let bottomTextDiv = $("<div>", {class: 'image-back'});
+                let bottomTextDiv = $("<div>", {class: 'image-pane'});
                 textDiv = $("<div>").append(topTextDiv, bottomTextDiv);
             }
             stretchDiv.append(imageDiv, textDiv);

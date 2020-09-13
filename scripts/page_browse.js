@@ -193,7 +193,7 @@ var imageControl = function() {
 
 // Construct the font-face, font-size and wrap controls
 var textControl = function() {
-    let textArea = $("<textarea>", {class: "full-text"});
+    let textArea = $("<textarea>", {class: "text-pane"});
     textArea.val(pageBrowserData.text);
     let fontFaceSelector = document.createElement("select");
     fontFaceSelector.title = proofIntData.strings.changeFontFace;

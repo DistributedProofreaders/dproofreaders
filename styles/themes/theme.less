@@ -304,46 +304,181 @@ table.snapshottable {
     background-color: #97fc9e;
 }
 
+/* ======================================================================== */
+/* Page Interface Structures */
+
+/*
+ * The following classes all relate to various page interfaces, such as the
+ * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
+ * toolbox, code point validator, display image interface, etc.
+ */
+
+/* Base layer for page interface */
+@page-interface-background: #CDCDC1;
+@page-interface-text: black;
+
+/* Text pane */
+@text-pane-background: #FFF8DC;
+@text-pane-text: black;
+
+/* Control panes */
+@control-pane-background: #CDC0B0;
+@control-pane-text: black;
+@control-pane-menu: Bisque;
+
+.page-interface {
+    background-color: @page-interface-background;
+    color: @page-interface-text;
+
+    .text-pane {
+        background-color: @text-pane-background;
+        color: @text-pane-text;
+    }
+
+    .control-pane {
+        background-color: @control-pane-background;
+        color: @control-pane-text;
+
+        input, select, button {
+            background-color: @text-pane-background;
+            border: solid thin black;
+        }
+
+        button, input[type=submit], input[type=button] {
+            box-shadow: 1px 1px grey;
+        }
+
+        input[type=image] {
+            border: none;
+        }
+
+        .menu {
+            background-color: @control-pane-menu;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Proofreading control frame */
+.control-frame {
+    .page-interface .control-pane;
+}
+
 /* ------------------------------------------------------------------------ */
 /* Proofreading Toolbox */
 
 #toolbox {
     .sans-serif;
-    background-color: #CDC0B0;
+    .page-interface .control-pane;
     .selector_button {
-        background-color: Bisque;
+        .page-interface .control-pane .menu;
     }
-    .selected-tab, .big_text, .picker {
-        background-color: Beige;
+    .selected-tab {
+        .bold;
+        background-color: @text-pane-background;
+        box-shadow: -1px -1px grey;
     }
-    .proofbutton {
-        border: 1px solid black;
-        background: #FFF8DC;
+    #hide-picker {
+        box-shadow: -1px -1px grey;
     }
 }
 
 /* ------------------------------------------------------------------------ */
-/* view_page_text_image */
+/* Format Preview */
 
-.control-form {
-    background-color: #CDC0B0;
-    border-bottom: 1px solid #999;
-    input {
-        background-color: #FFF8DC;
+#format_preview {
+    .page-interface;
+}
+
+.ilb {
+    border: 1px solid #404040;
+    border-radius: 2px;
+    .page-interface .control-pane;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Page Browser */
+
+#page-browser {
+    .page-interface;
+    .control-pane {
+        border-bottom: 1px solid #999;
+        .img-button {
+            border: 0;
+            box-shadow: none;
+        }
     }
-    select {
-        background-color: #FFF8DC;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Standard Editing Interface */
+
+#standard_interface {
+    .page-interface;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Enhanced Editing Interface */
+
+#enhanced_interface {
+    .page-interface;
+
+    #tbtext {
+        border: 1px solid black;
+    }
+    #tdtop {
+        border: 1px solid black;
+        .page-interface .control-pane;
+    }
+    #tdtext {
+        border: 1px solid black;
+        .page-interface;
+    }
+    #tdbottom {
+        border: 1px solid black;
+        background-color: #EEDFCC;
+    }
+    #text_data, #text_data:focus {
+        .page-interface .text-pane;
+    }
+    .dropsmall {
+        font-size: 75%;
     }
 }
 
-.image-back {
-    background-color: #CDCDC1;
+/* ------------------------------------------------------------------------ */
+/* WordCheck Interface */
+
+#wordcheck_interface {
+    .page-interface;
+
+    #tbtext {
+        border: 1px solid black;
+    }
+    #tdtop {
+        border: 1px solid black;
+        .page-interface .control-pane;
+    }
+    #tdtext {
+        border: 1px solid black;
+        .page-interface .text-pane;
+    }
 }
 
-.full-text {
-    background-color: #FFF8DC;
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+
+.stretchbox {
+    .page-interface .text-pane;
 }
 
+.fixedbox {
+    .page-interface .control-pane;
+}
+
+.bad-char {
+    background: #ff99cc;
+}
 
 /* vim: sw=4 ts=4 expandtab
 */

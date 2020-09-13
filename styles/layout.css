@@ -742,7 +742,6 @@ table.dirlist caption {
 #standard_interface {
   padding: 0;
   margin: 0;
-  background-color: #CDC0B0;
 }
 #standard_interface #imagedisplay {
   text-align: center;
@@ -756,76 +755,52 @@ table.dirlist caption {
 #enhanced_interface {
   text-align: center;
   overflow: hidden;
-  background-color: #CDCDC1;
 }
 #enhanced_interface #tbtext {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
-  border: 1px solid #000000;
   overflow: auto;
 }
 #enhanced_interface #tdtop {
   vertical-align: middle;
-  border: 1px solid #000000;
-  background-color: #CDC0B0;
   padding: 2px;
 }
-#enhanced_interface #tdtext {
-  vertical-align: top;
-  border: 1px solid #000000;
-  background-color: #CDCDC1;
-  padding: 2px;
-}
+#enhanced_interface #tdtext,
 #enhanced_interface #tdbottom {
   vertical-align: top;
-  border: 1px solid #000000;
-  background-color: #EEDFCC;
   padding: 2px;
 }
 #enhanced_interface #text_data,
 #enhanced_interface #text_data:focus {
-  background-color: #FFF8DC;
-  color: #000000;
   padding: 2px;
   outline: none;
 }
 #enhanced_interface .dropsmall {
   font-size: 75%;
-  background-color: #FFF8DC;
-}
-#enhanced_interface .boxnormal {
-  background-color: #FFF8DC;
 }
 /* ------------------------------------------------------------------------ */
 /* WordCheck Interface */
 #wordcheck_interface {
   text-align: center;
-  background-color: #CDCDC1;
   overflow: auto;
 }
 #wordcheck_interface #tbtext {
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #000000;
   padding: 10px;
 }
 #wordcheck_interface #tdtop {
-  border: 1px solid #000000;
-  background-color: #CDC0B0;
   padding: 2px;
 }
 #wordcheck_interface #tdtext {
   vertical-align: top;
   text-align: left;
-  border: 1px solid #000000;
-  background-color: #FFF8DC;
   padding: 0.5em;
 }
 /* ------------------------------------------------------------------------ */
-/* control frame */
+/* Proofreading control frame */
 .control-frame {
-  background-color: #CDC0B0;
   padding: 0;
   margin: 0;
 }
@@ -840,7 +815,6 @@ table.dirlist caption {
   margin-top: 1px;
   font-size: 1em;
   padding: 0.1em 0.15em 0 0.15em;
-  border: 1px solid black;
   margin-right: 2px;
   min-width: 1em;
 }
@@ -1079,23 +1053,18 @@ li.spaced {
 }
 .fixedbox {
   flex: 0 0 auto;
-  background-color: #CDC0B0;
   padding: 2px;
 }
 .stretchbox {
   flex: auto;
   min-height: 10px;
   overflow: auto;
-  background-color: HoneyDew;
 }
 .ws-pre {
   white-space: pre;
   padding-left: 0.5em;
   text-align: left;
   font-family: monospace;
-}
-.bad-char {
-  background: #ff99cc;
 }
 /* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
@@ -1113,38 +1082,58 @@ li.spaced {
   border: 1px solid black;
 }
 /* ------------------------------------------------------------------------ */
-/* view_page_text_image */
-.control-form {
+/* Page Browser */
+#page-browser {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#page-browser .fixed-box {
+  flex: 0 0 auto;
+}
+#page-browser .stretch-box {
+  flex: 1 1 100vh;
+  min-height: 10px;
+}
+#page-browser .control-pane {
   padding: 0 1em;
   overflow: auto;
 }
-.control-form p {
+#page-browser .control-pane p {
   margin: 0.2em 0;
 }
-.control-form input {
-  border-width: 2px;
+#page-browser .control-pane input {
   margin: 1px 0.2em;
 }
-.control-form select {
+#page-browser .control-pane select {
   margin-right: 0.4em;
 }
-.control-form .img-button {
+#page-browser .control-pane .img-button {
   vertical-align: middle;
-  border: 0;
   padding: 0;
 }
-.control-form img {
+#page-browser .control-pane img {
   display: block;
 }
-.control-form input[type=checkbox] {
+#page-browser .control-pane input[type=checkbox] {
   vertical-align: middle;
 }
-.control-form input[type=number] {
+#page-browser .control-pane input[type=number] {
   width: 5em;
 }
-.control-form a {
+#page-browser .control-pane a {
   margin-right: 0.4em;
   margin-left: 0.4em;
+}
+#page-browser .text-pane {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 .flex_100vh {
   height: 100vh;
@@ -1157,16 +1146,6 @@ li.spaced {
 .flex_100vh .stretch-box {
   flex: 1 1 100vh;
   min-height: 10px;
-}
-.full-text {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding-left: 0.25em;
-  resize: none;
-  border: 0;
-  margin: 0;
-  display: block;
 }
 /* vim: sw=4 ts=4 expandtab
 */
