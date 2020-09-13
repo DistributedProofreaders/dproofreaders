@@ -194,7 +194,7 @@ else {
             ", DPDatabase::escape($last_name),
                 DPDatabase::escape($other_names));
             if ($simulating) {
-                echo "<span style='color: red'>    " . _("The following query would have been run:") . "\n      " .
+                echo "<span class='error'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
                 $author_id='#new author id#';
             }
@@ -209,7 +209,7 @@ else {
                 VALUES(%d, '%s')
             ", $author_id, DPDatabase::escape($bio));
             if ($simulating)
-                echo "<span style='color: blue'>    " . _("The following query would have been run:") . "\n      " .
+                echo "<span class='warning'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</span>\n";
             else {
                 $store_result = DPDatabase::query($query);

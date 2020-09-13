@@ -1,5 +1,61 @@
 @import (reference) "../global.less";
 
+/* ------------------------------------------------------------------------ */
+/* mixins with color */
+
+.solid-border(@color: black) {
+    border: thin solid @color;
+}
+
+.solid-border-bottom(@color: black) {
+    border-bottom: thin solid @color;
+}
+
+/* standalone classes that can be used as mixins, but that should not
+ * be given parameters, as they can't be used as classes in the code
+ * directly if they have parameters that the lessc compiler has to 
+ * sort out
+ */
+
+.default-border {
+    .solid-border;
+}
+
+.default-border-bottom {
+    .solid-border-bottom;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Attention-getting structures */
+.error, .test_warning {
+    color: red;
+}
+
+.warning {
+    color: blue;
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
+}
+
+.button {
+    .sans-serif;
+}
+
+kbd {
+    color: #cc0000;
+}
+
+
+div.callout {
+    background-color: #EEE;
+    .solid-border;
+}
+
+/* ------------------------------------------------------------------------ */
+
 body {
     background-color: @page-background;
     color: @page-text;
@@ -58,7 +114,7 @@ nav, #navbar-outer, #navbar, #navbar-left, #navbar-right, #navbar-login {
         yellow 100%,
     );
     color: black;
-    border-bottom: solid thin black;
+    .solid-border-bottom;
     .unicolor-link(lighten(black, 30%));
 }
 
@@ -101,26 +157,11 @@ h1, h2, h3, h4, h5, h6 {
     background-color: @sidebar-background;
 }
 
-/* Attention-getting structures */
-.error, .test_warning {
-    color: red;
-}
 
-.warning {
-    color: blue;
-}
-
-.highlight {
-    background-color: yellow;
-    color: black;
-}
-
-.button {
-    .sans-serif;
-}
-
-kbd {
-    color: #cc0000;
+/* ------------------------------------------------------------------------ */
+/* News items */
+div.newsitem {
+    box-shadow: -5px -5px 5px lightgrey; //srj: moved from layout
 }
 
 /* ------------------------------------------------------------------------ */
@@ -136,6 +177,9 @@ div.faqheader {
 /* User Preferences */
 
 table.preferences {
+    td, th {
+        .solid-border;
+    }
     th.label, th.longlabel {
         background-color: @header-background;
         color: @header-text;
@@ -143,14 +187,17 @@ table.preferences {
 }
 
 .tabs {
+    .solid-border-bottom(grey);
     li {
         background-color: desaturate(@header-background, 50%);
+        .solid-border(grey);
         a {
             color: desaturate(@header-text, 50%);
         }
     }
     .current-tab {
         background-color: @page-background;
+        .solid-border(grey);
         a {
             color: @page-text;
         }
@@ -161,6 +208,7 @@ table.preferences {
 /* Themed tables */
 
 table.themed {
+    .solid-border;
     tr {
         th {
             background-color: @navbar-background;
@@ -191,10 +239,35 @@ table.striped {
     }
 }
 
+table.basic {
+    .solid-border;
+    th {
+        background-color: #CCC;
+    }
+    td, th {
+        .solid-border;
+    }
+    td.satisfied {
+        background-color: #ccffcc;
+    }
+    td.not_satisfied {
+        background-color: #ffcccc;
+    }
+}
+
 /* ------------------------------------------------------------------------ */
 /* Available Project Listings */
 
 table.availprojectlisting {
+    .solid-border;
+    tr {
+        th {
+            .solid-border-bottom;
+        }
+        td {
+            .solid-border-bottom(#888);
+        }
+    }
     tr:nth-child(even) {
         background-color: #ddd;
     }
@@ -243,11 +316,16 @@ each(@stages, {
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
 
+p.form_problem {
+    color: red;
+    font-weight: bold;
+}
 table.ppv_reportcard {
+    .solid-border;
     th {
         .center-align;
         .bold;
-        border: solid thin black;
+        .solid-border;
     }
     th.major_section {
         background-color: @header-background;
@@ -258,14 +336,59 @@ table.ppv_reportcard {
     th.heading {
         background-color: #e0e8dd;
     }
+    td {
+        .solid-border;
+    }
+
 }
 
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
 
-table.image_source_listing {
-    td.title {
-        background-color: @header-background;
+table.image_source {
+    th {
+        background-color: #eee;
+        .solid-border(#999);
+    }
+    td {
+        .solid-border(#999);
+    }
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
+    td.enabled {
+        background-color: #9f9;
+        }
+    td.disabled {
+        background-color: #ddd;
+    }
+    td.pending {
+        background-color: #ff8;
+    }
+}
+
+div.perms_wrapper {
+    border-bottom: dotted black 1px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Page Detail */
+
+table.pagedetail {
+    th, td {
+        .solid-border;
+    }
+    td.in_progress {
+        background-color: #FC6;
+    }
+    td.done_current {
+        background-color: #9F6;
+    }
+    td.done_previous {
+        background-color: #F36;
     }
 }
 
@@ -273,6 +396,7 @@ table.image_source_listing {
 /* Registration table */
 
 table.register {
+    .solid-border;
     td.bar {
         background-color: @navbar-background;
     }
@@ -285,9 +409,76 @@ table.register {
 /* Site Progress Snapshot table on Activity Hub */
 
 table.snapshottable {
+    td, th {
+        .solid-border;
+    }
     th {
         background-color: @header-background;
     }
+    th.activity-icon-header {
+        background-color: @page-background;  // moved from layout
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Progress bar */
+
+div.progressbar {
+    .solid-border;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Special days tables */
+
+table.list_special_days {
+    td,th {
+        .solid-border(#999);
+        }
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
+    td.enabled {
+        background-color: #9f9;
+    }
+    td.disabled {
+        background-color: #ddd;
+    }
+    tr.month > * {
+        border: none;
+        border-bottom: solid 2px black;
+    }
+}
+
+table.show_special_days {
+    th {
+        background-color: #eeeeee;
+    }
+}
+
+table.edit_special_day {
+    th, td {
+        .solid-border;
+        background-color: #eeeeee;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Search Results drop-down */
+
+.dropdown-content {
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    border-radius: 0.3em;
+}
+
+/* ------------------------------------------------------------------------ */
+/* PM link box */
+
+#pm_links {
+    .solid-border;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -302,6 +493,13 @@ table.snapshottable {
 }
 .WC {
     background-color: #97fc9e;
+}
+
+/* ------------------------------------------------------------------------ */
+/* replace text validator */
+
+.replace_check {
+    .solid-border;
 }
 
 /* ======================================================================== */
@@ -341,7 +539,7 @@ table.snapshottable {
 
         input, select, button {
             background-color: @text-pane-background;
-            border: solid thin black;
+            .solid-border;
         }
 
         button, input[type=submit], input[type=button] {
@@ -391,7 +589,7 @@ table.snapshottable {
 }
 
 .ilb {
-    border: 1px solid #404040;
+   .solid-border(#404040);
     border-radius: 2px;
     .page-interface .control-pane;
 }
@@ -402,7 +600,7 @@ table.snapshottable {
 #page-browser {
     .page-interface;
     .control-pane {
-        border-bottom: 1px solid #999;
+        .solid-border-bottom(#999);
         .img-button {
             border: 0;
             box-shadow: none;
@@ -424,18 +622,18 @@ table.snapshottable {
     .page-interface;
 
     #tbtext {
-        border: 1px solid black;
+        .solid-border;
     }
     #tdtop {
-        border: 1px solid black;
+        .solid-border;
         .page-interface .control-pane;
     }
     #tdtext {
-        border: 1px solid black;
+        .solid-border;
         .page-interface;
     }
     #tdbottom {
-        border: 1px solid black;
+        .solid-border;
         background-color: #EEDFCC;
     }
     #text_data, #text_data:focus {
@@ -453,14 +651,14 @@ table.snapshottable {
     .page-interface;
 
     #tbtext {
-        border: 1px solid black;
+        .solid-border;
     }
     #tdtop {
-        border: 1px solid black;
+        .solid-border;
         .page-interface .control-pane;
     }
     #tdtext {
-        border: 1px solid black;
+        .solid-border;
         .page-interface .text-pane;
     }
 }
