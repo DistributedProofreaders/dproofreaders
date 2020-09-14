@@ -1977,7 +1977,7 @@ function title_string_for_task($pre_task)
 function make_urls_links($string)
 {
     // from https://stackoverflow.com/questions/1960461/convert-plain-text-urls-into-html-hyperlinks-in-php
-    $url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/';
+    $url = '@http(s)?://(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s\);:])@';
     $string = preg_replace($url, '<a href="$0">$0</a>', $string);
     return $string;
 }
