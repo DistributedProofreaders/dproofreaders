@@ -171,6 +171,26 @@ function user_is_site_translator()
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
+function user_can_mentor_in_any_round()
+{
+    global $Round_for_round_id_;
+
+    if(user_is_a_sitemanager() || user_is_proj_facilitator())
+    {
+        return true;
+    }
+
+    $userSettings =& get_pguser_settings();
+    foreach($Round_for_round_id_ as $round)
+    {
+        if($userSettings->get_boolean("{$round->id}_mentor.access"))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 function user_can_mentor_in_round($round)
 {
     $userSettings =& get_pguser_settings();

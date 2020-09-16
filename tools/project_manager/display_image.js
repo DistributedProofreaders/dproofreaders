@@ -1,5 +1,5 @@
 /*global $ mode pageBrowserData proofIntData imageControl pageChanger viewSplitter textControl
-hiddenProject projectReset roundSelect projectSelector pageTitle */
+hiddenProject projectReset roundSelect projectSelector pageTitle mentorMode */
 
 $(function () {
     // Construct the hidden modeInput to persist the mode
@@ -31,14 +31,15 @@ $(function () {
     };
 
     let topDiv = $("#top-div");
-    // the non-scrolling area which will contain any error messagfe and the form with controls
+    // the non-scrolling area which will contain any error message and the form with controls
     let fixHead = $("<div>", {class: 'fixed-box control-form'});
-    let pageControlForm = $("<form>", {method: "get"});
     topDiv.append(fixHead);
 
     if(pageBrowserData.errorMessage) {
         fixHead.append($("<p>", {class: 'error'}).append(pageBrowserData.errorMessage));
     }
+
+    let pageControlForm = $("<form>", {method: "get"});
     if(!pageBrowserData.projectid) {
         // just show the project input
         fixHead.append(pageControlForm);
@@ -75,18 +76,36 @@ $(function () {
                 // round selector submits if changed
                 pageControlForm.append(roundSelect(true));
                 fixHead.append(theTextControl.controls);
-                theTextControl.textArea.prop("readonly", true);
+                theTextControl.textArea.prop("readonly", !mentorMode);
                 stretchDiv.append(theTextControl.textArea);
                 break;
             }
             case "imageText": {
                 let theImageControl = imageControl();
                 let theTextControl = textControl();
-                theTextControl.textArea.prop("readonly", true);
+                theTextControl.textArea.prop("readonly", !mentorMode);
                 let imageDiv = $("<div>", {class: 'overflow-auto image-back'}).append(theImageControl.image);
                 let textDiv = $("<div>").append(theTextControl.textArea);
+                if(mentorMode) {
+                    let topTextDiv = textDiv;
+                    let bottomTextDiv = $("<div>", {class: 'image-back'});
+                    textDiv = $("<div>").append(topTextDiv, bottomTextDiv);
+                }
                 stretchDiv.append(imageDiv, textDiv);
                 let theSplitter = viewSplitter(stretchDiv);
+                if(mentorMode) {
+                    const subSplitID = "sub_split_percent";
+                    let subSplitPercent = localStorage.getItem(subSplitID);
+                    if(!subSplitPercent) {
+                        // in local storage 0 is stored as "0" and evaluates to true
+                        subSplitPercent = 100;
+                    }
+
+                    let subSplitter = splitControl(textDiv, {splitVertical: false, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
+                    subSplitter.dragEnd.add(function (percent) {
+                        localStorage.setItem(subSplitID, percent);
+                    });
+                }
                 pageControlForm.append(roundSelect(true));
                 fixHead.append(theImageControl.controls, theSplitter.buttons, theTextControl.controls);
                 theImageControl.setZoom();
