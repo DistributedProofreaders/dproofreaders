@@ -130,6 +130,7 @@ function get_proofreading_interface_data_js()
 
         var proofIntData = $proof_int_data;
         var mentorMode = $mentorMode;
+        var simpleHeader = false;
 
 EOF;
 }
