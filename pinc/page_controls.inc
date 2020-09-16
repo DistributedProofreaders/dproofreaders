@@ -124,5 +124,12 @@ function get_proofreading_interface_data_js()
         "buttonImages" => $button_images,
     ]);
 
-    return "var proofIntData = $proof_int_data;";
+    $mentorMode = user_can_mentor_in_any_round() ? "true" : "false";
+
+    return <<<EOF
+
+        var proofIntData = $proof_int_data;
+        var mentorMode = $mentorMode;
+
+EOF;
 }
