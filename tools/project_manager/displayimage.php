@@ -21,12 +21,8 @@ catch(Exception $exception)
 }
 
 $round_id = get_enumerated_param($_GET, 'round_id', 'OCR', expanded_rounds());
-
-function get_mode_js()
-{
-    $mode = get_enumerated_param($_GET, 'mode', 'image', ['image', 'text', 'imageText']);
-    return "var mode = '$mode';";
-}
+$mode = get_enumerated_param($_GET, 'mode', 'image', ['image', 'text', 'imageText']);
+$simpleHeader = get_enumerated_param($_GET, 'simpleHeader', 'false', ['true', 'false']);
 
 $title = _("Display Image for page");
 
@@ -38,7 +34,10 @@ $js_files = [
 
 $header_args = [
     "js_files" => $js_files,
-    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js() . get_mode_js(),
+    "js_data" => get_page_data_js($projectid, $imagefile, $round_id, $error_message) . get_proofreading_interface_data_js() . "
+            var mode = '$mode';
+            var simpleHeader = $simpleHeader;
+        ",
     "body_attributes" => 'class="no-margin overflow-hidden"',
 ];
 
