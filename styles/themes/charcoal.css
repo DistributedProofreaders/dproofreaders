@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------ */
-/* Theme coloring for Project Gutenberg */
+/* Theme coloring for Charcoal */
 /* ------------------------------------------------------------------------ */
 /* Mix-ins */
 .left-align {
@@ -178,7 +178,7 @@
 .page-interface .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .page-interface .control-pane input[type=submit]:disabled,
 .page-interface .control-pane input[type=button]:disabled,
@@ -227,7 +227,7 @@
 #standard_interface_image .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #standard_interface_image .control-pane input[type=submit]:disabled,
 #standard_interface_image .control-pane input[type=button]:disabled,
@@ -315,7 +315,7 @@
 #enhanced_interface .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #enhanced_interface .control-pane input[type=submit]:disabled,
 #enhanced_interface .control-pane input[type=button]:disabled,
@@ -339,12 +339,12 @@
   margin-right: auto;
   border-collapse: collapse;
   overflow: auto;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #enhanced_interface #tdtop {
   vertical-align: middle;
   padding: 2px;
-  border: thin solid #000000;
+  border: thin solid #565656;
   background-color: #CDC0B0;
   color: black;
 }
@@ -353,7 +353,7 @@
 #enhanced_interface #tdtop button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #enhanced_interface #tdtop input[type=submit]:disabled,
 #enhanced_interface #tdtop input[type=button]:disabled,
@@ -375,7 +375,7 @@
 #enhanced_interface #tdtext,
 #enhanced_interface #tdbottom {
   vertical-align: top;
-  border: thin solid #000000;
+  border: thin solid #565656;
   padding: 2px;
 }
 #enhanced_interface #tdtext {
@@ -404,7 +404,7 @@
 #enhanced_interface #tdtext .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #enhanced_interface #tdtext .control-pane input[type=submit]:disabled,
 #enhanced_interface #tdtext .control-pane input[type=button]:disabled,
@@ -469,7 +469,7 @@
 #wordcheck_interface .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #wordcheck_interface .control-pane input[type=submit]:disabled,
 #wordcheck_interface .control-pane input[type=button]:disabled,
@@ -492,11 +492,11 @@
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #wordcheck_interface #tdtop {
   padding: 2px;
-  border: thin solid #000000;
+  border: thin solid #565656;
   background-color: #CDC0B0;
   color: black;
 }
@@ -505,7 +505,7 @@
 #wordcheck_interface #tdtop button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #wordcheck_interface #tdtop input[type=submit]:disabled,
 #wordcheck_interface #tdtop input[type=button]:disabled,
@@ -528,7 +528,7 @@
   vertical-align: top;
   text-align: left;
   padding: 0.5em;
-  border: thin solid #000000;
+  border: thin solid #565656;
   background-color: #FFF8DC;
   color: black;
 }
@@ -542,7 +542,7 @@
 #wordcheck_interface #wc_header select {
   background-color: white;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #wordcheck_interface #wc_header button,
 #wordcheck_interface #wc_header input[type=submit],
@@ -556,7 +556,7 @@
   border-radius: 3px;
   cursor: default;
   font-family: Verdana, Helvetica, sans-serif;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .preWC {
   background-color: #c2c2c2;
@@ -596,7 +596,7 @@
 #format_preview .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #format_preview .control-pane input[type=submit]:disabled,
 #format_preview .control-pane input[type=button]:disabled,
@@ -626,7 +626,7 @@
 .ilb button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .ilb input[type=submit]:disabled,
 .ilb input[type=button]:disabled,
@@ -663,7 +663,7 @@
 .fixedbox button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .fixedbox input[type=submit]:disabled,
 .fixedbox input[type=button]:disabled,
@@ -711,7 +711,7 @@
 .control-frame button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .control-frame input[type=submit]:disabled,
 .control-frame input[type=button]:disabled,
@@ -744,7 +744,7 @@
 #toolbox button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #toolbox input[type=submit]:disabled,
 #toolbox input[type=button]:disabled,
@@ -882,7 +882,7 @@
 #page-browser .control-pane button {
   background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 #page-browser .control-pane input[type=submit]:disabled,
 #page-browser .control-pane input[type=button]:disabled,
@@ -995,16 +995,16 @@
  * sort out
  */
 .default-border {
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .default-border-bottom {
-  border-bottom: thin solid #000000;
+  border-bottom: thin solid #565656;
 }
 .text-link-disabled {
-  color: #666666;
+  color: #a6a6a6;
 }
 .sidebar-color {
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 .sans-serif {
   font-family: Verdana, Helvetica, sans-serif;
@@ -1019,7 +1019,7 @@
   border-radius: 3px;
   cursor: default;
   font-family: Verdana, Helvetica, sans-serif;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 span.button {
   font-size: 0.8em;
@@ -1032,17 +1032,17 @@ span.button {
 }
 body {
   margin: 0;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #262626;
+  color: #e2e2e2;
 }
 body a:link {
-  color: #0000ff;
+  color: #b3ccff;
 }
 body a:visited {
-  color: #990099;
+  color: #dfb9b9;
 }
 body a:active {
-  color: #ff0000;
+  color: #ff66aa;
 }
 img {
   border: 0;
@@ -1078,7 +1078,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #234523;
+  color: #bcbcbc;
   font-family: 'EB Garamond', serif;
   margin: 0.5em auto;
 }
@@ -1109,8 +1109,8 @@ header,
   padding: 0;
   border: 0;
   display: table;
-  background-color: #e0e8dd;
-  color: #000000;
+  background-color: #1a1a1a;
+  color: #d5d5d5;
 }
 header #logo,
 #header #logo,
@@ -1146,13 +1146,13 @@ nav,
   border: 0;
   font-size: 0.75em;
   display: table-row;
-  background-color: #336633;
+  background-color: black;
   font-family: Verdana, Helvetica, sans-serif;
 }
 #navbar a:link,
 #navbar a:visited,
 #navbar a:active {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 #navbar span.currentpage {
   font-weight: bold;
@@ -1160,7 +1160,7 @@ nav,
 #navbar label,
 #navbar span.text,
 #navbar span.currentpage {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 #navbar #navbar-left {
   float: left;
@@ -1206,7 +1206,7 @@ nav,
   border: 0;
   font-size: 0.75em;
   display: table-row;
-  background-color: #336633;
+  background-color: black;
   font-family: Verdana, Helvetica, sans-serif;
 }
 #alertbar a:link,
@@ -1215,7 +1215,7 @@ nav,
 #testbar a:visited,
 #alertbar a:active,
 #testbar a:active {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 #alertbar span.currentpage,
 #testbar span.currentpage {
@@ -1227,7 +1227,7 @@ nav,
 #testbar span.text,
 #alertbar span.currentpage,
 #testbar span.currentpage {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 #alertbar #navbar-left,
 #testbar #navbar-left {
@@ -1277,8 +1277,8 @@ nav,
 #alertbar,
 #alertbar-outer {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: #ffff66;
-  color: #000000;
+  background-color: #b34700;
+  color: #e2e2e2;
 }
 #alertbar a:link,
 #alertbar-outer a:link,
@@ -1286,15 +1286,15 @@ nav,
 #alertbar-outer a:visited,
 #alertbar a:active,
 #alertbar-outer a:active {
-  color: #232323;
+  color: #cacaca;
 }
 #testbar,
 #testbar-outer {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: #ffffff;
-  background: repeating-linear-gradient(to right, #ffff66, #ffffff 24%, #ffffff 75%, #ffff66 100%);
-  color: #000000;
-  border-bottom: thin solid #000000;
+  background-color: #262626;
+  background: repeating-linear-gradient(to right, #b34700, #262626 24%, #262626 75%, #b34700 100%);
+  color: #e2e2e2;
+  border-bottom: thin solid #565656;
 }
 #testbar a:link,
 #testbar-outer a:link,
@@ -1302,15 +1302,15 @@ nav,
 #testbar-outer a:visited,
 #testbar a:active,
 #testbar-outer a:active {
-  color: #232323;
+  color: #cacaca;
 }
 /* ------------------------------------------------------------------------ */
 /* Statsbar */
 #sidebar,
 #statsbar {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: #e0e8dd;
-  color: #000000;
+  background-color: #1a1a1a;
+  color: #d5d5d5;
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */
@@ -1321,8 +1321,8 @@ footer,
   font-size: x-small;
   text-align: center;
   vertical-align: middle;
-  background-color: #336633;
-  color: #ffffff;
+  background-color: black;
+  color: #cdcdcd;
   font-family: Verdana, Helvetica, sans-serif;
 }
 footer a:link,
@@ -1331,7 +1331,7 @@ footer a:visited,
 #footer a:visited,
 footer a:active,
 #footer a:active {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 footer p,
 #footer p {
@@ -1348,7 +1348,7 @@ footer small,
   border: 0;
   width: 100%;
   display: table;
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 #page-body-container {
   display: table-row;
@@ -1359,11 +1359,11 @@ footer small,
   width: 100%;
   padding: 0 0.5em 1em 0.5em;
   display: table-cell;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #262626;
+  color: #e2e2e2;
 }
 #rounded-corner {
-  background-color: #ffffff;
+  background-color: #262626;
 }
 .quick-links {
   padding: 0;
@@ -1438,13 +1438,13 @@ hr.divider {
 }
 .star-gold {
   font-size: 3em;
-  color: #ffd700;
+  color: #d4af37;
   text-align: center;
   text-shadow: 3px 2px 5px black;
 }
 .star-silver {
   font-size: 3em;
-  color: silver;
+  color: #b3b3b3;
   text-align: center;
   text-shadow: 3px 2px 5px black;
 }
@@ -1482,8 +1482,8 @@ div.newsitem {
   padding: 0.75em;
   margin-top: 1em;
   overflow: auto;
-  border-left: thick solid #d3d3d3;
-  border-bottom: thin solid #d3d3d3;
+  border-left: thick solid #787878;
+  border-bottom: thin solid #787878;
 }
 div.newsitem p {
   margin: 0 0.5em 0.5em 0;
@@ -1497,22 +1497,22 @@ div.newsitem img {
   padding-bottom: 0.5em;
 }
 .news-normal {
-  color: #000000;
+  color: #ababab;
 }
 .news-announcement1 {
-  color: maroon;
+  color: #df206c;
 }
 .news-announcement2 {
   color: orange;
 }
 .news-announcement3 {
-  color: darkblue;
+  color: #8080ff;
 }
 .news-celebration {
-  color: green;
+  color: #17cf17;
 }
 .news-maintenance {
-  color: red;
+  color: #f53d3d;
 }
 /* ------------------------------------------------------------------------ */
 /* Editing news items */
@@ -1540,8 +1540,8 @@ table.newsedit td.items {
 /* ------------------------------------------------------------------------ */
 /* Attention-getting structures */
 div.callout {
-  border: thin solid #000000;
-  background-color: #eeeeee;
+  border: thin solid #565656;
+  background-color: #4d4d4d;
   margin-right: 2em;
   margin-left: 2em;
   padding: 1em;
@@ -1558,18 +1558,18 @@ div.calloutheader {
 }
 .error,
 .test_warning {
-  color: red;
+  color: #ff8080;
 }
 .warning {
-  color: blue;
+  color: #a4a4f4;
 }
 .highlight {
-  background-color: #ffff66;
-  color: #000000;
+  background-color: #b34700;
+  color: #e2e2e2;
 }
 kbd {
   font-family: DejaVu Sans Mono, monospace;
-  color: #cc0000;
+  color: #ff4d4d;
   font-size: 0.95em;
 }
 /* ------------------------------------------------------------------------ */
@@ -1601,26 +1601,26 @@ table.filter td select {
    pgdp.net wiki.
  */
 table.random_rule {
-  border: thin solid #000000;
+  border: thin solid #565656;
   border-collapse: collapse;
 }
 table.random_rule tr td {
-  border: thin solid #000000;
+  border: thin solid #565656;
   padding: 0.25em 0.5em;
 }
 table.random_rule tr th {
-  border: thin solid #000000;
+  border: thin solid #565656;
   padding: 0.25em 0.5em;
   vertical-align: top;
   text-align: left;
-  background-color: cornsilk;
+  background-color: #3a3a3a;
 }
 /* ------------------------------------------------------------------------ */
 /* Registration table */
 table.register {
   width: auto;
   border-collapse: separate;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.register th,
 table.register td {
@@ -1629,7 +1629,7 @@ table.register td {
 table.register th {
   text-align: right;
   font-weight: bold;
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 table.register td {
   text-align: left;
@@ -1641,7 +1641,7 @@ table.register td input[type=select] {
 }
 table.register td.bar {
   text-align: center;
-  background-color: #336633;
+  background-color: black;
 }
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */
@@ -1655,15 +1655,15 @@ table.snapshottable th {
   padding: 2px;
   margin: 0;
   text-align: center;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.snapshottable th {
   font-weight: normal;
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 table.snapshottable th.activity-icon-header {
   border: none;
-  background-color: #ffffff;
+  background-color: #262626;
 }
 table.snapshottable td.stage-column {
   text-align: left;
@@ -1682,12 +1682,12 @@ table.snapshottable td.nocell {
   text-align: center;
   font-size: 1.1em;
   font-weight: bold;
-  color: green;
+  color: #00b300;
 }
 .access-yes a:link,
 .access-yes a:visited,
 .access-yes a:active {
-  color: green;
+  color: #00b300;
   text-decoration: none;
 }
 .access-no {
@@ -1699,12 +1699,12 @@ table.snapshottable td.nocell {
   text-align: center;
   font-size: 1.1em;
   font-weight: bold;
-  color: red;
+  color: #ff4d4d;
 }
 .access-no a:link,
 .access-no a:visited,
 .access-no a:active {
-  color: red;
+  color: #ff4d4d;
   text-decoration: none;
 }
 .access-eligible {
@@ -1716,12 +1716,12 @@ table.snapshottable td.nocell {
   text-align: center;
   font-size: 1.1em;
   font-weight: bold;
-  color: blue;
+  color: #9999ff;
 }
 .access-eligible a:link,
 .access-eligible a:visited,
 .access-eligible a:active {
-  color: blue;
+  color: #9999ff;
   text-decoration: none;
 }
 @media only screen and (max-width: 768px) {
@@ -1736,16 +1736,16 @@ table.snapshottable td.nocell {
 /* Progress bar */
 div.progressbar {
   font-size: 0.5em;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 div.goal-on-target {
-  background-color: lightgreen;
+  background-color: #009900;
 }
 div.goal-maybe {
-  background-color: orange;
+  background-color: #ff6600;
 }
 div.goal-unlikely {
-  background-color: red;
+  background-color: #b3002d;
 }
 /* ------------------------------------------------------------------------ */
 /* Statistics table */
@@ -1767,7 +1767,7 @@ table.translation th {
 table.availprojectlisting {
   width: 100%;
   border-collapse: collapse;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.availprojectlisting tr td,
 table.availprojectlisting tr th {
@@ -1777,67 +1777,67 @@ table.availprojectlisting tr th {
 table.availprojectlisting tr th {
   font-weight: bold;
   text-align: left;
-  border-bottom: thin solid #000000;
+  border-bottom: thin solid #565656;
 }
 table.availprojectlisting tr th img {
   border: 0;
 }
 table.availprojectlisting tr td {
-  border-bottom: thin solid #999999;
+  border-bottom: thin solid #808080;
 }
 table.availprojectlisting tr:nth-child(odd) {
-  background-color: #dddddd;
+  background-color: #3a3a3a;
 }
 /* Default stage colors, which can be overridden by the themes
    Stage colors are independent of any of a theme's colors. Though
    they may be overridden, color variable names are not used    */
 table.stage_P1 tr:nth-child(even) {
-  background-color: #ffe4b5;
+  background-color: #262626;
 }
 table.stage_P1 tr:nth-child(odd) {
-  background-color: cornsilk;
+  background-color: #3a3a3a;
 }
 table.stage_P2 tr:nth-child(even) {
-  background-color: #ffe4b5;
+  background-color: #262626;
 }
 table.stage_P2 tr:nth-child(odd) {
-  background-color: cornsilk;
+  background-color: #3a3a3a;
 }
 table.stage_P3 tr:nth-child(even) {
-  background-color: plum;
+  background-color: #262626;
 }
 table.stage_P3 tr:nth-child(odd) {
-  background-color: thistle;
+  background-color: #3a3a3a;
 }
 table.stage_F1 tr:nth-child(even) {
-  background-color: #ffe4b5;
+  background-color: #262626;
 }
 table.stage_F1 tr:nth-child(odd) {
-  background-color: cornsilk;
+  background-color: #3a3a3a;
 }
 table.stage_F2 tr:nth-child(even) {
-  background-color: plum;
+  background-color: #262626;
 }
 table.stage_F2 tr:nth-child(odd) {
-  background-color: thistle;
+  background-color: #3a3a3a;
 }
 table.stage_PP tr:nth-child(even) {
-  background-color: #cccccc;
+  background-color: #262626;
 }
 table.stage_PP tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #3a3a3a;
 }
 table.stage_PPV tr:nth-child(even) {
-  background-color: #99ffff;
+  background-color: #262626;
 }
 table.stage_PPV tr:nth-child(odd) {
-  background-color: #eaf7f7;
+  background-color: #3a3a3a;
 }
 table.stage_SR tr:nth-child(even) {
-  background-color: #ccffcc;
+  background-color: #262626;
 }
 table.stage_SR tr:nth-child(odd) {
-  background-color: #ccff99;
+  background-color: #3a3a3a;
 }
 /* ------------------------------------------------------------------------ */
 /* FAQ */
@@ -1881,20 +1881,20 @@ table.preferences {
 }
 table.preferences td,
 table.preferences th {
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.preferences th.longlabel {
   text-align: center;
 }
 table.preferences th.label,
 table.preferences th.longlabel {
-  background-color: #e0e8dd;
-  color: #000000;
+  background-color: #1a1a1a;
+  color: #d5d5d5;
 }
 .tabs {
   float: left;
   width: 90%;
-  border-bottom: thin solid #999999;
+  border-bottom: thin solid #808080;
 }
 .tabs ul {
   margin: 0;
@@ -1907,11 +1907,11 @@ table.preferences th.longlabel {
   padding: 0 0 0 4px;
   border-radius: 5px 5px 0 0;
   margin-bottom: -2px;
-  background-color: #e3e3e3;
-  border: thin solid #999999;
+  background-color: #1a1a1a;
+  border: thin solid #808080;
 }
 .tabs li a {
-  color: #666666;
+  color: #a6a6a6;
 }
 .tabs a {
   float: left;
@@ -1922,79 +1922,79 @@ table.preferences th.longlabel {
 }
 .tabs .current-tab {
   border-bottom: none;
-  background-color: #ffffff;
+  background-color: #262626;
 }
 .tabs .current-tab a {
   font-weight: bold;
-  color: #000000;
+  color: #e2e2e2;
 }
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed {
   width: 100%;
   border-collapse: collapse;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.themed tr {
-  background-color: #e0e8dd;
-  color: #000000;
+  background-color: #1a1a1a;
+  color: #d5d5d5;
 }
 table.themed tr th,
 table.themed tr td {
   padding: 0.1em;
 }
 table.themed tr th {
-  background-color: #336633;
-  color: #ffffff;
+  background-color: black;
+  color: #cdcdcd;
 }
 table.themed tr th a:link,
 table.themed tr th a:visited {
-  color: #ffffff;
+  color: #cdcdcd;
 }
 table.theme_striped tr th,
 table.theme_striped tr td {
   padding: 0.1em 0.5em 0.1em 0.5em;
 }
 table.theme_striped th {
-  background-color: #336633;
-  color: #ffffff;
+  background-color: black;
+  color: #cdcdcd;
 }
 table.theme_striped tr:nth-child(even) {
-  background-color: #ffffff;
+  background-color: #262626;
 }
 table.theme_striped tr:nth-child(odd) {
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 table.basic {
   border-collapse: collapse;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.basic th {
-  background-color: #cccccc;
+  background-color: #121212;
 }
 table.basic td,
 table.basic th {
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.basic th.label {
   text-align: left;
 }
 table.basic td.satisfied {
   text-align: right;
-  background-color: #ccffcc;
+  background-color: darkgreen;
 }
 table.basic td.not_satisfied {
   text-align: right;
-  background-color: #ffcccc;
+  background-color: darkred;
 }
 table.basic textarea {
   width: 100%;
 }
 table.striped th {
-  background-color: #cccccc;
+  background-color: #121212;
 }
 table.striped tr:nth-child(odd) td {
-  background-color: #dddddd;
+  background-color: #3a3a3a;
 }
 table.no-border td,
 table.no-border th {
@@ -2017,7 +2017,7 @@ p.hanging_indent_long {
 p.form_problem {
   margin-bottom: 0;
   font-weight: bold;
-  color: red;
+  color: #ff8080;
 }
 p.form_problem:before {
   content: '↓';
@@ -2025,20 +2025,20 @@ p.form_problem:before {
 }
 table.ppv_reportcard {
   width: 95%;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.ppv_reportcard th {
   font-weight: bold;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 table.ppv_reportcard th.major_section {
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
 }
 table.ppv_reportcard th.heading {
-  background-color: #cccccc;
+  background-color: #121212;
 }
 table.ppv_reportcard td {
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
@@ -2048,20 +2048,20 @@ table.image_source {
   margin: auto;
 }
 table.image_source tr.e {
-  background-color: #eeeeee;
+  background-color: #4d4d4d;
 }
 table.image_source tr.o {
-  background-color: #dddddd;
+  background-color: #3a3a3a;
 }
 table.image_source th {
   text-align: center;
   padding: 5px;
-  background-color: #eeeeee;
-  border: thin solid #999999;
+  background-color: #4d4d4d;
+  border: thin solid #808080;
 }
 table.image_source td {
   padding: 5px;
-  border: thin solid #999999;
+  border: thin solid #808080;
 }
 table.image_source td a.sourcelink {
   font-size: 90%;
@@ -2072,15 +2072,15 @@ table.image_source th.label {
 }
 table.image_source td.enabled {
   text-align: center;
-  background-color: #88ff88;
+  background-color: darkgreen;
 }
 table.image_source td.disabled {
   text-align: center;
-  background-color: #dddddd;
+  background-color: #454545;
 }
 table.image_source td.pending {
   text-align: center;
-  background-color: #ffcc66;
+  background-color: #b35900;
 }
 /* ------------------------------------------------------------------------ */
 /* Page Detail */
@@ -2091,16 +2091,16 @@ table.pagedetail th,
 table.pagedetail td {
   text-align: center;
   font-weight: normal;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 .in_progress {
-  background-color: #ffcc66;
+  background-color: #b34700;
 }
 .done_current {
-  background-color: #88ff88;
+  background-color: darkgreen;
 }
 .done_previous {
-  background-color: #ff8888;
+  background-color: #b3002d;
 }
 /* ------------------------------------------------------------------------ */
 /* Remote File Manager */
@@ -2117,42 +2117,42 @@ table.dirlist caption {
   padding: 5px;
 }
 div.remote-file-mgr-info {
-  background-color: #88ff88;
-  color: #000000;
-  border: thin solid #000000;
+  background-color: #004d00;
+  color: #e2e2e2;
+  border: thin solid #565656;
   padding: 0.5em;
   margin: 0.8em 0;
 }
 /* ------------------------------------------------------------------------ */
 /* Project Load (add_files.php) */
 table#addfiles td.load-add {
-  background-color: #ccffcc;
+  background-color: #009900;
 }
 table#addfiles td.load-replace {
-  background-color: #ffcc66;
+  background-color: #b35900;
 }
 table#addfiles td.load-error {
-  background-color: #ffcccc;
+  background-color: #b3002d;
 }
 /* ------------------------------------------------------------------------ */
 /* Quizzes */
 .quiz-passed {
-  background-color: #ccffcc;
+  background-color: #009900;
 }
 .quiz-not-passed {
-  background-color: #ffcccc;
+  background-color: #b3002d;
 }
 .quiz-date-ok {
-  background-color: #ccffcc;
+  background-color: #009900;
 }
 .quiz-date-not-ok {
-  background-color: #ffcccc;
+  background-color: #b3002d;
 }
 .quiz-ok {
-  background-color: #88ff88;
+  background-color: #004d00;
 }
 .quiz-not-ok {
-  background-color: #ff8888;
+  background-color: #66001a;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */
@@ -2161,19 +2161,19 @@ table.list_special_days {
   margin: auto;
 }
 table.list_special_days tr.e {
-  background-color: #eeeeee;
+  background-color: #4d4d4d;
 }
 table.list_special_days tr.o {
-  background-color: #dddddd;
+  background-color: #3a3a3a;
 }
 table.list_special_days tr.month > * {
   border: none;
-  border-bottom: solid 2px #000000;
+  border-bottom: solid 2px #565656;
 }
 table.list_special_days td,
 table.list_special_days th {
   padding: 3px;
-  border: thin solid #999999;
+  border: thin solid #808080;
 }
 table.list_special_days td.codecell {
   vertical-align: middle;
@@ -2184,11 +2184,11 @@ table.list_special_days th.headers {
 }
 table.list_special_days td.enabled {
   text-align: center;
-  background-color: #88ff88;
+  background-color: darkgreen;
 }
 table.list_special_days td.disabled {
   text-align: center;
-  background-color: #dddddd;
+  background-color: #454545;
 }
 table.list_special_days td.center {
   text-align: center;
@@ -2203,7 +2203,7 @@ table.list_special_days h2 {
   text-align: left;
 }
 table.show_special_days th {
-  background-color: #eeeeee;
+  background-color: #4d4d4d;
 }
 table.edit_special_day {
   width: 90%;
@@ -2212,8 +2212,8 @@ table.edit_special_day {
 table.edit_special_day th,
 table.edit_special_day td {
   padding: 5px;
-  border: thin solid #000000;
-  background-color: #eeeeee;
+  border: thin solid #565656;
+  background-color: #4d4d4d;
 }
 /* ------------------------------------------------------------------------ */
 /* Search Form */
@@ -2256,7 +2256,7 @@ table.search-column tr th {
   padding: 0.3em;
   margin: 0 0 0 -15em;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: #262626;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
   border-radius: 0.3em;
 }
@@ -2265,7 +2265,7 @@ table.search-column tr th {
   border: none;
   padding: 1px;
   background-color: inherit;
-  color: #000000;
+  color: #d5d5d5;
   cursor: pointer;
   font-family: initial;
   font-size: initial;
@@ -2282,8 +2282,8 @@ table.search-column tr th {
   padding: 0 1em;
   float: right;
   margin: 0.5em auto 0.5em 0.5em;
-  border: thin solid #000000;
-  background-color: #e0e8dd;
+  border: thin solid #565656;
+  background-color: #1a1a1a;
 }
 #linkbox ul {
   padding: 0;
@@ -2325,12 +2325,12 @@ li.spaced {
 .blurb-box {
   width: 100%;
   max-width: 630px;
-  background-color: #dddddd;
+  background-color: #3a3a3a;
 }
 .project-comments,
 .post-processor-comments,
 .sr-instructions {
-  background-color: #cccccc;
+  background-color: #121212;
 }
 #event_subscriptions th,
 #project_holds th,
@@ -2343,15 +2343,15 @@ li.spaced {
 }
 .checkbox-cell-selected {
   text-align: center;
-  background-color: #ccffcc;
+  background-color: #009900;
 }
 .transition-disabled {
-  color: #9a9a9a;
+  color: #707070;
 }
 /* ------------------------------------------------------------------------ */
 /* Review Work */
 td.has-diff {
-  background-color: #ccffcc;
+  background-color: #009900;
 }
 /* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
@@ -2366,7 +2366,7 @@ td.has-diff {
 .replace_check {
   height: 20em;
   width: 50em;
-  border: thin solid #000000;
+  border: thin solid #565656;
 }
 /* ------------------------------------------------------------------------ */
 /* Completed Project Listings */
@@ -2379,7 +2379,7 @@ div.task-nav {
   padding: 0.5em 0;
 }
 div.task-comment {
-  border-left: thick solid #e0e8dd;
+  border-left: thick solid #1a1a1a;
   padding-left: 1em;
   margin-bottom: 1em;
 }
@@ -2393,7 +2393,7 @@ div.task-detail {
   width: 100%;
 }
 table.task-detail-block {
-  border: thin solid #000000;
+  border: thin solid #565656;
   margin: 0 0.1em;
   width: 50%;
   flex-grow: 1;
@@ -2405,11 +2405,11 @@ table.task-detail-block tr td {
   height: 1.5em;
 }
 table.task-detail-block tr th {
-  background-color: #e0e8dd;
+  background-color: #1a1a1a;
   white-space: nowrap;
 }
 table.task-detail-block tr td {
-  background-color: #ffffff;
+  background-color: #262626;
   width: 100%;
 }
 /* For small enough screens, make the two columns as two rows instead. */
@@ -2441,4 +2441,89 @@ p.mentor-oldest {
   font-size: x-large;
   font-weight: bold;
   text-align: center;
+}
+/* Do not underline links */
+a {
+  text-decoration: none;
+}
+/* 
+ * Image treatment. This is primarily aimed at proofing
+ * images. Leaving information here as a reference for
+ * working on theming page_interfaces.less. Probably use
+ * invert() for dark theme. and either none or opacity()
+ * if we want to tone down the bright white for the enhanced
+ * interface. Currently disabled.
+ */
+/* Form and menu colors */
+/* input and select styling */
+input,
+button,
+select {
+  background-color: #343434;
+  color: #e2e2e2;
+  border: thin solid #565656;
+}
+/* ------------------------------------------------------------------------ */
+/* Common color definitions
+ * Where a particular color family has multiple shades available, a
+ * suffix indicates relative contrast as compared with the default
+ * @page-background color.
+ */
+/* Shades based on @page-background. Various contrast levels, commonly
+ * used for table rows or other containers that should stand out from
+ * the page background
+ */
+/* Background colors with various meanings, some needing two different
+ * contrast levels. The colors are roughly related to the default colors
+ * as defined in layout.less
+ */
+/* Special text colors that have a particular meaning that are not
+ * related to the theme colors but nonetheless may need to be
+ * adjusted depending on the theme. Also, needed variation on
+ * theme default page-text color. The colors are roughly related
+ * to the default colors as defined in layout.less
+ */
+/* Border colors. Based on the basic theme background and text
+ * colors, various levels of contrast.
+ *
+ * -- For themes with non-w/b background/text, choose
+ * @border-color-base to be the default border color, and then
+ * choose medium and low contrast relative to the page background.
+ */
+/* Attention-getting structures */
+/* stars -- commented out uses default
+ * see layout.less for defaults
+ */
+/* Progress bar -- see layout.less for defaults */
+/*--------------------------------------------------------*/
+/* Available Project listings */
+/* The colors below will override the default colors listed
+ * in layout.less
+ */
+/* News items */
+/* if a color is not customized for the theme and needs to
+ * be, uncomment the line and specify the color. See
+ * layout.less for the default color families.
+*/
+textarea {
+  color: #e2e2e2;
+  background-color: #262626;
+  border: thin solid #565656;
+}
+/* Quizzes */
+/* Table hacks */
+/* The striped table is styled so that the header row is dark
+ * and the first row thereafter (even) should be the lighter of
+ * the two stripe colors. For the standard themes with white
+ * background and black text, that's fine -- @page-background
+ * is the default even row color, and @table-cell-base-mediumc
+ * (medium contrast with @page-text) is the darker colored odd
+ * cell color. In theme-charcoal, @table-cell-base-mediumc is
+ * actually lighter than @page-background, so the two have to
+ * be flipped */
+table.striped tr:nth-child(odd) td {
+  background-color: #262626;
+}
+table.striped tr:nth-child(even) td {
+  background-color: #3a3a3a;
 }

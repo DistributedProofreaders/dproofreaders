@@ -276,6 +276,9 @@
 #standard_interface_text a:active {
   color: #ff0000;
 }
+#standard_interface_text .text-link-disabled {
+  color: #666666;
+}
 #text_data,
 #text_data:focus {
   background-color: white;
@@ -423,6 +426,9 @@
 #enhanced_interface #tdbottom {
   background-color: #EEDFCC;
 }
+#enhanced_interface #tdbottom .text-link-disabled {
+  color: #666666;
+}
 #enhanced_interface #text_data,
 #enhanced_interface #text_data:focus {
   padding: 2px;
@@ -534,8 +540,8 @@
 }
 #wordcheck_interface #wc_header input,
 #wordcheck_interface #wc_header select {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: white;
+  color: black;
   border: thin solid #000000;
 }
 #wordcheck_interface #wc_header button,
@@ -1280,7 +1286,7 @@ nav,
 #alertbar-outer a:visited,
 #alertbar a:active,
 #alertbar-outer a:active {
-  color: #4d4d4d;
+  color: #232323;
 }
 #testbar,
 #testbar-outer {
@@ -1296,7 +1302,7 @@ nav,
 #testbar-outer a:visited,
 #testbar a:active,
 #testbar-outer a:active {
-  color: #4d4d4d;
+  color: #232323;
 }
 /* ------------------------------------------------------------------------ */
 /* Statsbar */
@@ -1779,7 +1785,7 @@ table.availprojectlisting tr th img {
 table.availprojectlisting tr td {
   border-bottom: thin solid #999999;
 }
-table.availprojectlisting tr:nth-child(even) {
+table.availprojectlisting tr:nth-child(odd) {
   background-color: #dddddd;
 }
 /* Default stage colors, which can be overridden by the themes

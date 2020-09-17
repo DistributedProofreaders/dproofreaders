@@ -276,6 +276,9 @@
 #standard_interface_text a:active {
   color: #ff0000;
 }
+#standard_interface_text .text-link-disabled {
+  color: #666666;
+}
 #text_data,
 #text_data:focus {
   background-color: white;
@@ -423,6 +426,9 @@
 #enhanced_interface #tdbottom {
   background-color: #EEDFCC;
 }
+#enhanced_interface #tdbottom .text-link-disabled {
+  color: #666666;
+}
 #enhanced_interface #text_data,
 #enhanced_interface #text_data:focus {
   padding: 2px;
@@ -534,8 +540,8 @@
 }
 #wordcheck_interface #wc_header input,
 #wordcheck_interface #wc_header select {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: white;
+  color: black;
   border: thin solid #000000;
 }
 #wordcheck_interface #wc_header button,
@@ -549,7 +555,7 @@
      */
   border-radius: 3px;
   cursor: default;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   border: thin solid #000000;
 }
 .preWC {
@@ -728,7 +734,7 @@
 /* Proofreading Toolbox */
 #toolbox {
   padding: 2px;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   background-color: #CDC0B0;
   color: black;
   /* adjust so tools do not jump around with different character pickers */
@@ -1001,7 +1007,7 @@
   background-color: #99ccff;
 }
 .sans-serif {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 .button {
   /*
@@ -1012,7 +1018,7 @@
      */
   border-radius: 3px;
   cursor: default;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   border: thin solid #000000;
 }
 span.button {
@@ -1125,7 +1131,7 @@ header #titles-preserved,
 header #titles-preserved #x-preserved,
 #header #titles-preserved #x-preserved {
   font-weight: bold;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 /* ------------------------------------------------------------------------ */
 /* Navbar */
@@ -1141,7 +1147,7 @@ nav,
   font-size: 0.75em;
   display: table-row;
   background-color: #000099;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 #navbar a:link,
 #navbar a:visited,
@@ -1180,7 +1186,7 @@ nav,
   display: inline;
 }
 #navbar form input {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
 #navbar form div {
@@ -1201,7 +1207,7 @@ nav,
   font-size: 0.75em;
   display: table-row;
   background-color: #000099;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 #alertbar a:link,
 #testbar a:link,
@@ -1254,7 +1260,7 @@ nav,
 }
 #alertbar form input,
 #testbar form input {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
 #alertbar form div,
@@ -1270,7 +1276,7 @@ nav,
 }
 #alertbar,
 #alertbar-outer {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   background-color: #ffff66;
   color: #000000;
 }
@@ -1280,11 +1286,11 @@ nav,
 #alertbar-outer a:visited,
 #alertbar a:active,
 #alertbar-outer a:active {
-  color: #4d4d4d;
+  color: #232323;
 }
 #testbar,
 #testbar-outer {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   background-color: #ffffff;
   background: repeating-linear-gradient(to right, #ffff66, #ffffff 24%, #ffffff 75%, #ffff66 100%);
   color: #000000;
@@ -1296,13 +1302,13 @@ nav,
 #testbar-outer a:visited,
 #testbar a:active,
 #testbar-outer a:active {
-  color: #4d4d4d;
+  color: #232323;
 }
 /* ------------------------------------------------------------------------ */
 /* Statsbar */
 #sidebar,
 #statsbar {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
   background-color: #99ccff;
   color: #000000;
 }
@@ -1317,7 +1323,7 @@ footer,
   vertical-align: middle;
   background-color: #000099;
   color: #ffffff;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 footer a:link,
 #footer a:link,
@@ -1779,7 +1785,7 @@ table.availprojectlisting tr th img {
 table.availprojectlisting tr td {
   border-bottom: thin solid #999999;
 }
-table.availprojectlisting tr:nth-child(even) {
+table.availprojectlisting tr:nth-child(odd) {
   background-color: #dddddd;
 }
 /* Default stage colors, which can be overridden by the themes
