@@ -117,9 +117,9 @@ $(function () {
             let theSplitter = viewSplitter(stretchDiv);
             if(mentorMode) {
                 const subSplitID = "sub_split_percent";
-                let subSplitPercent = localStorage.getItem(subSplitID);
+                let subSplitPercent = parseFloat(localStorage.getItem(subSplitID));
                 if(!subSplitPercent) {
-                    // in local storage 0 is stored as "0" and evaluates to true
+                    // if not defined or 0, set the value to 100 to the text is shown
                     subSplitPercent = 100;
                 }
 
