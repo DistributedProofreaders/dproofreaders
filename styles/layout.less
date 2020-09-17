@@ -40,6 +40,7 @@
 @text-warning: blue;         // blue family
 @text-ok: green;             // green family
 @text-mono: #cc0000;         // red family, different from error
+@text-base-highc: #232323;   // high contrast theme page-text color
 @text-base-mediumc: #666666; // medium contrast theme page-text color
 @text-base-lowc: #9a9a9a;    // low contrast theme page-text color
 
@@ -293,7 +294,7 @@ nav, #navbar-outer {
     .sans-serif;
     background-color: @table-cell-alert;
     color: @page-text;
-    .unicolor-link(darken(gray, 20%));
+    .unicolor-link(@text-base-highc);
 }
 
 #testbar, #testbar-outer {
@@ -308,7 +309,7 @@ nav, #navbar-outer {
     );
     color: @page-text;
     .solid-border-bottom();
-    .unicolor-link(lighten(black, 30%));
+    .unicolor-link(@text-base-highc);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -444,6 +445,8 @@ hr.divider {
 /* ------------------------------------------------------------------------ */
 /* Star texts */
 
+@starshadow: black;
+
 .star-text-summary {
     width: 33%;
     float: left;
@@ -463,7 +466,7 @@ hr.divider {
     font-size: 3em;
     color: @color;
     text-align: center;
-    text-shadow: 3px 2px 5px black;
+    text-shadow: 3px 2px 5px @starshadow;
 }
 
 .star-gold {
@@ -849,7 +852,7 @@ table.availprojectlisting {
             .solid-border-bottom(@border-color-base-mediumc);
         }
     }
-    tr:nth-child(even) {
+    tr:nth-child(odd) {
         background-color: @table-cell-base-mediumc;
     }
 }

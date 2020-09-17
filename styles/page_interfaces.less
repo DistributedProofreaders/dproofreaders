@@ -111,6 +111,9 @@
     a:active {
         color: @page-interface-active-color;
     }
+    .text-link-disabled {
+        color: #666666;  // will need to be themed
+    }
 }
 
 #text_data, #text_data:focus {
@@ -150,6 +153,9 @@
     }
     #tdbottom {
         background-color: #EEDFCC;
+	.text-link-disabled {
+	    color: #666666;  // will need to be themed
+	}
     }
     #text_data, #text_data:focus {
         padding: 2px;
@@ -195,10 +201,16 @@
             }
         }
     }
+    // for initial rollout of dark theme, background-color and
+    // color need to be explicitly 'white' and 'black'.
+    // Probably need to create color names, because we will
+    // be aiming to separate PI theme completely from the site
+    // themes.
+
     #wc_header {
         input, select {
-            background-color: @page-background;
-            color: @page-text;
+            background-color: white;
+            color: black;
             .solid-border;
         }
         button, input[type=submit], input[type=button] {
@@ -367,15 +379,15 @@
         text-align: right;
         width: 100%;
 
-       a:link {
-           color: @page-interface-link-color;
-       }
-       a:visited {
-           color: @page-interface-visited-color;
-       }
-       a:active {
-           color: @page-interface-active-color;
-       }
+        a:link {
+            color: @page-interface-link-color;
+        }
+        a:visited {
+            color: @page-interface-visited-color;
+        }
+        a:active {
+            color: @page-interface-active-color;
+        }
     }
 }
 

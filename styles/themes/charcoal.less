@@ -1,0 +1,218 @@
+/* ------------------------------------------------------------------------ */
+/* Theme coloring for Charcoal */
+
+@import "../layout.less";
+
+@theme-name: "charcoal";
+
+@page-background: #262626;
+@page-text: #e2e2e2;
+@header-background: #1a1a1a;
+@header-text: #d5d5d5;
+@navbar-background: black;
+@navbar-text: #cdcdcd;
+@sidebar-background: #1a1a1a;
+@sidebar-text: #d5d5d5;
+@footer-background: black;
+@footer-text: #cdcdcd;
+@heading-color: #bcbcbc;
+@link-color: #b3ccff;
+@visited-color: #dfb9b9;
+@active-color: #ff66aa;
+@sans-serif-font: Verdana, Helvetica, sans-serif;
+
+/* Do not underline links */
+a {
+    text-decoration: none;
+}
+
+/* 
+ * Image treatment. This is primarily aimed at proofing
+ * images. Leaving information here as a reference for
+ * working on theming page_interfaces.less. Probably use
+ * invert() for dark theme. and either none or opacity()
+ * if we want to tone down the bright white for the enhanced
+ * interface. Currently disabled.
+ */
+// @image-property: invert(85%);
+
+/* Form and menu colors */
+@form-text-background: #343434;
+@form-text-color: @page-text;
+
+/* input and select styling */
+input,
+button,
+select {
+    background-color: @form-text-background;
+    color: @form-text-color;
+    .solid-border;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Common color definitions
+ * Where a particular color family has multiple shades available, a
+ * suffix indicates relative contrast as compared with the default
+ * @page-background color.
+ */
+
+/* Shades based on @page-background. Various contrast levels, commonly
+ * used for table rows or other containers that should stand out from
+ * the page background
+ */
+@table-cell-base-highc: #121212;
+@table-cell-base-mediumc: #3a3a3a;
+@table-cell-base-lowc: #4d4d4d;
+
+/* Background colors with various meanings, some needing two different
+ * contrast levels. The colors are roughly related to the default colors
+ * as defined in layout.less
+ */
+@table-cell-ok-highc: #004d00;
+@table-cell-ok-lowc: #009900;
+@table-cell-alert: #b34700;
+@table-cell-not-ok-highc: #66001a;
+@table-cell-not-ok-lowc: #b3002d;
+@table-cell-pending: #b35900;
+
+/* Special text colors that have a particular meaning that are not
+ * related to the theme colors but nonetheless may need to be
+ * adjusted depending on the theme. Also, needed variation on
+ * theme default page-text color. The colors are roughly related
+ * to the default colors as defined in layout.less
+ */
+@text-error: #ff8080;
+@text-alert: #ff6600;
+@text-warning: #a4a4f4;
+@text-ok: green;
+@text-mono: #ff4d4d;
+@text-base-highc: #cacaca;
+@text-base-mediumc: #a6a6a6;
+@text-base-lowc: #707070;
+
+/* Border colors. Based on the basic theme background and text
+ * colors, various levels of contrast.
+ *
+ * -- For themes with non-w/b background/text, choose
+ * @border-color-base to be the default border color, and then
+ * choose medium and low contrast relative to the page background.
+ */
+
+@border-color-base: #565656;         // default border color
+@border-color-base-mediumc: #808080; // medium c page background
+@border-color-base-lowc: #404040;    // low c page background.
+//@border-color-base-highc -- define when page_interfaces is themed
+
+/* Attention-getting structures */
+
+@satisfied: darkgreen;
+@not-satisfied: darkred;
+@alertbar-color: teal;
+@random-rule-header: @table-cell-base-mediumc;
+
+@blurb-box: @navbar-background;
+@comments-background: @navbar-background;
+
+@inprog: #b34700;
+@done-current: darkgreen;
+@done-previous: #b3002d;
+
+@access-yes: #00b300;
+@access-no: #ff4d4d;
+@access-eligible: #9999ff;
+
+@subscr-hold-selected: darkgreen;
+
+@enabled: darkgreen;
+@disabled: #454545;
+@pending: @table-cell-pending;
+
+@highlight: #b34700;
+
+/* stars -- commented out uses default
+ * see layout.less for defaults
+ */
+@star-gold: #d4af37;
+@star-silver: #b3b3b3;
+// @star-bronze: ; #cd7f32;
+
+/* Progress bar -- see layout.less for defaults */
+@progress-high: #009900;
+@progress-medium: #ff6600;
+@progress-low: #b3002d;
+
+/*--------------------------------------------------------*/
+/* Available Project listings */
+/* The colors below will override the default colors listed
+ * in layout.less
+ */
+
+@P1-even: @page-background;
+@P1-odd: @table-cell-base-mediumc;
+@P2-even: @page-background;
+@P2-odd: @table-cell-base-mediumc;
+@P3-even: @page-background;
+@P3-odd: @table-cell-base-mediumc;
+@F1-even: @page-background;
+@F1-odd: @table-cell-base-mediumc;
+@F2-even: @page-background;
+@F2-odd: @table-cell-base-mediumc;
+@PP-even:@page-background;
+@PP-odd: @table-cell-base-mediumc;
+@PPV-even: @page-background;
+@PPV-odd: @table-cell-base-mediumc;
+@SR-even: @page-background;
+@SR-odd: @table-cell-base-mediumc;
+
+/* News items */
+/* if a color is not customized for the theme and needs to
+ * be, uncomment the line and specify the color. See
+ * layout.less for the default color families.
+*/
+
+@news-border: #787878;
+@news-normal: #ababab;
+@news-announce-high: #df206c;
+// @news-announce-medium:
+@news-announce-low: #8080ff;
+@news-celebrate: #17cf17;
+@news-maintain: #f53d3d;
+
+textarea {
+    color: @page-text;
+    background-color: @page-background;
+    .default-border;
+}
+
+/* Quizzes */
+
+@quiz-passed: #004d00;
+@quiz-not-passed: #b82e2e;
+@quiz-date-ok: #004d00;
+@quiz-date-not-ok: #b82e2e;
+@quiz-all-ok: #008d00;
+@quiz-all-not-ok: #d65c5c;
+
+/* Table hacks */
+/* The striped table is styled so that the header row is dark
+ * and the first row thereafter (even) should be the lighter of
+ * the two stripe colors. For the standard themes with white
+ * background and black text, that's fine -- @page-background
+ * is the default even row color, and @table-cell-base-mediumc
+ * (medium contrast with @page-text) is the darker colored odd
+ * cell color. In theme-charcoal, @table-cell-base-mediumc is
+ * actually lighter than @page-background, so the two have to
+ * be flipped */
+
+table.striped {
+    tr:nth-child(odd) {
+        td {
+            background-color: @page-background;
+        }
+    }
+    tr:nth-child(even) {
+        td {
+            background-color: @table-cell-base-mediumc;
+        }
+    }
+}
