@@ -146,8 +146,6 @@ else
                 $state = $project->state;
                 $nameofwork = $project->nameofwork;
                 $orig_nameofwork = $row->nameofwork;
-                $n_available_pages = '';
-                $percent_done = '';
                 $days_checkedout = (time() - $project->modifieddate) / (60 * 60 * 24);
             }
             else
@@ -202,7 +200,8 @@ else
 
         if(isset($colspecs['n_available_pages']) && isset($colspecs['percent_done']))
         {
-            if(in_array($state, $avail_states))
+            // Don't show these fields for merged projects
+            if(in_array($state, $avail_states) && $orig_nameofwork == '')
             {
                 echo "<td class='right-align'>";
                 echo $n_available_pages;
