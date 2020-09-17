@@ -82,7 +82,7 @@ function alert_re_unread_messages( $pagesproofed )
 {
     global $pguser;
 
-    if ($pagesproofed <= 300)
+    if ($pagesproofed < 300)
     {
         $numofPMs = get_number_of_unread_messages($pguser);
         if ($numofPMs > 0)
