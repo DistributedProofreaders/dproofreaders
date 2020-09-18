@@ -59,13 +59,26 @@ class OptionSelector extends Selector
 
     function get_value()
     {
-        return $this->userSettings->get_value("search:{$this->search_origin}.option:$this->id", $this->def_value);
+        $value = $this->userSettings->get_value("search:{$this->search_origin}.option:$this->id", $this->def_value);
+
+        // Validate the value in the DB is one of the options and if not pick
+        // the first one
+        if(!isset($this->options[$value]))
+        {
+            $options = array_keys($this->options);
+            $value = array_shift($options);
+        }
+
+        return $value;
     }
 
     function save_value($value)
     {
-        if($this->get_value() != $value)
+        // Save the value but only if it has changed and is a valid option
+        if($this->get_value() != $value && isset($this->options[$value]))
+        {
             $this->userSettings->set_value("search:{$this->search_origin}.option:$this->id", $value);
+        }
     }
 }
 
@@ -181,7 +194,7 @@ class ConfigSaver extends ColumnData
         // get the option values
         foreach($option_data->options as $option)
         {
-            $value = $_GET[$option->id];
+            $value = array_get($_GET, $option->id, '');
             $option->save_value($value);
         }
     }
