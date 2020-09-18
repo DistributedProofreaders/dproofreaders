@@ -586,11 +586,12 @@ class ProjectSearchResults
             USING (projectid, state)
             WHERE $where_condition
             ORDER BY $this->sort_sql
-            LIMIT $this->page_size OFFSET $results_offset
-        ";
+        " . sprintf("
+            LIMIT %d OFFSET %d
+        ", $this->page_size, $results_offset);
         if ($testing)
             echo_html_comment($sql);
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($sql);
         return $result;
     }
 
@@ -605,7 +606,7 @@ class ProjectSearchResults
 
         $numrows = mysqli_num_rows($result);
 
-        $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
+        $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
         $row = mysqli_fetch_row($res_found);
         $num_found_rows = $row[0];
         if ( $numrows == 0 )
