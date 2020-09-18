@@ -118,7 +118,7 @@ class ProjectSearchWidget
                     return NULL;
             }
 
-            $values = array_map("escape_value", $values);
+            $values = array_map("DPDatabase::escape", $values);
 
             $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
             if ( $comparator == '=' )
@@ -134,7 +134,7 @@ class ProjectSearchWidget
         }
         else
         {
-            $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
+            $value = DPDatabase::escape($value);
             if ( $comparator == '=' )
             {
                 $contribution = "$column_name = '$value'";
@@ -178,7 +178,7 @@ class ProjectSearchForm
     {
         $special_day_options = array();
         $special_day_options[''] = _('Any day');
-        $special_day_res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             SELECT
                 spec_code,
                 display_name,
@@ -186,7 +186,8 @@ class ProjectSearchForm
             FROM special_days
             WHERE enable = 1
             ORDER BY open_month, open_day
-        ");
+        ";
+        $special_day_res = DPDatabase::query($sql);
         while ( list($s_code, $s_display_name, $s_start) = mysqli_fetch_row($special_day_res) )
         {
             $special_day_options[$s_code] = "$s_display_name ($s_start)";
@@ -387,9 +388,4 @@ class ProjectSearchForm
         }
         return $condition;
     }
-}
-
-function escape_value($value)
-{
-    return mysqli_real_escape_string(DPDatabase::get_connection(), $value);
 }
