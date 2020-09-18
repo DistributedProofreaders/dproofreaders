@@ -25,19 +25,16 @@ $sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, NULL);
 $days = get_integer_param($_GET, "days", 100, 0, NULL);
 $use_eval_query = get_integer_param($_GET, "use_eval_query", 1, 0, 1);
 
+$user_can_review_others = user_is_a_sitemanager() ||
+      user_is_an_access_request_reviewer() ||
+      user_is_proj_facilitator();
+
 // if the user isn't a site manager or an access request reviewer,
 // or a project facilitator they can only access their own pages
-if (!(user_is_a_sitemanager() ||
-      user_is_an_access_request_reviewer() ||
-      user_is_proj_facilitator()))
+if(!$user_can_review_others)
 {
     $username = $pguser;
     $use_eval_query = 0;
-}
-
-if($username && !User::is_valid_user($username))
-{
-    die("Invalid username");
 }
 
 // start the page
@@ -47,14 +44,19 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
-echo "<p>" . _("This tool allows you to review your work in a round with changes made in later rounds.") . "</p>";
+if ($user_can_review_others)
+{
+    echo "<p>" . _("This tool allows you to review your work or the work of another user.") . "</p>";
+}
+else
+{
+    echo "<p>" . _("This tool allows you to review your work in a round with changes made in later rounds.") . "</p>";
+}
 
 // show form
 echo "<form action='review_work.php' method='GET'>";
 echo "<table class='basic'>";
-if (user_is_a_sitemanager() ||
-    user_is_an_access_request_reviewer() ||
-    user_is_proj_facilitator())
+if ($user_can_review_others)
 {
     // only let site admins or reviewers to access non-self records and eval query
     echo  "<tr>";
@@ -114,6 +116,12 @@ function _echo_round_select($rounds,$selected) {
 if(empty($username) ||
    empty($work_round_id) ||
    empty($review_round_id)) {
+    exit;
+}
+
+if(!User::is_valid_user($username))
+{
+    echo "<p class='error'>" . _("Invalid username") . "</p>";
     exit;
 }
 
