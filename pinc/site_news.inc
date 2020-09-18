@@ -27,11 +27,12 @@ function get_news_subject( $news_page_id )
 
 function get_news_page_last_modified_date( $news_page_id )
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT t_last_change
-        FROM news_pages 
-        WHERE news_page_id = '$news_page_id'
-    ") or die(DPDatabase::log_error());
+        FROM news_pages
+        WHERE news_page_id = '%s'
+    ", DPDatabase::escape($news_page_id));
+    $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($res);
     if (!$row)
@@ -63,27 +64,31 @@ function show_news_for_page( $news_page_id )
     
     // -------------------------------------------
 
-    // Get the set of 'current' news items 
+    // Get the set of 'current' news items
     // defined for the given page.
-    $res_current = mysqli_query(DPDatabase::get_connection(), "
-        SELECT date_posted, content 
-        FROM news_items 
-        WHERE status = 'current' 
-            AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
-            AND (locale = '' OR locale = '$user_locale')
+    $sql = sprintf("
+        SELECT date_posted, content
+        FROM news_items
+        WHERE status = 'current'
+            AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
+            AND (locale = '' OR locale = '%s')
         ORDER BY ORDERING DESC
-    ") or die(DPDatabase::log_error());
+    ", DPDatabase::escape($news_page_id),
+        DPDatabase::escape($user_locale));
+    $res_current = DPDatabase::query($sql);
 
-    // Get a randomly selected news item from the set of 
+    // Get a randomly selected news item from the set of
     // 'recent' news items defined for the given page.
-    $res_random = mysqli_query(DPDatabase::get_connection(), "
-        SELECT content 
-        FROM news_items 
-        WHERE status = 'recent' 
-            AND (news_page_id = '$news_page_id' OR news_page_id = 'GLOBAL')
-            AND (locale = '' OR locale = '$user_locale')
+    $sql = sprintf("
+        SELECT content
+        FROM news_items
+        WHERE status = 'recent'
+            AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
+            AND (locale = '' OR locale = '%s')
         ORDER BY RAND() LIMIT 1
-    ") or die(DPDatabase::log_error());
+    ", DPDatabase::escape($news_page_id),
+        DPDatabase::escape($user_locale));
+    $res_random = DPDatabase::query($sql);
 
     // -------------------------------------------
 
