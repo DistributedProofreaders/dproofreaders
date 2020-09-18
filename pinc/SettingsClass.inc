@@ -79,9 +79,9 @@ class Settings
             SELECT *
             FROM usersettings
             WHERE username = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->username));
+        ", DPDatabase::escape($this->username));
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         // To know whether we've populated fields from 'users' table yet:
         while ($row = mysqli_fetch_assoc($result))
         {
@@ -130,26 +130,32 @@ class Settings
         $sql = "DELETE FROM usersettings 
                 WHERE username = '$this->username'
                 AND setting = '$settingCode'" ;
-        $this->ExecSQL($sql);
+        DPDatabase::query($sql);
     }
 
     private function _insert_setting_value($settingCode, $value)
     {
-        $value_esc = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
-        $sql = "INSERT INTO usersettings
+        $sql = sprintf("
+            INSERT INTO usersettings
                 (username, setting, value)
-                VALUES ('$this->username', '$settingCode', '$value_esc')" ;
-        $this->ExecSQL($sql);
+            VALUES ('%s', '%s', '%s')
+        ", DPDatabase::escape($this->username),
+            DPDatabase::escape($settingCode),
+            DPDatabase::escape($value));
+        DPDatabase::query($sql);
     }
 
     private function _delete_setting_value($settingCode, $value)
     {
-        $value_esc = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
-        $sql = "DELETE FROM usersettings
-                WHERE username = '$this->username'
-                    AND setting = '$settingCode'
-                    AND value = '$value_esc'";
-        $this->ExecSQL($sql);
+        $sql = sprintf("
+            DELETE FROM usersettings
+            WHERE username = '%s'
+                AND setting = '%s'
+                AND value = '%s'
+        ", DPDatabase::escape($this->username),
+            DPDatabase::escape($settingCode),
+            DPDatabase::escape($value));
+        DPDatabase::query($sql);
     }
 
     // Set a setting to a specific value. If this is a multi-valued setting
@@ -237,12 +243,6 @@ class Settings
         return $this->settings_array[$settingCode];
     }
 
-    private function ExecSQL($sql)
-    {
-        if (!mysqli_query(DPDatabase::get_connection(), $sql))
-            throw new RuntimeException(DPDatabase::log_error());
-    }
-
     // -------------------------------------------------------------------------
 
     public function settings_count()
@@ -289,15 +289,15 @@ class Settings
             SELECT DISTINCT username
             FROM usersettings
             WHERE setting = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $setting));
+        ", DPDatabase::escape($setting));
 
         if($value)
         {
             $sql .= sprintf(" AND value='%s'",
-                mysqli_real_escape_string(DPDatabase::get_connection(), $value));
+                DPDatabase::escape($value));
         }
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         while ($row = mysqli_fetch_assoc($result))
         {
             $usernames[] = $row['username'];
