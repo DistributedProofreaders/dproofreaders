@@ -5,6 +5,7 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'user_is.inc');
+include_once($relPath.'special_colors.inc');
 
 require_login();
 
@@ -76,8 +77,9 @@ if ($action == 'update_oneshot')
 
 if ($action == 'show_specials')
 {
-    output_header(_('Manage Special Days'), NO_STATSBAR);
-    echo "<h1>", html_safe(_("Special Days Listing")), "</h1>\n";
+    $title = _('Manage Special Days');
+    output_header($title, NO_STATSBAR);
+    echo "<h1>", html_safe($title), "</h1>\n";
 
     show_sd_toolbar($action);
 
@@ -170,13 +172,13 @@ class SpecialDay
         // Output a new month header when listing month differs from previous one
         if (( $current_month < 0 ) && ($current_month != $this->open_month ))
         {
-            echo "<tr class='month'><td colspan='8'><h2>";
+            echo "<tr class='month'><td colspan='9'><h2>";
             echo _("Undated Entries") ."</h2></td></tr>";
             output_table_headers();
         }
         else if ( $this->open_month != $current_month )
         {
-            echo "<tr class='month'><td colspan='8'><h2>";
+            echo "<tr class='month'><td colspan='9'><h2>";
             echo strftime("%B", mktime(0, 0, 0, $this->open_month, 10));
             echo "</h2></td></tr>";
             output_table_headers();
@@ -191,8 +193,9 @@ class SpecialDay
                 $this->show_buttons();
         echo "</form>\n";
         echo "</td>\n";
-        echo "<td style='background-color: #". $this->color . ";'>";
-        echo html_safe($this->display_name) . "</td>";
+        echo "<td>" . html_safe($this->display_name) . "</td>";
+        list($style, $cell) = get_special_day_cell_parts((array)$this);
+        echo "<td style='$style'>$cell</td>";
         echo "<td>" . $this->color . "</td>\n";
         echo $this->_get_status_cell($this->enable,' pb') . "\n";
         echo "<td class='right'>" . $this->open_month . "</td>";
@@ -202,21 +205,21 @@ class SpecialDay
         echo "</tr>\n";
 
         echo "<tr class='$row_class'>";
-        echo "<th class='right'>" . _("Info URL") . ":</th><td colspan='6'>" . make_link($this->info_url, $this->info_url) . "</td>";
+        echo "<th class='right'>" . _("Info URL") . ":</th><td colspan='7'>" . make_link($this->info_url, $this->info_url) . "</td>";
         echo "</tr>";
         echo "<tr class='$row_class'>";
-        echo "<th class='right'>" . _("Image URL") . ":</th><td colspan='6'>" . make_link($this->image_url, $this->image_url) . "</td>";
+        echo "<th class='right'>" . _("Image URL") . ":</th><td colspan='7'>" . make_link($this->image_url, $this->image_url) . "</td>";
         echo "</tr>\n";
 
         if($this->date_changes)
         {
             echo "<tr class='$row_class'>";
-            echo "<th class='right'>" . _("Date Changes") . ":</th><td colspan='6'>" . html_safe($this->date_changes) . "</td>";
+            echo "<th class='right'>" . _("Date Changes") . ":</th><td colspan='7'>" . html_safe($this->date_changes) . "</td>";
             echo "</tr>\n";
         }
 
         echo "<tr class='$row_class'>";
-        echo "<th class='right'>" . _("Comments") . ":</th><td colspan='6'>" . html_safe($this->comment) . "</td>";
+        echo "<th class='right'>" . _("Comments") . ":</th><td colspan='7'>" . html_safe($this->comment) . "</td>";
         echo "</tr>\n";
 
         return($this->open_month);
@@ -247,6 +250,7 @@ class SpecialDay
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name', _('Display Name'), 'text', 80);
+        $this->_show_edit_row('symbol', _('Symbol'), 'text', 2);
         echo "  <tr><th class='label'>Enable</th><td><input type='checkbox' name='enable'";
         if ( $this->enable )
             echo " value='1' checked";
@@ -290,9 +294,15 @@ class SpecialDay
             $max_attr = is_null($max) ? '' : "max='$max'";
             $editing = "<input type='number' style='width: 4em' name='$field' size='60' value='$value' $min_attr $max_attr>";
         }
+        $addl_data = '';
+        if($field == "symbol")
+        {
+            $addl_data = "<br>" . sprintf(_("See the full list of emojis in <a href='%s'>the Unicode standard</a>."), "http://unicode.org/emoji/charts/full-emoji-list.html");
+        }
+
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
-            "<td>$editing</td>" .
+            "<td>$editing$addl_data</td>" .
             "</tr>\n";
     }
 
@@ -301,7 +311,7 @@ class SpecialDay
         global $errmsgs;
         $std_fields = array('display_name','enable','comment',
                     'color','open_day','open_month','close_day',
-                    'close_month','date_changes');
+                    'close_month','date_changes','symbol');
         $std_fields_sql = [];
         foreach ($std_fields as $field)
         {
@@ -442,6 +452,7 @@ function output_table_headers()
     echo "<tr>";
     echo "<th class='headers'>" . _("Special Day Code") . "</th>";
     echo "<th class='headers'>" . _("Display Name") . "</th>";
+    echo "<th class='headers'>" . _("Symbol") . "</th>";
     echo "<th class='headers'>" . _("Color") . "</th>";
     echo "<th class='headers'>" . _("Enable") . "</th>";
     echo "<th class='headers'>" . _("Open Month") . "</th>";

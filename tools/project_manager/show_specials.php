@@ -3,19 +3,23 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'special_colors.inc');
 
 require_login();
 
-$title = _("Details of Special Days/Weeks/Months");
+$title = _("Special Days");
 
 output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
-echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br>";
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
+$sql = "
+    SELECT *
+    FROM special_days
+    ORDER BY open_month, open_day
+";
+$result = DPDatabase::query($sql);
 
-echo "<br>\n";
 echo "<table class='list_special_days show_special_days'>";
 
 $current_month = -1;
@@ -29,26 +33,28 @@ while ( $row = mysqli_fetch_assoc($result) )
     if ($month == 0 && $current_month != 0)
     {
         $current_month = $month;
-        echo "<tr class='month'><td colspan='4'><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
+        echo "<tr class='month'><td colspan='5'><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
         output_column_headers();
     }
 
     if ($month != $current_month)
     {
         $current_month = $month;
-        echo "<tr class='month'><td colspan='4'><h2>";
+        echo "<tr class='month'><td colspan='5'><h2>";
         echo strftime("%B", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
         output_column_headers();
     }
 
+    list($style, $symbol_cell) = get_special_day_cell_parts($row, FALSE);
     echo "<tr>";
-    echo "<td style='background-color: #" . $row['color'] . ";'>";
+    echo "<td style='$style'>$symbol_cell</td>";
+    echo "<td>";
     echo "<a href=\"$code_url/tools/search.php?show=search&amp;special_day%5B%5D=";
     echo urlencode($row['spec_code']) ."&amp;n_results_per_page=100\" title=\"";
     echo urlencode($row['display_name']) ."\">\n";
     echo html_safe($row['display_name']) . "</a>";
     echo "</td>\n";
-    echo "<td style='background-color: #" . $row['color'] . ";'>";
+    echo "<td>";
     echo "<div title=\"" . html_safe($row['comment']) ."\">";
     echo html_safe($row['comment']) . "</div></td>\n";
     echo "<td class='center'>";
@@ -70,6 +76,7 @@ echo "<br>\n";
 function output_column_headers()
 {
     echo "<tr>";
+    echo "<th>" . _("Symbol") . "</th>";
     echo "<th>" . _("Name") . "</th>";
     echo "<th>" . _("Comment") . "</th>";
     // TRANSLATORS: Start Day is the day of the month that the special day occurs, such as 1 for New Year's Day

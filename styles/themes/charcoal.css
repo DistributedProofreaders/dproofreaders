@@ -2198,10 +2198,6 @@ table.list_special_days th.right {
   text-align: right;
   font-weight: normal;
 }
-table.list_special_days h2 {
-  margin: 1em auto auto auto;
-  text-align: left;
-}
 table.show_special_days th {
   background-color: #4d4d4d;
 }

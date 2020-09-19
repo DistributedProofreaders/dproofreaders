@@ -522,6 +522,7 @@ CREATE TABLE `special_days` (
   `date_changes` varchar(100) default NULL,
   `info_url` varchar(255) default NULL,
   `image_url` varchar(255) default NULL,
+  `symbol` varchar(2) default '',
   UNIQUE KEY `spec_code` (`spec_code`)
 ) COMMENT='definitions of SPECIAL days';
 # --------------------------------------------------------

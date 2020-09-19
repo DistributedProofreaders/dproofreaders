@@ -126,10 +126,9 @@ if ($pagesproofed > 20)
     }
 }
 
-// Don't display the filter block or the special colours legend to newbies.
+// Don't display the filter block to newbies.
 $show_filter_block = ($pagesproofed > 20);
-$allow_special_colors_legend = ($pagesproofed >= 10);
 
-show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend );
+show_projects_for_round( $round, $show_filter_block );
 
 // vim: sw=4 ts=4 expandtab
