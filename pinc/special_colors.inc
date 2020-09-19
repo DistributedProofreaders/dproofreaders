@@ -1,6 +1,45 @@
 <?php
 include_once($relPath.'misc.inc');
 
+// return a set of hard-coded special days keyed by spec_code
+function load_common_special_days()
+{
+    return [
+        "_BIRTHDAY_RECENT" => [
+            'color' => "CCFFFF",
+            'display_name' => "Authors with recent birthdays",
+        ],
+        "_BIRTHDAY_TODAY" => [
+            'color' => "33CCFF",
+            'display_name' => "Authors with birthdays today",
+        ],
+        "_OTHER_SPECIAL" => [
+            'color' => "FFFF66",
+            'display_name' => "Other Special",
+        ],
+    ];
+}
+
+function load_special_days()
+{
+    $specials_array = load_common_special_days();
+
+    $sql = "
+        SELECT spec_code, color, display_name
+        FROM special_days
+        ORDER BY display_name
+    ";
+    $specs_result = DPDatabase::query($sql);
+
+    while ($row = mysqli_fetch_assoc($specs_result)) {
+        $specials_array[$row['spec_code']] = [
+            "color" => $row['color'],
+            "display_name" => $row['display_name'],
+        ];
+    }
+
+    return $specials_array;
+}
 
 // Returns the special color associated with this
 // project, or null if no such color is specified.
@@ -8,57 +47,45 @@ include_once($relPath.'misc.inc');
 // $book is supposed to be an associative array
 // representing a  record from the
 // projects table. At the moment it is 'enough'
-// that the keys 'comments' and 'username' are
-// existant.
-function get_special_color_for_project($book) {
-
-    $bgcolor = null;
-
+// that the key 'special_code' exists.
+function get_special_color_for_project($book)
+{
     $special_code = $book['special_code'];
 
-    // first three are (for now) special cases, the rest will be data-driven
-    // from the SPECIAL_DAYS table
+    static $specials_array = [];
+    if(!$specials_array)
+    {
+        $specials_array = load_special_days();
+    }
+
+    $special_day = NULL;
 
     // default Special colour (will be over-ridden by any specific matches below)
     if (!is_null($special_code) and strlen($special_code))
     {
-        $bgcolor = '#FFFF66'; // fadedyellow
+        $special_day = $specials_array['_OTHER_SPECIAL'];
     }
 
     // very light blue for birthday books still available after the day
     if ( startswith( $special_code, 'Birthday' ) )
     {
-        $bgcolor = '#CCFFFF';
+        $special_day = $specials_array['_BIRTHDAY_RECENT'];
     }
 
     // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
     if ( startswith( $special_code, "Birthday $bday" ) )
     {
-        $bgcolor = '#33CCFF';
-    }
-
-    static $specials_array = [];
-    if(!$specials_array)
-    {
-        $sql = "
-            SELECT spec_code, color
-            FROM special_days
-        ";
-        $specs_result = DPDatabase::query($sql);
-
-        while ($row = mysqli_fetch_assoc($specs_result)) {
-            $specials_array[$row['spec_code']] = $row['color'];
-        }
+        $special_day = $specials_array['_BIRTHDAY_TODAY'];
     }
 
     // if we recognise the special code, use the associated colour
     if(isset($specials_array[$special_code]))
     {
-        $bgcolor = "#".$specials_array[$special_code];
+        $special_day = $specials_array[$special_code];
     }
 
-    return $bgcolor;
+    return $bgcolor = "#".$special_day["color"];
 }
 
 
@@ -79,30 +106,19 @@ function echo_special_legend( $projects_where_clause)
             WHERE $projects_where_clause
         ");
 
-    $curr_specs_array = array();
+    $specials_array = load_special_days();
+    $day_array = [];
 
     while ($cs_row = mysqli_fetch_assoc($currspecs_result)) {
-        $curr_specs_array[] = $cs_row['spec'];
+        if(isset($specials_array[$cs_row['spec']]))
+            $day_array[] = $specials_array[$cs_row['spec']];
     }
+    // sort day_array by display_name
+    array_multisort(array_column($day_array, 'display_name'), SORT_ASC, $day_array);
+    // now append the hard-coded special day names
+    $day_array = array_merge($day_array, array_values(load_common_special_days()));
 
-    $specs_result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT spec_code, display_name, color FROM special_days
-            ORDER BY display_name ASC
-        ");
-
-    $common_array = array();
-
-    // Strip results down to just the ones in use
-    while ($sr_row = mysqli_fetch_assoc($specs_result)) {
-        if (in_array($sr_row['spec_code'], $curr_specs_array)) {
-            $common_array[] = $sr_row;
-        }
-    }
-    $common_array[] = array('color' => "CCFFFF", 'display_name' => "Authors with recent birthdays");
-    $common_array[] = array('color' => "33CCFF", 'display_name' => "Authors with birthdays today");
-    $common_array[] = array('color' => "FFFF66", 'display_name' => "Other Special");
-
-    $specs_count = count($common_array);
+    $specs_count = count($day_array);
     echo "<h3><a href='$code_url/tools/project_manager/show_specials.php'>$legend_text</a></h3>";
     echo "<table class='basic'>\n";
     $day_index = 0;
@@ -115,7 +131,7 @@ function echo_special_legend( $projects_where_clause)
         {
             if($day_index < $specs_count)
             {
-                $this_day = $common_array[$day_index++];
+                $this_day = $day_array[$day_index++];
                 echo "<td style='background-color:#{$this_day['color']}'>{$this_day['display_name']}</td>\n";
             }
             else
