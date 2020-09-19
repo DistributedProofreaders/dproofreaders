@@ -38,23 +38,24 @@ function get_special_color_for_project($book) {
         $bgcolor = '#33CCFF';
     }
 
-    $specs_result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT spec_code, color FROM special_days
-        ");
+    static $specials_array = [];
+    if(!$specials_array)
+    {
+        $sql = "
+            SELECT spec_code, color
+            FROM special_days
+        ";
+        $specs_result = DPDatabase::query($sql);
 
-    // it'd be nice to make this static, or something, so it only was loaded once
-    $specials_array = array();
-
-    while ($s_row = mysqli_fetch_assoc($specs_result)) {
-        $col = $s_row['color'];
-        $code = $s_row['spec_code'];
-        $specials_array["$code"] = $col;
+        while ($row = mysqli_fetch_assoc($specs_result)) {
+            $specials_array[$row['spec_code']] = $row['color'];
+        }
     }
 
     // if we recognise the special code, use the associated colour
-    $book_special = $special_code;
-    if (array_key_exists("$book_special", $specials_array)) {
-        $bgcolor = "#".$specials_array["$book_special"];
+    if(isset($specials_array[$special_code]))
+    {
+        $bgcolor = "#".$specials_array[$special_code];
     }
 
     return $bgcolor;
