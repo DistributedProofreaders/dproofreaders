@@ -375,9 +375,9 @@ else
     $sql = sprintf("
         INSERT INTO job_logs (filename, tracetime, event, comments)
         VALUES ('automodify.php', %d, 'END', 'end single, started at %d, took %d seconds')",
-        tracetimea,
-        tracetime,
-        tooktime);
+        $tracetimea,
+        $tracetime,
+        $tooktime);
     DPDatabase::query($sql);
 
 
