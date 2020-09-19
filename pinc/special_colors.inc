@@ -6,16 +6,19 @@ function load_common_special_days()
 {
     return [
         "_BIRTHDAY_RECENT" => [
-            'color' => "CCFFFF",
+            'color' => "#CCFFFF",
             'display_name' => "Authors with recent birthdays",
+            'symbol' => '🍰',
         ],
         "_BIRTHDAY_TODAY" => [
-            'color' => "33CCFF",
+            'color' => "#33CCFF",
             'display_name' => "Authors with birthdays today",
+            'symbol' => '🎂',
         ],
         "_OTHER_SPECIAL" => [
-            'color' => "FFFF66",
+            'color' => "#FFFF66",
             'display_name' => "Other Special",
+            'symbol' => '🎉',
         ],
     ];
 }
@@ -25,7 +28,7 @@ function load_special_days()
     $specials_array = load_common_special_days();
 
     $sql = "
-        SELECT spec_code, color, display_name
+        SELECT spec_code, color, display_name, symbol
         FROM special_days
         ORDER BY display_name
     ";
@@ -33,25 +36,19 @@ function load_special_days()
 
     while ($row = mysqli_fetch_assoc($specs_result)) {
         $specials_array[$row['spec_code']] = [
-            "color" => $row['color'],
+            "color" => '#' . $row['color'],
             "display_name" => $row['display_name'],
+            "symbol" => $row['symbol'],
         ];
     }
 
     return $specials_array;
 }
 
-// Returns the special color associated with this
-// project, or null if no such color is specified.
-//
-// $book is supposed to be an associative array
-// representing a  record from the
-// projects table. At the moment it is 'enough'
-// that the key 'special_code' exists.
-function get_special_color_for_project($book)
+// Returns the special day array associated with this
+// project, or null if no such special day is specified.
+function get_special_day($special_code)
 {
-    $special_code = $book['special_code'];
-
     static $specials_array = [];
     if(!$specials_array)
     {
@@ -87,7 +84,7 @@ function get_special_color_for_project($book)
 
     if($special_day)
     {
-        return "#".$special_day["color"];
+        return $special_day;
     }
     else
     {
@@ -126,27 +123,70 @@ function echo_special_legend( $projects_where_clause)
     $day_array = array_merge($day_array, array_values(load_common_special_days()));
 
     $specs_count = count($day_array);
-    echo "<h3><a href='$code_url/tools/project_manager/show_specials.php'>$legend_text</a></h3>";
-    echo "<table class='basic'>\n";
-    $day_index = 0;
-    $table_columns = min($specs_count, 4);
-    while($day_index < $specs_count)
+    echo "<h3>" . html_safe($legend_text) . "</h3>";
+    echo "<p><a href='$code_url/tools/project_manager/show_specials.php'>" . _("View all Special Days") . "</a></p>";
+
+    $num_columns = 4;
+    $items_in_columns = round(count($day_array) / $num_columns);
+    $column_index = 0;
+    $columns = [];
+    foreach($day_array as $day_entry)
     {
-        echo "<tr>\n";
-        $column_index = 0;
-        while($column_index++ < $table_columns)
+        $columns[$column_index][] = $day_entry;
+        if(count($columns[$column_index]) % $items_in_columns == 0)
         {
-            if($day_index < $specs_count)
-            {
-                $this_day = $day_array[$day_index++];
-                echo "<td style='background-color:#{$this_day['color']}'>{$this_day['display_name']}</td>\n";
-            }
-            else
-                echo "<td></td>\n";
+            $column_index += 1;
         }
-        echo "</tr>\n";
     }
-    echo "</table>\n";
+    echo "<table>\n";
+    echo "<tr>";
+    for( ; $column_index > 0; $column_index--)
+    {
+        echo "<td class='top-align'>";
+        echo "<table class='basic'>\n";
+        $column = array_shift($columns);
+        foreach($column as $day_entry)
+        {
+            list($style, $contents) = get_special_day_cell_parts($day_entry, FALSE);
+            echo "<tr>";
+            echo "<td style='$style'>$contents</td>";
+            echo "<td>{$day_entry['display_name']}</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "</td>";
+    }
+    echo "</tr>";
+    echo "</table>";
 }
 
-?>
+// Given a special day, return building blocks to construct a cell for a row
+function get_special_day_cell_parts($special_day, $include_title=TRUE)
+{
+    $background_color = str_replace("#", "", $special_day['color']);
+    $text_color = pick_text_color_given_bgcolor($background_color, "white", "black");
+    $style = "color: $text_color; background-color: #$background_color; " .
+        "text-align: center; width: 1em;";
+
+    // If the symbol is empty, return an em-space so that the browser
+    // will show a tooltip for the cell.
+    $contents = $special_day['symbol'] == '' ? '&emsp;' : $special_day['symbol'];
+    if($include_title)
+    {
+        $title = attr_safe($special_day['display_name']);
+        $contents = "<span title='$title'>$contents</span>";
+    }
+    return [$style, $contents];
+}
+
+// Select a reasonable text color given a specific background color.
+// From https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+function pick_text_color_given_bgcolor($bg_color, $light_color, $dark_color)
+{
+    $color = str_replace("#", "", $bg_color);
+
+    $r = hexdec(substr($color, 0, 2)); // hexToR
+    $g = hexdec(substr($color, 2, 4)); // hexToG
+    $b = hexdec(substr($color, 4, 6)); // hexToB
+    return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ? $dark_color : $light_color;
+}

@@ -626,6 +626,10 @@ class ProjectSearchResults
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
+        if($this->show_special_colors)
+        {
+            echo "<th></th>";
+        }
         foreach($this->active_columns as $column)
         {
             $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->sec_sort);
@@ -636,20 +640,21 @@ class ProjectSearchResults
             $project = new Project($project_assoc);
             $projectid = $project->projectid;
 
-            $bgcolor = '';
-            // Special colours for special books of various types
-            if ($this->show_special_colors)
+            echo "<tr>\n";
+
+            if($this->show_special_colors)
             {
-                $special_color = get_special_color_for_project($project_assoc);
-                if (!is_null($special_color)) {
-                    $bgcolor = $special_color;
+                $style = '';
+                $cell = '';
+                $special_day = get_special_day($project_assoc['special_code']);
+                if (!is_null($special_day))
+                {
+                    list($style, $cell) = get_special_day_cell_parts($special_day);
+                    $style = "style='$style'";
                 }
+                echo "<td $style>$cell</td>";
             }
 
-            $row_style = '';
-            if($bgcolor)
-                $row_style = "style='background-color: $bgcolor;'";
-            echo "<tr $row_style>\n";
             foreach($this->active_columns as $column)
             {
                 $column->echo_data_cell($project);

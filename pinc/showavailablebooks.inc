@@ -11,7 +11,7 @@ include_once($relPath.'post_processing.inc');
 
 // -----------------------------------------------------------------------------
 
-function show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend )
+function show_projects_for_round( $round, $show_filter_block=TRUE, $allow_special_colors_legend=TRUE )
 {
     $initial_project_selector = "state = '{$round->project_available_state}'";
 
@@ -388,6 +388,14 @@ function show_project_listing(
         "days_since_visit" => "text-align: right;",
     );
 
+    // Determine whether to use special colors or not.
+    // Visitors always see special colors.
+    $userSettings =& Settings::get_Settings($pguser);
+    if(!isset($pguser) || !$userSettings->get_boolean('hide_special_colors'))
+    {
+        $columns = array_merge(["specialday" => ['SpecialDay', '']], $columns);
+    }
+
     // Load the sort column and direction
     list($curr_sql_sort_col, $curr_sql_sort_dir) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
@@ -503,23 +511,6 @@ function show_project_listing(
 
     echo "</tr>";
 
-    if(isset($pguser))
-    {
-        // Determine whether to use special colors or not
-        // (this does not affect the alternating between two
-        // background colors) in the project listing.
-        // Regardless of the preference, don't display
-        // special colors to newbies.
-        $userSettings =& Settings::get_Settings($pguser);
-        $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
-                                && !$userSettings->get_boolean('hide_special_colors'));
-    }
-    else
-    {
-        // Visitors see the special colours.
-        $show_special_colors = TRUE;
-    }
-
     // Show email addresses for site administrators
     $show_email = user_is_a_sitemanager();
 
@@ -527,23 +518,23 @@ function show_project_listing(
 
     while ($book=mysqli_fetch_assoc($result))
     {
-        $style_attr = "";
-
-        // Special colours for special books of various types
-        if ($show_special_colors)
-        {
-            $special_color = get_special_color_for_project($book);
-            if (!is_null($special_color))
-            {
-                $style_attr = "style='background-color: $special_color;'";
-            }
-        }
-
-        echo "<tr $style_attr>";
+        echo "<tr>";
 
         foreach($columns as $col_id => $col_info)
         {
-            if($col_id == "nameofwork")
+            if($col_id == "specialday")
+            {
+                $cell = "";
+                $column_styles[$col_id] = '';
+
+                $special_day = get_special_day($book['special_code']);
+                if (!is_null($special_day))
+                {
+                    list($column_styles[$col_id], $cell) =
+                        get_special_day_cell_parts($special_day);
+                }
+            }
+            elseif($col_id == "nameofwork")
             {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
                 $onclick_attr = (
