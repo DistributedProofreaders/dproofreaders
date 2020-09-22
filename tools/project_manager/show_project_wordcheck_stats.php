@@ -179,7 +179,7 @@ if($total["num_pages"]>0) {
 </tr>
 <tr>
     <th class='label'><?php echo _("Maximum flagged words per page"); ?></th>
-    <td style='text-align: right;'><?php echo $total["flagged_max"]; ?> on <?php echo new_window_link("displayimage.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
+    <td style='text-align: right;'><?php echo $total["flagged_max"]; ?> on <?php echo new_window_link("../page_browser.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
 </tr>
 <tr>
     <th class='label'><?php echo _("Minimum flagged words per page"); ?></th>
