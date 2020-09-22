@@ -1,6 +1,5 @@
 <?php
 
-include_once($relPath.'base.inc');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id

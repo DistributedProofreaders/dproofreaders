@@ -28,6 +28,7 @@ class User
         "manager",
         "i_theme",
         "u_intlang",
+        "api_key",
     );
 
 
@@ -334,6 +335,15 @@ class User
     {
         $user = new User();
         $user->load('id', $id);
+        return $user;
+    }
+
+    // Load a User record by API key
+    // e.g. $user = User::load_from_api_key($api_key);
+    public static function load_from_api_key($api_key)
+    {
+        $user = new User();
+        $user->load('api_key', $api_key);
         return $user;
     }
 

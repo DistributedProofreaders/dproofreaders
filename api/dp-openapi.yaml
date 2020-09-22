@@ -1,0 +1,589 @@
+openapi: 3.0.1
+info:
+  title: Distributed Proofreaders API
+  description: An API to access various components in the DP system.
+  contact:
+    name: Distributed Proofreaders
+    url: https://www.pgdp.net
+  license:
+    name: GPL2
+    url: http://opensource.org/licenses/GPL-2.0
+  version: 1.0.0
+
+servers:
+- url: https://www.pgdp.net/api/v1
+  description: Production
+- url: https://www.pgdp.org/api/v1
+  description: Test
+- url: https://www.pgdp.org/api-dev/v1
+  description: Development
+
+paths:
+  /projects:
+    get:
+      tags:
+      - project
+      description: Search for projects. If different parameters are included
+        they are ANDed together. To send multiple values of the same parameter
+        to OR together, append the name with [] (e.g. projectid[]).
+      parameters:
+      - name: projectid
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+        description: Title is treated as a subsearch
+      - name: author
+        in: query
+        schema:
+          type: string
+        description: Author is treated as a subsearch
+      - name: languages
+        in: query
+        schema:
+          type: string
+        description: Languages is treated as a subsearch
+      - name: genre
+        in: query
+        schema:
+          type: string
+      - name: difficulty
+        in: query
+        schema:
+          type: string
+      - name: special_day
+        in: query
+        schema:
+          type: string
+      - name: project_manager
+        in: query
+        schema:
+          type: string
+      - name: pg_ebook_number
+        in: query
+        schema:
+          type: integer
+      - name: state
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of projects found in search
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/project'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: Links for accessing paginated response
+            X-Results-Total:
+              schema:
+                type: integer
+              description: Total number of projects matching query
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/difficulties:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project difficulties
+      responses:
+        200:
+          description: List of difficulties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/genres:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project genres
+      responses:
+        200:
+          description: List of genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/languages:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project languages
+      responses:
+        200:
+          description: List of languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/pagerounds:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid page rounds
+      responses:
+        200:
+          description: List of page rounds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/states:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project states
+      responses:
+        200:
+          description: List of states
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}:
+    get:
+      tags:
+      - project
+      description: Returns details about a project
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project to return
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: project response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/wordlists/{type}:
+    get:
+      tags:
+      - project
+      description: Gets a project's word list
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Word list type
+        required: true
+        schema:
+          type: string
+          enum: [good, bad]
+      responses:
+        200:
+          description: Requested project word list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wordlist'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+      - project
+      description: Replaces a project's word list
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: Word list type
+        required: true
+        schema:
+          type: string
+          enum: [good, bad]
+      requestBody:
+        description: Words to replace
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wordlist'
+        required: true
+      responses:
+        200:
+          description: wordlist saved
+          content: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages:
+    get:
+      tags:
+      - project
+      description: Gets a list of a project's page names
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of a project's page names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/pagerounds/{pageroundid}:
+    get:
+      tags:
+      - project
+      description: Gets a list of a project's page names
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: pagename
+        in: path
+        description: Name of page
+        required: true
+        schema:
+          type: string
+      - name: pageroundid
+        in: path
+        description: Page round ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Project page information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project_page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /stats/site:
+    get:
+      tags:
+      - stats
+      description: Get site statistics
+      responses:
+        200:
+          description: Site statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/site_stats'
+
+  /stats/site/rounds/{roundid}:
+    get:
+      tags:
+      - stats
+      description: Gets the site statistics for a round
+      parameters:
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Requested round statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/round_stats'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  schemas:
+    project:
+      required:
+      - projectid
+      - title
+      type: object
+      properties:
+        projectid:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        genre:
+          type: string
+        difficulty:
+          type: string
+        special_day:
+          type: string
+        clearance_line:
+          type: string
+        project_manager:
+          type: string
+        post_processor:
+          type: string
+        image_source:
+          type: string
+        pages_available:
+          type: integer
+        page_total:
+          type: integer
+        text_preparer:
+          type: string
+        pg_ebook_number:
+          type: integer
+        comments:
+          type: string
+        credits_so_far:
+          type: string
+          readOnly: true
+        modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        state_last_modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        page_last_modified:
+          type: string
+          format: dateTime
+          readOnly: true
+        forum_url:
+          type: string
+          format: url
+          readOnly: true
+        forum_replies:
+          type: integer
+          readOnly: true
+        forum_last_updated:
+          type: string
+          format: dateTime
+          readOnly: true
+      description: A project represents a unique project object in the system. It
+        includes a great deal of information, some fields of which are calculated
+        and not directly modifyable. Not all fields are available to all users. Fields
+        the user does not have access to will not be returned.
+
+    project_page:
+      required:
+      - pagename
+      type: object
+      properties:
+        pagename:
+          type: string
+        image_url:
+          type: string
+        text:
+          type: string
+        state:
+          type: string
+
+    site_stats:
+      type: object
+      properties:
+        server_time:
+          type: string
+          format: dateTime
+          readOnly: true
+        registered_users:
+          type: integer
+          readOnly: true
+      description: Statistics for the site
+
+    round_stats:
+      type: object
+      properties:
+        today_goal:
+          type: integer
+          readOnly: true
+        today_actual:
+          type: integer
+          readOnly: true
+        yesterday_goal:
+          type: integer
+          readOnly: true
+        yesterday_actual:
+          type: integer
+          readOnly: true
+        month_goal:
+          type: integer
+          readOnly: true
+        month_actual:
+          type: integer
+          readOnly: true
+      description: Statistics for a round
+
+    wordlist:
+      type: array
+      items:
+        type: string
+
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnexpectedError:
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitExceeded:
+      description: Rate Limit Exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+security:
+  - ApiKeyAuth: []

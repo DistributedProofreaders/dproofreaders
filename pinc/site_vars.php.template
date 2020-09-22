@@ -102,6 +102,13 @@ $php_cli_executable = '<<PHP_CLI_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------
 
+$api_enabled = <<API_ENABLED>>;
+$api_rate_limit = <<API_RATE_LIMIT>>;
+$api_rate_limit_requests_per_window = <<API_RATE_LIMIT_REQUESTS_PER_WINDOW>>;
+$api_rate_limit_seconds_in_window = <<API_RATE_LIMIT_SECONDS_IN_WINDOW>>;
+
+// -----------------------------------------------------------------------------
+
 $no_reply_email_addr = '<<NO_REPLY_EMAIL_ADDR>>';
 $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
 $site_manager_email_addr = $general_help_email_addr;
