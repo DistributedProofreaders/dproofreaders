@@ -153,7 +153,7 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
         } else {
             if ($show_image_size) $imagesize = 0;
         }
-        echo "<td><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$image>$image</a></td>\n";
+        echo "<td><a href=../page_browser.php?project=$projectid&imagefile=$image>$image</a></td>\n";
 
         // Original Page Number   
         echo "<td><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
@@ -185,7 +185,7 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
 
         // Show Thumbnail
         echo "<td align='right'>
-                <a href=\"../project_manager/displayimage.php?project=$projectid&imagefile=$image\"><img src =\"$projects_url/$projectid/thumbs/$image\" alt = \"$image\" border =\"0\"></a>
+                <a href=\"../page_browser.php?project=$projectid&imagefile=$image\"><img src =\"$projects_url/$projectid/thumbs/$image\" alt = \"$image\" border =\"0\"></a>
             </td>";
 
         echo "</tr>";

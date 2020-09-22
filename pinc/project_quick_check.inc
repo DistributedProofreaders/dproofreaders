@@ -347,7 +347,7 @@ function _test_project_for_missing_pages($projectid)
     global $code_url;
 
     $display_image_link = new_window_link(
-        "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=001.png&amp;showreturnlink=0&amp;preload=next&amp;percent=50",
+        "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=001.png&amp;showreturnlink=0&amp;preload=next&amp;percent=50",
         _("Display Image")
     );
 
@@ -468,7 +468,7 @@ function _test_project_for_bad_bytes($projectid)
 
         // write image and round columns
         $rowspan = $number_bad_chars;
-        $img_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename";
+        $img_url = "$code_url/tools/page_browser.php?project=$projectid&imagefile=$imagename";
         $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
         $details_for_this_page = "<tr>\n";
         $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";

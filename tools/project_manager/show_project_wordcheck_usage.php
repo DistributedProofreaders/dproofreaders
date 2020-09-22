@@ -80,7 +80,7 @@ $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_e
 while($result = mysqli_fetch_assoc($res)) {
     $page = $result["image"];
     echo "<tr>";
-    echo "<td>" . recycle_window_link("displayimage.php?project=$projectid&amp;imagefile=$page",$page,"pageView") . "</td>";
+    echo "<td>" . recycle_window_link("../page_browser.php?project=$projectid&amp;imagefile=$page",$page,"pageView") . "</td>";
     echo "<td>" . $result["state"] . "</td>";
 
     // get the current round for the page

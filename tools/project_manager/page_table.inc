@@ -294,7 +294,7 @@ function echo_page_table(
             $cell_class_attr = "class='error'";
             if ($show_image_size) $imagesize = "X";
         }
-        echo "<td $cell_class_attr><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$imagename'>$imagename</a></td>\n";
+        echo "<td $cell_class_attr><a href='$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$imagename'>$imagename</a></td>\n";
 
         // Image Size
         if ($show_image_size)

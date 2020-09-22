@@ -113,7 +113,7 @@ if (!$resolution) {
         // TRANSLATORS: %s is a round_id
         sprintf(_("%s Text"), get_round_name($prev_round_num)) . "</a>";
     echo " | ";
-    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("Image") . "</a>";
+    echo "<a href='../page_browser.php?project=$projectid&imagefile=$image' target='_new'>" . _("Image") . "</a>";
     echo "</p>";
 
     $show_resolution_form = TRUE;
