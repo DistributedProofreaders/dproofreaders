@@ -494,6 +494,48 @@ table.edit_special_day td {
 #pm_links {
   border: thin solid black;
 }
+.access-yes {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: green;
+}
+.access-yes a:link,
+.access-yes a:visited,
+.access-yes a:active {
+  color: green;
+  text-decoration: none;
+}
+.access-no {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: red;
+}
+.access-no a:link,
+.access-no a:visited,
+.access-no a:active {
+  color: red;
+  text-decoration: none;
+}
+.access-eligible {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: blue;
+}
+.access-eligible a:link,
+.access-eligible a:visited,
+.access-eligible a:active {
+  color: blue;
+  text-decoration: none;
+}
 /* ------------------------------------------------------------------------ */
 /* WordCheck pages */
 .preWC {

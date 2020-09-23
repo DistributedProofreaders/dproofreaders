@@ -31,9 +31,9 @@ output_header(_('Site Progress Snapshot'), NO_STATSBAR);
 
 <p>In addition each activity has an icon that represents your current ability to work in that stage:
 <ul>
-  <li><img style='vertical-align: middle;' src='<?php echo $code_url; ?>/graphics/access_yes.png'> - You have access to, and are able to work in, this stage.</li>
-  <li><img style='vertical-align: middle;' src='<?php echo $code_url; ?>/graphics/access_eligible.png'> - You satisfy the basic criteria and are eligible to work in this stage. Clicking on the icon will provide more information on how to obtain access.</li>
-  <li><img style='vertical-align: middle;' src='<?php echo $code_url; ?>/graphics/access_no.png'> - You are not yet eligible to work in this stage. Clicking on the icon will show you the entrance requirements for that stage.</li>
+  <li><div class='access-yes'>✓</div> - You have access to, and are able to work in, this stage.</li>
+  <li><div class='access-eligible'>ⓘ</div> - You satisfy the basic criteria and are eligible to work in this stage. Clicking on the icon will provide more information on how to obtain access.</li>
+  <li><div class='access-no'>✗</div> - You are not yet eligible to work in this stage. Clicking on the icon will show you the entrance requirements for that stage.</li>
 </ul>
 </p>
 
