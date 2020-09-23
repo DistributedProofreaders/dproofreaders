@@ -265,13 +265,6 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
 {
     global $pguser, $n_projects_in_state_, $n_projects_transitioned_to_state_;
 
-    // Get the stage identifier.
-    $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
-    if ( !is_null($stage_icon_url) )
-        $stage_id_bit = "<img src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
-    else
-        $stage_id_bit = "$stage->id";
-
     // Get the stage description for displaying in the title of the link.
     $description = attr_safe(strip_tags($stage->description));
 
@@ -279,19 +272,22 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     $uao = $stage->user_access( $pguser );
     if($uao->can_access)
     {
-        $access_icon = "graphics/access_yes.png";
+        $access_class = "access-yes";
+        $access_icon = "✓";
         $access_text = _("You can work in this activity");
         $access_link = '';
     }
     elseif($uao->all_minima_satisfied)
     {
-        $access_icon = "graphics/access_eligible.png";
+        $access_class = "access-eligible";
+        $access_icon = "ⓘ";
         $access_text = _("You are eligible to work in this activity");
         $access_link = "{$stage->relative_url}#Entrance_Requirements";
     }
     else
     {
-        $access_icon = "graphics/access_no.png";
+        $access_class = "access-no";
+        $access_icon = "✗";
         $access_text = _("You are not yet eligible to work in this activity");
         $access_link = "{$stage->relative_url}#Entrance_Requirements";
     }
@@ -380,19 +376,17 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
 
     // Every row gets a label, name, and access information.
     echo "<td class='stage-column' $span_rows>";
-    echo "<div class='stage-icon'>$stage_id_bit</div>";
 
     // Output the access status icon. If the user does not yet have access
     // make the image a link to the access requirements.
-    echo "<div class='stage-access'>";
+    echo "<div class='stage-access $access_class' title='" . attr_safe($access_text) . "'>";
     if($access_link)
         echo "<a href='$access_link'>";
-    echo "<img src='$access_icon' alt='" . attr_safe($access_text)
-        . "' title='" . attr_safe($access_text) . "'>";
+    echo $access_icon;
     if($access_link)
         echo "</a>";
     echo "</div>";
-    echo "<div class='stage-name'><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></div>";
+    echo "<b>$stage->id</b><span class='stage-name'>: <a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></span>";
 
     echo "</td>";
 
@@ -479,13 +473,7 @@ function activity_descriptions()
 
     foreach ( $Stage_for_id_ as $stage )
     {
-        $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
-        if ( !is_null($stage_icon_url) )
-            $stage_id_bit = "<img class='middle-align' src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
-        else
-            $stage_id_bit = "($stage->id)";
-
-        echo "<dt>$stage_id_bit <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a></dt>";
+        echo "<dt><b>$stage->id</b>: <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a></dt>";
         echo "<dd>{$stage->description}</dd>\n";
     }
 

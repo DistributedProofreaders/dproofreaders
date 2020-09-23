@@ -403,16 +403,13 @@ table.snapshottable th {
   margin: 0;
   text-align: center;
 }
-table.snapshottable img {
-  border: none;
-  padding: 0;
-  margin: 0;
-}
 table.snapshottable th {
   font-weight: normal;
 }
 table.snapshottable td.stage-column {
   text-align: left;
+  vertical-align: middle;
+  padding: 5px;
 }
 table.snapshottable td.nocell {
   border: none;
@@ -420,20 +417,7 @@ table.snapshottable td.nocell {
 table.snapshottable th.activity-icon-header {
   border: none;
 }
-.stage-icon {
-  display: inline-block;
-  width: 40px;
-  vertical-align: middle;
-  text-align: center;
-}
-.stage-name {
-  display: inline-block;
-  padding-left: 5px;
-  text-align: left;
-  vertical-align: middle;
-}
 .stage-access {
-  display: inline-block;
   padding-left: 5px;
   float: right;
   vertical-align: middle;

@@ -481,6 +481,33 @@ table.edit_special_day {
     .solid-border;
 }
 
+.stage-access(@color: black) {
+    display: inline-block;
+    min-width: 1.5em;
+    .center-align;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: @color;
+    a:link,
+    a:visited,
+    a:active {
+        color: @color;
+        text-decoration: none;
+    }
+}
+
+.access-yes {
+    .stage-access(green);
+}
+
+.access-no {
+    .stage-access(red);
+}
+
+.access-eligible {
+    .stage-access(blue);
+}
+
 /* ------------------------------------------------------------------------ */
 /* WordCheck pages */
 
