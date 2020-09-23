@@ -84,6 +84,7 @@ mysqli_free_result($pages_res);
 
 $total["flagged_min"]=1000000;
 $total["flagged_max"]=0;
+$total["flagged_max_page"] = NULL;
 $mode=array();
 $graph_x=array();
 $graph_y=array();
@@ -177,10 +178,12 @@ if($total["num_pages"]>0) {
     <th class='label'><?php echo _("Mean of words from project's Bad Word List flagged per page"); ?></th>
     <td style='text-align: right;'><?php echo number_format($total["proj_bad_words_avg"],3); ?></td>
 </tr>
+<?php if(!is_null($total["flagged_max_page"])) { ?>
 <tr>
     <th class='label'><?php echo _("Maximum flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged_max"]; ?> on <?php echo new_window_link("displayimage.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
 </tr>
+<?php } // !is_null flagged_max_page ?>
 <tr>
     <th class='label'><?php echo _("Minimum flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged_min"]; ?></td>
