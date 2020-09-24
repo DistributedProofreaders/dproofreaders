@@ -145,6 +145,15 @@
   font-weight: normal;
   font-style: oblique;
 }
+/* EB Garamond
+   https://fonts.google.com/specimen/EB+Garamond */
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v14/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNUAw.ttf) format('truetype');
+}
 /* ======================================================================== */
 /* Page Interface Structures */
 /*
@@ -813,7 +822,26 @@ h4,
 h5,
 h6 {
   color: #333333;
-  font-family: Verdana, Helvetica, sans-serif;
+  font-family: 'EB Garamond', serif;
+  margin: 0.5em auto;
+}
+h1 {
+  font-size: 2.2em;
+}
+h2 {
+  font-size: 1.8em;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.3em;
+}
+h5 {
+  font-size: 1.2em;
+}
+h5 {
+  font-size: 1em;
 }
 /* ------------------------------------------------------------------------ */
 /* Header */
@@ -1973,7 +2001,7 @@ table.search-column tr th {
 }
 #linkbox h2 {
   text-align: center;
-  font-size: 1em;
+  font-size: 1.5em;
 }
 #linkbox li {
   margin-top: 3px;
