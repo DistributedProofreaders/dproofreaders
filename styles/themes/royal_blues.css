@@ -1,6 +1,740 @@
 /* ------------------------------------------------------------------------ */
 /* Theme coloring for Royal Blues */
 /* ------------------------------------------------------------------------ */
+/* Mix-ins */
+.left-align {
+  text-align: left;
+}
+.center-align {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+.top-align {
+  vertical-align: top;
+}
+.middle-align {
+  vertical-align: middle;
+}
+.bottom-align {
+  vertical-align: bottom;
+}
+.bold {
+  font-weight: bold;
+}
+.italic {
+  font-style: italic;
+}
+.underlined {
+  text-decoration: underline;
+}
+.large {
+  font-size: large;
+}
+.small {
+  font-size: small;
+}
+.really-small {
+  font-size: x-small;
+}
+.mono {
+  font-family: monospace;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.full-width {
+  width: 100%;
+}
+.full-height {
+  height: 100%;
+}
+.no-border {
+  border: 0;
+}
+.no-margin {
+  margin: 0;
+}
+.no-padding {
+  padding: 0;
+}
+.no-cellspacing {
+  border-spacing: 0;
+}
+.no-cellpadding {
+  border-collapse: collapse;
+}
+.no-cellpadding td,
+.no-cellpadding th {
+  padding: 0;
+}
+.plain-list ul {
+  padding: 0;
+}
+.plain-list li {
+  list-style-type: none;
+}
+.display-flex {
+  display: flex;
+}
+.invisible {
+  visibility: hidden;
+}
+.button {
+  /*
+     * We can't use appearance: button here because Chrome has deprecated it:
+     * https://developers.google.com/web/updates/2019/12/chrome-80-deps-rems
+     * so we make a "button like object" that won't really resemble the other
+     * buttons rendered, but still looks like a button.
+     */
+  border: solid 1px lightgray;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  cursor: default;
+}
+.nodisp {
+  display: none;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.inline {
+  display: inline;
+}
+/* ------------------------------------------------------------------------ */
+/* WEB FONTS */
+/* Because global.less is rendered as part of the themes the web-font URLs
+   are relative to the theme/ directory. */
+/* DP Sans Mono */
+@font-face {
+  font-family: 'DP Sans Mono';
+  src: local('DP Sans Mono'), url('../fonts/DPSansMono.woff2') format('woff2'), url('../fonts/DPSansMono.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+/* DejaVu Sans Mono */
+@font-face {
+  font-family: 'DejaVu Sans Mono';
+  src: url('../fonts/DejaVuSansMono-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DejaVu Sans Mono';
+  src: url('../fonts/DejaVuSansMono-Bold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DejaVu Sans Mono';
+  src: url('../fonts/DejaVuSansMono-BoldOblique-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: oblique;
+}
+@font-face {
+  font-family: 'DejaVu Sans Mono';
+  src: url('../fonts/DejaVuSansMono-Oblique-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: oblique;
+}
+/* ======================================================================== */
+/* Page Interface Structures */
+/*
+ * The following classes all relate to various page interfaces, such as the
+ * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
+ * toolbox, code point validator, display image interface, etc.
+ */
+/* Base layer for page interface */
+/* Text pane */
+/* Control panes */
+.page-interface {
+  background-color: #CDCDC1;
+  color: black;
+}
+.page-interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+.page-interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+.page-interface .control-pane input,
+.page-interface .control-pane select,
+.page-interface .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+.page-interface .control-pane button,
+.page-interface .control-pane input[type=submit],
+.page-interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.page-interface .control-pane input[type=image] {
+  border: none;
+}
+.page-interface .control-pane .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Standard Editing Interface */
+#standard_interface {
+  padding: 0;
+  margin: 0;
+  background-color: #CDCDC1;
+  color: black;
+}
+#standard_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#standard_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#standard_interface .control-pane input,
+#standard_interface .control-pane select,
+#standard_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#standard_interface .control-pane button,
+#standard_interface .control-pane input[type=submit],
+#standard_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#standard_interface .control-pane input[type=image] {
+  border: none;
+}
+#standard_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#standard_interface #imagedisplay {
+  text-align: center;
+}
+#text_data,
+#text_data:focus {
+  outline: none;
+}
+/* ------------------------------------------------------------------------ */
+/* Enhanced Editing Interface */
+#enhanced_interface {
+  text-align: center;
+  overflow: hidden;
+  background-color: #CDCDC1;
+  color: black;
+}
+#enhanced_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface .control-pane input,
+#enhanced_interface .control-pane select,
+#enhanced_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#enhanced_interface .control-pane button,
+#enhanced_interface .control-pane input[type=submit],
+#enhanced_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface .control-pane input[type=image] {
+  border: none;
+}
+#enhanced_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tbtext {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  overflow: auto;
+  border: thin solid black;
+}
+#enhanced_interface #tdtop {
+  vertical-align: middle;
+  padding: 2px;
+  border: thin solid black;
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface #tdtop input,
+#enhanced_interface #tdtop select,
+#enhanced_interface #tdtop button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#enhanced_interface #tdtop button,
+#enhanced_interface #tdtop input[type=submit],
+#enhanced_interface #tdtop input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface #tdtop input[type=image] {
+  border: none;
+}
+#enhanced_interface #tdtop .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tdtext,
+#enhanced_interface #tdbottom {
+  vertical-align: top;
+  border: thin solid black;
+  padding: 2px;
+}
+#enhanced_interface #tdtext {
+  background-color: #CDCDC1;
+  color: black;
+}
+#enhanced_interface #tdtext .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface #tdtext .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#enhanced_interface #tdtext .control-pane input,
+#enhanced_interface #tdtext .control-pane select,
+#enhanced_interface #tdtext .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#enhanced_interface #tdtext .control-pane button,
+#enhanced_interface #tdtext .control-pane input[type=submit],
+#enhanced_interface #tdtext .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#enhanced_interface #tdtext .control-pane input[type=image] {
+  border: none;
+}
+#enhanced_interface #tdtext .control-pane .menu {
+  background-color: Bisque;
+}
+#enhanced_interface #tdbottom {
+  background-color: #EEDFCC;
+}
+#enhanced_interface #text_data,
+#enhanced_interface #text_data:focus {
+  padding: 2px;
+  outline: none;
+  background-color: #FFF8DC;
+  color: black;
+}
+#enhanced_interface .dropsmall {
+  font-size: 75%;
+}
+/* ------------------------------------------------------------------------ */
+/* WordCheck Interface */
+#wordcheck_interface {
+  text-align: center;
+  overflow: auto;
+  background-color: #CDCDC1;
+  color: black;
+}
+#wordcheck_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#wordcheck_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#wordcheck_interface .control-pane input,
+#wordcheck_interface .control-pane select,
+#wordcheck_interface .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#wordcheck_interface .control-pane button,
+#wordcheck_interface .control-pane input[type=submit],
+#wordcheck_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#wordcheck_interface .control-pane input[type=image] {
+  border: none;
+}
+#wordcheck_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#wordcheck_interface #tbtext {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  border: thin solid black;
+}
+#wordcheck_interface #tdtop {
+  padding: 2px;
+  border: thin solid black;
+  background-color: #CDC0B0;
+  color: black;
+}
+#wordcheck_interface #tdtop input,
+#wordcheck_interface #tdtop select,
+#wordcheck_interface #tdtop button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#wordcheck_interface #tdtop button,
+#wordcheck_interface #tdtop input[type=submit],
+#wordcheck_interface #tdtop input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#wordcheck_interface #tdtop input[type=image] {
+  border: none;
+}
+#wordcheck_interface #tdtop .menu {
+  background-color: Bisque;
+}
+#wordcheck_interface #tdtext {
+  vertical-align: top;
+  text-align: left;
+  padding: 0.5em;
+  border: thin solid black;
+  background-color: #FFF8DC;
+  color: black;
+}
+.preWC {
+  background-color: #c2c2c2;
+}
+.noWC {
+  background-color: #ffb321;
+  font-weight: bold;
+}
+.WC {
+  background-color: #97fc9e;
+}
+/* ------------------------------------------------------------------------ */
+/* Format Preview */
+#format_preview {
+  background-color: #CDCDC1;
+  color: black;
+}
+#format_preview .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#format_preview .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#format_preview .control-pane input,
+#format_preview .control-pane select,
+#format_preview .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#format_preview .control-pane button,
+#format_preview .control-pane input[type=submit],
+#format_preview .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#format_preview .control-pane input[type=image] {
+  border: none;
+}
+#format_preview .control-pane .menu {
+  background-color: Bisque;
+}
+.ilb {
+  border: thin solid #404040;
+  border-radius: 2px;
+  background-color: #CDC0B0;
+  color: black;
+}
+.ilb input,
+.ilb select,
+.ilb button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+.ilb button,
+.ilb input[type=submit],
+.ilb input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.ilb input[type=image] {
+  border: none;
+}
+.ilb .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+.flex_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fixedbox {
+  flex: 0 0 auto;
+  padding: 2px;
+  background-color: #CDC0B0;
+  color: black;
+}
+.fixedbox input,
+.fixedbox select,
+.fixedbox button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+.fixedbox button,
+.fixedbox input[type=submit],
+.fixedbox input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.fixedbox input[type=image] {
+  border: none;
+}
+.fixedbox .menu {
+  background-color: Bisque;
+}
+.stretchbox {
+  flex: auto;
+  min-height: 10px;
+  overflow: auto;
+  background-color: #FFF8DC;
+  color: black;
+}
+.ws-pre {
+  white-space: pre;
+  padding-left: 0.5em;
+  text-align: left;
+  font-family: monospace;
+}
+.bad-char {
+  background: #ff99cc;
+}
+/* ------------------------------------------------------------------------ */
+/* Proofreading control frame */
+.control-frame {
+  padding: 0;
+  margin: 0;
+  background-color: #CDC0B0;
+  color: black;
+}
+.control-frame input,
+.control-frame select,
+.control-frame button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+.control-frame button,
+.control-frame input[type=submit],
+.control-frame input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+.control-frame input[type=image] {
+  border: none;
+}
+.control-frame .menu {
+  background-color: Bisque;
+}
+/* ------------------------------------------------------------------------ */
+/* Proofreading Toolbox */
+#toolbox {
+  padding: 2px;
+  font-family: Verdana, Arial, sans-serif;
+  background-color: #CDC0B0;
+  color: black;
+  /* adjust so tools do not jump around with different character pickers */
+}
+#toolbox input,
+#toolbox select,
+#toolbox button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#toolbox button,
+#toolbox input[type=submit],
+#toolbox input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#toolbox input[type=image] {
+  border: none;
+}
+#toolbox .menu {
+  background-color: Bisque;
+}
+#toolbox .selector_button {
+  background-color: Bisque;
+  margin-top: 1px;
+  font-size: 1em;
+  padding: 0.1em 0.15em 0 0.15em;
+  margin-right: 2px;
+  min-width: 1em;
+}
+#toolbox .selected-tab {
+  font-weight: bold;
+  background-color: #FFF8DC;
+  box-shadow: -1px -1px grey;
+}
+#toolbox .proofbutton {
+  padding: 1px 6px;
+  margin: 1px 0px;
+  cursor: pointer;
+  font-size: 0.9em;
+  min-width: 2em;
+}
+#toolbox .key-block {
+  display: none;
+}
+#toolbox .show {
+  display: table;
+}
+#toolbox .table-row {
+  display: table-row;
+}
+#toolbox .table-cell {
+  display: table-cell;
+}
+#toolbox .char_box {
+  padding-top: 1px;
+}
+#toolbox .big_text,
+#toolbox .picker {
+  font-family: DejaVu Sans Mono;
+  vertical-align: middle;
+  text-align: center;
+  width: 1.1em;
+}
+#toolbox .big_text {
+  font-size: 300%;
+  margin: 2px;
+}
+#toolbox .picker {
+  font-size: 1em;
+  margin-top: 1px;
+  padding: 0 1px 0 0;
+}
+#toolbox #hide-picker {
+  box-shadow: -1px -1px grey;
+}
+#toolbox #char-selector {
+  min-width: 225px;
+}
+#toolbox #char-picker {
+  display: inherit;
+}
+#toolbox .hide-picker-button {
+  font-size: 2em;
+  height: 2.5em;
+  padding: 0;
+  background: transparent;
+}
+#toolbox #tools {
+  margin-left: 2px;
+  margin-right: 0.5em;
+  text-align: right;
+  width: 100%;
+}
+/* ------------------------------------------------------------------------ */
+/* Page Browser */
+#page-browser {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #CDCDC1;
+  color: black;
+}
+#page-browser .fixed-box {
+  flex: 0 0 auto;
+}
+#page-browser .stretch-box {
+  flex: 1 1 100vh;
+  min-height: 10px;
+}
+#page-browser .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+}
+#page-browser .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+}
+#page-browser .control-pane input,
+#page-browser .control-pane select,
+#page-browser .control-pane button {
+  background-color: #FFF8DC;
+  border: thin solid black;
+}
+#page-browser .control-pane button,
+#page-browser .control-pane input[type=submit],
+#page-browser .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+}
+#page-browser .control-pane input[type=image] {
+  border: none;
+}
+#page-browser .control-pane .menu {
+  background-color: Bisque;
+}
+#page-browser .control-pane {
+  padding: 0 1em;
+  overflow: auto;
+  border-bottom: thin solid #999;
+}
+#page-browser .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+}
+#page-browser .control-pane p {
+  margin: 0.2em 0;
+}
+#page-browser .control-pane input {
+  margin: 1px 0.2em;
+}
+#page-browser .control-pane select {
+  margin-right: 0.4em;
+}
+#page-browser .control-pane .img-button {
+  vertical-align: middle;
+  padding: 0;
+}
+#page-browser .control-pane img {
+  display: block;
+}
+#page-browser .control-pane input[type=checkbox] {
+  vertical-align: middle;
+}
+#page-browser .control-pane input[type=number] {
+  width: 5em;
+}
+#page-browser .control-pane a {
+  margin-right: 0.4em;
+  margin-left: 0.4em;
+}
+#page-browser .text-pane {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
+}
+.flex_100vh {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.flex_100vh .fixed-box {
+  flex: 0 0 auto;
+}
+.flex_100vh .stretch-box {
+  flex: 1 1 100vh;
+  min-height: 10px;
+}
+/* ------------------------------------------------------------------------ */
 /* mixins with color */
 /* standalone classes that can be used as mixins, but that should not
  * be given parameters, as they can't be used as classes in the code
@@ -13,31 +747,22 @@
 .default-border-bottom {
   border-bottom: thin solid black;
 }
-/* ------------------------------------------------------------------------ */
-/* Attention-getting structures */
-.error,
-.test_warning {
-  color: red;
+.sidebar-color {
+  background-color: #99ccff;
 }
-.warning {
-  color: blue;
-}
-.highlight {
-  background-color: yellow;
-  color: black;
+.sans-serif {
+  font-family: Verdana, Arial, sans-serif;
 }
 .button {
   font-family: Verdana, Arial, sans-serif;
 }
-kbd {
-  color: #cc0000;
-}
-div.callout {
-  background-color: #EEE;
-  border: thin solid black;
-}
 /* ------------------------------------------------------------------------ */
+/* Global */
+* {
+  box-sizing: border-box;
+}
 body {
+  margin: 0;
   background-color: #ffffff;
   color: #000000;
 }
@@ -50,13 +775,69 @@ body a:visited {
 body a:active {
   color: #330099;
 }
+img {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+}
+table th {
+  font-weight: bold;
+}
+table th.label {
+  text-align: left;
+}
+table td,
+table th {
+  padding: 0.1em 0.2em;
+}
+/* ------------------------------------------------------------------------ */
+/* HTML5 hacks */
+section,
+footer,
+aside,
+main,
+article,
+figure {
+  display: block;
+}
+/* ------------------------------------------------------------------------ */
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000066;
+  font-family: Verdana, Arial, sans-serif;
+}
+/* ------------------------------------------------------------------------ */
+/* Header */
 header,
 #header {
+  width: 100%;
+  height: 5em;
+  padding: 0;
+  border: 0;
+  display: table;
   background-color: #99ccff;
   color: #000000;
 }
+header #logo,
+#header #logo,
 header #titles-preserved,
 #header #titles-preserved {
+  display: table-cell;
+}
+header #logo,
+#header #logo {
+  padding: 0.5em 0.5em 0.1em;
+}
+header #titles-preserved,
+#header #titles-preserved {
+  text-align: center;
+  vertical-align: middle;
   font-size: 0.9em;
 }
 header #titles-preserved #x-preserved,
@@ -64,64 +845,146 @@ header #titles-preserved #x-preserved,
   font-weight: bold;
   font-family: Verdana, Arial, sans-serif;
 }
+/* ------------------------------------------------------------------------ */
 /* Navbar */
 nav,
-#navbar-outer,
-#navbar,
-#navbar-left,
-#navbar-right,
-#navbar-login {
+#navbar-outer {
+  width: 100%;
+  display: table;
+}
+#navbar {
+  height: 2.2em;
+  margin: 0;
+  border: 0;
+  font-size: 0.75em;
+  display: table-row;
   background-color: #000099;
   font-family: Verdana, Arial, sans-serif;
 }
-nav a:link,
-#navbar-outer a:link,
 #navbar a:link,
-#navbar-left a:link,
-#navbar-right a:link,
-#navbar-login a:link,
-nav a:visited,
-#navbar-outer a:visited,
 #navbar a:visited,
-#navbar-left a:visited,
-#navbar-right a:visited,
-#navbar-login a:visited,
-nav a:active,
-#navbar-outer a:active,
-#navbar a:active,
-#navbar-left a:active,
-#navbar-right a:active,
-#navbar-login a:active {
+#navbar a:active {
   color: #ffffff;
 }
-nav label,
-#navbar-outer label,
+#navbar span.currentpage {
+  font-weight: bold;
+}
 #navbar label,
-#navbar-left label,
-#navbar-right label,
-#navbar-login label,
-nav span.text,
-#navbar-outer span.text,
 #navbar span.text,
-#navbar-left span.text,
-#navbar-right span.text,
-#navbar-login span.text,
-nav span.currentpage,
-#navbar-outer span.currentpage,
-#navbar span.currentpage,
-#navbar-left span.currentpage,
-#navbar-right span.currentpage,
-#navbar-login span.currentpage {
+#navbar span.currentpage {
   color: #ffffff;
 }
-nav input,
-#navbar-outer input,
-#navbar input,
-#navbar-left input,
-#navbar-right input,
-#navbar-login input {
+#navbar #navbar-left {
+  float: left;
+  padding: 3px;
+  margin: 2px;
+  display: table-cell;
+}
+#navbar #navbar-right,
+#navbar #navbar-login {
+  text-align: right;
+  float: right;
+  display: table-cell;
+}
+#navbar #navbar-right {
+  margin: 2px;
+  padding: 3px;
+}
+#navbar #navbar-login {
+  margin: 3px;
+}
+#navbar form {
+  margin: 0;
+  display: inline;
+}
+#navbar form input {
   font-family: Verdana, Arial, sans-serif;
   font-size: 11px;
+}
+#navbar form div {
+  display: inline;
+}
+/* ------------------------------------------------------------------------ */
+/* Alert & Test bar */
+#alertbar-outer,
+#testbar-outer {
+  width: 100%;
+  display: table;
+}
+#alertbar,
+#testbar {
+  height: 2.2em;
+  margin: 0;
+  border: 0;
+  font-size: 0.75em;
+  display: table-row;
+  background-color: #000099;
+  font-family: Verdana, Arial, sans-serif;
+}
+#alertbar a:link,
+#testbar a:link,
+#alertbar a:visited,
+#testbar a:visited,
+#alertbar a:active,
+#testbar a:active {
+  color: #ffffff;
+}
+#alertbar span.currentpage,
+#testbar span.currentpage {
+  font-weight: bold;
+}
+#alertbar label,
+#testbar label,
+#alertbar span.text,
+#testbar span.text,
+#alertbar span.currentpage,
+#testbar span.currentpage {
+  color: #ffffff;
+}
+#alertbar #navbar-left,
+#testbar #navbar-left {
+  float: left;
+  padding: 3px;
+  margin: 2px;
+  display: table-cell;
+}
+#alertbar #navbar-right,
+#testbar #navbar-right,
+#alertbar #navbar-login,
+#testbar #navbar-login {
+  text-align: right;
+  float: right;
+  display: table-cell;
+}
+#alertbar #navbar-right,
+#testbar #navbar-right {
+  margin: 2px;
+  padding: 3px;
+}
+#alertbar #navbar-login,
+#testbar #navbar-login {
+  margin: 3px;
+}
+#alertbar form,
+#testbar form {
+  margin: 0;
+  display: inline;
+}
+#alertbar form input,
+#testbar form input {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+}
+#alertbar form div,
+#testbar form div {
+  display: inline;
+}
+#alertbar p,
+#testbar p {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
 }
 #alertbar,
 #alertbar-outer {
@@ -153,17 +1016,8 @@ nav input,
 #testbar-outer a:active {
   color: #4d4d4d;
 }
-/* Layout */
-#page-container {
-  background-color: #99ccff;
-}
-#content-container {
-  background-color: #ffffff;
-  color: #000000;
-}
-#rounded-corner {
-  background-color: #ffffff;
-}
+/* ------------------------------------------------------------------------ */
+/* Statsbar */
 #sidebar,
 #statsbar {
   background-color: #99ccff;
@@ -179,8 +1033,15 @@ nav input,
 #statsbar th {
   font-family: Verdana, Arial, sans-serif;
 }
+/* ------------------------------------------------------------------------ */
+/* Footer */
 footer,
 #footer {
+  width: 100%;
+  height: 2em;
+  font-size: x-small;
+  text-align: center;
+  vertical-align: middle;
   background-color: #000099;
   color: #ffffff;
   font-family: Verdana, Arial, sans-serif;
@@ -193,23 +1054,163 @@ footer a:active,
 #footer a:active {
   color: #ffffff;
 }
-/* Header */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #000066;
-  font-family: Verdana, Arial, sans-serif;
+footer p,
+#footer p {
+  margin: 0px;
+  padding: 0.3em;
 }
-.sidebar-color {
+footer small,
+#footer small {
+  font-size: x-small;
+}
+/* ------------------------------------------------------------------------ */
+/* Content layout */
+#page-container {
+  border: 0;
+  width: 100%;
+  display: table;
   background-color: #99ccff;
+}
+#page-body-container {
+  display: table-row;
+}
+#content-container {
+  text-align: left;
+  vertical-align: top;
+  width: 100%;
+  padding: 0 0.5em 1em 0.5em;
+  display: table-cell;
+  background-color: #ffffff;
+  color: #000000;
+}
+#rounded-corner {
+  background-color: #ffffff;
+}
+.quick-links {
+  padding: 0;
+}
+.quick-links li {
+  display: inline;
+}
+.quick-links li::before {
+  content: " | ";
+}
+.quick-links li:first-child::before {
+  content: "";
+}
+/*
+ If the screen is "narrow enough" we move the statsbar below the page
+ content using a flex layout. We don't use a flex layout for the
+ regular content because doing so cuts off the project listings on
+ the round pages. Until we are able to make full use of the window
+ for the round pages (death to the statsbar??) we need to keep a
+ table-style layout to force the statsbar off the screen when the
+ window gets too narrow
+*/
+@media only screen and (max-width: 768px) {
+  #header #month-preserved-summary {
+    display: none;
+  }
+  #header p {
+    margin: 0.25em 0.5em;
+  }
+  #page-body-container {
+    display: flex;
+    display: -ms-flexbox;
+    /* for IE 11 */
+    flex-direction: column;
+  }
+  #page-container,
+  #content-container {
+    display: block;
+  }
+}
+/* For even smaller screens, change the header and footer */
+@media only screen and (max-width: 481px) {
+  #header #titles-preserved {
+    display: table-row;
+    text-align: right;
+    font-size: 0.8em;
+  }
+  #header #logo img {
+    max-width: 100%;
+  }
+  #buildtime {
+    display: none;
+  }
+}
+/* ------------------------------------------------------------------------ */
+/* Section dividers */
+hr.divider {
+  text-align: center;
+  width: 75%;
+}
+/* ------------------------------------------------------------------------ */
+/* Star texts */
+.star-text-summary {
+  width: 33%;
+  float: left;
+}
+.star-text-summary p {
+  padding-right: 0.5em;
+}
+.star-text-summary .star-header {
+  text-align: center;
+}
+.star-gold {
+  font-size: 3em;
+  color: #FFD700;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
+.star-silver {
+  font-size: 3em;
+  color: silver;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
+.star-bronze {
+  font-size: 3em;
+  color: #cd7f32;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
+@media only screen and (max-width: 481px) {
+  .star-text-summary {
+    width: 100%;
+    padding-bottom: 1em;
+  }
+  .star-header,
+  .star-description {
+    display: table-cell;
+  }
+  .star-header {
+    width: 10em;
+    padding-right: 1em;
+  }
 }
 /* ------------------------------------------------------------------------ */
 /* News items */
+div.news {
+  margin: 1em 0;
+}
+div.newsupdated {
+  margin-top: 0.7em;
+  float: right;
+}
 div.newsitem {
+  border-radius: 5px;
+  padding: 0.75em;
+  margin-left: 0.5em;
+  margin-top: 1em;
+  overflow: auto;
   box-shadow: -5px -5px 5px lightgrey;
+}
+div.newsitem p {
+  margin: 0 0.5em 0.5em 0;
+}
+div.newsitem img {
+  max-width: 100%;
 }
 .news-header {
   font-size: 1.5em;
@@ -235,89 +1236,237 @@ div.newsitem {
   color: red;
 }
 /* ------------------------------------------------------------------------ */
-/* FAQ */
-div.faqheader {
-  font-family: Verdana, Arial, sans-serif;
-  background-color: #000099;
-  color: #ffffff;
+/* Editing news items */
+table.newsedit {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.newsedit tr td {
+  vertical-align: top;
+}
+table.newsedit tbody.padding tr td.commands,
+table.newsedit tbody.padding tr td.items {
+  padding-bottom: 1em;
+  padding-top: 0.5em;
+}
+table.newsedit td.commands {
+  width: 10%;
+  padding-right: 2em;
+  padding-left: 1em;
+  white-space: nowrap;
+}
+table.newsedit td.items {
+  width: 90%;
 }
 /* ------------------------------------------------------------------------ */
-/* User Preferences */
-table.preferences td,
-table.preferences th {
+/* Attention-getting structures */
+div.callout {
   border: thin solid black;
+  background-color: #EEE;
+  margin-right: 2em;
+  margin-left: 2em;
+  padding: 1em;
 }
-table.preferences th.label,
-table.preferences th.longlabel {
-  background-color: #99ccff;
-  color: #000000;
+div.callout p {
+  margin-bottom: 0;
 }
-.tabs {
-  border-bottom: thin solid grey;
+div.calloutheader {
+  font-weight: bold;
 }
-.tabs li {
-  background-color: #b3cce6;
-  border: thin solid grey;
+.error,
+.warning {
+  font-weight: bold;
 }
-.tabs li a {
-  color: #000000;
+.error,
+.test_warning {
+  color: red;
 }
-.tabs .current-tab {
-  background-color: #ffffff;
-  border: thin solid grey;
+.warning {
+  color: blue;
 }
-.tabs .current-tab a {
-  color: #000000;
+.highlight {
+  background-color: yellow;
+  color: black;
+}
+kbd {
+  font-family: DejaVu Sans Mono, monospace;
+  color: #cc0000;
 }
 /* ------------------------------------------------------------------------ */
-/* Themed tables */
-table.themed {
+/* Round and Pool filter table */
+#filter_form {
+  padding: 0 0.5em 0.5em 0.5em;
+}
+table.filter {
+  width: 100%;
+}
+table.filter td {
+  padding: 0.25em 0.25em 0em 0.25em;
+  vertical-align: top;
+  white-space: nowrap;
+}
+table.filter td select {
+  margin: 0.1em auto;
+  width: 100%;
+}
+/* ------------------------------------------------------------------------ */
+/* Registration table */
+table.register {
+  width: auto;
+  border-collapse: separate;
   border: thin solid black;
 }
-table.themed tr {
-  background-color: #99ccff;
-  color: #000000;
+table.register th,
+table.register td {
+  padding: 3px;
 }
-table.themed tr th {
+table.register th {
+  text-align: right;
+  font-weight: bold;
+  background-color: #99ccff;
+}
+table.register td {
+  text-align: left;
+}
+table.register td input[type=text],
+table.register td input[type=password],
+table.register td input[type=select] {
+  width: 98%;
+}
+table.register td.bar {
+  text-align: center;
   background-color: #000099;
-  color: #ffffff;
 }
-table.themed tr th a:link,
-table.themed tr th a:visited {
-  color: #ffffff;
+/* ------------------------------------------------------------------------ */
+/* Site Progress Snapshot table on Activity Hub */
+table.snapshottable {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
 }
-table.theme_striped tr:nth-child(even) {
+table.snapshottable td,
+table.snapshottable th {
+  padding: 2px;
+  margin: 0;
+  text-align: center;
+  border: thin solid black;
+}
+table.snapshottable th {
+  font-weight: normal;
   background-color: #99ccff;
 }
-table.theme_striped tr:nth-child(odd) {
+table.snapshottable th.activity-icon-header {
+  border: none;
   background-color: #ffffff;
 }
-table.striped tr:nth-child(even) td {
-  background-color: #ddd;
+table.snapshottable td.stage-column {
+  text-align: left;
+  vertical-align: middle;
+  padding: 5px;
 }
-table.basic {
+table.snapshottable td.nocell {
+  border: none;
+}
+.access-yes {
+  padding-left: 5px;
+  float: right;
+  display: inline-block;
+  min-width: 1.5em;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: green;
+}
+.access-yes a:link,
+.access-yes a:visited,
+.access-yes a:active {
+  color: green;
+  text-decoration: none;
+}
+.access-no {
+  padding-left: 5px;
+  float: right;
+  display: inline-block;
+  min-width: 1.5em;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: red;
+}
+.access-no a:link,
+.access-no a:visited,
+.access-no a:active {
+  color: red;
+  text-decoration: none;
+}
+.access-eligible {
+  padding-left: 5px;
+  float: right;
+  display: inline-block;
+  min-width: 1.5em;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: blue;
+}
+.access-eligible a:link,
+.access-eligible a:visited,
+.access-eligible a:active {
+  color: blue;
+  text-decoration: none;
+}
+@media only screen and (max-width: 768px) {
+  .stage-name,
+  .stage-access,
+  .pages-goal,
+  .pages-completed {
+    display: none;
+  }
+}
+/* ------------------------------------------------------------------------ */
+/* Progress bar */
+div.progressbar {
+  font-size: 0.5em;
+  float: left;
   border: thin solid black;
 }
-table.basic th {
-  background-color: #CCC;
+/* ------------------------------------------------------------------------ */
+/* Statistics table */
+table.stats {
+  /* so that right aligned and left aligned columns don't clash */
 }
-table.basic td,
-table.basic th {
-  border: thin solid black;
+table.stats td,
+table.stats th {
+  padding-right: 2em;
 }
-table.basic td.satisfied {
-  background-color: #ccffcc;
-}
-table.basic td.not_satisfied {
-  background-color: #ffcccc;
+/* ------------------------------------------------------------------------ */
+/* Translation table */
+table.translation td,
+table.translation th {
+  padding-right: 1em;
 }
 /* ------------------------------------------------------------------------ */
 /* Available Project Listings */
 table.availprojectlisting {
+  width: 100%;
+  border-collapse: collapse;
   border: thin solid black;
 }
+table.availprojectlisting tr td,
 table.availprojectlisting tr th {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+table.availprojectlisting tr th {
+  font-weight: bold;
+  text-align: left;
   border-bottom: thin solid black;
+}
+table.availprojectlisting tr th img {
+  border: 0;
 }
 table.availprojectlisting tr td {
   border-bottom: thin solid #888;
@@ -375,17 +1524,193 @@ table.stage_SR tr:nth-child(odd) {
   background-color: #ccff99;
 }
 /* ------------------------------------------------------------------------ */
-/* Sans-serif styling */
-.sans-serif {
+/* FAQ */
+table.faqtable {
+  width: 100%;
+  border: 0;
+  padding: 1em;
+}
+table.faqtable tr td.column {
+  vertical-align: top;
+  width: 50%;
+  padding-right: 1em;
+}
+div.faqheader {
+  font-weight: bold;
+  vertical-align: middle;
+  padding: 0.25em 0.5em;
   font-family: Verdana, Arial, sans-serif;
+  background-color: #000099;
+  color: #ffffff;
+}
+/* ------------------------------------------------------------------------ */
+/* User Preferences */
+/*
+This stylesheet originated from http://www.alistapart.com/articles/slidingdoors/
+Quote http://www.alistapart.com/copyright/:
+*/
+/*
+ *  A List Apart gives away CSS styles, JavaScript, PHP and Perl scripts,
+ *  XHTML markup techniques, and other bits of "source code" for the use
+ *  of its readers. You may freely copy, paste, and modify any of this
+ *  code for use on your own web projects large or small, commercial or
+ *  non-commercial. You need not ask permission to do so. You need not
+ *  credit ALA or its authors. It is our gift to you.
+ *
+ *  ...
+ *
+ *  Images, including those used in tutorials (example), cannot be
+ *  reproduced outside this magazine, except by the author or designer
+ *  who created them.
+ *
+ *  You may adapt elements of our CSS in your own projects, but the
+ *  unique combination of images, colors, sizes, typography, and
+ *  positioning ("the design") is copyright 2003 A List Apart Magazine
+ *  and Happy Cog Studios and may not be reproduced.
+ */
+table.preferences {
+  border-collapse: collapse;
+}
+table.preferences td,
+table.preferences th {
+  border: thin solid black;
+}
+table.preferences th.longlabel {
+  text-align: center;
+}
+table.preferences th.label,
+table.preferences th.longlabel {
+  background-color: #99ccff;
+  color: #000000;
+}
+.tabs {
+  float: left;
+  width: 90%;
+  border-bottom: thin solid grey;
+}
+.tabs ul {
+  margin: 0;
+  padding: 0 20px 0 10px;
+  list-style: none;
+}
+.tabs li {
+  float: left;
+  margin: 0;
+  padding: 0 0 0 4px;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -2px;
+  background-color: #b3cce6;
+  border: thin solid grey;
+}
+.tabs li a {
+  color: #000000;
+}
+.tabs a {
+  float: left;
+  display: block;
+  padding: 5px 15px 4px 6px;
+  text-decoration: none;
+  min-width: 8em;
+}
+.tabs .current-tab {
+  border-bottom: none;
+  background-color: #ffffff;
+  border: thin solid grey;
+}
+.tabs .current-tab a {
+  font-weight: bold;
+  color: #000000;
+}
+/* ------------------------------------------------------------------------ */
+/* Themed tables */
+table.themed {
+  width: 100%;
+  border-collapse: collapse;
+  border: thin solid black;
+}
+table.themed tr {
+  background-color: #99ccff;
+  color: #000000;
+}
+table.themed tr th,
+table.themed tr td {
+  padding: 0.1em;
+}
+table.themed tr th {
+  background-color: #000099;
+  color: #ffffff;
+}
+table.themed tr th a:link,
+table.themed tr th a:visited {
+  color: #ffffff;
+}
+table.theme_striped tr th,
+table.theme_striped tr td {
+  padding: 0.1em 0.5em 0.1em 0.5em;
+}
+table.theme_striped tr:nth-child(even) {
+  background-color: #99ccff;
+}
+table.theme_striped tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+table.basic {
+  border-collapse: collapse;
+  border: thin solid black;
+}
+table.basic th {
+  background-color: #CCC;
+}
+table.basic td,
+table.basic th {
+  border: thin solid black;
+}
+table.basic th.label {
+  text-align: left;
+}
+table.basic td.satisfied {
+  text-align: right;
+  background-color: #ccffcc;
+}
+table.basic td.not_satisfied {
+  text-align: right;
+  background-color: #ffcccc;
+}
+table.basic textarea {
+  width: 100%;
+}
+table.striped tr:nth-child(even) td {
+  background-color: #ddd;
+}
+table.no-border td,
+table.no-border th {
+  border: none;
 }
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
+p.inline_input {
+  margin: 0;
+  padding: 0;
+}
+p.hanging_indent {
+  text-indent: -1.25em;
+  margin-left: 1.25em;
+}
+p.hanging_indent_long {
+  text-indent: -3em;
+  margin-left: 3em;
+}
 p.form_problem {
+  margin-bottom: 0;
   color: red;
   font-weight: bold;
 }
+p.form_problem:before {
+  content: '\\002193 ';
+  /* down-arrow */
+}
 table.ppv_reportcard {
+  width: 95%;
   border: thin solid black;
 }
 table.ppv_reportcard th {
@@ -407,12 +1732,10 @@ table.ppv_reportcard td {
 }
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
-table.image_source th {
-  background-color: #eee;
-  border: thin solid #999;
-}
-table.image_source td {
-  border: thin solid #999;
+table.image_source {
+  border-collapse: collapse;
+  width: 90%;
+  margin: auto;
 }
 table.image_source tr.e {
   background-color: #eee;
@@ -420,22 +1743,50 @@ table.image_source tr.e {
 table.image_source tr.o {
   background-color: #ddd;
 }
+table.image_source th {
+  text-align: center;
+  padding: 5px;
+  background-color: #eee;
+  border: thin solid #999;
+}
+table.image_source td {
+  padding: 5px;
+  border: thin solid #999;
+}
+table.image_source td a.sourcelink {
+  font-size: 90%;
+  margin: 10px 0px 3px 25px;
+}
+table.image_source th.label {
+  text-align: left;
+}
 table.image_source td.enabled {
+  text-align: center;
   background-color: #9f9;
 }
 table.image_source td.disabled {
+  text-align: center;
   background-color: #ddd;
 }
 table.image_source td.pending {
+  text-align: center;
   background-color: #ff8;
 }
 div.perms_wrapper {
+  width: 40%;
+  display: inline-block;
+  padding: 2px;
   border-bottom: dotted black 1px;
 }
 /* ------------------------------------------------------------------------ */
 /* Page Detail */
+table.pagedetail {
+  width: auto;
+}
 table.pagedetail th,
 table.pagedetail td {
+  text-align: center;
+  font-weight: normal;
   border: thin solid black;
 }
 .in_progress {
@@ -448,38 +1799,24 @@ table.pagedetail td {
   background-color: #F36;
 }
 /* ------------------------------------------------------------------------ */
-/* Registration table */
-table.register {
-  border: thin solid black;
+/* Remote File Manager */
+table.dirlist {
+  width: 100%;
 }
-table.register td.bar {
-  background-color: #000099;
+table.dirlist .actions {
+  text-align: center!important;
 }
-table.register th {
-  background-color: #99ccff;
-}
-/* ------------------------------------------------------------------------ */
-/* Site Progress Snapshot table on Activity Hub */
-table.snapshottable td,
-table.snapshottable th {
-  border: thin solid black;
-}
-table.snapshottable th {
-  background-color: #99ccff;
-}
-table.snapshottable th.activity-icon-header {
-  background-color: #ffffff;
-}
-/* ------------------------------------------------------------------------ */
-/* Progress bar */
-div.progressbar {
-  border: thin solid black;
+table.dirlist caption {
+  text-align: left;
+  font-size: 111%;
+  margin-top: 0.5em;
+  padding: 5px;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */
-table.list_special_days td,
-table.list_special_days th {
-  border: thin solid #999;
+table.list_special_days {
+  width: 90%;
+  margin: auto;
 }
 table.list_special_days tr.e {
   background-color: #eee;
@@ -487,526 +1824,173 @@ table.list_special_days tr.e {
 table.list_special_days tr.o {
   background-color: #ddd;
 }
-table.list_special_days td.enabled {
-  background-color: #9f9;
-}
-table.list_special_days td.disabled {
-  background-color: #ddd;
-}
 table.list_special_days tr.month > * {
   border: none;
   border-bottom: solid 2px black;
 }
+table.list_special_days td,
+table.list_special_days th {
+  padding: 3px;
+  border: thin solid #999;
+}
+table.list_special_days td.codecell {
+  vertical-align: middle;
+  text-align: center;
+}
+table.list_special_days th.headers {
+  padding: 0.5em;
+}
+table.list_special_days td.enabled {
+  text-align: center;
+  background-color: #9f9;
+}
+table.list_special_days td.disabled {
+  text-align: center;
+  background-color: #ddd;
+}
+table.list_special_days td.center {
+  text-align: center;
+}
+table.list_special_days td.right,
+table.list_special_days th.right {
+  text-align: right;
+  font-weight: normal;
+}
+table.list_special_days h2 {
+  margin: 1em auto auto auto;
+  text-align: left;
+}
 table.show_special_days th {
   background-color: #eeeeee;
 }
+table.edit_special_day {
+  width: 90%;
+  margin: auto;
+}
 table.edit_special_day th,
 table.edit_special_day td {
+  padding: 5px;
   border: thin solid black;
   background-color: #eeeeee;
 }
 /* ------------------------------------------------------------------------ */
+/* Search Form */
+/* Container to wrap the search columns */
+div.search-columns {
+  width: 99%;
+  overflow: auto;
+  text-align: center;
+  clear: both;
+}
+/* This sets everything into one column... */
+table.search-column {
+  width: 99%;
+  /* Set the size of the row label to be consistent */
+}
+table.search-column tr th {
+  width: 8em;
+}
+/* ... and this says if the screen is >800px, make it two columns. */
+@media only screen and (min-width: 800px) {
+  table.search-column {
+    width: 50%;
+    float: left;
+  }
+  table.search-column tr th {
+    width: auto;
+  }
+}
+/* ------------------------------------------------------------------------ */
 /* Search Results drop-down */
+.dropdown {
+  position: relative;
+  display: inline;
+}
 .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 1.5em;
+  right: 0;
+  padding: 0.3em;
+  margin: 0 0 0 -15em;
+  z-index: 1;
   background-color: #f9f9f9;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
   border-radius: 0.3em;
 }
+/* button looking like a link */
+.dropdown-button {
+  border: none;
+  padding: 1px;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: initial;
+  font-size: initial;
+  text-decoration: underline;
+}
+.dropdown-show {
+  display: block;
+}
 /* ------------------------------------------------------------------------ */
 /* Link box */
 #linkbox {
+  text-align: left;
+  vertical-align: top;
+  padding: 0 1em;
+  float: right;
+  margin: 0.5em auto 0.5em 0.5em;
   border: thin solid black;
   background-color: #99ccff;
 }
-.access-yes {
-  display: inline-block;
-  min-width: 1.5em;
+#linkbox ul {
+  padding: 0;
+}
+#linkbox li {
+  list-style-type: none;
+}
+#linkbox h2 {
   text-align: center;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: green;
+  font-size: 1em;
 }
-.access-yes a:link,
-.access-yes a:visited,
-.access-yes a:active {
-  color: green;
-  text-decoration: none;
-}
-.access-no {
-  display: inline-block;
-  min-width: 1.5em;
-  text-align: center;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: red;
-}
-.access-no a:link,
-.access-no a:visited,
-.access-no a:active {
-  color: red;
-  text-decoration: none;
-}
-.access-eligible {
-  display: inline-block;
-  min-width: 1.5em;
-  text-align: center;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: blue;
-}
-.access-eligible a:link,
-.access-eligible a:visited,
-.access-eligible a:active {
-  color: blue;
-  text-decoration: none;
+#linkbox li {
+  margin-top: 3px;
 }
 /* ------------------------------------------------------------------------ */
-/* WordCheck pages */
-.preWC {
-  background-color: #c2c2c2;
+/* Page compare grid */
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-column-gap: 2em;
+  grid-row-gap: 2px;
 }
-.noWC {
-  background-color: #ffb321;
-  font-weight: bold;
+/* ------------------------------------------------------------------------ */
+/* Project Page */
+li.spaced {
+  margin: 1em 0;
 }
-.WC {
-  background-color: #97fc9e;
+.thin-heading {
+  margin-bottom: 0.2em;
+}
+.thin-para {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+.list-head {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
+/* CharSuite Explorer */
+.gs-char {
+  font-size: 1.5em;
+}
+.gs-codepoint {
+  font-size: 0.7em;
 }
 /* ------------------------------------------------------------------------ */
 /* replace text validator */
 .replace_check {
+  height: 20em;
+  width: 50em;
   border: thin solid black;
 }
-/* ======================================================================== */
-/* Page Interface Structures */
-/*
- * The following classes all relate to various page interfaces, such as the
- * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
- * toolbox, code point validator, display image interface, etc.
- */
-/* Base layer for page interface */
-/* Text pane */
-/* Control panes */
-.page-interface {
-  background-color: #CDCDC1;
-  color: black;
-}
-.page-interface .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-.page-interface .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-.page-interface .control-pane input,
-.page-interface .control-pane select,
-.page-interface .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-.page-interface .control-pane button,
-.page-interface .control-pane input[type=submit],
-.page-interface .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-.page-interface .control-pane input[type=image] {
-  border: none;
-}
-.page-interface .control-pane .menu {
-  background-color: Bisque;
-}
-/* ------------------------------------------------------------------------ */
-/* Proofreading control frame */
-.control-frame {
-  background-color: #CDC0B0;
-  color: black;
-}
-.control-frame input,
-.control-frame select,
-.control-frame button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-.control-frame button,
-.control-frame input[type=submit],
-.control-frame input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-.control-frame input[type=image] {
-  border: none;
-}
-.control-frame .menu {
-  background-color: Bisque;
-}
-/* ------------------------------------------------------------------------ */
-/* Proofreading Toolbox */
-#toolbox {
-  font-family: Verdana, Arial, sans-serif;
-  background-color: #CDC0B0;
-  color: black;
-}
-#toolbox input,
-#toolbox select,
-#toolbox button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#toolbox button,
-#toolbox input[type=submit],
-#toolbox input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#toolbox input[type=image] {
-  border: none;
-}
-#toolbox .menu {
-  background-color: Bisque;
-}
-#toolbox .selector_button {
-  background-color: Bisque;
-}
-#toolbox .selected-tab {
-  font-weight: bold;
-  background-color: #FFF8DC;
-  box-shadow: -1px -1px grey;
-}
-#toolbox #hide-picker {
-  box-shadow: -1px -1px grey;
-}
-/* ------------------------------------------------------------------------ */
-/* Format Preview */
-#format_preview {
-  background-color: #CDCDC1;
-  color: black;
-}
-#format_preview .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#format_preview .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#format_preview .control-pane input,
-#format_preview .control-pane select,
-#format_preview .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#format_preview .control-pane button,
-#format_preview .control-pane input[type=submit],
-#format_preview .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#format_preview .control-pane input[type=image] {
-  border: none;
-}
-#format_preview .control-pane .menu {
-  background-color: Bisque;
-}
-.ilb {
-  border: thin solid #404040;
-  border-radius: 2px;
-  background-color: #CDC0B0;
-  color: black;
-}
-.ilb input,
-.ilb select,
-.ilb button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-.ilb button,
-.ilb input[type=submit],
-.ilb input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-.ilb input[type=image] {
-  border: none;
-}
-.ilb .menu {
-  background-color: Bisque;
-}
-/* ------------------------------------------------------------------------ */
-/* Page Browser */
-#page-browser {
-  background-color: #CDCDC1;
-  color: black;
-}
-#page-browser .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#page-browser .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#page-browser .control-pane input,
-#page-browser .control-pane select,
-#page-browser .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#page-browser .control-pane button,
-#page-browser .control-pane input[type=submit],
-#page-browser .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#page-browser .control-pane input[type=image] {
-  border: none;
-}
-#page-browser .control-pane .menu {
-  background-color: Bisque;
-}
-#page-browser .control-pane {
-  border-bottom: thin solid #999;
-}
-#page-browser .control-pane .img-button {
-  border: 0;
-  box-shadow: none;
-}
-/* ------------------------------------------------------------------------ */
-/* Standard Editing Interface */
-#standard_interface {
-  background-color: #CDCDC1;
-  color: black;
-}
-#standard_interface .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#standard_interface .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#standard_interface .control-pane input,
-#standard_interface .control-pane select,
-#standard_interface .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#standard_interface .control-pane button,
-#standard_interface .control-pane input[type=submit],
-#standard_interface .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#standard_interface .control-pane input[type=image] {
-  border: none;
-}
-#standard_interface .control-pane .menu {
-  background-color: Bisque;
-}
-/* ------------------------------------------------------------------------ */
-/* Enhanced Editing Interface */
-#enhanced_interface {
-  background-color: #CDCDC1;
-  color: black;
-}
-#enhanced_interface .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#enhanced_interface .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#enhanced_interface .control-pane input,
-#enhanced_interface .control-pane select,
-#enhanced_interface .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#enhanced_interface .control-pane button,
-#enhanced_interface .control-pane input[type=submit],
-#enhanced_interface .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#enhanced_interface .control-pane input[type=image] {
-  border: none;
-}
-#enhanced_interface .control-pane .menu {
-  background-color: Bisque;
-}
-#enhanced_interface #tbtext {
-  border: thin solid black;
-}
-#enhanced_interface #tdtop {
-  border: thin solid black;
-  background-color: #CDC0B0;
-  color: black;
-}
-#enhanced_interface #tdtop input,
-#enhanced_interface #tdtop select,
-#enhanced_interface #tdtop button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#enhanced_interface #tdtop button,
-#enhanced_interface #tdtop input[type=submit],
-#enhanced_interface #tdtop input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#enhanced_interface #tdtop input[type=image] {
-  border: none;
-}
-#enhanced_interface #tdtop .menu {
-  background-color: Bisque;
-}
-#enhanced_interface #tdtext {
-  border: thin solid black;
-  background-color: #CDCDC1;
-  color: black;
-}
-#enhanced_interface #tdtext .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#enhanced_interface #tdtext .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#enhanced_interface #tdtext .control-pane input,
-#enhanced_interface #tdtext .control-pane select,
-#enhanced_interface #tdtext .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#enhanced_interface #tdtext .control-pane button,
-#enhanced_interface #tdtext .control-pane input[type=submit],
-#enhanced_interface #tdtext .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#enhanced_interface #tdtext .control-pane input[type=image] {
-  border: none;
-}
-#enhanced_interface #tdtext .control-pane .menu {
-  background-color: Bisque;
-}
-#enhanced_interface #tdbottom {
-  border: thin solid black;
-  background-color: #EEDFCC;
-}
-#enhanced_interface #text_data,
-#enhanced_interface #text_data:focus {
-  background-color: #FFF8DC;
-  color: black;
-}
-#enhanced_interface .dropsmall {
-  font-size: 75%;
-}
-/* ------------------------------------------------------------------------ */
-/* WordCheck Interface */
-#wordcheck_interface {
-  background-color: #CDCDC1;
-  color: black;
-}
-#wordcheck_interface .text-pane {
-  background-color: #FFF8DC;
-  color: black;
-}
-#wordcheck_interface .control-pane {
-  background-color: #CDC0B0;
-  color: black;
-}
-#wordcheck_interface .control-pane input,
-#wordcheck_interface .control-pane select,
-#wordcheck_interface .control-pane button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#wordcheck_interface .control-pane button,
-#wordcheck_interface .control-pane input[type=submit],
-#wordcheck_interface .control-pane input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#wordcheck_interface .control-pane input[type=image] {
-  border: none;
-}
-#wordcheck_interface .control-pane .menu {
-  background-color: Bisque;
-}
-#wordcheck_interface #tbtext {
-  border: thin solid black;
-}
-#wordcheck_interface #tdtop {
-  border: thin solid black;
-  background-color: #CDC0B0;
-  color: black;
-}
-#wordcheck_interface #tdtop input,
-#wordcheck_interface #tdtop select,
-#wordcheck_interface #tdtop button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-#wordcheck_interface #tdtop button,
-#wordcheck_interface #tdtop input[type=submit],
-#wordcheck_interface #tdtop input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-#wordcheck_interface #tdtop input[type=image] {
-  border: none;
-}
-#wordcheck_interface #tdtop .menu {
-  background-color: Bisque;
-}
-#wordcheck_interface #tdtext {
-  border: thin solid black;
-  background-color: #FFF8DC;
-  color: black;
-}
-/* ------------------------------------------------------------------------ */
-/* Codepoint Validator */
-.stretchbox {
-  background-color: #FFF8DC;
-  color: black;
-}
-.fixedbox {
-  background-color: #CDC0B0;
-  color: black;
-}
-.fixedbox input,
-.fixedbox select,
-.fixedbox button {
-  background-color: #FFF8DC;
-  border: thin solid black;
-}
-.fixedbox button,
-.fixedbox input[type=submit],
-.fixedbox input[type=button] {
-  box-shadow: 1px 1px grey;
-}
-.fixedbox input[type=image] {
-  border: none;
-}
-.fixedbox .menu {
-  background-color: Bisque;
-}
-.bad-char {
-  background: #ff99cc;
-}
-/* ------------------------------------------------------------------------ */
-/* Star texts */
-.star-gold {
-  font-size: 3em;
-  color: #FFD700;
-  text-align: center;
-  text-shadow: 3px 2px 5px black;
-}
-.star-silver {
-  font-size: 3em;
-  color: silver;
-  text-align: center;
-  text-shadow: 3px 2px 5px black;
-}
-.star-bronze {
-  font-size: 3em;
-  color: #cd7f32;
-  text-align: center;
-  text-shadow: 3px 2px 5px black;
-}
-/* vim: sw=4 ts=4 expandtab
-*/
-/* vim: sw=4 ts=4 expandtab
-*/

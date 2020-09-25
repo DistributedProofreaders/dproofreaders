@@ -25,7 +25,7 @@ fi
 PATH=$PATH:$STYLE_DIR/../node_modules/.bin
 
 # Array of .less files that should not turn into a .css file
-NON_CSS_LESS_FILES=("theme.less")
+NON_CSS_LESS_FILES=("layout.less" "global.less" "page_interfaces.less")
 
 function run_less {
     less_file=$1

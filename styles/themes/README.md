@@ -3,7 +3,7 @@ The code supports a purely-CSS-based theming system.
 
 ## Creating a new theme
 To create a new theme, add a new `.less` file in this directory with
-`@import "theme.less";` at the end of it. See `project_gutenberg.less` for
+`@import "../layout.less";` at the end of it. See `project_gutenberg.less` for
 an example.
 
 To generate the corresponding `.css` file:
