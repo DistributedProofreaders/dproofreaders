@@ -11,11 +11,12 @@ security_checks:
 	$(SELF_DIR)check_require_login.php
 
 #----------------------------------------------------------------------------
-# PHP file linting
+# File linting
 lint:
 	$(SELF_DIR)lint_php_files.sh $(SELF_DIR)..
 	$(SELF_DIR)lint_json_files.sh $(SELF_DIR)..
 	$(SELF_DIR)lint_charsuites.php $(SELF_DIR)..
+	$(SELF_DIR)generate_css_from_less.sh --check $(SELF_DIR)../styles
 
 #----------------------------------------------------------------------------
 # CSS compilation
