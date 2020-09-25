@@ -11,6 +11,10 @@ include_once($relPath.'walkthrough.inc');
 output_header(_("Welcome"), True);
 $etext_limit = 10;
 
+$image = get_page_header_image("FRONT");
+if($image)
+    echo "<div style='margin-top: 1em;'>$image</div>";
+
 show_news_for_page("FRONT");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

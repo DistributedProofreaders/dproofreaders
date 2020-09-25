@@ -1039,18 +1039,23 @@ function get_dyn_image_url_for_file($filename)
     return NULL;
 }
 
-// Given an image, see if we have a version that is in the current
-// user's locale. If so, return the <img> tag with $text as alt text.
-// If not, return $text.
-function get_translated_graphic_or_text($directory, $image, $text)
+// Given a page basename, see if we have a header image for the page.
+// If so, return the <img>. If not, return "";
+function get_page_header_image($image)
 {
-    $locale = get_desired_language();
-    $dyn_url = get_dyn_image_url_for_file("$directory/$locale/$image");
-
+    # Try a locale-less image first
+    $dyn_url = get_dyn_image_url_for_file("page_header/$image");
     if($dyn_url)
-        return sprintf("<img style='max-width: 100%%' src='$dyn_url' alt='%s'>", attr_safe($text));
-    else
-        return $text;
+        return "<img style='max-width: 100%;' src='$dyn_url'>";
+
+    # Now try a locale-based one
+    $locale = get_desired_language();
+    $dyn_url = get_dyn_image_url_for_file("page_header/$locale/$image");
+    if($dyn_url)
+        return "<img style='max-width: 100%;' src='$dyn_url'>";
+
+    # Fall back to nothing
+    return "";
 }
 
 // vim: sw=4 ts=4 expandtab
