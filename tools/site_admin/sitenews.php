@@ -329,7 +329,7 @@ function show_all_news_items_for_page( $news_page_id )
                 echo "<a href='$url' $onclick>$label</a><br>";
             }
             echo "</td>";
-            echo "<td class='items' style='border-bottom: solid thin black;'>";
+            echo "<td class='items default-border-bottom'>";
             echo "\n";
             echo $news_item['content']."<br><br>";
             echo "\n";

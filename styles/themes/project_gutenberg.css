@@ -1,5 +1,42 @@
 /* ------------------------------------------------------------------------ */
 /* Theme coloring for Project Gutenberg */
+/* ------------------------------------------------------------------------ */
+/* mixins with color */
+/* standalone classes that can be used as mixins, but that should not
+ * be given parameters, as they can't be used as classes in the code
+ * directly if they have parameters that the lessc compiler has to 
+ * sort out
+ */
+.default-border {
+  border: thin solid black;
+}
+.default-border-bottom {
+  border-bottom: thin solid black;
+}
+/* ------------------------------------------------------------------------ */
+/* Attention-getting structures */
+.error,
+.test_warning {
+  color: red;
+}
+.warning {
+  color: blue;
+}
+.highlight {
+  background-color: yellow;
+  color: black;
+}
+.button {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+kbd {
+  color: #cc0000;
+}
+div.callout {
+  background-color: #EEE;
+  border: thin solid black;
+}
+/* ------------------------------------------------------------------------ */
 body {
   background-color: #ffffff;
   color: #000000;
@@ -106,7 +143,7 @@ nav input,
   background-color: #ffffff;
   background: repeating-linear-gradient(to right, yellow, #ffffff 24%, #ffffff 75%, yellow 100%);
   color: black;
-  border-bottom: solid thin black;
+  border-bottom: thin solid black;
 }
 #testbar a:link,
 #testbar-outer a:link,
@@ -169,23 +206,10 @@ h6 {
 .sidebar-color {
   background-color: #e0e8dd;
 }
-/* Attention-getting structures */
-.error,
-.test_warning {
-  color: red;
-}
-.warning {
-  color: blue;
-}
-.highlight {
-  background-color: yellow;
-  color: black;
-}
-.button {
-  font-family: Verdana, Helvetica, sans-serif;
-}
-kbd {
-  color: #cc0000;
+/* ------------------------------------------------------------------------ */
+/* News items */
+div.newsitem {
+  box-shadow: -5px -5px 5px lightgrey;
 }
 /* ------------------------------------------------------------------------ */
 /* FAQ */
@@ -196,25 +220,37 @@ div.faqheader {
 }
 /* ------------------------------------------------------------------------ */
 /* User Preferences */
+table.preferences td,
+table.preferences th {
+  border: thin solid black;
+}
 table.preferences th.label,
 table.preferences th.longlabel {
   background-color: #e0e8dd;
   color: #000000;
 }
+.tabs {
+  border-bottom: thin solid gray;
+}
 .tabs li {
   background-color: #e3e3e3;
+  border: thin solid gray;
 }
 .tabs li a {
   color: #000000;
 }
 .tabs .current-tab {
   background-color: #ffffff;
+  border: thin solid gray;
 }
 .tabs .current-tab a {
   color: #000000;
 }
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
+table.themed {
+  border: thin solid black;
+}
 table.themed tr {
   background-color: #e0e8dd;
   color: #000000;
@@ -236,8 +272,33 @@ table.theme_striped tr:nth-child(odd) {
 table.striped tr:nth-child(even) td {
   background-color: #ddd;
 }
+table.basic {
+  border: thin solid black;
+}
+table.basic th {
+  background-color: #CCC;
+}
+table.basic td,
+table.basic th {
+  border: thin solid black;
+}
+table.basic td.satisfied {
+  background-color: #ccffcc;
+}
+table.basic td.not_satisfied {
+  background-color: #ffcccc;
+}
 /* ------------------------------------------------------------------------ */
 /* Available Project Listings */
+table.availprojectlisting {
+  border: thin solid black;
+}
+table.availprojectlisting tr th {
+  border-bottom: thin solid black;
+}
+table.availprojectlisting tr td {
+  border-bottom: thin solid #888;
+}
 table.availprojectlisting tr:nth-child(even) {
   background-color: #ddd;
 }
@@ -297,10 +358,17 @@ table.stage_SR tr:nth-child(odd) {
 }
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
+p.form_problem {
+  color: red;
+  font-weight: bold;
+}
+table.ppv_reportcard {
+  border: thin solid black;
+}
 table.ppv_reportcard th {
   text-align: center;
   font-weight: bold;
-  border: solid thin black;
+  border: thin solid black;
 }
 table.ppv_reportcard th.major_section {
   background-color: #e0e8dd;
@@ -311,13 +379,44 @@ table.ppv_reportcard th.minor_section {
 table.ppv_reportcard th.heading {
   background-color: #e0e8dd;
 }
+table.ppv_reportcard td {
+  border: thin solid black;
+}
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
 table.image_source_listing td.title {
   background-color: #e0e8dd;
 }
+table.image_source th {
+  background-color: #eee;
+  border: thin solid #999;
+}
+table.image_source td {
+  border: thin solid #999;
+}
+table.image_source tr.e {
+  background-color: #eee;
+}
+table.image_source tr.o {
+  background-color: #ddd;
+}
+table.image_source td.enabled {
+  background-color: #9f9;
+}
+table.image_source td.disabled {
+  background-color: #ddd;
+}
+table.image_source td.pending {
+  background-color: #ff8;
+}
+div.perms_wrapper {
+  border-bottom: dotted black 1px;
+}
 /* ------------------------------------------------------------------------ */
 /* Registration table */
+table.register {
+  border: thin solid black;
+}
 table.register td.bar {
   background-color: #336633;
 }
@@ -326,8 +425,20 @@ table.register th {
 }
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */
+table.snapshottable td,
+table.snapshottable th {
+  border: thin solid black;
+}
 table.snapshottable th {
   background-color: #e0e8dd;
+}
+table.snapshottable th.activity-icon-header {
+  background-color: #ffffff;
+}
+/* ------------------------------------------------------------------------ */
+/* Progress bar */
+div.progressbar {
+  border: thin solid black;
 }
 /* ------------------------------------------------------------------------ */
 /* WordCheck pages */

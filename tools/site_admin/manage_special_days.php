@@ -336,7 +336,7 @@ class SpecialDay
         if ($errmsgs)
         {
             output_header('', NO_STATSBAR);
-            echo "<p style='font-weight: bold; color: red;'>" . $errmsgs . "</p>";
+            echo "<p class='error bold'>" . $errmsgs . "</p>";
             $this->show_edit_form();
             die;
         }

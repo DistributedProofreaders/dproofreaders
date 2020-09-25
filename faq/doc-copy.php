@@ -74,7 +74,7 @@ and also some common guidelines.
 
 <li>
 <b>Example:</b>
-<table style="width: 50%; border: 1px solid black">
+<table class="default-border" style="width: 50%">
   <tbody>
     <tr>
       <td>
@@ -135,7 +135,7 @@ BENNETT, MARIE MARGUERITE                                        <br>
 <li>
 <b>Example:</b>
 (for <a href="<?php echo $projects_url; ?>/projectID3f5be9a8c1685/269.png">this image</a>)
-<table style="width: 50%; border: 1px solid black">
+<table class="default-border" style="width: 50%">
   <tbody>
     <tr>
       <td>

@@ -40,15 +40,15 @@ echo "<h2>" . _("Smooth Reading") . "</h2>";
 if (!$logged_in)
 {
 
-    echo  "<p style='font-size: 120%;'>" . _("This Preview page shows which books are currently available for Smooth Reading. Click on a book's title to view more information about it or to download the text.") . "</p>";
+    echo  "<p>" . _("This Preview page shows which books are currently available for Smooth Reading. Click on a book's title to view more information about it or to download the text.") . "</p>";
 
     echo "<p>" . _("Please note that while unregistered guests are welcome to download texts for Smooth Reading, only registered volunteers are able to upload annotated texts. A registration link is available at the top of this page.") . "</p>";
 
 }
 
-echo "<p style='font-size: 120%;'>" . _("The goal of Smooth Reading is to read the text attentively, as for pleasure, with just a little more attention than usual to punctuation, etc. This is NOT full scale proofreading, and comparison with the scans is not needed. Just read it as your normal, sensitized-to-proofreading-errors self, and report any problem that disrupts the sense or the flow of the book. Note that some of these will be due to the author and/or publisher.") . "</p>";
+echo "<p>" . _("The goal of Smooth Reading is to read the text attentively, as for pleasure, with just a little more attention than usual to punctuation, etc. This is NOT full scale proofreading, and comparison with the scans is not needed. Just read it as your normal, sensitized-to-proofreading-errors self, and report any problem that disrupts the sense or the flow of the book. Note that some of these will be due to the author and/or publisher.") . "</p>";
 
-echo "<p>" . _("Errors are reported by adding a comment of the form <blockquote style='color: red; background-color: inherit;'> [**correction or query] <br> </blockquote> immediately after the problem spot. Do not correct or change the problem, just note it in the above format.") . "</p>";
+echo "<p>" . _("Errors are reported by adding a comment of the form <blockquote><kbd>[**correction or query]</kbd></blockquote> immediately after the problem spot. Do not correct or change the problem, just note it in the above format.") . "</p>";
 
 echo "<h2>" . _("Examples") . "</h2>";
 echo "<ul>";

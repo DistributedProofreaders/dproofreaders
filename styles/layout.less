@@ -260,10 +260,7 @@ hr.divider {
 div.news {
     margin: 1em 0;
 }
-div.newsheader {
-}
 div.newsitem {
-    box-shadow: -5px -5px 5px lightgrey;
     border-radius: 5px;
     padding: 0.75em;
     margin-left: 0.5em;
@@ -309,8 +306,6 @@ div.callout {
     margin-right: 2em;
     margin-left: 2em;
     padding: 1em;
-    background-color: #EEE;
-    border: solid thin black;
     p {
         margin-bottom: 0;
     }
@@ -353,7 +348,6 @@ table.filter {
 table.register {
     width: auto;
     border-collapse: separate;
-    border: 1px solid black;
     th, td {
         padding: 3px;
     }
@@ -382,7 +376,6 @@ table.snapshottable {
     padding: 0;
     border-collapse: collapse;
     td, th {
-        border: 1px solid black;
         padding: 2px;
         margin: 0;
         .center-align;
@@ -403,7 +396,6 @@ table.snapshottable {
     }
     th.activity-icon-header {
         border: none;
-        background-color: #ffffff;
     }
 }
 
@@ -439,7 +431,6 @@ table.snapshottable {
 /* Progress bar */
 
 div.progressbar {
-    border: 1px solid black;
     font-size: 0.5em;
     float: left;
 }
@@ -468,19 +459,14 @@ table.translation {
 
 table.availprojectlisting {
     width: 100%;
-    border: 1px solid black;
     border-collapse: collapse;
     tr {
         th {
             .bold;
             .left-align;
-            border-bottom: 1px solid black;
             img {
                 border: 0;
             }
-        }
-        td {
-            border-bottom: 1px solid #888;
         }
         td, th {
             padding-left: 0.5em;
@@ -540,9 +526,6 @@ Quote http://www.alistapart.com/copyright/:
 
 table.preferences {
     border-collapse: collapse;
-    td, th {
-        border: solid thin black;
-    }
     th.longlabel {
         .center-align;
     }
@@ -551,7 +534,6 @@ table.preferences {
 .tabs {
     float: left;
     width: 90%;
-    border-bottom: solid thin gray;
     ul {
         margin: 0;
         padding: 0 20px 0 10px;
@@ -561,7 +543,6 @@ table.preferences {
         float: left;
         margin: 0;
         padding: 0 0 0 4px;
-        border: solid thin gray;
         border-radius: 5px 5px 0 0;
         margin-bottom: -2px;
     }
@@ -573,7 +554,6 @@ table.preferences {
         min-width: 8em;
     }
     .current-tab {
-        border: solid thin gray;
         border-bottom: none;
         a {
             .bold;
@@ -586,7 +566,6 @@ table.preferences {
 
 table.themed {
     width: 100%;
-    border: 1px solid black;
     border-collapse: collapse;
     tr {
         th, td {
@@ -605,23 +584,14 @@ table.theme_striped {
 
 table.basic {
     border-collapse: collapse;
-    border: 1px solid black;
-    th {
-        background-color: #CCC;
-    }
     th.label {
         .left-align;
     }
-    td, th {
-        border: 1px solid black;
-    }
     td.satisfied {
         .right-align;
-        background-color: #ccffcc;
     }
     td.not_satisfied {
         .right-align;
-        background-color: #ffcccc;
     }
     textarea {
         width: 100%;
@@ -650,19 +620,13 @@ p.hanging_indent_long {
     margin-left: 3em;
 }
 p.form_problem {
-    color: red;
-    font-weight: bold;
     margin-bottom: 0;
 }
 p.form_problem:before {
     content: '\\002193 '; /* down-arrow */
 }
 table.ppv_reportcard {
-    border: solid thin black;
     width: 95%;
-    td {
-        border: solid thin black;
-    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -673,38 +637,26 @@ table.image_source {
     width: 90%;
     margin: auto;
     th {
-        background-color: #eee;
-        border: 1px solid #999;
         .center-align;
         padding: 5px;
     }
     td {
-        border: 1px solid #999;
         padding: 5px;
         a.sourcelink {
             font-size: 90%;
             margin: 10px 0px 3px 25px;
         }
     }
-    tr.e {
-        background-color: #eee;
-    }
-    tr.o {
-        background-color: #ddd;
-    }
     th.label {
         .left-align;
     }
     td.enabled {
-        background-color: #9f9;
         .center-align;
         }
     td.disabled {
-        background-color: #ddd;
         .center-align;
     }
     td.pending {
-        background-color: #ff8;
         .center-align;
     }
 }
@@ -712,7 +664,6 @@ table.image_source {
 div.perms_wrapper {
     width: 40%;
     display: inline-block;
-    border-bottom: dotted black 1px;
     padding: 2px;
 }
 
@@ -724,16 +675,6 @@ table.pagedetail {
     th, td {
         .center-align;
         font-weight: normal;
-        border: 1px solid black;
-    }
-    td.in_progress {
-        background-color: #FC6;
-    }
-    td.done_current {
-        background-color: #9F6;
-    }
-    td.done_previous {
-        background-color: #F36;
     }
 }
 
@@ -833,7 +774,7 @@ table.dirlist {
 
 #toolbox {
     padding: 2px;
-/* default buttons have small text = 83% */
+    /* default buttons have small text = 83% */
     .selector_button {
         margin-top: 1px;
         font-size: 1em;
@@ -922,7 +863,6 @@ table.dirlist {
 table.list_special_days {
     width: 90%; margin: auto;
     td,th {
-        border: 1px solid #999;
         padding: 3px;
         }
     td.codecell {
@@ -932,26 +872,14 @@ table.list_special_days {
     th.headers {
         padding:0.5em;
     }
-    tr.e {
-        background-color: #eee;
-    }
-    tr.o {
-        background-color: #ddd;
-    }
     td.enabled {
-        background-color: #9f9;
         text-align: center;
     }
     td.disabled {
-        background-color: #ddd;
         text-align: center;
     }
     td.center {
         text-align: center;
-    }
-    tr.month > * {
-        border: none;
-        border-bottom: solid 2px black;
     }
     td.right, th.right {
         text-align: right; font-weight: normal;
@@ -961,19 +889,11 @@ table.list_special_days {
     }
 }
 
-table.show_special_days {
-    th {
-        background-color: #eeeeee;
-    }
-}
-
 table.edit_special_day {
     width: 90%;
     margin: auto;
     th, td {
-        border: 1px solid black;
         padding: 5px;
-        background-color: #eeeeee;
     }
 }
 
@@ -1021,11 +941,8 @@ table.search-column {
     position: absolute;
     top: 1.5em;
     right: 0;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
     padding: 0.3em;
     margin: 0 0 0 -15em;
-    border-radius: 0.3em;
     z-index: 1;
 }
 
@@ -1055,7 +972,6 @@ table.search-column {
     float:right;
     margin-left: 0.5em;
     margin-bottom: 0.5em;
-    border: 1px solid black;
     h2 {
         .center-align;
         font-size: 1em;
@@ -1140,7 +1056,6 @@ li.spaced {
 .replace_check {
     height: 20em;
     width: 50em;
-    border: 1px solid black;
 }
 
 /* ------------------------------------------------------------------------ */

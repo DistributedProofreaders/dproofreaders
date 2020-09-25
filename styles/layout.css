@@ -293,7 +293,6 @@ div.news {
   margin: 1em 0;
 }
 div.newsitem {
-  box-shadow: -5px -5px 5px lightgrey;
   border-radius: 5px;
   padding: 0.75em;
   margin-left: 0.5em;
@@ -335,8 +334,6 @@ div.callout {
   margin-right: 2em;
   margin-left: 2em;
   padding: 1em;
-  background-color: #EEE;
-  border: solid thin black;
 }
 div.callout p {
   margin-bottom: 0;
@@ -373,7 +370,6 @@ table.filter td select {
 table.register {
   width: auto;
   border-collapse: separate;
-  border: 1px solid black;
 }
 table.register th,
 table.register td {
@@ -403,7 +399,6 @@ table.snapshottable {
 }
 table.snapshottable td,
 table.snapshottable th {
-  border: 1px solid black;
   padding: 2px;
   margin: 0;
   text-align: center;
@@ -424,7 +419,6 @@ table.snapshottable td.nocell {
 }
 table.snapshottable th.activity-icon-header {
   border: none;
-  background-color: #ffffff;
 }
 .stage-icon {
   display: inline-block;
@@ -455,7 +449,6 @@ table.snapshottable th.activity-icon-header {
 /* ------------------------------------------------------------------------ */
 /* Progress bar */
 div.progressbar {
-  border: 1px solid black;
   font-size: 0.5em;
   float: left;
 }
@@ -478,19 +471,14 @@ table.translation th {
 /* Available Project Listings */
 table.availprojectlisting {
   width: 100%;
-  border: 1px solid black;
   border-collapse: collapse;
 }
 table.availprojectlisting tr th {
   font-weight: bold;
   text-align: left;
-  border-bottom: 1px solid black;
 }
 table.availprojectlisting tr th img {
   border: 0;
-}
-table.availprojectlisting tr td {
-  border-bottom: 1px solid #888;
 }
 table.availprojectlisting tr td,
 table.availprojectlisting tr th {
@@ -542,17 +530,12 @@ Quote http://www.alistapart.com/copyright/:
 table.preferences {
   border-collapse: collapse;
 }
-table.preferences td,
-table.preferences th {
-  border: solid thin black;
-}
 table.preferences th.longlabel {
   text-align: center;
 }
 .tabs {
   float: left;
   width: 90%;
-  border-bottom: solid thin gray;
 }
 .tabs ul {
   margin: 0;
@@ -563,7 +546,6 @@ table.preferences th.longlabel {
   float: left;
   margin: 0;
   padding: 0 0 0 4px;
-  border: solid thin gray;
   border-radius: 5px 5px 0 0;
   margin-bottom: -2px;
 }
@@ -575,7 +557,6 @@ table.preferences th.longlabel {
   min-width: 8em;
 }
 .tabs .current-tab {
-  border: solid thin gray;
   border-bottom: none;
 }
 .tabs .current-tab a {
@@ -585,7 +566,6 @@ table.preferences th.longlabel {
 /* Themed tables */
 table.themed {
   width: 100%;
-  border: 1px solid black;
   border-collapse: collapse;
 }
 table.themed tr th,
@@ -598,25 +578,15 @@ table.theme_striped tr td {
 }
 table.basic {
   border-collapse: collapse;
-  border: 1px solid black;
-}
-table.basic th {
-  background-color: #CCC;
 }
 table.basic th.label {
   text-align: left;
 }
-table.basic td,
-table.basic th {
-  border: 1px solid black;
-}
 table.basic td.satisfied {
   text-align: right;
-  background-color: #ccffcc;
 }
 table.basic td.not_satisfied {
   text-align: right;
-  background-color: #ffcccc;
 }
 table.basic textarea {
   width: 100%;
@@ -640,8 +610,6 @@ p.hanging_indent_long {
   margin-left: 3em;
 }
 p.form_problem {
-  color: red;
-  font-weight: bold;
   margin-bottom: 0;
 }
 p.form_problem:before {
@@ -649,11 +617,7 @@ p.form_problem:before {
   /* down-arrow */
 }
 table.ppv_reportcard {
-  border: solid thin black;
   width: 95%;
-}
-table.ppv_reportcard td {
-  border: solid thin black;
 }
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
@@ -663,44 +627,31 @@ table.image_source {
   margin: auto;
 }
 table.image_source th {
-  background-color: #eee;
-  border: 1px solid #999;
   text-align: center;
   padding: 5px;
 }
 table.image_source td {
-  border: 1px solid #999;
   padding: 5px;
 }
 table.image_source td a.sourcelink {
   font-size: 90%;
   margin: 10px 0px 3px 25px;
 }
-table.image_source tr.e {
-  background-color: #eee;
-}
-table.image_source tr.o {
-  background-color: #ddd;
-}
 table.image_source th.label {
   text-align: left;
 }
 table.image_source td.enabled {
-  background-color: #9f9;
   text-align: center;
 }
 table.image_source td.disabled {
-  background-color: #ddd;
   text-align: center;
 }
 table.image_source td.pending {
-  background-color: #ff8;
   text-align: center;
 }
 div.perms_wrapper {
   width: 40%;
   display: inline-block;
-  border-bottom: dotted black 1px;
   padding: 2px;
 }
 /* ------------------------------------------------------------------------ */
