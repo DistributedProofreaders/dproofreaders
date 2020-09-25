@@ -1,13 +1,63 @@
-@import (reference) "global.less";
+@import "global.less";
+@import "page_interfaces.less";
+
+/* ------------------------------------------------------------------------ */
+/* mixins with color */
+
+.solid-border(@color: black) {
+    border: thin solid @color;
+}
+
+.solid-border-bottom(@color: black) {
+    border-bottom: thin solid @color;
+}
+
+/* standalone classes that can be used as mixins, but that should not
+ * be given parameters, as they can't be used as classes in the code
+ * directly if they have parameters that the lessc compiler has to 
+ * sort out
+ */
+
+.default-border {
+    .solid-border;
+}
+
+.default-border-bottom {
+    .solid-border-bottom;
+}
+
+.sidebar-color {
+    background-color: @sidebar-background;
+}
+
+.sans-serif {
+    font-family: @sans-serif-font;
+}
+
+.button {
+    .sans-serif;
+}
 
 /* ------------------------------------------------------------------------ */
 /* Global */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
+    background-color: @page-background;
+    color: @page-text;
+    a:link {
+        color: @link-color;
+    }
+    a:visited {
+        color: @visited-color;
+    }
+    a:active {
+        color: @active-color;
+    }
 }
 
 img {
@@ -29,18 +79,30 @@ table {
 
 /* ------------------------------------------------------------------------ */
 /* HTML5 hacks */
+
 section, footer, aside, main, article, figure {
     display: block;
 }
 
 /* ------------------------------------------------------------------------ */
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+    color: @heading-color;
+    .sans-serif;
+}
+
+/* ------------------------------------------------------------------------ */
 /* Header */
+
 header, #header {
     .full-width;
     height: 5em;
     padding: 0;
     border: 0;
     display: table;
+    background-color: @header-background;
+    color: @header-text;
     #logo, #titles-preserved {
         display: table-cell;
     }
@@ -53,13 +115,14 @@ header, #header {
         font-size: 0.9em;
         #x-preserved {
             .bold;
+            .sans-serif;
         }
     }
 }
 
-
 /* ------------------------------------------------------------------------ */
 /* Navbar */
+
 nav, #navbar-outer {
     .full-width;
     display: table;
@@ -71,8 +134,14 @@ nav, #navbar-outer {
     border: 0;
     font-size: 0.75em;
     display: table-row;
+    background-color: @navbar-background;
+    .sans-serif;
+    .unicolor-link(@navbar-text);
     span.currentpage {
         .bold;
+    }
+    label, span.text, span.currentpage {
+        color: @navbar-text;
     }
     #navbar-left {
         float: left;
@@ -95,6 +164,10 @@ nav, #navbar-outer {
     form {
         margin: 0;
         display: inline;
+        input {
+           .sans-serif;
+            font-size: 11px;
+        }
         div {
             display: inline;
         }
@@ -102,7 +175,8 @@ nav, #navbar-outer {
 }
 
 /* ------------------------------------------------------------------------ */
-/* Alert & Test bar*/
+/* Alert & Test bar */
+
 #alertbar-outer, #testbar-outer {
     #navbar-outer;
 }
@@ -117,14 +191,52 @@ nav, #navbar-outer {
     }
 }
 
+#alertbar, #alertbar-outer {
+    .sans-serif;
+    background-color: fade(yellow, 40%);
+    color: black;
+    .unicolor-link(darken(gray, 20%));
+}
+
+#testbar, #testbar-outer {
+    .sans-serif;
+    background-color: @page-background;
+    background: repeating-linear-gradient(
+        to right,
+        yellow,
+        @page-background 24%,
+        @page-background 75%,
+        yellow 100%,
+    );
+    color: black;
+    .solid-border-bottom;
+    .unicolor-link(lighten(black, 30%));
+}
+
+/* ------------------------------------------------------------------------ */
+/* Statsbar */
+
+#sidebar, #statsbar {
+    background-color: @sidebar-background;
+    color: @sidebar-text;
+    p, li, td, th {
+        .sans-serif;
+    }
+}
+
 /* ------------------------------------------------------------------------ */
 /* Footer */
+
 footer, #footer {
     .full-width;
     height: 2em;
     .really-small;
     .center-align;
     .middle-align;
+    background-color: @footer-background;
+    color: @footer-text;
+    .sans-serif;
+    .unicolor-link(@footer-text);
     p {
         margin: 0px;
         padding: 0.3em;
@@ -136,10 +248,12 @@ footer, #footer {
 
 /* ------------------------------------------------------------------------ */
 /* Content layout */
+
 #page-container {
     .no-border;
     .full-width;
     display: table;
+    background-color: @sidebar-background;
 }
 
 #page-body-container {
@@ -152,6 +266,12 @@ footer, #footer {
     .full-width;
     padding: 0 0.5em 1em 0.5em;
     display: table-cell;
+    background-color: @page-background;
+    color: @page-text;
+}
+
+#rounded-corner {
+    background-color: @page-background;
 }
 
 .quick-links {
@@ -219,13 +339,11 @@ footer, #footer {
 
 /* ------------------------------------------------------------------------ */
 /* Section dividers */
+
 hr.divider {
     .center-align;
     width: 75%;
 }
-
-/* ------------------------------------------------------------------------ */
-/* Existing styling */
 
 /* ------------------------------------------------------------------------ */
 /* Star texts */
@@ -240,6 +358,26 @@ hr.divider {
         .center-align;
     }
 }
+
+.star-metal(@color) {
+    font-size: 3em;
+    color: @color;
+    text-align: center;
+    text-shadow: 3px 2px 5px black;
+}
+
+.star-gold {
+    .star-metal(#FFD700);
+}
+
+.star-silver {
+    .star-metal(silver);
+}
+
+.star-bronze {
+    .star-metal(#cd7f32);
+}
+
 
 @media only screen and (max-width: 481px) {
     .star-text-summary {
@@ -257,6 +395,7 @@ hr.divider {
 
 /* ------------------------------------------------------------------------ */
 /* News items */
+
 div.news {
     margin: 1em 0;
 }
@@ -272,12 +411,47 @@ div.newsitem {
     margin-left: 0.5em;
     margin-top: 1em;
     overflow: auto;
+    box-shadow: -5px -5px 5px lightgrey;
     p {
         margin: 0 0.5em 0.5em 0;
     }
     img {
         max-width: 100%;
     }
+}
+
+.news-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+
+.news-format(@color: black) {
+    color: @color;
+}
+
+.news-normal {
+    .news-format();
+}
+
+.news-announcement1 {
+    .news-format(maroon);
+}
+
+.news-announcement2 {
+    .news-format(orange);
+}
+
+.news-announcement3 {
+    .news-format(darkblue);
+}
+
+.news-celebration {
+    .news-format(green);
+}
+
+.news-maintenance {
+    .news-format(red);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -309,6 +483,8 @@ table.newsedit {
 /* Attention-getting structures */
 
 div.callout {
+    .solid-border;
+    background-color: #EEE;
     margin-right: 2em;
     margin-left: 2em;
     padding: 1em;
@@ -325,12 +501,27 @@ div.calloutheader {
     .bold;
 }
 
+.error, .test_warning {
+    color: red;
+}
+
+.warning {
+    color: blue;
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
+}
+
 kbd {
     font-family: DejaVu Sans Mono, monospace;
+    color: #cc0000;
 }
 
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
+
 #filter_form {
     padding: 0 0.5em 0.5em 0.5em;
 }
@@ -354,12 +545,14 @@ table.filter {
 table.register {
     width: auto;
     border-collapse: separate;
+    .solid-border;
     th, td {
         padding: 3px;
     }
     th {
         .right-align;
         .bold;
+        background-color: @header-background;
     }
     td {
         .left-align;
@@ -371,6 +564,7 @@ table.register {
     }
     td.bar {
         .center-align;
+        background-color: @navbar-background;
     }
 }
 
@@ -385,9 +579,15 @@ table.snapshottable {
         padding: 2px;
         margin: 0;
         .center-align;
+        .solid-border;
     }
     th {
         font-weight: normal;
+        background-color: @header-background;
+    }
+    th.activity-icon-header {
+        border: none;
+        background-color: @page-background;
     }
     td.stage-column {
         .left-align;
@@ -397,16 +597,38 @@ table.snapshottable {
     td.nocell {
         border: none;
     }
-    th.activity-icon-header {
-        border: none;
+}
+
+.stage-access(@color: black) {
+    padding-left: 5px;
+    float: right;
+    display: inline-block;
+    min-width: 1.5em;
+    .middle-align;
+    .center-align;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: @color;
+    a:link,
+    a:visited,
+    a:active {
+        color: @color;
+        text-decoration: none;
     }
 }
 
-.stage-access {
-    padding-left: 5px;
-    float: right;
-    .middle-align;
+.access-yes {
+    .stage-access(green);
 }
+
+.access-no {
+    .stage-access(red);
+}
+
+.access-eligible {
+    .stage-access(blue);
+}
+
 
 @media only screen and (max-width: 768px) {
     .stage-name,
@@ -423,6 +645,7 @@ table.snapshottable {
 div.progressbar {
     font-size: 0.5em;
     float: left;
+    .solid-border;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -450,20 +673,61 @@ table.translation {
 table.availprojectlisting {
     width: 100%;
     border-collapse: collapse;
+    .solid-border;
     tr {
-        th {
-            .bold;
-            .left-align;
-            img {
-                border: 0;
-            }
-        }
         td, th {
             padding-left: 0.5em;
             padding-right: 0.5em;
         }
+        th {
+            .bold;
+            .left-align;
+            .solid-border-bottom;
+            img {
+                border: 0;
+            }
+        }
+        td {
+            .solid-border-bottom(#888);
+        }
+    }
+    tr:nth-child(even) {
+        background-color: #ddd;
     }
 }
+
+/* Default stage colors, which can be overridden by the themes */
+@P1-even: #ffe4b5;
+@P1-odd: cornsilk;
+@P2-even: #ffe4b5;
+@P2-odd: cornsilk;
+@P3-even: plum;
+@P3-odd: thistle;
+@F1-even: #ffe4b5;
+@F1-odd: cornsilk;
+@F2-even: plum;
+@F2-odd: thistle;
+@PP-even: #cccccc;
+@PP-odd: #ffffff;
+@PPV-even: #99ffff;
+@PPV-odd: #eaf7f7;
+@SR-even: #ccffcc;
+@SR-odd: #ccff99;
+
+@stages: P1 P2 P3 F1 F2 PP PPV SR;
+
+each(@stages, {
+    @even-color: "@{value}-even";
+    @odd-color: "@{value}-odd";
+    table.stage_@{value} {
+        tr:nth-child(even) {
+            background-color: @@even-color;
+        }
+        tr:nth-child(odd) {
+            background-color: @@odd-color;
+        }
+    }
+})
 
 /* ------------------------------------------------------------------------ */
 /* FAQ */
@@ -485,6 +749,9 @@ div.faqheader {
     .bold;
     .middle-align;
     padding: 0.25em 0.5em;
+    .sans-serif;
+    background-color: @navbar-background;
+    color: @navbar-text;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -516,14 +783,22 @@ Quote http://www.alistapart.com/copyright/:
 
 table.preferences {
     border-collapse: collapse;
+    td, th {
+        .solid-border;
+    }
     th.longlabel {
         .center-align;
+    }
+    th.label, th.longlabel {
+        background-color: @header-background;
+        color: @header-text;
     }
 }
 
 .tabs {
     float: left;
     width: 90%;
+    .solid-border-bottom(grey);
     ul {
         margin: 0;
         padding: 0 20px 0 10px;
@@ -535,6 +810,11 @@ table.preferences {
         padding: 0 0 0 4px;
         border-radius: 5px 5px 0 0;
         margin-bottom: -2px;
+        background-color: desaturate(@header-background, 50%);
+        .solid-border(grey);
+        a {
+            color: desaturate(@header-text, 50%);
+        }
     }
     a {
         float: left;
@@ -545,8 +825,11 @@ table.preferences {
     }
     .current-tab {
         border-bottom: none;
+        background-color: @page-background;
+        .solid-border(grey);
         a {
             .bold;
+            color: @page-text;
         }
     }
 }
@@ -557,9 +840,19 @@ table.preferences {
 table.themed {
     width: 100%;
     border-collapse: collapse;
+    .solid-border;
     tr {
+        background-color: @header-background;
+        color: @header-text;
         th, td {
             padding: 0.1em;
+        }
+        th {
+            background-color: @navbar-background;
+            color: @navbar-text;
+            a:link, a:visited {
+                color: @navbar-text;
+            }
         }
     }
 }
@@ -570,21 +863,44 @@ table.theme_striped {
             padding: 0.1em 0.5em 0.1em 0.5em;
         }
     }
+    tr:nth-child(even) {
+        background-color: @sidebar-background;
+    }
+    tr:nth-child(odd) {
+        background-color: @page-background;
+    }
 }
 
 table.basic {
     border-collapse: collapse;
+    .solid-border;
+    th {
+        background-color: #CCC;
+    }
+    td, th {
+        .solid-border;
+    }
     th.label {
         .left-align;
     }
     td.satisfied {
         .right-align;
+        background-color: #ccffcc;
     }
     td.not_satisfied {
         .right-align;
+        background-color: #ffcccc;
     }
     textarea {
         width: 100%;
+    }
+}
+
+table.striped {
+    tr:nth-child(even) {
+        td {
+            background-color: #ddd;
+        }
     }
 }
 
@@ -611,12 +927,32 @@ p.hanging_indent_long {
 }
 p.form_problem {
     margin-bottom: 0;
+    color: red;
+    font-weight: bold;
 }
 p.form_problem:before {
     content: '\\002193 '; /* down-arrow */
 }
 table.ppv_reportcard {
     width: 95%;
+    .solid-border;
+    th {
+        .center-align;
+        .bold;
+        .solid-border;
+    }
+    th.major_section {
+        background-color: @header-background;
+    }
+    th.minor_section {
+        background-color: #99ff99;
+    }
+    th.heading {
+        background-color: #e0e8dd;
+    }
+    td {
+        .solid-border;
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -626,12 +962,21 @@ table.image_source {
     border-collapse: collapse;
     width: 90%;
     margin: auto;
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
     th {
         .center-align;
         padding: 5px;
+        background-color: #eee;
+        .solid-border(#999);
     }
     td {
         padding: 5px;
+        .solid-border(#999);
         a.sourcelink {
             font-size: 90%;
             margin: 10px 0px 3px 25px;
@@ -642,12 +987,15 @@ table.image_source {
     }
     td.enabled {
         .center-align;
-        }
+        background-color: #9f9;
+    }
     td.disabled {
         .center-align;
+        background-color: #ddd;
     }
     td.pending {
         .center-align;
+        background-color: #ff8;
     }
 }
 
@@ -655,6 +1003,7 @@ div.perms_wrapper {
     width: 40%;
     display: inline-block;
     padding: 2px;
+    border-bottom: dotted black 1px;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -665,7 +1014,18 @@ table.pagedetail {
     th, td {
         .center-align;
         font-weight: normal;
+        .solid-border;
     }
+}
+
+.in_progress {
+    background-color: #FC6;
+}
+.done_current {
+    background-color: #9F6;
+}
+.done_previous {
+    background-color: #F36;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -685,176 +1045,24 @@ table.dirlist {
 }
 
 /* ------------------------------------------------------------------------ */
-/* Standard Editing Interface */
-
-#standard_interface {
-    .no-padding;
-    .no-margin;
-
-    #imagedisplay {
-        .center-align;
-    }
-}
-
-#text_data, #text_data:focus {
-    outline: none;
-}
-
-/* ------------------------------------------------------------------------ */
-/* Enhanced Editing Interface */
-
-#enhanced_interface {
-    .center-align;
-    overflow: hidden;
-
-    #tbtext {
-        margin-left: auto;
-        margin-right: auto;
-        border-collapse: collapse;
-        overflow: auto;
-    }
-    #tdtop {
-        .middle-align;
-        padding: 2px;
-    }
-    #tdtext, #tdbottom {
-        .top-align;
-        padding: 2px;
-    }
-    #text_data, #text_data:focus {
-        padding: 2px;
-        outline: none;
-    }
-    .dropsmall {
-        font-size: 75%;
-    }
-}
-
-/* ------------------------------------------------------------------------ */
-/* WordCheck Interface */
-
-#wordcheck_interface {
-    .center-align;
-    overflow: auto;
-
-    #tbtext {
-        margin-left: auto;
-        margin-right: auto;
-        padding: 10px;
-    }
-    #tdtop {
-        padding: 2px;
-    }
-    #tdtext {
-        .top-align;
-        .left-align;
-        padding: 0.5em;
-    }
-}
-
-/* ------------------------------------------------------------------------ */
-/* Proofreading control frame */
-.control-frame {
-    padding: 0;
-    margin: 0;
-}
-
-/* ------------------------------------------------------------------------ */
-/* Proofreading Toolbox */
-
-#toolbox {
-    padding: 2px;
-    /* default buttons have small text = 83% */
-    .selector_button {
-        margin-top: 1px;
-        font-size: 1em;
-        padding: 0.1em 0.15em 0 0.15em;
-        margin-right: 2px;
-        min-width: 1em;
-    }
-
-    .proofbutton {
-        padding: 1px 6px;
-        margin: 1px 0px;
-        cursor: pointer;
-        font-size: 0.9em;
-        min-width: 2em;
-    }
-
-    .key-block {
-        display: none;
-    }
-
-    .show {
-        display: table;
-    }
-
-    .table-row {
-        display: table-row;
-    }
-
-    .table-cell {
-        display: table-cell;
-    }
-
-    .char_box {
-        padding-top: 1px;
-    }
-
-    .big_text, .picker {
-        font-family: DejaVu Sans Mono;
-        vertical-align: middle;
-        text-align: center;
-        width: 1.1em;
-    }
-
-    .big_text {
-        font-size: 300%;
-        margin: 2px;
-    }
-
-    .picker {
-        font-size: 1em;
-        margin-top: 1px;
-        padding: 0 1px 0 0;
-    }
-
-    .invisible {
-        visibility: hidden;
-    }
-
-    /* adjust so tools do not jump around with different character pickers */
-    #char-selector {
-        min-width: 225px;
-    }
-
-    #char-picker {
-        display: inherit;
-    }
-
-    .hide-picker-button {
-        font-size: 2em;
-        height: 2.5em;
-        padding: 0;
-        background: transparent;
-    }
-
-    #tools {
-        margin-left: 2px;
-        margin-right: 0.5em;
-        text-align: right;
-        width: 100%;
-    }
-}
-
-/* ------------------------------------------------------------------------ */
 /* Special days tables */
 
 table.list_special_days {
     width: 90%; margin: auto;
-    td,th {
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
+    tr.month > * {
+        border: none;
+        border-bottom: solid 2px black;
+    }
+    td, th {
         padding: 3px;
-        }
+        .solid-border(#999);
+    }
     td.codecell {
         vertical-align:middle;
         text-align:center;
@@ -864,9 +1072,11 @@ table.list_special_days {
     }
     td.enabled {
         text-align: center;
+        background-color: #9f9;
     }
     td.disabled {
         text-align: center;
+        background-color: #ddd;
     }
     td.center {
         text-align: center;
@@ -879,11 +1089,19 @@ table.list_special_days {
     }
 }
 
+table.show_special_days {
+    th {
+        background-color: #eeeeee;
+    }
+}
+
 table.edit_special_day {
     width: 90%;
     margin: auto;
     th, td {
         padding: 5px;
+        .solid-border;
+        background-color: #eeeeee;
     }
 }
 
@@ -934,6 +1152,9 @@ table.search-column {
     padding: 0.3em;
     margin: 0 0 0 -15em;
     z-index: 1;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    border-radius: 0.3em;
 }
 
 /* button looking like a link */
@@ -961,6 +1182,8 @@ table.search-column {
     padding: 0 1em;
     float:right;
     margin: 0.5em auto 0.5em 0.5em;
+    .solid-border;
+    .sidebar-color;
     h2 {
         .center-align;
         font-size: 1em;
@@ -1002,33 +1225,6 @@ li.spaced {
 }
 
 /* ------------------------------------------------------------------------ */
-/* Codepoint Validator */
-
-.flex_container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.fixedbox {
-    flex: 0 0 auto;
-    padding: 2px;
-}
-
-.stretchbox {
-    flex: auto;
-    min-height: 10px;
-    overflow: auto;
-}
-
-.ws-pre {
-    white-space: pre;
-    padding-left: 0.5em;
-    text-align: left;
-    font-family: monospace;
-}
-
-/* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
 
 .gs-char {
@@ -1045,70 +1241,5 @@ li.spaced {
 .replace_check {
     height: 20em;
     width: 50em;
+    .solid-border;
 }
-
-/* ------------------------------------------------------------------------ */
-/* Page Browser */
-
-#page-browser {
-    .flex_100vh;
-
-    .control-pane {
-        padding: 0 1em;
-        overflow: auto;
-        p {
-            margin: 0.2em 0;
-        }
-        input {
-            margin: 1px 0.2em;
-        }
-        select {
-            margin-right: 0.4em;
-        }
-        .img-button {
-            vertical-align: middle;
-            padding: 0;
-        }
-        img {
-            display: block;
-        }
-        input[type=checkbox] {
-            vertical-align: middle;
-        }
-        input[type=number] {
-            width: 5em;
-        }
-        a {
-            margin-right: 0.4em;
-            margin-left: 0.4em;
-        }
-    }
-
-    .text-pane {
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        padding-left: .25em;
-        resize: none;
-        border: 0;
-        margin: 0;
-        display: block;
-    }
-}
-
-.flex_100vh {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    .fixed-box {
-        flex:0 0 auto;
-    }
-    .stretch-box {
-        flex: 1 1 100vh;
-        min-height: 10px;
-    }
-}
-
-
-/* vim: sw=4 ts=4 expandtab
-*/

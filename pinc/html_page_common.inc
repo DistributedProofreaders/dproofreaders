@@ -63,8 +63,6 @@ function output_html_header($nameofpage, $extra_args = array(), $show_statsbar =
     $theme_name = $user ? $user->i_theme : "project_gutenberg";
     $css_files = array(
         "$code_url/styles/themes/$theme_name.css",
-        "$code_url/styles/layout.css",
-        "$code_url/styles/global.css",
     );
 
     // Statsbar CSS

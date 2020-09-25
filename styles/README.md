@@ -19,8 +19,9 @@ sudo npm install -g less
 CSS is broken down into three major sections:
 * `global.less` primarily includes mix-ins and is unlikely to change much
 * `layout.less` governs page layout details
-* `themes/theme.less` governs colors, fonts, and other things impacted by themes
-  See the [Themes README](themes/README.md) for more information.
+* `page_interfaces.less` controls styling of the various page interfaces
+
+See the [Themes README](themes/README.md) for more information.
 
 ## Changing CSS
 To update CSS, only update the .less files in the `styles/` and `styles/themes/`

@@ -1,0 +1,370 @@
+/* ======================================================================== */
+/* Page Interface Structures */
+
+/*
+ * The following classes all relate to various page interfaces, such as the
+ * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
+ * toolbox, code point validator, display image interface, etc.
+ */
+
+/* Base layer for page interface */
+@page-interface-background: #CDCDC1;
+@page-interface-text: black;
+
+/* Text pane */
+@text-pane-background: #FFF8DC;
+@text-pane-text: black;
+
+/* Control panes */
+@control-pane-background: #CDC0B0;
+@control-pane-text: black;
+@control-pane-menu: Bisque;
+
+.page-interface {
+    background-color: @page-interface-background;
+    color: @page-interface-text;
+
+    .text-pane {
+        background-color: @text-pane-background;
+        color: @text-pane-text;
+    }
+
+    .control-pane {
+        background-color: @control-pane-background;
+        color: @control-pane-text;
+
+        input, select, button {
+            background-color: @text-pane-background;
+            .solid-border;
+        }
+
+        button, input[type=submit], input[type=button] {
+            box-shadow: 1px 1px grey;
+        }
+
+        input[type=image] {
+            border: none;
+        }
+
+        .menu {
+            background-color: @control-pane-menu;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Standard Editing Interface */
+
+#standard_interface {
+    .no-padding;
+    .no-margin;
+    .page-interface;
+
+    #imagedisplay {
+        .center-align;
+    }
+}
+
+#text_data, #text_data:focus {
+    outline: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Enhanced Editing Interface */
+
+#enhanced_interface {
+    .center-align;
+    overflow: hidden;
+    .page-interface;
+
+    #tbtext {
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+        overflow: auto;
+        .solid-border;
+    }
+    #tdtop {
+        .middle-align;
+        padding: 2px;
+        .solid-border;
+        .page-interface .control-pane;
+    }
+    #tdtext, #tdbottom {
+        .top-align;
+        .solid-border;
+        padding: 2px;
+    }
+    #tdtext {
+        .page-interface;
+    }
+    #tdbottom {
+        background-color: #EEDFCC;
+    }
+    #text_data, #text_data:focus {
+        padding: 2px;
+        outline: none;
+        .page-interface .text-pane;
+    }
+    .dropsmall {
+        font-size: 75%;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* WordCheck Interface */
+
+#wordcheck_interface {
+    .center-align;
+    overflow: auto;
+    .page-interface;
+
+    #tbtext {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        .solid-border;
+    }
+    #tdtop {
+        padding: 2px;
+        .solid-border;
+        .page-interface .control-pane;
+    }
+    #tdtext {
+        .top-align;
+        .left-align;
+        padding: 0.5em;
+        .solid-border;
+        .page-interface .text-pane;
+    }
+}
+
+.preWC {
+    background-color: #c2c2c2;
+}
+.noWC {
+    background-color: #ffb321;
+    .bold;
+}
+.WC {
+    background-color: #97fc9e;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Format Preview */
+
+#format_preview {
+    .page-interface;
+}
+
+.ilb {
+   .solid-border(#404040);
+    border-radius: 2px;
+    .page-interface .control-pane;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Codepoint Validator */
+
+.flex_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fixedbox {
+    flex: 0 0 auto;
+    padding: 2px;
+    .page-interface .control-pane;
+}
+
+.stretchbox {
+    flex: auto;
+    min-height: 10px;
+    overflow: auto;
+    .page-interface .text-pane;
+}
+
+.ws-pre {
+    white-space: pre;
+    padding-left: 0.5em;
+    text-align: left;
+    font-family: monospace;
+}
+
+.bad-char {
+    background: #ff99cc;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Proofreading control frame */
+.control-frame {
+    padding: 0;
+    margin: 0;
+    .page-interface .control-pane;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Proofreading Toolbox */
+
+#toolbox {
+    padding: 2px;
+    .sans-serif;
+    .page-interface .control-pane;
+
+    .selector_button {
+        .page-interface .control-pane .menu;
+        margin-top: 1px;
+        font-size: 1em;
+        padding: 0.1em 0.15em 0 0.15em;
+        margin-right: 2px;
+        min-width: 1em;
+    }
+
+    .selected-tab {
+        .bold;
+        background-color: @text-pane-background;
+        box-shadow: -1px -1px grey;
+    }
+
+    .proofbutton {
+        padding: 1px 6px;
+        margin: 1px 0px;
+        cursor: pointer;
+        font-size: 0.9em;
+        min-width: 2em;
+    }
+
+    .key-block {
+        display: none;
+    }
+
+    .show {
+        display: table;
+    }
+
+    .table-row {
+        display: table-row;
+    }
+
+    .table-cell {
+        display: table-cell;
+    }
+
+    .char_box {
+        padding-top: 1px;
+    }
+
+    .big_text, .picker {
+        font-family: DejaVu Sans Mono;
+        vertical-align: middle;
+        text-align: center;
+        width: 1.1em;
+    }
+
+    .big_text {
+        font-size: 300%;
+        margin: 2px;
+    }
+
+    .picker {
+        font-size: 1em;
+        margin-top: 1px;
+        padding: 0 1px 0 0;
+    }
+
+    #hide-picker {
+        box-shadow: -1px -1px grey;
+    }
+
+    /* adjust so tools do not jump around with different character pickers */
+    #char-selector {
+        min-width: 225px;
+    }
+
+    #char-picker {
+        display: inherit;
+    }
+
+    .hide-picker-button {
+        font-size: 2em;
+        height: 2.5em;
+        padding: 0;
+        background: transparent;
+    }
+
+    #tools {
+        margin-left: 2px;
+        margin-right: 0.5em;
+        text-align: right;
+        width: 100%;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Page Browser */
+
+#page-browser {
+    .flex_100vh;
+    .page-interface;
+
+    .control-pane {
+        padding: 0 1em;
+        overflow: auto;
+        .solid-border-bottom(#999);
+        .img-button {
+            border: 0;
+            box-shadow: none;
+        }
+        p {
+            margin: 0.2em 0;
+        }
+        input {
+            margin: 1px 0.2em;
+        }
+        select {
+            margin-right: 0.4em;
+        }
+        .img-button {
+            vertical-align: middle;
+            padding: 0;
+        }
+        img {
+            display: block;
+        }
+        input[type=checkbox] {
+            vertical-align: middle;
+        }
+        input[type=number] {
+            width: 5em;
+        }
+        a {
+            margin-right: 0.4em;
+            margin-left: 0.4em;
+        }
+    }
+
+    .text-pane {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding-left: .25em;
+        resize: none;
+        border: 0;
+        margin: 0;
+        display: block;
+    }
+}
+
+.flex_100vh {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .fixed-box {
+        flex:0 0 auto;
+    }
+    .stretch-box {
+        flex: 1 1 100vh;
+        min-height: 10px;
+    }
+}

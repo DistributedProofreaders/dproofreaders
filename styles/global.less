@@ -108,6 +108,10 @@
     display: flex;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 .button {
     /*
      * We can't use appearance: button here because Chrome has deprecated it:
@@ -141,12 +145,15 @@
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
 
+/* Because global.less is rendered as part of the themes the web-font URLs
+   are relative to the theme/ directory. */
+
 /* DP Sans Mono */
 @font-face {
     font-family: 'DP Sans Mono';
     src: local('DP Sans Mono'),
-         url('fonts/DPSansMono.woff2') format('woff2'),
-         url('fonts/DPSansMono.woff') format('woff');
+         url('../fonts/DPSansMono.woff2') format('woff2'),
+         url('../fonts/DPSansMono.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -154,31 +161,28 @@
 /* DejaVu Sans Mono */
 @font-face {
     font-family: 'DejaVu Sans Mono';
-    src: url('fonts/DejaVuSansMono-webfont.woff') format('woff');
+    src: url('../fonts/DejaVuSansMono-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'DejaVu Sans Mono';
-    src: url('fonts/DejaVuSansMono-Bold-webfont.woff') format('woff');
+    src: url('../fonts/DejaVuSansMono-Bold-webfont.woff') format('woff');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'DejaVu Sans Mono';
-    src: url('fonts/DejaVuSansMono-BoldOblique-webfont.woff') format('woff');
+    src: url('../fonts/DejaVuSansMono-BoldOblique-webfont.woff') format('woff');
     font-weight: bold;
     font-style: oblique;
 }
 
 @font-face {
     font-family: 'DejaVu Sans Mono';
-    src: url('fonts/DejaVuSansMono-Oblique-webfont.woff') format('woff');
+    src: url('../fonts/DejaVuSansMono-Oblique-webfont.woff') format('woff');
     font-weight: normal;
     font-style: oblique;
 }
-
-/* vim: sw=4 ts=4 expandtab
-*/
