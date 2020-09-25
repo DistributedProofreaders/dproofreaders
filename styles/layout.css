@@ -292,6 +292,10 @@ hr.divider {
 div.news {
   margin: 1em 0;
 }
+div.newsupdated {
+  margin-top: 0.7em;
+  float: right;
+}
 div.newsitem {
   border-radius: 5px;
   padding: 0.75em;

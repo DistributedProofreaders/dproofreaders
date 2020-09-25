@@ -100,18 +100,14 @@ function show_news_for_page( $news_page_id )
 
         echo "<div class='news'>";
 
-        echo "<div class='newsheader'>";
-        $header_title = sprintf( _('News for %s'), $news_subject );
 
-        // Show header-title as an image, if available.
-        $header_string = get_translated_graphic_or_text("news_header", $news_page_id, $header_title);
-        echo "<h2>$header_string</h2>";
+        echo "<div class='newsupdated'>";
 
         echo "<small>";
         if ( user_is_a_sitemanager() or user_is_site_news_editor())
         {
             $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
-            $linktext = sprintf( _("Update News for %s"), $news_subject );
+            $linktext = _("Update News");
             echo "<a href='$url'>$linktext</a> - ";
         }
 
@@ -127,6 +123,11 @@ function show_news_for_page( $news_page_id )
             echo sprintf( _("last changed %s"), $formatted_date );
         }
         echo "</small>";
+        echo "</div>";
+        echo "<div class='newsheader'>";
+
+        echo "<h2>" . _('News') . "</h2>";
+
         echo "</div>"; // div.newsheader
 
         // -------------------------------------------
