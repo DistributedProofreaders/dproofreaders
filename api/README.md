@@ -1,7 +1,11 @@
 # API Development
 
-This documentation is for developers to extend the current APIs. For the
-administrative documentation on the APIs, see [SETUP/API.md](SETUP/API.md).
+This documentation is for developers to extend the current APIs.
+
+For the API user's guide, see [USERS_GUIDE.md](USERS_GUIDE.md).
+
+For the administrative documentation on the APIs, see
+[SETUP/API.md](../SETUP/API.md).
 
 ## Design
 
