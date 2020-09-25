@@ -230,18 +230,18 @@ table.preferences th.longlabel {
   color: #000000;
 }
 .tabs {
-  border-bottom: thin solid gray;
+  border-bottom: thin solid grey;
 }
 .tabs li {
   background-color: #b3cce6;
-  border: thin solid gray;
+  border: thin solid grey;
 }
 .tabs li a {
   color: #000000;
 }
 .tabs .current-tab {
   background-color: #ffffff;
-  border: thin solid gray;
+  border: thin solid grey;
 }
 .tabs .current-tab a {
   color: #000000;
@@ -384,9 +384,6 @@ table.ppv_reportcard td {
 }
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
-table.image_source_listing td.title {
-  background-color: #99ccff;
-}
 table.image_source th {
   background-color: #eee;
   border: thin solid #999;
@@ -411,6 +408,21 @@ table.image_source td.pending {
 }
 div.perms_wrapper {
   border-bottom: dotted black 1px;
+}
+/* ------------------------------------------------------------------------ */
+/* Page Detail */
+table.pagedetail th,
+table.pagedetail td {
+  border: thin solid black;
+}
+table.pagedetail td.in_progress {
+  background-color: #FC6;
+}
+table.pagedetail td.done_current {
+  background-color: #9F6;
+}
+table.pagedetail td.done_previous {
+  background-color: #F36;
 }
 /* ------------------------------------------------------------------------ */
 /* Registration table */
@@ -441,6 +453,48 @@ div.progressbar {
   border: thin solid black;
 }
 /* ------------------------------------------------------------------------ */
+/* Special days tables */
+table.list_special_days td,
+table.list_special_days th {
+  border: thin solid #999;
+}
+table.list_special_days tr.e {
+  background-color: #eee;
+}
+table.list_special_days tr.o {
+  background-color: #ddd;
+}
+table.list_special_days td.enabled {
+  background-color: #9f9;
+}
+table.list_special_days td.disabled {
+  background-color: #ddd;
+}
+table.list_special_days tr.month > * {
+  border: none;
+  border-bottom: solid 2px black;
+}
+table.show_special_days th {
+  background-color: #eeeeee;
+}
+table.edit_special_day th,
+table.edit_special_day td {
+  border: thin solid black;
+  background-color: #eeeeee;
+}
+/* ------------------------------------------------------------------------ */
+/* Search Results drop-down */
+.dropdown-content {
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 0.3em;
+}
+/* ------------------------------------------------------------------------ */
+/* PM link box */
+#pm_links {
+  border: thin solid black;
+}
+/* ------------------------------------------------------------------------ */
 /* WordCheck pages */
 .preWC {
   background-color: #c2c2c2;
@@ -451,6 +505,11 @@ div.progressbar {
 }
 .WC {
   background-color: #97fc9e;
+}
+/* ------------------------------------------------------------------------ */
+/* replace text validator */
+.replace_check {
+  border: thin solid black;
 }
 /* ======================================================================== */
 /* Page Interface Structures */
@@ -478,7 +537,7 @@ div.progressbar {
 .page-interface .control-pane select,
 .page-interface .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 .page-interface .control-pane button,
 .page-interface .control-pane input[type=submit],
@@ -501,7 +560,7 @@ div.progressbar {
 .control-frame select,
 .control-frame button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 .control-frame button,
 .control-frame input[type=submit],
@@ -525,7 +584,7 @@ div.progressbar {
 #toolbox select,
 #toolbox button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #toolbox button,
 #toolbox input[type=submit],
@@ -567,7 +626,7 @@ div.progressbar {
 #format_preview .control-pane select,
 #format_preview .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #format_preview .control-pane button,
 #format_preview .control-pane input[type=submit],
@@ -581,7 +640,7 @@ div.progressbar {
   background-color: Bisque;
 }
 .ilb {
-  border: 1px solid #404040;
+  border: thin solid #404040;
   border-radius: 2px;
   background-color: #CDC0B0;
   color: black;
@@ -590,7 +649,7 @@ div.progressbar {
 .ilb select,
 .ilb button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 .ilb button,
 .ilb input[type=submit],
@@ -621,7 +680,7 @@ div.progressbar {
 #page-browser .control-pane select,
 #page-browser .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #page-browser .control-pane button,
 #page-browser .control-pane input[type=submit],
@@ -635,7 +694,7 @@ div.progressbar {
   background-color: Bisque;
 }
 #page-browser .control-pane {
-  border-bottom: 1px solid #999;
+  border-bottom: thin solid #999;
 }
 #page-browser .control-pane .img-button {
   border: 0;
@@ -659,7 +718,7 @@ div.progressbar {
 #standard_interface .control-pane select,
 #standard_interface .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #standard_interface .control-pane button,
 #standard_interface .control-pane input[type=submit],
@@ -690,7 +749,7 @@ div.progressbar {
 #enhanced_interface .control-pane select,
 #enhanced_interface .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #enhanced_interface .control-pane button,
 #enhanced_interface .control-pane input[type=submit],
@@ -704,10 +763,10 @@ div.progressbar {
   background-color: Bisque;
 }
 #enhanced_interface #tbtext {
-  border: 1px solid black;
+  border: thin solid black;
 }
 #enhanced_interface #tdtop {
-  border: 1px solid black;
+  border: thin solid black;
   background-color: #CDC0B0;
   color: black;
 }
@@ -715,7 +774,7 @@ div.progressbar {
 #enhanced_interface #tdtop select,
 #enhanced_interface #tdtop button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #enhanced_interface #tdtop button,
 #enhanced_interface #tdtop input[type=submit],
@@ -729,7 +788,7 @@ div.progressbar {
   background-color: Bisque;
 }
 #enhanced_interface #tdtext {
-  border: 1px solid black;
+  border: thin solid black;
   background-color: #CDCDC1;
   color: black;
 }
@@ -745,7 +804,7 @@ div.progressbar {
 #enhanced_interface #tdtext .control-pane select,
 #enhanced_interface #tdtext .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #enhanced_interface #tdtext .control-pane button,
 #enhanced_interface #tdtext .control-pane input[type=submit],
@@ -759,7 +818,7 @@ div.progressbar {
   background-color: Bisque;
 }
 #enhanced_interface #tdbottom {
-  border: 1px solid black;
+  border: thin solid black;
   background-color: #EEDFCC;
 }
 #enhanced_interface #text_data,
@@ -788,7 +847,7 @@ div.progressbar {
 #wordcheck_interface .control-pane select,
 #wordcheck_interface .control-pane button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #wordcheck_interface .control-pane button,
 #wordcheck_interface .control-pane input[type=submit],
@@ -802,10 +861,10 @@ div.progressbar {
   background-color: Bisque;
 }
 #wordcheck_interface #tbtext {
-  border: 1px solid black;
+  border: thin solid black;
 }
 #wordcheck_interface #tdtop {
-  border: 1px solid black;
+  border: thin solid black;
   background-color: #CDC0B0;
   color: black;
 }
@@ -813,7 +872,7 @@ div.progressbar {
 #wordcheck_interface #tdtop select,
 #wordcheck_interface #tdtop button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 #wordcheck_interface #tdtop button,
 #wordcheck_interface #tdtop input[type=submit],
@@ -827,7 +886,7 @@ div.progressbar {
   background-color: Bisque;
 }
 #wordcheck_interface #tdtext {
-  border: 1px solid black;
+  border: thin solid black;
   background-color: #FFF8DC;
   color: black;
 }
@@ -845,7 +904,7 @@ div.progressbar {
 .fixedbox select,
 .fixedbox button {
   background-color: #FFF8DC;
-  border: solid thin black;
+  border: thin solid black;
 }
 .fixedbox button,
 .fixedbox input[type=submit],
