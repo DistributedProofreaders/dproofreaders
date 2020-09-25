@@ -19,21 +19,9 @@ lint:
 
 #----------------------------------------------------------------------------
 # CSS compilation
-LESSC := lessc
-SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
-STYLE_DIR := $(SELF_DIR)../styles
 
-BASE_CSS := $(wildcard $(STYLE_DIR)/*.css)
-THEME_CSS := $(wildcard $(STYLE_DIR)/themes/*.css)
-
-all: less lint
-
-less: $(BASE_CSS) $(THEME_CSS)
-
-$(THEME_CSS): $(STYLE_DIR)/themes/theme.less
-
-%.css: %.less $(STYLE_DIR)/global.less
-	$(LESSC) $< $@
+less:
+	$(SELF_DIR)generate_css_from_less.sh $(SELF_DIR)../styles
 
 #----------------------------------------------------------------------------
 # Unit tests
