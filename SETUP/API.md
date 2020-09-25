@@ -26,7 +26,7 @@ This can be achieved by adding a stanza such as this one to your Apache
 config:
 ```
 RewriteEngine On
-RewriteRule ^api/(.*)$ /c/api/index.php?url=$1 [L,QSA]
+RewriteRule ^/api/(.*)$ %{DOCUMENT_ROOT}/c/api/index.php?url=$1 [L,QSA]
 ```
 
 ## Access Control
