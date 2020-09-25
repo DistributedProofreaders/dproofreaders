@@ -663,16 +663,6 @@ table.pagedetail th,
 table.pagedetail td {
   text-align: center;
   font-weight: normal;
-  border: 1px solid black;
-}
-table.pagedetail td.in_progress {
-  background-color: #FC6;
-}
-table.pagedetail td.done_current {
-  background-color: #9F6;
-}
-table.pagedetail td.done_previous {
-  background-color: #F36;
 }
 /* ------------------------------------------------------------------------ */
 /* Remote File Manager */
@@ -836,7 +826,6 @@ table.list_special_days {
 }
 table.list_special_days td,
 table.list_special_days th {
-  border: 1px solid #999;
   padding: 3px;
 }
 table.list_special_days td.codecell {
@@ -846,26 +835,14 @@ table.list_special_days td.codecell {
 table.list_special_days th.headers {
   padding: 0.5em;
 }
-table.list_special_days tr.e {
-  background-color: #eee;
-}
-table.list_special_days tr.o {
-  background-color: #ddd;
-}
 table.list_special_days td.enabled {
-  background-color: #9f9;
   text-align: center;
 }
 table.list_special_days td.disabled {
-  background-color: #ddd;
   text-align: center;
 }
 table.list_special_days td.center {
   text-align: center;
-}
-table.list_special_days tr.month > * {
-  border: none;
-  border-bottom: solid 2px black;
 }
 table.list_special_days td.right,
 table.list_special_days th.right {
@@ -876,18 +853,13 @@ table.list_special_days h2 {
   margin: 1em auto auto auto;
   text-align: left;
 }
-table.show_special_days th {
-  background-color: #eeeeee;
-}
 table.edit_special_day {
   width: 90%;
   margin: auto;
 }
 table.edit_special_day th,
 table.edit_special_day td {
-  border: 1px solid black;
   padding: 5px;
-  background-color: #eeeeee;
 }
 /* ------------------------------------------------------------------------ */
 /* Search Form */
@@ -927,11 +899,8 @@ table.search-column tr th {
   position: absolute;
   top: 1.5em;
   right: 0;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
   padding: 0.3em;
   margin: 0 0 0 -15em;
-  border-radius: 0.3em;
   z-index: 1;
 }
 /* button looking like a link */
@@ -956,7 +925,6 @@ table.search-column tr th {
   float: right;
   margin-left: 0.5em;
   margin-bottom: 0.5em;
-  border: 1px solid black;
 }
 #pm_links ul {
   padding: 0;
@@ -1030,7 +998,6 @@ li.spaced {
 .replace_check {
   height: 20em;
   width: 50em;
-  border: 1px solid black;
 }
 /* ------------------------------------------------------------------------ */
 /* Page Browser */
