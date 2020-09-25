@@ -56,9 +56,7 @@ class Stage extends Activity
     // Display a page-header, either an image (if available) or a textual title
     // for this stage.
     {
-        $header_string = get_translated_graphic_or_text(
-            "page_header", $this->id, $title);
-        echo "<h1>$header_string</h1>\n";
+        echo "<h1>$title</h1>\n" . get_page_header_image($this->id);
     }
 
     function page_top( $uao )
