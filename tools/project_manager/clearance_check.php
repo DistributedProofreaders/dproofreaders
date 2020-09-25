@@ -43,7 +43,7 @@ output_header($title, NO_STATSBAR);
 
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
-    echo "<div id='pm_links' class='sidebar-color'>";
+    echo "<div id='linkbox'>";
     echo "<form action='#' method='get'><p>";
     echo _("See projects for another user") . "<br>";
     echo "<input type='text' name='username' value='$username' required>";

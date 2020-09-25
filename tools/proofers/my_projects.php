@@ -342,7 +342,7 @@ else
 
 function output_link_box($username)
 {
-    echo "<div id='pm_links' class='sidebar-color'>";
+    echo "<div id='linkbox'>";
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     {
         echo "<form action='#' method='get'><p>";

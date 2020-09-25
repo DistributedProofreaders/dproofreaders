@@ -27,7 +27,7 @@ function echo_manager_links()
                            ? "$code_url/tools/project_manager/editproject.php?action=createnew"
                            : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form");
 
-    echo "<div id='pm_links' class='sidebar-color'>\n";
+    echo "<div id='linkbox'>\n";
     // TRANSLATORS: PM = project manager
     echo "<h2>", _("PM Links"), "</h2>\n";
     echo "<p>", _("Server Time"), ": <span id='server-time'></span></p>\n";
