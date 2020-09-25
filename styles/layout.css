@@ -905,26 +905,25 @@ table.search-column tr th {
   display: block;
 }
 /* ------------------------------------------------------------------------ */
-/* PM link box */
-#pm_links {
+/* Link box */
+#linkbox {
   text-align: left;
   vertical-align: top;
   padding: 0 1em;
   float: right;
-  margin-left: 0.5em;
-  margin-bottom: 0.5em;
+  margin: 0.5em auto 0.5em 0.5em;
 }
-#pm_links ul {
+#linkbox ul {
   padding: 0;
 }
-#pm_links li {
+#linkbox li {
   list-style-type: none;
 }
-#pm_links h2 {
+#linkbox h2 {
   text-align: center;
   font-size: 1em;
 }
-#pm_links li {
+#linkbox li {
   margin-top: 3px;
 }
 /* ------------------------------------------------------------------------ */

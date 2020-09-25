@@ -490,9 +490,10 @@ table.edit_special_day td {
   border-radius: 0.3em;
 }
 /* ------------------------------------------------------------------------ */
-/* PM link box */
-#pm_links {
+/* Link box */
+#linkbox {
   border: thin solid black;
+  background-color: #e0e8dd;
 }
 .access-yes {
   display: inline-block;
