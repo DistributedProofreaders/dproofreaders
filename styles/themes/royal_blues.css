@@ -963,6 +963,26 @@ table.edit_special_day td {
 .bad-char {
   background: #ff99cc;
 }
+/* ------------------------------------------------------------------------ */
+/* Star texts */
+.star-gold {
+  font-size: 3em;
+  color: #FFD700;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
+.star-silver {
+  font-size: 3em;
+  color: silver;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
+.star-bronze {
+  font-size: 3em;
+  color: #cd7f32;
+  text-align: center;
+  text-shadow: 3px 2px 5px black;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab

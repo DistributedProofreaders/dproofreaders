@@ -706,5 +706,24 @@ table.edit_special_day {
     background: #ff99cc;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Star texts */
+
+.star-metal(@color) {
+    font-size: 3em;
+    color: @color;
+    text-align: center;
+    text-shadow: 3px 2px 5px black;
+}
+.star-gold {
+    .star-metal(#FFD700);
+}
+.star-silver {
+    .star-metal(silver);
+}
+.star-bronze {
+    .star-metal(#cd7f32);
+}
+
 /* vim: sw=4 ts=4 expandtab
 */
