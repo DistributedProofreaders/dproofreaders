@@ -415,13 +415,13 @@ table.pagedetail th,
 table.pagedetail td {
   border: thin solid black;
 }
-table.pagedetail td.in_progress {
+.in_progress {
   background-color: #FC6;
 }
-table.pagedetail td.done_current {
+.done_current {
   background-color: #9F6;
 }
-table.pagedetail td.done_previous {
+.done_previous {
   background-color: #F36;
 }
 /* ------------------------------------------------------------------------ */
