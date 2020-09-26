@@ -815,10 +815,10 @@ function echo_row_a( $left, $right, $escape_right=FALSE )
     echo "</tr>\n";
 }
 
-function echo_row_b( $top, $bottom, $bgcolor = 'CCCCCC' )
+function echo_row_b( $top, $bottom, $class='' )
 {
     echo "<tr>";
-    echo "<td colspan='5' style='background-color: #$bgcolor; text-align: center;'>";
+    echo "<td colspan='5' class='$class' style='text-align: center;'>";
     echo "<span class='bold large'>$top</span>";
     if ($bottom)
     {
@@ -854,17 +854,17 @@ function recentlyproofed( $wlist )
         $top = _("DONE");
         $bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofreading, that are still available for correction)");
         $state_condition = "state='{$round->page_save_state}'";
-        $bg_color = '99FF66';
+        $class = 'done_current';
     }
     else
     {
         $top = _("IN PROGRESS");
         $bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
         $state_condition = "(state='{$round->page_temp_state}' OR state='{$round->page_out_state}')";
-        $bg_color = 'FFCC66';
+        $class = 'in_progress';
     }
 
-    echo_row_b( $top, $bottom, $bg_color );
+    echo_row_b( $top, $bottom, $class );
 
     $recentNum=5; // if this is > 5 more rows will be shown
 
