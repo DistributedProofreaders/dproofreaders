@@ -111,51 +111,58 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
         case 'add':
             // Save a new site news item
             $content = strip_tags($content, $allowed_tags);
-            $date_posted = time();
-            $insert_news = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $sql = sprintf("
                 INSERT INTO news_items
                 SET
                     id           = NULL,
-                    news_page_id = '$news_page_id',
+                    news_page_id = '%s',
                     status       = '%s',
-                    date_posted  = '$date_posted',
+                    date_posted  = %d,
                     content      = '%s',
                     locale       = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $item_status),
-               mysqli_real_escape_string(DPDatabase::get_connection(), $content),
-               mysqli_real_escape_string(DPDatabase::get_connection(), $locale)));
+            ", DPDatabase::escape($news_page_id),
+               DPDatabase::escape($item_status),
+               time(),
+               DPDatabase::escape($content),
+               DPDatabase::escape($locale));
+            DPDatabase::query($sql);
             // by default, new items go at the top
-            $update_news = mysqli_query(DPDatabase::get_connection(), "
+            $sql = "
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
-            ");
+            ";
+            DPDatabase::query($sql);
             news_change_made($news_page_id);
             break;
 
         case 'delete':
             // Delete a specific site news item
-            $result = mysqli_query(DPDatabase::get_connection(), "DELETE FROM news_items WHERE id=$item_id");
+            $sql = sprintf("
+                DELETE FROM news_items
+                WHERE id = %d
+            ", $item_id);
+            DPDatabase::query($sql);
             break;
 
         case 'display':
             // Display a specific site news item
-            $result = mysqli_query(DPDatabase::get_connection(), "UPDATE news_items SET status = 'current' WHERE id=$item_id");
+            update_news_item_status($item_id, 'current');
             news_change_made($news_page_id);
             break;
 
         case 'hide':
             // Hide a specific site news item
-            $result = mysqli_query(DPDatabase::get_connection(), "UPDATE news_items SET status = 'recent' WHERE id=$item_id");
+            update_news_item_status($item_id, 'recent');
             news_change_made($news_page_id);
             break;
 
         case 'archive':
             // Archive a specific site news item
-            $result = mysqli_query(DPDatabase::get_connection(), "UPDATE news_items SET status = 'archived' WHERE id=$item_id");
+            update_news_item_status($item_id, 'archived');
             break;
 
         case 'unarchive':
             // Unarchive a specific site news item
-            $result = mysqli_query(DPDatabase::get_connection(), "UPDATE news_items SET status = 'recent' WHERE id=$item_id");
+            update_news_item_status($item_id, 'recent');
             break;
 
         case 'moveup':
@@ -173,17 +180,27 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
         case 'edit_update':
             // Save an update to a specific site news item
             $content = strip_tags($content, $allowed_tags);
-            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $sql = sprintf("
                 UPDATE news_items
-                SET content='%s', locale='%s', status='%s'
-                WHERE id=$item_id
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $content),
-               mysqli_real_escape_string(DPDatabase::get_connection(), $locale),
-               mysqli_real_escape_string(DPDatabase::get_connection(), $item_status)));
-            $result = mysqli_query(DPDatabase::get_connection(), "SELECT status FROM news_items WHERE id=$item_id");
+                SET content = '%s', locale = '%s', status = '%s'
+                WHERE id = %d
+            ", DPDatabase::escape($content),
+               DPDatabase::escape($locale),
+               DPDatabase::escape($item_status),
+               $item_id);
+            DPDatabase::query($sql);
+
+            $sql = sprintf("
+                SELECT status
+                FROM news_items
+                WHERE id = %d
+            ", $item_id);
+            $result = DPDatabase::query($sql);
             $row = mysqli_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
-            if ($visible_change_made) {news_change_made($news_page_id);}
+            if ($visible_change_made) {
+                news_change_made($news_page_id);
+            }
             break;
     }
 }
@@ -199,7 +216,12 @@ function show_item_editor($news_page_id, $action, $item_id)
     global $status_options;
 
     if (isset($action) && $action == "edit") {
-        $result = mysqli_query(DPDatabase::get_connection(), "SELECT content, status, locale FROM news_items WHERE id=$item_id");
+        $sql = sprintf("
+            SELECT content, status, locale
+            FROM news_items
+            WHERE id = %d
+        ", $item_id);
+        $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         $initial_content = $row["content"];
         $locale = $row["locale"];
@@ -290,12 +312,14 @@ function show_all_news_items_for_page( $news_page_id )
     {
         $status = $category['status'];
 
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             SELECT *
             FROM news_items
-            WHERE news_page_id = '$news_page_id' AND status = '$status'
+            WHERE news_page_id = '%s' AND status = '%s'
             ORDER BY {$category['order_by']}
-        ");
+        ", DPDatabase::escape($news_page_id),
+           DPDatabase::escape($status));
+        $result = DPDatabase::query($sql);
 
         if (mysqli_num_rows($result) == 0) continue;
 
@@ -343,53 +367,72 @@ function show_all_news_items_for_page( $news_page_id )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function update_news_item_status($item_id, $status)
+{
+    $sql = sprintf("
+        UPDATE news_items
+        SET status = '%s'
+        WHERE id = %d
+    ", DPDatabase::escape($status), $item_id);
+    DPDatabase::query($sql);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function news_change_made ($news_page_id) {
-    $date_changed = time();
-    $result = mysqli_query(DPDatabase::get_connection(), "
-            REPLACE INTO news_pages
-            SET news_page_id = '$news_page_id', t_last_change = $date_changed
-    ");
+    $sql = sprintf("
+        REPLACE INTO news_pages
+        SET news_page_id = '%s', t_last_change = %d
+    ", DPDatabase::escape($news_page_id),
+       time());
+    DPDatabase::query($sql);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT *
         FROM news_items
-        WHERE news_page_id = '$news_page_id' AND status = 'current'
+        WHERE news_page_id = '%s' AND status = 'current'
         ORDER BY ordering
-    ");
+    ", DPDatabase::escape($news_page_id));
+    $result = DPDatabase::query($sql);
 
     $i = 1 ;
     while ($news_item = mysqli_fetch_assoc($result)) {
         $curr_id = $news_item['id'];
-        $update_query = mysqli_query(DPDatabase::get_connection(), "
-            UPDATE news_items SET ordering = $i WHERE id = $curr_id
-        ");
+        $sql = sprintf("
+            UPDATE news_items
+            SET ordering = %d
+            WHERE id = %d
+        ", $i, $curr_id);
+        DPDatabase::query($sql);
         if (intval($curr_id) == intval($id_of_item_to_move)) {$old_pos = $i;}
         $i++;
     }
 
     if (isset($old_pos)) {
         if ($direction == 'up') {
-            $result = mysqli_query(DPDatabase::get_connection(), "
-                UPDATE news_items SET ordering = $old_pos
-                WHERE news_page_id = '$news_page_id' AND status = 'current' AND ordering = ($old_pos + 1)
-            ");
-            $result = mysqli_query(DPDatabase::get_connection(), "
-                UPDATE news_items SET ordering = $old_pos + 1 WHERE id = $id_of_item_to_move
-            ");
+            $new_pos = $old_pos + 1;
         } else {
-            $result = mysqli_query(DPDatabase::get_connection(), "
-                UPDATE news_items SET ordering = $old_pos
-                WHERE news_page_id = '$news_page_id' AND status = 'current' AND ordering = ($old_pos - 1)
-            ");
-            $result = mysqli_query(DPDatabase::get_connection(), "
-                UPDATE news_items SET ordering = $old_pos - 1 WHERE id = $id_of_item_to_move
-            ");
+            $new_pos = $old_pos - 1;
         }
+
+        $sql = sprintf("
+            UPDATE news_items
+            SET ordering = %d
+            WHERE news_page_id = '%s' AND status = 'current' AND ordering = $new_pos
+        ", $old_pos, DPDatabase::escape($news_page_id), $new_pos);
+        DPDatabase::query($sql);
+
+        $sql = sprintf("
+            UPDATE news_items
+            SET ordering = %d
+            WHERE id = %d
+        ", $new_pos, $id_of_item_to_move);
+        DPDatabase::query($sql);
     }
 }
 
