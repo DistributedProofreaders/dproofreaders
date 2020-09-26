@@ -130,7 +130,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
     echo "<table style='width: 100%;'>";
     echo "<tr>";
     echo "<td style='width: 30%; text-align: center;'>";
-    echo "<img style='border: 0;' src='$team_avatars_url/";
+    echo "<img style='border: 0; max-width: 150px;' src='$team_avatars_url/";
     echo $curTeam['avatar'] . "' alt='".attr_safe(strip_tags($curTeam['teamname']))."'></td>";
     echo "<td style='width: 70%'>";
 
