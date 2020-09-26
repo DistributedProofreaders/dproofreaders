@@ -67,7 +67,7 @@ function show_news_for_page( $news_page_id )
     // Get the set of 'current' news items
     // defined for the given page.
     $sql = sprintf("
-        SELECT date_posted, content
+        SELECT date_posted, header, content, item_type
         FROM news_items
         WHERE status = 'current'
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
@@ -80,7 +80,7 @@ function show_news_for_page( $news_page_id )
     // Get a randomly selected news item from the set of
     // 'recent' news items defined for the given page.
     $sql = sprintf("
-        SELECT content
+        SELECT header, content, item_type
         FROM news_items
         WHERE status = 'recent'
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
@@ -100,9 +100,7 @@ function show_news_for_page( $news_page_id )
 
         echo "<div class='news'>";
 
-
         echo "<div class='newsupdated'>";
-
         echo "<small>";
         if ( user_is_a_sitemanager() or user_is_site_news_editor())
         {
@@ -124,11 +122,8 @@ function show_news_for_page( $news_page_id )
         }
         echo "</small>";
         echo "</div>";
-        echo "<div class='newsheader'>";
 
         echo "<h2>" . _('News') . "</h2>";
-
-        echo "</div>"; // div.newsheader
 
         // -------------------------------------------
         // Output the 'current' news items, if any.
@@ -136,7 +131,18 @@ function show_news_for_page( $news_page_id )
         while ($news_item = mysqli_fetch_assoc($res_current))
         {
             echo "<div class='newsitem'>";
+
+            if($news_item['header'])
+            {
+                echo "<div class='news-header news-{$news_item['item_type']}'>";
+                echo $news_item['header'];
+                echo "</div>";
+            }
+
+            echo "<div class='news-content'>";
             echo $news_item['content'];
+            echo "</div>";
+
             echo "</div>";
         }
 
@@ -147,7 +153,18 @@ function show_news_for_page( $news_page_id )
         if($news_item)
         {
             echo "<div class='newsitem'>";
+
+            if($news_item['header'])
+            {
+                echo "<div class='news-header news-{$news_item['item_type']}'>";
+                echo $news_item['header'];
+                echo "</div>";
+            }
+
+            echo "<div class='news-content'>";
             echo $news_item['content'];
+            echo "</div>";
+
             $url = "$code_url/pastnews.php?news_page_id=$news_page_id";
             $linktext = _("See all random news items");
             echo "<p><small><a href='$url'>$linktext</a></small></p>";

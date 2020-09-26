@@ -16,6 +16,7 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NEWS_PAGES), true);
 $action = get_enumerated_param($_GET, 'action', null, array('add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'), true);
 $item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
+$header = array_get($_POST, 'header', '');
 $content = array_get($_POST, 'content', '');
 $locale_options = array_merge(array('' => _("Any language")), get_locale_translation_selection_options());
 $locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
@@ -25,9 +26,18 @@ $status_options = array(
     'archived' => _("Archived"),
 );
 $item_status = get_enumerated_param($_POST, 'status', null, array_keys($status_options), true);
+$item_type_options = [
+    'normal'       => _("Normal"),
+    'announcement1' => _("Announcement - High"),
+    'announcement2' => _("Announcement - Medium"),
+    'announcement3' => _("Announcement - Low"),
+    'celebration'  => _("Celebration"),
+    'maintenance'  => _("Maintenance"),
+];
+$item_type = get_enumerated_param($_POST, 'item_type', null, array_keys($item_type_options), true);
 
 if (isset($news_page_id)) {
-    handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status);
+    handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type);
 
     $news_subject = get_news_subject($news_page_id);
     $title = sprintf(_('News Desk for %s'), $news_subject );
@@ -103,7 +113,7 @@ function echo_selection($name, $options, $value_selected)
     echo "</select>";
 }
 
-function handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status)
+function handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type)
 {
     $allowed_tags = '<a><b><i><u><span><img><p><div><br>';
     switch($action)
@@ -115,16 +125,20 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
                 INSERT INTO news_items
                 SET
                     id           = NULL,
-                    news_page_id = '%s',
-                    status       = '%s',
+                    news_page_id = LEFT('%s', 8),
                     date_posted  = %d,
-                    content      = '%s',
-                    locale       = '%s'
+                    status       = LEFT('%s', 8),
+                    locale       = LEFT('%s', 8),
+                    item_type    = LEFT('%s', 16),
+                    header       = LEFT('%s', 256),
+                    content      = '%s'
             ", DPDatabase::escape($news_page_id),
-               DPDatabase::escape($item_status),
                time(),
-               DPDatabase::escape($content),
-               DPDatabase::escape($locale));
+               DPDatabase::escape($item_status),
+               DPDatabase::escape($locale),
+               DPDatabase::escape($item_type),
+               DPDatabase::escape($header),
+               DPDatabase::escape($content));
             DPDatabase::query($sql);
             // by default, new items go at the top
             $sql = "
@@ -182,11 +196,18 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
             $content = strip_tags($content, $allowed_tags);
             $sql = sprintf("
                 UPDATE news_items
-                SET content = '%s', locale = '%s', status = '%s'
+                SET
+                    status    = LEFT('%s', 8),
+                    locale    = LEFT('%s', 8),
+                    item_type = LEFT('%s', 16),
+                    header    = LEFT('%s', 256),
+                    content   = '%s'
                 WHERE id = %d
-            ", DPDatabase::escape($content),
+            ", DPDatabase::escape($item_status),
                DPDatabase::escape($locale),
-               DPDatabase::escape($item_status),
+               DPDatabase::escape($item_type),
+               DPDatabase::escape($header),
+               DPDatabase::escape($content),
                $item_id);
             DPDatabase::query($sql);
 
@@ -214,26 +235,31 @@ function show_item_editor($news_page_id, $action, $item_id)
 {
     global $locale_options;
     global $status_options;
+    global $item_type_options;
 
     if (isset($action) && $action == "edit") {
         $sql = sprintf("
-            SELECT content, status, locale
+            SELECT header, content, status, locale, item_type
             FROM news_items
             WHERE id = %d
         ", $item_id);
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
+        $header = $row["header"];
         $initial_content = $row["content"];
         $locale = $row["locale"];
         $item_status = $row['status'];
+        $item_type = $row['item_type'];
         $action_to_request = "edit_update";
         $submit_button_label = _("Save News Item");
         $title = _("Edit News Item");
     } else {
         $item_id = 0;
+        $header = "";
         $initial_content = "";
         $locale = "";
         $item_status = 'current';
+        $item_type = 'normal';
         $action_to_request = "add";
         $submit_button_label = _("Add News Item");
         $title = _("Add News Item");
@@ -251,6 +277,14 @@ function show_item_editor($news_page_id, $action, $item_id)
     echo "<tr>";
         echo "<td class='commands'><b>" . _("Status") . "</b></td>";
         echo "<td class='items'>"; echo_selection("status", $status_options, $item_status); echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("News Type") . "</b></td>";
+        echo "<td class='items'>"; echo_selection("item_type", $item_type_options, $item_type); echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("News Header") . "</b></td>";
+        echo "<td class='items'><input name='header' style='width:100%;' value='" . attr_safe($header) . "'></td>";
     echo "</tr>";
     echo "<tr>";
         echo "<td class='commands'><b>" . _("News Item") . "</b></td>";
@@ -354,8 +388,9 @@ function show_all_news_items_for_page( $news_page_id )
             }
             echo "</td>";
             echo "<td class='items default-border-bottom'>";
+            echo "<div class='news-header news-{$news_item['item_type']}'>" . html_safe($news_item['header']) . "</div>";
             echo "\n";
-            echo $news_item['content']."<br><br>";
+            echo $news_item['content'];
             echo "\n";
             echo "</td>";
             echo "</tr>";
