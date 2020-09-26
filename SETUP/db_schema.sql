@@ -176,6 +176,8 @@ CREATE TABLE `news_items` (
   `ordering` smallint(6) NOT NULL default '0',
   `content` text NOT NULL,
   `locale` varchar(8) NOT NULL DEFAULT '',
+  `header` varchar(256) NOT NULL DEFAULT '',
+  `item_type` varchar(16) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `pageid_locale` (`news_page_id`,`locale`)
 );

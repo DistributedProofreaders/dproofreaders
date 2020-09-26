@@ -164,6 +164,40 @@ div.newsitem {
     box-shadow: -5px -5px 5px lightgrey;
 }
 
+.news-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+
+.news-format(@color: black) {
+    color: @color;
+}
+
+.news-normal {
+    .news-format();
+}
+
+.news-announcement1 {
+    .news-format(maroon);
+}
+
+.news-announcement2 {
+    .news-format(orange);
+}
+
+.news-announcement3 {
+    .news-format(darkblue);
+}
+
+.news-celebration {
+    .news-format(green);
+}
+
+.news-maintenance {
+    .news-format(red);
+}
+
 /* ------------------------------------------------------------------------ */
 /* FAQ */
 
