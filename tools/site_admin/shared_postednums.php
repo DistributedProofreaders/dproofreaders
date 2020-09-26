@@ -1,10 +1,13 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsql.inc');
 
 require_login();
+
+slim_header("Same postednum");
 
 echo "<h1>Cases where multiple projects have the same postednum</h1>\n";
 
