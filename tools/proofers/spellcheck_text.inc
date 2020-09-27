@@ -53,7 +53,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         $font_size = "font-size: $font_size";
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style>" .
-                   "  pre { line-height: 2.25; }".
+                   "  pre { line-height: 2.7; }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
