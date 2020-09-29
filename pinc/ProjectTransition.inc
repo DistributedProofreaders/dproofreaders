@@ -1158,7 +1158,7 @@ new ProjectTransition(
 new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
-    'manager',
+    'site_manager',
     array(
         'project_restriction'   => "project_was_returned_from_PPV",
         'action_name'           => _("Upload to the PPV pool for verification"),
