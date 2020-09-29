@@ -2,6 +2,7 @@
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
+include_once($relPath.'page_table.inc');
 include_once("exceptions.inc");
 
 // DP API v1 -- Projects
@@ -198,6 +199,33 @@ function api_v1_project_pages($method, $data, $query_params)
             "image_url" => "{$project->dir}/$image",
             "image_size" => $project->get_image_file_size($image),
         ];
+    }
+    return $return_data;
+}
+
+//---------------------------------------------------------------------------
+// projects/:projectid/pagedetails
+
+function api_v1_project_pagedetails($method, $data, $query_params)
+{
+    $return_data = [];
+    foreach(fetch_page_table_data($data[":projectid"]) as $image)
+    {
+        $page_rounds_data = [];
+        // Remove proofer names and adjust timestamp format
+        foreach($image["pagerounds"] as $round_id => $round_data)
+        {
+            $round_data["pageround"] = $round_id;
+            if(isset($round_data["modified_timestamp"]))
+            {
+                $round_data["last_modified"] = date(DATE_ATOM, $round_data["modified_timestamp"]);
+                unset($round_data["modified_timestamp"]);
+            }
+            unset($round_data["username"]);
+            $page_rounds_data[] = $round_data;
+        }
+        $image["pagerounds"] = $page_rounds_data;
+        $return_data[] = $image;
     }
     return $return_data;
 }
