@@ -342,6 +342,36 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/pagedetails:
+    get:
+      tags:
+      - project
+      description: Gets all details about a project's pages
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Page details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/project_page_detail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/{projectid}/pages/{pagename}/pagerounds/{pageroundid}:
     get:
       tags:
@@ -512,6 +542,53 @@ components:
         image_size:
           type: integer
           description: Image size in bytes
+
+    project_page_detail:
+      required:
+      - image
+      - image_url
+      - image_size
+      - state
+      type: object
+      properties:
+        image:
+          type: string
+        image_url:
+          type: string
+          format: url
+        image_size:
+          type: integer
+          description: Image size in bytes
+        state:
+          type: string
+        pagerounds:
+          type: array
+          items:
+            $ref: '#/components/schemas/project_page_round_detail'
+
+    project_page_round_detail:
+      type: object
+      required:
+      - page_round
+      - page_size
+      properties:
+        pageround:
+          type: string
+        page_size:
+          type: integer
+          description: Page size in bytes
+        is_diff:
+          type: boolean
+          description: Is there a diff between this and the prior round
+        user_page_tally:
+          type: integer
+          description: Number of pages proofer has proofed in this round
+        wordcheck_ran:
+          type: boolean
+          description: Was WordCheck run on the page
+        last_modified:
+          type: string
+          format: dateTime
 
     project_page:
       required:
