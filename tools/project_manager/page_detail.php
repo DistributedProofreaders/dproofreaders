@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once('page_table.inc');
+include_once($relPath.'page_table.inc');
 
 require_login();
 

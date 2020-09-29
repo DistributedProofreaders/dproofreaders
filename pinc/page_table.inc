@@ -8,6 +8,216 @@ include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particula
 include_once($relPath.'misc.inc'); // surround_and_join, attr_safe
 include_once($relPath.'links.inc'); // private_message_link
 
+// Given a project, return the rounds that contain useful data
+function get_rounds_to_display($project)
+{
+    $project_round = get_Round_for_project_state($project->state);
+
+    // This project may have skipped some rounds, and/or it may have rounds
+    // yet to do, so there may be some round-columns with no data in them.
+    // Figure out which ones to display.
+    //
+    $rounds_to_display = get_rounds_with_data($project->projectid);
+
+    // If the project is in a round, then users expect that round to appear here,
+    // even if there's no data in it.
+    //
+    if ( !is_null($project_round) )
+    {
+        // Look for $project_round in $rounds_to_display.
+        // If it does appear, it will normally be the last item,
+        // but check everywhere, just in case.
+        $found = FALSE;
+        foreach ( $rounds_to_display as $round )
+        {
+            if ( $round->id == $project_round->id )
+            {
+                $found = TRUE;
+                break;
+            }
+        }
+        if ( !$found )
+        {
+            $rounds_to_display[] = $project_round;
+        }
+    }
+
+    return $rounds_to_display;
+}
+
+/*
+Generator to return page table data for a project, one page at a time.
+Data is returned in an multi-level associative array that abstracts away
+the lower-level database structure. The returned format looks like:
+
+{
+    "image": "018.png",
+    "image_url": "https://www.pgdp.net/projects/projectID460978cb8e116/018.png",
+    "state": "P3.page_saved",
+    "image_size": 45541,
+    "pagerounds": {
+        "OCR": {
+            "page_size": "1445"
+        },
+        "P1": {
+            "page_size": "1446",
+            "is_diff": "0",
+            "username": "username",
+            "user_page_tally": "117"
+            "wordcheck_ran": "0",
+            "modified_timestamp": "1175026200",
+        },
+        "P2": {
+            ...
+        },
+        ...
+    }
+}
+*/
+function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_round = NULL)
+{
+    $rounds_to_display = get_rounds_to_display($project);
+
+    $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
+    $tables = $project->projectid;
+    $prev_text_column_name = 'master_text';
+    foreach ( $rounds_to_display as $round )
+    {
+        $rn = $round->round_number;
+
+        $tallyboard = new TallyBoard( $round->id, 'U' );
+        list($joined_with_user_page_tallies,$user_page_tally_column) =
+            $tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
+
+        if(is_formatting_round($round))
+        {
+            $wordcheck_query = "NULL as wordcheck_status$rn";
+        }
+        else
+        {
+            $wordcheck_query = sprintf("
+                (
+                    SELECT count(*)
+                    FROM wordcheck_events
+                    WHERE projectid = '%s' AND
+                        image = {$project->projectid}.image AND
+                        username = $round->user_column_name AND
+                        round_id = '%s'
+                ) as wordcheck_status$rn
+            ", DPDatabase::escape($project->projectid),
+                DPDatabase::escape($round->id));
+        }
+        $fields_to_get .= ",
+            $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
+            $round->time_column_name,
+            $round->user_column_name,
+            $user_page_tally_column AS `$rn.user_page_tally`,
+            length($round->text_column_name),
+            $wordcheck_query
+        ";
+        $tables .= "
+            LEFT OUTER JOIN users AS users$rn
+                ON (users$rn.username = $round->user_column_name)
+            $joined_with_user_page_tallies
+        ";
+        $prev_text_column_name = $round->text_column_name;
+    }
+
+    if ( is_null($page_selector) )
+    {
+        // Select all pages
+        $where_condition = "1";
+    }
+    elseif ( is_string($page_selector) )
+    {
+        // Select all pages of a particular user.
+        $username_for_selecting_pages = $page_selector;
+
+        $where_condition = "0";
+        $work_round = get_Round_for_round_id($proofed_in_round);
+        if (is_null($proofed_in_round) || is_null($work_round))
+        {
+            // want pages that the specified user did in any round
+            foreach ( $rounds_to_display as $round )
+            {
+                $where_condition .= sprintf("
+                    OR $round->user_column_name = '%s'
+                ", DPDatabase::escape($username_for_selecting_pages));
+            }
+        }
+        else
+        {
+            // want only pages that the specified user did in the specified round
+            $where_condition .= sprintf("
+                OR $work_round->user_column_name = '%s'
+            ", DPDatabase::escape($username_for_selecting_pages));
+
+        }
+        $page_selector = NULL;
+    }
+    else
+    {
+        // $page_selector is an array whose keys are imagenames of the pages to select
+        $imagenames_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
+        $where_condition = "image IN ($imagenames_str)";
+    }
+
+    $sql = "
+        SELECT $fields_to_get
+        FROM $tables
+        WHERE $where_condition
+        ORDER BY image ASC
+    ";
+    $res = DPDatabase::query($sql);
+    while($row = mysqli_fetch_assoc($res))
+    {
+        // reconstruct the row data into a structured format
+        $data = [
+            "image" => $row['image'],
+            "image_url" => "{$project->url}/{$row['image']}",
+            "state" => $row['state'],
+        ];
+
+        if (file_exists("{$project->dir}/{$row['image']}")) {
+            $data['image_size'] = filesize(realpath("{$project->dir}/{$row['image']}"));
+        } else {
+            $data['image_size'] = NULL;
+        }
+
+        $pagerounds = [
+            "OCR" => [
+                "page_size" => $row["length(master_text)"],
+            ],
+        ];
+
+        foreach ( $rounds_to_display as $round )
+        {
+            $rn = $round->round_number;
+
+            $wordcheck_status = $row["wordcheck_status$rn"];
+            if($wordcheck_status == NULL)
+            {
+                $wordcheck_ran = NULL;
+            }
+            else
+            {
+                $wordcheck_ran = $wordcheck_status > 0;
+            }
+
+            $pagerounds[$round->id] = [
+                "page_size" => $row["length($round->text_column_name)"],
+                "is_diff" => $row[$round->textdiff_column_name] == 1,
+                "username" => $row[$round->user_column_name],
+                "user_page_tally" => $row["$rn.user_page_tally"],
+                "wordcheck_ran" => $wordcheck_ran,
+                "modified_timestamp" => $row[$round->time_column_name],
+            ];
+        }
+        $data['pagerounds'] = $pagerounds;
+        yield $data;
+    }
+}
+
 function echo_page_table(
     $project,
     $show_image_size,
@@ -37,36 +247,9 @@ function echo_page_table(
 
     $show_delete = (($project_phase=='NEW' || $project_phase=='PR') && $can_edit) || user_is_proj_facilitator();
 
-    $project_round = get_Round_for_project_state($state);
+    $project_round = get_Round_for_project_state($project->state);
 
-    // This project may have skipped some rounds, and/or it may have rounds
-    // yet to do, so there may be some round-columns with no data in them.
-    // Figure out which ones to display.
-    //
-    $rounds_to_display = get_rounds_with_data( $projectid );
-
-    // If the project is in a round, then users expect that round to appear here,
-    // even if there's no data in it.
-    //
-    if ( !is_null($project_round) )
-    {
-        // Look for $project_round in $rounds_to_display.
-        // If it does appear, it will normally be the last item,
-        // but check everywhere, just in case.
-        $found = FALSE;
-        foreach ( $rounds_to_display as $round )
-        {
-            if ( $round->id == $project_round->id )
-            {
-                $found = TRUE;
-                break;
-            }
-        }
-        if ( !$found )
-        {
-            $rounds_to_display[] = $project_round;
-        }
-    }
+    $rounds_to_display = get_rounds_to_display($project);
 
     $upload_colspan = 2 + $show_image_size;
 
@@ -158,115 +341,16 @@ function echo_page_table(
 
     echo "</tr>";
 
-    $avail_pages="";
+    $avail_pages = [];
 
-    $path = "$projects_dir/$projectid/";
-
-    $fields_to_get = "$projectid.image, length(master_text), state";
-    $tables = $projectid;
-    $prev_text_column_name = 'master_text';
-    foreach ( $rounds_to_display as $round )
+    $row_count = 0;
+    foreach(fetch_page_table_data($project, $page_selector, $proofed_in_round) as $page_res)
     {
-        $rn = $round->round_number;
-
-        $tallyboard = new TallyBoard( $round->id, 'U' );
-        list($joined_with_user_page_tallies,$user_page_tally_column) =
-            $tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
-
-        if(is_formatting_round($round))
-        {
-            $wordcheck_query = "NULL as wordcheck_status$rn";
-        }
-        else
-        {
-            $wordcheck_query = "
-                (
-                    SELECT count(*)
-                    FROM wordcheck_events
-                    WHERE projectid = '$projectid' AND
-                        image = $projectid.image AND
-                        username = $round->user_column_name AND
-                        round_id = '$round->id'
-                ) as wordcheck_status$rn
-            ";
-        }
-        $fields_to_get .= ",
-            $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
-            $round->time_column_name,
-            $round->user_column_name,
-            $user_page_tally_column AS `$rn.user_page_tally`,
-            length($round->text_column_name),
-            $wordcheck_query
-        ";
-        $tables .= "
-            LEFT OUTER JOIN users AS users$rn
-                ON (users$rn.username = $round->user_column_name)
-            $joined_with_user_page_tallies
-        ";
-        $prev_text_column_name = $round->text_column_name;
-    }
-
-    if ( is_null($page_selector) )
-    {
-        // Select all pages
-        $where_condition = "1";
-    }
-    elseif ( is_string($page_selector) )
-    {
-        // Select all pages of a particular user.
-        $username_for_selecting_pages = $page_selector;
-
-        $where_condition = "0";
-        $work_round = get_Round_for_round_id($proofed_in_round);
-        if (is_null($proofed_in_round) || is_null($work_round))
-        {
-            // want pages that the specified user did in any round
-            foreach ( $rounds_to_display as $round )
-            {
-                $where_condition .= "
-                    OR $round->user_column_name='$username_for_selecting_pages'
-                ";
-            }
-        }
-        else
-        {
-            // want only pages that the specified user did in the specified round
-            $where_condition .= "
-                OR $work_round->user_column_name='$username_for_selecting_pages'
-            ";
-
-        }
-        $page_selector = NULL;
-    }
-    else
-    {
-        // $page_selector is an array whose keys are imagenames of the pages to select
-        $imagenames_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
-        $where_condition = "image IN ($imagenames_str)";
-    }
-
-    $sql = "
-        SELECT $fields_to_get
-        FROM $tables
-        WHERE $where_condition
-        ORDER BY image ASC
-    ";
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
-    $num_rows = mysqli_num_rows($res);
-
-    for ( $rownum=0; $rownum < $num_rows; $rownum++ )
-    {
-        $page_res = mysqli_fetch_assoc($res);
+        $row_count += 1;
 
         $imagename = $page_res['image'];
 
-        if ($rownum % 2 ) {
-            $row_class_attr = "class='e'";
-        } else {
-            $row_class_attr = "class='o'";
-        }
-
-        echo "<tr $row_class_attr>";
+        echo "<tr>";
 
         // --------------------------------------------
         // Selector
@@ -277,23 +361,24 @@ function echo_page_table(
 
         // --------------------------------------------
         // Index
-        $index = $rownum+1;
-        echo "<td style='text-align: right'>$index</td>\n";
+        echo "<td style='text-align: right'>$row_count</td>\n";
 
         // --------------------------------------------
         // Upload Block
 
         // Image
-        if (file_exists($path.$imagename)) {
-            $cell_class_attr = '';
-            $imagesize = filesize(realpath($path.$imagename));
-            if ($imagesize == 0) {
-                $cell_class_attr = "class='error'";
-            }
-        } else {
+        $cell_class_attr = '';
+        $imagesize = $page_res["image_size"];
+        if($imagesize === 0)
+        {
             $cell_class_attr = "class='error'";
-            if ($show_image_size) $imagesize = "X";
         }
+        elseif($imagesize === NULL)
+        {
+            $cell_class_attr = "class='error'";
+            $imagesize = "X";
+        }
+
         echo "<td $cell_class_attr><a href='$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$imagename'>$imagename</a></td>\n";
 
         // Image Size
@@ -303,7 +388,7 @@ function echo_page_table(
         }
 
         // Master Text
-        $master_text_length = $page_res['length(master_text)'];
+        $master_text_length = $page_res["pagerounds"]["OCR"]["page_size"];
         echo "<td style='text-align: right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0'>$master_text_length&nbsp;b</a></td>\n";
 
         // --------------------------------------------
@@ -313,7 +398,7 @@ function echo_page_table(
         echo "<td>$page_state</td>\n";
 
         if (page_state_is_an_avail_state($page_state))
-            $avail_pages.="$index,";
+            $avail_pages[] = $row_count;
 
         // --------------------------------------------
         // Per-Round Info
@@ -329,7 +414,7 @@ function echo_page_table(
             $can_see_names_for_this_page = FALSE;
             foreach ( $rounds_to_display as $round )
             {
-                $proofer_name = $page_res[$round->user_column_name];
+                $proofer_name = $page_res["pagerounds"][$round->id]["username"];
                 if ( $proofer_name != '' && $proofer_name == $pguser )
                 {
                     $can_see_names_for_this_page = TRUE;
@@ -357,8 +442,8 @@ function echo_page_table(
         if ($project_phase == 'PAGE_EDITING')
         {
             if (!$page_is_in_bad_state
-                && $page_res[$project_round->user_column_name] == $pguser
-                && $page_state != $project_round->page_avail_state)  
+                && $page_res["pagerounds"][$project_round->id]["username"] == $pguser
+                && $page_state != $project_round->page_avail_state)
             {
 
                 $url = url_for_pi_do_particular_page(
@@ -411,12 +496,13 @@ function echo_page_table(
     {
 ?>
 <script><!--
-avail_pages=new Array(<?php echo substr($avail_pages,0,-1); ?>);
+let avail_pages = <?php echo json_encode($avail_pages); ?>;
+let num_rows = <?php echo $row_count; ?>;
 
 function changeSelection(sel) {
     switch(sel) {
         case "all":
-            for(i=1;i<=<?php echo $num_rows; ?>;i++)
+            for(i=1; i<=num_rows; i++)
                 document.pagesform.elements[i].checked=true;
             break;
         case "unproofed":
@@ -425,11 +511,11 @@ function changeSelection(sel) {
                 document.pagesform.elements[avail_pages[i]].checked=true;
             break;
         case "invert":
-            for(i=1;i<=<?php echo $num_rows; ?>;i++)
+            for(i=1; i<=num_rows; i++)
                 document.pagesform.elements[i].checked=!document.pagesform.elements[i].checked;
             break;
         case "clear":
-            for(i=1;i<=<?php echo $num_rows; ?>;i++)
+            for(i=1; i<=num_rows; i++)
                 document.pagesform.elements[i].checked=false;
             break;
         default:
@@ -487,10 +573,12 @@ function get_rounds_with_data( $projectid )
     }
     $body = join($sums,',');
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    validate_projectid($projectid);
+    $sql = "
         SELECT $body
         FROM $projectid
-    ") or die(DPDatabase::log_error());
+    ";
+    $res = DPDatabase::query($sql);
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round_id => $round )
@@ -524,7 +612,8 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     $round = get_Round_for_round_number($round_num);
     assert( !is_null($round) );
 
-    $R_username = $page_res[$round->user_column_name];
+    $round_data = $page_res["pagerounds"][$round->id];
+    $R_username = $round_data["username"];
 
     $cell_class_attr = "";
 
@@ -537,7 +626,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
         }
 
         // a page saved as IN PROGRESS by the user has an orangey background
-        else if ($page_state == $round->page_temp_state 
+        else if ($page_state == $round->page_temp_state
             || $page_state == $round->page_out_state) {
             $cell_class_attr = "class='in_progress'";
         }
@@ -554,7 +643,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
     echo "<td>";
     if ($page_state != $round->page_avail_state) {
-        if($page_res[$round->textdiff_column_name]) {
+        if($round_data["is_diff"]) {
             echo _("No diff");
         } else {
             echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round_num=$diff_round_num&amp;R_round_num=$round_num'>"._("Diff")."</a>";
@@ -566,7 +655,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     // ------------------------------
     // Date
 
-    $R_time = $page_res[$round->time_column_name];
+    $R_time = $round_data["modified_timestamp"];
     if ($R_time == 0)
     {
         $R_time_str = '';
@@ -587,13 +676,13 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     }
     else if ($can_see_names_for_this_page)
     {
-        $R_pages_completed = $page_res["$round_num.user_page_tally"];
+        $R_pages_completed = $round_data["user_page_tally"];
 
-        if ($page_res["wordcheck_status$round_num"] == NULL)
+        if ($round_data["wordcheck_ran"] === NULL)
         {
             $wordcheck_status = '';
         }
-        elseif ($page_res["wordcheck_status$round_num"] > 0)
+        elseif ($round_data["wordcheck_ran"])
         {
             $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
         }
@@ -612,7 +701,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     // ------------------------------
     // Text
 
-    $R_text_length = $page_res["length($round->text_column_name)"];
+    $R_text_length = $round_data["page_size"];
 
     if ( $R_text_length == 0 )
     {

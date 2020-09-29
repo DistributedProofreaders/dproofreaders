@@ -10,7 +10,7 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), get_enumerated_param()
 include_once($relPath.'codepoint_validator.inc');
-include_once('page_table.inc');  // page_state_is_a_bad_state()
+include_once($relPath.'page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
 
