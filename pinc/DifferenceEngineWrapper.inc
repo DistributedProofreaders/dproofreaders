@@ -181,6 +181,10 @@ function get_DifferenceEngine_css_data() {
     font-family: $font_family;
     $font_size
 }
+.diff-deletedline .diffchange,
+.diff-addedline .diffchange {
+    padding: 0;
+}
 ";
 }
 
