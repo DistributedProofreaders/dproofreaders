@@ -564,6 +564,20 @@ class Project
         return array_intersect($db_names, $disk_names);
     }
 
+    // Given a project image, return the file size in bytes. If the image
+    // doesn't exist on disk, return NULL.
+    // TODO: This function would be better in a ProjectPage object, but we
+    // don't have one of those.
+    function get_image_file_size($image)
+    {
+        $image_path = realpath("{$this->dir}/$image");
+        if (file_exists($image_path)) {
+            return filesize($image_path);
+        } else {
+            return NULL;
+        }
+    }
+
     function get_illustrations()
     {
         // Illustrations are the set of files in the project directory that

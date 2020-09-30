@@ -188,7 +188,18 @@ function api_v1_project_wordlists($method, $data, $query_params)
 
 function api_v1_project_pages($method, $data, $query_params)
 {
-    return $data[":projectid"]->get_page_names_from_db();
+    $project = $data[":projectid"];
+
+    $return_data = [];
+    foreach($project->get_page_names_from_db() as $image)
+    {
+        $return_data[] = [
+            "image" => $image,
+            "image_url" => "{$project->dir}/$image",
+            "image_size" => $project->get_image_file_size($image),
+        ];
+    }
+    return $return_data;
 }
 
 //---------------------------------------------------------------------------

@@ -332,7 +332,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: '#/components/schemas/project_page_index'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -496,6 +496,22 @@ components:
         includes a great deal of information, some fields of which are calculated
         and not directly modifyable. Not all fields are available to all users. Fields
         the user does not have access to will not be returned.
+
+    project_page_index:
+      required:
+      - image
+      - image_url
+      - image_size
+      type: object
+      properties:
+        image:
+          type: string
+        image_url:
+          type: string
+          format: url
+        image_size:
+          type: integer
+          description: Image size in bytes
 
     project_page:
       required:
