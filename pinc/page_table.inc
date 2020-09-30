@@ -175,14 +175,9 @@ function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_roun
         $data = [
             "image" => $row['image'],
             "image_url" => "{$project->url}/{$row['image']}",
+            "image_size" => $project->get_image_file_size($row['image']),
             "state" => $row['state'],
         ];
-
-        if (file_exists("{$project->dir}/{$row['image']}")) {
-            $data['image_size'] = filesize(realpath("{$project->dir}/{$row['image']}"));
-        } else {
-            $data['image_size'] = NULL;
-        }
 
         $pagerounds = [
             "OCR" => [
