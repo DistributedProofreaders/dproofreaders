@@ -1244,12 +1244,12 @@ div.newsitem img {
   max-width: 100%;
 }
 .news-header {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   padding-bottom: 0.5em;
 }
 .news-normal {
-  color: black;
+  color: inherit;
 }
 .news-announcement1 {
   color: maroon;
