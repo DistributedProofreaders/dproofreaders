@@ -29,6 +29,9 @@
 .underlined {
   text-decoration: underline;
 }
+.x-large {
+  font-size: x-large;
+}
 .large {
   font-size: large;
 }
@@ -1811,6 +1814,26 @@ table.dirlist caption {
   font-size: 111%;
   margin-top: 0.5em;
   padding: 5px;
+}
+/* ------------------------------------------------------------------------ */
+/* Quizzes */
+.quiz-passed {
+  background-color: #ccffcc;
+}
+.quiz-not-passed {
+  background-color: #ffcccc;
+}
+.quiz-date-ok {
+  background-color: #ccffcc;
+}
+.quiz-date-not-ok {
+  background-color: #ffcccc;
+}
+.quiz-ok {
+  background-color: #88ff88;
+}
+.quiz-not-ok {
+  background-color: #ff8888;
 }
 /* ------------------------------------------------------------------------ */
 /* Special days tables */
