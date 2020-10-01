@@ -138,7 +138,7 @@ class Quiz
         if ($this->description != "" || count($stage_required_for) > 0)
         {
             echo "
-                <tr><td colspan='$n_columns' class='info'>";
+                <tr><td colspan='$n_columns'>";
             if (count($stage_required_for) > 0)
             {
                 echo "<p>" . _("Passing this quiz is required for:") . " ";
@@ -168,18 +168,27 @@ class Quiz
             {
                 $passed = user_has_passed_quiz_page($username, $quiz_page_id);
                 $text = $passed ? _("Passed") : _("Not passed");
-                $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
-                echo "<td style='background-color: $bgcolor'>$text</td>";
+                $class = $passed ? 'quiz-passed' : 'quiz-not-passed';
+                echo "<td class='$class'>$text</td>";
+
                 $date = get_last_attempt_date_for_quiz_page($username, $quiz_page_id);
                 $text = ($date != 0) ? strftime("%d-%b-%y", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
-                $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
-                echo "<td style='background-color: $bgcolor'>$text</td>";
-                $text = ($passed && $date_ok) ?	"<span style='font-size: 1.5em' title='Quiz page passed!'>&check;</span>"
-                    : "<span style='font-size: 1.5em' title='Quiz page not passed'>&#x2717;</span>";
-                $bgcolor = ($passed && $date_ok) ? '#88ff88' : '#ff8888';
-                echo "<td style='background-color: $bgcolor'>$text</td>";
+                $class = $date_ok ? 'quiz-date-ok' : 'quiz-date-not-ok';
+                echo "<td class='$class'>$text</td>";
+
+                if($passed && $date_ok)
+                {
+                    $text = "<span class='x-large' title='" . attr_safe(_("Quiz page passed!")) . "'>✓</span>";
+                    $class = 'quiz-ok';
+                }
+                else
+                {
+                    $text = "<span class='x-large' title='" . attr_safe(_("Quiz page not passed!")) . "'>✗</span>";
+                    $class = 'quiz-not-ok';
+                }
+                echo "<td class='$class'>$text</td>";
             }
             echo "</tr>";
         }
@@ -187,9 +196,9 @@ class Quiz
         {
             $total_pass = $this->user_has_passed($username);
             $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
-            $bgcolor = $total_pass ? '#88ff88' : '#ff8888';
+            $class = $total_pass ? 'quiz-ok' : 'quiz-not-ok';
             echo "
-                <tr><td colspan='$n_columns' style='background-color: $bgcolor; font-weight: bold; text-align: center;'>$text</td></tr>";
+                <tr><td colspan='$n_columns' class='$class center-align bold'>$text</td></tr>";
         }
         echo "</table>\n";
     }
