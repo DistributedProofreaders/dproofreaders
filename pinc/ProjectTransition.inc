@@ -1074,7 +1074,7 @@ new ProjectTransition(
     'holder',
     array(
         'project_restriction'   => null,
-        'action_name'           => _("Return to Post-Processing"),
+        'action_name'           => _("Return to Post-Processor for further work"),
         'confirmation_question' => _("Are you sure you want to take this book back for further work?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=''",
