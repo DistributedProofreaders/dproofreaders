@@ -220,7 +220,7 @@ class FAQ
                 echo "<td class='column'>";
                 continue;
             }
-            echo "\n<div class='faqheader'>$section->title</div>\n";
+            echo "\n<h2>" . html_safe($section->title) . "</h2>\n";
 
             $section->output();
         }
