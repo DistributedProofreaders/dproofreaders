@@ -1051,18 +1051,9 @@ nav,
 /* Statsbar */
 #sidebar,
 #statsbar {
+  font-family: Verdana, Helvetica, sans-serif;
   background-color: #dddddd;
   color: #000000;
-}
-#sidebar p,
-#statsbar p,
-#sidebar li,
-#statsbar li,
-#sidebar td,
-#statsbar td,
-#sidebar th,
-#statsbar th {
-  font-family: Verdana, Helvetica, sans-serif;
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */
@@ -1565,14 +1556,6 @@ table.faqtable tr td.column {
   vertical-align: top;
   width: 50%;
   padding-right: 1em;
-}
-div.faqheader {
-  font-weight: bold;
-  vertical-align: middle;
-  padding: 0.25em 0.5em;
-  font-family: Verdana, Helvetica, sans-serif;
-  background-color: #444444;
-  color: #ffffff;
 }
 /* ------------------------------------------------------------------------ */
 /* User Preferences */
