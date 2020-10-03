@@ -475,50 +475,36 @@ components:
           type: string
         special_day:
           type: string
-        clearance_line:
-          type: string
         project_manager:
           type: string
         post_processor:
+          type: string
+        post_process_verifier:
+          type: string
+        image_preparer:
+          type: string
+        text_preparer:
           type: string
         image_source:
           type: string
         pages_available:
           type: integer
-        page_total:
+        pages_total:
           type: integer
-        text_preparer:
-          type: string
         pg_ebook_number:
           type: integer
-        comments:
-          type: string
-        credits_so_far:
-          type: string
-          readOnly: true
-        modified:
-          type: string
-          format: dateTime
-          readOnly: true
         state:
           type: string
           readOnly: true
-        state_last_modified:
+        last_state_change_time:
           type: string
           format: dateTime
           readOnly: true
-        page_last_modified:
+        last_page_done_time:
           type: string
           format: dateTime
           readOnly: true
-        forum_url:
-          type: string
-          format: url
-          readOnly: true
-        forum_replies:
-          type: integer
-          readOnly: true
-        forum_last_updated:
+        last_edit_time:
           type: string
           format: dateTime
           readOnly: true

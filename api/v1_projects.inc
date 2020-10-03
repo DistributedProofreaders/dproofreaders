@@ -143,9 +143,9 @@ function render_project_json($project)
         "pages_available" => $project->n_available_pages,
         "pages_total" => $project->n_pages,
         "pg_ebook_number" => $project->postednum,
-        "last_modified" => date(DATE_ATOM, $project->modifieddate),
-        "last_page_done" => date(DATE_ATOM, $project->t_last_page_done),
-        "last_edit" => date(DATE_ATOM, $project->t_last_edit),
+        "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
+        "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
+        "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
     ];
 }
 
