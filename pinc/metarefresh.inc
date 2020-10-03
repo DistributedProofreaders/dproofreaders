@@ -59,12 +59,13 @@ function metarefresh($seconds, $url, $title="", $body="", $allow_external=FALSE)
     // If we can't do the redirection using HTTP headers (which is the common
     // case), fall back to using a <meta> tag.
 
-    // See if ambersands are present and if not escaped, escape them
-    if(strpos($url, '&') !== FALSE && strpos($url, '&amp;') === FALSE) {
-        $url = str_replace('&', '&amp;', $url);
+    // If ampersands are present and already escaped, unescape them so
+    // attr_safe() will re-escape them along with anything else
+    if(strpos($absolute_url, '&amp;') !== FALSE) {
+        $absolute_url = str_replace('&amp;', '&', $absolute_url);
     }
 
-    $meta_tag_refresh = "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">";
+    $meta_tag_refresh = "<meta http-equiv='refresh' content='$sec ;URL=" . attr_safe($absolute_url) . "'>";
 
     global $relPath;
     include_once($relPath."slim_header.inc");
@@ -74,9 +75,9 @@ function metarefresh($seconds, $url, $title="", $body="", $allow_external=FALSE)
 
     if ($testing)
     {
-    	echo "\n<hr>\n<i>";
-    	echo sprintf(_('Normally, you would be directed to the next page in %1$d seconds. However, as we are in testing mode, this has been increased to %2$d seconds. If you don\'t want to wait that long, or if you want this page inserted into your browser history, <a href="%3$s">click here</a>.'), $seconds, $sec, $url);
-    	echo "</i>";
+        echo "\n<hr>\n<i>";
+        echo sprintf(_('Normally, you would be directed to the next page in %1$d seconds. However, as we are in testing mode, this has been increased to %2$d seconds. If you don\'t want to wait that long, or if you want this page inserted into your browser history, <a href="%3$s">click here</a>.'), $seconds, $sec, attr_safe($absolute_url));
+        echo "</i>";
     }
 
     exit;
