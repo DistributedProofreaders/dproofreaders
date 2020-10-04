@@ -35,6 +35,7 @@
 
         input, select, button {
             background-color: @text-pane-background;
+            color: @text-pane-text;
             .solid-border;
         }
 
@@ -55,7 +56,7 @@
 /* ------------------------------------------------------------------------ */
 /* Standard Editing Interface */
 
-#standard_interface {
+#standard_interface_image {
     .no-padding;
     .no-margin;
     .page-interface;
@@ -65,7 +66,26 @@
     }
 }
 
+#standard_interface_text {
+    .no-margin;
+    background-color: white;
+    color: black;
+    #editform {
+        input {
+            background-color: white;
+            color: black;
+            border: thin solid black;
+        }
+        button, input[type=submit], input[type=button] {
+            box-shadow: 1px 1px grey;
+            margin: 2px;
+        }
+    }
+}
+
 #text_data, #text_data:focus {
+    background-color: white;
+    color: black;
     outline: none;
 }
 
