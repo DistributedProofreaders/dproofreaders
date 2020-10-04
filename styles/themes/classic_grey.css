@@ -2013,6 +2013,12 @@ li.spaced {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+#event_subscriptions th,
+#project_holds th,
+#event_subscriptions td,
+#project_holds td {
+  padding-right: 1em;
+}
 .checkbox-cell {
   text-align: center;
 }
