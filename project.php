@@ -1163,7 +1163,7 @@ function do_event_subscriptions()
     $url = "$code_url/tools/set_project_event_subs.php";
     echo "<form method='post' action='$url'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
-    echo "<table>\n";
+    echo "<table id='event_subscriptions'>\n";
     echo "<tr>";
     echo "<th>", _("Event"), "</th>";
     echo "<th>", _("Subscribed?"), "</th>";
@@ -1220,7 +1220,7 @@ function do_holds()
         echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#holds'>\n";
     }
 
-    echo "<table>\n";
+    echo "<table id='project_holds'>\n";
     echo "<tr>\n";
     echo "<th></th>\n";
     echo "<th>", _("hold in Waiting"), "</th>\n";
