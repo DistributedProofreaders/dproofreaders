@@ -1,6 +1,6 @@
 # API User's Guide
 
-The DP code provides a RESTful API for accessing various its of data
+The DP code provides a RESTful API for accessing various bits of data
 programmatically using a well-defined structure instead of HTML scraping.
 
 ## RESTful API
