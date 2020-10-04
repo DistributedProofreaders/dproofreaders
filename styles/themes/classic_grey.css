@@ -180,6 +180,7 @@
 .page-interface .control-pane select,
 .page-interface .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 .page-interface .control-pane button,
@@ -195,42 +196,61 @@
 }
 /* ------------------------------------------------------------------------ */
 /* Standard Editing Interface */
-#standard_interface {
+#standard_interface_image {
   padding: 0;
   margin: 0;
   background-color: #CDCDC1;
   color: black;
 }
-#standard_interface .text-pane {
+#standard_interface_image .text-pane {
   background-color: #FFF8DC;
   color: black;
 }
-#standard_interface .control-pane {
+#standard_interface_image .control-pane {
   background-color: #CDC0B0;
   color: black;
 }
-#standard_interface .control-pane input,
-#standard_interface .control-pane select,
-#standard_interface .control-pane button {
+#standard_interface_image .control-pane input,
+#standard_interface_image .control-pane select,
+#standard_interface_image .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
-#standard_interface .control-pane button,
-#standard_interface .control-pane input[type=submit],
-#standard_interface .control-pane input[type=button] {
+#standard_interface_image .control-pane button,
+#standard_interface_image .control-pane input[type=submit],
+#standard_interface_image .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
 }
-#standard_interface .control-pane input[type=image] {
+#standard_interface_image .control-pane input[type=image] {
   border: none;
 }
-#standard_interface .control-pane .menu {
+#standard_interface_image .control-pane .menu {
   background-color: Bisque;
 }
-#standard_interface #imagedisplay {
+#standard_interface_image #imagedisplay {
   text-align: center;
+}
+#standard_interface_text {
+  margin: 0;
+  background-color: white;
+  color: black;
+}
+#standard_interface_text #editform input {
+  background-color: white;
+  color: black;
+  border: thin solid black;
+}
+#standard_interface_text #editform button,
+#standard_interface_text #editform input[type=submit],
+#standard_interface_text #editform input[type=button] {
+  box-shadow: 1px 1px grey;
+  margin: 2px;
 }
 #text_data,
 #text_data:focus {
+  background-color: white;
+  color: black;
   outline: none;
 }
 /* ------------------------------------------------------------------------ */
@@ -253,6 +273,7 @@
 #enhanced_interface .control-pane select,
 #enhanced_interface .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #enhanced_interface .control-pane button,
@@ -284,6 +305,7 @@
 #enhanced_interface #tdtop select,
 #enhanced_interface #tdtop button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #enhanced_interface #tdtop button,
@@ -319,6 +341,7 @@
 #enhanced_interface #tdtext .control-pane select,
 #enhanced_interface #tdtext .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #enhanced_interface #tdtext .control-pane button,
@@ -365,6 +388,7 @@
 #wordcheck_interface .control-pane select,
 #wordcheck_interface .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #wordcheck_interface .control-pane button,
@@ -394,6 +418,7 @@
 #wordcheck_interface #tdtop select,
 #wordcheck_interface #tdtop button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #wordcheck_interface #tdtop button,
@@ -443,6 +468,7 @@
 #format_preview .control-pane select,
 #format_preview .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #format_preview .control-pane button,
@@ -466,6 +492,7 @@
 .ilb select,
 .ilb button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 .ilb button,
@@ -496,6 +523,7 @@
 .fixedbox select,
 .fixedbox button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 .fixedbox button,
@@ -537,6 +565,7 @@
 .control-frame select,
 .control-frame button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 .control-frame button,
@@ -563,6 +592,7 @@
 #toolbox select,
 #toolbox button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #toolbox button,
@@ -676,6 +706,7 @@
 #page-browser .control-pane select,
 #page-browser .control-pane button {
   background-color: #FFF8DC;
+  color: black;
   border: thin solid black;
 }
 #page-browser .control-pane button,

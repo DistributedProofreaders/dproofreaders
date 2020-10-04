@@ -33,7 +33,7 @@ function echo_text_frame_std( $ppage )
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';
         ",
-        "body_attributes" => "onload='ldAll()' class='no-margin'",
+        "body_attributes" => "id='standard_interface_text' onload='ldAll()'",
         );
     slim_header(_("Text Frame"), $header_args);
     ?>

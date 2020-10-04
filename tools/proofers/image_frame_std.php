@@ -9,7 +9,7 @@ require_login();
 
 $ppage = get_requested_PPage($_GET);
 
-slim_header("Image Frame", array('body_attributes' => 'id="standard_interface"'));
+slim_header("Image Frame", array('body_attributes' => 'id="standard_interface_image"'));
 
 $user = User::load_current();
 if ($user->profile->i_layout == 1)
