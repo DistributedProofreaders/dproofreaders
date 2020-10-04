@@ -2013,6 +2013,13 @@ li.spaced {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+.checkbox-cell {
+  text-align: center;
+}
+.checkbox-cell-selected {
+  text-align: center;
+  background-color: #cfc;
+}
 /* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
 .gs-char {

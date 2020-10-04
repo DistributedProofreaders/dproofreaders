@@ -818,7 +818,7 @@ function echo_row_a( $left, $right, $escape_right=FALSE )
 function echo_row_b( $top, $bottom, $class='' )
 {
     echo "<tr>";
-    echo "<td colspan='5' class='$class' style='text-align: center;'>";
+    echo "<td colspan='5' class='$class center-align'>";
     echo "<span class='bold large'>$top</span>";
     if ($bottom)
     {
@@ -1053,7 +1053,7 @@ function do_early_uploads()
                 _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
                 "<b>$uploads_host</b>",
                 "<b>$uploads_account</b>",
-                "<i><span style='color: #DDD'>$uploads_password</span></i>" );
+                "<i>" . html_safe($uploads_password) . "</i>" );
             }
 
         echo "</p>";
@@ -1177,12 +1177,12 @@ function do_event_subscriptions()
         }
 
         $is_subd = user_is_subscribed_to_project_event( $pguser, $projectid, $event );
-        $bgcolor = ( $is_subd ? '#CFC' : '#FFF' );
+        $class = ( $is_subd ? 'checkbox-cell-selected' : 'checkbox-cell' );
         $checked = ( $is_subd ? 'checked' : '' );
         echo "<tr>";
         echo "<td>$label</td>";
-        echo "<td style='text-align:center; background-color:$bgcolor;'><input type='checkbox' name='$event' $checked></td>";
-        echo "<td style='text-align:center;'>{$n_users_subscribed_to_[$event]}</td>";
+        echo "<td class='$class'><input type='checkbox' name='$event' $checked></td>";
+        echo "<td class='center-align'>{$n_users_subscribed_to_[$event]}</td>";
         echo "</tr>\n";
     }
     echo "</table>\n";
@@ -1223,8 +1223,8 @@ function do_holds()
     echo "<table>\n";
     echo "<tr>\n";
     echo "<th></th>\n";
-    echo "<th style='padding: 0em 1em'>", _("hold in Waiting"), "</th>\n";
-    echo "<th style='padding: 0em 1em'>", _("hold in Available"), "</th>\n";
+    echo "<th>", _("hold in Waiting"), "</th>\n";
+    echo "<th>", _("hold in Available"), "</th>\n";
     echo "</tr>\n";
 
     global $Round_for_round_id_;
@@ -1236,11 +1236,11 @@ function do_holds()
         {
             $state = $round->$s;
             $is_a_current_hold_state = in_array($state, $current_hold_states);
-            $bgcolor = ( $is_a_current_hold_state ? '#CFC' : '#FFF' );
+            $class = ( $is_a_current_hold_state ? 'checkbox-cell-selected' : 'checkbox-cell' );
             $checked = ( $is_a_current_hold_state ? 'checked' : '' );
             $disabled = ( !$project->can_be_managed_by_current_user ? 'disabled' : '');
 
-            echo "<td style='text-align: center; background-color: $bgcolor;'><input type='checkbox' name='$state' $checked $disabled></td>\n";
+            echo "<td class='$class'><input type='checkbox' name='$state' $checked $disabled></td>\n";
         }
         echo "</tr>\n";
     }
