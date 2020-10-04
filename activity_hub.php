@@ -65,10 +65,6 @@ foreach ( $Round_for_round_id_ as $round )
 
 // =============================================================================
 
-echo "\n<hr>\n";
-
-// ----------------------------------
-
 // Get the project transitions for the number of projects completed today
 // set the timestamp representing the start of today
 $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
