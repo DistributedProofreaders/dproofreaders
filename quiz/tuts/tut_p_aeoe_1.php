@@ -10,7 +10,7 @@ output_header(_('Ligatures Proofreading Tutorial'));
 echo "<h2>" . sprintf(_("Ligatures Proofreading Tutorial, Page %d"), 1) . "</h2>\n";
 
 echo "<p>" . _("The two ligatures æ and œ can be difficult to distinguish when they are printed italics.  However, the œ (oe) ligature is usually rounder at the top, while the 'a' of æ is more teardrop-shaped.  For example:") . "</p>\n";
-echo "<table border='1' cellspacing='0' cellpadding='5'>\n<tr><th>œ</th><th>æ</th></tr>\n";
+echo "<table class='basic'>\n<tr><th>œ</th><th>æ</th></tr>\n";
 echo "<tr><td><img src='../generic/images/oelig_ital.png' alt='oe ligature' width='33' height='30'></td>\n";
 echo "<td><img src='../generic/images/aelig_ital_teardrop.png' alt='ae ligature' width='34' height='32'></td>\n</tr></table>\n";
 

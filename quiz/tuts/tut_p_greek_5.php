@@ -15,7 +15,7 @@ echo "<p><img src='../generic/images/ou_lig.png' width='20' height='23' alt='" .
 
 echo "<h3>" . _("Variant Forms") . "</h3>\n";
 echo "<p>" . _("Some other forms of Greek letters are:") . "</p>\n";
-echo "<table border='1' cellspacing='0' cellpadding='5' style='text-align:center'>\n";
+echo "<table class='basic center-align'>\n";
 echo "  <tr><th>" . _("Image") . "</th><th>Letter </th><th>" . _("Transliteration") . "</th></tr>\n";
 echo "  <tr>\n";
 echo "    <td><img src='../generic/images/beta_var.png' width='20' height='32' alt='" . _("beta") . "'></td>\n";
