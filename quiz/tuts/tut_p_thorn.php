@@ -10,7 +10,7 @@ output_header(_('Thorn Proofreading Tutorial'));
 echo "<h2>" . _("Thorn Proofreading Tutorial") . "</h2>\n";
 
 echo "<p>" . sprintf(_("A <strong>thorn</strong> is a letter that was used in Old and Middle English, and is still used in Icelandic.  It usually represents the \"th\" sound.  In %s projects, it usually looks like:"), $site_abbreviation) . "</p>\n";
-echo "<table border='1' cellspacing='0' cellpadding='5'>\n";
+echo "<table class='basic'>\n";
 echo "  <tr>\n";
 echo "    <th>Capital</th>\n";
 echo "    <td><img src='../generic/images/thorn_cap.png' alt='capital thorn' width='21' height='32'>\n";

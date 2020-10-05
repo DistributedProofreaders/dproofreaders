@@ -12,7 +12,7 @@ echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, Page %d"), 3) . "</h2>
 echo "<h3>" . _("Nasal abbreviations") . "</h3>\n";
 echo "<p>" . _("Sometimes an <i>n</i> or <i>m</i> is abbreviated by putting a mark over the preceding letter:") . "</p>\n";
 
-echo "<table border='1' cellspacing='0' cellpadding='5' style='text-align:center'>\n";
+echo "<table class='basic center-align'>\n";
 echo "  <tr><th>" . _("Image") . "</th> <th>" . _("Meaning") . "</th></tr>\n";
 echo "  <tr>\n";
 echo "    <td><img src='../generic/images/abbr_ground.png' width='113' height='55' alt='ground'></td>\n";
