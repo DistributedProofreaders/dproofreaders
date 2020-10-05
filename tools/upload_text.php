@@ -16,7 +16,7 @@ detect_too_large();
 require_login();
 
 $projectid = get_projectID_param($_REQUEST, 'project');
-$valid_stages = array('post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
+$valid_stages = array('post_1', 're_post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'correct', 'smooth_avail', 'smooth_done');
 $stage = get_enumerated_param($_REQUEST, 'stage', NULL, $valid_stages, TRUE);
 // $stage==smooth_avail controls sr, 2 cases:
 // days given: upload a file & make sr available first time or after finished for days from now.
@@ -51,6 +51,18 @@ if ($stage == 'post_1')
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_AVAILABLE;
+    $back_url = "$code_url/tools/pool.php?pool_id=PP";
+    $back_blurb = _("Post-Processing Page");
+}
+else if ($stage == 're_post_1')
+{
+    $title = _("Upload post-processed file for verification");
+    $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
+    $submit_label = _("Upload file");
+    $indicator = "_second";
+    $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
+    $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
+    $new_state = PROJ_POST_SECOND_CHECKED_OUT;
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
 }
