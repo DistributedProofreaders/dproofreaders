@@ -563,6 +563,36 @@ table.filter {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Random Rules */
+/* Because the guidelines are in the wiki, we have to jump through
+   some hoops to get any tables used there to be displayed properly
+   if they are included in a random rule. A random_rule class has been
+   created in https://www.pgdp.net/wiki/MediaWiki:Common.css to allow
+   a class to be added to the tables that are in a random rule. The
+   CSS defined here in layout.less is not used directly anywhere in
+   the code, but only used to theme random rules imported from the
+   pgdp.net wiki.
+ */
+
+@random-rule-header: cornsilk;
+
+table.random_rule {
+    .default-border();
+    border-collapse: collapse;
+    tr td {
+        .default-border(); 
+        padding: 0.25em 0.5em;
+    }
+    tr th {
+        .default-border();
+        padding: 0.25em 0.5em;
+        .top-align;
+        .left-align;
+        background-color: @random-rule-header;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* Registration table */
 
 table.register {
