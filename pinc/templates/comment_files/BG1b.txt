@@ -14,10 +14,10 @@ Guidelines</a> for an example.
 
 <p><i>Original Image:</i>
 <br>"I say, Graham, do you know what's hap-
-<br>pened today? There'll be an awful row about it."</p>
+<br>pened? There'll be an awful row about it."</p>
 <p><i>Corrected Example:</i>
-<br>"I say, Graham, do you know what's happened
-<br>today? There'll be an awful row about it."</p>
+<br>"I say, Graham, do you know what's happened?
+<br>There'll be an awful row about it."</p>
 
 <li><p>Make sure there is one blank line before each new paragraph, even if it starts at the top of a page. Do not add paragraph indentation. If a page starts in the middle of a paragraph, there should not be any blank lines at the top.
 </p>
@@ -67,7 +67,7 @@ Guidelines</a>, to see how to handle it. Set it off from surrounding text by mak
 
 <li><p>Footnotes? Read the <a
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading
-Guidelines</a>! Leave the note where it falls in the text box, and surround the footnote marker in the main body of the text with square brackets, i.e., [1] or [*].</p>
+Guidelines</a>! Leave the note where it falls in the text box, and surround the footnote marker in the main body of the text with square brackets, e.g., [1] or [*].</p>
 
 <li><p>Illustrations or Blank Pages? For illustrations, read the <a
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#illust">Proofreading
