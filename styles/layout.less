@@ -1254,6 +1254,9 @@ table.search-column {
 /* ------------------------------------------------------------------------ */
 /* Project Page */
 
+@blurb-box: #ddd;
+@subscr-hold-selected: #cfc;
+
 li.spaced {
     margin: 1em 0;
 }
@@ -1272,6 +1275,12 @@ li.spaced {
     margin-bottom: 0.5em;
 }
 
+.blurb-box {
+    width: 100%;
+    max-width: 630px;
+    background-color: @blurb-box;
+}
+
 #event_subscriptions,
 #project_holds {
     th, td {
@@ -1285,7 +1294,7 @@ li.spaced {
 
 .checkbox-cell-selected {
     .center-align;
-    background-color: #cfc;
+    background-color: @subscr-hold-selected;
 }
 
 /* ------------------------------------------------------------------------ */

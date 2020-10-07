@@ -377,7 +377,8 @@ function do_blurb_box( $blurb )
     if ( is_null($blurb) ) return;
 
 //    echo "<br>";
-    echo "<table style='width: 100%; max-width: 630px; background-color: #DDDDDD;'>";
+    $class = 'blurb-box';
+    echo "<table class=$class>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
     echo "</td></tr>";

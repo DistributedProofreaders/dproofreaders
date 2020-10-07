@@ -2044,6 +2044,11 @@ li.spaced {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+.blurb-box {
+  width: 100%;
+  max-width: 630px;
+  background-color: #ddd;
+}
 #event_subscriptions th,
 #project_holds th,
 #event_subscriptions td,
