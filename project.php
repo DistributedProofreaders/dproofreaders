@@ -732,7 +732,8 @@ function do_project_info_table()
     {
         if ( $available_for_SR )
         {
-            echo_row_b( _("Instructions for Smooth Reading"), '' );
+            $class = 'sr-instructions';
+            echo_row_b( _("Instructions for Smooth Reading"), '', $class );
             echo_row_c( $postcomments );
         }
         // Postcomments should always be shown to those directly involved with the project (the
@@ -746,7 +747,8 @@ function do_project_info_table()
                  $state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser,'PP') ||
                  $state==PROJ_POST_SECOND_AVAILABLE && user_can_work_in_stage($pguser,'PPV') )
         {
-            echo_row_b( _("Post Processor's Comments"), '' );
+            $class = 'post-processor-comments';
+            echo_row_b( _("Post Processor's Comments"), '', $class );
             echo_row_c( $postcomments );
         }
     }
@@ -795,7 +797,8 @@ function do_project_info_table()
         {
             $comments_blurb = "";
         }
-        echo_row_b( _("Project Comments"), $comments_blurb );
+        $class = 'project-comments';
+        echo_row_b( _("Project Comments"), $comments_blurb, $class );
 
         echo_row_c( $comments );
     }
