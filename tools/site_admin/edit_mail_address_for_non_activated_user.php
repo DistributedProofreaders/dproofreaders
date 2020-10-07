@@ -64,8 +64,8 @@ else if ($action == 'list_all') {
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>\n";
             echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
-            echo "<td>{$row['real_name']}</td>\n";
-            echo "<td>{$row['email']}</td>\n";
+            echo "<td>" . html_safe($row['real_name']) . "</td>\n";
+            echo "<td>" . html_safe($row['email']) . "</td>\n";
             echo "<td>" . strftime("%B %e, %Y, %H:%M", $row['date_created']) . "</td>\n";
             echo "</tr>\n";
         }
