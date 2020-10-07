@@ -4,9 +4,12 @@
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 
 require_login();
+
+slim_header(_("Project Holds"));
 
 $projectid = get_projectID_param($_POST, 'projectid');
 $return_uri = urldecode($_POST['return_uri']);
@@ -104,6 +107,6 @@ foreach( $headers as $w => $header)
     }
 }
 
-echo "<a href='$return_uri'>", _("Click here to return"), "</a>";
+echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#holds'") . "</p>";
 
 // vim: sw=4 ts=4 expandtab
