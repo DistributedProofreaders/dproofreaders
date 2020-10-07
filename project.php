@@ -377,8 +377,7 @@ function do_blurb_box( $blurb )
     if ( is_null($blurb) ) return;
 
 //    echo "<br>";
-    $class = 'blurb-box';
-    echo "<table class=$class>";
+    echo "<table class='blurb-box'>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
     echo "</td></tr>";
