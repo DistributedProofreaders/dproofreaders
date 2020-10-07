@@ -2049,6 +2049,11 @@ li.spaced {
   max-width: 630px;
   background-color: #ddd;
 }
+.project-comments,
+.post-processor-comments,
+.sr-instructions {
+  background-color: #ccc;
+}
 #event_subscriptions th,
 #project_holds th,
 #event_subscriptions td,
