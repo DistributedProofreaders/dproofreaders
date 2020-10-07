@@ -1,13 +1,13 @@
 <p><b>BASIC INSTRUCTIONS:</b></p>
-<p><b>Here are a few basic instructions.</b> Please consult the <a href="http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading
+<p><b>Here are a few basic instructions.</b> Please consult the <a href="https://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading
 Guidelines</a> to go beyond these basics. </p>
 
 <p><b>Make the text look like the page image except as per below!</b> That means leaving in the breaks at the ends of the lines, leaving spelling "mistakes", etc. Mostly your job is to fix mistakes left by the Optical Character Recognition (OCR) software. Compare the text carefully to the scanned image of the page, line by line (or word by word, or letter by letter). Please pay extra-close attention to punctuation, numbers, and words in ALL CAPS. It's a good idea to run WordCheck on your page, and make sure that any queried words and the highlighted punctuation do, in fact, match the words and punctuation in the scan. Please do NOT change the word in the text if it is a true match to the word in the scan. Refer to the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#p_errors">Proofreading
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#p_errors">Proofreading
 Guidelines</a> for more information on handling printers' errors and misspellings. </p>
 
 <ol><li><p>Page Headers and Footers: Running headers/footers may include book title, author, chapter title, and/or page number. They will be at the <b>very top or bottom</b> of the page. Remove these, including the page numbers and any extra blank lines. See the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#page_hf">Proofreading
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#page_hf">Proofreading
 Guidelines</a> for an example.
 
 <li><p>If a line ends in a hyphenated word, move the first part of the following line up to rejoin the word, then insert a line break at the end of the rejoined word. Remove the hyphen unless it is a compound word normally hyphenated. If you're not sure if the hyphen should be retained, or if the page ends with a hyphen, keep the hyphen and place an asterisk after it.</p>
@@ -52,7 +52,7 @@ Guidelines</a> for an example.
 <br>"Don't!" he cried. "You'll ruin the whole thing!"</p>
 
 <li><p>Fix dashes by inserting additional hyphen character(s) if needed. Proofread these as two hyphens if the dash is as long as 2-3 letters (an em-dash) and four hyphens if the dash is as long as 4-5 letters (a long dash). Em-dashes are far more common than long dashes.  If a line ends with a dash, move the first word of the following line up to "clothe the naked dash", then insert a line break following the word you just moved. See the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#em_dashes">Proofreading
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#em_dashes">Proofreading
 Guidelines</a> for more details.</p>
 <p><i>Original Image:</i>
 <br>He walked over to the window&mdash;a strange look on his face&mdash;
@@ -62,16 +62,16 @@ Guidelines</a> for more details.</p>
 <br>tapped on the glass. "Susan!----Over here!"</p>
 
 <li><p>If you have a page with a poem on it, read the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#poetry">Proofreading
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#poetry">Proofreading
 Guidelines</a>, to see how to handle it. Set it off from surrounding text by making sure there is one blank line before and one blank line after the poem; do not indent the lines or try to center them.</p>
 
 <li><p>Footnotes? Read the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading
 Guidelines</a>! Leave the note where it falls in the text box, and surround the footnote marker in the main body of the text with square brackets, e.g., [1] or [*].</p>
 
 <li><p>Illustrations or Blank Pages? For illustrations, read the <a
-href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#illust">Proofreading
-Guidelines</a>! Proofread the text of the captions, leaving the caption where it falls in the text box. If the caption text was omitted from the OCR'ed text, please type it in. If the illustration is captionless, add nothing. <a href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#blank_pg">Blank Pages</a> occur in most books. If the scanned image is blank AND the text box is empty or says only <b>[Blank Page]</b>, do not mark the page bad; just save the page as done.</p>
+href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#illust">Proofreading
+Guidelines</a>! Proofread the text of the captions, leaving the caption where it falls in the text box. If the caption text was omitted from the OCR'ed text, please type it in. If the illustration is captionless, add nothing. <a href="https://www.pgdp.net/c/faq/proofreading_guidelines.php#blank_pg">Blank Pages</a> occur in most books. If the scanned image is blank AND the text box is empty or says only <b>[Blank Page]</b>, do not mark the page bad; just save the page as done.</p>
 
 <li><p><i>Italics?</i>, <span style="font-variant: small-caps">Small Caps?</span> or <b>Bold?</b> Just proofread the characters, and ignore the font variations. Do not mark or note them in the text; two rounds of formatting will follow the proofreading rounds, and formatters will insert the inline (and other) formatting mark-up.</p></ol>
 

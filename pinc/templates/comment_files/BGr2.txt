@@ -1,5 +1,5 @@
 <p>This book has changed from a BEGINNERS ONLY project to a MENTORS project.</p>
 
-<p><b>NOTE:</b> You may find a list of which beginner has done which page, and  the number of pages proofread by each, at the <a href=http://www.pgdp.net/c/tools/proofers/for_mentors.php> For Mentors page</a>.</p>
+<p><b>NOTE:</b> You may find a list of which beginner has done which page, and  the number of pages proofread by each, at the <a href=https://www.pgdp.net/c/tools/proofers/for_mentors.php>For Mentors page</a>.</p>
 
-<p>Also, should you be issued a page that shows slshell or any of the Project Facilitators as the P1 proofreader, you may safely skip the feedback--unless, of course, we NEED it! That page will have been reclaimed, then proofread by one of us in order to move the project on to P2.</p>
+<p>Also, should you be issued a page that shows any of the Project Facilitators as the P1 proofreader, you may safely skip the feedback--unless, of course, we NEED it! That page will have been reclaimed, then proofread by one of us in order to move the project on to P2.</p>
