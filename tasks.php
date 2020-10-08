@@ -340,7 +340,7 @@ function SearchParams_echo_controls()
 // initializing it with any (valid) value that the current request
 // has supplied for the parameter.
 {
-    global $SearchParams_choices;
+    global $SearchParams_choices, $tasks_url;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         $st = $_REQUEST['search_text'];
@@ -348,14 +348,23 @@ function SearchParams_echo_controls()
     }
     else $search_text = "";
 
+    echo "<form action='$tasks_url' method='get'>";
+    echo "<table class='themed'>\n";
+    echo "<tr><th>" . _("Search") . "</th>\n";
+    echo "<td>";
+
     echo "<input type='hidden' name='action' value='search'>\n";
-    echo "<input type='text' value='$search_text' name='search_text' size='50'>\n";
+    echo "<input type='text' value='$search_text' name='search_text' style='width: 20em'>\n";
 
     foreach ($SearchParams_choices as $param_name => $choices)
     {
         $value = (int) get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
         echo dropdown_select($param_name, $value, $choices);
     }
+
+    echo "<input type='submit' value='Search'></td>\n";
+    echo "</tr>\n";
+    echo "</table></form><br>\n";
 }
 
 function SearchParams_get_sql_condition($request_params)
@@ -571,7 +580,8 @@ if (!isset($_REQUEST['task_id'])) {
                 $header .= ": " . $_REQUEST['search_text'];
             }
             TaskHeader($header);
-
+            echo "<h1 style='margin-top: 0;'>" . _("Task Center") . "</h1>";
+            SearchParams_echo_controls();
             search_and_list_tasks($_REQUEST);
             break;
 
@@ -579,6 +589,8 @@ if (!isset($_REQUEST['task_id'])) {
             // The user just entered the Task Center
             // (e.g., by clicking the "Report a Bug" link).
             TaskHeader("All Open Tasks", true);
+            echo "<h1 style='margin-top: 0;'>" . _("Task Center") . "</h1>";
+            SearchParams_echo_controls();
             list_all_open_tasks();
             break;
 
@@ -813,12 +825,8 @@ function handle_action_on_a_specified_task()
     }
     elseif ($action == 'add_metoo') {
         global $os_array, $browser_array;
-        $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
-        $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
-        $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
-        $browser_param_name = ( $sameBrowser ? 'task_browser' : 'metoo_browser' );
-        $vote_os       = (int) get_enumerated_param($_POST, $os_param_name, null, array_keys($os_array));
-        $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
+        $vote_os       = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
+        $vote_browser  = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
 
         // Do not insert twice the same vote if the user refreshes the browser
         $meTooCheck = wrapped_mysql_query("
@@ -932,7 +940,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 
 function dropdown_select($field_name, $current_value, $array)
 {
-    $return = "<select size='1' name='$field_name' ID='$field_name' class='taskselect'>\n";
+    $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
     foreach($array as $key => $val)
     {
         $return .= "<option value='$key'";
@@ -962,54 +970,13 @@ function showSpan(id) { document.getElementById(id).style.display=""; }
 function hideSpan(id) { document.getElementById(id).style.display="none"; }
 EOS;
 
-    $css_data = <<<EOS
-table.tasks,
-table.taskslist,
-table.taskplain    { width: 100%; border-collapse: collapse; border: 1px solid #CCCCCC; background-color: #E6EEF6; font-family: Verdana; color: #000000; font-size: small; }
-
-table.tasks td,
-table.tasks th,
-table.taskslist td,
-table.taskplain td { vertical-align: top; text-align: left; }
-
-table.tasks form   { margin: 0; }
-table.tasks td     { font-size: small; padding: 2px!important; }
-table.tasks th     { font-weight: bold; padding: 5px; }
-
-table.taskslist td { padding: 5px!important; white-space: nowrap; background-color: #FFFFFF; }
-table.taskslist th { font-weight: bold; text-align:left; padding: 5px; vertical-align: top; }
-
-table.taskplain    { border: none; background-color: inherit; color: inherit; }
-table.taskplain td { font-size: small; padding: 2px; }
-td.taskproperty    { width: 40%; font-weight: bold; }
-td.taskvalue       { width: 60%; border-bottom: #CCCCCC 1px solid; }
-
-select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
-input[type="number"],
-input[type="text"] { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
-input[type="number"] { width: 4em; }
-input[type="reset"],
-input[type="button"],
-input[type="submit"] { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding: 0px 5px; background-color:#838AB5; }
-input[type="button"]:disabled,
-input[type="submit"]:disabled { background-color: #AAAAAA; }
-
-legend.task        { font-weight:bold; }
-fieldset.task      { width:35em; border:#2266AA solid 1px; }
-p.task,
-span.task          { font-family:Verdana; font-size: small; }
-.wrap              { white-space: normal!important; }
-EOS;
-
-    output_header($header, NO_STATSBAR,
-        array('js_data' => $js_data, 'css_data' => $css_data));
+    output_header($header, NO_STATSBAR, ['js_data' => $js_data]);
 
     $userSettings =& Settings::get_Settings($pguser);
     $notification_settings = $userSettings->get_values('taskctr_notice');
     $notified_for_new = in_array('notify_new', $notification_settings);
 
-    echo "<table class='taskplain'>\n";
-    echo "<tr><td style='width: 50%;'>";
+    echo "<div class='task-nav' style='float: left'>";
     echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
     echo "<form method='get' style='display: inline;'>";
     if($show_new_alert)
@@ -1026,25 +993,19 @@ EOS;
         }
     }
     echo "</form>";
-    echo "</td>\n";
-    echo "<td class='task' style='width: 50%; text-align: right;'>";
-    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
+    echo "</div>";
+
+    echo "<div class='task-nav' style='float: right'>";
+    echo "<form action='$tasks_url' method='get'>";
+    echo "<input type='hidden' name='action' value='show'>";
     echo "<b>Show Task #</b>";
     echo "&nbsp;\n";
-    echo "<input type='number' name='task_id' min='1' required>&nbsp;\n";
+    echo "<input type='number' name='task_id' min='1' required style='width: 5em;'>&nbsp;\n";
     echo "<input type='submit' value='Go!'>\n";
     echo "</form>";
-    echo "</td></tr></table><br>\n";
-    echo "<form action='$tasks_url' method='get'>";
-    echo "<table class='tasks'>\n";
-    echo "<tr><td><b>Search:</b></td>\n";
-    echo "<td>";
+    echo "</div>\n";
 
-    SearchParams_echo_controls();
-
-    echo "<input type='submit' value='Search'></td>\n";
-    echo "</tr>\n";
-    echo "</table></form><br>\n";
+    echo "<div style='clear: both;'></div>";
 }
 
 // Encode an array into text for insertion into the database.
@@ -1085,12 +1046,12 @@ function select_and_list_tasks($sql_condition)
     global $tasks_url;
 
     $columns = array(
-        'task_id'          => " style='text-align: center;'",
-        'task_summary'     => " class='wrap'",
-        'task_type'        => "",
+        'task_id'          => " class='center-align'",
+        'task_summary'     => "",
+        'task_type'        => " class='nowrap'",
         'task_severity'    => "",
         'task_priority'    => "",
-        'date_edited'      => " style='text-align: center;'",
+        'date_edited'      => " class='nowrap center-align'",
         'task_status'      => "",
         'votes'            => "",
         'percent_complete' => "",
@@ -1119,13 +1080,13 @@ function select_and_list_tasks($sql_condition)
     $num_tasks_returned = mysqli_num_rows($sql_result);
 
     if ($num_tasks_returned == 0) {
-        echo "<p class='task'>No tasks found!</p>";
+        echo "<p>No tasks found!</p>";
         return;
     }
 
     $t = SearchParams_get_url_query_string();
 
-    echo "<table class='taskslist'><tr>\n";
+    echo "<table class='themed theme_striped' style='font-size: 0.95em'><tr>\n";
     foreach ( $columns as $property_id => $attrs )
     {
         // Each column-header is a link; clicking on it will cause
@@ -1167,7 +1128,7 @@ function select_and_list_tasks($sql_condition)
 
     // if 2 tasks or more found, display the number of reported tasks
     if ($num_tasks_returned > 1) {
-        echo "<p class='task'>$num_tasks_returned tasks listed.</p>";
+        echo "<p>$num_tasks_returned tasks listed.</p>";
     }
 }
 
@@ -1189,47 +1150,48 @@ function TaskForm($task)
     echo "<form action='$tasks_url' method='post'>";
     if (empty($task->task_id)) {
         echo "<input type='hidden' name='action' value='create'>\n";
+        $title = _("New Task");
     } else {
         echo "<input type='hidden' name='action' value='edit'>\n";
         echo "<input type='hidden' name='task_id' value='$task->task_id'>";
+        $title = "#$task->task_id: " . html_safe($task->task_summary);
     }
     if ($task->opened_by == $requester_u_id && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$task->percent_complete'>";
     }
-    echo "<table class='tasks'>\n";
-    echo "<tr>";
-    echo "<td colspan='2'>";
-    echo "<b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>";
-    echo "&nbsp;&nbsp;";
-    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" style='width: 75%' maxlength='80' required>";
-    echo "</td>";
-    echo "</tr>\n";
-    echo "<tr>";
+    echo "<h1 style='margin-top: 0;'>$title</h1>";
+
+    echo "<p>";
+    echo "<span class='bold'>" . property_get_label('task_summary', FALSE) . "</span>";
+    echo "&nbsp;";
+    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" style='width: 50%' maxlength='80' required>";
+    echo "</p>";
+
     // left column
-    echo "<td style='width: 50%'><table class='taskplain'>\n";
+    echo "<div style='float: left; width: 49.9%;'>";
+    echo "<table class='task-detail-block'>\n";
     property_echo_select_tr('task_severity', $task->task_severity, $severity_array);
     property_echo_select_tr('task_priority', $task->task_priority, $priority_array);
     property_echo_select_tr('task_category', $task->task_category, $categories_array);
     property_echo_select_tr('task_os', $task->task_os, $os_array);
     property_echo_select_tr('task_browser', $task->task_browser, $browser_array);
     property_echo_select_tr('task_version', $task->task_version, $versions_array);
-    echo "</table></td>";
+    echo "</table></div>";
+
     // right column
-    echo "<td style='width: 50%'><table class='taskplain'>\n";
+    echo "<div style='float: right; width: 49.9%;'>";
+    echo "<table class='task-detail-block'>\n";
     property_echo_select_tr('task_type', $task->task_type, $tasks_array);
     property_echo_select_tr('task_status', $task->task_status, $tasks_status_array);
     property_echo_select_tr('task_assignee', $task->task_assignee, $task_assignees_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($task->task_id)) {
         property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array);
     }
-    echo "</table></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td colspan='2'><b>Details</b><br>\n";
+    echo "</table></div>";
+
+    echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
     echo "<textarea name='task_details' style='width: 99%; height: 8em;' required>$task_details_enc</textarea>";
-    echo "</td>";
-    echo "</tr>";
-    echo "<tr><td>\n";
+
     echo "<input type='submit' value='";
     if (empty($task->task_id)) {
         echo "Add Task";
@@ -1238,14 +1200,14 @@ function TaskForm($task)
         echo "Submit Edit";
     }
     echo "'>\n";
-    echo "</td></tr></table></form><br>\n";
+    echo "</td></tr></table></form>\n";
 }
 
 function property_echo_select_tr($property_id, $current_value, $options)
 // Echo a <tr> element containing a label and a <select> for the given property.
 {
     $label = property_get_label($property_id, FALSE);
-    echo "<tr><td style='width: 40%'><b>$label</b>&nbsp;</td><td style='width: 60%'>\n";
+    echo "<tr><th>$label</th><td>\n";
     echo dropdown_select($property_id, $current_value, $options);
     echo "</td></tr>\n";
 }
@@ -1274,28 +1236,8 @@ function TaskDetails($tid)
                 $already_notified = 0;
             }
 
-            // Row 1: Task id, summary, and possible Edit/Re-Open Task buttons.
-            echo "<table class='tasks'>\n";
-            echo "<tr>";
-            echo "<th class='middle-align' style='width: 100%; font-size: large;' colspan='2'>";
-
             // floating right-aligned div for task edit/re-open
-            echo "<div style='float: right'>";
-            echo "<form action='$tasks_url' method='post'>\n";
-            if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='action' value='show_editing_form'>\n";
-                echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Edit Task'>\n";
-            }
-            elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='action' value='reopen'>\n";
-                echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Re-Open Task'>\n";
-            }
-            echo "</form>";
-            echo "</div>";
-
-            echo "<div style='float: right'>";
+            echo "<div style='float: right; padding-top: 1em;'>";
             echo "<form method='get' style='display: inline;'>\n";
             echo "<input type='hidden' name='task_id' value='$tid'>\n";
             if (empty($already_notified))
@@ -1309,17 +1251,27 @@ function TaskDetails($tid)
                 echo "<input type='submit' value='Remove me from task notifications'>\n";
             }
             echo "</form>";
+
+            echo "<form action='$tasks_url' method='post' style='display: inline;'>\n";
+            if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
+                echo "<input type='hidden' name='action' value='show_editing_form'>\n";
+                echo "<input type='hidden' name='task_id' value='$tid'>\n";
+                echo "<input type='submit' value='Edit Task'>\n";
+            }
+            elseif (!empty($row['closed_reason'])) {
+                echo "<input type='hidden' name='action' value='reopen'>\n";
+                echo "<input type='hidden' name='task_id' value='$tid'>\n";
+                echo "<input type='submit' value='Re-Open Task'>\n";
+            }
+            echo "</form>";
             echo "</div>";
 
-            echo "<div>";
+            echo "<h1 style='margin-top: 0;'>";
             echo "#$tid: " . property_format_value('task_summary', $row, FALSE);
-            echo "</th>";
-            echo "</tr>";
+            echo "</h1>";
 
-            // Row 2: most of the task's simple properties
-            echo "<tr>";
-            echo "<td style='width: 45%'>";
-            echo "<table class='taskplain'>\n";
+            echo "<div style='float: left; width: 49.9%;'>";
+            echo "<table class='task-detail-block'>\n";
             property_echo_value_tr('task_severity',    $row);
             property_echo_value_tr('task_priority',    $row);
             property_echo_value_tr('task_category',    $row);
@@ -1330,9 +1282,9 @@ function TaskDetails($tid)
             property_echo_value_tr('task_version',     $row);
             property_echo_value_tr('votes'       ,     $row, False);
             echo "</table>";
-            echo "</td>";
-            echo "<td style='width: 45%'>";
-            echo "<table class='taskplain'>\n";
+            echo "</div>";
+            echo "<div style='float: right; width: 49.9%;'>";
+            echo "<table class='task-detail-block'>\n";
             property_echo_value_tr('task_type',        $row);
             property_echo_value_tr('opened_composite', $row);
             property_echo_value_tr('edited_composite', $row);
@@ -1343,36 +1295,20 @@ function TaskDetails($tid)
             property_echo_value_tr('task_assignee',    $row);
             property_echo_value_tr('percent_complete', $row);
             echo "</table>";
-            echo "</td>";
-            echo "</tr>\n";
+            echo "</div>";
 
-            // Row 3: details
-            echo "<tr>";
-            echo "<td colspan='2'>";
-            echo "<b>Details</b>";
+            echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
             echo "<p>";
             echo property_format_value('task_details', $row, FALSE);
             echo "</p>";
-            echo "</td>";
-            echo "</tr>\n";
 
-            // Row 4: Me Too!
             if(!$row['closed_reason'])
             {
-                echo "<tr>\n";
-                echo "<td colspan='2'>";
                 MeToo($tid, $row['task_os'], $row['task_browser']);
-                echo "</td>";
-                echo "</tr>";
             }
 
-            echo "</table>";
-            echo "<br>\n";
-
             TaskComments($tid);
-            echo "<br>\n";
             RelatedTasks($tid);
-            echo "<br>\n";
             RelatedPostings($tid);
         }
     }
@@ -1390,70 +1326,10 @@ function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
         return;
 
     echo "<tr>";
-    echo "<td class='taskproperty'>{$label}&nbsp;&nbsp;</td>";
-    echo "<td class='taskvalue'>$formatted_value</td>";
+    echo "<th>$label</th>";
+    echo "<td>$formatted_value</td>";
     echo "</tr>";
     echo "\n";
-}
-
-// Guess what OS the user is running based on the User Agent.
-// Not very sophisticated, but catches the common cases.
-// Returns a string that can be looked up in $os_array.
-// Note that any future detection strings added to this function
-// MUST match an entry in $os_array.
-function guess_OS_from_UA()
-{
-    $ua = @$_SERVER['HTTP_USER_AGENT'];
-    if (str_contains($ua, "Linux")) {
-        $os = "Linux";
-    } elseif (str_contains($ua, "Windows NT 6.1")) {
-        $os = "Windows 7";
-    } elseif (str_contains($ua, "Windows NT 6.0")) {
-        $os = "Windows Vista";
-    } elseif (str_contains($ua, "Windows NT 5.1")) {
-        $os = "Windows XP";
-    } elseif (str_contains($ua, "Windows NT 5.0")) {
-        $os = "Windows 2000";
-    } elseif (str_contains($ua, "Mac OS X")) {
-        $os = "Mac OS X";
-    } else {
-        $os = "Other";
-    }
-    return $os;
-}
-
-// Guess what browser the user is running based on the User Agent.
-// Not very sophisticated, but catches the common cases.
-// Returns a string that can be looked up in $browser_array.
-// Note that any future detection strings added to this function
-// MUST match an entry in $browser_array.
-function guess_browser_from_UA()
-{
-    $ua = @$_SERVER['HTTP_USER_AGENT'];
-    if (str_contains($ua, "MSIE 8.0")) {
-        $browser = "Internet Explorer 8.x";
-    } elseif (str_contains($ua, "MSIE 7.0")) {
-        $browser = "Internet Explorer 7.x";
-    } elseif (str_contains($ua, "MSIE 6.0")) {
-        $browser = "Internet Explorer 6.x";
-    } elseif (str_contains($ua, "Firefox/3.")) {
-        $browser = "Mozilla Firefox 3.x";
-    } elseif (str_contains($ua, "Firefox/2.")) {
-        $browser = "Mozilla Firefox 2.x";
-    } elseif (str_contains($ua, "Opera/10.")) {
-        $browser = "Opera 10.x";
-    } elseif (str_contains($ua, "Opera/9.")) {
-        $browser = "Opera 9.x";
-    } elseif (str_contains($ua, "Safari/") and str_contains($ua, "Version/4.")) {
-        $browser = "Safari 4.x";
-    } elseif (str_contains($ua, "Safari/") and str_contains($ua, "Version/3.")) {
-        $browser = "Safari 3.x";
-    } elseif (str_contains($ua, "Safari/") and str_contains($ua, "Version/2.")) {
-        $browser = "Safari 2.x";
-    } else {
-        $browser = "Other";
-    }
-    return $browser;
 }
 
 function MeToo($tid, $os, $browser)
@@ -1480,38 +1356,26 @@ function MeToo($tid, $os, $browser)
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_metoo'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='hidden' name='task_os' value='$os'>";
-    echo "<input type='hidden' name='task_browser' value='$browser'>";
-    echo "<table class='tasks'><tr><td>\n";
-    echo "<p style='font-size: large; font-weight: bold;'>You too?</p>";
-    echo "<fieldset class='task'>";
-    echo "<legend class='task'>Are you using the same operating system?</legend>";
-    echo "&nbsp;";
-    echo "<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes";
-    echo "<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
-    echo "<span id='OS' style='display: none;'>";
-    echo "<br>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "<b>Operating System</b>";
-    echo "&nbsp;";
-    echo dropdown_select('metoo_os', array_search(guess_OS_from_UA(), $os_array), $os_array);
-    echo "</span></fieldset>\n";
-    echo "<br>";
-    echo "<fieldset class='task'>";
-    echo "<legend class='task'>Are you using the same browser?</legend>";
-    echo "&nbsp;";
-    echo "<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes";
-    echo "<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
-    echo "<span id='Browser' style='display: none;'>";
-    echo "<br>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "<b>Browser</b>";
-    echo "&nbsp;";
-    echo dropdown_select('metoo_browser', array_search(guess_browser_from_UA(), $browser_array), $browser_array);
-    echo "</span></fieldset>\n";
+    echo "<table><tr><td>\n";
+    echo "<h3>" . _("You too?") . "</h3>";
+    echo "<table class='task-detail-block' style='width: auto'>";
+    echo "<tr>";
+    echo "<th>" . _("Operating System") . "</th>";
+    echo "<td>";
+    echo dropdown_select('metoo_os', $os, $os_array);
+    echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+    echo "<th>" . _("Browser") . "</th>";
+    echo "<td>";
+    echo dropdown_select('metoo_browser', $browser, $browser_array);
+    echo "</td>";
+    echo "</th>";
+    echo "</tr>";
+    echo "</table>";
     echo "<input type='submit' value='Send Report'>";
     echo "&nbsp;";
-    echo "<input type='reset' value='Reset' onClick=\"hideSpan('MeTooMain'); showSpan('MeTooButton');\">";
+    echo "<input type='reset' value='Cancel' onClick=\"hideSpan('MeTooMain'); showSpan('MeTooButton');\">";
     echo "</td></tr></table></form></div>";
 }
 
@@ -1533,24 +1397,25 @@ function TaskComments($tid)
         WHERE task_id = $tid
         ORDER BY comment_date ASC
     ");
-    echo "<table class='tasks'>";
-    echo "<tr><td style='font-weight: bold; font-size: large;'>Comments</td></tr>";
+    echo "<h2>" . _("Comments") . "</h2>";
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr><td style='width: 100%'>\n";
+        echo "<div class='task-comment'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
-        echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b><br>";
-        echo "<br>" . nl2br(make_urls_links(html_safe($row['comment']))) . "<hr style='width: 98%'>";
-        echo "</td></tr>";
+        echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+        echo "<br>\n";
+        echo "<div class='task-comment-body'>";
+        echo nl2br(make_urls_links(html_safe($row['comment'])));
+        echo "</div>";
+        echo "</div>";
     }
-    echo "<tr><td style='width: 100%'>\n";
+
+    echo "<h3>" . _("Add comment") . "</h3>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_comment'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<b>Add comment</b>";
     echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
     echo "<input type='submit' value='Add Comment'>\n";
     echo "</form>";
-    echo "</td></tr></table>";
 }
 
 function NotificationMail($tid, $message, $new_task = false)
@@ -1596,15 +1461,16 @@ function NotificationMail($tid, $message, $new_task = false)
 function RelatedTasks($tid)
 {
     global $tasks_url, $tasks_status_array;
-    echo "<table class='tasks'>\n";
-    echo "<tr><td style='width: 100%'><b>Related Tasks&nbsp;&nbsp;</b>";
-    echo "<form action='$tasks_url' method='post'>";
+    echo "<h2>" . _("Related Tasks") . "</h2>";
+    echo "<form action='$tasks_url' method='post' style='padding-bottom: 0.5em;'>";
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='number' name='related_task' min='1' required>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_task' min='1' style='width: 5em;' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of an existing, related task.)";
     echo "</form>";
+
+    echo "<table class='themed theme_striped'>\n";
     $related_tasks = load_related_tasks($tid);
     foreach($related_tasks as $val)
     {
@@ -1621,18 +1487,20 @@ function RelatedTasks($tid)
             $related_task_status  = $tasks_status_array[$row["task_status"]];
         }
 
-        if ($row)
-            echo "<form action='$tasks_url' method='post'>";
+        echo "<tr><td>";
         echo "<a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($related_task_status) - $related_task_summary";
         if ($row) {
-            echo " <input type='hidden' name='action' value='remove_related_task'>";
+            echo " ";
+            echo "<form action='$tasks_url' method='post' style='display: inline'>";
+            echo "<input type='hidden' name='action' value='remove_related_task'>";
             echo "<input type='hidden' name='task_id' value='$tid'>";
             echo "<input type='hidden' name='related_task' value='$val'>";
             echo "<input type='submit' value='Remove'>";
             echo "</form>";
         }
+        echo "</td></tr>";
     }
-    echo "</td></tr></table>";
+    echo "</table>";
 }
 
 function load_related_tasks($task_id)
@@ -1709,15 +1577,16 @@ function RelatedPostings($tid)
     $result = wrapped_mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $row = mysqli_fetch_assoc($result);
     $related_postings = $row["related_postings"];
-    echo "<table class='tasks'>\n";
-    echo "<tr><td style='width: 100%'><b>Related Topic</b>";
-    echo "<form action='$tasks_url' method='post'>";
+    echo "<h2>" . _("Related Topics") . "</h2>";
+    echo "<form action='$tasks_url' method='post' style='padding-bottom: 0.5em;'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<input type='number' name='related_posting' min='1' required>&nbsp;&nbsp;";
+    echo "<input type='number' name='related_posting' min='1' style='width: 5em;' required>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add'>\n";
     echo " (Add the number of a forum topic.)";
     echo "</form>";
+
+    echo "<table class='themed theme_striped'>\n";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
     foreach($related_postings as $val)
@@ -1725,18 +1594,23 @@ function RelatedPostings($tid)
         $row = get_topic_details($val);
         $forum_url = get_url_to_view_forum($row["forum_id"]);
         $topic_url = get_url_to_view_topic($row["topic_id"]);
-        echo "<form action='$tasks_url' method='post'>";
-        echo "<input type='hidden' name='action' value='remove_related_topic'>";
-        echo "<input type='hidden' name='task_id' value='$tid'>";
-        echo "<input type='hidden' name='related_posting' value='$val'>";
+
+        echo "<tr><td>";
         echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
         echo "&nbsp;&raquo;&nbsp;";
         echo "<a href='$topic_url'>" . $row['title'] . "</a>";
         echo " (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
+
+        echo " ";
+        echo "<form action='$tasks_url' method='post' style='display: inline;'>";
+        echo "<input type='hidden' name='action' value='remove_related_topic'>";
+        echo "<input type='hidden' name='task_id' value='$tid'>";
+        echo "<input type='hidden' name='related_posting' value='$val'>";
         echo "<input type='submit' value='Remove'>\n";
         echo "</form>";
+        echo "</td></tr>";
     }
-    echo "</td></tr></table>";
+    echo "</table>";
 }
 
 function property_get_label( $property_id, $for_list_of_tasks )
