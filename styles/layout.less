@@ -1382,3 +1382,38 @@ td.has-diff {
 .book-title {
     .bold;
 }
+
+/* ------------------------------------------------------------------------ */
+/* Task Center */
+
+div.task-nav {
+    padding: 0.5em 0;
+}
+
+div.task-comment {
+    border-left: thick solid @sidebar-background;
+    padding-left: 1em;
+    margin-bottom: 1em;
+    .task-comment-body {
+        margin-left: 1em;
+    }
+}
+
+table.task-detail-block {
+    .solid-border;
+    width: 100%;
+    tr {
+        th, td {
+            padding: 0.1em 0.5em 0.1em 0.5em;
+            height: 1.5em;
+        }
+        th {
+            background-color: @sidebar-background;
+            white-space: nowrap;
+        }
+        td {
+            background-color: @page-background;
+            width: 100%;
+        }
+    }
+}

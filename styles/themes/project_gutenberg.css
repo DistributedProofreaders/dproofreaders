@@ -2202,3 +2202,33 @@ td.has-diff {
 .book-title {
   font-weight: bold;
 }
+/* ------------------------------------------------------------------------ */
+/* Task Center */
+div.task-nav {
+  padding: 0.5em 0;
+}
+div.task-comment {
+  border-left: thick solid #e0e8dd;
+  padding-left: 1em;
+  margin-bottom: 1em;
+}
+div.task-comment .task-comment-body {
+  margin-left: 1em;
+}
+table.task-detail-block {
+  border: thin solid black;
+  width: 100%;
+}
+table.task-detail-block tr th,
+table.task-detail-block tr td {
+  padding: 0.1em 0.5em 0.1em 0.5em;
+  height: 1.5em;
+}
+table.task-detail-block tr th {
+  background-color: #e0e8dd;
+  white-space: nowrap;
+}
+table.task-detail-block tr td {
+  background-color: #ffffff;
+  width: 100%;
+}
