@@ -322,13 +322,12 @@ $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
 // -----------------------------------------------------------------------------
 
 $SearchParams_choices = array(
+    'task_status'   => array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array,
     'task_type'     => array(999 => 'All Task Types') + $tasks_array,
     'task_severity' => array(999 => 'All Severities') + $severity_array,
     'task_priority' => array(999 => 'All Priorities') + $priority_array,
     'task_assignee' => array(999 => 'All Developers') + $task_assignees_array,
     'task_category' => array(999 => 'All Categories') + $categories_array,
-    'task_status'   => array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array,
-    'task_version'  => array(999 => 'All Versions') + $versions_array,
 );
 
 // XXX Re task_assignee, there's a long-standing bug involving
