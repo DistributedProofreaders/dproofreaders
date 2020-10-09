@@ -2108,3 +2108,8 @@ li.spaced {
   width: 50em;
   border: thin solid black;
 }
+/* ------------------------------------------------------------------------ */
+/* Completed Project Listings */
+.book-title {
+  font-weight: bold;
+}

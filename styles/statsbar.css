@@ -56,24 +56,21 @@
 }
 /* ------------------------------------------------------------------------ */
 /* Statsbar components */
-#completed-titles ul,
-#recent-titles ul {
+#statsbar #completed-titles ul,
+#statsbar #recent-titles ul {
   padding: 0;
 }
-#completed-titles li,
-#recent-titles li {
+#statsbar #completed-titles li,
+#statsbar #recent-titles li {
   list-style-type: none;
 }
-#completed-titles li,
-#recent-titles li {
+#statsbar #completed-titles li,
+#statsbar #recent-titles li {
   margin-top: 1em;
+  line-height: 1.5em;
 }
-#completed-titles .book-title,
-#recent-titles .book-title {
-  font-weight: bold;
-}
-#completed-titles .title-listing,
-#recent-titles .title-listing {
+#statsbar #completed-titles .title-listing,
+#statsbar #recent-titles .title-listing {
   font-size: x-small;
 }
 #completed-projects {

@@ -19,17 +19,14 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
 
     while (list($title,$author,$language,$postednum) = mysqli_fetch_row($result))
     {
-        echo "<li><span class='title-listing'>";
+        echo "<li class='title-listing'>";
 
-        echo "<span class='book-title'>", '"', html_safe($title), '"', "</span>";
-        echo "&mdash;" . html_safe($author) . " ($language)";
+        echo "<span class='book-title'>" . html_safe($title) . "</span>";
+        echo ", " . html_safe($author) . " (" . html_safe($language) . ")";
         if ( !is_null($postednum) )
         {
             echo "<br>", get_pg_catalog_link_for_etext($postednum);
         }
-        echo "<br>\n";
-
-        echo "</span>";
         echo "</li>";
         echo "\n";
     }
@@ -132,19 +129,16 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
 
 
         // First line
-        echo "<li id='$projectid'>";
+        echo "<li class='title-listing' id='$projectid'>";
         // Counter
         // Title
-        if (is_null($postednum))
-        {
-            echo "\"<a style=\"font-weight: bold;text-decoration:none\" href=\"$code_url/project.php?id=$projectid\">$title</a>\"";
+        echo "<span class='book-title'>";
+        if (is_null($postednum)) {
+            echo "<a href='$code_url/project.php?id=$projectid'>" . html_safe($title) . "</a>";
         } else {
-            echo "\"<span style=\"font-weight: bold;color:#444444\">" . html_safe($title) . "</span>\"";
+            echo html_safe($title);
         }
-        // Author
-        echo ", ", html_safe($author);
-        // Language
-        echo " (", $language, ")";
+        echo "</span>, " . html_safe($author) . " (" . html_safe($language) . ")";
         echo "<br>";
 
         // Second line
@@ -159,7 +153,10 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         if ( !is_null($postednum) )
         {
             echo get_pg_catalog_link_for_etext($postednum);
-            echo " [{$project['formats']}]";
+            if($project['formats'])
+            {
+                echo " [{$project['formats']}]";
+            }
 
             if ($site_supports_corrections_after_posting)
             {
