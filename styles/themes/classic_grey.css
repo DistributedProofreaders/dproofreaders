@@ -1809,7 +1809,7 @@ table.basic {
   border: thin solid black;
 }
 table.basic th {
-  background-color: #CCC;
+  background-color: #cccccc;
 }
 table.basic td,
 table.basic th {
@@ -1856,7 +1856,7 @@ p.form_problem {
   font-weight: bold;
 }
 p.form_problem:before {
-  content: '\\002193 ';
+  content: '↓';
   /* down-arrow */
 }
 table.ppv_reportcard {
@@ -1864,7 +1864,6 @@ table.ppv_reportcard {
   border: thin solid black;
 }
 table.ppv_reportcard th {
-  text-align: center;
   font-weight: bold;
   border: thin solid black;
 }
@@ -1872,10 +1871,10 @@ table.ppv_reportcard th.major_section {
   background-color: #dddddd;
 }
 table.ppv_reportcard th.minor_section {
-  background-color: #99ff99;
+  background-color: teal;
 }
 table.ppv_reportcard th.heading {
-  background-color: #e0e8dd;
+  background-color: #cccccc;
 }
 table.ppv_reportcard td {
   border: thin solid black;
