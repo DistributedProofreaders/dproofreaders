@@ -17,15 +17,9 @@ require_login();
 
 // -------------------------------------
 
-$theme_args['css_data'] = "
-input[type='text'], textarea {
-     background-color: #E2F2E1;
-}
-";
-
 $page_title = _('Post-Processing Verification Reporting');
 
-output_header($page_title, SHOW_STATSBAR, $theme_args);
+output_header($page_title);
 
 echo "\n<h1>$page_title</h1>\n";
 
@@ -103,6 +97,11 @@ mysqli_free_result($result);
 //
 // So, the date we are looking for is the latest transition to PPV.avail
 // before the earliest transition from PPV.avail to PPV.checked out...
+//
+// Note that the following queries do not take into accout the case where
+// the PPer, after having the project returned to them, returns the project
+// to the PP pool, after which it is checked out by another PPer who has
+// to submit for PPV.
 
 $pp_date = "";
 
@@ -156,7 +155,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         global $i4, $i5;
         return ""
             . "\n$i4<tr>"
-            . "\n$i5<th colspan='2' class='$class'>$content</th>"
+            . "\n$i5<th colspan='2' class='$class center-align'>$content</th>"
             . "\n$i4</tr>";
     }
 
@@ -176,7 +175,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         global $i4, $i5;
         return ""
             . "\n$i4<tr>"
-            . "\n$i5<td style='background-color: #CCCCCC; width: 40%;'><b>$left_content</b></td>"
+            . "\n$i5<th class='label' style='width: 25%;'><b>$left_content</b></td>"
             . "\n$i5<td>"
             . $right_content
             . "\n$i5</td>"
@@ -387,7 +386,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     $entry_form = "<br>
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
-          <table class='ppv_reportcard' id='report_card'>
+          <table class='basic ppv_reportcard' id='report_card'>
 "
         . tr_w_one_cell_centered('major_section', _("Project Information"))
         . tr_w_two_cells(

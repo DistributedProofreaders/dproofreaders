@@ -880,6 +880,8 @@ table.preferences {
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
 
+@basic-column-header: #cccccc;
+
 table.themed {
     width: 100%;
     border-collapse: collapse;
@@ -918,7 +920,7 @@ table.basic {
     border-collapse: collapse;
     .solid-border;
     th {
-        background-color: #CCC;
+        background-color: @basic-column-header;
     }
     td, th {
         .solid-border;
@@ -956,6 +958,8 @@ table.no-border {
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
 
+@ppv-report-minor: #99ff99; 
+
 p.inline_input {
     .no-margin;
     .no-padding;
@@ -974,24 +978,25 @@ p.form_problem {
     font-weight: bold;
 }
 p.form_problem:before {
-    content: '\\002193 '; /* down-arrow */
+    content: '↓'; /* down-arrow */
 }
 table.ppv_reportcard {
     width: 95%;
     .solid-border;
     th {
-        .center-align;
+        //.left-align;
         .bold;
         .solid-border;
+        // background-color: @header-background;
     }
     th.major_section {
         background-color: @header-background;
     }
     th.minor_section {
-        background-color: #99ff99;
+        background-color: teal; // @ppv-report-minor;
     }
     th.heading {
-        background-color: #e0e8dd;
+        background-color: @basic-column-header;
     }
     td {
         .solid-border;
