@@ -635,7 +635,6 @@ function handle_action_on_a_specified_task()
     $pre_task = mysqli_fetch_object($result);
     if (!$pre_task)
     {
-        TaskHeader("Task #$task_id does not exist");
         ShowError("Task #$task_id was not found!");
         return;
     }
@@ -651,27 +650,20 @@ function handle_action_on_a_specified_task()
         $userSettings->remove_value('taskctr_notice', $task_id);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
-    // We don't want a TaskHeader for add_comment or add_metoo
-    //   because then we wouldn't be able to redirect
-    //   the user.
-    elseif ($action != 'add_comment' &&
-            $action != 'add_metoo')
-    {
-        TaskHeader(title_string_for_task($pre_task));
-    }
 
     if ($action == 'show') {
+        TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id);
     }
     elseif ($action == 'show_editing_form') {
+        TaskHeader(title_string_for_task($pre_task));
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
             // The user wants to edit an existing task.
             // Initialize the form with the current values of the task's properties.
             TaskForm($pre_task);
         }
         else {
-            ShowError("The user $pguser does not have permission to edit this task.");
-            TaskDetails($task_id);
+            ShowError("You do not have permission to edit this task.", true);
         }
     }
     elseif ($action == 'reopen') {
@@ -687,7 +679,7 @@ function handle_action_on_a_specified_task()
                 closed_reason = 0
             WHERE task_id = $task_id
         ");
-        TaskDetails($task_id);
+        metarefresh(0, "$tasks_url?task_id=$task_id");
     }
     elseif ($action == 'edit') {
         $task_summary = trim(array_get($_POST, 'task_summary', ''));
@@ -746,8 +738,7 @@ function handle_action_on_a_specified_task()
             );
             wrapped_mysql_query($sql_query);
 
-            set_window_title("All Open Tasks");
-            list_all_open_tasks();
+            metarefresh(0, "$tasks_url?task_id=$task_id");
         }
     }
     elseif ($action == 'close') {
@@ -769,11 +760,11 @@ function handle_action_on_a_specified_task()
                 WHERE task_id = $task_id
             ");
 
-            set_window_title("All Open Tasks");
-            list_all_open_tasks();
+            metarefresh(0, $tasks_url);
         }
         else {
-            ShowError("The user $pguser does not have permission to close tasks.");
+            ShowError("You do not have permission to close tasks.", true);
+            return;
         }
     }
     elseif ($action == 'add_comment') {
@@ -800,12 +791,8 @@ function handle_action_on_a_specified_task()
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
-            // We skipped outputting TaskHeader in the success case so we can
-            // metarefresh back to the task. In the error case we need to build
-            // the page out however.
-            TaskHeader(title_string_for_task($pre_task));
-            ShowError("You must supply a comment before clicking Add Comment.");
-            TaskDetails($task_id);
+            ShowError("You must supply a comment before clicking Add Comment.", true);
+            return;
         }
     }
     elseif ($action == 'add_related_task') {
@@ -855,10 +842,10 @@ function handle_action_on_a_specified_task()
     }
 }
 
-// Add or remove a related task to the curent task.
+// Add or remove a related task to the current task.
 function process_related_task($pre_task, $action, $related_task_id)
 {
-    global $pguser;
+    global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
 
     // Validate task_id. It must be an integer >= 1
@@ -874,7 +861,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     $task_already_present = in_array($related_task_id, load_related_tasks($pre_task_id));
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
-        ShowError("You must supply a valid related task id number.");
+        ShowError("You must supply a valid related task id number.", true);
         return;
     }
 
@@ -889,13 +876,13 @@ function process_related_task($pre_task, $action, $related_task_id)
     } else {
         NotificationMail($pre_task_id, "$pguser removed related task $related_task_id.");
     }
-    TaskDetails($pre_task_id);
+    metarefresh(0, "$tasks_url?task_id=$pre_task_id");
 }
 
 // Add or remove a related topic (forum thread) to the curent task.
 function process_related_topic($pre_task, $action, $related_topic_id)
 {
-    global $pguser;
+    global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
 
     // Validate related_topic_id. It must be an integer >= 1
@@ -934,7 +921,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     } else {
         NotificationMail($pre_task_id, "$pguser removed related topic $related_topic_id.");
     }
-    TaskDetails($pre_task_id);
+    metarefresh(0, "$tasks_url?task_id=$pre_task_id");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -957,6 +944,15 @@ function dropdown_select($field_name, $current_value, $array)
 function TaskHeader($header, $show_new_alert = false)
 {
     global $tasks_url, $pguser;
+
+    // Allow this function to be called more than once but only output the
+    // header once. This allows ShowError() to call the function to ensure
+    // the HTML page has been opened once and only once.
+    static $header_output = FALSE;
+    if($header_output)
+        return;
+    $header_output = TRUE;
+
     $js_data = <<<EOS
 function showSpan(id) { document.getElementById(id).style.display=""; }
 function hideSpan(id) { document.getElementById(id).style.display="none"; }
@@ -1517,6 +1513,7 @@ function MeToo($tid, $os, $browser)
 
 function ShowError($message, $goback = false)
 {
+    TaskHeader(_("Task Error"));
     echo "<p class='error'>";
     if ($goback)
         $message .= "<br>Please go <a href='javascript:history.back()'>back</a> and correct this.";
@@ -1958,12 +1955,6 @@ function wrapped_mysql_query($sql_query)
     $res = mysqli_query(DPDatabase::get_connection(), $sql_query);
     if ($res === FALSE) die(DPDatabase::log_error());
     return $res;
-}
-
-function set_window_title($title)
-{
-    $title_esc = addslashes($title);
-    echo "<script>top.document.title = '$title_esc';</script>\n";
 }
 
 // Given a task row from the DB, produce an unescaped string representing
