@@ -39,8 +39,13 @@
             .solid-border;
         }
 
+        input[type=submit]:disabled, input[type=button]:disabled, button:disabled {
+            background-color: shade(@text-pane-background, 30%);
+        }
+
         button, input[type=submit], input[type=button] {
             box-shadow: 1px 1px grey;
+            border-radius: 3px;
         }
 
         input[type=image] {
@@ -77,7 +82,9 @@
             border: thin solid black;
         }
         button, input[type=submit], input[type=button] {
+            background-color: #efefef;
             box-shadow: 1px 1px grey;
+            border-radius: 3px;
             margin: 2px;
         }
     }

@@ -183,10 +183,16 @@
   color: black;
   border: thin solid black;
 }
+.page-interface .control-pane input[type=submit]:disabled,
+.page-interface .control-pane input[type=button]:disabled,
+.page-interface .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 .page-interface .control-pane button,
 .page-interface .control-pane input[type=submit],
 .page-interface .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 .page-interface .control-pane input[type=image] {
   border: none;
@@ -217,10 +223,16 @@
   color: black;
   border: thin solid black;
 }
+#standard_interface_image .control-pane input[type=submit]:disabled,
+#standard_interface_image .control-pane input[type=button]:disabled,
+#standard_interface_image .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #standard_interface_image .control-pane button,
 #standard_interface_image .control-pane input[type=submit],
 #standard_interface_image .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #standard_interface_image .control-pane input[type=image] {
   border: none;
@@ -244,7 +256,9 @@
 #standard_interface_text #editform button,
 #standard_interface_text #editform input[type=submit],
 #standard_interface_text #editform input[type=button] {
+  background-color: #efefef;
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
   margin: 2px;
 }
 #text_data,
@@ -276,10 +290,16 @@
   color: black;
   border: thin solid black;
 }
+#enhanced_interface .control-pane input[type=submit]:disabled,
+#enhanced_interface .control-pane input[type=button]:disabled,
+#enhanced_interface .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #enhanced_interface .control-pane button,
 #enhanced_interface .control-pane input[type=submit],
 #enhanced_interface .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #enhanced_interface .control-pane input[type=image] {
   border: none;
@@ -308,10 +328,16 @@
   color: black;
   border: thin solid black;
 }
+#enhanced_interface #tdtop input[type=submit]:disabled,
+#enhanced_interface #tdtop input[type=button]:disabled,
+#enhanced_interface #tdtop button:disabled {
+  background-color: #b3ae9a;
+}
 #enhanced_interface #tdtop button,
 #enhanced_interface #tdtop input[type=submit],
 #enhanced_interface #tdtop input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #enhanced_interface #tdtop input[type=image] {
   border: none;
@@ -344,10 +370,16 @@
   color: black;
   border: thin solid black;
 }
+#enhanced_interface #tdtext .control-pane input[type=submit]:disabled,
+#enhanced_interface #tdtext .control-pane input[type=button]:disabled,
+#enhanced_interface #tdtext .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #enhanced_interface #tdtext .control-pane button,
 #enhanced_interface #tdtext .control-pane input[type=submit],
 #enhanced_interface #tdtext .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #enhanced_interface #tdtext .control-pane input[type=image] {
   border: none;
@@ -391,10 +423,16 @@
   color: black;
   border: thin solid black;
 }
+#wordcheck_interface .control-pane input[type=submit]:disabled,
+#wordcheck_interface .control-pane input[type=button]:disabled,
+#wordcheck_interface .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #wordcheck_interface .control-pane button,
 #wordcheck_interface .control-pane input[type=submit],
 #wordcheck_interface .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #wordcheck_interface .control-pane input[type=image] {
   border: none;
@@ -421,10 +459,16 @@
   color: black;
   border: thin solid black;
 }
+#wordcheck_interface #tdtop input[type=submit]:disabled,
+#wordcheck_interface #tdtop input[type=button]:disabled,
+#wordcheck_interface #tdtop button:disabled {
+  background-color: #b3ae9a;
+}
 #wordcheck_interface #tdtop button,
 #wordcheck_interface #tdtop input[type=submit],
 #wordcheck_interface #tdtop input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #wordcheck_interface #tdtop input[type=image] {
   border: none;
@@ -471,10 +515,16 @@
   color: black;
   border: thin solid black;
 }
+#format_preview .control-pane input[type=submit]:disabled,
+#format_preview .control-pane input[type=button]:disabled,
+#format_preview .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #format_preview .control-pane button,
 #format_preview .control-pane input[type=submit],
 #format_preview .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #format_preview .control-pane input[type=image] {
   border: none;
@@ -495,10 +545,16 @@
   color: black;
   border: thin solid black;
 }
+.ilb input[type=submit]:disabled,
+.ilb input[type=button]:disabled,
+.ilb button:disabled {
+  background-color: #b3ae9a;
+}
 .ilb button,
 .ilb input[type=submit],
 .ilb input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 .ilb input[type=image] {
   border: none;
@@ -526,10 +582,16 @@
   color: black;
   border: thin solid black;
 }
+.fixedbox input[type=submit]:disabled,
+.fixedbox input[type=button]:disabled,
+.fixedbox button:disabled {
+  background-color: #b3ae9a;
+}
 .fixedbox button,
 .fixedbox input[type=submit],
 .fixedbox input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 .fixedbox input[type=image] {
   border: none;
@@ -568,10 +630,16 @@
   color: black;
   border: thin solid black;
 }
+.control-frame input[type=submit]:disabled,
+.control-frame input[type=button]:disabled,
+.control-frame button:disabled {
+  background-color: #b3ae9a;
+}
 .control-frame button,
 .control-frame input[type=submit],
 .control-frame input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 .control-frame input[type=image] {
   border: none;
@@ -595,10 +663,16 @@
   color: black;
   border: thin solid black;
 }
+#toolbox input[type=submit]:disabled,
+#toolbox input[type=button]:disabled,
+#toolbox button:disabled {
+  background-color: #b3ae9a;
+}
 #toolbox button,
 #toolbox input[type=submit],
 #toolbox input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #toolbox input[type=image] {
   border: none;
@@ -709,10 +783,16 @@
   color: black;
   border: thin solid black;
 }
+#page-browser .control-pane input[type=submit]:disabled,
+#page-browser .control-pane input[type=button]:disabled,
+#page-browser .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
 #page-browser .control-pane button,
 #page-browser .control-pane input[type=submit],
 #page-browser .control-pane input[type=button] {
   box-shadow: 1px 1px grey;
+  border-radius: 3px;
 }
 #page-browser .control-pane input[type=image] {
   border: none;
