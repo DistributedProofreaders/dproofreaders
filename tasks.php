@@ -896,11 +896,15 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     $pre_task_id           = $pre_task->task_id;
     $related_topics        = decode_array($pre_task->related_postings);
     $topic_already_present = in_array($related_topic_id, $related_topics);
+    $topic_details         = get_topic_details($related_topic_id);
 
-    if (!does_topic_exist($related_topic_id) || $topic_already_present == $adding) {
+    if ($adding && ($topic_already_present ||
+        !does_topic_exist($related_topic_id) ||
+        !$topic_details['forum_name'])) {
         ShowError("You must supply a valid related topic id number.", true);
         return;
     }
+
 
     if ($adding) {
         array_push($related_topics, $related_topic_id);
@@ -1724,7 +1728,7 @@ function RelatedPostings($tid)
         echo "<form action='$tasks_url' method='post'>";
         echo "<input type='hidden' name='action' value='remove_related_topic'>";
         echo "<input type='hidden' name='task_id' value='$tid'>";
-        echo "<input type='hidden' name='related_posting' value='" .$row["topic_id"] . "'>";
+        echo "<input type='hidden' name='related_posting' value='$val'>";
         echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
         echo "&nbsp;&raquo;&nbsp;";
         echo "<a href='$topic_url'>" . $row['title'] . "</a>";
