@@ -1852,8 +1852,8 @@ p.hanging_indent_long {
 }
 p.form_problem {
   margin-bottom: 0;
-  color: red;
   font-weight: bold;
+  color: red;
 }
 p.form_problem:before {
   content: '↓';
@@ -1869,9 +1869,6 @@ table.ppv_reportcard th {
 }
 table.ppv_reportcard th.major_section {
   background-color: #e0e8dd;
-}
-table.ppv_reportcard th.minor_section {
-  background-color: teal;
 }
 table.ppv_reportcard th.heading {
   background-color: #cccccc;

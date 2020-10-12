@@ -958,8 +958,6 @@ table.no-border {
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
 
-@ppv-report-minor: #99ff99; 
-
 p.inline_input {
     .no-margin;
     .no-padding;
@@ -974,8 +972,7 @@ p.hanging_indent_long {
 }
 p.form_problem {
     margin-bottom: 0;
-    color: red;
-    font-weight: bold;
+    .error();
 }
 p.form_problem:before {
     content: '↓'; /* down-arrow */
@@ -984,16 +981,11 @@ table.ppv_reportcard {
     width: 95%;
     .solid-border;
     th {
-        //.left-align;
         .bold;
         .solid-border;
-        // background-color: @header-background;
     }
     th.major_section {
         background-color: @header-background;
-    }
-    th.minor_section {
-        background-color: teal; // @ppv-report-minor;
     }
     th.heading {
         background-color: @basic-column-header;
