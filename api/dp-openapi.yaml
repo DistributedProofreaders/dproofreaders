@@ -600,6 +600,15 @@ components:
         registered_users:
           type: integer
           readOnly: true
+        active_users_1_day:
+          type: integer
+          readOnly: true
+        active_users_7_day:
+          type: integer
+          readOnly: true
+        active_users_30_day:
+          type: integer
+          readOnly: true
       description: Statistics for the site
 
     round_stats:
