@@ -30,4 +30,5 @@ $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
+$router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");
 $router->add_route("GET", "v1/stats/site/rounds/:roundid", "api_v1_stats_site_round");

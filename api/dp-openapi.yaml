@@ -425,6 +425,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/site_stats'
 
+  /stats/site/rounds:
+    get:
+      tags:
+      - stats
+      description: Gets the site statistics for all rounds
+      responses:
+        200:
+          description: Requested round statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/round_stats'
+
   /stats/site/rounds/{roundid}:
     get:
       tags:
