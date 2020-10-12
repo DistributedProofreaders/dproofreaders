@@ -18,13 +18,11 @@ function api_v1_stats_site($method, $data, $query_params)
 }
 
 //---------------------------------------------------------------------------
-// stats/site/:roundid
+// stats/site/rounds
 
-function api_v1_stats_site_round($method, $data, $query_params)
+function render_round_stats($round_id)
 {
-    $round = $data[":roundid"];
-
-    $stats = get_site_page_tally_summary($round->id);
+    $stats = get_site_page_tally_summary($round_id);
     return [
         "today_goal" => $stats->curr_day_goal,
         "today_actual" => $stats->curr_day_actual,
@@ -33,4 +31,27 @@ function api_v1_stats_site_round($method, $data, $query_params)
         "month_goal" => $stats->curr_month_goal,
         "month_actual" => $stats->curr_month_actual,
     ];
+}
+
+function api_v1_stats_site_rounds($method, $data, $query_params)
+{
+    global $Round_for_round_id_;
+
+    $return = [];
+    foreach(array_keys($Round_for_round_id_) as $round_id)
+    {
+        $return[$round_id] = render_round_stats($round_id);
+    }
+
+    return $return;
+}
+
+//---------------------------------------------------------------------------
+// stats/site/rounds/:roundid
+
+function api_v1_stats_site_round($method, $data, $query_params)
+{
+    $round = $data[":roundid"];
+
+    return render_round_stats($round->id);
 }
