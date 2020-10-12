@@ -183,7 +183,7 @@ function get_DifferenceEngine_css_data() {
 }
 .diff-deletedline .diffchange,
 .diff-addedline .diffchange {
-    padding-top: 0;
+    padding: 0.1em 0;
 }
 ";
 }
