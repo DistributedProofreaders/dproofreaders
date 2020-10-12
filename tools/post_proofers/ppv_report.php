@@ -98,10 +98,10 @@ mysqli_free_result($result);
 // So, the date we are looking for is the latest transition to PPV.avail
 // before the earliest transition from PPV.avail to PPV.checked out...
 //
-// Note that the following queries do not take into accout the case where
-// the PPer, after having the project returned to them, returns the project
-// to the PP pool, after which it is checked out by another PPer who has
-// to submit for PPV.
+// The following queries do not take into account the case where the PPer,
+// after having the project returned to them, returns the project to the
+// PP pool, after which it is checked out by another PPer who has to
+// submit for PPV.
 
 $pp_date = "";
 
@@ -156,17 +156,6 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return ""
             . "\n$i4<tr>"
             . "\n$i5<th colspan='2' class='$class center-align'>$content</th>"
-            . "\n$i4</tr>";
-    }
-
-    function tr_w_one_cell($content)
-    {
-        global $i4, $i5;
-        return ""
-            . "\n$i4<tr>"
-            . "\n$i5<td colspan='2'>"
-            . $content
-            . "\n$i5</td>"
             . "\n$i4</tr>";
     }
 
@@ -383,6 +372,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     // ---------------------------------
 
     $ppv_guidelines_url = get_faq_url("ppv.php");
+    $pp_faq_url = get_faq_url("post_proof.php");
 
     $entry_form = "<br>
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
@@ -425,8 +415,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             $pp_date
         )
 
-        . tr_w_one_cell_centered('major_section', _("General Information"))
-        . tr_w_one_cell_centered("heading", _("Difficulty Details"))
+        . tr_w_one_cell_centered('major_section', "<a href='$ppv_guidelines_url#difficulty'>" . _("Post-Processing Difficulty") . "</a>")
         . tr_w_two_cells(
             "File Information",
             number_box('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5))
@@ -444,15 +433,15 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . some_sig_combo('some_index',    _("Small"), 'sig_index',  _("Significant Size"),   _("Index"))
                 . some_num_combo('some_illos', _("Illustrations (other than minor decorations or logos)"), 'num_illos')
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
-                . check_box('sig_multilang', _("Multiple Languages") . " <a href='$ppv_guidelines_url#mult'>*</a>")
+                . check_box('sig_multilang', "<a href='$ppv_guidelines_url#mult'>" . _("Multiple Languages") . "</a>")
                 . check_box('sig_spell',     _("Extensive Spellcheck/Gutcheck"))
                 . check_box('sig_englifh',   _("Engliſh"))
                 . check_box('sig_music',     _("Musical Notation and Files"))
                 . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
         )
-        . tr_w_one_cell_centered("minor_section", _("ERRORS") . " <a href='$ppv_guidelines_url#errors'>**</a>")
-        . tr_w_one_cell_centered("minor_section", _("LEVEL 1 (Minor Errors)"))
-        . tr_w_one_cell_centered("heading", _("All Versions"))
+        . tr_w_one_cell_centered("major_section", "<a href='$ppv_guidelines_url#errors'>" . _("ERRORS") . "</a>")
+        . tr_w_one_cell_centered("major_section", _("Level 1 (Minor Errors)"))
+        . tr_w_one_cell_centered("heading", "<a href='$ppv_guidelines_url#errors_minor_all'>" . _("All Versions") . "</a>")
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -468,17 +457,17 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . comment_box('level1_general_comments')
         )
         . tr_w_one_cell_centered("heading", _("HTML Version Only"))
-        . tr_w_one_cell_centered("heading", _("Images"))
+        . tr_w_one_cell_centered("heading", "<a href='$ppv_guidelines_url#errors_minor_images'>" . _("Images") . "</a>")
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)"))
-                . number_box('e1_imagesize_num', sprintf(_("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed <a href='%s'>these described limits</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."), "http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations"))
+                . number_box('e1_imagesize_num', sprintf(_("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed <a href='%s'>these described limits</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."), "$pp_faq_url#imagesizes"))
                 . number_box('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping"))
                 . number_box('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi"))
                 . number_box('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist"))
         )
-        . tr_w_one_cell_centered("heading", _("HTML Code"))
+        . tr_w_one_cell_centered("heading", "<a href='$ppv_guidelines_url#errors_minor_html'>" . _("HTML Code") . "</a>")
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -494,15 +483,15 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . "\n"
                 . comment_box('level1_html_comments')
         )
-        . tr_w_one_cell_centered("minor_section", _("LEVEL 2 (Major Errors)"))
-        . tr_w_one_cell_centered("heading", _("All Versions"))
+        . tr_w_one_cell_centered("major_section", _("Level 2 (Major Errors)"))
+        . tr_w_one_cell_centered("heading", "<a href='$ppv_guidelines_url#errors_major_all'>" . _("All Versions") . "</a>")
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)"))
                 . number_box('e2_poetry_num',   _("Poetry indentation does not match original"))
                 . number_box('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed"))
-                . number_box('e2_printers_num', _("Printers' errors not addressed") . " <a href='$ppv_guidelines_url#printers'>***</a>")
+                . number_box('e2_printers_num', "<a href='$ppv_guidelines_url#printers'>" . _("Printers' errors not addressed") . "</a>")
                 . number_box('e2_missing_num',  _("Missing page(s) or substantial sections of missing text"))
                 . number_box('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters"))
                 . number_box('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
@@ -510,7 +499,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . "\n"
                 . comment_box('level2_general_comments')
         )
-        . tr_w_one_cell_centered("heading", _("HTML Version Only"))
+        . tr_w_one_cell_centered("heading", "<a href='$ppv_guidelines_url#errors_major_html'>" . _("HTML Version Only") . "</a>")
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -518,11 +507,12 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), 'http://upload.pglaf.org/'))
                 . number_box('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
-                . number_box('e2_cover_num',    sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet <a href='%s'>current DP guidelines</a>.)"), "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ#Cover_image"))
-                . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
+                . number_box('e2_cover_num',    sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet <a href='%s'>current DP guidelines</a>.)"), "$pp_faq_url#covers"))
+                . number_box('e2_epub_num',     sprintf(_("Project not presentable/useable when put through <a href='%s'>ebookmaker</a>"), "$ppv_guidelines_url#reader"))
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
-        . tr_w_one_cell_centered("minor_section", _("STRONGLY RECOMMENDED<br>(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
+        . tr_w_one_cell_centered("major_section", "<a href='$ppv_guidelines_url#strongly_recommended'>" . _("Strongly Recommended") . "</a>")
+        . tr_w_one_cell_centered("heading", _("(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -536,7 +526,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('s_thumbs',  _("Remove thumbs.db file from the images folder"))
                 . check_box('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible"))
         )
-        . tr_w_one_cell_centered("minor_section", _("MILDLY RECOMMENDED<br>(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
+        . tr_w_one_cell_centered("major_section", "<a href='$ppv_guidelines_url#mildly_recommended'>" . _("Mildly Recommended") . "</a>")
+        . tr_w_one_cell_centered("heading", _("(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -544,9 +535,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('m_space',     _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)"))
                 . check_box('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)"))
         )
-        . tr_w_one_cell_centered("minor_section", _("GENERAL COMMENTS"))
+        . tr_w_one_cell_centered("major_section", _("General Comments"))
         . tr_w_two_cells(
-            _("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"),
+            sprintf(_("<a href='%s'>Did you have to return</a> the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"), "$ppv_guidelines_url#rr"),
             comment_box('reason_returned')
         )
         . tr_w_two_cells(
@@ -555,13 +546,13 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         )
         . tr_w_one_cell_centered('major_section', _("Copies"))
         . tr_w_two_cells(
-            _("Send to"),
+            sprintf(_("<a href='%s'>Send to</a>"), "$ppv_guidelines_url#summary"),
             ""
                 . check_box('cc_ppv', _("Me"))
                 . check_box('cc_pp', $project->postproofer, TRUE) ."
                         <p class='inline_input hanging_indent'><input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)") ."</p>"
         )
-        . tr_w_one_cell_centered("", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
+        . tr_w_one_cell_centered("", "<input type='submit' value='".attr_safe(_("Preview"))."'>") ."
         </table>
     </form>";
 }
@@ -787,7 +778,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'e2_links_num'      => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
             'e2_file_num'       => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
             'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet current DP guidelines.)",
-            'e2_epub_num'       => "Project not presentable/useable when put through epubmaker",
+            'e2_epub_num'       => "Project not presentable/useable when put through ebookmaker",
             'e2_heading_num'    => "Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)",
         ))
 
@@ -825,8 +816,9 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 
         . "\n";
 
-    echo _("Please check the information below to make sure everything is correct.
-        To return to the form, simply use your browser's back button.") . "<br>\n";
+    echo "<p>" . _("Please check the information below to make sure everything is correct.
+        To return to the form, simply use your browser's back button.") . "</p>\n";
+    echo "<p>" . sprintf(_("The PPV Guidelines describe how the <a href='%s'>PPing Difficulty</a> and <a href='%s'>Overall evaluation of PPers' work</a> are calculated."), "$ppv_guidelines_url#difficulty", "$ppv_guidelines_url#allowable") . "</p>";
     echo "<pre>" . $reportcard . "</pre>";
     echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;send=1' name='ppvform' method='post'>
                 <input type='hidden' name='reportcard' value='" . attr_safe($reportcard) . "'>
