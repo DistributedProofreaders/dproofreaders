@@ -181,6 +181,11 @@ function get_DifferenceEngine_css_data() {
     font-family: $font_family;
     $font_size
 }
+/* Adjust padding to prevent descenders from being chopped off. Task 1936 */
+.diff-deletedline .diffchange,
+.diff-addedline .diffchange {
+    padding: 0.1em 0;
+}
 ";
 }
 
