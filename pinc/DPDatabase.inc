@@ -92,15 +92,11 @@ final class DPDatabase
 
     static public function get_default_db_charset()
     {
-        $sql = sprintf("
+        $result = self::query(sprintf("
             SELECT *
             FROM information_schema.schemata
             WHERE schema_name='%s';
-        ", self::$_db_name);
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-            throw new DBQueryError(DPDatabase::log_error());
+        ", self::$_db_name));
 
         $row = mysqli_fetch_assoc($result);
         $default_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
@@ -114,13 +110,10 @@ final class DPDatabase
         $sql = sprintf("
             SELECT TABLE_COLLATION
             FROM information_schema.tables
-            WHERE table_schema='%s' AND table_name='%s'
-        ", self::$_db_name, $table_name);
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-            throw new DBQueryError(DPDatabase::log_error());
-
+            WHERE table_schema='%s' AND table_name='%s'",
+            self::$_db_name,
+            self::escape($table_name));
+        $result = self::query($sql);
         $row = mysqli_fetch_assoc($result);
         $table_encoding = $row['TABLE_COLLATION'];
         mysqli_free_result($result);
