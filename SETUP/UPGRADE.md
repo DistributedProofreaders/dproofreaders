@@ -57,7 +57,7 @@ To run the upgrade scripts, you must cd into the directory and invoke the
 scripts from there. E.g.:
 
 ```bash
-cd c/SETUP/upgrade/06/
+cd c/SETUP/upgrade/15/
 php -f add_non_activated_users.php
 php -f add_pg_books.php
 ...
@@ -80,108 +80,16 @@ you want to run and add the following line immediately after the opening
 $maintenance_override = TRUE;
 ```
 
-### Upgrading from release 1.3 or earlier
-Sorry, there's no automated upgrade mechanism. If you post
-to the 'DP Site Code' forum, we might be able to help you.
+### Upgrading from a release before R202009
 
-### Upgrading from release 1.4
+If you are upgrading a release before R202009, you must upgrade to
+[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
+first.
+
+### Upgrading from release R202009
 Run the scripts in the following directories in order
 
-* c/SETUP/upgrade/05/
-* c/SETUP/upgrade/06/
-* c/SETUP/upgrade/07/
-* c/SETUP/upgrade/08/
-* c/SETUP/upgrade/09/
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release 1.5
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/06/
-* c/SETUP/upgrade/07/
-* c/SETUP/upgrade/08/
-* c/SETUP/upgrade/09/
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release 1.6
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/07/
-* c/SETUP/upgrade/08/
-* c/SETUP/upgrade/09/
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R200609
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/08/
-* c/SETUP/upgrade/09/
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R201601
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/09/
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R201701
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/10/
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R201707
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/11/
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R201802
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/12/
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R201903
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/13/
-* c/SETUP/upgrade/14/
-
-### Upgrading from release R202002
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/14/
-
-## Upgrade from phpBB2 to phpBB3
-If your prior version was running phpBB2, upgrade to phpBB3.
-See `phpbb3-conversion.txt` for steps on how to do this.
+* c/SETUP/upgrade/15/
 
 ## Install the modified `dp.cron`
 Install the modified `dp.cron`.

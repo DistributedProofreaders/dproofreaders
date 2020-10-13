@@ -3,6 +3,13 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
+## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/15`
+
+**If you are upgrading from a release before R202009, you must upgrade to
+[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
+first before upgrading to this or later releases.**
+
 
 ## R202009
 Scripts supporting this upgrade are in `SETUP/upgrade/14`

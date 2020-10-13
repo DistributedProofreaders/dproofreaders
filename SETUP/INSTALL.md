@@ -251,9 +251,26 @@ The phpBB tables need to be installed in the same database as the DP
 tables, or be in a separate database in the same MySQL instance as the
 DP tables with the same authentication information.
 
-See the "Post installation / conversion steps" section in
-`phpbb3-conversion.txt` for recommended phpBB3 configuration settings
-and further steps to ensure good integration with the DP code.
+#### HTML in Site Description (optional)
+pgdp.net uses HTML in the Site Description for the board configuration to point
+back to the Activity Hub, Wiki, and Blog. phpBB3 doesn't allow HTML in the
+site description without a code change.
+
+We patched `phpBB3/includes/functions.php` to allow HTML in the site
+description. A patch file is included as `phpbb3-functions.php.patch`.
+
+To use it, cd into the phpBB code directory and run:
+
+    patch -p0 < path_to_SETUP/phpbb3-functions.php.patch
+
+#### PM contents in email notification (optional)
+pgdp.net members like having a PM's contents in the email notification from the
+forum. For phpBB 3.0, the Prime Notify extension does this. For phpBB 3.2,
+we patch `phpBB3/phpbb/notification/types/pm.php` using `phpbb32-pm.php.patch`.
+
+To use it, cd into the phpBB code directory and run:
+
+    patch -p0 < path_to_SETUP/phpbb32-pm.php.patch
 
 ### Create phpBB categories and forums
 When the site is operational, each team and each project will get a
@@ -400,12 +417,23 @@ otherwise, but most DP sites have some form of wiki for user
 contributions, coordination, documentation, etc. If you have a wiki,
 set `_WIKI_URL` in `configuration.sh` to have a link show up in the navbar.
 
-pgdp.net uses MediaWiki and the MediaWiki_extensions directory
+pgdp.net uses MediaWiki and the `MediaWiki_extensions/` directory
 includes some useful extensions you might want to use.
 
-It's also suggested that you use the
-[MediaWiki_PHPBB_Auth plugin](https://github.com/Digitalroot/MediaWiki_PHPBB_Auth) to have the
-wiki authenticate against phpBB for a single source of user credentials.
+It's also suggested that you use
+[MediaWiki_PHPBB_Auth plugin](https://github.com/Digitalroot/MediaWiki_PHPBB_Auth)
+to have the wiki authenticate against phpBB for a single source of user
+credentials.
+
+WARNING: If your site ran phpBB 2.x with the MediaWiki_PHPBB_Auth extension
+at some point in the past, you must patch the extension after installing it!
+The extension for phpBB 2.x created MediaWiki usernames that matched the
+capitalization of those from phpBB. The extension for phpBB 3.0 uses the new
+`username_clean` column which, among other things, lowercases the phpBB
+usernames in the wiki. Without the patch, users with capital letters in their
+names will get a new wiki account differing only in capitalization upon log-in.
+Apply the included `MediaWiki_PHPBB_Auth.patch` to the `extensions/`
+subdirectory after installing the extension.
 
 ### Define a site administrator
 The code is based on users having particular roles. To manage these,
