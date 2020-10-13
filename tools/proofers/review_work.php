@@ -447,25 +447,24 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // ... but it shows the evaluator which projects to look at
     // ... but not necessary with revamp of page
     
-    $n_latered_bg = ( $n_latered   > 0 ? "" : "" );
-    $n_w_diff_bg  = ( $n_with_diff > 0 ? "style='background-color: #ccffcc;'" : "" );
+    $n_w_diff_class  = ( $n_with_diff > 0 ? "has-diff" : "" );
         
     $total_n_saved   += $n_saved;
     $total_n_latered += $n_latered;
     $total_n_w_diff  += $n_with_diff;
 
     echo "<tr>";
-    echo "<td $n_latered_bg><a href='$url'>" . html_safe($nameofwork) . "</a></td>";
+    echo "<td><a href='$url'>" . html_safe($nameofwork) . "</a></td>";
     echo "<td nowrap>";
     echo get_medium_label_for_project_state( $state );
     echo "</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td class='right-align'>$n_saved</td>";
-    echo "<td class='right-align' $n_latered_bg>$n_latered</td>";
-    echo "<td class='right-align' $n_w_diff_bg>$n_with_diff ($n_with_diff_percent%)</td>";
+    echo "<td class='right-align'>$n_latered</td>";
+    echo "<td class='right-align $n_w_diff_class'>$n_with_diff ($n_with_diff_percent%)</td>";
     if($sampleLimit > 0)
     {
-        echo "<td $n_w_diff_bg>$diffLinkString</td>";
+        echo "<td class='$n_w_diff_class'>$diffLinkString</td>";
     }
     echo "</tr>";
     echo "\n";

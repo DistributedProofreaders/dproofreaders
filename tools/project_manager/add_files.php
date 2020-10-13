@@ -181,7 +181,7 @@ else
         echo "<p>";
         if ( $loader->has_errors() )
         {
-            echo _("Please fix errors and try again.");
+            echo "<span class='error'>" .  _("Please fix errors and try again.") . "</span>";
         }
         elseif ( $loader->would_do_nothing() )
         {
@@ -781,7 +781,7 @@ class Loader
         }
         else
         {
-            echo "<table class='basic striped'>\n";
+            echo "<table id='addfiles' class='basic striped'>\n";
             {
                 echo "<tr>";
                 echo "<th rowspan='2'>", _("Base"), "</th>";
@@ -824,12 +824,12 @@ class Loader
                     echo "</td>";
 
                     // action
-                    $bgcolors = array(
-                        ''        => '#ffffff',
-                        'add'     => '#ccffcc',
-                        'replace' => '#ffccaa',
-                        'same'    => '#ffffff',
-                        'error'   => '#ffcccc',
+                    $class = array(
+                        ''        => '',
+                        'add'     => 'load-add',
+                        'replace' => 'load-replace',
+                        'same'    => '',
+                        'error'   => 'load-error',
                     );
                     $action_labels = array(
                         ''        => '',
@@ -838,8 +838,8 @@ class Loader
                         'same'    => _('Same'),
                         'error'   => _('Error'),
                     );
-                    $action_bgcolor = $bgcolors[$action];
-                    echo "<td class='center-align' style='background-color: $action_bgcolor'>";
+                    $action_class = $class[$action];
+                    echo "<td class='center-align $action_class'>";
                     echo $action_labels[$action];
                     echo "</td>";
                 }
