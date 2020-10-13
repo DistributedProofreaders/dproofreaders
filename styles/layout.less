@@ -1088,6 +1088,27 @@ table.dirlist {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Project Load (add_files.php) */
+
+@load-add: #ccffcc;
+@load-replace: #ffccaa;
+@load-error: #ffcccc;
+
+table#addfiles {
+    td.load-add {
+        background-color: @load-add;
+    }
+
+    td.load-replace {
+        background-color: @load-replace;
+    }
+
+    td.load-error {
+        background-color: @load-error;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* Quizzes */
 
 @quiz-passed: #ccffcc;
@@ -1331,6 +1352,15 @@ li.spaced {
 .checkbox-cell-selected {
     .center-align;
     background-color: @subscr-hold-selected;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Review Work */
+
+@has-diff: #ccffcc;
+
+td.has-diff {
+    background-color: @has-diff;
 }
 
 /* ------------------------------------------------------------------------ */

@@ -1963,6 +1963,17 @@ table.dirlist caption {
   padding: 5px;
 }
 /* ------------------------------------------------------------------------ */
+/* Project Load (add_files.php) */
+table#addfiles td.load-add {
+  background-color: #ccffcc;
+}
+table#addfiles td.load-replace {
+  background-color: #ffccaa;
+}
+table#addfiles td.load-error {
+  background-color: #ffcccc;
+}
+/* ------------------------------------------------------------------------ */
 /* Quizzes */
 .quiz-passed {
   background-color: #ccffcc;
@@ -2171,6 +2182,11 @@ li.spaced {
 .checkbox-cell-selected {
   text-align: center;
   background-color: #cfc;
+}
+/* ------------------------------------------------------------------------ */
+/* Review Work */
+td.has-diff {
+  background-color: #ccffcc;
 }
 /* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
