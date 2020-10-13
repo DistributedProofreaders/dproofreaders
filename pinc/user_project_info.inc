@@ -19,7 +19,7 @@ various places:
 
 function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    DPDatabase::query("
         INSERT INTO user_project_info
         SET
             username            = '$username',
@@ -27,12 +27,12 @@ function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
             t_latest_home_visit = $timestamp
         ON DUPLICATE KEY UPDATE
             t_latest_home_visit = $timestamp
-    ") or die(DPDatabase::log_error());
+    ");
 }
 
 function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    DPDatabase::query("
         INSERT INTO user_project_info
         SET
             username            = '$username',
@@ -40,7 +40,7 @@ function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
             t_latest_page_event = $timestamp
         ON DUPLICATE KEY UPDATE
             t_latest_page_event = $timestamp
-    ") or die(DPDatabase::log_error());
+    ");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -88,15 +88,14 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
     // Just to ensure that $event is valid; we don't use $event_label.
 
     // Now that we're sure the row exists, we can update it.
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         INSERT INTO user_project_info
         SET
             username    = '$username',
             projectid   = '$projectid',
             iste_$event = $bit
         ON DUPLICATE KEY UPDATE
-            iste_$event = $bit
-    ") or die(DPDatabase::log_error());
+            iste_$event = $bit");
 }
 
 function user_is_subscribed_to_project_event( $username, $projectid, $event )
@@ -104,12 +103,11 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
     $event_label = get_label_for_event( $event );
     // Just to ensure that $event is valid; we don't use $event_label.
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT iste_$event
         FROM user_project_info
         WHERE username    = '$username'
-            AND projectid = '$projectid'
-    ") or die(DPDatabase::log_error());
+            AND projectid = '$projectid'");
     $row = mysqli_fetch_row($res);
     if ( !$row )
     {
@@ -200,12 +198,11 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
             assert(0);
     }
 
-    $res1 = mysqli_query(DPDatabase::get_connection(), "
+    $res1 = DPDatabase::query("
         SELECT username
         FROM user_project_info
         WHERE projectid = '$projectid'
-            AND iste_$event = 1
-    ") or die(DPDatabase::log_error());
+            AND iste_$event = 1");
     $n_subscribers = mysqli_num_rows($res1);
     while ( list($username) = mysqli_fetch_row($res1) )
     {
@@ -221,11 +218,11 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
     {
         // Take the number of users subscribed to the event
         // and record that as the project's "interest level".
-        $res4 = mysqli_query(DPDatabase::get_connection(), "
+        $res4 = DPDatabase::query("
             UPDATE projects
             SET int_level = '$n_subscribers'
             WHERE projectid = '$projectid'
-        ") or die(DPDatabase::log_error());
+        ");
     }
 }
 
@@ -243,11 +240,10 @@ function get_n_users_subscribed_to_events_for_project( $projectid )
     }
     $selects = implode( ',', $items );
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT $selects
         FROM user_project_info
-        WHERE projectid='$projectid'
-    ") or die(DPDatabase::log_error());
+        WHERE projectid='$projectid'");
     $r = mysqli_fetch_assoc($res);
 
     // If there are no rows for this project, the SUMs will all return NULL;
@@ -263,7 +259,7 @@ function create_temporary_project_event_subscription_summary_table()
 // current number of users that are subscribed to the project's 'posted' event.
 // ("nouste" = "number of users subscribed to event")
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    DPDatabase::query("
         CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project
         (
             PRIMARY KEY (projectid)
@@ -274,7 +270,7 @@ function create_temporary_project_event_subscription_summary_table()
         FROM user_project_info
         WHERE iste_posted = 1
         GROUP BY projectid
-    ") or die(DPDatabase::log_error());
+    ");
 }
 
 // -----------------------------------------------------------------------------

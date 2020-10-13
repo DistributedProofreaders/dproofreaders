@@ -63,8 +63,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM projects
     WHERE LEFT(comments,8) = 'special:'
 ") or die(mysqli_error(DPDatabase::get_connection()));
-$row = mysqli_fetch_row($res);
-$num_left = $row[0];
+list($num_left) = mysqli_fetch_row($res);
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
 echo "\n";
@@ -85,8 +84,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM queue_defns
     WHERE INSTR(project_selector,'special:')
 ") or die(mysqli_error(DPDatabase::get_connection()));
-$row = mysqli_fetch_row($res);
-$num_left = $row[0];
+list($num_left) = mysqli_fetch_row($res);
 echo "There are $num_left queue_defns left whose project_selector mentions 'SPECIAL:'.\n";
 
 
@@ -107,8 +105,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM projects
     WHERE INSTR(comments,'document.php')
 ") or die(mysqli_error(DPDatabase::get_connection()));
-$row = mysqli_fetch_row($res);
-$num_left = $row[0];
+list($num_left) = mysqli_fetch_row($res);
 echo "There are still $num_left project comments left that mention document.php in some way.\n";
 
 echo "\n";

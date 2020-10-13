@@ -67,13 +67,13 @@ class TallyBoard
                 holder_id   = %d,
                 tally_value = %d
             ON DUPLICATE KEY UPDATE
-                tally_value = tally_value + %d
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                tally_value = tally_value + %d",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id),
             intval($amount),
             intval($amount));
-        mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        DPDatabase::query($sql);
     }
 
     // -------------------------------------------------------------------------
@@ -113,9 +113,9 @@ class TallyBoard
                 $alias.tally_name      = '%s'
                 AND $alias.holder_type = '%s'
                 AND $alias.holder_id   = $holder_id_expr
-            )
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
+            )",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
         return array($join_sql, "IFNULL($alias.tally_value,0)");
     }
 
@@ -129,12 +129,12 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND tally_value > 0
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
-        $row = mysqli_fetch_row($res);
-        return $row[0];
+                AND tally_value > 0",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
+        $res = DPDatabase::query($sql);
+        list($count) = mysqli_fetch_row($res);
+        return $count;
     }
 
     // -------------------------------------------------------------------------
@@ -150,11 +150,11 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %s
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                AND holder_id   = %s",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $res = DPDatabase::query($sql);
 
         $row = mysqli_fetch_assoc($res);
         if ( !$row )
@@ -182,10 +182,10 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-            ORDER BY tally_value DESC
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            ORDER BY tally_value DESC",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
+        $result = DPDatabase::query($sql);
         $ranker = new Ranker(TRUE);
         while (list($h_id,$tally_value) = mysqli_fetch_row($result))
         {
@@ -242,10 +242,10 @@ class TallyBoard
                     AND holder_id   = $holder_id_expr
                 )
             WHERE tally_value > 0 OR $holder_id_expr='$target_holder_id'
-            ORDER BY tally_value DESC, holder_id ASC
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+            ORDER BY tally_value DESC, holder_id ASC",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
+        $result = DPDatabase::query($sql);
         // Note that for the purposes of this function,
         // we pretend that holders with tally_value <= 0 don't exist,
         // with the possible exception of the target holder.
@@ -337,10 +337,10 @@ class TallyBoard
                 WHERE
                     timestamp       = $prev_ascribe_time
                     AND tally_name  = '%s'
-                    AND holder_type = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+                    AND holder_type = '%s'",
+                    DPDatabase::escape($this->tally_name),
+                    DPDatabase::escape($this->holder_type));
+            $result = DPDatabase::query($sql);
             while ( list($holder_id, $prev_tally_value) = mysqli_fetch_row($result) )
             {
                 $prev_tally_for_[$holder_id] = $prev_tally_value;
@@ -352,10 +352,10 @@ class TallyBoard
                 FROM best_tally_rank
                 WHERE
                     tally_name      = '%s'
-                    AND holder_type = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-            $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+                    AND holder_type = '%s'",
+                    DPDatabase::escape($this->tally_name),
+                    DPDatabase::escape($this->holder_type));
+            $result = DPDatabase::query($sql);
             while ( list($holder_id, $best_rank ) = mysqli_fetch_row($result) )
             {
                 $best_rank_for_[$holder_id] = $best_rank;
@@ -369,10 +369,10 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-            ORDER BY tally_value DESC
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+            ORDER BY tally_value DESC",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
+        $result = DPDatabase::query($sql);
 
         $ranker = new Ranker(TRUE);
         while ( list($holder_id, $current_tally) = mysqli_fetch_row($result) )
@@ -388,9 +388,9 @@ class TallyBoard
                     holder_type = '%s',
                     holder_id   = %d,
                     tally_delta = $tally_delta,
-                    tally_value = $current_tally
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                    tally_value = $current_tally",
+                DPDatabase::escape($this->tally_name),
+                DPDatabase::escape($this->holder_type),
                 intval($holder_id));
             if ($dry_run)
             {
@@ -400,7 +400,7 @@ class TallyBoard
             }
             else
             {
-                mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+                DPDatabase::query($query);
             }
 
             if ( $rank > 0 && ( !isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id] ) )
@@ -412,9 +412,9 @@ class TallyBoard
                         holder_type = '%s',
                         holder_id   = %d,
                         best_rank   = $rank,
-                        best_rank_timestamp = $ascribe_time
-                ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-                    mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                        best_rank_timestamp = $ascribe_time",
+                    DPDatabase::escape($this->tally_name),
+                    DPDatabase::escape($this->holder_type),
                     intval($holder_id));
                 if ($dry_run)
                 {
@@ -424,7 +424,7 @@ class TallyBoard
                 }
                 else
                 {
-                    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+                    DPDatabase::query($query);
                 }
             }
         }
@@ -441,10 +441,10 @@ class TallyBoard
             FROM past_tallies
             WHERE
                 tally_name      = '%s'
-                AND holder_type = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+                AND holder_type = '%s'",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type));
+        $result = DPDatabase::query($sql);
 
         $row = mysqli_fetch_assoc($result);
         if ( !$row )
@@ -477,11 +477,11 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
             ORDER BY timestamp DESC
-            LIMIT 1
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+            LIMIT 1",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_assoc($result);
         if (!$info)
@@ -518,11 +518,11 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
             ORDER BY tally_delta DESC, timestamp ASC
-            LIMIT 1
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+            LIMIT 1",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
         if(!$info)
@@ -548,11 +548,11 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %d
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                AND holder_id   = %d",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
         if(!$info)
@@ -583,11 +583,11 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
                 AND timestamp  >= $min_timestamp
-            ORDER BY timestamp ASC
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+            ORDER BY timestamp ASC",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($sql);
 
         $delta_at_ = array();
         while( list($timestamp, $tally_delta) = mysqli_fetch_row($result) )
@@ -618,13 +618,13 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
                 AND $start_timestamp < timestamp
-                AND timestamp <= $end_timestamp
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->tally_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->holder_type),
+                AND timestamp <= $end_timestamp",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             intval($holder_id));
-        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
-        $row = mysqli_fetch_row($res);
-        return $row[0];
+        $res = DPDatabase::query($sql);
+        list($sum) = mysqli_fetch_row($res);
+        return $sum;
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

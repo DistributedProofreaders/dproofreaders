@@ -77,15 +77,14 @@ if ($action == 'update_oneshot')
         ", DPDatabase::escape($new_code_name));
         $result = DPDatabase::query($sql);
 
-        $row = mysqli_fetch_row($result);
-        $new = ($row[0] == 0);
+        list($count) = mysqli_fetch_row($result);
 
-        if (!$new)
+        if ($count > 0)
             $source = new ImageSource($_REQUEST['code_name']);
         else
             $source = new ImageSource();
 
-        if ( !$new && !isset($_REQUEST['editing']) )
+        if ( $count > 0 && !isset($_REQUEST['editing']) )
         {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
@@ -100,7 +99,7 @@ if ($action == 'update_oneshot')
         else
         {
             output_header('', NO_STATSBAR);
-                if ($new)
+                if ($count > 0)
                     $source->log_request_for_approval($pguser);
                 echo _("Your proposal has been successfully recorded. You will be
                     notified by email once it has been approved.");

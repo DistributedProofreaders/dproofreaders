@@ -65,16 +65,16 @@ if (!isset($name))
         echo "</tr>\n";
     }
 
-    $q_res = mysqli_query(DPDatabase::get_connection(), "
+    $q_res = DPDatabase::query(sprintf("
         SELECT *
         FROM queue_defns
-        WHERE round_id='$round_id'
-        ORDER BY ordering
-    ") or die(DPDatabase::log_error());
+        WHERE round_id='%s'
+        ORDER BY ordering", 
+        DPDatabase::escape($round_id)));
     while ( $qd = mysqli_fetch_object($q_res) )
     {
         $cooked_project_selector = cook_project_selector($qd->project_selector);
-        $c_res = mysqli_query(DPDatabase::get_connection(), "
+        $c_res = DPDatabase::query("
             SELECT COUNT(*)
             FROM projects
             WHERE ($cooked_project_selector)
@@ -82,8 +82,7 @@ if (!isset($name))
         ");
         if ($c_res)
         {
-            $row = mysqli_fetch_row($c_res);
-            $current_length = $row[0];
+            list($current_length) = mysqli_fetch_row($c_res);
         }
         else
         {
@@ -122,9 +121,10 @@ else
     $sql = sprintf("
         SELECT *
         FROM queue_defns
-        WHERE round_id='%s' AND name='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $round_id), mysqli_real_escape_string(DPDatabase::get_connection(), $name));
-    $qd = mysqli_fetch_object( mysqli_query(DPDatabase::get_connection(), $sql) );
+        WHERE round_id='%s' AND name='%s'",
+        DPDatabase::escape($round_id),
+        DPDatabase::escape($name));
+    $qd = mysqli_fetch_object(DPDatabase::query($sql));
     if (!$qd) {
         die(html_safe("No such release queue '$name' in $round_id."));
     }
@@ -152,23 +152,23 @@ else
     }
 
 
-    $comments_url1 = mysqli_real_escape_string(DPDatabase::get_connection(), "<a href='$code_url/project.php?id=");
-    $comments_url2 = mysqli_real_escape_string(DPDatabase::get_connection(), "'>");
-    $comments_url3 = mysqli_real_escape_string(DPDatabase::get_connection(), "</a>");
+    $comments_url1 = DPDatabase::escape("<a href='$code_url/project.php?id=");
+    $comments_url2 = DPDatabase::escape("'>");
+    $comments_url3 = DPDatabase::escape("</a>");
 
     dpsql_dump_themed_query("
         SELECT
 
             concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') as '" 
-                . mysqli_real_escape_string(DPDatabase::get_connection(), _("Name of Work")) . "',
-            authorsname as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Author's Name")) . "',
-            language    as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Language")) . "',
-            genre       as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Genre")) . "',
-            difficulty  as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Difficulty")) . "',
-            username    as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Project Manager")) . "',
+                . DPDatabase::escape(_("Name of Work")) . "',
+            authorsname as '" . DPDatabase::escape(_("Author's Name")) . "',
+            language    as '" . DPDatabase::escape(_("Language")) . "',
+            genre       as '" . DPDatabase::escape(_("Genre")) . "',
+            difficulty  as '" . DPDatabase::escape(_("Difficulty")) . "',
+            username    as '" . DPDatabase::escape(_("Project Manager")) . "',
             FROM_UNIXTIME(modifieddate) as '" 
-                . mysqli_real_escape_string(DPDatabase::get_connection(), _("Date Last Modified")) . "',
-            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Hold?")) . "'
+                . DPDatabase::escape(_("Date Last Modified")) . "',
+            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . DPDatabase::escape(_("Hold?")) . "'
         FROM projects
             LEFT OUTER JOIN project_holds USING (projectid, state)
         WHERE ($cooked_project_selector)
