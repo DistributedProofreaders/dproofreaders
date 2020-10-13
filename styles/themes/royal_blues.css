@@ -1766,7 +1766,6 @@ table.preferences th.longlabel {
 .tabs .current-tab {
   border-bottom: none;
   background-color: #ffffff;
-  border: thin solid grey;
 }
 .tabs .current-tab a {
   font-weight: bold;
