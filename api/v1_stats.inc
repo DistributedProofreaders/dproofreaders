@@ -36,6 +36,7 @@ function api_v1_stats_site($method, $data, $query_params)
 function render_round_stats($round_id)
 {
     $stats = get_site_page_tally_summary($round_id);
+    $tallyboard = new TallyBoard($round_id, 'U');
     return [
         "today_goal" => $stats->curr_day_goal,
         "today_actual" => $stats->curr_day_actual,
@@ -43,6 +44,7 @@ function render_round_stats($round_id)
         "yesterday_actual" => $stats->prev_day_actual,
         "month_goal" => $stats->curr_month_goal,
         "month_actual" => $stats->curr_month_actual,
+        "positive_users" => $tallyboard->get_num_holders_with_positive_tally(),
     ];
 }
 
