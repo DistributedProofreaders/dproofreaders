@@ -647,6 +647,9 @@ components:
         month_actual:
           type: integer
           readOnly: true
+        positive_users:
+          type: integer
+          readOnly: true
       description: Statistics for a round
 
     wordlist:
