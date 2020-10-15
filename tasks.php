@@ -322,12 +322,12 @@ $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
 // -----------------------------------------------------------------------------
 
 $SearchParams_choices = array(
-    'task_status'   => array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array,
-    'task_type'     => array(999 => 'All Task Types') + $tasks_array,
-    'task_severity' => array(999 => 'All Severities') + $severity_array,
-    'task_priority' => array(999 => 'All Priorities') + $priority_array,
-    'task_assignee' => array(999 => 'All Developers') + $task_assignees_array,
-    'task_category' => array(999 => 'All Categories') + $categories_array,
+    'task_status'   => array(998 => _('All Tasks'), 999 => _('All Open Tasks')) + $tasks_status_array,
+    'task_type'     => array(999 => _('All Task Types')) + $tasks_array,
+    'task_severity' => array(999 => _('All Severities')) + $severity_array,
+    'task_priority' => array(999 => _('All Priorities')) + $priority_array,
+    'task_assignee' => array(999 => _('All Developers')) + $task_assignees_array,
+    'task_category' => array(999 => _('All Categories')) + $categories_array,
 );
 
 // XXX Re task_assignee, there's a long-standing bug involving
@@ -361,7 +361,7 @@ function SearchParams_echo_controls()
         echo dropdown_select($param_name, $value, $choices);
     }
 
-    echo "<input type='submit' value='Search'></td>\n";
+    echo "<input type='submit' value='" . attr_safe(_("Search")) . "'></td>\n";
     echo "</tr>\n";
     echo "</table></form><br>\n";
 }
@@ -478,7 +478,7 @@ function create_task_from_form_submission($formsub)
     $task_details = trim(array_get($formsub, 'task_details', ''));
 
     if (empty($task_summary) || empty($task_details)) {
-        return "You must supply a Task Summary and Task Details.";
+        return _("You must supply a Task Summary and Task Details.");
     }
 
     assert (!isset($formsub['task_id']));
@@ -574,7 +574,7 @@ if (!isset($_REQUEST['task_id'])) {
         case 'search':
             // The user clicked a column-header-link in a listing of tasks
             // (or followed a bookmark of such a link).
-            $header = "Task Search";
+            $header = _("Task Search");
             if (!empty($_REQUEST['search_text'])) {
                 $header .= ": " . $_REQUEST['search_text'];
             }
@@ -587,7 +587,7 @@ if (!isset($_REQUEST['task_id'])) {
         case 'list_open':
             // The user just entered the Task Center
             // (e.g., by clicking the "Report a Bug" link).
-            TaskHeader("All Open Tasks", true);
+            TaskHeader(_("All Open Tasks"), true);
             echo "<h1 style='margin-top: 0;'>" . _("Task Center") . "</h1>";
             SearchParams_echo_controls();
             list_all_open_tasks();
@@ -646,7 +646,7 @@ function handle_action_on_a_specified_task()
     $pre_task = mysqli_fetch_object($result);
     if (!$pre_task)
     {
-        ShowError("Task #$task_id was not found!");
+        ShowError(sprintf(_("Task #%d was not found."), $task_id));
         return;
     }
 
@@ -674,7 +674,7 @@ function handle_action_on_a_specified_task()
             TaskForm($pre_task);
         }
         else {
-            ShowError("You do not have permission to edit this task.", true);
+            ShowError(_("You do not have permission to edit this task."), true);
         }
     }
     elseif ($action == 'reopen') {
@@ -697,7 +697,7 @@ function handle_action_on_a_specified_task()
         $task_details = trim(array_get($_POST, 'task_details', ''));
         // The user is supplying values for the properties of a pre-existing task.
         if (empty($task_summary) || empty($task_details)) {
-            ShowError("You must supply a Task Summary and Task Details.", true);
+            ShowError(_("You must supply a Task Summary and Task Details."), true);
         }
         else {
             // Update a pre-existing task.
@@ -774,7 +774,7 @@ function handle_action_on_a_specified_task()
             metarefresh(0, $tasks_url);
         }
         else {
-            ShowError("You do not have permission to close tasks.", true);
+            ShowError(_("You do not have permission to close tasks."), true);
             return;
         }
     }
@@ -802,7 +802,7 @@ function handle_action_on_a_specified_task()
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
-            ShowError("You must supply a comment before clicking Add Comment.", true);
+            ShowError(_("You must supply a comment before clicking Add Comment."), true);
             return;
         }
     }
@@ -858,7 +858,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     // Validate task_id. It must be an integer >= 1
     $related_task_id = trim($related_task_id);
     if (!is_numeric($related_task_id) || $related_task_id < 1) {
-        ShowError("You must supply a related task ID.", true);
+        ShowError(_("You must supply a valid related task ID."), true);
         return;
     }
 
@@ -868,7 +868,7 @@ function process_related_task($pre_task, $action, $related_task_id)
     $task_already_present = in_array($related_task_id, load_related_tasks($pre_task_id));
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
-        ShowError("You must supply a valid related task id number.", true);
+        ShowError(_("You must supply a valid related task ID."), true);
         return;
     }
 
@@ -895,7 +895,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     // Validate related_topic_id. It must be an integer >= 1
     $related_topic_id = trim($related_topic_id);
     if (!is_numeric($related_topic_id) || $related_topic_id < 1) {
-        ShowError("You must supply a related topic ID.", true);
+        ShowError(_("You must supply a valid related topic ID."), true);
         return;
     }
 
@@ -908,7 +908,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
     if ($adding && ($topic_already_present ||
         !does_topic_exist($related_topic_id) ||
         !$topic_details['forum_name'])) {
-        ShowError("You must supply a valid related topic id number.", true);
+        ShowError(_("You must supply a valid related topic ID."), true);
         return;
     }
 
@@ -942,11 +942,11 @@ function dropdown_select($field_name, $current_value, $array)
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
     foreach($array as $key => $val)
     {
-        $return .= "<option value='$key'";
+        $return .= "<option value='" . attr_safe($key) . "'";
         if ($current_value == $key) {
             $return .= " SELECTED";
         }
-        $return .= ">$val</option>\n";
+        $return .= ">" . html_safe($val) . "</option>\n";
     }
     $return .= "</select>\n";
     return $return;
@@ -976,19 +976,20 @@ EOS;
     $notified_for_new = in_array('notify_new', $notification_settings);
 
     echo "<div class='task-nav' style='float: left'>";
-    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
+    echo "<a href='$tasks_url'>" . _("Task Center Home") . "</a> | ";
+    echo "<a href='$tasks_url?action=show_creation_form'>" . _("New Task") . "</a>";
     echo "<form method='get' style='display: inline;'>";
     if($show_new_alert)
     {
         if($notified_for_new)
         {
             echo "<input type='hidden' name='action' value='unnotify_new'>";
-            echo " | <input type='submit' value='Stop New Task Alerts'>";
+            echo " | <input type='submit' value='" . attr_safe(_("Stop New Task Alerts")) . "'>";
         }
         else
         {
             echo "<input type='hidden' name='action' value='notify_new'>";
-            echo " | <input type='submit' value='Receive New Task Alerts'>";
+            echo " | <input type='submit' value='" . attr_safe(_("Receive New Task Alerts")) . "'>";
         }
     }
     echo "</form>";
@@ -997,10 +998,10 @@ EOS;
     echo "<div class='task-nav' style='float: right'>";
     echo "<form action='$tasks_url' method='get'>";
     echo "<input type='hidden' name='action' value='show'>";
-    echo "<b>Show Task #</b>";
+    echo "<b>" . _("Show Task #") . "</b>";
     echo "&nbsp;\n";
     echo "<input type='number' name='task_id' min='1' required style='width: 5em;'>&nbsp;\n";
-    echo "<input type='submit' value='Go!'>\n";
+    echo "<input type='submit' value='" . attr_safe(_("Go!")) . "'>\n";
     echo "</form>";
     echo "</div>\n";
 
@@ -1079,7 +1080,7 @@ function select_and_list_tasks($sql_condition)
     $num_tasks_returned = mysqli_num_rows($sql_result);
 
     if ($num_tasks_returned == 0) {
-        echo "<p>No tasks found!</p>";
+        echo "<p>" . _("No tasks found.") . "</p>";
         return;
     }
 
@@ -1127,7 +1128,7 @@ function select_and_list_tasks($sql_condition)
 
     // if 2 tasks or more found, display the number of reported tasks
     if ($num_tasks_returned > 1) {
-        echo "<p>$num_tasks_returned tasks listed.</p>";
+        echo "(" . sprintf(_("%d tasks"), $num_tasks_returned) . ")";
     }
 }
 
@@ -1193,10 +1194,10 @@ function TaskForm($task)
 
     echo "<input type='submit' value='";
     if (empty($task->task_id)) {
-        echo "Add Task";
+        echo attr_safe(_("Add Task"));
     }
     else {
-        echo "Submit Edit";
+        echo attr_safe(_("Save Task"));
     }
     echo "'>\n";
     echo "</td></tr></table></form>\n";
@@ -1216,10 +1217,7 @@ function TaskDetails($tid)
     global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
     global $pguser;
-    if (!is_numeric($tid)) {
-        ShowError("Error: task identifier '$tid' is not numeric.");
-        return;
-    }
+
     $res = wrapped_mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
     if (mysqli_num_rows($res) >= 1) {
         while ($row = mysqli_fetch_assoc($res)) {
@@ -1242,12 +1240,12 @@ function TaskDetails($tid)
             if (empty($already_notified))
             {
                 echo "<input type='hidden' name='action' value='notify_me'>\n";
-                echo "<input type='submit' value='Signup for task notifications'>\n";
+                echo "<input type='submit' value='" . attr_safe(_("Sign up for task notifications")) . "'>\n";
             }
             else
             {
                 echo "<input type='hidden' name='action' value='unnotify_me'>\n";
-                echo "<input type='submit' value='Remove me from task notifications'>\n";
+                echo "<input type='submit' value='" . attr_safe(_("Remove me from task notifications")) . "'>\n";
             }
             echo "</form>";
 
@@ -1255,12 +1253,12 @@ function TaskDetails($tid)
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='action' value='show_editing_form'>\n";
                 echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Edit Task'>\n";
+                echo "<input type='submit' value='" . attr_safe(_("Edit Task")) . "'>\n";
             }
             elseif (!empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='action' value='reopen'>\n";
                 echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='Re-Open Task'>\n";
+                echo "<input type='submit' value='" . attr_safe(_("Re-Open Task")) . "'>\n";
             }
             echo "</form>";
             echo "</div>";
@@ -1312,7 +1310,7 @@ function TaskDetails($tid)
         }
     }
     else {
-        ShowError("Task #$tid was not found!");
+        ShowError(sprintf(_("Task #%d was not found.", $tid)));
     }
 }
 
@@ -1344,10 +1342,10 @@ function MeToo($tid, $os, $browser)
     mysqli_free_result($meTooCheckResult);
     echo "<div id='MeTooButton'>";
     if ($meTooAllowed) {
-        echo "<input type='button' value='Me Too!' onClick=\"showSpan('MeTooMain'); hideSpan('MeTooButton');\">";
+        echo "<input type='button' value='" . attr_safe(_("Me Too!")) . "' onClick=\"showSpan('MeTooMain'); hideSpan('MeTooButton');\">";
     }
     else {
-        echo "<input type='button' value='Already submitted \"Me Too!\"' disabled>";
+        echo "<input type='button' value='" . attr_safe(_('Already submitted "Me Too!"')) . "' disabled>";
     }
     echo "</div>";
 
@@ -1372,9 +1370,9 @@ function MeToo($tid, $os, $browser)
     echo "</th>";
     echo "</tr>";
     echo "</table>";
-    echo "<input type='submit' value='Send Report'>";
+    echo "<input type='submit' value='" . attr_safe(_("Send Report")) . "'>";
     echo "&nbsp;";
-    echo "<input type='reset' value='Cancel' onClick=\"hideSpan('MeTooMain'); showSpan('MeTooButton');\">";
+    echo "<input type='reset' value='" . attr_safe(_("Cancel")) . "' onClick=\"hideSpan('MeTooMain'); showSpan('MeTooButton');\">";
     echo "</td></tr></table></form></div>";
 }
 
@@ -1383,7 +1381,7 @@ function ShowError($message, $goback = false)
     TaskHeader(_("Task Error"));
     echo "<p class='error'>";
     if ($goback)
-        $message .= "<br>Please go <a href='javascript:history.back()'>back</a> and correct this.";
+        $message .= "<br>" . sprintf(_("Please go <a %s>back</a> and correct this."), "href='javascript:history.back()'");
     echo "$message</p>\n";
 }
 
@@ -1413,7 +1411,7 @@ function TaskComments($tid)
     echo "<input type='hidden' name='action' value='add_comment'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
-    echo "<input type='submit' value='Add Comment'>\n";
+    echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
     echo "</form>";
 }
 
@@ -1465,8 +1463,8 @@ function RelatedTasks($tid)
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<input type='number' name='related_task' min='1' style='width: 5em;' required>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add'>\n";
-    echo " (Add the number of an existing, related task.)";
+    echo "<input type='submit' value='" . attr_safe(_("Add")) . "'>\n";
+    echo " (" . _("Add the number of an existing, related task.") . ")";
     echo "</form>";
 
     echo "<table class='themed theme_striped'>\n";
@@ -1477,24 +1475,18 @@ function RelatedTasks($tid)
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
         ") or die(DPDatabase::log_error());
         $row = mysqli_fetch_assoc($result);
-        if (!$row) {
-            // The task must have been deleted from the table manually.
-            $related_task_summary = "[not found]";
-        }
-        else {
-            $related_task_summary = html_safe($row["task_summary"]);
-            $related_task_status  = $tasks_status_array[$row["task_status"]];
-        }
+        $related_task_summary = html_safe($row["task_summary"]);
+        $related_task_status  = $tasks_status_array[$row["task_status"]];
 
         echo "<tr><td>";
-        echo "<a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($related_task_status) - $related_task_summary";
+        echo "<a href='$tasks_url?action=show&task_id=$val'>" . sprintf(_("Task #%d"), $val) . "</a> ($related_task_status) - $related_task_summary";
         if ($row) {
             echo " ";
             echo "<form action='$tasks_url' method='post' style='display: inline'>";
             echo "<input type='hidden' name='action' value='remove_related_task'>";
             echo "<input type='hidden' name='task_id' value='$tid'>";
             echo "<input type='hidden' name='related_task' value='$val'>";
-            echo "<input type='submit' value='Remove'>";
+            echo "<input type='submit' value='" . attr_safe(_("Remove")) . "'>";
             echo "</form>";
         }
         echo "</td></tr>";
@@ -1581,8 +1573,8 @@ function RelatedPostings($tid)
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<input type='number' name='related_posting' min='1' style='width: 5em;' required>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add'>\n";
-    echo " (Add the number of a forum topic.)";
+    echo "<input type='submit' value='" . attr_safe(_("Add")) . "'>\n";
+    echo " (" . _("Add the number of a forum topic.") . ")";
     echo "</form>";
 
     echo "<table class='themed theme_striped'>\n";
@@ -1598,14 +1590,14 @@ function RelatedPostings($tid)
         echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
         echo "&nbsp;&raquo;&nbsp;";
         echo "<a href='$topic_url'>" . $row['title'] . "</a>";
-        echo " (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
+        echo " (" . sprintf(_('Posted by: %1$s - %2$d replies'), $row['creator_username'], $row['num_replies']) . ")\n";
 
         echo " ";
         echo "<form action='$tasks_url' method='post' style='display: inline;'>";
         echo "<input type='hidden' name='action' value='remove_related_topic'>";
         echo "<input type='hidden' name='task_id' value='$tid'>";
         echo "<input type='hidden' name='related_posting' value='$val'>";
-        echo "<input type='submit' value='Remove'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Remove")) . "'>\n";
         echo "</form>";
         echo "</td></tr>";
     }
@@ -1616,28 +1608,28 @@ function property_get_label( $property_id, $for_list_of_tasks )
 {
     switch ( $property_id )
     {
-        case 'date_edited'   : return 'Date Edited';
-        case 'task_assignee' : return 'Assigned To';
-        case 'task_browser'  : return 'Browser';
-        case 'task_category' : return 'Category';
-        case 'task_id'       : return 'ID';
-        case 'task_os'       : return 'Operating System';
-        case 'task_priority' : return 'Priority';
-        case 'task_severity' : return 'Severity';
-        case 'task_status'   : return 'Status';
-        case 'task_summary'  : return 'Summary';
-        case 'task_type'     : return 'Task Type';
-        case 'task_version'  : return 'Reported Version';
-        case 'votes'         : return 'Votes';
+        case 'date_edited'   : return _('Date Edited');
+        case 'task_assignee' : return _('Assigned To');
+        case 'task_browser'  : return _('Browser');
+        case 'task_category' : return _('Category');
+        case 'task_id'       : return _('ID');
+        case 'task_os'       : return _('Operating System');
+        case 'task_priority' : return _('Priority');
+        case 'task_severity' : return _('Severity');
+        case 'task_status'   : return _('Status');
+        case 'task_summary'  : return _('Summary');
+        case 'task_type'     : return _('Task Type');
+        case 'task_version'  : return _('Reported Version');
+        case 'votes'         : return _('Votes');
         case 'additional_os' : return '';
         case 'additional_browser' : return '';
-        case 'opened_composite'   : return "Opened";
-        case 'edited_composite'   : return "Last Edited";
-        case 'closed_composite'   : return "Closed By";
-        case 'closed_reason'      : return "Closed Reason";
+        case 'opened_composite'   : return _("Opened");
+        case 'edited_composite'   : return _("Last Edited");
+        case 'closed_composite'   : return _("Closed By");
+        case 'closed_reason'      : return _("Closed Reason");
 
         case 'percent_complete':
-            return ( $for_list_of_tasks ? "Progress" : "Percent Complete" );
+            return ( $for_list_of_tasks ? _("Progress") : _("Percent Complete") );
     }
 }
 
@@ -1678,12 +1670,12 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         // Synthetic fields
         case 'opened_composite' :
-            return sprintf("%s by %s",
+            return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_opened"]),
                         private_message_link_for_uid($task_a['opened_by'])
                     );
         case 'edited_composite' :
-            return sprintf("%s by %s",
+            return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_edited"]),
                         private_message_link_for_uid($task_a['edited_by'])
                     );
@@ -1691,7 +1683,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             if(!$task_a["date_closed"])
                 return "";
 
-            return sprintf("%s by %s",
+            return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_closed"]),
                         private_message_link_for_uid($task_a['closed_by'])
                     );
@@ -1722,7 +1714,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 $s = 'large'; $w = '150'; $h = '10'; $b = "border: 0;";
             }
             $url = "$code_url/graphics/task_percentages/{$s}_{$raw_value}.png";
-            $alt = "{$raw_value}% Complete";
+            $alt = sprintf(_("%d%% Complete"), $raw_value);
             return "<img src='$url' style='width: ${w}px; height: ${h}px; $b' alt='$alt'>";
 
         case 'votes':
@@ -1783,7 +1775,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                         <input type='hidden' name='action' value='close'>
                         <input type='hidden' name='task_id' value='" . $task_a['task_id'] . "'>
                         $dropdown
-                        <input type='submit' value='Close Task'>
+                        <input type='submit' value='" . attr_safe(_("Close Task")) . "'>
                       </form>
                 ";
             }
@@ -1838,7 +1830,7 @@ function wrapped_mysql_query($sql_query)
 // the task and suitable for display in a page title or similar.
 function title_string_for_task($pre_task)
 {
-    return sprintf("Task #%d: %s", $pre_task->task_id, $pre_task->task_summary);
+    return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
 }
 
 // Convert any URLs into a clickable link in a string
