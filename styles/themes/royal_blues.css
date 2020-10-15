@@ -1922,12 +1922,6 @@ table.image_source td.pending {
   text-align: center;
   background-color: #ff8;
 }
-div.perms_wrapper {
-  width: 40%;
-  display: inline-block;
-  padding: 2px;
-  border-bottom: dotted black 1px;
-}
 /* ------------------------------------------------------------------------ */
 /* Page Detail */
 table.pagedetail {
