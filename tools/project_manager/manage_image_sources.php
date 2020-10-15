@@ -359,7 +359,7 @@ class ImageSource
                 ? (empty($_REQUEST[$field]) ? '-1' : $_REQUEST[$field])
                 : $this->$field;
 
-            $editing .= "<div class='perms_wrapper'>$col[label]</div>";
+            $editing .= "$col[label]: ";
             $editing .= "<select name='$col[field]'>";
             foreach (array('1' => _('Yes'),'0' => _('No'),'-1' => _('Unknown')) as $val => $opt)
             {
@@ -384,7 +384,9 @@ class ImageSource
             ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
             : $this->$field;
 
-        $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
+        $editing .= _("Visibility on Info Page: ");
+        $editing .= "<select name='" . attr_safe($field) . "'>";
+
         foreach (array(
                 // TRANSLATORS: IS = image source
                 '0' => _('IS Managers Only'),
