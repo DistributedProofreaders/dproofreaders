@@ -386,7 +386,7 @@ function SearchParams_get_sql_condition($request_params)
                 OR
                 POSITION('%1\$s' IN task_details)
             )
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $search_text));
+        ", DPDatabase::escape($search_text));
     }
 
     // ------
@@ -483,8 +483,6 @@ function create_task_from_form_submission($formsub)
 
     assert (!isset($formsub['task_id']));
     // Create a new task.
-    $relatedpostings_array = array();
-    $relatedpostings_array = encode_array($relatedpostings_array);
     $newt_type     = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
     $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys($categories_array));
     $newt_status   = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
@@ -505,27 +503,40 @@ function create_task_from_form_submission($formsub)
         INSERT INTO tasks
         SET
             task_summary     = '%s',
-            task_type        = $newt_type,
-            task_category    = $newt_category,
-            task_status      = $newt_status,
-            task_assignee    = $newt_assignee,
-            task_severity    = $newt_severity,
-            task_priority    = $newt_priority,
-            task_os          = $newt_os,
-            task_browser     = $newt_browser,
-            task_version     = $newt_version,
+            task_type        = %d,
+            task_category    = %d,
+            task_status      = %d,
+            task_assignee    = %d,
+            task_severity    = %d,
+            task_priority    = %d,
+            task_os          = %d,
+            task_browser     = %d,
+            task_version     = %d,
             task_details     = '%s',
-            date_opened      = $now_sse,
-            opened_by        = $requester_u_id,
-            date_edited      = $now_sse,
-            edited_by        = $requester_u_id,
+            date_opened      = %d,
+            opened_by        = %d,
+            date_edited      = %d,
+            edited_by        = %d,
             percent_complete = 0,
-            related_postings = '$relatedpostings_array'
-    ",
-        mysqli_real_escape_string(DPDatabase::get_connection(), $task_summary),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $task_details)
+            related_postings = '%s'",
+        DPDatabase::escape($task_summary),
+        $newt_type,
+        $newt_category,
+        $newt_status,
+        $newt_assignee,
+        $newt_severity,
+        $newt_priority,
+        $newt_os,
+        $newt_browser,
+        $newt_version,
+        DPDatabase::escape($task_details),
+        $now_sse,
+        $requester_u_id,
+        $now_sse,
+        $requester_u_id,
+        DPDatabase::escape(encode_array([]))
     );
-    wrapped_mysql_query($sql_query);
+    DPDatabase::query($sql_query);
     $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
     global $pguser;
@@ -678,17 +689,21 @@ function handle_action_on_a_specified_task()
     }
     elseif ($action == 'reopen') {
         NotificationMail($task_id, "$pguser reopened this task.");
-        wrapped_mysql_query("
+        $sql = sprintf("
             UPDATE tasks
             SET
                 task_status = 15,
-                edited_by = $requester_u_id,
-                date_edited = $now_sse,
+                edited_by = %d,
+                date_edited = %d,
                 date_closed = 0,
                 closed_by = 0,
                 closed_reason = 0
-            WHERE task_id = $task_id
-        ");
+            WHERE task_id = %d",
+            $requester_u_id,
+            $now_sse,
+            $task_id
+        );
+        DPDatabase::query($sql);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
     elseif ($action == 'edit') {
@@ -724,30 +739,42 @@ function handle_action_on_a_specified_task()
             $edit_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
             $edit_percent  = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
 
-            $sql_query = sprintf("
+            $sql = sprintf("
                 UPDATE tasks
                 SET
                     task_summary     = '%s',
-                    task_type        = $edit_type,
-                    task_category    = $edit_category,
-                    task_status      = $edit_status,
-                    task_assignee    = $edit_assignee,
-                    task_severity    = $edit_severity,
-                    task_priority    = $edit_priority,
-                    task_os          = $edit_os,
-                    task_browser     = $edit_browser,
-                    task_version     = $edit_version,
+                    task_type        = %d,
+                    task_category    = %d,
+                    task_status      = %d,
+                    task_assignee    = %d,
+                    task_severity    = %d,
+                    task_priority    = %d,
+                    task_os          = %d,
+                    task_browser     = %d,
+                    task_version     = %d,
                     task_details     = '%s',
-                    date_edited      = $now_sse,
-                    edited_by        = $requester_u_id,
-                    percent_complete = $edit_percent
-                WHERE task_id = $task_id
+                    date_edited      = %d,
+                    edited_by        = %d,
+                    percent_complete = %d
+                WHERE task_id = %d
             ",
-                mysqli_real_escape_string(DPDatabase::get_connection(), $task_summary),
-                mysqli_real_escape_string(DPDatabase::get_connection(), $task_details)
+                DPDatabase::escape($task_summary),
+                $edit_type,
+                $edit_category,
+                $edit_status,
+                $edit_assignee,
+                $edit_severity,
+                $edit_priority,
+                $edit_os,
+                $edit_browser,
+                $edit_version,
+                DPDatabase::escape($task_details),
+                $now_sse,
+                $requester_u_id,
+                $edit_percent,
+                $task_id
             );
-            wrapped_mysql_query($sql_query);
-
+            DPDatabase::query($sql);
             metarefresh(0, "$tasks_url?task_id=$task_id");
         }
     }
@@ -757,19 +784,26 @@ function handle_action_on_a_specified_task()
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
                 "$pguser closed this task.\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".");
-            wrapped_mysql_query("
+            $sql = sprintf("
                 UPDATE tasks
                 SET
                     percent_complete = 100,
                     task_status = 14,
-                    date_closed = $now_sse,
-                    closed_by = $requester_u_id,
-                    closed_reason = $tc_reason,
-                    date_edited = $now_sse,
-                    edited_by = $requester_u_id
-                WHERE task_id = $task_id
-            ");
-
+                    date_closed = %d,
+                    closed_by = %d,
+                    closed_reason = %d,
+                    date_edited = %d,
+                    edited_by = %d
+                WHERE task_id = %d
+            ",
+                $now_sse,
+                $requester_u_id,
+                $tc_reason,
+                $now_sse,
+                $requester_u_id,
+                $task_id
+            );
+            DPDatabase::query($sql);
             metarefresh(0, $tasks_url);
         }
         else {
@@ -781,16 +815,25 @@ function handle_action_on_a_specified_task()
         $comment = trim(array_get($_POST, 'task_comment', ''));
         if ($comment) {
             NotificationMail($task_id, "$pguser commented:\n\n$comment");
-            wrapped_mysql_query(sprintf("
+            $sql = sprintf("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                VALUES ($task_id, $requester_u_id, $now_sse, '%s')",
-                    mysqli_real_escape_string(DPDatabase::get_connection(), $comment)
-            ));
-            wrapped_mysql_query("
+                VALUES (%d, %d, %d, '%s')",
+                $task_id,
+                $requester_u_id,
+                $now_sse,
+                DPDatabase::escape($comment)
+            );
+            DPDatabase::query($sql);
+
+            $sql = sprintf("
                 UPDATE tasks
-                SET date_edited = $now_sse, edited_by = $requester_u_id
-                WHERE task_id = $task_id
-            ");
+                SET date_edited = %d, edited_by = %d
+                WHERE task_id = %d",
+                $now_sse,
+                $requester_u_id,
+                $task_id
+            );
+            DPDatabase::query($sql);
 
             // subscribe the user to the task for notifications
             $userSettings =& Settings::get_Settings($pguser);
@@ -830,11 +873,15 @@ function handle_action_on_a_specified_task()
         $meTooCount = get_me_too_count($task_id, $requester_u_id);
         if ($meTooCount == 0)
         {
-            wrapped_mysql_query("
-                INSERT INTO tasks_votes 
-                (task_id, u_id, vote_os, vote_browser) 
-                VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
-            ");
+            $sql = sprintf("
+                INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser)
+                VALUES (%d, %d, %d, %d)",
+                $task_id,
+                $requester_u_id,
+                $vote_os,
+                $vote_browser
+            );
+            DPDatabase::query($sql);
         }
 
         // Redirect back to show task page to clear POST data
@@ -915,13 +962,14 @@ function process_related_topic($pre_task, $action, $related_topic_id)
         unset($related_topics[array_search($related_topic_id, $related_topics)]);
     }
 
-    $related_topics = encode_array($related_topics);
-
-    wrapped_mysql_query("
+    $sql = sprintf("
         UPDATE tasks
-        SET related_postings = '$related_topics'
-        WHERE task_id = $pre_task_id
-    ");
+        SET related_postings = '%s'
+        WHERE task_id = %d",
+        DPDatabase::escape(encode_array($related_topics)),
+        $pre_task_id
+    );
+    DPDatabase::query($sql);
 
     if ($adding) {
         NotificationMail($pre_task_id, "$pguser added related topic $related_topic_id.");
@@ -1072,7 +1120,7 @@ function select_and_list_tasks($sql_condition)
         GROUP BY task_id
         ORDER BY $curr_sort_col $curr_sort_dir
     ";
-    $sql_result = wrapped_mysql_query($sql_query);
+    $sql_result = DPDatabase::query($sql_query);
     $num_tasks_returned = mysqli_num_rows($sql_result);
 
     if ($num_tasks_returned == 0) {
@@ -1415,12 +1463,15 @@ function ShowError($message, $goback = false)
 function TaskComments($tid)
 {
     global $tasks_url;
-    $result = wrapped_mysql_query("
+    $sql = sprintf("
         SELECT *
         FROM tasks_comments
-        WHERE task_id = $tid
-        ORDER BY comment_date ASC
-    ");
+        WHERE task_id = %d
+        ORDER BY comment_date ASC",
+        $tid
+    );
+    $result = DPDatabase::query($sql);
+
     echo "<h2>" . _("Comments") . "</h2>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<div class='task-comment'>";
@@ -1519,15 +1570,16 @@ function RelatedTasks($tid)
 
 function load_related_tasks($task_id)
 {
-    $sql = "
+    $sql = sprintf("
         SELECT task_id_1, task_id_2
         FROM tasks_related_tasks
-        WHERE task_id_1 = $task_id
-            OR task_id_2 = $task_id
-    ";
+        WHERE task_id_1 = %d
+            OR task_id_2 = %d",
+        $task_id,
+        $task_id
+    );
 
-    $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die(DPDatabase::log_error());
+    $result = DPDatabase::query($sql);
 
     $related_tasks = [];
     while($row = mysqli_fetch_assoc($result))
@@ -1548,26 +1600,28 @@ function insert_related_task($task1, $task2)
     $task_id_2 = max($task1, $task2);
 
     // See if the association already exists
-    $sql = "
+    $sql = sprintf("
         SELECT COUNT(*) AS count
         FROM tasks_related_tasks
-        WHERE task_id_1 = $task_id_1
-            AND task_id_2 = $task_id_2
-    ";
+        WHERE task_id_1 = %d
+            AND task_id_2 = %d",
+        $task_id_1,
+        $task_id_2
+    );
 
-    $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die(DPDatabase::log_error());
+    $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
     if($row['count'] > 0)
         return;
 
     // Now do the insertion
-    $sql = "
+    $sql = sprintf("
         INSERT INTO tasks_related_tasks
-        SET task_id_1 = $task_id_1, task_id_2 = $task_id_2
-    ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die(DPDatabase::log_error());
+        SET task_id_1 = %d, task_id_2 = %d",
+        $task_id_1,
+        $task_id_2
+    );
+    $result = DPDatabase::query($sql);
 }
 
 function remove_related_task($task1, $task2)
@@ -1576,13 +1630,14 @@ function remove_related_task($task1, $task2)
     $task_id_2 = max($task1, $task2);
 
     // Now do the insertion
-    $sql = "
+    $sql = sprintf("
         DELETE FROM tasks_related_tasks
-        WHERE task_id_1 = $task_id_1
-            AND task_id_2 = $task_id_2
-    ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql)
-        or die(DPDatabase::log_error());
+        WHERE task_id_1 = %d
+            AND task_id_2 = %d",
+        $task_id_1,
+        $task_id_2
+    );
+    $result = DPDatabase::query($sql);
 }
 
 function RelatedPostings($tid)
@@ -1743,10 +1798,14 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             // If this is the task listing, $raw_value will be set
             if(!isset($raw_value))
             {
-                $sql = "SELECT count(*) AS count FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
-                $result = wrapped_mysql_query($sql);
-                $row = mysqli_fetch_assoc($result);
-                $raw_value = $row['count'];
+                $sql = sprintf("
+                    SELECT count(*) AS count
+                    FROM tasks_votes
+                    WHERE task_id = %d",
+                    $task_a['task_id']
+                );
+                $result = DPDatabase::query($sql);
+                list($raw_value) = mysqli_fetch_row($result);
             }
 
             // If votes are zero, return an empty string
@@ -1756,8 +1815,13 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 return $raw_value;
 
         case 'additional_os':
-            $sql = "SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
-            $result = wrapped_mysql_query($sql);
+            $sql = sprintf("
+                SELECT DISTINCT vote_os
+                FROM tasks_votes
+                WHERE task_id = %d",
+                $task_a['task_id']
+            );
+            $result = DPDatabase::query($sql);
             $list = array();
             while($row = mysqli_fetch_assoc($result))
             {
@@ -1772,8 +1836,13 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 return "";
 
         case 'additional_browser':
-            $sql = "SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = " . $task_a['task_id'];
-            $result = wrapped_mysql_query($sql);
+            $sql = sprintf("
+                SELECT DISTINCT vote_browser
+                FROM tasks_votes
+                WHERE task_id = %d",
+                $task_a['task_id']
+            );
+            $result = DPDatabase::query($sql);
             $list = array();
             while($row = mysqli_fetch_assoc($result))
             {
@@ -1837,15 +1906,6 @@ function get_username_for_uid($u_id)
 {
     $user = User::load_from_uid($u_id);
     return $user->username;
-}
-
-function wrapped_mysql_query($sql_query)
-{
-    global $testing;
-    if ($testing) echo_html_comment($sql_query);
-    $res = mysqli_query(DPDatabase::get_connection(), $sql_query);
-    if ($res === FALSE) die(DPDatabase::log_error());
-    return $res;
 }
 
 // Given a task row from the DB, produce an unescaped string representing
