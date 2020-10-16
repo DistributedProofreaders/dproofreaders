@@ -607,8 +607,7 @@ class ProjectSearchResults
         $numrows = mysqli_num_rows($result);
 
         $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-        $row = mysqli_fetch_row($res_found);
-        $num_found_rows = $row[0];
+        list($num_found_rows) = mysqli_fetch_row($res_found);
         if ( $numrows == 0 )
         {
             echo "<p><b>", _("No projects matched the search criteria."), "</b></p>";

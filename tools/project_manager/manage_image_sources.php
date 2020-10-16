@@ -61,31 +61,31 @@ if ($action == 'update_oneshot')
         $errmsgs = '';
 
         // Required fields
-        if (strlen($_REQUEST['display_name']) < 1) 
+        if (strlen($_REQUEST['display_name']) < 1)
             $errmsgs .= _("A value for Display Name is required. Please enter one.") . "<br>";
 
-        if (strlen($_REQUEST['full_name']) < 1) 
+        if (strlen($_REQUEST['full_name']) < 1)
             $errmsgs .= _("A value for Full Name is required. Please enter one.") . "<br>";
 
-        if (strlen($new_code_name) < 1) 
+        if (strlen($new_code_name) < 1)
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
 
         $sql = sprintf("
             SELECT COUNT(*)
             FROM image_sources
-            WHERE code_name = '%s'
-        ", DPDatabase::escape($new_code_name));
+            WHERE code_name = '%s'",
+            DPDatabase::escape($new_code_name)
+        );
         $result = DPDatabase::query($sql);
 
-        $row = mysqli_fetch_row($result);
-        $new = ($row[0] == 0);
+        list($count) = mysqli_fetch_row($result);
 
-        if (!$new)
+        if ($count > 0)
             $source = new ImageSource($_REQUEST['code_name']);
         else
             $source = new ImageSource();
 
-        if ( !$new && !isset($_REQUEST['editing']) )
+        if ($count > 0 && !isset($_REQUEST['editing']))
         {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
@@ -100,7 +100,7 @@ if ($action == 'update_oneshot')
         else
         {
             output_header('', NO_STATSBAR);
-                if ($new)
+                if ($count == 0)
                     $source->log_request_for_approval($pguser);
                 echo _("Your proposal has been successfully recorded. You will be
                     notified by email once it has been approved.");
@@ -463,8 +463,8 @@ class ImageSource
                 info_page_visibility = %d,
                 public_comment = LEFT('%s', 255),
                 internal_comment = '%s',
-                is_active = %d
-        ", DPDatabase::escape($this->code_name),
+                is_active = %d",
+            DPDatabase::escape($this->code_name),
             DPDatabase::escape($this->display_name),
             DPDatabase::escape($this->full_name),
             DPDatabase::escape($this->url),
@@ -522,9 +522,10 @@ class ImageSource
         $sql = sprintf("
             UPDATE image_sources
             SET $field = '%s'
-            WHERE code_name = '%s'
-        ", DPDatabase::escape($value),
-            DPDatabase::escape($this->code_name));
+            WHERE code_name = '%s'",
+            DPDatabase::escape($value),
+            DPDatabase::escape($this->code_name)
+        );
         DPDatabase::query($sql);
         $this->$field = $value;
     }

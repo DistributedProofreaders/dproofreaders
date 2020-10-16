@@ -221,22 +221,22 @@ $table->column_headers(
 
 foreach ( array('created','proofed','PPd','posted') as $which )
 {
-    $psd = get_project_status_descriptor( $which );
+    $psd = get_project_status_descriptor($which);
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT CAST(SUM(num_projects) AS SIGNED)
         FROM project_state_stats
         WHERE $psd->state_selector
         GROUP BY date
         ORDER BY date DESC
         LIMIT 1
-    ");
-    $row = mysqli_fetch_row($res);
-    $num_so_far = number_format($row[0]);
+    ";
+    $res = DPDatabase::query($sql);
+    list($num_so_far) = mysqli_fetch_row($res);
 
     $table->row(
         $psd->projects_Xed_title,
-        $num_so_far,
+        number_format($num_so_far),
         "<a href='projects_Xed_graphs.php?which=$which'>$psd->graphs_title</a>"
     );
 }
