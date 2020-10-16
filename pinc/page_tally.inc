@@ -100,12 +100,13 @@ function user_get_ELR_page_tally( $username )
     list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
         $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
-        WHERE username='$username'
-    ") or die(DPDatabase::log_error());
-
+        WHERE username='%s'",
+        DPDatabase::escape($username)
+    );
+    $res = DPDatabase::query($sql);
     $row = mysqli_fetch_row($res);
 
     if(!$row)
@@ -295,14 +296,15 @@ function get_site_page_tally_summary( $tally_name )
 
 function get_site_tally_goal_summed( $tally_name, $date_condition )
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT SUM(goal)
         FROM site_tally_goals
-        WHERE tally_name = '$tally_name' AND ($date_condition)
-    ") or die(DPDatabase::log_error());
-
-    $row = mysqli_fetch_row($res);
-    return $row[0];
+        WHERE tally_name = '%s' AND ($date_condition)",
+        DPDatabase::escape($tally_name)
+    );
+    $res = DPDatabase::query($sql);
+    list($sum) = mysqli_fetch_row($res);
+    return $sum;
 }
 
 // -----------------------------------------------------------------------------

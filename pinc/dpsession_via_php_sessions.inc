@@ -119,7 +119,12 @@ function mysql_session_close()
 
 function mysql_session_select($sid)
 {
-    $result = do_session_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."");
+    $sql = sprintf(
+        "SELECT value FROM sessions WHERE sid = '%s' AND expiration > %d",
+        DPDatabase::escape($sid),
+        time()
+    );
+    $result = do_session_query($sql);
     $row = mysqli_fetch_assoc($result);
     if($row)
     {
@@ -134,34 +139,38 @@ function mysql_session_select($sid)
 function mysql_session_write($sid, $value)
 {
     $expiration = time() + ini_get("session.cookie_lifetime");
-    $result = do_session_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
-    $row = mysqli_fetch_row($result);
-    $SessionExists = $row[0];
+    $result = do_session_query(sprintf(
+        "SELECT COUNT(*) FROM sessions WHERE sid = '%s'",
+        DPDatabase::escape($sid)
+    ));
+    list($SessionExists) = mysqli_fetch_row($result);
     // The table has a uniqueness constraint on 'sid',
     // so $SessionExists must be 0 or 1.
 
-    // $value is a string (constructed by PHP's built-in session
-    // code) that might contain apostrophes (or backslashes?),
-    // which will screw up the SQL queries unless we escape them.
-    $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
 
     if ( $SessionExists == 0 )
     {
-        $query = "
+        $query = sprintf("
             INSERT INTO sessions
                 (sid, expiration, value)
             VALUES
-                ('$sid', '$expiration', '$value')
-            ";
+                ('%s', %d, '%s')",
+            DPDatabase::escape($sid),
+            $expiration,
+            DPDatabase::escape($value));
     }
     else
     {
-        $query = "
+        $query = sprintf("
             UPDATE sessions
             SET
-                expiration = '$expiration',
-                value = '$value'
-            WHERE sid = '$sid' AND expiration > ".time()
+                expiration = %d,
+                value = '%s'
+            WHERE sid = '%s' AND expiration > %d",
+            $expiration,
+            DPDatabase::escape($value),
+            DPDatabase::escape($sid),
+            time())
             ;
     }
     $result = do_session_query($query);
@@ -170,20 +179,26 @@ function mysql_session_write($sid, $value)
 
 function mysql_session_destroy($sid)
 {
-    $result = do_session_query("DELETE FROM sessions WHERE sid = '$sid'");
+    $result = do_session_query(sprintf(
+        "DELETE FROM sessions WHERE sid = '%s'",
+        DPDatabase::escape($sid)
+    ));
     return $result;
 }
 
 function mysql_session_garbage_collect($lifetime)
 {
-    $result = do_session_query("DELETE FROM sessions WHERE expiration < ". (time()-$lifetime) ."");
+    $result = do_session_query(sprintf(
+        "DELETE FROM sessions WHERE expiration < %d",
+        time()-$lifetime)
+    );
     return $result;
 }
 
 function do_session_query( $query )
 {
     // write_to_session_log( $query );
-    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+    $result = DPDatabase::query($query);
     return $result;
 }
 
