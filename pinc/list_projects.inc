@@ -63,9 +63,8 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
 
     $numrows = mysqli_num_rows($result);
 
-    $res_found = mysqli_query(DPDatabase::get_connection(), "SELECT FOUND_ROWS()");
-    $row = mysqli_fetch_row($res_found);
-    $num_found_rows = $row[0];
+    $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
+    list($num_found_rows) = mysqli_fetch_row($res_found);
 
     if ($num_found_rows == 0) {
         echo _("There are currently no projects in this category.");
