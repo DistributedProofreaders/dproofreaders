@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<ruleset>
+    <file>./</file>
+
+    <rule ref="Generic">
+        <exclude name="Generic.PHP.ClosingPHPTag.NotFound"/>
+	    <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/>
+
+        <!-- We should decide on one of these. I vote for short only -->
+        <exclude name="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found"/>
+
+        <exclude name="Generic.Files.EndFileNoNewline.Found"/>
+        
+        <!-- I vote for $x = "foo", one space before, one after only-->
+        <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
+        <exclude name="Generic.Formatting.MultipleStatementAlignment.IncorrectWarning"/>
+
+        
+        <!-- God, no... -->
+        <exclude name="Generic.Formatting.SpaceAfterNot.Incorrect"/>
+	
+        <!-- We've a lot of multiline strings that use these. -->
+        <exclude name="Generic.Strings.UnnecessaryStringConcat.Found"/>
+        
+        <!-- Silence these until we fix our formatting, indentation, whitespace -->
+        <exclude name="Generic.Files.LineLength.MaxExceeded"/>
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact"/>
+        <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect"/>
+        <exclude name="Generic.Arrays.ArrayIndent.KeyIncorrect"/>
+        <exclude name="Generic.Arrays.ArrayIndent.CloseBraceNotNewLine"/>
+        <exclude name="Generic.Arrays.ArrayIndent.CloseBraceIncorrect"/>
+        <exclude name="Generic.Formatting.SpaceAfterCast.NoSpace"/>
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterEquals"/>
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceBeforeEquals"/>
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterComma"/>
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.SpaceBeforeComma"/>
+        <!-- If we want to align args over multiple fn calls, this needs to be off-->
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma"/>
+        
+        <!-- We *really* should fix this, as if-then-else blocks without braces are
+            very error prone, but we've a tonne of these in the codebase -->
+        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed"/>
+
+        <!-- TRUE, FALSE, NULL are case insensitive. We use a mix. -->
+        <exclude name="Generic.PHP.LowerCaseConstant.Found"/>
+        <exclude name="Generic.PHP.UpperCaseConstant.Found"/>
+
+        <!-- Our naming conventions are inconsistent, much like PHP itself... -->
+        <exclude name="Generic.NamingConventions.CamelCapsFunctionName.NotCamelCaps"/>
+        <exclude name="Generic.NamingConventions.CamelCapsFunctionName.ScopeNotCamelCaps"/>
+        <exclude name="Generic.Files.LowercasedFilename.NotFound"/>
+
+        <!-- Personally, I like K&R, ie function foo (arg) {, because vertical space
+             is precious, but we mostly don't use it. -->
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine"/>
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.ContentAfterBrace"/>
+	    <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceSpacing"/>
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.ContentAfterBrace"/>
+	
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/>
+        <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine"/>
+        
+
+        <!-- This is used a lot for while ($row = mysqli(...)) { ... } -->
+        <exclude name="Generic.CodeAnalysis.AssignmentInCondition.Found"/>
+
+        <!-- Occasionally these make sense... -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedIf"/>
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElse"/>
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElseif"/>
+
+        <exclude name="Generic.Files.OneClassPerFile.MultipleFound"/>
+        <exclude name="Generic.Files.OneObjectStructurePerFile.MultipleFound"/>
+    </rule>
+</ruleset>
