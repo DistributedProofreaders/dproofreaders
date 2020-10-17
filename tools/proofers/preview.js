@@ -333,14 +333,27 @@ $(function () {
 
         // check for an unrecognised tag
         function unRecog() {
-            var re = new RegExp("<(?!(?:\\/?(?:" + ILTags + ")|tb)>)", "g");
-            var result;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
+            let reMaybeTag = /<(\/?)(\w{1,3})>/g;
+            let reGoodTag = new RegExp("^(?:" + ILTags + ")$");
+            let result;
+            // find all possible tags and check if valid
+            while((result = reMaybeTag.exec(txt)) !== null) {
+                let tagString = result[2];
+                let tagLen = result[0].length;
+
+                if(tagString === "tb") {
+                    if(result[1]) {
+                        // found </tb>
+                        reportIssue(result.index, tagLen, "unRecTag");
+                    }
+                    // ignore thought break
+                    continue;
                 }
-                reportIssue(result.index, 1, "unRecTag");
+
+                if(!reGoodTag.test(tagString)) {
+                    reportIssue(result.index, tagLen, "unRecTag");
+                    continue;
+                }
             }
         }
 
