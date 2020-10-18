@@ -31,9 +31,10 @@ class Project
             $sql = sprintf("
                 SELECT *
                 FROM projects
-                WHERE projectid = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $arg));
-            $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+                WHERE projectid = '%s'",
+                DPDatabase::escape($arg)
+            );
+            $res = DPDatabase::query($sql);
             $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
@@ -119,11 +120,14 @@ class Project
             return;
         }
 
-        $imso_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             SELECT full_name, credit
             FROM image_sources
-            WHERE code_name = '$this->image_source'
-        "));
+            WHERE code_name = '%s'",
+            DPDatabase::escape($this->image_source)
+        );
+        $result = DPDatabase::query($sql);
+        $imso_res = mysqli_fetch_assoc($result);
         $this->image_source_name = $imso_res['full_name'];
         $this->image_source_credit = $imso_res['credit'];
     }
@@ -163,11 +167,11 @@ class Project
         {
             return false;
         }
-
+        validate_projectID($this->projectid);
         $sql = "
             ALTER TABLE $this->projectid CONVERT TO CHARACTER SET utf8mb4;
         ";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql, False);
         if(!$result)
         {
             throw new UTF8ConversionException(
@@ -187,11 +191,12 @@ class Project
         $sql = sprintf("
             SELECT projectid
             FROM project_charsuites
-            WHERE charsuite_name='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
+            WHERE charsuite_name='%s'",
+            DPDatabase::escape($charsuite->name)
+        );
 
         $projectids = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         while($row = mysqli_fetch_assoc($result))
         {
             $projectids[] = $row['projectid'];
@@ -252,13 +257,13 @@ class Project
                 $charsuite->title
             ));
         }
-
         $sql = sprintf("
             INSERT INTO project_charsuites
-            SET projectid='%s', charsuite_name='%s'
-        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
-
-        mysqli_query(DPDatabase::get_connection(), $sql);
+            SET projectid='%s', charsuite_name='%s'",
+            DPDatabase::escape($this->projectid),
+            DPDatabase::escape($charsuite->name)
+        );
+        DPDatabase::query($sql);
     }
 
     public function remove_charsuite($charsuite)
@@ -270,13 +275,13 @@ class Project
         {
             return;
         }
-
         $sql = sprintf("
             DELETE FROM project_charsuites
-            WHERE projectid='%s' AND charsuite_name='%s'
-        ", $this->projectid, mysqli_real_escape_string(DPDatabase::get_connection(), $charsuite->name));
-
-        mysqli_query(DPDatabase::get_connection(), $sql);
+            WHERE projectid='%s' AND charsuite_name='%s'",
+            DPDatabase::escape($this->projectid),
+            DPDatabase::escape($charsuite->name)
+        );
+        DPDatabase::query($sql);
     }
 
     public function get_charsuites($include_custom=TRUE)
@@ -294,13 +299,13 @@ class Project
         }
 
         // load regular character suites
-        $sql = "
+        $sql = sprintf("
             SELECT charsuite_name
             FROM project_charsuites
-            WHERE projectid='$this->projectid'
-        ";
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            WHERE projectid='%s'",
+            DPDatabase::escape($this->projectid)
+        );
+        $result = DPDatabase::query($sql);
         while($row = mysqli_fetch_assoc($result))
         {
             $charsuites[] = CharSuites::get($row["charsuite_name"]);
@@ -532,13 +537,14 @@ class Project
         if(!$this->pages_table_exists)
             throw new NoProjectPageTable(_("Project page table does not exist."));
 
-        $projectid = $this->projectid;
+        validate_projectID($this->projectid);
         $page_image_names = array();
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             SELECT image
-            FROM $projectid
+            FROM {$this->projectid}
             ORDER BY image
-        ") or die(DPDatabase::log_error());
+        ";
+        $res = DPDatabase::query($sql);
         while (list($page_image) = mysqli_fetch_row($res))
         {
             $page_image_names[] = $page_image;
@@ -692,6 +698,7 @@ class Project
 
         $post_subject = "\"{$this->nameofwork}\" by {$this->authorsname}";
 
+        validate_projectID($this->projectid);
         global $code_url;
         $post_body = <<<EOS
 This thread is for discussion specific to "$this->nameofwork" by $this->authorsname.
@@ -718,11 +725,14 @@ EOS;
         }
 
         // Save $topic_id in db and in $this.
-        $update_project = mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             UPDATE projects
-            SET topic_id=$topic_id
-            WHERE projectid='{$this->projectid}'
-        ");
+            SET topic_id=%d
+            WHERE projectid='%s'",
+            $topic_id,
+            DPDatabase::escape($this->projectid)
+        );
+        $update_project = DPDatabase::query($sql);
         $this->topic_id = $topic_id;
 
         return $topic_id;
@@ -755,11 +765,13 @@ EOS;
     // Return an array containing the states for which this project has holds.
     {
         $hold_states = array();
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             SELECT state
             FROM project_holds
-            WHERE projectid='{$this->projectid}'
-        ") or die(DPDatabase::log_error());
+            WHERE projectid='%s'",
+            DPDatabase::escape($this->projectid)
+        );
+        $res = DPDatabase::query($sql);
         while( list($state) = mysqli_fetch_row($res) )
         {
             $hold_states[] = $state;
@@ -774,14 +786,17 @@ EOS;
         $values = [];
         foreach ($states as $state)
         {
-            $values[] = "('$this->projectid', '$state')";
+            $values[] = sprintf("('%s', '%s')",
+                DPDatabase::escape($this->projectid),
+                DPDatabase::escape($state)
+            );
         }
         $values = join(', ', $values);
-
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             INSERT INTO project_holds
             VALUES $values
-        ") or die(DPDatabase::log_error());
+        ";
+        DPDatabase::query($sql);
         log_project_event($this->projectid, $pguser, 'add_holds', join($states, ' '));
     }
 
@@ -789,12 +804,22 @@ EOS;
     {
         global $pguser;
 
-        $states_str = surround_and_join( $states, "'", "'", ", " );
-        mysqli_query(DPDatabase::get_connection(), "
+        $projectid_clause = sprintf(
+            "projectid='%s'",
+            DPDatabase::escape($this->projectid)
+        );
+        $state_values = [];
+        foreach ($states as $state) {
+            $state_values[] = sprintf("'%s'", DPDatabase::escape($state));
+        }
+        $state_values = join(', ', $state_values);
+        $sql = "
             DELETE FROM project_holds
-            WHERE projectid='$this->projectid'
-                AND state in ($states_str)
-        ") or die(DPDatabase::log_error());
+            WHERE
+                $projectid_clause
+                AND state in ($state_values)
+        ";
+        DPDatabase::query($sql);
         log_project_event($this->projectid, $pguser, 'remove_holds', join($states, ' '));
     }
 
@@ -866,37 +891,42 @@ XML;
     {
         $original_marc_array = $marc_record->get_yaz_array();
 
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             INSERT INTO marc_records
             SET
-                projectid      = '$this->projectid',
-                original_array = '".base64_encode(serialize($original_marc_array))."'
-        ");
+                projectid      = '%s',
+                original_array = '%s'",
+            DPDatabase::escape($this->projectid),
+            base64_encode(serialize($original_marc_array))
+        );
     }
 
     // Update the updated_* columns for this project's MARC record
     public function save_marc_record($marc_record)
     {
         $updated_marc_array = $marc_record->get_yaz_array();
-
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             UPDATE marc_records
             SET
-                updated_array = '".base64_encode(serialize($updated_marc_array))."'
-            WHERE projectid = '$this->projectid'
-        ");
+                updated_array = '%s'
+            WHERE projectid = '%s'",
+            base64_encode(serialize($updated_marc_array)),
+            DPDatabase::escape($this->projectid)
+        );
+        DPDatabase::query($sql);
     }
 
     // Load the updated MARC record for this project
     public function load_marc_record()
     {
         $updated_record = new MARCRecord();
-
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             SELECT updated_array
             FROM marc_records
-            WHERE projectid = '$this->projectid'
-        ");
+            WHERE projectid = '%s'",
+            DPDatabase::escape($this->projectid)
+        );
+        $result = DPDatabase::query($sql);
 
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
@@ -991,11 +1021,15 @@ XML;
 
 function project_has_a_hold_in_state($projectid, $state)
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         SELECT *
         FROM project_holds
-        WHERE projectid='$projectid' and state='$state'
-    ") or die(DPDatabase::log_error());
+        WHERE projectid='%s'
+            AND state='%s'",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($state)
+    );
+    $res = DPDatabase::query($sql);
     return (mysqli_num_rows($res) > 0);
 }
 
@@ -1118,7 +1152,8 @@ function does_project_page_table_exist($projectid)
     //    DESCRIBE table
     //    SELECT 1 FROM table LIMIT 0
     // The second is a mysql-ism and performs better, so we use that one.
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT 1 FROM $projectid LIMIT 0");
+    validate_projectID($projectid);
+    $result = DPDatabase::query("SELECT 1 FROM $projectid LIMIT 0");
 
     if($result) {
         mysqli_free_result($result);
