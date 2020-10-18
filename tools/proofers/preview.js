@@ -702,6 +702,45 @@ $(function () {
             }
         }
 
+        // check that math delimiters \[ \], \( \) are correctly matched
+        function checkMath() {
+            var mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+            var result;
+            var tag, openTag = false;
+            var openStart = 0;
+            while((result = mathRe.exec(txt)) !== null) {
+                tag = result[0].charAt(1);
+                // if no open tag and ( or [ set open else error
+                if (!openTag) {
+                    if ((tag === '(') || (tag === '[')) {
+                        openTag = tag;
+                        openStart = result.index;
+                    } else {
+                        reportIssue(result.index, 2, "noStartTag");
+                    }
+                } else {
+                    if (((openTag === '(') && (tag === ')')) || ((openTag === '[') && (tag === ']'))) {
+                        // correctly matched
+                        openTag = false;
+                    } else if (((openTag === '(') && (tag === ']')) || ((openTag === '[') && (tag === ')'))) {
+                        // mismatched
+                        openTag = false;
+                        reportIssue(openStart, 2, "misMatchTag");
+                        reportIssue(result.index, 2, "misMatchTag");
+                    } else {
+                        // a start tag of either sort follows a start tag
+                        reportIssue(openStart, 2, "noEndTag");
+                        openTag = tag;
+                        openStart = result.index;
+                    }
+                }
+            }
+            // if there is a tag open mark it as an error
+            if (openTag) {
+                reportIssue(openStart, 2, "noEndTag");
+            }
+        }
+
         parseInLine();
         // if inline parse fails then checkSC might not work
         if (parseOK) {
@@ -717,6 +756,9 @@ $(function () {
         unRecog();
         checkTab();
         checkBlankLines();
+        if(config.allowMathPreview) {
+            checkMath();
+        }
 
         // we must avoid two issues giving overlapping markup
         // sort them first and mark from end towards beginning
