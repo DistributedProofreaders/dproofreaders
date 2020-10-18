@@ -17,6 +17,11 @@ $tid = get_integer_param($_POST, 'tsid', null, 1, null, true);
 if (!isset($tid)) {
     $tid = get_integer_param($_GET, 'tid', null, 1, null);
 }
+$teamname = stripAllString(trim(array_get($_POST, "teamname", "")));
+$text_data = stripAllString(array_get($_POST, "text_data", ""));
+$teamwebpage = stripAllString(array_get($_POST, "teamwebpage", ""));
+$tavatar = array_get($_POST, "tavatar", "");
+$ticon = array_get($_POST, "ticon", "");
 
 $result = select_from_teams("id = $tid");
 $curTeam = mysqli_fetch_assoc($result);
@@ -35,7 +40,7 @@ if (($user->u_id != $curTeam['owner']) && (!user_is_a_sitemanager()))
 if (isset($_GET['tid']))
 {
     $edit = _("Edit");
-    output_header($edit." ".$curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
+    output_header($edit . " " . $curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
     echo "<div class='center-align'><br>";
     showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], 0, $tid);
     echo "</div>";
@@ -44,91 +49,99 @@ elseif (isset($_POST['edQuit']))
 {
     $title = _("Quit Without Saving");
     $desc = _("Quitting without saving...");
-    metarefresh(0,"tdetail.php?tid=$tid",$title,$desc);
+    metarefresh(0,"tdetail.php?tid=$tid", $title, $desc);
     exit;
 }
 elseif (isset($_POST['edPreview']))
 {
     $preview = _("Preview");
-    output_header($preview." ".$_POST['teamname'], SHOW_STATSBAR, $theme_extra_args);
+    output_header($preview . " " . $teamname, SHOW_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1,$tid,"both");
-    $curTeam['teamname'] = stripAllString($_POST['teamname']);
-    $curTeam['team_info'] = stripAllString($_POST['text_data']);
-    $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
+    $curTeam['teamname'] = $teamname;
+    $curTeam['team_info'] = $text_data;
+    $curTeam['webpage'] = $teamwebpage;
     $curTeam['avatar'] = $teamimages['avatar'];
     echo "<div class='center-align'><br>";
-    showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
+    showEdit($teamname, $text_data, $teamwebpage, 0, $tid);
     echo "<br>";
-    showTeamProfile($curTeam, TRUE /*$preview*/);
+    showTeamProfile($curTeam, /*$preview = */ TRUE);
     echo "</div><br>";
 }
 elseif (isset($_POST['edMake']))
 {
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+    $sql = sprintf("
         SELECT id
         FROM user_teams
-        WHERE id != %s
-            AND teamname = '%s'
-    ", $tid,
-        mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname'])))));
-    if (mysqli_num_rows($result) > 0 || trim($_POST['teamname']) == '')
+        WHERE id != %d
+            AND teamname = '%s'",
+        $tid,
+        DPDatabase::escape($teamname)
+    );
+    $result = DPDatabase::query($sql);
+    if (mysqli_num_rows($result) > 0 || $teamname == '')
     {
         $preview = _("Preview");
         output_header($preview, SHOW_STATSBAR, $theme_extra_args);
-        $teamimages = uploadImages(1,$tid,"both");
+        $teamimages = uploadImages(1, $tid, "both");
         $curTeam['avatar'] = $teamimages['avatar'];
-        if(trim($_POST['teamname']) == "")
+        if ($teamname == "")
             echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
         else
             echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
 
-        showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
+        showEdit($teamname, $text_data, $teamwebpage, 0, $tid);
         echo "<br></div><br>";
     }
     else
     {
-        if (!empty($_POST['tavatar']))
+        if (!empty($tavatar))
         {
             $sql = sprintf("
                 UPDATE user_teams
                 SET avatar='%s'
-                WHERE id = $tid
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['tavatar']));
-            mysqli_query(DPDatabase::get_connection(), $sql);
+                WHERE id = %d",
+                $tid,
+                DPDatabase::escape($tavatar)
+            );
+            DPDatabase::query($sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
             uploadImages(0,$tid,"avatar");
         }
-        if (!empty($_POST['ticon']))
+        if (!empty($ticon))
         {
             $sql = sprintf("
                 UPDATE user_teams
                 SET icon='%s'
-                WHERE id = $tid
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['ticon']));
-            mysqli_query(DPDatabase::get_connection(), $sql);
+                WHERE id = %d",
+                $tid,
+                DPDatabase::escape($ticon)
+            );
+            DPDatabase::query($sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {
-            uploadImages(0,$tid,"icon");
+            uploadImages(0, $tid, "icon");
         }
 
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             UPDATE user_teams
             SET
                 teamname = LEFT('%s', 50),
                 team_info = '%s',
                 webpage = LEFT('%s', 255)
-            WHERE id='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
-            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
-            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
-            $tid));
+            WHERE id = %d",
+            DPDatabase::escape($teamname),
+            DPDatabase::escape($text_data),
+            DPDatabase::escape($teamwebpage),
+            $tid
+        );
+        DPDatabase::query($sql);
 
         $title = _("Saving Team Update");
         $desc = _("Updating team....");
-        metarefresh(0,"tdetail.php?tid=$tid",$title, $desc);
+        metarefresh(0,"tdetail.php?tid=$tid", $title, $desc);
     }
 }
 
