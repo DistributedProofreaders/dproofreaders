@@ -12,80 +12,98 @@ $user = User::load_current();
 
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
+$teamname = stripAllString(trim(array_get($_POST, "teamname", "")));
+$text_data = stripAllString(array_get($_POST, "text_data", ""));
+$teamwebpage = stripAllString(array_get($_POST, "teamwebpage", ""));
+$tavatar = array_get($_POST, "tavatar", "");
+$ticon = array_get($_POST, "ticon", "");
+
+
 if (isset($_POST['mkPreview']))
 {
-    $title = sprintf(_("Preview %s"), $_POST['teamname']);  // *Ouch*, data not validated.
+    $title = sprintf(_("Preview %s"), $teamname);
     output_header($title, SHOW_STATSBAR, $theme_extra_args);
-    $teamimages = uploadImages(1,"","both");
+    $teamimages = uploadImages(1, "", "both");
     $curTeam['id'] = 0;
     $curTeam['topic_id'] = 0;
-    $curTeam['teamname'] = stripAllString($_POST['teamname']);
-    $curTeam['team_info'] = stripAllString($_POST['text_data']);
-    $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
+    $curTeam['teamname'] = $teamname;
+    $curTeam['team_info'] = $text_data;
+    $curTeam['webpage'] = $teamwebpage;
     $curTeam['createdby'] = $user->username;
     $curTeam['owner'] = $user->u_id;
     $curTeam['created'] = time();
     $curTeam['member_count'] = 0;
     $curTeam['avatar'] = $teamimages['avatar'];
     echo "<div class='center-align'><br>";
-    showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
+    showEdit($teamname, $text_data, $teamwebpage, 1, 0);
     echo "<br>";
-    showTeamProfile($curTeam, TRUE /* $preview */);
+    showTeamProfile($curTeam, /* $preview= */ TRUE);
     echo "</div><br>";
 }
 else if (isset($_POST['mkMake']))
 {
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+    $sql = sprintf("
         SELECT id
         FROM user_teams
-        WHERE teamname = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname'])))));
-    if (mysqli_num_rows($result) > 0 || trim($_POST['teamname']) == "")
+        WHERE teamname = '%s'",
+        DPDatabase::escape($teamname)
+    );
+    $result = DPDatabase::query($sql);
+    if (mysqli_num_rows($result) > 0 || $teamname == "")
     {
         $name = _("Create Team");
         output_header($name);
-        $teamimages = uploadImages(1,"","both");
+        $teamimages = uploadImages(1, "", "both");
         $curTeam['avatar'] = $teamimages['avatar'];
-        if(trim($_POST['teamname']) == "")
+        if($teamname == "")
             echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
         else
             echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
 
-        showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
+        showEdit($teamname, $text_data, $teamwebpage, 1, 0);
         echo "<br></div><br>";
     }
     else
     {
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             INSERT INTO user_teams
                 (teamname, team_info, webpage, createdby, owner, created)
-            VALUES(LEFT('%s', 50), '%s', LEFT('%s', 255), '%s', %s, %s)
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString(trim($_POST['teamname']))),
-            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['text_data'])),
-            mysqli_real_escape_string(DPDatabase::get_connection(), stripAllString($_POST['teamwebpage'])),
-            $user->username, $user->u_id, time()));
+            VALUES(LEFT('%s', 50), '%s', LEFT('%s', 255), '%s', %d, %d)
+            ",
+            DPDatabase::escape($teamname),
+            DPDatabase::escape($text_data),
+            DPDatabase::escape($teamwebpage),
+            DPDatabase::escape($user->username),
+            $user->u_id,
+            time()
+        );
+        DPDatabase::query($sql);
         $tid = mysqli_insert_id(DPDatabase::get_connection());
-        if (!empty($_POST['tavatar']))
+        if (!empty($tavatar))
         {
             $sql = sprintf("
                 UPDATE user_teams
                 SET avatar='%s'
-                WHERE id = $tid
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['tavatar']));
-            mysqli_query(DPDatabase::get_connection(), $sql);
+                WHERE id = %d",
+                DPDatabase::escape($tavatar),
+                $tid
+            );
+            DPDatabase::query($sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
             uploadImages(0, $tid, "avatar");
         }
-        if (!empty($_POST['ticon']))
+        if (!empty($ticon))
         {
             $sql = sprintf("
                 UPDATE user_teams
                 SET icon='%s'
-                WHERE id = $tid
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['ticon']));
-            mysqli_query(DPDatabase::get_connection(), $sql);
+                WHERE id = %d",
+                DPDatabase::escape($ticon),
+                $tid
+            );
+            DPDatabase::query($sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {
@@ -94,10 +112,10 @@ else if (isset($_POST['mkMake']))
 
         //figure out which team to overwrite
         $otid = get_integer_param($_POST, 'otid', 0, 0, null);
-    
+
         $title = _("Join the Team");
         $desc = _("Creating the team....");
-        metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",$title, $desc);
+        metarefresh(0, "../members/jointeam.php?tid=$tid&otid=$otid", $title, $desc);
     }
 }
 elseif (isset($_POST['mkQuit']))
