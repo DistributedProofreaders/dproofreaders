@@ -1,4 +1,4 @@
-/* global QUnit analyse */
+/* global QUnit analyse processExMath */
 
 QUnit.module("Format preview test", function() {
     let configuration = {
@@ -399,28 +399,39 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("missing maths start tag in non-math mode", function (assert) {
-        text = "e=mc^2\\\]";
+        text = "e=mc^2\\]";
         issArray = analyse(text, configuration);
         noIssueTest(assert);
     });
 
     QUnit.test("missing maths start tag", function (assert) {
-        text = "e=mc^2\\\]";
+        text = "e=mc^2\\]";
         issArray = analyse(text, mathConfig);
         issueTest(assert, 0, 6, 2, "noStartTag", 1);
     });
 
     QUnit.test("mismatched maths tags", function (assert) {
-        text = "\\\(e=mc^2\\\]";
+        text = "\\(e=mc^2\\]";
         issArray = analyse(text, mathConfig);
         issueTest(assert, 1, 0, 2, "misMatchTag", 1);
         issueTest(assert, 0, 8, 2, "misMatchTag", 1);
     });
 
     QUnit.test("missing maths end tag", function (assert) {
-        text = "\\\[e=mc^2\\\(";
+        text = "\\[e=mc^2\\(";
         issArray = analyse(text, mathConfig);
         issueTest(assert, 1, 0, 2, "noEndTag", 1);
         issueTest(assert, 0, 8, 2, "noEndTag", 1);
+    });
+
+    QUnit.test("process outside math markup", function (assert) {
+        let text = "abc\\[d\nef\\]ghi\\(jkl\\)mno";
+        function toUpper(txt) {
+            return txt.toUpperCase();
+        }
+        let procText = processExMath(text, toUpper, true);
+        assert.strictEqual(procText, "ABC\\[d\nef\\]GHI\\(jkl\\)MNO");
+        procText = processExMath(text, toUpper, false);
+        assert.strictEqual(procText, "ABC\\[D\nEF\\]GHI\\(JKL\\)MNO");
     });
 });
