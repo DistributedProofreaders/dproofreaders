@@ -908,12 +908,43 @@ $(function () {
             if (viewMode !== "show_tags") {
                 colorString = colorString0 + '>$1</span>';
             }
-            // sub- and super-scripts
-            txt = txt.replace(/_\{([^\}]+)\}/g, '<span class="sub"' + colorString);
-            txt = txt.replace(/\^\{([^\}]+)\}/g, '<span class="sup"' + colorString);
-            // single char superscript -  any char except {
-            // do not allow < incase it's a tag which would screw up
-            txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + colorString);
+
+            // show sub- and super-scripts
+            function showSubSuper(text) {
+                let textOut = text.replace(/_\{(.+?)\}/g, '<span class="sub"' + colorString);
+                textOut = textOut.replace(/\^\{(.+?)\}/g, '<span class="sup"' + colorString);
+                // single char superscript -  any char except {
+                // do not allow < as a single char superscript
+                // incase it's a tag which would give overlapping markup
+                return textOut.replace(/\^([^{<])/g, '<span class="sup"' + colorString);
+            }
+
+            // processes the text by textFunction but in math mode
+            // only outside math markup
+            function processExMath(text, textFunction) {
+                if(!styler.allowMathPreview) {
+                    return textFunction(text);
+                } else {
+                    // find whole math strings \[ ... \] or \( ... \)
+                    let txtOut = "";
+                    let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
+                    for(;;) {
+                        // this will start as 0
+                        let startIndex = mathRegex.lastIndex;
+                        let result = mathRegex.exec(text);
+                        if(!result) {
+                            // no more found, process to end
+                            txtOut += textFunction(text.slice(startIndex));
+                            break;
+                        }
+                        txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
+                    }
+                    return txtOut;
+                }
+            }
+
+            // do not process sub- and super-scripts inside math markup
+            txt = processExMath(txt, showSubSuper);
         }
 
         // attempt to make an approximate representation of formatted text
