@@ -68,7 +68,7 @@ class NonactivatedUser
     {
         if(!in_array($field, $this->integer_fields))
         {
-            $escaped_value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $value));
+            $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
         }
         else
         {
@@ -80,13 +80,9 @@ class NonactivatedUser
             FROM non_activated_users
             WHERE $field=$escaped_value
         ";
+        $result = DPDatabase::query($sql);
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
-        elseif(mysqli_num_rows($result) == 0)
+        if(mysqli_num_rows($result) == 0)
         {
             throw new NonexistentNonactivatedUserException(sprintf(
                 _('No non_activated_user found with %1$s = %2$s'),
@@ -163,28 +159,27 @@ class NonactivatedUser
                 u_intlang = '%s',
                 user_password = '%s'
         ",  $this->table_row["id"],
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->username),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->real_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
+            DPDatabase::escape($this->username),
+            DPDatabase::escape($this->real_name),
+            DPDatabase::escape($this->email),
             (int)$this->email_updates,
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_details),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password),
+            DPDatabase::escape($this->referrer),
+            DPDatabase::escape($referrer_details),
+            DPDatabase::escape($this->http_referrer),
+            DPDatabase::escape($this->u_intlang),
+            DPDatabase::escape($this->user_password),
             // and for the updates
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->real_name),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->email),
+            DPDatabase::escape($this->real_name),
+            DPDatabase::escape($this->email),
             (int)$this->email_updates,
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $referrer_details),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->http_referrer),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->u_intlang),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->user_password)
+            DPDatabase::escape($this->referrer),
+            DPDatabase::escape($referrer_details),
+            DPDatabase::escape($this->http_referrer),
+            DPDatabase::escape($this->u_intlang),
+            DPDatabase::escape($this->user_password)
         );
 
-        $result = mysqli_query(DPDatabase::get_connection(), $query);
-
+        $result = DPDatabase::query($query, FALSE);
         if(!$result)
         {
             throw new UnexpectedValueException(DPDatabase::log_error());
@@ -196,10 +191,12 @@ class NonactivatedUser
         if(!isset($this->id))
             return;
 
-        mysqli_query(DPDatabase::get_connection(), "
+        $sql = sprintf("
             DELETE FROM non_activated_users
-            WHERE id = '$this->id'
-        ");
+            WHERE id = '%s'",
+            DPDatabase::escape($this->id)
+        );
+        DPDatabase::query($sql);
     }
 
     // static functions
