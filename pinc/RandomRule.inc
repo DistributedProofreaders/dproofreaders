@@ -41,11 +41,7 @@ class RandomRule
             WHERE id = %d
         ", $id);
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
+        $result = DPDatabase::query($sql);
         $this->table_row = mysqli_fetch_assoc($result);
     }
 
@@ -58,16 +54,13 @@ class RandomRule
             WHERE
                 document = '%s' AND
                 anchor = '%s' AND
-                langcode = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $document),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $anchor),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
+                langcode = '%s'",
+            DPDatabase::escape($document),
+            DPDatabase::escape($anchor),
+            DPDatabase::escape($langcode)
+        );
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
+        $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
         if(!$row)
@@ -85,15 +78,11 @@ class RandomRule
                 document = '%s' AND
                 langcode = '%s'
             ORDER BY RAND(NOW())
-            LIMIT 1
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $document),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
+            LIMIT 1",
+            DPDatabase::escape($document),
+            DPDatabase::escape($langcode)
+        );
+        $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
         if(!$row)
@@ -110,15 +99,11 @@ class RandomRule
             WHERE
                 document = '%s' AND
                 langcode = '%s'
-            ORDER BY id
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $document),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
-        {
-            throw new UnexpectedValueException(DPDatabase::log_error());
-        }
+            ORDER BY id",
+            DPDatabase::escape($document),
+            DPDatabase::escape($langcode)
+        );
+        $result = DPDatabase::query($sql);
 
         $rules = [];
         while($row = mysqli_fetch_assoc($result))
@@ -139,8 +124,7 @@ class RandomRule
             GROUP BY document, langcode
             ORDER BY langcode, document
         ";
-
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
 
         $summary = [];
         while($row = mysqli_fetch_assoc($result))
@@ -163,10 +147,11 @@ class RandomRule
             FROM rules
             WHERE
                 document = '%s' AND
-                langcode = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $document),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
-        mysqli_query(DPDatabase::get_connection(), $sql);
+                langcode = '%s'",
+            DPDatabase::escape($document),
+            DPDatabase::escape($langcode)
+        );
+        DPDatabase::query($sql);
     }
 
     // Reload rules by parsing a URL and reloading the rules found in it
@@ -276,12 +261,13 @@ class RandomRule
                 langcode = '%s',
                 anchor = '%s',
                 subject = '%s',
-                rule = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $document),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $langcode),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $anchor),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $subject),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $rule));
-        mysqli_query(DPDatabase::get_connection(), $sql);
+                rule = '%s'",
+            DPDatabase::escape($document),
+            DPDatabase::escape($langcode),
+            DPDatabase::escape($anchor),
+            DPDatabase::escape($subject),
+            DPDatabase::escape($rule)
+        );
+        DPDatabase::query($sql);
     }
 }
