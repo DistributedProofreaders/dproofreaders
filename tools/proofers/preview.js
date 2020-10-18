@@ -1,10 +1,31 @@
 /* eslint-disable no-constant-condition, no-useless-escape, camelcase */
-/* exported makePreview analyse */
+/* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
 var makePreview;
 var analyse;
 var getILTags;
+
+// processes the text by textFunction but in math mode only outside math markup
+// define this at top level so we can test it
+function processExMath(text, textFunction, allowMath) {
+    if(!allowMath) {
+        return textFunction(text);
+    } else {
+        // find whole math strings \[ ... \] or \( ... \)
+        let txtOut = "";
+        let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
+        let result;
+        let startIndex = 0;
+        while((result = mathRegex.exec(text)) !== null) {
+            txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
+            startIndex = mathRegex.lastIndex;
+        }
+        // no more found, process to end
+        txtOut += textFunction(text.slice(startIndex));
+        return txtOut;
+    }
+}
 
 $(function () {
     function removeComments(textLine) {
@@ -704,10 +725,10 @@ $(function () {
 
         // check that math delimiters \[ \], \( \) are correctly matched
         function checkMath() {
-            var mathRe = /\\\[|\\\]|\\\(|\\\)/g;
-            var result;
-            var tag, openTag = false;
-            var openStart = 0;
+            let mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+            let result;
+            let tag, openTag = false;
+            let openStart = 0;
             while((result = mathRe.exec(txt)) !== null) {
                 tag = result[0].charAt(1);
                 // if no open tag and ( or [ set open else error
@@ -961,32 +982,8 @@ $(function () {
                 return textOut.replace(/\^([^{<])/g, '<span class="sup"' + colorString);
             }
 
-            // processes the text by textFunction but in math mode
-            // only outside math markup
-            function processExMath(text, textFunction) {
-                if(!styler.allowMathPreview) {
-                    return textFunction(text);
-                } else {
-                    // find whole math strings \[ ... \] or \( ... \)
-                    let txtOut = "";
-                    let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
-                    for(;;) {
-                        // this will start as 0
-                        let startIndex = mathRegex.lastIndex;
-                        let result = mathRegex.exec(text);
-                        if(!result) {
-                            // no more found, process to end
-                            txtOut += textFunction(text.slice(startIndex));
-                            break;
-                        }
-                        txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
-                    }
-                    return txtOut;
-                }
-            }
-
             // do not process sub- and super-scripts inside math markup
-            txt = processExMath(txt, showSubSuper);
+            txt = processExMath(txt, showSubSuper, styler.allowMathPreview);
         }
 
         // attempt to make an approximate representation of formatted text
