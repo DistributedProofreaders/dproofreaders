@@ -19,9 +19,9 @@ echo "<h2>" . _("Most Requested Books Being Proofread") . "</h2>\n";
 
 create_temporary_project_event_subscription_summary_table();
 
-$comments_url1 = mysqli_real_escape_string(DPDatabase::get_connection(), "<a href='$code_url/project.php?id=");
-$comments_url2 = mysqli_real_escape_string(DPDatabase::get_connection(), "'>");
-$comments_url3 = mysqli_real_escape_string(DPDatabase::get_connection(), "</a>");
+$comments_url1 = DPDatabase::escape("<a href='$code_url/project.php?id=");
+$comments_url2 = DPDatabase::escape("'>");
+$comments_url3 = DPDatabase::escape("</a>");
 
 // Looking at the other two queries, you might expect the first one to use
 // SQL_CONDITION_BRONZE. However, that would exclude the WAITING_FOR_RELEASE
@@ -39,11 +39,11 @@ for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 }
 dpsql_dump_themed_query("
     SELECT
-        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Title")) . "',
-        authorsname AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Author")) . "',
-        genre AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Genre")) . "',
-        language AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Language")) . "',
-        pesgbp.nouste_posted AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Notification Requests")) . "'
+        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
+        authorsname AS '" . DPDatabase::escape(_("Author")) . "',
+        genre AS '" . DPDatabase::escape(_("Genre")) . "',
+        language AS '" . DPDatabase::escape(_("Language")) . "',
+        pesgbp.nouste_posted AS '" . DPDatabase::escape(_("Notification Requests")) . "'
     FROM project_event_subscriptions_grouped_by_project AS pesgbp, projects
     WHERE pesgbp.projectid = projects.projectid
         AND ($state_condition)
@@ -54,15 +54,15 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books In Post-Processing") . "</h2>\n";
 
-//        $post_url1 = mysqli_real_escape_string(DPDatabase::get_connection(), "<a href='$code_url/project.php?id=");
+//        $post_url1 = DPDatabase::escape("<a href='$code_url/project.php?id=");
 
 dpsql_dump_themed_query("
     SELECT
-        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Title")) . "',
-        authorsname AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Author")) . "',
-        genre AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Genre")) . "',
-        language AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Language")) . "',
-        pesgbp.nouste_posted AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Notification Requests")) . "'
+        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
+        authorsname AS '" . DPDatabase::escape(_("Author")) . "',
+        genre AS '" . DPDatabase::escape(_("Genre")) . "',
+        language AS '" . DPDatabase::escape(_("Language")) . "',
+        pesgbp.nouste_posted AS '" . DPDatabase::escape(_("Notification Requests")) . "'
     FROM project_event_subscriptions_grouped_by_project AS pesgbp, projects
     WHERE pesgbp.projectid = projects.projectid
         AND ".SQL_CONDITION_SILVER."
@@ -73,14 +73,14 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2>\n";
 
-$pg_url1 = mysqli_real_escape_string(DPDatabase::get_connection(), "<a href='http://www.gutenberg.org/ebooks/");
+$pg_url1 = DPDatabase::escape("<a href='http://www.gutenberg.org/ebooks/");
 dpsql_dump_themed_query("
     SELECT
-        CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Title")) . "',
-        authorsname AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Author")) . "',
-        genre AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Genre")) . "',
-        language AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Language")) . "',
-        int_level AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Notification Requests")) . "'
+        CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
+        authorsname AS '" . DPDatabase::escape(_("Author")) . "',
+        genre AS '" . DPDatabase::escape(_("Genre")) . "',
+        language AS '" . DPDatabase::escape(_("Language")) . "',
+        int_level AS '" . DPDatabase::escape(_("Notification Requests")) . "'
     FROM projects
     WHERE ".SQL_CONDITION_GOLD."
         AND int_level !=0
