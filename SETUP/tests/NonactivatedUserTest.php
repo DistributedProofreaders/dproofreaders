@@ -98,4 +98,15 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
         $user = $this->createNonactivatedUser($this->TEST_USERNAME);
         $user->username = "";
     }
+
+    /**
+     * @expectedException NonexistentNonactivatedUserException
+     */
+    public function testDeleteNonactivatedUser()
+    {
+        # Creating and deleting a user show leave us with no user...
+        $user = $this->createNonactivatedUser($this->TEST_USERNAME);
+        $user->delete();
+        new NonactivatedUser($this->TEST_USERNAME);
+    }
 }
