@@ -21,6 +21,11 @@ QUnit.module("Format preview test", function() {
         allowUnderline: false,
     };
 
+    let mathConfig = {
+        suppress: {},
+        allowMathPreview: true
+    };
+
     let text;
     let issArray;
 
@@ -391,5 +396,31 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 2, 3, 3, "multipleAnchors", 0);
         issueTest(assert, 1, 10, 3, "multipleAnchors", 0);
         issueTest(assert, 0, 17, 3, "multipleAnchors", 0);
+    });
+
+    QUnit.test("missing maths start tag in non-math mode", function (assert) {
+        text = "e=mc^2\\\]";
+        issArray = analyse(text, configuration);
+        noIssueTest(assert);
+    });
+
+    QUnit.test("missing maths start tag", function (assert) {
+        text = "e=mc^2\\\]";
+        issArray = analyse(text, mathConfig);
+        issueTest(assert, 0, 6, 2, "noStartTag", 1);
+    });
+
+    QUnit.test("mismatched maths tags", function (assert) {
+        text = "\\\(e=mc^2\\\]";
+        issArray = analyse(text, mathConfig);
+        issueTest(assert, 1, 0, 2, "misMatchTag", 1);
+        issueTest(assert, 0, 8, 2, "misMatchTag", 1);
+    });
+
+    QUnit.test("missing maths end tag", function (assert) {
+        text = "\\\[e=mc^2\\\(";
+        issArray = analyse(text, mathConfig);
+        issueTest(assert, 1, 0, 2, "noEndTag", 1);
+        issueTest(assert, 0, 8, 2, "noEndTag", 1);
     });
 });
