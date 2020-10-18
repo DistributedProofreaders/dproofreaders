@@ -60,22 +60,15 @@ function get_preview_messages()
 
 function get_preview_js_vars()
 {
-    global $charset, $utf8_site;
-
-    $messages = get_preview_messages();
     $plain = _("Plain text");
     $superscript = _("superscript");
     $subscript = _("subscript");
     $styles = get_style_strings();
 
     $demo_string = javascript_safe("$plain _{{$subscript}} <i>$styles[italic]</i> ^{{$superscript}} <b>$styles[bold]</b> <g>$styles[gesperrt]</g> <sc>$styles[small_caps]</sc> <f>$styles[font_change]</f>");
-    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
+    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"));
 
-    if(!$utf8_site)
-    {
-        array_walk($messages, function(&$item) { $item = utf8_encode($item);} );
-    }
-    $preview_msg = json_encode($messages);
+    $preview_msg = json_encode(get_preview_messages());
 
     return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
 }
@@ -105,6 +98,7 @@ function output_preview_div()
     $other_tags = html_safe(_("Other tags"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
+    $math_preview = html_safe(_("Preview Math"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
     $initial_mode = html_safe(_("Initial view mode"));
@@ -182,6 +176,7 @@ function output_preview_div()
   </fieldset>
   <div class="box2">
     <span class='ilb'><label for="id_underline">$allow_underine</label><input type="checkbox" id="id_underline"></span>
+    <span class='ilb'><label for="id_math_preview">$math_preview</label><input type="checkbox" id="id_math_preview"></span>
   </div>
   <fieldset>
     <legend>$suppress_warnings</legend>
