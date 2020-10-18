@@ -108,12 +108,12 @@ else
             $page_title = _("Create a Project");
             $fatal_error = $pih->set_from_nothing();
             break;
-        
+
         case 'clone':
             $page_title = _("Clone a Project");
             $fatal_error = $pih->set_from_db(FALSE);
             break;
-        
+
         case 'create_from_marc_record':
             $page_title = _("Create a Project from a MARC Record");
             $fatal_error = $pih->set_from_marc_record();
@@ -123,7 +123,7 @@ else
             $page_title = _("Edit a Project");
             $fatal_error = $pih->set_from_db(TRUE);
             break;
-    
+
         default:
             $page_title = 'editproject.php';
             $fatal_error = sprintf(_("parameter '%s' is invalid"), 'action') . ": '$requested_action'";
@@ -177,7 +177,7 @@ class ProjectInfoHolder
         $this->deletion_reason  = '';
         $this->custom_chars     = '';
         // $this->year          = '';
-        $this->state            = '';    
+        $this->state            = '';
     }
 
     // -------------------------------------------------------------------------
@@ -291,7 +291,7 @@ class ProjectInfoHolder
         $this->image_preparer   = $project->image_preparer;
         $this->text_preparer    = $project->text_preparer;
         $this->extra_credits    = $project->extra_credits;
-        if ($edit_existing) 
+        if ($edit_existing)
         {
             $this->projectid        = $project->projectid;
             $this->deletion_reason  = $project->deletion_reason;
@@ -354,15 +354,15 @@ class ProjectInfoHolder
 
         $this->nameofwork = @$_POST['nameofwork'];
         // we're using preg_match as this field will be space-normalised later
-        if ( preg_match('/^\s*$/', $this->nameofwork) ) 
-        { 
-            $errors .= "Name of work is required.<br>"; 
+        if (preg_match('/^\s*$/', $this->nameofwork))
+        {
+            $errors .= "Name of work is required.<br>";
         }
 
         $this->authorsname = @$_POST['authorsname'];
-        if ( preg_match('/^\s*$/', $this->authorsname) ) 
-        { 
-            $errors .= "Author is required.<br>"; 
+        if (preg_match('/^\s*$/', $this->authorsname))
+        {
+            $errors .= "Author is required.<br>";
         }
 
         if ( user_is_a_sitemanager() )  // only SAs can change PM
@@ -470,12 +470,14 @@ class ProjectInfoHolder
         // if it's an existing project, we want to know its state
         if ( isset($this->projectid) )
         {
-             // Somewhat kludgey to have to do this query here.
-            $res = mysqli_query(DPDatabase::get_connection(), "
+            // Somewhat kludgey to have to do this query here.
+            $sql = sprintf("
                 SELECT state, checkedoutby, username
                 FROM projects
-                WHERE projectid='{$this->projectid}'
-            ") or die(DPDatabase::log_error());
+                WHERE projectid='%s'",
+                DPDatabase::escape($this->projectid)
+            );
+            $res = DPDatabase::query($sql);
             list($state, $PPer, $PM) = mysqli_fetch_row($res);
             $this->state = $state;
 
@@ -595,28 +597,27 @@ class ProjectInfoHolder
         // enforce postednum being either NULL or a number
         $postednum_str = ($this->postednum == "") ? "NULL" : sprintf("%d", $this->postednum);
 
-        // Call mysqli_real_escape_string(DPDatabase::get_connection(), XX) to
-        // escape all strings.
+        // Call DPDatabase::escape(XX) to escape all strings.
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
-            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->nameofwork))."',
-            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->authorsname))."',
-            language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
-            genre          = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->genre)."',
-            difficulty     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->difficulty_level)."',
-            special_code   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->special_code)."',
-            clearance      = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->clearance)."',
-            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->comments))."',
-            image_source   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_source)."',
-            scannercredit  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->scannercredit)."',
-            checkedoutby   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->checkedoutby)."',
+            nameofwork     = '".DPDatabase::escape(utf8_normalize($this->nameofwork))."',
+            authorsname    = '".DPDatabase::escape(utf8_normalize($this->authorsname))."',
+            language       = '".DPDatabase::escape($this->language)."',
+            genre          = '".DPDatabase::escape($this->genre)."',
+            difficulty     = '".DPDatabase::escape($this->difficulty_level)."',
+            special_code   = '".DPDatabase::escape($this->special_code)."',
+            clearance      = '".DPDatabase::escape($this->clearance)."',
+            comments       = '".DPDatabase::escape(utf8_normalize($this->comments))."',
+            image_source   = '".DPDatabase::escape($this->image_source)."',
+            scannercredit  = '".DPDatabase::escape($this->scannercredit)."',
+            checkedoutby   = '".DPDatabase::escape($this->checkedoutby)."',
             postednum      = $postednum_str,
-            image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
-            text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
-            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->extra_credits))."',
-            deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."',
-            custom_chars   = '".mysqli_real_escape_string(DPDatabase::get_connection(), utf8_normalize($this->custom_chars))."'
+            image_preparer = '".DPDatabase::escape($this->image_preparer)."',
+            text_preparer  = '".DPDatabase::escape($this->text_preparer)."',
+            extra_credits  = '".DPDatabase::escape(utf8_normalize($this->extra_credits))."',
+            deletion_reason= '".DPDatabase::escape($this->deletion_reason)."',
+            custom_chars   = '".DPDatabase::escape(utf8_normalize($this->custom_chars))."'
         ";
         $pm_setter = '';
         if ( user_is_a_sitemanager() )
@@ -624,23 +625,25 @@ class ProjectInfoHolder
             // can change PM
             $pm_setter = sprintf("
                 username = '%s',
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->projectmanager));
+            ", DPDatabase::escape($this->projectmanager));
         }
         else if ( isset($this->clone_projectid) )
         {
-            // cloning a project. The PM should be the same as 
+            // cloning a project. The PM should be the same as
             // that of the project being cloned, if the user
             // isn't an SA
-            $res = mysqli_query(DPDatabase::get_connection(), "
+            $sql = sprintf("
                 SELECT username
                 FROM projects
-                WHERE projectid='{$this->clone_projectid}'
-            ") or die(DPDatabase::log_error());
+                WHERE projectid='%s'",
+                DPDatabase::escape($this->clone_projectid)
+            );
+            $res = DPDatabase::query($sql);
             list($projectmanager) = mysqli_fetch_row($res);
 
             $pm_setter = sprintf("
                 username = '%s',
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $projectmanager));
+            ", DPDatabase::escape($projectmanager));
         }
 
         if (isset($this->projectid))
@@ -688,18 +691,23 @@ class ProjectInfoHolder
             }
 
             // Update the projects database with the updated info
-            mysqli_query(DPDatabase::get_connection(), "
+            $where = sprintf(
+                "WHERE projectid='%s'",
+                DPDatabase::escape($this->projectid)
+            );
+            $sql = "
                 UPDATE projects SET
                     $pm_setter
                     $tlcc_setter
                     $md_setter
                     $common_project_settings
-                WHERE projectid='{$this->projectid}'
-            ") or die(DPDatabase::log_error());
+                    $where
+            ";
+            DPDatabase::query($sql);
 
             $details1 = implode(' ', $changed_fields);
 
-            if ( $details1 == '' )
+            if ($details1 == '')
             {
                 // There are no changed fields.
 
@@ -716,9 +724,9 @@ class ProjectInfoHolder
             if ($PPer_checkout)
             {
                 // we fake the project transition...
-                $e = log_project_event( $this->projectid, 
-                                        $GLOBALS['pguser'], 
-                                        'transition', 
+                $e = log_project_event( $this->projectid,
+                                        $GLOBALS['pguser'],
+                                        'transition',
                                         PROJ_POST_FIRST_CHECKED_OUT,
                                         PROJ_POST_FIRST_CHECKED_OUT,
                                         $this->checkedoutby
@@ -742,23 +750,32 @@ class ProjectInfoHolder
             }
 
             // Insert a new row into the projects table
-            mysqli_query(DPDatabase::get_connection(), "
+            $pid_setter = sprintf(
+                "projectid = '%s'",
+                DPDatabase::escape($this->projectid)
+            );
+            $state_setter = sprintf(
+                "state = '%s'",
+                DPDatabase::escape(PROJ_NEW)
+            );
+            $sql = "
                 INSERT INTO projects
                 SET
-                    projectid    = '{$this->projectid}',
+                    $pid_setter
                     $pm_setter
-                    state        = '".PROJ_NEW."',
+                    $state_setter
                     modifieddate = UNIX_TIMESTAMP(),
                     t_last_change_comments = UNIX_TIMESTAMP(),
                     postcomments = '',
                     $common_project_settings
-            ") or die(DPDatabase::log_error());
+            ";
+            DPDatabase::query($sql);
 
             $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'creation' );
-            if ( !empty($e) ) die($e);
+            if (!empty($e)) die($e);
 
             $e = project_allow_pages( $this->projectid );
-            if ( !empty($e) ) die($e);
+            if (!empty($e)) die($e);
 
             // Make a directory in the projects_dir for this project
             mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
@@ -912,10 +929,10 @@ class ProjectInfoHolder
             }
             else if ( $this->state == PROJ_POST_FIRST_CHECKED_OUT )
             {
-                // once the project is in PP, PPer can only be changed by an SA, PF, 
+                // once the project is in PP, PPer can only be changed by an SA, PF,
                 // or if it's checked out to the PM
                 $is_checked_out = TRUE;
-                $can_edit_PPer = ( ($this->projectmanager == $this->checkedoutby) || 
+                $can_edit_PPer = ( ($this->projectmanager == $this->checkedoutby) ||
                                    user_is_a_sitemanager() ||
                                    user_is_proj_facilitator());
             }
@@ -950,8 +967,8 @@ class ProjectInfoHolder
             // allow PF to edit a BEGIN project, but without altering the difficulty
             $this->row( _("Difficulty Level"), 'just_echo', _("Beginner") );
             echo "<input type='hidden' name='difficulty_level' value='$this->difficulty_level'>";
-        } 
-        else 
+        }
+        else
         {
             $this->row( _("Difficulty Level"),        'difficulty_list',     $this->difficulty_level );
         }
@@ -968,7 +985,7 @@ class ProjectInfoHolder
         $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
         $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', sprintf(_("%s user who scanned or harvested the images."),$site_abbreviation));
         $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', sprintf(_("%s user who prepared the text files."),$site_abbreviation) );
-        $this->row( _("Extra Credits<br>(to be included in list of names)"),   
+        $this->row( _("Extra Credits<br>(to be included in list of names)"),
                                                'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {
             $this->row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
@@ -1033,11 +1050,11 @@ class ProjectInfoHolder
 
         echo "</table><br>";
     }
-    
+
     // -------------------------------------------------------------------------
 
     function normalize_spaces()
-    // In the project's text fields, replace sequences of space characters 
+    // In the project's text fields, replace sequences of space characters
     // with a unique space, and trim beginning and end space
     {
         $this->nameofwork = preg_replace('/\s+/', ' ', trim($this->nameofwork));
@@ -1100,7 +1117,7 @@ function get_changed_fields($new_pih, $old_pih)
     foreach ( $all_keys as $key )
     {
         if (@$new_pih_as_array[$key] != @$old_pih_as_array[$key])
-        { 
+        {
             // echo "<p>'$key' changed from '{$old_pih_as_array[$key]}' to '{$new_pih_as_array[$key]}'</p>\n";
             $changed_fields[] = $key;
         }
