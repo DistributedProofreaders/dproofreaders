@@ -114,13 +114,6 @@ $( function() {
         win.style.color = previewStyles.t.fg;
     }
 
-    $fontSelector.change( function() {
-        let fontIndex = this.value;
-        prevWin.style.fontFamily = fontFamilies[fontIndex];
-        previewStyles.defFontIndex = fontIndex;
-        saveStyle();
-    });
-
     // this makes a copy of the style data
     // js assignment of objects just makes a reference to the old object
     // so we need to copy each primitive value and construct new objects
@@ -160,6 +153,13 @@ $( function() {
         }
     }
 
+    function setSelectedFont() {
+        let fontIndex = $fontSelector.val();
+        prevWin.style.fontFamily = fontFamilies[fontIndex];
+        previewStyles.defFontIndex = fontIndex;
+        saveStyle();
+    }
+
     function setupFont() {
         Object.keys(fontStyles).forEach(function(index) {
             let fontStyle = fontStyles[index];
@@ -169,8 +169,12 @@ $( function() {
         });
         // use value from selector incase the user defined option has been
         // removed and value has changed from 1 to 0
-        prevWin.style.fontFamily = fontFamilies[$fontSelector.val()];
+        setSelectedFont();
     }
+
+    $fontSelector.change( function() {
+        setSelectedFont();
+    });
 
     function initView() {
         enableColorCheckbox.checked = previewStyles.color;
@@ -312,7 +316,7 @@ $( function() {
             // make a copy of the styles so that if we cancel we can go back
             // to how it was before.
             tempStyle = deepCopy(tempStyle, previewStyles, false);
-            testDiv.style.fontFamily = tempStyle.defFont;
+            testDiv.style.fontFamily = fontFamilies[previewStyles.defFontIndex];
             testDiv.style.fontSize = font_size.toFixed(1) + "px";
             testDraw();
             selTag = "t";   // always start with t (plain text) selected
