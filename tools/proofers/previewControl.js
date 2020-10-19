@@ -55,8 +55,6 @@ $( function() {
     // the foreground and background colours for plain text, italic, bold,
     // gesperrt, smallcaps, font change, other tags, highlighting issues
     // and possible issues
-    // font names are stored as fontSet properties,
-    // the values have no significance
     var previewStyles = {
         t: {bg: "#fffcf4", fg: "#000000"},
         i: {bg: "", fg: "#0000ff"},
@@ -134,8 +132,6 @@ $( function() {
     // construct new empty objects or arrays. If an element becomes obsolete
     // the destination will not then exist, so check before copying.
     // If keep is false then an exact copy is made.
-    // This implies that if one of the default font options is deleted
-    // it will re-appear next time
     function deepCopy(dest, source, keep) {
         if (source && typeof source === 'object') {
             if (!keep) {
@@ -164,8 +160,7 @@ $( function() {
         }
     }
 
-    function initView() {
-        // set up the font selector
+    function setupFont() {
         Object.keys(fontStyles).forEach(function(index) {
             let fontStyle = fontStyles[index];
             let selected = (index === previewStyles.defFontIndex);
@@ -175,7 +170,9 @@ $( function() {
         // use value from selector incase the user defined option has been
         // removed and value has changed from 1 to 0
         prevWin.style.fontFamily = fontFamilies[$fontSelector.val()];
+    }
 
+    function initView() {
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
         viewMode = previewStyles.initialViewMode;
@@ -184,6 +181,7 @@ $( function() {
 
     initStyle();
     initView();
+    setupFont();
 
     $("[name='viewSel']").click(function () {
         viewMode = this.id;
