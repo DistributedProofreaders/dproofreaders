@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape, camelcase */
+/* eslint-disable camelcase */
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
@@ -180,7 +180,7 @@ $(function () {
                 // or a closing block quote or ] (ending a footnote).
                 // allow also closing no-wrap to avoid misleading error message
                 if (tagString.charAt(1) === "/") {
-                    if (/[^#\*\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
+                    if (/[^#*\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
                         reportIssue(start, 2, "OolNext");
                     }
                 }
@@ -321,7 +321,7 @@ $(function () {
                         reportIssue(start, tagLen, "nestedTag");
                         badParse();
                     }
-                    if (/[,.;:!\?]/.test(postChar)) {
+                    if (/[,.;:!?]/.test(postChar)) {
                         reportIssue(end, 1, "puncAfterStart");
                     }
                     if (postChar === " ") {
@@ -843,7 +843,7 @@ $(function () {
         function showStyle() {
             var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
             var sc1 = "&lt;sc&gt;";
-            var sc2 = "&lt;\/sc&gt;";
+            var sc2 = "&lt;/sc&gt;";
             var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
             // a user note or string of small capitals
             var sc_re = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
