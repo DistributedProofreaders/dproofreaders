@@ -1,4 +1,4 @@
-/* eslint-disable no-constant-condition, no-useless-escape, camelcase */
+/* eslint-disable no-useless-escape, camelcase */
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
@@ -161,16 +161,7 @@ $(function () {
                 }
             }
 
-            while (true) {
-                result = oolre.exec(txt);  // find next tag
-                if (null === result) { // no tag found
-                // if there are any tags on the stack mark them as errors
-                    while (tagStack.length !== 0) {
-                        stackTop = tagStack.pop();
-                        reportIssue(stackTop.start, 2, "noEndTag");
-                    }
-                    return;
-                }
+            while ((result = oolre.exec(txt)) !== null) {
                 start = result.index;
                 tagString = result[0];
 
@@ -238,6 +229,11 @@ $(function () {
                     }
                 }
             }
+            // if there are any tags on the stack mark them as errors
+            while (tagStack.length !== 0) {
+                stackTop = tagStack.pop();
+                reportIssue(stackTop.start, 2, "noEndTag");
+            }
         }
 
         // if find a start tag, check if any same already in stack, push onto stack
@@ -264,16 +260,7 @@ $(function () {
             var re = new RegExp("\\[\\*\\*|<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
             var reCloseBrack = /\]|$/gm;  // ] or eol or eot
 
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    while (tagStack.length !== 0) {
-                        stackTop = tagStack.pop();
-                        reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
-                        badParse();
-                    }
-                    return;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 if (result[0] === "[**") { // advance to end of comment or eol
                     reCloseBrack.lastIndex = re.lastIndex;
                     res1 = reCloseBrack.exec(txt);  // can't be null if has $
@@ -350,6 +337,12 @@ $(function () {
                     tagStack.push({tag: tagString, start: start, tagLen: tagLen});
                 }
             }
+            // if there are any tags on the stack mark them as errors
+            while (tagStack.length !== 0) {
+                stackTop = tagStack.pop();
+                reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
+                badParse();
+            }
         }
 
         // check for an unrecognised tag
@@ -384,11 +377,7 @@ $(function () {
             var result;
             var re = /\[\*\*|<sc>([^]*?)<\/sc>/g; // [** or <sc> text
             var res1;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    return;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 if (result[0] === "[**") {
                 // advance to end of comment, caught no ] earlier
                     reCloseBrack.lastIndex = re.lastIndex;
@@ -413,11 +402,7 @@ $(function () {
         function checkTab() {
             var re = /\t/g;
             var result;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 reportIssue(result.index, 1, "tabChar");
             }
         }
@@ -427,11 +412,7 @@ $(function () {
             var end;
             var re = /^\n{3}.|.\n{4}.|^\n{5,}.|.\n{6,}./g;
 
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 re.lastIndex -= 1; // in case only one char, include it in next search
                 end = result.index + result[0].length;
                 reportIssue(end - 1, 1, "blankLines124");
@@ -450,11 +431,7 @@ $(function () {
             function boldLine() {   // false if any non-bold char found
                 var result1;
                 re1.lastIndex = 0;  // else will be left from previous use
-                while (true) {
-                    result1 = re1.exec(headLine);
-                    if (null === result1) {
-                        return true;
-                    }
+                while ((result1 = re1.exec(headLine)) !== null) {
                     if (result1[0].length === 1) {   // a non-bold char
                         return false;
                     }
@@ -467,15 +444,13 @@ $(function () {
                     }
                 // must be another tag - continue
                 }
+                return true;
             }
+
             var result;
             var start;
             // first find the heading lines
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 headLine = result[2];
                 re.lastIndex -= 2;  // so can find another straight after
                 if (boldLine()) {
@@ -530,11 +505,7 @@ $(function () {
             // match an upper case letter or digits or *
             var result;
             var re = /\[(\*|[A-Za-z]|\d+)\]/g;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 if (result[1] === "*") {    // found [*]
                     reportIssue(result.index, 3, "starAnchor");
                     continue;
@@ -547,11 +518,7 @@ $(function () {
             function match(fNote) {
                 return fNote.id === noteLine;
             }
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 noteLine = result[1];
                 // find text up to :
                 i = noteLine.indexOf(":");
@@ -598,11 +565,7 @@ $(function () {
                 var nestLevel = 0;
                 var re = /\[|\]/g;  // [ or ]
                 re.lastIndex = index;
-                while (true) {
-                    result = re.exec(txt);
-                    if (null === result) {
-                        return 0;
-                    }
+                while ((result = re.exec(txt)) !== null) {
                     if ("[" === result[0]) {
                         nestLevel += 1;
                     } else { // must be ]
@@ -612,6 +575,7 @@ $(function () {
                         nestLevel -= 1;
                     }
                 }
+                return 0;
             }
 
             // check for chars before tag or on previous line
@@ -646,11 +610,7 @@ $(function () {
 
             var result, start, len, end, end1;
             var re = /\*?\[(Footnote)/g;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 start = result.index;
                 len = result[0].length;
                 end = start + len;
@@ -670,11 +630,7 @@ $(function () {
                 }
             }
             re = /\*?\[(Illustration)/g;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 start = result.index;
                 len = result[0].length;
                 end = start + len;
@@ -690,11 +646,7 @@ $(function () {
                 }
             }
             re = /\*?\[(Sidenote)/g;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 start = result.index;
                 len = result[0].length;
                 end = start + len;
@@ -710,11 +662,7 @@ $(function () {
                 }
             }
             re = /<tb>/g;
-            while (true) {
-                result = re.exec(txt);
-                if (null === result) {
-                    break;
-                }
+            while ((result = re.exec(txt)) !== null) {
                 start = result.index;
                 len = result[0].length;
                 chkBefore(start, len, true);
