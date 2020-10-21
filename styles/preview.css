@@ -47,6 +47,10 @@
     text-align: left;
 }
 
+#color_test {
+    padding: 0.15em;
+}
+
 /* in-line styles */ 
 .i {
     font-style: italic;
