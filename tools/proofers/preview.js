@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
@@ -770,21 +769,21 @@ $(function () {
 
         function makeColourStyle(s) {
             var style = styler[s];
-            var have_style = false;
+            var haveStyle = false;
             var str = "";
             // style issues always even if coloring turned off
             if (!styler.color && (s !== "err") && (s !== "hlt")) {
                 return str;
             }
             if (style.fg !== "") {
-                have_style = true;
+                haveStyle = true;
                 str = 'color:' + style.fg + ';';
             }
             if (style.bg !== "") {
-                have_style = true;
+                haveStyle = true;
                 str += ('background-color:' + style.bg + ';');
             }
-            if (have_style) {
+            if (haveStyle) {
                 str = ' style="' + str + '"';
             }
             return str;
@@ -846,7 +845,7 @@ $(function () {
             var sc2 = "&lt;/sc&gt;";
             var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
             // a user note or string of small capitals
-            var sc_re = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
+            var smallCapRegex = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
             var noNote;
 
             function transformSC(match, p1) { // if all upper case transform to lower
@@ -905,7 +904,7 @@ $(function () {
             // the way html treats small cap text is different to the dp convention
             // so if sc-marked text is all upper-case transform to lower
             if (viewMode !== "flat") {
-                txt = txt.replace(sc_re, transformSC);
+                txt = txt.replace(smallCapRegex, transformSC);
             }
             // find user note or inline tag
             var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
