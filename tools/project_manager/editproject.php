@@ -751,11 +751,11 @@ class ProjectInfoHolder
 
             // Insert a new row into the projects table
             $pid_setter = sprintf(
-                "projectid = '%s'",
+                "projectid = '%s',",
                 DPDatabase::escape($this->projectid)
             );
             $state_setter = sprintf(
-                "state = '%s'",
+                "state = '%s',",
                 DPDatabase::escape(PROJ_NEW)
             );
             $sql = "
