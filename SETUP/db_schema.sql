@@ -552,7 +552,7 @@ CREATE TABLE `tasks` (
   `edited_by` mediumint(9) NOT NULL default '0',
   `percent_complete` tinyint(3) NOT NULL default '0',
   `related_postings` mediumtext NOT NULL,
-  KEY `task_id` (`task_id`)
+  PRIMARY KEY (`task_id`)
 );
 # --------------------------------------------------------
 

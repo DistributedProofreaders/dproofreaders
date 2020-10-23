@@ -642,8 +642,7 @@ function handle_action_on_a_specified_task()
 
     // Fetch the state of the specified task
     // before any requested changes.
-    $result = wrapped_mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-    $pre_task = mysqli_fetch_object($result);
+    $pre_task = load_task($task_id, FALSE);
     if (!$pre_task)
     {
         ShowError(sprintf(_("Task #%d was not found."), $task_id));
@@ -827,11 +826,9 @@ function handle_action_on_a_specified_task()
         $vote_os       = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
         $vote_browser  = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
 
-        // Do not insert twice the same vote if the user refreshes the browser
-        $meTooCheck = wrapped_mysql_query("
-            SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
-        ");
-        if (mysqli_num_rows($meTooCheck) == 0)
+        // Do not insert two votes for the same user
+        $meTooCount = get_me_too_count($task_id, $requester_u_id);
+        if ($meTooCount == 0)
         {
             wrapped_mysql_query("
                 INSERT INTO tasks_votes 
@@ -839,7 +836,6 @@ function handle_action_on_a_specified_task()
                 VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
             ");
         }
-        mysqli_free_result($meTooCheck);
 
         // Redirect back to show task page to clear POST data
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
@@ -864,7 +860,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 
     $adding               = ($action == 'add');
     $pre_task_id          = $pre_task->task_id;
-    $related_task_exists  = mysqli_num_rows(wrapped_mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
+    $related_task_exists  = load_task($related_task_id) != NULL;
     $task_already_present = in_array($related_task_id, load_related_tasks($pre_task_id));
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
@@ -1212,106 +1208,127 @@ function property_echo_select_tr($property_id, $current_value, $options)
     echo "</td></tr>\n";
 }
 
+function load_task($tid, $is_assoc=TRUE)
+{
+    $sql = sprintf("
+        SELECT *
+        FROM tasks
+        WHERE task_id = %d",
+        $tid
+    );
+    $result = DPDatabase::query($sql);
+    if($is_assoc)
+    {
+        $task = mysqli_fetch_assoc($result);
+    }
+    else
+    {
+        $task = mysqli_fetch_object($result);
+    }
+    mysqli_free_result($result);
+    return $task;
+}
+
 function TaskDetails($tid)
 {
     global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
     global $pguser;
 
-    $res = wrapped_mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
-    if (mysqli_num_rows($res) >= 1) {
-        while ($row = mysqli_fetch_assoc($res)) {
-            $userSettings =& Settings::get_Settings($pguser);
-            $notification_settings = $userSettings->get_values('taskctr_notice');
-            if(in_array($tid, $notification_settings) ||
-                in_array('all', $notification_settings))
-            {
-                $already_notified = 1;
-            }
-            else
-            {
-                $already_notified = 0;
-            }
+    $task = load_task($tid);
 
-            // floating right-aligned div for task edit/re-open
-            echo "<div style='float: right; padding-top: 1em;'>";
-            echo "<form method='get' style='display: inline;'>\n";
-            echo "<input type='hidden' name='task_id' value='$tid'>\n";
-            if (empty($already_notified))
-            {
-                echo "<input type='hidden' name='action' value='notify_me'>\n";
-                echo "<input type='submit' value='" . attr_safe(_("Sign up for task notifications")) . "'>\n";
-            }
-            else
-            {
-                echo "<input type='hidden' name='action' value='unnotify_me'>\n";
-                echo "<input type='submit' value='" . attr_safe(_("Remove me from task notifications")) . "'>\n";
-            }
-            echo "</form>";
-
-            echo "<form action='$tasks_url' method='post' style='display: inline;'>\n";
-            if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='action' value='show_editing_form'>\n";
-                echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='" . attr_safe(_("Edit Task")) . "'>\n";
-            }
-            elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='action' value='reopen'>\n";
-                echo "<input type='hidden' name='task_id' value='$tid'>\n";
-                echo "<input type='submit' value='" . attr_safe(_("Re-Open Task")) . "'>\n";
-            }
-            echo "</form>";
-            echo "</div>";
-
-            echo "<h1 style='margin-top: 0;'>";
-            echo "#$tid: " . property_format_value('task_summary', $row, FALSE);
-            echo "</h1>";
-
-            echo "<div style='float: left; width: 49.9%;'>";
-            echo "<table class='task-detail-block'>\n";
-            property_echo_value_tr('task_severity',    $row);
-            property_echo_value_tr('task_priority',    $row);
-            property_echo_value_tr('task_category',    $row);
-            property_echo_value_tr('task_os',          $row);
-            property_echo_value_tr('additional_os',    $row, False);
-            property_echo_value_tr('task_browser',     $row);
-            property_echo_value_tr('additional_browser',$row, False);
-            property_echo_value_tr('task_version',     $row);
-            property_echo_value_tr('votes'       ,     $row, False);
-            echo "</table>";
-            echo "</div>";
-            echo "<div style='float: right; width: 49.9%;'>";
-            echo "<table class='task-detail-block'>\n";
-            property_echo_value_tr('task_type',        $row);
-            property_echo_value_tr('opened_composite', $row);
-            property_echo_value_tr('edited_composite', $row);
-            property_echo_value_tr('task_status',      $row);
-            property_echo_value_tr('closed_composite', $row, False);
-            property_echo_value_tr('closed_reason',    $row, False);
-            property_echo_value_tr('maybe_close_button', $row, False);
-            property_echo_value_tr('task_assignee',    $row);
-            property_echo_value_tr('percent_complete', $row);
-            echo "</table>";
-            echo "</div>";
-
-            echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
-            echo "<p>";
-            echo property_format_value('task_details', $row, FALSE);
-            echo "</p>";
-
-            if(!$row['closed_reason'])
-            {
-                MeToo($tid, $row['task_os'], $row['task_browser']);
-            }
-
-            TaskComments($tid);
-            RelatedTasks($tid);
-            RelatedPostings($tid);
-        }
-    }
-    else {
+    if(!$task)
+    {
         ShowError(sprintf(_("Task #%d was not found.", $tid)));
+        return;
     }
+
+    $userSettings =& Settings::get_Settings($pguser);
+    $notification_settings = $userSettings->get_values('taskctr_notice');
+    if(in_array($tid, $notification_settings) ||
+        in_array('all', $notification_settings))
+    {
+        $already_notified = 1;
+    }
+    else
+    {
+        $already_notified = 0;
+    }
+
+    // floating right-aligned div for task edit/re-open
+    echo "<div style='float: right; padding-top: 1em;'>";
+    echo "<form method='get' style='display: inline;'>\n";
+    echo "<input type='hidden' name='task_id' value='$tid'>\n";
+    if (empty($already_notified))
+    {
+        echo "<input type='hidden' name='action' value='notify_me'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Sign up for task notifications")) . "'>\n";
+    }
+    else
+    {
+        echo "<input type='hidden' name='action' value='unnotify_me'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Remove me from task notifications")) . "'>\n";
+    }
+    echo "</form>";
+
+    echo "<form action='$tasks_url' method='post' style='display: inline;'>\n";
+    if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $task['opened_by'] == $requester_u_id) && empty($task['closed_reason'])) {
+        echo "<input type='hidden' name='action' value='show_editing_form'>\n";
+        echo "<input type='hidden' name='task_id' value='$tid'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Edit Task")) . "'>\n";
+    }
+    elseif (!empty($task['closed_reason'])) {
+        echo "<input type='hidden' name='action' value='reopen'>\n";
+        echo "<input type='hidden' name='task_id' value='$tid'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Re-Open Task")) . "'>\n";
+    }
+    echo "</form>";
+    echo "</div>";
+
+    echo "<h1 style='margin-top: 0;'>";
+    echo "#$tid: " . property_format_value('task_summary', $task, FALSE);
+    echo "</h1>";
+
+    echo "<div style='float: left; width: 49.9%;'>";
+    echo "<table class='task-detail-block'>\n";
+    property_echo_value_tr('task_severity',    $task);
+    property_echo_value_tr('task_priority',    $task);
+    property_echo_value_tr('task_category',    $task);
+    property_echo_value_tr('task_os',          $task);
+    property_echo_value_tr('additional_os',    $task, False);
+    property_echo_value_tr('task_browser',     $task);
+    property_echo_value_tr('additional_browser',$task, False);
+    property_echo_value_tr('task_version',     $task);
+    property_echo_value_tr('votes'       ,     $task, False);
+    echo "</table>";
+    echo "</div>";
+    echo "<div style='float: right; width: 49.9%;'>";
+    echo "<table class='task-detail-block'>\n";
+    property_echo_value_tr('task_type',        $task);
+    property_echo_value_tr('opened_composite', $task);
+    property_echo_value_tr('edited_composite', $task);
+    property_echo_value_tr('task_status',      $task);
+    property_echo_value_tr('closed_composite', $task, False);
+    property_echo_value_tr('closed_reason',    $task, False);
+    property_echo_value_tr('maybe_close_button', $task, False);
+    property_echo_value_tr('task_assignee',    $task);
+    property_echo_value_tr('percent_complete', $task);
+    echo "</table>";
+    echo "</div>";
+
+    echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
+    echo "<p>";
+    echo property_format_value('task_details', $task, FALSE);
+    echo "</p>";
+
+    if(!$task['closed_reason'])
+    {
+        MeToo($tid, $task['task_os'], $task['task_browser']);
+    }
+
+    TaskComments($tid);
+    RelatedTasks($tid);
+    RelatedPostings($tid);
 }
 
 function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
@@ -1329,17 +1346,27 @@ function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
     echo "\n";
 }
 
+function get_me_too_count($task_id, $requester_u_id)
+{
+    $sql = sprintf("
+        SELECT count(*)
+        FROM tasks_votes
+        WHERE task_id = %d AND u_id = %d",
+        $task_id,
+        $requester_u_id
+    );
+    $result = DPDatabase::query($sql);
+    list($meTooCheck) = mysqli_fetch_row($result);
+    return $meTooCheck;
+}
+
 function MeToo($tid, $os, $browser)
 {
     global $tasks_url, $browser_array, $os_array;
     global $requester_u_id;
-    $meTooCheckResult = wrapped_mysql_query("
-        SELECT id
-        FROM tasks_votes
-        WHERE task_id = $tid and u_id = $requester_u_id
-    ");
-    $meTooAllowed = (mysqli_num_rows($meTooCheckResult) == 0);
-    mysqli_free_result($meTooCheckResult);
+
+    $meTooAllowed = get_me_too_count($tid, $requester_u_id) == 0;
+
     echo "<div id='MeTooButton'>";
     if ($meTooAllowed) {
         echo "<input type='button' value='" . attr_safe(_("Me Too!")) . "' onClick=\"showSpan('MeTooMain'); hideSpan('MeTooButton');\">";
@@ -1419,11 +1446,10 @@ function NotificationMail($tid, $message, $new_task = false)
 {
     global $site_abbreviation, $code_url, $tasks_url, $pguser, $site_name;
 
-    $result = wrapped_mysql_query("SELECT task_summary, task_details FROM tasks WHERE task_id = $tid LIMIT 1");
-    if(!$result)
+    $task = load_task($tid);
+    if(!$task)
         return;
-    $row = mysqli_fetch_assoc($result);
-    $task_summary = $row['task_summary'];
+    $task_summary = $task['task_summary'];
 
     $subject = "$site_abbreviation Task #$tid: $task_summary";
     $footer  = "\n\n$tasks_url?task_id=$tid";
@@ -1434,7 +1460,7 @@ function NotificationMail($tid, $message, $new_task = false)
         $body =
             "You have requested notification of new tasks.\n\n"
             . "Task #$tid: '$task_summary' was created by $pguser.\n\n"
-            . $row['task_details'] . "\n"
+            . $task['task_details'] . "\n"
             . $footer;
     }
     else
@@ -1471,16 +1497,13 @@ function RelatedTasks($tid)
     $related_tasks = load_related_tasks($tid);
     foreach($related_tasks as $val)
     {
-        $result = wrapped_mysql_query("
-            SELECT task_status, task_summary FROM tasks WHERE task_id = $val
-        ") or die(DPDatabase::log_error());
-        $row = mysqli_fetch_assoc($result);
-        $related_task_summary = html_safe($row["task_summary"]);
-        $related_task_status  = $tasks_status_array[$row["task_status"]];
+        $task = load_task($val);
+        $related_task_summary = html_safe($task["task_summary"]);
+        $related_task_status  = $tasks_status_array[$task["task_status"]];
 
         echo "<tr><td>";
         echo "<a href='$tasks_url?action=show&task_id=$val'>" . sprintf(_("Task #%d"), $val) . "</a> ($related_task_status) - $related_task_summary";
-        if ($row) {
+        if ($task) {
             echo " ";
             echo "<form action='$tasks_url' method='post' style='display: inline'>";
             echo "<input type='hidden' name='action' value='remove_related_task'>";
@@ -1565,9 +1588,8 @@ function remove_related_task($task1, $task2)
 function RelatedPostings($tid)
 {
     global $tasks_url;
-    $result = wrapped_mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
-    $row = mysqli_fetch_assoc($result);
-    $related_postings = $row["related_postings"];
+    $task = load_task($tid);
+    $related_postings = $task["related_postings"];
     echo "<h2>" . _("Related Topics") . "</h2>";
     echo "<form action='$tasks_url' method='post' style='padding-bottom: 0.5em;'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
