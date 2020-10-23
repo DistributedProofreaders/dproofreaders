@@ -56,9 +56,9 @@ else if (isset($_POST['mkMake']))
         $teamimages = uploadImages(1, "", "both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if($teamname == "")
-            echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
+            echo "<p class='center-align error'>" . _("The team name must not be empty.") . "</p>";
         else
-            echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+            echo "<p class='center-align error'>" . _("The team name must be unique. Please make any changes and resubmit.") . "</p>";
 
         showEdit($teamname, $text_data, $teamwebpage, 1, 0);
         echo "<br></div><br>";
