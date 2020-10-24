@@ -16,6 +16,7 @@ include_once($relPath.'unicode.inc');
 
 function project_allow_pages( $projectid )
 {
+    validate_projectID($projectid);
     $columns_for_rounds = "";
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
@@ -37,7 +38,7 @@ function project_allow_pages( $projectid )
     //     $engine = "ENGINE=InnoDB ROW_FORMAT=COMPRESSED";
     $engine = "ENGINE=MyISAM";
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         CREATE TABLE $projectid
         (
             fileid        varchar(20) NOT NULL default '', UNIQUE (fileid),
@@ -55,7 +56,8 @@ function project_allow_pages( $projectid )
                 'appendix', 'afterword', 'biblio', 'colophon', 'endnote', 'epilogue', 'index'
                 ) NOT NULL default ''
         ) $engine
-    ");
+    ";
+    $res = DPDatabase::query($sql, FALSE);
     return ( $res ? '' : DPDatabase::log_error() );
 }
 
@@ -63,16 +65,18 @@ function project_allow_pages( $projectid )
 
 function project_drop_pages( $projectid )
 {
-    $result = mysqli_query(DPDatabase::get_connection(), "DROP TABLE $projectid");
+    validate_projectID($projectid);
+    $result = DPDatabase::query("DROP TABLE $projectid");
 
-    _project_adjust_n_pages( $projectid, 'NONE' );
-    _project_adjust_n_available_pages( $projectid, 'NONE' );
+    _project_adjust_n_pages($projectid, 'NONE');
+    _project_adjust_n_available_pages($projectid, 'NONE');
 }
 
 // -----------------------------------------------------------------------------
 
 function Pages_prepForRound( $projectid, $round_number )
 {
+    validate_projectID($projectid);
     $round = get_Round_for_round_number($round_number);
 
     {
@@ -86,15 +90,18 @@ function Pages_prepForRound( $projectid, $round_number )
         // how project_add_page() sets page-states.
 
         $timestamp = time();
-
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $setters = join(", ", [
+            set_col_str("state", $round->page_avail_state),
+            set_col_num($round->time_column_name, $timestamp)
+        ]);
+        $sql = "
             UPDATE $projectid
             SET
-                state = '{$round->page_avail_state}',
-                {$round->time_column_name} = $timestamp
-        ");
-    
-        _project_adjust_n_available_pages( $projectid, 'ALL' );
+                $setters
+        ";
+        $result = DPDatabase::query($sql);
+
+        _project_adjust_n_available_pages($projectid, 'ALL');
     }
 }
 
@@ -108,6 +115,7 @@ function project_add_page(
     $user,
     $now )
 {
+    validate_projectID($projectid);
     $txt_expr = file_content_expr( $txt_file_path, $projectid );
 
     $round = get_Round_for_round_number(1);
@@ -115,27 +123,29 @@ function project_add_page(
 
     $errs = '';
 
-    $columns_for_rounds = "";
+    $columns_for_rounds = [];
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
         $round = get_Round_for_round_number($rn);
-        $columns_for_rounds .= "
-            {$round->text_column_name} = '',
-        ";
+        $columns_for_rounds[] = "{$round->text_column_name} = ''";
     }
-
+    $columns_for_rounds = join(", ", $columns_for_rounds);
+    $setters = join(", ", [
+        set_col_str("fileid", $fileid),
+        set_col_str("image", $image_file_name),
+        set_col_num("round1_time", $now),
+        set_col_str("state", $page_state)
+    ]);
     $sql = "
         INSERT INTO $projectid
         SET
-            fileid      = '$fileid',
-            image       = '$image_file_name',
+            $setters,
             master_text = $txt_expr,
             $columns_for_rounds
-            round1_time = $now,
-            state       = '$page_state'
-    ";
+            ";
+
     // echo $sql, "\n";
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
+    $res = DPDatabase::query($sql, FALSE);
     if (!$res)
     {
         $errs .= DPDatabase::log_error();
@@ -146,8 +156,8 @@ function project_add_page(
 
     _log_page_event( $projectid, $image_file_name, 'add', $user, NULL );
 
-    _project_adjust_n_pages( $projectid, +1 );
-    _project_adjust_n_available_pages( $projectid, +1 );
+    _project_adjust_n_pages($projectid, +1);
+    _project_adjust_n_available_pages($projectid, +1);
 
     return $errs;
 }
@@ -190,22 +200,30 @@ function file_content_expr( $file_path, $projectid )
         {
             return 'NULL';
         }
-        return sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $txt));
+        return sprintf("'%s'", DPDatabase::escape($txt));
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_delete( $projectid, $image, $user )
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    validate_projectID($projectid);
+
+    $where_image = sprintf("WHERE image = '%s'", DPDatabase::escape($image));
+    $sql = "
         SELECT COUNT(*)
         FROM $projectid
-        WHERE image = '$image' AND state LIKE '%avail%'
-    ");
+        $where_image AND state LIKE '%avail%'
+    ";
+    $res = DPDatabase::query($sql);
     list($page_was_available) = mysqli_fetch_row($res); // either 0 or 1
 
-    $sql = "DELETE FROM $projectid WHERE image = '$image'";
-    mysqli_query(DPDatabase::get_connection(), $sql);
+    $sql = "
+        DELETE
+        FROM $projectid
+        $where_image
+    ";
+    DPDatabase::query($sql);
 
     _log_page_event( $projectid, $image, 'delete', $user, NULL );
 
@@ -221,11 +239,10 @@ function Page_delete( $projectid, $image, $user )
 function Page_replaceImage( $projectid, $image, $new_image, $user )
 // e.g., replace 001.png with 001.jpg
 {
-    _Page_UPDATE( $projectid, $image, "
-        image='$new_image'
-    ");
+    $setter = set_col_str("image", $new_image);
+    _Page_UPDATE( $projectid, $image, $setter);
 
-    _log_page_event( $projectid, $image, 'replaceImage', $user, NULL ); // $new_image
+    _log_page_event($projectid, $image, 'replaceImage', $user, NULL); // $new_image
 }
 
 // -----------------------------------------------------------------------------
@@ -233,11 +250,10 @@ function Page_replaceImage( $projectid, $image, $new_image, $user )
 function Page_replaceText( $projectid, $image, $text_file_path, $user )
 {
     $text_file_content_expr = file_content_expr( $text_file_path, $projectid );
-    _Page_UPDATE( $projectid, $image, "
-        master_text=$text_file_content_expr
-    ");
+    $setter = "master_text=$text_file_content_expr";
+    _Page_UPDATE($projectid, $image, $setter);
 
-    _log_page_event( $projectid, $image, 'replaceText', $user, NULL );
+    _log_page_event($projectid, $image, 'replaceText', $user, NULL);
 }
 
 // -----------------------------------------------------------------------------
@@ -245,13 +261,11 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
 function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
     $page_text = _normalize_page_text($page_text, $projectid);
-    _Page_UPDATE( $projectid, $image, sprintf("
-        $text_column='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
-
+    $setter = set_col_str($text_column, $page_text);
+    _Page_UPDATE( $projectid, $image, $setter);
     $round = get_Round_for_text_column_name($text_column);
 
-    _log_page_event( $projectid, $image, 'modifyText', $user, $round );
+    _log_page_event($projectid, $image, 'modifyText', $user, $round);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -264,14 +278,14 @@ function Page_checkout( $projectid, $image, $round, $user )
         'checkout' );
 
     $timestamp = time();
+    $setters = join(", ", [
+        set_col_str("state", $round->page_out_state),
+        set_col_num($round->time_column_name, $timestamp),
+        set_col_str($round->user_column_name, $user)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_out_state}',
-        {$round->time_column_name}=$timestamp,
-        {$round->user_column_name}='$user'
-    " );
-
-    _log_page_event( $projectid, $image, 'checkout', $user, $round );
+    _log_page_event($projectid, $image, 'checkout', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, -1 );
 
@@ -290,15 +304,16 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
     $timestamp = time();
 
     $page_text = _normalize_page_text($page_text, $projectid);
-    _Page_UPDATE( $projectid, $image, sprintf("
-        state='{$round->page_temp_state}',
-        {$round->time_column_name}=$timestamp,
-        {$round->user_column_name}='$user',
-        {$round->text_column_name}='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
+    $setters = join(", ", [
+        set_col_str("state", $round->page_temp_state),
+        set_col_num($round->time_column_name, $timestamp),
+        set_col_str($round->user_column_name, $user),
+        set_col_str($round->text_column_name, $page_text)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round );
-    upi_set_t_latest_page_event( $user, $projectid, 'UNIX_TIMESTAMP()' );
+    _log_page_event($projectid, $image, 'saveAsInProgress', $user, $round);
+    upi_set_t_latest_page_event($user, $projectid, 'UNIX_TIMESTAMP()');
 
     return $round->page_temp_state;
 }
@@ -315,15 +330,16 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
     $timestamp = time();
 
     $page_text = _normalize_page_text($page_text, $projectid);
-    _Page_UPDATE( $projectid, $image, sprintf("
-        state='{$round->page_save_state}',
-        {$round->time_column_name}=$timestamp,
-        {$round->user_column_name}='$user',
-        {$round->text_column_name}='%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $page_text)));
+    $setters = join(", ", [
+        set_col_str("state", $round->page_save_state),
+        set_col_num($round->time_column_name, $timestamp),
+        set_col_str($round->user_column_name, $user),
+        set_col_str($round->text_column_name, $page_text)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _log_page_event( $projectid, $image, 'saveAsDone', $user, $round );
-    upi_set_t_latest_page_event( $user, $projectid, 'UNIX_TIMESTAMP()' );
+    _log_page_event($projectid, $image, 'saveAsDone', $user, $round);
+    upi_set_t_latest_page_event($user, $projectid, 'UNIX_TIMESTAMP()');
 
     _project_set_t_last_page_done( $projectid, $timestamp );
 
@@ -340,14 +356,14 @@ function Page_reopen( $projectid, $image, $round, $user )
         'reopen' );
 
     $timestamp = time();
+    $setters = join(", ", [
+        set_col_str("state", $round->page_temp_state),
+        set_col_num($round->time_column_name, $timestamp),
+        set_col_str($round->user_column_name, $user)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_temp_state}',
-        {$round->time_column_name}=$timestamp,
-        {$round->user_column_name}='$user'
-    " );
-
-    _log_page_event( $projectid, $image, 'reopen', $user, $round );
+    _log_page_event($projectid, $image, 'reopen', $user, $round);
 
     return $round->page_temp_state;
 }
@@ -362,16 +378,16 @@ function Page_returnToRound( $projectid, $image, $round, $user )
         'returnToRound' );
 
     $timestamp = time();
+    $setters = join(", ", [
+        set_col_str("state", $round->page_avail_state),
+        set_col_num($round->time_column_name, $timestamp),
+        set_col_str($round->user_column_name, $user)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_avail_state}',
-        {$round->time_column_name}=$timestamp,
-        {$round->user_column_name}='$user'
-    " );
+    _log_page_event($projectid, $image, 'returnToRound', $user, $round);
 
-    _log_page_event( $projectid, $image, 'returnToRound', $user, $round );
-
-    _project_adjust_n_available_pages( $projectid, +1 );
+    _project_adjust_n_available_pages($projectid, +1);
 
     return $round->page_avail_state;
 }
@@ -385,10 +401,11 @@ function Page_reclaim( $projectid, $image, $round, $user )
         NULL, NULL,
         'reclaim' );
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_avail_state}',
-        {$round->time_column_name}=0
-    " );
+    $setters = join(", ", [
+        set_col_str("state", $round->page_avail_state),
+        set_col_num($round->time_column_name, 0)
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
     _log_page_event( $projectid, $image, 'reclaim', $user, $round );
 
@@ -404,14 +421,16 @@ function Page_clearRound( $projectid, $image, $round, $user )
         NULL, NULL,
         'clearRound' );
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_avail_state}',
-        {$round->time_column_name}=0,
-        {$round->user_column_name}='',
-        {$round->text_column_name}=''
-    ");
+    $setters = join(", ", [
+        set_col_str("state", $round->page_avail_state),
+        set_col_num($round->time_column_name, 0),
+        set_col_str($round->user_column_name, ""),
+        set_col_str($round->text_column_name, "")
+    ]);
 
-    _log_page_event( $projectid, $image, 'clearRound', $user, $round );
+    _Page_UPDATE($projectid, $image, $setters);
+
+    _log_page_event($projectid, $image, 'clearRound', $user, $round);
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -434,14 +453,15 @@ function Page_markAsBad( $projectid, $image, $round, $user, $reason )
         $round->user_column_name, $user,
         'markAsBad' );
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_bad_state}',
-        b_user='$user',
-        b_code=$reason,
-        {$round->text_column_name}={$round->prevtext_column_name}
-    " );
+    $setters = join(", ", [
+        set_col_str("state", $round->page_bad_state),
+        set_col_str("b_user", $user),
+        set_col_num("b_code", $reason),
+        "{$round->text_column_name}={$round->prevtext_column_name}"
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _log_page_event( $projectid, $image, 'markAsBad', $user, $round );
+    _log_page_event($projectid, $image, 'markAsBad', $user, $round);
 }
 
 // -----------------------------------------------------------------------------
@@ -453,16 +473,17 @@ function Page_eraseBadMark( $projectid, $image, $round, $user )
         NULL, NULL,
         'eraseBadMark' );
 
-    _Page_UPDATE( $projectid, $image, "
-        state='{$round->page_avail_state}',
-        b_user='',
-        b_code=0,
-        {$round->user_column_name}=''
-    " );
+    $setters = join(", ", [
+        set_col_str("state", $round->page_avail_state),
+        set_col_str("b_user", ""),
+        set_col_num("b_code", 0),
+        set_col_str($round->user_column_name, "")
+    ]);
+    _Page_UPDATE($projectid, $image, $setters);
 
-    _log_page_event( $projectid, $image, 'eraseBadMark', $user, $round );
+    _log_page_event($projectid, $image, 'eraseBadMark', $user, $round);
 
-    _project_adjust_n_available_pages( $projectid, +1 );
+    _project_adjust_n_available_pages($projectid, +1);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -475,15 +496,15 @@ function _Page_require(
     $requesting_user,
     $op_name )
 {
+    validate_projectID($projectid);
     $user_item = ( is_null($allowed_user_colname) ? '0' : $allowed_user_colname );
-    $sql = "SELECT state, $user_item FROM $projectid WHERE image='$image'";
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
-    if ( !$res )
-    {
-        die(DPDatabase::log_error());
-    }
-
-    list( $curr_page_state, $curr_page_owner ) = mysqli_fetch_row($res);
+    $sql = "
+        SELECT state, $user_item
+        FROM $projectid
+        WHERE image='" . DPDatabase::escape($image) . "'
+    ";
+    $res = DPDatabase::query($sql);
+    list($curr_page_state, $curr_page_owner) = mysqli_fetch_row($res);
     if ( !in_array( $curr_page_state, $allowed_states ) )
     {
         $err = "\n"
@@ -501,7 +522,7 @@ function _Page_require(
         abort($err);
     }
 
-    if ( is_null($allowed_user_colname) )
+    if (is_null($allowed_user_colname))
     {
         // The operation can be done by anyone,
         // as far as this level is concerned.
@@ -511,7 +532,7 @@ function _Page_require(
     {
         // The operation can only be done by the person who currently
         // "owns" the page.
-        if ( $requesting_user != $curr_page_owner )
+        if ($requesting_user != $curr_page_owner)
         {
             $err = "\n"
                 . "    "
@@ -524,14 +545,39 @@ function _Page_require(
     }
 }
 
+/**
+ * Return a SQL "colname='value'" clause, where `$colname` is
+ * not escaped, and `$s` is an escaped and quoted string.
+ */
+function set_col_str($colname, $s)
+{
+    return sprintf("%s='%s'", $colname, DPDatabase::escape($s));
+}
+
+/**
+ * Return a SQL "colname=value" clause, where `$colname` is
+ * not escaped, and `$i` is treated as an integer.
+ *
+ * If `$i` is non-numeric, an `InvalidArgumentException` is thrown.
+ */
+function set_col_num($colname, $i)
+{
+    if (!is_numeric($i))
+    {
+        throw new InvalidArgumentException("$i is not a number");
+    }
+    return sprintf("%s=%d", $colname, $i);
+}
+
 function _Page_UPDATE( $projectid, $image, $settings )
 {
-    $sql = "UPDATE $projectid SET $settings WHERE image='$image'";
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
-    if ( !$res )
-    {
-        die(DPDatabase::log_error());
-    }
+    validate_projectID($projectid);
+    $sql = "
+        UPDATE $projectid
+        SET $settings
+        WHERE image='" . DPDatabase::escape($image) . "'
+    ";
+    DPDatabase::query($sql);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -721,29 +767,48 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round )
 {
     assert( strlen($event_type) <= 16 );
 
-    $round_id_setting = ( is_null($round) ? 'NULL' : "'$round->id'" );
+    if (is_null($round))
+    {
+        $round_id_setting = 'NULL';
+    }
+    else
+    {
+        $round_id_setting = "'" . DPDatabase::escape($round->id) . "'";
+    };
 
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         INSERT INTO page_events
         SET
             timestamp    = UNIX_TIMESTAMP(),
-            projectid    = '$projectid',
-            image        = '$image',
-            event_type   = '$event_type',
-            username     = '$username',
-            round_id     = $round_id_setting
-    ") or die(DPDatabase::log_error());
+            projectid    = '%s',
+            image        = '%s',
+            event_type   = '%s',
+            username     = '%s',
+            round_id     = %s
+    ",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($image),
+        DPDatabase::escape($event_type),
+        DPDatabase::escape($username),
+        $round_id_setting
+    );
+    DPDatabase::query($sql);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function _project_set_t_last_page_done( $projectid, $timestamp )
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         UPDATE projects
-        SET t_last_page_done = $timestamp
-        WHERE projectid = '$projectid'
-    ") or die(DPDatabase::log_error());
+        SET t_last_page_done = %d
+        WHERE projectid = '%s'
+    ",
+        $timestamp,
+        DPDatabase::escape($projectid)
+    );
+    DPDatabase::query($sql);
+
 }
 
 function _project_adjust_n_pages( $projectid, $adjustment )
@@ -757,11 +822,15 @@ function _project_adjust_n_pages( $projectid, $adjustment )
         $expr = "n_pages + $adjustment";
     }
 
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         UPDATE projects
-        SET n_pages = $expr
-        WHERE projectid='$projectid'
-    ") or die(DPDatabase::log_error());
+        SET n_pages = %s
+        WHERE projectid='%s'
+    ",
+        $expr,
+        DPDatabase::escape($projectid)
+    );
+    DPDatabase::query($sql);
 }
 
 function _project_adjust_n_available_pages( $projectid, $adjustment )
@@ -792,20 +861,26 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
         }
     }
 
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         UPDATE projects
-        SET n_available_pages = $expr
-        WHERE projectid='$projectid'
-    ") or die(DPDatabase::log_error());
+        SET n_available_pages = %d
+        WHERE projectid = '%s'
+    ",
+        $expr,
+        DPDatabase::escape($projectid)
+    );
+    DPDatabase::query($sql);
 }
 
 function project_recalculate_page_counts( $projectid )
 // Calculate the project's n_pages and n_available_pages from scratch.
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    validate_projectID($projectid);
+    $sql = "
         SELECT COUNT(*), SUM(state LIKE '%.page_avail')
         FROM $projectid
-    ");
+    ";
+    $res = DPDatabase::query($sql);
 
     if ( $res === FALSE )
     {
@@ -827,11 +902,12 @@ function project_recalculate_page_counts( $projectid )
         $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages";
     }
 
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         UPDATE projects
         SET $settings
         WHERE projectid='$projectid'
-    ") or die(DPDatabase::log_error());
+    ";
+    DPDatabase::query($sql);
 }
 
 // vim: sw=4 ts=4 expandtab
