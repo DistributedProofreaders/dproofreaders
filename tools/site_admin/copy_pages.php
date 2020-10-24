@@ -241,10 +241,8 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             die("Project table $projectid is not UTF-8.");
         }
 
-        $res= mysqli_query(DPDatabase::get_connection(),
-            sprintf("DESCRIBE %s",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_[$which]))
-        ) or die(DPDatabase::log_error());
+        $sql = "DESCRIBE {$projectid_[$which]}";
+        $res = DPDatabase::query($sql);
 
         $column_names = array();
         while ( $row = mysqli_fetch_assoc($res) )
@@ -282,12 +280,11 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         // ----------------------
 
-        $res = mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = "
             SELECT image, fileid
-            FROM %s
-            ORDER BY image",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)
-        )) or die(DPDatabase::log_error());
+            FROM $projectid
+            ORDER BY image";
+        $res = DPDatabase::query($sql);
 
         $n_pages = mysqli_num_rows($res);
 
@@ -596,25 +593,32 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         echo html_safe("    $c_src_image ...\n");
 
         $items_list = str_replace(
-            array(      'image',       'fileid' ),
-            array("'$c_dst_image'","'$c_dst_fileid'"),
-            $items_list_template );
+            [
+                'image',
+                'fileid'
+            ],
+            [
+                sprintf("'%s'", DPDatabase::escape($c_dst_image)),
+                sprintf("'%s'", DPDatabase::escape($c_dst_fileid))
+            ],
+            $items_list_template);
 
+        $insert = "
+            INSERT INTO {$projectid_['to']}
+            SELECT $items_list
+            FROM {$projectid_['from']}
+        ";
         $query = sprintf("
-            INSERT INTO %s
-            SELECT %s
-            FROM %s
+            %s
             WHERE image = '%s'",
-            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['to']),
-            $items_list,
-            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from']),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $c_src_image)
+            $insert,
+            DPDatabase::escape($c_src_image)
         );
         // FIXME These are very long and should perhaps be suppressed, wrapped or made smaller.
         echo html_safe($query) . "\n";
         if ($for_real)
         {
-            mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+            DPDatabase::query($query);
             $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ( $n != 1 )
@@ -651,13 +655,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         foreach ( $subscribable_project_events as $event => $label )
         {
             $query = sprintf("
-                      SELECT username FROM user_project_info
-                      WHERE projectid = '%s' AND
-                            iste_$event = 1",
-                    mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from'])
+                SELECT username FROM user_project_info
+                WHERE projectid = '%s' AND
+                    iste_$event = 1",
+                $projectid_['from'] // validated input
             );
-            $res1 = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
-            while ( list($username) = mysqli_fetch_row($res1) )
+            $res1 = DPDatabase::query($query);
+            while (list($username) = mysqli_fetch_row($res1))
             {
                 set_user_project_event_subscription( $username, 
                                                      $projectid_['to'], 
@@ -674,13 +678,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
               UPDATE projects
               SET deletion_reason = 'merged into %s'
               WHERE projectid = '%s'",
-              mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['to']),
-              mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from'])
+              $projectid_['to'], // validated input
+              $projectid_['from'] // validated input
         );
         echo "<code>" . html_safe($query) . "</code>";
         if ($for_real)
         {
-            mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+            DPDatabase::query($query);
             $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
         }
