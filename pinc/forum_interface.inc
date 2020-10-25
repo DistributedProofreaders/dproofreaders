@@ -38,6 +38,15 @@ the amount of DP code included in those pages.
 
 assert(PHPBB_VERSION == 3, "Only phpBB version 3 is supported");
 
+
+/**
+* return a table name with the phpBB table prefix prepended to it
+*/
+function phpbb_table($table)
+{
+    return PHPBB_TABLE_PREFIX . "_" . $table;
+}
+
 function phpbb_lang($locale=FALSE)
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
@@ -52,17 +61,17 @@ function phpbb_lang($locale=FALSE)
         // We can only do so much, so try for an exact match in lowercase
         // first, fall back to just the two-letter language code, and then
         // just fall back to English (which phpBB comes with by default).
-        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
         $lang_attempts = array(strtolower($locale), substr($locale, 0, 2));
         foreach($lang_attempts as $lang)
         {
             $query = sprintf("
                 SELECT *
-                FROM ${phpbb_table_prefix}_lang
-                WHERE lang_iso='%s'
-                ", mysqli_real_escape_string(DPDatabase::get_connection(), $lang));
-            $res = mysqli_query(DPDatabase::get_connection(), $query) or
-                die(DPDatabase::log_error());
+                FROM %s
+                WHERE lang_iso='%s'",
+                phpbb_table("lang"),
+                DPDatabase::escape($lang)
+            );
+            $res = DPDatabase::query($query);
 
             if (mysqli_num_rows($res) == 1)
                 return $lang;
@@ -97,8 +106,6 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 // to evaluate the pass/fail status of this function.
 {
     global $forums_dir;
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     if(PHPBB_VERSION == 3) {
         // Use the phpBB3 API to create the user, but do so via phpbb3.inc
         // as to not mix the DP and phpBB3 codespace.
@@ -118,11 +125,14 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
         # if $password_is_digested we have to update the password in the DB directly
         if($password_is_digested) {
             $sql = sprintf("
-                UPDATE {$phpbb_table_prefix}_users
+                UPDATE %s
                 SET user_password='%s'
                 WHERE user_id=%d",
-                mysqli_real_escape_string(DPDatabase::get_connection(), $password), $user_id);
-            mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+                phpbb_table("users"),
+                DPDatabase::escape($password),
+                $user_id
+            );
+            DPDatabase::query($sql);
         }
 
         return TRUE;
@@ -269,8 +279,6 @@ function get_forum_user_details($username)
 // Returns an associative array. See $interested_columns for the keys.
 // If the user isn't found, the function returns NULL.
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     $interested_columns = array(
         "id",         # forum user id
         "username",   # forum username
@@ -305,13 +313,14 @@ function get_forum_user_details($username)
     );
 
     $return_data = array();
-
     $query = sprintf("
         SELECT *
-        FROM {$phpbb_table_prefix}_users
-        WHERE username='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        FROM %s
+        WHERE username='%s'",
+        phpbb_table("users"),
+        DPDatabase::escape($username)
+    );
+    $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
     if (!$row)
@@ -332,15 +341,16 @@ function get_forum_user_details($username)
         "aol" => "aim",
         "location" => "from",
     );
-
     $query = sprintf("
-        SELECT *
-        FROM {$phpbb_table_prefix}_profile_fields_data
-        WHERE user_id = %d
-        ", $row["user_id"]);
+        SELECT
+        FROM %s
+        WHERE user_id = %d",
+        phpbb_table("profile_fields_data"),
+        $row["user_id"]
+    );
 
     // This will fail on phpBB < 3.1, which is fine and expected
-    $res = mysqli_query(DPDatabase::get_connection(), $query);
+    $res = DPDatabase::query($query, FALSE);
     if($res && $row = mysqli_fetch_assoc($res))
     {
         foreach($row as $column => $value)
@@ -358,21 +368,20 @@ function get_forum_user_details($username)
 function get_forum_user_id($username)
 // Given a forum username, return the forum user ID.
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set 
     // of users over and over. Cache is local to this function.
     static $uidCache = array();
     // if it's in the cache, return it
     if(isset($uidCache[$username])) return $uidCache[$username];
-
     $query = sprintf("
         SELECT user_id
-        FROM {$phpbb_table_prefix}_users
-        WHERE username = '%s' 
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        FROM %s
+        WHERE username = '%s'",
+        phpbb_table("users"),
+        DPDatabase::escape($username)
+    );
+    $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -389,14 +398,14 @@ function get_forum_user_id($username)
 function get_forum_rank_title($rank)
 // Given a forum rank number, return the text title of that rank.
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     $query = sprintf("
         SELECT rank_title
-        FROM {$phpbb_table_prefix}_ranks
-        WHERE rank_id = %d
-        ",$rank);
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        FROM %s
+        WHERE rank_id = %d",
+        phpbb_table("ranks"),
+        $rank
+    );
+    $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -517,8 +526,6 @@ function get_url_for_inbox()
 function get_number_of_unread_messages($username)
 // Given a forum username, return the number of unread messages.
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     $forum_userid = get_forum_user_id($username);
 
     if($forum_userid == NULL)
@@ -526,14 +533,16 @@ function get_number_of_unread_messages($username)
 
     if(PHPBB_VERSION == 3) {
         # from: includes/functions_privmsgs.php:get_folder($user_id)
-        $query = "
+        $query = sprintf("
             SELECT SUM(pm_unread)
-            FROM ${phpbb_table_prefix}_privmsgs_to
-            WHERE user_id = $forum_userid
-            ";
+            FROM %s
+            WHERE user_id = %d",
+            phpbb_table("privmsgs_to"),
+            $forum_userid
+        );
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+    $res = DPDatabase::query($query);
 
     list($num_messages) = mysqli_fetch_row($res);
     mysqli_free_result($res);
@@ -547,14 +556,14 @@ function does_topic_exist($topic_id)
 //     FALSE - doesn't exist
 //     TRUE  - does exist
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    $query = "
+    $query = sprintf("
         SELECT 1
-        FROM {$phpbb_table_prefix}_topics
-        WHERE topic_id = $topic_id;
-        ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        FROM %s
+        WHERE topic_id = %d",
+        phpbb_table("topics"),
+        $topic_id
+    );
+    $res = DPDatabase::query($query);
 
     $exists = (mysqli_num_rows($res) > 0);
 
@@ -568,18 +577,17 @@ function get_last_post_time_in_topic($topic_id)
 // in UNIX time format (seconds since UNIX epoch).
 // If no topic is found, function returns NULL.
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     // Validate that $topic_id is an integer and if not, return NULL
     if(!is_numeric($topic_id))
         return NULL;
-
-    $query = "
+    $query = sprintf("
         SELECT MAX(post_time) as max_post_time
-        FROM {$phpbb_table_prefix}_posts
-        WHERE topic_id = $topic_id
-        ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        FROM %s
+        WHERE topic_id = %d",
+        phpbb_table("posts"),
+        $topic_id
+    );
+    $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
@@ -601,11 +609,9 @@ function get_topic_details($topic_id)
 {
     global $forums_dir;
 
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    $phpbb_topics = "${phpbb_table_prefix}_topics";
-    $phpbb_forums = "${phpbb_table_prefix}_forums";
-    $phpbb_users = "${phpbb_table_prefix}_users";
+    $phpbb_topics = phpbb_table("topics");
+    $phpbb_forums = phpbb_table("forums");
+    $phpbb_users = phpbb_table("users");
 
     // The database column used to get the total number of posts in a topic
     // changed between 3.0 and 3.1. We try to determine this automatically
@@ -634,9 +640,8 @@ function get_topic_details($topic_id)
         FROM $phpbb_topics
         INNER JOIN $phpbb_forums ON $phpbb_topics.forum_id = $phpbb_forums.forum_id
         INNER JOIN $phpbb_users ON $phpbb_topics.topic_poster = $phpbb_users.user_id
-        WHERE $phpbb_topics.topic_id = $topic_id
-        ";
-    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        WHERE $phpbb_topics.topic_id = " . sprintf("%d", $topic_id);
+    $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
