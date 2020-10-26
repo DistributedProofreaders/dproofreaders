@@ -858,10 +858,20 @@
   min-height: 10px;
 }
 /* ------------------------------------------------------------------------ */
+/* Common color definitions
+   Where a particular color family has multiple shades available, a
+   suffix indicates relative contrast as compared with the default
+   @page-background color. */
+/* Shades based on @page-background. Various contrast levels, commonly
+   used for table rows or other containers that should stand out from
+   the page background */
+/* Background colors with various meanings, some needing two different
+   contrast levels */
+/* ------------------------------------------------------------------------ */
 /* mixins with color */
 /* standalone classes that can be used as mixins, but that should not
  * be given parameters, as they can't be used as classes in the code
- * directly if they have parameters that the lessc compiler has to 
+ * directly if they have parameters that the lessc compiler has to
  * sort out
  */
 .default-border {
@@ -1131,8 +1141,8 @@ nav,
 #alertbar,
 #alertbar-outer {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: rgba(255, 255, 0, 0.4);
-  color: black;
+  background-color: #ffff66;
+  color: #000000;
 }
 #alertbar a:link,
 #alertbar-outer a:link,
@@ -1146,8 +1156,8 @@ nav,
 #testbar-outer {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #ffffff;
-  background: repeating-linear-gradient(to right, yellow, #ffffff 24%, #ffffff 75%, yellow 100%);
-  color: black;
+  background: repeating-linear-gradient(to right, #ffff66, #ffffff 24%, #ffffff 75%, #ffff66 100%);
+  color: #000000;
   border-bottom: thin solid black;
 }
 #testbar a:link,
@@ -1395,7 +1405,7 @@ table.newsedit td.items {
 /* Attention-getting structures */
 div.callout {
   border: thin solid black;
-  background-color: #EEE;
+  background-color: #eeeeee;
   margin-right: 2em;
   margin-left: 2em;
   padding: 1em;
@@ -1418,8 +1428,8 @@ div.calloutheader {
   color: blue;
 }
 .highlight {
-  background-color: yellow;
-  color: black;
+  background-color: #ffff66;
+  color: #000000;
 }
 kbd {
   font-family: DejaVu Sans Mono, monospace;
@@ -1631,9 +1641,11 @@ table.availprojectlisting tr td {
   border-bottom: thin solid #888;
 }
 table.availprojectlisting tr:nth-child(even) {
-  background-color: #ddd;
+  background-color: #dddddd;
 }
-/* Default stage colors, which can be overridden by the themes */
+/* Default stage colors, which can be overridden by the themes
+   Stage colors are independent of any of a theme's colors. Though
+   they may be overridden, color variable names are not used    */
 table.stage_P1 tr:nth-child(even) {
   background-color: #ffe4b5;
 }
@@ -1798,11 +1810,15 @@ table.theme_striped tr th,
 table.theme_striped tr td {
   padding: 0.1em 0.5em 0.1em 0.5em;
 }
+table.theme_striped th {
+  background-color: #336633;
+  color: #ffffff;
+}
 table.theme_striped tr:nth-child(even) {
-  background-color: #e0e8dd;
+  background-color: #ffffff;
 }
 table.theme_striped tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #e0e8dd;
 }
 table.basic {
   border-collapse: collapse;
@@ -1829,8 +1845,11 @@ table.basic td.not_satisfied {
 table.basic textarea {
   width: 100%;
 }
-table.striped tr:nth-child(even) td {
-  background-color: #ddd;
+table.striped th {
+  background-color: #cccccc;
+}
+table.striped tr:nth-child(odd) td {
+  background-color: #dddddd;
 }
 table.no-border td,
 table.no-border th {
@@ -1884,15 +1903,15 @@ table.image_source {
   margin: auto;
 }
 table.image_source tr.e {
-  background-color: #eee;
+  background-color: #eeeeee;
 }
 table.image_source tr.o {
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 table.image_source th {
   text-align: center;
   padding: 5px;
-  background-color: #eee;
+  background-color: #eeeeee;
   border: thin solid #999;
 }
 table.image_source td {
@@ -1908,15 +1927,15 @@ table.image_source th.label {
 }
 table.image_source td.enabled {
   text-align: center;
-  background-color: #9f9;
+  background-color: #88ff88;
 }
 table.image_source td.disabled {
   text-align: center;
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 table.image_source td.pending {
   text-align: center;
-  background-color: #ff8;
+  background-color: #ffcc66;
 }
 /* ------------------------------------------------------------------------ */
 /* Page Detail */
@@ -1930,13 +1949,13 @@ table.pagedetail td {
   border: thin solid black;
 }
 .in_progress {
-  background-color: #FC6;
+  background-color: #ffcc66;
 }
 .done_current {
-  background-color: #9F6;
+  background-color: #88ff88;
 }
 .done_previous {
-  background-color: #F36;
+  background-color: #ff8888;
 }
 /* ------------------------------------------------------------------------ */
 /* Remote File Manager */
@@ -1958,7 +1977,7 @@ table#addfiles td.load-add {
   background-color: #ccffcc;
 }
 table#addfiles td.load-replace {
-  background-color: #ffccaa;
+  background-color: #ffcc66;
 }
 table#addfiles td.load-error {
   background-color: #ffcccc;
@@ -1990,10 +2009,10 @@ table.list_special_days {
   margin: auto;
 }
 table.list_special_days tr.e {
-  background-color: #eee;
+  background-color: #eeeeee;
 }
 table.list_special_days tr.o {
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 table.list_special_days tr.month > * {
   border: none;
@@ -2013,11 +2032,11 @@ table.list_special_days th.headers {
 }
 table.list_special_days td.enabled {
   text-align: center;
-  background-color: #9f9;
+  background-color: #88ff88;
 }
 table.list_special_days td.disabled {
   text-align: center;
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 table.list_special_days td.center {
   text-align: center;
@@ -2085,7 +2104,7 @@ table.search-column tr th {
   padding: 0.3em;
   margin: 0 0 0 -15em;
   z-index: 1;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
   border-radius: 0.3em;
 }
@@ -2153,12 +2172,12 @@ li.spaced {
 .blurb-box {
   width: 100%;
   max-width: 630px;
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 .project-comments,
 .post-processor-comments,
 .sr-instructions {
-  background-color: #ccc;
+  background-color: #cccccc;
 }
 #event_subscriptions th,
 #project_holds th,
@@ -2171,7 +2190,7 @@ li.spaced {
 }
 .checkbox-cell-selected {
   text-align: center;
-  background-color: #cfc;
+  background-color: #ccffcc;
 }
 /* ------------------------------------------------------------------------ */
 /* Review Work */
