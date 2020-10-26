@@ -100,6 +100,8 @@ function output_preview_div()
     $math_preview = html_safe(_("Preview Math"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
+    $select = html_safe(_("Select"));
+    $options = html_safe(_("Options"));
     $initial_mode = html_safe(_("Initial view mode"));
     $styles = get_style_strings();
     array_walk($styles, function(&$item) { $item = html_safe($item);} );
@@ -113,83 +115,90 @@ function output_preview_div()
 
     echo <<<END
 <div id='prevdiv' class='no_display'>
- <div id='format_preview' class='flex_container'>
-  <div id="id_tp_outer" class='stretchbox text-pane'>
-    <div id="text_preview">
+    <div id='format_preview' class='flex_container'>
+        <div id="id_tp_outer" class='stretchbox text-pane'>
+            <div id="text_preview">
+            </div>
+        </div>
+        <div id="id_controls" class="fixedbox control-pane">
+            <input type='button' onclick="previewControl.hide()" value="$quit">
+            <span class='ilb'><label for="id_color_on">$color_markup</label>
+                <input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" >
+            </span>
+            <span class='ilb'>$image
+                <input type="button" value="-" onclick="top.reSizeRelative(0.91);">
+                <input type="button" value="+" onclick="top.reSizeRelative(1.10);">
+            </span>
+            <span class='ilb'>$text
+                <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
+                <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
+            </span>
+            <span class='ilb'>$font <select id="id_font_sel"></select></span>
+            <span class='ilb'>
+                <input type="radio" name="viewSel" id="show_tags"><label for="show_tags">$tags</label>
+                <input type="radio" name="viewSel" id="no_tags"><label for="no_tags">$no_tags</label>
+                <input type="radio" name="viewSel" id="flat"><label for="flat">$text</label>
+            </span>
+            <span class='ilb'>
+                <input type="checkbox" id="re_wrap"><label for="re_wrap">$re_wrap</label>
+            </span>
+            <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
+            <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
+            <img src='$code_url/graphics/exclamation.gif' id='id_some_supp' title='$some_suppressed'>
+            <input type='button' onclick="previewControl.configure()" value="$configure">
+        </div>
     </div>
-  </div>
-  <div id="id_controls" class="fixedbox control-pane">
-    <input type='button' onclick="previewControl.hide()" value="$quit">
-    <span class='ilb'><label for="id_color_on">$color_markup</label>
-        <input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" >
-    </span>
-    <span class='ilb'>$image
-      <input type="button" value="-" onclick="top.reSizeRelative(0.91);">
-      <input type="button" value="+" onclick="top.reSizeRelative(1.10);">
-    </span>
-    <span class='ilb'>$text
-      <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
-      <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
-    </span>
-    <span class='ilb'>$font <select id="id_font_sel"></select></span>
-    <span class='ilb'>
-      <input type="radio" name="viewSel" id="show_tags"><label for="show_tags">$tags</label>
-      <input type="radio" name="viewSel" id="no_tags"><label for="no_tags">$no_tags</label>
-      <input type="radio" name="viewSel" id="flat"><label for="flat">$text</label>
-    </span>
-    <span class='ilb'>
-    <input type="checkbox" id="re_wrap"><label for="re_wrap">$re_wrap</label>
-    </span>
-    <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
-    <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
-    <img src='$code_url/graphics/exclamation.gif' id='id_some_supp' title='$some_suppressed'>
-    <input type='button' onclick="previewControl.configure()" value="$configure">
-  </div>
- </div>
 </div>
 
 <div id="id_config_panel" class='no_display'>
-  <div id='color_test'>
-  </div>
-  <fieldset>
-    <legend>$choose_colors</legend>
+    <div id='color_test'>
+    </div>
     <div class="display-flex">
-    <div id="id_markmenu">
-        <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $styles[bold]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $styles[gesperrt]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $styles[small_caps]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $styles[font_change]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
-        <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
+        <div id="id_markmenu">
+            <fieldset>
+                <legend>$select</legend>
+                <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $styles[bold]<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $styles[gesperrt]<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $styles[small_caps]<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $styles[font_change]<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
+                <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
+            </fieldset>
+        </div>
+        <div id="color_selector">
+            <fieldset>
+                <legend>$choose_colors</legend>
+                <input type="color" id="id_forecol" onchange="previewControl.setForegroundColor()"> $text
+                <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
+                <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
+                <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
+            </fieldset>
+        </div>
     </div>
-    <div id="color_selector">
-        <input type="color" id="id_forecol" onchange="previewControl.setForegroundColor()"> $text
-        <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
-        <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
-        <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
+    <fieldset>
+        <legend>$options</legend>
+        <input type="checkbox" id="id_underline"><label for="id_underline">$allow_underine</label><br>
+        <input type="checkbox" id="id_math_preview"><label for="id_math_preview">$math_preview</label>
+    </fieldset>
+    <fieldset>
+        <legend>$suppress_warnings</legend>
+        $supp_item_string
+    </fieldset>
+    <fieldset>
+        <legend>$initial_mode</legend>
+        <select id="id_init_mode">
+            <option value="show_tags">$tags</option>
+            <option value="no_tags">$no_tags</option>
+            <option value="flat">$text</option>
+        </select>
+    </fieldset>
+    <div class="box2">
+        <input type='button' onclick="previewControl.OKConfig()" value="$ok">
+        <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
     </div>
-    </div>
-  </fieldset>
-  <div class="box2">
-    <span class='ilb'><label for="id_underline">$allow_underine</label><input type="checkbox" id="id_underline"></span>
-    <span class='ilb'><label for="id_math_preview">$math_preview</label><input type="checkbox" id="id_math_preview"></span>
-  </div>
-  <fieldset>
-    <legend>$suppress_warnings</legend>
-    $supp_item_string
-  </fieldset>
-  <br><span class='ilb'><label for='id_init_mode'>$initial_mode</label> <select id="id_init_mode">
-    <option value="show_tags">$tags</option>
-    <option value="no_tags">$no_tags</option>
-    <option value="flat">$text</option>
-  </select></span>
-  <div class="box2">
-    <input type='button' onclick="previewControl.OKConfig()" value="$ok">
-    <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
-  </div>
 </div>
 END;
 }
