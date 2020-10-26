@@ -22,7 +22,6 @@ function get_preview_messages()
         "misMatchTag" => _("End tag does not match start tag"),
         "nestedTag" => _("Tag nested within same tag"),
         "unRecTag" => _("Unrecognized tag"),
-        "tabChar" => _("Tab should not be used"),
         "charBefore" => _("No characters should precede this"),
         "blankBefore" => _("A blank line should precede this"),
         "blankAfter" => _("A blank line should follow %s"),

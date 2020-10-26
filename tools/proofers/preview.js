@@ -47,7 +47,6 @@ $(function () {
             misMatchTag: 1,
             nestedTag: 1,
             unRecTag: 0,
-            tabChar: 1,
             charBefore: 1,
             blankBefore: 1,
             blankAfter: 0,
@@ -397,15 +396,6 @@ $(function () {
             }
         }
 
-        // find tab characters
-        function checkTab() {
-            var re = /\t/g;
-            var result;
-            while ((result = re.exec(txt)) !== null) {
-                reportIssue(result.index, 1, "tabChar");
-            }
-        }
-
         function checkBlankNumber() { // only 1, 2 or 4 blank lines should appear
             var result;
             var end;
@@ -722,7 +712,6 @@ $(function () {
         parseOol();
         checkFootnotes();
         unRecog();
-        checkTab();
         checkBlankLines();
         if(config.allowMathPreview) {
             checkMath();

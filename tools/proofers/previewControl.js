@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies MathJax */
+/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies MathJax validateText */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -310,6 +310,9 @@ $( function() {
         },
 
         show: function () { // called when preview is first shown
+            if(!validateText()) {
+                return;
+            }
             var msie = document.documentMode;
             if (msie < 9) {
                 alert(ieWarn);
