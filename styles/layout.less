@@ -1,6 +1,30 @@
 @import "global.less";
 @import "page_interfaces.less";
 
+
+/* ------------------------------------------------------------------------ */
+/* Common color definitions
+   Where a particular color family has multiple shades available, a
+   suffix indicates relative contrast as compared with the default
+   @page-background color. */
+
+/* Shades based on @page-background. Various contrast levels, commonly
+   used for table rows or other containers that should stand out from
+   the page background */
+@table-cell-base-highc: #cccccc;
+@table-cell-base-mediumc: #dddddd;
+@table-cell-base-lowc: #eeeeee;
+
+/* Background colors with various meanings, some needing two different
+   contrast levels */
+@table-cell-ok-highc: #88ff88;     // high contrast, green family
+@table-cell-ok-lowc: #ccffcc;      // low contrast, green family
+@table-cell-alert: #ffff66;        // yellow family
+@table-cell-not-ok-highc: #ff8888; // high contrast, red family
+@table-cell-not-ok-lowc: #ffcccc;  // low contrast, red family
+@table-cell-pending: #ffcc66;      // orange family
+
+
 /* ------------------------------------------------------------------------ */
 /* mixins with color */
 
@@ -14,7 +38,7 @@
 
 /* standalone classes that can be used as mixins, but that should not
  * be given parameters, as they can't be used as classes in the code
- * directly if they have parameters that the lessc compiler has to 
+ * directly if they have parameters that the lessc compiler has to
  * sort out
  */
 
@@ -218,8 +242,8 @@ nav, #navbar-outer {
 
 #alertbar, #alertbar-outer {
     .sans-serif;
-    background-color: fade(yellow, 40%);
-    color: black;
+    background-color: @table-cell-alert;
+    color: @page-text;
     .unicolor-link(darken(gray, 20%));
 }
 
@@ -228,12 +252,12 @@ nav, #navbar-outer {
     background-color: @page-background;
     background: repeating-linear-gradient(
         to right,
-        yellow,
+        @table-cell-alert,
         @page-background 24%,
         @page-background 75%,
-        yellow 100%,
+        @table-cell-alert 100%,
     );
-    color: black;
+    color: @page-text;
     .solid-border-bottom;
     .unicolor-link(lighten(black, 30%));
 }
@@ -507,7 +531,7 @@ table.newsedit {
 
 div.callout {
     .solid-border;
-    background-color: #EEE;
+    background-color: @table-cell-base-lowc;
     margin-right: 2em;
     margin-left: 2em;
     padding: 1em;
@@ -533,8 +557,8 @@ div.calloutheader {
 }
 
 .highlight {
-    background-color: yellow;
-    color: black;
+    background-color: @table-cell-alert;
+    color: @page-text;
 }
 
 kbd {
@@ -580,7 +604,7 @@ table.random_rule {
     .default-border();
     border-collapse: collapse;
     tr td {
-        .default-border(); 
+        .default-border();
         padding: 0.25em 0.5em;
     }
     tr th {
@@ -745,11 +769,13 @@ table.availprojectlisting {
         }
     }
     tr:nth-child(even) {
-        background-color: #ddd;
+        background-color: @table-cell-base-mediumc;
     }
 }
 
-/* Default stage colors, which can be overridden by the themes */
+/* Default stage colors, which can be overridden by the themes
+   Stage colors are independent of any of a theme's colors. Though
+   they may be overridden, color variable names are not used    */
 @P1-even: #ffe4b5;
 @P1-odd: cornsilk;
 @P2-even: #ffe4b5;
@@ -880,8 +906,6 @@ table.preferences {
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
 
-@basic-column-header: #cccccc;
-
 table.themed {
     width: 100%;
     border-collapse: collapse;
@@ -908,11 +932,15 @@ table.theme_striped {
             padding: 0.1em 0.5em 0.1em 0.5em;
         }
     }
+    th {
+        background-color: @navbar-background;
+        color: @navbar-text;
+    }
     tr:nth-child(even) {
-        background-color: @sidebar-background;
+        background-color: @page-background;
     }
     tr:nth-child(odd) {
-        background-color: @page-background;
+        background-color: @sidebar-background;
     }
 }
 
@@ -920,7 +948,7 @@ table.basic {
     border-collapse: collapse;
     .solid-border;
     th {
-        background-color: @basic-column-header;
+        background-color: @table-cell-base-highc;
     }
     td, th {
         .solid-border;
@@ -930,11 +958,11 @@ table.basic {
     }
     td.satisfied {
         .right-align;
-        background-color: #ccffcc;
+        background-color: @table-cell-ok-lowc;
     }
     td.not_satisfied {
         .right-align;
-        background-color: #ffcccc;
+        background-color: @table-cell-not-ok-lowc;
     }
     textarea {
         width: 100%;
@@ -942,9 +970,12 @@ table.basic {
 }
 
 table.striped {
-    tr:nth-child(even) {
+    th {
+        background-color: @table-cell-base-highc;
+    }
+    tr:nth-child(odd) {
         td {
-            background-color: #ddd;
+            background-color: @table-cell-base-mediumc;
         }
     }
 }
@@ -988,7 +1019,7 @@ table.ppv_reportcard {
         background-color: @header-background;
     }
     th.heading {
-        background-color: @basic-column-header;
+        background-color: @table-cell-base-highc;
     }
     td {
         .solid-border;
@@ -1003,15 +1034,15 @@ table.image_source {
     width: 90%;
     margin: auto;
     tr.e {
-        background-color: #eee;
+        background-color: @table-cell-base-lowc;
     }
     tr.o {
-        background-color: #ddd;
+        background-color: @table-cell-base-mediumc;
     }
     th {
         .center-align;
         padding: 5px;
-        background-color: #eee;
+        background-color: @table-cell-base-lowc;
         .solid-border(#999);
     }
     td {
@@ -1027,15 +1058,15 @@ table.image_source {
     }
     td.enabled {
         .center-align;
-        background-color: #9f9;
+        background-color: @table-cell-ok-highc;
     }
     td.disabled {
         .center-align;
-        background-color: #ddd;
+        background-color: @table-cell-base-mediumc;
     }
     td.pending {
         .center-align;
-        background-color: #ff8;
+        background-color: @table-cell-pending;
     }
 }
 
@@ -1052,13 +1083,13 @@ table.pagedetail {
 }
 
 .in_progress {
-    background-color: #FC6;
+    background-color: @table-cell-pending;
 }
 .done_current {
-    background-color: #9F6;
+    background-color: @table-cell-ok-highc;
 }
 .done_previous {
-    background-color: #F36;
+    background-color: @table-cell-not-ok-highc;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1080,56 +1111,45 @@ table.dirlist {
 /* ------------------------------------------------------------------------ */
 /* Project Load (add_files.php) */
 
-@load-add: #ccffcc;
-@load-replace: #ffccaa;
-@load-error: #ffcccc;
-
 table#addfiles {
     td.load-add {
-        background-color: @load-add;
+        background-color: @table-cell-ok-lowc;
     }
 
     td.load-replace {
-        background-color: @load-replace;
+        background-color: @table-cell-pending;
     }
 
     td.load-error {
-        background-color: @load-error;
+        background-color: @table-cell-not-ok-lowc;
     }
 }
 
 /* ------------------------------------------------------------------------ */
 /* Quizzes */
 
-@quiz-passed: #ccffcc;
-@quiz-not-passed: #ffcccc;
-@quiz-date-ok: #ccffcc;
-@quiz-date-not-ok: #ffcccc;
-@quiz-all-ok: #88ff88;
-@quiz-all-not-ok: #ff8888;
-
 .quiz-passed {
-    background-color: @quiz-passed;
+    background-color: @table-cell-ok-lowc;
 }
 
 .quiz-not-passed {
-    background-color: @quiz-not-passed;
+    background-color: @table-cell-not-ok-lowc;
 }
 
 .quiz-date-ok {
-    background-color: @quiz-date-ok;
+    background-color: @table-cell-ok-lowc;
 }
 
 .quiz-date-not-ok {
-    background-color: @quiz-date-not-ok;
+    background-color: @table-cell-not-ok-lowc;
 }
 
 .quiz-ok {
-    background-color: @quiz-all-ok;
+    background-color: @table-cell-ok-highc;
 }
 
 .quiz-not-ok {
-    background-color: @quiz-all-not-ok;
+    background-color: @table-cell-not-ok-highc;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1138,10 +1158,10 @@ table#addfiles {
 table.list_special_days {
     width: 90%; margin: auto;
     tr.e {
-        background-color: #eee;
+        background-color: @table-cell-base-lowc;
     }
     tr.o {
-        background-color: #ddd;
+        background-color: @table-cell-base-mediumc;
     }
     tr.month > * {
         border: none;
@@ -1160,11 +1180,11 @@ table.list_special_days {
     }
     td.enabled {
         text-align: center;
-        background-color: #9f9;
+        background-color: @table-cell-ok-highc;
     }
     td.disabled {
         text-align: center;
-        background-color: #ddd;
+        background-color: @table-cell-base-mediumc;
     }
     td.center {
         text-align: center;
@@ -1179,7 +1199,7 @@ table.list_special_days {
 
 table.show_special_days {
     th {
-        background-color: #eeeeee;
+        background-color: @table-cell-base-lowc;
     }
 }
 
@@ -1189,7 +1209,7 @@ table.edit_special_day {
     th, td {
         padding: 5px;
         .solid-border;
-        background-color: #eeeeee;
+        background-color: @table-cell-base-lowc;
     }
 }
 
@@ -1240,7 +1260,7 @@ table.search-column {
     padding: 0.3em;
     margin: 0 0 0 -15em;
     z-index: 1;
-    background-color: #f9f9f9;
+    background-color: @page-background;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
     border-radius: 0.3em;
 }
@@ -1294,10 +1314,6 @@ table.search-column {
 /* ------------------------------------------------------------------------ */
 /* Project Page */
 
-@blurb-box: #ddd;
-@subscr-hold-selected: #cfc;
-@comments-background: #ccc;
-
 li.spaced {
     margin: 1em 0;
 }
@@ -1319,13 +1335,13 @@ li.spaced {
 .blurb-box {
     width: 100%;
     max-width: 630px;
-    background-color: @blurb-box;
+    background-color: @table-cell-base-mediumc;
 }
 
 .project-comments,
 .post-processor-comments,
 .sr-instructions {
-    background-color: @comments-background;
+    background-color: @table-cell-base-highc;
 }
 
 #event_subscriptions,
@@ -1341,16 +1357,15 @@ li.spaced {
 
 .checkbox-cell-selected {
     .center-align;
-    background-color: @subscr-hold-selected;
+    background-color: @table-cell-ok-lowc;
 }
 
 /* ------------------------------------------------------------------------ */
 /* Review Work */
 
-@has-diff: #ccffcc;
 
 td.has-diff {
-    background-color: @has-diff;
+    background-color: @table-cell-ok-lowc;
 }
 
 /* ------------------------------------------------------------------------ */
