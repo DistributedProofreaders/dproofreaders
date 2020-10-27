@@ -86,9 +86,27 @@ function api_rate_limit($key)
     $memcache = new Memcached();
     $memcache->addServer('localhost', 11211);
 
+    // initialize or reset our expire time
+    $expire_time = $memcache->get("$key:expire");
+    if($expire_time === FALSE || $expire_time < time())
+    {
+        $expire_time = time() + $api_rate_limit_seconds_in_window;
+        $memcache->set("$key:expire", $expire_time);
+        $count = 0;
+    }
+    // otherwise get the current value
+    else
+    {
+        $count = $memcache->get("$key:count");
+        if($count === FALSE)
+        {
+            $count = 0;
+        }
+    }
+
+    $count = $count + 1;
+
     // increment (or initialize) our count
-    $count = $memcache->get("$key:count");
-    $count = $count === FALSE ? 0 : $count + 1;
     if($memcache->set("$key:count", $count) === FALSE)
     {
         // if we can't set the value, memcached probably isn't running
@@ -96,22 +114,8 @@ function api_rate_limit($key)
         throw new ServerError();
     }
 
-    // initialize or reset our expire time
-    $expire_time = $memcache->get("$key:expire");
-    if($count === 0 || $expire_time < time())
-    {
-        $expire_time = time() + $api_rate_limit_seconds_in_window;
-        $memcache->set("$key:expire", $expire_time);
-    }
-
-    // see if we need to reset our count
-    $seconds_before_reset = $expire_time - time();
-    if($seconds_before_reset <= 0)
-    {
-        $memcache->set("$key:count", 0);
-    }
-
     // enforce exceeding the limit
+    $seconds_before_reset = $expire_time - time();
     if($count > $api_rate_limit_requests_per_window)
     {
         throw new RateLimitExceeded(
