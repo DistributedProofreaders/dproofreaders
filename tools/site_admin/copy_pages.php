@@ -231,17 +231,21 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         die( "Error: no projectid data supplied" );
     }
 
+    $project_obj = [
+        "from" => new Project($projectid_["from"]),
+        "to" => new Project($projectid_["to"]),
+    ];
+
     foreach ( array( 'from', 'to' ) as $which )
     {
-        $projectid = $projectid_[$which];
-        $project = new Project($projectid);
+        $project = $project_obj[$which];
 
         if(!$project->is_utf8)
         {
-            die("Project table $projectid is not UTF-8.");
+            die("Project table {$project->projectid} is not UTF-8.");
         }
 
-        $sql = "DESCRIBE {$projectid_[$which]}";
+        $sql = "DESCRIBE {$project->projectid}";
         $res = DPDatabase::query($sql);
 
         $column_names = array();
@@ -255,8 +259,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
     foreach ( array( 'from', 'to' ) as $which )
     {
-        $projectid = $projectid_[$which];
-        $project = new Project($projectid);
+        $project = $project_obj[$which];
 
         // clever use of $which above means we need label uses translated
         // separately, which is convenient, since 'to/from' could be mistaken
@@ -274,7 +277,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         echo "<table class='copy'>";
 
-        echo "<tr><th>" . _("Project ID") . ":</th><td>" . $projectid . "</td></tr>\n";
+        echo "<tr><th>" . _("Project ID") . ":</th><td>" . $project->projectid . "</td></tr>\n";
 
         echo "<tr><th>" . _("Title") . ":</th><td>" . html_safe($project->nameofwork) . "</td></tr>\n";
 
@@ -282,7 +285,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $sql = "
             SELECT image, fileid
-            FROM $projectid
+            FROM {$project->projectid}
             ORDER BY image";
         $res = DPDatabase::query($sql);
 
@@ -383,6 +386,33 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         die( "You can't copy a project into itself." );
     }
 
+    $charsuites_not_in_to = array_udiff(
+        $project_obj["from"]->get_charsuites(FALSE),
+        $project_obj["to"]->get_charsuites(FALSE),
+        function ($a, $b) { return $a == $b ? 0 : 1; }
+    );
+    if ($charsuites_not_in_to)
+    {
+        echo "<p class='warning'>" . _("Character Suite mismatch") . "</p>";
+        echo "<p>" . _("The following character suites are in the source project but not in the destination project. Ensure the copied pages do not use these or adjust the destination project character suites accordingly.") . "</p>";
+        echo "<ul>";
+        foreach($charsuites_not_in_to as $charsuite)
+        {
+            echo "<li>" . html_safe($charsuite->name) . "</li>";
+        }
+        echo "</ul>";
+    }
+
+    $chars_not_in_to_customsuite = array_diff(
+        utf8_codepoints_combining($project_obj["from"]->custom_chars),
+        utf8_codepoints_combining($project_obj["to"]->custom_chars)
+    );
+    if ($chars_not_in_to_customsuite)
+    {
+        echo "<p class='warning'>" . _("Custom Characters mismatch") . "</p>";
+        echo "<p>" . _("The source project has custom characters not in the destination project's custom character suite. Confirm these characters are not in the pages being copied or are in the destination project's character suites.") . "</p>";
+    }
+
     // ----------------------------------------------------
 
     if ( $page_name_handling == 'PRESERVE_PAGE_NAMES' )
@@ -452,7 +482,8 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     $clashing_image_values = array_intersect( $c_dst_image_, $all_image_values_['to'] );
     if ( count($clashing_image_values) > 0 )
     {
-        echo "<p><b>" . _("Page name collisions!") . "</b><br>";
+        echo "<p class='error'>" . _("Page name collisions!") . "</p>";
+        echo "<p>";
         echo _("The destination project already has pages with these 'image' values:");
         echo "</p>\n";
         echo "<pre>\n";
@@ -467,7 +498,8 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     $clashing_fileid_values = array_intersect( $c_dst_fileid_, $all_fileid_values_['to'] );
     if ( count($clashing_fileid_values) > 0 )
     {
-        echo "<p><b>" . _("Page name collisions!") . "</b><br>";
+        echo "<p class='error'>" . _("Page name collisions!") . "</p>";
+        echo "<p>";
         echo _("The destination project already has pages with these 'fileid' values:");
         echo "</p>\n";
         echo "<pre>\n";
