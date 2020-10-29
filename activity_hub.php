@@ -295,7 +295,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     {
         $round_stats = get_site_page_tally_summary($stage->id);
 
-        list($progress_bar_width, $progress_bar_color, $percent_complete) =
+        list($progress_bar_width, $progress_bar_class, $percent_complete) =
             calculate_progress_bar_properties($round_stats->curr_day_actual, $round_stats->curr_day_goal);
     }
 
@@ -412,7 +412,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     {
         echo "<td class='pages-goal'>{$round_stats->curr_day_goal}</td>";
         echo "<td class='pages-completed'>{$round_stats->curr_day_actual}</td>";
-        echo "<td><div class='progressbar' style='background-color: $progress_bar_color; width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
+        echo "<td><div class='progressbar $progress_bar_class' style='width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
     }
     else
     {

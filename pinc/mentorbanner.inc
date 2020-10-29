@@ -33,21 +33,17 @@ function mentor_banner($round)
         case 0:
         case 1:
         case 2:
-            $font_boost = "1em";
-            $font_col = '#339933';
+            $class = 'mentor-recent';
             break;
         case 3:
         case 4:
-            $font_boost = "large";
-            $font_col = "#FF6600";
+            $class = 'mentor-older';
             break;
         default:
-            $font_boost = "x-large";
-            $font_col = "#FF0000";
+            $class = 'mentor-oldest';
             break;
     }
-
-    echo "<p style='color: $font_col; font-weight: bold; font-size: $font_boost; text-align: center'>";
+    echo "<p class='$class'>";
     printf(ngettext(
             /* TRANSLATORS: %4 is the name of the user's UI language in their language;
             %1 is a URL; %2 is the round ID; %3 is the number of days. */
