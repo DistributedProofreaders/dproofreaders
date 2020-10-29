@@ -185,7 +185,7 @@ class PPage
                 if ( $username == '' || $user_id == NULL )
                 {
                     // Grey, because it's not the link expected by the user.
-                    echo "<span style='color: #666;'>";
+                    echo "<span class='text-link-disabled'>";
                     if ($username == '')
                     {
                         // e.g., the project might have skipped $other_round,

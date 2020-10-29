@@ -4,19 +4,26 @@
 
 /* ------------------------------------------------------------------------ */
 /* Common color definitions
-   Where a particular color family has multiple shades available, a
-   suffix indicates relative contrast as compared with the default
-   @page-background color. */
+ * Where a particular color family has multiple shades available, a
+ * suffix indicates relative contrast as compared with the default
+ * @page-background color.
+ * All of the color names defined in this file are the default colors
+ * for themes with a white page-background with black page-text, but
+ * for themes that have other than a white page-background with black
+ * page-text, the colors can be overridden in that theme's .less file
+ */
 
 /* Shades based on @page-background. Various contrast levels, commonly
-   used for table rows or other containers that should stand out from
-   the page background */
+ * used for table rows or other containers that should stand out from
+ * the page background
+ */
 @table-cell-base-highc: #cccccc;
 @table-cell-base-mediumc: #dddddd;
 @table-cell-base-lowc: #eeeeee;
 
 /* Background colors with various meanings, some needing two different
-   contrast levels */
+ * contrast levels
+ */
 @table-cell-ok-highc: #88ff88;     // high contrast, green family
 @table-cell-ok-lowc: #ccffcc;      // low contrast, green family
 @table-cell-alert: #ffff66;        // yellow family
@@ -24,15 +31,39 @@
 @table-cell-not-ok-lowc: #ffcccc;  // low contrast, red family
 @table-cell-pending: #ffcc66;      // orange family
 
+/* Special text colors that have a particular meaning that are not
+ * related to the theme colors but nonetheless may need to be
+ * adjusted depending on the theme. Also, needed variation on
+ * theme default page-text color
+ */
+@text-error: red;            // red family
+@text-alert: #ff6600;        // orange family
+@text-warning: blue;         // blue family
+@text-ok: green;             // green family
+@text-mono: #cc0000;         // red family, different from error
+@text-base-mediumc: #666666; // medium contrast theme page-text color
+@text-base-lowc: #9a9a9a;    // low contrast theme page-text color
+
+/* Border colors. Based on the basic theme background and text
+ * colors, various levels of contrast. For themes with white
+ * page-background and black page-text, the default border color
+ * is black. Define that, and work from there for the lower-contrast
+ * border colors. It needn't be based on the page-text color,
+ * but for the original three themes, it is.
+ */
+
+@border-color-base: @page-text;
+@border-color-base-mediumc: #999999;
+@border-color-base-lowc: #d3d3d3;    // lightgrey
 
 /* ------------------------------------------------------------------------ */
 /* mixins with color */
 
-.solid-border(@color: black) {
+.solid-border(@color: @border-color-base) {
     border: thin solid @color;
 }
 
-.solid-border-bottom(@color: black) {
+.solid-border-bottom(@color: @border-color-base) {
     border-bottom: thin solid @color;
 }
 
@@ -48,6 +79,10 @@
 
 .default-border-bottom {
     .solid-border-bottom;
+}
+
+.text-link-disabled {
+    color: @text-base-mediumc;
 }
 
 .sidebar-color {
@@ -258,7 +293,7 @@ nav, #navbar-outer {
         @table-cell-alert 100%,
     );
     color: @page-text;
-    .solid-border-bottom;
+    .solid-border-bottom();
     .unicolor-link(lighten(black, 30%));
 }
 
@@ -443,6 +478,14 @@ hr.divider {
 /* ------------------------------------------------------------------------ */
 /* News items */
 
+@news-border: @border-color-base-lowc;
+@news-normal: @page-text;
+@news-announce-high: maroon;
+@news-announce-medium: orange;
+@news-announce-low: darkblue;
+@news-celebrate: green;
+@news-maintain: red;
+
 div.news {
     margin: 1em 0;
 }
@@ -457,8 +500,8 @@ div.newsitem {
     padding: 0.75em;
     margin-top: 1em;
     overflow: auto;
-    border-left: thick solid lightgrey;
-    border-bottom: thin solid lightgrey;
+    border-left: thick solid @news-border;
+    border-bottom: thin solid @news-border;
     p {
         margin: 0 0.5em 0.5em 0;
     }
@@ -473,32 +516,32 @@ div.newsitem {
     padding-bottom: 0.5em;
 }
 
-.news-format(@color: black) {
+.news-format(@color: @news-normal) {
     color: @color;
 }
 
 .news-normal {
-    .news-format(inherit);
+    .news-format(@news-normal);
 }
 
 .news-announcement1 {
-    .news-format(maroon);
+    .news-format(@news-announce-high);
 }
 
 .news-announcement2 {
-    .news-format(orange);
+    .news-format(@news-announce-medium);
 }
 
 .news-announcement3 {
-    .news-format(darkblue);
+    .news-format(@news-announce-low);
 }
 
 .news-celebration {
-    .news-format(green);
+    .news-format(@news-celebrate);
 }
 
 .news-maintenance {
-    .news-format(red);
+    .news-format(@news-maintain);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -549,11 +592,11 @@ div.calloutheader {
 }
 
 .error, .test_warning {
-    color: red;
+    color: @text-error;
 }
 
 .warning {
-    color: blue;
+    color: @text-warning;
 }
 
 .highlight {
@@ -563,7 +606,8 @@ div.calloutheader {
 
 kbd {
     font-family: DejaVu Sans Mono, monospace;
-    color: #cc0000;
+    color: @text-mono;
+    font-size: .95em;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -676,7 +720,7 @@ table.snapshottable {
     }
 }
 
-.stage-access(@color: black) {
+.stage-access(@color: @page-text) {
     padding-left: 5px;
     float: right;
     display: inline-block;
@@ -694,18 +738,21 @@ table.snapshottable {
     }
 }
 
+@access-yes: green;
+@access-no: red;
+@access-eligible: blue;
+
 .access-yes {
-    .stage-access(green);
+    .stage-access(@access-yes);
 }
 
 .access-no {
-    .stage-access(red);
+    .stage-access(@access-no);
 }
 
 .access-eligible {
-    .stage-access(blue);
+    .stage-access(@access-eligible);
 }
-
 
 @media only screen and (max-width: 768px) {
     .stage-name,
@@ -719,10 +766,26 @@ table.snapshottable {
 /* ------------------------------------------------------------------------ */
 /* Progress bar */
 
+@progress-high: lightgreen;
+@progress-medium: orange;
+@progress-low: red;
+
 div.progressbar {
     font-size: 0.5em;
     float: left;
     .solid-border;
+}
+
+div.goal-on-target {
+    background-color: @progress-high;
+}
+
+div.goal-maybe {
+    background-color: @progress-medium;
+}
+
+div.goal-unlikely {
+    background-color: @progress-low;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -759,13 +822,13 @@ table.availprojectlisting {
         th {
             .bold;
             .left-align;
-            .solid-border-bottom;
+            .solid-border-bottom();
             img {
                 border: 0;
             }
         }
         td {
-            .solid-border-bottom(#888);
+            .solid-border-bottom(@border-color-base-mediumc);
         }
     }
     tr:nth-child(even) {
@@ -865,10 +928,13 @@ table.preferences {
     }
 }
 
+@background-tab-disabled: desaturate(@header-background, 50%);
+@text-tab-disabled: @text-base-mediumc;
+
 .tabs {
     float: left;
     width: 90%;
-    .solid-border-bottom(grey);
+    .solid-border-bottom(@border-color-base-mediumc);
     ul {
         margin: 0;
         padding: 0 20px 0 10px;
@@ -880,10 +946,10 @@ table.preferences {
         padding: 0 0 0 4px;
         border-radius: 5px 5px 0 0;
         margin-bottom: -2px;
-        background-color: desaturate(@header-background, 50%);
-        .solid-border(grey);
+        background-color: @background-tab-disabled;
+        .solid-border(@border-color-base-mediumc);
         a {
-            color: desaturate(@header-text, 50%);
+            color: @text-tab-disabled;
         }
     }
     a {
@@ -1043,11 +1109,11 @@ table.image_source {
         .center-align;
         padding: 5px;
         background-color: @table-cell-base-lowc;
-        .solid-border(#999);
+        .solid-border(@border-color-base-mediumc);
     }
     td {
         padding: 5px;
-        .solid-border(#999);
+        .solid-border(@border-color-base-mediumc);
         a.sourcelink {
             font-size: 90%;
             margin: 10px 0px 3px 25px;
@@ -1165,18 +1231,18 @@ table.list_special_days {
     }
     tr.month > * {
         border: none;
-        border-bottom: solid 2px black;
+        border-bottom: solid 2px @border-color-base;
     }
     td, th {
         padding: 3px;
-        .solid-border(#999);
+        .solid-border(@border-color-base-mediumc);
     }
     td.codecell {
-        vertical-align:middle;
-        text-align:center;
+        vertical-align: middle;
+        text-align: center;
     }
     th.headers {
-        padding:0.5em;
+        padding: 0.5em;
     }
     td.enabled {
         text-align: center;
@@ -1269,7 +1335,7 @@ table.search-column {
 .dropdown-button {
     border: none;
     padding: 1px;
-    background-color: transparent;
+    background-color: inherit;
     cursor: pointer;
     font-family: initial;
     font-size: initial;
@@ -1360,6 +1426,10 @@ li.spaced {
     background-color: @table-cell-ok-lowc;
 }
 
+.transition-disabled {
+    color: @text-base-lowc;
+}
+
 /* ------------------------------------------------------------------------ */
 /* Review Work */
 
@@ -1428,4 +1498,28 @@ table.task-detail-block {
             width: 100%;
         }
     }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Mentoring */
+/* Text colors and sizes for the message mentors see on the P2 round page */
+
+p.mentor-recent {
+    color: #339933;
+    .bold;
+    .center-align;
+}
+
+p.mentor-older {
+    color: #ff6600;
+    .large;
+    .bold;
+    .center-align;
+}
+
+p.mentor-oldest {
+    color: #ff0000;
+    .x-large;
+    .bold;
+    .center-align;
 }

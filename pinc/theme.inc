@@ -937,11 +937,12 @@ function show_key_help_links()
 
 function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color=TRUE, $color_thresholds=NULL)
 // A simple progress bar can be created by using the following HTML:
-//   <div class='progressbar' style='background-color: $color; width: $width%;'>&nbsp;</div>
+//   <div class='progressbar $progress_bar_class' style='width: $width%;'>&nbsp;</div>
 // The <div> can be placed inside another container used to control
 // the total width. This function assists in calculating the $color and $width
 // values used above in addition to returning the actual percentage of the
-// goal achieved.
+// goal achieved. In order for the progress bars to be themable, a class name
+// is returned, instead of an actual color.
 // Arguments:
 //   actual           - actual value obtained
 //   goal             - goal
@@ -951,21 +952,23 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
 //                      the color will be based on how much of the month has passed.
 //                      This is useful so that at the beginning of a new timefram the
 //                      bar isn't at the low color.
-//   color_thresholds - associative array containing the colors to use for
+//   color_thresholds - associative array containing the class names to use for
 //                      each percentage completed range
-//                      eg: array(100 => "lightgreen", 75 => "orange", 0 => "red");
+//                      eg: array(100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely");
 //
 // Returns three values via a non-associative array():
 //   progress_bar_width - percentage width of the progress bar in range [0-100]
-//   progress_bar_color - color of progress bar using step-wise colors
+//   progress_bar_class - class for color of progress bar using step-wise colors.
+//                        The classes will need to be defined in layout.less
+//                        for them to be applied to the progress bar.
 //   percent_complete   - actual percentage complete in whole numbers
 {
-    // Define the colors used for the status bar graph
+    // Define the color classes used for the status bar graph
     if(!is_array($color_thresholds))
     {
         // Thresholds defined here are assumed to be highest to
         // lowest. Thresholds passed into this function are sorted.
-        $color_thresholds = array(100 => "lightgreen", 75 => "orange", 0 => "red");
+        $color_thresholds = array(100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely");
     }
     else
     {
@@ -1005,16 +1008,16 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
         $fraction_of_time_passed = 1;
     }
 
-    foreach($color_thresholds as $threshold => $color)
+    foreach($color_thresholds as $threshold => $class)
     {
         if($percent_complete >= ($threshold * $fraction_of_time_passed))
         {
-            $progress_bar_color = $color;
+            $progress_bar_class = $class;
             break;
         }
     }
 
-    return array($progress_bar_width, $progress_bar_color, $percent_complete);
+    return array($progress_bar_width, $progress_bar_class, $percent_complete);
 }
 
 // -----------------------------------------------------------------------------

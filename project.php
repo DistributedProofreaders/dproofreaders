@@ -2254,7 +2254,7 @@ function do_change_state()
 
             // Gray out the original text and add an explanation why it is disabled
             $reason = $transition->why_disabled($project);
-            $text_next_to_btn = "<span style='color: #A9A9A9'>$text_next_to_btn</span> [$reason]";
+            $text_next_to_btn = "<span class='transition-disabled'>$text_next_to_btn</span> [$reason]";
         }
 
         echo "<form method='POST' action='$code_url/tools/changestate.php'>";

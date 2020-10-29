@@ -87,7 +87,7 @@ function user_can_modify_access_of($subject_username)
         static $shown = FALSE;
         if  (!$shown)
         {
-            echo "<p style='color:red'>";
+            echo "<p class='test_warning'>";
             echo _("You would not normally be able to grant+revoke access, but because this is a test site, you are permitted to do so <i>for yourself</i>.");
             echo "</p>";
             $shown = TRUE;

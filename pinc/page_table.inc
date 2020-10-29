@@ -671,7 +671,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     }
     else if ($R_username == "[none]")
     {
-        echo "<td>" . html_safe($R_username) . "</td>\n";
+        echo "<td class='text-link-disabled'>" . html_safe($R_username) . "</td>\n";
     }
     else if ($can_see_names_for_this_page)
     {
