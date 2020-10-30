@@ -25,14 +25,7 @@ $( function() {
     var tagon = document.getElementById("show_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
-    var backgroundCheckbox = document.getElementById("background_checkbox");
-    var spanBackground = document.getElementById("span_background");
-    var foregroundCheckbox = document.getElementById("foreground_checkbox");
-    var spanForeground = document.getElementById("span_foreground");
-    var foreColor = document.getElementById("id_forecol");
-    var backColor = document.getElementById("id_backcol");
     var configPan = document.getElementById("id_config_panel");
-    var defaultTextRadio = document.getElementById("id_default_radio");
     var enableColorCheckbox = document.getElementById("id_color_on");
     var issBox = document.getElementById("id_iss");
     var possIssBox = document.getElementById("id_poss_iss");
@@ -45,7 +38,6 @@ $( function() {
 
     var suppCheckBox = [];
 
-    var selTag;
     var viewMode;
     var wrapMode = false;
 
@@ -55,7 +47,8 @@ $( function() {
     // styles are saved in local storage and reloaded next time.
     // the foreground and background colours for plain text, italic, bold,
     // gesperrt, smallcaps, font change, other tags, highlighting issues
-    // and possible issues
+    // and possible issues.
+    // An empty color string means use default color
     var previewStyles = {
         t: {bg: "#fffcf4", fg: "#000000"},
         i: {bg: "", fg: "#0000ff"},
@@ -116,11 +109,6 @@ $( function() {
                 ? "inline"
                 : "none"
         );
-    }
-
-    function setViewColors(win) { // sets background and plain text colours
-        win.style.backgroundColor = previewStyles.t.bg;
-        win.style.color = previewStyles.t.fg;
     }
 
     // this makes a copy of the style data
@@ -187,7 +175,8 @@ $( function() {
 
     function initView() {
         enableColorCheckbox.checked = previewStyles.color;
-        setViewColors(outerPrev);
+        outerPrev.style.backgroundColor = previewStyles.t.bg;
+        outerPrev.style.color = previewStyles.t.fg;
         viewMode = previewStyles.initialViewMode;
         $("#" + viewMode).prop("checked", true);
         // check if MathJax already loaded. Will break if load more than once
@@ -205,6 +194,35 @@ $( function() {
     initView();
     setupFont();
 
+    $("input[type=color]", "#color_table").change(function() {
+        // id is made from col_ + tag + "_" (fg or bg)
+        const idParts = this.id.split("_");
+        tempStyle[idParts[1]][idParts[2]] = this.value;
+        testDraw();
+    });
+
+    $("input[type=checkbox]", "#color_table").change(function() {
+        // id is made from tag + "_" + (fg or bg)
+        const idParts = this.id.split("_");
+        const tag = idParts[0];
+        const foreBack = idParts[1];
+        const colorInput = $("#col_" + this.id);
+
+        if(this.checked) {
+            // show the color input, set and save its color
+            const defaultColor = tempStyle.t[foreBack];
+            colorInput.val(defaultColor);
+            tempStyle[tag][foreBack] = defaultColor;
+            colorInput.show();
+        } else {
+            // use default and hide the color input
+            tempStyle[tag][foreBack] = "";
+            colorInput.hide();
+        }
+        testDraw();
+    });
+
+
     $("[name='viewSel']").click(function () {
         viewMode = this.id;
         writePreviewText();
@@ -217,40 +235,29 @@ $( function() {
 
     // functions for setting up the configuration screen
     function testDraw() {
+        testDiv.style.backgroundColor = tempStyle.t.bg;
+        testDiv.style.color = tempStyle.t.fg;
         preview = makePreview(previewDemo, 'no_tags', false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
-    function initPicker() { // initialise the color pickers
-        var backgroundColor = tempStyle[selTag].bg;
-        var foregroundColor = tempStyle[selTag].fg;
-        var useDefaultBackground;
-        var useDefaultForeground;
-        if (selTag === "t") {
-            spanBackground.style.visibility = "hidden";
-            useDefaultBackground = false;
-            spanForeground.style.visibility = "hidden";
-            useDefaultForeground = false;
-        } else {
-            spanBackground.style.visibility = "visible";
-            useDefaultBackground = ('' === backgroundColor);
-            spanForeground.style.visibility = "visible";
-            useDefaultForeground = ('' === foregroundColor);
-        }
-        foregroundCheckbox.checked = useDefaultForeground;
-        foreColor.disabled = useDefaultForeground;
-        foreColor.value = (
-            useDefaultForeground
-                ? tempStyle.t.fg
-                : foregroundColor
-        );
-        backgroundCheckbox.checked = useDefaultBackground;
-        backColor.disabled = useDefaultBackground;
-        backColor.value = (
-            useDefaultBackground
-                ? tempStyle.t.bg
-                : backgroundColor
-        );
+    function initColorSelector() {
+        ["t", "i", "b", "g", "sc", "f", "etc", "err", "hlt"].forEach(function(tag) {
+            ["fg", "bg"].forEach(function(foreBack) {
+                const color = tempStyle[tag][foreBack];
+                const checkBoxId = tag + "_" + foreBack;
+                const checkBox = $("#" + checkBoxId, "#color_table");
+                const colorInput = $("#col_" + checkBoxId, "#color_table");
+                const useDefault = ("" === color);
+                checkBox.prop("checked", !useDefault);
+                if(useDefault) {
+                    colorInput.hide();
+                } else {
+                    colorInput.val(color);
+                    colorInput.show();
+                }
+            });
+        });
     }
 
     function leavePreview() {
@@ -333,16 +340,13 @@ $( function() {
         configure: function () {    // show the configuration screen
             leavePreview();
             configPan.style.display = "block";
-            setViewColors(testDiv);  // uses previewStyles
             // make a copy of the styles so that if we cancel we can go back
             // to how it was before.
             tempStyle = deepCopy(tempStyle, previewStyles, false);
             testDiv.style.fontFamily = fontFamilies[previewStyles.defFontIndex];
             testDiv.style.fontSize = font_size.toFixed(1) + "px";
             testDraw();
-            selTag = "t";   // always start with t (plain text) selected
-            defaultTextRadio.checked = true;
-            initPicker();
+            initColorSelector();
             allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
             allowMathPreviewCheckbox.checked = tempStyle.allowMathPreview;
 
@@ -356,11 +360,6 @@ $( function() {
             previewStyles.color = en;
             saveStyle();
             writePreviewText();
-        },
-
-        setTagColors: function (val) { // when i b ... radio checked
-            selTag = val;
-            initPicker();
         },
 
         OKConfig: function () {
@@ -381,45 +380,6 @@ $( function() {
 
         cancelConfig: function () { // don't change anything
             hideConfig();
-        },
-
-        setForegroundColor: function () {
-            var useDefaultForeground = foregroundCheckbox.checked;
-            var colorValue = (
-                useDefaultForeground
-                    ? ""
-                    : foreColor.value
-            );
-            if (useDefaultForeground) {
-                foreColor.value = tempStyle.t.fg;
-            }
-            foreColor.disabled = useDefaultForeground;
-            tempStyle[selTag].fg = colorValue;
-            if ("t" === selTag) {
-                testDiv.style.color = colorValue;
-            } else {
-                testDraw();
-            }
-        },
-
-        // called when background colour or transparency changed
-        setBackgroundColor: function () {
-            var useDefaultBackground = backgroundCheckbox.checked;
-            var colorValue = (
-                useDefaultBackground
-                    ? ""
-                    : backColor.value
-            );
-            if (useDefaultBackground) {
-                backColor.value = tempStyle.t.bg;
-            }
-            backColor.disabled = useDefaultBackground;
-            tempStyle[selTag].bg = colorValue;
-            if ("t" === selTag) {
-                testDiv.style.backgroundColor = colorValue;
-            } else {
-                testDraw();
-            }
         },
     };
 });

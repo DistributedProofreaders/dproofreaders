@@ -5,6 +5,7 @@ include_once($relPath.'misc.inc');
 function get_style_strings()
 {
     return array(
+        "plain" => _("Plain text"),
         "italic" => _("Italic"),
         "bold" => _("Bold"),
         "gesperrt" => _("Gesperrt"),
@@ -59,14 +60,12 @@ function get_preview_messages()
 
 function get_preview_js_vars()
 {
-    $plain = _("Plain text");
     $superscript = _("superscript");
     $subscript = _("subscript");
     $styles = get_style_strings();
 
-    $demo_string = javascript_safe("$plain _{{$subscript}} <i>$styles[italic]</i> ^{{$superscript}} <b>$styles[bold]</b> <g>$styles[gesperrt]</g> <sc>$styles[small_caps]</sc> <f>$styles[font_change]</f>");
+    $demo_string = javascript_safe("{$styles['plain']} _{{$subscript}} <i>{$styles['italic']}</i> ^{{$superscript}} <b>{$styles['bold']}</b> <g>{$styles['gesperrt']}</g> <sc>{$styles['small_caps']}</sc> <f>{$styles['font_change']}</f>");
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"));
-
     $preview_msg = json_encode(get_preview_messages());
 
     return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
@@ -93,7 +92,6 @@ function output_preview_div()
     $re_wrap = html_safe(_("Re-wrap"));
     $issues = html_safe(_("Issues"));
     $poss_iss = html_safe(_("Poss. Issues"));
-    $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
@@ -113,6 +111,7 @@ function output_preview_div()
         $supp_item_string .= ("<label><input type='checkbox' id='$supp_item'>" . html_safe($messages[$supp_item]) . "</label><br>\n");
     }
 
+    // draw the format preview and controls
     echo <<<END
 <div id='prevdiv' class='no_display'>
     <div id='format_preview' class='flex_container'>
@@ -149,35 +148,44 @@ function output_preview_div()
         </div>
     </div>
 </div>
+END;
 
-<div id="id_config_panel" class='no_display'>
-    <div id='color_test'>
-    </div>
-    <div class="display-flex">
-        <div id="id_markmenu">
-            <fieldset>
-                <legend>$select</legend>
-                <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $styles[italic]<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $styles[bold]<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $styles[gesperrt]<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $styles[small_caps]<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $styles[font_change]<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
-                <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
-            </fieldset>
-        </div>
-        <div id="color_selector">
-            <fieldset>
-                <legend>$choose_colors</legend>
-                <input type="color" id="id_forecol" onchange="previewControl.setForegroundColor()"> $text
-                <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
-                <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
-                <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
-            </fieldset>
-        </div>
-    </div>
+    // draw the configuration panel
+    $tag_style = [
+        "t" => $styles['plain'],
+        "i" => $styles['italic'],
+        "b" => $styles['bold'],
+        "g" => $styles['gesperrt'],
+        "sc" => $styles['small_caps'],
+        "f" => $styles['font_change'],
+        "etc" => $other_tags,
+        "err" => $issues,
+        "hlt" => $poss_iss
+    ];
+    $fore_back_ground = ["fg", "bg"];
+    echo "<div id='id_config_panel' class='no_display'>
+<div id='color_test'></div>\n";
+
+    // draw the color selector table
+    echo "<fieldset><legend>$choose_colors</legend>\n<table id='color_table'>
+<tr><th></th><th colspan='2'>$text</th><th colspan='2'>$background</th></tr>";
+
+    // draw the rows for each style
+    foreach($tag_style as $tag => $style)
+    {
+        echo "<tr><td>$style</td>";
+        foreach($fore_back_ground as $ground)
+        {
+            // draw the plain row with no checkboxes
+            $check_box = ($tag == 't') ? "" : "<input type='checkbox' id='{$tag}_$ground'>";
+            echo "<td>$check_box</td>";
+            echo "<td><input type='color' id='col_{$tag}_$ground'></td>";
+        }
+        echo "</tr>\n";
+    }
+    echo "</table>\n</fieldset>\n";
+
+    echo <<<END1
     <fieldset>
         <legend>$options</legend>
         <input type="checkbox" id="id_underline"><label for="id_underline">$allow_underine</label><br>
@@ -200,7 +208,7 @@ function output_preview_div()
         <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
     </div>
 </div>
-END;
+END1;
 }
 
 function get_preview_font_data_js()
