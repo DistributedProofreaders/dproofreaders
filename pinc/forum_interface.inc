@@ -342,7 +342,7 @@ function get_forum_user_details($username)
         "location" => "from",
     );
     $query = sprintf("
-        SELECT
+        SELECT *
         FROM %s
         WHERE user_id = %d",
         phpbb_table("profile_fields_data"),
