@@ -39,61 +39,61 @@ output_header("Style Demos");
 <h2 id='links'>Links</h2>
 <p><a href='../activity_hub.php'>Activity Hub</a></p>
 
-<h2 id='table-formats'>Table formats<h2>
+<h2 id='table-formats'>Table formats</h2>
 <h3>Un-styled table</h3>
 <table>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Basic table</h3>
 <table class='basic'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Striped table</h3>
 <table class='striped'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Basic striped table</h3>
 <table class='basic striped'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Themed table</h3>
 <table class='themed'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Theme-striped table</h3>
 <table class='theme_striped'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 <h3>Themed & themed-striped table</h3>
 <table class='themed theme_striped'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
-<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
+<tr> <td>Data 1</td> <td>Data 2</td> <td>Data 3</td> </tr>
 </table>
 
 
