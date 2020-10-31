@@ -238,7 +238,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
         try {
             $res = DPDatabase::query($sql);
         } catch(DBQueryError $error) {
-            echo "$error->message\n";
+            echo $error->getMessage() . "\n";
             echo "Skipping further processing of this project.\n";
             continue;
         }
