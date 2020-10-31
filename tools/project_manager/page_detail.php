@@ -10,51 +10,46 @@ require_login();
 
 $projectid = get_projectID_param($_GET, 'project');
 $show_image_size = get_integer_param($_GET,'show_image_size',0,0,1);
+$round_for_page_selection = get_enumerated_param($_GET, 'select_by_round', NULL, array_keys($Round_for_round_id_), TRUE);
 
-$project = new Project( $projectid );
-
-if ( isset($_GET['select_by_user']) )
+// select_by_user can have three possible values:
+//    NULL = show all users
+//    '' = show current user
+//    <username> = show specific user
+$username_for_page_selection = array_get($_GET, 'select_by_user', NULL);
+if($username_for_page_selection === '')
 {
-    $sbu = $_GET['select_by_user'];
-    if ( empty($sbu) )
+    $username_for_page_selection = $pguser;
+}
+
+// Validate user selection
+if($username_for_page_selection)
+{
+    // Only SAs and PFs can use select_by_user. This is to prevent users from
+    // tweaking this value and determining what user proofread what page in a
+    // project. This is possible because while the table renderer will hide
+    // usernames for users not privileged to access them, select_by_user and
+    // select_by_round will still only present the requested rows allowing the
+    // requester to determine what pages a user did in which round.
+    if(! (user_is_a_sitemanager() || user_is_proj_facilitator()) )
     {
-        // Show just the current user's pages.
         $username_for_page_selection = $pguser;
     }
-    else
-    {
-        // Explicitly specify a particular user.
-        // This is only available to PFs & SAs.
-        // (Yes, even though it merely filters
-        // information that is available to all.)
-        if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
-        {
-            $username_for_page_selection = $sbu;
-        }
-        else
-        {
-            // Just show the current user's pages.
-            $username_for_page_selection = $pguser;
-        }
-    }
-}
-else
-{
-    // No 'select_by_user' parameter, so show all pages.
-    $username_for_page_selection = NULL;
-}
 
-// this only has any effect if the user is set too.
-$round_for_page_selection = NULL;
-if ( isset($_GET['select_by_round']) )
-{
-    $sbr = $_GET['select_by_round'];
-    if ( !empty($sbr) && $sbr != 'ALL' )
+    // Validate the requested username
+    if(!User::is_valid_user($username_for_page_selection))
     {
-        $round_for_page_selection = $sbr;
+        $username_for_page_selection = NULL;
     }
 }
 
+// if $username_for_page_selection is NULL, unset $round_for_page_selection
+if(!$username_for_page_selection)
+{
+    $round_for_page_selection = NULL;
+}
+
+$project = new Project( $projectid );
 $state = $project->state;
 $title = $project->nameofwork;
 $page_details_str = _('Page Detail');
@@ -80,14 +75,14 @@ if($project->check_pages_table_exists($warn_message))
     {
         if (is_null($round_for_page_selection) )
         {
-            echo sprintf( _("Showing only the pages of user '%s'."), 
-                          $username_for_page_selection );
+            echo sprintf( _("Showing only the pages of user '%s'."),
+                          html_safe($username_for_page_selection) );
         }
         else
         {
-            echo sprintf( _("Showing only the pages of user '%1\$s' in round %2\$s."), 
-                          $username_for_page_selection, 
-                          $round_for_page_selection );
+            echo sprintf( _("Showing only the pages of user '%1\$s' in round %2\$s."),
+                          html_safe($username_for_page_selection),
+                          html_safe($round_for_page_selection) );
         }
         $blurb = _("Show all pages instead.");
         echo "&nbsp;&nbsp;";
@@ -107,8 +102,4 @@ else
     echo "<p class='warning'>$warn_message</p>\n";
 }
 
-echo "<br>";
-
 // vim: sw=4 ts=4 expandtab
-?>
-
