@@ -237,7 +237,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
             $max_reclaimable_time);
         try {
             $res = DPDatabase::query($sql);
-        } catch(DPQueryError $error) {
+        } catch(DBQueryError $error) {
             echo "$error->message\n";
             echo "Skipping further processing of this project.\n";
             continue;
