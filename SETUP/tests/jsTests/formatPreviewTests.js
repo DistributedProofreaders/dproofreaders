@@ -112,12 +112,6 @@ QUnit.module("Format preview test", function() {
         noIssueTest(assert);
     });
 
-    QUnit.test("tabulate character", function (assert) {
-        text = "ab\tcd";
-        issArray = analyse(text, configuration);
-        issueTest(assert, 0, 2, 1, "tabChar", 1);
-    });
-
     QUnit.test("character before footnote", function (assert) {
         text = "xy[1]\n\nz[Footnote 1: ab]";
         issArray = analyse(text, configuration);
