@@ -1,4 +1,5 @@
 <?php
+include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'abort.inc');
@@ -543,30 +544,6 @@ function _Page_require(
             abort($err);
         }
     }
-}
-
-/**
- * Return a SQL "colname='value'" clause, where `$colname` is
- * not escaped, and `$s` is an escaped and quoted string.
- */
-function set_col_str($colname, $s)
-{
-    return sprintf("%s='%s'", $colname, DPDatabase::escape($s));
-}
-
-/**
- * Return a SQL "colname=value" clause, where `$colname` is
- * not escaped, and `$i` is treated as an integer.
- *
- * If `$i` is non-numeric, an `InvalidArgumentException` is thrown.
- */
-function set_col_num($colname, $i)
-{
-    if (!is_numeric($i))
-    {
-        throw new InvalidArgumentException("$i is not a number");
-    }
-    return sprintf("%s=%d", $colname, $i);
 }
 
 function _Page_UPDATE( $projectid, $image, $settings )

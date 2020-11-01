@@ -81,10 +81,11 @@ if ($action == 'show_specials')
 
     show_sd_toolbar($action);
 
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT spec_code
+    $sql = "
+        SELECT spec_code
         FROM special_days
-        ORDER BY open_month, open_day");
-
+        ORDER BY open_month, open_day";
+    $result = DPDatabase::query($sql);
     echo "<br>\n\n";
     echo "<table class='list_special_days'>\n";
     $count=0;
@@ -131,11 +132,12 @@ class SpecialDay
 
         if( !is_null($spec_code) )
         {
-            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+            $sql = sprintf("
                 SELECT *
                 FROM special_days
-                WHERE spec_code = '%s'
-                ", mysqli_real_escape_string(DPDatabase::get_connection(), $spec_code)));
+                WHERE spec_code = '%s'",
+                DPDatabase::escape($spec_code));
+            $result = DPDatabase::query($sql);
             $source_fields = mysqli_fetch_assoc($result);
 
             if($source_fields)
@@ -300,7 +302,7 @@ class SpecialDay
         $std_fields = array('display_name','enable','comment',
                     'color','open_day','open_month','close_day',
                     'close_month','date_changes');
-        $std_fields_sql = '';
+        $std_fields_sql = [];
         foreach ($std_fields as $field)
         {
             switch ($field)
@@ -318,8 +320,9 @@ class SpecialDay
                     $this->$field = $_POST[$field];
                 }
             }
-            $std_fields_sql .= sprintf("%s = '%s',\n", $field, mysqli_real_escape_string(DPDatabase::get_connection(), $this->$field));
+            $std_fields_sql[] = set_col_str($field, $this->$field);
         }
+        $std_fields_sql = join(",\n", $std_fields_sql);
 
         if ($this->new_source)
             $this->spec_code = $_POST['spec_code'];
@@ -341,27 +344,30 @@ class SpecialDay
             die;
         }
 
-        $esc_spec_code = mysqli_real_escape_string(DPDatabase::get_connection(), $this->spec_code);
-        $esc_info_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->info_url);
-        $esc_image_url = mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_url);
-        mysqli_query(DPDatabase::get_connection(), "
+        $setters = join(", ", [
+            set_col_str("spec_code", $this->spec_code),
+            set_col_str("info_url", $this->info_url),
+            set_col_str("image_url", $this->image_url)
+        ]);
+        $sql = "
             REPLACE INTO special_days
             SET
-                spec_code = '$esc_spec_code',
-                $std_fields_sql
-                info_url  = '$esc_info_url',
-                image_url = '$esc_image_url'
-            ") or die(DPDatabase::log_error());
+                $std_fields_sql,
+                $setters
+        ";
+        DPDatabase::query($sql);
     }
 
     function _set_field($field,$value)
     {
-        mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             UPDATE special_days
             SET $field = '%s'
-            WHERE spec_code = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
-            mysqli_real_escape_string(DPDatabase::get_connection(), $this->spec_code)));
+            WHERE spec_code = '%s'",
+            DPDatabase::escape($value),
+            DPDatabase::escape($this->spec_code)
+        );
+        DPDatabase::query($sql);
         $this->$field = $value;
     }
 
