@@ -580,6 +580,30 @@ function surround_and_join( $strings, $L, $R, $joiner )
     return implode($joiner,$parts);
 }
 
+/**
+ * Return a SQL "colname='value'" clause, where `$colname` is
+ * not escaped, and `$s` is an escaped and quoted string.
+ */
+function set_col_str($colname, $s)
+{
+    return sprintf("%s='%s'", $colname, DPDatabase::escape($s));
+}
+
+/**
+ * Return a SQL "colname=value" clause, where `$colname` is
+ * not escaped, and `$i` is treated as an integer.
+ *
+ * If `$i` is non-numeric, an `InvalidArgumentException` is thrown.
+ */
+function set_col_num($colname, $i)
+{
+    if (!is_numeric($i))
+    {
+        throw new InvalidArgumentException("$i is not a number");
+    }
+    return sprintf("%s=%d", $colname, $i);
+}
+
 // Given an associative array, return a MySQL string that can be use in an
 // INSERT or UPDATE string.
 // $source_array is an associative array where the keys are MySQL column
@@ -596,21 +620,20 @@ function surround_and_join( $strings, $L, $R, $joiner )
 // numeric values) for all fields that are not within $source_array.
 function create_mysql_update_string($source_array, $string_fields = [])
 {
-    $update_fields = array();
+    $update_fields = [];
     foreach($source_array as $field => $value)
     {
-        if(in_array($field, $string_fields))
+        if (in_array($field, $string_fields))
         {
-            $value = sprintf("'%s'", mysqli_real_escape_string(DPDatabase::get_connection(), trim($value)));
+            $update_fields[] = set_col_str($field, trim($value));
         }
         else
         {
-            $value = $value ? intval($value) : 0;
+            $update_fields[] = set_col_num($field, $value ? intval($value) : 0);
         }
-        array_push($update_fields, "$field = $value");
     }
 
-    return implode(", ", $update_fields);
+    return join(", ", $update_fields);
 }
 
 // Return a list of only the files directly inside in the specified directory.
