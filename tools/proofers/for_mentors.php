@@ -37,7 +37,7 @@ else
     // Consider the page they came from.
     $referer = @$_SERVER['HTTP_REFERER'];
 
-    // If they're coming to this page from a MENTORS ONLY book in X2, 
+    // If they're coming to this page from a MENTORS ONLY book in X2,
     // referrer should contain &expected_state=X2.proj_avail.
     foreach ( $Round_for_round_id_ as $round )
         {
@@ -208,16 +208,17 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
 
 function get_beginner_projects_in_state($state)
 {
-    $sql = "
+    $sql = sprintf("
         SELECT projectid, nameofwork, authorsname
         FROM projects
         WHERE
             difficulty = 'BEGINNER' AND
-            state='$state'
+            state='%s'
         ORDER BY
-            modifieddate ASC
-    ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            modifieddate ASC",
+        DPDatabase::escape($state)
+    );
+    $result = DPDatabase::query($sql);
     $projects = [];
     while($proj_obj = mysqli_fetch_object($result))
     {
@@ -234,27 +235,28 @@ function page_summary_sql($mentored_round, $projectid)
 
     $round_tallyboard = new TallyBoard($mentored_round->id, 'U' );
 
-    list($joined_with_user_page_tallies,$user_page_tally_column) =
+    list($joined_with_user_page_tallies, $user_page_tally_column) =
             $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
+
+    $mdetail_a_href = "<a href=\"{$code_url}/stats/members/mdetail.php?&id=";
+    $proofreader = DPDatabase::escape(_("Proofreader"));
+    $pages_this_project = DPDatabase::escape(_("Pages this project"));
+    // TRANSLATORS: %s is a round ID
+    $total_pages = DPDatabase::escape(sprintf(_("Total %s Pages"), $mentored_round->id));
+    $joined = DPDatabase::escape(_("Joined"));
     return "
         SELECT
-            CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN u.username
-            ELSE CONCAT('<a href=\""
-                .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
-                '\">',u.username,'</a>')
-            END AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "',
-            COUNT(1) AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages this project")) . "',
-            $user_page_tally_column AS '" . 
-                // TRANSLATORS: %s is a round ID
-                mysqli_real_escape_string(DPDatabase::get_connection(), 
-                    sprintf(_("Total %s Pages"), $mentored_round->id)) . "',
-            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%Y %b %d %H:%i') AS '" .
-                mysqli_real_escape_string(DPDatabase::get_connection(), _("Joined")) . "'
+            CASE WHEN u.u_privacy = " . PRIVACY_ANONYMOUS . " THEN u.username
+            ELSE CONCAT('$mdetail_a_href', u.u_id, '\">', u.username,'</a>')
+            END AS '$proofreader',
+            COUNT(1) AS '$pages_this_project',
+            $user_page_tally_column AS '$total_pages',
+            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%Y %b %d %H:%i') AS '$joined'
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             $joined_with_user_page_tallies
-        GROUP BY p.{$mentored_round->user_column_name}" ;
+        GROUP BY p.{$mentored_round->user_column_name}";
 }
 
 // -------------------------------------------------------------------
@@ -273,10 +275,10 @@ function page_list_sql($mentored_round, $projectid)
         image
     ";
 
-    $page = mysqli_real_escape_string(DPDatabase::get_connection(), _("Page"));
-    $saved = mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved"));
-    $proofreader = mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader"));
-    $wc_events = mysqli_real_escape_string(DPDatabase::get_connection(), _("WordCheck Events"));
+    $page = DPDatabase::escape(_("Page"));
+    $saved = DPDatabase::escape(_("Saved"));
+    $proofreader = DPDatabase::escape(_("Proofreader"));
+    $wc_events = DPDatabase::escape(_("WordCheck Events"));
 
     return "
         SELECT
