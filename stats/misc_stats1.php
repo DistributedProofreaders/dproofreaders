@@ -9,7 +9,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 require_login();
 
 $valid_tally_names = array_keys(get_page_tally_names());
-$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
 // -----------------------------------
 
@@ -84,10 +84,10 @@ function show_top_days( $n, $when )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {date} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Date")) . "',
-                tally_delta as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Proofread")) . "',
+                {date} as '" . DPDatabase::escape(_("Date")) . "',
+                tally_delta as '" . DPDatabase::escape(_("Pages Proofread")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                   . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
+                   . DPDatabase::escape(_("This Month?")) . "'",
             $where,
             "",
             "ORDER BY 2 DESC",
@@ -132,13 +132,13 @@ function show_month_sums( $which )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {year_month} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Month")) . "',
+                {year_month} as '" . DPDatabase::escape(_("Month")) . "',
                 CAST(SUM(tally_delta) AS SIGNED) as '" 
-                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Proofread")) . "',
+                    . DPDatabase::escape(_("Pages Proofread")) . "',
                 CAST(SUM(goal) AS SIGNED) as '" 
-                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("Monthly Goal")) . "',
+                    . DPDatabase::escape(_("Monthly Goal")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
+                    . DPDatabase::escape(_("This Month?")) . "'",
             "",
             "GROUP BY 1",
             "ORDER BY $order",
@@ -160,10 +160,10 @@ function show_months_with_most_days_over( $n )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {year_month} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Month")) . "',
-                count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Number of Days")) . "',
+                {year_month} as '" . DPDatabase::escape(_("Month")) . "',
+                count(*) as '" . DPDatabase::escape(_("Number of Days")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
+                    . DPDatabase::escape(_("This Month?")) . "'",
             "WHERE tally_delta >= $n",
             "GROUP BY 1",
             "ORDER BY 2 DESC",
