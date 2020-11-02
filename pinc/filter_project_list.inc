@@ -66,7 +66,7 @@ class ProjectFilterElement
     {
         $query = "SELECT distinct $this->id FROM projects WHERE ($this->state_sql) ORDER BY $this->id";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($query);
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[0];
@@ -91,7 +91,7 @@ class GenreElement extends ProjectFilterElement
             FROM projects NATURAL JOIN genre_translations
             WHERE ($this->state_sql) ORDER BY trans_genre";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($query);
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[1];
@@ -105,11 +105,11 @@ class SpecialDayElement extends ProjectFilterElement
     protected function get_options()
     {
         $query = "
-            SELECT  DISTINCT special_code, display_name
+            SELECT DISTINCT special_code, display_name
             FROM projects, special_days
             WHERE projects.special_code = special_days.spec_code AND ($this->state_sql) ORDER BY display_name";
         $options = [];
-        $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+        $result = DPDatabase::query($query);
         while ($cols = mysqli_fetch_row($result))
         {
             $options[$cols[0]] = $cols[1];
@@ -310,7 +310,7 @@ class ProjectSearchElement
             return "";
         }
         array_walk($values, function(&$value) {
-            $value = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
+            $value = DPDatabase::escape($value);
         });
         return $this->construct_sql($values);
     }
@@ -397,9 +397,15 @@ function save_display($pguser, $filter_type, $data)
 
 function save_raw_data($pguser, $data_name, $data)
 {
-    $enc_data = mysqli_real_escape_string(DPDatabase::get_connection(), $data);
-    $query = "REPLACE INTO user_filters (username, filtertype, value) VALUES ('$pguser', '$data_name', '$enc_data')";
-    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+    $query = sprintf("
+        REPLACE INTO user_filters
+        (username, filtertype, value)
+        VALUES ('%s', '%s', '%s')",
+        DPDatabase::escape($pguser),
+        DPDatabase::escape($data_name),
+        DPDatabase::escape($enc_data)
+    );
+    DPDatabase::query($query);
 }
 
 function get_saved_data($pguser, $filter_type)
@@ -414,18 +420,18 @@ function get_project_filter_display($pguser, $filter_type)
 
 function get_raw_saved_data($pguser, $data_name)
 {
-    $data_name = mysqli_real_escape_string(DPDatabase::get_connection(), $data_name);
-    $query = "SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$data_name'";
-    $result = mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+
+    $query = sprintf("
+        SELECT value
+        FROM user_filters
+        WHERE username = '%s'
+            AND filtertype = '%s'",
+        DPDatabase::escape($pguser),
+        DPDatabase::escape($data_name)
+    );
+    $result = DPDatabase::query($query);
     $row = mysqli_fetch_assoc($result);
-    if($row)
-    {
-        return $row["value"];
-    }
-    else
-    {
-        return "";
-    }
+    return $row ? $row["value"] : "";
 }
 
 // vim: sw=4 ts=4 expandtab
