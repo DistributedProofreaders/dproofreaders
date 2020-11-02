@@ -23,6 +23,7 @@ include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & g
 include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
+include_once($relPath.'special_colors.inc'); // load_special_days
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -317,13 +318,14 @@ function decide_blurbs()
 
         // Has the user saved a page of this project since the project comments were
         // last changed? If not, it's unlikely they've seen the revised comments.
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             SELECT {$round->time_column_name}
             FROM $projectid
-            WHERE state='{$round->page_save_state}' AND {$round->user_column_name}='$pguser'
+            WHERE state='{$round->page_save_state}' AND {$round->user_column_name}='" . DPDatabase::escape($pguser) . "'
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
-        ");
+        ";
+        $res = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($res);
         if (!$row)
         {
@@ -466,29 +468,16 @@ function do_project_info_table()
     if (!empty($project->special_code))
     {
         $spec_code = $project->special_code;
-        if (
-            (strncmp($spec_code,'Birthday',8) == 0 ) or
-            (strncmp($spec_code,'Otherday',8) == 0 )
+        if (startswith($spec_code, 'Birthday') ||
+            startswith($spec_code, 'Otherday')
         )
         {
             $spec_display = $spec_code;
         }
         else
         {
-            $sql = sprintf("
-                SELECT display_name
-                FROM special_days
-                WHERE spec_code = '%s'
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $spec_code));
-            $spec_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), $sql));
-            if ($spec_res)
-            {
-                $spec_display = $spec_res['display_name'];
-            }
-            else
-            {
-                $spec_display = "($spec_code)";
-            }
+            $special_days = load_special_days();
+            $spec_display = $special_days[$spec_code]["display_name"] ?? "($spec_code)";
         }
 
         echo_row_a( _("Special Day"), $spec_display );
@@ -562,13 +551,14 @@ function do_project_info_table()
 
     if ($round)
     {
-        $proofdate = mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             SELECT {$round->time_column_name}
             FROM $projectid
             WHERE state='{$round->page_save_state}'
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
-        ");
+        ";
+        $proofdate = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($proofdate);
         if ($row)
         {
@@ -899,11 +889,12 @@ function recentlyproofed( $wlist )
     $sql = "
         SELECT $projectid.image, $projectid.state, {$round->time_column_name}, $wordcheck_query
         FROM $projectid
-        WHERE {$round->user_column_name}='$pguser' AND $state_condition
+        WHERE {$round->user_column_name}='" . DPDatabase::escape($pguser) . "'
+            AND $state_condition
         ORDER BY {$round->time_column_name} DESC
         LIMIT $recentNum
     ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    $result = DPDatabase::query($sql);
     $rownum = 0;
     $numrows = mysqli_num_rows($result);
 
@@ -1088,12 +1079,13 @@ function do_waiting_queues()
     echo _("Queues");
     echo "</h2>\n";
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT name, project_selector
         FROM queue_defns
         WHERE round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(DPDatabase::log_error());
+    ";
+    $res = DPDatabase::query($sql);
     if ( mysqli_num_rows($res) == 0 )
     {
         // No queues defined for this round.
@@ -1115,12 +1107,12 @@ function do_waiting_queues()
         while ( list($q_name,$q_project_selector) = mysqli_fetch_row($res) )
         {
             $cooked_project_selector = cook_project_selector($q_project_selector);
-
-            $res2 = mysqli_query(DPDatabase::get_connection(), "
+            $sql = "
                 SELECT projectid
                 FROM projects
                 WHERE projectid='{$project->projectid}' AND ($cooked_project_selector)
-            ") or die(DPDatabase::log_error());
+            ";
+            $res2 = DPDatabase::query($sql);
             if ( mysqli_num_rows($res2) > 0 )
             {
                 $n_queues += 1;
@@ -1271,15 +1263,14 @@ function do_history()
     global $project;
 
     echo "<h2>", _("Project History"), "</h2>\n";
-
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT timestamp, who, event_type, details1, details2, details3
         FROM project_events
         WHERE projectid = '{$project->projectid}'
         ORDER BY event_id
-    ") or die(DPDatabase::log_error());
-
-    $events = array();
+    ";
+    $res = DPDatabase::query($sql);
+    $events = [];
     while ( $event = mysqli_fetch_assoc($res) )
     {
         $events[] = $event;
@@ -1288,7 +1279,7 @@ function do_history()
     $events2 = fill_gaps_in_events( $events );
 
     // The project history is only partially translated right now.
-    $event_type_labels = array(
+    $event_type_labels = [
         "archive" => _("archive"),
         "creation" => _("creation"),
         "deletion" => _("deletion"),
@@ -1298,7 +1289,7 @@ function do_history()
         "transition(s)" => _("transition(s)"),
         "add_holds" => _("add hold(s)"),
         "remove_holds" => _("remove hold(s)"),
-    );
+    ];
 
     // this table has 6 columns
     echo "<table class='basic'>\n";
@@ -1706,16 +1697,17 @@ function do_post_files()
 
     global $Round_for_round_id_, $code_url;
 
-    $sums_str = "";
+    $sums = [];
     foreach ( $Round_for_round_id_ as $round )
     {
-        if ( !empty($sums_str) ) $sums_str .= ', ';
-        $sums_str .= "SUM( $round->text_column_name != '' ) AS $round->id";
+        $sums[] = "SUM( $round->text_column_name != '' ) AS $round->id";
     }
-    $res = mysqli_query(DPDatabase::get_connection(), "
-            SELECT $sums_str
+    $sums = join(", ", $sums);
+    $sql = "
+            SELECT $sums
             FROM $projectid
-        ") or die(DPDatabase::log_error());
+    ";
+    $res = DPDatabase::query($sql);
     $sums = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round )
