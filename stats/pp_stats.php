@@ -22,8 +22,7 @@ echo "<h2>" . _("Total Projects Post-Processed Since Statistics were Kept") . "<
 $psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
     SELECT
-        SUM(num_projects) as '" 
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Total Projects Post-Processed So Far")) . "'
+        SUM(num_projects) AS '" . DPDatabase::escape(_("Total Projects Post-Processed So Far")) . "'
     FROM project_state_stats WHERE $psd->state_selector
     GROUP BY date ORDER BY date DESC LIMIT 1
 ");
@@ -34,8 +33,7 @@ echo "<h2>" . _("Number of Distinct Post-Processors") . "</h2>\n";
 
 dpsql_dump_themed_query("
     SELECT
-        count(distinct postproofer) as '" 
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Different PPers")) . "'
+        COUNT(DISTINCT postproofer) AS '" . DPDatabase::escape(_("Different PPers")) . "'
     FROM projects
 ");
 
@@ -47,11 +45,9 @@ echo "<h3>" . _("Number of Projects Finished PPing") . "</h3>\n";
 $psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
     SELECT
-        postproofer as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("PPer")) . "',
-        count(*) as '" 
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Projects Finished PPing")) . "',
-        cast(sum(n_pages) as unsigned) as '"
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Finished PPing")) . "'
+        postproofer AS '" . DPDatabase::escape(_("PPer")) . "',
+        COUNT(*) AS '" . DPDatabase::escape(_("Projects Finished PPing")) . "',
+        CAST(SUM(n_pages) AS unsigned) AS '" . DPDatabase::escape(_("Pages Finished PPing")) . "'
     FROM projects
     WHERE $psd->state_selector
         AND postproofer is not null
@@ -66,10 +62,9 @@ echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
     SELECT
-        postproofer as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("PPer")) . "',
-        count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Projects Posted to PG")) . "',
-        cast(sum(n_pages) as unsigned) as '"
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Posted to PG")) . "'
+        postproofer AS '" . DPDatabase::escape(_("PPer")) . "',
+        COUNT(*) AS '" . DPDatabase::escape(_("Projects Posted to PG")) . "',
+        cast(sum(n_pages) AS unsigned) AS '" . DPDatabase::escape(_("Pages Posted to PG")) . "'
     FROM projects
     WHERE $psd->state_selector
     AND postproofer is not null
