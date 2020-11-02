@@ -83,13 +83,13 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
     list($langcode3s, $new_messages) = get_langcode3s_for_languages($languages);
     $messages += $new_messages;
 
-    $word_lists = array(
+    $word_lists = [
         "adhoc_good" => $adhoc_good_words,
         "site_good" => load_site_good_words($langcode3s),
         "site_bad" => load_site_bad_words($langcode3s),
         "project_good" => load_project_good_words($projectid),
         "project_bad" => load_project_bad_words($projectid)
-    );
+    ];
 
     list($input_words_w_freq, $bad_words, $new_messages) =
         get_bad_words_for_text($text, $languages, $word_lists);
@@ -118,7 +118,7 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
         assert(FALSE);
     }
 
-    return array($bad_words_in_text, $languages, $messages);
+    return [$bad_words_in_text, $languages, $messages];
 }
 
 
@@ -160,8 +160,8 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
     // The site
     {
-        $acc->remove_good_words(array_get($word_lists, "site_good", array()));
-        $acc->add_bad_words(array_get($word_lists, "site_bad", array()), WC_SITE);
+        $acc->remove_good_words(array_get($word_lists, "site_good", []));
+        $acc->add_bad_words(array_get($word_lists, "site_bad", []), WC_SITE);
 
         $acc->add_bad_words(
             get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
@@ -172,17 +172,17 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
     // The project
     {
-        $acc->remove_good_words(array_get($word_lists, "project_good", array()));
+        $acc->remove_good_words(array_get($word_lists, "project_good", []));
 
-        $acc->add_bad_words(array_get($word_lists, "project_bad", array()), WC_PROJECT);
+        $acc->add_bad_words(array_get($word_lists, "project_bad", []), WC_PROJECT);
     }
 
     // The page
     {
-        $acc->remove_good_words(array_get($word_lists, "adhoc_good", array()));
+        $acc->remove_good_words(array_get($word_lists, "adhoc_good", []));
     }
 
-    return array($input_words_w_freq, $acc->words, $acc->messages);
+    return [$input_words_w_freq, $acc->words, $acc->messages];
 }
 
 // -----------------------------------------------------------------------------
@@ -191,12 +191,12 @@ class BadWordAccumulator
 {
     function __construct()
     {
-        $this->words = array();
+        $this->words = [];
         // Each key is a bad word, and its value is
         // a constant denoting the (most specific) level
         // at which the word was deemed bad.
 
-        $this->messages = array();
+        $this->messages = [];
     }
 
     function add_bad_words($bad_words, $val)
@@ -250,20 +250,20 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix, $charset;
 
-    $messages = array();
+    $messages = [];
 
     $tmp_file_path = tempnam($aspell_temp_dir, "pagetext-");
 
-    $tmp_file_text = implode("\n", array_keys($input_words_w_freq));
+    $tmp_file_text = join("\n", array_keys($input_words_w_freq));
     $wasWritten = file_put_contents($tmp_file_path, $tmp_file_text);
     unset($tmp_file_text);
     if($wasWritten === FALSE)
     {
         $messages[] = sprintf(_("Error: unable to write text to temp file: %s"), $tmp_file_path);
-        return array(array(), $messages);
+        return [[], $messages];
     }
 
-    $misspellings = array();
+    $misspellings = [];
     foreach($languages as $language) {
         $langcode = proj_lang_code($language, "primary");
         if($langcode) {
@@ -277,7 +277,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 // run aspell
                 // "asr" stands for "aspell result"
                 $asr_text = trim(shell_exec($aspell_command));
-                $asr_text = str_replace(array("\r","\n"), array('',"[lf]"), $asr_text);
+                $asr_text = str_replace(["\r","\n"], ['',"[lf]"], $asr_text);
                 // build our list of possible misspellings
                 $misspellings[$langcode] = explode("[lf]", $asr_text);
                 unset($asr_text);
@@ -299,8 +299,8 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     }
 
     if(count($misspellings) == 0) {
-        $finalMisspellings = array();
-        return array($finalMisspellings, $messages);
+        $finalMisspellings = [];
+        return [$finalMisspellings, $messages];
     }
 
     // now we need to find the intersection between the languages that we've checked
@@ -318,7 +318,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // return partial words that aren't actually in the list.
     $finalMisspellings = array_intersect($finalMisspellings, array_keys($input_words_w_freq));
 
-    return array($finalMisspellings, $messages);
+    return [$finalMisspellings, $messages];
 }
 
 // Return all words containing diacritical markup
@@ -378,23 +378,23 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
     list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
 
-    $badWords = array();
+    $badWords = [];
 
     // pattern #1
     // flag all words with embedded digits while
     // ignoring common valid <digit><letter> combinations
     //
-    $exceptions_for_lang = array(
+    $exceptions_for_lang = [
         'eng' => '\d*[04-9]th|\d*1[123]th|(\d*[02-9])?(1st|2nd|3rd)',
         'fre' => '\d+(er|me)',
         // etc
-    );
-    $exceptions = array();
+    ];
+    $exceptions = [];
     foreach($langcode3s as $langcode3)
     {
         $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
     }
-    $exceptions = implode('|', $exceptions);
+    $exceptions = join('|', $exceptions);
     $exceptions_pattern = "/^($exceptions)$/u";
 
     foreach($input_words_w_freq as $word => $freq) {
@@ -404,7 +404,7 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
             // ignore common <digit><letter> combinations
             if(preg_match($exceptions_pattern, $word)) continue;
 
-            array_push($badWords, $word);
+            $badWords[] = $word;
         }
     }
 
@@ -458,7 +458,7 @@ function load_site_possible_bad_words($langcode3s)
 function _load_site_words($type, $langcode3s)
 {
     if(!is_array($langcode3s))
-        $langcode3s = array($langcode3s);
+        $langcode3s = [$langcode3s];
 
     $words = [];
     foreach($langcode3s as $langcode3)
@@ -526,10 +526,12 @@ function normalize_word_list($words)
 // This is called when deleting a project.
 function delete_project_wordcheck_events($projectid)
 {
-    mysqli_query(DPDatabase::get_connection(), sprintf("
+    $sql = sprintf("
         DELETE FROM wordcheck_events
-        WHERE projectid='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)));
+        WHERE projectid='%s'",
+        DPDatabase::escape($projectid)
+    );
+    DPDatabase::query($sql);
 }
 
 // Merge the word list from the source project into the destination
@@ -563,11 +565,11 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
             (projectid, timestamp, image, round_id, username, suggestions, corrections)
         SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
         FROM wordcheck_events
-        WHERE projectid = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $to_projectid),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $from_projectid));
-
-    mysqli_query(DPDatabase::get_connection(), $sql);
+        WHERE projectid = '%s'",
+        DPDatabase::escape($to_projectid),
+        DPDatabase::escape($from_projectid)
+    );
+    DPDatabase::query($sql);
     // no results for an INSERT clause, so no need to free the results.
 }
 
@@ -575,32 +577,24 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
 
 function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions, $corrections)
 {
-    $suggestion_list = implode("\n", $suggestions);
-
-    $correction_list = array();
-
     // save the corrections in wdiff format
-    foreach($corrections as $correction) {
-        list($orig, $new) = $correction;
+    $correction_list = [];
+    foreach ($corrections as list($orig, $new)) {
         $correction_list[] = "[-$orig-] {+$new+}";
     }
 
-    $correction_list = implode("\n", $correction_list);
-
-    // escape single quotes
-    $suggestion_list = mysqli_real_escape_string(DPDatabase::get_connection(), $suggestion_list);
-    $correction_list = mysqli_real_escape_string(DPDatabase::get_connection(), $correction_list);
-
-    $time = time();
-
-    $sql = "INSERT INTO wordcheck_events SET
-            projectid='$projectid', timestamp=$time, image='$page',
-            round_id='$round', username='$proofer', suggestions='$suggestion_list',
-            corrections='$correction_list'";
-
-    if(mysqli_query(DPDatabase::get_connection(), $sql) === FALSE) {
-        return DPDatabase::log_error();
-    }
+    $setters = join(", ", [
+        set_col_str("projectid", $projectid),
+        set_col_num("timestamp", time()),
+        set_col_str("image", $page),
+        set_col_str("round_id", $round),
+        set_col_str("username", $proofer),
+        set_col_str("suggestions", join("\n", $suggestions)),
+        set_col_str("corrections", join("\n", $correction_list))
+    ]);
+    $sql = "INSERT INTO wordcheck_events
+            SET $setters";
+    DPDatabase::query($sql);
 }
 
 // Count the number of wordcheck_events for this project
@@ -610,12 +604,15 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
 // not need the precise number of suggested words.
 function count_wordcheck_suggestion_events($projectid, $start_time=0)
 {
-    $sql = "SELECT count(*) AS numevents FROM wordcheck_events
-            WHERE projectid='$projectid'
-            AND timestamp>$start_time AND suggestions<>''";
+    $sql = sprintf("
+        SELECT count(*) AS numevents FROM wordcheck_events
+        WHERE projectid='%s'
+        AND timestamp>%d AND suggestions<>''",
+        DPDatabase::escape($projectid),
+        $start_time
+    );
 
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
-    if ($res === FALSE) return 0;
+    $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($res);
 
@@ -626,15 +623,17 @@ function count_wordcheck_suggestion_events($projectid, $start_time=0)
 
 function load_wordcheck_events($projectid, $start_time=0)
 {
-    $sql = "SELECT * FROM wordcheck_events
-            WHERE projectid='$projectid' AND timestamp>$start_time";
+    $sql = sprintf("
+        SELECT * FROM wordcheck_events
+        WHERE projectid='%s',
+        AND timestamp>%d",
+        DPDatabase::escape($projectid),
+        $start_time
+    );
 
-    $eventArray = array();
+    $res = DPDatabase::query($sql);
 
-    $res = mysqli_query(DPDatabase::get_connection(), $sql);
-
-    if($res === FALSE) return $eventArray;
-
+    $eventArray = [];
     while($resultSet = mysqli_fetch_assoc($res)) {
         $time = $resultSet["timestamp"];
         $round = $resultSet["round_id"];
@@ -646,14 +645,14 @@ function load_wordcheck_events($projectid, $start_time=0)
         if($words != "")
             $words = explode("\n", $words);
         else
-            $words = array();
+            $words = [];
 
         if($corrections != "")
             $corrections = explode("\n", $corrections);
         else
-            $corrections = array();
+            $corrections = [];
 
-        array_push($eventArray, array($time, $round, $page, $proofer, $words, $corrections));
+        $eventArray[] = [$time, $round, $page, $proofer, $words, $corrections];
     }
 
     mysqli_free_result($res);
@@ -666,7 +665,7 @@ function load_project_good_word_suggestions($projectid, $start_time=0)
 {
     $eventArray = load_wordcheck_events($projectid, $start_time);
 
-    $wordsArray = array();
+    $wordsArray = [];
 
     if(!count($eventArray)) return $wordsArray;
 
@@ -675,7 +674,7 @@ function load_project_good_word_suggestions($projectid, $start_time=0)
 
         if(count($words)) {
             if(!is_array(@$wordsArray[$round][$page]))
-                $wordsArray[$round][$page] = array();
+                $wordsArray[$round][$page] = [];
             $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page], $words);
         }
     }
@@ -713,10 +712,10 @@ function get_project_word_file($projectid, $code)
 {
     global $projects_dir, $projects_url;
 
-    $filename_for_code = array(
+    $filename_for_code = [
         'good'       => 'good_words.txt',
         'bad'        => 'bad_words.txt',
-    );
+    ];
     assert(array_key_exists($code, $filename_for_code));
 
     return get_file_info_object($filename_for_code[$code],
@@ -729,11 +728,11 @@ function get_site_word_file($langcode3, $code)
 {
     global $dyn_dir, $dyn_url;
 
-    $filename_for_code = array(
+    $filename_for_code = [
         'good'         => "good_words.$langcode3.txt",
         'bad'          => "bad_words.$langcode3.txt",
         'possible_bad' => "possible_bad_words.$langcode3.txt",
-    );
+    ];
     assert(array_key_exists($code, $filename_for_code));
 
     return get_file_info_object($filename_for_code[$code],
@@ -780,7 +779,7 @@ function load_word_list($path)
     {
         // The file does not exist.
         // Treat that the same as if it existed and was empty.
-        return array();
+        return [];
     }
 
     // Note: we're unable to use the file() function's FILE_IGNORE_NEW_LINES
@@ -815,7 +814,7 @@ function save_word_list($path, $words)
     uasort($words,"deterministicStrnatcasecmp");
 
     // remove any empty words
-    $words = array_diff($words, array(''));
+    $words = array_diff($words, ['']);
 
     // pull out the values to reset the numeric keys;
     // needed for the array == array comparison below
@@ -861,7 +860,7 @@ function save_word_list($path, $words)
 //   $array[$langcode]=$language;
 function get_project_languages($projectid, $aux_language=NULL)
 {
-    $returnArray = array();
+    $returnArray = [];
 
     try
     {
@@ -983,7 +982,7 @@ function get_distinct_words_in_text($text)
             // more space efficient.
             global $word_pattern;
 
-            $input_words_w_freq = array();
+            $input_words_w_freq = [];
             $offset = 0;
             $flags = PREG_OFFSET_CAPTURE;
             while(preg_match($word_pattern, $text, $matches, $flags, $offset))
@@ -1000,7 +999,7 @@ function get_distinct_words_in_text($text)
         // so it's okay to call get_all_words_in_text() on each. (Currently,
         // each string is a single page-text, so the assumption is valid.)
 
-        $input_words_w_freq = array();
+        $input_words_w_freq = [];
         foreach($text as $chunk)
         {
             foreach(get_all_words_in_text($chunk) as $word)
@@ -1044,11 +1043,10 @@ function get_all_words_in_text($text, $with_offsets=FALSE)
 
     if($with_offsets)
     {
-        $result = array();
-        foreach($matches[0] as $item)
+        $result = [];
+        foreach($matches[0] as list($word, $offset_bytes))
         {
             $search_offset = 0;
-            list($word, $offset_bytes) = $item;
             // offsets from preg_match_all() are in bytes, but we need the
             // offset in characters
             $offset = utf8_strlen(substr($text, 0, $offset_bytes));
@@ -1079,7 +1077,7 @@ function generate_frequencies($wordList)
 function get_langcode3s_for_languages($languages)
 {
     $messages = [];
-    $langcode3s = array();
+    $langcode3s = [];
     foreach($languages as $language)
     {
         $langcode3 = langcode3_for_langname($language);
@@ -1093,7 +1091,7 @@ function get_langcode3s_for_languages($languages)
         }
     }
 
-    return array($langcode3s, $messages);
+    return [$langcode3s, $messages];
 }
 
 // function for comparing words similar to strnatcasecmp
@@ -1103,15 +1101,7 @@ function get_langcode3s_for_languages($languages)
 // docs (see online docs for usort()) and manual confirmation
 function deterministicStrnatcasecmp($a, $b)
 {
-    $natcaseresult = strnatcasecmp($a, $b);
-    if($natcaseresult != 0)
-    {
-        return $natcaseresult;
-    }
-    else
-    {
-        return strnatcmp($a, $b);
-    }
+    return ($cmp = strnatcasecmp($a, $b)) != 0 ? $cmp : strnatcmp($a, $b);
 }
 
 // rtrim version to use in array_walk
