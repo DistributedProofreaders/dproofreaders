@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ previewDemo, makePreview, ieWarn fontStyles fontFamilies MathJax validateText */
+/* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -9,7 +9,7 @@ When the preview button is pressed the function "show" changes its display style
 to "block" and changes the display style of the normal view (proofDiv) to "none"
 This is reversed when "Quit" is pressed.
 The configuration screen is handled in the same way.
-The strings previewDemo and ieWarn are translated strings in header args
+previewStrings are translated strings in header args
 */
 var previewControl;
 
@@ -34,6 +34,7 @@ $( function() {
     var someSupp = document.getElementById("id_some_supp");
     var proofFrameSet = top.document.getElementById("proof_frames");
 
+    let colorTable = $("#color_table");
     let $fontSelector = $("#id_font_sel");
 
     var suppCheckBox = [];
@@ -194,34 +195,28 @@ $( function() {
     initView();
     setupFont();
 
-    $("input[type=color]", "#color_table").change(function() {
-        // id is made from col_ + tag + "_" (fg or bg)
-        const idParts = this.id.split("_");
-        tempStyle[idParts[1]][idParts[2]] = this.value;
+    function colorChange(event) {
+        tempStyle[event.data.tag][event.data.ground] = this.value;
         testDraw();
-    });
+    }
 
-    $("input[type=checkbox]", "#color_table").change(function() {
-        // id is made from tag + "_" + (fg or bg)
-        const idParts = this.id.split("_");
-        const tag = idParts[0];
-        const foreBack = idParts[1];
-        const colorInput = $("#col_" + this.id);
-
+    function boxChange(event) {
+        const tag = event.data.tag;
+        const ground = event.data.ground;
+        const colorInput = event.data.colorInput;
         if(this.checked) {
             // show the color input, set and save its color
-            const defaultColor = tempStyle.t[foreBack];
+            const defaultColor = tempStyle.t[ground];
             colorInput.val(defaultColor);
-            tempStyle[tag][foreBack] = defaultColor;
+            tempStyle[tag][ground] = defaultColor;
             colorInput.show();
         } else {
             // use default and hide the color input
-            tempStyle[tag][foreBack] = "";
+            tempStyle[tag][ground] = "";
             colorInput.hide();
         }
         testDraw();
-    });
-
+    }
 
     $("[name='viewSel']").click(function () {
         viewMode = this.id;
@@ -237,26 +232,34 @@ $( function() {
     function testDraw() {
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
-        preview = makePreview(previewDemo, 'no_tags', false, tempStyle);
+        preview = makePreview(previewStrings.previewDemo, 'no_tags', false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
     function initColorSelector() {
-        ["t", "i", "b", "g", "sc", "f", "etc", "err", "hlt"].forEach(function(tag) {
-            ["fg", "bg"].forEach(function(foreBack) {
-                const color = tempStyle[tag][foreBack];
-                const checkBoxId = tag + "_" + foreBack;
-                const checkBox = $("#" + checkBoxId, "#color_table");
-                const colorInput = $("#col_" + checkBoxId, "#color_table");
-                const useDefault = ("" === color);
-                checkBox.prop("checked", !useDefault);
-                if(useDefault) {
-                    colorInput.hide();
+        const foreBackGround = ["fg", "bg"];
+        colorTable.append($("<tr>").append("<th>", $("<th>", {colspan: '2', text: previewStrings.text}), $("<th>", {colspan: '2', text: previewStrings.background})));
+
+        Object.keys(tagNames).forEach(function(tag) {
+            let dataRow = $("<tr>");
+            dataRow.append($("<td>", {text: tagNames[tag]}));
+            foreBackGround.forEach(function(ground) {
+                const color = tempStyle[tag][ground];
+                let colorInput = $("<input>", {type: 'color', value: color}).change({tag: tag, ground: ground}, colorChange);
+                if(tag == 't') {
+                    // no checkbox
+                    dataRow.append("<td>");
                 } else {
-                    colorInput.val(color);
-                    colorInput.show();
+                    const hideColor = ("" === color);
+                    const checkBox = $("<input>", {type: 'checkbox', 'checked': !hideColor}).change({tag: tag, ground: ground, colorInput: colorInput}, boxChange);
+                    dataRow.append($("<td>").append(checkBox));
+                    if(hideColor) {
+                        colorInput.hide();
+                    }
                 }
+                dataRow.append($("<td>").append(colorInput));
             });
+            colorTable.append(dataRow);
         });
     }
 
@@ -286,6 +289,7 @@ $( function() {
     function hideConfig() {
         enterPreview();
         configPan.style.display = "none";
+        colorTable.empty();
     }
 
     function saveStyle() {
@@ -322,7 +326,7 @@ $( function() {
             }
             var msie = document.documentMode;
             if (msie < 9) {
-                alert(ieWarn);
+                alert(previewStrings.ieWarn);
                 return;
             }
             old_rows = proofFrameSet.getAttribute("rows");

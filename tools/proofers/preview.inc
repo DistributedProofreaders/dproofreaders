@@ -2,18 +2,6 @@
 $relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 
-function get_style_strings()
-{
-    return array(
-        "plain" => _("Plain text"),
-        "italic" => _("Italic"),
-        "bold" => _("Bold"),
-        "gesperrt" => _("Gesperrt"),
-        "small_caps" => _("Small caps"),
-        "font_change" => _("Font change"),
-    );
-}
-
 function get_preview_messages()
 {
     return array(
@@ -62,13 +50,32 @@ function get_preview_js_vars()
 {
     $superscript = _("superscript");
     $subscript = _("subscript");
-    $styles = get_style_strings();
 
-    $demo_string = javascript_safe("{$styles['plain']} _{{$subscript}} <i>{$styles['italic']}</i> ^{{$superscript}} <b>{$styles['bold']}</b> <g>{$styles['gesperrt']}</g> <sc>{$styles['small_caps']}</sc> <f>{$styles['font_change']}</f>");
-    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"));
+    $tag_names = [
+        "t" => _("Plain text"),
+        "i" => _("Italic"),
+        "b" => _("Bold"),
+        "g" => _("Gesperrt"),
+        "sc" => _("Small caps"),
+        "f" => _("Font change"),
+        "etc" => _("Other tags"),
+        "err" => _("Issues"),
+        "hlt" => _("Poss. Issues")
+    ];
+
+    $demo_string = "{$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}} <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>";
+
+    $preview_strings = json_encode([
+        "background" => _("Background"),
+        "text" => _("Text"),
+        "previewDemo" => $demo_string,
+        "ieWarn" => _("This function is not available for Internet Explorer versions less than 9"),
+    ]);
+
     $preview_msg = json_encode(get_preview_messages());
+    $tag_names = json_encode($tag_names);
 
-    return "var previewMessages = $preview_msg; var previewDemo = '$demo_string'; var ieWarn = '$ie_warn';";
+    return "var previewMessages = $preview_msg; var tagNames = $tag_names; var previewStrings = $preview_strings; ";
 }
 
 function output_preview_div()
@@ -93,7 +100,6 @@ function output_preview_div()
     $issues = html_safe(_("Issues"));
     $poss_iss = html_safe(_("Poss. Issues"));
     $other_tags = html_safe(_("Other tags"));
-    $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $math_preview = html_safe(_("Preview Math"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
@@ -101,8 +107,6 @@ function output_preview_div()
     $select = html_safe(_("Select"));
     $options = html_safe(_("Options"));
     $initial_mode = html_safe(_("Initial view mode"));
-    $styles = get_style_strings();
-    array_walk($styles, function(&$item) { $item = html_safe($item);} );
 
     $supp_set = array('charBeforeStart', 'sideNoteBlank');
     $supp_item_string = "";
@@ -151,39 +155,10 @@ function output_preview_div()
 END;
 
     // draw the configuration panel
-    $tag_style = [
-        "t" => $styles['plain'],
-        "i" => $styles['italic'],
-        "b" => $styles['bold'],
-        "g" => $styles['gesperrt'],
-        "sc" => $styles['small_caps'],
-        "f" => $styles['font_change'],
-        "etc" => $other_tags,
-        "err" => $issues,
-        "hlt" => $poss_iss
-    ];
-    $fore_back_ground = ["fg", "bg"];
     echo "<div id='id_config_panel' class='no_display'>
 <div id='color_test'></div>\n";
 
-    // draw the color selector table
-    echo "<fieldset><legend>$choose_colors</legend>\n<table id='color_table'>
-<tr><th></th><th colspan='2'>$text</th><th colspan='2'>$background</th></tr>";
-
-    // draw the rows for each style
-    foreach($tag_style as $tag => $style)
-    {
-        echo "<tr><td>$style</td>";
-        foreach($fore_back_ground as $ground)
-        {
-            // draw the plain row with no checkboxes
-            $check_box = ($tag == 't') ? "" : "<input type='checkbox' id='{$tag}_$ground'>";
-            echo "<td>$check_box</td>";
-            echo "<td><input type='color' id='col_{$tag}_$ground'></td>";
-        }
-        echo "</tr>\n";
-    }
-    echo "</table>\n</fieldset>\n";
+    echo "<fieldset><legend>$choose_colors</legend>\n<table id='color_table'></table>\n</fieldset>\n";
 
     echo <<<END1
     <fieldset>
