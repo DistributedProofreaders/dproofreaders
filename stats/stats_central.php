@@ -49,6 +49,20 @@ show_news_for_page("STATS");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
+function count_books_in_state($state, $clauses="")
+{
+    $sql = sprintf("
+        SELECT COUNT(*) AS numbooks
+        FROM projects
+        WHERE state = '%s'
+        %s",
+        DPDatabase::escape($state),
+        $clauses
+    );
+    $row = mysqli_fetch_assoc(DPDatabase::query($sql));
+    return $row["numbooks"];
+}
+
 $table = new ThemedTable(
     3,
     _('General Site Statistics'),
@@ -70,12 +84,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         ""
     );
 
-  //get total books posted  in the last 7 days
-
-    $books = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                          WHERE modifieddate >= $begin_time AND state = '".PROJ_SUBMIT_PG_POSTED."'");
-    $row = mysqli_fetch_assoc($books);
-    $totalbooks = $row["numbooks"];
+    //get total books posted  in the last 7 days
+    $totalbooks = count_books_in_state(PROJ_SUBMIT_PG_POSTED, "AND modifieddate >= $begin_time");
 
     $table->row(
         _("Books posted in the last 7 days:"),
@@ -86,10 +96,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
 
 
     $view_books=_("(View)");
-  //get total first round books waiting to be released
-    $firstwaitingbooks = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'");
-    $row = mysqli_fetch_assoc($firstwaitingbooks);
-    $totalfirstwaiting = $row["numbooks"];
+    //get total first round books waiting to be released
+    $totalfirstwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE);
 
     $table->row(
         _("Books waiting to be released for first round:"),
@@ -97,11 +105,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         "&nbsp;<a href ='to_be_released.php?order=default'>$view_books</a>"
     );
 
-  //get total non-English books waiting to be released
-    $nonwaitingbooks = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                                    WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."' AND language != 'English'");
-    $row = mysqli_fetch_assoc($nonwaitingbooks);
-    $totalnonwaiting = $row["numbooks"];
+    //get total non-English books waiting to be released
+    $totalnonwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE, "AND language != 'English'");
 
     $table->row(
         _("Non-English Books waiting to be released for first round:"),
@@ -109,11 +114,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         ""
     );
 
-  //get total books waiting to be post processed
-    $waitingpost = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                                WHERE state = '".PROJ_POST_FIRST_AVAILABLE."'");
-    $row = mysqli_fetch_assoc($waitingpost);
-    $totalwaitingpost = $row["numbooks"];
+    //get total books waiting to be post processed
+    $totalwaitingpost = count_books_in_state(PROJ_POST_FIRST_AVAILABLE);
 
     $table->row(
         _("Books waiting for post processing:"),
@@ -121,11 +123,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         ""
     );
 
-  //get total books being post processed
-    $inpost = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                           WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'");
-    $row = mysqli_fetch_assoc($inpost);
-    $totalinpost = $row["numbooks"];
+    //get total books being post processed
+    $totalinpost = count_books_in_state(PROJ_POST_FIRST_CHECKED_OUT);
 
     $table->row(
         _("Books being post processed:"),
@@ -133,11 +132,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         "&nbsp;<a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."'>$view_books</a>"
     );
 
-  //get total books in verify
-    $verifybooks = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                                WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'");
-    $row = mysqli_fetch_assoc($verifybooks);
-    $totalverify = $row["numbooks"];
+    //get total books in verify
+    $totalverify = count_books_in_state(PROJ_POST_SECOND_AVAILABLE);
 
     $table->row(
         _("Books waiting to be verified:"),
@@ -145,11 +141,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
         "&nbsp;<a href ='PPV_avail.php'>$view_books</a>"
     );
 
-  //get total books in verifying
-    $verifyingbooks = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numbooks FROM projects
-                                   WHERE state = '".PROJ_POST_SECOND_CHECKED_OUT."'");
-    $row = mysqli_fetch_assoc($verifyingbooks);
-    $totalverifying = $row["numbooks"];
+    //get total books in verifying
+    $totalverifying = count_books_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 
     $table->row(
         _("Books being verified:"),
