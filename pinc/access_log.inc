@@ -1,22 +1,19 @@
 <?php
+include_once($relPath.'misc.inc');
 
 function log_access_change( $subject_username, $modifier_username, $activity_id, $action_type )
 {
-    $sql = sprintf("
+    $setters = join(", ", [
+        set_col_num("timestamp", time()),
+        set_col_str("subject_username", $subject_username),
+        set_col_str("modifier_username", $modifier_username),
+        set_col_str("action", $action_type),
+        set_col_str("activity", $activity_id)
+    ]);
+    $sql = "
         INSERT INTO access_log
-        SET
-            timestamp = '%s',
-            subject_username = '%s',
-            modifier_username = '%s',
-            action = '%s',
-            activity = '%s'
-    ", time(),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $subject_username),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $modifier_username),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $action_type),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $activity_id));
-
-    return mysqli_query(DPDatabase::get_connection(), $sql);
+        SET $setters";
+    return DPDatabase::query($sql);
 }
 
 function get_first_granted_date($username, $stage)
@@ -28,11 +25,11 @@ function get_first_granted_date($username, $stage)
             AND activity = '%s'
             AND action = 'grant'
         ORDER BY timestamp ASC
-        LIMIT 1
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $stage));
-
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        LIMIT 1",
+        DPDatabase::escape($username),
+        DPDatabase::escape($stage)
+    );
+    $result = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($result);
 
@@ -47,11 +44,11 @@ function get_latest_access_change_entry($username, $activity_id)
         WHERE subject_username = '%s'
             AND activity = '%s'
         ORDER BY timestamp DESC
-        LIMIT 1
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username),
-        mysqli_real_escape_string(DPDatabase::get_connection(), $activity_id));
-
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        LIMIT 1",
+        DPDatabase::escape($username),
+        DPDatabase::escape($activity_id)
+    );
+    $result = DPDatabase::query($sql);
 
     if($result)
         return mysqli_fetch_assoc($result);
