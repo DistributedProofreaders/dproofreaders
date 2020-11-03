@@ -1444,7 +1444,7 @@ function do_history()
                 $state_labels[] = get_medium_label_for_project_state($state);
             }
             echo "<td colspan='3'>";
-            echo join($state_labels, ", ");
+            echo join(", ", $state_labels);
             echo "</td>\n";
             $spare_cols = 0;
         }

@@ -515,7 +515,7 @@ function _Page_require(
                 $op_name )
             . "\n"
             . "        "
-            . implode( $allowed_states, ' ' )
+            . implode( ' ', $allowed_states )
             . "\n"
             . "    "
             . sprintf( _("But it is in %s"), $curr_page_state )
