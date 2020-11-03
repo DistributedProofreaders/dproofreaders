@@ -27,6 +27,43 @@ function get_languages_with_dictionaries() {
     return $returnArray;
 }
 
+// Given a langcode, return the Unicode script that language is written in.
+// Will return "Latin" if the langcode is not known.
+function get_script_for_langcode($langcode)
+{
+    // This, decidedly incomplete, mapping was created by taking the list of
+    // available aspell 0.60 dictionaries and running the "Native Name" through
+    // utf8_string_scripts().
+    $langcode_script_map = [
+        "am" => "Ethiopic",
+        "ar" => "Arabic",
+        "be" => "Cyrillic",
+        "bg" => "Cyrillic",
+        "el" => "Greek",
+        "fa" => "Arabic",
+        "grc" => "Greek",
+        "gu" => "Gujarati",
+        "he" => "Hebrew",
+        "hi" => "Devanagari",
+        "hy" => "Armenian",
+        "kn" => "Kannada",
+        "ml" => "Malayalam",
+        "mn" => "Cyrillic",
+        "mr" => "Devanagari",
+        "or" => "Oriya",
+        "pa" => "Gurmukhi",
+        "ru" => "Cyrillic",
+        "sr" => "Cyrillic",
+        "ta" => "Tamil",
+        "te" => "Telugu",
+        "uk" => "Cyrillic",
+        "uz" => "Cyrillic",
+        "yi" => "Hebrew",
+    ];
+
+    return $langcode_script_map[$langcode] ?? "Latin";
+}
+
 // The 3-letter language *CODES* in the table below are mostly those 
 // defined in the ISO-639-2 standard, with these exceptions:
 //   1. Code "qsr" which is not defined in that standard at all and

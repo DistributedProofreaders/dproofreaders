@@ -273,13 +273,18 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 // create the aspell command
                 $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset}";
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
-                // run aspell
-                // "asr" stands for "aspell result"
-                $asr_text = trim(shell_exec($aspell_command));
-                $asr_text = str_replace(["\r","\n"], ['',"[lf]"], $asr_text);
                 // build our list of possible misspellings
-                $misspellings[$langcode] = explode("[lf]", $asr_text);
-                unset($asr_text);
+                $misspellings[$langcode] = explode("\n",
+                    str_replace("\r", "", shell_exec($aspell_command))
+                );
+
+                // Reduce the set to only words that use characters in our
+                // expected script. This is necessary for some aspell
+                // dictionaries like Ancient Greek that return all non-Greek
+                // words as misspelled.
+                $misspellings[$langcode] = filter_words_to_script(
+                    $misspellings[$langcode], get_script_for_langcode($langcode)
+                );
             }
             else
             {
@@ -302,13 +307,31 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
         return [$finalMisspellings, $messages];
     }
 
-    // now we need to find the intersection between the languages that we've checked
-    // for instance, if we've checked against an english and a french dictionary
-    // the words that are misspelled in both are the ones actually misspelled
-    $langKeys = array_keys($misspellings);
-    $finalMisspellings = $misspellings[array_shift($langKeys)];
-    foreach($langKeys as $langkey) {
-        $finalMisspellings = array_intersect($finalMisspellings, $misspellings[$langkey]);
+    // Find the intersection between the languages that we've checked grouped
+    // by language script. For instance, if we've checked against an English
+    // and a French dictionary, the words that are misspelled in both are the
+    // ones actually misspelled. We only intersect by language script, however,
+    // as a misspelled Greek word won't show up in the English list or vice versa.
+    foreach($misspellings as $lang_code => $words)
+    {
+        $lang_script = get_script_for_langcode($lang_code);
+        if(!isset($misspellings[$lang_script]))
+        {
+            $misspellings[$lang_script] = $words;
+            unset($misspellings[$lang_code]);
+            continue;
+        }
+        $misspellings[$lang_script] = array_intersect(
+            $misspellings[$lang_script], $words
+        );
+        unset($misspellings[$lang_code]);
+    }
+
+    // Now merge all misspellings by language script together
+    $finalMisspellings = [];
+    foreach($misspellings as $lang_script => $words)
+    {
+        $finalMisspellings = array_merge($finalMisspellings, $words);
     }
     unset($misspellings);
 
@@ -1107,6 +1130,19 @@ function deterministicStrnatcasecmp($a, $b)
 function rtrim_walk(&$item)
 {
     $item = rtrim($item);
+}
+
+function filter_words_to_script($words, $script)
+{
+    $script_words = [];
+    foreach($words as $word)
+    {
+        if(in_array($script, utf8_string_scripts($word)))
+        {
+            $script_words[] = $word;
+        }
+    }
+    return $script_words;
 }
 
 // vim: sw=4 ts=4 expandtab
