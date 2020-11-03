@@ -74,35 +74,25 @@ function proj_lang_code($proj_lang,$which="all")
 
 // Given a 2-letter language code, return the language name in that
 // language.
-// NOTE: When the site moves to UTF-8, this function can be replaced with:
-//       locale_get_display_language($langcode, $langcode);
-//       And iso_639_loc_list.inc can be removed.
 function lang_name($langcode)
 {
-    global $relPath, $lang_name_data;
-    static $iso_639_loc = NULL;
-    if(!$iso_639_loc) include($relPath.'iso_639_loc_list.inc');
+    global $lang_name_data;
 
     if(isset($lang_name_data[$langcode]))
         return $lang_name_data[$langcode];
 
-    return @$iso_639_loc[substr($langcode,0,2)];
+    return locale_get_display_language($langcode, $langcode);
 }
 
 // Given a 2-letter language code, return the language name in English.
-// NOTE: When the site moves to UTF-8, this function can be replaced with:
-//       locale_get_display_language($langcode, 'en');
 function eng_name($langcode)
 {
-    global $relPath, $eng_name_data;
-
-    static $iso_639 = NULL;
-    if(!$iso_639) include($relPath.'iso_639_list.inc');
+    global $eng_name_data;
 
     if(isset($eng_name_data[$langcode]))
         return $eng_name_data[$langcode];
 
-    return @$iso_639[substr($langcode,0,2)];
+    return locale_get_display_language($langcode, "en");
 }
 
 // Given a 2-letter language code, return a name for that language both
