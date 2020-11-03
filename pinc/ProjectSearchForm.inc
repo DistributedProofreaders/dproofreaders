@@ -197,10 +197,8 @@ class ProjectSearchForm
 
     static public function language_options()
     {
-        global $lang_list;
-
         $lang_options[''] = _('Any');
-        foreach($lang_list as $k=>$v)
+        foreach(get_iso_language_list() as $k => $v)
         {
             $lang_options[$v['lang_name']] = $v['lang_name'];
         }

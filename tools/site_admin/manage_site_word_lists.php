@@ -43,7 +43,7 @@ if($display_list)
     echo "<tr>";
     echo "<td>" . _("Language") . ":</td>";
     echo "<td><select name='language'>";
-    foreach($lang_list as $langArray)
+    foreach(get_iso_language_list() as $langArray)
     {
         $language = $langArray["lang_name"];
         echo "<option value='$language'>$language</option>";

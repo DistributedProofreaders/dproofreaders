@@ -122,10 +122,8 @@ class LanguageElement extends ProjectFilterElement
 {
     protected function get_options()
     {
-        global $lang_list;
-
         $options = [];
-        foreach($lang_list as $name_code)
+        foreach(get_iso_language_list() as $name_code)
         {
             $lang = $name_code["lang_name"];
             $options[$lang] = $lang;
