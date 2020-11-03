@@ -797,7 +797,7 @@ EOS;
             VALUES $values
         ";
         DPDatabase::query($sql);
-        log_project_event($this->projectid, $pguser, 'add_holds', join($states, ' '));
+        log_project_event($this->projectid, $pguser, 'add_holds', join(' ', $states));
     }
 
     function remove_holds($states)
@@ -820,7 +820,7 @@ EOS;
                 AND state in ($state_values)
         ";
         DPDatabase::query($sql);
-        log_project_event($this->projectid, $pguser, 'remove_holds', join($states, ' '));
+        log_project_event($this->projectid, $pguser, 'remove_holds', join(' ', $states));
     }
 
     // -------------------------------------------------------------------------

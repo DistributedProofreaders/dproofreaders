@@ -609,7 +609,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         }
     }
 
-    $items_list_template = join( $items_array, ',' );
+    $items_list_template = join( ',', $items_array );
 
     // Switch to <pre> for the 'technical' output section
     echo "<pre>\n";

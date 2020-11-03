@@ -612,7 +612,7 @@ function showMbrHistory($user, $tally_name) {
             : sprintf( _('Last %d Days'), $d );
         $choices[] = "<a href='mdetail.php?id=$u_id&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
-    $choices_str = join( $choices, ' | ' );
+    $choices_str = join( ' | ', $choices );
 
     $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=U&amp;holder_id=$u_id&amp;days_back=$range";
 

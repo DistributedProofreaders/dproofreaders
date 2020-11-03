@@ -430,7 +430,7 @@ function showTeamHistory($curTeam, $tally_name) {
             : sprintf( _('Last %d Days'), $d );
         $choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
-    $choices_str = join( $choices, ' | ' );
+    $choices_str = join( ' | ', $choices );
 
     $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=T&amp;holder_id=".$curTeam['id']."&amp;days_back=$range";
 

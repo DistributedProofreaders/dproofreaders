@@ -566,7 +566,7 @@ function get_rounds_with_data( $projectid )
     {
         $sums[] = "SUM({$round->user_column_name} != '') AS $round_id";
     }
-    $body = join($sums,',');
+    $body = join(',', $sums);
 
     validate_projectid($projectid);
     $sql = "

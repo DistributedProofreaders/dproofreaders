@@ -29,7 +29,7 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         }
     }
 
-    $additional_headers = implode($additional_headers, "\r\n") . "\r\n";
+    $additional_headers = implode("\r\n", $additional_headers) . "\r\n";
 
     // Append a standard footer to all emails sent out by the system.
     if(!endswith($message, "\n"))

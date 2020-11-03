@@ -54,7 +54,7 @@ foreach(array("g" => _("Gold"), "s" => _("Silver"), "b"=> _("Bronze")) as $key =
     else
         $menu[] = "<a href='list_etexts.php?x=$key$listsuffix'>$type_option</a>";
 }
-echo "<p>" .  implode($menu, " | ") . "</p>";
+echo "<p>" .  implode(" | ", $menu) . "</p>";
 echo "<div class='star-$type' style='float: left; width: 1.5em;'>★</div>";
 echo "<p>$info</p>";
 echo "<p>$boilerplate</p>";
