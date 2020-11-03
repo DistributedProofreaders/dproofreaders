@@ -85,7 +85,14 @@ function get_special_color_for_project($book)
         $special_day = $specials_array[$special_code];
     }
 
-    return $bgcolor = "#".$special_day["color"];
+    if($special_day)
+    {
+        return "#".$special_day["color"];
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 

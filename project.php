@@ -668,9 +668,16 @@ function do_project_info_table()
             else
             {
                 $details = get_topic_details($topic_id);
-                $url = get_url_to_view_topic($details["topic_id"]);
+                if($details)
+                {
+                    $replies = sprintf(_("(%d replies)"), $details['num_replies']);
+                }
+                else
+                {
+                    $replies = '';
+                }
                 $blurb = _("Discuss this project");
-                $replies = sprintf(_("(%d replies)"), $details['num_replies']);
+                $url = get_url_to_view_topic($topic_id);
                 echo_row_a(_("Forum"), "<a href='$url'>$blurb</a> $replies");
             }
         }

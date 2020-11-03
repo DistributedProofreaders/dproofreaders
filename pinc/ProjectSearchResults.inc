@@ -331,8 +331,7 @@ class OptionsColumn extends Column
         $topic_id = $project->topic_id;
         if (!empty($topic_id))
         {
-            $details = get_topic_details($topic_id);
-            $url = get_url_to_view_topic($details["topic_id"]) . "&amp;view=unread#unread";
+            $url = get_url_to_view_topic($topic_id) . "&amp;view=unread#unread";
             $actions .= "<a href='$url' target='_blank'>" . _("View Forum") . "</a><br>\n";
         }
         if($project->user_can_do_quick_check())
