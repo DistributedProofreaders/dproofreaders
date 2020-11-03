@@ -588,6 +588,47 @@ function langcode3_for_langname( $langname )
     return NULL;
 }
 
+function langname_for_langcode2( $langcode2 )
+// Given a two-letter language code, return the language name or NULL
+{
+    $langcode3 = array_search($langcode2, get_iso_639_3_to_2_mapping());
+    if($langcode3)
+    {
+        return langname_for_langcode3($langcode3);
+    }
+    return NULL;
+}
+
+function langcode2_for_langname( $langname )
+// Given a language name, return the two-letter code if available. If a two
+// letter code isn't available, but a three-letter one is, return that. If
+// the language is not found return NULL.
+{
+    $mapping = get_iso_639_3_to_2_mapping();
+    $fallback_code = NULL;
+    foreach( get_iso_language_list() as $entry )
+    {
+        $entry_name = $entry['lang_name'];
+        if ( $entry_name == $langname )
+        {
+            $fallback_code = substr($entry['lang_code'], 0, 3);
+            foreach(explode("/", $entry['lang_code']) as $lang_code)
+            {
+                if(isset($mapping[$lang_code]))
+                {
+                    return $mapping[$lang_code];
+                }
+            }
+        }
+    }
+    return $fallback_code;
+}
+
+function langname_for_langcode($langcode)
+// Given a two- or three-letter language code return the language name or NULL.
+{
+    return langname_for_langcode2($langcode) ?? langname_for_langcode3($langcode);
+}
 
 // ====================================================================
 
@@ -657,49 +698,4 @@ function get_iso_639_3_to_2_mapping()
     // Pennsylvania Dutch
     "pdc" => "pd",
     ];
-}
-
-function langtag_for_langcode3( $langcode3 )
-// For a given 3-letter code according to the list in pinc/iso_lang_list.inc,
-// return a language tag conforming to the IETF language tag standard 
-// as specified in RFC 5646 (http://tools.ietf.org/html/rfc5646).
-// (the language tag is in lowercase since language tags are case
-// insensitive and keeping them all in lowercase simplifies matching)
-{
-    $iso_639_1_list_ = get_iso_639_3_to_2_mapping();
-    // return the 2-letter code if it exists, or the 3-letter code.
-    if (array_key_exists($langcode3, $iso_639_1_list_))
-    {
-        return $iso_639_1_list_[$langcode3];
-    }
-    return $langcode3;
-}
-
-function langcode3_for_langtag( $langtag )
-// The opposite of langtag_for_langcode3(). Convert a language tag
-// to a 3-letter code according to the list in pinc/iso_lang_list.inc,
-// or NULL if no match was found.
-{
-    $iso_639_1_list_ = get_iso_639_3_to_2_mapping();
-    $langtag = strtolower($langtag);
-    $key = array_search($langtag, $iso_639_1_list_);
-    if ($key) 
-    {
-        // key found in the 3-letter code => lang tag table. 
-        // Return the 3-letter code.
-        return $key;
-    }
-    elseif(strlen($langtag) != 3)
-    {
-        return NULL;
-    }
-    else
-    {
-        // else search the tag as a 3-letter code.
-        $name = langname_for_langcode3($langtag);
-        if (isset($name))
-            return $langtag;
-        else
-            return NULL;
-    }
 }
