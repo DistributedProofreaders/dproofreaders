@@ -113,10 +113,11 @@ class Project
 
     private function _load_image_source()
     {
+        $this->image_source_name = '';
+        $this->image_source_credit = '';
+
         if(!isset($this->image_source))
         {
-            $this->image_source_name = '';
-            $this->image_source_credit = '';
             return;
         }
 
@@ -128,8 +129,11 @@ class Project
         );
         $result = DPDatabase::query($sql);
         $imso_res = mysqli_fetch_assoc($result);
-        $this->image_source_name = $imso_res['full_name'];
-        $this->image_source_credit = $imso_res['credit'];
+        if($imso_res)
+        {
+            $this->image_source_name = $imso_res['full_name'];
+            $this->image_source_credit = $imso_res['credit'];
+        }
     }
 
     private function _get_credits_line()
