@@ -1,12 +1,8 @@
 <?php
 // This include file holds functions needed for various language issues.
-// It is meant to be designed as if it is a class - at first I wanted to make
-// a class, but as it needs no instantiation and PHP does not support static 
-// variables, I am doing it this way and counting on programmers' discipline. 
-
-// Most important of all, DO NOT USE THE ARRAYS DIRECTLY! Their design WILL
-// change! Use the functions, or write your own functions if neither of the
-// existing ones is appropriate.
+// Functions defined here are used for interface locales and translations.
+// iso_lang_list.inc deals with functions around project languages and
+// dictionaries.
 
 include_once($relPath.'lang_data.inc');
 include_once($relPath.'iso_lang_list.inc');
@@ -36,35 +32,6 @@ function short_lang_code($langcode=FALSE)
         $langcode = get_desired_language();
 
     return substr($langcode, 0, 2);
-}
-
-// Returns ISO 639 code(s) for language(s) of a project.
-// $which could be "primary", "secondary" or "all":
-// - "primary" returns the code of primary language
-// - "secondary" returns the code of secondary language, or NULL if the
-//   secondary language doesn't exist
-// - "all" returns array with the code(s) of both language(s); if the secondary
-//   language doesn't exist, the array only has one element
-// If a language doesn't have ISO 639 code, NULL is returned; this might change
-function proj_lang_code($proj_lang,$which="all")
-{
-    $lang_codes = [];
-    foreach(preg_split('/ with /', $proj_lang ) as $language)
-    {
-        $lang_codes[] = langcode2_for_langname($language);
-    }
-
-    switch($which) {
-    case "primary":
-        return $lang_codes[0];
-        break;
-    case "secondary":
-        return $lang_codes[1];
-        break;
-    case "all":
-        return $lang_codes;
-        break;
-    }
 }
 
 // Given a 2-letter language code, return the language name in that
@@ -125,29 +92,6 @@ function lang_direction($langcode=FALSE)
             return "LTR";
             break;
     }
-}
-
-// Returns an associative array of those languages with a dictionary that is
-// installed on the system
-//   $array[$langcode]=$language;
-function get_languages_with_dictionaries() {
-    global $relPath, $aspell_prefix;
-
-    $returnArray = array();
-
-    foreach(glob("$aspell_prefix/lib/aspell/*.multi") as $filename)
-    {
-        if(preg_match("#([^/]+)\.multi\$#", $filename, $matches))
-        {
-            $langname = langname_for_langcode($matches[1]);
-            if($langname)
-            {
-                $returnArray[$matches[1]] = $langname;
-            }
-        }
-    }
-
-    return $returnArray;
 }
 
 // Return all installed system locales
