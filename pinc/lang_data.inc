@@ -8,18 +8,17 @@
 //     http://www.pgdp.net/phpBB3/viewtopic.php?t=4321
 // the array entry would be:
 //     "fr" => "viewtopic.php?t=4321",
-$lang_forum_data=array(
-);
+$lang_forum_data = [
+];
 
-// Language names in the language's native form. This overrides the ones
-// set in pinc/iso_639_loc_list.inc. Consult that file for array syntax
-// and coding restrictions.
-$lang_name_data=array(
-);
+// Language names in the language's native form.
+// This overrides/supplements the ones provided by locale_get_display_name().
+$lang_name_data = [
+    "pd" => "Pennsilfaanisch Deitsch",
+];
 
-// Language names in their English form. This overrides the ones
-// set in pinc/iso_639_list.inc. Consult that file for array syntax.
-$eng_name_data=array(
-);
-
-// vim: sw=4 ts=4 expandtab
+// Language names in their English form.
+// This overrides/supplements the ones provided by locale_get_display_name().
+$eng_name_data = [
+    "pd" => "Pennsylvania Dutch",
+];
