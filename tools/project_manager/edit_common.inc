@@ -67,9 +67,7 @@ function language_list($language)
 
 function echo_language_options($default)
 {
-    global $lang_list;
-
-    foreach($lang_list as $language)
+    foreach(get_iso_language_list() as $language)
     {
         $lang_name = $language['lang_name'];
         $selected_string = ($default == $lang_name) ? " selected" : "";

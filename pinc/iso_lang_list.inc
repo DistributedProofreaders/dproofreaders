@@ -43,8 +43,9 @@
 // and then have a mapping of language codes to language names in the 
 // desired locale.
 
-global $lang_list;
-$lang_list=array(
+function get_iso_language_list()
+{
+    return [
     array("lang_name" => "English", "lang_code" => "eng"),
     array("lang_name" => "Dutch", "lang_code" => "dut/nld"),
     array("lang_name" => "Esperanto", "lang_code" => "epo"),
@@ -550,14 +551,14 @@ $lang_list=array(
     array("lang_name" => "Zhuang", "lang_code" => "zha"),
     array("lang_name" => "Zulu", "lang_code" => "zul"),
     array("lang_name" => "Zuni", "lang_code" => "zun"),
-);
+    ];
+}
 
 function langname_for_langcode3( $langcode3 )
 // For the given three-letter code, return the corresponding language-name,
 // or null if not found.
 {
-    global $lang_list;
-    foreach( $lang_list as $entry )
+    foreach( get_iso_language_list() as $entry )
     {
         $entry_code = $entry['lang_code'];
         if ( substr($entry_code, 0, 3) == $langcode3 || substr($entry_code, 4, 3) == $langcode3 )
@@ -570,8 +571,7 @@ function langcode3_for_langname( $langname )
 // For the given language-name, return the corresponding three-letter code,
 // or null if not found.
 {
-    global $lang_list;
-    foreach( $lang_list as $entry )
+    foreach( get_iso_language_list() as $entry )
     {
         $entry_name = $entry['lang_name'];
         if ( $entry_name == $langname )
@@ -597,7 +597,9 @@ function langcode3_for_langname( $langname )
 // these language tags use the 2-letter code when present, or the
 // 3-letter bibliographical codes for languages having no 2-letter code.
 
-$iso_639_1_list_ = array (
+function get_iso_639_3_to_2_mapping()
+{
+    return [
     // This part extracted from ISO-639-2 downloaded on 2010-08-18 from
     // http://www.loc.gov/standards/iso639-2/php/code_list.php
     "aar" => "aa",  "abk" => "ab",  "afr" => "af",  "aka" => "ak",
@@ -653,8 +655,9 @@ $iso_639_1_list_ = array (
     "qsr" => "sr-latn",
     // "pdc" is listed in some versions of ISO-639-3 as being
     // Pennsylvania Dutch
-    "pdc" => "pd"
-);
+    "pdc" => "pd",
+    ];
+}
 
 function langtag_for_langcode3( $langcode3 )
 // For a given 3-letter code according to the list in pinc/iso_lang_list.inc,
@@ -663,7 +666,7 @@ function langtag_for_langcode3( $langcode3 )
 // (the language tag is in lowercase since language tags are case
 // insensitive and keeping them all in lowercase simplifies matching)
 {
-    global $iso_639_1_list_;
+    $iso_639_1_list_ = get_iso_639_3_to_2_mapping();
     // return the 2-letter code if it exists, or the 3-letter code.
     if (array_key_exists($langcode3, $iso_639_1_list_))
     {
@@ -677,7 +680,7 @@ function langcode3_for_langtag( $langtag )
 // to a 3-letter code according to the list in pinc/iso_lang_list.inc,
 // or NULL if no match was found.
 {
-    global $iso_639_1_list_;
+    $iso_639_1_list_ = get_iso_639_3_to_2_mapping();
     $langtag = strtolower($langtag);
     $key = array_search($langtag, $iso_639_1_list_);
     if ($key) 
@@ -700,6 +703,3 @@ function langcode3_for_langtag( $langtag )
             return NULL;
     }
 }
-
-// vim: sw=4 ts=4 expandtab
-?>
