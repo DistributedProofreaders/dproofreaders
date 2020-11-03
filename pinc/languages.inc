@@ -9,6 +9,7 @@
 // existing ones is appropriate.
 
 include_once($relPath.'lang_data.inc');
+include_once($relPath.'iso_lang_list.inc');
 
 function lang_code($language_code) {
     global $locales;
@@ -45,29 +46,23 @@ function short_lang_code($langcode=FALSE)
 // - "all" returns array with the code(s) of both language(s); if the secondary
 //   language doesn't exist, the array only has one element
 // If a language doesn't have ISO 639 code, NULL is returned; this might change
-// Some code copied from tools/proofers/spellcheck_text.inc
 function proj_lang_code($proj_lang,$which="all")
 {
-    global $relPath;
-
-    static $iso_639 = NULL;
-    if(!$iso_639) include($relPath.'iso_639_list.inc');
-
-    $languages = preg_split('/ with /', $proj_lang );
+    $lang_codes = [];
+    foreach(preg_split('/ with /', $proj_lang ) as $language)
+    {
+        $lang_codes[] = langcode2_for_langname($language);
+    }
 
     switch($which) {
     case "primary":
-        return array_search( $languages[0], $iso_639 );
+        return $lang_codes[0];
         break;
     case "secondary":
-        return array_search( $languages[1], $iso_639 );
+        return $lang_codes[1];
         break;
     case "all":
-        $res=array();
-        foreach($languages as $v)
-            array_push( $res, array_search( $v, $iso_639 ) );
-
-        return $res;
+        return $lang_codes;
         break;
     }
 }
@@ -138,15 +133,17 @@ function lang_direction($langcode=FALSE)
 function get_languages_with_dictionaries() {
     global $relPath, $aspell_prefix;
 
-    static $iso_639 = NULL;
-    if(!$iso_639) include($relPath.'iso_639_list.inc');
-
     $returnArray = array();
 
-    foreach($iso_639 as $langcode => $language) {
-        $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
-        if( is_file( $dict_file ) ) {
-            $returnArray[$langcode] = $language;
+    foreach(glob("$aspell_prefix/lib/aspell/*.multi") as $filename)
+    {
+        if(preg_match("#([^/]+)\.multi\$#", $filename, $matches))
+        {
+            $langname = langname_for_langcode($matches[1]);
+            if($langname)
+            {
+                $returnArray[$matches[1]] = $langname;
+            }
         }
     }
 
@@ -190,7 +187,7 @@ function get_installed_system_locales()
 //   "disabled" - locale translation is disabled
 function get_installed_locale_translations($state="all")
 {
-    global $dyn_locales_dir, $relPath;
+    global $dyn_locales_dir;
 
     static $translation_cache = NULL;
 
@@ -203,8 +200,6 @@ function get_installed_locale_translations($state="all")
         "disabled" => array(),
     );
 
-    include($relPath.'iso_639_list.inc');
-
     $files = scandir($dyn_locales_dir);
     if(!$files)
         return $translation_cache[$state];
@@ -214,7 +209,7 @@ function get_installed_locale_translations($state="all")
         if(!is_dir("$dyn_locales_dir/$file"))
             continue;
 
-        if(!array_key_exists(substr($file, 0, 2), $iso_639))
+        if(!in_array(substr($file, 0, 2), array_values(get_iso_639_3_to_2_mapping())))
             continue;
 
         $translation_cache["all"][] = $file;
