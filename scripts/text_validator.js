@@ -46,10 +46,6 @@ $(function () {
     }
 
     function _validateText() {
-        // IE HACK - xregexp causes problems in IE11, return true if IE
-        if(document.documentMode) {
-            return true;
-        }
         var text = textArea.value;
         // IE HACK - IE11 does not support string normalization
         if(String.prototype.normalize) {
