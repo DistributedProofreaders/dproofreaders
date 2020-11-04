@@ -314,7 +314,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
     _Page_UPDATE($projectid, $image, $setters);
 
     _log_page_event($projectid, $image, 'saveAsInProgress', $user, $round);
-    upi_set_t_latest_page_event($user, $projectid, 'UNIX_TIMESTAMP()');
+    upi_set_t_latest_page_event($user, $projectid, time());
 
     return $round->page_temp_state;
 }
@@ -340,7 +340,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
     _Page_UPDATE($projectid, $image, $setters);
 
     _log_page_event($projectid, $image, 'saveAsDone', $user, $round);
-    upi_set_t_latest_page_event($user, $projectid, 'UNIX_TIMESTAMP()');
+    upi_set_t_latest_page_event($user, $projectid, time());
 
     _project_set_t_last_page_done( $projectid, $timestamp );
 
