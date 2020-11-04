@@ -840,7 +840,7 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
 
     $sql = sprintf("
         UPDATE projects
-        SET n_available_pages = %d
+        SET n_available_pages = %s
         WHERE projectid = '%s'
     ",
         $expr,
