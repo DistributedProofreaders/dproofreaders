@@ -5,7 +5,7 @@
 // but not in Firefox or Edge. Use 3rd party http://xregexp.com/ instead
 
 // this matches any character: non-mark codepoint followed by 0 or more marks
-const charMatch = XRegExp("\\PM\\pM*", "Agu");
+const charMatch = XRegExp("\\PM\\pM*", "Ag");
 
 // this regular expression (constructed below) matches individual good characters
 var goodChar;
@@ -13,13 +13,13 @@ var goodChar;
 $(function () {
     // need to define this after the page has loaded so validCharacterPattern
     // is available
-    goodChar = XRegExp(validCharacterPattern, "Au");
+    goodChar = XRegExp(validCharacterPattern, "A");
 });
 
 function testChar(character) {
     if(!goodChar) {
         // IE HACK - IE sometimes says goodChar is undefined
-        goodChar = XRegExp(validCharacterPattern, "Au");
+        goodChar = XRegExp(validCharacterPattern, "A");
     }
     return goodChar.test(character);
 }
