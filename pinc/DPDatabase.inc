@@ -121,6 +121,18 @@ final class DPDatabase
         return stripos($table_encoding, 'utf8mb4') === 0;
     }
 
+    static public function does_table_exist($table_name)
+    {
+        $sql = sprintf("
+            SELECT TABLE_NAME
+            FROM information_schema.tables
+            WHERE table_schema='%s' AND table_name='%s'",
+            self::$_db_name,
+            self::escape($table_name));
+        $result = self::query($sql);
+        return mysqli_fetch_assoc($result) !== NULL;
+    }
+
     // Prevent this class from being instantiated
     protected function __construct() {}
     protected function __clone() {}

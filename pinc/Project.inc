@@ -1152,19 +1152,7 @@ function get_formatted_postcomments( $projectid )
 // Determines if the project's pages table exists
 function does_project_page_table_exist($projectid)
 {
-    // Two queries can be done to determine if a table exists:
-    //    DESCRIBE table
-    //    SELECT 1 FROM table LIMIT 0
-    // The second is a mysql-ism and performs better, so we use that one.
-    validate_projectID($projectid);
-    $result = DPDatabase::query("SELECT 1 FROM $projectid LIMIT 0", FALSE);
-
-    if($result) {
-        mysqli_free_result($result);
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return DPDatabase::does_table_exist($projectid);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
