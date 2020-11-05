@@ -28,7 +28,7 @@ before_script:
     - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-6.phar
     - phpunit --version
     # We need npm for eslint
-    - nvm install 12 --lts
+    - npm install 12 --lts
     - npm install
 script:
     - cd SETUP
