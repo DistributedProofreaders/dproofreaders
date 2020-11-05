@@ -14,7 +14,8 @@ before_install:
     - sudo apt-get update
     - sudo apt-get install -y php-zip aspell aspell-en
     - mysql -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
-    - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';"
+    - mysql -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
+    - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
     - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
 install:
     # install the database schema
