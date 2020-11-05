@@ -289,8 +289,7 @@ class LPage
     function get_language()
     {
         $project = new Project($this->projectid);
-        $lang = proj_lang_code($project->language,"primary");
-        return $lang;
+        return langcode2_for_langname($project->languages[0]);
     }
 
     function get_username_for_round( $round )
