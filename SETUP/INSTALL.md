@@ -237,7 +237,8 @@ CREATE DATABASE dp_db CHARACTER SET utf8mb4;
 
 Create the user. (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
 ```
-GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
+CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';
+GRANT ALL ON dp_db.* TO dp_user@localhost;
 ```
 
 Exit from the MySQL client.
