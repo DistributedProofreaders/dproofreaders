@@ -8,7 +8,7 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     private $YAZ_ARRAY = NULL;
     private $YAZ_ARRAY_STR = NULL;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Load the yaz array from disk
         $yaz_array_b64 = file_get_contents("./data/yaz_array.b64");

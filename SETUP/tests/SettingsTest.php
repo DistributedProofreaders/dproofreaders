@@ -8,7 +8,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
 
     private $cleanup = FALSE;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Attempt to load our test user, if it exists don't create it
         $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
@@ -42,7 +42,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             throw new Exception("Unable to create test usersetting");
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $sql = sprintf("
             DELETE FROM usersettings

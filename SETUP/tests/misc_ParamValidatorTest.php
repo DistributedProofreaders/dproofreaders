@@ -27,11 +27,9 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($default, $result);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testEnumNoDefault()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_CHOICES);
     }
@@ -43,11 +41,9 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $result);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testEnumInvalidOption()
     {
+        $this->expectException(InvalidArgumentException::class);
         $result = get_enumerated_param($this->GET, 'i10', NULL, $this->ENUM_CHOICES);
     }
 
@@ -82,22 +78,18 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $result);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testIntegerNoDefault()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 100;
         $result = get_integer_param($this->GET, 'none', $default, $min, $max);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testIntegerNotAnInt()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 100;
@@ -105,22 +97,18 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testIntegerLessThanMin()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 90;
         $max = 100;
         $result = get_integer_param($this->GET, 'i10', $default, $min, $max);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testIntegerMoreThanMax()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 9;
@@ -166,44 +154,36 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $result);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testFloatNoDefault()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 100;
         $result = get_float_param($this->GET, 'none', $default, $min, $max);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testFloatNotAFloat()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 100;
         $result = get_float_param($this->GET, 's10', $default, $min, $max);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testFloatLessThanMin()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 90;
         $max = 100;
         $result = get_float_param($this->GET, 'f10', $default, $min, $max);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testFloatMoreThanMax()
     {
+        $this->expectException(InvalidArgumentException::class);
         $default = NULL;
         $min = 0;
         $max = 9;

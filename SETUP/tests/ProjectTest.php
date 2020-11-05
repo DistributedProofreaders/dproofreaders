@@ -16,11 +16,9 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException InvalidProjectIDException
-     */
     public function test_validate_projectID_negative_path()
     {
+        $this->expectException(InvalidProjectIDException::class);
         validate_projectID("1234");
     }
 
@@ -40,11 +38,9 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $projectid);
     }
 
-    /**
-     * @expectedException InvalidProjectIDException
-     */
     public function test_get_projectID_param_null_negative_path()
     {
+        $this->expectException(InvalidProjectIDException::class);
         $params = [];
         $projectid = get_projectID_param($params, "projectid");
     }
@@ -60,11 +56,9 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException InvalidPageException
-     */
     public function test_validate_page_image_negative_path()
     {
+        $this->expectException(InvalidPageException::class);
         validate_page_image("1234");
     }
 
@@ -84,11 +78,9 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $image);
     }
 
-    /**
-     * @expectedException InvalidPageException
-     */
     public function test_get_page_image_param_null_negative_path()
     {
+        $this->expectException(InvalidPageException::class);
         $params = [];
         $image = get_page_image_param($params, "image");
     }
