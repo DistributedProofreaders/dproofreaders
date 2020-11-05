@@ -8,3 +8,4 @@ pinc/udb_user.php
 messages.mo
 
 node_modules
+.phpunit.result.cache

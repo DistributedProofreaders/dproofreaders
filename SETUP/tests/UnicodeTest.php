@@ -1,6 +1,6 @@
 <?php
 
-class UnicodeTests extends PHPUnit\Framework\TestCase
+class UnicodeTest extends PHPUnit\Framework\TestCase
 {
     private $a_to_z_codepoints = [
         'U+0061-U+007a',  # a-z

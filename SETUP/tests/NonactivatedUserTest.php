@@ -21,7 +21,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
         return $register;
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         foreach($this->createdRecords as $username)
         {
@@ -73,37 +73,29 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($id, $user->id);
     }
 
-    /**
-     * @expectedException NonexistentNonactivatedUserException
-     */
     public function testLoadInvalidUser()
     {
+        $this->expectException(NonexistentNonactivatedUserException::class);
         new NonactivatedUser("blahblah");
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function testSetUnsettable()
     {
+        $this->expectException(DomainException::class);
         $user = new NonactivatedUser();
         $user->id = "";
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function testSetImmutable()
     {
+        $this->expectException(DomainException::class);
         $user = $this->createNonactivatedUser($this->TEST_USERNAME);
         $user->username = "";
     }
 
-    /**
-     * @expectedException NonexistentNonactivatedUserException
-     */
     public function testDeleteNonactivatedUser()
     {
+        $this->expectException(NonexistentNonactivatedUserException::class);
         # Creating and deleting a user show leave us with no user...
         $user = $this->createNonactivatedUser($this->TEST_USERNAME);
         $user->delete();

@@ -27,7 +27,7 @@ b[oe]uf
 
 EOTEXT;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         global $aspell_temp_dir;
         if(!is_dir($aspell_temp_dir))

@@ -6,7 +6,7 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
     const EMPTY_DIRECTORY_PATH = 'tmp_flatten_directory/empty_directory';
     const NESTED_DIRECTORY_PATH = 'tmp_flatten_directory/nested_directory';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         mkdir(self::TMP_DIRECTORY_PATH);
         mkdir(self::EMPTY_DIRECTORY_PATH);
@@ -25,7 +25,7 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         touch(self::NESTED_DIRECTORY_PATH.'/one/two2/f');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->recursiveDeleteDirectory(self::TMP_DIRECTORY_PATH);
     }
@@ -54,10 +54,8 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testFlatteningNonExistentDirectory() {
+        $this->expectException(InvalidArgumentException::class);
         flatten_directory('non_existent_directory');
     }
 

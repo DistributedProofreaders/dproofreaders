@@ -5,7 +5,7 @@ class UserTest extends PHPUnit\Framework\TestCase
     private $TEST_USERNAME = "UserTest_php";
     private $NONTEST_USERNAME = 'blahblahblah';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Attempt to load our test user, if it exists don't create it
         $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
@@ -41,7 +41,7 @@ class UserTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $sql = "
             DELETE FROM users
@@ -108,29 +108,23 @@ class UserTest extends PHPUnit\Framework\TestCase
         $this->assertFalse($is_valid);
     }
 
-    /**
-     * @expectedException NonexistentUserException
-     */
     public function testLoadExistingDifferCase()
     {
+        $this->expectException(NonexistentUserException::class);
         $username = strtoupper($this->TEST_USERNAME);
         $user = new User($username);
     }
 
-    /**
-     * @expectedException NonexistentUserException
-     */
     public function testLoadExistingDifferWhitespace()
     {
+        $this->expectException(NonexistentUserException::class);
         $username = $this->TEST_USERNAME . '   ';
         $user = new User($username);
     }
 
-    /**
-     * @expectedException NonexistentUserException
-     */
     public function testLoadNonexisting()
     {
+        $this->expectException(NonexistentUserException::class);
         $user = new User($this->NONTEST_USERNAME);
     }
 
@@ -157,20 +151,16 @@ class UserTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($user->username, "blah");
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function testSetImmutable()
     {
+        $this->expectException(DomainException::class);
         $user = new User($this->TEST_USERNAME);
         $user->username = "blah";
     }
 
-    /**
-     * @expectedException NotImplementedException
-     */
     public function testSave()
     {
+        $this->expectException(NotImplementedException::class);
         $user = new User();
         $user->save();
     }
