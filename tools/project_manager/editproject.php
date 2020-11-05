@@ -394,7 +394,7 @@ class ProjectInfoHolder
 
         $this->language = (
             $sec_language != ''
-            ? "$pri_language with $sec_language"
+            ? Project::encode_languages([$pri_language, $sec_language])
             : $pri_language );
 
         $this->charsuites = [];

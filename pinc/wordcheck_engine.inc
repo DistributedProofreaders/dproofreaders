@@ -870,7 +870,7 @@ function get_project_languages($projectid, $aux_language=NULL)
     {
         return $returnArray;
     }
-    $languages = preg_split('/ with /', $project->language);
+    $languages = $project->languages;
     if($aux_language)
         $languages[] = $aux_language;
 

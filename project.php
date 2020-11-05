@@ -72,7 +72,7 @@ $ld_json_object = [
         "@type" => "Person",
         "name" => $project->authorsname,
     ],
-    "inLanguage" => explode(" with ", $project->language)[0],
+    "inLanguage" => $project->languages,
     "genre" => $project->genre,
 ];
 

@@ -84,6 +84,8 @@ class Project
                 return does_project_page_table_exist($this->projectid);
             case "credits_line":
                 return $this->_get_credits_line();
+            case "languages":
+                return self::decode_language($this->language);
             case "image_source_name":
                 $this->_load_image_source();
                 return $this->image_source_name;
@@ -153,6 +155,22 @@ class Project
             $credits_line = "$credits_line ({$this->image_source_credit})";
         }
         return $credits_line;
+    }
+
+    // -------------------------------------------------------------------------
+
+    // Multiple project languages are stored in a single "language" column
+    // by joining them with the string " with ". These functions provide a
+    // common place for encoding / decoding them.
+
+    static public function encode_languages($languages)
+    {
+        return join(" with ", $languages);
+    }
+
+    static public function decode_language($language)
+    {
+        return explode(" with ", $language);
     }
 
     // -------------------------------------------------------------------------
