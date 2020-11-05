@@ -54,15 +54,9 @@ if($display_list)
     $used_languages = array();
     while( list($language,$language_count) = mysqli_fetch_row($res) )
     {
-        if(strpos($language," with "))
+        foreach(Project::decode_language($language) as $lang)
         {
-            list($language1,$language2) = explode(" with ", $language);
-            @$used_languages[$language1] += $language_count;
-            @$used_languages[$language2] += $language_count;
-        }
-        else
-        {
-            @$used_languages[$language] += $language_count;
+            @$used_languages[$lang] += $language_count;
         }
     }
     ksort($used_languages);

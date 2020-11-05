@@ -15,7 +15,7 @@
 function proj_lang_code($proj_lang, $which="all")
 {
     $lang_codes = [];
-    foreach(preg_split('/ with /', $proj_lang ) as $language)
+    foreach(Project::decode_language($proj_lang) as $language)
     {
         $lang_codes[] = langcode2_for_langname($language);
     }

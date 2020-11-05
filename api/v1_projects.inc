@@ -130,7 +130,7 @@ function render_project_json($project)
         "state" => $project->state,
         "title" => $project->nameofwork,
         "author" => $project->authorsname,
-        "languages" => explode(" with ", $project->language),
+        "languages" => $project->languages,
         "genre" => $project->genre,
         "difficulty" => $project->difficulty,
         "special_day" => $project->special_code,
