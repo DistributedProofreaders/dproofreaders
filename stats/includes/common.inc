@@ -1,10 +1,6 @@
 <?php
 // A file for (UI) code that's used by both user and team stats pages.
 
-include_once($relPath.'site_vars.php'); // $code_url
-
-// -----------------------------------------------------------------------------
-
 function showChangeInRank( $previous_rank, $current_rank )
 // Return a snippet of HTML that visually conveys
 // the change in rank between $previous_rank and $current_rank.
@@ -29,21 +25,24 @@ function showChangeInRank( $previous_rank, $current_rank )
         {
             // The user's rank number has decreased.
             // (i.e., their rank has improved; they have moved 'up' the chart).
+
+            // The way this function is used, this case will never happen
+            // because $previous_rank is their best rank and $current_rank can
+            // never be higher than their best rank without it also being their
+            // best rank.
             $color = 'green';
-            $arrow = 'up';
-            $sign  = '+';
-            $abs   = $previous_rank - $current_rank;
+            $change = $previous_rank - $current_rank;
+            $sign = '+';
         }
         else
         {
             // The user's rank number has increased.
             // (i.e., their rank has worsened; they have moved 'down' the chart).
             $color = 'red';
-            $arrow = 'down';
-            $sign  = '-';
-            $abs   = $current_rank - $previous_rank;
+            $change = $previous_rank - $current_rank;
+            $sign = ''; // negative sign is automatic
         }
-        $snippet = "&nbsp;<span style='color: $color'>(<img src='".$GLOBALS['code_url']."/graphics/$arrow.gif' border='0' alt='$sign$abs'>&nbsp;".number_format($abs).")</span>";
+        $snippet = "&nbsp;<span style='color: $color;'>($sign".number_format($change).")</span>";
     }
 
     return $snippet;
@@ -56,4 +55,3 @@ function get_username_for_uid($u_id)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
