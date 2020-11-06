@@ -1785,14 +1785,19 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
-            if ($for_list_of_tasks) {
-                $s = 'small'; $w = '50'; $h = '8'; $b = "";
-            } else {
-                $s = 'large'; $w = '150'; $h = '10'; $b = "border: 0;";
-            }
-            $url = "$code_url/graphics/task_percentages/{$s}_{$raw_value}.png";
-            $alt = sprintf(_("%d%% Complete"), $raw_value);
-            return "<img src='$url' style='width: ${w}px; height: ${h}px; $b' alt='$alt'>";
+            // Calculate the width for the container based on if this is a
+            // task listing or a task details
+            $div_width = $for_list_of_tasks ? '50' : '150';
+
+            list($progress_bar_width, $progress_bar_class) =
+                calculate_progress_bar_properties($raw_value, 100, FALSE, [0 => "goal-on-target"]);
+
+            return "
+                <div class='default-border' style='width: {$div_width}px;'>
+                    <div class='progressbar $progress_bar_class'
+                        style='width: $progress_bar_width%; border: 0;'>&nbsp;
+                    </div>
+                </div>";
 
         case 'votes':
             // If this is the task listing, $raw_value will be set

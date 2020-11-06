@@ -1622,7 +1622,6 @@ table.snapshottable td.nocell {
 /* Progress bar */
 div.progressbar {
   font-size: 0.5em;
-  float: left;
   border: thin solid #000000;
 }
 div.goal-on-target {
