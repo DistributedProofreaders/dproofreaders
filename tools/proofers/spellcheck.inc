@@ -37,6 +37,7 @@ $header_args = array(
     "js_files" => array(
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
+        "$code_url/scripts/good_char.js",
     ),
     "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
         var validCharacterPattern = '$valid_character_pattern';

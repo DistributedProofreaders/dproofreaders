@@ -35,6 +35,7 @@ $valid_character_pattern = javascript_safe(build_character_regex_filter($quiz->g
 $header_args = array(
     "js_files" => array(
         "$code_url/scripts/character_test.js",
+        "$code_url/scripts/good_char.js",
         "$code_url/tools/proofers/process_diacritcal_markup.js",
         ),
     "js_data" => "

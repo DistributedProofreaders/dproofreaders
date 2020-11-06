@@ -88,6 +88,7 @@ if (!$resolution) {
     $header_args = [
         "js_files" => [
             "$code_url/scripts/character_test.js",
+            "$code_url/scripts/good_char.js",
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/project_manager/handle_bad_page.js",
         ],
