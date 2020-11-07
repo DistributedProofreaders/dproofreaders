@@ -10,17 +10,20 @@ const charMatch = XRegExp("\\PM\\pM*", "Ag");
 // this regular expression (constructed below) matches individual good characters
 var goodChar;
 
+function makeGoodCharRegex(characterPattern) {
+    // IE HACK - IE11 does not support u flag
+    return XRegExp(characterPattern, "A");
+    // need the u flag for Astral plane characters.
+    // return XRegExp(validCharacterPattern, "Au");
+}
+
 $(function () {
     // need to define this after the page has loaded so validCharacterPattern
     // is available
-    goodChar = XRegExp(validCharacterPattern, "A");
+    goodChar = makeGoodCharRegex(validCharacterPattern);
 });
 
 function testChar(character) {
-    if(!goodChar) {
-        // IE HACK - IE sometimes says goodChar is undefined
-        goodChar = XRegExp(validCharacterPattern, "A");
-    }
     return goodChar.test(character);
 }
 
