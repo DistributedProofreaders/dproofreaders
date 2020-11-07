@@ -245,7 +245,9 @@ $( function() {
             dataRow.append($("<td>", {text: tagNames[tag]}));
             foreBackGround.forEach(function(ground) {
                 const color = tempStyle[tag][ground];
-                let colorInput = $("<input>", {type: 'color', value: color}).change({tag: tag, ground: ground}, colorChange);
+                let colorInput = $("<input>", {type: 'color'}).change({tag: tag, ground: ground}, colorChange);
+                // HACK for safari, setting value: color in the constructor doesn't work
+                colorInput.val(color);
                 if(tag == 't') {
                     // no checkbox
                     dataRow.append("<td>");
