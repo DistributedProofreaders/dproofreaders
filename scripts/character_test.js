@@ -1,5 +1,5 @@
-/*global XRegExp goodChar */
-/* exported makeGoodCharRegex testText */
+/*global $ validCharacterPattern XRegExp */
+/* exported testText */
 
 // regex unicode property escape is supported in Chrome and Safari (Feb 2020)
 // but not in Firefox or Edge. Use 3rd party http://xregexp.com/ instead
@@ -7,14 +7,20 @@
 // this matches any character: non-mark codepoint followed by 0 or more marks
 const charMatch = XRegExp("\\PM\\pM*", "Ag");
 
-function makeGoodCharRegex(validCharacterPattern) {
-    // IE HACK - IE11 does not support u flag
-    return XRegExp(validCharacterPattern, "A");
-    // need the u flag for Astral plane characters.
-    // return XRegExp(validCharacterPattern, "Au");
-}
+// this regular expression (constructed below) matches individual good characters
+var goodChar;
+
+$(function () {
+    // need to define this after the page has loaded so validCharacterPattern
+    // is available
+    goodChar = XRegExp(validCharacterPattern, "A");
+});
 
 function testChar(character) {
+    if(!goodChar) {
+        // IE HACK - IE sometimes says goodChar is undefined
+        goodChar = XRegExp(validCharacterPattern, "A");
+    }
     return goodChar.test(character);
 }
 
