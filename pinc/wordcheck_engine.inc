@@ -647,7 +647,7 @@ function load_wordcheck_events($projectid, $start_time=0)
 {
     $sql = sprintf("
         SELECT * FROM wordcheck_events
-        WHERE projectid='%s',
+        WHERE projectid='%s'
         AND timestamp>%d",
         DPDatabase::escape($projectid),
         $start_time
