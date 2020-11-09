@@ -171,8 +171,7 @@ function validate_uploaded_file($verbose)
                 throw new FileUploadException(get_upload_err_msg($error));
             }
             // there must be only one file.
-            $file_count = count($original_name);
-            if ($file_count > 1)
+            if(is_array($original_name) && (count($original_name) > 1))
             {
                 throw new FileUploadException( _("You may only upload one file") );
             }
