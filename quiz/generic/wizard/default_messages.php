@@ -4,12 +4,9 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../quiz_defaults.inc'); // $messages
 
-$theme_args["css_data"] = "h2 {font-size:110%; margin: 0;}
-    p.message_id {margin: 0 0 .5em 1em; background-color: #dddddd;}";
-
 require_login();
 
-output_header(_('Quiz Messages'), SHOW_STATSBAR, $theme_args);
+output_header(_('Quiz Messages'));
 
 echo "<h1>" . _("Default Quiz Messages") . "</h1>";
 
@@ -18,7 +15,7 @@ echo "<p>" . _("(By the way, you should <b>not</b> name any of your custom messa
 
 foreach ($messages as $key => $message)
 {
-    echo "<hr><p class='message_id'>" . _("Message ID:") . " $key</p>\n";
+    echo "<hr><p>" . _("Message ID:") . " $key</p>\n";
     echo "<h2>" . $message['message_title'] . "</h2>\n";
     echo "<p>" . $message["message_body"] . "</p>\n";
     if (isset($message['wiki_ref']))

@@ -1010,13 +1010,12 @@ function get_message($type, $message)
 {
     if ($type == 'error') {
         $prefix = _("Error") . ":";
-        $style = "color: red;";
+        $class = "error";
     } else {
         $prefix = _("Info") . ":";
-        $style = "background-color: lightgreen; color: black;";
+        $class = "remote-file-mgr-info";
     }
-    $style .= " border: 1px solid black; padding: .5em; margin: 0.8em 0;";
-    return "<div style='$style'><b>$prefix</b> $message</div>\n";
+    return "<div class='$class'><b>$prefix</b> $message</div>\n";
 }
 
 function show_message($type, $message)

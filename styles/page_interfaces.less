@@ -20,9 +20,23 @@
 @control-pane-text: black;
 @control-pane-menu: Bisque;
 
+/* Links */
+@page-interface-link-color: #0000ff;
+@page-interface-visited-color: #990099;
+@page-interface-active-color: #ff0000;
+
 .page-interface {
     background-color: @page-interface-background;
     color: @page-interface-text;
+    a:link {
+        color: @page-interface-link-color;
+    }
+    a:visited {
+        color: @page-interface-visited-color;
+    }
+    a:active {
+        color: @page-interface-active-color;
+    }
 
     .text-pane {
         background-color: @text-pane-background;
@@ -87,6 +101,15 @@
             border-radius: 3px;
             margin: 2px;
         }
+    }
+    a:link {
+        color: @page-interface-link-color;
+    }
+    a:visited {
+        color: @page-interface-visited-color;
+    }
+    a:active {
+        color: @page-interface-active-color;
     }
 }
 
@@ -163,6 +186,24 @@
         padding: 0.5em;
         .solid-border;
         .page-interface .text-pane;
+        .proofingfont {
+            input {
+                background-color: white;
+                color: black;
+                padding: 3px;
+                .x-thin-border(@border-color-base-lowc);
+            }
+        }
+    }
+    #wc_header {
+        input, select {
+            background-color: @page-background;
+            color: @page-text;
+            .solid-border;
+        }
+        button, input[type=submit], input[type=button] {
+            .button;
+        }
     }
 }
 
@@ -325,6 +366,16 @@
         margin-right: 0.5em;
         text-align: right;
         width: 100%;
+
+       a:link {
+           color: @page-interface-link-color;
+       }
+       a:visited {
+           color: @page-interface-visited-color;
+       }
+       a:active {
+           color: @page-interface-active-color;
+       }
     }
 }
 

@@ -1,7 +1,6 @@
 @import "global.less";
 @import "page_interfaces.less";
 
-
 /* ------------------------------------------------------------------------ */
 /* Common color definitions
  * Where a particular color family has multiple shades available, a
@@ -67,6 +66,10 @@
     border-bottom: thin solid @color;
 }
 
+.x-thin-border(@color: @border-color-base) {
+    border: 0.5px solid @color;
+}
+
 /* standalone classes that can be used as mixins, but that should not
  * be given parameters, as they can't be used as classes in the code
  * directly if they have parameters that the lessc compiler has to
@@ -94,7 +97,21 @@
 }
 
 .button {
+    /*
+     * We can't use appearance: button here because Chrome has deprecated it:
+     * https://developers.google.com/web/updates/2019/12/chrome-80-deps-rems
+     * so we make a "button like object" that won't really resemble the other
+     * buttons rendered, but still looks like a button.
+     */
+    border-radius: 3px;
+    cursor: default;
     .sans-serif;
+    .solid-border;
+}
+
+span.button {
+    font-size: 0.8em;
+    padding: 1px 4px;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -441,6 +458,10 @@ hr.divider {
     }
 }
 
+@star-gold: #ffd700;
+@star-silver: silver;
+@star-bronze: #cd7f32;
+
 .star-metal(@color) {
     font-size: 3em;
     color: @color;
@@ -449,17 +470,16 @@ hr.divider {
 }
 
 .star-gold {
-    .star-metal(#FFD700);
+    .star-metal(@star-gold);
 }
 
 .star-silver {
-    .star-metal(silver);
+    .star-metal(@star-silver);
 }
 
 .star-bronze {
-    .star-metal(#cd7f32);
+    .star-metal(@star-bronze);
 }
-
 
 @media only screen and (max-width: 481px) {
     .star-text-summary {
@@ -599,8 +619,10 @@ div.calloutheader {
     color: @text-warning;
 }
 
+@highlight: @table-cell-alert;
+
 .highlight {
-    background-color: @table-cell-alert;
+    background-color: @highlight;
     color: @page-text;
 }
 
@@ -1009,6 +1031,9 @@ table.theme_striped {
     }
 }
 
+@satisfied: @table-cell-ok-lowc;
+@not-satisfied: @table-cell-not-ok-lowc;
+
 table.basic {
     border-collapse: collapse;
     .solid-border;
@@ -1023,11 +1048,11 @@ table.basic {
     }
     td.satisfied {
         .right-align;
-        background-color: @table-cell-ok-lowc;
+        background-color: @satisfied;
     }
     td.not_satisfied {
         .right-align;
-        background-color: @table-cell-not-ok-lowc;
+        background-color: @not-satisfied;
     }
     textarea {
         width: 100%;
@@ -1094,6 +1119,10 @@ table.ppv_reportcard {
 /* ------------------------------------------------------------------------ */
 /* Image Sources */
 
+@enabled: @table-cell-ok-highc;
+@disabled: @table-cell-base-mediumc;
+@pending: @table-cell-pending;
+
 table.image_source {
     border-collapse: collapse;
     width: 90%;
@@ -1123,20 +1152,24 @@ table.image_source {
     }
     td.enabled {
         .center-align;
-        background-color: @table-cell-ok-highc;
+        background-color: @enabled;
     }
     td.disabled {
         .center-align;
-        background-color: @table-cell-base-mediumc;
+        background-color: @disabled;
     }
     td.pending {
         .center-align;
-        background-color: @table-cell-pending;
+        background-color: @pending;
     }
 }
 
 /* ------------------------------------------------------------------------ */
 /* Page Detail */
+
+@inprog: @table-cell-pending;
+@done-current: @table-cell-ok-highc;
+@done-previous: @table-cell-not-ok-highc;
 
 table.pagedetail {
     width: auto;
@@ -1148,13 +1181,13 @@ table.pagedetail {
 }
 
 .in_progress {
-    background-color: @table-cell-pending;
+    background-color: @inprog;
 }
 .done_current {
-    background-color: @table-cell-ok-highc;
+    background-color: @done-current;
 }
 .done_previous {
-    background-color: @table-cell-not-ok-highc;
+    background-color: @done-previous;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1171,6 +1204,14 @@ table.dirlist {
         margin-top: 0.5em;
         padding: 5px;
     }
+}
+
+div.remote-file-mgr-info {
+    background-color: @table-cell-ok-highc;
+    color: @page-text;
+    .default-border;
+    padding: .5em;
+    margin: 0.8em 0;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1245,11 +1286,11 @@ table.list_special_days {
     }
     td.enabled {
         text-align: center;
-        background-color: @table-cell-ok-highc;
+        background-color: @enabled;
     }
     td.disabled {
         text-align: center;
-        background-color: @table-cell-base-mediumc;
+        background-color: @disabled;
     }
     td.center {
         text-align: center;
@@ -1335,6 +1376,7 @@ table.search-column {
     border: none;
     padding: 1px;
     background-color: inherit;
+    color: @header-text;
     cursor: pointer;
     font-family: initial;
     font-size: initial;
@@ -1431,7 +1473,6 @@ li.spaced {
 
 /* ------------------------------------------------------------------------ */
 /* Review Work */
-
 
 td.has-diff {
     background-color: @table-cell-ok-lowc;
