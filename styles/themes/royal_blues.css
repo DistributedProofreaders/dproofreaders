@@ -84,19 +84,6 @@
 .invisible {
   visibility: hidden;
 }
-.button {
-  /*
-     * We can't use appearance: button here because Chrome has deprecated it:
-     * https://developers.google.com/web/updates/2019/12/chrome-80-deps-rems
-     * so we make a "button like object" that won't really resemble the other
-     * buttons rendered, but still looks like a button.
-     */
-  border: solid 1px lightgray;
-  border-radius: 5px;
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  cursor: default;
-}
 .nodisp {
   display: none;
 }
@@ -164,9 +151,19 @@
 /* Base layer for page interface */
 /* Text pane */
 /* Control panes */
+/* Links */
 .page-interface {
   background-color: #CDCDC1;
   color: black;
+}
+.page-interface a:link {
+  color: #0000ff;
+}
+.page-interface a:visited {
+  color: #990099;
+}
+.page-interface a:active {
+  color: #ff0000;
 }
 .page-interface .text-pane {
   background-color: #FFF8DC;
@@ -207,6 +204,15 @@
   margin: 0;
   background-color: #CDCDC1;
   color: black;
+}
+#standard_interface_image a:link {
+  color: #0000ff;
+}
+#standard_interface_image a:visited {
+  color: #990099;
+}
+#standard_interface_image a:active {
+  color: #ff0000;
 }
 #standard_interface_image .text-pane {
   background-color: #FFF8DC;
@@ -261,6 +267,15 @@
   border-radius: 3px;
   margin: 2px;
 }
+#standard_interface_text a:link {
+  color: #0000ff;
+}
+#standard_interface_text a:visited {
+  color: #990099;
+}
+#standard_interface_text a:active {
+  color: #ff0000;
+}
 #text_data,
 #text_data:focus {
   background-color: white;
@@ -274,6 +289,15 @@
   overflow: hidden;
   background-color: #CDCDC1;
   color: black;
+}
+#enhanced_interface a:link {
+  color: #0000ff;
+}
+#enhanced_interface a:visited {
+  color: #990099;
+}
+#enhanced_interface a:active {
+  color: #ff0000;
 }
 #enhanced_interface .text-pane {
   background-color: #FFF8DC;
@@ -355,6 +379,15 @@
   background-color: #CDCDC1;
   color: black;
 }
+#enhanced_interface #tdtext a:link {
+  color: #0000ff;
+}
+#enhanced_interface #tdtext a:visited {
+  color: #990099;
+}
+#enhanced_interface #tdtext a:active {
+  color: #ff0000;
+}
 #enhanced_interface #tdtext .text-pane {
   background-color: #FFF8DC;
   color: black;
@@ -407,6 +440,15 @@
   overflow: auto;
   background-color: #CDCDC1;
   color: black;
+}
+#wordcheck_interface a:link {
+  color: #0000ff;
+}
+#wordcheck_interface a:visited {
+  color: #990099;
+}
+#wordcheck_interface a:active {
+  color: #ff0000;
 }
 #wordcheck_interface .text-pane {
   background-color: #FFF8DC;
@@ -484,6 +526,32 @@
   background-color: #FFF8DC;
   color: black;
 }
+#wordcheck_interface #tdtext .proofingfont input {
+  background-color: white;
+  color: black;
+  padding: 3px;
+  border: 0.5px solid #d3d3d3;
+}
+#wordcheck_interface #wc_header input,
+#wordcheck_interface #wc_header select {
+  background-color: #ffffff;
+  color: #000000;
+  border: thin solid #000000;
+}
+#wordcheck_interface #wc_header button,
+#wordcheck_interface #wc_header input[type=submit],
+#wordcheck_interface #wc_header input[type=button] {
+  /*
+     * We can't use appearance: button here because Chrome has deprecated it:
+     * https://developers.google.com/web/updates/2019/12/chrome-80-deps-rems
+     * so we make a "button like object" that won't really resemble the other
+     * buttons rendered, but still looks like a button.
+     */
+  border-radius: 3px;
+  cursor: default;
+  font-family: Verdana, Arial, sans-serif;
+  border: thin solid #000000;
+}
 .preWC {
   background-color: #c2c2c2;
 }
@@ -499,6 +567,15 @@
 #format_preview {
   background-color: #CDCDC1;
   color: black;
+}
+#format_preview a:link {
+  color: #0000ff;
+}
+#format_preview a:visited {
+  color: #990099;
+}
+#format_preview a:active {
+  color: #ff0000;
 }
 #format_preview .text-pane {
   background-color: #FFF8DC;
@@ -752,6 +829,15 @@
   text-align: right;
   width: 100%;
 }
+#toolbox #tools a:link {
+  color: #0000ff;
+}
+#toolbox #tools a:visited {
+  color: #990099;
+}
+#toolbox #tools a:active {
+  color: #ff0000;
+}
 /* ------------------------------------------------------------------------ */
 /* Page Browser */
 #page-browser {
@@ -767,6 +853,15 @@
 #page-browser .stretch-box {
   flex: 1 1 100vh;
   min-height: 10px;
+}
+#page-browser a:link {
+  color: #0000ff;
+}
+#page-browser a:visited {
+  color: #990099;
+}
+#page-browser a:active {
+  color: #ff0000;
 }
 #page-browser .text-pane {
   background-color: #FFF8DC;
@@ -909,7 +1004,20 @@
   font-family: Verdana, Arial, sans-serif;
 }
 .button {
+  /*
+     * We can't use appearance: button here because Chrome has deprecated it:
+     * https://developers.google.com/web/updates/2019/12/chrome-80-deps-rems
+     * so we make a "button like object" that won't really resemble the other
+     * buttons rendered, but still looks like a button.
+     */
+  border-radius: 3px;
+  cursor: default;
   font-family: Verdana, Arial, sans-serif;
+  border: thin solid #000000;
+}
+span.button {
+  font-size: 0.8em;
+  padding: 1px 4px;
 }
 /* ------------------------------------------------------------------------ */
 /* Global */
@@ -1324,7 +1432,7 @@ hr.divider {
 }
 .star-gold {
   font-size: 3em;
-  color: #FFD700;
+  color: #ffd700;
   text-align: center;
   text-shadow: 3px 2px 5px black;
 }
@@ -2002,6 +2110,13 @@ table.dirlist caption {
   margin-top: 0.5em;
   padding: 5px;
 }
+div.remote-file-mgr-info {
+  background-color: #88ff88;
+  color: #000000;
+  border: thin solid #000000;
+  padding: 0.5em;
+  margin: 0.8em 0;
+}
 /* ------------------------------------------------------------------------ */
 /* Project Load (add_files.php) */
 table#addfiles td.load-add {
@@ -2144,6 +2259,7 @@ table.search-column tr th {
   border: none;
   padding: 1px;
   background-color: inherit;
+  color: #000000;
   cursor: pointer;
   font-family: initial;
   font-size: initial;
