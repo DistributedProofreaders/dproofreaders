@@ -51,7 +51,6 @@ QUnit.module("Character validation test", function() {
     // (which IE doesn't do) in regex constructor in character_test.js
     /* QUnit.test("Astral plane", function (assert) {
         validCharRegex = makeValidCharRegex("^(?:[\n\r 𓀀-𓀂])$");
-        validCharRegex = makeValidCharRegex("[\n\r 𓀀𓀁𓀂]");
         assert.strictEqual(testText("𓀀"), true);
         assert.strictEqual(testText("\u{13000}"), true);
         assert.strictEqual(testText("𓀂"), true);
