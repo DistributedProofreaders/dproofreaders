@@ -2,9 +2,8 @@ language: php
 addons:
   firefox: latest
 php:
-    # Test on a wide array of PHP versions. 7.3 and later can't be added until
-    # the phpunit tests are updated and a more recent version of phpunit is
-    # specified below.
+    # Test on a wide array of PHP versions.
+    # These are tied to the version of phpunit we use (see below).
     - 7.2
     - 7.3
     - 7.4

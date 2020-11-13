@@ -1,17 +1,27 @@
 # Unit tests
 
-These are phpunit tests.
+This directory contains a variety of files used for automated testing.
+Including:
+* [phpunit](https://phpunit.de/) tests in this directory
+* [QUnit](https://qunitjs.com/) tests in the `jsTests` directory
+* Manual web-based tests in the `manual_web` directory
+* [TravisCI](https://travis-ci.com/) configuration
 
-## Version requirements
+## phpunit tests
+
+### Version requirements
 
 The phpunit tests, as-coded, will work with phpunit 6.x, 7.x, 8.x, and 9.x.
 
-## Running tests
+### Running tests
 
-To run them, use the `phpunit_bootstrap.php` file to pull in pre-requisits.
-
-    phpunit --bootstrap phpunit_bootstrap.php --verbose .
+`phpunit.xml` contains configuration information like bootstrap
+requirements, so running the full suite is as simple as:
+```bash
+phpunit
+```
 
 To run the page compare test only:
-
-    phpunit PageCompareTest.php
+```bash
+phpunit PageCompareTest.php
+```

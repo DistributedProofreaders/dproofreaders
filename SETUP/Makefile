@@ -27,4 +27,4 @@ less:
 #----------------------------------------------------------------------------
 # Unit tests
 tests:
-	cd $(SELF_DIR)/tests && phpunit --bootstrap phpunit_bootstrap.php --verbose .
+	cd $(SELF_DIR)/tests && phpunit
