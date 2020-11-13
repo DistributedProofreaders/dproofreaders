@@ -110,6 +110,7 @@ function split_graphemes($string)
 # Split a Unicode string into codepoints keeping combining characters together
 function utf8_codepoints_combining($string)
 {
+    $codepoints = [];
     foreach(split_graphemes($string) as $grapheme)
     {
         $codepoints[] = string_to_codepoints_string($grapheme, ">");
