@@ -96,14 +96,24 @@ function utf8_character_name($characters)
     return implode(" + ", $title_pieces);
 }
 
+function split_graphemes($string)
+{
+    $next = 0;
+    $maxbytes = strlen($string);
+
+    while ($next < $maxbytes)
+    {
+        yield grapheme_extract($string, 1, GRAPHEME_EXTR_COUNT, $next, $next);
+    }
+}
+
 # Split a Unicode string into codepoints keeping combining characters together
 function utf8_codepoints_combining($string)
 {
     $codepoints = [];
-    preg_match_all("/(\X)/u", $string, $matches);
-    foreach($matches[1] as $character)
+    foreach(split_graphemes($string) as $grapheme)
     {
-        $codepoints[] = string_to_codepoints_string($character, ">");
+        $codepoints[] = string_to_codepoints_string($grapheme, ">");
     }
     return $codepoints;
 }
@@ -117,50 +127,39 @@ function string_to_codepoints_string($string, $imploder=" ")
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
-    # To ensure we correctly find and filter combining characters, we use the
-    # \X character property, which represents an "extended Unicode sequences"
-    # which is a single combined character of one or more codepoints. For each
-    # character we see if it is in our set of supported characters via regex.
-    # We were unable to find a single regular expression that correctly pulled
-    # out combined characters without first extracting all of the combined
-    # characters.
-
     $pattern_string = build_character_regex_filter($valid_codepoints);
-    return preg_replace_callback(
-        "/\X/u",
-        function ($matches) use($pattern_string, $replacement)
+    $result = "";
+    foreach(split_graphemes($string) as $grapheme)
+    {
+        if(1 === preg_match("/$pattern_string/u", $grapheme))
         {
-            $match = $matches[0];
-            if(1 === preg_match("/$pattern_string/u", $match))
-            {
-                return $match;
-            }
-            return $replacement;
-        },
-        $string
-    );
+            $result .= $grapheme;
+        }
+        else
+        {
+            $result .= $replacement;
+        }
+    }
+
+    return $result;
 }
 
 # Filter out any characters in $string that are in $remove_codepoints
 function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement="")
 {
-    # See the comments in utf8_filter_to_codepoints() above for why the
-    # following logic is used.
-
     $pattern_string = build_character_regex_filter($remove_codepoints);
-    return preg_replace_callback(
-        "/\X/u",
-        function ($matches) use($pattern_string, $replacement)
+    $result = "";
+    foreach (split_graphemes($string) as $grapheme) {
+        if(1 === preg_match("/$pattern_string/u", $grapheme))
         {
-            $match = $matches[0];
-            if(1 === preg_match("/$pattern_string/u", $match))
-            {
-                return $replacement;
-            }
-            return $match;
-        },
-        $string
-    );
+            $result .= $replacement;
+        }
+        else
+        {
+            $result .= $grapheme;
+        }
+    }
+    return $result;
 }
 
 # Take an array of Unicode codepoints (U+####), codepoint ranges
@@ -231,22 +230,17 @@ function get_invalid_characters($string, $codepoints)
     $char_count = [];
     if($string)
     {
-        preg_replace_callback(
-            "/\X/u",
-            function ($matches) use(&$char_count)
+        foreach (split_graphemes($string) as $char)
+        {
+            if(!isset($char_count[$char]))
             {
-                $char = $matches[0];
-                if(!isset($char_count[$char]))
-                {
-                    $char_count[$char] = 1;
-                }
-                else
-                {
-                    $char_count[$char]++;
-                }
-            },
-            $string
-        );
+                $char_count[$char] = 1;
+            }
+            else
+            {
+                $char_count[$char]++;
+            }
+        }
     }
     return $char_count;
 }
