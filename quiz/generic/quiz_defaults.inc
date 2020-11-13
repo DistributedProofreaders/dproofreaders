@@ -534,7 +534,7 @@ $messages["G_k_ch"] = array(
 );
 $messages["G_ph_ps"] = array(
     "message_title" => _("Commonly confused letters"),
-    "message_body" => _("There is a '<kbd>ps</kbd>' in your transliteration that should be '<kbd>ph</kbd>'.  The Greek letter <kbd>φ<kbd> (phi, transliterated '<kbd>ph</kbd>') has a circular shape in the center, while the Greek letter <kbd>ψ</kbd> (psi, transliterated '<kbd>ps</kbd>') has 'arms' curving out away from the center."),
+    "message_body" => _("There is a '<kbd>ps</kbd>' in your transliteration that should be '<kbd>ph</kbd>'.  The Greek letter <kbd>φ</kbd> (phi, transliterated '<kbd>ph</kbd>') has a circular shape in the center, while the Greek letter <kbd>ψ</kbd> (psi, transliterated '<kbd>ps</kbd>') has 'arms' curving out away from the center."),
 );
 $messages["G_s_c"] = array(
     "message_title" => _("Scanno"),
