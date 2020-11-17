@@ -403,7 +403,7 @@ function save_raw_data($pguser, $data_name, $data)
         VALUES ('%s', '%s', '%s')",
         DPDatabase::escape($pguser),
         DPDatabase::escape($data_name),
-        DPDatabase::escape($enc_data)
+        DPDatabase::escape($data)
     );
     DPDatabase::query($query);
 }
