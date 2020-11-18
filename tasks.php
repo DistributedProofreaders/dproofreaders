@@ -1211,8 +1211,7 @@ function TaskForm($task)
     echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" style='width: 50%' maxlength='80' required>";
     echo "</p>";
 
-    // left column
-    echo "<div style='float: left; width: 49.9%;'>";
+    echo "<div class='task-detail'>";
     echo "<table class='task-detail-block'>\n";
     property_echo_select_tr('task_severity', $task->task_severity, $severity_array);
     property_echo_select_tr('task_priority', $task->task_priority, $priority_array);
@@ -1220,10 +1219,8 @@ function TaskForm($task)
     property_echo_select_tr('task_os', $task->task_os, $os_array);
     property_echo_select_tr('task_browser', $task->task_browser, $browser_array);
     property_echo_select_tr('task_version', $task->task_version, $versions_array);
-    echo "</table></div>";
+    echo "</table>";
 
-    // right column
-    echo "<div style='float: right; width: 49.9%;'>";
     echo "<table class='task-detail-block'>\n";
     property_echo_select_tr('task_type', $task->task_type, $tasks_array);
     property_echo_select_tr('task_status', $task->task_status, $tasks_status_array);
@@ -1231,7 +1228,8 @@ function TaskForm($task)
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($task->task_id)) {
         property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array);
     }
-    echo "</table></div>";
+    echo "</table>";
+    echo "</div>";
 
     echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
     echo "<textarea name='task_details' style='width: 99%; height: 8em;' required>$task_details_enc</textarea>";
@@ -1337,7 +1335,7 @@ function TaskDetails($tid)
     echo "#$tid: " . property_format_value('task_summary', $task, FALSE);
     echo "</h1>";
 
-    echo "<div style='float: left; width: 49.9%;'>";
+    echo "<div class='task-detail'>";
     echo "<table class='task-detail-block'>\n";
     property_echo_value_tr('task_severity',    $task);
     property_echo_value_tr('task_priority',    $task);
@@ -1349,8 +1347,7 @@ function TaskDetails($tid)
     property_echo_value_tr('task_version',     $task);
     property_echo_value_tr('votes'       ,     $task, False);
     echo "</table>";
-    echo "</div>";
-    echo "<div style='float: right; width: 49.9%;'>";
+
     echo "<table class='task-detail-block'>\n";
     property_echo_value_tr('task_type',        $task);
     property_echo_value_tr('opened_composite', $task);
