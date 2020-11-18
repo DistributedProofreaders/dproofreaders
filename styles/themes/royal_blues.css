@@ -2379,10 +2379,19 @@ div.task-comment {
 }
 div.task-comment .task-comment-body {
   margin-left: 1em;
+  word-break: break-word;
+}
+div.task-detail {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
 }
 table.task-detail-block {
   border: thin solid #000000;
-  width: 100%;
+  margin: 0 0.1em;
+  width: 50%;
+  flex-grow: 1;
+  flex-basis: auto;
 }
 table.task-detail-block tr th,
 table.task-detail-block tr td {
@@ -2396,6 +2405,16 @@ table.task-detail-block tr th {
 table.task-detail-block tr td {
   background-color: #ffffff;
   width: 100%;
+}
+/* For small enough screens, make the two columns as two rows instead. */
+@media only screen and (max-width: 768px) {
+  div.task-detail {
+    flex-direction: column;
+  }
+  table.task-detail-block {
+    margin: 0.1em 0;
+    width: 100%;
+  }
 }
 /* ------------------------------------------------------------------------ */
 /* Mentoring */
