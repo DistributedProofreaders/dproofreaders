@@ -39,12 +39,12 @@ $(function () {
     }
 
     var pickerChars = {};
-    $('.picker').each(function pickerEach() {
+    $('.picker').each(function() {
         pickerChars[$(this).text()] = true;
     });
 
     // filter out invalid characters
-    mru = mru.filter(function mruFilter(mruCharacter) {
+    mru = mru.filter(function(mruCharacter) {
         return pickerChars[mruCharacter.character] === true;
     });
 
