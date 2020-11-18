@@ -38,6 +38,16 @@ $(function () {
         mru = [];
     }
 
+    var pickerChars = {};
+    $('.picker').each(function() {
+        pickerChars[$(this).text()] = true;
+    });
+
+    // filter out invalid characters
+    mru = mru.filter(function(mruCharacter) {
+        return pickerChars[mruCharacter.character] === true;
+    });
+
     window.addEventListener('beforeunload', function() {
         localStorage.setItem(storageKey, JSON.stringify(mru));
     });
