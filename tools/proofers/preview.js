@@ -907,14 +907,22 @@ $(function () {
             }
 
             // show sub- and super-scripts
-            let tagText = (viewMode === "show_tags") ? "$&" : "$1";
+            let tagText = (viewMode === "no_tags") ? "$1" : "$&";
             function showSubSuper(text) {
-                let textOut = text.replace(/_\{(.+?)\}/g, '<span class="sub"' + colorString + ">" + tagText + "</span>");
-                textOut = textOut.replace(/\^\{(.+?)\}/g, '<span class="sup"' + colorString + ">" + tagText + "</span>");
+                let subClass, superClass;
+                if (viewMode !== "flat") {
+                    subClass = ' class="sub"';
+                    superClass = ' class="sup"';
+                } else {
+                    subClass = '';
+                    superClass = '';
+                }
+                let textOut = text.replace(/_\{(.+?)\}/g, '<span' + subClass + colorString + ">" + tagText + "</span>");
+                textOut = textOut.replace(/\^\{(.+?)\}/g, '<span' + superClass + colorString + ">" + tagText + "</span>");
                 // single char superscript -  any char except {
                 // do not allow < as a single char superscript
                 // incase it's a tag which would give overlapping markup
-                return textOut.replace(/\^([^{<])/g, '<span class="sup"' + colorString + ">" + tagText + "</span>");
+                return textOut.replace(/\^([^{<])/g, '<span' + superClass + colorString + ">" + tagText + "</span>");
             }
 
             // do not process sub- and super-scripts inside math markup
