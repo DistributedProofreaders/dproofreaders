@@ -829,7 +829,6 @@ $(function () {
         // add style and optional colouring for marked-up text
         // this works on text which has already had < and > encoded as &lt; &gt;
         function showStyle() {
-            var colorString0, colorString; // for out-of-line tags, tb, sub- and super-scripts
             var sc1 = "&lt;sc&gt;";
             var sc2 = "&lt;/sc&gt;";
             var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
@@ -898,24 +897,24 @@ $(function () {
             // find user note or inline tag
             var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
             txt = txt.replace(reTag, spanStyle);
+
+            // for out-of-line tags, tb, sub- and super-scripts
+            let colorString = makeColourStyle('etc');
+
             // out of line tags
-            colorString0 = makeColourStyle('etc');
-            colorString = colorString0 + '>$&</span>';
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString);
-            }
-            if (viewMode !== "show_tags") {
-                colorString = colorString0 + '>$1</span>';
+                txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
             }
 
             // show sub- and super-scripts
+            let tagText = (viewMode === "show_tags") ? "$&" : "$1";
             function showSubSuper(text) {
-                let textOut = text.replace(/_\{(.+?)\}/g, '<span class="sub"' + colorString);
-                textOut = textOut.replace(/\^\{(.+?)\}/g, '<span class="sup"' + colorString);
+                let textOut = text.replace(/_\{(.+?)\}/g, '<span class="sub"' + colorString + ">" + tagText + "</span>");
+                textOut = textOut.replace(/\^\{(.+?)\}/g, '<span class="sup"' + colorString + ">" + tagText + "</span>");
                 // single char superscript -  any char except {
                 // do not allow < as a single char superscript
                 // incase it's a tag which would give overlapping markup
-                return textOut.replace(/\^([^{<])/g, '<span class="sup"' + colorString);
+                return textOut.replace(/\^([^{<])/g, '<span class="sup"' + colorString + ">" + tagText + "</span>");
             }
 
             // do not process sub- and super-scripts inside math markup
