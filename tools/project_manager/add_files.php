@@ -917,17 +917,21 @@ class Loader
                 }
                 else
                 {
-                    $errs = project_add_page(
-                        $this->projectid,
-                        $base,
-                        $src_image_file_name,
-                        $src_text_file_path,
-                        $pguser,
-                        $now );
-                    if ( $errs )
+                    try
                     {
-                        echo "for base=$base, project_add_page raised error:<br>";
-                        echo "$errs<br>\n";
+                        project_add_page(
+                            $this->projectid,
+                            $base,
+                            $src_image_file_name,
+                            $src_text_file_path,
+                            $pguser,
+                            $now );
+                    }
+                    catch(DBQueryError $error)
+                    {
+                        echo "<p class='error'>";
+                        echo "for base=$base, project_add_page raised a DB error";
+                        echo "</p>";
                     }
                 }
 
