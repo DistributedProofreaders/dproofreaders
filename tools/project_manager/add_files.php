@@ -64,7 +64,9 @@ else
     // Prevent sneaky parent-link tricks.
     if (str_contains($rel_source, ".."))
     {
-        echo "Source directory '$rel_source' is not acceptable.";
+        echo "<p class='error'>";
+        echo sprintf(_("Source directory '%s' is not acceptable."), html_safe($rel_source));
+        echo "</p>";
         echo "<hr>\n";
         echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
         return;
@@ -135,7 +137,9 @@ else
 $r = chdir($source_project_dir);
 if ( !$r )
 {
-    echo "Directory '$source_project_dir' does not exist, or is inaccessible.\n";
+    echo "<p class='error'>";
+    echo sprintf(_("Directory '%s' does not exist, or is inaccessible."), html_safe($source_project_dir));
+    echo "</p>";
     echo "<hr>\n";
     echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
     return;
@@ -1011,8 +1015,11 @@ class Loader
             system($cmd, $exit_status);
             if ( $exit_status != 0 )
             {
-                echo "$cmd:<br>";
-                echo "exit status was $exit_status<br>";
+                error_log("add_files.php - error running \"$cmd\"; exit code: $exit_status");
+
+                echo "<p class='error'>";
+                echo "an error occurred during a filesystem operation, this has been logged for a site administrator to view";
+                echo "</p>";
             }
         }
     }
