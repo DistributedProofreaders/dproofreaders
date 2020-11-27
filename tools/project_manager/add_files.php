@@ -19,12 +19,22 @@ $extra_args = [
             font-family: ' . get_proofreading_font_family_fallback() . ';
         }
     ',
+    'js_data' => '
+        $(document).ready(function () {
+            $("#execute").submit(function (e) {
+                // disable the submit button
+                $("#submit").attr("disabled", true);
+                return true;
+            });
+        });
+    ',
 ];
 
 $title = _("Add files");
 output_header($title, NO_STATSBAR, $extra_args);
 
-$projectid    = get_projectID_param($_GET, 'project');
+$projectid    = get_projectID_param($_REQUEST, 'project');
+$rel_source   = array_get($_REQUEST, "rel_source", "");
 $loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project( $projectid );
@@ -54,13 +64,12 @@ if(!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal
     exit();
 }
 
-if ( $_GET['rel_source'] == '' )
+if ( $rel_source == '' )
 {
     die('rel_source parameter is empty or unset');
 }
 else
 {
-    $rel_source = $_GET['rel_source'];
     // Prevent sneaky parent-link tricks.
     if (str_contains($rel_source, ".."))
     {
@@ -171,7 +180,7 @@ else
     $loader = new Loader( $source_project_dir, $dest_project_dir, $projectid );
     $loader->analyze();
 
-    if ( !@$_GET['confirmed'] )
+    if ( !@$_POST['confirmed'] )
     {
         $loader->display();
 
@@ -193,8 +202,13 @@ else
         }
         else
         {
-            $url = "?project=$projectid&amp;rel_source=$rel_source&amp;confirmed=1";
-            echo "<a href='$url'>" . _('Proceed with load') . "</a>";
+            echo "<form id='execute' method='POST' action='add_files.php'>";
+            echo "<input type='hidden' name='confirmed' value='1'>";
+            echo "<input type='hidden' name='project' value='" . attr_safe($projectid) . "'>";
+            echo "<input type='hidden' name='rel_source' value='" . attr_safe($rel_source) . "'>";
+            echo "<input id='submit' type='submit' value='" . attr_safe(_('Proceed with load')) . "'>";
+            echo "</form>";
+
         }
         echo "</p>";
     }
