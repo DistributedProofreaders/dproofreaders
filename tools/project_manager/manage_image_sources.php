@@ -92,6 +92,14 @@ if ($action == 'update_oneshot')
             Otherwise, choose a different ID for this source.'),$db_requests_email_addr) . "<br>";
         }
 
+        if ($errmsgs)
+        {
+            output_header('', NO_STATSBAR);
+            echo "<p class='error'><br>" . $errmsgs . "</p>";
+            $source->show_edit_form();
+            die;
+        }
+
         $source->save_from_post();
         if ($can_edit)
         {
@@ -411,7 +419,7 @@ class ImageSource
 
     function save_from_post()
     {
-        global $errmsgs,$can_edit,$new;
+        global $can_edit;
 
         $std_fields = array(
             'display_name','full_name','credit',
@@ -441,14 +449,6 @@ class ImageSource
             // New sources shouldn't be shown on the public version of the
             // info page until they are approved.
              $this->info_page_visibility = '1' ;
-        }
-
-        if ($errmsgs)
-        {
-            output_header('', NO_STATSBAR);
-            echo "<p class='error'><br>" . $errmsgs . "</p>";
-            $this->show_edit_form();
-            die;
         }
 
         $sql = sprintf("
