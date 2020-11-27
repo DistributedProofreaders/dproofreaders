@@ -70,22 +70,9 @@ if ($action == 'update_oneshot')
         if (strlen($new_code_name) < 1)
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
 
-        $sql = sprintf("
-            SELECT COUNT(*)
-            FROM image_sources
-            WHERE code_name = '%s'",
-            DPDatabase::escape($new_code_name)
-        );
-        $result = DPDatabase::query($sql);
+        $source = new ImageSource(array_get($_REQUEST, 'code_name', NULL));
 
-        list($count) = mysqli_fetch_row($result);
-
-        if ($count > 0)
-            $source = new ImageSource($_REQUEST['code_name']);
-        else
-            $source = new ImageSource();
-
-        if ($count > 0 && !isset($_REQUEST['editing']))
+        if ($source->code_name && !isset($_REQUEST['editing']))
         {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
@@ -108,10 +95,12 @@ if ($action == 'update_oneshot')
         else
         {
             output_header('', NO_STATSBAR);
-                if ($count == 0)
-                    $source->log_request_for_approval($pguser);
-                echo _("Your proposal has been successfully recorded. You will be
-                    notified by email once it has been approved.");
+            if ($source->new_source)
+                $source->log_request_for_approval($pguser);
+            echo "<p>";
+            echo _("Your proposal has been successfully recorded. You will be
+                notified by email once it has been approved.");
+            echo "</p>";
         }
 
     }
@@ -180,6 +169,9 @@ class ImageSource
 
     function __construct($code_name = null)
     {
+        $this->new_source = true;
+        $this->code_name = NULL;
+
         if( !is_null($code_name) )
         {
             $sql = sprintf("
@@ -190,17 +182,15 @@ class ImageSource
             $result = DPDatabase::query($sql);
             $source_fields = mysqli_fetch_assoc($result);
 
-            foreach ($source_fields as $field => $value)
+            if($source_fields)
             {
-                $this->$field = $value;
-            }
+                foreach ($source_fields as $field => $value)
+                {
+                    $this->$field = $value;
+                }
 
-            $this->new_source = false;
-        }
-        else
-        {
-            $this->new_source = true;
-            $this->code_name = NULL;
+                $this->new_source = false;
+            }
         }
     }
 
@@ -440,7 +430,7 @@ class ImageSource
 
         $this->code_name = strtoupper($_POST['code_name']);
 
-        if ($new)
+        if ($this->new_source)
         {
             // If the user is an Image Sources Manager, then the new source
             // should default to disabled. If not, the source should default
