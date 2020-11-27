@@ -122,8 +122,6 @@ function project_add_page(
     $round = get_Round_for_round_number(1);
     $page_state = $round->page_avail_state;
 
-    $errs = '';
-
     $columns_for_rounds = [];
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
@@ -146,21 +144,12 @@ function project_add_page(
             ";
 
     // echo $sql, "\n";
-    $res = DPDatabase::query($sql, FALSE);
-    if (!$res)
-    {
-        $errs .= DPDatabase::log_error();
-    }
-
-    // If the INSERT raised an error, don't do the other stuff.
-    if ($errs) return $errs;
+    DPDatabase::query($sql);
 
     _log_page_event( $projectid, $image_file_name, 'add', $user, NULL );
 
     _project_adjust_n_pages($projectid, +1);
     _project_adjust_n_available_pages($projectid, +1);
-
-    return $errs;
 }
 
 function load_page_from_file( $file_path, $projectid )
