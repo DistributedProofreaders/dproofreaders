@@ -295,7 +295,7 @@ class ImageSource
 
         if($this->new_source)
         {
-            $this->_show_edit_row('code_name',_('Image Source ID'),false,10);
+            $this->_show_edit_row('code_name',_('Image Source ID'),false,10,true);
         }
         else
         {
@@ -303,8 +303,8 @@ class ImageSource
                 "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."'>";
             $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
-        $this->_show_edit_row('display_name', _('Display Name'), false, 30);
-        $this->_show_edit_row('full_name', _('Full Name'), false, 100);
+        $this->_show_edit_row('display_name', _('Display Name'), false, 30, true);
+        $this->_show_edit_row('full_name', _('Full Name'), false, 100, true);
         $this->_show_edit_row('url', _('Website'), false, 200);
         $this->_show_edit_row('credit', _('Credits Line'), true, 200);
         $this->_show_edit_permissions_row();
@@ -316,23 +316,24 @@ class ImageSource
             </td></tr></table></form>\n";
     }
 
-    function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
+    function _show_edit_row($field, $label, $textarea = false, $maxlength = null, $required = false)
     {
         $value = $this->new_source
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
             : $this->$field;
 
+        $required_attr = $required ? 'required' : '';
 
         $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
         if ($textarea)
         {
             $value = html_safe($value);
-            $editing = "<textarea cols='60' rows='6' name='$field' $maxlength_attr>$value</textarea>";
+            $editing = "<textarea cols='60' rows='6' name='$field' $maxlength_attr $required_attr>$value</textarea>";
         }
         else
         {
             $value = attr_safe($value);
-            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr>";
+            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr $required_attr>";
         }
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
