@@ -127,7 +127,7 @@ function string_to_codepoints_string($string, $imploder=" ")
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
-    $pattern_string = build_character_regex_filter($valid_codepoints);
+    $pattern_string = build_character_regex_filter($valid_codepoints, '/');
     $result = "";
     foreach(split_graphemes($string) as $grapheme)
     {
@@ -147,7 +147,7 @@ function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 # Filter out any characters in $string that are in $remove_codepoints
 function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement="")
 {
-    $pattern_string = build_character_regex_filter($remove_codepoints);
+    $pattern_string = build_character_regex_filter($remove_codepoints, '/');
     $result = "";
     foreach (split_graphemes($string) as $grapheme) {
         if(1 === preg_match("/$pattern_string/u", $grapheme))
@@ -165,8 +165,9 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement=""
 # Take an array of Unicode codepoints (U+####), codepoint ranges
 # (U+####-U+####), or combined characters (U+####>U+####) and
 # return a regular expression character class to match a single
-# character.
-function build_character_regex_filter($codepoints)
+# character. $delimiter should be the one used in the preg function
+# that will use this filter.
+function build_character_regex_filter($codepoints, $delimiter=NULL)
 {
     $char_class = "";
     $alternatives = [];
@@ -176,20 +177,29 @@ function build_character_regex_filter($codepoints)
         {
             # we have a character range
             list($start, $end) = explode('-', $codepoint);
-            $char_class .= utf8_chr($start) . '-' . utf8_chr($end);
+            $char_class .= implode("", [
+                preg_quote(utf8_chr($start), $delimiter),
+                '-',
+                preg_quote(utf8_chr($end), $delimiter)
+            ]);
         }
         elseif(strpos($codepoint, '>') !== False)
         {
             # we have a combined character
-            $alternatives[] = utf8_combined_chr($codepoint);
+            $alternatives[] = preg_quote(
+                utf8_combined_chr($codepoint), $delimiter
+            );
         }
         else
         {
             # just a regular unicode character
-            $char_class .= utf8_chr($codepoint);
+            $char_class .= preg_quote(utf8_chr($codepoint), $delimiter);
         }
     }
-    $alternatives[] = "[$char_class]";
+    if($char_class)
+    {
+        $alternatives[] = "[$char_class]";
+    }
     return "^(?:" . implode("|", $alternatives) . ")\$";
 }
 
