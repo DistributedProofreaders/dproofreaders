@@ -164,6 +164,7 @@ class ProjectInfoHolder
         $this->language         = '';
         $this->scannercredit    = '';
         $this->comments         = '';
+        $this->comment_format   = '';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->charsuites       = get_default_character_suites();
@@ -211,6 +212,7 @@ class ProjectInfoHolder
         $this->checkedoutby     = '';
         $this->scannercredit    = '';
         $this->comments         = '';
+        $this->comment_format   = 'markdown';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
@@ -283,6 +285,7 @@ class ProjectInfoHolder
         $this->language         = $project->language;
         $this->scannercredit    = $project->scannercredit;
         $this->comments         = $project->comments;
+        $this->comment_format   = $edit_existing ? $project->comment_format : 'markdown';
         $this->clearance        = $project->clearance;
         $this->genre            = $project->genre;
         $this->difficulty_level = $project->difficulty;
@@ -574,6 +577,7 @@ class ProjectInfoHolder
 
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
+        $this->comment_format   = @$_POST['comment_format'];
         $this->clearance        = @$_POST['clearance'];
         $this->difficulty_level = @$_POST['difficulty_level'];
         $this->original_marc_array_encd = @$_POST['rec'];
@@ -609,6 +613,7 @@ class ProjectInfoHolder
             special_code   = '".DPDatabase::escape($this->special_code)."',
             clearance      = '".DPDatabase::escape($this->clearance)."',
             comments       = '".DPDatabase::escape(utf8_normalize($this->comments))."',
+            comment_format = '".DPDatabase::escape($this->comment_format)."',
             image_source   = '".DPDatabase::escape($this->image_source)."',
             scannercredit  = '".DPDatabase::escape($this->scannercredit)."',
             checkedoutby   = '".DPDatabase::escape($this->checkedoutby)."',
@@ -905,6 +910,7 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
         }
+        echo "<input type='hidden' name='comment_format' value='$this->comment_format'>";
         echo "<input type='hidden' name='return' value='$return'>";
     }
 
@@ -992,7 +998,8 @@ class ProjectInfoHolder
         }
         $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
         $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum', '', array("type" => "number") );
-        $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
+        $this->row( _("Project Comments Format"),     'proj_comments_format', $this->comment_format);
+        $this->row( _("Project Comments"),            'proj_comments_field', $this->comments);
         // don't show the word list line if we're in the process of cloning
         if(!empty($this->projectid)) {
             $this->row( _("Project Dictionary"),  'word_lists',  null,  null,  '', $this->projectid);
@@ -1019,7 +1026,7 @@ class ProjectInfoHolder
     function preview()
     {
         // insert e.g. templates and biographies
-        $comments = parse_project_comments($this->comments);
+        $comments = parse_project_comments($this);
 
         $a = _("The Guidelines give detailed instructions for working in this round.");
         $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');

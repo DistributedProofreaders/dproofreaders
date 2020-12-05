@@ -772,7 +772,7 @@ function do_project_info_table()
         }
 
         // insert e.g. templates and biographies
-        $comments = parse_project_comments($comments);
+        $comments = parse_project_comments($project);
 
         if ( $comments == '' )
         {

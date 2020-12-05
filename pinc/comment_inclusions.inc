@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'authors.inc');
+include_once($relPath.'3rdparty/parsedown/Parsedown.php');
 
 // Project comments can contain two kinds of special markup:
 //   [template=........]
@@ -10,8 +11,16 @@ include_once($relPath.'authors.inc');
 // comments are displayed, zipped up for the
 // post-processor, etc.
 //
-function parse_project_comments($comments) {
+function parse_project_comments($project) {
 	global $relPath;
+
+	if ($project->comment_format == 'html') {
+		$comments = $project->comments;
+	} else {
+		$Parsedown = new Parsedown();
+		$Parsedown->setSafeMode(true);
+		$comments = $Parsedown->text($project->comments);
+	}
 
 	// insert templates instead of [template=abcd.txt]
 	$template_count = substr_count($comments, "[template=");
@@ -41,6 +50,7 @@ function parse_project_comments($comments) {
 			$i++;
 		}
 	}
+
 	return $comments;
 }
 

@@ -122,7 +122,7 @@ function write_project_comments($projectid, $fp)
 
     $project = new Project($projectid);
     // insert e.g. templates and biographies
-    $comments = parse_project_comments($project->comments);
+    $comments = parse_project_comments($project);
     fputs($fp,$comments);
 
     $footer = "</BODY></HTML>";
