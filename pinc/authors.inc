@@ -1,7 +1,9 @@
 <?php
+include_once($relPath.'3rdparty/parsedown/Parsedown.php');
+
   function get_biography($id) {
     $sql = sprintf("
-        SELECT bio
+        SELECT bio, bio_format
         FROM biographies
         WHERE bio_id = %d
     ", $id);
@@ -14,7 +16,17 @@
     }
     else
     {
-      $bio_text = $row["bio"];
+      if ($row["bio_format"] === 'markdown')
+      {
+        $Parsedown = new Parsedown();
+        $Parsedown->setSafeMode(true);
+        $bio_text = $Parsedown->text($row["bio"]);
+      }
+      else
+      {
+        $bio_text = $row["bio"];
+      }
+
       // wrap in commentaries and return
       return "<!-- begin bio retrieved from database: id=$id -->\n$bio_text\n<!-- end bio retrieved from database: id=$id -->\n";
     }

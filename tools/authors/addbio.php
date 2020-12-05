@@ -15,6 +15,7 @@ if (isset($_GET['author_id'])) {
     // init creation of new bio
     $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
     $bio = '';
+    $bio_format = 'markdown';
 }
 elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
@@ -22,13 +23,15 @@ elseif (isset($_GET['bio_id'])) {
     $sql = sprintf("SELECT * FROM biographies WHERE bio_id = %d;", $bio_id);
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
-    $author_id = $row["author_id"];
-    $bio       = $row["bio"];
+    $author_id  = $row["author_id"];
+    $bio        = $row["bio"];
+    $bio_format = $row["bio_format"];
 }
 elseif (isset($_POST['author_id'])) {
     // preview / save
     $author_id = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
     $bio = $_POST['bio'];
+    $bio_format = get_enumerated_param($_POST, 'bio_format', null, ['html', 'markdown']);
 
     if (isset($_POST['SaveAndExit']) || isset($_POST['SaveAndView']) || isset($_POST['SaveAndNew'])) {
 
@@ -86,7 +89,6 @@ else {
                  'because you have entered the URL manually. Please enter this page by following links from other pages.');
     exit;
 }
-
 if (isset($_POST['bio_id']))
     $bio_id = $_POST['bio_id'];
 
@@ -94,9 +96,10 @@ if (isset($_POST['bio_id']))
 // produce form (with blank values
 // or those to be edited)
 
-output_header(_('Add biography'));
+$header_text = isset($bio_id) ? _('Edit biography') : _('Add biography');
+output_header($header_text);
 
-echo "<h1>" . _("Add Biography") . "</h1>";
+echo "<h1>" . $header_text . "</h1>";
 echo_menu();
 
 
@@ -114,11 +117,19 @@ elseif (isset($_POST['Preview'])) {
 <form name="addform" action="addbio.php" method="POST">
 <input type="hidden" name="author_id" value="<?php echo $author_id; ?>">
 <?php
-if (isset($bio_id))
+echo '<input type="hidden" name="bio_format" value="' . $bio_format . '">';
+if (isset($bio_id)) {
     echo '<input type="hidden" name="bio_id" value="' . $bio_id . '">';
+}
+
+if (!isset($bio_id) || $bio_format === 'markdown') {
+    $comment_format_text = "<a href='https://www.pgdp.net/wiki/Markdown'>Markdown</a>";
+} else {
+    $comment_format_text =  'HTML';
+}
 ?>
 <table border="1">
-<tr><th><?php echo _('Biography') . ' (' . _('HTML') . ')'; ?></th></tr>
+<tr><th><?php echo _('Biography') . ' (' . $comment_format_text . ')'; ?></th></tr>
 <tr><td><textarea cols="70" rows="20" name="bio">
 <?php echo html_safe($bio); ?></textarea></td></tr>
 <tr><td>

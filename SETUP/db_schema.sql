@@ -70,6 +70,7 @@ CREATE TABLE `biographies` (
   `author_id` int(11) NOT NULL default '0',
   `bio` text NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `bio_format` varchar(8) NOT NULL default 'markdown',
   PRIMARY KEY  (`bio_id`)
 ) COMMENT='Contains biographies (see authors)';
 # --------------------------------------------------------
@@ -360,6 +361,7 @@ CREATE TABLE `projects` (
   `language` varchar(255) NOT NULL default '',
   `username` varchar(25) NOT NULL default '',
   `comments` text NOT NULL,
+  `comment_format` varchar(8) NOT NULL default 'markdown',
   `projectid` varchar(22) NOT NULL default '',
   `special_code` varchar(20) NOT NULL default '',
   `checkedoutby` varchar(25) NOT NULL default '',

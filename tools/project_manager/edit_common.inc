@@ -142,12 +142,12 @@ function difficulty_list($difficulty_level)
         
     foreach ($difficulty_list as $name => $label)
     {
-        echo "<input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
+        echo "<label><input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
         if (strtolower($difficulty_level) == $name)
         {
             echo " CHECKED";
         }
-        echo ">$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo ">$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
     }
 }
 
@@ -316,7 +316,28 @@ function maybe_echo_placeholder_option($initial)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function proj_comments_field($comments)
+function proj_comments_format($comment_format)
+{
+    $comment_format_list = array(
+        'markdown' => new_window_link('https://www.pgdp.net/wiki/Markdown', 'Markdown'),
+        'html'     => "HTML"
+    );
+
+    foreach ($comment_format_list as $name => $label)
+    {
+        echo "<label><input type='radio'  name='comment_format' value='$name'";
+        if (strtolower($comment_format) == $name)
+        {
+            echo " CHECKED";
+        }
+        echo ">";
+        echo "$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function proj_comments_field($comments, $field_name)
 {
     $enc_comments = html_safe($comments);
 
