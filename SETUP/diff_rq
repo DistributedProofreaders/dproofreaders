@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # diff_rq dir1 dir2
 # gives the same information as diff -r -q dir1 dir2,
@@ -9,7 +9,7 @@ import os
 import sys
 
 if len(sys.argv) != 3:
-    print >> sys.stderr, 'usage: diff_rq dir1 dir2'
+    print('usage: diff_rq dir1 dir2', file=sys.stderr)
     sys.exit(1)
 
 (_,L,R) = sys.argv
@@ -26,55 +26,46 @@ pipe = os.popen( "diff -r -q --exclude=CVS --exclude=.git %s %s" % (L,R) )
 while 1:
     line = pipe.readline()
     if line == '':
-	break
+        break
 
-    # trim trialing newline
+    # trim trailing newline
     line = line.rstrip()
 
     mo = only_in_L_reo.match( line )
     if mo:
-	(dir,f) = mo.groups()
-	p = dir + '/' + f
-	p = re.sub( r'^/', '', p )
-	only_in_L.append( p )
-	continue
+        (dir,f) = mo.groups()
+        p = dir + '/' + f
+        p = re.sub( r'^/', '', p )
+        only_in_L.append( p )
+        continue
 
     mo = only_in_R_reo.match( line )
     if mo:
-	(dir,f) = mo.groups()
-	p = dir + '/' + f
-	p = re.sub( r'^/', '', p )
-	only_in_R.append( p )
-	continue
+        (dir,f) = mo.groups()
+        p = dir + '/' + f
+        p = re.sub( r'^/', '', p )
+        only_in_R.append( p )
+        continue
 
     mo = differ_reo.match( line )
     if mo:
-	(p,) = mo.groups()
-	p = re.sub( r'^/', '', p )
-	differ.append( p )
-	continue
+        (p,) = mo.groups()
+        p = re.sub( r'^/', '', p )
+        differ.append( p )
+        continue
 
     assert 0, line
 
-print 'Replacing %s with %s would...' % (L, R)
+def print_diff(type, lines):
+    print('    ')
+    print('    ', type)
+    if len(lines) > 0:
+        for p in lines:
+            print('       ', p)
+    else:
+        print('        (nothing)')
 
-print '    '
-print '    delete:'
-if len(only_in_L) > 0:
-    for p in only_in_L: print '       ', p
-else:
-    print '        (nothing)'
-
-print '    '
-print '    create:'
-if len(only_in_R) > 0:
-    for p in only_in_R: print '       ', p
-else:
-    print '        (nothing)'
-
-print '    '
-print '    change:'
-if len(differ) > 0:
-    for p in differ: print '       ', p
-else:
-    print '        (nothing)'
+print('Replacing %s with %s would...' % (L, R))
+print_diff('delete', only_in_L)
+print_diff('create', only_in_R)
+print_diff('change', differ)
