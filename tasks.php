@@ -12,6 +12,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'3rdparty/parsedown/Parsedown.php');
 
 require_login();
 
@@ -1470,13 +1471,15 @@ function TaskComments($tid)
     $result = DPDatabase::query($sql);
 
     echo "<h2>" . _("Comments") . "</h2>";
+    $Parsedown = new Parsedown();
+    $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<div class='task-comment'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
         echo "<br>\n";
         echo "<div class='task-comment-body'>";
-        echo nl2br(make_urls_links(html_safe($row['comment'])));
+        echo $Parsedown->text($row['comment']);
         echo "</div>";
         echo "</div>";
     }
@@ -1719,6 +1722,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_close_array;
     global $tasks_status_array;
     global $versions_array;
+    global $Parsedown;
 
     $raw_value = array_get($task_a, $property_id, NULL);
     switch ($property_id)
@@ -1778,7 +1782,9 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $fv = html_safe($raw_value); break; // maybe wrap in <a>
 
         case 'task_details':
-            return nl2br(make_urls_links(html_safe($raw_value)));
+            $Parsedown = new Parsedown();
+            $Parsedown->setSafeMode(true);
+            return $Parsedown->text($raw_value);
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
@@ -1915,15 +1921,6 @@ function get_username_for_uid($u_id)
 function title_string_for_task($pre_task)
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
-}
-
-// Convert any URLs into a clickable link in a string
-function make_urls_links($string)
-{
-    // from https://stackoverflow.com/questions/1960461/convert-plain-text-urls-into-html-hyperlinks-in-php
-    $url = '@http(s)?://(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s\);:])@';
-    $string = preg_replace($url, '<a href="$0">$0</a>', $string);
-    return $string;
 }
 
 // vim: sw=4 ts=4 expandtab

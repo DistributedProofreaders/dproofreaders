@@ -72,6 +72,7 @@ $ok_files = [
     "pinc/3rdparty/mediawiki/WordAccumulator.php",
     "pinc/3rdparty/mediawiki/WordLevelDiff.php",
     "pinc/3rdparty/mediawiki/DiffFormatter.php",
+    "pinc/3rdparty/parsedown/Parsedown.php",
     "pinc/3rdparty/portable-utf8/portable-utf8.php",
     # Simple redirect
     "quiz/index.php",
