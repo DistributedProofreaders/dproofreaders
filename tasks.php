@@ -1722,7 +1722,6 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_close_array;
     global $tasks_status_array;
     global $versions_array;
-    global $Parsedown;
 
     $raw_value = array_get($task_a, $property_id, NULL);
     switch ($property_id)
