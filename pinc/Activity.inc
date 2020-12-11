@@ -10,6 +10,7 @@ include_once($relPath.'User.inc');
 
 $ACCESS_CRITERIA = array(
     'days since reg' => _('Days since registration'),
+    'quiz/p_basic'   => sprintf(_('Successfully complete the <a href="%1$s">basic proofreading quiz</a>'),"$code_url/quiz/start.php?show_level=P_BASIC"),
     'quiz/p_mod1'    => sprintf(_('Successfully complete the <a href="%1$s">moderate proofreading quiz %2$d</a>'),"$code_url/quiz/start.php?show_level=P_MOD", 1),
     'quiz/p_mod2'    => sprintf(_('Successfully complete the <a href="%1$s">moderate proofreading quiz %2$d</a>'),"$code_url/quiz/start.php?show_level=P_MOD", 2),
     'quiz/f_only'    => sprintf(_("Successfully complete the <a href='%s'>formatting quiz</a>"),"$code_url/quiz/start.php?show_only=format"),
