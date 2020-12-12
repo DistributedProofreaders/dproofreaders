@@ -530,7 +530,7 @@
   background-color: white;
   color: black;
   padding: 3px;
-  border: 0.5px solid #d3d3d3;
+  border: thin solid #6f6f6f;
 }
 #wordcheck_interface #wc_header input,
 #wordcheck_interface #wc_header select {
