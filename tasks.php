@@ -842,7 +842,8 @@ function handle_action_on_a_specified_task()
 
             // After posting the comment, we should reload as to clear POST data
             //   and avoid comments being posted multiple times.
-            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
+            $comment_id = create_anchor_for_comment($requester_u_id, $now_sse);
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
         }
         else {
             ShowError(_("You must supply a comment before clicking Add Comment."), true);
@@ -1458,6 +1459,11 @@ function ShowError($message, $goback = false)
     echo "$message</p>\n";
 }
 
+function create_anchor_for_comment($u_id, $comment_date)
+{
+  return "$u_id" . '_' . "$comment_date";
+}
+
 function TaskComments($tid)
 {
     global $tasks_url;
@@ -1474,7 +1480,7 @@ function TaskComments($tid)
     $Parsedown = new Parsedown();
     $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "<div class='task-comment'>";
+        echo "<div class='task-comment' id='" . create_anchor_for_comment($row['u_id'], $row['comment_date']) . "'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
         echo "<br>\n";
