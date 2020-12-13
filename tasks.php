@@ -88,15 +88,6 @@ elseif ($request_method == 'POST')
         'search',
     );
     $action = get_enumerated_param($_POST, 'action', null, $valid_actions);
-    if ($action == 'add_comment') {
-        $add_comment_mode = 'add_comment';
-        if (array_get($_POST, 'preview_comment', NULL)) {
-            $add_comment_mode = 'preview_comment';
-        } elseif (array_get($_POST, 'edit_comment', NULL)) {
-            $add_comment_mode = 'edit_comment';
-            $action = 'show';
-        }
-    }
 }
 else
 {
@@ -654,7 +645,7 @@ function handle_action_on_a_specified_task()
 {
     global $pguser, $requester_u_id;
     global $now_sse;
-    global $action, $tasks_url, $add_comment_mode;
+    global $action, $tasks_url;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) $action = 'show';
@@ -681,7 +672,8 @@ function handle_action_on_a_specified_task()
         $userSettings->remove_value('taskctr_notice', $task_id);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
-    if ($action == 'show' || ($action == 'add_comment' && $add_comment_mode == 'preview_comment')) {
+
+    if ($action == 'show') {
         TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id);
     }
@@ -821,38 +813,36 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'add_comment') {
-        if ($add_comment_mode !== 'preview_comment') {
-            $comment = trim(array_get($_POST, 'task_comment', ''));
-            if ($comment) {
-                NotificationMail($task_id, "$pguser commented:\n\n$comment");
-                $sql = sprintf("
-                    INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                    VALUES (%d, %d, %d, '%s')",
-                    $task_id,
-                    $requester_u_id,
-                    $now_sse,
-                    DPDatabase::escape($comment)
-                );
-                DPDatabase::query($sql);
-    
-                $sql = sprintf("
-                    UPDATE tasks
-                    SET date_edited = %d, edited_by = %d
-                    WHERE task_id = %d",
-                    $now_sse,
-                    $requester_u_id,
-                    $task_id
-                );
-                DPDatabase::query($sql);
-    
-                // subscribe the user to the task for notifications
-                $userSettings =& Settings::get_Settings($pguser);
-                $userSettings->add_value('taskctr_notice', $task_id);
-    
-                // After posting the comment, we should reload as to clear POST data
-                //   and avoid comments being posted multiple times.
-                metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
-            }
+        $comment = trim(array_get($_POST, 'task_comment', ''));
+        if ($comment) {
+            NotificationMail($task_id, "$pguser commented:\n\n$comment");
+            $sql = sprintf("
+                INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
+                VALUES (%d, %d, %d, '%s')",
+                $task_id,
+                $requester_u_id,
+                $now_sse,
+                DPDatabase::escape($comment)
+            );
+            DPDatabase::query($sql);
+
+            $sql = sprintf("
+                UPDATE tasks
+                SET date_edited = %d, edited_by = %d
+                WHERE task_id = %d",
+                $now_sse,
+                $requester_u_id,
+                $task_id
+            );
+            DPDatabase::query($sql);
+
+            // subscribe the user to the task for notifications
+            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings->add_value('taskctr_notice', $task_id);
+
+            // After posting the comment, we should reload as to clear POST data
+            //   and avoid comments being posted multiple times.
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
         }
         else {
             ShowError(_("You must supply a comment before clicking Add Comment."), true);
@@ -1468,20 +1458,9 @@ function ShowError($message, $goback = false)
     echo "$message</p>\n";
 }
 
-function TaskComment($Parsedown, $row) {
-  echo "<div class='task-comment'>";
-  $comment_username_link = private_message_link_for_uid($row['u_id']);
-  echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
-  echo "<br>\n";
-  echo "<div class='task-comment-body'>";
-  echo $Parsedown->text($row['comment']);
-  echo "</div>";
-  echo "</div>";
-}
-
 function TaskComments($tid)
 {
-    global $tasks_url, $add_comment_mode, $now_sse, $requester_u_id;
+    global $tasks_url;
     $sql = sprintf("
         SELECT *
         FROM tasks_comments
@@ -1495,32 +1474,23 @@ function TaskComments($tid)
     $Parsedown = new Parsedown();
     $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
-        TaskComment($Parsedown, $row);
+        echo "<div class='task-comment'>";
+        $comment_username_link = private_message_link_for_uid($row['u_id']);
+        echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+        echo "<br>\n";
+        echo "<div class='task-comment-body'>";
+        echo $Parsedown->text($row['comment']);
+        echo "</div>";
+        echo "</div>";
     }
-    $task_comment = trim(array_get($_POST, 'task_comment', ''));
-    if ($add_comment_mode === 'preview_comment') {
-        TaskComment($Parsedown, [
-            "u_id" => $requester_u_id,
-            "comment_date" => $now_sse,
-            "comment" => $task_comment,
-        ]);
-        echo "<form action='$tasks_url' method='post'>";
-        echo "<input type='hidden' name='action' value='add_comment'>";
-        echo "<input type='hidden' name='task_comment' value='" . attr_safe($task_comment) . "' />";
-        echo "<input type='hidden' name='task_id' value='$tid'>";
-        echo "<input type='submit' name='edit_comment' value='" . attr_safe(_("Edit Comment")) . "'>\n";
-        echo "<input type='submit' name='add_comment' value='" . attr_safe(_("Add Comment")) . "'>\n";
-        echo "</form>";
-    } else {
-        echo "<h3>" . _("Add comment") . "</h3>";
-        echo "<form action='$tasks_url' method='post'>";
-        echo "<input type='hidden' name='action' value='add_comment'>";
-        echo "<input type='hidden' name='task_id' value='$tid'>";
-        echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>" . html_safe($task_comment) . "</textarea>";
-        echo "<input type='submit' name='add_comment' value='" . attr_safe(_("Add Comment")) . "'>\n";
-        echo "<input type='submit' name='preview_comment' value='" . attr_safe(_("Preview Comment")) . "'>\n";
-        echo "</form>";
-    }
+
+    echo "<h3>" . _("Add comment") . "</h3>";
+    echo "<form action='$tasks_url' method='post'>";
+    echo "<input type='hidden' name='action' value='add_comment'>";
+    echo "<input type='hidden' name='task_id' value='$tid'>";
+    echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
+    echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
+    echo "</form>";
 }
 
 function NotificationMail($tid, $message, $new_task = false)
