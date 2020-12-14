@@ -896,18 +896,18 @@ function handle_action_on_a_specified_task()
       $comment = trim(array_get($_POST, 'task_comment', ''));
       [$u_id, $comment_date] = explode('_', $comment_id, 2);
       if ($u_id === $requester_u_id) {
-          $sql = sprintf("
-              UPDATE tasks_comments SET comment='%s'
-              WHERE task_id = %d AND u_id = %d AND comment_date = %d",
-              DPDatabase::escape($comment),
-              $task_id,
-              $requester_u_id,
-              $comment_date
-          );
-          DPDatabase::query($sql);
+            $sql = sprintf("
+                UPDATE tasks_comments SET comment='%s'
+                WHERE task_id = %d AND u_id = %d AND comment_date = %d",
+                DPDatabase::escape($comment),
+                $task_id,
+                $requester_u_id,
+                $comment_date
+            );
+            DPDatabase::query($sql);
 
-          metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
-      }
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
+        }
     }
     else {
         die("shouldn't be able to reach here");
@@ -1395,8 +1395,8 @@ function TaskDetails($tid, $action)
 
     TaskComments($tid, $action);
     if ($action != 'edit_comment') {
-      RelatedTasks($tid);
-      RelatedPostings($tid);
+        RelatedTasks($tid);
+        RelatedPostings($tid);
     }
 }
 
@@ -1508,22 +1508,22 @@ function TaskComments($tid, $action)
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
         if ($is_owner) {
-          echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
+            echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
         }
         echo "<br>\n";
         echo "<div class='task-comment-body'>";
         if ($action == 'edit_comment' && $is_owner && $comment_id == $_GET['comment_id']) {
-          echo "<form action='$tasks_url' method='post'>";
-          echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>";
-          echo html_safe($row['comment']);
-          echo "</textarea>";
-          echo "<input type='hidden' name='' value=''>";
-          echo "<input type='hidden' name='task_id' value='$tid'>";
-          echo "<input type='hidden' name='comment_id' value='$comment_id'>";
-          echo "<input type='hidden' name='action' value='save_edit_comment'>";
-          echo "<input type='submit' value='" . attr_safe(_("Save Comment")) . "'>";
+            echo "<form action='$tasks_url' method='post'>";
+            echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>";
+            echo html_safe($row['comment']);
+            echo "</textarea>";
+            echo "<input type='hidden' name='' value=''>";
+            echo "<input type='hidden' name='task_id' value='$tid'>";
+            echo "<input type='hidden' name='comment_id' value='$comment_id'>";
+            echo "<input type='hidden' name='action' value='save_edit_comment'>";
+            echo "<input type='submit' value='" . attr_safe(_("Save Comment")) . "'>";
         } else {
-          echo $Parsedown->text($row['comment']);
+            echo $Parsedown->text($row['comment']);
         }
         echo "</div>";
         echo "</div>";
