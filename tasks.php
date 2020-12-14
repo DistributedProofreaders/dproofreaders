@@ -67,7 +67,8 @@ if ($request_method == 'GET')
         'search',
         'list_open',
         'notify_new',
-        'unnotify_new'
+        'unnotify_new',
+        'edit_comment'
     );
     $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
 }
@@ -86,6 +87,7 @@ elseif ($request_method == 'POST')
         'close',
         'reopen',
         'search',
+        'save_edit_comment',
     );
     $action = get_enumerated_param($_POST, 'action', null, $valid_actions);
 }
@@ -673,9 +675,9 @@ function handle_action_on_a_specified_task()
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
 
-    if ($action == 'show') {
+    if ($action == 'show' || $action == 'edit_comment') {
         TaskHeader(title_string_for_task($pre_task));
-        TaskDetails($task_id);
+        TaskDetails($task_id, $action);
     }
     elseif ($action == 'show_editing_form') {
         TaskHeader(title_string_for_task($pre_task));
@@ -888,6 +890,24 @@ function handle_action_on_a_specified_task()
 
         // Redirect back to show task page to clear POST data
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
+    }
+    else if ($action == 'save_edit_comment') {
+      $comment_id = array_get($_POST, 'comment_id', "");
+      $comment = trim(array_get($_POST, 'task_comment', ''));
+      [$u_id, $comment_date] = explode('_', $comment_id, 2);
+      if ($u_id === $requester_u_id) {
+          $sql = sprintf("
+              UPDATE tasks_comments SET comment='%s'
+              WHERE task_id = %d AND u_id = %d AND comment_date = %d",
+              DPDatabase::escape($comment),
+              $task_id,
+              $requester_u_id,
+              $comment_date
+          );
+          DPDatabase::query($sql);
+
+          metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
+      }
     }
     else {
         die("shouldn't be able to reach here");
@@ -1277,7 +1297,7 @@ function load_task($tid, $is_assoc=TRUE)
     return $task;
 }
 
-function TaskDetails($tid)
+function TaskDetails($tid, $action)
 {
     global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
@@ -1373,9 +1393,11 @@ function TaskDetails($tid)
         MeToo($tid, $task['task_os'], $task['task_browser']);
     }
 
-    TaskComments($tid);
-    RelatedTasks($tid);
-    RelatedPostings($tid);
+    TaskComments($tid, $action);
+    if ($action != 'edit_comment') {
+      RelatedTasks($tid);
+      RelatedPostings($tid);
+    }
 }
 
 function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
@@ -1464,9 +1486,9 @@ function create_anchor_for_comment($u_id, $comment_date)
   return "$u_id" . '_' . "$comment_date";
 }
 
-function TaskComments($tid)
+function TaskComments($tid, $action)
 {
-    global $tasks_url;
+    global $tasks_url, $requester_u_id;
     $sql = sprintf("
         SELECT *
         FROM tasks_comments
@@ -1480,23 +1502,42 @@ function TaskComments($tid)
     $Parsedown = new Parsedown();
     $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "<div class='task-comment' id='" . create_anchor_for_comment($row['u_id'], $row['comment_date']) . "'>";
+        $comment_id = create_anchor_for_comment($row['u_id'], $row['comment_date']);
+        $is_owner = $requester_u_id == $row['u_id'];
+        echo "<div class='task-comment' id='$comment_id'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+        if ($is_owner) {
+          echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
+        }
         echo "<br>\n";
         echo "<div class='task-comment-body'>";
-        echo $Parsedown->text($row['comment']);
+        if ($action == 'edit_comment' && $is_owner && $comment_id == $_GET['comment_id']) {
+          echo "<form action='$tasks_url' method='post'>";
+          echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>";
+          echo html_safe($row['comment']);
+          echo "</textarea>";
+          echo "<input type='hidden' name='' value=''>";
+          echo "<input type='hidden' name='task_id' value='$tid'>";
+          echo "<input type='hidden' name='comment_id' value='$comment_id'>";
+          echo "<input type='hidden' name='action' value='save_edit_comment'>";
+          echo "<input type='submit' value='" . attr_safe(_("Save Comment")) . "'>";
+        } else {
+          echo $Parsedown->text($row['comment']);
+        }
         echo "</div>";
         echo "</div>";
     }
 
-    echo "<h3>" . _("Add comment") . "</h3>";
-    echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='action' value='add_comment'>";
-    echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
-    echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
-    echo "</form>";
+    if ($action != 'edit_comment') {
+        echo "<h3>" . _("Add comment") . "</h3>";
+        echo "<form action='$tasks_url' method='post'>";
+        echo "<input type='hidden' name='action' value='add_comment'>";
+        echo "<input type='hidden' name='task_id' value='$tid'>";
+        echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
+        echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
+        echo "</form>";
+    }
 }
 
 function NotificationMail($tid, $message, $new_task = false)
