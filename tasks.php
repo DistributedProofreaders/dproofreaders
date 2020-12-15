@@ -892,10 +892,10 @@ function handle_action_on_a_specified_task()
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     }
     else if ($action == 'save_edit_comment') {
-      $comment_id = array_get($_POST, 'comment_id', "");
-      $comment = trim(array_get($_POST, 'task_comment', ''));
-      [$u_id, $comment_date] = explode('_', $comment_id, 2);
-      if ($u_id === $requester_u_id) {
+        $comment_id = array_get($_POST, 'comment_id', "");
+        $comment = trim(array_get($_POST, 'task_comment', ''));
+        [$u_id, $comment_date] = explode('_', $comment_id, 2);
+        if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
             $sql = sprintf("
                 UPDATE tasks_comments SET comment='%s'
                 WHERE task_id = %d AND u_id = %d AND comment_date = %d",
@@ -1483,12 +1483,12 @@ function ShowError($message, $goback = false)
 
 function create_anchor_for_comment($u_id, $comment_date)
 {
-  return "$u_id" . '_' . "$comment_date";
+    return "$u_id" . '_' . "$comment_date";
 }
 
 function TaskComments($tid, $action)
 {
-    global $tasks_url, $requester_u_id;
+    global $tasks_url, $requester_u_id, $now_sse;
     $sql = sprintf("
         SELECT *
         FROM tasks_comments
@@ -1503,16 +1503,18 @@ function TaskComments($tid, $action)
     $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
         $comment_id = create_anchor_for_comment($row['u_id'], $row['comment_date']);
-        $is_owner = $requester_u_id == $row['u_id'];
+
+        // Can edit if comment creator AND created less than 24 hours ago OR User is a Site Admin
+        $can_edit_comment = ($requester_u_id == $row['u_id'] && $now_sse - (int)$row['comment_date'] <= 86400) || user_is_a_sitemanager();
         echo "<div class='task-comment' id='$comment_id'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
-        if ($is_owner) {
+        if ($can_edit_comment && $action != 'edit_comment') {
             echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
         }
         echo "<br>\n";
         echo "<div class='task-comment-body'>";
-        if ($action == 'edit_comment' && $is_owner && $comment_id == $_GET['comment_id']) {
+        if ($action == 'edit_comment' && $can_edit_comment && $comment_id == $_GET['comment_id']) {
             echo "<form action='$tasks_url' method='post'>";
             echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>";
             echo html_safe($row['comment']);
