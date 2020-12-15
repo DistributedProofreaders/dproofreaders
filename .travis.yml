@@ -2,10 +2,7 @@ language: php
 addons:
   firefox: latest
 php:
-    # Test on a wide array of PHP versions.
-    # These are tied to the version of phpunit we use (see below).
-    - 7.2
-    - 7.3
+    # PHP versions are tied to the version of phpunit we use (see below).
     - 7.4
 services:
     - mysql
