@@ -347,6 +347,16 @@ class User
         return $user;
     }
 
+    // Load a User record by email address. email address is not guaranteed to
+    // be unique and this may very likely raise a NonuniqueUserException
+    // e.g. $user = User::load_from_email($email);
+    public static function load_from_email($email)
+    {
+        $user = new User();
+        $user->load('email', $email);
+        return $user;
+    }
+
     // Static function to determine if the specified username is associated
     // with a valid user without the overhead of creating an object.
     public static function is_valid_user($username, $strict=TRUE)
