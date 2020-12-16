@@ -27,20 +27,17 @@ $uao = $round->user_access( $pguser );
 
 $round->page_top( $uao );
 
-// show user how to access this round
-if ( !$uao->can_access )
-{
-    show_user_access_object( $uao );
-}
-
-// ---------------------------------------
-
 $pagesproofed = get_pages_proofed_maybe_simulated();
 
 alert_re_unread_messages( $pagesproofed );
 
 welcome_see_beginner_forum( $pagesproofed, $round->id );
 
+// show user how to access this round
+if ( !$uao->can_access )
+{
+    show_user_access_object( $uao );
+}
 
 show_news_for_page($round_id);
 
