@@ -145,9 +145,12 @@ printf(_("Please check the e-mail being sent to you for further information abou
         $site_name);
 
 echo "<p class='large'>"._("Enter your password below to sign in and start proofreading!!") . "</p>";
+$csrf_token = get_csrf_token_form_input();
 echo "<form action='login.php' method='post'>
+$csrf_token
 <input type='hidden' name='userNM' value='".attr_safe($user->username)."'>
 <input type='password' name='userPW' required>
-<input type='submit' value='".attr_safe(_("Sign In"))."'></form>";
+<input type='submit' value='".attr_safe(_("Sign In"))."'>
+</form>";
 
 // vim: sw=4 ts=4 expandtab
