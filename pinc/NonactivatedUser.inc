@@ -209,6 +209,17 @@ class NonactivatedUser
         $user->load('id', $id);
         return $user;
     }
+
+    // Load a NonactivatedUser record by email address
+    // e.g. $user = NonactivatedUser::load_from_email($email);
+    // The email address is not guaranteed to be unique and this function
+    // may raise NonuniqueNonactivatedUserException
+    public static function load_from_email($email)
+    {
+        $user = new NonactivatedUser();
+        $user->load('email', $email);
+        return $user;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

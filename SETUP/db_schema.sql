@@ -216,7 +216,8 @@ CREATE TABLE `non_activated_users` (
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_intlang` varchar(25) default '',
   `user_password` varchar(128) NOT NULL default '',
-  PRIMARY KEY  (`username`)
+  PRIMARY KEY  (`username`),
+  KEY `email` (`email`)
 ) COMMENT='Each row represents a not-yet-activated user, user_password ';
 # --------------------------------------------------------
 

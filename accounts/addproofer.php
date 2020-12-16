@@ -213,7 +213,7 @@ include($relPath.'/../faq/privacy.php');
 // Returns an empty string upon success and an error message upon failure
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details)
 {
-    global $testing;
+    global $testing, $general_help_email_addr;
 
     // Make sure that password and confirmed password are equal.
     if ($userpass != $userpass2)
@@ -225,6 +225,27 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     if ($email != $email2)
     {
         return _("The e-mail addresses you entered were not equal.");
+    }
+
+    // See if there is already an account creation request for this email
+    try
+    {
+        NonactivatedUser::load_from_email($email);
+        $email_exists = TRUE;
+    }
+    catch(NonuniqueNonactivatedUserException $e)
+    {
+        $email_exists = TRUE;
+    }
+    catch(NonexistentNonactivatedUserException $e)
+    {
+        // this is the expected case
+        $email_exists = FALSE;
+    }
+
+    if($email_exists)
+    {
+        return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to get to you. If you have not received it within 12 hours, please contact %s to have it resent."), $general_help_email_addr);
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
