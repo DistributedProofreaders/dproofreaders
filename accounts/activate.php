@@ -10,24 +10,23 @@ include_once($relPath.'User.inc');
 
 $ID = array_get($_GET, "id", "");
 
+// If the user is already logged in, redirect them to the Activity Hub.
+if(User::current_username())
+{
+    metarefresh(0, "$code_url/activity_hub.php");
+}
+
 try
 {
     $user = NonactivatedUser::load_from_id($ID);
 }
 catch(NonexistentNonactivatedUserException $exception)
 {
-    // If the user is already activated, and the activated user is the
-    // one that is logged in, redirect them to the Activity Hub. This can
-    // happen if they use the login form in the navbar and are redirected
-    // back here.
+    // See if the user is already activated.
     try
     {
         $user_test = User::load_from_registration_token($ID);
         $existing_user = $user_test->username;
-        if($pguser == $existing_user)
-        {
-            metarefresh(0, "$code_url/activity_hub.php");
-        }
     }
     catch(Exception $exception)
     {
@@ -39,36 +38,39 @@ catch(NonexistentNonactivatedUserException $exception)
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
 // create a record in the users table, create a profile, stats data, etc.
 // and send a welcome mail.
-output_header(_('Activate account'));
-if(!isset($user->id)) {
-    echo "<p>\n";
-    echo sprintf(
-        _("There is no account with the id '%s' waiting to be activated."), html_safe($ID)
-    );
+$title = _('Activate account');
+output_header($title);
+echo "<h1>$title</h1>";
 
+if(!isset($user->id)) {
     if($existing_user) {
-        echo "\n";
+        echo "<p>";
         echo _("It appears that the account has already been activated.");
         echo "\n";
         echo _("(Probably you just clicked the activation link more than once.)");
         echo "\n";
         echo _("There should be an introductory email message on its way to you.");
-        echo "\n";
-        if(!$pguser) {
-            echo _("Please enter your username and password in the fields above to login to your account.");
-            echo "\n";
-        }
+        echo "</p>";
+
+        echo "<p>";
+        echo _("Please enter your username and password in the fields above to login to your account.");
+        echo "</p>";
     }
     else
     {
-        echo "\n";
+        echo "<p>";
+        echo sprintf(
+            _("There is no account with the id '%s' waiting to be activated."), html_safe($ID)
+        );
+        echo "</p>";
+
+        echo "<p>";
         $mailto_url = "mailto:$general_help_email_addr";
         echo sprintf(
             _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
             $mailto_url, $general_help_email_addr );
-        echo "\n";
+        echo "</p>";
     }
-    echo "</p>\n";
 
     exit;
 }
@@ -138,11 +140,14 @@ DPDatabase::query($refString);
 // Send them an introduction e-mail
 maybe_welcome_mail($user->email, $user->real_name, $user->username);
 
+echo "<p>";
 printf(_("User %s activated successfully."), $user->username);
-echo " ";        
+echo " ";
+
 // TRANSLATORS: %s is the site name
 printf(_("Please check the e-mail being sent to you for further information about %s."),
         $site_name);
+echo "</p>";
 
 echo "<p>"._("Enter your password below to sign in and start proofreading!!") . "</p>";
 
