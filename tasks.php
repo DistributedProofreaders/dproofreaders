@@ -12,6 +12,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'3rdparty/parsedown/Parsedown.php');
 
 require_login();
 
@@ -66,7 +67,8 @@ if ($request_method == 'GET')
         'search',
         'list_open',
         'notify_new',
-        'unnotify_new'
+        'unnotify_new',
+        'edit_comment'
     );
     $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
 }
@@ -85,6 +87,7 @@ elseif ($request_method == 'POST')
         'close',
         'reopen',
         'search',
+        'save_edit_comment',
     );
     $action = get_enumerated_param($_POST, 'action', null, $valid_actions);
 }
@@ -672,9 +675,9 @@ function handle_action_on_a_specified_task()
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
 
-    if ($action == 'show') {
+    if ($action == 'show' || $action == 'edit_comment') {
         TaskHeader(title_string_for_task($pre_task));
-        TaskDetails($task_id);
+        TaskDetails($task_id, $action);
     }
     elseif ($action == 'show_editing_form') {
         TaskHeader(title_string_for_task($pre_task));
@@ -841,7 +844,8 @@ function handle_action_on_a_specified_task()
 
             // After posting the comment, we should reload as to clear POST data
             //   and avoid comments being posted multiple times.
-            metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
+            $comment_id = create_anchor_for_comment($requester_u_id, $now_sse);
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
         }
         else {
             ShowError(_("You must supply a comment before clicking Add Comment."), true);
@@ -886,6 +890,24 @@ function handle_action_on_a_specified_task()
 
         // Redirect back to show task page to clear POST data
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
+    }
+    else if ($action == 'save_edit_comment') {
+        $comment_id = array_get($_POST, 'comment_id', "");
+        $comment = trim(array_get($_POST, 'task_comment', ''));
+        [$u_id, $comment_date] = explode('_', $comment_id, 2);
+        if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
+            $sql = sprintf("
+                UPDATE tasks_comments SET comment='%s'
+                WHERE task_id = %d AND u_id = %d AND comment_date = %d",
+                DPDatabase::escape($comment),
+                $task_id,
+                $requester_u_id,
+                $comment_date
+            );
+            DPDatabase::query($sql);
+
+            metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
+        }
     }
     else {
         die("shouldn't be able to reach here");
@@ -1275,7 +1297,7 @@ function load_task($tid, $is_assoc=TRUE)
     return $task;
 }
 
-function TaskDetails($tid)
+function TaskDetails($tid, $action)
 {
     global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
@@ -1371,9 +1393,11 @@ function TaskDetails($tid)
         MeToo($tid, $task['task_os'], $task['task_browser']);
     }
 
-    TaskComments($tid);
-    RelatedTasks($tid);
-    RelatedPostings($tid);
+    TaskComments($tid, $action);
+    if ($action != 'edit_comment') {
+        RelatedTasks($tid);
+        RelatedPostings($tid);
+    }
 }
 
 function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
@@ -1457,9 +1481,14 @@ function ShowError($message, $goback = false)
     echo "$message</p>\n";
 }
 
-function TaskComments($tid)
+function create_anchor_for_comment($u_id, $comment_date)
 {
-    global $tasks_url;
+    return "$u_id" . '_' . "$comment_date";
+}
+
+function TaskComments($tid, $action)
+{
+    global $tasks_url, $requester_u_id, $now_sse;
     $sql = sprintf("
         SELECT *
         FROM tasks_comments
@@ -1470,24 +1499,47 @@ function TaskComments($tid)
     $result = DPDatabase::query($sql);
 
     echo "<h2>" . _("Comments") . "</h2>";
+    $Parsedown = new Parsedown();
+    $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "<div class='task-comment'>";
+        $comment_id = create_anchor_for_comment($row['u_id'], $row['comment_date']);
+
+        // Can edit if comment creator AND created less than 24 hours ago OR User is a Site Admin
+        $can_edit_comment = ($requester_u_id == $row['u_id'] && $now_sse - (int)$row['comment_date'] <= 86400) || user_is_a_sitemanager();
+        echo "<div class='task-comment' id='$comment_id'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
         echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+        if ($can_edit_comment && $action != 'edit_comment') {
+            echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
+        }
         echo "<br>\n";
         echo "<div class='task-comment-body'>";
-        echo nl2br(make_urls_links(html_safe($row['comment'])));
+        if ($action == 'edit_comment' && $can_edit_comment && $comment_id == $_GET['comment_id']) {
+            echo "<form action='$tasks_url' method='post'>";
+            echo "<textarea name='task_comment' style='width: 99%; height: 9em;'>";
+            echo html_safe($row['comment']);
+            echo "</textarea>";
+            echo "<input type='hidden' name='' value=''>";
+            echo "<input type='hidden' name='task_id' value='$tid'>";
+            echo "<input type='hidden' name='comment_id' value='$comment_id'>";
+            echo "<input type='hidden' name='action' value='save_edit_comment'>";
+            echo "<input type='submit' value='" . attr_safe(_("Save Comment")) . "'>";
+        } else {
+            echo $Parsedown->text($row['comment']);
+        }
         echo "</div>";
         echo "</div>";
     }
 
-    echo "<h3>" . _("Add comment") . "</h3>";
-    echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='action' value='add_comment'>";
-    echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
-    echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
-    echo "</form>";
+    if ($action != 'edit_comment') {
+        echo "<h3>" . _("Add comment") . "</h3>";
+        echo "<form action='$tasks_url' method='post'>";
+        echo "<input type='hidden' name='action' value='add_comment'>";
+        echo "<input type='hidden' name='task_id' value='$tid'>";
+        echo "<textarea name='task_comment' style='width: 99%; height: 9em;'></textarea>";
+        echo "<input type='submit' value='" . attr_safe(_("Add Comment")) . "'>\n";
+        echo "</form>";
+    }
 }
 
 function NotificationMail($tid, $message, $new_task = false)
@@ -1778,7 +1830,9 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $fv = html_safe($raw_value); break; // maybe wrap in <a>
 
         case 'task_details':
-            return nl2br(make_urls_links(html_safe($raw_value)));
+            $Parsedown = new Parsedown();
+            $Parsedown->setSafeMode(true);
+            return $Parsedown->text($raw_value);
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
@@ -1915,15 +1969,6 @@ function get_username_for_uid($u_id)
 function title_string_for_task($pre_task)
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
-}
-
-// Convert any URLs into a clickable link in a string
-function make_urls_links($string)
-{
-    // from https://stackoverflow.com/questions/1960461/convert-plain-text-urls-into-html-hyperlinks-in-php
-    $url = '@http(s)?://(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s\);:])@';
-    $string = preg_replace($url, '<a href="$0">$0</a>', $string);
-    return $string;
 }
 
 // vim: sw=4 ts=4 expandtab
