@@ -29,7 +29,33 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
 {
     global $code_url, $ELR_round, $beginners_site_forum_idx;
 
-    if ($pagesproofed <= 100)
+    // If the ELR_round requires access and the user doesn't currently
+    // have it, show them what they need to do.
+    $accessable_stages = get_stages_user_can_work_in(User::current_username());
+    if(!isset($accessable_stages[$ELR_round->id]))
+    {
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("Welcome New Proofreader!");
+        echo "</div>";
+
+        echo "<p>";
+        echo sprintf(_('Before you can begin proofreading, you must:'));
+        echo "<ul>";
+        $uao = $ELR_round->user_access(User::current_username());
+        foreach ($uao->minima_table as $row)
+        {
+            list($criterion_str, $minimum, $user_score, $satisfied) = $row;
+            echo "<li>$criterion_str</li>";
+        }
+        echo "</ul>\n";
+        echo "</p>";
+
+        echo "<p>";
+        echo sprintf(_('After that you will be able to work in <a href="%1$s">%2$s</a>, the first proofreading round.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
+        echo "</div>";
+    }
+    elseif ($pagesproofed <= 100)
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
