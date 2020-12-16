@@ -543,7 +543,7 @@ function get_activity_links()
 // return a list of round/stage links for the user
 // the returned links are in a format usable by headerbar_text_array
 {
-    global $Stage_for_id_;
+    global $Stage_for_id_, $ELR_round;
 
     $user = User::load_current();
 
@@ -559,13 +559,16 @@ function get_activity_links()
     }
 
     // Get all stages the user has access to
-    $stages_can_access_and_access_prereqs = get_stages_user_can_work_in($user->username);
+    $stages_user_can_see = get_stages_user_can_work_in($user->username);
+
+    // Always allow users to see the ELR
+    $stages_user_can_see[$ELR_round->id] = $ELR_round;
 
     // we still need to loop through $Stage_for_id_ to output the stages
     // in order
     foreach( $Stage_for_id_ as $stage)
     {
-        if(isset($stages_can_access_and_access_prereqs[$stage->id]))
+        if(isset($stages_user_can_see[$stage->id]))
         {
             $text = $stage->id;
 
