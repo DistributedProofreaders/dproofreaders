@@ -80,15 +80,18 @@ if(count($_POST))
             setcookie("http_referer", '', time() - 1);
 
             // Page shown when account is successfully created
-            $header = sprintf(_("User %s Registered Successfully"), $username);
-            output_header($header);
+            $title = _("Registration complete");
+            output_header($title);
+            echo "<h1>$title</h1>";
 
             // Send them an activation e-mail
             maybe_activate_mail($email, $real_name, $register->id, $username, $intlang);
 
+            echo "<p>";
             echo sprintf(
                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
-               $username);
+               html_safe($username));
+            echo "</p>";
             exit();
         }
         catch(Exception $exception)
