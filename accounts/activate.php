@@ -144,13 +144,23 @@ echo " ";
 printf(_("Please check the e-mail being sent to you for further information about %s."),
         $site_name);
 
-echo "<p class='large'>"._("Enter your password below to sign in and start proofreading!!") . "</p>";
+echo "<p>"._("Enter your password below to sign in and start proofreading!!") . "</p>";
+
+// We use the same field labels here that are in the navbar
 $csrf_token = get_csrf_token_form_input();
 echo "<form action='login.php' method='post'>
 $csrf_token
-<input type='hidden' name='userNM' value='".attr_safe($user->username)."'>
-<input type='password' name='userPW' required>
-<input type='submit' value='".attr_safe(_("Sign In"))."'>
+<table class='themed theme_striped' style='width: auto'>
+<tr>
+  <th><label for='loginform-userNM'>" . _("ID") . "</label></th>
+  <td><input type='text' id='loginform-userNM' name='userNM' value='".attr_safe($user->username)."' required></td>
+</tr>
+<tr>
+  <th><label for='loginform-userPW'>" . _("Password") . "</label></th>
+  <td><input type='password' id='loginform-userPW' name='userPW' required></td>
+</tr>
+</table>
+<p><input type='submit' value='".attr_safe(_("Sign In"))."'></p>
 </form>";
 
 // vim: sw=4 ts=4 expandtab
