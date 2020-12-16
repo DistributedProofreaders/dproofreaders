@@ -245,7 +245,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
 
     if($email_exists)
     {
-        return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to get to you. If you have not received it within 12 hours, please contact %s to have it resent."), $general_help_email_addr);
+        return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to arrive in your inbox. It is also a good idea to check your spam folder. If you have not received it within 12 hours, please contact %s to have it re-sent."), $general_help_email_addr);
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
