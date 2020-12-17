@@ -122,9 +122,6 @@ class Quiz
         else
             $n_columns = 2;
 
-        echo "<h3>$this->name</h3>";
-        echo "<table class='themed theme_striped'>";
-
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')
         $stage_required_for = array();
@@ -134,6 +131,37 @@ class Quiz
             if (array_key_exists("quiz/$this->id", $stage->access_minima))
                 $stage_required_for[$stage_id] = $stage;
         }
+
+        // if this quiz is required for a stage that the user is now eligible
+        // for, output a callout
+        if(count($stage_required_for) && $username == User::current_username())
+        {
+            foreach($stage_required_for as $stage_id => $stage)
+            {
+                $uao = $stage->user_access($username);
+                // if the user can't currently access it but they have satisfied
+                // all of the requirements to do so, point them in the right direction
+                if(!$uao->can_access && $uao->all_minima_satisfied)
+                {
+                    echo "<div class='callout'>";
+                    echo "<div class='calloutheader'>";
+                    echo _("You can now work in $stage_id!");
+                    echo "</div>";
+
+                    echo "<p>";
+                    echo sprintf(_("You've satisfied all requirements to work in %s!"), $stage_id);
+
+                    echo " ";
+
+                    echo sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a> to access this activity and get started."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
+                    echo "</p>";
+                    echo "</div>";
+                }
+            }
+        }
+
+        echo "<h3>$this->name</h3>";
+        echo "<table class='themed theme_striped'>";
 
         if ($this->description != "" || count($stage_required_for) > 0)
         {
