@@ -59,7 +59,7 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo _("Welcome!");
+        echo _("Welcome New Proofreader!");
         echo "</div>";
 
         // If the user is not on the entry level round page, direct
