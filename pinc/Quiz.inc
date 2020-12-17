@@ -132,7 +132,7 @@ class Quiz
         foreach($Stage_for_id_ as $stage_id => $stage)
         {
             if (array_key_exists("quiz/$this->id", $stage->access_minima))
-                $stage_required_for[] = $stage_id;
+                $stage_required_for[$stage_id] = $stage;
         }
 
         if ($this->description != "" || count($stage_required_for) > 0)
@@ -141,11 +141,16 @@ class Quiz
                 <tr><td colspan='$n_columns'>";
             if (count($stage_required_for) > 0)
             {
-                echo "<p>" . _("Passing this quiz is required for:") . " ";
-                echo implode(", ", $stage_required_for);
+                echo "<p>" . _("Passing this quiz is required prior to working in:") . " ";
+                $stage_links = [];
+                foreach($stage_required_for as $stage_id => $stage)
+                {
+                    $stage_links[] = "<a href='$code_url/$stage->relative_url'>$stage_id</a>";
+                }
+                echo implode(", ", $stage_links);
                 echo "</p>"; 
             }
-            echo "$this->description";
+            echo "<p>$this->description</p>";
             echo "</td></tr>";
         }
 
