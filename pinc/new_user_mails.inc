@@ -102,25 +102,6 @@ $dp_wiki_url/DP_Official_Documentation:General/Code_of_Conduct
 and our Mission Statement at
 $dp_wiki_url/DP_Official_Documentation:General/Distributed_Proofreaders_Mission_Statement
 
-
-Log in to the $site_name Site
-----------------------------
-
-1. Go to $site_url .
-
-2. Enter your user name (ID) and password in the two boxes in the upper
-   right-hand portion of the window and click on the "Sign In" button. If
-   you don't see the log-in boxes, but do see your username on the far right
-   of the navigation bar, you are already logged in.
-
-3. Once you've logged in, please look at the navigation bar at the top of
-   the screen. This bar has links to the major areas of the site, including
-   {$ELR_round->id} (the first proofreading round), SR (the Smooth Reading pool where you
-   can access pre-released books), Forums, Wiki (documentation), and Prefs
-   (your personal preferences). Near the top of the right-hand side of
-   the screen is a list of Key Help Documents.
-
-
 Computer Requirements
 ---------------------
 
@@ -133,81 +114,20 @@ for $site_name are as follows:
 - popup windows allowed
 
 
-Problems Logging In
--------------------
-
-If your password doesn't work, please try resetting it by visiting:
-$reset_password_url
-
-If you cannot log in to the site or access the forums, please send an
-email describing the issue to $general_help_email_addr and include
-your user name in the message.
-
-
 Start Proofreading
 ------------------
 
-Note: If you use iOS 11 or later to proofread and haven't already disabled
-"Smart" punctuation, your device may insert characters such as curly quotes
-that are not valid at $site_name for proofreading. This will cause an error
-when you try to save the page. To correct this problem, please go to
-Preferences -> General -> Keyboard and turn off Smart Punctuation.
+1. Log in at $site_url
 
-1. Before proofreading, please review the Proofreading Guidelines Summary:
-   $code_url/faq/proofing_summary.pdf
+2. The site will walk you through getting started. Look for boxes labeled
+   'Welcome New Proofreader!'.
 
-2. Log in to the site and select the {$ELR_round->id} link at the top of the page.
+To understand the basics of proofreading at $site_name,
+you should review the Proofreading Guidelines Summary:
+$code_url/faq/proofing_summary.pdf
 
-3. Scroll down the page to the list of Projects Currently Available.
-
-4. Select a project by clicking on the project's title link. It's
-   best to select a "BEGINNERS ONLY" project if one is available in
-   a language in which you are proficient. BEGINNERS ONLY projects
-   have been specially prepared to teach you our style of proofing. You
-   can expect to receive feedback from a mentor on pages you proofread
-   in BEGINNERS ONLY projects. This feedback will likely come at least
-   a few days after you have completed the pages.
-
-5. Once you click on the project's title, a Project Page will appear.
-   Scroll down the page and read the Project Comments which contain
-   instructions specific to the book you have chosen.
-
-6. Once you're ready to start proofreading, locate the "Start Proofreading"
-   link at the bottom of the Project Comments section. Click on the link,
-   and the next available page will open in a proofreading interface window
-   ready for proofreading.
-
-7. Compare the text in the text box with what is in the associated image.
-   Change the text to match the image if it doesn't already do so, taking
-   into account the instructions in the Proofreading Guidelines and the
-   Project Comments. As you proofread, please keep in mind that you should
-   not change what the author wrote. If the author spelled words oddly, we
-   leave them spelled that way. If the author wrote outrageous racist or
-   biased statements, we leave them that way. If the author used commas
-   after every third word, we keep the commas. We are proofreaders, not
-   editors or modernizers.
-
-8. When you've finished proofreading the page, click on either the
-   "Save as 'Done'" or "Save as 'Done' & Proofread Next Page" button.
-   Congratulations--you've just proofread your first page!
-
-9. If you have questions, please don't hesitate to ask them in the
-   project's associated discussion topic in the forums (the link to the
-   project's topic is on the Project Page above the Project Comments).
-
-10. Once you've proofread several pages, it's a good idea to:
-    * Watch for new messages in your Distributed Proofreaders Inbox
-      ( $forums_url/ucp.php?i=pm&folder=inbox ) since
-      that is how our mentors generally contact volunteers with
-      proofreading feedback.
-    * Read the full Proofreading Guidelines at
-        $code_url/faq/proofreading_guidelines.php
-    * Work through the automated interactive Basic Proofreading Quizzes
-      and Tutorials at
-        $code_url/quiz/start.php?show_only=PQ
-      to get instant feedback and gain confidence in your understanding of
-      the $site_name proofreading process.
-
+Later you should also read the full Proofreading Guidelines:
+$dp_wiki_url/DP_Official_Documentation:Proofreading/Proofreading_Guidelines
 
 $feedback_paragraph
 
@@ -218,54 +138,16 @@ Smooth Reading involves reading a book that is almost ready for posting
 to Project Gutenberg and reporting anything that disrupts the sense or
 flow of the book.
 
-1. Log into the site and select the SR link on the navigation bar.
-
-2. Read the information on the Smooth Reading pool page. For more detailed
-   information read the Smooth Reading section of the wiki
-   ( $dp_wiki_url/DP_Official_Documentation:Smooth_Reading ).
-
-3. When you're ready to choose a book to smooth read, scroll down to the
-   list of Projects Currently Available.
-
-4. Choose a project by selecting its title. This will take you to the
-   book's Project Page.
-
-5. Scroll to the "Smooth Reading" section of the page. It is a good idea
-   to let the Post-Processor know that you have volunteered to Smooth Read
-   this book. To do this, click on the "Volunteer to SR" button.
-
-6. Choose which file type you want to Smooth Read under the "Download a
-   Smooth Reading file" heading on the Project Page, or you may wish to
-   simply select "Download all formats". Formats available may be text,
-   epub, mobi and HTML. Text, epub and mobi can be used directly by the
-   appropriate application, but the HTML version will need to be unzipped
-   (For information about zip files, please read $dp_wiki_url/ZIP_file ).
-   You may also view Smooth Reading text and HTML in your browser (however,
-   there is currently no way for you to annotate these files with any
-   possible errors that you notice if you try to Smooth Read them from
-   the browser).
-
-7. As you read the book, please mark any issues you find according to the
-   instructions given here:
-   $dp_wiki_url/DP_Official_Documentation:Smooth_Reading/Smooth_Reading_FAQ#What_are_the_basic_steps_for_Smooth_Reading.3F .
-   Because of the difficulties with annotating epub, mobi and HTML files,
-   recording questionable areas in the text file is often easiest way to go.
-
-8. Once you have finished reading the book, you should zip the text file
-   (For information about zip files, please read $dp_wiki_url/ZIP_file )
-   and upload it back to the project page from which you downloaded it.
-
-9. Please keep an eye on the Smooth Reading deadline -- if you are running
-   out of time, don't hesitate to send the Post-Processor a Private Message
-   and request additional time. Post-Processors are generally very happy to
-   give you more time to finish.
+For detailed information on how to Smooth Read, please visit the
+Smooth Readers FAQ:
+$dp_wiki_url/DP_Official_Documentation:Smooth_Reading/Smooth_Reading_FAQ
 
 
 Questions
 ---------
 
 For general questions about $site_name, please send an email to
-$general_help_email_addr or ask in our forums at $forums_url .
+$general_help_email_addr or ask in our forums at $forums_url
 
 
 General Overview
@@ -277,7 +159,7 @@ please check out our New Volunteer Frequently Asked Questions at
 $dp_wiki_url/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions
 and browse the resources in our Information for New and
 Returning Volunteers area at
-$dp_wiki_url/DP_Official_Documentation:General#Information_For_New_and_Returning_Volunteers .
+$dp_wiki_url/DP_Official_Documentation:General#Information_For_New_and_Returning_Volunteers
 
 -------------------------
 
