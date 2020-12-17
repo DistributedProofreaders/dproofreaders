@@ -25,6 +25,8 @@ output_header("$round->id: $round->name", SHOW_STATSBAR, $header_args);
 
 $uao = $round->user_access( $pguser );
 
+grant_user_access_if_sat( $uao );
+
 $round->page_top( $uao );
 
 $pagesproofed = get_pages_proofed_maybe_simulated();
@@ -36,7 +38,7 @@ welcome_see_beginner_forum( $pagesproofed, $round->id );
 // show user how to access this round
 if ( !$uao->can_access )
 {
-    show_user_access_object( $uao );
+    show_user_access_object( $uao, TRUE /* will_autogrant */ );
 }
 
 show_news_for_page($round_id);

@@ -117,6 +117,7 @@ class Activity
         if (is_null($username))
         {
             $uao = new StdClass; // user access object
+            $uao->username = $username;
             $uao->can_access = FALSE;
             return $uao;
         }
@@ -136,6 +137,7 @@ class Activity
 
         $uao = new StdClass; // user access object
 
+        $uao->username = $username;
         $uao->activity_id = $this->id;
         $uao->evaluation_criteria = $this->evaluation_criteria;
         // Considering the minima...
@@ -311,7 +313,7 @@ function get_user_score( $user_obj, $criterion_code )
 
 // --------------------------------------------------------------------------
 
-function show_user_access_object( $uao )
+function show_user_access_object( $uao, $will_autogrant=False )
 {
     global $code_url;
 
@@ -400,7 +402,12 @@ function show_user_access_object( $uao )
         case 'unsat-ungranted':
             global $Activity_for_id_;
             $activity = $Activity_for_id_[$uao->activity_id];
-            if ($activity->after_satisfying_minima == 'REQ-AUTO' || $activity->after_satisfying_minima == 'REQ-HUMAN')
+
+            if ($activity->after_satisfying_minima == 'REQ-AUTO' && $will_autogrant)
+            {
+                $request_status_string = _('After you have satisfied the requirements, you will be automatically granted access.');
+            }
+            elseif ($activity->after_satisfying_minima == 'REQ-AUTO' || $activity->after_satisfying_minima == 'REQ-HUMAN')
             {
                 $request_status_string=_('After you have satisfied the requirements, a link will appear here, allowing you to request access.');
             }
@@ -423,6 +430,23 @@ function show_user_access_object( $uao )
     if(!empty($request_status_string))
         echo "<p>$request_status_string</p>\n";
 }
+
+function grant_user_access_if_sat(&$uao)
+{
+    global $Activity_for_id_;
+
+    $activity = $Activity_for_id_[$uao->activity_id];
+    if ($uao->request_status == 'sat-available' &&
+        $activity->after_satisfying_minima == 'REQ-AUTO')
+    {
+        $user = new User($uao->username);
+        $user->grant_access($uao->activity_id, 'AUTO-GRANTED');
+
+        // now we need to reconstruct the $uao to reflect this change
+        $uao = $activity->user_access($uao->username);
+    }
+}
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
