@@ -54,6 +54,11 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
             // guidelines.
             echo _("This page is where you can find a project to start proofreading. Choose a title from the list of projects at the bottom of this page.");
             echo "</p>";
+
+            echo "<p>";
+            echo _("It's best to select a \"BEGINNERS ONLY\" project if one is available in a language in which you are proficient. These projects have been specially prepared to teach you our style of proofing. You can expect to receive feedback from a mentor on pages you proofread in BEGINNERS ONLY projects. This feedback will likely come at least a few days after you have completed the pages.");
+            echo "</p>";
+
         }
         echo "<p>";
         echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum($beginners_site_forum_idx));
@@ -118,6 +123,38 @@ function maybe_output_new_proofer_message()
         echo "</div>";
 
         echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%1\$s'>%2\$s</a> round page."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
+
+        echo "<p><small>";
+        echo _("After a period of time, this message will no longer appear.");
+        echo "</small></p>";
+        echo "</div>";
+    }
+}
+
+function maybe_output_new_proofer_project_message()
+{
+    global $code_url, $ELR_round;
+
+    // Help direct new proofers to projects to proof.
+    $pagesproofed = get_pages_proofed_maybe_simulated();
+    if($pagesproofed < 100)
+    {
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("Welcome New Proofreader!");
+        echo "</div>";
+
+        echo "<p>";
+        echo _("You are a click away from proofreading a page. Take a moment to scroll down and read the Project Comments which contain instructions specific to this project. Once you're ready to start proofreading, click the \"Start Proofreading\" link.");
+        echo "<p>";
+
+        echo "<p>";
+        echo _("If you have questions, please don't hesitate to ask them in the project's discussion topic in the forums, accessible from a link in the table below.");
+        echo "</p>";
+
+        echo "<p>";
+        echo _("Happy proofreading!");
+        echo "</p>";
 
         echo "<p><small>";
         echo _("After a period of time, this message will no longer appear.");
