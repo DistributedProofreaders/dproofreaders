@@ -697,7 +697,7 @@ CREATE TABLE `user_profiles` (
   `i_layout` tinyint(1) default '0',
   `i_toolbar` tinyint(1) default '0',
   `i_statusbar` tinyint(1) default '0',
-  `i_newwin` tinyint(1) default '1',
+  `i_newwin` tinyint(1) default '0',
   `v_fnts` tinyint(2) default '0',
   `v_fntf` tinyint(1) default '2',
   `v_fntf_other` varchar(32) default '',
