@@ -293,6 +293,9 @@ function decide_blurbs()
     {
         // If there's any proofreading to be done, this is the link to use.
         $url = url_for_pi_do_whichever_page( $projectid, $state, TRUE );
+
+        // If the "Start Proofreading" text is ever changed, be sure and grep
+        // through the codebase for any other instances and change them too.
         $label = _("Start Proofreading");
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
@@ -303,7 +306,7 @@ function decide_blurbs()
 
         // Other possible components of blurbs:
         $please_scroll_down = _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
-        $the_link_appears_below = _("The 'Start Proofreading' link appears below the Project Comments");
+        $the_link_appears_below = sprintf(_("The '%s' link appears below the Project Comments"), $label);
         $comments_have_changed =
             "<p class='error'>"
             . _("Project Comments have changed!")

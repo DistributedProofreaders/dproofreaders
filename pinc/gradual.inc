@@ -145,7 +145,7 @@ function maybe_output_new_proofer_project_message()
         echo "</div>";
 
         echo "<p>";
-        echo _("You are a click away from proofreading a page. Take a moment to scroll down and read the Project Comments which contain instructions specific to this project. Once you're ready to start proofreading, click the \"Start Proofreading\" link.");
+        echo sprintf(_("You are a click away from proofreading a page. Take a moment to scroll down and read the Project Comments which contain instructions specific to this project. Once you're ready to start proofreading, click the '%s' link."), _("Start Proofreading"));
         echo "<p>";
 
         echo "<p>";
