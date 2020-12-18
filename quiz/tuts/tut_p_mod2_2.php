@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 7) . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, page %d"), 7) . "</h2>\n";
 echo "<h3>" . _("Subscripts") . "</h3>\n";
 echo "<p>" . _("Subscripted text is often found in scientific works, but is not common in other material. Proofread subscripted text by inserting an underline character <kbd>_</kbd> and surrounding the text with curly braces <kbd>{</kbd> and <kbd>}</kbd>. For example:") . "</p>\n";
 
@@ -24,6 +24,6 @@ echo "    </tr>\n";
 echo "  </tbody>\n";
 echo "</table>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

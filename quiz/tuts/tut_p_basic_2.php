@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 2) . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, page %d"), 2) . "</h2>\n";
 echo "<h3>" . _("Paragraph Spacing/Indenting") . "</h3>\n";
 echo "<p>" . _("Put a blank line before the start of a paragraph, even if it starts at the top of a page. You should not indent the start of the paragraph, but if it is already indented don't bother removing those spaces&mdash;that can be done automatically during post-processing.") . "</p>\n";
 
@@ -32,6 +32,6 @@ echo "    </tr>\n  </tbody>\n</table>\n";
 echo "<h3>" . _("End-of-page Hyphenation and Dashes") . "</h3>\n";
 echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end of the last line, and mark it with a <kbd>*</kbd> after the hyphen or dash.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

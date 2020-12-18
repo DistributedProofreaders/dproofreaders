@@ -573,7 +573,7 @@ function qp_echo_solved_html()
     global $quiz_page_id, $quiz;
     global $parting_message;
 
-    echo "<h2>" . _("You've solved this quiz.") . "</h2>\n";
+    echo "<h2>" . _("Page solved") . "</h2>\n";
     echo "<p>" . _("Congratulations, no errors found!") . "</p>\n";
 
     if (isset($parting_message))
@@ -601,12 +601,12 @@ function qp_echo_solved_html()
         {
             echo qp_exit_link(
                 "../tuts/tut_$next_quiz_page_id.php",
-                _("Next step of tutorial")
+                _("Next quiz page tutorial")
             );
         }
         echo qp_exit_link(
             "main.php?quiz_page_id=$next_quiz_page_id",
-            _("Next step of quiz")
+            _("Next quiz page")
         );
     }
     // Give a link back to quiz home (P or F as appropriate)

@@ -12,7 +12,7 @@ echo "<h2>" . _("Intro") . "</h2>\n";
 echo "<p>" . _("In this tutorial you will be presented extracts from the Proofreading Guidelines. After each part you will be led to a quiz page, where you can try out the newly learned rules.") . "</p>\n";
 echo "<p>" . _("Don't be alarmed by the number of changes you'll have to apply in the quizzes. On normal easy texts the rate of things to correct is usually much lower than that.") . "</p>\n";
 
-echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 1) . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, page %d"), 1) . "</h2>\n";
 echo "<h3>" . _("Project Comments") . "</h3>\n";
 echo "<p>" . _("When you select a project for proofreading, the Project Page is loaded. On this page there is a section called \"Project Comments\" containing information specific to that project (book). <b>Read these before you start proofreading pages!</b> If the Project Manager wants you to do something in this book differently from the way specified in these Guidelines, that will be noted here. Instructions in the Project Comments <em>override</em> the rules in these Guidelines, so follow them. There may also be instructions in the project comments that apply to the formatting phase, which do not apply during proofreading.") . "</p>\n";
 
@@ -28,6 +28,6 @@ echo "<p>" . _("The page headers are normally at the top of the image and have a
 echo "<h3>" . _("End-of-line Hyphenation") . "</h3>\n";
 echo "<p>" . _("Where a hyphen appears at the end of a line, join the two halves of the hyphenated word back together. Remove the hyphen when you join it, unless it is really a hyphenated word like well-meaning. Keep the joined word on the top line, and put a line break after it to preserve the line formatting&mdash;this makes it easier for volunteers in later rounds.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

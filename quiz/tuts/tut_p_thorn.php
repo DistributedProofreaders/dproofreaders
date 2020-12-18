@@ -28,6 +28,6 @@ echo "</table>\n";
 echo "<p>" . _("The loop of the capital thorn is normally larger, and the stem may not drop down as far below the line as the lower case.");
 echo " " . _("You can insert them using the character picker at the bottom of the Proofreading Interface.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab
