@@ -23,7 +23,7 @@ $quiz_type_intro = array(
         "title" => _("Proofreading Quizzes and Tutorials"),
         "head" => "<h1>" . _("Interactive Proofreading Quizzes and Tutorials") . "</h1>\n" .
                   "<p>" . sprintf(_("Welcome to %s's interactive proofreading quizzes and tutorials! These quizzes cover corrections you should make in the proofreading rounds."), $site_abbreviation) . "</p>\n" .
-                  "<p>" . _("You can use these pages in two different ways. If you are not yet familiar with the proofreading guidelines you should use the tutorial mode by clicking on the 'Tutorial' links.  If you already know the proofreading guidelines you can use them as quizzes only by clicking the 'Quiz' links.") . "</p>\n"
+                  "<p>" . sprintf(_("You can use these pages in two different ways. If you are not yet familiar with the proofreading guidelines you should use the tutorial mode by clicking on the '%1\$s' links.  If you already know the proofreading guidelines you can use them as quizzes only by clicking the '%2\$s' links."), _("Tutorial"), _("Quiz Page")) . "</p>\n"
     ),
     
     "format" => array(

@@ -168,7 +168,7 @@ class Quiz
             {
                 echo "<a href='tuts/tut_$quiz_page_id.php'>" . _("Tutorial") . "</a> | ";
             }
-            echo "<a href='generic/main.php?quiz_page_id=$quiz_page_id'>" . _("Quiz") . "</a></td>";
+            echo "<a href='generic/main.php?quiz_page_id=$quiz_page_id'>" . _("Quiz Page") . "</a></td>";
             if (!empty($username))
             {
                 $passed = user_has_passed_quiz_page($username, $quiz_page_id);
