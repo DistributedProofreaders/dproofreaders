@@ -311,7 +311,7 @@ function qp_echo_error_html($message_id)
 {
     global $messages, $constant_message; // from the qd file
     global $default_challenge; // from quiz_defaults.inc
-    global $quiz, $quiz_feedbacktext; // from returnfeed.php
+    global $quiz; // from returnfeed.php
 
     //If the quiz has a message to show all the time, put that in first
     if (@$constant_message != "")
@@ -381,19 +381,43 @@ function qp_echo_error_html($message_id)
         echo $default_challenge;
     echo "</p>\n";
 
+    echo_quiz_feedback_and_links(@$message["feedbacktext"]);
+}
+
+function echo_quiz_feedback_and_links($message=NULL)
+{
+    global $code_dir;
+    global $quiz_feedbacktext;
+    global $quiz, $quiz_page_id;
+
+    echo "<h3>" . _("Need more help?") . "</h2>";
+
     // Add a disclaimer re the error-finding algorithm,
     // and invite feedback somewhere.
     echo "<p>";
-    if (isset($message["feedbacktext"]))
-    {
-        echo $message["feedbacktext"];
-        // XXX: Currently unused. Might be discontinued.
-    }
-    else
-    {
-        echo $quiz_feedbacktext;
-    }
+    echo $message ?? $quiz_feedbacktext;
     echo "</p>\n";
+
+    echo "<p>";
+    echo _("You might also want to re-read the page tutorial, if one is available, or take a break and try again later.");
+    echo "</p>";
+
+    echo "<ul>";
+    // if there is a tutorial link, show it
+    $tutfile = "$code_dir/quiz/tuts/tut_$quiz_page_id.php";
+    if (file_exists($tutfile))
+    {
+        echo qp_exit_link(
+            "../tuts/tut_$quiz_page_id.php",
+            _("Back to quiz page tutorial")
+        );
+    }
+    // Give a link back to quiz home (P or F as appropriate)
+    echo qp_exit_link(
+        "../start.php?show_only={$quiz->activity_type}",
+        _("Back to quizzes home")
+    );
+    echo "</ul>";
 }
 
 // =============================================================================
@@ -443,8 +467,6 @@ function qp_compare_texts($user_text, $soln_text)
 // If the two texts are the same, return FALSE.
 // If they differ, output HTML that describes how they differ, and return TRUE.
 {
-    global $quiz_feedbacktext;
-
     if ($user_text == $soln_text) return FALSE;
 
     echo '<h2>' . _('Difference with expected text') . "</h2>\n";
@@ -456,7 +478,7 @@ function qp_compare_texts($user_text, $soln_text)
 
     qp_describe_difference($user_text, $soln_text);
 
-    echo "<p>$quiz_feedbacktext</p>\n";
+    echo_quiz_feedback_and_links();
 
     return TRUE;
 }
@@ -547,6 +569,7 @@ function qp_describe_difference($user_text, $soln_text)
 
 function qp_echo_solved_html()
 {
+    global $code_dir;
     global $quiz_page_id, $quiz;
     global $parting_message;
 
@@ -559,7 +582,9 @@ function qp_echo_solved_html()
         echo "\n";
     }
 
-    echo "<p>";
+    echo "<h3>" . _("Go to...") . "</h3>";
+
+    echo "<ul>";
 
     // Figure out what the next quiz page is, if any
     $map_index_to_quiz_page_id = array_keys($quiz->pages);
@@ -571,7 +596,6 @@ function qp_echo_solved_html()
     if (count($map_index_to_quiz_page_id) > $next_index)
     {
         $next_quiz_page_id = $map_index_to_quiz_page_id[$next_index];
-        global $code_dir;
         $tutfile = "$code_dir/quiz/tuts/tut_$next_quiz_page_id.php";
         if (file_exists($tutfile))
         {
@@ -579,13 +603,11 @@ function qp_echo_solved_html()
                 "../tuts/tut_$next_quiz_page_id.php",
                 _("Next step of tutorial")
             );
-            echo "<br>\n";
         }
         echo qp_exit_link(
             "main.php?quiz_page_id=$next_quiz_page_id",
             _("Next step of quiz")
         );
-        echo "<br>\n";
     }
     // Give a link back to quiz home (P or F as appropriate)
     echo qp_exit_link(
@@ -593,12 +615,12 @@ function qp_echo_solved_html()
         _("Back to quizzes home")
     );
 
-    echo "</p>\n";
+    echo "</ul>\n";
 }
 
 function qp_exit_link($url, $text)
 {
-    return "<a href='$url' target='_top'>$text</a>";
+    return "<li><a href='$url' target='_top'>$text</a></li>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
