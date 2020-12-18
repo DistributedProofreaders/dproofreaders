@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Greek Transliteration Tutorial'));
 
-echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 5) . "</h2>\n";
+echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, page %d"), 5) . "</h2>\n";
 
 echo "<h3>" . _("Two Double Letters") . "</h3>\n";
 echo "<p>" . _("This form of sigma: ς normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called \"stigma\" and the top bit of it usually extends further to the right. It gets transliterated as <kbd>st</kbd>.") . "</p>\n";
@@ -35,6 +35,6 @@ echo "    <td>" . _("rho") . "</td>\n";
 echo "    <td><kbd>r</kbd></td></tr>\n";
 echo "</table>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_5'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_5'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

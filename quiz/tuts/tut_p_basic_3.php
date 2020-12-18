@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 3) . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, page %d"), 3) . "</h2>\n";
 echo "<h3>" . _("Chapter Headings") . "</h3>\n";
 echo "<p>" . _("Proofread chapter headings as they appear in the image.") . "</p>\n";
 echo "<p>" . _("A chapter heading may start a bit farther down the page than the page header and won't have a page number on the same line. Chapter Headings are often printed all caps; if so, keep them as all caps.") . "</p>\n";
@@ -26,6 +26,6 @@ echo "<p>" . _("You may sometimes find formatting already present in the text. <
 echo "<h3>" . _("Words in Small Capitals") . "</h3>\n";
 echo "<p>" . _("Please proofread only the characters in <span style='font-variant: small-caps'>Small Caps</span> (capital letters which are smaller than the standard capitals). Do not worry about case changes. If the OCR'd text is already ALL-CAPPED, Mixed-Cased, or lower-cased, leave it ALL-CAPPED, Mixed-Cased, or lower-cased.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_3'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_3'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

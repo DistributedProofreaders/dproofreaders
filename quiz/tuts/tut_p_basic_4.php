@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 4) . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, page %d"), 4) . "</h2>\n";
 echo "<h3>" . _("Punctuation spacing") . "</h3>\n";
 echo "<p>" . _("In general, a punctuation mark should have a space after it but no space before it. If the OCR'd text has no space after a punctuation mark, add one; if there is a space before punctuation, remove it. However, punctuation marks that normally appear in pairs, such as \"quotation marks\", (parentheses), [brackets], and {braces} normally have a space before the opening mark, which should be retained.") . "</p>\n";
 
@@ -22,6 +22,6 @@ echo "<p>" . _("At the bottom of the page, proofread the footnote text as it is 
 echo "<h3>" . _("Formatting") . "</h3>\n";
 echo "<p>" . _("You may sometimes find formatting already present in the text. <b>Do not add or change this formatting information</b>; the formatters will do that later in the process. Some examples of formatting tasks include &lt;i&gt;italics&lt;/i&gt; for <i>italicized</i> text.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_4'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_4'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

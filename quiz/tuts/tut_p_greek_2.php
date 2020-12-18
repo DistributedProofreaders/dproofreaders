@@ -7,7 +7,7 @@ require_login();
 
 output_header(_('Greek Transliteration Tutorial'));
 
-echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 2) . "</h2>\n";
+echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, page %d"), 2) . "</h2>\n";
 echo "<h3>" . _("Letters with Multiple Transliterations") . "</h3>\n";
 echo "<p>" . _("The letter υ (upsilon) can be transliterated as either u or y. Generally, if upsilon follows another vowel, use \"u\". Otherwise, use \"y\". This isn't required, though; you can use u everywhere if you want.") . "</p>\n";
 echo "<p>" . _("<b>Note:</b> For the purposes of this quiz, please use the vowel/consonant distinction described above when transliterating.  This is only due to the limitations of the quiz, and is not required when proofreading normally.") . "</p>\n";
@@ -24,6 +24,6 @@ echo "<li>" . _("If the word begins with a vowel, it should have either a rough 
 echo "<li>" . _("If it's rough breathing, add an \"<kbd>h</kbd>\" at the beginning of the word in the transliteration.  If it's smooth breathing, ignore it.") . "</li>\n";
 echo "</ul>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

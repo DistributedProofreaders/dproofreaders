@@ -8,7 +8,7 @@ require_login();
 
 output_header(_('Old Texts Proofreading Tutorial'));
 
-echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, Page %d"), 3) . "</h2>\n";
+echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, page %d"), 3) . "</h2>\n";
 echo "<h3>" . _("Nasal abbreviations") . "</h3>\n";
 echo "<p>" . _("Sometimes an <i>n</i> or <i>m</i> is abbreviated by putting a mark over the preceding letter:") . "</p>\n";
 
@@ -35,6 +35,6 @@ echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blacklett
                     "<br>\n<img src='../generic/images/blackletter_sample.png' width='207' height='52' alt='Sample Text'><br>", $blackletter_url) . "</p>\n";
 echo "<p>" . _("The hyphen in blackletter usually looks like a slanted equals sign.  Treat this just like a normal hyphen, and rejoin words that are hyphenated across lines.  You may need to leave hyphens as <kbd>-*</kbd> more frequently than in other projects, because spelling and hyphenation in older texts is often unpredictable.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?quiz_page_id=p_old_3'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_old_3'>" . _("Continue to quiz page") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab
