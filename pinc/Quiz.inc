@@ -132,6 +132,8 @@ class Quiz
                 $stage_required_for[$stage_id] = $stage;
         }
 
+        echo "<h3 id='$this->id'>$this->name</h3>";
+
         // if this quiz is required for a stage that the user is now eligible
         // for, output a callout
         if(count($stage_required_for) && $username == User::current_username())
@@ -156,11 +158,11 @@ class Quiz
                     echo sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a> to access this activity and get started."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
                     echo "</p>";
                     echo "</div>";
+                    echo "<br>";
                 }
             }
         }
 
-        echo "<h3>$this->name</h3>";
         echo "<table class='themed theme_striped'>";
 
         if ($this->description != "" || count($stage_required_for) > 0)

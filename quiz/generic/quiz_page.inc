@@ -414,7 +414,7 @@ function echo_quiz_feedback_and_links($message=NULL)
     }
     // Give a link back to quiz home (P or F as appropriate)
     echo qp_exit_link(
-        "../start.php?show_only={$quiz->activity_type}",
+        "../start.php?show_only={$quiz->activity_type}#$quiz->id",
         _("Back to quizzes home")
     );
     echo "</ul>";
@@ -611,7 +611,7 @@ function qp_echo_solved_html()
     }
     // Give a link back to quiz home (P or F as appropriate)
     echo qp_exit_link(
-        "../start.php?show_only={$quiz->activity_type}",
+        "../start.php?show_only={$quiz->activity_type}#$quiz->id",
         _("Back to quizzes home")
     );
 
