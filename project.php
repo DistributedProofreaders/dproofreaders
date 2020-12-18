@@ -86,7 +86,7 @@ output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
 echo "<h1>" . html_safe($title) . "</h1>\n";
 
-maybe_output_new_proofer_project_message();
+maybe_output_new_proofer_project_message($project);
 
 if ( !$user_is_logged_in )
 {
