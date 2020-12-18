@@ -157,13 +157,42 @@ function maybe_output_new_proofer_message()
     }
 }
 
-function maybe_output_new_proofer_project_message()
+// Help direct new proofers to projects to proof.
+function maybe_output_new_proofer_project_message($project)
 {
     global $code_url, $ELR_round;
 
-    // Help direct new proofers to projects to proof.
+    // If the user isn't logged in, bail
+    if(User::current_username() === NULL)
+    {
+        return;
+    }
+
+    list($code, $msg) = $project->can_be_proofed_by_current_user();
+    $round = get_Round_for_project_state($project->state);
     $pagesproofed = get_pages_proofed_maybe_simulated();
-    if($pagesproofed < 100)
+
+    if($code != $project->CBP_OKAY && $round == $ELR_round)
+    {
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("Welcome New Proofreader!");
+        echo "</div>";
+
+        echo "<p>";
+        echo sprintf(_('Before you can begin proofreading, you must:'));
+        echo "<ul>";
+        $uao = $ELR_round->user_access(User::current_username());
+        foreach ($uao->minima_table as $row)
+        {
+            list($criterion_str, $minimum, $user_score, $satisfied) = $row;
+            echo "<li>$criterion_str</li>";
+        }
+        echo "</ul>\n";
+        echo "</p>";
+        echo "</div>";
+    }
+    elseif($code == $project->CBP_OKAY && $pagesproofed < 100)
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
