@@ -176,21 +176,32 @@ function maybe_output_new_proofer_project_message($project)
         return;
     }
 
-    list($code, $msg) = $project->can_be_proofed_by_current_user();
+    // If this project isn't in the ELR round, bail
     $round = get_Round_for_project_state($project->state);
+    if($round != $ELR_round)
+    {
+        return;
+    }
+
+    // If this project isn't available for proofreading, bail
+    if($project->state != $round->project_available_state)
+    {
+        return;
+    }
+
+    // If the user has been denied access, bail
+    $uao = $ELR_round->user_access(User::current_username());
+    if($uao->request_status == 'sat-denied' ||
+        $uao->request_status == 'unsat-denied')
+    {
+        return;
+    }
+
+    $accessable_stages = get_stages_user_can_work_in(User::current_username());
     $pagesproofed = get_pages_proofed_maybe_simulated();
 
-    if($code != $project->CBP_OKAY && $round == $ELR_round)
+    if(!isset($accessable_stages[$ELR_round->id]))
     {
-        $uao = $ELR_round->user_access(User::current_username());
-
-        // If the user has been denied access, just return and don't show anything
-        if($uao->request_status == 'sat-denied' ||
-            $uao->request_status == 'unsat-denied')
-        {
-            return;
-        }
-
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -208,7 +219,7 @@ function maybe_output_new_proofer_project_message($project)
         echo "</p>";
         echo "</div>";
     }
-    elseif($code == $project->CBP_OKAY && $pagesproofed < 100)
+    elseif($pagesproofed < 100)
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
