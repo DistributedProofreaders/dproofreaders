@@ -894,14 +894,14 @@ function handle_action_on_a_specified_task()
     else if ($action == 'save_edit_comment') {
         $comment_id = array_get($_POST, 'comment_id', "");
         $comment = trim(array_get($_POST, 'task_comment', ''));
-        [$u_id, $comment_date] = explode('_', $comment_id, 2);
+        list($u_id, $comment_date) = explode('_', $comment_id, 2);
         if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
             $sql = sprintf("
                 UPDATE tasks_comments SET comment='%s'
                 WHERE task_id = %d AND u_id = %d AND comment_date = %d",
                 DPDatabase::escape($comment),
                 $task_id,
-                $requester_u_id,
+                $u_id,
                 $comment_date
             );
             DPDatabase::query($sql);
