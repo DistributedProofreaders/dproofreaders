@@ -34,6 +34,15 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
     $accessable_stages = get_stages_user_can_work_in(User::current_username());
     if(!isset($accessable_stages[$ELR_round->id]))
     {
+        $uao = $ELR_round->user_access(User::current_username());
+
+        // If the user has been denied access, just return and don't show anything
+        if($uao->request_status == 'sat-denied' ||
+            $uao->request_status == 'unsat-denied')
+        {
+            return;
+        }
+
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -42,7 +51,6 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must:'));
         echo "<ul>";
-        $uao = $ELR_round->user_access(User::current_username());
         foreach ($uao->minima_table as $row)
         {
             list($criterion_str, $minimum, $user_score, $satisfied) = $row;
@@ -174,6 +182,15 @@ function maybe_output_new_proofer_project_message($project)
 
     if($code != $project->CBP_OKAY && $round == $ELR_round)
     {
+        $uao = $ELR_round->user_access(User::current_username());
+
+        // If the user has been denied access, just return and don't show anything
+        if($uao->request_status == 'sat-denied' ||
+            $uao->request_status == 'unsat-denied')
+        {
+            return;
+        }
+
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -182,7 +199,6 @@ function maybe_output_new_proofer_project_message($project)
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must:'));
         echo "<ul>";
-        $uao = $ELR_round->user_access(User::current_username());
         foreach ($uao->minima_table as $row)
         {
             list($criterion_str, $minimum, $user_score, $satisfied) = $row;
