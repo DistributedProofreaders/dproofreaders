@@ -116,12 +116,10 @@ function get_installed_system_locales()
                 $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
             }
         }
-        return $utf8_locales;
+        $system_locales = $utf8_locales;
     }
-    else
-    {
-        return $system_locales;
-    }
+
+    return $system_locales;
 }
 
 // Get a list of all locale translations.
