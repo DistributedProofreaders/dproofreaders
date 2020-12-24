@@ -112,7 +112,15 @@ class User
                     catch(NonexistentUserProfileException $exception)
                     {
                         // reset the cookie since the value was invalid
-                        setcookie("profile");
+
+                        // We can only reset the cookie if the headers haven't
+                        // yet been sent. Resetting the cookie is a nicety
+                        // since it will only be used if it is valid, so it's
+                        // OK if we can't.
+                        if(!header_sent())
+                        {
+                            setcookie("profile");
+                        }
 
                         // fall through to getting the profile from the user record
                     }
