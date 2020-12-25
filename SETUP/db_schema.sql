@@ -638,6 +638,11 @@ INSERT INTO themes SET
     name='Royal Blues',
     unixname='royal_blues',
     created_by='USFJoseph';
+INSERT INTO themes SET
+    name='Charcoal',
+    unixname='charcoal',
+    created_by='srjfoo';
+
 # --------------------------------------------------------
 
 #
