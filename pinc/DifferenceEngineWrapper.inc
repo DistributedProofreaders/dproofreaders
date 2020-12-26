@@ -157,12 +157,6 @@ if(!function_exists("wfDebug")) {
     }
 }
 
-// Return URL to main CSS file
-function get_DifferenceEngine_css_files() {
-    global $code_url;
-    return array("$code_url/pinc/3rdparty/mediawiki/mediawiki.diff.styles.css");
-}
-
 // Override default css for DP customizations
 function get_DifferenceEngine_css_data() {
     list( , $font_size, $font_family) = get_user_proofreading_font();
