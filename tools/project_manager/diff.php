@@ -110,7 +110,6 @@ $title = sprintf( _('Difference for page %s'), $image );
 $image_url = "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$image";
 $image_link = sprintf($link_text, new_window_link($image_url, $image));
 $extra_args = array(
-    "css_files" => get_DifferenceEngine_css_files(),
     "css_data"  => get_DifferenceEngine_css_data(),
 );
 output_header("$title: $project_title", NO_STATSBAR, $extra_args);

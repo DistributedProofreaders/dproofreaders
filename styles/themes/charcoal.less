@@ -216,3 +216,20 @@ table.striped {
         }
     }
 }
+
+/*--------------------------------------------------------*/
+/* Diff styling */
+/* Override default MediaWiki styling */
+
+.diff-context {
+    color: @page-text;
+    background-color: @table-cell-base-mediumc;
+}
+
+.diff-addedline, .diff-deletedline {
+    color: @page-text;
+    .diffchange {
+        color: black;
+        opacity: 70%;
+    }
+}
