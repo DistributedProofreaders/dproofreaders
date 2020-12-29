@@ -16,8 +16,8 @@ The following lists supported versions for the four primary middleware
 components.
 
 ### PHP
-PHP version 7.0 is the minimum supported version. 7.2 has gotten cursory testing
-and seems to work fine. 7.3 and later should work but have not been tested.
+PHP version 7.0 is the minimum supported version. 7.2 and 7.4 also work.
+PHP 8.0 has not been tested.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
@@ -65,22 +65,20 @@ These middleware components match the following major distribution releases:
 * Ubuntu 14.04, Trusty (with PHP 7.0 upgrade)
 * Ubuntu 16.04, Xenial
 * Ubuntu 18.04, Bionic
+* Ubuntu 20.04, Bionic
 * RHEL / CentOS 6.x family (with PHP 7.0 upgrade)
 * RHEL / CentOS 7.x family (with PHP 7.0 upgrade)
+* RHEL / CentOS 8.x family
 
 ## Browser support
 The following are the lowest known supported browser versions for the code:
 * Chrome 50
 * Firefox 50
-* Internet Explorer 11
-  * IE11 does not support `String.prototype.normalize()`, so proofreader inputs
-    are not normalized before being compared against a project's character
-    suites. This could result in a confusing UX if the user added combining
-    characters that would normalize down to a valid character in the project's
-    character suites.
 * Microsoft Edge
 * Opera 40
 * Safari 10
+
+Internet Explorer is not supported.
 
 ## Installing from scratch
 This section assumes that you don't have an existing installation of DP.

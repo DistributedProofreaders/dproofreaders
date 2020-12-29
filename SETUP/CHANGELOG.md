@@ -3,12 +3,33 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
-## R??????
+## R202102
 Scripts supporting this upgrade are in `SETUP/upgrade/15`
 
 **If you are upgrading from a release before R202009, you must upgrade to
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to this or later releases.**
+
+**This is the last release to support PHP versions < 7.4 and
+MySQL versions < 5.7.**
+
+* Support MySQL 8.0, PHP 7.2, and PHP 7.4 (chrismiceli, cpeel, bpfoley)
+* New RESTful API - see [API.md](API.md) (cpeel, bpfoley)
+* New user workflow improvements allows P1 to have a quiz requirement (cpeel)
+* Project comments can be either HTML or Markdown (chrismiceli)
+* Format Preview enhancements, including LaTeX math preview (70ray)
+* New dark theme: Charcoal (srjfoo)
+* Special Days projects identified by emojis in round listings (cpeel)
+* PPers can return a project back to the PPVer who returned it to them (70ray)
+* New character suites (bunny-crunch, srjfoo)
+  * `Semitic and Indic transcriptions`
+  * `Symbols collection`
+* Task details and comments are now in Markdown (chrismiceli)
+* Users can be members of up to 6 teams (cpeel)
+* CSS updates and standardization across the codebase (cpeel, srjfoo)
+* Continued work to ensure proper SQL & HTML escaping (chrismiceli, bpfoley)
+* CI/CD & linting improvements (chrismiceli, bpfoley, cpeel)
+* Removed TEI support (cpeel)
 
 
 ## R202009
