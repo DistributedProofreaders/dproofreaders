@@ -100,7 +100,7 @@ foreach ( $_POST as $name => $value )
 
         if ($activity->after_satisfying_minima == 'REQ-AUTO')
         {
-            echo "Warning: you can revoke access, but it can just be auto-granted again.<br>\n";
+            echo "Warning: you are revoking (not blocking) access, but it can just be auto-granted again as long as the user meets all the access requirements.<br>\n";
         }
     }
     elseif ( $action_type == 'deny_request_for' )
