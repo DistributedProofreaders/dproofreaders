@@ -164,7 +164,7 @@ class ProjectInfoHolder
         $this->language         = '';
         $this->scannercredit    = '';
         $this->comments         = '';
-        $this->comment_format   = '';
+        $this->comment_format   = 'markdown';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->charsuites       = get_default_character_suites();
