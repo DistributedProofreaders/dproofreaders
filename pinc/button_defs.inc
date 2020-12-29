@@ -19,7 +19,6 @@ define('PROJECT_COMMENTS',            'M');
 define('REFRESH_IMAGE',               'N');
 define('REVERT_TO_LAST_SAVE_DISABLED','O');
 define('SHOW_ALL_TEXT',               'P');
-define('CONVERT_UTF8',                'R');
 define('PREVIEW',                     'S');
 
 function echo_button( $button_id, $which_interface )
@@ -179,15 +178,6 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("WordCheck")),
                 'title'     => attr_safe(_("Run WordCheck")),
                 'src'       => "gfx/bt16.png",
-            );
-            break;
-
-        case CONVERT_UTF8:
-            $attrs = array(
-                'name'      => "button12",
-                $label      => attr_safe(_("Convert")),
-                'title'     => attr_safe(_("Convert text codes to UTF-8")),
-                'src'       => "gfx/bt19.png",
             );
             break;
         case SHOW_ALL_TEXT:
