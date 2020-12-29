@@ -28,12 +28,12 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
         <li><a href="#welcome">Welcome</a></li>
         <li><a href="#p1">Proofreading Round One Duties</a></li>
         <li><a href="#p2">Proofreading Round Two Duties</a></li>
-	<li><a href="#p3">Proofreading Round Three Duties</a></li>
+        <li><a href="#p3">Proofreading Round Three Duties</a></li>
         <li><a href="#f1">The Formatting Rounds</a></li>
         <li><a href="#counts">Page Counts</a></li>
         <li><a href="#track">Your Projects</a></li>
         <li><a href="#rprojects">{R} Projects</a></li>
-	<li><a href="#wordcheck">Wordcheck Word Lists and Interface</a></li>
+        <li><a href="#wordcheck">Wordcheck Word Lists and Interface</a></li>
         <li><a href="#links">Useful Links</a></li>
       </ul>
 
@@ -93,13 +93,13 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 <p>Thus, proofreaders are responsible, among other things, for the following:</p>
 
 <ul style="margin-left: 2em;">
-    <li>	checking each letter of the scan, reading the text closely and correcting 
+    <li>checking each letter of the scan, reading the text closely and correcting 
             scannos and stealth scannos;</li>
-    <li>	inserting Latin-1, non-ASCII-7 characters;</li>
-    <li>	adding markup for hyphens;</li>
-    <li>	removing additional spaces around punctuation and contractions;</li>
-    <li>	removing any other junk that has crept in (errant punctuation, etc); and</li>
-    <li>	marking footnote and endnote markers by putting square brackets [ ]
+    <li>inserting Latin-1, non-ASCII-7 characters;</li>
+    <li>adding markup for hyphens;</li>
+    <li>removing additional spaces around punctuation and contractions;</li>
+    <li>removing any other junk that has crept in (errant punctuation, etc); and</li>
+    <li>marking footnote and endnote markers by putting square brackets [ ]
             around the numbers in the main text and using * for all symbolic footnotes.</li>
 </ul>
 
@@ -107,10 +107,10 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
 <p>Proofreaders are no longer responsible for such things as: </p>
 <ul style="margin-left: 2em;">
-    <li>	formatting the text: for example, adding markup for text style (italics, small caps etc.);</li>
-    <li>	adding markup for sidenotes and footnotes;</li>
-    <li>	adding markup for poetry or block-quotes; or</li>
-    <li>	unwrapping lines in poetry or indexes, adding blank lines for chapter headings, etc.</li>
+    <li>formatting the text: for example, adding markup for text style (italics, small caps etc.);</li>
+    <li>adding markup for sidenotes and footnotes;</li>
+    <li>adding markup for poetry or block-quotes; or</li>
+    <li>unwrapping lines in poetry or indexes, adding blank lines for chapter headings, etc.</li>
 </ul>
 
 <p>If some formatting has already been included, for example, indented lines in 

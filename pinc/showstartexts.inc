@@ -45,7 +45,7 @@ function showstartexts($etext_limit,$type) {
         <img src='$code_url/graphics/xml.gif' width='36' height='14' alt='[XML]'></a>
         <a href='$code_url/feeds/backend.php?content=$content&amp;type=rss'>
         <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
-	\n";
+        \n";
 
     echo "</div>";
 

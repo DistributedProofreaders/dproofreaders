@@ -16,8 +16,8 @@ $projectid = get_projectID_param($_GET, 'projectid');
 
 if (!$site_supports_metadata)
 {
-	echo _("md_phase1.php: \$site_supports_metadata is false, so exiting.");
-	exit();
+    echo _("md_phase1.php: \$site_supports_metadata is false, so exiting.");
+    exit();
 }
 
 

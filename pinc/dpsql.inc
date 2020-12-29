@@ -29,131 +29,131 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 
 function dpsql_dump_table( $table_name )
 {
-	dpsql_dump_query( "SELECT * FROM $table_name" );
+    dpsql_dump_query( "SELECT * FROM $table_name" );
 }
 
 function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
-	$result = dpsql_query( $query );
-	dpsql_dump_query_result($result, $start_at, $show_rank);
+    $result = dpsql_query( $query );
+    dpsql_dump_query_result($result, $start_at, $show_rank);
 }
 
 function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
-	$result = dpsql_query( $query );
-	dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
+    $result = dpsql_query( $query );
+    dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
 }
 
 function dpsql_query( $query )
 {
-	$result = mysqli_query(DPDatabase::get_connection(),  $query );
-	if (!$result)
-	{
-		print DPDatabase::log_error();
-	}
-	return $result;
+    $result = mysqli_query(DPDatabase::get_connection(),  $query );
+    if (!$result)
+    {
+        print DPDatabase::log_error();
+    }
+    return $result;
 }
 
 function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
 
-	$n_cols = mysqli_num_fields($result);
-	$n_curr_row = $start_at;
+    $n_cols = mysqli_num_fields($result);
+    $n_curr_row = $start_at;
 
-	print "<table class='basic striped'>\n";
+    print "<table class='basic striped'>\n";
 
-	print "<tr>\n";
-	if ($show_rank)
-	{
-		print "<th>";
-		print _("Rank");
-		print "</th>\n";
-	}
+    print "<tr>\n";
+    if ($show_rank)
+    {
+        print "<th>";
+        print _("Rank");
+        print "</th>\n";
+    }
 
-	for ($c = 0; $c < ($n_cols); $c++ )
-	{
-		print "<th>";
-		$field_data = mysqli_fetch_field_direct($result, $c);
-		print $field_data->name;
-		print "</th>\n";
-	}
-	print "</tr>\n";
+    for ($c = 0; $c < ($n_cols); $c++ )
+    {
+        print "<th>";
+        $field_data = mysqli_fetch_field_direct($result, $c);
+        print $field_data->name;
+        print "</th>\n";
+    }
+    print "</tr>\n";
 
-	while ( $row = mysqli_fetch_row($result) )
-	{
-		print "<tr>\n";
-		if ($show_rank)
-		{
-			print "<td>$n_curr_row</td>\n";
-		}
+    while ( $row = mysqli_fetch_row($result) )
+    {
+        print "<tr>\n";
+        if ($show_rank)
+        {
+            print "<td>$n_curr_row</td>\n";
+        }
 
-		for ($c = 0; $c < ($n_cols); $c++ )
-		{
-			$val = is_null($row[$c]) ? 'NULL' : $row[$c];
-			print "<td>$val</td>\n";
-		}
-		print "</tr>\n";
-		$n_curr_row++;
-	}
+        for ($c = 0; $c < ($n_cols); $c++ )
+        {
+            $val = is_null($row[$c]) ? 'NULL' : $row[$c];
+            print "<td>$val</td>\n";
+        }
+        print "</tr>\n";
+        $n_curr_row++;
+    }
 
-	print "</table>\n";
+    print "</table>\n";
 }
 
 function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
-	$n_query_cols = mysqli_num_fields($result);
-	$n_curr_row = $start_at;
+    $n_query_cols = mysqli_num_fields($result);
+    $n_curr_row = $start_at;
 
-	print "<table class='themed theme_striped stats'>\n";
-	
-	$n_cols = $show_rank ? $n_query_cols + 1 : $n_query_cols;
-	$perc = 100 / $n_cols;
-	for ($c = 0; $c < $n_cols; $c++ )
-	{
-		print "\n<col style='width: {$perc}%;'>";
-	}
+    print "<table class='themed theme_striped stats'>\n";
+    
+    $n_cols = $show_rank ? $n_query_cols + 1 : $n_query_cols;
+    $perc = 100 / $n_cols;
+    for ($c = 0; $c < $n_cols; $c++ )
+    {
+        print "\n<col style='width: {$perc}%;'>";
+    }
 
-	print "<tr>\n";
-	if ($show_rank)
-	{
-		print "<th>";
-		print _("Rank");
-		print "</th>\n";
-	}
+    print "<tr>\n";
+    if ($show_rank)
+    {
+        print "<th>";
+        print _("Rank");
+        print "</th>\n";
+    }
 
-	$type = Array();
-	for ($c = 0; $c < $n_query_cols; $c++ )
-	{
-		$field_data = mysqli_fetch_field_direct($result, $c);
-		$type[$c] = $field_data->type;
-		$align = ($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '';
-		print "<th$align>\n";
-		print $field_data->name;
-		print "</th>\n";
-	}
-	print "</tr>\n";
+    $type = Array();
+    for ($c = 0; $c < $n_query_cols; $c++ )
+    {
+        $field_data = mysqli_fetch_field_direct($result, $c);
+        $type[$c] = $field_data->type;
+        $align = ($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '';
+        print "<th$align>\n";
+        print $field_data->name;
+        print "</th>\n";
+    }
+    print "</tr>\n";
 
-	while ( $row = mysqli_fetch_row($result) )
-	{
-		print "<tr>";
-		if ($show_rank)
-		{
-			print "<td>";
-			print number_format($n_curr_row);
-			print "</td>\n";
-		}
+    while ( $row = mysqli_fetch_row($result) )
+    {
+        print "<tr>";
+        if ($show_rank)
+        {
+            print "<td>";
+            print number_format($n_curr_row);
+            print "</td>\n";
+        }
 
-		for ($c = 0; $c < $n_query_cols; $c++)
-		{
-			print '<td' . (($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
-			print ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
-			print "</td>\n";
-		}
-		print "</tr>\n";
-		$n_curr_row++;
-	}
+        for ($c = 0; $c < $n_query_cols; $c++)
+        {
+            print '<td' . (($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
+            print ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
+            print "</td>\n";
+        }
+        print "</tr>\n";
+        $n_curr_row++;
+    }
 
-	print "</table>\n";
+    print "</table>\n";
 }
 // -----------------------------------------------------------------------------
 

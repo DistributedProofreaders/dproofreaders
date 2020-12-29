@@ -103,7 +103,7 @@ foreach ( $templates as $basename => $long_name )
 }
 ?>
 
-<br><hr><br>		
+<br><hr><br>
 
 
 <!-- cgehring.html info -->

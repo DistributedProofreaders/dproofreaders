@@ -110,7 +110,7 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
         <h3>Proofreading Guidelines changes</h3>
         <ul compact="compact">
                 <li>Change "spellcheck" to "WordCheck".</li>
-		<li>Reinstate "catchword" section from prior version.</li>
+                <li>Reinstate "catchword" section from prior version.</li>
         </ul>
       </td>
     </tr>
@@ -147,13 +147,13 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
         <!-- CVS version of formatting_guidelines.php which reflects this entry is v1.79 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
-		<li>Numerous minor corrections and updates to relevant examples.</li>
+                <li>Numerous minor corrections and updates to relevant examples.</li>
                 <li>Clarification of formatting multiple footnotes on the same page.</li>
         </ul>
         <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.19 -->
         <h3>Proofreading Guidelines changes</h3>
         <ul compact="compact">
-		<li>Numerous minor corrections and updates to relevant examples.</li>
+                <li>Numerous minor corrections and updates to relevant examples.</li>
         </ul>
       </td>
     </tr>

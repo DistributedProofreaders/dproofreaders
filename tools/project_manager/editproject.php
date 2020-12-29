@@ -422,7 +422,7 @@ class ProjectInfoHolder
             $this->image_source = '_internal';
         }
 
-	/*
+    /*
         else
         {
             if ($this->image_source == 'OTHER')

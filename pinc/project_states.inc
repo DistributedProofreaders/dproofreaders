@@ -95,7 +95,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_BAD_PROJECT",
         "$round_id.proj_bad",
-	"$round_id: " .  _("Bad Project"),
+        "$round_id: " .  _("Bad Project"),
         "$round_name: " . _("Bad Project"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -163,87 +163,87 @@ declare_project_state(
 // METADATA
 if ($site_supports_metadata)
 {
-	declare_project_state(
-	    "PROJ_NEW_WAITING_APPROVAL",
-	    "project_new_waiting_app",
-	     _("Awaiting Approval"),
-	     _("Awaiting Approval"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_UNAPPROVED",
-	    "project_new_unapp",
-	    _("Unapproved Project"),
-	    _("Unapproved Project"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_APPROVED",
-	    "project_new_app",
-	    _("Approved Project"),
-	    _("Approved Project"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_FILE_UPLOADED",
-	    "project_new_uploaded",
-	    _("Files Uploaded"),
-	    _("Files Uploaded"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_METADATA_FIRST",
-	    "project_md_first",
-	    _("Metadata First Round"),
-	    _("Metadata First Round"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_METADATA_BAD",
-	    "project_md_bad",
-	    _("Bad Metadata"),
-	    _("Bad Metadata"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_METADATA_SECOND",
-	    "project_md_second",
-	    _("Metadata Second Round"),
-	    _("Metadata Second Round"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_PREPROCESSING",
-	    "project_new_preprocess",
-	    _("Preprocessing"),
-	    _("Preprocessing"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
-	declare_project_state(
-	    "PROJ_NEW_PENDING_PM",
-	    "project_new_pend_pm",
-	    _("Pending Project Manager"),
-	    _("Pending Project Manager"),
-	    $waiting_projects_forum_idx,
-	    'NONE',
-	    ''
-	);
+    declare_project_state(
+        "PROJ_NEW_WAITING_APPROVAL",
+        "project_new_waiting_app",
+         _("Awaiting Approval"),
+         _("Awaiting Approval"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_UNAPPROVED",
+        "project_new_unapp",
+        _("Unapproved Project"),
+        _("Unapproved Project"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_APPROVED",
+        "project_new_app",
+        _("Approved Project"),
+        _("Approved Project"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_FILE_UPLOADED",
+        "project_new_uploaded",
+        _("Files Uploaded"),
+        _("Files Uploaded"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_METADATA_FIRST",
+        "project_md_first",
+        _("Metadata First Round"),
+        _("Metadata First Round"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_METADATA_BAD",
+        "project_md_bad",
+        _("Bad Metadata"),
+        _("Bad Metadata"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_METADATA_SECOND",
+        "project_md_second",
+        _("Metadata Second Round"),
+        _("Metadata Second Round"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_PREPROCESSING",
+        "project_new_preprocess",
+        _("Preprocessing"),
+        _("Preprocessing"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
+    declare_project_state(
+        "PROJ_NEW_PENDING_PM",
+        "project_new_pend_pm",
+        _("Pending Project Manager"),
+        _("Pending Project Manager"),
+        $waiting_projects_forum_idx,
+        'NONE',
+        ''
+    );
 }
 
 
@@ -387,11 +387,11 @@ foreach ( $project_states_for_star_metal_ as $star_metal => $project_states )
     $sql_condition = '(';
     foreach ( $project_states as $project_state )
     {
-	if ($sql_condition != '(')
-	{
-	    $sql_condition .= ' OR ';
-	}
-	$sql_condition .= "state='$project_state'";
+    if ($sql_condition != '(')
+    {
+        $sql_condition .= ' OR ';
+    }
+    $sql_condition .= "state='$project_state'";
     }
     $sql_condition .= ')';
 
@@ -438,7 +438,7 @@ function get_project_status_descriptor( $which )
                 state NOT LIKE 'project_new%' AND state != 'project_delete'
             )";
             $obj->color = 'green';
-	    $obj->Xed_title = _('Created');
+            $obj->Xed_title = _('Created');
             $obj->projects_Xed_title = _('Projects Created');
             $obj->graphs_title = _('Created Projects Graphs');
             $obj->per_day_title = _('Projects Created Each Day');
@@ -452,7 +452,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post%'
             )";
             $obj->color = 'blue';
-	    $obj->Xed_title = _('Proofread');
+            $obj->Xed_title = _('Proofread');
             $obj->projects_Xed_title = _('Projects Proofread');
             $obj->graphs_title = _('Proofread Projects Graphs');
             $obj->per_day_title = _('Projects Proofread Each Day');
@@ -466,7 +466,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post_second%'
             )";
             $obj->color = 'silver';
-	    $obj->Xed_title = _('Post-Processed');
+            $obj->Xed_title = _('Post-Processed');
             $obj->projects_Xed_title = _('Projects Post-Processed');
             $obj->graphs_title = _('PPd Projects Graphs');
             $obj->per_day_title = _('Projects Post-Processed Each Day');
@@ -479,7 +479,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_correct%'
             )";
             $obj->color = 'gold';
-	    $obj->Xed_title = _('Posted to PG');
+            $obj->Xed_title = _('Posted to PG');
             $obj->projects_Xed_title = _('Projects Posted');
             $obj->graphs_title = _('Posted Projects Graphs');
             $obj->per_day_title = _('Projects Posted to PG Each Day');

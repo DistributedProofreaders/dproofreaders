@@ -310,7 +310,7 @@ different pages.  This will significantly speed up the proofreading process.
       <td>DP cookies are only for the DP Website, so rather than setting this
           option to "Accept All Cookies", you can set it to the more restricted option
           "Accept Cookies for the originating website only". </td></tr>
-	  <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+  <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
   <tr><td>Pop-up Windows:</td>
       <td>Most browser Pop-up options or pop-up blocking utilities
           offer an option to list specific sites from which you accept pop-ups.  So

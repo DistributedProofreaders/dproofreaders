@@ -61,13 +61,13 @@ slim_header("$table - ".WH_Text($table));
 ?>
 <script>
 function add(glyph) {
-	text=window.parent.hierodisplay.document.hieroform.hierobox.value;
-	lastc=text.charCodeAt(text.length-1);
-	if((lastc>=48&&lastc<=57)||(lastc>=65 && lastc<=90)||(lastc>=97&&lastc<=122))
-		sep='-';
-	else
-		sep='';
-	window.parent.hierodisplay.document.hieroform.hierobox.value+=sep+glyph;
+    text=window.parent.hierodisplay.document.hieroform.hierobox.value;
+    lastc=text.charCodeAt(text.length-1);
+    if((lastc>=48&&lastc<=57)||(lastc>=65 && lastc<=90)||(lastc>=97&&lastc<=122))
+        sep='-';
+    else
+        sep='';
+    window.parent.hierodisplay.document.hieroform.hierobox.value+=sep+glyph;
 }
 </script>
 <?php
@@ -120,5 +120,5 @@ function add(glyph) {
 
 function img($src,$title)
 {
-	return "<img src=\"$src\" title=\"$title\" onClick=\"add('".preg_replace(array("/^.*[[]/","/[]].*$/"),"",$title)."');\">\n";
+    return "<img src=\"$src\" title=\"$title\" onClick=\"add('".preg_replace(array("/^.*[[]/","/[]].*$/"),"",$title)."');\">\n";
 }

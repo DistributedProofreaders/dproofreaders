@@ -42,10 +42,10 @@ and also some common guidelines.
         scanner often has trouble with this, and frequently mis-reads them.     </li>
     <li>Contrary to the
         <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php#abbrev">General Guidelines</a>,
-	do not remove spaces between initials in names.
-	For example, do not change
-	<kbd>G.&nbsp;B.&nbsp;Shaw</kbd> to
-	<kbd>G.B.&nbsp;Shaw</kbd>.
+        do not remove spaces between initials in names.
+        For example, do not change
+        <kbd>G.&nbsp;B.&nbsp;Shaw</kbd> to
+        <kbd>G.B.&nbsp;Shaw</kbd>.
 
 
 </ul>
@@ -55,9 +55,9 @@ and also some common guidelines.
   <ul>
     <li>Leave 2 blank lines before each author's name.                          </li>
     <li>On the first line of a main entry,
-	reproduce the capitalization that appears in the image.
-	(We used to ask proofreaders to capitalize the author's entire name,
-	but that guideline was withdrawn.)
+        reproduce the capitalization that appears in the image.
+        (We used to ask proofreaders to capitalize the author's entire name,
+        but that guideline was withdrawn.)
     <br>If the name runs over onto the next line (due to narrow columns), join
         it back together so it's all on one line.                               </li>
     <li>Do NOT leave a blank line after the author's name.                      </li>
@@ -66,10 +66,10 @@ and also some common guidelines.
     <li>Leave 1 blank line between each sub-entry under an author.              </li>
     <li>Leave 2 blank lines between each main entry (each new author).          </li>
     <li>Capitalize the word SEE when used to refer to another entry.
-	For the name that appears after the SEE,
-	reproduce the capitalization that appears in the image.
-	(We used to ask proofreaders to ensure that the name was in Title Case,
-	retyping it if necessary, but that guideline was withdrawn.)
+        For the name that appears after the SEE,
+        reproduce the capitalization that appears in the image.
+        (We used to ask proofreaders to ensure that the name was in Title Case,
+        retyping it if necessary, but that guideline was withdrawn.)
     <br>
 
 <li>
@@ -127,8 +127,8 @@ BENNETT, MARIE MARGUERITE                                        <br>
     <li> In each entry:
       <ul>
         <li>The first line is flush-left.</li>
-	<li>The second line is indented 3 spaces.</li>
-	<li>Subsequent lines are indented 5 spaces.</li>
+        <li>The second line is indented 3 spaces.</li>
+        <li>Subsequent lines are indented 5 spaces.</li>
       </ul>
     </li>
 
@@ -186,8 +186,8 @@ R554718.
     <li>Then follow these general guidelines for Copyright Renewals.
     <li>Finally, for anything not covered here, follow the standard rules in the
         <a href="proofreading_guidelines.php">Proofreading Guidelines</a>.
-	(Although really, if you find yourself going there to resolve a question,
-	you'd probably be better off asking in the project's discussion topic.)
+        (Although really, if you find yourself going there to resolve a question,
+        you'd probably be better off asking in the project's discussion topic.)
     </li>
 </ul>
 

@@ -19,10 +19,10 @@ if (!is_null($zip_type))
     switch($zip_type)
     {
         case "illos":
-	       $files_list = $project->get_illustrations();
-	       break;
+           $files_list = $project->get_illustrations();
+           break;
         case "pages":
-	       $files_list = $project->get_page_names_from_db();
+           $files_list = $project->get_page_names_from_db();
            break;
         default:
             throw new InvalidArgumentException("Invalid image type specified");
@@ -191,20 +191,20 @@ function show_dl_link( $projectid, $image_names, $these_are_page_images )
 
     if ( $these_are_page_images )
     {
-	$tvalue=_("Download Page Images");
-	$ztype="pages";
+        $tvalue=_("Download Page Images");
+        $ztype="pages";
     }
     else
     {
-	$tvalue=_("Download Illustrations");
-	$ztype="illos";
+        $tvalue=_("Download Illustrations");
+        $ztype="illos";
     }
 
     // Show a download button for non-empty images list
     if(!empty($image_names))
     {
-	$form_target="$code_url/tools/proofers/images_index.php?project=$projectid&zip_type=$ztype";
-	echo "<form name='idl' id='idl' style='display: inline' action='$form_target' method='POST'>\n";
+        $form_target="$code_url/tools/proofers/images_index.php?project=$projectid&zip_type=$ztype";
+        echo "<form name='idl' id='idl' style='display: inline' action='$form_target' method='POST'>\n";
         echo "<input id='zip_type' type='submit' value='$tvalue'>";
         echo "</form>";
     }

@@ -73,29 +73,29 @@ and what the PMs do.
 <ol>
 <li><a name='create'><b>Create the project on the DP website.</b></a>
     <blockquote>
-	<p>
-	On the main PM page (at the top) is a link to the "Create Project" page.
-	After you create your project, it will be listed on your PM page. Each
-	project has an "Edit Comments" link. HTML is allowed in the comments
-	including links to example pictures. You should be able to use any
-	characters in the comments.
-	</p>
+        <p>
+        On the main PM page (at the top) is a link to the "Create Project" page.
+        After you create your project, it will be listed on your PM page. Each
+        project has an "Edit Comments" link. HTML is allowed in the comments
+        including links to example pictures. You should be able to use any
+        characters in the comments.
+        </p>
     </blockquote>
 </li>
 
 <li><a name='release'><b>Release the project for proofreading.</b></a>
     <blockquote>
     <p>
-	This is done by toggling the "Availability" of the project on the PM's
-	page. The project will be added to the site's queueing system, which
-	tries to ensure an even mix of books in proofreading.
+        This is done by toggling the "Availability" of the project on the PM's
+        page. The project will be added to the site's queueing system, which
+        tries to ensure an even mix of books in proofreading.
     </p>
     <p>
-	In particular, it won't allow more than one book by the same author in
-	First Round at the same time. So if you have 4 volumes of a series, all
-	by the same author, you can put them all into 'Waiting to be Released'
-	at once, but the software will only allow one of them in First Round at
-	a time.
+        In particular, it won't allow more than one book by the same author in
+        First Round at the same time. So if you have 4 volumes of a series, all
+        by the same author, you can put them all into 'Waiting to be Released'
+        at once, but the software will only allow one of them in First Round at
+        a time.
     </p>
     </blockquote>
 </li>
@@ -104,9 +104,9 @@ and what the PMs do.
 
     <blockquote>
     <p>
-	There are 4 main tasks you will need to perform to assure your project
-	runs smoothly through the site. All these tasks are done via the Project
-	Page using the links provided.
+        There are 4 main tasks you will need to perform to assure your project
+        runs smoothly through the site. All these tasks are done via the Project
+        Page using the links provided.
     </p>
 
     <ol>
@@ -114,38 +114,38 @@ and what the PMs do.
     <li>
     <b>Answer proofreader's questions.</b>
     <p>
-	Depending on the project, you may get a lot of questions in the Project
-	Forum thread for the project. If you get a lot of the same questions you
-	may consider modifying your project comments.
+        Depending on the project, you may get a lot of questions in the Project
+        Forum thread for the project. If you get a lot of the same questions you
+        may consider modifying your project comments.
     </p>
     </li>
 
     <li>
     <b>Delete duplicate pages.</b>
     <p>
-	Sometimes a page will be scanned more than once in a project. If you
-	have duplicate pages, you can delete the duplicates by using the
-	'Delete' button on the Project Detail page.
+        Sometimes a page will be scanned more than once in a project. If you
+        have duplicate pages, you can delete the duplicates by using the
+        'Delete' button on the Project Detail page.
     </p>
     </li>
 
     <li>
     <b>Clear effects of round.</b>
     <p>
-	If a page has not been proofread well, you have the option of clearing the
-	page. This will clear the effects of the round and make the page
-	available again. It will also decrement the page count for the proofreader.
-	You should send the proofreader feedback if you clear pages from your
-	projects.
+        If a page has not been proofread well, you have the option of clearing the
+        page. This will clear the effects of the round and make the page
+        available again. It will also decrement the page count for the proofreader.
+        You should send the proofreader feedback if you clear pages from your
+        projects.
     </p>
     </li>
 
     <li>
     <b>Bad page handling.</b>
     <p>
-	If a proofreader marks a page bad in the first round, the project will stall until you
-	resolve the report. Click on the 'X' on the project details page for the
-	project and follow the instructions on the screen.
+        If a proofreader marks a page bad in the first round, the project will stall until you
+        resolve the report. Click on the 'X' on the project details page for the
+        project and follow the instructions on the screen.
     </p>
     </li>
     </ol>

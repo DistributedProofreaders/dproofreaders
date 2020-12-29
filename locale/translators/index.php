@@ -497,7 +497,7 @@ function do_upload($locale)
     if (file_exists("messages.po") && !@copy("messages.po", $save))
     {
         echo "<p>" . _("Could not save a copy of the previous file.")
-	. " " . _("New file was not uploaded.") . "</p>";
+            . " " . _("New file was not uploaded.") . "</p>";
         return;
     }
 
@@ -544,7 +544,7 @@ function do_merge($locale, $fuzzy)
     if (!@copy("messages.po", $save))
     {
         echo "<p>" . _("Could not save a copy of the previous file.")
-	. " " . _("File was not updated.") . "</p>";
+            . " " . _("File was not updated.") . "</p>";
         return;
     }
 

@@ -11,34 +11,34 @@ require_login();
 slim_header();
 
 $tables=array(
-	"Phoneme",
-	"A",
-	"B",
-	"C",
-	"D",
-	"E",
-	"F",
-	"G",
-	"H",
-	"I",
-	"K",
-	"L",
-	"M",
-	"N",
-	"O",
-	"P",
-	"Q",
-	"R",
-	"S",
-	"T",
-	"U",
-	"V",
-	"W",
-	"X",
-	"Y",
-	"Z",
-	"Aa",
-	"All"
+    "Phoneme",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "Aa",
+    "All"
 );
 
 $syntax=array("-",":","*","!");
@@ -55,7 +55,7 @@ $syntax=array("-",":","*","!");
 echo "<option>".WH_Text("Tables")."</option>\n";
 echo "<option>----</option>\n";
 foreach($tables as $v)
-	echo "<option value=\"$v\">".(strlen($v)<=2?"$v &mdash; ":"").WH_Text($v)."</option>\n";
+    echo "<option value=\"$v\">".(strlen($v)<=2?"$v &mdash; ":"").WH_Text($v)."</option>\n";
 ?>
 </select>
 </td></tr>
@@ -65,7 +65,7 @@ foreach($tables as $v)
 echo "<option value=\"0\">".WH_Text("Syntax")."</option>\n";
 echo "<option>----</option>\n";
 foreach($syntax as $v)
-	echo "<option value=\"$v\"> $v ".WH_Text($v)."</option>";
+    echo "<option value=\"$v\"> $v ".WH_Text($v)."</option>";
 ?>
 </select>
 </td><td class="right-align">
@@ -76,9 +76,9 @@ foreach($syntax as $v)
 <?php
 // Stupid, but it works:
 echo preg_replace(
-	"|".WH_IMG_DIR.WH_IMG_PRE."|",
-	"$wikihiero_url/".WH_IMG_DIR.WH_IMG_PRE,
-	WikiHiero($hierobox,WH_MODE_HTML)
+    "|".WH_IMG_DIR.WH_IMG_PRE."|",
+    "$wikihiero_url/".WH_IMG_DIR.WH_IMG_PRE,
+    WikiHiero($hierobox,WH_MODE_HTML)
 );
 ?>
 </td></tr>

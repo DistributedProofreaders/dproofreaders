@@ -11,26 +11,26 @@ function check_email_address( $email_address )
 
     if ( $email_address == '' )
     {
-	$error = _("You did not supply an E-mail Address.");
-	return $error;
+        $error = _("You did not supply an E-mail Address.");
+        return $error;
     }
 
     if ( strlen($email_address) > $email_address_max_len )
     {
-	$error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
-	return $error;
+        $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
+        return $error;
     }
 
     $parts = explode('@', $email_address);
     if ( count($parts) == 1 )
     {
-	$error = _("Your E-mail Address does not contain an '@' sign.");
-	return $error;
+        $error = _("Your E-mail Address does not contain an '@' sign.");
+        return $error;
     }
     if ( count($parts) > 2 )
     {
-	$error = _("Your E-mail Address contains more than one '@' sign.");
-	return $error;
+        $error = _("Your E-mail Address contains more than one '@' sign.");
+        return $error;
     }
 
     // See RFC 2822, section 3.2.4, 3.4, 3.4.1
@@ -71,8 +71,8 @@ function check_email_address( $email_address )
 
     if ( !preg_match( "/^$local_part_re@$domain_re$/i", $email_address ) )
     {
-	$error = _("Your E-mail Address appears to be invalid.");
-	return $error;
+        $error = _("Your E-mail Address appears to be invalid.");
+        return $error;
     }
 
     return '';

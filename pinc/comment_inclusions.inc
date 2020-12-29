@@ -12,46 +12,46 @@ include_once($relPath.'3rdparty/parsedown/Parsedown.php');
 // post-processor, etc.
 //
 function parse_project_comments($project) {
-	global $relPath;
+    global $relPath;
 
-	if ($project->comment_format == 'html') {
-		$comments = $project->comments;
-	} else {
-		$Parsedown = new Parsedown();
-		$Parsedown->setSafeMode(true);
-		$comments = $Parsedown->text($project->comments);
-	}
+    if ($project->comment_format == 'html') {
+        $comments = $project->comments;
+    } else {
+        $Parsedown = new Parsedown();
+        $Parsedown->setSafeMode(true);
+        $comments = $Parsedown->text($project->comments);
+    }
 
-	// insert templates instead of [template=abcd.txt]
-	$template_count = substr_count($comments, "[template=");
-	if (!empty($template_count)) {
-		$i = 1;
-		while ($i <= $template_count) {
-			$comments_backup = $comments;
-			$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
-			$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
-			$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
-			$i++;
-		}
-	}
+    // insert templates instead of [template=abcd.txt]
+    $template_count = substr_count($comments, "[template=");
+    if (!empty($template_count)) {
+        $i = 1;
+        while ($i <= $template_count) {
+            $comments_backup = $comments;
+            $comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
+            $comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
+            $comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
+            $i++;
+        }
+    }
 
-	// insert biographies instead of [biography=123]-markup
-	$biography_count = substr_count($comments, '[biography=');
-	if (!empty($biography_count)) {
-		$i = 1;
-		while ($i <= $biography_count) {
-			$comments_backup = $comments;
-			// where the [biography=123] starts and ends
-			$pos = strpos($comments_backup, '[biography=');
-			$pos2 = strpos($comments_backup, ']', $pos);
-			$comments = substr($comments_backup, 0, $pos).'<br>';
-			$comments .= get_biography(substr($comments_backup, $pos+11, $pos2-$pos-11));
-			$comments .= '<br>'.substr($comments_backup, $pos2+1);
-			$i++;
-		}
-	}
+    // insert biographies instead of [biography=123]-markup
+    $biography_count = substr_count($comments, '[biography=');
+    if (!empty($biography_count)) {
+        $i = 1;
+        while ($i <= $biography_count) {
+            $comments_backup = $comments;
+            // where the [biography=123] starts and ends
+            $pos = strpos($comments_backup, '[biography=');
+            $pos2 = strpos($comments_backup, ']', $pos);
+            $comments = substr($comments_backup, 0, $pos).'<br>';
+            $comments .= get_biography(substr($comments_backup, $pos+11, $pos2-$pos-11));
+            $comments .= '<br>'.substr($comments_backup, $pos2+1);
+            $i++;
+        }
+    }
 
-	return $comments;
+    return $comments;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

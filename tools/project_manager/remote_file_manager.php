@@ -860,12 +860,12 @@ function get_directory_items_sorted($curr_abspath)
     while ( ($item_name = readdir($handle)) !== FALSE ) {
         if ($item_name == "." || $item_name == "..") continue;
 
-	$curr_entry = "$curr_abspath/$item_name";
-	if (is_dir($curr_entry)) {
-	    $items_dirs[] = $item_name;
-	} elseif (is_file($curr_entry)) {
-	    $items_files[] = $item_name;
-	}
+        $curr_entry = "$curr_abspath/$item_name";
+        if (is_dir($curr_entry)) {
+            $items_dirs[] = $item_name;
+        } elseif (is_file($curr_entry)) {
+            $items_files[] = $item_name;
+        }
     }
     closedir($handle);
     sort($items_dirs);
