@@ -787,8 +787,9 @@ function do_project_info_table()
         {
             $comments_blurb = "";
         }
+
         $class = 'project-comments';
-        echo_row_b( _("Project Comments"), $comments_blurb, $class );
+        echo_row_b( "<span id='project-comments'>" . _("Project Comments") . "</span>", $comments_blurb, $class );
 
         echo_row_c( $comments );
     }
