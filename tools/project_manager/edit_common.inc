@@ -345,10 +345,6 @@ function proj_comments_field($comments, $field_name)
     echo "<br>";
     echo "<p class='bold center-align' style='margin: 0'>";
     echo "[";
-    echo new_help_window_link('template.html', _("How To Use A Template"));
-    echo "]";
-    echo " ";
-    echo "[";
     echo new_help_window_link('biography.html', _("How To Use A Biography"));
     echo "]";
     echo "</p>";

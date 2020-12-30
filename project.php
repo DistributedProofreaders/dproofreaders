@@ -761,16 +761,6 @@ function do_project_info_table()
     {
         $comments = $project->comments;
 
-        // Automatically prepend second round comments template for Beginners Only
-        // The r2 in the template name is an artifact of the old two-round structure
-        if ($project->difficulty == "beginner")
-        {
-            if ($round && $round->is_a_mentor_round() )
-            {
-                $comments = "[template=BGr2.txt]".$comments;
-            }
-        }
-
         // insert e.g. templates and biographies
         $comments = parse_project_comments($project);
 

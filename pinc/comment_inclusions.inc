@@ -2,14 +2,10 @@
 include_once($relPath.'authors.inc');
 include_once($relPath.'3rdparty/parsedown/Parsedown.php');
 
-// Project comments can contain two kinds of special markup:
-//   [template=........]
-// and
+// Project comments can contain one kind of special markup:
 //   [biography=....]
-// This markup should always be replaced with the
-// proper template/biography before the project
-// comments are displayed, zipped up for the
-// post-processor, etc.
+// This markup should always be replaced with the proper biography before the
+// project comments are displayed, zipped up for the post-processor, etc.
 //
 function parse_project_comments($project) {
     global $relPath;
@@ -20,19 +16,6 @@ function parse_project_comments($project) {
         $Parsedown = new Parsedown();
         $Parsedown->setSafeMode(true);
         $comments = $Parsedown->text($project->comments);
-    }
-
-    // insert templates instead of [template=abcd.txt]
-    $template_count = substr_count($comments, "[template=");
-    if (!empty($template_count)) {
-        $i = 1;
-        while ($i <= $template_count) {
-            $comments_backup = $comments;
-            $comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
-            $comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
-            $comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
-            $i++;
-        }
     }
 
     // insert biographies instead of [biography=123]-markup
@@ -53,7 +36,3 @@ function parse_project_comments($project) {
 
     return $comments;
 }
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-?>
