@@ -121,7 +121,7 @@ class PPage
             . $amp
             . "expected_state={$this->proj_state}"
             . $amp
-            . "detail_level=1";
+            . "detail_level=1#project-comments";
     }
 
     function urlencoded($escape_amp=FALSE)
