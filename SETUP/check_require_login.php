@@ -46,7 +46,6 @@ $ok_files = [
     "faq/scanning.php",
     "faq/simple_proof_rules.php",
     "faq/site_progress_snapshot_legend.php",
-    "faq/templates_guide.php",
     "faq/translate.php",
     "faq/wordcheck-faq.php",
     "faq/de/formatting_guidelines.php",
