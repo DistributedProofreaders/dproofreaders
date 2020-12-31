@@ -119,18 +119,7 @@ class ProjectSearchWidget
             }
 
             $values = array_map("DPDatabase::escape", $values);
-
-            $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
-            if ( $comparator == '=' )
-            {
-                $values_list = surround_and_join( $values, "'", "'", "," );
-                $contribution = "$column_name$inv IN ($values_list)";
-            }
-            elseif ( $comparator == 'LIKE' )
-            {
-                $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
-                $contribution = "$inv($likes_str)";
-            }
+            $contribution = $this->sql_from_multi($values, $column_name, $comparator);
         }
         else
         {
@@ -142,9 +131,24 @@ class ProjectSearchWidget
             elseif ( $comparator == 'LIKE' )
             {
                 $value = normalize_whitespace($value);
-
                 $contribution = "$column_name LIKE '%$value%'";
             }
+        }
+        return $contribution;
+    }
+
+    function sql_from_multi($values, $column_name, $comparator)
+    {
+        $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
+        if ( $comparator == '=' )
+        {
+            $values_list = surround_and_join( $values, "'", "'", "," );
+            $contribution = "$column_name$inv IN ($values_list)";
+        }
+        elseif ( $comparator == 'LIKE' )
+        {
+            $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
+            $contribution = "$inv($likes_str)";
         }
         return $contribution;
     }
