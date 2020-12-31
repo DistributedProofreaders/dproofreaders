@@ -154,6 +154,30 @@ class ProjectSearchWidget
     }
 }
 
+class SpecialDayWidget extends ProjectSearchWidget
+{
+    function sql_from_multi($values, $column_name, $comparator)
+    {
+        $contributions = [];
+        foreach($values as $value)
+        {
+            if("Birthday" == $value)
+            {
+                $contributions[] = "$column_name REGEXP 'Birthday [0-9]{4}'";
+            }
+            else if("Otherday" == $value)
+            {
+                $contributions[] = "$column_name REGEXP 'Otherday [0-9]{4}'";
+            }
+            else
+            {
+                $contributions[] = "$column_name = '$value'";
+            }
+        }
+        return "(" . implode(" OR ", $contributions) . ")";
+    }
+}
+
 class HoldWidget extends ProjectSearchWidget
 {
     public function get_html_control()
@@ -180,8 +204,12 @@ class ProjectSearchForm
 
     static public function special_day_options()
     {
-        $special_day_options = array();
-        $special_day_options[''] = _('Any day');
+        $special_day_options = array(
+            '' => _('Any day'),
+            'Birthday' => _('Birthday'),
+            'Otherday' => _('Otherday'),
+        );
+
         $sql = "
             SELECT
                 spec_code,
@@ -319,7 +347,7 @@ class ProjectSearchForm
                 'can_be_multiple' => TRUE,
                 'q_contrib'  => array('difficulty', '='),
             )),
-            new ProjectSearchWidget( array(
+            new SpecialDayWidget( array(
                 'id'         => 'special_day',
                 'label'      => _('Special day'),
                 'type'       => 'select',
