@@ -299,6 +299,10 @@ class SpecialDay
         {
             $addl_data = "<br>" . sprintf(_("See the full list of emojis in <a href='%s'>the Unicode standard</a>."), "http://unicode.org/emoji/charts/full-emoji-list.html");
         }
+        elseif($field == "spec_code")
+        {
+            $addl_data = "<br>" . _("This string is used as the primary key in the DB and cannot be changed after created.");
+        }
 
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
