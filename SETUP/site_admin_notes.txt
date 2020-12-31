@@ -130,40 +130,10 @@ where
     releases a project, that may prevent a later queue from releasing.
 
 
-Special Events:
--------------
-You don't have to define any special events. If you want to:
-    insert into special_days
-    set
-        spec_code    = 'SPEC_CODE',
-        display_name = 'NAME',
-        comment      = 'COMMENT',
-        color        = 'COLOR',
-        open_day     = 'OPEN_DAY',
-        open_month   = 'OPEN_MONTH',
-        close_day    = 'CLOSE_DAY',
-        close_month  = 'CLOSE_MONTH',
-        info_url     = 'INFO_URL'
-where
- -- SPEC_CODE is a brief code to identify this event. (It's only used within
-    the database; users don't see it.)
-
- -- NAME is a short name for the event. (e.g. display_name='Armistice Day')
-
- -- COMMENT is a description of the event. (e.g. comment='End of World War I')
-
- -- COLOR is an HTML-color (e.g. color='FF9090') to associate with this event.
-    Appears in project listings as the background color for projects that
-    belong to this event.
-
- -- OPEN_DAY, OPEN_MONTH are the numeric day and month of the first day of the
-    event (e.g. open_day='11', open_month='11')
-
- -- CLOSE_DAY, CLOSE_MONTH are the numeric day and month of the first day
-    *after* the event. (e.g. close_day='12', close_month='11')
-
- -- INFO_URL is an address at which to find more information on the event.
-    (e.g., info_url='http://en.wikipedia.org/wiki/Armistice_Day')
+Special Days
+------------
+You don't have to define any special days. If you want to, you can use
+tools/site_admin/manage_special_days.php
 
 
                            Miscellaneous
