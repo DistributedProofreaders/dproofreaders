@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'3rdparty/parsedown/Parsedown.php');
+include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 function get_biography($id) {
     $sql = sprintf("
@@ -18,7 +19,7 @@ function get_biography($id) {
     {
         if ($row["bio_format"] === 'markdown')
         {
-            $Parsedown = new Parsedown();
+            $Parsedown = new ParsedownExtra();
             $Parsedown->setSafeMode(true);
             $bio_text = $Parsedown->text($row["bio"]);
         }

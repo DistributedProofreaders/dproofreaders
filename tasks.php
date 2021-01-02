@@ -13,6 +13,7 @@ include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'3rdparty/parsedown/Parsedown.php');
+include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 require_login();
 
@@ -1499,7 +1500,7 @@ function TaskComments($tid, $action)
     $result = DPDatabase::query($sql);
 
     echo "<h2>" . _("Comments") . "</h2>";
-    $Parsedown = new Parsedown();
+    $Parsedown = new ParsedownExtra();
     $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
         $comment_id = create_anchor_for_comment($row['u_id'], $row['comment_date']);

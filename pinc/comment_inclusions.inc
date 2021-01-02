@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'authors.inc');
 include_once($relPath.'3rdparty/parsedown/Parsedown.php');
+include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 // Project comments can contain one kind of special markup:
 //   [biography=....]
@@ -13,7 +14,7 @@ function parse_project_comments($project) {
     if ($project->comment_format == 'html') {
         $comments = $project->comments;
     } else {
-        $Parsedown = new Parsedown();
+        $Parsedown = new ParsedownExtra();
         $Parsedown->setSafeMode(true);
         $comments = $Parsedown->text($project->comments);
     }
