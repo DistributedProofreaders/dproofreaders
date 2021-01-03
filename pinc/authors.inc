@@ -23,7 +23,7 @@ function get_biography($id) {
         }
         else
         {
-            $bio_text = $row["bio"];
+            $bio_text = sanitize_html($row["bio"], 'td');
         }
 
         // wrap in commentaries and return

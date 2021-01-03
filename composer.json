@@ -5,6 +5,7 @@
     "license": "GPL-2.0-or-later",
     "minimum-stability": "stable",
     "require": {
+        "ezyang/htmlpurifier" : "v4.*",
         "erusev/parsedown": "1.8.0-beta-7",
         "erusev/parsedown-extra": "0.8.0"
     }
