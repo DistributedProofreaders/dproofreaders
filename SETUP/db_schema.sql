@@ -238,10 +238,8 @@ CREATE TABLE `page_events` (
   `username` varchar(25) NOT NULL default '',
   `round_id` char(2) default NULL,
   PRIMARY KEY  (`event_id`),
-  KEY `projectid` (`projectid`,`image`,`round_id`),
   KEY `username` (`username`,`round_id`),
-  KEY `projectid_username` (`projectid`,`username`),
-  KEY `username_projectid_round_time` (`username`,`projectid`,`round_id`,`timestamp`)
+  KEY `projectid_username` (`projectid`,`username`)
 );
 # --------------------------------------------------------
 
