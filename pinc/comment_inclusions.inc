@@ -10,7 +10,7 @@ function parse_project_comments($project) {
     global $relPath;
 
     if ($project->comment_format == 'html') {
-        $comments = $project->comments;
+        $comments = sanitize_html($project->comments, 'td');
     } else {
         $Parsedown = new ParsedownExtra();
         $Parsedown->setSafeMode(true);

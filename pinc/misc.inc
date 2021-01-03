@@ -464,6 +464,22 @@ function javascript_safe($str, $encoding=NULL)
 
 // -----------------------------------------------------------------------------
 
+// Use HTMLPurifier to sanitize HTML
+function sanitize_html($html, $parent_tag='div')
+{
+    $config = HTMLPurifier_Config::createDefault();
+    $config->set('HTML.Parent', $parent_tag);
+    $config->set('Attr.EnableID', true);
+    $config->set('CSS.AllowTricky', true);
+    $config->set('CSS.MaxImgLength', null);
+    $config->set('Cache.SerializerPath', sys_get_temp_dir());
+
+    $purifier = new HTMLPurifier($config);
+    return $purifier->purify($html);
+}
+
+// -----------------------------------------------------------------------------
+
 function normalize_whitespace($str)
 // Return a string with normalized whitespace characters.
 //
