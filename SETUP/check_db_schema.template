@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Stop on undefined variables or errors
+set -u
+set -e
+
 # Compare the db-schema of the current installation
 # to the db-schema you get by taking an installation of the previous release
 # and applying all upgrade-scripts in the current/in-progress release.
@@ -8,9 +12,9 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R202002
+prev_tag=R202009
 curr_tag=production
-upgrade_number=14
+upgrade_number=15
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -19,7 +23,7 @@ testing_db_name=temp_dp_schema_check
 
 php_cli_exec='<<PHP_CLI_EXECUTABLE>>'
 
-mkdir $testing_dir
+mkdir -p $testing_dir
 
 echo ""
 echo "Dumping the schema of the current database..."
@@ -42,7 +46,7 @@ echo "
     _DB_USER=<<DB_USER>>
     _DB_PASSWORD='<<DB_PASSWORD>>'
 
-    # Need to set the booleans, otherwise site_vars.php will raise syntax errors.
+    # Need to set booleans/integers, otherwise site_vars.php will raise syntax errors.
     _TESTING=TRUE
     _USE_PHP_SESSIONS=TRUE
     _USE_SECURE_COOKIES=TRUE
@@ -53,6 +57,10 @@ echo "
     _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
     _PUBLIC_PAGE_DETAILS=FALSE
     _ARCHIVE_DB_NAME=ARCHIVE_DB_NAME
+    _API_ENABLED=FALSE
+    _API_RATE_LIMIT=0
+    _API_RATE_LIMIT_REQUESTS_PER_WINDOW=0
+    _API_RATE_LIMIT_SECONDS_IN_WINDOW=0
 
     # String values
     _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
@@ -127,9 +135,9 @@ fi
 ./dump_db_schema --table-list-from-db > $testing_dir/upgraded_schema_dump
 
 echo ""
-echo "Comparing the two schemas..."
-echo "diff $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump"
-vim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump
+echo "Compare the two schemas, eg:"
+echo "    diff $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump"
+echo "    vim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump"
 
 echo ""
 echo "When you're done, don't forget to..."
