@@ -1,0 +1,11 @@
+{
+    "name": "distributedproofreaders/dproofreaders",
+    "description": "Distributed Proofreaders is a web application intended to ease the process of converting public domain books into e-texts.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "stable",
+    "require": {
+        "erusev/parsedown": "1.8.0-beta-7",
+        "erusev/parsedown-extra": "0.8.0"
+    }
+}

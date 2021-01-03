@@ -13,7 +13,7 @@ fi
 
 echo "Checking PHP files for known security issues..."
 
-for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc"); do
+for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v vendor); do
     # skip files in SETUP
     echo $file | grep -q SETUP
     if [[ $? -eq 0 ]]; then

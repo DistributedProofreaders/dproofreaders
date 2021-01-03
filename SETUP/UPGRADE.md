@@ -46,6 +46,15 @@ The script will notify you of parameters in the old configuration file
 that are no longer used in the new one, as well as new parameters in
 `configuration.sh` that you will want to take a closer look at.
 
+## Update your composer dependencies
+
+Using composer, install the package dependencies. From the root of
+your DP code checkout:
+
+```bash
+composer install
+```
+
 ## Upgrade your database schema and data
 
 There are scripts to upgrade your installation from one version to another.

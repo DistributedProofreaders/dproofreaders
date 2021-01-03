@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Stop on undefined variables or errors
+set -u
+set -e
+
 if [ $# != 1 ]; then
     echo 'usage: update_from_github <path-to-site-config-file>'
     exit 1
@@ -93,6 +97,15 @@ check "get_git_clone"
 
 configure_script_file=$script_dir/configure
 $configure_script_file $site_config_file $_CODE_DIR.new
+
+# ------------------------------------------------------------------------------
+# Install PHP dependencies via composer
+
+echo
+echo "Installing PHP dependencies..."
+composer install -d $_CODE_DIR.new
+echo "Require all denied" > $_CODE_DIR.new/vendor/.htaccess
+echo
 
 # ------------------------------------------------------------------------------
 # Apply any local customizations.

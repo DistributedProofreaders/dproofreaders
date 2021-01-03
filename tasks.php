@@ -12,8 +12,6 @@ include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'3rdparty/parsedown/Parsedown.php');
-include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 require_login();
 

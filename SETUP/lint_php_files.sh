@@ -13,7 +13,7 @@ fi
 
 echo "Checking all .php and .inc files under $BASE_DIR for linting errors..."
 
-for file in `find $BASE_DIR -name "*.php" -o -name "*.inc"`; do
+for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v vendor); do
     echo $file
     OUTPUT=`php -l $file`
     echo $OUTPUT | grep -q 'No syntax errors detected'

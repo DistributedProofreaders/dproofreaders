@@ -26,6 +26,8 @@ before_script:
     # We need npm for eslint
     - nvm install 12 --lts
     - npm install
+    # PHP dependencies
+    - composer install
 script:
     - cd SETUP
     # do minimal security checks

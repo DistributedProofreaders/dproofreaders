@@ -28,6 +28,11 @@ Ubuntu system package names.
 * MySQL - php-mysql
 * zip - php-zip
 
+### Composer
+PHP package dependencies are managed using [Composer](https://getcomposer.org/).
+You need a recent version of Composer installed to manage the relevant PHP
+package dependencies.
+
 ### MySQL
 MySQL version 5.6.6 or later is recommended with `innodb_file_per_table=ON`
 and using InnoDB as the default engine (which are the defaults for that
@@ -378,6 +383,14 @@ to 777 so that the web server has full access to them.
 
 See the 'Uploading and Creating Projects' section of `configuration.sh`
 for more details.
+
+### Install DP code PHP package dependencies
+Using composer, install the package dependencies. From the root of
+your DP code checkout:
+
+```bash
+composer install
+```
 
 ### Configure the DP code (with site-specific settings)
 Make an editable copy of `c/SETUP/configuration.sh`, and put it outside

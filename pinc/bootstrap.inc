@@ -27,6 +27,9 @@ include_once($relPath.'site_vars.php');
 // Register autoloader
 spl_autoload_register('dp_class_autoloader');
 
+// Load composer autoloader
+require_once($relPath.'../vendor/autoload.php');
+
 // Exception handlers are defined differently for HTML and the API
 set_exception_handler($testing ? 'test_exception_handler' : 'production_exception_handler');
 

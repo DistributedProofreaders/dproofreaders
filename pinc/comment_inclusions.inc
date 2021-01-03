@@ -1,7 +1,5 @@
 <?php
 include_once($relPath.'authors.inc');
-include_once($relPath.'3rdparty/parsedown/Parsedown.php');
-include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 // Project comments can contain one kind of special markup:
 //   [biography=....]

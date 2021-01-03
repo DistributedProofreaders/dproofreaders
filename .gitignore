@@ -7,5 +7,6 @@ pinc/udb_user.php
 # Ignore compiled message files
 messages.mo
 
+vendor
 node_modules
 .phpunit.result.cache
