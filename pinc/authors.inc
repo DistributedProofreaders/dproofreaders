@@ -1,6 +1,4 @@
 <?php
-include_once($relPath.'3rdparty/parsedown/Parsedown.php');
-include_once($relPath.'3rdparty/parsedown/ParsedownExtra.php');
 
 function get_biography($id) {
     $sql = sprintf("

@@ -62,6 +62,7 @@ $ok_files = [
     # .inc pages hiding as .php pages
     "pinc/site_vars.php",
     "pinc/udb_user.php",
+    "pinc/site_registration_protection.php",
     # 3rd party libraries
     "pinc/functions_insert_post.php",
     "pinc/3rdparty/mediawiki/DiffEngine.php",
@@ -71,8 +72,6 @@ $ok_files = [
     "pinc/3rdparty/mediawiki/WordAccumulator.php",
     "pinc/3rdparty/mediawiki/WordLevelDiff.php",
     "pinc/3rdparty/mediawiki/DiffFormatter.php",
-    "pinc/3rdparty/parsedown/Parsedown.php",
-    "pinc/3rdparty/parsedown/ParsedownExtra.php",
     "pinc/3rdparty/portable-utf8/portable-utf8.php",
     # Simple redirect
     "quiz/index.php",
@@ -118,6 +117,10 @@ foreach($files as $file)
 
     # If it's in the SETUP directory, skip it
     if(startswith($file, "SETUP/"))
+        continue;
+
+    # If it's in the vendor directory, skip it
+    if(startswith($file, "vendor/"))
         continue;
 
     # If it's on the OK list, skip it
