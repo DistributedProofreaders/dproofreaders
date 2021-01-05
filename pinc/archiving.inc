@@ -11,16 +11,23 @@ include($relPath.'udb_user.php'); // $archive_db_name
 
 function archive_project( $project, $dry_run )
 // -- Move the project's page-table to the archive database.
-// -- Move the project's directory out of $projects_dir
+// -- Move the project's directory out of $projects_dir &
+//    write out project's metadata to a JSON file.
 //    (for later off-site migration).
 // -- Mark the project as having been archived.
 {
+    global $archive_projects_dir, $archive_db_name;
+
+    if(!is_dir($archive_projects_dir))
+    {
+        die("Error: archive directory $archive_projects_dir does not exist.\n");
+    }
+
     $projectid = $project->projectid;
 
     $mod_time_str = strftime('%Y-%m-%d %H:%M:%S',$project->modifieddate);
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
-    global $archive_db_name;
     if (!does_project_page_table_exist($projectid))
     {
         echo "    Table $projectid does not exist.\n";
@@ -37,12 +44,10 @@ function archive_project( $project, $dry_run )
         ") or die(DPDatabase::log_error());
     }
 
-    global $projects_dir;
-    $project_dir = "$projects_dir/$projectid";
+    $project_dir = $project->dir;
+    $new_dir = "$archive_projects_dir/$projectid";
     if (file_exists($project_dir))
     {
-        global $archive_projects_dir;
-        $new_dir = "$archive_projects_dir/$projectid";
         if ($dry_run)
         {
             echo "    Move $project_dir to $new_dir.\n";
@@ -61,6 +66,8 @@ function archive_project( $project, $dry_run )
 
     archive_ancillary_data_for_project_etc( $project, '        ', $dry_run );
 
+    generate_project_metadata_json($project, "$new_dir/metadata.json", $dry_run);
+
     if ($dry_run)
     {
         echo "    Mark project as archived.\n";
@@ -78,6 +85,32 @@ function archive_project( $project, $dry_run )
 }
 
 // -----------------------------------------------------------------------------
+
+function generate_project_metadata_json($project, $filename, $dry_run)
+// Write out project's metadata to a JSON file within the archive
+{
+    $metadata = [
+        "projectid" => $project->projectid,
+        "nameofwork" => $project->nameofwork,
+        "authorsname" => $project->authorsname,
+        "language" => $project->language,
+        "genre" => $project->genre,
+        "postednum" => $project->postednum,
+        "image_source" => $project->image_source,
+    ];
+
+    if($dry_run)
+    {
+        echo "    Write project metadata to $filename.\n";
+    }
+    else
+    {
+        file_put_contents($filename, json_encode($metadata,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
+            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK))
+            or die("Error writing project metadata to $filename.");
+    }
+}
 
 function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
 // Archive the ancillary info relating to $project
@@ -112,7 +145,7 @@ function archive_ancillary_data_for_project( $project, $indent, $dry_run )
         return;
     }
 
-    if ( does_project_page_table_exist($projectid) == FALSE )
+    if ( does_project_page_table_exist($projectid) == FALSE || $dry_run )
     {
         // project's page table doesn't exist.
         // Good, that's consistent with it having archived='1'
@@ -233,4 +266,3 @@ function archival_skip_logs_dump()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
