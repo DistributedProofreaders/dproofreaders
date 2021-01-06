@@ -202,14 +202,17 @@ class ProjectSearchForm
         $this->define_form_widgets();
     }
 
-    static public function special_day_options()
+    function all_special_day_options()
     {
-        $special_day_options = array(
+        return array(
             '' => _('Any day'),
             'Birthday' => _('Birthday'),
             'Otherday' => _('Otherday'),
-        );
+        ) + $this->special_day_options();
+    }
 
+    static public function special_day_options()
+    {
         $sql = "
             SELECT
                 spec_code,
@@ -351,7 +354,7 @@ class ProjectSearchForm
                 'id'         => 'special_day',
                 'label'      => _('Special day'),
                 'type'       => 'select',
-                'options'    => $this->special_day_options(),
+                'options'    => $this->all_special_day_options(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
                 'q_contrib'  => array('special_code', '='),
