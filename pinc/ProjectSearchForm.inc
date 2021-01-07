@@ -166,6 +166,10 @@ class SpecialDayWidget extends ProjectSearchWidget
             {
                 $contributions[] = "$column_name REGEXP '$value [0-9]{4}'";
             }
+            else if("Specialday" == $value)
+            {
+                $contributions[] = "$column_name != ''";
+            }
             else
             {
                 $contributions[] = "$column_name = '$value'";
@@ -203,6 +207,7 @@ class ProjectSearchForm
     {
         return array(
             '' => _('Any day'),
+            'Specialday' => _('Any Special Day'),
             'Birthday' => _('Birthday'),
             'Otherday' => _('Otherday'),
         ) + $this->special_day_options();
