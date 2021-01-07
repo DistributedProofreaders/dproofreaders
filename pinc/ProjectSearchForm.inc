@@ -118,7 +118,6 @@ class ProjectSearchWidget
                     return NULL;
             }
 
-            $values = array_map("DPDatabase::escape", $values);
             $contribution = $this->sql_from_multi($values, $column_name, $comparator);
         }
         else
@@ -139,6 +138,7 @@ class ProjectSearchWidget
 
     function sql_from_multi($values, $column_name, $comparator)
     {
+        $values = array_map("DPDatabase::escape", $values);
         $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
         if ( $comparator == '=' )
         {
@@ -158,6 +158,7 @@ class SpecialDayWidget extends ProjectSearchWidget
 {
     function sql_from_multi($values, $column_name, $comparator)
     {
+        $values = array_map("DPDatabase::escape", $values);
         $contributions = [];
         foreach($values as $value)
         {
@@ -213,6 +214,7 @@ class ProjectSearchForm
 
     static public function special_day_options()
     {
+        $special_day_options = array();
         $sql = "
             SELECT
                 spec_code,
