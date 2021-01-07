@@ -162,13 +162,9 @@ class SpecialDayWidget extends ProjectSearchWidget
         $contributions = [];
         foreach($values as $value)
         {
-            if("Birthday" == $value)
+            if(("Birthday" == $value) || ("Otherday" == $value))
             {
-                $contributions[] = "$column_name REGEXP 'Birthday [0-9]{4}'";
-            }
-            else if("Otherday" == $value)
-            {
-                $contributions[] = "$column_name REGEXP 'Otherday [0-9]{4}'";
+                $contributions[] = "$column_name REGEXP '$value [0-9]{4}'";
             }
             else
             {
