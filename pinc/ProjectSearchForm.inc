@@ -118,19 +118,7 @@ class ProjectSearchWidget
                     return NULL;
             }
 
-            $values = array_map("DPDatabase::escape", $values);
-
-            $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
-            if ( $comparator == '=' )
-            {
-                $values_list = surround_and_join( $values, "'", "'", "," );
-                $contribution = "$column_name$inv IN ($values_list)";
-            }
-            elseif ( $comparator == 'LIKE' )
-            {
-                $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
-                $contribution = "$inv($likes_str)";
-            }
+            $contribution = $this->sql_from_multi($values, $column_name, $comparator);
         }
         else
         {
@@ -142,11 +130,52 @@ class ProjectSearchWidget
             elseif ( $comparator == 'LIKE' )
             {
                 $value = normalize_whitespace($value);
-
                 $contribution = "$column_name LIKE '%$value%'";
             }
         }
         return $contribution;
+    }
+
+    function sql_from_multi($values, $column_name, $comparator)
+    {
+        $values = array_map("DPDatabase::escape", $values);
+        $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
+        if ( $comparator == '=' )
+        {
+            $values_list = surround_and_join( $values, "'", "'", "," );
+            $contribution = "$column_name$inv IN ($values_list)";
+        }
+        elseif ( $comparator == 'LIKE' )
+        {
+            $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
+            $contribution = "$inv($likes_str)";
+        }
+        return $contribution;
+    }
+}
+
+class SpecialDayWidget extends ProjectSearchWidget
+{
+    function sql_from_multi($values, $column_name, $comparator)
+    {
+        $values = array_map("DPDatabase::escape", $values);
+        $contributions = [];
+        foreach($values as $value)
+        {
+            if(("Birthday" == $value) || ("Otherday" == $value))
+            {
+                $contributions[] = "$column_name REGEXP '$value [0-9]{4}'";
+            }
+            else if("Specialday" == $value)
+            {
+                $contributions[] = "$column_name != ''";
+            }
+            else
+            {
+                $contributions[] = "$column_name = '$value'";
+            }
+        }
+        return "(" . implode(" OR ", $contributions) . ")";
     }
 }
 
@@ -174,10 +203,19 @@ class ProjectSearchForm
         $this->define_form_widgets();
     }
 
+    function all_special_day_options()
+    {
+        return array(
+            '' => _('Any day'),
+            'Specialday' => _('Any Special Day'),
+            'Birthday' => _('Birthday'),
+            'Otherday' => _('Otherday'),
+        ) + $this->special_day_options();
+    }
+
     static public function special_day_options()
     {
         $special_day_options = array();
-        $special_day_options[''] = _('Any day');
         $sql = "
             SELECT
                 spec_code,
@@ -315,11 +353,11 @@ class ProjectSearchForm
                 'can_be_multiple' => TRUE,
                 'q_contrib'  => array('difficulty', '='),
             )),
-            new ProjectSearchWidget( array(
+            new SpecialDayWidget( array(
                 'id'         => 'special_day',
                 'label'      => _('Special day'),
                 'type'       => 'select',
-                'options'    => $this->special_day_options(),
+                'options'    => $this->all_special_day_options(),
                 'can_be_multiple' => TRUE,
                 'initial_value'   => '',
                 'q_contrib'  => array('special_code', '='),
