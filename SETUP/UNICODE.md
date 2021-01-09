@@ -135,12 +135,17 @@ use the "Convert Project Table to UTF-8" site administrator tool under
 
 ## Fonts
 
-The code includes DejaVu Sans Mono, a member of the
-[DejaVu font family](https://dejavu-fonts.github.io/). This font includes a 
-wide range of Unicode characters and is the default font for new users. It is
-also the fallback if users select a different proofreading font to ensure that
-characters have an available monospace representation to present if the
-selected proofreading font does not.
+The code includes two web fonts which include a wide range of Unicode
+characters.
+
+* DejaVu Sans Mono, a member of the
+  [DejaVu font family](https://dejavu-fonts.github.io/). This is the default
+  font for new users and is also the fallback if users select a different
+  proofreading font to ensure that characters have an available monospace
+  representation to present if the selected proofreading font does not.
+* [DP Sans Mono](https://www.pgdp.net/wiki/DP_Sans_Mono). This font is derived
+  from DejaVu Sans Mono with changes to facilitate accurate proofreading and
+  enable the quicker discovery of errors and scannos.
 
 ## Other resources
 
