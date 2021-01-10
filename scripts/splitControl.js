@@ -70,7 +70,7 @@ var splitControl = function(container, config) {
         if (splitPos > maxPos) {
             splitPos = maxPos;
         }
-        pane2.css('flex',  1);
+        pane2.css('flex', 1);
         if (theConfig.splitVertical) {
             container.css({display: 'flex', flexDirection: 'row'});
             pane1.width(splitPos - base);
