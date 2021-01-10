@@ -166,7 +166,7 @@ Certification of Volunteer Work
 -------------------------------
 
 $site_name tracks only the number of pages proofread. We
-does not track the amount of time our volunteers spend working on those
+do not track the amount of time our volunteers spend working on those
 pages. For further information, see "Certification of Volunteer Work":
 $dp_wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work
 
