@@ -13,14 +13,5 @@
   <li><a href="switchable_split.php">Switchable between horizontal and vertical split with indicator for split percentage changes</a></li>
   <li><a href="vertical_horizontal_split_flex.php">Vertical and Horizontal Split with text in a textarea and different splitter bar colours and widths</a></li>
 </ul>
-<h2>Implementation notes</h2>
-<p>
-If window resize can cause the size of the splitter area to change then the body must have style 'overflow: hidden'. This is necessary because
-the panes are absolutely positioned with sizes calculated from the size of their container.
-When the container becomes smaller as a result of resizing the window we recalculate the size of the panes.
-But this does not happen until after the browser has redrawn the layout based on the information it already has. If overflow is not hidden it will put in scroll bars.
-These would make the client size of the container even smaller.
-The recalculated sizes will be smaller so the scroll bars will then not appear but empty areas will appear instead.
-</p>
 </body>
 </html>
