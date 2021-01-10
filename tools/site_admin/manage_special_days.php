@@ -250,7 +250,7 @@ class SpecialDay
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name', _('Display Name'), 'text', 80);
-        $this->_show_edit_row('symbol', _('Symbol'), 'text', 2);
+        $this->_show_edit_row('symbol', _('Symbol'), 'text', 4);
         echo "  <tr><th class='label'>Enable</th><td><input type='checkbox' name='enable'";
         if ( $this->enable )
             echo " value='1' checked";
