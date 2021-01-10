@@ -285,7 +285,7 @@ class ProjectInfoHolder
         $this->language         = $project->language;
         $this->scannercredit    = $project->scannercredit;
         $this->comments         = $project->comments;
-        $this->comment_format   = $edit_existing ? $project->comment_format : 'markdown';
+        $this->comment_format   = $project->comment_format;
         $this->clearance        = $project->clearance;
         $this->genre            = $project->genre;
         $this->difficulty_level = $project->difficulty;
