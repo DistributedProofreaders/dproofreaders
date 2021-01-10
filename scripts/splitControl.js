@@ -50,15 +50,13 @@ var splitControl = function(container, config) {
     container = $(container);
 
     let children = container.children();
-    let pane1 = $(children[0]).css({"position": "absolute"});
-    let pane2 = $(children[1]).css({"position": "absolute"});
+    let pane1 = $(children[0]);
+    let pane2 = $(children[1]);
 
-    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, "position": "absolute"});
+    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor});
     pane1.after(dragBar);
 
     // coordinates of the container
-    let divTop;
-    let divLeft;
     let height;
     let width;
 
@@ -72,44 +70,38 @@ var splitControl = function(container, config) {
         if (splitPos > maxPos) {
             splitPos = maxPos;
         }
-        let splitPlusDrag = splitPos + theConfig.dragBarSize;
+        pane2.css('flex',  1);
         if (theConfig.splitVertical) {
+            container.css({display: 'flex', flexDirection: 'row'});
             pane1.width(splitPos - base);
-            dragBar.offset({top: divTop, left: splitPos});
-            pane2.offset({top: divTop, left: splitPlusDrag});
-            pane2.width(width + divLeft - splitPlusDrag);
+            pane1.height('');
         } else {
+            container.css({display: 'flex', flexDirection: 'column'});
             pane1.height(splitPos - base);
-            dragBar.offset({top: splitPos, left: divLeft});
-            pane2.height(height + divTop - splitPlusDrag);
-            pane2.offset({top: splitPlusDrag, left: divLeft});
+            pane1.width('');
         }
         reSize.fire();
     }
 
     function reLayout() {
+        container.css('overflow', 'hidden');
         height = container.height();
         width = container.width();
         let containerOffset = container.offset();
-        divTop = containerOffset.top;
-        divLeft = containerOffset.left;
-        pane1.offset(containerOffset);
+        let divTop = containerOffset.top;
+        let divLeft = containerOffset.left;
         if (theConfig.splitVertical) {
             range = width;
             base = divLeft;
-            pane1.height(height);
-            pane2.height(height);
-            dragBar.height(height);
+            dragBar.height('100%');
             dragBar.width(theConfig.dragBarSize);
             dragBar.css("cursor", "ew-resize");
         } else {
             range = height;
             base = divTop;
-            pane1.width(width);
-            pane2.width(width);
-            dragBar.width(width);
-            dragBar.css("cursor", "ns-resize");
             dragBar.height(theConfig.dragBarSize);
+            dragBar.width('100%');
+            dragBar.css("cursor", "ns-resize");
         }
         range -= theConfig.dragBarSize;
         minPos = base;
