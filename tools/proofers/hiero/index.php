@@ -16,6 +16,9 @@ $header_args = array(
 
 slim_header(_("Hieroglyphs"), $header_args);
 
+$hierobox = array_get($_POST, "hierobox", "");
+$table = array_get($_POST, "table", "");
+
 $tables=array(
     "Phoneme",
     "A",
@@ -48,63 +51,37 @@ $tables=array(
 );
 
 $syntax=array("-",":","*","!");
-if(array_key_exists("table", $_POST))
-    $table = $_POST["table"];
-else
-    $table = "";
-?>
+$escaped_hierobox = html_safe($hierobox);
+$table_options = table_options();
+$syntax_options = syntax_options();
+$glpyh_table = glyphs();
+
+echo <<<HTML
 <form name="hieroform" method="POST">
 <table>
 <tr><td rowspan="2">
-<textarea name="hierobox" rows="4" cols="30">
-<?php $hierobox=@$_POST['hierobox']; echo html_safe($hierobox); ?>
-</textarea>
+<textarea name="hierobox" rows="4" cols="30">$escaped_hierobox</textarea>
 </td><td colspan="2">
 <select onChange="hieroform.submit()" name="table">
-<?php
-echo "<option>".html_safe(WH_Text("Tables"))."</option>";
-echo "<option>----</option>";
-foreach($tables as $v) {
-    echo "<option value='" . attr_safe($v) . "'";
-    if ($v == $table) {
-      echo " selected";
-    }
-    echo ">";
-    if (strlen($v) <= 2)
-        echo html_safe($v) . " &mdash; ";
-    echo html_safe(WH_Text($v));
-    echo "</option>";
-}
-?>
+$table_options
+</select>
 </select>
 </td></tr>
 <tr><td>
-<select onChange="hierobox.value+=this.value; this.value=0;">
-<?php
-echo "<option value=\"0\">".html_safe(WH_Text("Syntax"))."</option>";
-echo "<option>----</option>\n";
-foreach($syntax as $v)
-    echo "<option value='" . attr_safe($v) . "'> " . html_safe($v) . " " . html_safe(WH_Text($v))."</option>";
-?>
-</select>
+$syntax_options
+
 </td><td class="right-align">
 <input type="submit" value="Submit">
 <input type="button" value="Reset" onClick="hierobox.value='';">
 </td></tr>
 <tr><td colspan="3">
-<?php
-// Stupid, but it works:
-echo preg_replace(
-    "|".WH_IMG_DIR.WH_IMG_PRE."|",
-    "$wikihiero_url/".WH_IMG_DIR.WH_IMG_PRE,
-    WikiHiero($hierobox,WH_MODE_HTML)
-);
-?>
+$glpyh_table
 </td></tr>
 </table>
 </form>
 <hr>
-<?php
+HTML;
+
 // Based on Wikihiero's WH_Text in its index.php
 
 function WH_Text( $index )
@@ -199,4 +176,48 @@ function img($src,$title)
     $title = attr_safe($title);
     $onClick = "add('". attr_safe(preg_replace(array("/^.*[[]/","/[]].*$/"), "" , $title)) . "');";
     return "<img src='$src' title='$title' onClick=\"$onClick\">";
+}
+
+function table_options()
+{
+    global $tables, $table;
+    $table_options = "<option>".html_safe(WH_Text("Tables"))."</option>";
+    $table_options .= "<option>----</option>";
+    foreach($tables as $v) {
+        $table_options .= "<option value='" . attr_safe($v) . "'";
+        if ($v == $table) {
+            $table_options .= " selected";
+        }
+        $table_options .= ">";
+        if (strlen($v) <= 2)
+            $table_options .= html_safe($v) . " &mdash; ";
+        $table_options .= html_safe(WH_Text($v));
+        $table_options .= "</option>";
+    }
+
+    return $table_options;
+}
+
+function syntax_options()
+{
+    global $syntax;
+    $syntax_options = "<select onChange='hierobox.value+=this.value; this.value=0;'>";
+    $syntax_options .= "<option value='0'>" . html_safe(WH_Text("Syntax")) . "</option>";
+    $syntax_options .= "<option>----</option>";
+    foreach($syntax as $v)
+        $syntax_options .= "<option value='" . attr_safe($v) . "'> " . html_safe($v) . " " . html_safe(WH_Text($v)) . "</option>";
+    $syntax_options .= "</select>";
+
+    return $syntax_options;
+}
+
+function glyphs()
+{
+    global $hierobox, $wikihiero_url;
+    // Stupid, but it works:
+    return preg_replace(
+        "|".WH_IMG_DIR.WH_IMG_PRE."|",
+        "$wikihiero_url/".WH_IMG_DIR.WH_IMG_PRE,
+        WikiHiero($hierobox, WH_MODE_HTML)
+    );
 }
