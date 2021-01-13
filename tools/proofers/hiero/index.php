@@ -52,9 +52,9 @@ $tables=array(
 
 $syntax=array("-",":","*","!");
 $escaped_hierobox = html_safe($hierobox);
-$table_options = table_options();
-$syntax_options = syntax_options();
-$glpyh_table = glyphs();
+$table_options = table_options($tables, $table);
+$syntax_options = syntax_options($syntax);
+$glpyh_table = glyphs($hierobox, $wikihiero_url);
 
 echo <<<HTML
 <form name="hieroform" method="POST">
@@ -65,10 +65,11 @@ echo <<<HTML
 <select onChange="hieroform.submit()" name="table">
 $table_options
 </select>
-</select>
 </td></tr>
 <tr><td>
+<select onChange='hierobox.value+=this.value; this.value=0;'>
 $syntax_options
+</select>
 
 </td><td class="right-align">
 <input type="submit" value="Submit">
@@ -178,9 +179,8 @@ function img($src,$title)
     return "<img src='$src' title='$title' onClick=\"$onClick\">";
 }
 
-function table_options()
+function table_options($tables, $table)
 {
-    global $tables, $table;
     $table_options = "<option>".html_safe(WH_Text("Tables"))."</option>";
     $table_options .= "<option>----</option>";
     foreach($tables as $v) {
@@ -198,22 +198,18 @@ function table_options()
     return $table_options;
 }
 
-function syntax_options()
+function syntax_options($syntax)
 {
-    global $syntax;
-    $syntax_options = "<select onChange='hierobox.value+=this.value; this.value=0;'>";
-    $syntax_options .= "<option value='0'>" . html_safe(WH_Text("Syntax")) . "</option>";
+    $syntax_options = "<option value='0'>" . html_safe(WH_Text("Syntax")) . "</option>";
     $syntax_options .= "<option>----</option>";
     foreach($syntax as $v)
         $syntax_options .= "<option value='" . attr_safe($v) . "'> " . html_safe($v) . " " . html_safe(WH_Text($v)) . "</option>";
-    $syntax_options .= "</select>";
 
     return $syntax_options;
 }
 
-function glyphs()
+function glyphs($hierobox, $wikihiero_url)
 {
-    global $hierobox, $wikihiero_url;
     // Stupid, but it works:
     return preg_replace(
         "|".WH_IMG_DIR.WH_IMG_PRE."|",
