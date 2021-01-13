@@ -166,7 +166,7 @@ foreach($files as $file) {
                 echo img("$wh_img_url/$file",$code);
         }
     }
-    else
+    else if(is_string($code))
     {
         if(isset($code[0]) && $code[0] == $table && ctype_digit($code[1]))
         {
