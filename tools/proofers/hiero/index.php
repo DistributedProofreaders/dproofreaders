@@ -3,10 +3,17 @@ $relPath="./../../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // html_safe()
+
+require_login();
+
+if(!$wikihiero_dir)
+{
+    die("WikiHiero is not installed on this system. Contact your administrator.");
+}
+
 include_once("$wikihiero_dir/wh_language.php");
 include_once("$wikihiero_dir/wikihiero.php");
 
-require_login();
 
 $header_args = array(
   'js_files' => array(
