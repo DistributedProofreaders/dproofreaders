@@ -16,24 +16,41 @@ echo "<p>" . sprintf(_("This software brought to you by many volunteer developer
 
 echo "<h2>" . _("Bundled Software"). "</h2>";
 
-echo "<p>" . _("The following open source code is bundled and used with the dproofreaders code.") . "</p>";
+echo "<p>" . _("The following open source code is bundled with and used by the dproofreaders code.") . "</p>";
 
-$credit_details = load_credit_details($code_dir);
-asort($credit_details);
-echo "<ul>";
-foreach($credit_details as $detail)
-{
-    echo "<li>";
-    echo "<b>" . $detail["name"] . "</b><br>";
-    echo "<a href='" . $detail["url"] . "'>" . $detail["url"] . "</a><br>";
-    echo "<a href='" . $detail["license_url"] . "'>" . $detail["license"] . "</a>";
-    echo "</li>";
-}
-echo "</ul>";
+$credit_details = load_bundled_credit_details($code_dir);
+output_credit_details($credit_details);
+
+echo "<h2>" . _("Dependencies"). "</h2>";
+
+echo "<p>" . _("The following open source dependencies are used by the dproofreaders code.") . "</p>";
+
+$credit_details = load_composer_credit_details($code_dir);
+output_credit_details($credit_details);
 
 #----------------------------------------------------------------------------
 
-function load_credit_details($code_dir)
+function output_credit_details($credit_details)
+{
+    echo "<ul>";
+    foreach($credit_details as $detail)
+    {
+        echo "<li>";
+        echo "<b><a href='" . $detail["url"] . "'>" . html_safe($detail["name"]) . "</a></b><br>";
+        if(isset($detail["license_url"]))
+        {
+            echo _("License") . ": <a href='" . $detail["license_url"] . "'>" . html_safe($detail["license"]) . "</a>";
+        }
+        else
+        {
+            echo _("License") . ": " . html_safe($detail["license"]);
+        }
+        echo "</li>";
+    }
+    echo "</ul>";
+}
+
+function load_bundled_credit_details($code_dir)
 {
     $credit_details = [];
     $dir_iter = new PermissiveRecursiveDirectoryIterator($code_dir);
@@ -51,6 +68,26 @@ function load_credit_details($code_dir)
             $credit_details[$detail["name"]] = $detail;
         }
     }
+
+    uksort($credit_details, "strcasecmp");
+    return $credit_details;
+}
+
+function load_composer_credit_details()
+{
+    global $code_dir;
+
+    $packages = json_decode(file_get_contents("$code_dir/composer.lock"));
+    foreach($packages->packages as $index => $package)
+    {
+        $credit_details[$package->name] = [
+            "name" => $package->name,
+            "url" => $package->homepage,
+            "license" => join(", ", $package->license),
+        ];
+    }
+
+    uksort($credit_details, "strcasecmp");
     return $credit_details;
 }
 
