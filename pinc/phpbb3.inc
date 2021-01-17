@@ -242,6 +242,12 @@ function _insert_post(
     //       $type_cast_helper->set_var() in phpBB3/phpbb/request/type_cast_helper.php
     $subject = htmlspecialchars($subject, ENT_COMPAT, 'UTF-8', false);
 
+    // phpBB 3.3.x does some munging for Astral characters in phpBB3/posting.php
+    if(function_exists('utf8_encode_ucr'))
+    {
+        $subject = utf8_encode_ucr($subject);
+    }
+
     $poll = $uid = $bitfield = $options = '';
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
