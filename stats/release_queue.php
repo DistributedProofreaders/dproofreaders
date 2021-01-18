@@ -27,7 +27,7 @@ $name     = @$_GET['name'];
 if (is_null($round_id))
 {
     $title = _("Release Queues");
-    output_header($title);
+    output_header($title, NO_STATSBAR);
     echo "<h1>$title</h1>\n";
 
     echo _("Each round has its own set of release queues."), "\n";
@@ -46,8 +46,10 @@ $round = get_Round_for_round_id($round_id);
 if (!isset($name))
 {
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
-    output_header($title);
+    output_header($title, NO_STATSBAR);
     echo "<h1>$title</h1>\n";
+
+    $errors = [];
     echo "<table class='themed theme_striped'>\n";
     {
         echo "<tr>";
@@ -87,31 +89,27 @@ if (!isset($name))
             WHERE ($cooked_project_selector)
                 AND $state_clause
         ";
-        $c_res = DPDatabase::query($c_sql);
-        if ($c_res)
+        try
         {
+            $c_res = DPDatabase::query($c_sql);
             list($current_length) = mysqli_fetch_row($c_res);
+            $ename = urlencode($qd->name);
+            $link_cell = "<a href='release_queue.php?round_id=$round_id&amp;name=$ename'>" . html_safe($qd->name) . "</a>";
         }
-        else
+        catch(DBQueryError $error)
         {
             $current_length = '???';
-            $msg = sprintf(
-                _('Warning: there is a syntax error in the project selector for #%1$d "%2$s"'),
+            $errors[] = sprintf(
+                _('There is a syntax error in the project selector for #%1$d "%2$s"'),
                 $qd->ordering,
                 $qd->name);
-            echo "$msg<br>";
-            // It's lazy to simply echo the warning message here,
-            // in the midst of generating a table.  Presumably the
-            // result is invalid HTML, since the text is not within
-            // a <td> element. However, it seems that most browsers
-            // render it above the table, which is what we want.
+            $link_cell = html_safe($qd->name);
         }
 
-        $ename = urlencode( $qd->name );
         echo "<tr>";
         echo "<td>$qd->ordering</td>\n";
         echo "<td>$qd->enabled</td>\n";
-        echo "<td><a href='release_queue.php?round_id=$round_id&amp;name=$ename'>$qd->name</a></td>\n";
+        echo "<td>$link_cell</td>\n";
         echo "<td>$current_length</td>\n";
         if ($user_can_see_queue_settings)
         {
@@ -122,7 +120,12 @@ if (!isset($name))
         echo "</tr>\n";
     }
     echo "</table>\n";
-    echo "<br>\n";
+
+    foreach($errors as $error)
+    {
+        echo "<p class='error'>$error</p>";
+    }
+
 }
 else
 {
@@ -184,7 +187,6 @@ else
             AND state='{$round->project_waiting_state}'
         ORDER BY modifieddate, nameofwork
     ");
-    echo "<br>\n";
 }
 
 // vim: sw=4 ts=4 expandtab
