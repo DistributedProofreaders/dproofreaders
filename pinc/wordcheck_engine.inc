@@ -5,6 +5,8 @@ include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname, langcode2
 include_once($relPath.'misc.inc'); // str_contains, array_get
 include_once($relPath.'unicode.inc');
 
+use voku\helper\UTF8;
+
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
 // and tools/proofers/process_diacritcal_markup.js
@@ -1071,7 +1073,7 @@ function get_all_words_in_text($text, $with_offsets=FALSE)
             $search_offset = 0;
             // offsets from preg_match_all() are in bytes, but we need the
             // offset in characters
-            $offset = utf8_strlen(substr($text, 0, $offset_bytes));
+            $offset = UTF8::strlen(substr($text, 0, $offset_bytes));
             $result[$offset] = $word;
         }
         return $result;

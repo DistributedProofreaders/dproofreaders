@@ -7,6 +7,8 @@ include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
 include_once($relPath.'unicode.inc');
 
+use voku\helper\UTF8;
+
 // get_cutoff_string
 // Arguments:
 //   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
@@ -343,7 +345,7 @@ function _highlight_word($text,$hlWord) {
 
     // now do the replacements
     foreach($wordOffsets as $offset) {
-        $text=utf8_substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,utf8_strlen($hlWord));
+        $text=UTF8::substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,UTF8::strlen($hlWord));
     }
 
     return $text;

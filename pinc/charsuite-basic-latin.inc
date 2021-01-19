@@ -1,6 +1,8 @@
 <?php
 include_once($relPath."CharSuites.inc");
 
+use voku\helper\UTF8;
+
 $charsuite = new CharSuite("basic-latin", _("Basic Latin"));
 $charsuite->codepoints = [
     # https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
@@ -53,7 +55,7 @@ $pickerset->add_subset("!", [
     [ 'U+00a1', 'U+00bf', 'U+0022', 'U+0027', 'U+0026', 'U+0040', 'U+00ab',
       'U+00bb', 'U+2039', 'U+203a', 'U+007b', 'U+007d', 'U+002f','U+002d' ],
 ], _("Punctuation"));
-$pickerset->add_subset(utf8_chr("U+00b6"), [
+$pickerset->add_subset(UTF8::hex_to_chr("U+00b6"), [
     [ 'U+00b6', 'U+00b7', 'U+00aa', 'U+00ba', 'U+007c', 'U+00a6', 'U+0024',
       'U+00a2-U+00a5', 'U+0192' ],
     [ 'U+00a7', 'U+00a9', 'U+00ae', NULL, 'U+005f', 'U+00b4', 'U+0060',

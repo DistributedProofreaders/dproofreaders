@@ -7,6 +7,18 @@
     "require": {
         "ezyang/htmlpurifier" : "v4.*",
         "erusev/parsedown": "1.8.0-beta-7",
-        "erusev/parsedown-extra": "0.8.0"
+        "erusev/parsedown-extra": "0.8.0",
+        "voku/portable-utf8": "^5.4"
+    },
+    "replace": {
+        "symfony/polyfill-php54": "*",
+        "symfony/polyfill-php55": "*",
+        "symfony/polyfill-php56": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*"
     }
 }

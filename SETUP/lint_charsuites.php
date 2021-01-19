@@ -1,8 +1,14 @@
 #!/usr/bin/env php
 <?php
 $relPath="../pinc/";
+// Load composer autoloader
+// Note: We do this instead of including base.inc to make the CI easier
+//       and we don't need the database.
+require_once($relPath.'../vendor/autoload.php');
 include_once($relPath."CharSuites.inc");
 include_once($relPath."unicode.inc");
+
+use voku\helper\UTF8;
 
 foreach(CharSuites::get_all() as $charsuite)
 {
@@ -41,7 +47,7 @@ foreach(CharSuites::get_all() as $charsuite)
         echo "ERROR: disallowed characters found in suite\n";
         foreach($characters as $char)
         {
-            echo sprintf("    %s: %s\n", $char, utf8_chr_to_hex($char));
+            echo sprintf("    %s: %s\n", $char, UTF8::chr_to_hex($char));
         }
         exit(1);
     }
@@ -61,7 +67,7 @@ foreach(CharSuites::get_all() as $charsuite)
                 echo "ERROR: pickerset $title has codepoints not in charsuite:\n";
                 foreach($invalid_chars as $char => $count)
                 {
-                    echo sprintf("    %s: %s\n", $char, utf8_chr_to_hex($char));
+                    echo sprintf("    %s: %s\n", $char, UTF8::chr_to_hex($char));
                 }
                 exit(1);
             }
