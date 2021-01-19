@@ -570,7 +570,7 @@ class ProjectInfoHolder
             {
                 $errors .= sprintf(
                     _("The following custom characters are not allowed: %s"),
-                    implode(", ", array_map('utf8_chr', $disallowed_codepoints))
+                    implode(", ", array_map('voku\helper\UTF8::hex_to_chr', $disallowed_codepoints))
                 )."<br>";
             }
         }

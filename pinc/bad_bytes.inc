@@ -8,6 +8,8 @@
 
 include_once($relPath.'misc.inc'); // startswith
 
+use voku\helper\UTF8;
+
 error_reporting(-1);
 
 $_character_data = array(
@@ -795,11 +797,11 @@ function find_bad_byte_sequences_in_text(&$text)
 
     $occurrences = array();
 
-    if(utf8_string_has_bom($text))
+    if(UTF8::string_has_bom($text))
     {
         $occurrences[BOM] = 1;
         //remove it so not reported again as an invalid character
-        $text = utf8_str_replace(utf8_bom(), '', $text);
+        $text = UTF8::str_replace(UTF8::bom(), '', $text);
     }
 
     $n_matches = preg_match_all($_unanchored_bad_bytes_regex, $text, $matches);

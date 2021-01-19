@@ -1,12 +1,6 @@
 <?php
-include_once($relPath."3rdparty/portable-utf8/portable-utf8.php");
 
-function utf8_substr_replace($string, $replacement, $start, $length)
-{
-    $start_string = utf8_substr($string, 0, $start);
-    $end_string = utf8_substr($string, $start + $length, utf8_strlen($string) - 1);
-    return $start_string . $replacement . $end_string;
-}
+use voku\helper\UTF8;
 
 # Normalize UTF-8 strings to NFC
 function utf8_normalize($string)
@@ -16,12 +10,12 @@ function utf8_normalize($string)
 }
 
 # Given one or more codepoints, return the UTF-8 character that it describes.
-# This is very similar to utf8_chr(), except if $codepoint contains a >, it
-# is assumed to represent a combined character.
+# This is very similar to UTF8::hex_to_chr(), except if $codepoint contains
+# a > it is assumed to represent a combined character.
 function utf8_combined_chr($codepoint)
 {
     $codepoints = explode('>', $codepoint);
-    return implode('', array_map('utf8_chr', $codepoints));
+    return implode('', array_map('voku\helper\UTF8::hex_to_chr', $codepoints));
 }
 
 # Given a character, return the Unicode script it belongs to
@@ -45,7 +39,7 @@ function utf8_string_scripts($string)
         if(strlen($string) == 0)
             break;
 
-        $char = utf8_substr($string, 0, 1);
+        $char = UTF8::substr($string, 0, 1);
         $script_name = utf8_char_script($char);
         $scripts[] = $script_name;
         $string = preg_replace("/\p{".$script_name."}/u", "", $string);
@@ -55,7 +49,7 @@ function utf8_string_scripts($string)
     // Most cases will skip this.
     if($string)
     {
-        foreach(utf8_split($string) as $char)
+        foreach(UTF8::split($string) as $char)
         {
             $scripts[] = utf8_char_script($char);
         }
@@ -77,8 +71,8 @@ function get_nonnormalized_codepoints($codepoints)
         $norm_character = utf8_normalize($character);
         if($character != $norm_character)
         {
-            $norm_codepoint = implode('>', array_map('utf8_chr_to_hex', utf8_split($norm_character)));
-            $orig_codepoint = implode('>', array_map('utf8_chr_to_hex', utf8_split($character)));
+            $norm_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::split($norm_character)));
+            $orig_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::split($character)));
             $nonnorm_codepoints[$orig_codepoint] = $norm_codepoint;
         }
     }
@@ -89,7 +83,7 @@ function get_nonnormalized_codepoints($codepoints)
 function utf8_character_name($characters)
 {
     $title_pieces = [];
-    foreach(utf8_split($characters) as $char)
+    foreach(UTF8::split($characters) as $char)
     {
         $title_pieces[] = IntlChar::charName($char);
     }
@@ -121,7 +115,7 @@ function utf8_codepoints_combining($string)
 # Given a string, return a string of codepoints in U+ format
 function string_to_codepoints_string($string, $imploder=" ")
 {
-    return implode($imploder, utf8_codepoints($string, true));
+    return implode($imploder, UTF8::codepoints($string, true));
 }
 
 # Filter to only characters in $string that are in $valid_codepoints.
@@ -178,9 +172,9 @@ function build_character_regex_filter($codepoints, $delimiter=NULL)
             # we have a character range
             list($start, $end) = explode('-', $codepoint);
             $char_class .= implode("", [
-                preg_quote(utf8_chr($start), $delimiter),
+                preg_quote(UTF8::hex_to_chr($start), $delimiter),
                 '-',
-                preg_quote(utf8_chr($end), $delimiter)
+                preg_quote(UTF8::hex_to_chr($end), $delimiter)
             ]);
         }
         elseif(strpos($codepoint, '>') !== False)
@@ -193,7 +187,7 @@ function build_character_regex_filter($codepoints, $delimiter=NULL)
         else
         {
             # just a regular unicode character
-            $char_class .= preg_quote(utf8_chr($codepoint), $delimiter);
+            $char_class .= preg_quote(UTF8::hex_to_chr($codepoint), $delimiter);
         }
     }
     if($char_class)
@@ -222,7 +216,8 @@ function convert_codepoint_ranges_to_characters($codepoints)
         {
             # we have a character range
             list($start, $end) = explode('-', $codepoint);
-            $return_array = array_merge($return_array, utf8_range($start, $end));
+            $return_array = array_merge($return_array,
+                UTF8::range(UTF8::hex_to_chr($start), UTF8::hex_to_chr($end)));
         }
         else
         {
@@ -394,4 +389,11 @@ function get_disallowed_codepoints()
         $invalid_codepoints = array_merge($invalid_codepoints, $codepoints);
     }
     return $invalid_codepoints;
+}
+
+function utf8_url_slug($str)
+{
+    $str = preg_replace('/[^\\p{L}\\p{Nd}\-_]+/u', '-', $str);
+    $str = trim($str, '_-');
+    return UTF8::strtolower($str);
 }

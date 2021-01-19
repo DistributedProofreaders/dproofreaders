@@ -1,6 +1,8 @@
 <?php
 include_once($relPath."CharSuites.inc");
 
+use voku\helper\UTF8;
+
 $charsuite = new CharSuite("symbols-collection", _("Symbols collection"));
 $charsuite->description = _("Astronomical, zodiac, apothecary and music symbols.");
 
@@ -34,7 +36,7 @@ $charsuite->reference_urls = [
 
 $pickerset = new PickerSet();
 
-$pickerset->add_subset(utf8_chr("U+263d"), [
+$pickerset->add_subset(UTF8::hex_to_chr("U+263d"), [
     [ 'U+2609', 'U+263d', 'U+263f', 'U+2641', 'U+2643', 'U+2645', 'U+260a',
       'U+260c', 'U+266e', 'U+266d', 'U+266f' ],
     [ NULL, 'U+263e', 'U+2640', 'U+2642', 'U+2644', 'U+2646', 'U+260b',

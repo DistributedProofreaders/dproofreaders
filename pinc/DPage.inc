@@ -7,6 +7,8 @@ include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'unicode.inc');
 
+use voku\helper\UTF8;
+
 // This file brings together code that accesses the projectID* tables.
 
 // The usual semantics for the return value is this:
@@ -163,7 +165,7 @@ function load_page_from_file( $file_path, $projectid )
     }
 
     // If not UTF-8, attempt to detect and convert it
-    if(!is_utf8($text))
+    if(!UTF8::is_utf8($text))
     {
         $encoding = guess_string_encoding($text);
         if($encoding === FALSE)
@@ -560,9 +562,9 @@ function _normalize_page_text( $page_text, $projectid )
     $project = new Project($projectid);
 
     // Remove BOM if it exists
-    if(utf8_string_has_bom($page_text))
+    if(UTF8::string_has_bom($page_text))
     {
-        $page_text = utf8_str_replace(utf8_bom(), '', $page_text);
+        $page_text = UTF8::str_replace(UTF8::bom(), '', $page_text);
     }
 
     # normalize UTF-8 string
@@ -613,9 +615,9 @@ function get_normalize_page_text_changes($text, $projectid)
     $changes = [];
 
     // Remove BOM if it exists
-    if(utf8_string_has_bom($text))
+    if(UTF8::string_has_bom($text))
     {
-        $text = utf8_str_replace(utf8_bom(), '', $text);
+        $text = UTF8::str_replace(UTF8::bom(), '', $text);
     }
 
     # normalize UTF-8 string
@@ -625,7 +627,7 @@ function get_normalize_page_text_changes($text, $projectid)
     if($invalid_chars)
     {
         $whitespace_codepoints = array_get(get_utf8_to_ascii_codepoints(), " ", []);
-        $unicode_whitespace_chars = array_map('utf8_chr', $whitespace_codepoints);
+        $unicode_whitespace_chars = array_map('voku\helper\UTF8::hex_to_chr', $whitespace_codepoints);
         $found_whitespace_chars = array_intersect(array_keys($invalid_chars), $unicode_whitespace_chars);
         if($found_whitespace_chars)
         {
@@ -654,7 +656,7 @@ function get_normalize_page_text_changes($text, $projectid)
             $found_chars = [];
             foreach($codepoints as $codepoint)
             {
-                $char = utf8_chr($codepoint);
+                $char = UTF8::hex_to_chr($codepoint);
                 if(isset($invalid_chars[$char]))
                 {
                     $found_chars[] = $char;
@@ -675,13 +677,13 @@ function get_normalize_page_text_changes($text, $projectid)
         foreach(array_keys($invalid_chars) as $char)
         {
             // in case its a combined character
-            $codepoints = utf8_split($char);
+            $codepoints = UTF8::split($char);
             $base_codepoint = $codepoints[0];
             // if not defined or is a control character or soft hyphen
             if(!IntlChar::isdefined($base_codepoint) || IntlChar::iscntrl($base_codepoint) || ($base_codepoint === "\x{ad}"))
             {
                 // put U+xxxx instead of utf8 string
-                $invalid_char_names[] = utf8_chr_to_hex($base_codepoint);
+                $invalid_char_names[] = UTF8::chr_to_hex($base_codepoint);
             }
             else
             {
@@ -709,7 +711,7 @@ function get_load_page_from_file_changes($filename, $projectid)
         return $changes;
     }
 
-    if(!is_utf8($text))
+    if(!UTF8::is_utf8($text))
     {
         $encoding = guess_string_encoding($text);
         if($encoding === FALSE)

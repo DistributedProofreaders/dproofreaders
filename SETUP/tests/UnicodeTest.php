@@ -1,5 +1,7 @@
 <?php
 
+use voku\helper\UTF8;
+
 class UnicodeTest extends PHPUnit\Framework\TestCase
 {
     private $a_to_z_codepoints = [
@@ -14,7 +16,7 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
     public function testSubstrReplace()
     {
         $string = "ЖЖaac";
-        $new_string = utf8_substr_replace($string, "bb", 2, 2);
+        $new_string = UTF8::substr_replace($string, "bb", 2, 2);
         $this->assertEquals("ЖЖbbc", $new_string);
     }
 
