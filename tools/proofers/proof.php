@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'abort.inc');
 
 require_login();
 
@@ -10,12 +11,16 @@ require_login();
 // one of the links in "Done" or "In Progress" trays.)
 
 $projectid      = get_projectID_param($_GET, 'projectid');
-$expected_state = get_enumerated_param($_GET, 'proj_state', $PROJECT_STATES_IN_ORDER[0], $PROJECT_STATES_IN_ORDER);
+$expected_state = get_enumerated_param($_GET, 'proj_state', NULL, $PROJECT_STATES_IN_ORDER, TRUE);
 
 $project = new Project($projectid);
 
 // Check $expected_state.
-if ($expected_state != $project->state)
+if(!$expected_state)
+{
+    abort(_("No expected state found in request."));
+}
+elseif($expected_state != $project->state)
 {
     slim_header( $project->nameofwork );
 
@@ -28,15 +33,7 @@ if ($expected_state != $project->state)
     );
     echo "</p>\n";
 
-    $expected_round = get_Round_for_project_state($expected_state);
-    echo "<p>";
-    echo sprintf(
-        _('Back to <a href="%1$s">%2$s</a>'),
-        "$code_url/tools/proofers/round.php?round_id={$expected_round->id}",
-        $expected_round->name
-    );
-    echo "</p>\n";
-
+    provide_escape_links();
     exit;
 }
 
@@ -44,22 +41,7 @@ if ($expected_state != $project->state)
 list($code,$msg) = $project->can_be_proofed_by_current_user();
 if ( $code != $project->CBP_OKAY )
 {
-    // I think this can only happen via URL-tweaking.
-
-    slim_header( $project->nameofwork );
-
-    echo _("Project") . ": \"{$project->nameofwork}\"<br>\n";
-    echo pgettext("project state", "State")   . ": " . project_states_text($project->state) . "<br>\n";
-    echo "<p>$msg</p>\n";
-
-    echo "<p>";
-    echo sprintf(
-        _("Back to <a href='%s'>Activity Hub</a>"),
-        "$code_url/activity_hub.php"
-    );
-    echo "</p>\n";
-
-    exit;
+    abort($msg);
 }
 
 //load the master frameset
