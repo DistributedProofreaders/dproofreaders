@@ -2,7 +2,7 @@
 include_once($relPath."CharSuites.inc");
 
 $charsuite = new CharSuite("symbols-collection", _("Symbols collection"));
-$charsuite->description = _("Astronomical, zodiac, and a limited number of apothecary and music symbols. The zodiac symbols are provided with the variation selector, VS15, to try to force them to display as ordinary charcters instead of as emoji. This may not work for all fonts.");
+$charsuite->description = _("Astronomical, zodiac, apothecary and music symbols.");
 
 $charsuite->codepoints = [
     'U+0292',

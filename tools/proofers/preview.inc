@@ -89,7 +89,7 @@ function output_preview_div()
     $remove_font = attr_safe(_("Remove Font"));
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
-    $some_suppressed = attr_safe(_('Some issue types are suppressed'));
+    $some_suppressed = attr_safe(_('Some warnings are suppressed'));
     $color_markup = html_safe(_("Color markup"));
     $image =  html_safe(_("Image"));
     $text = html_safe(_("Text"));

@@ -165,7 +165,7 @@ class TimeColumn extends Column
         {
             switch($this->time_format) {
             case 'days':
-                echo sprintf(_("%.1f"), (time() - $data)/86400);
+                echo sprintf("%.1f", (time() - $data)/86400);
                 break;
             default: // case 'date':
                 // TRANSLATORS: This is a strftime-formatted string for the date with year

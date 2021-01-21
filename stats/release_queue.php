@@ -60,8 +60,8 @@ if (!isset($name))
         echo "<th>", _("Current<br>length"), "</th>\n";
         if ($user_can_see_queue_settings)
         {
-            echo "<th>", _("project_selector"), "</th>\n";
-            echo "<th>", _("release_criterion"), "</th>\n";
+            echo "<th>", _("Project Selector"), "</th>\n";
+            echo "<th>", _("Release Criterion"), "</th>\n";
             echo "<th>", _("Comment"), "</th>\n";
         }
         echo "</tr>\n";

@@ -1003,7 +1003,7 @@ function do_early_uploads()
         echo "<input type='hidden' name='tpnv' value='1'>\n";
         echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
         echo "<br>\n";
-        $initial_rel_source = "$user_dir/";
+        $initial_rel_source = "Users/$user_dir/";
         echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
         echo "<br>\n";
         echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
