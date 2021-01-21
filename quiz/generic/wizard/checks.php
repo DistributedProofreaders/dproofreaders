@@ -338,7 +338,7 @@ echo " <select size='1' name='longline_error_user'>\n$errlist</select>&nbsp; &nb
 echo "<input type='radio' name='longline_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='longline_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='submit' value='" . _("Send") . "'></p>\n";
+echo "<p><input type='submit' value='" . _("send") . "'></p>\n";
 
 echo "</form>\n";
 

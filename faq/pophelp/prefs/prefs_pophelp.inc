@@ -116,8 +116,8 @@ so be sure that your current email address is on record.</p>")
     'content' =>
 _("<p>This setting controls who is able to see your statistics.</p>
 <ul>
-<li><b>Private:</b> Only registered users.</li>
-<li><b>Anonymous:</b> Only you.</li>
+<li><b>Private:</b> Only logged-in users.</li>
+<li><b>Anonymous:</b> Only you and administrators.</li>
 </ul>")
     ),
 

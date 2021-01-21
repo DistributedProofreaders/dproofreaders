@@ -110,7 +110,7 @@ function abort_if_cant_edit_project( $projectid )
     }
     else
     {
-        echo "unexpected return value from user_can_edit_project: '$result'";
+        echo _("unexpected return value from user_can_edit_project") . ": '$result'";
         exit;
     }
 }

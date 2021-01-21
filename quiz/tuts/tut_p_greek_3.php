@@ -10,7 +10,7 @@ output_header(_('Greek Transliteration Tutorial'));
 echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, page %d"), 3) . "</h2>\n";
 
 echo "<h3>" . _("Letters with Multiple Transliterations") . "</h3>\n";
-echo "<p>" . _("The letter γ (gamma) is usually transliterated as g, but n is used instead when it occurs before certain letters:") . "</p>\n";
+echo "<p>" . _("The letter <kbd>γ</kbd> (gamma) is usually transliterated as g, but n is used instead when it occurs before certain letters:") . "</p>\n";
 echo "<table class='basic center-align'>\n";
 echo "  <tr><th>" . _("Greek") . "</th><th>" ._("Transliteration") . "</th></tr>\n";
 echo "  <tr><td>γγ</td> <td>ng</td> </tr>\n";
@@ -25,7 +25,7 @@ echo "<p>" . _("Special cases:") . "</p>\n";
 echo "<ul>\n";
 echo "<li>" . _("If a word begins with a capitalized vowel, the accents and breathing marks are often printed to the left of the letter, rather than above it.  If it has rough breathing, make the vowel lower case and capitalize the H: <kbd>hÊraklês</kbd> becomes <kbd>Hêraklês</kbd>.") . "</li>\n";
 echo "<li>" . _("If the word begins with a diphthong (two vowels together), the breathing mark will appear over the second vowel, but the \"<kbd>h</kbd>\" for rough breathing still goes at the very beginning of the word in the transliteration.") . "</li>\n";
-echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over one consonant: ρ (rho).  If a word begins with rho, it always has rough breathing, with the rho transliterated as \"<kbd>rh</kbd>\" (note that the \"<kbd>h</kbd>\" goes <i>after</i> the rho, rather than before as with vowels).") . "</li>\n";
+echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over one consonant: <kbd>ρ</kbd> (rho).  If a word begins with rho, it always has rough breathing, with the rho transliterated as \"<kbd>rh</kbd>\" (note that the \"<kbd>h</kbd>\" goes <i>after</i> the rho, rather than before as with vowels).") . "</li>\n";
 echo "</ul>";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_3'>" . _("Continue to quiz page") . "</a></p>";

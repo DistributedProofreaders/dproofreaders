@@ -134,7 +134,7 @@ if($projects_available)
 }
 else
 {
-    echo "<p><i>" . _("none") . "</i></p>";
+    echo "<p><i>" . _("No projects available") . "</i></p>";
 }
 
 // output a listing of projects in this mentoring round that are in a waiting state
@@ -164,7 +164,7 @@ if($projects_waiting)
 }
 else
 {
-    echo "<p><i>" . _("none") . "</i></p>";
+    echo "<p><i>" . _("No projects waiting") . "</i></p>";
 }
 
 // output details about each available project

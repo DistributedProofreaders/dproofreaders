@@ -383,7 +383,7 @@ class LPage
         $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
         $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
-        maybe_mail_project_manager($project, $body_blurb, _("Bad Page"));
+        maybe_mail_project_manager($project, $body_blurb, _("Bad Page Report"));
         configure_gettext_for_user();
 
         // Now determine whether the project as a whole should be marked bad.
