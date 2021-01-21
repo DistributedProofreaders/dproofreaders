@@ -46,18 +46,21 @@ if($layout != $default_layout)
     $userSettings->set_value("show_good_words_layout", $layout);
 }
 
+$details = json_encode([
+    "layout" => $layout,
+    "projectid" => $projectid,
+    "timeCutoff" => $timeCutoff,
+    "word" => $encWord
+]);
+
 $header_args = [
-  "js_files" => [
-    "$code_url/scripts/splitControl.js",
-    "$code_url/scripts/page_browse.js",
-    "./show_good_word_suggestions_detail.js",
-  ],
-  "js_data" => get_page_data_js($projectid, $imagefile, 'OCR', $error_message) . get_proofreading_interface_data_js() . "
-        var show_good_word_suggestions_details = {
-          layout: '$layout',
-          projectid: '$projectid',
-          timeCutoff: $timeCutoff,
-          word: '$encWord'};",
+    "js_files" => [
+        "$code_url/scripts/splitControl.js",
+        "$code_url/scripts/page_browse.js",
+        "./show_good_word_suggestions_detail.js",
+    ],
+    "js_data" => get_page_data_js($projectid, $imagefile, 'OCR', $error_message) . get_proofreading_interface_data_js() . "
+        var showGoodWordSuggestionsDetail = $details;",
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
 slim_header(_("Suggestion Detail"), $header_args);
@@ -92,7 +95,7 @@ echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord'>" .
       _("Show full context set for this word") . "</a>";
 
 echo " | ";
-echo "<a href='" . attr_safe($_SERVER['PHP_SELF']) . "?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
+echo "<a href='?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
 if($layout == LAYOUT_HORIZ)
     echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
 else
@@ -116,7 +119,7 @@ foreach($word_suggestions as $suggestion) {
     echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
     echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
     echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
-    echo "<b>" . _("Page") . "</b>: <a href='$code_url/tools/project_manager/show_good_word_suggestions_detail.php?projectid=$projectid&amp;imagefile=$page&amp;word=$encWord&amp;timeCutoff=$timeCutoff'>$page</a><br>";
+    echo "<b>" . _("Page") . "</b>: <a href='?projectid=$projectid&amp;imagefile=$page&amp;word=$encWord&amp;timeCutoff=$timeCutoff'>$page</a><br>";
     foreach($context_strings as $lineNum => $context_string) {
         $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
         echo "<b>" . _("Line") . "</b>: ", 
