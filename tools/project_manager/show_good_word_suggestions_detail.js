@@ -16,7 +16,7 @@ $(function () {
     };
     let splitPercent = parseFloat(localStorage.getItem(STORAGE_KEY));
     if(!splitPercent) {
-        // if not defined or 0, set the value to 100 to the text is shown
+        // if not defined or 0, set the value to 30%.
         splitPercent = 30;
     }
     let mainSplit = splitControl("#show_good_word_suggestions_detail_container", {
@@ -54,7 +54,6 @@ $(function () {
 
     let theImageControl = imageControl();
     fixHead.prepend(theImageControl.controls);
-    stretchDiv.addClass("overflow-auto image-pane").css('overflow', 'visible')
-        .append(theImageControl.image);
+    stretchDiv.addClass("overflow-auto image-pane").append(theImageControl.image);
     theImageControl.setZoom();
 });

@@ -59,13 +59,13 @@ $header_args = [
         "$code_url/scripts/page_browse.js",
         "./show_good_word_suggestions_detail.js",
     ],
-    "js_data" => get_page_data_js($projectid, $imagefile, 'OCR', $error_message) . get_proofreading_interface_data_js() . "
+    "js_data" => get_page_data_js($projectid, $imagefile, 'OCR', "") . get_proofreading_interface_data_js() . "
         var showGoodWordSuggestionsDetail = $details;",
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
 slim_header(_("Suggestion Detail"), $header_args);
 echo "<div id='show_good_word_suggestions_detail_container' style='flex: auto;width: 100%;height: 100%'>";
-echo "<div style='margin: 0.5em'>";
+echo "<div class='overflow-auto' style='padding: 0.5em'>";
 
 // load the suggestions
 $suggestions = load_wordcheck_events($projectid,$timeCutoff);
@@ -135,9 +135,9 @@ foreach($word_suggestions as $suggestion) {
 }
 echo "</div>";
 
-echo "<div class='overflow-auto'>";
+echo "<div class='overflow-hidden display-flex' style='flex-direction: column;'>";
 if (isset($imagefile)) {
-    echo "<div id='page-browser'></div>";
+    echo "<div id='page-browser' class='overflow-hidden'></div>";
 } else {
     echo "<p style='margin: 0.5em'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
 }
