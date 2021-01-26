@@ -52,7 +52,10 @@ foreach($_FILES as $file)
 
     if(!is_dir($staging_dir))
     {
-        mkdir($staging_dir, 0777, true);
+        // Suppress warning by mkdir because despite the check above
+        // race conditions from other processes can result in the
+        // directory existing when we try to create it here.
+        @mkdir($staging_dir, 0777, true);
     }
 
     if(!move_uploaded_file($file['tmp_name'], $chunk_filename))
