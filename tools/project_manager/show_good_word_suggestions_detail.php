@@ -49,8 +49,6 @@ if($layout != $default_layout)
 $details = json_encode([
     "layout" => $layout,
     "projectid" => $projectid,
-    "timeCutoff" => $timeCutoff,
-    "word" => $encWord
 ]);
 
 $header_args = [
@@ -59,13 +57,15 @@ $header_args = [
         "$code_url/scripts/page_browse.js",
         "./show_good_word_suggestions_detail.js",
     ],
-    "js_data" => get_page_data_js($projectid, $imagefile, 'OCR', "") . get_proofreading_interface_data_js() . "
-        var showGoodWordSuggestionsDetail = $details;",
+    "js_data" => get_proofreading_interface_data_js() . "
+        var showGoodWordSuggestionsDetail = $details; var mentorMode = false;",
+
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
 slim_header(_("Suggestion Detail"), $header_args);
 echo "<div id='show_good_word_suggestions_detail_container' style='flex: auto;width: 100%;height: 100%'>";
-echo "<div class='overflow-auto' style='padding: 0.5em'>";
+echo "<div class='overflow-auto'>";
+echo "<div style='padding: 0.5em'>";
 
 // load the suggestions
 $suggestions = load_wordcheck_events($projectid,$timeCutoff);
@@ -119,7 +119,7 @@ foreach($word_suggestions as $suggestion) {
     echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
     echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
     echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
-    echo "<b>" . _("Page") . "</b>: <a href='?projectid=$projectid&amp;imagefile=$page&amp;word=$encWord&amp;timeCutoff=$timeCutoff'>$page</a><br>";
+    echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";
     foreach($context_strings as $lineNum => $context_string) {
         $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
         echo "<b>" . _("Line") . "</b>: ", 
@@ -133,14 +133,10 @@ foreach($word_suggestions as $suggestion) {
     echo "</p>";
     echo "<hr>";
 }
-echo "</div>";
+echo "</div></div>";
 
-echo "<div class='overflow-hidden display-flex' style='flex-direction: column;'>";
-if (isset($imagefile)) {
-    echo "<div id='page-browser' class='overflow-hidden'></div>";
-} else {
-    echo "<p style='margin: 0.5em'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
-}
+echo "<div id='page-browser' class='overflow-hidden'>";
+echo "<p style='margin: 0.5em'>" . _("Select one of the page buttons to view the page image (scan).") . "</p>";
 echo "</div>";
 echo "</div>";
 
