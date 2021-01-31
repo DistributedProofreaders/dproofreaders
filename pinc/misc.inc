@@ -548,9 +548,12 @@ function endswith( $subject, $suffix )
     return ( substr( $subject, -strlen($suffix) ) == $suffix );
 }
 
-function str_contains( $haystack, $needle )
-{
-    return ( strpos( $haystack, $needle ) !== FALSE );
+if(!function_exists('str_contains')) {
+    // str_contains() now exists in PHP8
+    function str_contains( $haystack, $needle )
+    {
+        return ( strpos( $haystack, $needle ) !== FALSE );
+    }
 }
 
 function surround_and_join( $strings, $L, $R, $joiner )
