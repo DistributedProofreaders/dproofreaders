@@ -86,10 +86,10 @@ function autorelease_for_round( $round )
         maybe_release_projects(
             $round,
             NULL,
-            /* $observe_release_restrictions: */ FALSE,
-                // Mind you, there's no reason it *couldn't* observe release restrictions.
-                // We'd just have to create $round->release_restrictor earlier.
-            /* &release_at_most_one: */ FALSE
+            FALSE, // $observe_release_restrictions
+            // Mind you, there's no reason it *couldn't* observe release restrictions.
+            // We'd just have to create $round->release_restrictor earlier.
+            FALSE // $release_at_most_one
         );
 
         echo "\n";
@@ -158,8 +158,8 @@ function autorelease_for_round( $round )
         $n_projects = maybe_release_projects(
             $round,
             $qd,
-            /* $observe_release_restrictions: */ TRUE,
-            /* $release_at_most_one: */ FALSE
+            TRUE, // $observe_release_restrictions
+            FALSE // $release_at_most_one
         );
 
         if ($n_projects->waiting == 0)
@@ -192,10 +192,10 @@ function autorelease_for_round( $round )
                 $n_projects = maybe_release_projects(
                     $round,
                     $qd,
-                    /* $observe_release_restrictions: */ FALSE,
-                        // It *must* ignore release restrictions
-                        // to have any hope of releasing anything.
-                    /* $release_at_most_one: */ TRUE
+                    FALSE, //$observe_release_restrictions
+                    // It *must* ignore release restrictions
+                    // to have any hope of releasing anything.
+                    TRUE // $release_at_most_one
                 );
             }
         }
