@@ -5,28 +5,6 @@ define("DPSQL_SHOW_RANK", True);
 define("DPSQL_NO_RIGHT_ALIGN_INTS", False);
 define("DPSQL_RIGHT_ALIGN_INTS",    True);
 
-/********* Compatibility wrappers for noncvs scripts *********/
-function dpsql_dump_ranked_query( $query )
-{
-    dpsql_dump_query($query, 0, DPSQL_SHOW_RANK);
-}
-
-function dpsql_dump_themed_ranked_query( $query )
-{
-    dpsql_dump_themed_query($query, 0, DPSQL_SHOW_RANK);
-}
-
-function dpsql_dump_query_result_with_rank( $result, $start_at )
-{
-    dpsql_dump_query_result($result, $start_at, DPSQL_SHOW_RANK);
-}
-
-function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
-{
-    dpsql_dump_themed_query_result($result, $start_at, DPSQL_SHOW_RANK);
-}
-/********* Compatibility wrappers for noncvs scripts *********/
-
 function dpsql_dump_table( $table_name )
 {
     dpsql_dump_query( "SELECT * FROM $table_name" );
