@@ -14,12 +14,6 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
 
 /***************************************************************************************
 *
-* Data access functions
-*
-****************************************************************************************/
-
-/***************************************************************************************
-*
 * function sr_users_is_commited: checks the association table for existing commitment
 *
 * inputs: projectid, username
@@ -151,11 +145,6 @@ function sr_number_users_committed($projectid)
     return count(sr_get_committed_users($projectid));
 }
 
-/***************************************************************************************
-*
-* User interface functions
-*
-****************************************************************************************/
 
 /***************************************************************************************
 *

@@ -115,14 +115,6 @@ if ($detail_level==1)
     do_detail_level_switch();
 
     do_project_info_table();
-
-    /*
-    echo "<BR>";
-
-    echo "<p><b>";
-    echo _("This information has been opened in a separate browser window, feel free to leave it open for reference or close it.");
-    echo "</b></p>";
-    */
 }
 else
 {

@@ -236,8 +236,6 @@ echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/*************** TO GENERATE TABS ***************/
-
 // Produce tabs (display as an unordered list of links to non-CSS browsers)
 function echo_tabs($tab_names, $selected_tab) {
     global $origin;
@@ -257,8 +255,6 @@ function echo_tabs($tab_names, $selected_tab) {
     echo "</div>";
     echo "<div style='clear: left;'></div>";
 }
-
-/*************** GENERAL TAB ***************/
 
 function echo_general_tab($user) {
     global $userSettings;
@@ -424,8 +420,6 @@ function save_general_tab($user) {
     $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
 
 }
-
-/*************** PROOFREADING TAB ***************/
 
 function echo_proofreading_tab($user) {
     global $i_resolutions;
@@ -730,8 +724,6 @@ function save_proofreading_tab($user) {
         $user->profile = $profile;
     }
 }
-
-/*************** PM TAB ***************/
 
 function echo_pm_tab($user) {
 

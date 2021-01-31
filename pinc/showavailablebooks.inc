@@ -146,7 +146,7 @@ function show_projects_for_smooth_reading()
         $initial_project_selector,
         $show_filter_block,
         $filter_custom_display_fields,
-        /* $allow_special_colors_legend */ TRUE,
+        TRUE, // $allow_special_colors_legend
         $columns
     );
 }
