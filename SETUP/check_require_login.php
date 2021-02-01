@@ -109,18 +109,18 @@ $ok_files = [
 $files = get_all_php_files("../");
 foreach($files as $file)
 {
-    echo "$file\n";
-
-    # If it requires authentication, skip it
-    if(file_requires_auth("../$file"))
-        continue;
-
     # If it's in the SETUP directory, skip it
     if(startswith($file, "SETUP/"))
         continue;
 
     # If it's in the vendor directory, skip it
     if(startswith($file, "vendor/"))
+        continue;
+
+    echo "$file\n";
+
+    # If it requires authentication, skip it
+    if(file_requires_auth("../$file"))
         continue;
 
     # If it's on the OK list, skip it
