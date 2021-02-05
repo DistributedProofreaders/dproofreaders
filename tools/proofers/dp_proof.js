@@ -202,6 +202,8 @@ function insertTags(tagOpen, tagClose, replace, retainSelection) {
         if (selection === '') {
             tagOpen = tagOpen.replace(': ', '');
         }
+    } else if (tagOpen === '[** ' && selection) {
+        tagOpen = selection + tagOpen;
     }
 
     var subst = tagOpen + selection + tagClose;
