@@ -74,10 +74,13 @@ function sr_user_is_committed($projectid, $username)
 
 function sr_commit($projectid, $username)
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         INSERT INTO smoothread
-        SET projectid='$projectid',  user='$username', committed='1'
-        ") or die(DPDatabase::log_error());
+        SET projectid='%s', user='%s', committed=1
+        ON DUPLICATE KEY UPDATE
+            committed=1
+        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+    DPDatabase::query($sql);
 
 }
 
