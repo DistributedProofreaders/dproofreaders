@@ -28,7 +28,7 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
 *
 * Remarks:
 *
-* Currently only a check for existence of record and field being <> 0 is done. The latter
+* Currently only a check for existence of record and field being > 0 is done. The latter
 * would allow the extension for a timestamp and the resetting to 0 if revoked in order
 * to still show users that have once committed but then revoked that commitment.
 *
@@ -36,23 +36,17 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
 
 function sr_user_is_committed($projectid, $username)
 {
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT *
+    $sql = sprintf("
+        SELECT count(*)
         FROM smoothread
-        WHERE projectid = '$projectid' 
-        AND user = '$username'
-        ") or die(DPDatabase::log_error());
+        WHERE projectid = '%s'
+            AND user = '%s'
+            AND committed > 0
+        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+    $res = DPDatabase::query($sql);
+    list($count) = mysqli_fetch_row($res);
 
-    $row = mysqli_fetch_assoc($res);
-    if(!$row)
-        return false;
-
-    if ($row['committed'] <> 0)
-    {
-        return true;
-    }
-
-    return false;
+    return $count > 0;
 }
 
 
@@ -100,11 +94,12 @@ function sr_commit($projectid, $username)
 
 function sr_withdraw_commitment($projectid, $username)
 {
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         DELETE FROM smoothread
-        WHERE projectid = '$projectid' 
-        AND user = '$username'
-        ") or die(DPDatabase::log_error());
+        WHERE projectid = '%s'
+            AND user = '%s'
+        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+    DPDatabase::query($sql);
 
 }
 
@@ -122,24 +117,17 @@ function sr_withdraw_commitment($projectid, $username)
 
 function sr_get_committed_users($projectid)
 {
-    $list = array();
-
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT *
+    $sql = sprintf("
+        SELECT user
         FROM smoothread
-        WHERE projectid = '$projectid' 
-        AND committed <> '0'
+        WHERE projectid = '%s'
+            AND committed > 0
         ORDER BY user
-        ") or die(DPDatabase::log_error());
+        ", DPDatabase::escape($projectid));
+    $res = DPDatabase::query($sql);
 
-    if (mysqli_num_rows($res) == 0)
-    {
-        return $list;
-    }
-
-    while ($row = mysqli_fetch_assoc($res))
-    {
-        //array_push($list, $row['user']);
+    $list = [];
+    while ($row = mysqli_fetch_assoc($res)) {
         $list[] = $row['user'];
     }
 
@@ -160,21 +148,7 @@ function sr_get_committed_users($projectid)
 
 function sr_number_users_committed($projectid)
 {
-    $number = 0;
-
-    $res = mysqli_query(DPDatabase::get_connection(), "
-        SELECT count(user)
-        FROM smoothread
-        WHERE projectid = '$projectid' 
-        AND committed <> '0'
-        ORDER BY user
-        ") or die(DPDatabase::log_error());
-
-    $row = mysqli_fetch_row($res);
-    if(!$row)
-        return 0;
-
-    return $row[0];
+    return count(sr_get_committed_users($projectid));
 }
 
 /***************************************************************************************
@@ -285,9 +259,9 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
         UPDATE projects
         SET $smoothread_deadline_sql
             postcomments = CONCAT(postcomments, '%s')
-        WHERE projectid = '$projectid'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments));
-    mysqli_query(DPDatabase::get_connection(), $qstring);
+        WHERE projectid = '%s'
+    ", DPDatabase::escape($postcomments), DPDatabase::escape($projectid));
+    DPDatabase::query($qstring);
 
     notify_project_event_subscribers($project, 'sr_available');
 
