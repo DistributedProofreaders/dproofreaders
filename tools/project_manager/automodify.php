@@ -48,38 +48,6 @@ $trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
-function pages_indicate_bad_project( $project, $round )
-// Do the states of the project's pages (in the given round)
-// indicate that the project is bad?
-{
-    global $trace;
-
-    // (Note duplication of code with LPage::markAsBad in LPage.inc)
-
-    // If it has no bad pages, it's good.
-    //
-    $n_bad_pages = $project->get_num_pages_in_state($round->page_bad_state);
-    if ($trace) echo "n_bad_pages = $n_bad_pages\n";
-    //
-    if ($n_bad_pages == 0) return FALSE;
-
-
-    // If it has at least 10 bad pages,
-    // reported by at least 3 different users, it's bad.
-    //
-    $n_unique_reporters = $project->get_num_pages_in_state($round->page_bad_state, "DISTINCT(b_user)");
-    if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
-    //
-    if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
-
-
-    // Otherwise, it's good.
-    //
-    return FALSE;
-}
-
-// -----------------------------------------------------------------------------
-
 $have_echoed_blurb_for_this_project = 0;
 
 function ensure_project_blurb( $project )
@@ -166,7 +134,7 @@ while ( list($projectid) = mysqli_fetch_row($allprojects) ) {
     {
         if ( ($state == $round->project_available_state) || ($state == $round->project_bad_state) )
         {
-            if ( pages_indicate_bad_project( $project, $round ) )
+            if ($project->is_bad_from_pages($round))
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
