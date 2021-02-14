@@ -1002,6 +1002,20 @@ XML;
         }
         return FALSE;
     }
+
+    // get time for last page proofread in round
+    public function get_last_proofread_time($round)
+    {
+        validate_projectID($this->projectid);
+        $sql = sprintf("
+            SELECT max({$round->time_column_name})
+            FROM $this->projectid
+            WHERE state = '%s'
+        ", DPDatabase::escape($round->page_save_state));
+        $res = DPDatabase::query($sql);
+        list($last_proofread) = mysqli_fetch_row($res);
+        return $last_proofread;
+    }
     
     public function check_pages_table_exists(&$message)
     {

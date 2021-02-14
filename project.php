@@ -553,18 +553,10 @@ function do_project_info_table()
 
     if ($round)
     {
-        $sql = "
-            SELECT {$round->time_column_name}
-            FROM $projectid
-            WHERE state='{$round->page_save_state}'
-            ORDER BY {$round->time_column_name} DESC
-            LIMIT 1
-        ";
-        $proofdate = DPDatabase::query($sql);
-        $row = mysqli_fetch_assoc($proofdate);
-        if ($row)
+        $last_proofread_time = $project->get_last_proofread_time($round);
+        if ($last_proofread_time)
         {
-            $lastproofed = strftime($datetime_format, $row[$round->time_column_name]);
+            $lastproofed = strftime($datetime_format, $last_proofread_time);
         }
         else
         {
