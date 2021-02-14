@@ -554,6 +554,23 @@ class Project
         return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
     }
 
+    function is_bad_from_pages($round)
+    {
+        // If it has at least 10 bad pages, reported by at least 3
+        // different users, it's bad.
+        $n_bad_pages = $this->get_num_pages_in_state($round->page_bad_state);
+        $n_unique_reporters = $this->get_num_pages_in_state(
+            $round->page_bad_state,
+            "DISTINCT(b_user)"
+        );
+
+        if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
     function get_num_pages_in_state($state=NULL, $counter_sql="*")
     {
         if(!$this->pages_table_exists) {

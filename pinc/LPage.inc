@@ -387,17 +387,10 @@ class LPage
         configure_gettext_for_user();
 
         // Now determine whether the project as a whole should be marked bad.
-        // We need 10 or more bad pages reported by 3 or more distinct users.
-        // (Note duplication of code with pages_indicate_bad_project() in automodify.php)
-
         $project = new Project($this->projectid);
-
-        $n_bad_pages = $project->get_num_pages_in_state($this->round->page_bad_state);
-        if ( $n_bad_pages < 10 ) return FALSE;
-
-        $n_distinct_reporters = $project->get_num_pages_in_state(
-            $this->round->page_bad_state, "DISTINCT(b_user)");
-        if ($n_distinct_reporters < 3) return FALSE;
+        if(!$project->is_bad_from_pages($this->round)) {
+            return FALSE;
+        }
 
         $error_msg = project_transition( $this->projectid, $this->round->project_bad_state, PT_AUTO );
         if ($error_msg)
