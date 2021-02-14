@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'Project.inc');
-include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'forum_interface.inc');

@@ -554,6 +554,32 @@ class Project
         return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
     }
 
+    function get_num_pages_in_state($state=NULL, $counter_sql="*")
+    {
+        if(!$this->pages_table_exists) {
+            throw new NoProjectPageTable(_("Project page table does not exist."));
+        }
+
+        // if state is null, get all pages
+        $where = $state ? sprintf("state = '%s'", DPDatabase::escape($state)) : "1";
+
+        validate_projectID($this->projectid);
+        $sql = "
+            SELECT count($counter_sql)
+            FROM {$this->projectid}
+            WHERE $where
+            ";
+        $res = DPDatabase::query($sql);
+        list($num_pages) = mysqli_fetch_row($res);
+
+        return $num_pages;
+    }
+
+    function get_num_pages()
+    {
+        return $this->get_num_pages_in_state(NULL);
+    }
+
     function get_page_names_from_db()
     {
         if(!$this->pages_table_exists)

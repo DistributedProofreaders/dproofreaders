@@ -5,7 +5,6 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
 include_once($relPath.'project_states.inc');
-include_once($relPath.'projectinfo.inc'); // project_getnumavailablepagesinround()
 include_once($relPath.'comment_inclusions.inc'); // parse_project_comments()
 include_once($relPath.'page_table.inc'); // echo_page_table
 include_once($relPath.'user_is.inc');
@@ -235,8 +234,7 @@ function decide_blurbs()
     $state = $project->state;
     $round = get_Round_for_project_state($state);
 
-    $num_pages_available =
-        Project_getNumPagesInState( $projectid, $round->page_avail_state );
+    $num_pages_available = $project->get_num_pages_in_state($round->page_avail_state);
 
     if ( $num_pages_available == 0 )
     {
@@ -2289,13 +2287,13 @@ function do_page_summary()
     echo "<h2>"._("Page Summary")."</h2>\n";
 
     // page counts by state.
-    $total_num_pages = Project_getNumPages($projectid);
+    $total_num_pages = $project->get_num_pages();
 
     echo "<table>\n";
     global $PAGE_STATES_IN_ORDER;
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
-        $num_pages = Project_getNumPagesInState($projectid,$page_state);
+        $num_pages = $project->get_num_pages_in_state($page_state);
         if ( $num_pages != 0 )
         {
             // TRANSLATORS: %s is a page state, this is a label in a table for the number of pages in this state

@@ -390,14 +390,13 @@ class LPage
         // We need 10 or more bad pages reported by 3 or more distinct users.
         // (Note duplication of code with pages_indicate_bad_project() in automodify.php)
 
-        $n_bad_pages =
-            Project_getNumPagesInState(
-                $this->projectid, $this->round->page_bad_state );
+        $project = new Project($this->projectid);
+
+        $n_bad_pages = $project->get_num_pages_in_state($this->round->page_bad_state);
         if ( $n_bad_pages < 10 ) return FALSE;
 
-        $n_distinct_reporters =
-            Project_getNumPagesInState(
-                $this->projectid, $this->round->page_bad_state, "DISTINCT(b_user)" );
+        $n_distinct_reporters = $project->get_num_pages_in_state(
+            $this->round->page_bad_state, "DISTINCT(b_user)");
         if ($n_distinct_reporters < 3) return FALSE;
 
         $error_msg = project_transition( $this->projectid, $this->round->project_bad_state, PT_AUTO );

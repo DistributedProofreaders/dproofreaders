@@ -7,7 +7,6 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
@@ -46,7 +45,7 @@ $trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
-function pages_indicate_bad_project( $projectid, $round )
+function pages_indicate_bad_project( $project, $round )
 // Do the states of the project's pages (in the given round)
 // indicate that the project is bad?
 {
@@ -56,7 +55,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
     // If it has no bad pages, it's good.
     //
-    $n_bad_pages = Project_getNumPagesInState($projectid,$round->page_bad_state);
+    $n_bad_pages = $project->get_num_pages_in_state($round->page_bad_state);
     if ($trace) echo "n_bad_pages = $n_bad_pages\n";
     //
     if ($n_bad_pages == 0) return FALSE;
@@ -65,7 +64,7 @@ function pages_indicate_bad_project( $projectid, $round )
     // If it has at least 10 bad pages,
     // reported by at least 3 different users, it's bad.
     //
-    $n_unique_reporters = Project_getNumPagesInState($projectid,$round->page_bad_state,"DISTINCT(b_user)");
+    $n_unique_reporters = $project->get_num_pages_in_state($round->page_bad_state, "DISTINCT(b_user)");
     if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
     //
     if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
@@ -88,9 +87,9 @@ function ensure_project_blurb( $project )
     {
         echo "\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
-        echo "projectid  = {$project['projectid']}\n";
-        echo "nameofwork = \"" . html_safe($project['nameofwork']) . "\"\n";
-        echo "state      = {$project['state']}\n";
+        echo "projectid  = {$project->projectid}\n";
+        echo "nameofwork = \"" . html_safe($project->nameofwork) . "\"\n";
+        echo "state      = {$project->state}\n";
         echo "\n";
         $have_echoed_blurb_for_this_project = 1;
     }
@@ -142,7 +141,7 @@ if ($one_project) {
 
 }
 $sql = "
-    SELECT projectid, state, username, nameofwork
+    SELECT projectid
     FROM projects
     WHERE $condition
     ORDER BY projectid";
@@ -150,13 +149,12 @@ $allprojects = DPDatabase::query($sql);
 // The "ORDER BY" clause isn't essential,
 // it's just there to ensure consistency of order when testing.
 
-while ( $project = mysqli_fetch_assoc($allprojects) ) {
+while ( list($projectid) = mysqli_fetch_row($allprojects) ) {
     $have_echoed_blurb_for_this_project = 0;
 
-    $projectid  = $project["projectid"];
-    $state      = $project["state"];
-    $username   = $project["username"];
-    $nameofwork = $project["nameofwork"];
+    $project = new Project($projectid);
+    $state = $project->state;
+    $nameofwork = $project->nameofwork;
 
     if ($trace)
     {
@@ -175,7 +173,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
     {
         if ( ($state == $round->project_available_state) || ($state == $round->project_bad_state) )
         {
-            if ( pages_indicate_bad_project( $projectid, $round ) )
+            if ( pages_indicate_bad_project( $project, $round ) )
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
@@ -211,7 +209,7 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
     if (
         ($one_project) ||
         (($state == $round->project_available_state) &&
-           (Project_getNumPagesInState($projectid, $round->page_avail_state) == 0))
+           ($project->get_num_pages_in_state($round->page_avail_state) == 0))
     )
     {
 
@@ -255,8 +253,8 @@ while ( $project = mysqli_fetch_assoc($allprojects) ) {
         // Decide whether the project is finished its current round.
         if ( $state == $round->project_available_state )
         {
-            $num_done_pages  = Project_getNumPagesInState($projectid, $round->page_save_state);
-            $num_total_pages = Project_getNumPages($projectid);
+            $num_done_pages  = $project->get_num_pages_in_state($round->page_save_state);
+            $num_total_pages = $project->get_num_pages($projectid);
 
             if ($num_done_pages != $num_total_pages)
             {
