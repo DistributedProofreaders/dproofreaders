@@ -1,9 +1,12 @@
 <?php
-// This script is actually 4 scripts in one file:
-//   - Cleanup Files: Removes duplicates and checks in missing pages after 3 hours
-//   - Promote Level: If a project is ready to be promoted, it sends it to round 2
-//   - Complete Project: If a project has completed round 2, it sends it to post-processing or assign to the project manager
-//   - Release Projects: If there are not enough projects available to end users, it will release projects waiting to be released
+// The script is called by crontab (for all projects) and can be called by
+// project transitions (for individual projects).
+// It is actually 4 scripts in one file:
+//   - Cleanup Pages: Bad project detection / action & reclaims MIA pages
+//   - Promote Level: If a project finished a round, it sends it to next round
+//   - Complete Project: If a project has completed all rounds, it sends it to post-processing
+//   - Release Projects: If there are not enough projects available to end users,
+//     it will release projects waiting to be released (autorelease())
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
@@ -16,6 +19,7 @@ include_once($relPath.'misc.inc'); // requester_is_localhost(), html_safe()
 include_once('autorelease.inc');
 
 $one_project = get_projectID_param($_GET, 'project', TRUE);
+$refresh_url = array_get($_GET, 'return_uri', 'projectmgr.php');
 
 $start_time = time();
 
@@ -42,19 +46,15 @@ if(!requester_is_localhost()) {
     }
 }
 
-if (!isset($refresh_url)) $refresh_url = 'projectmgr.php';
-
 $trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
-$have_echoed_blurb_for_this_project = 0;
-
 function ensure_project_blurb( $project )
 {
-    global $have_echoed_blurb_for_this_project;
+    static $project_blurb_echoed = [];
 
-    if ( !$have_echoed_blurb_for_this_project )
+    if ( !isset($project_blurb_echoed[$project->id]) )
     {
         echo "\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
@@ -62,7 +62,7 @@ function ensure_project_blurb( $project )
         echo "nameofwork = \"" . html_safe($project->nameofwork) . "\"\n";
         echo "state      = {$project->state}\n";
         echo "\n";
-        $have_echoed_blurb_for_this_project = 1;
+        $project_blurb_echoed[$project->id] = true;
     }
 }
 
@@ -83,9 +83,7 @@ if ($one_project) {
     $verbose = 1;
 
     $condition = "0";
-    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-    {
-        $round = get_Round_for_round_number($rn);
+    foreach($Round_for_round_id_ as $round_id => $round) {
         $condition .= sprintf("
             OR state = '%s'
             OR state = '%s'
@@ -107,12 +105,9 @@ $sql = "
     WHERE $condition
     ORDER BY projectid";
 $allprojects = DPDatabase::query($sql);
-// The "ORDER BY" clause isn't essential,
-// it's just there to ensure consistency of order when testing.
+// The "ORDER BY" ensures consistency of order.
 
 while ( list($projectid) = mysqli_fetch_row($allprojects) ) {
-    $have_echoed_blurb_for_this_project = 0;
-
     $project = new Project($projectid);
     $state = $project->state;
     $nameofwork = $project->nameofwork;
