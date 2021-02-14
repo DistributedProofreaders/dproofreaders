@@ -11,11 +11,14 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
+include_once($relPath.'job_log.inc');
 include_once($relPath.'misc.inc'); // requester_is_localhost(), html_safe()
 include_once('autorelease.inc');
 
 $one_project = get_projectID_param($_GET, 'project', TRUE);
-$refresh_url = @$_GET['return_uri'];
+
+$start_time = time();
+
 
 // The following users are authorized to run this script:
 // 1) localhost (eg: run from crontab) - can operate on all projects
@@ -103,17 +106,11 @@ if ($one_project) {
     $verbose = $GLOBALS['testing'];
     $condition = sprintf("projectid = '%s'", DPDatabase::escape($one_project));
 
-    // log tracetimes
-    $tracetime = time();
-    $sql = sprintf("
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('automodify.php', %d, 'BEGIN', 'running for single proj %s')",
-        $tracetime,
-        DPDatabase::escape($one_project));
-    DPDatabase::query($sql);
-
-
-
+    insert_job_log_entry(
+        'automodify.php',
+        'BEGIN',
+        sprintf("running for single proj %s", $one_project)
+    );
 } else {
     $verbose = 1;
 
@@ -130,15 +127,11 @@ if ($one_project) {
         DPDatabase::escape($round->project_bad_state));
     }
 
-    // log tracetimes
-    $tracetime = time();
-    $sql = sprintf("
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('automodify.php', %d, 'BEGIN', 'running for all eligible projects')",
-        $tracetime);
-    DPDatabase::query($sql);
-
-
+    insert_job_log_entry(
+        'automodify.php',
+        'BEGIN',
+        'running for all eligible projects'
+    );
 }
 $sql = "
     SELECT projectid
@@ -348,44 +341,32 @@ echo "</pre>\n";
 
 if (!$one_project)
 {
-    // log tracetimes
-    $tracetimea = time();
-    $tooktime = $tracetimea - $tracetime;
-    $sql = sprintf("
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('automodify.php', %d, 'MIDDLE', 'pre autorelease, %d seconds so far')",
-        $tracetimea,
-        $tooktime);
-    DPDatabase::query($sql);
+    insert_job_log_entry(
+        'automodify.php',
+        'MIDDLE',
+        sprintf("pre autorelease, %d seconds so far", time() - $start_time)
+    );
 
     autorelease();
 
-    // log tracetimes
-    $tracetimea = time();
-    $tooktime = $tracetimea - $tracetime;
-    $sql = sprintf("
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('automodify.php', %d, 'END', 'post autorelease, started at %d, took %d seconds')",
-        $tracetimea,
-        $tracetime,
-        $tooktime);
-    DPDatabase::query($sql);
-
+    insert_job_log_entry(
+        'automodify.php',
+        'END',
+        sprintf("post autorelease, started at %d, took %d seconds",
+            $start_time, time() - $start_time)
+    );
 }
 else
 {
-
-    // log tracetimes
-    $tracetimea = time();
-    $tooktime = $tracetimea - $tracetime;
-    $sql = sprintf("
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('automodify.php', %d, 'END', 'end single, started at %d, took %d seconds')",
-        $tracetimea,
-        $tracetime,
-        $tooktime);
-    DPDatabase::query($sql);
-
+    insert_job_log_entry(
+        'automodify.php',
+        'END',
+        sprintf(
+            "end single, started at %d, took %d seconds",
+            $start_time,
+            time() - $start_time
+        )
+    );
 
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
 }
