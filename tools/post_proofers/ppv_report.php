@@ -435,7 +435,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
                 . check_box('sig_multilang', "<a href='$ppv_guidelines_url#mult'>" . _("Multiple Languages") . "</a>")
                 . check_box('sig_spell',     _("Extensive Spellcheck/Gutcheck"))
-                . check_box('sig_englifh',   _("Engliſh"))
+                . check_box('sig_englifh',   _("Difficult typography, e.g. long ess, Fraktur, etc."))
                 . check_box('sig_music',     _("Musical Notation and Files"))
                 . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
         )
@@ -602,7 +602,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         "sig_drama" => "Significant Amount of Drama", "some_drama" => "Some Drama",
         "sig_index" => "Significant Size of Index", "some_index" => "Small Index",
         "sig_illos" => "Illustrations requiring advanced preparation and/or difficult placement",
-        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck", "sig_englifh" => "Englifh",
+        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck", "sig_englifh" => "Difficult typography, e.g. long ess, Fraktur, etc.",
         "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation");
 
     foreach($_POST as $key => $value) {
