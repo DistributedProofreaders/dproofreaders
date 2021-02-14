@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'projectinfo.inc');
+include_once($relPath.'Project.inc');
 
 require_login();
 
@@ -39,7 +39,8 @@ echo "<table class='themed theme_striped'>\n";
            $author = $row["authorsname"];
            $language = $row["language"];
 
-           $numpages = Project_getNumPages( $projectid );
+           $project = new Project($projectid);
+           $numpages = $project->get_num_pages();
 
       echo "<tr>";
       echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
@@ -82,8 +83,9 @@ echo "<br>";
            $author = $row["authorsname"];
            $language = $row["language"];
 
-           $numpages = Project_getNumPages( $projectid );
-           $availpages = Project_getNumPagesInState( $projectid, 'avail_md_second');
+           $project = new Project($projectid);
+           $numpages = $project->get_num_pages();
+           $availpages = $project->get_num_pages_in_state('avail_md_second');
 
       echo "<tr>";
       echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";

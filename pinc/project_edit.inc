@@ -60,7 +60,7 @@ function user_can_add_project_pages( $projectid, $page_type = "normal" )
             ( ($state == PROJ_NEW && ! $site_supports_metadata)
               || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
               || $state == PROJ_P1_UNAVAILABLE )
-            && ( Project_getNumPages($projectid) > 0 || ! user_has_project_loads_disabled() )
+            && ( $project->get_num_pages() > 0 || ! user_has_project_loads_disabled() )
             )
         {
             return TRUE;

@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'metarefresh.inc');
 
@@ -95,7 +94,8 @@ $author = $row["authorsname"];
 $language = $row["language"];
 
 
-$numpages = Project_getNumPages( $projectid );
+$project = new Project($projectid);
+$numpages = $project->get_num_pages();
 
 $title = _("Image Metadata Phase1");
 output_header($title);

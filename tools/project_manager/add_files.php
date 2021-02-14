@@ -6,7 +6,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'projectinfo.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'image_check.inc');
