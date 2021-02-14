@@ -7,6 +7,7 @@ $relPath='./../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');
+include_once($relPath.'job_log.inc');
 
 require_localhost_request();
 
@@ -14,20 +15,17 @@ header('Content-type: text/plain');
 
 $dry_run = array_get($_GET, 'dry_run', FALSE);
 
-function maybe_query( $query )
+function maybe_log_event($event, $comments)
 {
     global $dry_run;
-    if ($dry_run)
-    {
-        // Normalize whitespace
-        // (mainly to remove newlines and indentation)
-        $query = preg_replace('/\s+/', ' ', trim($query));
-        echo "$query\n";
-        return TRUE;
+
+    $filename = "take_tally_snapshots.php";
+
+    if ($dry_run) {
+        echo "job_log entry: ($filename, $event, $comments)\n";
     }
-    else
-    {
-        return mysqli_query(DPDatabase::get_connection(), $query);
+    else {
+        insert_job_log_entry($filename, $event, $comments);
     }
 }
 
@@ -41,7 +39,7 @@ foreach ( get_all_current_tallyboards() as $tallyboard )
     $id_for_logs = "TallyBoard($tallyboard->tally_name,$tallyboard->holder_type)";
 
     $t_start_tallyboard = time();
-    maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('take_tally_snapshots.php', $t_start_tallyboard, 'BEGIN', '$id_for_logs: start (ascribed to $midnight)' )");
+    maybe_log_event('BEGIN', "$id_for_logs: start (ascribed to $midnight)");
 
     $err = $tallyboard->take_snapshot( $midnight, $dry_run );
 
@@ -49,7 +47,10 @@ foreach ( get_all_current_tallyboards() as $tallyboard )
     {
         echo "    This tallyboard has already had a snapshot taken for $midnight!\n";
 
-        maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('take_tally_snapshots.php', ".time().", 'FAIL', '$id_for_logs: already has snapshot ascribed to $midnight!')");
+        maybe_log_event(
+            "FAIL",
+            "$id_for_logs: already has snapshot ascribed to $midnight!"
+        );
     }
     else
     {
@@ -57,9 +58,10 @@ foreach ( get_all_current_tallyboards() as $tallyboard )
         $elapsed_for_tallyboard = $t_end_tallyboard - $t_start_tallyboard;
         echo "    Snapshot completed in $elapsed_for_tallyboard seconds.\n";
 
-        maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('take_tally_snapshots.php', $t_end_tallyboard, 'END', '$id_for_logs: Started at $t_start_tallyboard, took $elapsed_for_tallyboard seconds total')");
+        maybe_log_event(
+            'END',
+            "$id_for_logs: Started at $t_start_tallyboard, took $elapsed_for_tallyboard seconds total"
+        );
     }
     echo "------------------------------------------------------------------\n";
 }
-
-// vim: sw=4 ts=4 expandtab
