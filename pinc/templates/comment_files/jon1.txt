@@ -1,5 +1,0 @@
-<p>
-<b>To the post-processor:</b>
-An HTML edition of this project is required. Please ensure the HTML
-and CSS validate. Page numbers should be preserved and anchored, and
-if there is an index, entries there should link to the relevant page.
