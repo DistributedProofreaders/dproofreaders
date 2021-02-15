@@ -324,6 +324,7 @@ CREATE TABLE `project_charsuites` (
 CREATE TABLE `project_holds` (
   `projectid` varchar(22) NOT NULL,
   `state` varchar(50) NOT NULL,
+  `notify_time` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`projectid`,`state`)
 );
 # --------------------------------------------------------

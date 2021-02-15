@@ -271,6 +271,14 @@ while ( list($projectid) = mysqli_fetch_row($allprojects) ) {
                     echo "    Normally, this project would now advance to {$round->project_complete_state},\n";
                     echo "    but it has a hold in $state, so it stays where it is.\n";
                 }
+                if ($project->is_hold_notification_required($state)) {
+                    // Note that notifications are only sent for Available
+                    // states, as this if() block is only reached for those.
+                    if ($verbose) {
+                        echo "    Sending notification about held project.\n";
+                    }
+                    $project->send_hold_state_notification($state);
+                }
                 continue;
             }
 
