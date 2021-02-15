@@ -1,9 +1,0 @@
-<font color="#330066" size="+2"><b>This is a P3 Qualifying 
-project.</b>  <font color="#330066">In P2 it is restricted</font> to 
-volunteers who have applied, or are thinking of applying, for access to P3, 
-and it should be proofread according to P3 standards, including spellchecking.
-<br />
-<br />
-<font color="#3300CC">In P2 please limit yourself</font> to <b>15-20 
-pages</b> per Qual. project.</font>
-<hr><div style="margin:5px;padding:5px;">
