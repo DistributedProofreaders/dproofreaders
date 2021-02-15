@@ -834,7 +834,7 @@ EOS;
         $values = [];
         foreach ($states as $state)
         {
-            $values[] = sprintf("('%s', '%s')",
+            $values[] = sprintf("('%s', '%s', 0)",
                 DPDatabase::escape($this->projectid),
                 DPDatabase::escape($state)
             );
@@ -852,10 +852,14 @@ EOS;
     {
         global $pguser;
 
+        // We need to pre-escape the projectID because states can have
+        // %'s in them which mess up sprintf() if used with our pre-built
+        // $state_values
         $projectid_clause = sprintf(
             "projectid='%s'",
             DPDatabase::escape($this->projectid)
         );
+
         $state_values = [];
         foreach ($states as $state) {
             $state_values[] = sprintf("'%s'", DPDatabase::escape($state));
@@ -869,6 +873,69 @@ EOS;
         ";
         DPDatabase::query($sql);
         log_project_event($this->projectid, $pguser, 'remove_holds', join(' ', $states));
+    }
+
+    public function get_hold_state_notify_time($state)
+    {
+        $sql = sprintf("
+            SELECT notify_time
+            FROM project_holds
+            WHERE projectid = '%s'
+                AND state = '%s'
+        ", DPDatabase::escape($this->projectid), DPDatabase::escape($state));
+        $res = DPDatabase::query($sql);
+        list($notify_time) = mysqli_fetch_row($res);
+        return $notify_time;
+    }
+
+    public function update_hold_state_notify_time($state, $timestamp=NULL)
+    {
+        $notify_time = $timestamp === NULL ? time() : sprintf("%d", $timestamp);
+
+        $sql = sprintf("
+            UPDATE project_holds
+            SET notify_time = $notify_time
+            WHERE
+                projectid = '%s'
+                AND state = '%s'
+        ", DPDatabase::escape($this->projectid), DPDatabase::escape($state));
+        DPDatabase::query($sql);
+    }
+
+    public function send_hold_state_notification($state)
+    {
+        configure_gettext_for_user($this->username);
+        maybe_mail_project_manager(
+            $this,
+            sprintf(_("This project is unable to transition out of %s because it is held. Please review the project and remove the hold. You will receive this notification only once unless you remove and re-add the hold or another page is proofread."), $state),
+            _("Project Held"));
+        configure_gettext_for_user();
+
+        $this->update_hold_state_notify_time($state);
+    }
+
+    public function is_hold_notification_required($state)
+    {
+        // if there is no project hold on this state, no notification is required
+        if (!in_array($state, $this->get_hold_states())) {
+            return FALSE;
+        }
+
+        // if the PM has not been notified, notification is required
+        $notify_time = $this->get_hold_state_notify_time($state);
+        if (!$notify_time) {
+            return TRUE;
+        }
+
+        // if the PM has been notified, but that was before the last page
+        // was saved, reset the notification and send them another one
+        $round = get_Round_for_project_state($state);
+        if ($notify_time < $this->get_last_proofread_time($round)) {
+            $this->update_hold_state_notify_time($state, 0);
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     // -------------------------------------------------------------------------
