@@ -83,6 +83,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
         sprintf(_("Hello %s,"), $username),
         $project->email_introduction(),
         $info,
+        "",  // spacer for a blank line
         sprintf(_("Thank you for volunteering with %s!"), $site_name),
     ]);
 
