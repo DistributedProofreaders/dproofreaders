@@ -60,7 +60,7 @@ echo "<h2 id='DPSansMono' style='clear: both;'>DP Sans Mono</h2>";
 echo "<p style='clear: both;'>" . _("DP Sans Mono is a font adapted by DP volunteers, based on the suggestions and ideas of many experienced proofreaders. Using DP Sans Mono as your proofreading font can help you find mistakes."). "</p>\n";
 
 echo "<p style='clear: both'>" . _("This site provides DP Sans Mono as a web font and browsers that support web fonts do not require the font to be installed locally.") . " ";
-echo sprintf(_("For more information on installing and using the font locally for offline activitlies like Post-Processing and Smooth Reading, see the <a href='%s'>DP Sans Mono</a> wiki page at pgdp.net."), "https://www.pgdp.net/wiki/DP_Sans_Mono") . "</p>\n";
+echo sprintf(_("For more information on installing and using the font locally for offline activities like Post-Processing and Smooth Reading, see the <a href='%s'>DP Sans Mono</a> wiki page at pgdp.net."), "https://www.pgdp.net/wiki/DP_Sans_Mono") . "</p>\n";
 
 echo "<h3>" . _("Character Differences") . "</h3>";
 
