@@ -23,7 +23,7 @@ define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 function detect_too_large()
 {
     if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-        empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
+        empty($_FILES) && array_get($_SERVER, 'CONTENT_LENGTH', 0) > 0)
     {
         die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), humanize_bytes(get_max_upload_size())));
     }
