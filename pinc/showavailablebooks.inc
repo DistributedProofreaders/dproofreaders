@@ -388,17 +388,18 @@ function show_project_listing(
         "days_since_visit" => "text-align: right;",
     );
 
-    // Determine whether to use special colors or not.
+    // Load the sort column and direction
+    list($curr_sql_sort_col, $curr_sql_sort_dir) =
+        process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
+
+    // Determine whether to use special colors or not. Do this after we process
+    // sorting controls since we can't order by specialday.
     // Visitors always see special colors.
     $userSettings =& Settings::get_Settings($pguser);
     if(!isset($pguser) || !$userSettings->get_boolean('hide_special_colors'))
     {
         $columns = array_merge(["specialday" => ['SpecialDay', '']], $columns);
     }
-
-    // Load the sort column and direction
-    list($curr_sql_sort_col, $curr_sql_sort_dir) =
-        process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
 
     // sort on translated column if genre
     $trans_sort_col = $curr_sql_sort_col;
