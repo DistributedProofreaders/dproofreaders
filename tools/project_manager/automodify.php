@@ -54,7 +54,7 @@ function ensure_project_blurb( $project )
 {
     static $project_blurb_echoed = [];
 
-    if ( !isset($project_blurb_echoed[$project->id]) )
+    if ( !isset($project_blurb_echoed[$project->projectid]) )
     {
         echo "\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
@@ -62,7 +62,7 @@ function ensure_project_blurb( $project )
         echo "nameofwork = \"" . html_safe($project->nameofwork) . "\"\n";
         echo "state      = {$project->state}\n";
         echo "\n";
-        $project_blurb_echoed[$project->id] = true;
+        $project_blurb_echoed[$project->projectid] = true;
     }
 }
 
