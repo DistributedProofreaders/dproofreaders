@@ -117,7 +117,7 @@ $mentored_round = $mentoring_round->mentee_round;
 echo "<p>";
 echo sprintf(_("Projects with pages available to Mentors in round %s."), "<b>$mentoring_round->id</b>");
 echo " ";
-echo _("Oldest project listed first.");
+echo sprintf(_("Please check the Saved column in the 'Which proofreader did each page...' section for each project listed below, to make sure you first work on the project with the oldest pages saved in %s."), "<b>$mentored_round->id</b>");
 echo "</p>";
 
 $projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state);
