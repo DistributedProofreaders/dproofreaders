@@ -110,7 +110,7 @@ function list_images( $project, $image_names, $these_are_page_images )
     echo "<h4 class='center-align'>$header</h4>";
 
     $show_replace_links = $project->can_be_managed_by_current_user;
-    $show_delete_links = !$these_are_page_images && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
+    $show_delete_links = $project->can_be_managed_by_current_user && !$these_are_page_images && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
 
     echo "<table>\n";
 
@@ -214,7 +214,7 @@ function show_delete_all_link( $project, $image_names )
 {
     global $code_url;
 
-    if(($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE) && !empty($image_names))
+    if($project->can_be_managed_by_current_user && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE) && !empty($image_names))
     {
         $form_target="$code_url/tools/project_manager/update_illos.php";
         $submit_label=_("Delete Illustrations");
