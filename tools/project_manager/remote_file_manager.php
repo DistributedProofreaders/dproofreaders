@@ -337,7 +337,7 @@ function do_upload()
     {
         if(is_file($temporary_path))
         {
-            unlink($temporary_path);
+            @unlink($temporary_path);
         }
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
     }
