@@ -16,8 +16,7 @@ The following lists supported versions for the four primary middleware
 components.
 
 ### PHP
-PHP version 7.0 is the minimum supported version. 7.2 and 7.4 also work.
-PHP 8.0 has not been tested.
+PHP version 7.4 is the minimum supported version. PHP 8.0 has not been tested.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
@@ -34,45 +33,28 @@ You need a recent version of Composer installed to manage the relevant PHP
 package dependencies.
 
 ### MySQL
-MySQL version 5.6.6 or later is recommended with `innodb_file_per_table=ON`
-and using InnoDB as the default engine (which are the defaults for that
-version and later). Non-project tables will be created with the default engine
-and InnoDB tables are easier to manage in their own files.
+MySQL version 5.7 is the minimum supported version. MySQL 8.x will also work.
 
-A minimum version of 5.5 is required to support UTF-8 using the utf8mb4
-encoding, but consider setting your default engine to MyISAM rather than have
-all of the InnoDB tables created in your system tablespace.
-
-MariaDB version 5.5 and later should also work but has not been tested.
+MariaDB version 10.2 and later should also work but has not been tested.
 
 ### phpBB
-[phpBB](https://www.phpbb.com) 3.1, 3.2, and 3.3 are supported. Version 3.3 is
-recommended.
+[phpBB](https://www.phpbb.com) 3.3 is the minimum supported verison.
 
 For phpBB to work with the DP code, you must disable superglobal checking.
 In the phpBB code edit:
 
-* 3.1: `config/parameters.yml`
-* 3.2: `config/default/container/parameters.yml`
 * 3.3: `config/default/container/parameters.yml`
 
 change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ### jpgraph
-[jpgraph](http://jpgraph.net) versions 4.0.2, 4.1.0, 4.2.0, and 4.3.x will
-all work. The latest 4.3.x release is recommended.
-
-To enable graph caching before 4.3.1, apply `jpgraph-4.0.2.patch` (4.0.2 patch
-will work with all 4.x versions before 4.3.1).
+[jpgraph](http://jpgraph.net) version 4.3 is the minimum supported verison.
 
 ## Distro support
 These middleware components match the following major distribution releases:
-* Ubuntu 14.04, Trusty (with PHP 7.0 upgrade)
-* Ubuntu 16.04, Xenial
-* Ubuntu 18.04, Bionic
+* Ubuntu 18.04, Bionic (with PHP 7.4 upgrade)
 * Ubuntu 20.04, Bionic
-* RHEL / CentOS 6.x family (with PHP 7.0 upgrade)
-* RHEL / CentOS 7.x family (with PHP 7.0 upgrade)
+* RHEL / CentOS 7.x family (with PHP 7.4 and MariaDB 10.2 or later upgrade)
 * RHEL / CentOS 8.x family
 
 ## Browser support
