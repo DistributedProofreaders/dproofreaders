@@ -142,7 +142,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 $replaceString = "";
 
                 // if the AW button is wanted, add the initial span
-                if($badWordHash[$word] == WC_WORLD ) {
+                if(@$badWordHash[$word] == WC_WORLD ) {
                     $replaceString .= "<span id='$wordID'>";
                     $onChange = " onBlur=\"markBox('$wordID');\"";
                     $onChange.= " oninput=\"disableAW('$wordID');\"";
@@ -157,7 +157,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                     "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='proofingfont'$onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
-                if($badWordHash[$word] == WC_WORLD ) {
+                if(@$badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
                         "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
                         "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . attr_safe(_("Unflag All &amp; Suggest Word")) . "' class='aw'></a>" .
