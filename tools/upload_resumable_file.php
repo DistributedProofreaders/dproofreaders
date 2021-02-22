@@ -119,7 +119,7 @@ else
 
 function report_error($error)
 {
-    error_log($error);
+    error_log("upload_resumable_file.php - $error");
     http_response_code(500);
     echo $error;
 }

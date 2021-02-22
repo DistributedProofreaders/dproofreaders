@@ -259,7 +259,7 @@ function virus_check($file_path, $verbose)
     if ($av_retval == 1)
     {
         // Log the infected upload so that we can track user/frequency
-        $reporting_string = "Infected upload: " . $av_test_result[0];
+        $reporting_string = "upload_file.inc - Infected upload: " . $av_test_result[0];
         error_log($reporting_string);
         throw new FileUploadException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
             You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));

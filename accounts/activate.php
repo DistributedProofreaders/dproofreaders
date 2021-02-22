@@ -88,7 +88,7 @@ if($create_user_status !== TRUE) {
     echo "\n";
     echo "<!-- Forum error: $create_user_status -->";
     echo "\n";
-    error_log("Error activating $ID: $create_user_status");
+    error_log("activate.php - Error activating $ID: $create_user_status");
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
