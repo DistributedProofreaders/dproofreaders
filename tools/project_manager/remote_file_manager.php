@@ -325,12 +325,6 @@ function do_upload()
         }
 
         echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
-
-        // Log the file upload
-        // In part so that we can possibly clean up with some automation later
-        $reporting_string = "DPSCANS: File uploaded to " . $target_path;
-        error_log($reporting_string);
-
     }
     // in php 7.1 the  two exceptions could be caught together
     catch(FileUploadException $e)
