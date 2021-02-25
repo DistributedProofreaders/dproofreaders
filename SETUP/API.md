@@ -5,14 +5,18 @@ such as projects, word lists, and statistics.
 
 ## Configuring
 
-To enable the API, update the following API-related values in your
-`configuration.sh` file and re-configuring your site.
+The API is enabled by default because some UI features, like the Page Browser,
+require it.
 
-* `API_ENABLE` - if set to `TRUE` the API is enabled.
+While disabling the API will break these features, you can still do so by
+updating the `API_ENABLE` setting in your `configuration.sh` file and
+re-configuring your site.
 
-It is also highly recommended that you update your web browser to rewrite
-requests for `/api/` to `api/index.php?url=`. This will enable access to
-URLs like:
+* `API_ENABLE` - if set to `FALSE` the API is disabled.
+
+While not required for the DP UI, for external users it is also highly
+recommended that you update your web server to rewrite requests for `/api/`
+to `api/index.php?url=`. This will enable access to URLs like:
 ```
 https://www.example.com/api/v1/projects/
 ```
@@ -31,12 +35,18 @@ RewriteRule ^/api/(.*)$ %{DOCUMENT_ROOT}/c/api/index.php?url=$1 [L,QSA]
 
 ## Access Control
 
-API access is limited to individuals with API keys. API keys are associated
-with users and the API calls are restricted to the same information as the
-user who owns it.
+API access is limited to individuals with API keys or valid PHP session keys.
+Both are associated with individual users and the API calls are restricted to
+the same information as the user presenting the keys. Said another way, a user
+can only access and change information via the API that they can via the UI.
 
 To enable an API key for a user, add a 32-character GUID to the user's
-`api_key` column in the database.
+`api_key` column in the database. The format of this field is not enforced, any
+32-character string will do.
+
+PHP session keys allow the DP UI to make API calls for loading data. Any
+logged-in user can therefore access the API using their PHP session information.
+No configuration change is required to enable API access over PHP sessions.
 
 It is **highly recommended** that you only provide API access over https to
 ensure that 3rd parties don't obtain API keys from the requests.

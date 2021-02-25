@@ -102,6 +102,8 @@ $php_cli_executable = '<<PHP_CLI_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------
 
+// Note: Some UI features, such as the Page Browser, require the API.
+//       Disabling it will break these features.
 $api_enabled = <<API_ENABLED>>;
 $api_rate_limit = <<API_RATE_LIMIT>>;
 $api_rate_limit_requests_per_window = <<API_RATE_LIMIT_REQUESTS_PER_WINDOW>>;
