@@ -196,7 +196,7 @@ function api_v1_project_pages($method, $data, $query_params)
     {
         $return_data[] = [
             "image" => $image,
-            "image_url" => "{$project->dir}/$image",
+            "image_url" => "{$project->url}/$image",
             "image_size" => $project->get_image_file_size($image),
         ];
     }
