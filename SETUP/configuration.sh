@@ -367,10 +367,13 @@ _ARCHIVE_PROJECTS_DIR=$base_dir/archive
 # ---
 
 # The API allows programmatic access to users who have been configured
-# with an API key. See API.md for more information on how to set up and
-# use the API.
+# with an API key or to UI users with a valid session.
+# See API.md for more information on how to set up and use the API.
 
-_API_ENABLED=FALSE
+# Note: Some UI features, such as the Page Browser, require the API.
+#       Disabling it will break these features.
+
+_API_ENABLED=TRUE
 _API_RATE_LIMIT=FALSE
 _API_RATE_LIMIT_REQUESTS_PER_WINDOW=3600
 _API_RATE_LIMIT_SECONDS_IN_WINDOW=3600
