@@ -127,7 +127,7 @@ if($foundInstances>=$wordInstances)
 echo "</div></div>";
 
 echo "<div id='page-browser' class='overflow-hidden'>";
-echo "<p style='margin: 0.5em'>" . _("Select one of the page buttons to view the page image (scan).") . "</p>";
+echo "<p style='margin: 0.5em'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
 echo "</div>";
 echo "</div>";
 
