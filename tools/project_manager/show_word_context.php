@@ -50,16 +50,16 @@ $header_args = [
     "js_files" => [
         "$code_url/scripts/splitControl.js",
         "$code_url/scripts/page_browse.js",
-        "./show_good_word_suggestions_detail.js",
+        "./show_word_context.js",
     ],
     "js_data" => get_proofreading_interface_data_js() . "
-        var showGoodWordSuggestionsDetail = $details; var mentorMode = false;",
+        var showWordContext = $details; var mentorMode = false;",
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
 
-slim_header(_("Suggestion Detail"), $header_args);
-echo "<div id='show_good_word_suggestions_detail_container' style='flex: auto;width: 100%;height: 100%'>";
+slim_header(_("Word Context"), $header_args);
+echo "<div id='show_word_context_container' style='flex: auto;width: 100%;height: 100%'>";
 echo "<div class='overflow-auto'>";
 echo "<div style='padding: 0.5em'>";
 

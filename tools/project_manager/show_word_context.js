@@ -1,7 +1,7 @@
-/*global $ splitControl pageBrowse showGoodWordSuggestionsDetail */
+/*global $ splitControl pageBrowse showWordContext */
 
 $(function () {
-    let STORAGE_KEY = 'show_good_word_suggestions_detail';
+    let STORAGE_KEY = 'show_word_context';
     // this is a function to get a function to show a file
     let getShowCurrentImageFile = null;
 
@@ -10,8 +10,8 @@ $(function () {
         // if not defined or 0, set the value to 30%.
         splitPercent = 30;
     }
-    let mainSplit = splitControl("#show_good_word_suggestions_detail_container", {
-        splitVertical: showGoodWordSuggestionsDetail.layout === 'vertical',
+    let mainSplit = splitControl("#show_word_context_container", {
+        splitVertical: showWordContext.layout === 'vertical',
         splitPercent: splitPercent,
     });
     mainSplit.reLayout();
@@ -21,7 +21,7 @@ $(function () {
 
     let params = new URLSearchParams();
     params.set("mode", "image");
-    params.set("project", showGoodWordSuggestionsDetail.projectid);
+    params.set("project", showWordContext.projectid);
     params.set("simpleHeader", "true");
 
     $(".page-select").click( function () {
