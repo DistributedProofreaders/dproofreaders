@@ -53,7 +53,7 @@ $header_args = [
         "./show_word_context.js",
     ],
     "js_data" => get_proofreading_interface_data_js() . "
-        var showWordContext = $details; var mentorMode = false;",
+        var showWordContext = $details;",
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];

@@ -312,7 +312,6 @@ function pageBrowse(params, replaceUrl) {
     function displayPages(pages) {
         let imageElement = $("<img>", {src: ''});
         let textArea = $("<textarea>", {class: "text-pane"});
-        textArea.prop("readonly", !mentorMode);
         let textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
         let imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
         let imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
@@ -370,6 +369,7 @@ function pageBrowse(params, replaceUrl) {
                 const breakLine = "<br class='control'>";
 
                 function showTextModes() {
+                    textArea.prop("readonly", !mentorMode);
                     let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     switch(displayMode) {
