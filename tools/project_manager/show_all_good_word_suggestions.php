@@ -28,14 +28,9 @@ if ( !user_is_a_sitemanager() && !user_is_proj_facilitator() ) {
     $pm = $pguser;
 }
 
-// $frame determines which frame we're operating from
-//     none - we're the master frame
-//   'left' - we're the left frame with the text
-//  'right' - we're the right frame for the context info
-// 'update' - not a frame at all - process the incoming data
-$frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'left', 'right', 'update'));
+$action = get_enumerated_param($_REQUEST, 'action', 'view', array('view', 'update'));
 
-if($frame=="update") {
+if($action=="update") {
     $newProjectWords=array();
     foreach($_POST as $key => $val) {
         if(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
@@ -52,9 +47,13 @@ if($frame=="update") {
         $words = array_merge($words,$projectWords);
         save_project_good_words($projectid,$words);
     }
-
-    $frame="left";
 }
+
+// $frame determines which frame we're operating from
+//     none - we're the master frame
+//   'left' - we're the left frame with the text
+//  'right' - we're the right frame for the context info
+$frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
     slim_header_frameset(_("Manage Suggestions"));
@@ -135,7 +134,8 @@ if($frame=="left") {
     $t_before = $watch->read();
 
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
-    echo "<input type='hidden' name='frame' value='update'>";
+    echo "<input type='hidden' name='action' value='update'>";
+    echo "<input type='hidden' name='frame' value='left'>";
     echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
     echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
