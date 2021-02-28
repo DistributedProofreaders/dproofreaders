@@ -49,34 +49,6 @@ if($action=="update") {
         save_project_good_words($projectid,$words);
     }
 }
-/*
-// $frame determines which frame we're operating from
-//     none - we're the master frame
-//   'left' - we're the left frame with the text
-//  'right' - we're the right frame for the context info
-$frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'left', 'right'));
-
-if($frame=="master") {
-    slim_header_frameset(_("Manage Suggestions"));
-    $frameSpec='cols="40%,60%"';
-    if(@$_REQUEST["timecutoff"])
-        $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
-    else $timeCutoffSpec="";
-?>
-<frameset <?php echo $frameSpec; ?>>
-<frame src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?pm=<?php echo urlencode($pm); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
-<frame name="detailframe" src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?frame=right">
-</frameset>
-<noframes>
-<?php echo _("Your browser currently does not display frames!"); ?>
-</noframes>
-<?php
-    exit;
-}
-
-// now load data in the left frame
-if($frame=="left") {
-*/
 
 // get all projects for this PM
 $projects = _get_projects_for_pm($pm);
@@ -114,7 +86,6 @@ echo "<h1>" . _("Manage Suggestions") . "</h1>";
 echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
 
 echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
-echo "<input type='hidden' name='frame' value='left'>";
 echo "<p>";
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
     echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
@@ -154,7 +125,6 @@ $t_before = $watch->read();
 
 echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
 echo "<input type='hidden' name='action' value='update'>";
-echo "<input type='hidden' name='frame' value='left'>";
 echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
 echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
@@ -320,4 +290,3 @@ function _get_project_states_in_order() {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
