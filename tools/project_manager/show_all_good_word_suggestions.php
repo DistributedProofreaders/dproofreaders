@@ -7,7 +7,7 @@ include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
 include_once('./post_files.inc');
-include_once("./word_freq_table.inc");
+include_once("./word_freq_table.inc"); // echo_cutoff_text()
 
 require_login();
 
@@ -102,20 +102,19 @@ if($frame=="left") {
         echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
     }
 
-echo _("Show") . ": ";
-echo "<select name='timeCutoff'>";
-echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
-echo "<option value='-1'"; if($timeCutoff==-1) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
-$timeCutoffOptions=array(1,2,3,4,5,6,7,14,21);
-foreach($timeCutoffOptions as $timeCutoffOption) {
-    $timeCutoffValue = ceil((time() - 24*60*60*$timeCutoffOption)/100)*100;
-    echo "<option value='$timeCutoffValue'";
-    if($timeCutoff==$timeCutoffValue) echo "selected";
-    echo ">" . sprintf(_("Suggestions made in the past %d days"),$timeCutoffOption) . "</option>";
-}
-echo "</select>";
-echo "<br>";
-
+    echo _("Show") . ": ";
+    echo "<select name='timeCutoff'>";
+    echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
+    echo "<option value='-1'"; if($timeCutoff==-1) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
+    $timeCutoffOptions=array(1,2,3,4,5,6,7,14,21);
+    foreach($timeCutoffOptions as $timeCutoffOption) {
+        $timeCutoffValue = ceil((time() - 24*60*60*$timeCutoffOption)/100)*100;
+        echo "<option value='$timeCutoffValue'";
+        if($timeCutoff==$timeCutoffValue) echo "selected";
+        echo ">" . sprintf(_("Suggestions made in the past %d days"),$timeCutoffOption) . "</option>";
+    }
+    echo "</select>";
+    echo "<br>";
 
     echo "<input type='submit' value='Submit'></p>";
     echo "</form>";
