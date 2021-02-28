@@ -69,7 +69,7 @@ echo "<h2>", sprintf(_("Context for '%1\$s' in %2\$s"), $word, $project_name), "
 
 echo "<p>";
 
-echo "<a target='_PARENT' href='" . attr_safe($_SERVER['PHP_SELF']) . "?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
+echo "<a href='?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
 if($layout == LAYOUT_HORIZ)
     echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
 else
