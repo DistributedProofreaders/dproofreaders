@@ -1,4 +1,4 @@
-/*global $ pageBrowse */
+/*global $ pageBrowse mentorMode */
 
 $(function () {
     let url = new URL(window.location.href);
@@ -9,5 +9,5 @@ $(function () {
         window.history.replaceState(null, '', url.href);
     }
 
-    pageBrowse(params, replaceUrl);
+    pageBrowse(params, replaceUrl, mentorMode);
 });

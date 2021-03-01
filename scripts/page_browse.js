@@ -1,4 +1,4 @@
-/*global $ proofIntData mentorMode makeApiAjaxSettings splitControl */
+/*global $ proofIntData makeApiAjaxSettings splitControl */
 /* exported pageBrowse */
 
 // the controls are given class "control" so we can remove them from
@@ -261,7 +261,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     return controls;
 }
 
-function pageBrowse(params, replaceUrl) {
+function pageBrowse(params, replaceUrl, mentorMode = false) {
     // showCurrentImageFile will be set to a function so that subsequent pages
     // can be shown without redrawing the whole page
     let showCurrentImageFile = null;
