@@ -1,4 +1,4 @@
-.PHONY: all less security_checks lint tests
+.PHONY: all less security_checks lint_charsuites lint_css lint_code lint tests
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
@@ -12,11 +12,17 @@ security_checks:
 
 #----------------------------------------------------------------------------
 # File linting
-lint:
+lint_charsuites:
+	$(SELF_DIR)lint_charsuites.php $(SELF_DIR)..
+
+lint_css:
+	$(SELF_DIR)generate_css_from_less.sh --check $(SELF_DIR)../styles
+
+lint_code:
 	$(SELF_DIR)lint_php_files.sh $(SELF_DIR)..
 	$(SELF_DIR)lint_json_files.sh $(SELF_DIR)..
-	$(SELF_DIR)lint_charsuites.php $(SELF_DIR)..
-	$(SELF_DIR)generate_css_from_less.sh --check $(SELF_DIR)../styles
+
+lint: lint_charsuites lint_less lint_code
 
 #----------------------------------------------------------------------------
 # CSS compilation
