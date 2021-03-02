@@ -2,32 +2,11 @@ language: php
 addons:
   firefox: latest
 php:
-    # PHP versions are tied to the version of phpunit we use (see below).
     - 7.4
-services:
-    - mysql
-before_install:
-    - sudo apt-get update
-    - sudo apt-get install -y php-zip aspell aspell-en
-    - mysql -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
-    - mysql -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
-    - mysql -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
-    - ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
-install:
-    # install the database schema
-    - cd SETUP
-    - php install_db.php
-    - cd ..
 before_script:
-    # Specify a version that works with php 7.2, 7.3, 7.4 (see
-    # https://phpunit.de/supported-versions.html)
-    - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-8.phar
-    - phpunit --version
     # We need npm for eslint
     - nvm install 12 --lts
     - npm install
-    # PHP dependencies
-    - composer install
 script:
     - cd SETUP
     # do minimal security checks
@@ -36,7 +15,6 @@ script:
     - make lint
     - npm run lint
     # now lets get crazy and run our meager unit tests...
-    - make tests
     - npm run test
 notifications:
   slack:
