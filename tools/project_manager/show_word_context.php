@@ -15,8 +15,6 @@ include_once("./word_freq_table.inc"); // enforce_edit_authorization(), decode_w
 
 require_login();
 
-define("LAYOUT_HORIZ", "horizontal");
-define("LAYOUT_VERT",  "vertical");
 define("MAX_WORD_INSTANCES", 100);
 
 set_time_limit(0); // no time limit
@@ -29,21 +27,15 @@ enforce_edit_authorization($projectid);
 
 // get the correct layout
 $userSettings =& Settings::get_Settings($pguser);
-// if not set gives LAYOUT_HORIZ
-$default_layout =  $userSettings->get_value("show_word_context_layout", LAYOUT_HORIZ);
-
-$layout_choices = array(LAYOUT_HORIZ, LAYOUT_VERT);
-$layout = get_enumerated_param($_GET, 'layout', $default_layout, $layout_choices);
-if($layout != $default_layout)
-{
-    $userSettings->set_value("show_word_context_layout", $layout);
-}
+// if not set gives "horizontal"
+$default_layout =  $userSettings->get_value("show_word_context_layout", "horizontal");
 
 $wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
 
 $details = json_encode([
-    "layout" => $layout,
+    "layout" => $default_layout,
     "projectid" => $projectid,
+    'storageKeyLayout' => 'show_word_context_layout',
 ]);
 
 $header_args = [
@@ -68,19 +60,12 @@ $project_name = get_project_name($projectid);
 echo "<h2>", sprintf(_("Context for '%1\$s' in %2\$s"), $word, $project_name), "</h2>";
 
 echo "<p>";
-
-echo "<a href='?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
-if($layout == LAYOUT_HORIZ)
-    echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
-else
-    echo "layout=" . LAYOUT_HORIZ . "'>" . _("Change to horizontal layout");
-echo "</a>";
+echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 echo "<form method='GET' id='wordInstancesForm'>";
 echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<input type='hidden' name='word' value='$encWord'>";
-echo "<input type='hidden' name='layout' value='$layout'>";
 echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
 echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='$(\"#wordInstancesForm\").submit()'>";
 foreach(range(10, MAX_WORD_INSTANCES, 10) as $option) {

@@ -16,9 +16,6 @@ include_once($relPath.'page_controls.inc');
 
 require_login();
 
-define("LAYOUT_HORIZ", "horizontal");
-define("LAYOUT_VERT",  "vertical");
-
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
@@ -36,19 +33,13 @@ enforce_edit_authorization($projectid);
 
 // get the correct layout
 $userSettings =& Settings::get_Settings($pguser);
-// if not set gives LAYOUT_HORIZ
-$default_layout =  $userSettings->get_value("show_good_words_layout", LAYOUT_HORIZ);
-
-$layout_choices = array(LAYOUT_HORIZ, LAYOUT_VERT);
-$layout = get_enumerated_param($_GET, 'layout', $default_layout, $layout_choices);
-if($layout != $default_layout)
-{
-    $userSettings->set_value("show_good_words_layout", $layout);
-}
+// if not set gives "horizontal"
+$default_layout =  $userSettings->get_value("show_good_words_layout", "horizontal");
 
 $details = json_encode([
-    "layout" => $layout,
+    "layout" => $default_layout,
     "projectid" => $projectid,
+    'storageKeyLayout' => "show_good_words_layout",
 ]);
 
 $header_args = [
@@ -95,12 +86,7 @@ echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord'>" .
       _("Show full context set for this word") . "</a>";
 
 echo " | ";
-echo "<a href='?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
-if($layout == LAYOUT_HORIZ)
-    echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
-else
-    echo "layout=" . LAYOUT_HORIZ . "'>" . _("Change to horizontal layout");
-echo "</a>";
+echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 foreach($word_suggestions as $suggestion) {

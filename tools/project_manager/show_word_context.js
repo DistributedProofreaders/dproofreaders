@@ -1,22 +1,50 @@
-/*global $ splitControl pageBrowse showWordContext */
+/*global $ splitControl pageBrowse showWordContext proofIntData */
 
 $(function () {
-    let STORAGE_KEY = 'show_word_context';
+    let STORAGE_KEY_PERCENT = 'show_word_context_percent';
     // this is a function to get a function to show a file
     let getShowCurrentImageFile = null;
+    let switchLink = $("#h_v_switch");
 
-    let splitPercent = parseFloat(localStorage.getItem(STORAGE_KEY));
+    let splitPercent = parseFloat(localStorage.getItem(STORAGE_KEY_PERCENT));
     if(!splitPercent) {
         // if not defined or 0, set the value to 30%.
         splitPercent = 30;
     }
+
+    // stored value is "horizontal" or "vertical"
+    let splitDirString = localStorage.getItem(showWordContext.storageKeyLayout);
+    // splitVertical is true or false
+    let splitVertical;
+
+    if(splitDirString) {
+        splitVertical = (splitDirString === "vertical");
+    } else {
+        // use value from userSettings
+        splitVertical = showWordContext.layout === 'vertical';
+    }
+
     let mainSplit = splitControl("#show_word_context_container", {
-        splitVertical: showWordContext.layout === 'vertical',
+        splitVertical: splitVertical,
         splitPercent: splitPercent,
     });
     mainSplit.reLayout();
+
+    function setSplitLink() {
+        switchLink.text(splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical);
+    }
+
+    setSplitLink();
+
+    switchLink.click(function () {
+        splitVertical = !splitVertical;
+        mainSplit.setSplit(splitVertical);
+        setSplitLink();
+        localStorage.setItem(showWordContext.storageKeyLayout, splitVertical ? "vertical" : "horizontal");
+    });
+
     mainSplit.dragEnd.add(function (percent) {
-        localStorage.setItem(STORAGE_KEY, percent);
+        localStorage.setItem(STORAGE_KEY_PERCENT, percent);
     });
 
     let params = new URLSearchParams();
