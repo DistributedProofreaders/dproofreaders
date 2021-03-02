@@ -1,0 +1,33 @@
+name: Static code checks
+on: [push, pull_request]
+jobs:
+  phpunit:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: 7.4
+          extensions: mbstring, iconv, intl, mysql, zip
+          tools: phpunit, composer
+      - name: Start mysql service
+        run: sudo /etc/init.d/mysql start
+      - name: Configure mysql
+        run: |
+          mysql -uroot -proot -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
+          mysql -uroot -proot -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
+          mysql -uroot -proot -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
+          ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
+      - name: Install DB schema
+        run: |
+          cd SETUP
+          php install_db.php
+          cd ..
+      - name: Install composer dependencies
+        run: composer install
+      - name: Install aspell dependencies for WordCheck tests
+        run: sudo apt install aspell aspell-en
+      - name: Run phpunit tests
+        run: cd SETUP/tests && phpunit
