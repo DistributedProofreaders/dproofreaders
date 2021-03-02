@@ -9,9 +9,9 @@ include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
-include_once('./post_files.inc');
-include_once("./word_freq_table.inc");
-include_once($relPath.'page_controls.inc');
+include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
+include_once('./post_files.inc'); // page_info_query()
+include_once("./word_freq_table.inc"); // enforce_edit_authorization(), decode_word()
 
 require_login();
 

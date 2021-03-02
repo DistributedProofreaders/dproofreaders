@@ -6,9 +6,9 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
-include_once('./post_files.inc');
-include_once("./word_freq_table.inc"); // echo_cutoff_text()
-include_once($relPath.'page_controls.inc');
+include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
+include_once('./post_files.inc'); // page_info_query()
+include_once("./word_freq_table.inc"); // echo_cutoff_text(), printTableFrequencies(), decode_word()
 
 require_login();
 
@@ -76,7 +76,7 @@ $header_args = [
 
 slim_header(_("Manage Suggestions"), $header_args);
 
-echo "<div id='suggestions_container' style='flex: auto;width: 100%; height: 100%'>";
+echo "<div id='suggestions_container' style='flex: auto; width: 100%; height: 100%'>";
 echo "<div class='overflow-auto'>";
 echo "<div style='padding: 0.5em'>";
 
