@@ -381,10 +381,12 @@ class User
         }
         else
         {
-            # MySQL does case-insensitive matches for strings, as well as
-            # ignores trailing whitespace. If $strict is TRUE, require that
-            # the requested $username matches the existing username in case
-            # and whitespace by doing a PHP string compare.
+            # MySQL does case-insensitive matches for strings and, with some
+            # collations, ignores trailing whitespace:
+            # https://saveriomiroddi.github.io/Summary-of-trailing-spaces-handling-in-MySQL-with-version-8.0-upgrade-considerations/
+            # If $strict is TRUE, require that the requested $username matches
+            # the existing username in case and whitespace by doing a PHP string
+            # compare.
             if($strict)
             {
                 list($existing_username) = mysqli_fetch_row($result);

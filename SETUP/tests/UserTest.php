@@ -95,13 +95,6 @@ class UserTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($is_valid);
     }
 
-    public function testValidateValidUserNotStrictDifferWhitespace()
-    {
-        $username=$this->TEST_USERNAME . "  ";
-        $is_valid = User::is_valid_user($username, FALSE);
-        $this->assertTrue($is_valid);
-    }
-
     public function testValidateInvalidUser()
     {
         $is_valid = User::is_valid_user($this->NONTEST_USERNAME);
