@@ -31,6 +31,17 @@ jobs:
         run: sudo apt install aspell aspell-en
       - name: Run phpunit tests
         run: cd SETUP/tests && phpunit
+  linting:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: 7.4
+      - name: Lint code
+        run: cd SETUP && make lint_code && cd ..
   misc_checks:
     runs-on: ubuntu-20.04
     steps:
