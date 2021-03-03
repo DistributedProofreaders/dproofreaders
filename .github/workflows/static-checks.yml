@@ -19,7 +19,7 @@ jobs:
           mysql -uroot -proot -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
           mysql -uroot -proot -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
           mysql -uroot -proot -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
-          ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
+          ./SETUP/configure ./SETUP/tests/ci_configuration.sh .
       - name: Install DB schema
         run: |
           cd SETUP
@@ -54,7 +54,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14'
       - name: Install NPM packages (for less)
         run: npm install
       - name: Run security checks
@@ -63,3 +63,7 @@ jobs:
         run: cd SETUP && make lint_charsuites && cd ..
       - name: Run less/CSS checks
         run: cd SETUP && make lint_css && cd ..
+      - name: Run js lint
+        run: npm run lint
+      - name: Run js unit tests
+        run: npm run test

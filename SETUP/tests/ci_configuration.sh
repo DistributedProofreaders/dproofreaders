@@ -1,5 +1,5 @@
 # This configuration file is used for environment set up as part of
-# Travis-CI. Very (very) few of these variables are yet used for
+# Continuous Integration. Very (very) few of these variables are yet used for
 # any part of the automated tests, but they need to be present to
 # make sure the filled-in .template files are valid PHP files.
 
@@ -21,7 +21,7 @@ _FORUMS_URL='http://localhost/phpBB3'
 
 _DEFAULT_CHAR_SUITES='[ "basic-latin" ]'
 
-_SITE_NAME='Travis-CI'
+_SITE_NAME='CI'
 _SITE_ABBREVIATION=TCI
 _SITE_SIGNOFF="Ciao!"
 _SITE_URL=$_CODE_URL

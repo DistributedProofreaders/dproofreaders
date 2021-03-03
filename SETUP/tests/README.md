@@ -5,7 +5,7 @@ Including:
 * [phpunit](https://phpunit.de/) tests in this directory
 * [QUnit](https://qunitjs.com/) tests in the `jsTests` directory
 * Manual web-based tests in the `manual_web` directory
-* [TravisCI](https://travis-ci.com/) configuration
+ * [GitHub Actions](https://github.com/features/actions) configuration
 
 ## phpunit tests
 
