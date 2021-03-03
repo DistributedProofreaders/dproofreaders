@@ -9,10 +9,8 @@ before_script:
     - npm install
 script:
     - cd SETUP
-    # do minimal security checks
-    - make security_checks
     # linting is SUCH a low bar, but it is a bar!
-    - make lint
+    - make lint_code
     - npm run lint
     # now lets get crazy and run our meager unit tests...
     - npm run test
