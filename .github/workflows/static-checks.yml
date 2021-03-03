@@ -31,3 +31,24 @@ jobs:
         run: sudo apt install aspell aspell-en
       - name: Run phpunit tests
         run: cd SETUP/tests && phpunit
+  misc_checks:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: 7.4
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Install NPM packages (for less)
+        run: npm install
+      - name: Run security checks
+        run: cd SETUP && make security_checks && cd ..
+      - name: Run charsuite checks
+        run: cd SETUP && make lint_charsuites && cd ..
+      - name: Run less/CSS checks
+        run: cd SETUP && make lint_css && cd ..
