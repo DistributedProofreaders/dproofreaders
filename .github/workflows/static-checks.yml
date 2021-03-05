@@ -19,7 +19,7 @@ jobs:
           mysql -uroot -proot -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
           mysql -uroot -proot -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
           mysql -uroot -proot -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
-          ./SETUP/configure ./SETUP/tests/travis-ci_configuration.sh .
+          ./SETUP/configure ./SETUP/tests/ci_configuration.sh .
       - name: Install DB schema
         run: |
           cd SETUP
@@ -31,6 +31,19 @@ jobs:
         run: sudo apt install aspell aspell-en
       - name: Run phpunit tests
         run: cd SETUP/tests && phpunit
+  jsunit:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install NPM packages (for tests)
+        run: npm install
+      - name: Run js unit tests
+        run: npm run test
   linting:
     runs-on: ubuntu-20.04
     steps:
@@ -40,8 +53,16 @@ jobs:
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: 7.4
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install NPM packages (for eslint)
+        run: npm install
       - name: Lint code
         run: cd SETUP && make lint_code && cd ..
+      - name: Run js lint
+        run: npm run lint
   misc_checks:
     runs-on: ubuntu-20.04
     steps:
@@ -54,7 +75,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14'
       - name: Install NPM packages (for less)
         run: npm install
       - name: Run security checks
