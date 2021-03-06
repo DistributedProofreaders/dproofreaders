@@ -45,12 +45,12 @@ $header_args = [
     "js_data" => get_proofreading_interface_data_js() . "
         var showWordContext = $details;",
 
-    "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
+    "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw;"',
 ];
 slim_header(_("Suggestion Detail"), $header_args);
-echo "<div id='show_word_context_container' style='flex: auto;width: 100%;height: 100%'>";
+echo "<div id='show_word_context_container' style='flex: auto; width: 100%; height: 100%;'>";
 echo "<div class='overflow-auto'>";
-echo "<div style='padding: 0.5em'>";
+echo "<div style='padding: 0.5em;'>";
 
 // load the suggestions
 $suggestions = load_wordcheck_events($projectid,$timeCutoff);
@@ -116,7 +116,7 @@ foreach($word_suggestions as $suggestion) {
 echo "</div></div>";
 
 echo "<div id='page-browser' class='overflow-hidden'>";
-echo "<p style='margin: 0.5em'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
+echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
 echo "</div>";
 echo "</div>";
 
