@@ -15,13 +15,10 @@ $(function () {
     // stored value is "horizontal" or "vertical"
     let splitDirString = localStorage.getItem(showWordContext.storageKeyLayout);
     // splitVertical is true or false
-    let splitVertical;
+    let splitVertical = false;
 
     if(splitDirString) {
         splitVertical = (splitDirString === "vertical");
-    } else {
-        // use value from userSettings
-        splitVertical = showWordContext.layout === 'vertical';
     }
 
     let mainSplit = splitControl("#show_word_context_container", {

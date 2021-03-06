@@ -31,13 +31,7 @@ $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 $imagefile  = get_page_image_param($_GET, 'imagefile', true);
 enforce_edit_authorization($projectid);
 
-// get the correct layout
-$userSettings =& Settings::get_Settings($pguser);
-// if not set gives "horizontal"
-$default_layout =  $userSettings->get_value("show_good_words_layout", "horizontal");
-
 $details = json_encode([
-    "layout" => $default_layout,
     "projectid" => $projectid,
     'storageKeyLayout' => "show_good_words_layout",
 ]);

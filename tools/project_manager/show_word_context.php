@@ -25,15 +25,9 @@ $word      = rtrim(decode_word($encWord));
 
 enforce_edit_authorization($projectid);
 
-// get the correct layout
-$userSettings =& Settings::get_Settings($pguser);
-// if not set gives "horizontal"
-$default_layout =  $userSettings->get_value("show_word_context_layout", "horizontal");
-
 $wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
 
 $details = json_encode([
-    "layout" => $default_layout,
     "projectid" => $projectid,
     'storageKeyLayout' => 'show_word_context_layout',
 ]);
