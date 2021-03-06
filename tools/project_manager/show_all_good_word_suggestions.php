@@ -6,8 +6,9 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
-include_once('./post_files.inc');
-include_once("./word_freq_table.inc");
+include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
+include_once('./post_files.inc'); // page_info_query()
+include_once("./word_freq_table.inc"); // echo_cutoff_text(), printTableFrequencies(), decode_word()
 
 require_login();
 
@@ -28,14 +29,9 @@ if ( !user_is_a_sitemanager() && !user_is_proj_facilitator() ) {
     $pm = $pguser;
 }
 
-// $frame determines which frame we're operating from
-//     none - we're the master frame
-//   'left' - we're the left frame with the text
-//  'right' - we're the right frame for the context info
-// 'update' - not a frame at all - process the incoming data
-$frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'left', 'right', 'update'));
+$action = get_enumerated_param($_REQUEST, 'action', 'view', array('view', 'update'));
 
-if($frame=="update") {
+if($action=="update") {
     $newProjectWords=array();
     foreach($_POST as $key => $val) {
         if(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
@@ -52,55 +48,48 @@ if($frame=="update") {
         $words = array_merge($words,$projectWords);
         save_project_good_words($projectid,$words);
     }
-
-    $frame="left";
 }
 
-if($frame=="master") {
-    slim_header_frameset(_("Manage Suggestions"));
-    $frameSpec='cols="40%,60%"';
-    if(@$_REQUEST["timecutoff"])
-        $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
-    else $timeCutoffSpec="";
-?>
-<frameset <?php echo $frameSpec; ?>>
-<frame src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?pm=<?php echo urlencode($pm); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
-<frame name="detailframe" src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?frame=right">
-</frameset>
-<noframes>
-<?php echo _("Your browser currently does not display frames!"); ?>
-</noframes>
-<?php
-    exit;
+// get all projects for this PM
+$projects = _get_projects_for_pm($pm);
+
+$submitLabel = _("Add selected words to Good Words List");
+
+// how many instances (ie: frequency sections) are there?
+$instances=count( $projects ) + 1;
+// what are the cutoff options?
+$cutoffOptions = array(1,2,3,4,5,10,25,50);
+// what is the initial cutoff frequency?
+$initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions);
+
+$header_args = [
+    "js_files" => [
+        "$code_url/scripts/splitControl.js",
+        "$code_url/scripts/page_browse.js",
+        "./show_all_good_word_suggestions.js",
+    ],
+    "js_data" => get_proofreading_interface_data_js() .
+        get_cutoff_script($cutoffOptions,$instances),
+
+    "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
+];
+
+slim_header(_("Manage Suggestions"), $header_args);
+
+echo "<div id='suggestions_container' style='flex: auto; width: 100%; height: 100%'>";
+echo "<div class='overflow-auto'>";
+echo "<div style='padding: 0.5em'>";
+
+echo "<h1>" . _("Manage Suggestions") . "</h1>";
+
+// TRANSLATORS: PM = project manager
+echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
+
+echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
+echo "<p>";
+if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
+    echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
 }
-
-// now load data in the left frame
-if($frame=="left") {
-    // get all projects for this PM
-    $projects = _get_projects_for_pm($pm);
-
-    $submitLabel = _("Add selected words to Good Words List");
-
-    // how many instances (ie: frequency sections) are there?
-    $instances=count( $projects ) + 1;
-    // what are the cutoff options?
-    $cutoffOptions = array(1,2,3,4,5,10,25,50);
-    // what is the initial cutoff frequency?
-    $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions);
-
-    slim_header(_("Manage Suggestions"), array("js_data" => get_cutoff_script($cutoffOptions,$instances)));
-
-    echo "<h1>" . _("Manage Suggestions") . "</h1>";
-
-    // TRANSLATORS: PM = project manager
-    echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
-
-    echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
-    echo "<input type='hidden' name='frame' value='left'>";
-    echo "<p>";
-    if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
-        echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
-    }
 
 echo _("Show") . ": ";
 echo "<select name='timeCutoff'>";
@@ -116,94 +105,97 @@ foreach($timeCutoffOptions as $timeCutoffOption) {
 echo "</select>";
 echo "<br>";
 
+echo "<input type='submit' value='Submit'></p>";
+echo "</form>";
 
-    echo "<input type='submit' value='Submit'></p>";
-    echo "</form>";
+if($timeCutoff==-1)
+    $time_cutoff_text = _("Suggestions since the project's Good Words List was last modified are included.");
+elseif($timeCutoff==0)
+    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
+else
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
 
-    if($timeCutoff==-1)
-        $time_cutoff_text = _("Suggestions since the project's Good Words List was last modified are included.");
-    elseif($timeCutoff==0)
-        $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
-    else
-        $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
+echo "<p>" . $time_cutoff_text . "</p>";
 
-    echo "<p>" . $time_cutoff_text . "</p>";
+echo "<p>" . sprintf(_("Selecting any '%s' button will add all selected words to their corresponding project word list, not just the words in the section for the button itself."),$submitLabel) . "</p>";
 
-    echo "<p>" . sprintf(_("Selecting any '%s' button will add all selected words to their corresponding project word list, not just the words in the section for the button itself."),$submitLabel) . "</p>";
-    
-    echo_cutoff_text( $initialFreq,$cutoffOptions );
+echo_cutoff_text( $initialFreq,$cutoffOptions );
 
-    $t_before = $watch->read();
+$t_before = $watch->read();
 
-    echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
-    echo "<input type='hidden' name='frame' value='update'>";
-    echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
-    echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
+echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
+echo "<input type='hidden' name='action' value='update'>";
+echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
+echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
-    $projectsNeedingAttention=0;
-    // loop through the projects
-    foreach($projects as $projectid=>$projectdata) {
-        list($projectname,$projectstate)=$projectdata;
-        $goodFileObject = get_project_word_file($projectid,"good");
+$projectsNeedingAttention=0;
+// loop through the projects
+foreach($projects as $projectid=>$projectdata) {
+    list($projectname,$projectstate)=$projectdata;
+    $goodFileObject = get_project_word_file($projectid,"good");
 
-        // set the timeCutoff
-        if($timeCutoff==-1) $timeCutoffActual=$goodFileObject->mod_time;
-        else $timeCutoffActual=$timeCutoff;
+    // set the timeCutoff
+    if($timeCutoff==-1) $timeCutoffActual=$goodFileObject->mod_time;
+    else $timeCutoffActual=$timeCutoff;
 
-        // load suggestions since cutoff
-        $suggestions = load_project_good_word_suggestions($projectid,$timeCutoffActual);
+    // load suggestions since cutoff
+    $suggestions = load_project_good_word_suggestions($projectid,$timeCutoffActual);
 
-        // if there are no suggestions since the cutoff, skip it
-        if(!count($suggestions)) continue;
+    // if there are no suggestions since the cutoff, skip it
+    if(!count($suggestions)) continue;
 
-        // get the data
-        list($suggestions_w_freq,$suggestions_w_occurrences,$messages) =
-            _get_word_list($projectid,$suggestions);
+    // get the data
+    list($suggestions_w_freq,$suggestions_w_occurrences,$messages) =
+        _get_word_list($projectid,$suggestions);
 
-        // if no words are returned (probably because something was
-        // suggested but is no longer in the text) skip this project
-        if(count($suggestions_w_freq)==0) continue;
+    // if no words are returned (probably because something was
+    // suggested but is no longer in the text) skip this project
+    if(count($suggestions_w_freq)==0) continue;
 
-        $projectsNeedingAttention++;
+    $projectsNeedingAttention++;
 
-        echo "<hr>";
-        echo "<h3>$projectname</h3>";
-        echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
+    echo "<hr>";
+    echo "<h3>$projectname</h3>";
+    echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
 
-        echo_checkbox_selects(count($suggestions_w_freq),$projectid);
+    echo_checkbox_selects(count($suggestions_w_freq),$projectid);
 
-        echo_any_warnings_errors( $messages );
+    echo_any_warnings_errors( $messages );
 
-        $count=0;
-        foreach($suggestions_w_freq as $word => $freq) {
-            $encWord = encode_word($word);
-            $context_array[$word]="<a href='show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoffActual' target='detailframe'>" . _("Context") . "</a>";
-            $word_checkbox[$word]="<input type='checkbox' id='cb_{$projectid}_{$count}' name='cb_{$projectid}_{$count}' value='$encWord'>";
-            $count++;
-        }
-        $suggestions_w_occurrences['[[TITLE]]']=_("Sugg");
-        $suggestions_w_occurrences['[[STYLE]]']="text-align: right;";
-        $context_array['[[TITLE]]']=_("Show Context");
-
-        printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurrences,$context_array),$word_checkbox);
-
-        echo "<p><input type='submit' value='$submitLabel'></p>";
+    $count=0;
+    foreach($suggestions_w_freq as $word => $freq) {
+        $encWord = encode_word($word);
+        $context_array[$word]="<a href='show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoffActual' target='detailframe'>" . _("Context") . "</a>";
+        $word_checkbox[$word]="<input type='checkbox' id='cb_{$projectid}_{$count}' name='cb_{$projectid}_{$count}' value='$encWord'>";
+        $count++;
     }
+    $suggestions_w_occurrences['[[TITLE]]']=_("Sugg");
+    $suggestions_w_occurrences['[[STYLE]]']="text-align: right;";
+    $context_array['[[TITLE]]']=_("Show Context");
 
-    if($projectsNeedingAttention==0) {
-        echo "<p>" . _("No projects have proofreader suggestions for the given timeframe.") . "</p>";
-    } else {
-        echo "<hr>";
-    }
+    printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurrences,$context_array),$word_checkbox);
 
-    echo "</form>";
-
-    $t_after = $watch->read();
-    $t_to_generate_data = $t_after - $t_before;
-
-    echo_page_footer($t_to_generate_data);
+    echo "<p><input type='submit' value='$submitLabel'></p>";
 }
 
+if($projectsNeedingAttention==0) {
+    echo "<p>" . _("No projects have proofreader suggestions for the given timeframe.") . "</p>";
+} else {
+    echo "<hr>";
+}
+
+echo "</form>";
+
+$t_after = $watch->read();
+$t_to_generate_data = $t_after - $t_before;
+
+echo_page_footer($t_to_generate_data);
+
+echo "</div></div>";
+
+echo "<div>";
+echo "<iframe name='detailframe' width='100%' height='100%' style='border:none;'></iframe>";
+echo "</div></div>";
 
 //---------------------------------------------------------------------------
 // supporting page functions
@@ -298,4 +290,3 @@ function _get_project_states_in_order() {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
