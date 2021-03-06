@@ -31,6 +31,8 @@ function get_proofreading_interface_data_js()
         "noPages" => _("There are no pages in this project"),
         "enterID" => _("Please enter a project ID"),
         "noPageX" => _("There is no page %s in this project"),
+        "layoutVertical" => _("Change to vertical layout"),
+        "layoutHorizontal" => _("Change to horizontal layout"),
     ];
 
     global $code_url;
