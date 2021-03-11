@@ -68,14 +68,18 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Setup PHP
+      - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: 7.4
+          extensions: mbstring, iconv, intl, mysql, zip
+          tools: phpunit, composer
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Install composer dependencies (for UTF8)
+        run: composer install
       - name: Install NPM packages (for less)
         run: npm install
       - name: Run security checks
