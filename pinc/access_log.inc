@@ -33,7 +33,11 @@ function get_first_granted_date($username, $stage)
 
     $row = mysqli_fetch_assoc($result);
 
-    return $row["timestamp"];
+    if ($row) {
+        return $row["timestamp"];
+    } else {
+        return NULL;
+    }
 }
 
 function get_latest_access_change_entry($username, $activity_id)

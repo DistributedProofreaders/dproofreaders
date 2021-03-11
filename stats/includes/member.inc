@@ -446,7 +446,11 @@ function showMbrPageStats( $user, $tally_name )
     else
     {
         $firstWorkInRound = get_first_granted_date($user->username,$tally_name);
-        $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
+        if ($firstWorkInRound) {
+            $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
+        } else {
+            $daysInRoundInteger = 0;
+        }
     }
 
     $daysInRoundString = sprintf(_("%s days"), 
