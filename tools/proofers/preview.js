@@ -384,12 +384,12 @@ $(function () {
                     continue;
                 }
                 res1 = result[1];
-                if (res1 === res1.toLowerCase()) { //no upper case found - definite
+                if (res1 === res1.toLowerCase() && res1.charAt(0) !== "*") { // no upper case found - definite
                     reportIssue(result.index, 4, "scNoCap", 1);
                     continue;
                 }
                 res1 = removeComments(res1);
-                if (res1 === res1.toLowerCase()) { //upper case was in a note - poss
+                if (res1 === res1.toLowerCase()) { // either a lowercase fragment, or upper case was in a note - poss
                 // mark only a text char incase no tags shown
                     reportIssue(result.index + 4, 1, "scNoCap", 0);
                 }

@@ -257,6 +257,12 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 0, 4, "scNoCap", 1);
     });
 
+    QUnit.test("small cap fragment with no capitals, possible issue", function (assert) {
+        text = "<sc>*abcd</sc>";
+        issArray = analyse(text, configuration);
+        issueTest(assert, 0, 4, 1, "scNoCap", 0);
+    });
+
     QUnit.test("small cap text with capitals only in comment, possible issue", function (assert) {
         text = "<sc>abcd[** ABCD]</sc>";
         issArray = analyse(text, configuration);
