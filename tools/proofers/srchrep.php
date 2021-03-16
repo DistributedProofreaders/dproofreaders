@@ -35,7 +35,7 @@ slim_header(_("Search/Replace"), array(
     <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="srchrep.restoreSavedText()" disabled>
 </center>
 </form>
-<p><?php echo _("Warning: Only the most recent replace operation may be reverted!"); ?></p>
+<p><?php echo _("Warning: Only the most recent replace operation may be reverted! Any changes made after the replace operation will be lost!"); ?></p>
 <a href='<?php echo "$code_url/faq/prooffacehelp.php#srchrep"; ?>' target='helpNewWin'><?php echo _('Regular Expression Help'); ?></a>
 
 <?php
