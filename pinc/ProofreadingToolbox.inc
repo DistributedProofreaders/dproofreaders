@@ -55,7 +55,7 @@ class ProofreadingToolbox
         ];
 
         $this->popup_links = [
-            'search_and_replace' => new PopupLink(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 300, 225),
+            'search_and_replace' => new PopupLink(_('Search/Replace'), 'srchrep.php', 'dp_searchrepl', 330, 240),
             'table_maker' => new PopupLink(_('Table Maker'), 'mktable.php', 'dp_mktable', 600, 500),
             'greek_transliterator' => new PopupLink(_('Greek Transliterator'), 'greek2ascii.php', 'gkasciiWin', 640, 250),
         ];
