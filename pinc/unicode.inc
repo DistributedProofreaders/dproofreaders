@@ -97,7 +97,18 @@ function split_graphemes($string)
 
     while ($next < $maxbytes)
     {
-        yield grapheme_extract($string, 1, GRAPHEME_EXTR_COUNT, $next, $next);
+        // grapheme_extract() returns \r\n as a single grapheme but we need it
+        // as two separate characters
+        $buffer = grapheme_extract($string, 1, GRAPHEME_EXTR_COUNT, $next, $next);
+        if ($buffer == "\r\n") {
+            $buffer = ["\r", "\n"];
+            while ($buffer) {
+                yield array_shift($buffer);
+            }
+        }
+        else {
+            yield $buffer;
+        }
     }
 }
 
