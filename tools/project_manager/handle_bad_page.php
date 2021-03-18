@@ -83,7 +83,7 @@ if (!$resolution) {
         $header = _("Fix Page");
     }
 
-    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints()));
+    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints(), "js"));
 
     $header_args = [
         "js_files" => [

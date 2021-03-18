@@ -132,7 +132,7 @@ function string_to_codepoints_string($string, $imploder=" ")
 # Filter to only characters in $string that are in $valid_codepoints.
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 {
-    $pattern_string = build_character_regex_filter($valid_codepoints, '/');
+    $pattern_string = build_character_regex_filter($valid_codepoints);
     $result = "";
     foreach(split_graphemes($string) as $grapheme)
     {
@@ -152,7 +152,7 @@ function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement="")
 # Filter out any characters in $string that are in $remove_codepoints
 function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement="")
 {
-    $pattern_string = build_character_regex_filter($remove_codepoints, '/');
+    $pattern_string = build_character_regex_filter($remove_codepoints);
     $result = "";
     foreach (split_graphemes($string) as $grapheme) {
         if(1 === preg_match("/$pattern_string/u", $grapheme))
@@ -167,12 +167,27 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement=""
     return $result;
 }
 
+# Given a codepoint (U+####), return an escaped version of the
+# codepoint for use in a regex in the given language.
+# https://www.php.net/manual/en/regexp.reference.escape.php
+# https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes
+function get_unicode_regex_class($codepoint, $lang='php')
+{
+    $hex = str_replace("U+", "", $codepoint);
+    if ($lang == "php") {
+        return '\\x{' . $hex . '}';
+    } elseif ($lang == "js") {
+        return '\\u{' . $hex . '}';
+    } else {
+        throw new Exception("invalid lang provided: $lang");
+    }
+}
+
 # Take an array of Unicode codepoints (U+####), codepoint ranges
 # (U+####-U+####), or combined characters (U+####>U+####) and
 # return a regular expression character class to match a single
-# character. $delimiter should be the one used in the preg function
-# that will use this filter.
-function build_character_regex_filter($codepoints, $delimiter=NULL)
+# character. $lang is the consuming language (php or js).
+function build_character_regex_filter($codepoints, $lang='php')
 {
     $char_class = "";
     $alternatives = [];
@@ -183,22 +198,22 @@ function build_character_regex_filter($codepoints, $delimiter=NULL)
             # we have a character range
             list($start, $end) = explode('-', $codepoint);
             $char_class .= implode("", [
-                preg_quote(UTF8::hex_to_chr($start), $delimiter),
+                get_unicode_regex_class($start, $lang),
                 '-',
-                preg_quote(UTF8::hex_to_chr($end), $delimiter)
+                get_unicode_regex_class($end, $lang),
             ]);
         }
         elseif(strpos($codepoint, '>') !== False)
         {
             # we have a combined character
             $alternatives[] = preg_quote(
-                utf8_combined_chr($codepoint), $delimiter
+                utf8_combined_chr($codepoint), $lang == 'php' ? '/' : NULL
             );
         }
         else
         {
             # just a regular unicode character
-            $char_class .= preg_quote(UTF8::hex_to_chr($codepoint), $delimiter);
+            $char_class .= get_unicode_regex_class($codepoint, $lang);
         }
     }
     if($char_class)
