@@ -15,13 +15,21 @@ foreach(CharSuites::get_all() as $charsuite)
     echo "Validating charsuite $charsuite->name...\n";
 
     // Validate that codepoint specifiers don't include both a range and a
-    // combining character.
+    // combining character. And that all ranges are low to high.
     foreach($charsuite->codepoints as $codepoint)
     {
         if(stripos($codepoint, "-") !== FALSE && stripos($codepoint, ">") !== FALSE)
         {
             echo sprintf("ERROR: %s codepoint has both a range and a combining character\n", $codepoint);
             exit(1);
+        }
+
+        if (stripos($codepoint, "-") !== FALSE) {
+            list($start, $end) = explode('-', $codepoint);
+            if ($start > $end) {
+                echo sprintf("ERROR: %s codepoint range start is greater than range end\n", $codepoint);
+                exit(1);
+            }
         }
     }
 
