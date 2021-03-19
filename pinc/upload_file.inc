@@ -302,7 +302,7 @@ function is_valid_filename($filename, $restrict_extension=False)
     // We allow filenames to start with an alphanumeric, followed by 0 more
     // alphanumerics, underscores, dashes, and ending with a period and an
     // extension. The filename is valid if the regexp matches exactly once.
-    return preg_match('/^\w[\w-]*\.\w+$/', $filename) == 1;
+    return preg_match('/^\w[\w\-]*\.\w+$/', $filename) == 1;
 }
 
 // This function is used in remote_file_manager to enforce valid
@@ -316,7 +316,7 @@ function is_valid_dirname($dirname)
     }
 
     // We allow directory names to start with an alphanumeric, followed by 0
-    // more alphanumerics, underscores, dashes, and periods. The directory
+    // or more alphanumerics, underscores, dashes, and periods. The directory
     // name is valid if the regexp matches exactly once.
-    return preg_match('/^\w[\w-\.]*$/', $dirname) == 1;
+    return preg_match('/^\w[\w\.\-]*$/', $dirname) == 1;
 }
