@@ -16,7 +16,7 @@ $revert_text=isset($_POST['revert_text']) ? $_POST['revert_text'] : $text_data;
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 $project = new Project($ppage->projectid());
-$valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints(), "js"));
+$valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
 
 $keep_corrections = _("Keep corrections and return to proofreading this page");
 $rerun = _("Check page against an additional language");
