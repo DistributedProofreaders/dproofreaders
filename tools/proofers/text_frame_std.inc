@@ -10,9 +10,9 @@ function echo_text_frame_std( $ppage )
     global $code_url;
     
     $project = new Project($ppage->projectid());
-    $valid_character_pattern = javascript_safe(build_character_regex_filter($project->get_valid_codepoints(), "js"));
-    $switch_confirm = javascript_safe(_('Are you sure you want to save the current page and change layout?'));
-    $revert_confirm = javascript_safe(_("Are you sure you want to save the current page and revert to the original text for this round?"));
+    $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
+    $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
+    $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
 
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css"),

@@ -30,7 +30,7 @@ else
 }
 // 'quiz' will result in codepoints for quizes
 $quiz = get_project_or_quiz("quiz");
-$valid_character_pattern = javascript_safe(build_character_regex_filter($quiz->get_valid_codepoints(), "js"));
+$valid_character_pattern = build_character_regex_filter($quiz->get_valid_codepoints(), "js");
 
 $header_args = array(
     "js_files" => array(
