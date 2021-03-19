@@ -450,7 +450,7 @@ function javascript_safe($str, $encoding=NULL)
         // convert non-7bit ascii characters to \uHHHH notation
         $str = preg_replace_callback('/([^\000-\177])/u',
             function ($matches) {
-                return sprintf("\\u%04x", UTF8::ord($matches[0]) & 0xffff);
+                return sprintf("\\u%04x", UTF8::ord($matches[0]) & 0xffffff);
             }, $str);
     }
     else
