@@ -206,14 +206,16 @@ function build_character_regex_filter($codepoints, $lang='php')
         elseif(strpos($codepoint, '>') !== False)
         {
             # we have a combined character
-            $alternatives[] = preg_quote(
-                utf8_combined_chr($codepoint), $lang == 'php' ? '/' : NULL
-            );
+            $combined_char = [];
+            foreach(explode(">", $codepoint) as $char) {
+                $combined_char[] = get_unicode_regex_class($char, $lang);
+            }
+            $alternatives[] = implode("", $combined_char);
         }
         else
         {
             # just a regular unicode character
-            $char_class .= get_unicode_regex_class($codepoint, $lang);
+            $alternatives[] = get_unicode_regex_class($codepoint, $lang);
         }
     }
     if($char_class)
