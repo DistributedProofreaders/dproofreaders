@@ -1177,8 +1177,6 @@ class InvalidCSRFTokenException extends UnexpectedValueException {}
 
 function set_csrf_token($force_set = TRUE)
 {
-    global $use_secure_cookies;
-
     if(!$force_set && @$_COOKIE["CSRFtoken"])
         return;
 
@@ -1192,8 +1190,6 @@ function set_csrf_token($force_set = TRUE)
 
 function destroy_csrf_token()
 {
-    global $use_secure_cookies;
-
     dp_setcookie("CSRFtoken", "", time() - 60);
 }
 

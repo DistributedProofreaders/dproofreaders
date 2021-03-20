@@ -20,7 +20,7 @@ function dpsession_begin_( $userID )
 
 function dpsession_resume_()
 {
-    global $pguser, $use_secure_cookies;
+    global $pguser;
 
     session_set_handlers_and_start();
 

@@ -20,8 +20,6 @@ include_once($relPath.'languages.inc');
 // * If everything else fails, default to en_US.
 function get_desired_language()
 {
-    global $use_secure_cookies;
-
     // This function maybe called multiple times within a page load.
     // Only do the calculations to determine the locale once.
     static $locale = NULL;

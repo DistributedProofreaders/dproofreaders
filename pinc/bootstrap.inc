@@ -74,12 +74,12 @@ function dp_class_autoloader($class)
 }
 
 function dp_setcookie($name, $value, $expires=0, $options=[]) {
-    global $use_secure_cookie;
+    global $use_secure_cookies;
 
     $defaults = [
         "expires" => $expires,
         "path" => "/",
-        "secure" => $use_secure_cookie,
+        "secure" => $use_secure_cookies,
         "samesite" => "Lax",
     ];
 
