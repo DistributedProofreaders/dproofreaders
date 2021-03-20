@@ -29,16 +29,10 @@ function dpsession_resume_()
         // Refresh the cookie
         // (session_start() used to do this for us,
         // but they changed that in PHP 4.3.9)
-        setcookie(
+        dp_setcookie(
             ini_get('session.name'),
             session_id(),
-            [
-                "expires" => time() + ini_get('session.cookie_lifetime'),
-                "path" => '/',
-                "domain" => '',
-                "secure" => $use_secure_cookies,
-                "samesite" => "Lax"
-            ]
+            time() + ini_get('session.cookie_lifetime')
         );
 
         // set global variable $pguser

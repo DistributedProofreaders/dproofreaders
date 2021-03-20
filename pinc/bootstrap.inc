@@ -73,4 +73,18 @@ function dp_class_autoloader($class)
     }
 }
 
+function dp_setcookie($name, $value, $expires=0, $options=[]) {
+    global $use_secure_cookie;
+
+    $defaults = [
+        "expires" => $expires,
+        "path" => "/",
+        "secure" => $use_secure_cookie,
+        "samesite" => "Lax",
+    ];
+
+    $options = array_merge($defaults, $options);
+    return setcookie($name, $value, $options);    
+}
+
 // vim: sw=4 ts=4 expandtab
