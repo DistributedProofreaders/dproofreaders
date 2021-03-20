@@ -33,7 +33,13 @@ function get_desired_language()
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         // User requested a specific language for this page
         $locale = lang_code($_GET['lang']);
-        setcookie("language", $locale, time()+31536000, "/", "", $use_secure_cookies);
+        setcookie("language", $locale, [
+          "expires" => time()+31536000,
+          "path" => "/",
+          "domain" => "",
+          "secure" => $use_secure_cookies,
+          "samesite" => "Lax"
+        ]);
     } else if ($user && $user->u_intlang){
         // User is logged in and has set their language preference
         $locale = $user->u_intlang;

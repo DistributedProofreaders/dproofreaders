@@ -12,7 +12,12 @@ $location = array_get($_POST, 'returnto', "$code_url/default.php");
 if($language)
 {
     // set the cookie
-    setcookie("language", $language, time()+31536000, "/");
+    setcookie("language", $language, [
+      "expires" => time()+31536000,
+      "path" => "/",
+      "secure" => $use_secure_cookies,
+      "samesite" => "Lax",
+    ]);
 }
 else
 {

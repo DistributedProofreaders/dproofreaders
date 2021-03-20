@@ -114,7 +114,12 @@ function local_send_cookie( $cookie_name, $cookie_value )
     {
         $t_offset = +86400;
     }
-    setcookie( $cookie_name, $cookie_value, time() + $t_offset, "/", COOKIE_DOMAIN, $use_secure_cookies );
+    setcookie( $cookie_name, $cookie_value, [
+      "expires" => time() + $t_offset,
+      "path" => "/",
+      "domain" => COOKIE_DOMAIN,
+      "secure" => $use_secure_cookies,
+      "samesite" => "Lax"]);
 }
 
 function local_encrypt( $str )

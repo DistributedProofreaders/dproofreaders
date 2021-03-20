@@ -31,11 +31,14 @@ function dpsession_resume_()
         // but they changed that in PHP 4.3.9)
         setcookie(
             ini_get('session.name'),
-             session_id(),
-            time() + ini_get('session.cookie_lifetime'),
-            '/',
-            '',
-            $use_secure_cookies
+            session_id(),
+            [
+                "expires" => time() + ini_get('session.cookie_lifetime'),
+                "path" => '/',
+                "domain" => '',
+                "secure" => $use_secure_cookies,
+                "samesite" => "Lax"
+            ]
         );
 
         // set global variable $pguser

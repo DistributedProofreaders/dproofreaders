@@ -1183,7 +1183,14 @@ function set_csrf_token($force_set = TRUE)
         return;
 
     $token = bin2hex(random_bytes(32));
-    setcookie("CSRFtoken", $token, time() + 60 * 60 * 24, '/', '', $use_secure_cookies, TRUE);
+    setcookie("CSRFtoken", $token, [
+      "expires" => time() + 60 * 60 * 24,
+      "path" => '/',
+      "domain" => '',
+      "secure" => $use_secure_cookies,
+      "httponly" => TRUE,
+      "samesite" => "Strict",
+    ]);
     $_COOKIE["CSRFtoken"] = $token;
 }
 
