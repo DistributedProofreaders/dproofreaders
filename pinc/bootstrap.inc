@@ -73,7 +73,7 @@ function dp_class_autoloader($class)
     }
 }
 
-function dp_setcookie($name, $value, $expires=0, $options=[]) {
+function dp_setcookie($name, $value="", $expires=0, $options=[]) {
     global $use_secure_cookies;
 
     $defaults = [
