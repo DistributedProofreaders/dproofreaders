@@ -327,10 +327,8 @@ class LanguageSearchElement extends ProjectSearchElement
     function construct_sql($values)
     {
         // some languages have regex special chars which need escaping
-        array_walk($values, function(&$value) {
-            $value = sql_regex_escape($value);
-        });
-        $langstring = implode("|", $values);
+        $values = array_map('quotemeta', $values);
+        $langstring = DPDatabase::escape(implode("|", $values));
         // for primary language match strings starting with it
         // for primary only match end also
         // need to check "with" to avoid matching "French, Old" etc.
@@ -371,12 +369,6 @@ function get_project_filter_sql($pguser, $filter_type)
         $filter .= $element->get_sql_component();
     }
     return $filter;
-}
-
-function sql_regex_escape($value)
-{
-    // double the backslashes introduced by quotemeta
-    return str_replace('\\', '\\\\', quotemeta($value));
 }
 
 function get_lang_match($data)
