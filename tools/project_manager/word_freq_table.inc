@@ -198,7 +198,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
         $line = "<tr>";
 
         if($checkbox) {
-            $line .= "<td class='mono' style='white-space: nowrap;'>" . $checkbox[$word] . " " . rtrim($word) . "</td>";
+            $line .= "<td class='mono' style='white-space: nowrap;'><label>" . $checkbox[$word] . " " . rtrim($word) . "</label></td>";
         } else {
             $line .= "<td>" . rtrim($word) . "</td>";
         }
