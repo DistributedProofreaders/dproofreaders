@@ -11,10 +11,8 @@ const charMatch = XRegExp("\\PM\\pM*", "Ag");
 var validCharRegex;
 
 function makeValidCharRegex(characterPattern) {
-    // IE HACK - IE11 does not support u flag
-    return XRegExp(characterPattern, "A");
     // need the u flag for Astral plane characters.
-    // return XRegExp(characterPattern, "Au");
+    return XRegExp(characterPattern, "Au");
 }
 
 $(function () {
@@ -29,10 +27,7 @@ function testChar(character) {
 
 // return false if text contains any bad characters
 function testText(text) {
-    // IE HACK - IE11 does not support string normalization
-    if(String.prototype.normalize) {
-        text = text.normalize("NFC");
-    }
+    text = text.normalize("NFC");
     let result;
     charMatch.lastIndex = 0;
     while(null != (result = charMatch.exec(text))) {
