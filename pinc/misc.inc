@@ -1177,21 +1177,20 @@ class InvalidCSRFTokenException extends UnexpectedValueException {}
 
 function set_csrf_token($force_set = TRUE)
 {
-    global $use_secure_cookies;
-
     if(!$force_set && @$_COOKIE["CSRFtoken"])
         return;
 
     $token = bin2hex(random_bytes(32));
-    setcookie("CSRFtoken", $token, time() + 60 * 60 * 24, '/', '', $use_secure_cookies, TRUE);
+    dp_setcookie("CSRFtoken", $token, time() + 60 * 60 * 24, [
+      "httponly" => TRUE,
+      "samesite" => "Strict",
+    ]);
     $_COOKIE["CSRFtoken"] = $token;
 }
 
 function destroy_csrf_token()
 {
-    global $use_secure_cookies;
-
-    setcookie("CSRFtoken", "", time() - 60, '/', '', $use_secure_cookies);
+    dp_setcookie("CSRFtoken", "", time() - 60);
 }
 
 function get_csrf_token_form_input()

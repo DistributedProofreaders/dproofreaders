@@ -77,7 +77,7 @@ if(count($_POST))
             $register->save();
 
             // delete the cookie tracking the HTTP_REFERER
-            setcookie("http_referer", '', time() - 1);
+            dp_setcookie("http_referer", '', time() - 1);
 
             // Page shown when account is successfully created
             $title = _("Registration complete");

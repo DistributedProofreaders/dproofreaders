@@ -22,7 +22,7 @@ lint_code:
 	$(SELF_DIR)lint_php_files.sh $(SELF_DIR)..
 	$(SELF_DIR)lint_json_files.sh $(SELF_DIR)..
 
-lint: lint_charsuites lint_less lint_code
+lint: lint_charsuites lint_css lint_code
 
 #----------------------------------------------------------------------------
 # CSS compilation

@@ -76,7 +76,7 @@ class User
                 // now set the profile cookie if this is for the current user
                 if($this->username == User::current_username())
                 {
-                    setcookie("profile", $this->current_profile->id);
+                    dp_setcookie("profile", $this->current_profile->id);
                 }
                 break;
             default:
@@ -119,7 +119,7 @@ class User
                         // OK if we can't.
                         if(!header_sent())
                         {
-                            setcookie("profile");
+                            dp_setcookie("profile");
                         }
 
                         // fall through to getting the profile from the user record

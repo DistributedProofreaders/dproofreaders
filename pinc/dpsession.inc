@@ -68,9 +68,9 @@ function dpsession_resume()
     if(!$user_is_logged_in && !isset($_COOKIE["http_referer"]))
     {
         if(isset($_SERVER["HTTP_REFERER"]))
-            setcookie('http_referer', $_SERVER["HTTP_REFERER"]);
+            dp_setcookie('http_referer', $_SERVER["HTTP_REFERER"]);
         else
-            setcookie('http_referer', '');
+            dp_setcookie('http_referer', '');
     }
 
     return $user_is_logged_in;

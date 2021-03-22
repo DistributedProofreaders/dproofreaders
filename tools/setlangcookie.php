@@ -12,12 +12,12 @@ $location = array_get($_POST, 'returnto', "$code_url/default.php");
 if($language)
 {
     // set the cookie
-    setcookie("language", $language, time()+31536000, "/");
+    dp_setcookie("language", $language, time()+31536000);
 }
 else
 {
     // delete the cookie
-    setcookie("language", '', time()-3600, "/");
+    dp_setcookie("language", '', time()-3600);
 }
 
 metarefresh(0, $location);
