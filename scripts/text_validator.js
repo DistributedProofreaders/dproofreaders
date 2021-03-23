@@ -47,10 +47,7 @@ $(function () {
 
     function _validateText() {
         var text = textArea.value;
-        // IE HACK - IE11 does not support string normalization
-        if(String.prototype.normalize) {
-            text = text.normalize("NFC");
-        }
+        text = text.normalize("NFC");
         // replace the text with normalised version
         textArea.value = text;
         // convert any markup so does not get interpreted in the checker div

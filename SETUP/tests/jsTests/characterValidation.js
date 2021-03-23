@@ -47,14 +47,12 @@ QUnit.module("Character validation test", function() {
         assert.strictEqual(testText("\u1e40"), true); // M with dot normalised
     });
 
-    // IE HACK can't use astral plane characters without u flag
-    // (which IE doesn't do) in regex constructor in character_test.js
-    /* QUnit.test("Astral plane", function (assert) {
+    QUnit.test("Astral plane", function (assert) {
         validCharRegex = makeValidCharRegex("^(?:[\n\r 𓀀-𓀂])$");
         assert.strictEqual(testText("𓀀"), true);
         assert.strictEqual(testText("\u{13000}"), true);
         assert.strictEqual(testText("𓀂"), true);
         assert.strictEqual(testText("𓀁"), true);
         assert.strictEqual(testText("𓀉"),false);
-    });*/
+    });
 });
