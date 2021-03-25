@@ -19,24 +19,22 @@ if ($round_num == 0) {
 }
 
 validate_projectID($project);
+if (!does_project_page_table_exist($project)) {
+    die(_("Project table not found, it may have been deleted or archived."));
+}
+
 $sql = sprintf("
     SELECT $text_column_name FROM $project WHERE image = '%s'",
     DPDatabase::escape($image));
 $result = DPDatabase::query($sql);
-if ($result === FALSE)
-{
-    // Likely the project's page-table does not exist (in this database).
-    // This could happen if a user saved a URL involving this script,
-    // and the project's page-table later got archived.
-    die(DPDatabase::log_error());
-}
 $row = mysqli_fetch_assoc($result);
 if (!$row)
 {
     // The page-table exists, but the WHERE clause did not match any row.
     // This could happen if a user saved a URL involving this script,
     // and the page was later deleted or renamed.
-    die("Could not find text for $image in $project");
+    // TRANSLATORS: %1$s is the page image; %2$s is the project ID
+    die(sprintf(_("Could not find text for %1\$s in %2\$s"), $image, $project));
 }
 
 $data = $row[$text_column_name];
@@ -45,6 +43,3 @@ header("Content-type: text/plain; charset=$charset");
 // SENDING PAGE-TEXT TO USER
 // It's a text/plain document, so no encoding is necessary.
 echo $data;
-
-// vim: sw=4 ts=4 expandtab
-?> 
