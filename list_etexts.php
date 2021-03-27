@@ -9,7 +9,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(
 
 $x        = get_enumerated_param($_GET, 'x', 'g', array('g', 's', 'b'));
 $sort     = get_integer_param($_GET, 'sort',      0, 0, 5);
-$per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL);
+$per_page = get_integer_param($_GET, 'per_page', 20, 1, 100);
 $offset   = get_integer_param($_GET, 'offset',    0, 0, NULL);
 
 if($x == "g") {
