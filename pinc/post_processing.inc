@@ -72,6 +72,10 @@ function _run_pp_threshold_query_result($state, $columns, $user, $ordering_crite
     $cutoff_timestamp = strtotime("midnight first day of this month") -
         ($pp_alert_threshold_days * 60 * 60 * 24);
 
+    // Because PPers may have projects checked out to them automatically,
+    // user_project_info.t_latest_home_visit may not always be a good
+    // timestamp to use to determine the cutoff. Use the more recent value
+    // of t_latest_home_visit and modifieddate.
     $sql = "
         SELECT
             $column_selector
@@ -79,7 +83,7 @@ function _run_pp_threshold_query_result($state, $columns, $user, $ordering_crite
             projects.projectid = user_project_info.projectid AND
             projects.checkedoutby = user_project_info.username
         WHERE state = '$state' AND
-            user_project_info.t_latest_home_visit <= $cutoff_timestamp
+            GREATEST(user_project_info.t_latest_home_visit, modifieddate) <= $cutoff_timestamp
             $user_selector
         $order_by_clause
     ";
