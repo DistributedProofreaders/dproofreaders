@@ -471,9 +471,9 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     if ($tedit == 1) { echo "new_team.php"; } else { echo "tedit.php"; }
     echo "' method='post' target='_top'>";
     echo "<input type='hidden' name='tsid' value='$tsid'>";
-    if($teamimages['avatar'])
+    if(@$teamimages['avatar'])
         echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>";
-    if($teamimages['icon'])
+    if(@$teamimages['icon'])
         echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>";
 
     echo "\n<table class='themed'>";
