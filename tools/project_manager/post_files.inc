@@ -11,6 +11,14 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
 {
     $pathbase = $project->dir . "/" . $project->projectid . $base_extra;
 
+    if (!$project->pages_table_exists) {
+        throw new Exception(_("Project table not found, it may have been deleted or archived."));
+    }
+
+    if (!$project->dir_exists) {
+        throw new Exception(_("Project directory not found, it may have been deleted or archived."));
+    }
+
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
     $fp = fopen($comments_path, "w");
@@ -53,6 +61,14 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
 // generate a zip file on the fly and download it
 function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
 {
+    if (!$project->pages_table_exists) {
+        throw new Exception(_("Project table not found, it may have been deleted or archived."));
+    }
+
+    if (!$project->dir_exists) {
+        throw new Exception(_("Project directory not found, it may have been deleted or archived."));
+    }
+
     $filename = $project->projectid;
     if ('[OCR]' == $limit_round_id) 
     {
