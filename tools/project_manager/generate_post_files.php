@@ -53,12 +53,12 @@ if ($save_files)
 {
     echo "<p>generating files for $projectid (" . html_safe($project->nameofwork) . ") ...</p>\n";
     flush();
-    generate_post_files( $projectid, $round_id, $which_text, $include_proofers,  '' );
+    generate_post_files($project, $round_id, $which_text, $include_proofers, '');
     flush();
 }
 else
 {
-    generate_interim_file( $projectid, $round_id, $which_text, $include_proofers);
+    generate_interim_file($project, $round_id, $which_text, $include_proofers);
 }
 
 // vim: sw=4 ts=4 expandtab

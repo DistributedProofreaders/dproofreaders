@@ -922,7 +922,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
 {
     global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files( $project->projectid, $from_round->id, 'LE', False, '' );
+    generate_post_files($project, $from_round->id, 'LE', False, '');
 
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -964,7 +964,7 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 {
     global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files( $project->projectid, $from_round->id, 'LE', False, '' );
+    generate_post_files($project, $from_round->id, 'LE', False, '');
 
     // The project has been checked out to someone for PPing.
     // We want to notify the PPer and the PM,
