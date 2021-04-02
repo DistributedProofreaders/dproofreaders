@@ -6,11 +6,19 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'graph_data.inc');
 
 require_login();
 
 $title = _("Statistics Central");
-output_header($title);
+
+$cumulative_total_proj_summary_graph_data = cumulative_total_proj_summary_graph();
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => '$(function(){
+    stackedAreaChart("cumulative_total_proj_summary_graph", ' . json_encode($cumulative_total_proj_summary_graph_data) . ');
+  });',
+]);
 
 echo "<h1>" . _("Statistics Central") . "</h1>\n";
 
@@ -246,11 +254,8 @@ $table->row(
     '&nbsp;'
 );
 
-$img_url = "jpgraph_files/cumulative_total_proj_summary_graph.php";
-$alt_text = _("Total Projects Created, Proofread, Post-Processed and Posted");
-
 $table->row(
-    "<img style='max-width: 100%' src='$img_url' alt='" . attr_safe($alt_text) . "'>"
+    "<div id='cumulative_total_proj_summary_graph' style='max-width: 640px'></div>"
 );
 
 $table->end();

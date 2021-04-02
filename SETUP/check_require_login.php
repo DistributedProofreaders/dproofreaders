@@ -77,7 +77,6 @@ $ok_files = [
     "stats/default.php",
     "stats/jpgraph_files/percent_users_who_proof.php",
     "stats/jpgraph_files/pages_daily.php",
-    "stats/jpgraph_files/cumulative_total_proj_summary_graph.php",
     "stats/jpgraph_files/users_by_pages_proofed_graph.php",
     "stats/jpgraph_files/users_by_country.php",
     "stats/jpgraph_files/round_backlog_trend.php",
