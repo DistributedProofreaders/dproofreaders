@@ -80,7 +80,7 @@ echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord'>" .
       _("Show full context set for this word") . "</a>";
 
 echo " | ";
-echo "<a href='#' id='h_v_switch'></a>";
+echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 foreach($word_suggestions as $suggestion) {
@@ -99,7 +99,7 @@ foreach($word_suggestions as $suggestion) {
     echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
     echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
     echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
-    echo "<b>" . _("Page") . "</b>: <a href='#' class='page-select' data-value='$page'>$page</a><br>";
+    echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";
     foreach($context_strings as $lineNum => $context_string) {
         $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
         echo "<b>" . _("Line") . "</b>: ", 
