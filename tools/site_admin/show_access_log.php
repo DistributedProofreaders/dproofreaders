@@ -14,7 +14,7 @@ $since_choices = array(
     'start_of_month_before_previous' => _("Last two months"),
 );
 $since = get_enumerated_param($_GET, 'since', 'start_of_month_before_previous', array_keys($since_choices));
-$action_choices = array("", "grant", "revoke");
+$action_choices = array("", "grant", "revoke", "block", "unblock", "request", "deny_request_for");
 $action = get_enumerated_param($_GET, 'action', NULL, $action_choices, TRUE);
 
 require_login();
@@ -162,4 +162,3 @@ function _create_since_choices($choices, $selected)
     return implode("<br>", $radio_choices);
 }
 
-// vim: sw=4 ts=4 expandtab
