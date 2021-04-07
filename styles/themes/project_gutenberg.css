@@ -959,6 +959,47 @@
   min-height: 10px;
 }
 /* ------------------------------------------------------------------------ */
+/* Control Pane */
+.control-panel {
+  padding: 0.1em;
+  flex: 0 0 auto;
+  display: flex;
+  background-color: #CDC0B0;
+  color: black;
+  border-style: solid;
+  border-color: gray;
+}
+.control-panel input,
+.control-panel select,
+.control-panel button {
+  background-color: #FFF8DC;
+  color: black;
+  border: thin solid #000000;
+}
+.control-panel input[type=number] {
+  width: 4em;
+}
+.control-panel input[type=submit]:disabled,
+.control-panel input[type=button]:disabled,
+.control-panel button:disabled {
+  background-color: #b3ae9a;
+}
+.control-panel button,
+.control-panel input[type=submit],
+.control-panel input[type=button] {
+  box-shadow: 1px 1px grey;
+  border-radius: 3px;
+}
+.nav-menu {
+  position: absolute;
+  padding: 0.3em;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 0.3em;
+  background-color: #CDC0B0;
+  border: 1px solid gray;
+  display: none;
+}
+/* ------------------------------------------------------------------------ */
 /* Common color definitions
  * Where a particular color family has multiple shades available, a
  * suffix indicates relative contrast as compared with the default
