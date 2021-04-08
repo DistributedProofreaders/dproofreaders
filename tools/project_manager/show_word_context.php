@@ -54,7 +54,7 @@ $project_name = get_project_name($projectid);
 echo "<h2>", sprintf(_("Context for '%1\$s' in %2\$s"), $word, $project_name), "</h2>";
 
 echo "<p>";
-echo "<a href='#' id='h_v_switch'></a>";
+echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 echo "<form method='GET' id='wordInstancesForm'>";
@@ -81,7 +81,7 @@ while( list($page_text,$page,$proofer_names) = page_info_fetch($pages_res) ) {
     if(!count($context_strings)) continue;
 
     echo "<p>";
-    echo "<b>" . _("Page") . "</b>: <a href='#' class='page-select' data-value='$page'>$page</a><br>";
+    echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";
     foreach($context_strings as $lineNum => $context_string) {
         $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES),$word);
         echo "<b>", _("Line"), "</b>: ",
