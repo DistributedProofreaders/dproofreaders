@@ -58,10 +58,12 @@ while ( $row = mysqli_fetch_assoc($result) )
     echo "<div title=\"" . html_safe($row['comment']) ."\">";
     echo html_safe($row['comment']) . "</div></td>\n";
     echo "<td class='center'>";
-    if ($current_month != 0 )
+    if ($current_month != 0 ) {
         echo html_safe($row['open_day']);
-    else
-        echo _("N/A"); // Translators: N/A = "Not applicable"
+    } else {
+        // TRANSLATORS: N/A = "Not applicable"
+        echo _("N/A");
+    }
     echo "</td>\n";
     echo "<td>";
     echo "<a href='" . attr_safe($row['info_url']) . "'>";
