@@ -453,4 +453,3 @@ function make_backup_file($file_name, $ext)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

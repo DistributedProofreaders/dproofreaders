@@ -48,4 +48,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<tb>", "Illustration"), "case_sensitive" => FALSE, "error" => "P_tbmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n\n\n"), "case_sensitive" => TRUE, "error" => "para");
 
-// vim: sw=4 ts=4 expandtab

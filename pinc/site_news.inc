@@ -175,4 +175,3 @@ function show_news_for_page( $news_page_id )
     }
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -732,4 +732,3 @@ function _test_project_has_all_page_images($projectid)
     );
 }
 
-// vim: sw=4 ts=4 expandtab

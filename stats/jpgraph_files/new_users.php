@@ -50,4 +50,3 @@ draw_simple_bar_graph(
     _('# users')
 );
 
-// vim: sw=4 ts=4 expandtab

@@ -216,4 +216,3 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
     return $display_list;
 }
 
-// vim: sw=4 ts=4 expandtab

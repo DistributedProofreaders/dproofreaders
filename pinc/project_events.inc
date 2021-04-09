@@ -27,5 +27,4 @@ function log_project_event( $projectid, $who, $event_type, $details1='', $detail
     }
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

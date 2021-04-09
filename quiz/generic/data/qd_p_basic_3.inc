@@ -44,4 +44,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("CHRISTMAS"), 
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("we\""), "case_sensitive" => TRUE, "error" => "P_addedclosequote");
 
-// vim: sw=4 ts=4 expandtab

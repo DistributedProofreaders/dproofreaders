@@ -140,4 +140,3 @@ function login_failure($error_code, $destination)
     metarefresh(0, "$code_url/accounts/login_failure.php?error_code=$error_code&destination=" . urlencode($destination), "", "");
 }
 
-// vim: sw=4 ts=4 expandtab

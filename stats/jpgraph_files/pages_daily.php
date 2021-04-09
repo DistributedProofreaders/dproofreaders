@@ -211,4 +211,3 @@ draw_pages_graph(
 );
 
 
-// vim: sw=4 ts=4 expandtab

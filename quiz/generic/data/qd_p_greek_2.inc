@@ -61,4 +61,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("phehu", "thi
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("phey", "noysi", "hudôr"), "case_sensitive" => TRUE, "error" => "G_upsilon");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\np"), "case_sensitive" => TRUE, "error" => "G_missinglb");
 
-// vim: sw=4 ts=4 expandtab

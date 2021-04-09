@@ -18,4 +18,3 @@ Please go there and update your bookmarks, if any.
 
 // ---------------------------------------------------------
 
-// vim: sw=4 ts=4 expandtab

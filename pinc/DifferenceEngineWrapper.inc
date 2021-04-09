@@ -183,4 +183,3 @@ function get_DifferenceEngine_css_data() {
 ";
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -88,4 +88,3 @@ foreach ( array_keys($num_projects_in_state_) as $state )
     }
 }
 
-// vim: sw=4 ts=4 expandtab

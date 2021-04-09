@@ -83,4 +83,3 @@ add_graph_timestamp($graph);
 // Display the graph
 $graph->Stroke();
 
-// vim: sw=4 ts=4 expandtab

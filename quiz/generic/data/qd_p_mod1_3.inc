@@ -62,4 +62,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("black-"), "c
 $tests[] = array("type" => "longline", "lengthlimit" => 70, "error" => "P_longline");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("<i>viz.,\nDr</i>.", " viz.,\nDr. "), "case_sensitive" => TRUE, "error" => "italmarkup");
 
-// vim: sw=4 ts=4 expandtab

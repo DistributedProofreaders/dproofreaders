@@ -334,4 +334,3 @@ else
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -34,4 +34,3 @@ echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -336,5 +336,4 @@ pattern-matching mechanism, and efficiently finding all the subscriptions that
 match a given event.
 */
 
-// vim: sw=4 ts=4 expandtab
 ?>

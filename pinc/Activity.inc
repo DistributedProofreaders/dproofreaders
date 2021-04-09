@@ -651,4 +651,3 @@ function td_w_bgcolor( $text, $bool )
     echo "<td class='$cell_class'>$text</td>";
 }
 
-// vim: sw=4 ts=4 expandtab

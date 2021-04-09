@@ -55,4 +55,3 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-// vim: sw=4 ts=4 expandtab

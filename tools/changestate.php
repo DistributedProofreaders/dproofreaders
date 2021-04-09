@@ -170,4 +170,3 @@ function output_page_header()
     echo "<h1>$title</h1>";
 }
 
-// vim: sw=4 ts=4 expandtab

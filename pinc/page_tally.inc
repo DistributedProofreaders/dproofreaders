@@ -398,5 +398,4 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
     return $pages_per_day;
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

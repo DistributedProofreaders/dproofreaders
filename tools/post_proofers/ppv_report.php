@@ -929,4 +929,3 @@ function report_comments($base_indent, $id, $label)
     ;
 }
 
-// vim: sw=4 ts=4 expandtab

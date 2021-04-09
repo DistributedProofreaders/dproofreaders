@@ -174,4 +174,3 @@ function show_months_with_most_days_over( $n )
     echo "<br>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

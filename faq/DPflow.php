@@ -15,4 +15,3 @@ output_header('Workflow Diagram', NO_STATSBAR);
 <a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.</p>
 
 <?php
-// vim: sw=4 ts=4 expandtab

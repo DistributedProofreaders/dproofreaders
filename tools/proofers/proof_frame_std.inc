@@ -42,4 +42,3 @@ function echo_proof_frame_std( $ppage )
     ";
 }
 
-// vim: sw=4 ts=4 expandtab

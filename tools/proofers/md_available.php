@@ -101,4 +101,3 @@ echo "</table>";
 echo "</center>";
 echo "<br>";
 
-// vim: sw=4 ts=4 expandtab

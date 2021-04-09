@@ -54,4 +54,3 @@ function minimum_form_fill_time($real_name, $username, $userpass, $userpass2, $e
     }
 }
 
-// vim: sw=4 ts=4 expandtab

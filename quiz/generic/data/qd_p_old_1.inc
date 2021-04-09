@@ -58,4 +58,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Europe"), "c
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("reflect"), "case_sensitive" => TRUE, "error" => "P_ctlig");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("affecting"), "case_sensitive" => TRUE, "error" => "P_ctlig");
 
-// vim: sw=4 ts=4 expandtab

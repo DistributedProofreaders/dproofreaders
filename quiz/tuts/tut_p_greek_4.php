@@ -15,4 +15,3 @@ echo "<p>" . _("There are usually two punctuation marks that differ from English
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_4'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

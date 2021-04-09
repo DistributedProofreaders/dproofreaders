@@ -525,4 +525,3 @@ output_header('Proofreading and Formatting Guidelines Revision History', NO_STAT
   </tbody>
 </table>
 <?php
-// vim: sw=4 ts=4 expandtab

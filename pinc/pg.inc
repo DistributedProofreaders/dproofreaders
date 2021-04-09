@@ -41,5 +41,4 @@ function get_pg_catalog_link_for_etext( $etext_number, $link_text=null )
     return "<a href='$url'>$link_text</a>";
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

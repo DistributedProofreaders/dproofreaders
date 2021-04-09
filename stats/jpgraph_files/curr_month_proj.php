@@ -56,4 +56,3 @@ draw_projects_graph(
     "$psd->per_day_title ($timeframe)"
 );
 
-// vim: sw=4 ts=4 expandtab

@@ -244,5 +244,4 @@ function user_has_DU_access()
     return $userSettings->get_boolean("DU.access") || $userSettings->get_boolean("PPV.access");
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

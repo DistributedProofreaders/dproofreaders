@@ -87,4 +87,3 @@ function dp_setcookie($name, $value="", $expires=0, $options=[]) {
     return setcookie($name, $value, $options);    
 }
 
-// vim: sw=4 ts=4 expandtab

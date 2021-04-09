@@ -83,4 +83,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nThe "), "
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("s</sc>"), "case_sensitive" => TRUE, "error" => "smcapcorrupt");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("n</sc>"), "case_sensitive" => TRUE, "error" => "smcapcorrupt");
 
-// vim: sw=4 ts=4 expandtab

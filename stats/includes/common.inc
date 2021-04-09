@@ -54,4 +54,3 @@ function get_username_for_uid($u_id)
     return $user->username;
 }
 
-// vim: sw=4 ts=4 expandtab

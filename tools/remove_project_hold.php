@@ -24,4 +24,3 @@ $project->remove_holds($states);
 $title = _("Removing hold");
 metarefresh(0, $return_uri, $title, $title);
 
-// vim: sw=4 ts=4 expandtab

@@ -30,4 +30,3 @@ echo "<p>" . _("Where a hyphen appears at the end of a line, join the two halves
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -196,4 +196,3 @@ function notify_user($user, $actions)
         return "notified user.";
     }
 }
-// vim: sw=4 ts=4 expandtab

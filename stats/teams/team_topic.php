@@ -61,4 +61,3 @@ Use this area to have a discussion with your fellow teammates! :-D
 $redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
 
-// vim: sw=4 ts=4 expandtab

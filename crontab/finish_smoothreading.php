@@ -72,4 +72,3 @@ if ($any_work_done)
     echo $output;
 }
 
-// vim: sw=4 ts=4 expandtab

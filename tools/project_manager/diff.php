@@ -325,4 +325,3 @@ function can_navigate_by_proofer($projectid, $L_user)
     return $answer;
 }
 
-// vim: sw=4 ts=4 expandtab

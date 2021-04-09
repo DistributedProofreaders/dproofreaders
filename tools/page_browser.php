@@ -28,4 +28,3 @@ slim_header($title, $header_args);
 
 echo "<div id='page-browser'></div>";
 
-// vim: sw=4 ts=4 expandtab

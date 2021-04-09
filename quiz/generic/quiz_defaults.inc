@@ -660,4 +660,3 @@ $messages["G_stigma"] = array(
     "message_body" => _("This form of sigma: <kbd>ς</kbd> normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called 'stigma' and the top bit of it usually extends further to the right. It gets transliterated as '<kbd>st</kbd>'."),
 );
 
-// vim: sw=4 ts=4 expandtab

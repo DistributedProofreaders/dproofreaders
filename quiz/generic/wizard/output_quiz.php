@@ -66,4 +66,3 @@ echo "<p>" . sprintf(_("Now that you've set up the quiz information and page lis
 
 $_SESSION['quiz_data']['lastpage'] = 'output_pages';
 
-// vim: sw=4 ts=4 expandtab

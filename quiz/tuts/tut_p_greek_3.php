@@ -30,4 +30,3 @@ echo "</ul>";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_3'>" . _("Continue to quiz page") . "</a></p>";
 
-// vim: sw=4 ts=4 expandtab

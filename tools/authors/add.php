@@ -425,4 +425,3 @@ echo '<li><a href="http://authorities.loc.gov/" target="_blank">' . _('The Libra
 
 echo '</ul>';
 
-// vim: sw=4 ts=4 expandtab

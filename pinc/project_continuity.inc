@@ -33,4 +33,3 @@ function project_continuity_test($projectid, $orig_state, $no_more_pages)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

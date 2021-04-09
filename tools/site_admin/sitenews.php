@@ -471,4 +471,3 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
     }
 }
 
-// vim: sw=4 ts=4 expandtab

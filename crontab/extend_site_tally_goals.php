@@ -56,4 +56,3 @@ dpsql_query("
     $values_list
 ") or die("Aborting");
 
-// vim: sw=4 ts=4 expandtab

@@ -46,4 +46,3 @@ draw_simple_bar_graph(
     _('Pages')
 );
 
-// vim: sw=4 ts=4 expandtab

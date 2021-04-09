@@ -37,4 +37,3 @@ else
     header("Location: $redirect_url");
 }
 
-// vim: sw=4 ts=4 expandtab

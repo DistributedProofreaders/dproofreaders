@@ -317,5 +317,4 @@ function _get_word_list($projectid) {
     return array($percent_changed,$possible_scannos_w_freq,$messages,$possible_scannos_w_correction,$possible_scannos_w_count);
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

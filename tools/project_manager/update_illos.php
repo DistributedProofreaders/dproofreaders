@@ -266,4 +266,3 @@ function handle_delete_all( $projectid, $nonpage_image_names)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

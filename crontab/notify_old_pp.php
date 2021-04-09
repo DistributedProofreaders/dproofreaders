@@ -113,4 +113,3 @@ function send_pp_reminders($PPer, $projects, $which_message)
     configure_gettext_for_user();
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -98,4 +98,3 @@ foreach($results as $function => $test_result)
     echo $test_result["details"];
 }
 
-// vim: sw=4 ts=4 expandtab

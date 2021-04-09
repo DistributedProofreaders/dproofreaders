@@ -64,4 +64,3 @@ echo "<a href='$code_url/tools/authors/bioxml.php?bio_id=$id'><img src='$code_ur
 
 echo "<p>" . html_safe($bio) . "</p>";
 
-// vim: sw=4 ts=4 expandtab

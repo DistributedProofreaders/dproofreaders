@@ -168,4 +168,3 @@ $csrf_token
 <p><input type='submit' value='".attr_safe(_("Sign In"))."'></p>
 </form>";
 
-// vim: sw=4 ts=4 expandtab

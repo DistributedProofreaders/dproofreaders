@@ -30,4 +30,3 @@ echo " " . _("You can insert them using the character picker at the bottom of th
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

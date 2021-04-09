@@ -17,4 +17,3 @@ echo "<td><img src='../generic/images/aelig_ital_bump.png' alt='ae ligature' wid
 echo "<p>" . _("If the word is in Latin (or derived from Latin), then there is another way to distinguish these characters: Latin words often end in -æ, but never in -œ.") . "</p>\n";
 echo "<p><a href='../generic/main.php?quiz_page_id=p_aeoe_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -698,4 +698,3 @@ function get_refine_search_link($label=NULL)
     return make_link(array('show' => 'search_form'), $label);
 }
 
-// vim: sw=4 ts=4 expandtab

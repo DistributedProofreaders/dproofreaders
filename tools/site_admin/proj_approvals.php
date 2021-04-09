@@ -88,4 +88,3 @@ echo "<table class='themed'>\n";
 echo "</table>";
 echo "<br>";
 
-// vim: sw=4 ts=4 expandtab

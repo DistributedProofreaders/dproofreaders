@@ -41,4 +41,3 @@ $tests[] = array("type" => "wrongtextorder", "firsttext" => "Desert snail", "sec
 $tests[] = array("type" => "wrongtextorder", "firsttext" => "recognition", "secondtext" => "Desert snail", "case_sensitive" => TRUE, "error" => "P_captionmove");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nDesert snail.\n\n"), "case_sensitive" => TRUE, "error" => "P_captionspace");
 
-// vim: sw=4 ts=4 expandtab

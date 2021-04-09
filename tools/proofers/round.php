@@ -131,4 +131,3 @@ $show_filter_block = ($pagesproofed > 20);
 
 show_projects_for_round( $round, $show_filter_block );
 
-// vim: sw=4 ts=4 expandtab

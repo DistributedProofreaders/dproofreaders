@@ -78,5 +78,4 @@ function private_message_link( $proofer_username, $target="_blank" )
     return $a;
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

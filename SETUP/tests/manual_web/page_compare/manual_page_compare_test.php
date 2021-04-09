@@ -55,4 +55,3 @@ else
 $no = (0 === $diff) ? " no ": " ";
 echo "<p>There are{$no}differences</p>";
 
-// vim: sw=4 ts=4 expandtab

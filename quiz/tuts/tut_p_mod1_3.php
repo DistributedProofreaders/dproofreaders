@@ -25,4 +25,3 @@ echo "<p>" . _("Proofread fractions as follows: <kbd>¼</kbd> becomes <kbd>1/4</
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_3'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

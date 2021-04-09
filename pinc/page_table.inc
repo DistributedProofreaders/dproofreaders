@@ -758,4 +758,3 @@ function echo_detail_legend()
 <?php
 }
 
-// vim: sw=4 ts=4 expandtab

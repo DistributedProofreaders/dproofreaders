@@ -828,4 +828,3 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     return array($curr_sql_sort_col, $curr_sql_sort_dir);
 }
 
-// vim: sw=4 ts=4 expandtab

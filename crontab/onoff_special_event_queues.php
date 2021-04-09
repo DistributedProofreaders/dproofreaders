@@ -119,4 +119,3 @@ foreach ( array('open', 'close') as $which )
     }
 }
 
-// vim: sw=4 ts=4 expandtab

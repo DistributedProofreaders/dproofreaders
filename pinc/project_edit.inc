@@ -150,5 +150,4 @@ function check_user_can_load_projects($exit_if_not)
     }
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

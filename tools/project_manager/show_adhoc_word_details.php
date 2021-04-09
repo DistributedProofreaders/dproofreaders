@@ -165,5 +165,4 @@ function _get_word_list($projectid, $queryWords) {
     return array($words_w_freq,$messages);
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

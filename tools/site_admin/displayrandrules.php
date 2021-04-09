@@ -28,4 +28,3 @@ foreach(RandomRule::get_rules($document, $langcode) as $rule)
     echo "<div>$rule->rule</div>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

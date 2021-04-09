@@ -39,4 +39,3 @@ slim_header(_("Search/Replace"), array(
 <a href='<?php echo "$code_url/faq/prooffacehelp.php#srchrep"; ?>' target='helpNewWin'><?php echo _('Regular Expression Help'); ?></a>
 
 <?php
-// vim: sw=4 ts=4 expandtab

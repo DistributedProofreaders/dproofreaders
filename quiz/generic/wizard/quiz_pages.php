@@ -72,4 +72,3 @@ echo "<p><input type='submit' value='" . _("send") . "'></p>\n</form>";
 
 $_SESSION['quiz_data']['lastpage'] = 'quizpages';
 
-// vim: sw=4 ts=4 expandtab

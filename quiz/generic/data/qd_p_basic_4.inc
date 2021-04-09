@@ -61,4 +61,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nHigh art.
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("An\""), "case_sensitive" => TRUE, "error" => "P_addedclosequote");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("An\n\n"), "case_sensitive" => TRUE, "error" => "P_fnspace");
 
-// vim: sw=4 ts=4 expandtab

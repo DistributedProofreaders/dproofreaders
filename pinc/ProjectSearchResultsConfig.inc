@@ -238,4 +238,3 @@ function handle_config($show_view, $search_origin, $page_title)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

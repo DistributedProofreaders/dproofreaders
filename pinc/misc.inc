@@ -1220,4 +1220,3 @@ function validate_csrf_token()
 
 class NotImplementedException extends BadMethodCallException {}
 
-// vim: sw=4 ts=4 expandtab

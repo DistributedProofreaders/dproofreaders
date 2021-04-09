@@ -279,5 +279,4 @@ function echo_img( $id )
     echo ">";
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

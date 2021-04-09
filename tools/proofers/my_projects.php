@@ -795,4 +795,3 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
     return [ dpsql_query($query), $pool_column_specs, "{$order_col}{$order_dir}" ];
 }
 
-// vim: sw=4 ts=4 expandtab

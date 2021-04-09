@@ -59,4 +59,3 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 echo "</table>";
 
-// vim: sw=4 ts=4 expandtab

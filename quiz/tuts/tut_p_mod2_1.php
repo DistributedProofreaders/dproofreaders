@@ -16,4 +16,3 @@ echo "<p>" . _("Proofread ordinary text that has been printed in multiple column
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

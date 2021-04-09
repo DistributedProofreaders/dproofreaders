@@ -72,4 +72,3 @@ function output_small_footer()
     output_html_footer();
 }
 
-// vim: sw=4 ts=4 expandtab

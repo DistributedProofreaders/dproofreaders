@@ -479,4 +479,3 @@ function activity_descriptions()
     echo "</div>";
 }
 
-// vim: sw=4 ts=4 expandtab

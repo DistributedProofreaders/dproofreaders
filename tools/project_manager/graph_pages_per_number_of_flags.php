@@ -22,4 +22,3 @@ draw_simple_bar_graph(
    _("Pages with that many flags")
 );
 
-// vim: sw=4 ts=4 expandtab

@@ -117,4 +117,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("/*\n1. a spoon
 $tests[] = array("type" => "expectedtext", "searchtext" => array("person ... one"), "case_sensitive" => TRUE, "error" => "ellipsis");
 $tests[] = array("type" => "forbiddentext", "searchtext" => array("\nTo turney", "\n To turney", "\nThow mantycore", "\n Thow mantycore"), "case_sensitive" => TRUE, "error" => "nopindent");
 
-// vim: sw=4 ts=4 expandtab

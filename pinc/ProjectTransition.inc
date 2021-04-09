@@ -1532,5 +1532,4 @@ foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
     );
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

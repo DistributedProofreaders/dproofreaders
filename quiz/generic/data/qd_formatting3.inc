@@ -82,4 +82,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" => "<sc>", "case_sensit
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("<tb>"), "case_sensitive" => TRUE, "error" => "nothoughtbreak");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n<tb>\n\n"), "case_sensitive" => TRUE, "error" => "thoughtbreakspc");
 
-// vim: sw=4 ts=4 expandtab

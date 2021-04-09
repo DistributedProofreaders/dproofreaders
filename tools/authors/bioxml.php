@@ -66,4 +66,3 @@ $xml .= "</biography>\n";
 return $xml;
 }
 
-// vim: sw=4 ts=4 expandtab

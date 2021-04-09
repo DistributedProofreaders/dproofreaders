@@ -72,4 +72,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Footnote"), 
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n* See"), "case_sensitive" => TRUE, "error" => "P_fnbottommarker");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n* As"), "case_sensitive" => TRUE, "error" => "P_fnbottommarker");
 
-// vim: sw=4 ts=4 expandtab

@@ -24,4 +24,3 @@ echo "<p>" . _("You may sometimes find formatting already present in the text. <
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_4'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

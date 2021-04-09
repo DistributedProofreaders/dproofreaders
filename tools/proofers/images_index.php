@@ -226,4 +226,3 @@ function show_delete_all_link( $project, $image_names )
     }
 }
 
-// vim: sw=4 ts=4 expandtab

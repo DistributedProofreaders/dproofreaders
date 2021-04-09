@@ -69,4 +69,3 @@ function create_birth_or_death_data($bd, $sql_row) {
     return $res;
 }
 
-// vim: sw=4 ts=4 expandtab

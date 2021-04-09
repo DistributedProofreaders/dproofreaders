@@ -126,4 +126,3 @@ if (!function_exists('pgettext'))
     }
 }
 
-// vim: sw=4 ts=4 expandtab

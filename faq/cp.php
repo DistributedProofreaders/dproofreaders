@@ -723,4 +723,3 @@ use FTP client. Free for-non commercial use.<br>
 <hr style="width: 100%; height: 2px;"><br>
 
 <?php
-// vim: sw=4 ts=4 expandtab

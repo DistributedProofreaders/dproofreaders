@@ -515,4 +515,3 @@ function get_requested_name_mapping()
     return $new_fileid_for_;
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -128,4 +128,3 @@ function maybe_create_temporary_genre_translation_table()
     }
 }
 
-// vim: sw=4 ts=4 expandtab

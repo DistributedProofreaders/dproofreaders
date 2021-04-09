@@ -21,4 +21,3 @@ echo "<p>" . sprintf(_("If the transliteration tool does not appear when you cli
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

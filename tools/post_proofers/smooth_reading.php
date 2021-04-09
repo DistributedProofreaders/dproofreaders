@@ -59,4 +59,3 @@ echo "</ul>";
 
 show_projects_for_smooth_reading();
 
-// vim: sw=4 ts=4 expandtab

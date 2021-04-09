@@ -429,5 +429,4 @@ function echo_checkbox_form_end() {
     echo "</form>";
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

@@ -631,5 +631,4 @@ function showMbrHistory($user, $tally_name) {
     $t->end();
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

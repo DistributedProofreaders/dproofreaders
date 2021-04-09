@@ -696,5 +696,4 @@ new Activity(
     NULL /* access_change_callback */
 );
 
-// vim: sw=4 ts=4 expandtab
 ?>

@@ -79,5 +79,4 @@ function get_Pool_for_state( $state )
 
 // ---------------------------
 
-// vim: sw=4 ts=4 expandtab
 ?>

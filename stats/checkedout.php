@@ -132,4 +132,3 @@ while ( $project = mysqli_fetch_object( $result ) )
 
 echo "</table>";
 
-// vim: sw=4 ts=4 expandtab

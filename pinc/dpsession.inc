@@ -104,4 +104,3 @@ function _update_user_activity_time( $update_login_time_too )
     ") or die(DPDatabase::log_error());
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -22,4 +22,3 @@ echo "<p>" . _("As in many books through the 1800s, the phrase <i>et cetera</i> 
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

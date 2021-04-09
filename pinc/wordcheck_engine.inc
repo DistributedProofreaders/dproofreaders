@@ -1147,4 +1147,3 @@ function filter_words_to_script($words, $script)
     return $script_words;
 }
 
-// vim: sw=4 ts=4 expandtab

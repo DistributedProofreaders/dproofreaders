@@ -256,4 +256,3 @@ function get_page_js($interface_type_init_value)
 PAGE_JS;
 }
 
-// vim: sw=4 ts=4 expandtab

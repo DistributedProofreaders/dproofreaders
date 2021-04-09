@@ -19,4 +19,3 @@ function get_newHelpWin_javascript($popHelpDir) {
     ";
 }
 
-// vim: sw=4 ts=4 expandtab

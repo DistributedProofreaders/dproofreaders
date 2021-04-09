@@ -11,4 +11,3 @@ if(isset($_REQUEST["destination"]))
 
 echo "<p>" . _("Use the form above to log in.") . "</p>";
 
-// vim: sw=4 ts=4 expandtab

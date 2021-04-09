@@ -46,4 +46,3 @@ case "withdraw":
 
 metarefresh(2, "$refresh_url#smooth_start", $title, $body);
 
-// vim: sw=4 ts=4 expandtab

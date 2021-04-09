@@ -43,4 +43,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("today"), "ca
 $tests[] = array("type" => "longline", "lengthlimit" => 70, "error" => "P_longline");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Ash-*\""), "case_sensitive" => TRUE, "error" => "P_addedclosequote");
 
-// vim: sw=4 ts=4 expandtab

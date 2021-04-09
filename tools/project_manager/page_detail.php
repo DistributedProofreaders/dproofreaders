@@ -102,4 +102,3 @@ else
     echo "<p class='warning'>$warn_message</p>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

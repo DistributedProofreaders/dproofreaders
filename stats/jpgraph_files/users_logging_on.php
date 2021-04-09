@@ -88,4 +88,3 @@ draw_simple_bar_graph(
     _('Fresh Logons')
 );
 
-// vim: sw=4 ts=4 expandtab

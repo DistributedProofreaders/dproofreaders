@@ -86,4 +86,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/*", "*/"), "case_sensitive" => TRUE, "error" => "P_poemmarkup");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("answer'd"), "case_sensitive" => TRUE, "error" => "aposchange");
 
-// vim: sw=4 ts=4 expandtab

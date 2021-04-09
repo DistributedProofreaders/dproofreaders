@@ -59,4 +59,3 @@ $title = _("Join the Team");
 $desc = _("Joining the team....");
 metarefresh(0,"../teams/tdetail.php?tid=$tid", $title, $desc);
 
-// vim: sw=4 ts=4 expandtab

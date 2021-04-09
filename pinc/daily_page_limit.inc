@@ -37,4 +37,3 @@ function get_dpl_count_for_user_in_round($username, $round)
     return $round_tallyboard->get_delta_since_latest_snapshot($user->u_id);
 }
 
-// vim: sw=4 ts=4 expandtab

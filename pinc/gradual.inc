@@ -245,4 +245,3 @@ function maybe_output_new_proofer_project_message($project)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

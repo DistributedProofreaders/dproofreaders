@@ -636,4 +636,3 @@ function show_is_toolbar($action)
     echo "<p class='center-align'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
-// vim: sw=4 ts=4 expandtab

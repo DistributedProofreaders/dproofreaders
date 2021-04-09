@@ -129,4 +129,3 @@ function getDebounceInfo()
     return array( 'project' => $project, 'pageTime' => $time );
 }
 
-// vim: sw=4 ts=4 expandtab

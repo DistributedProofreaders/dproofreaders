@@ -28,4 +28,3 @@ showTeamInformation($curTeam, $tally_name);
 
 echo "</div>";
 
-// vim: sw=4 ts=4 expandtab
