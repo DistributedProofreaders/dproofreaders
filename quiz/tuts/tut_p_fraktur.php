@@ -19,4 +19,3 @@ echo "<p>" . sprintf(_("If you have difficulty identifying letters in fraktur, t
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_fraktur'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -1132,5 +1132,4 @@ function get_changed_fields($new_pih, $old_pih)
     return $changed_fields;
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

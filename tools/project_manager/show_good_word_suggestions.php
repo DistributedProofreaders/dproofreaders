@@ -315,5 +315,4 @@ function _get_word_list($projectid,$timeCutoff) {
     return array($all_suggestions_w_freq, $all_suggestions_w_occurrences, $round_suggestions_w_freq, $round_suggestions_w_occurrences,$rounds, $round_page_count, $messages);
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

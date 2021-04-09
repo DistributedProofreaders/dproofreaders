@@ -74,4 +74,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Chrys"), "cas
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("EXIT"), "case_sensitive" => TRUE, "error" => "P_casechange");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case_sensitive" => TRUE, "error" => "P_indent");
 
-// vim: sw=4 ts=4 expandtab

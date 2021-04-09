@@ -97,4 +97,3 @@ if ($user->u_privacy == PRIVACY_PRIVATE)
 echo "
 </memberstats>";
 
-// vim: sw=4 ts=4 expandtab

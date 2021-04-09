@@ -117,4 +117,3 @@ function show_font_specimen($name, $font, $proofreading_font = NULL)
     echo "</div>";
 }
 
-// vim: sw=4 ts=4 expandtab

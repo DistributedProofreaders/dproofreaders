@@ -11,4 +11,3 @@ $ppage = get_requested_PPage($_GET);
 
 echo_text_frame_std($ppage);
 
-// vim: sw=4 ts=4 expandtab

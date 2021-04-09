@@ -331,4 +331,3 @@ function lang_html_header($langcode=FALSE)
     return $string;
 }
 
-// vim: sw=4 ts=4 expandtab

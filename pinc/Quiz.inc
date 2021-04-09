@@ -361,4 +361,3 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
     return $row["date"];
 }
 
-// vim: sw=4 ts=4 expandtab

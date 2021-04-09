@@ -70,4 +70,3 @@ echo "</pre>\n";
 echo "<hr>\n";
 echo "<p>" . sprintf(_("Back to the <a href='%s'>project manager</a> page."), "projectmgr.php") . "</p>\n";
 
-// vim: sw=4 ts=4 expandtab

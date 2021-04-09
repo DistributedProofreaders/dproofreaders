@@ -144,4 +144,3 @@ function output_section()
         output_paragraph($paragraph);
 }
 
-// vim: sw=4 ts=4 expandtab

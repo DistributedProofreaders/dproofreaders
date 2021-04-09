@@ -23,5 +23,4 @@ function can_reveal_details_about( $username, $user_privacy_setting )
     }
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

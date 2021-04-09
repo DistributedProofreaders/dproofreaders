@@ -235,4 +235,3 @@ review the <a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FA
 </table>
 
 <?php
-// vim: sw=4 ts=4 expandtab

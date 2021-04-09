@@ -85,4 +85,3 @@ if ($image_files === false)
 create_zip_from($image_files, $zipfile_path);
 
 header( "Location: $zipfile_url" );
-// vim: sw=4 ts=4 expandtab

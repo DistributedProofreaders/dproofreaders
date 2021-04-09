@@ -18,5 +18,4 @@ function cook_project_selector( $project_selector )
         );
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

@@ -1970,4 +1970,3 @@ function title_string_for_task($pre_task)
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
 }
 
-// vim: sw=4 ts=4 expandtab

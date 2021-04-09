@@ -726,4 +726,3 @@ function _get_project_state_selector( $which, $desired_states = NULL )
     die("bad value for 'which': '$which'");
 }
 
-// vim: sw=4 ts=4 expandtab

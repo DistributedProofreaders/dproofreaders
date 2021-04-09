@@ -70,4 +70,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Illustration"), "case_sensitive" => FALSE, "error" => "P_illmarkup");
 
-// vim: sw=4 ts=4 expandtab

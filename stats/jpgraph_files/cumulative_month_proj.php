@@ -60,4 +60,3 @@ draw_projects_graph(
     "$psd->cumulative_title ($timeframe)"
 );
 
-// vim: sw=4 ts=4 expandtab

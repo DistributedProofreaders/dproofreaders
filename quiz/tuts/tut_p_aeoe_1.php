@@ -18,4 +18,3 @@ echo "<p>" . sprintf(_("You can insert each of these characters using the charac
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_aeoe_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

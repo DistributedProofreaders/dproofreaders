@@ -52,4 +52,3 @@ function get_onclick_attr_for_link_to_project_page($url)
     return $attr;
 }
 
-// vim: sw=4 ts=4 expandtab

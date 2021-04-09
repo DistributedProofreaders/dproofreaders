@@ -24,4 +24,3 @@ qp_echo_hint_html($error, $number);
 
 echo " </div>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -2695,4 +2695,3 @@ Plural   {   2d   "  ye, or you,   you,
 </table>
 
 <?php
-// vim: sw=4 ts=4 expandtab

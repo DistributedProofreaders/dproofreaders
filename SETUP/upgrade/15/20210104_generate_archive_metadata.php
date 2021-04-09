@@ -45,4 +45,3 @@ foreach(glob("$archive_projects_dir/projectID*") as $project_dir)
 
 echo "\nDone!\n";
 
-// vim: sw=4 ts=4 expandtab

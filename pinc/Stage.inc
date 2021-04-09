@@ -193,5 +193,4 @@ function get_stages_for_which_user_has_access_to_prereqs( $username, $include_ac
     return $satisfied_prereq_stages;
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

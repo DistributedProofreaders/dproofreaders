@@ -65,4 +65,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("----was", " 
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case_sensitive" => TRUE, "error" => "P_indent");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/*", "*/"), "case_sensitive" => TRUE, "error" => "P_nowrapmarkup");
 
-// vim: sw=4 ts=4 expandtab

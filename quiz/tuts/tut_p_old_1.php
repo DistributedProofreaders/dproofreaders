@@ -26,4 +26,3 @@ echo "<p>" . _("In some older books, the single word at the bottom of the page (
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_1'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -47,4 +47,3 @@ while(list($projectid, $comments) = mysqli_fetch_row($result))
 
 echo "\nDone!\n";
 
-// vim: sw=4 ts=4 expandtab

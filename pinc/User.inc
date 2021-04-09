@@ -497,4 +497,3 @@ function check_username( $username, $registering=FALSE )
     return '';
 }
 
-// vim: sw=4 ts=4 expandtab

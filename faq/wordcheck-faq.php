@@ -294,4 +294,3 @@ foreach($languages as $language) {
 <p>If a project is cycled back through a previous round, the output of the Suggestion from Proofreaders page may give odd results. If the good_word_suggestions.txt file is preserved during the move, previous proofreader suggestions will be retained and may show up on the Suggestion from Proofreaders page if not all suggestions have been added to one of the project's Word List. It is therefore possible for retread projects to list proofreader suggestions for rounds later than the project is currently in. It is also possible for a word that only appears once in the text to show up as being suggested twice. WordCheck will not be affected by this and the PM can safely ignore the earlier data if they so choose.</p>
 
 <?php
-// vim: sw=4 ts=4 expandtab

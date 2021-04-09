@@ -94,4 +94,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Cucuye"), "ca
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Hispaniola"), "case_sensitive" => TRUE, "error" => "bltext");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
 
-// vim: sw=4 ts=4 expandtab

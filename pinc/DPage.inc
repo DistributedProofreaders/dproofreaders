@@ -878,5 +878,4 @@ function project_recalculate_page_counts( $projectid )
     DPDatabase::query($sql);
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

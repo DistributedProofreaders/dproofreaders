@@ -55,4 +55,3 @@ draw_simple_bar_graph(
     _('% of newly Joined Users who Proofread')
 );
 
-// vim: sw=4 ts=4 expandtab

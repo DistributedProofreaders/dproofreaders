@@ -84,4 +84,3 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
     }
     return $error;
 }
-// vim: sw=4 ts=4 expandtab

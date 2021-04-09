@@ -81,4 +81,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nbro"), "cas
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nemm"), "case_sensitive" => TRUE, "error" => "P_joinline");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nmo"), "case_sensitive" => TRUE, "error" => "P_joinline");
 
-// vim: sw=4 ts=4 expandtab

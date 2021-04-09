@@ -1114,4 +1114,3 @@ function show_caveats()
     echo "</ul>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

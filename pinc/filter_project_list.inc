@@ -426,4 +426,3 @@ function get_raw_saved_data($pguser, $data_name)
     return $row ? $row["value"] : "";
 }
 
-// vim: sw=4 ts=4 expandtab

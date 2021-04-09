@@ -126,4 +126,3 @@ function _get_word_context_on_page($projectid,$page,$round,$word) {
     return _get_word_context_from_text($page_text,$word);
 }
 
-// vim: sw=4 ts=4 expandtab

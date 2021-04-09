@@ -200,4 +200,3 @@ Just be aware, in the OCR world, you typically get what you pay for.
 </p>
 
 <?php
-// vim: sw=4 ts=4 expandtab

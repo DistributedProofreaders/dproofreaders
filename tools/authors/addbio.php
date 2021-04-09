@@ -147,4 +147,3 @@ if (!isset($bio_id) || $bio_format === 'markdown') {
 <?php
 echo_menu();
 
-// vim: sw=4 ts=4 expandtab

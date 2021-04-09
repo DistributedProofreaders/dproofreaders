@@ -96,4 +96,3 @@ function echo_text_frame_std( $ppage )
     </form>
     <?php
 }
-// vim: sw=4 ts=4 expandtab

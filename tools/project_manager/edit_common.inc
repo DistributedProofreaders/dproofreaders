@@ -395,4 +395,3 @@ function check_user_exists($possible_user, $description)
     return $result;
 }
 
-// vim: sw=4 ts=4 expandtab

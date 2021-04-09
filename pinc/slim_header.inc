@@ -47,4 +47,3 @@ function slim_footer($extra_args=array())
     $was_output = true;
 }
 
-// vim: sw=4 ts=4 expandtab

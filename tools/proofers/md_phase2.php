@@ -214,4 +214,3 @@ echo "</table></form>";
 // End the right cell, the single row, and the outside table.
 echo "</td></tr></table>\n";
 
-// vim: sw=4 ts=4 expandtab

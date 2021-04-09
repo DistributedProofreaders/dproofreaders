@@ -176,4 +176,3 @@ function get_local_file_browser_cache_key($url)
     return $cache_fixer;
 }
 
-// vim: sw=4 ts=4 expandtab

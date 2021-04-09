@@ -1057,4 +1057,3 @@ function _create_mysql_update_string($source_array, $string_fields = array(), $n
     return create_mysql_update_string($data, $string_fields);
 }
 
-// vim: sw=4 ts=4 expandtab

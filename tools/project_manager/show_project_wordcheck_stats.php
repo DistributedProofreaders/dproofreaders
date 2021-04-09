@@ -201,4 +201,3 @@ if($total["num_pages"]>0) {
 <p><img src="graph_pages_per_number_of_flags.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of pages with a given number of flagged words"); ?>"></p>
 
 <?php
-// vim: sw=4 ts=4 expandtab

@@ -176,4 +176,3 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     }
     echo "</ol>";
 }
-// vim: sw=4 ts=4 expandtab

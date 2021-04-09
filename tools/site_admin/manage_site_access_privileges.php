@@ -297,4 +297,3 @@ function update_settings($user, $user_settings)
     echo "<p>" . _("Done.") . "</p>";
 }
 
-// vim: sw=4 ts=4 expandtab

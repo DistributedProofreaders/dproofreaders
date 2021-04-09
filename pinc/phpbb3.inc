@@ -355,5 +355,4 @@ if ( $this_is_top_level_cli_invocation )
     // assuming that's how this is being invoked.
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

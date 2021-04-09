@@ -157,4 +157,3 @@ function echo_shortcut_links($show_view)
         echo "<p>" . implode(" | ", $links) . "</p>";
 }
 
-// vim: sw=4 ts=4 expandtab

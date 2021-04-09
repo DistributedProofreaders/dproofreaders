@@ -2209,4 +2209,3 @@ Se visualizar&aacute; una imagen del teclado y si oprime "shift", "opt", "comman
 </table>
 
 <?php
-// vim: sw=4 ts=4 expandtab

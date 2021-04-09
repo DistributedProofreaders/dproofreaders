@@ -13,4 +13,3 @@ $user = User::load_current();
 $user->remove_team($tid);
 metarefresh(0, "../teams/tdetail.php?tid=$tid");
 
-// vim: sw=4 ts=4 expandtab

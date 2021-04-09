@@ -45,4 +45,3 @@ $search_results = new ProjectSearchResults("PS");
 echo "<p><a href='?show=search_form'>" . _("Start New Search") . "</a> | " . get_refine_search_link() . " | " . get_search_configure_link() . "</p>";
 $search_results->render($condition);
 
-// vim: sw=4 ts=4 expandtab

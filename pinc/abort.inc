@@ -155,4 +155,3 @@ function dump_request_info()
     }
 }
 
-// vim: sw=4 ts=4 expandtab

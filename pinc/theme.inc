@@ -1064,4 +1064,3 @@ function get_page_header_image($image)
     return "";
 }
 
-// vim: sw=4 ts=4 expandtab

@@ -88,4 +88,3 @@ dpsql_dump_themed_query("
     LIMIT 50
 ", 1, DPSQL_SHOW_RANK);
 
-// vim: sw=4 ts=4 expandtab

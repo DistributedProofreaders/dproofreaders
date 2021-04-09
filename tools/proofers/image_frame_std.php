@@ -27,4 +27,3 @@ $iWidth=round((1000*$iWidth)/100);
 </div>
 
 <?php
-// vim: sw=4 ts=4 expandtab

@@ -110,4 +110,3 @@ echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the 
 echo "</div>";
 echo "</div>";
 
-// vim: sw=4 ts=4 expandtab

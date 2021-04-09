@@ -20,4 +20,3 @@ mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase
 
 echo "\nDone!\n";
 
-// vim: sw=4 ts=4 expandtab

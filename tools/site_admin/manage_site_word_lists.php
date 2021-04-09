@@ -256,4 +256,3 @@ function _echo_input_form($list_type, $langcode3, $language) {
     echo "</form>";
 }
 
-// vim: sw=4 ts=4 expandtab

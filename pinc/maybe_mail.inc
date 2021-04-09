@@ -92,4 +92,3 @@ function maybe_mail_project_manager( $project, $info, $prefix)
     return maybe_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
-// vim: sw=4 ts=4 expandtab

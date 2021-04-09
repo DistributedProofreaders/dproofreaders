@@ -144,4 +144,3 @@ mysqli_free_result($res);
 ?>
 </table>
 <?php
-// vim: sw=4 ts=4 expandtab

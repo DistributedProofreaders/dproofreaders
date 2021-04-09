@@ -47,4 +47,3 @@ dpsql_dump_themed_query($sql, 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 
-// vim: sw=4 ts=4 expandtab

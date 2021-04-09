@@ -188,4 +188,3 @@ function ibe_get_js()
     // the functions scrollImage(), scrollOver, and stopOver().
 }
 
-// vim: sw=4 ts=4 expandtab

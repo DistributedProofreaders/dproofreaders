@@ -146,4 +146,3 @@ header("Cache-Control: max-age=$secondsOfFreshnessRemaining, public, must-revali
 
 readfile($xmlfile);
 
-// vim: sw=4 ts=4 expandtab

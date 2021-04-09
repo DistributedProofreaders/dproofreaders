@@ -64,4 +64,3 @@ If none is provided, it will default to the home page of this site.</p>
 
 );
 
-// vim: sw=4 ts=4 expandtab

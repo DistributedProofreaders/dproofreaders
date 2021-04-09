@@ -214,4 +214,3 @@ function do_stuff( $projectid, $from_image_, $just_checking )
     echo "</pre>";
 }
 
-// vim: sw=4 ts=4 expandtab

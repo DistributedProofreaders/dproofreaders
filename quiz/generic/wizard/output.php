@@ -234,4 +234,3 @@ echo "<p><a href='./start.php'>" . _("Clear all data and restart quiz wizard.") 
 
 $_SESSION['quiz_data']['lastpage'] = 'output';
 
-// vim: sw=4 ts=4 expandtab

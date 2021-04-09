@@ -344,4 +344,3 @@ echo "</form>\n";
 
 $_SESSION['quiz_data']['lastpage'] = 'checks';
 
-// vim: sw=4 ts=4 expandtab

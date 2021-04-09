@@ -16,4 +16,3 @@ echo "<p>" . _("Do not mark changes in font or font size. The formatters will ta
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_5'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

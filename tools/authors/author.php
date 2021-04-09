@@ -26,4 +26,3 @@ echo_menu($author_id);
 
 echo_author($last_name, $other_names, $birth, $decease, $author_id);
 
-// vim: sw=4 ts=4 expandtab

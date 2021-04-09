@@ -334,4 +334,3 @@ function leave_proofing_interface( $title )
     echo "// --></script>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

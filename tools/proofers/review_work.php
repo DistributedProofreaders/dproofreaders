@@ -515,4 +515,3 @@ if($total_invalid_projects) {
     echo sprintf(_("(%d projects)"), $total_invalid_projects);
 }
 
-// vim: sw=4 ts=4 expandtab

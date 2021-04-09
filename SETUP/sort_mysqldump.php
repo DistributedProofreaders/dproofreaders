@@ -54,5 +54,4 @@ echo $preamble;
 foreach ( $named_chunks as $chunk ) echo $chunk;
 echo $postamble;
 
-// vim: sw=4 ts=4 expandtab
 ?>

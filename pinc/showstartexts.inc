@@ -57,5 +57,4 @@ function showstartexts($etext_limit,$type) {
     echo "</div>";
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

@@ -289,5 +289,4 @@ function declare_mentoring_pair( $mentee_round_id, $mentor_round_id )
     $mentor_round->mentee_round = $mentee_round;
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

@@ -22,4 +22,3 @@ foreach($images as $image)
     echo "<img style='max-width: 100%' src='$image'><br>\n";
 }
 
-// vim: sw=4 ts=4 expandtab

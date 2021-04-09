@@ -26,4 +26,3 @@ echo "<tr><td>$content</td></tr>\n";
 echo "<tr><td class='center-align'><b><a href='javascript:window.close();'>" . _("Close Window") . "</a></b></td></tr>\n";
 echo "</table>\n";
 
-// vim: sw=4 ts=4 expandtab

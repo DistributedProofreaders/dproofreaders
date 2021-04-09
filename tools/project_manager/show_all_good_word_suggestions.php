@@ -297,4 +297,3 @@ function _get_project_states_in_order() {
     return $projectStates;
 }
 
-// vim: sw=4 ts=4 expandtab

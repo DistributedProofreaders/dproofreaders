@@ -82,4 +82,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nc Who"), "c
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("Shakspeare"), "case_sensitive" => TRUE, "error" => "P_spellingchange");
 
-// vim: sw=4 ts=4 expandtab

@@ -2449,4 +2449,3 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </table>
 
 <?php
-// vim: sw=4 ts=4 expandtab

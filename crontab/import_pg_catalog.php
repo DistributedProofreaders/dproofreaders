@@ -279,4 +279,3 @@ foreach ($etexts as $etext_number => $formats )
 
 trace("Done");
 
-// vim: sw=4 ts=4 expandtab

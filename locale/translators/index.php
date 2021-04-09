@@ -582,4 +582,3 @@ function validate_locale($locale, $check_dir_exists = True)
     return $locale;
 }
 
-// vim: sw=4 ts=4 expandtab

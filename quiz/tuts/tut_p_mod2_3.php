@@ -13,4 +13,3 @@ echo "<p>" . _("The œ character (oe ligature) should be inserted into the proof
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_3'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

@@ -109,4 +109,3 @@ foreach( $headers as $w => $header)
 
 echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#holds'") . "</p>";
 
-// vim: sw=4 ts=4 expandtab

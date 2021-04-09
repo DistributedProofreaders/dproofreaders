@@ -1996,4 +1996,3 @@ Footnote/Fu&szlig;note/Apostille/Ootnotefay/&Upsilon;&pi;&omicron;&sigma;&eta;&m
 </ul>
 
 <?php
-// vim: sw=4 ts=4 expandtab

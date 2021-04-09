@@ -78,4 +78,3 @@ $tests[] = array("type" => "wrongtextorder", "firsttext" => "Where is Kitty?", "
 $tests[] = array("type" => "wrongtextorder", "firsttext" => "response", "secondtext" => "Where is Kitty?", "case_sensitive" => TRUE, "error" => "captionmoved");
 $tests[] = array("type" => "forbiddentext", "searchtext" => array("<tb>"), "case_sensitive" => TRUE, "error" => "tbmarkup");
 
-// vim: sw=4 ts=4 expandtab

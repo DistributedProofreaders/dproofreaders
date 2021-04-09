@@ -41,4 +41,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Sidenote"), 
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("suitor is"), "case_sensitive" => TRUE, "error" => "P_snlinebreak");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("gold,\n"), "case_sensitive" => TRUE, "error" => "P_lbchange");
 
-// vim: sw=4 ts=4 expandtab

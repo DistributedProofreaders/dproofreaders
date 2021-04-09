@@ -18,4 +18,3 @@ if($user_is_logged_in)
 metarefresh(0, "../default.php", _("Logout Complete"),
      "<a href=\"../default.php\">"._("Return to DP Home Page.")."</a>");
 
-// vim: sw=4 ts=4 expandtab

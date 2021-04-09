@@ -22,4 +22,3 @@ else
 
 metarefresh(0, $location);
 
-// vim: sw=4 ts=4 expandtab

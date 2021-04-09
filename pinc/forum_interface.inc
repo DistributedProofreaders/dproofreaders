@@ -778,5 +778,4 @@ function forum_resynch( $forum_id )
     }
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

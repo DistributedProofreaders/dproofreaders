@@ -52,4 +52,3 @@ output_header(_('Site Progress Snapshot'), NO_STATSBAR);
 
 
 <?php
-// vim: sw=4 ts=4 expandtab

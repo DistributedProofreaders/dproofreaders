@@ -34,4 +34,3 @@ draw_pie_graph(
     $title
 );
 
-// vim: sw=4 ts=4 expandtab

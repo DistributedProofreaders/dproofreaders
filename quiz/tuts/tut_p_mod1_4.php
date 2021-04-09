@@ -20,4 +20,3 @@ echo "<p>" . _("Watch out for these. Normally the context of the sentence is suf
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_4'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

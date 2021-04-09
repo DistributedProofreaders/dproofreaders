@@ -362,4 +362,3 @@ function update_image($projectid, $image)
     }
 }
 
-// vim: sw=4 ts=4 expandtab

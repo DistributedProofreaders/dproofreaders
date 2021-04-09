@@ -187,4 +187,3 @@ EOMAIL;
     maybe_mail($email, $welcome, $body);
 }
 
-// vim: sw=4 ts=4 expandtab

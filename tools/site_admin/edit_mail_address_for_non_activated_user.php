@@ -117,4 +117,3 @@ else if ($action == 'set_email') {
 else
     echo 'Unknown action.';
 
-// vim: sw=4 ts=4 expandtab

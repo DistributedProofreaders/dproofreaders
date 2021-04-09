@@ -83,4 +83,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("ou\ne"), "cas
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("pest"), "case_sensitive" => TRUE, "error" => "G_stigma");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nest"), "case_sensitive" => TRUE, "error" => "G_stigma");
 
-// vim: sw=4 ts=4 expandtab

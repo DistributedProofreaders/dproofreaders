@@ -226,4 +226,3 @@ function ensure_digits($digits_or_question_mark) {
 
 echo_menu();
 
-// vim: sw=4 ts=4 expandtab

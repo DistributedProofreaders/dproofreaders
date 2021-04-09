@@ -54,4 +54,3 @@ else
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr class='center-align' style='width: 75%'><br>";
     }
 }
-// vim: sw=4 ts=4 expandtab

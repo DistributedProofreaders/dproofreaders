@@ -20,4 +20,3 @@ echo _("If represented by a dash in the image, proofread these as two hyphens or
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_2'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

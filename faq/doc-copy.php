@@ -192,4 +192,3 @@ R554718.
 </ul>
 
 <?php
-// vim: sw=4 ts=4 expandtab

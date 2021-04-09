@@ -53,4 +53,3 @@ $tests[] = array("type" => "forbiddentext", "searchtext" => "re-", "case_sensiti
 $tests[] = array("type" => "forbiddentext", "searchtext" => ":\n\"Some", "case_sensitive" => TRUE, "error" => "missingline");
 $tests[] = array("type" => "longline", "lengthlimit" => 80, "error" => "longline");
 
-// vim: sw=4 ts=4 expandtab

@@ -60,4 +60,3 @@ function _html_ul( $header, $items )
 
 echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#event_subscriptions'") . "</p>";
 
-// vim: sw=4 ts=4 expandtab

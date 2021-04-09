@@ -81,4 +81,3 @@ function strings_count_up( $strings )
     return TRUE;
 }
 
-// vim: sw=4 ts=4 expandtab

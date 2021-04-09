@@ -60,4 +60,3 @@ foreach($sections as $section => $pages)
     echo "</ul>";
 }
 
-// vim: sw=4 ts=4 expandtab

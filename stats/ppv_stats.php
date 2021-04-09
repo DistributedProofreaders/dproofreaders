@@ -31,4 +31,3 @@ echo _("Note that the above figures are as accurate as possible within the bound
 
 echo "<br>\n";
 
-// vim: sw=4 ts=4 expandtab

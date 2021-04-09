@@ -204,4 +204,3 @@ function echo_button_menu( $ppage )
     echo_button(QUIT,'a');
 }
 
-// vim: sw=4 ts=4 expandtab

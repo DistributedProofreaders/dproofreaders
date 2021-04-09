@@ -52,4 +52,3 @@ if (!$userSettings->get_boolean('hide_special_colors'))
     echo_special_legend(" 1 = 1");
 }
 
-// vim: sw=4 ts=4 expandtab

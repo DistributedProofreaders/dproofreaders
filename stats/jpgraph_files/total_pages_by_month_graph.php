@@ -42,4 +42,3 @@ draw_pages_graph(
     _('Pages Done Each Month Since the Beginning of Statistics Collection')
 );
 
-// vim: sw=4 ts=4 expandtab

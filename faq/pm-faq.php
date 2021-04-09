@@ -239,4 +239,3 @@ window which describes each setting in further detail.
 </p>
 
 <?php
-// vim: sw=4 ts=4 expandtab

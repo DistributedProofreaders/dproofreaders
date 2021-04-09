@@ -272,5 +272,4 @@ function spellcheck_apply_corrections() {
     return array($correct_text, $corrections);
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

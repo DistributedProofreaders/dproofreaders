@@ -99,4 +99,3 @@ if ($tRows == 20) {
 echo "</td></tr>\n";
 echo "</table>";
 
-// vim: sw=4 ts=4 expandtab

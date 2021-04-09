@@ -373,5 +373,4 @@ Select one and click on 'Switch Profiles' to set it as your new default profile.
 
 );
 
-// vim: sw=4 ts=4 expandtab
 

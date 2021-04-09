@@ -140,4 +140,3 @@ function get_table_query_resource($username, $view_mode)
     return dpsql_query($sql);
 }
 
-// vim: sw=4 ts=4 expandtab

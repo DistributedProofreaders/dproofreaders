@@ -104,4 +104,3 @@ $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 // Display the graph
 $graph->Stroke();
 
-// vim: sw=4 ts=4 expandtab

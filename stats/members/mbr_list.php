@@ -123,4 +123,3 @@ if ($mRows == 20) {
 echo "</td></tr>";
 echo "</table>";
 
-// vim: sw=4 ts=4 expandtab

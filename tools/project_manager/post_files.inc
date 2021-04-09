@@ -327,5 +327,4 @@ function page_info_fetch( $res )
     );
 }
 
-// vim: sw=4 ts=4 expandtab
 ?>

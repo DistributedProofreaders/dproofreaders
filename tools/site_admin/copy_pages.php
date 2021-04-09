@@ -744,4 +744,3 @@ function str_max( & $arr )
     return $s;
 }
 
-// vim: sw=4 ts=4 expandtab

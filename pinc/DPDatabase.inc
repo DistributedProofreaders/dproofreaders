@@ -140,4 +140,3 @@ final class DPDatabase
     protected function __wakeup() {}
 }
 
-// vim: sw=4 ts=4 expandtab

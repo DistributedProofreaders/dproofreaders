@@ -199,4 +199,3 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
 echo "</form></center>";
 echo "<br>";
 
-// vim: sw=4 ts=4 expandtab

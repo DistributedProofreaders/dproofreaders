@@ -28,4 +28,3 @@ $qry = DPDatabase::query($sql);
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);
 
-// vim: sw=4 ts=4 expandtab

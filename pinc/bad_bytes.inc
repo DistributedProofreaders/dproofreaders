@@ -923,4 +923,3 @@ function string_to_hex($str)
     return $hex;
 }
 
-// vim: sw=4 ts=4 expandtab

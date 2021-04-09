@@ -74,4 +74,3 @@ $tests[] = array("type" => "expectedtext", "searchtext" =>  array("pon\n"), "cas
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("iee,\n"), "case_sensitive" => TRUE, "error" => "G_missinglb");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("kai\n"), "case_sensitive" => TRUE, "error" => "G_missinglb");
 
-// vim: sw=4 ts=4 expandtab

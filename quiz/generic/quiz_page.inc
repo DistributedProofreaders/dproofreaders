@@ -691,4 +691,3 @@ function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// vim: sw=4 ts=4 expandtab

@@ -14,4 +14,3 @@ echo "<p>" . _("Often there is no closing quotation mark until the very end of t
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_4'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

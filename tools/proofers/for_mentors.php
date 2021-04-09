@@ -297,4 +297,3 @@ function page_list_sql($mentored_round, $projectid)
         ORDER BY $order" ;
 }
 
-// vim: sw=4 ts=4 expandtab

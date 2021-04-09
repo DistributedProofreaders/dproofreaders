@@ -113,4 +113,3 @@ function require_login()
     metarefresh(0, $url);
 }
 
-// vim: sw=4 ts=4 expandtab

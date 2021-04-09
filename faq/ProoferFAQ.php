@@ -349,4 +349,3 @@ different pages.  This will significantly speed up the proofreading process.
 </table>
 
 <?php
-// vim: sw=4 ts=4 expandtab

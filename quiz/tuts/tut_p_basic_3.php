@@ -28,4 +28,3 @@ echo "<p>" . _("Please proofread only the characters in <span style='font-varian
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_3'>" . _("Continue to quiz page") . "</a></p>\n";
 
-// vim: sw=4 ts=4 expandtab

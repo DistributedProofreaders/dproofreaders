@@ -1391,4 +1391,3 @@ function get_page_image_param($arr, $key, $allownull = false)
     return $page_name;
 }
 
-// vim: sw=4 ts=4 expandtab
