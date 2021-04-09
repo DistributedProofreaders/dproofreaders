@@ -93,8 +93,16 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
 
 echo _("Show") . ": ";
 echo "<select name='timeCutoff'>";
-echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
-echo "<option value='-1'"; if($timeCutoff==-1) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
+echo "<option value='0' ";
+if ($timeCutoff == 0) {
+    echo "selected";
+}
+echo ">" . _("All suggestions") . "</option>";
+echo "<option value='-1' ";
+if ($timeCutoff == -1) {
+    echo "selected";
+}
+echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
 $timeCutoffOptions=array(1,2,3,4,5,6,7,14,21);
 foreach($timeCutoffOptions as $timeCutoffOption) {
     $timeCutoffValue = ceil((time() - 24*60*60*$timeCutoffOption)/100)*100;
