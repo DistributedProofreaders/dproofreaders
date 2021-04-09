@@ -64,7 +64,6 @@ $ok_files = [
     "pinc/udb_user.php",
     "pinc/site_registration_protection.php",
     # 3rd party libraries
-    "pinc/functions_insert_post.php",
     "pinc/3rdparty/mediawiki/DiffEngine.php",
     "pinc/3rdparty/mediawiki/TableDiffFormatter.php",
     "pinc/3rdparty/mediawiki/DairikiDiff.php",
