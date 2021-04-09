@@ -8,7 +8,7 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-#maybe_redirect_to_external_faq("pt");
+maybe_redirect_to_external_faq("pt");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
