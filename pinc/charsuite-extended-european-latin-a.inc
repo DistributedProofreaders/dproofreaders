@@ -27,16 +27,19 @@ $charsuite->reference_urls = [
 ];
 
 $pickerset = new PickerSet();
-#  with diacriticals
+//  with diacriticals
 $pickerset->add_subset(UTF8::hex_to_chr("U+0108"), [
-    [ 'U+0108', 'U+011c', 'U+0124', 'U+0134', 'U+015c', 'U+0174', 'U+0176', 'U+014a',
-      'U+0166', 'U+0218', 'U+021a', 'U+0102', 'U+016c', 'U+0150', 'U+0170' ],
-    [ 'U+0109', 'U+011d', 'U+0125', 'U+0135', 'U+015d', 'U+0175', 'U+0177', 'U+014b',
-      'U+0167', 'U+0219', 'U+021b', 'U+0103', 'U+016d', 'U+0151', 'U+0171' ],
+    [
+        'U+0108', 'U+011c', 'U+0124', 'U+0134', 'U+015c', 'U+0174', 'U+0176', 'U+014a',
+        'U+0166', 'U+0218', 'U+021a', 'U+0102', 'U+016c', 'U+0150', 'U+0170',
+    ],
+    [
+        'U+0109', 'U+011d', 'U+0125', 'U+0135', 'U+015d', 'U+0175', 'U+0177', 'U+014b',
+        'U+0167', 'U+0219', 'U+021b', 'U+0103', 'U+016d', 'U+0151', 'U+0171',
+    ],
 ], _("Letters with circumflex and miscellaneous"));
 
 
 $charsuite->pickerset = $pickerset;
 
 CharSuites::add($charsuite);
-

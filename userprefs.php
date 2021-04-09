@@ -43,10 +43,13 @@ else
 
 // Define the available tabs.
 // The indexes of the array are used elsewhere in this script.
-$tabs = array(0 => _('General'),
-    1 => _('Proofreading'));
-if (user_is_PM())
+$tabs = [
+    0 => _('General'),
+    1 => _('Proofreading'),
+];
+if (user_is_PM()) {
     $tabs[2] = _('Project managing');
+}
 
 $selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs)));
 

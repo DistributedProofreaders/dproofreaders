@@ -33,7 +33,7 @@ function api_v1_projects($method, $data, $query_params)
     foreach(array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field)
     {
         $param = $query_params[$field];
-        $query[$field] = is_array($param) ? $param : [ $param ];;
+        $query[$field] = is_array($param) ? $param : [ $param ];
     }
 
     // now build project query

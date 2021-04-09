@@ -16,10 +16,11 @@ $charsuite->reference_urls = [
 
 $pickerset = new PickerSet();
 $pickerset->add_subset(UTF8::hex_to_chr('U+0391') . '-' . UTF8::hex_to_chr('U+03a9'), [
-    [ 'U+0391-U+03a1', NULL, 'U+03a3-U+03a9' ], # capital alpha through omega
-    [ 'U+03b1-U+03c9' ], # lowercase alpha through omega
+    // capital alpha through omega
+    ['U+0391-U+03a1', null, 'U+03a3-U+03a9'],
+    // lowercase alpha through omega
+    ['U+03b1-U+03c9'],
 ]);
 $charsuite->pickerset = $pickerset;
 
 CharSuites::add($charsuite);
-
