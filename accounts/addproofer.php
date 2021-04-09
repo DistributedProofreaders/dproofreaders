@@ -175,8 +175,16 @@ if (!$testing) {
 echo "<tr>";
 echo "  <th>" . _("E-mail Updates") . ":</th>";
 echo "  <td>";
-echo "    <input type='radio' name='email_updates' value='1' "; if($email_updates) echo "checked"; echo ">" . _("Yes") . "&nbsp;&nbsp;";
-echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
+echo "    <input type='radio' name='email_updates' value='1' ";
+if ($email_updates) {
+    echo "checked";
+}
+echo "    >" . _("Yes") . "&nbsp;&nbsp;";
+echo "    <input type='radio' name='email_updates' value='0' ";
+if (!$email_updates) {
+    echo "checked";
+}
+echo "    >" . _("No");
 echo "  </td>";
 echo "</tr>\n";
 
