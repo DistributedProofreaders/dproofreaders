@@ -14,11 +14,11 @@ $translate_url = "$code_url/locale/translators/index.php";
 
 $may_manage = user_is_site_translator();
 
-if ($may_manage)
-    $allowed_functions = array(
-        'manage', 'merge', 'upload', 'download', 'view');
-else
-    $allowed_functions = array('download', 'view');
+if ($may_manage) {
+    $allowed_functions = ['manage', 'merge', 'upload', 'download', 'view'];
+} else {
+    $allowed_functions = ['download', 'view'];
+}
 
 if (user_is_a_sitemanager())
 {

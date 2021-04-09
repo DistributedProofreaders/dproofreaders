@@ -17,16 +17,16 @@ function show_projects_for_round( $round, $show_filter_block=TRUE, $allow_specia
 
     $filter_custom_display_fields = NULL;
 
-    $columns = array(
-        "nameofwork"        => array( 'Title',  _("Title") ),
-        "authorsname"       => array( 'Author', _("Author") ),
-        "language"          => array( 'Lang',   _("Language") ),
-        "genre"             => array( 'Genre',  _("Genre") ),
-        "username"          => array( 'PM',     _("Project Manager") ),
-        "n_available_pages" => array( 'PgAv',   _("Available Pages") ),
-        "n_pages"           => array( 'PgTot',  _("Total Pages") ),
-        "days_avail"        => array( 'Days',   _("Days") ),
-    );
+    $columns = [
+        "nameofwork" => ['Title', _("Title")],
+        "authorsname" => ['Author', _("Author")],
+        "language" => ['Lang', _("Language")],
+        "genre" => ['Genre', _("Genre")],
+        "username" => ['PM', _("Project Manager")],
+        "n_available_pages" => ['PgAv', _("Available Pages")],
+        "n_pages" => ['PgTot', _("Total Pages")],
+        "days_avail" => ['Days', _("Days")],
+    ];
 
     show_projects_for_stage(
         $round,
@@ -51,17 +51,17 @@ function show_projects_for_smooth_reading()
 
     $filter_custom_display_fields = array("checkedoutby" => TRUE);
 
-    $columns = array(
-        "nameofwork"   => array( 'Title',  _("Title") ),
-        "authorsname"  => array( 'Author', _("Author") ),
-        "language"     => array( 'Lang',   _("Language") ),
-        "genre"        => array( 'Genre',  _("Genre") ),
-        "username"     => array( 'PM',     _("Project Manager") ),
-        "checkedoutby" => array( 'PP',     _("Post Processor") ),
-        "uploaded"     => array(  NULL,    _("Uploaded") ),
-        "n_pages"      => array( 'PgTot',  _("Total Pages") ),
-        "days_left"    => array( 'Days',   _("Days Left") ),
-    );
+    $columns = [
+        "nameofwork" => ['Title', _("Title")],
+        "authorsname" => ['Author', _("Author")],
+        "language" => ['Lang', _("Language")],
+        "genre" => ['Genre', _("Genre")],
+        "username" => ['PM', _("Project Manager")],
+        "checkedoutby" => ['PP', _("Post Processor")],
+        "uploaded" => [null, _("Uploaded")],
+        "n_pages" => ['PgTot', _("Total Pages")],
+        "days_left" => ['Days', _("Days Left")],
+    ];
 
     // But only show PM, PP, and Uploaded if they are logged in.
     if ( !isset($pguser) )
@@ -243,14 +243,14 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
     $anchor = $checkedout_or_available;
 
-    $columns = array(
-        "nameofwork"          => array( 'Title',  _("Title") ),
-        "authorsname"         => array( 'Author', _("Author") ),
-        "language"            => array( 'Lang',   _("Language") ),
-        "genre"               => array( 'Genre',  _("Genre") ),
-        "n_pages"             => array( 'PgTot',  _("Pages") ),
-        $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
-    );
+    $columns = [
+        "nameofwork" => ['Title', _("Title")],
+        "authorsname" => ['Author', _("Author")],
+        "language" => ['Lang', _("Language")],
+        "genre" => ['Genre', _("Genre")],
+        "n_pages" => ['PgTot', _("Pages")],
+        $pool->foo_field_name => ['Person', $pool->foo_Header],
+    ];
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $ext_sort_param_name = "order_{$checkedout_or_available}";

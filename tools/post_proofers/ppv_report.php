@@ -593,7 +593,8 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         . "\nPPing Complexity:"
         . "\n"
         . "\n    Text File Size: $project_size KB";
-    $mapped_array = array("sig_poetry" => "Significant Amount of Poetry", "some_poetry" => "Some Poetry",
+    $mapped_array = array(
+        "sig_poetry" => "Significant Amount of Poetry", "some_poetry" => "Some Poetry",
         "sig_block" => "Significant Amount of Blockquotes", "some_block" => "Some Blockquotes",
         "sig_foot" => "Significant Amount of Footnotes", "some_foot" => "Some Footnotes",
         "sig_side" => "Significant Amount of Sidenotes", "some_side" => "Some Sidenotes",
@@ -602,8 +603,10 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         "sig_drama" => "Significant Amount of Drama", "some_drama" => "Some Drama",
         "sig_index" => "Significant Size of Index", "some_index" => "Small Index",
         "sig_illos" => "Illustrations requiring advanced preparation and/or difficult placement",
-        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck", "sig_englifh" => "Difficult typography, e.g. long ess, Fraktur, etc.",
-        "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation");
+        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck",
+        "sig_englifh" => "Difficult typography, e.g. long ess, Fraktur, etc.",
+        "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation",
+    );
 
     foreach($_POST as $key => $value) {
         if (startswith($key, "sig_") && isset($mapped_array[$key])) {
