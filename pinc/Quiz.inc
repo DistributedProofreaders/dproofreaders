@@ -91,7 +91,10 @@ class Quiz
         {
             foreach ($pages_required_results as $quiz_page_id => $value)
             {
-                if($value == "no") continue; // The user hasn't passed the quiz anyway.
+                if ($value == "no") {
+                    // The user hasn't passed the quiz anyway.
+                    continue;
+                }
                 if ((time() - $value) > $this->pass_requirements['maximum_age'])
                 {
                     $pages_required_results[$quiz_page_id] = "no";
@@ -117,10 +120,12 @@ class Quiz
         global $code_url;
         global $code_dir;
 
-        if (!empty($username))
-            $n_columns = 5; // 3 extra columns of user-specific info
-        else
+        if (!empty($username)) {
+            // 3 extra columns of user-specific info
+            $n_columns = 5;
+        } else {
             $n_columns = 2;
+        }
 
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')

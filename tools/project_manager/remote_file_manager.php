@@ -768,7 +768,10 @@ function show_content()
 
     $item_names = get_directory_items_sorted($curr_abspath);
 
-    if ($item_names === FALSE) return; // XXX fatal_error(_("Unable to open folder")) ?
+    if ($item_names === false) {
+        // XXX fatal_error(_("Unable to open folder")) ?
+        return;
+    }
 
     // Start table and headers
     $caption_text = sprintf(_("Directory listing for <b>%s</b>"), $hce_curr_displaypath);

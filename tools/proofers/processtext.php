@@ -48,10 +48,22 @@ if (isset($_POST['button8']) || isset($_POST['button8_x'])) {$tbutton=B_REVERT_T
 if (isset($_POST['button9']) || isset($_POST['button9_x'])) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
 if (isset($_POST['button10']) || isset($_POST['button10_x'])) {$tbutton=B_RUN_SPELL_CHECK;}
 
-if (isset($_POST['spcorrect']))        {$tbutton=101;} // Make Spelling Corrections
-if (isset($_POST['spexit']))           {$tbutton=102;} // Exit Spelling Corrections
-if (isset($_POST['spsaveandnext']))    {$tbutton=103;} // Save and do another from the Spellcheck page
-if (isset($_POST['rerunauxlanguage'])) {$tbutton=104;} // Spellcheck against another language
+// Make Spelling Corrections
+if (isset($_POST['spcorrect'])) {
+    $tbutton = 101;
+}
+// Exit Spelling Corrections
+if (isset($_POST['spexit'])) {
+    $tbutton = 102;
+}
+// Save and do another from the Spellcheck page
+if (isset($_POST['spsaveandnext'])) {
+    $tbutton = 103;
+}
+// Spellcheck against another language
+if (isset($_POST['rerunauxlanguage'])) {
+    $tbutton = 104;
+}
 
 // set prefs
 $user = User::load_current();

@@ -500,46 +500,55 @@ function draw_simple_bar_graph(
 // Once we have more than about 30 labels, the axis is getting too crowded
 // x_frequency = the frequency of the data points either:
 //    'hourly', 'daily' or 'monthly'
-function calculate_text_tick_interval( $x_frequency, $n_datapoints )
+function calculate_text_tick_interval($x_frequency, $n_datapoints)
 {
-    if ($x_frequency == 'hourly')
-    {
-        if ($n_datapoints < 30 )
-            $x_text_tick_interval = 1;            // one label per hour
-        else if ($n_datapoints < (30 * 168))
-            $x_text_tick_interval = 168;          // one label per week
-        else if ($n_datapoints < (30 * 168 * 4))
-            $x_text_tick_interval = 168 * 4;      // one label per 4 weeks (pseudo-month)
-        else if ($n_datapoints < (30 * 168 * 13))
-            $x_text_tick_interval = 168 * 13;     // one label per quarter
-        else
-            $x_text_tick_interval = 168 * 52;     // one label per year
-    }
-    else if ($x_frequency == 'daily')
-    {
-        if ($n_datapoints <= 31 )
-            $x_text_tick_interval = 1;            // one label per day
-        else if ($n_datapoints < (30 * 7))
-            $x_text_tick_interval = 7;            // one label per week
-        else if ($n_datapoints < (30 * 7 * 4))
-            $x_text_tick_interval = 7 * 4;        // one label per 4 weeks (pseudo-month)
-        else if ($n_datapoints < (30 * 7 * 13))
-            $x_text_tick_interval = 7 * 13;       // one label per quarter
-        else
-            $x_text_tick_interval = 7  * 52;      // one label per year
-    }
-    else if ($x_frequency == 'monthly')
-    {
-        if ($n_datapoints < 30 )
-            $x_text_tick_interval = 1;            // one label per month
-        else if ($n_datapoints < (30 * 3))
-            $x_text_tick_interval = 3;            // one label per quarter
-        else
-            $x_text_tick_interval = 12;           // one label per year
-    }
-    else
-    {
-        assert( FALSE );
+    if ($x_frequency == 'hourly') {
+        if ($n_datapoints < 30) {
+            // one label per hour
+            $x_text_tick_interval = 1;
+        } elseif ($n_datapoints < (30 * 168)) {
+            // one label per week
+            $x_text_tick_interval = 168;
+        } elseif ($n_datapoints < (30 * 168 * 4)) {
+            // one label per 4 weeks (pseudo-month)
+            $x_text_tick_interval = 168 * 4;
+        } elseif ($n_datapoints < (30 * 168 * 13)) {
+            // one label per quarter
+            $x_text_tick_interval = 168 * 13;
+        } else {
+            // one label per year
+            $x_text_tick_interval = 168 * 52;
+        }
+    } else if ($x_frequency == 'daily') {
+        if ($n_datapoints <= 31) {
+            // one label per day
+            $x_text_tick_interval = 1;
+        } elseif ($n_datapoints < (30 * 7)) {
+            // one label per week
+            $x_text_tick_interval = 7;
+        } elseif ($n_datapoints < (30 * 7 * 4)) {
+            // one label per 4 weeks (pseudo-month)
+            $x_text_tick_interval = 7 * 4;
+        } elseif ($n_datapoints < (30 * 7 * 13)) {
+            // one label per quarter
+            $x_text_tick_interval = 7 * 13;
+        } else {
+            // one label per year
+            $x_text_tick_interval = 7 * 52;
+        }
+    } else if ($x_frequency == 'monthly') {
+        if ($n_datapoints < 30) {
+            // one label per month
+            $x_text_tick_interval = 1;
+        } elseif ($n_datapoints < (30 * 3)) {
+            // one label per quarter
+            $x_text_tick_interval = 3;
+        } else {
+            // one label per year
+            $x_text_tick_interval = 12;
+        }
+    } else {
+        assert(false);
     }
 
     return $x_text_tick_interval;
