@@ -998,6 +998,7 @@
   background-color: #CDC0B0;
   border: 1px solid gray;
   display: none;
+  z-index: 1;
 }
 /* ------------------------------------------------------------------------ */
 /* Common color definitions
