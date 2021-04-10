@@ -16,27 +16,7 @@ var imageControl = function(imageElement) {
         imageElement.height("auto");
     };
 
-    let sin = 0;
-    let cosine = 1;
-    function transform() {
-        // when image is rotated, scroll does not account for any points
-        // with x or y < 0. Rotate about centre. Then if +- 90 deg.
-        // translate by half difference in height and width.
-        let xOffset = 0, yOffset = 0;
-        if(sin != 0) {
-            let offset = (imageElement.height() - imageElement.width()) / 2;
-            if(offset > 0) {
-                xOffset = offset;
-            } else {
-                yOffset = -offset;
-            }
-        }
-        imageElement.css({transform: `matrix(${cosine}, ${sin}, ${-sin}, ${cosine}, ${xOffset}, ${yOffset})`});
-    }
-
     function zoomSave() {
-        // have to recalculate transform after changing size.
-        transform();
         localStorage.setItem(imagePercentID, percent);
     }
 
@@ -47,50 +27,51 @@ var imageControl = function(imageElement) {
     });
 
     function setPercent() {
-        // assume 100% means 1000px wide
-        let width = imageElement.width();
-        // reset width and height so that fitting does not persist
-        imageElement.width(width);
-        imageElement.height("auto");
-        percent = Math.round(width / 10);
+        percent = Math.round(percent);
         percentInput.val(percent);
         zoomSave();
     }
 
+    function unPersist() {
+        // reset width and height so that fitting does not persist
+        let width = imageElement.width();
+        imageElement.width(width);
+        imageElement.height("auto");
+        // assume 100% means 1000px wide
+        percent = width / 10;
+        setPercent();
+    }
+
     let fitWidth = $("<input>", {type: 'button', value: '↔'}).click(function () {
         imageElement.width('100%');
-        imageElement.height("auto");
-        setPercent();
+        unPersist();
     });
 
     let fitHeight = $("<input>", {type: 'button', value: '↕'}).click(function () {
         imageElement.height('100%');
         imageElement.width("auto");
+        unPersist();
+    });
+
+    let zoomIn = $("<input>", {type: 'button', value: '+'}).click(function () {
+        percent *= 1.1;
         setPercent();
+        setZoom();
     });
 
-
-    let clockRotateInput = $("<input>", {type: 'button', value: '↻'}).click( function () {
-        let temp = sin;
-        sin = cosine;
-        cosine = -temp;
-        transform();
-    });
-
-    let anticlockRotateInput = $("<input>", {type: 'button', value: '↺'}).click( function () {
-        let temp = sin;
-        sin = -cosine;
-        cosine = temp;
-        transform();
+    let zoomOut = $("<input>", {type: 'button', value: '-'}).click(function () {
+        percent *= 0.909;
+        setPercent();
+        setZoom();
     });
 
     setZoom();
     return [
-        $("<span>", {class: "nowrap"}).append(percentInput, "% "),
-        fitWidth,
         fitHeight,
-        clockRotateInput,
-        anticlockRotateInput
+        fitWidth,
+        $("<span>", {class: "nowrap"}).append(percentInput, "% "),
+        zoomIn,
+        zoomOut
     ];
 };
 
