@@ -537,6 +537,13 @@ function makeControlPane() {
     };
 }
 
+function makeImageControlPane(imageElement) {
+    let controlPane = makeControlPane();
+    controlPane.addControls(imageControl(imageElement));
+    controlPane.contentPane.addClass("center-align").append(imageElement);
+    return controlPane.container;
+}
+
 function pageBrowse(params, replaceUrl, mentorMode = false) {
     // showCurrentImageFile will be set to a function so that subsequent pages
     // can be shown without redrawing the whole page
@@ -658,17 +665,13 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                         stretchDiv.append(textArea);
                         break;
                     case "imageText": {
-                        let imagePane = makeControlPane();
-                        imagePane.addControls(imageControl(imageElement));
-                        imagePane.contentPane.addClass("center-align").append(imageElement);
-
                         let textDiv = $("<div>").append(textArea);
                         if(mentorMode) {
                             let topTextDiv = textDiv;
                             let bottomTextDiv = $("<div>");
                             textDiv = $("<div>").append(topTextDiv, bottomTextDiv);
                         }
-                        stretchDiv.append(imagePane.container, textDiv);
+                        stretchDiv.append(makeImageControlPane(imageElement), textDiv);
                         let theSplitter = viewSplitter(stretchDiv);
                         if(mentorMode) {
                             const subSplitID = "sub_split_percent";
@@ -694,14 +697,11 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
 
                 if(displayMode === "image") {
                     if(simpleHeader) {
-                        fixHead.addControls(imageControl(imageElement), pageControls);
+                        fixHead.addControls(pageControls);
                     } else {
                         fixHead.append(textButton, imageTextButton, pageControls);
                     }
-                    let imagePane = makeControlPane();
-                    imagePane.addControls(imageControl(imageElement));
-                    imagePane.contentPane.addClass("center-align").append(imageElement);
-                    stretchDiv.append(imagePane.container);
+                    stretchDiv.append(makeImageControlPane(imageElement));
                     showImageText();
                 } else {
                     // in case initial round_id was invalid, get round from
