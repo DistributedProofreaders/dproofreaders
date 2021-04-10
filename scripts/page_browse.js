@@ -19,14 +19,34 @@ var imageControl = function(imageElement) {
         imageElement.height("auto");
     };
 
+    let sin = 0;
+    let cosine = 1;
+    function transform() {
+        // when image is rotated, scroll does not account for any points
+        // with x or y < 0. Rotate about centre. Then if +- 90 deg.
+        // if height > width translate by half difference.
+        let xOffset = 0, yOffset = 0;
+        if(sin != 0) {
+            let offset = (imageElement.height() - imageElement.width()) / 2;
+            if(offset > 0) {
+                xOffset = offset;
+            } else {
+                yOffset = -offset;
+            }
+        }
+        imageElement.css({transform: `matrix(${cosine}, ${sin}, ${-sin}, ${cosine}, ${xOffset}, ${yOffset})`});
+    }
+
     function zoomSave() {
+        // have to recalculate transform after changing size.
+        transform();
         localStorage.setItem(imagePercentID, percent);
     }
 
     percentInput.change(function() {
         percent = this.value;
-        zoomSave();
         setZoom();
+        zoomSave();
     });
 
     function setPercent() {
@@ -52,11 +72,28 @@ var imageControl = function(imageElement) {
         setPercent();
     });
 
+
+    let clockRotateInput = $("<input>", {type: 'button', value: '↻'}).click( function () {
+        let temp = sin;
+        sin = cosine;
+        cosine = -temp;
+        transform();
+    });
+
+    let anticlockRotateInput = $("<input>", {type: 'button', value: '↺'}).click( function () {
+        let temp = sin;
+        sin = -cosine;
+        cosine = temp;
+        transform();
+    });
+
     setZoom();
     return [
         $("<span>", {class: "nowrap"}).append(percentInput, "% "),
         fitWidth,
-        fitHeight
+        fitHeight,
+        clockRotateInput,
+        anticlockRotateInput
     ];
 };
 
