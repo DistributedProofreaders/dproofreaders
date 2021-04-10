@@ -697,7 +697,7 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
 
                 if(displayMode === "image") {
                     if(simpleHeader) {
-                        fixHead.addControls(pageControls);
+                        fixHead.append(pageControls);
                     } else {
                         fixHead.append(textButton, imageTextButton, pageControls);
                     }
