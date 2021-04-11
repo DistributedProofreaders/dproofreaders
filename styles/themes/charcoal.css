@@ -977,7 +977,13 @@
   border: thin solid #565656;
 }
 .control-panel input[type=number] {
-  width: 4em;
+  width: 2.2em;
+  -moz-appearance: textfield;
+}
+.control-panel input::-webkit-outer-spin-button,
+.control-panel input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .control-panel input[type=submit]:disabled,
 .control-panel input[type=button]:disabled,

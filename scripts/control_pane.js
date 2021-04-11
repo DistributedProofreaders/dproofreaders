@@ -21,7 +21,18 @@ var imageControl = function(imageElement) {
     }
 
     percentInput.change(function() {
-        percent = this.value;
+        let value = parseInt(this.value);
+        if(isNaN(value)) {
+            percent = 100;
+        } else if(value < 10) {
+            percent = 10;
+        } else if(value > 999) {
+            percent = 999;
+        } else {
+            percent = value;
+        }
+        // in case above has changed it
+        this.value = percent;
         setZoom();
         zoomSave();
     });
@@ -154,7 +165,6 @@ function makeControlPane() {
 
     let hideButton = $("<input>", {type: 'button', class: 'navbutton', value: '×'});
 
-//    navBox.append(hideButton);
     menu.append(navBox);
     control1.append(menuButton, menu);
 
