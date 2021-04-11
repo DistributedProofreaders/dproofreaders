@@ -1,4 +1,4 @@
-/*global $ */
+/*global $ texts */
 /* exported makeImageControlPane */
 
 // Construct the image sizing controls.
