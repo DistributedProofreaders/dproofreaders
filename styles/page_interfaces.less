@@ -478,7 +478,13 @@
     }
 
     input[type=number] {
-        width: 4em;
+        width: 2.2em;
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
     input[type=submit]:disabled, input[type=button]:disabled, button:disabled {
