@@ -97,11 +97,25 @@ function makeControlPane() {
         menu.show();
     });
 
-    let navBox = $("<div>").css({display: "grid",
-        "grid-template-areas": "'nw n ne' 'w c e' 'sw s se'",
-        "grid-template-rows": "1fr 1fr 1fr",
-        "grid-template-columns": "1fr 1fr 1fr"
-    });
+    // build navBox
+    let navBox = $("<table>");
+    let navCell = [];
+    let cellIndex = 0;
+    for(let rowIndex = 0; rowIndex < 3; rowIndex++) {
+        let row = $("<tr>");
+        navBox.append(row);
+        for(let columnIndex = 0; columnIndex < 3; columnIndex++) {
+            navCell[cellIndex] = $("<td>");
+            row.append(navCell[cellIndex]);
+            cellIndex += 1;
+        }
+    }
+
+    function fillNavBox(cells) {
+        for(let cellIndex = 0; cellIndex < 9; cellIndex++) {
+            navCell[cellIndex].append(cells[cellIndex]);
+        }
+    }
 
     function controlFirst() {
         controlPane.detach();
@@ -133,14 +147,14 @@ function makeControlPane() {
     let midButton = $("<input>", {type: 'button', class: 'navbutton', value: '−'});
     let botButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇩'});
 
-    let westButton = $("<input>", {type: 'button', class: 'navbutton', value: '◁', style: "grid-area: w"});
-    let northButton = $("<input>", {type: 'button', class: 'navbutton', value: '△', style: "grid-area: n"});
-    let southButton = $("<input>", {type: 'button', class: 'navbutton', value: '▽', style: "grid-area: s"});
-    let eastButton = $("<input>", {type: 'button', class: 'navbutton', value: '▷', style: "grid-area: e"});
+    let westButton = $("<input>", {type: 'button', class: 'navbutton', value: '◁'});
+    let northButton = $("<input>", {type: 'button', class: 'navbutton', value: '△'});
+    let southButton = $("<input>", {type: 'button', class: 'navbutton', value: '▽'});
+    let eastButton = $("<input>", {type: 'button', class: 'navbutton', value: '▷'});
 
-    let hideButton = $("<input>", {type: 'button', value: '×', style: "grid-area: c"});
+    let hideButton = $("<input>", {type: 'button', class: 'navbutton', value: '×'});
 
-    navBox.append(hideButton);
+//    navBox.append(hideButton);
     menu.append(navBox);
     control1.append(menuButton, menu);
 
@@ -152,40 +166,28 @@ function makeControlPane() {
             controlHoriz();
             controlPane.css({borderWidth: "0 0 1px 0"});
             menu.css({margin: "0"});
-            navBox.append(leftButton, centreButton, rightButton, westButton, eastButton, southButton);
-            leftButton.css({"grid-area": "nw"});
-            centreButton.css({"grid-area": "n"});
-            rightButton.css({"grid-area": "ne"});
+            fillNavBox([leftButton, centreButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
             break;
         case "W":
             controlFirst();
             controlVert();
             controlPane.css({borderWidth: "0 1px 0 0"});
             menu.css({margin: "0 0 0 6em"});
-            navBox.append(topButton, midButton, botButton, northButton, eastButton, southButton);
-            topButton.css({"grid-area": "nw"});
-            midButton.css({"grid-area": "w"});
-            botButton.css({"grid-area": "sw"});
+            fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
             break;
         case "E":
             controlLast();
             controlVert();
             controlPane.css({borderWidth: "0 0 0 1px"});
             menu.css({margin: "0 0 0 -8em"});
-            navBox.append(topButton, midButton, botButton, northButton, westButton, southButton);
-            topButton.css({"grid-area": "ne"});
-            midButton.css({"grid-area": "e"});
-            botButton.css({"grid-area": "se"});
+            fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
             break;
         case "S":
             controlLast();
             controlHoriz();
             controlPane.css({borderWidth: "1px 0 0 0"});
             menu.css({margin: "-8em 0 0 0"});
-            navBox.append(leftButton, centreButton, rightButton, northButton, westButton, eastButton);
-            leftButton.css({"grid-area": "sw"});
-            centreButton.css({"grid-area": "s"});
-            rightButton.css({"grid-area": "se"});
+            fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centreButton, rightButton]);
             break;
         }
     }
