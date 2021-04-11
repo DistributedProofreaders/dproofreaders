@@ -9,7 +9,7 @@ var imageControl = function(imageElement) {
         percent = 100;
     }
 
-    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent});
+    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
     let setZoom = function () {
         imageElement.width(10 * percent);
@@ -53,24 +53,24 @@ var imageControl = function(imageElement) {
         setPercent();
     }
 
-    let fitWidth = $("<input>", {type: 'button', value: '↔'}).click(function () {
+    let fitWidth = $("<input>", {type: 'button', value: '↔', title: texts.fitWidth}).click(function () {
         imageElement.width('100%');
         unPersist();
     });
 
-    let fitHeight = $("<input>", {type: 'button', value: '↕'}).click(function () {
+    let fitHeight = $("<input>", {type: 'button', value: '↕', title: texts.fitHeight}).click(function () {
         imageElement.height('100%');
         imageElement.width("auto");
         unPersist();
     });
 
-    let zoomIn = $("<input>", {type: 'button', value: '+'}).click(function () {
+    let zoomIn = $("<input>", {type: 'button', value: '+', title: texts.zoomIn}).click(function () {
         percent *= 1.1;
         setPercent();
         setZoom();
     });
 
-    let zoomOut = $("<input>", {type: 'button', value: '-'}).click(function () {
+    let zoomOut = $("<input>", {type: 'button', value: '-', title: texts.zoomOut}).click(function () {
         percent *= 0.909;
         setPercent();
         setZoom();
@@ -104,7 +104,7 @@ function makeControlPane() {
 
     let menu = $("<div>", {class: "nav-menu"});
 
-    let menuButton = $("<input>", {type: 'button', value: '⌘'}).click(function () {
+    let menuButton = $("<input>", {type: 'button', value: '⌘', title: texts.adjustPanel}).click(function () {
         menu.show();
     });
 
@@ -151,19 +151,19 @@ function makeControlPane() {
         controlPane.css({"text-align": "center", "flex-direction": "column"});
     }
 
-    let leftButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇦'});
-    let centreButton = $("<input>", {type: 'button', class: 'navbutton', value: '|'});
-    let rightButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇨'});
-    let topButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇧'});
-    let midButton = $("<input>", {type: 'button', class: 'navbutton', value: '−'});
-    let botButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇩'});
+    let leftButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇦', title: texts.controlLeft});
+    let centreButton = $("<input>", {type: 'button', class: 'navbutton', value: '|', title: texts.controlMid});
+    let rightButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇨', title: texts.controlRight});
+    let topButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇧', title: texts.controlTop});
+    let midButton = $("<input>", {type: 'button', class: 'navbutton', value: '−', title: texts.controlMid});
+    let botButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇩', title: texts.controlBot});
 
-    let westButton = $("<input>", {type: 'button', class: 'navbutton', value: '◁'});
-    let northButton = $("<input>", {type: 'button', class: 'navbutton', value: '△'});
-    let southButton = $("<input>", {type: 'button', class: 'navbutton', value: '▽'});
-    let eastButton = $("<input>", {type: 'button', class: 'navbutton', value: '▷'});
+    let westButton = $("<input>", {type: 'button', class: 'navbutton', value: '◁', title: texts.dockLeft});
+    let northButton = $("<input>", {type: 'button', class: 'navbutton', value: '△', title: texts.dockTop});
+    let southButton = $("<input>", {type: 'button', class: 'navbutton', value: '▽', title: texts.dockBot});
+    let eastButton = $("<input>", {type: 'button', class: 'navbutton', value: '▷', title: texts.dockRight});
 
-    let hideButton = $("<input>", {type: 'button', class: 'navbutton', value: '×'});
+    let hideButton = $("<input>", {type: 'button', class: 'navbutton', value: '×', title: texts.hideMenu});
 
     menu.append(navBox);
     control1.append(menuButton, menu);

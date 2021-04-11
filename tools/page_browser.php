@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'user_is.inc'); // user_can_mentor_in_any_round()
 include_once($relPath.'page_controls.inc'); // get_page_data_js()
+include_once($relPath.'control_pane.inc'); // get_control_pane_texts()
 
 require_login();
 
@@ -19,7 +20,8 @@ $js_files = [
 
 $header_args = [
     "js_files" => $js_files,
-    "js_data" => get_proofreading_interface_data_js() . "
+    "js_data" => get_proofreading_interface_data_js() .
+            get_control_pane_texts() . "
             var mentorMode = $mentorMode;
         ",
     "body_attributes" => 'class="no-margin overflow-hidden"',
