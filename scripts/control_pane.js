@@ -12,6 +12,7 @@ var imageControl = function(imageElement) {
     let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
     let setZoom = function () {
+        imageElement.css({"vertical-align": "middle"});
         imageElement.width(10 * percent);
         imageElement.height("auto");
     };
