@@ -6,7 +6,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
-include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
 include_once('./post_files.inc'); // page_info_query()
 include_once("./word_freq_table.inc"); // echo_cutoff_text(), printTableFrequencies(), decode_word()
 
@@ -66,11 +65,9 @@ $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions);
 $header_args = [
     "js_files" => [
         "$code_url/scripts/splitControl.js",
-        "$code_url/scripts/page_browse.js",
         "./show_all_good_word_suggestions.js",
     ],
-    "js_data" => get_proofreading_interface_data_js() .
-        get_cutoff_script($cutoffOptions, $instances),
+    "js_data" => get_cutoff_script($cutoffOptions,$instances),
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];

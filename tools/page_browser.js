@@ -9,5 +9,5 @@ $(function () {
         window.history.replaceState(null, '', url.href);
     }
 
-    pageBrowse(params, replaceUrl, mentorMode);
+    pageBrowse(params, "page-browse", replaceUrl, mentorMode);
 });
