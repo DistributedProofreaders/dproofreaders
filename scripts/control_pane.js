@@ -153,7 +153,7 @@ function makeControlPane() {
     }
 
     let leftButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇦', title: texts.controlLeft});
-    let centreButton = $("<input>", {type: 'button', class: 'navbutton', value: '|', title: texts.controlMid});
+    let centreButton = $("<input>", {type: 'button', class: 'navbutton', value: '|', title: texts.controlCentre});
     let rightButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇨', title: texts.controlRight});
     let topButton = $("<input>", {type: 'button', class: 'navbutton', value: '⇧', title: texts.controlTop});
     let midButton = $("<input>", {type: 'button', class: 'navbutton', value: '−', title: texts.controlMid});
