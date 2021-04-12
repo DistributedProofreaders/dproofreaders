@@ -105,8 +105,8 @@ function makeControlPane() {
 
     let menu = $("<div>", {class: "nav-menu"});
 
-    let menuButton = $("<input>", {type: 'button', value: '⌘', title: texts.adjustPanel}).click(function () {
-        menu.show();
+    let menuButton = $("<input>", {type: 'button', value: '⚙', title: texts.adjustPanel}).click(function () {
+        menu.toggle();
     });
 
     // build navBox
