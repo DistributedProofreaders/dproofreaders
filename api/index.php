@@ -83,6 +83,11 @@ function api_rate_limit($key)
         return;
     }
 
+    // memcached keys can't contain whitespaces or control characters:
+    // https://github.com/memcached/memcached/blob/master/doc/protocol.txt#L41
+    // To enforce that, hash the key.
+    $key = md5($key);
+
     $memcache = new Memcached();
     $memcache->addServer('localhost', 11211);
 
@@ -110,7 +115,8 @@ function api_rate_limit($key)
     if($memcache->set("$key:count", $count) === FALSE)
     {
         // if we can't set the value, memcached probably isn't running
-        // regardless, we can't enforce rate limiting so return an error
+        // regardless, we can't enforce rate limiting so log it and return an error
+        error_log("api/index.php - Error setting $key:count=$count in memcache");
         throw new ServerError();
     }
 
