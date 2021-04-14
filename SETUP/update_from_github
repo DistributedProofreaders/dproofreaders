@@ -105,6 +105,7 @@ echo
 echo "Installing PHP dependencies..."
 composer install -d $_CODE_DIR.new
 echo "Require all denied" > $_CODE_DIR.new/vendor/.htaccess
+chgrp -R $GROUP $_CODE_DIR.new/vendor
 echo
 
 # ------------------------------------------------------------------------------
