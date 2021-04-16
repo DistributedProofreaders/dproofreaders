@@ -331,7 +331,9 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                 params.set("imagefile", imageFileName);
                 document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
                 if(displayMode !== "text") {
-                    imageElement.attr("src", page.image_url);
+                    imageElement.attr("src", page.image_url).parent()
+                        .scrollTop(0)
+                        .scrollLeft(0);
                 }
                 if(displayMode !== "image") {
                     // if the supplied round_id was invalid it will be replaced
@@ -340,7 +342,9 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                     params.set("round_id", round);
                     $.ajax(makeApiAjaxSettings("v1/projects/" + projectId + "/pages/" + imageFileName + "/pagerounds/" + round))
                         .done(function(data) {
-                            textArea.val(data.text);
+                            textArea.val(data.text)
+                                .scrollTop(0)
+                                .scrollLeft(0);
                         })
                         .fail(showError);
                 }
