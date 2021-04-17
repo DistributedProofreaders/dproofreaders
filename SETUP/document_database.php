@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'TableDocumentation.inc');
@@ -10,24 +10,23 @@ include_once($relPath.'DPage.inc'); // project_allow_pages()
 $OPERATIONS = [
     'generate' => 'generate_file_for_table',
     'verify' => 'verify_file_for_table',
-    'update' => 'update_file_for_table'
+    'update' => 'update_file_for_table',
 ];
 
 $DEFAULT_DIRECTORY_PATH = realpath("$relPath/../SETUP/dbdocs/");
 
 $PROJECT_TEMPLATE_TABLE = 'projectIDxxxxxxxxxxxxx';
 
-$ADDITIONAL_TABLE_NAMES = [ $PROJECT_TEMPLATE_TABLE ];
+$ADDITIONAL_TABLE_NAMES = [$PROJECT_TEMPLATE_TABLE];
 
-list($operation_name, $table_name, $directory_path) =
+[$operation_name, $table_name, $directory_path] =
     get_arguments(array_keys($OPERATIONS), $DEFAULT_DIRECTORY_PATH);
 
 prepare_project_template_table();
 
 if ($table_name === 'all') {
     run_operation_for_all_tables($directory_path, $OPERATIONS[$operation_name]);
-}
-else {
+} else {
     $OPERATIONS[$operation_name]($table_name, "$directory_path/$table_name.md", $table_name);
 }
 
@@ -38,31 +37,38 @@ else {
  * @param array $operations the set of valid operations
  * @param string $default_dir_path the default directory path
  */
-function get_arguments(array $operations, string $default_dir_path): array {
+function get_arguments(array $operations, string $default_dir_path): array
+{
     global $argv;
 
     try {
         $program_name = array_shift($argv);
-        if(!$argv)
+        if (!$argv) {
             throw new InvalidArgumentException("No operation specified.");
+        }
 
         $operation = array_shift($argv);
-        if(!in_array($operation, $operations))
+        if (!in_array($operation, $operations)) {
             throw new InvalidArgumentException("Invalid operation.");
+        }
 
-        if(!$argv)
+        if (!$argv) {
             throw new InvalidArgumentException("No table name, or 'all', specified.");
+        }
         $table = array_shift($argv);
 
-        if(!$argv)
+        if (!$argv) {
             $directory = $default_dir_path;
-        else
+        } else {
             $directory = array_shift($argv);
-        if(!is_dir($directory))
+        }
+        if (!is_dir($directory)) {
             throw new InvalidArgumentException("$directory does not exist or is not a directory.");
+        }
 
-        if($argv)
+        if ($argv) {
             throw new InvalidArgumentException("Found unexpected arguments.");
+        }
     } catch (Exception $e) {
         echo "ERROR: " . $e->getMessage() . "\n";
         echo "Usage: $program_name operation table [directory]\n";
@@ -73,7 +79,7 @@ function get_arguments(array $operations, string $default_dir_path): array {
         exit(1);
     }
 
-    return [ $operation, $table, $directory ];
+    return [$operation, $table, $directory];
 }
 
 // ---------- All tables operation functions ----------
@@ -88,7 +94,8 @@ function get_arguments(array $operations, string $default_dir_path): array {
  * @param string $directory_path the directory in which to place the generated files
  * @param callable $operation the operation to perform for each table
  */
-function run_operation_for_all_tables(string $directory_path, callable $operation) {
+function run_operation_for_all_tables(string $directory_path, callable $operation)
+{
     $table_names = get_table_names_to_document();
 
     foreach ($table_names as $table_name) {
@@ -105,7 +112,8 @@ function run_operation_for_all_tables(string $directory_path, callable $operatio
  * @param string $file_path where to generate the file
  * @param string $display_name the title of the markdown file
  */
-function generate_file_for_table(string $table_name, string $file_path, string $display_name) {
+function generate_file_for_table(string $table_name, string $file_path, string $display_name)
+{
     $columns = query_columns_for_table($table_name);
 
     $table_documentation = new TableDocumentation($display_name, $columns);
@@ -129,7 +137,8 @@ function generate_file_for_table(string $table_name, string $file_path, string $
  * @param string $file_path which file to verify
  * @param string $display_name the title of the markdown file -- is not used
  */
-function verify_file_for_table(string $table_name, string $file_path, string $display_name) {
+function verify_file_for_table(string $table_name, string $file_path, string $display_name)
+{
     echo " - verifying documentation for table '$table_name' in '$file_path' is up to date\n";
 
     if (!is_file($file_path)) {
@@ -192,7 +201,8 @@ function verify_file_for_table(string $table_name, string $file_path, string $di
  * @param string $file_path which file to verify
  * @param string $display_name the title of the markdown file -- is not used
  */
-function update_file_for_table(string $table_name, string $file_path, string $display_name) {
+function update_file_for_table(string $table_name, string $file_path, string $display_name)
+{
     echo " - updating documentation for table '$table_name' in '$file_path'\n";
 
     $columns = query_columns_for_table($table_name);
@@ -218,7 +228,8 @@ function update_file_for_table(string $table_name, string $file_path, string $di
 /**
  * Runs a "DESCRIBE $table_name" query and returns the result.
  */
-function query_columns_for_table(string $table_name): array {
+function query_columns_for_table(string $table_name): array
+{
     $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
 
     if (!$result) {
@@ -235,15 +246,14 @@ function query_columns_for_table(string $table_name): array {
 /**
  * Returns the names of the tables that should be documented.
  */
-function get_table_names_to_document(): array {
+function get_table_names_to_document(): array
+{
     global $ADDITIONAL_TABLE_NAMES;
 
     $table_names = [];
 
-    foreach (explode("\n", file_get_contents("./db_schema.sql")) as $line)
-    {
-        if (preg_match('/create table `(\w+)`/i', $line, $matches))
-        {
+    foreach (explode("\n", file_get_contents("./db_schema.sql")) as $line) {
+        if (preg_match('/create table `(\w+)`/i', $line, $matches)) {
             $table_names[] = $matches[1];
         }
     }
@@ -254,7 +264,8 @@ function get_table_names_to_document(): array {
 /**
  * Prepares the projectIDxxxxxxxxxxxxx table
  */
-function prepare_project_template_table() {
+function prepare_project_template_table()
+{
     global $PROJECT_TEMPLATE_TABLE;
 
     // attempt to delete an existing table but continue of it doesn't exist

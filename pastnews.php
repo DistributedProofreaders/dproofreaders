@@ -1,5 +1,5 @@
 <?php
-$relPath="./pinc/";
+$relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
@@ -12,7 +12,7 @@ require_login();
 // Sorts the news by their id's and then prints one by one.
 
 $news_page_id = get_enumerated_param($_GET, "news_page_id", "FRONT", array_keys($NEWS_PAGES));
-$num = get_integer_param($_GET, 'num', 0, 0, NULL);
+$num = get_integer_param($_GET, 'num', 0, 0, null);
 
 $news_subject = get_news_subject($news_page_id);
 
@@ -21,14 +21,11 @@ output_header($title);
 
 echo "<h1>" . html_safe($title) . "</h1>";
 
-if ($num == 0)
-{
+if ($num == 0) {
     // Invoking this script with num=0 (or without
     // the 'num' parameter) means "no limit".
     $limit_clause = "";
-}
-else
-{
+} else {
     $limit_clause = "LIMIT $num";
     echo "<a href='pastnews.php?news_page_id=$news_page_id'>"
         // TRANSLATORS: %s is the news subject.
@@ -43,14 +40,11 @@ $result = mysqli_query(DPDatabase::get_connection(), sprintf("
     $limit_clause
 ", mysqli_real_escape_string(DPDatabase::get_connection(), $news_page_id)));
 
-if (mysqli_num_rows($result)== 0)
-{
+if (mysqli_num_rows($result) == 0) {
     echo "<p>" . sprintf(_("No recent news items for %s"), $news_subject) . "</p>";
-} 
-else 
-{
-    while($news_item = mysqli_fetch_array($result)) {
-        $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
+} else {
+    while ($news_item = mysqli_fetch_array($result)) {
+        $date_posted = strftime(_("%A, %B %e, %Y"), $news_item['date_posted']);
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr class='center-align' style='width: 75%'><br>";
     }
 }

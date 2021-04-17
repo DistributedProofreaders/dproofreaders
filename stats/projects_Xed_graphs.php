@@ -1,5 +1,5 @@
 <?php
-$relPath='./../pinc/';
+$relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -22,9 +22,6 @@ $images = [
     "jpgraph_files/cumulative_total_proj_graph.php?which=$which",
 ];
 
-foreach($images as $image)
-{
+foreach ($images as $image) {
     echo "<img style='max-width: 100%' src='$image'><br>\n";
 }
-
-

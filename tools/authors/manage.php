@@ -15,44 +15,47 @@ require_login();
 
 abort_if_not_authors_db_manager();
 
-$title=_("Manage authors");
+$title = _("Manage authors");
 output_header($title, NO_STATSBAR);
 echo "<h1>$title</h1>";
 
 echo_menu();
 
 $message = @$_GET['message'];
-if (isset($message))
+if (isset($message)) {
     echo html_safe($message) . '<br>';
+}
 
-if (isset($_POST) && count($_POST)>0) {
+if (isset($_POST) && count($_POST) > 0) {
 
     // find out what to do -- store in different 'queues'
 
-    $delete_bios = array();
-    $move_bios = array();
-    $delete_authors = array();
-    $enable_author_values = array();
-    $enable_author_ids = array();
+    $delete_bios = [];
+    $move_bios = [];
+    $delete_authors = [];
+    $enable_author_values = [];
+    $enable_author_ids = [];
 
-    $moveTo = get_integer_param($_POST, 'move_to_author', null, null, null, TRUE);
+    $moveTo = get_integer_param($_POST, 'move_to_author', null, null, null, true);
 
     // loop through posted data, see what the field names start with, save ids in arrays
-    foreach($_POST as $key => $val)
-    {
-        if (strpos($key, 'delete_bio_') !== false)
+    foreach ($_POST as $key => $val) {
+        if (strpos($key, 'delete_bio_') !== false) {
             array_push($delete_bios, intval(substr($key, 11)));
+        }
 
-        if (strpos($key, 'move_bio_') !== false)
+        if (strpos($key, 'move_bio_') !== false) {
             array_push($move_bios, intval(substr($key, 9)));
+        }
 
-        if (strpos($key, 'delete_author_') !== false)
+        if (strpos($key, 'delete_author_') !== false) {
             array_push($delete_authors, intval(substr($key, 14)));
+        }
 
         if (strpos($key, 'old_enabled_author_') !== false) {
             // find id and new status
             $id = substr($key, 19);
-            $new = isset($_POST["new_enabled_author_$id"]) ? $_POST["new_enabled_author_$id"] : 'no';
+            $new = $_POST["new_enabled_author_$id"] ?? 'no';
             if ($new != $val) {
                 // the value is changing
                 // add the author id in the queue, unless it's been queued for removal
@@ -65,47 +68,47 @@ if (isset($_POST) && count($_POST)>0) {
         }
     }
 
-/*
-    // Something to possibly do:
-    // Go through authors and bios to be deleted, comparing 'lastmodified'
-    // to the time the manage-interface loaded (specified by hidden field)
-    // (don't allow removal of things that have changed)
+    /*
+        // Something to possibly do:
+        // Go through authors and bios to be deleted, comparing 'lastmodified'
+        // to the time the manage-interface loaded (specified by hidden field)
+        // (don't allow removal of things that have changed)
 
-    $timestamp = $_POST['timestamp'];
+        $timestamp = $_POST['timestamp'];
 
-    if (count($delete_authors) != 0) {
-      $clause = '(author_id=' . join(' OR author_id=', $delete_authors) . ')';
-      $query = "SELECT author_id, last_modified FROM authors WHERE $clause";
-      $result = mysqli_query(DPDatabase::get_connection(), $query);
-      $authors_lastmodified = array();
-      while ($row = mysqli_fetch_row($result))
-        $authors_lastmodified[$row[0]] = $row[1];
-    }
+        if (count($delete_authors) != 0) {
+          $clause = '(author_id=' . join(' OR author_id=', $delete_authors) . ')';
+          $query = "SELECT author_id, last_modified FROM authors WHERE $clause";
+          $result = mysqli_query(DPDatabase::get_connection(), $query);
+          $authors_lastmodified = array();
+          while ($row = mysqli_fetch_row($result))
+            $authors_lastmodified[$row[0]] = $row[1];
+        }
 
-    if (count($delete_bios) != 0) {
-      $clause = '(bio_id=' . join(' OR bio_id=', $delete_bios) . ')';
-      $query = "SELECT bio_id, last_modified FROM biographies WHERE $clause";
-      $result = mysqli_query(DPDatabase::get_connection(), $query);
-      $bios_lastmodified = array();
-      while ($row = mysqli_fetch_row($result))
-        $bios_lastmodified[$row[0]] = $row[1];
-    }
+        if (count($delete_bios) != 0) {
+          $clause = '(bio_id=' . join(' OR bio_id=', $delete_bios) . ')';
+          $query = "SELECT bio_id, last_modified FROM biographies WHERE $clause";
+          $result = mysqli_query(DPDatabase::get_connection(), $query);
+          $bios_lastmodified = array();
+          while ($row = mysqli_fetch_row($result))
+            $bios_lastmodified[$row[0]] = $row[1];
+        }
 
-    // What should happen?
-    // Failure at delete_bio:
-    //   Delete those possible to. Halt.
-    //   Display table. Also error message.
-    //   Everything pre-selected?
-    // Failure at delete_author:
-    //   Delete those possible to. Continue to enable/disable.
-    //   Display table. Also error message.
-    //   Everything pre-selected?
+        // What should happen?
+        // Failure at delete_bio:
+        //   Delete those possible to. Halt.
+        //   Display table. Also error message.
+        //   Everything pre-selected?
+        // Failure at delete_author:
+        //   Delete those possible to. Continue to enable/disable.
+        //   Display table. Also error message.
+        //   Everything pre-selected?
 
-*/
+    */
 
     // Those that do not pass the time-check are stored in arrays:
-    $non_deleted_authors = array();
-    $non_deleted_bios = array();
+    $non_deleted_authors = [];
+    $non_deleted_bios = [];
 
     // 1. delete bios
     foreach ($delete_bios as $bio) {
@@ -136,7 +139,6 @@ if (isset($_POST) && count($_POST)>0) {
             $enable_author_ids[$i]);
         DPDatabase::query($sql);
     }
-
 }
 
 echo '<p>' . _('This is the web interface for managing the authors. You should not be using this if you
@@ -401,23 +403,26 @@ echo "<h2 id='results'>" . get_search_title() . "</h2>";
 
 // argument 'view': 'enabled'(default), 'disabled', 'all'
 // provide links for those and also buttons for submitting/resetting form.
-$view = get_enumerated_param($_REQUEST, 'view', 'enabled', array('enabled', 'disabled', 'all'));
+$view = get_enumerated_param($_REQUEST, 'view', 'enabled', ['enabled', 'disabled', 'all']);
 
 $links_and_buttons = _('View') . ': ';
-if ($view != 'disabled' && $view != 'all')
-$links_and_buttons .= _('Enabled');
-else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=enabled#results'>" . _('Enabled') . '</a>';
+if ($view != 'disabled' && $view != 'all') {
+    $links_and_buttons .= _('Enabled');
+} else {
+    $links_and_buttons .= "<a href='?$query_without_view$sortby&view=enabled#results'>" . _('Enabled') . '</a>';
+}
 $links_and_buttons .= " | ";
-if ($view == 'disabled')
-$links_and_buttons .= _('Disabled');
-else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('Disabled') . '</a>';
+if ($view == 'disabled') {
+    $links_and_buttons .= _('Disabled');
+} else {
+    $links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('Disabled') . '</a>';
+}
 $links_and_buttons .= " | ";
-if ($view == 'all')
-$links_and_buttons .= pgettext("all authors", "All");
-else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . pgettext("all authors", "All") . '</a>';
+if ($view == 'all') {
+    $links_and_buttons .= pgettext("all authors", "All");
+} else {
+    $links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . pgettext("all authors", "All") . '</a>';
+}
 
 $links_and_buttons .= ' &nbsp; &nbsp; &nbsp; &nbsp; <input type="submit" value="Process">';
 
@@ -461,8 +466,9 @@ if ($browseUtility->isNextBrowseAvailable()) {
     $prev_next_links .= "<a href='manage.php?$query".$browseUtility->getNextBrowseQueryString()."'>"
                            . _('Next') . ' -&gt;</a>';
 }
-if ($prev_next_links != '')
+if ($prev_next_links != '') {
     echo "<p>$prev_next_links</p>";
+}
 
 // "Displaying entries x-y of z"
 echo '<p>' . $browseUtility->getDisplayingString() . '</p>';
@@ -490,15 +496,16 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
 
     // csl with the bio-ids
     $bios_for_this_author = '';
-    if($bio_count > 1)
+    if ($bio_count > 1) {
         $rowspan = "rowspan='$bio_count'";
-    else
+    } else {
         $rowspan = "";
+    }
 
     echo "<tr class='top-align'>";
     echo "<td $rowspan>" .
          "<input type='hidden' name='old_enabled_author_$id' value='$enabled'>" .
-         "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . "></td>\n";
+         "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled == 'yes' ? ' checked' : '') . "></td>\n";
     echo "<td $rowspan><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);'></td>\n";
     echo "<td $rowspan><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);'></td>\n";
     echo "<td $rowspan>$id</td>\n";
@@ -511,29 +518,33 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     for ($j = 0; $j < $bio_count; $j++) {
         $row = mysqli_fetch_assoc($bioresult);
         $bio_id = $row["bio_id"];
-        if ($j != 0)
+        if ($j != 0) {
             echo "<tr>";
+        }
         write_bio_links($id, $bio_id);
     }
-    if($bio_count == 0)
+    if ($bio_count == 0) {
         echo "<td></td><td></td><td></td></tr>";
+    }
     $javascript_to_build_bios_array .= "bios[$id] = new Array($bios_for_this_author);\n";
 }
 
 echo "<SCRIPT LANGUAGE='JavaScript'><!--\n$javascript_to_build_bios_array\n";
 echo "$javascript_to_disable_delete_authors\n--></SCRIPT>";
 
-function write_bio_links($author_id, $bio_id) {
+function write_bio_links($author_id, $bio_id)
+{
     global $bios_for_this_author;
     echo "<td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td>\n    " .
          "<td><input type='checkbox' name='move_bio_$bio_id' value='yes' onClick='moveBio(this, $author_id, $bio_id);'></td>\n    " .
          "<td><input type='checkbox' name='delete_bio_$bio_id' value='yes' onClick='deleteBio(this, $author_id, $bio_id);'></td>\n</tr>\n";
-    if ($bios_for_this_author == '')
+    if ($bios_for_this_author == '') {
         // Javascript: if only one argument is passed to the Array()-constructor and it's numeric,
-         // it's considered the length. Thus pass the first/only argument as a string.
+        // it's considered the length. Thus pass the first/only argument as a string.
         $bios_for_this_author = "'$bio_id'";
-    else
+    } else {
         $bios_for_this_author .= ", $bio_id";
+    }
 }
 
 ?>
@@ -544,10 +555,10 @@ function write_bio_links($author_id, $bio_id) {
 
 echo $links_and_buttons;
 
-if ($prev_next_links != '')
+if ($prev_next_links != '') {
     echo "<p>$prev_next_links</p>";
+}
 
 echo '<br>';
 
 $browseUtility->echoCountSelectionList();
-

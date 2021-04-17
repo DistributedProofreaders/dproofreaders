@@ -38,7 +38,7 @@ function sr_user_is_committed($projectid, $username)
             AND committed > 0
         ", DPDatabase::escape($projectid), DPDatabase::escape($username));
     $res = DPDatabase::query($sql);
-    list($count) = mysqli_fetch_row($res);
+    [$count] = mysqli_fetch_row($res);
 
     return $count > 0;
 }
@@ -69,7 +69,6 @@ function sr_commit($projectid, $username)
             committed=1
         ", DPDatabase::escape($projectid), DPDatabase::escape($username));
     DPDatabase::query($sql);
-
 }
 
 /***************************************************************************************
@@ -94,7 +93,6 @@ function sr_withdraw_commitment($projectid, $username)
             AND user = '%s'
         ", DPDatabase::escape($projectid), DPDatabase::escape($username));
     DPDatabase::query($sql);
-
 }
 
 /***************************************************************************************
@@ -136,7 +134,7 @@ function sr_get_committed_users($projectid)
 *
 * output: number of users
 *
-* Remarks: 
+* Remarks:
 *
 ****************************************************************************************/
 
@@ -156,7 +154,7 @@ function sr_number_users_committed($projectid)
 *
 * Remarks:
 *
-* This calls a transient page executing the database function for inserting commitment 
+* This calls a transient page executing the database function for inserting commitment
 * and provides the current URI for return to current page.
 *
 ****************************************************************************************/
@@ -187,7 +185,7 @@ function sr_echo_commitment_form($projectid)
 *
 * Remarks:
 *
-* This calls a transient page executing the database function for withdrawing a commitment 
+* This calls a transient page executing the database function for withdrawing a commitment
 * and provides the current URI for return to current page.
 *
 ****************************************************************************************/
@@ -205,7 +203,6 @@ function sr_echo_withdrawal_form($projectid)
     echo "<input type='hidden' name='next_url' value='$next_url'>\n";
     echo "<input type='submit' value='" . attr_safe($button_text) . "'>";
     echo "</form>\n";
-
 }
 
 /***************************************************************************************
@@ -221,27 +218,21 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 
     $projectid = $project->projectid;
 
-    if ($days) // will be 0 if parameter not supplied when only replacing text
-    {
+    if ($days) { // will be 0 if parameter not supplied when only replacing text
         $seconds = $days * 60 * 60 * 24;
-        if ($extend)
-        {
+        if ($extend) {
             // extend deadline if not yet passed
             $deadline = $project->smoothread_deadline + $seconds;
-        }
-        else
-        {
+        } else {
             // if starting sr with deadline=0, or if sr ended
             $deadline = time() + $seconds;
         }
         $details1 = $extend ? "deadline extended" : "text available";
         $smoothread_deadline_sql = "smoothread_deadline = $deadline, ";
-        log_project_event( $projectid, $pguser, 'smooth-reading', $details1, $deadline );
-    }
-    else
-    {
+        log_project_event($projectid, $pguser, 'smooth-reading', $details1, $deadline);
+    } else {
         $smoothread_deadline_sql = "";
-        log_project_event( $projectid, $pguser, 'smooth-reading', 'text replaced' );
+        log_project_event($projectid, $pguser, 'smooth-reading', 'text replaced');
     }
 
     $qstring = sprintf("
@@ -254,8 +245,7 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 
     notify_project_event_subscribers($project, 'sr_available');
 
-    if ($auto_post_to_project_topic)
-    {
+    if ($auto_post_to_project_topic) {
         // Add an auto-post to the project's discussion topic.
         $project->ensure_topic();
         topic_add_post(
@@ -265,7 +255,7 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
                 . "\n\n"
                 . "(This post is automatically generated.)",
             '[Smooth Reading Monitor]',
-            FALSE
+            false
         );
     }
 }

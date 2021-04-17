@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
@@ -10,8 +10,9 @@ include_once($relPath.'email_address.inc');
 
 require_login();
 
-if (!user_is_a_sitemanager())
+if (!user_is_a_sitemanager()) {
     die(_('You are not authorized to invoke this script.'));
+}
 
 $title = _("Resend Account Activation Email");
 output_header($title);
@@ -19,9 +20,9 @@ output_header($title);
 echo "<h1>$title</h1>";
 
 $username = array_get($_GET, 'username', '');
-$email    = array_get($_GET, 'email', '');
-$action   = get_enumerated_param($_GET, 'action', 'default', array('list_all', 'get_user', 'set_email', 'default'));
-$order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', array('username', 'real_name', 'email', 'date_created DESC'));
+$email = array_get($_GET, 'email', '');
+$action = get_enumerated_param($_GET, 'action', 'default', ['list_all', 'get_user', 'set_email', 'default']);
+$order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', ['username', 'real_name', 'email', 'date_created DESC']);
 
 if ($action == 'default') {
     echo "<p>";
@@ -31,8 +32,7 @@ if ($action == 'default') {
     echo "<p>";
     printf(_("To change the address, please enter the name of the user below or
     <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
-    echo "</p>";
-    ?>
+    echo "</p>"; ?>
     <br>
     <form method='get'><input type='hidden' name='action' value='get_user'>
     <?php echo _("Username"); ?>: <input type='text' name='username' required>
@@ -40,16 +40,15 @@ if ($action == 'default') {
     </form>
     <br>
     <?php
-}
-else if ($action == 'list_all') {
+} elseif ($action == 'list_all') {
     $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM non_activated_users
         ORDER BY $order_by
     ");
-    if (mysqli_num_rows($result) == 0)
+    if (mysqli_num_rows($result) == 0) {
         echo "<p>", _("No user accounts are awaiting activation."), "</p>";
-    else {
+    } else {
         echo "<p>", _("The following accounts are awaiting activation."), "
             ", _("(Click on a column header to sort by that column.)"), "</p>\n";
         echo "<table class='basic striped'>\n";
@@ -71,27 +70,24 @@ else if ($action == 'list_all') {
         }
         echo "</table>\n";
     }
-}
-else if ($action == 'get_user') {
-    if (check_username($username) != '') die("Invalid parameter username.");
-    try
-    {
-        $user = new NonactivatedUser($username);
+} elseif ($action == 'get_user') {
+    if (check_username($username) != '') {
+        die("Invalid parameter username.");
     }
-    catch(NonexistentNonactivatedUserException $exception)
-    {
+    try {
+        $user = new NonactivatedUser($username);
+    } catch (NonexistentNonactivatedUserException $exception) {
         printf(_("No user '%s' was was found in the list of non-validated users."),
             html_safe($username));
-        echo "<p>", 
-            sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"), 
+        echo "<p>",
+            sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"),
             "</p>";
         exit;
     }
 
     echo "<p>";
     echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
-    echo "</p>";
-    ?>
+    echo "</p>"; ?>
     <br>
     <form method='get'>
     <input type='hidden' name='action' value='set_email'>
@@ -103,17 +99,19 @@ else if ($action == 'get_user') {
     <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
     </form>
     <?php
-}
-else if ($action == 'set_email') {
-    if (check_username($username) != '') die("Invalid parameter username.");
-    if (check_email_address($email) != '') die("Invalid parameter email.");
-    
+} elseif ($action == 'set_email') {
+    if (check_username($username) != '') {
+        die("Invalid parameter username.");
+    }
+    if (check_email_address($email) != '') {
+        die("Invalid parameter email.");
+    }
+
     $user = new NonactivatedUser($username);
     $user->email = $email;
     $user->save();
 
     maybe_activate_mail($email, $user->real_name, $user->id, $username, $user->u_intlang);
-}
-else
+} else {
     echo 'Unknown action.';
-
+}

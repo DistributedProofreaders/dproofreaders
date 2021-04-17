@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -10,11 +10,11 @@ require_login();
 $title = _("Post-Processing Mysteries");
 output_header($title);
 
-$order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate'));
+$order = get_enumerated_param($_GET, 'order', 'nameofwork', ['nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate']);
 
 echo "<h1>$title</h1>\n";
 
-echo sprintf( _("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a href='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
+echo sprintf(_("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a href='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
 
 //get projects that have been PPd but we don't know by whom
 $psd = get_project_status_descriptor('PPd');
@@ -58,4 +58,3 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 echo "</table>";
-

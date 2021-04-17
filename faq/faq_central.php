@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -196,26 +196,24 @@ $faq->output();
 
 class FAQ
 {
-    function __construct()
+    public function __construct()
     {
-        $this->sections = array();
+        $this->sections = [];
     }
 
-    function add_section($section)
+    public function add_section($section)
     {
         $this->sections[] = $section;
     }
 
-    function output()
+    public function output()
     {
         echo "<table class='faqtable'>";
         // Start with one column
         echo "<tr>";
         echo "<td class='column'>";
-        foreach($this->sections as $section)
-        {
-            if($section == "NEW_COLUMN")
-            {
+        foreach ($this->sections as $section) {
+            if ($section == "NEW_COLUMN") {
                 echo "</td>";
                 echo "<td class='column'>";
                 continue;
@@ -232,22 +230,21 @@ class FAQ
 
 class FAQSection
 {
-    function __construct($title)
+    public function __construct($title)
     {
         $this->title = $title;
-        $this->entries = array();
+        $this->entries = [];
     }
 
-    function add_entry($entry)
+    public function add_entry($entry)
     {
         $this->entries[] = $entry;
     }
 
-    function output()
+    public function output()
     {
         $user_iso = substr(get_desired_language(), 0, 2);
-        foreach($this->entries as $entry)
-        {
+        foreach ($this->entries as $entry) {
             // When we output the entry, link the title to the desired doc
             // in the user's language and include pointers to other language
             // options where available. If the document isn't available in
@@ -256,36 +253,33 @@ class FAQSection
 
             echo "\n";
             echo "<p>";
-            if(isset($entry->urls['all']))
+            if (isset($entry->urls['all'])) {
                 echo "<a href='" . $entry->urls['all'] . "'>" . html_safe($entry->title) . "</a>";
-            elseif(isset($entry->urls[$user_iso]))
+            } elseif (isset($entry->urls[$user_iso])) {
                 echo "<a href='" . $entry->urls[$user_iso] . "'>" . html_safe($entry->title) . "</a>";
-            else
+            } else {
                 echo html_safe($entry->title);
+            }
             echo "<br>";
-            $links = array();
-            foreach($entry->urls as $iso => $url)
-            {
+            $links = [];
+            foreach ($entry->urls as $iso => $url) {
                 // If the document is available in the user's langauge it
                 // has been used as a link in the title, so don't include
                 // it in the list of available languages.
-                if($iso == $user_iso || $iso == 'all')
+                if ($iso == $user_iso || $iso == 'all') {
                     continue;
+                }
 
                 $links[] = "<a href='$url'>" . lang_name($iso) . "</a>";
             }
-            if($links)
-            {
+            if ($links) {
                 echo "<span style='font-size: 0.8em;'>";
                 // Subtly alter the wording if the document was available in
                 // the user's language.
-                if(isset($entry->urls[$user_iso]))
-                {
+                if (isset($entry->urls[$user_iso])) {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
                     echo sprintf(_("Also available in: %s"), implode(",\n ", $links));
-                }
-                else
-                {
+                } else {
                     // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
                     echo sprintf(_("Available in: %s"), implode(",\n ", $links));
                 }
@@ -301,19 +295,20 @@ class FAQSection
 
 class FAQEntry
 {
-    function __construct($title, $page, $text)
+    public function __construct($title, $page, $text)
     {
         $this->title = $title;
         $this->text = $text;
 
-        if(startswith($page, "http"))
-            $this->urls = array("all" => $page);
-        else
+        if (startswith($page, "http")) {
+            $this->urls = ["all" => $page];
+        } else {
             $this->urls = get_all_urls_for_faq($page);
+        }
 
         // if we got an empty array back, just use whatever we were sent
-        if(!$this->urls)
-            $this->urls = array("all" => $page);
+        if (!$this->urls) {
+            $this->urls = ["all" => $page];
+        }
     }
 }
-

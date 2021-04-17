@@ -17,7 +17,7 @@ various places:
                         database updated to reflect that.
 */
 
-function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
+function upi_set_t_latest_home_visit($username, $projectid, $timestamp)
 {
     $sql = sprintf("
         INSERT INTO user_project_info
@@ -35,7 +35,7 @@ function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
     DPDatabase::query($sql);
 }
 
-function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
+function upi_set_t_latest_page_event($username, $projectid, $timestamp)
 {
     $sql = sprintf("
         INSERT INTO user_project_info
@@ -54,24 +54,23 @@ function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$subscribable_project_events = array(
+$subscribable_project_events = [
     'round_available' => _("Project becomes available in a round"),
-    'round_complete'  => _("Project finishes a round"),
-    'pp_enter'        => _("Project enters Post-Processing stage"),
-    'sr_available'    => _("Project becomes available for Smooth Reading"),
-    'sr_reported'     => _("User has uploaded a Smooth Reading report"),
-    'sr_complete'     => _("Project finishes Smooth Reading"),
-    'ppv_enter'       => _("Project enters Post-Processing Verification stage"),
-    'posted'          => _("Project posted to Project Gutenberg"),
-);
+    'round_complete' => _("Project finishes a round"),
+    'pp_enter' => _("Project enters Post-Processing stage"),
+    'sr_available' => _("Project becomes available for Smooth Reading"),
+    'sr_reported' => _("User has uploaded a Smooth Reading report"),
+    'sr_complete' => _("Project finishes Smooth Reading"),
+    'ppv_enter' => _("Project enters Post-Processing Verification stage"),
+    'posted' => _("Project posted to Project Gutenberg"),
+];
 
-function get_label_for_event( $event )
+function get_label_for_event($event)
 {
     global $subscribable_project_events;
     $label = @$subscribable_project_events[$event];
-    if ( is_null($label) )
-    {
-        die( "Unknown event: '$event'" );
+    if (is_null($label)) {
+        die("Unknown event: '$event'");
     }
     return $label;
 }
@@ -79,21 +78,21 @@ function get_label_for_event( $event )
 // -----------------------------------------------------------------------------
 // "iste" = "is subscribed to event"
 
-function subscribe_user_to_project_event( $username, $projectid, $event )
+function subscribe_user_to_project_event($username, $projectid, $event)
 {
-    set_user_project_event_subscription( $username, $projectid, $event, 1 );
+    set_user_project_event_subscription($username, $projectid, $event, 1);
 }
 
-function unsubscribe_user_from_project_event( $username, $projectid, $event )
+function unsubscribe_user_from_project_event($username, $projectid, $event)
 {
-    set_user_project_event_subscription( $username, $projectid, $event, 0 );
+    set_user_project_event_subscription($username, $projectid, $event, 0);
 }
 
-function set_user_project_event_subscription( $username, $projectid, $event, $bit )
+function set_user_project_event_subscription($username, $projectid, $event, $bit)
 {
-    assert( $bit === 0 || $bit === 1 );
+    assert($bit === 0 || $bit === 1);
 
-    $event_label = get_label_for_event( $event );
+    $event_label = get_label_for_event($event);
     // Just to ensure that $event is valid; we don't use $event_label.
 
     // Now that we're sure the row exists, we can update it.
@@ -113,9 +112,9 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
     $res = DPDatabase::query($sql);
 }
 
-function user_is_subscribed_to_project_event( $username, $projectid, $event )
+function user_is_subscribed_to_project_event($username, $projectid, $event)
 {
-    $event_label = get_label_for_event( $event );
+    $event_label = get_label_for_event($event);
     // Just to ensure that $event is valid; we don't use $event_label.
 
     $sql = sprintf("
@@ -128,24 +127,20 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
     );
     $res = DPDatabase::query($sql);
     $row = mysqli_fetch_row($res);
-    if ( !$row )
-    {
+    if (!$row) {
         // ($username,$projectid) pair does not appear in table.
         return 0;
-    }
-    else
-    {
+    } else {
         return $row[0];
     }
 }
 
-function can_user_subscribe_to_project_event( $username, $projectid, $event )
+function can_user_subscribe_to_project_event($username, $projectid, $event)
 {
-    $project = new Project( $projectid );
+    $project = new Project($projectid);
 
     // Disallow subscribing to SR report posted event for anyone who is not the PP for the project
-    if ($event == 'sr_reported' && $project->PPer != $username)
-    {
+    if ($event == 'sr_reported' && $project->PPer != $username) {
         return false;
     }
 
@@ -154,9 +149,9 @@ function can_user_subscribe_to_project_event( $username, $projectid, $event )
 
 // -----------------------------------------------------------------------------
 
-function notify_project_event_subscribers( $project, $event, $extras=array() )
+function notify_project_event_subscribers($project, $event, $extras = [])
 {
-    $event_label = get_label_for_event( $event );
+    $event_label = get_label_for_event($event);
 
     $projectid = $project->projectid;
     $title = $project->nameofwork;
@@ -165,27 +160,26 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
 
     $msg_body = $project->email_introduction();
 
-    switch ($event)
-    {
+    switch ($event) {
         case 'posted':
-            $pg_url = get_pg_catalog_url_for_etext( $project->postednum );
+            $pg_url = get_pg_catalog_url_for_etext($project->postednum);
             $msg_body .=
                 _("This project has been sent to Project Gutenberg and will soon be available for reading.")
                 . " "
                 . _("Usually, the files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so.")
                 . " "
-                . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url )
+                . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url)
                 . "\n";
             break;
 
         case 'round_available':
             $msg_body .=
-                sprintf( _("This project has become available for work in %s."), $extras['round']->id );
+                sprintf(_("This project has become available for work in %s."), $extras['round']->id);
             break;
 
         case 'round_complete':
             $msg_body .=
-                sprintf( _("This project has completed work in %s."), $extras['round']->id );
+                sprintf(_("This project has completed work in %s."), $extras['round']->id);
             break;
 
         case 'pp_enter':
@@ -226,18 +220,16 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
     );
     $res1 = DPDatabase::query($sql1);
     $n_subscribers = mysqli_num_rows($res1);
-    while ( list($username) = mysqli_fetch_row($res1) )
-    {
+    while ([$username] = mysqli_fetch_row($res1)) {
         $email = get_forum_email_address($username);
         maybe_mail(
             $email,
             $msg_subject,
-            sprintf( _("Hello %s,"), $username ) . "\n" . $msg_body
+            sprintf(_("Hello %s,"), $username) . "\n" . $msg_body
         );
     }
 
-    if ( $event == 'posted' )
-    {
+    if ($event == 'posted') {
         // Take the number of users subscribed to the event
         // and record that as the project's "interest level".
         $sql4 = sprintf("
@@ -253,17 +245,16 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
 
 // -----------------------------------------------------------------------------
 
-function get_n_users_subscribed_to_events_for_project( $projectid )
+function get_n_users_subscribed_to_events_for_project($projectid)
 // Return an array: keys are the same as $subscribable_project_events,
 // each value is the number of subscriptions to that event for the given project.
 {
     global $subscribable_project_events;
-    $items = array();
-    foreach ( $subscribable_project_events as $event => $label )
-    {
+    $items = [];
+    foreach ($subscribable_project_events as $event => $label) {
         $items[] = "SUM(iste_$event) AS $event";
     }
-    $selects = implode( ',', $items );
+    $selects = implode(',', $items);
 
     $sql = sprintf("
         SELECT $selects
@@ -276,7 +267,7 @@ function get_n_users_subscribed_to_events_for_project( $projectid )
 
     // If there are no rows for this project, the SUMs will all return NULL;
     // change those to zeroes.
-    $r = array_map( 'intval', $r );
+    $r = array_map('intval', $r);
 
     return $r;
 }
@@ -335,5 +326,3 @@ The main problem with this scheme is specifying and implementing the event
 pattern-matching mechanism, and efficiently finding all the subscriptions that
 match a given event.
 */
-
-?>

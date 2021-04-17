@@ -17,7 +17,7 @@
 // can change inside the shutdown function based on PHP docs).
 // This also helps things like APC which can bypass stat calls
 // on includes that use absolute paths.
-$relPath=dirname(__FILE__)."/";
+$relPath = dirname(__FILE__)."/";
 
 // store the current time to calculate total page build time
 $PAGE_START_TIME = microtime(true);
@@ -33,8 +33,7 @@ require_once($relPath.'../vendor/autoload.php');
 // Exception handlers are defined differently for HTML and the API
 set_exception_handler($testing ? 'test_exception_handler' : 'production_exception_handler');
 
-if(!headers_sent())
-{
+if (!headers_sent()) {
     // Tell proxies to vary the caching based on the Accept-Language header
     // to ensure others behind the proxy don't inadvertantly get a language
     // they aren't expecting.
@@ -49,8 +48,9 @@ try {
 } catch (Exception $e) {
     // If we're in maintenance mode, don't die here - we'll more gracefully
     // error out later
-    if(!$maintenance)
+    if (!$maintenance) {
         throw $e;
+    }
 }
 
 // Load the session libraries, but allow base.inc and api/index.php to do
@@ -63,17 +63,15 @@ include_once($relPath.'dpsession.inc');
 function dp_class_autoloader($class)
 {
     global $relPath;
-    if(is_file($relPath.$class.".inc"))
-    {
+    if (is_file($relPath.$class.".inc")) {
         include_once($relPath.$class.".inc");
-    }
-    elseif(is_file($relPath.$class."Class.inc"))
-    {
+    } elseif (is_file($relPath.$class."Class.inc")) {
         include_once($relPath.$class."Class.inc");
     }
 }
 
-function dp_setcookie($name, $value="", $expires=0, $options=[]) {
+function dp_setcookie($name, $value = "", $expires = 0, $options = [])
+{
     global $use_secure_cookies;
 
     $defaults = [
@@ -84,6 +82,5 @@ function dp_setcookie($name, $value="", $expires=0, $options=[]) {
     ];
 
     $options = array_merge($defaults, $options);
-    return setcookie($name, $value, $options);    
+    return setcookie($name, $value, $options);
 }
-

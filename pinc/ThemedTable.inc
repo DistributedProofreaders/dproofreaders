@@ -7,7 +7,7 @@
 
 class ThemedTable
 {
-    function __construct( $n_cols, $title, $options=array() )
+    public function __construct($n_cols, $title, $options = [])
     {
         $this->n_cols = $n_cols;
 
@@ -15,10 +15,8 @@ class ThemedTable
         $border = 1;
         $width = "";
         $subtitle = null;
-        foreach ( $options as $option_name => $option_value )
-        {
-            switch ( $option_name )
-            {
+        foreach ($options as $option_name => $option_value) {
+            switch ($option_name) {
                 case 'theme_striped':
                     $class .= ' theme_striped';
                     break;
@@ -32,7 +30,7 @@ class ThemedTable
                     $subtitle = $option_value;
                     break;
                 default:
-                    die( "ThemedTable created with invalid option: '$option_name'" );
+                    die("ThemedTable created with invalid option: '$option_name'");
             }
         }
 
@@ -47,8 +45,10 @@ class ThemedTable
 
             echo "\n";
             echo "<tr>";
-                $maybe_colspan="";
-                if ($this->n_cols > 1) { $maybe_colspan = "colspan='$this->n_cols'"; }
+                $maybe_colspan = "";
+                if ($this->n_cols > 1) {
+                    $maybe_colspan = "colspan='$this->n_cols'";
+                }
             echo   "<th style='text-align: center;' $maybe_colspan>";
             echo     $title;
             echo     $possible_subtitle;
@@ -57,90 +57,77 @@ class ThemedTable
         }
     }
 
-    function set_column_widths()
+    public function set_column_widths()
     // Set explicit column widths.
     // (If you don't call this method, <td> tags
     // will be output without a 'width' attribute.)
     {
         // There should be an arg (width) for each column.
-        assert( func_num_args() == $this->n_cols );
+        assert(func_num_args() == $this->n_cols);
         $this->column_widths = func_get_args();
 
         // They should add up to 100.
-        assert( array_sum($this->column_widths) == 100 );
+        assert(array_sum($this->column_widths) == 100);
     }
 
-    function set_column_alignments()
+    public function set_column_alignments()
     {
-        assert( func_num_args() == $this->n_cols );
+        assert(func_num_args() == $this->n_cols);
         $this->column_alignments = func_get_args();
 
         // Should check that they're sensible.
     }
 
-    function column_headers()
+    public function column_headers()
     {
         $args = func_get_args();
-        $this->_row( $args, TRUE );
+        $this->_row($args, true);
     }
 
-    function row()
+    public function row()
     {
         $args = func_get_args();
-        $this->_row( $args, FALSE );
+        $this->_row($args, false);
     }
 
-    function _row( $cell_texts, $is_header )
+    public function _row($cell_texts, $is_header)
     {
-        if ( $this->n_cols > 1 && count($cell_texts) == 1 && is_array($cell_texts[0]) )
-        {
+        if ($this->n_cols > 1 && count($cell_texts) == 1 && is_array($cell_texts[0])) {
             $cell_texts = $cell_texts[0];
         }
 
         // There should be an arg (cell content) for each column.
-        assert( count($cell_texts) == $this->n_cols );
+        assert(count($cell_texts) == $this->n_cols);
 
         echo "<tr>";
 
-        for ( $c = 0; $c < $this->n_cols; $c++ )
-        {
-            if ( isset($this->column_widths) )
-            {
+        for ($c = 0; $c < $this->n_cols; $c++) {
+            if (isset($this->column_widths)) {
                 $width = $this->column_widths[$c];
                 $width_style = "width: $width%;";
-            }
-            else
-            {
+            } else {
                 $width_style = '';
             }
 
-            if ( isset($this->column_alignments) )
-            {
+            if (isset($this->column_alignments)) {
                 $alignment = $this->column_alignments[$c];
-                if (empty($alignment))
-                {
+                if (empty($alignment)) {
                     $align_style = '';
-                }
-                else
-                {
+                } else {
                     $align_style = "text-align: $alignment;";
                 }
-            }
-            else
-            {
+            } else {
                 $align_style = '';
             }
 
             $cell_content = $cell_texts[$c];
 
-            if ($is_header)
-            {
+            if ($is_header) {
                 $cell_content = "<b><i>$cell_content</i></b>";
             }
 
             $style = '';
-            if ($width_style or $align_style)
-            {
+            if ($width_style or $align_style) {
                 $style = "style='$width_style $align_style'";
             }
 
@@ -150,7 +137,7 @@ class ThemedTable
         echo "</tr>\n";
     }
 
-    function hr( $width )
+    public function hr($width)
     {
         echo "\n";
         echo "<tr>";
@@ -160,10 +147,8 @@ class ThemedTable
         echo "</tr>";
     }
 
-    function end()
+    public function end()
     {
         echo "</table><p>";
     }
 }
-
-?>

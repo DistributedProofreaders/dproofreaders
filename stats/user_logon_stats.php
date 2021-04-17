@@ -1,5 +1,5 @@
 <?php
-$relPath='./../pinc/';
+$relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -17,8 +17,6 @@ $images = [
     "jpgraph_files/users_logging_on.php?past=year&amp;preceding=fourweek",
 ];
 
-foreach($images as $image)
-{
+foreach ($images as $image) {
     echo "<img style='max-width: 100%' src='$image'><br>\n";
 }
-

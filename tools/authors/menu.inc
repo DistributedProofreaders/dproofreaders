@@ -1,12 +1,13 @@
 <?php
 include_once($relPath.'user_is.inc');
 
-function echo_menu($id=NULL) {
+function echo_menu($id = null)
+{
     // the current file
     $script = $_SERVER['SCRIPT_FILENAME'];
-    $file = substr($script, strrpos($script, '/')+1);
+    $file = substr($script, strrpos($script, '/') + 1);
 
-    $menu_entries = array();
+    $menu_entries = [];
 
     $menu_entries[] = newMenuItem(_('List authors'), 'listing.php', $file);
     if (user_is_authors_db_editor()) {
@@ -26,9 +27,11 @@ function echo_menu($id=NULL) {
     echo '<p>' . implode(" | ", $menu_entries) . '</p>';
 }
 
-function newMenuItem($label, $url, $current_file) {
-    if(startswith($url, $current_file))
+function newMenuItem($label, $url, $current_file)
+{
+    if (startswith($url, $current_file)) {
         return "<b>" . html_safe($label) . "</b>";
-    else
+    } else {
         return sprintf("<a href='%s'>%s</a>", attr_safe($url), html_safe($label));
+    }
 }

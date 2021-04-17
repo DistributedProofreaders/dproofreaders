@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -15,4 +15,3 @@ echo "<h3>" . _("Font size changes") . "</h3>\n";
 echo "<p>" . _("Do not mark changes in font or font size. The formatters will take care of this later in the process.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_5'>" . _("Continue to quiz page") . "</a></p>\n";
-

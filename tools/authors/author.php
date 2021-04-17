@@ -7,7 +7,7 @@ include_once('menu.inc');
 
 require_login();
 
-$author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
+$author_id = get_integer_param($_GET, 'author_id', null, null, null, true);
 
 $sql = sprintf("SELECT * FROM authors WHERE author_id=%d", $author_id);
 $result = DPDatabase::query($sql);
@@ -18,11 +18,10 @@ $birth = format_date_from_sqlset($row, 'b');
 $decease = format_date_from_sqlset($row, 'd');
 
 // Start outputting
-output_header(_('Author') . ': ' . $last_name . ($other_names!=''?", $other_names":''));
+output_header(_('Author') . ': ' . $last_name . ($other_names != '' ? ", $other_names" : ''));
 
 echo '<h1>' . _('Author') . '</h1>';
 
 echo_menu($author_id);
 
 echo_author($last_name, $other_names, $birth, $decease, $author_id);
-

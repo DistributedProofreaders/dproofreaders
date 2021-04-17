@@ -30,48 +30,39 @@ function api_v1_projects($method, $data, $query_params)
 
     // pull out the query parameters
     $query = [];
-    foreach(array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field)
-    {
+    foreach (array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field) {
         $param = $query_params[$field];
-        $query[$field] = is_array($param) ? $param : [ $param ];
+        $query[$field] = is_array($param) ? $param : [$param];
     }
 
     // now build project query
     $where = "1";
-    foreach($query as $field => $values)
-    {
+    foreach ($query as $field => $values) {
         $values = array_map("DPDatabase::escape", $values);
         $column_name = $valid_fields[$field];
 
-        if(in_array($field, [ "author", "title", "languages" ]))
-        {
-            $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
+        if (in_array($field, ["author", "title", "languages"])) {
+            $likes_str = surround_and_join($values, "$column_name LIKE '%", "%'", ' OR ');
             $where .= " AND ($likes_str)";
-        }
-        else
-        {
-            $values_list = surround_and_join( $values, "'", "'", "," );
+        } else {
+            $values_list = surround_and_join($values, "'", "'", ",");
             $where .= " AND $column_name IN ($values_list)";
         }
     }
 
     // build the order_by
     $order_by = "projectid";
-    if(isset($query_params["sort"]))
-    {
+    if (isset($query_params["sort"])) {
         $order_by = [];
         $sort_fields = explode(",", $query_params["sort"]);
-        foreach($sort_fields as $field)
-        {
+        foreach ($sort_fields as $field) {
             $order = "ASC";
-            if(startswith($field, "-"))
-            {
+            if (startswith($field, "-")) {
                 $order = "DESC";
                 $field = substr($field, 1);
             }
 
-            if(!isset($valid_fields[$field]))
-            {
+            if (!isset($valid_fields[$field])) {
                 continue;
             }
             $order_by[] = $valid_fields[$field] . " $order";
@@ -81,7 +72,7 @@ function api_v1_projects($method, $data, $query_params)
     }
 
     $per_page = get_integer_param($query_params, "per_page", 20, 1, 100);
-    $page = get_integer_param($query_params, "page", 1, 1, NULL);
+    $page = get_integer_param($query_params, "page", 1, 1, null);
     $offset = $per_page * ($page - 1);
 
     $sql = "
@@ -91,21 +82,19 @@ function api_v1_projects($method, $data, $query_params)
         ORDER BY $order_by
         LIMIT $per_page OFFSET $offset
     ";
-    $result = DPDatabase::query($sql, FALSE);
-    if(!$result)
-    {
+    $result = DPDatabase::query($sql, false);
+    if (!$result) {
         throw new ServerError(DPDatabase::log_error());
     }
 
     $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-    list($total_rows) = mysqli_fetch_row($res_found);
+    [$total_rows] = mysqli_fetch_row($res_found);
     $total_pages = round($total_rows / $per_page);
 
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
     $output = [];
-    while($row = mysqli_fetch_assoc($result))
-    {
+    while ($row = mysqli_fetch_assoc($result)) {
         $project = new Project($row);
         $output[] = render_project_json($project);
     }
@@ -159,23 +148,18 @@ function api_v1_project_wordlists($method, $data, $query_params)
     $wordlist_type = $data[":wordlist_type"];
 
     // handle GET and PUT requests
-    if($method == "GET")
-    {
+    if ($method == "GET") {
         // everyone can get word lists
         $list_loader = "load_project_{$wordlist_type}_words";
         return $list_loader($project->projectid);
-    }
-    elseif($method == "PUT")
-    {
+    } elseif ($method == "PUT") {
         // can the user manage the word lists?
-        if(!$project->can_be_managed_by_current_user)
-        {
+        if (!$project->can_be_managed_by_current_user) {
             throw new UnauthorizedError();
         }
 
         $words = api_get_request_body();
-        if(!is_array($words))
-        {
+        if (!is_array($words)) {
             throw new BadRequest("No words provided");
         }
         $list_saver = "save_project_{$wordlist_type}_words";
@@ -192,8 +176,7 @@ function api_v1_project_pages($method, $data, $query_params)
     $project = $data[":projectid"];
 
     $return_data = [];
-    foreach($project->get_page_names_from_db() as $image)
-    {
+    foreach ($project->get_page_names_from_db() as $image) {
         $return_data[] = [
             "image" => $image,
             "image_url" => "{$project->url}/$image",
@@ -209,15 +192,12 @@ function api_v1_project_pages($method, $data, $query_params)
 function api_v1_project_pagedetails($method, $data, $query_params)
 {
     $return_data = [];
-    foreach(fetch_page_table_data($data[":projectid"]) as $image)
-    {
+    foreach (fetch_page_table_data($data[":projectid"]) as $image) {
         $page_rounds_data = [];
         // Remove proofer names and adjust timestamp format
-        foreach($image["pagerounds"] as $round_id => $round_data)
-        {
+        foreach ($image["pagerounds"] as $round_id => $round_data) {
             $round_data["pageround"] = $round_id;
-            if(isset($round_data["modified_timestamp"]))
-            {
+            if (isset($round_data["modified_timestamp"])) {
                 $round_data["last_modified"] = date(DATE_ATOM, $round_data["modified_timestamp"]);
                 unset($round_data["modified_timestamp"]);
             }
@@ -235,13 +215,10 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 
 function api_v1_project_page_round($method, $data, $query_params)
 {
-    if($data[":pageroundid"] == "OCR")
-    {
+    if ($data[":pageroundid"] == "OCR") {
         $text_column = "master_text";
         $user_column = "NULL";
-    }
-    else
-    {
+    } else {
         $round = get_Round_for_round_id($data[":pageroundid"]);
         $text_column = $round->text_column_name;
         $user_column = $round->user_column_name;
@@ -262,9 +239,9 @@ function api_v1_project_page_round($method, $data, $query_params)
     $row = mysqli_fetch_assoc($result);
     $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
 
-    # We can't show the username here unless the user has proofed the page
-    # in one round or they are an PF/SA. We need to abstract the conditional
-    # logic out of tools/project_manager/page_detail.inc
+    // We can't show the username here unless the user has proofed the page
+    // in one round or they are an PF/SA. We need to abstract the conditional
+    // logic out of tools/project_manager/page_detail.inc
     unset($row["user"]);
 
     return render_project_page_json($row);

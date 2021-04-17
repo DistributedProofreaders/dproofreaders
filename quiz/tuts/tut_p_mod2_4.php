@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -13,4 +13,3 @@ echo "<p>" . _("Proofread quotation marks at the beginning of each line of a quo
 echo "<p>" . _("Often there is no closing quotation mark until the very end of the quoted section of text, which may not be on the same page you are proofreading. Leave it that way&mdash;do not add closing quotation marks that are not in the page image.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_4'>" . _("Continue to quiz page") . "</a></p>\n";
-

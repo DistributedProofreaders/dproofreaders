@@ -9,45 +9,42 @@ class Stopwatch
     // The time between a 'start' ('resume') and the subsequent 'stop' ('pause')
     // is called a "run" (when the watch is running).
 
-    function __construct()
+    public function __construct()
     {
-        $this->running = FALSE;
+        $this->running = false;
         $this->seconds_from_completed_runs = 0;
     }
 
-    function start() // or resume
+    public function start() // or resume
     {
         assert(!$this->running);
         $this->run_start_tod = gettimeofday();
-        $this->running = TRUE;
+        $this->running = true;
     }
 
-    function read()
+    public function read()
     {
-        if ( $this->running )
-        {
+        if ($this->running) {
             $now_tod = gettimeofday();
             $seconds_since_start_of_run =
-                ($now_tod['sec']  - $this->run_start_tod['sec']) +
+                ($now_tod['sec'] - $this->run_start_tod['sec']) +
                 ($now_tod['usec'] - $this->run_start_tod['usec']) / 1e6;
 
             return $this->seconds_from_completed_runs
                 + $seconds_since_start_of_run;
-        }
-        else
-        {
+        } else {
             return $this->seconds_from_completed_runs;
         }
     }
 
-    function stop() // or pause
+    public function stop() // or pause
     {
         assert($this->running);
         $this->seconds_from_completed_runs = $this->read();
-        $this->running = FALSE;
+        $this->running = false;
     }
 
-    function reset()
+    public function reset()
     {
         // A real stopwatch might let you push the reset button
         // while it's running. This one doesn't.
@@ -58,7 +55,7 @@ class Stopwatch
 
 function test_Stopwatch()
 {
-    $watch = new Stopwatch;
+    $watch = new Stopwatch();
     sleep(1);
 
     $watch->start();
@@ -86,5 +83,3 @@ function test_Stopwatch()
     $t4 = $watch->read();
     echo "t4=$t4, should be about 3\n";
 }
-
-?>

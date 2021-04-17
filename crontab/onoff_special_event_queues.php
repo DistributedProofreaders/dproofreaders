@@ -3,14 +3,14 @@
 // The 'queue_defns' table defines the various release queues that the autorelease code
 // polls every hour in case any can release a new book for proofreading.
 
-// SPECIAL DAY queues are those that open on specific days only. They are defined in the 
+// SPECIAL DAY queues are those that open on specific days only. They are defined in the
 // 'special_days' table. This script opens and closes these queues based upon the dates
 // stored in those tables.
 
 // (Originally, this script updated the project_selectors for Birthday/Otherday
 // queues, hence the original name of the script, update_birthday_queues.php.)
 
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
@@ -18,7 +18,7 @@ require_localhost_request();
 
 header('Content-type: text/plain');
 
-$testing_this_script=@$_GET['testing'];
+$testing_this_script = @$_GET['testing'];
 
 /*
 We want the queue for a special day to be open
@@ -37,29 +37,27 @@ the queue at about noon of the day before the event's "opening day",
 and close the queue at about noon on the "closing day".
 
 We assume that this script is run daily at about noon GMT.
-*/ 
+*/
 
 echo "Script starts at " . gmdate('Y-m-d H:i:s') . " GMT\n";
 
 $today_month = gmdate('m');
-$today_day   = gmdate('d');
+$today_day = gmdate('d');
 
-$tomorrow = gmmktime( 0,0,0, $today_month, $today_day+1 );
+$tomorrow = gmmktime(0, 0, 0, $today_month, $today_day + 1);
 
 $tomorrow_month = gmdate('m', $tomorrow);
-$tomorrow_day   = gmdate('d', $tomorrow);
+$tomorrow_day = gmdate('d', $tomorrow);
 
 echo "today:    $today_month-$today_day\n";
 echo "tomorrow: $tomorrow_month-$tomorrow_day\n";
 
-foreach ( array('open', 'close') as $which )
-{
+foreach (['open', 'close'] as $which) {
     echo "
         Looking for special events to $which...
     ";
 
-    switch ( $which )
-    {
+    switch ($which) {
         case 'open':
             // Looking for special events whose opening day is tomorrow.
             $event_condition = "open_month = $tomorrow_month AND open_day = $tomorrow_day";
@@ -75,7 +73,7 @@ foreach ( array('open', 'close') as $which )
             break;
 
         default:
-            assert( 0 );
+            assert(0);
     }
 
     $specials_query = "
@@ -92,8 +90,7 @@ foreach ( array('open', 'close') as $which )
         Found $n special events which '$which' now.
     ";
 
-    while ( list($spec_code) = mysqli_fetch_row($res) )
-    {
+    while ([$spec_code] = mysqli_fetch_row($res)) {
         echo "
             Looking for queues that deal with special event '$spec_code'...
         ";
@@ -107,8 +104,7 @@ foreach ( array('open', 'close') as $which )
         ";
         echo $update_query, "\n";
 
-        if (!$testing_this_script)
-        {    
+        if (!$testing_this_script) {
             mysqli_query(DPDatabase::get_connection(), $update_query) or die(DPDatabase::log_error());
 
             $n = mysqli_affected_rows(DPDatabase::get_connection());
@@ -118,4 +114,3 @@ foreach ( array('open', 'close') as $which )
         }
     }
 }
-

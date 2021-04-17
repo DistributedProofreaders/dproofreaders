@@ -1,5 +1,5 @@
 <?php
-$relPath='./../pinc/';
+$relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
@@ -7,9 +7,9 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 require_login();
 
 $valid_tally_names = array_keys(get_page_tally_names());
-$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
-$title = sprintf( _('Graphs for Pages Saved-as-Done in Round %s'), $tally_name );
+$title = sprintf(_('Graphs for Pages Saved-as-Done in Round %s'), $tally_name);
 
 output_header($title);
 echo "<h1>$title</h1>";
@@ -23,8 +23,6 @@ $images = [
     "jpgraph_files/total_pages_by_month_graph.php?tally_name=$tally_name",
 ];
 
-foreach($images as $image)
-{
+foreach ($images as $image) {
     echo "<img style='max-width: 100%' src='$image'></br>\n";
 }
-

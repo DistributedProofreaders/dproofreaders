@@ -24,10 +24,11 @@ function mentor_banner($round)
         DPDatabase::escape($eng_lang_name)
     );
     $result = DPDatabase::query($sql);
-    list($oldest) = mysqli_fetch_row($result);
+    [$oldest] = mysqli_fetch_row($result);
 
-    if(is_null($oldest))
+    if (is_null($oldest)) {
         return;
+    }
 
     switch ($oldest) {
         case 0:

@@ -1,5 +1,5 @@
 <?php
-$relPath='./../pinc/';
+$relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
@@ -37,4 +37,4 @@ mysqli_query(DPDatabase::get_connection(), "
     WHERE    t_last_activity > UNIX_TIMESTAMP() - 60 * 60 * 24 * 7 * 4
 ") or die(DPDatabase::log_error());
 
-# vim: sw=4 ts=4 expandtab
+// vim: sw=4 ts=4 expandtab

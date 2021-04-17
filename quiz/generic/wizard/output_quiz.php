@@ -1,5 +1,5 @@
 <?php
-$relPath='../../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // html_safe()
@@ -10,18 +10,18 @@ output_header(_('Quiz Wizard'));
 
 function ssqs($x)
 {
-    return str_replace('\\\'','\'',$x);
+    return str_replace('\\\'', '\'', $x);
 }
 
 function enl($x)
 {
-    $out = str_replace("\r\n",'\n',$x);
-    return str_replace("\n",'\n',$out);
+    $out = str_replace("\r\n", '\n', $x);
+    return str_replace("\n", '\n', $out);
 }
 
 function sdbsn($x)
 {
-    return str_replace('\\\\n','\\n',$x);
+    return str_replace('\\\\n', '\\n', $x);
 }
 
 
@@ -34,17 +34,15 @@ function make_output()
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['description']) . "\"),\n";
 
     global $forums_url;
-    if ($_SESSION['quiz_data']['thread'] != '')
-    {
+    if ($_SESSION['quiz_data']['thread'] != '') {
         $_SESSION['quiz_data']['thread'] = str_replace($forums_url, '$forums_url', $_SESSION['quiz_data']['thread']);
     }
     $out .= ' "' . ssqs($_SESSION['quiz_data']['thread']) . "\",\n";
 
     $out .= " array(\n";
 
-    $pages = array();
-    foreach($_SESSION['quiz_data']['pages'] as $quiz_page_id => $details)
-    {
+    $pages = [];
+    foreach ($_SESSION['quiz_data']['pages'] as $quiz_page_id => $details) {
         $pages[] = '  _("' . ssqs($details) . '") => "' . ssqs($quiz_page_id) . "\"";
     }
     $out .= implode(",\n", $pages);
@@ -65,4 +63,3 @@ echo "</textarea>\n";
 echo "<p>" . sprintf(_("Now that you've set up the quiz information and page listing, you can <a href='%s'>start entering the data</a> for individual quiz pages."), "./general.php?start=true") . "</p>";
 
 $_SESSION['quiz_data']['lastpage'] = 'output_pages';
-

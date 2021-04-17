@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -28,7 +28,7 @@ output_header('Site translation', NO_STATSBAR);
 <h2>Becoming a translator &amp; getting help</h2>
 <p>If you would like to help with a current translation effort, would like to translate the user interface into a new language, or have questions that are not answered in the following sections, please contact the <a href='mailto:<?php echo $translation_coordinator_email_addr; ?>'>site translation coordinator</a>. 
 
-<?php if(user_is_a_sitemanager()) { ?>
+<?php if (user_is_a_sitemanager()) { ?>
 
 <!--
 This section is only shown to admins for two reasons
@@ -106,10 +106,10 @@ Server MPM:     Prefork
 
 <p>To specify a user as a site translator, grant the site_translator setting for the user on the <a href='../tools/site_admin/manage_site_access_privileges.php'>Manage Site Access Privileges</a> page.
 
-<?php } // user_is_a_sitemanager(); ?>
+<?php } // user_is_a_sitemanager();?>
 
 
-<?php if(user_is_site_translator()) { ?>
+<?php if (user_is_site_translator()) { ?>
 
 <hr>
 
@@ -190,7 +190,7 @@ Server MPM:     Prefork
 <h4>Quotes</h4>
 <p>If the original string has quotes (eg: ' or ") in HTML attributes, use the same quotes in the translated string. If the quotes are part of a paragraph, you are welcome to use the language's quote characters in their place.</p>
 
-<?php } // user_is_site_translator() ?>
+<?php } // user_is_site_translator()?>
 
 </div>
 <?php

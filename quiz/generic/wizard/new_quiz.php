@@ -1,5 +1,5 @@
 <?php
-$relPath='../../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -7,8 +7,7 @@ require_login();
 
 output_header(_('Quiz Wizard'));
 
-if ($_SESSION['quiz_data']['lastpage'] == 'start')
-{
+if ($_SESSION['quiz_data']['lastpage'] == 'start') {
     unset($_SESSION['quiz_data']['pages']);
 }
 
@@ -39,4 +38,3 @@ echo _("URL of the forum thread for questions about this quiz. If none is provid
 echo "<p><input type='submit' value='" . _("send") . "'></p>\n</form>\n";
 
 $_SESSION['quiz_data']['lastpage'] = 'newquiz';
-

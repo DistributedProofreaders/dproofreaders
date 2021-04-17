@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -15,7 +15,7 @@ echo "<p>" . _("<b>Note:</b> For the purposes of this quiz, please use the vowel
 echo "<h3>" . _("Diacritical Marks") . "</h3>\n";
 echo "<p>" . _("Vowels in Greek words can have the following diacritical marks (accents):") . "<br>\n";
 echo "<img src='../generic/images/Greek_accents.png' width='200' height='33' alt='" . _("accented Greek vowels") . "'></p>\n";
-echo "<p>" . sprintf(_("When transliterating Greek, you should ignore all of these except for the first one (the \"rough breathing\" mark).  If a vowel has a rough breathing mark over it, we indicate this by adding an \"<kbd>h</kbd>\" to the start of the transliterated word.  For example, these two words: %s would be transliterated as <kbd>[Greek: hodous]</kbd> and <kbd>[Greek: odous]</kbd>, respectively."), 
+echo "<p>" . sprintf(_("When transliterating Greek, you should ignore all of these except for the first one (the \"rough breathing\" mark).  If a vowel has a rough breathing mark over it, we indicate this by adding an \"<kbd>h</kbd>\" to the start of the transliterated word.  For example, these two words: %s would be transliterated as <kbd>[Greek: hodous]</kbd> and <kbd>[Greek: odous]</kbd>, respectively."),
                      "<br>\n<img src='../generic/images/rough_smooth_breathing.png' width='214' height='45' alt='" . _("two Greek words differing only in breathing mark") . "'><br>\n") . "</p>\n";
 echo "<p>" . _("The breathing mark may be combined with another accent, which sometimes makes it difficult to tell which way the breathing mark goes, especially in badly printed text.  They can become easier to see if you enlarge the image. If a vowel has both a breathing mark and an acute or grave accent in the image, the breathing mark normally appears on the left.  Other clues which can help in identifying a rough breathing mark are: ") . "</p>\n";
 echo "<ul>\n";
@@ -25,4 +25,3 @@ echo "<li>" . _("If it's rough breathing, add an \"<kbd>h</kbd>\" at the beginni
 echo "</ul>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_2'>" . _("Continue to quiz page") . "</a></p>\n";
-

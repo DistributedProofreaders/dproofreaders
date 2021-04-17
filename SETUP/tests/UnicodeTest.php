@@ -5,12 +5,12 @@ use voku\helper\UTF8;
 class UnicodeTest extends PHPUnit\Framework\TestCase
 {
     private $a_to_z_codepoints = [
-        'U+0061-U+007a',  # a-z
+        'U+0061-U+007a',  // a-z
     ];
     private $combined_codepoints = [
-        'U+004E',  # N
-        'U+004E>U+0305',  # N̅
-        'U+004E>U+0306',  # N̆
+        'U+004E',  // N
+        'U+004E>U+0305',  // N̅
+        'U+004E>U+0306',  // N̆
     ];
 
     public function testSubstrReplace()
@@ -22,26 +22,26 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
 
     public function testUtf8CombinedChr()
     {
-        $codepoint = 'U+004E';  # N
+        $codepoint = 'U+004E';  // N
         $char = utf8_combined_chr($codepoint);
         $this->assertEquals("N", $char);
     }
 
     public function testAreCodepointsNormalized()
     {
-        $codepoints = [ 'U+004E>U+0305' ];  # N̅
+        $codepoints = ['U+004E>U+0305'];  // N̅
         $this->assertEquals(get_nonnormalized_codepoints($codepoints), []);
     }
 
     public function testAreCodepointsNormalizedFail()
     {
-        $codepoints = [ 'U+004e>U+0307'];  # Ṅ but normalizes to U+1e44
-        $this->assertEquals(get_nonnormalized_codepoints($codepoints), [ "U+004e>U+0307" => "U+1e44" ]);
+        $codepoints = ['U+004e>U+0307'];  // Ṅ but normalizes to U+1e44
+        $this->assertEquals(get_nonnormalized_codepoints($codepoints), ["U+004e>U+0307" => "U+1e44"]);
     }
 
     public function testUtf8CombinedChrCombined()
     {
-        $codepoint = 'U+004E>U+0305';  # N̅
+        $codepoint = 'U+004E>U+0305';  // N̅
         $char = utf8_combined_chr($codepoint);
         $this->assertEquals("\u{4e}\u{305}", $char);
     }

@@ -9,14 +9,13 @@ include_once('menu.inc');
 
 require_login();
 
-$bio_id  = get_integer_param($_GET, 'bio_id', null, 0, null, true);
+$bio_id = get_integer_param($_GET, 'bio_id', null, 0, null, true);
 $message = @$_GET['message'];
 
 // argument provided?
 if (isset($bio_id)) {
     $id = $bio_id;
-}
-else {
+} else {
     output_header(_('No biography-id specified'));
     echo _('An error occurred.') . ' ' . _('No biography-id was specified.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
@@ -43,7 +42,7 @@ $row = mysqli_fetch_assoc($result);
 $last_name = $row["last_name"];
 $other_names = $row["other_names"];
 
-$name = $last_name . ($other_names!=''?", $other_names":'');
+$name = $last_name . ($other_names != '' ? ", $other_names" : '');
 
 // Start outputting
 output_header(_('Biography:') . " $name");
@@ -52,8 +51,9 @@ echo '<h1>' . _('Biography') . '</h1>';
 
 echo_menu($bio_id);
 
-if (isset($message))
+if (isset($message)) {
     echo html_safe($message) . '<br>';
+}
 if (user_is_PM() || user_is_authors_db_manager()) {
     echo _('To include this biography into the project comments of a project, insert the following snippet into the project comments:');
     echo " <b>[biography=$id]</b>";
@@ -63,4 +63,3 @@ echo "<h2>" . html_safe($name);
 echo "<a href='$code_url/tools/authors/bioxml.php?bio_id=$id'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></h2>";
 
 echo "<p>" . html_safe($bio) . "</p>";
-

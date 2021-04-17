@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -10,8 +10,7 @@ include_once($relPath.'misc.inc'); // array_get()
 require_login();
 
 // check to see if the user is authorized to be here
-if (!( user_is_a_sitemanager() || user_is_proj_facilitator() ))
-{
+if (!(user_is_a_sitemanager() || user_is_proj_facilitator())) {
     die("You are not authorized to use this form.");
 }
 
@@ -32,8 +31,7 @@ echo "<h1>$title</h1>";
 
 $display_list = _handle_action($action, $list_type, $language, $cutoff, $lang_match);
 
-if($display_list)
-{
+if ($display_list) {
     echo "<p>" . _("This page can assist building site-wide Good and Bad word lists. The concept is that if a word appears on a significant portion of project word lists it is a good candidate for a site-wide word list. Given a project language and word list type it will create a combined list of words from all projects for that language. The results list indicates out of the projects with word lists, what percentage of those contain the word.") . "</p>";
 
     echo "<p>" ._("The results list is just a recommendation and should be vetted by subject matter experts (native language speakers, PFs, etc) before being added to a site-wide word list.") . "</p>";
@@ -51,17 +49,14 @@ if($display_list)
         FROM projects
         GROUP BY language
     ");
-    $used_languages = array();
-    while( list($language,$language_count) = mysqli_fetch_row($res) )
-    {
-        foreach(Project::decode_language($language) as $lang)
-        {
+    $used_languages = [];
+    while ([$language, $language_count] = mysqli_fetch_row($res)) {
+        foreach (Project::decode_language($language) as $lang) {
             @$used_languages[$lang] += $language_count;
         }
     }
     ksort($used_languages);
-    foreach( $used_languages as $language => $language_count )
-    {
+    foreach ($used_languages as $language => $language_count) {
         $option_string = sprintf(_('%1$s (%2$d projects)'), $language, $language_count);
         $option_value = urlencode($language);
         echo "<option value='$option_value'>$option_string</option>";
@@ -124,19 +119,17 @@ if($display_list)
 //   FALSE - request wasn't handled (display list)
 function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 {
-    $display_list = FALSE;
+    $display_list = false;
 
-    switch($action)
-    {
+    switch ($action) {
         case "show":
-            $word_freq = array();
+            $word_freq = [];
             $total_projects = 0;
             $total_projects_with_words = 0;
 
             // figure out what kind of language matching we're going to use
             $where_clause = "";
-            switch($lang_match)
-            {
+            switch ($lang_match) {
                 case "exact":
                     $where_clause = "language = '$language'";
                     break;
@@ -159,20 +152,22 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
                 FROM projects
                 WHERE $where_clause
             ");
-            while( list($projectid) = mysqli_fetch_row($res) )
-            {
-                if($list_type == "good")
+            while ([$projectid] = mysqli_fetch_row($res)) {
+                if ($list_type == "good") {
                     $words = load_project_good_words($projectid);
-                elseif($list_type == "bad")
+                } elseif ($list_type == "bad") {
                     $words = load_project_bad_words($projectid);
-                else
+                } else {
                     die("Unknown list type: $list_type");
+                }
 
-                foreach( $words as $word )
+                foreach ($words as $word) {
                     @$word_freq[$word]++;
+                }
 
-                if(count($words))
+                if (count($words)) {
                     $total_projects_with_words++;
+                }
 
                 $total_projects++;
             }
@@ -193,12 +188,12 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             echo _("Note: Percentages are calculated as frequency over the total number of projects with word lists.") . "<br>";
             echo "<br>";
             echo sprintf('%20s  %5s  %s', _("Word"), _("Count"), _("Frequency")) . "<br>";
-            foreach($word_freq as $word => $freq)
-            {
-                $percentage = ($freq/$total_projects_with_words)*100;
+            foreach ($word_freq as $word => $freq) {
+                $percentage = ($freq / $total_projects_with_words) * 100;
 
-                if($percentage < $cutoff)
+                if ($percentage < $cutoff) {
                     break;
+                }
 
                 echo sprintf("%20s  %5d  (%-3.2f%%)", $word, $freq, $percentage) . "<br>";
             }
@@ -206,7 +201,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             break;
 
         case "list":
-            $display_list = TRUE;
+            $display_list = true;
             break;
 
         default:
@@ -215,4 +210,3 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 
     return $display_list;
 }
-

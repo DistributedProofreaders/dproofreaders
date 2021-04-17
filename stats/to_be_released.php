@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
@@ -13,10 +13,10 @@ output_header($title);
 echo "<h1>$title</h1>\n";
 
 $order = get_enumerated_param(
-        $_GET, 'order', 'default', array('default', 'username', 'modifieddate') );
+        $_GET, 'order', 'default', ['default', 'username', 'modifieddate']);
 
 if ($order == 'default') {
-    $order ='nameofwork';
+    $order = 'nameofwork';
 }
 
 //get projects that have been checked out
@@ -65,4 +65,3 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 echo "</table>";
-

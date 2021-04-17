@@ -22,28 +22,30 @@ function get_desired_language()
 {
     // This function maybe called multiple times within a page load.
     // Only do the calculations to determine the locale once.
-    static $locale = NULL;
-    if($locale)
+    static $locale = null;
+    if ($locale) {
         return $locale;
+    }
 
     $user = User::load_current();
     // If the below logic changes, update locale/debug_ui_language.php too
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         // User requested a specific language for this page
         $locale = lang_code($_GET['lang']);
-        dp_setcookie("language", $locale, time()+31536000);
-    } else if ($user && $user->u_intlang){
+        dp_setcookie("language", $locale, time() + 31536000);
+    } elseif ($user && $user->u_intlang) {
         // User is logged in and has set their language preference
         $locale = $user->u_intlang;
-    } else if (!$user && isset($_COOKIE['language']) && $_COOKIE['language']) {
+    } elseif (!$user && isset($_COOKIE['language']) && $_COOKIE['language']) {
         // User is not logged in but we have a language cookie
-        $locale=$_COOKIE['language'];
-    } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $locale = $_COOKIE['language'];
+    } elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         // Attempt to guess locale based on browser settings
         $test_locale = \
             get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        if($test_locale)
+        if ($test_locale) {
             $locale = $test_locale;
+        }
     }
 
     return get_valid_locale_for_translation($locale);
@@ -51,8 +53,9 @@ function get_desired_language()
 
 function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir)
 {
-    if($charset == "UTF-8")
+    if ($charset == "UTF-8") {
         $locale .= ".$charset";
+    }
 
     // if the LANGUAGE environment variable is set, gettext will use that and
     // ignore whatever is here, so unset it
@@ -62,13 +65,12 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
 
     // Specify location of translation tables and choose domain
     $gettext_domain = 'messages';
-    if ( function_exists('bindtextdomain') )
-    {
+    if (function_exists('bindtextdomain')) {
         bindtextdomain($gettext_domain, $dyn_locales_dir);
         bindtextdomain("iso_639", $system_locales_dir);
-        if(function_exists("bind_textdomain_codeset")) {
-            bind_textdomain_codeset ($gettext_domain, $charset);
-            bind_textdomain_codeset ("iso_639", $charset);
+        if (function_exists("bind_textdomain_codeset")) {
+            bind_textdomain_codeset($gettext_domain, $charset);
+            bind_textdomain_codeset("iso_639", $charset);
         }
         textdomain($gettext_domain);
     }
@@ -77,18 +79,14 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
 // Configure gettext for a specific user, useful for sending emails. $user
 // can be a User object or a username. If $user is NULL, the current user's
 // locale is configured.
-function configure_gettext_for_user($user=NULL)
+function configure_gettext_for_user($user = null)
 {
     global $charset, $dyn_locales_dir, $system_locales_dir;
 
-    if(!$user)
-    {
+    if (!$user) {
         $locale = get_desired_language();
-    }
-    else
-    {
-        if($user instanceof User == FALSE)
-        {
+    } else {
+        if ($user instanceof User == false) {
             $user = new User($user);
         }
         $locale = get_valid_locale_for_translation($user->u_intlang);
@@ -99,13 +97,14 @@ function configure_gettext_for_user($user=NULL)
 // If the gettext extension is compiled into PHP, then the function named '_'
 // (an alias for 'gettext') will be defined.
 // If it's not defined, define it to simply return its argument.
-if (! function_exists('_') )
-{
-    function _($str) { return $str; }
+if (! function_exists('_')) {
+    function _($str)
+    {
+        return $str;
+    }
 }
 
-if (! function_exists('ngettext') )
-{
+if (! function_exists('ngettext')) {
     function ngettext($singular, $plural, $number)
     {
         return ($number == 1) ? $singular : $plural;
@@ -115,14 +114,15 @@ if (! function_exists('ngettext') )
 // pgettext allows translation of the same strings that
 // mean two different things.
 // http://php.net/manual/en/book.gettext.php#89975
-if (!function_exists('pgettext'))
-{
+if (!function_exists('pgettext')) {
     function pgettext($context, $msgid)
     {
         $contextString = "{$context}\004{$msgid}";
         $translation = dcgettext('messages', $contextString, LC_MESSAGES);
-        if ($translation == $contextString)  return $msgid;
-        else  return $translation;
+        if ($translation == $contextString) {
+            return $msgid;
+        } else {
+            return $translation;
+        }
     }
 }
-

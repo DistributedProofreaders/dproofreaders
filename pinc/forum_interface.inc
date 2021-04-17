@@ -47,23 +47,23 @@ function phpbb_table($table)
     return PHPBB_TABLE_PREFIX . "_" . $table;
 }
 
-function phpbb_lang($locale=FALSE)
+function phpbb_lang($locale = false)
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
 // is not installed on the system.
 {
-    if($locale === FALSE)
+    if ($locale === false) {
         $locale = get_desired_language();
+    }
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         // We're given a locale (eg: fr_FR) but phpBB languages are different.
         // Some samples: en, en_us, de, es_x_tu, es-mx, pt_br, pt
         // We can only do so much, so try for an exact match in lowercase
         // first, fall back to just the two-letter language code, and then
         // just fall back to English (which phpBB comes with by default).
-        $lang_attempts = array(strtolower($locale), substr($locale, 0, 2));
-        foreach($lang_attempts as $lang)
-        {
+        $lang_attempts = [strtolower($locale), substr($locale, 0, 2)];
+        foreach ($lang_attempts as $lang) {
             $query = sprintf("
                 SELECT *
                 FROM %s
@@ -73,8 +73,9 @@ function phpbb_lang($locale=FALSE)
             );
             $res = DPDatabase::query($query);
 
-            if (mysqli_num_rows($res) == 1)
+            if (mysqli_num_rows($res) == 1) {
                 return $lang;
+            }
         }
         return "en";
     }
@@ -86,16 +87,16 @@ function forum_password_hash($password)
 // store the hashed password in the non_activated_users table and use
 // it directly when creating the account post-activation.
 {
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         // phpBB3 hashing function is involved, so we'll call it directly
         // instead of duplicating it here, but we don't want to pollute
         // the DP codespace so we'll do it via phpbb3.inc.
         $args = func_get_args();
-        return call_phpbb_function( 'encode_and_hash_password', $args );
+        return call_phpbb_function('encode_and_hash_password', $args);
     }
 }
 
-function create_forum_user($username, $password, $email, $password_is_digested=FALSE)
+function create_forum_user($username, $password, $email, $password_is_digested = false)
 // Creates a forum user with the specified username, password, and email.
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
@@ -106,24 +107,25 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 // to evaluate the pass/fail status of this function.
 {
     global $forums_dir;
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         // Use the phpBB3 API to create the user, but do so via phpbb3.inc
         // as to not mix the DP and phpBB3 codespace.
-        $args = array(
+        $args = [
             0 => $username,
             1 => $password,
             2 => $email,
-            3 => phpbb_lang()
-        );
-        $user_id = call_phpbb_function( 'create_user', $args );
+            3 => phpbb_lang(),
+        ];
+        $user_id = call_phpbb_function('create_user', $args);
 
         // create_user() should return a numeric $user_id, if it doesn't
         // it likely returned a phpBB3 error string. Lets return that instead.
-        if(!is_numeric($user_id))
+        if (!is_numeric($user_id)) {
             return $user_id;
+        }
 
-        # if $password_is_digested we have to update the password in the DB directly
-        if($password_is_digested) {
+        // if $password_is_digested we have to update the password in the DB directly
+        if ($password_is_digested) {
             $sql = sprintf("
                 UPDATE %s
                 SET user_password='%s'
@@ -135,7 +137,7 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
             DPDatabase::query($sql);
         }
 
-        return TRUE;
+        return true;
     }
 }
 
@@ -151,8 +153,9 @@ function login_forum_user($username, $password)
 {
     global $forums_dir;
 
-    if(!is_dir($forums_dir))
-        return FALSE;
+    if (!is_dir($forums_dir)) {
+        return false;
+    }
 
     // phpbb code sets variables (e.g. $db) upon include assuming they are
     // global and accesses them in functions via e.g. global $db. However,
@@ -163,7 +166,7 @@ function login_forum_user($username, $password)
     // variable-assignment occurs at function-scope, it affects the global
     // variable.
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
         $phpbb_root_path = $forums_dir."/";
         $phpEx = "php";
@@ -197,15 +200,14 @@ function login_forum_user($username, $password)
         set_var($username, $username, 'string', true);
         set_var($password, $password, 'string', true);
 
-        $persist_login = TRUE;
+        $persist_login = true;
         $results = $auth->login($username, $password, $persist_login);
 
         define('IN_PHPBB', false);
 
         $success = $results["status"] == LOGIN_SUCCESS;
         $reason = '';
-        switch($results["status"])
-        {
+        switch ($results["status"]) {
             case LOGIN_SUCCESS:
                 $reason = '';
                 break;
@@ -233,13 +235,14 @@ function logout_forum_user()
     global $forums_dir;
     global $pguser;
 
-    if(!is_dir($forums_dir))
+    if (!is_dir($forums_dir)) {
         return;
+    }
 
     // See login_forum_user() for about the need for the global
     // declarations below.
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
         $phpbb_root_path = $forums_dir."/";
         $phpEx = "php";
@@ -269,7 +272,7 @@ function get_reset_password_url()
 {
     global $forums_url;
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?mode=sendpassword";
     }
 }
@@ -279,40 +282,40 @@ function get_forum_user_details($username)
 // Returns an associative array. See $interested_columns for the keys.
 // If the user isn't found, the function returns NULL.
 {
-    $interested_columns = array(
-        "id",         # forum user id
-        "username",   # forum username
-        "lastvisit",  # timestamp the user last visited
-        "from",       # "location" in phpBB 3.1
-        "occ",        # "occupation" in phpBB 3.1
-        "interests",  # interests
-        "viewemail",  # if their email address is viewable
-        "email",      # email
-        "avatar",     # filename of their avatar, if defined
-        "icq",        # ICQ address
-        "website",    # website URL
-        "aim",        # AIM address ("aol" in phpBB 3.1)
-        "yim",        # Yahoo address ("yahoo" in 3.1)
-        "msnm",       # MS Messenger address
-        "jabber",     # Jabber address
-        "rank",       # forum rank (index)
-        "posts",      # number of forum posts
+    $interested_columns = [
+        "id",         // forum user id
+        "username",   // forum username
+        "lastvisit",  // timestamp the user last visited
+        "from",       // "location" in phpBB 3.1
+        "occ",        // "occupation" in phpBB 3.1
+        "interests",  // interests
+        "viewemail",  // if their email address is viewable
+        "email",      // email
+        "avatar",     // filename of their avatar, if defined
+        "icq",        // ICQ address
+        "website",    // website URL
+        "aim",        // AIM address ("aol" in phpBB 3.1)
+        "yim",        // Yahoo address ("yahoo" in 3.1)
+        "msnm",       // MS Messenger address
+        "jabber",     // Jabber address
+        "rank",       // forum rank (index)
+        "posts",      // number of forum posts
         // phpBB 3.1 and later return these keys as well
-        "location",   # location (same as from)
-        "occupation", # occupation (same as occ)
-        "yahoo",      # Yahoo address (same as yim)
-        "aol",        # AIM address (same as aim)
-        "facebook",   # Facebook username
-        "googleplus", # Google+ username
-        "skype",      # Skype username
-        "twitter",    # Twitter username
-        "youtube",    # YouTube username
-        "avatar_type",   # what type of avatar is this? (upload, gravatar, remote)
-        "avatar_width",  # width of avatar
-        "avatar_height", # height of avatar
-    );
+        "location",   // location (same as from)
+        "occupation", // occupation (same as occ)
+        "yahoo",      // Yahoo address (same as yim)
+        "aol",        // AIM address (same as aim)
+        "facebook",   // Facebook username
+        "googleplus", // Google+ username
+        "skype",      // Skype username
+        "twitter",    // Twitter username
+        "youtube",    // YouTube username
+        "avatar_type",   // what type of avatar is this? (upload, gravatar, remote)
+        "avatar_width",  // width of avatar
+        "avatar_height", // height of avatar
+    ];
 
-    $return_data = array();
+    $return_data = [];
     $query = sprintf("
         SELECT *
         FROM %s
@@ -323,24 +326,24 @@ function get_forum_user_details($username)
     $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
-    if (!$row)
-        return NULL;
+    if (!$row) {
+        return null;
+    }
 
-    foreach($interested_columns as $column)
-    {
-        $return_data[$column] = array_get($row, "user_$column", array_get($row, $column, NULL));
+    foreach ($interested_columns as $column) {
+        $return_data[$column] = array_get($row, "user_$column", array_get($row, $column, null));
     }
 
     // phpBB 3.1 and later put data in phpbb_profile_fields_data with
     // slightly different column names. We will return data for both the
     // old and new column names.
-    $column_mapping = array(
+    $column_mapping = [
         // new => old
         "occupation" => "occ",
         "yahoo" => "yim",
         "aol" => "aim",
         "location" => "from",
-    );
+    ];
     $query = sprintf("
         SELECT *
         FROM %s
@@ -350,14 +353,13 @@ function get_forum_user_details($username)
     );
 
     // This will fail on phpBB < 3.1, which is fine and expected
-    $res = DPDatabase::query($query, FALSE);
-    if($res && $row = mysqli_fetch_assoc($res))
-    {
-        foreach($row as $column => $value)
-        {
+    $res = DPDatabase::query($query, false);
+    if ($res && $row = mysqli_fetch_assoc($res)) {
+        foreach ($row as $column => $value) {
             $column_suffix = str_replace("pf_phpbb_", "", $column);
-            if(isset($column_mapping[$column_suffix]))
+            if (isset($column_mapping[$column_suffix])) {
                 $return_data[$column_mapping[$column_suffix]] = $value;
+            }
             $return_data[$column_suffix] = $value;
         }
     }
@@ -369,11 +371,13 @@ function get_forum_user_id($username)
 // Given a forum username, return the forum user ID.
 {
     // Use a local in-memory cache so we don't pummel the database
-    // for pages that end up calling this for the same small set 
+    // for pages that end up calling this for the same small set
     // of users over and over. Cache is local to this function.
-    static $uidCache = array();
+    static $uidCache = [];
     // if it's in the cache, return it
-    if(isset($uidCache[$username])) return $uidCache[$username];
+    if (isset($uidCache[$username])) {
+        return $uidCache[$username];
+    }
     $query = sprintf("
         SELECT user_id
         FROM %s
@@ -386,8 +390,9 @@ function get_forum_user_id($username)
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
 
-    if (!$row)
-        return NULL;
+    if (!$row) {
+        return null;
+    }
 
     // update the cache
     $uidCache[$username] = $row["user_id"];
@@ -410,8 +415,9 @@ function get_forum_rank_title($rank)
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
 
-    if (!$row)
-        return NULL;
+    if (!$row) {
+        return null;
+    }
 
     return $row["rank_title"];
 }
@@ -432,7 +438,7 @@ function get_url_to_compose_message_to_user($username)
 
     $userid = get_forum_user_id($username);
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?i=pm&mode=compose&u=$userid";
     }
 }
@@ -469,12 +475,12 @@ function get_url_for_user_avatar($username)
 
     $user_details = get_forum_user_details($username);
 
-    if(empty($user_details["avatar"]))
-        return NULL;
+    if (empty($user_details["avatar"])) {
+        return null;
+    }
 
-    if(PHPBB_VERSION == 3) {
-        switch($user_details["avatar_type"])
-        {
+    if (PHPBB_VERSION == 3) {
+        switch ($user_details["avatar_type"]) {
             case "avatar.driver.upload":
                 $url = "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
                 break;
@@ -487,7 +493,7 @@ function get_url_for_user_avatar($username)
                         "?s=" . $user_details["avatar_height"];
                 break;
             default:
-                $url = NULL;
+                $url = null;
         }
         return $url;
     }
@@ -498,7 +504,7 @@ function get_url_to_edit_profile()
 {
     global $forums_url;
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php";
     }
 }
@@ -508,7 +514,7 @@ function get_url_to_view_profile($user_id)
 {
     global $forums_url;
 
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         return "$forums_url/memberlist.php?mode=viewprofile&u=$user_id";
     }
 }
@@ -517,8 +523,8 @@ function get_url_for_inbox()
 // Return the URL for accessing the current user's inbox.
 {
     global $forums_url;
-    
-    if(PHPBB_VERSION == 3) {
+
+    if (PHPBB_VERSION == 3) {
         return "$forums_url/ucp.php?i=pm&folder=inbox";
     }
 }
@@ -528,11 +534,12 @@ function get_number_of_unread_messages($username)
 {
     $forum_userid = get_forum_user_id($username);
 
-    if($forum_userid == NULL)
-        return NULL;
+    if ($forum_userid == null) {
+        return null;
+    }
 
-    if(PHPBB_VERSION == 3) {
-        # from: includes/functions_privmsgs.php:get_folder($user_id)
+    if (PHPBB_VERSION == 3) {
+        // from: includes/functions_privmsgs.php:get_folder($user_id)
         $query = sprintf("
             SELECT SUM(pm_unread)
             FROM %s
@@ -544,7 +551,7 @@ function get_number_of_unread_messages($username)
 
     $res = DPDatabase::query($query);
 
-    list($num_messages) = mysqli_fetch_row($res);
+    [$num_messages] = mysqli_fetch_row($res);
     mysqli_free_result($res);
 
     return $num_messages;
@@ -578,8 +585,9 @@ function get_last_post_time_in_topic($topic_id)
 // If no topic is found, function returns NULL.
 {
     // Validate that $topic_id is an integer and if not, return NULL
-    if(!is_numeric($topic_id))
-        return NULL;
+    if (!is_numeric($topic_id)) {
+        return null;
+    }
     $query = sprintf("
         SELECT MAX(post_time) as max_post_time
         FROM %s
@@ -592,8 +600,9 @@ function get_last_post_time_in_topic($topic_id)
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
 
-    if (!$row)
-        return NULL;
+    if (!$row) {
+        return null;
+    }
 
     return $row["max_post_time"];
 }
@@ -616,16 +625,13 @@ function get_topic_details($topic_id)
     // The database column used to get the total number of posts in a topic
     // changed between 3.0 and 3.1. We try to determine this automatically
     // by checking for a directory that only exists in 3.1 and later.
-    if(PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb"))
-    {
+    if (PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb")) {
         // 3.1 and later
         // topic_posts_approved includes the initial post in addition
         // to the replies so we need to subtract 1 to get the number of
         // replies
         $phpbb_topic_replies = "$phpbb_topics.topic_posts_approved - 1";
-    }
-    else
-    {
+    } else {
         // 2.x and 3.0
         $phpbb_topic_replies = "$phpbb_topics.topic_replies";
     }
@@ -672,11 +678,10 @@ function topic_create(
 // A proxy for phpbb[2|3]_create_topic() in external phpbb[2|3].inc
 {
     $args = func_get_args();
-    $topic_id = call_phpbb_function( 'create_topic', $args );
+    $topic_id = call_phpbb_function('create_topic', $args);
 
-    if ( !preg_match('/^\d+$/', $topic_id) )
-    {
-        $topic_id = NULL;
+    if (!preg_match('/^\d+$/', $topic_id)) {
+        $topic_id = null;
     }
 
     return $topic_id;
@@ -685,7 +690,7 @@ function topic_create(
 // -----------------------------------------------------------------------------
 
 function topic_add_post(
-    $topic_id, 
+    $topic_id,
     $post_subject,
     $post_text,
     $poster_name,
@@ -694,53 +699,51 @@ function topic_add_post(
 // A proxy for phpbb[2|3]_add_post() in external phpbb[2|3].inc
 {
     $args = func_get_args();
-    call_phpbb_function( 'add_post', $args );
+    call_phpbb_function('add_post', $args);
 }
 
 // -----------------------------------------------------------------------------
 
-function call_phpbb_function( $func_name, $args )
+function call_phpbb_function($func_name, $args)
 // It's risky to combine DP and phpBB code in the same PHP context,
 // so we run the phpBB code in a separate process.
 {
     // If $DEBUG is TRUE, output some additional debugging information useful
     // for figuring out where the calls into phpbb*.inc went wrong.
-    $DEBUG = FALSE;
+    $DEBUG = false;
 
-    if($DEBUG)
-        echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
+    if ($DEBUG) {
+        echo "call_phpbb_function( $func_name, ", print_r($args, true), ")<br>\n";
+    }
 
     global $forums_dir;
-    if (!is_dir($forums_dir))
-    {
+    if (!is_dir($forums_dir)) {
         echo "Warning: unable to call '$func_name' because \$forums_dir ($forums_dir) does not exist.\n";
         return;
     }
 
-    $escaped_args_str = implode(' ',array_map('my_escapeshellarg',$args));
+    $escaped_args_str = implode(' ', array_map('my_escapeshellarg', $args));
 
     // (cd into the pinc directory, so the script doesn't
     // have to guess where it's being invoked from.)
     global $code_dir, $php_cli_executable;
-    if(PHPBB_VERSION == 3) {
+    if (PHPBB_VERSION == 3) {
         $phpbb_include_file = "phpbb3.inc";
     }
     $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
-    if($DEBUG)
+    if ($DEBUG) {
         echo "command: $command<br>\n";
+    }
 
-    $output = array();
+    $output = [];
     $last_line = exec($command, $output, $exit_status);
 
-    if ( $exit_status != 0  || $DEBUG)
-    {
+    if ($exit_status != 0 || $DEBUG) {
         echo "<pre>\n";
         echo "$func_name command exited with status=$exit_status\n";
-        if ( count($output) > 0 )
-        {
+        if (count($output) > 0) {
             echo "Here's its output:\n";
-            foreach ( $output as $line )
-            {
+            foreach ($output as $line) {
                 echo "$line\n";
             }
         }
@@ -750,32 +753,32 @@ function call_phpbb_function( $func_name, $args )
     return $last_line;
 }
 
-function my_escapeshellarg( $arg )
+function my_escapeshellarg($arg)
 // Work-around for escapeshellarg's anomalous treatment of empty args.
 {
     $s = escapeshellarg($arg);
-    if ( empty($s) ) $s = "''";
+    if (empty($s)) {
+        $s = "''";
+    }
     return $s;
 }
 
 // -----------------------------------------------------------------------------
 
-function topic_change_forum( $topic_id, $to_forum_id )
+function topic_change_forum($topic_id, $to_forum_id)
 {
-    assert( $topic_id != '' );
+    assert($topic_id != '');
 
-    if(PHPBB_VERSION == 3) {
-        call_phpbb_function( 'move_topic', array($topic_id, $to_forum_id) );
+    if (PHPBB_VERSION == 3) {
+        call_phpbb_function('move_topic', [$topic_id, $to_forum_id]);
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function forum_resynch( $forum_id )
+function forum_resynch($forum_id)
 {
-    if(PHPBB_VERSION == 3) {
-        call_phpbb_function( 'sync_forum', array($forum_id) );
+    if (PHPBB_VERSION == 3) {
+        call_phpbb_function('sync_forum', [$forum_id]);
     }
 }
-
-?>

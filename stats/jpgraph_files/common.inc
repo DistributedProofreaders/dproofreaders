@@ -32,22 +32,20 @@ function get_number_of_days_in_current_month()
     $current = getdate();
     // The last day of this month is the "zeroth" day of next month.
     $last_day_timestamp =
-        mktime( 0, 0, 0, $current['mon'] + 1, 0, $current['year'] );
+        mktime(0, 0, 0, $current['mon'] + 1, 0, $current['year']);
     $last_day = getdate($last_day_timestamp);
     return $last_day['mday'];
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function array_subtract_first_from_each( $arr )
+function array_subtract_first_from_each($arr)
 // Return the array defined by:
 //     $result[$i] = $arr[$i] - $arr[0]
 {
-    $result = array();
-    foreach ( $arr as $key => $value )
-    {
-        if ( count($result) == 0 )
-        {
+    $result = [];
+    foreach ($arr as $key => $value) {
+        if (count($result) == 0) {
             $first_value = $value;
         }
         $result[$key] = $value - $first_value;
@@ -55,15 +53,13 @@ function array_subtract_first_from_each( $arr )
     return $result;
 }
 
-function array_successive_differences( $arr )
+function array_successive_differences($arr)
 // Return the array defined by:
 //     $result[$i] = $arr[$i+1] - $arr[$i]
 {
-    $result = array();
-    foreach ( $arr as $key => $value )
-    {
-        if ( isset($prev_key) )
-        {
+    $result = [];
+    foreach ($arr as $key => $value) {
+        if (isset($prev_key)) {
             $result[$prev_key] = $value - $prev_value;
         }
         $prev_key = $key;
@@ -72,14 +68,13 @@ function array_successive_differences( $arr )
     return $result;
 }
 
-function array_accumulate( $arr )
+function array_accumulate($arr)
 // Return the array defined by:
 //     $result[$i] = sum( $arr[$j] for $j up to and including $i )
 {
-    $result = array();
+    $result = [];
     $sum = 0;
-    foreach ( $arr as $key => $value )
-    {
+    foreach ($arr as $key => $value) {
         $sum += $value;
         $result[$key] = $sum;
     }
@@ -90,7 +85,7 @@ function array_accumulate( $arr )
 
 function init_pages_graph($cache_timeout)
 {
-    return new Graph(640,400,get_image_cache_filename(),$cache_timeout);
+    return new Graph(640, 400, get_image_cache_filename(), $cache_timeout);
 }
 
 function draw_pages_graph(
@@ -107,28 +102,26 @@ function draw_pages_graph(
 // Draw various kinds of 'pages completed vs. time' graphs.
 {
     // check to see that $graph is actually a Graph object
-    if(!is_a($graph,"Graph"))
-    {
-        assert( FALSE );
+    if (!is_a($graph, "Graph")) {
+        assert(false);
     }
 
-    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
-    {
+    if (array_get($_GET, 'echo_graph_data', false)) {
         echo "$title\n\n";
-        echo_graph_data( $x_dates, $y_actual_n_pages, $y_page_goal, $y_average );
+        echo_graph_data($x_dates, $y_actual_n_pages, $y_page_goal, $y_average);
         return;
     }
 
     global $jpgraph_FF, $jpgraph_FS;
 
     //var_dump($x_dates); echo "<br>"; var_dump($y_actual_n_pages);
-    $n_datapoints = max( count($y_actual_n_pages), count($y_page_goal) );
+    $n_datapoints = max(count($y_actual_n_pages), count($y_page_goal));
     // assert( count(x_dates$) == $n_datapoints );
     // assert( is_null($y_page_goal) || count($y_page_goal) == $n_datapoints );
 
-    assert( $cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments' );
+    assert($cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments');
 
-    $x_text_tick_interval = calculate_text_tick_interval( $x_frequency, $n_datapoints );
+    $x_text_tick_interval = calculate_text_tick_interval($x_frequency, $n_datapoints);
 
     $graph->SetScale("textint");
     $graph->graph_theme = null;
@@ -141,51 +134,45 @@ function draw_pages_graph(
 
     // Adjust the margin a bit to make more room for titles
     // left, right, top, bottom
-    $graph->img->SetMargin(70,30,20,100);
+    $graph->img->SetMargin(70, 30, 20, 100);
 
     // Set title
     $graph->title->Set($title);
-    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
 
     // Set X axis
     $graph->xaxis->SetTickLabels($x_dates);
     $graph->xaxis->SetLabelAngle(90);
     $graph->xaxis->title->Set("");
-    $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->xaxis->SetTextTickInterval($x_text_tick_interval);
 
     // Set Y axis
     $graph->yaxis->title->Set(_('Pages'));
-    $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->yaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->yaxis->SetTitleMargin(45);
     $graph->yaxis->scale->SetAutoMin(0);
 
     // Create the plot for actual pages
     // Note we can't draw line graphs with only one point
-    // so if they requested a cumulative chart but our data 
+    // so if they requested a cumulative chart but our data
     // has one point or fewer, make it a bar graph instead
-    if ( $cumulative_or_increments == 'increments' || count($y_actual_n_pages) <= 1 )
-    {
+    if ($cumulative_or_increments == 'increments' || count($y_actual_n_pages) <= 1) {
         $pages_plot = new BarPlot($y_actual_n_pages);
         $pages_plot->SetColor("blue");
-    }
-    else if ( $cumulative_or_increments == 'cumulative' )
-    {
+    } elseif ($cumulative_or_increments == 'cumulative') {
         $pages_plot = new LinePlot($y_actual_n_pages);
         $pages_plot->SetColor("blue");
         $pages_plot->SetWeight(1);
         $pages_plot->SetFillColor("blue");
 
-        $graph->img->SetAntiAliasing(); 
-    }
-    else
-    {
-        assert( FALSE );
+        $graph->img->SetAntiAliasing();
+    } else {
+        assert(false);
     }
     $graph->Add($pages_plot);
 
-    if (!is_null($y_page_goal) || !is_null($y_average))
-    {
+    if (!is_null($y_page_goal) || !is_null($y_average)) {
         // Add a legend for the 'actual' plot.
         $pages_plot->SetLegend(_("Actual"));
 
@@ -195,8 +182,7 @@ function draw_pages_graph(
         $graph->legend->SetShadow();
     }
 
-    if (!is_null($y_page_goal))
-    {
+    if (!is_null($y_page_goal)) {
         // Create the plot for the page goals.
         $goal_plot = new LinePlot($y_page_goal);
         $goal_plot->SetColor("lime");
@@ -205,8 +191,7 @@ function draw_pages_graph(
         $graph->Add($goal_plot);
     }
 
-    if (!is_null($y_average))
-    {
+    if (!is_null($y_average)) {
         // Create the plot for the average.
         $average_plot = new LinePlot($y_average);
         $average_plot->SetColor("red");
@@ -225,7 +210,7 @@ function draw_pages_graph(
 
 function init_projects_graph($cache_timeout)
 {
-    return new Graph(640,400,get_image_cache_filename(),$cache_timeout);
+    return new Graph(640, 400, get_image_cache_filename(), $cache_timeout);
 }
 
 function draw_projects_graph(
@@ -239,15 +224,13 @@ function draw_projects_graph(
 // Draw various kinds of 'number of projects vs. time' graphs.
 {
     // check to see that $graph is actually a Graph object
-    if(!is_a($graph,"Graph"))
-    {
-        assert( FALSE );
+    if (!is_a($graph, "Graph")) {
+        assert(false);
     }
 
-    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
-    {
+    if (array_get($_GET, 'echo_graph_data', false)) {
         echo "$title\n\n";
-        echo_graph_data( $x_dates, $y_num_projects );
+        echo_graph_data($x_dates, $y_num_projects);
         return;
     }
 
@@ -262,9 +245,9 @@ function draw_projects_graph(
     }
     */
 
-    assert( $cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments' );
+    assert($cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments');
 
-    $x_text_tick_interval = calculate_text_tick_interval( 'daily', $n_datapoints );
+    $x_text_tick_interval = calculate_text_tick_interval('daily', $n_datapoints);
 
     $graph->SetScale("textint");
     $graph->graph_theme = null;
@@ -277,33 +260,30 @@ function draw_projects_graph(
 
     // Adjust the margin a bit to make more room for titles
     // left, right, top, bottom
-    $graph->img->SetMargin(70,30,20,100);
+    $graph->img->SetMargin(70, 30, 20, 100);
 
     // Set title
     $graph->title->Set($title);
-    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
 
     // Set X axis
     $graph->xaxis->SetTickLabels($x_dates);
     $graph->xaxis->SetLabelAngle(90);
     $graph->xaxis->title->Set("");
-    $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->xaxis->SetTextTickInterval($x_text_tick_interval);
 
     // Set Y axis
     $graph->yaxis->title->Set(_('Projects'));
-    $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->yaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->yaxis->SetTitleMargin(45);
 
     // Create the plot
-    if ( $cumulative_or_increments == 'increments' )
-    {
+    if ($cumulative_or_increments == 'increments') {
         //Create the bar plot
         $plot = new BarPlot($y_num_projects);
         $plot->SetFillColor($color);
-    }
-    else if ( $cumulative_or_increments == 'cumulative' )
-    {
+    } elseif ($cumulative_or_increments == 'cumulative') {
         //Create the line plot
         $plot = new LinePlot($y_num_projects);
         $plot->SetColor($color);
@@ -320,20 +300,16 @@ function draw_projects_graph(
         // as if the last y-value were an explicit zero.
         // So instead...
 
-        for ( $i = count($y_num_projects)-1; $i >= 0; $i-- )
-        {
-            if ( $y_num_projects[$i] !== '' )
-            {
+        for ($i = count($y_num_projects) - 1; $i >= 0; $i--) {
+            if ($y_num_projects[$i] !== '') {
                 break;
             }
         }
-        $plot->AddArea(0,$i,LP_AREA_FILLED,$color);
+        $plot->AddArea(0, $i, LP_AREA_FILLED, $color);
 
-        $graph->img->SetAntiAliasing(); 
-    }
-    else
-    {
-        assert( FALSE );
+        $graph->img->SetAntiAliasing();
+    } else {
+        assert(false);
     }
     $graph->Add($plot);
 
@@ -347,7 +323,7 @@ function draw_projects_graph(
 
 function init_pie_graph($width, $height, $cache_timeout)
 {
-    return new PieGraph($width,$height,get_image_cache_filename(),$cache_timeout);
+    return new PieGraph($width, $height, get_image_cache_filename(), $cache_timeout);
 }
 
 function draw_pie_graph(
@@ -355,18 +331,15 @@ function draw_pie_graph(
     $datax,
     $datay,
     $title
-)
-{
+) {
     // check to see that $graph is actually a Graph object
-    if(!is_a($graph,"Graph"))
-    {
-        assert( FALSE );
+    if (!is_a($graph, "Graph")) {
+        assert(false);
     }
 
-    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
-    {
+    if (array_get($_GET, 'echo_graph_data', false)) {
         echo "$title\n\n";
-        echo_graph_data( $datax, $datay );
+        echo_graph_data($datax, $datay);
         return;
     }
 
@@ -380,26 +353,23 @@ function draw_pie_graph(
 
     // Adjust the margin a bit to make more room for titles
     // left, right, top, bottom
-    $graph->img->SetMargin(70,30,20,100);
+    $graph->img->SetMargin(70, 30, 20, 100);
 
     // Add the plot
-    $plot=new PiePlot($datay);
+    $plot = new PiePlot($datay);
     $plot->SetSize(0.34);
     // SetCenter() doesn't work because the theme overrides it:
     // https://stackoverflow.com/questions/27745187/jpgraph-setcenter-does-not-work
     // $plot->SetCenter(0.4);
     $plot->SetLegends($datax);
-    if (0)
-    {
+    if (0) {
         $plot->SetLabelType(PIE_VALUE_ABS);
         $plot->value->SetFormat('%d');
-    }
-    else
-    {
+    } else {
         $plot->SetLabelType(PIE_VALUE_PER);
         $plot->value->SetFormat('%.1f%%');
     }
-    $plot->value->SetFont($jpgraph_FF,$jpgraph_FS);
+    $plot->value->SetFont($jpgraph_FF, $jpgraph_FS);
     $plot->value->Show();
 
     $graph->Add($plot);
@@ -407,8 +377,8 @@ function draw_pie_graph(
     // Setup the title
     $graph->title->Set($title);
 
-    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
-    $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
+    $graph->legend->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->legend->SetPos(0.01, 0.05, 'right', 'top');
     $graph->legend->SetColumns(1);
     $graph->legend->SetShadow();
@@ -423,7 +393,7 @@ function draw_pie_graph(
 
 function init_simple_bar_graph($width, $height, $cache_timeout)
 {
-    return new Graph($width,$height,get_image_cache_filename(),$cache_timeout);
+    return new Graph($width, $height, get_image_cache_filename(), $cache_timeout);
 }
 
 function draw_simple_bar_graph(
@@ -433,18 +403,15 @@ function draw_simple_bar_graph(
     $x_label_interval,
     $title,
     $y_title
-)
-{
+) {
     // check to see that $graph is actually a Graph object
-    if(!is_a($graph,"Graph"))
-    {
-        assert( FALSE );
+    if (!is_a($graph, "Graph")) {
+        assert(false);
     }
 
-    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
-    {
+    if (array_get($_GET, 'echo_graph_data', false)) {
         echo "$title\n\n";
-        echo_graph_data( $datax, $datay );
+        echo_graph_data($datax, $datay);
         return;
     }
 
@@ -460,28 +427,27 @@ function draw_simple_bar_graph(
 
     // Adjust the margin a bit to make more room for titles
     // left, right, top, bottom
-    $graph->img->SetMargin(70,30,20,110);
+    $graph->img->SetMargin(70, 30, 20, 110);
 
     // Set title
     $graph->title->Set($title);
-    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
 
     // Set X axis
     $graph->xaxis->SetTickLabels($datax);
     $graph->xaxis->SetLabelAngle(90);
     $graph->xaxis->title->Set("");
-    $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->xaxis->SetTextTickInterval($x_label_interval);
 
     // Set Y axis
     $graph->yaxis->title->Set($y_title);
-    $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->yaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
     $graph->yaxis->SetTitleMargin(45);
 
     // Create a bar plot
     $plot = new BarPlot($datay);
-    if ( count($datax) > 60 )
-    {
+    if (count($datax) > 60) {
         // The bar outlines will overwhelm the bar interiors
         // turning the graph black. So turn off the bar outlines:
         $plot->SetColor("lightblue");
@@ -519,7 +485,7 @@ function calculate_text_tick_interval($x_frequency, $n_datapoints)
             // one label per year
             $x_text_tick_interval = 168 * 52;
         }
-    } else if ($x_frequency == 'daily') {
+    } elseif ($x_frequency == 'daily') {
         if ($n_datapoints <= 31) {
             // one label per day
             $x_text_tick_interval = 1;
@@ -536,7 +502,7 @@ function calculate_text_tick_interval($x_frequency, $n_datapoints)
             // one label per year
             $x_text_tick_interval = 7 * 52;
         }
-    } else if ($x_frequency == 'monthly') {
+    } elseif ($x_frequency == 'monthly') {
         if ($n_datapoints < 30) {
             // one label per month
             $x_text_tick_interval = 1;
@@ -560,20 +526,17 @@ function echo_graph_data()
 {
     $args = func_get_args();
     $args = array_filter($args);
-    assert( count($args) >= 2 );
+    assert(count($args) >= 2);
 
     $max_length = 0;
-    foreach ( $args as $column )
-    {
-        $max_length = max( $max_length, count($column) );
+    foreach ($args as $column) {
+        $max_length = max($max_length, count($column));
     }
 
-    for ( $i = 0; $i < $max_length; $i++ )
-    {
+    for ($i = 0; $i < $max_length; $i++) {
         echo "($i)\t";
-        foreach ( $args as $column )
-        {
-            echo ( isset($column[$i]) ? $column[$i] : 'unset' ), "\t";
+        foreach ($args as $column) {
+            echo($column[$i] ?? 'unset'), "\t";
         }
         echo "\n";
     }
@@ -615,30 +578,30 @@ function add_graph_timestamp(&$graph)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function dpgraph_error($error, $width=660, $height=400)
+function dpgraph_error($error, $width = 660, $height = 400)
 {
     global $jpgraph_FF, $jpgraph_FS;
 
     $graph = new CanvasGraph($width, $height, get_image_cache_filename());
-    $graph->SetMargin(12,22,12,22);
+    $graph->SetMargin(12, 22, 12, 22);
     $graph->SetShadow();
     $graph->SetMarginColor("red");
 
     // Stroke the plot-area and margin first to avoid overwriting the text.
     $graph->InitFrame();
 
-    $text = new Text($error,200,10);
-    $text->SetFont($jpgraph_FF,$jpgraph_FS);
+    $text = new Text($error, 200, 10);
+    $text->SetFont($jpgraph_FF, $jpgraph_FS);
 
     $fontheight = $text->GetFontHeight($graph->img);
 
-    $text->Center(0,$width,(($height / 2) - ($fontheight * 2)));
-    $text->ParagraphAlign( 'center');
+    $text->Center(0, $width, (($height / 2) - ($fontheight * 2)));
+    $text->ParagraphAlign('center');
 
     // fill, border, shadow
     $text->SetBox("white", "red", "gray");
 
-    $text->Stroke( $graph->img);
+    $text->Stroke($graph->img);
 
     $graph->Stroke();
 }
@@ -648,17 +611,15 @@ function dpgraph_error($error, $width=660, $height=400)
 function get_round_backlog_stats($interested_phases)
 {
     // Pull the stats data out of the database
-    $stats = array();
-    foreach($interested_phases as $phase)
-    {
-        $where_state = _get_project_state_selector($phase, array("available","waiting"));
+    $stats = [];
+    foreach ($interested_phases as $phase) {
+        $where_state = _get_project_state_selector($phase, ["available", "waiting"]);
         $sql = "SELECT SUM(n_pages) as num_pages
                 FROM projects
                 WHERE $where_state";
         $res = mysqli_query(DPDatabase::get_connection(), $sql);
-        while( $result = mysqli_fetch_assoc($res) )
-        {
-            $stats[$phase]=$result["num_pages"];
+        while ($result = mysqli_fetch_assoc($res)) {
+            $stats[$phase] = $result["num_pages"];
         }
         mysqli_free_result($res);
     }
@@ -667,62 +628,53 @@ function get_round_backlog_stats($interested_phases)
     // This prevents new sites from showing rounds
     // that haven't started yet.
     $reverse_phases = array_reverse($interested_phases);
-    foreach($reverse_phases as $phase)
-    {
-        if($stats[$phase] > 0)
+    foreach ($reverse_phases as $phase) {
+        if ($stats[$phase] > 0) {
             break;
+        }
         array_pop($stats);
     }
 
     return $stats;
 }
 
-function _get_project_state_selector( $which, $desired_states = NULL )
+function _get_project_state_selector($which, $desired_states = null)
 // This function returns an SQL selector that can be used in a WHERE clause.
 // $which is a word denoting a round ID or a phase (NEW, PP, GB)
 {
     global $project_state_phase_;
 
-    if(NULL == $desired_states)
-    {
-        $desired_states = array("unavailable","waiting","bad","available","complete");
-    }
-    elseif(!is_array($desired_states))
-    {
-        $desired_states = array($desired_states);
+    if (null == $desired_states) {
+        $desired_states = ["unavailable", "waiting", "bad", "available", "complete"];
+    } elseif (!is_array($desired_states)) {
+        $desired_states = [$desired_states];
     }
 
     $sql = "";
 
     // see if it's a round
     $round = get_Round_for_round_id($which);
-    if($round != NULL)
-    {
-        $states = array();
-        foreach($desired_states as $desired_state)
-        {
+    if ($round != null) {
+        $states = [];
+        foreach ($desired_states as $desired_state) {
             $state_variable_name = "project_{$desired_state}_state";
-            $states[]=$round->$state_variable_name;
+            $states[] = $round->$state_variable_name;
         }
         $sql = "state IN ('" . implode("','", $states) . "')";
         return $sql;
     }
 
     // it may be a pool or stage so look at the stage's phase
-    $states = array();
-    foreach($project_state_phase_ as $state => $phase)
-    {
-        if($phase == $which)
-        {
-            array_push($states,$state);
+    $states = [];
+    foreach ($project_state_phase_ as $state => $phase) {
+        if ($phase == $which) {
+            array_push($states, $state);
         }
     }
-    if(count($states))
-    {
-        $sql = "state IN ('" . implode("','",$states) . "')";
+    if (count($states)) {
+        $sql = "state IN ('" . implode("','", $states) . "')";
         return $sql;
     }
 
     die("bad value for 'which': '$which'");
 }
-

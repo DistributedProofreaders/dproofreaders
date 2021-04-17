@@ -12,8 +12,8 @@ function get_js_for_links_to_project_pages()
 
     $user = User::load_current();
 
-    $wSize = explode("x",$i_resolutions[$user->profile->i_res*1]);
-    $window_width  = $wSize[0] - 20;
+    $wSize = explode("x", $i_resolutions[$user->profile->i_res * 1]);
+    $window_width = $wSize[0] - 20;
     $window_height = $wSize[1] - 80;
 
     return "
@@ -29,9 +29,11 @@ function prep_for_links_to_project_pages()
 {
     // Ensure that the guts of this function are only done once,
     // because don't want to define newProofWin more than once.
-    static $this_func_has_been_called = FALSE;
-    if ($this_func_has_been_called) return;
-    $this_func_has_been_called = TRUE;
+    static $this_func_has_been_called = false;
+    if ($this_func_has_been_called) {
+        return;
+    }
+    $this_func_has_been_called = true;
 
     echo "<script>" . get_js_for_links_to_project_pages() . "</script>";
 }
@@ -41,14 +43,10 @@ function get_onclick_attr_for_link_to_project_page($url)
 // that links to a project page.
 {
     $user = User::load_current();
-    if ( $user->profile->i_newwin == 1 )
-    {
+    if ($user->profile->i_newwin == 1) {
         $attr = "onclick=\"newProofWin('$url'); return false;\"";
-    }
-    else
-    {
+    } else {
         $attr = '';
     }
     return $attr;
 }
-

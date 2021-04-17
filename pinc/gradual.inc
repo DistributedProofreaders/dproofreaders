@@ -19,27 +19,25 @@ function get_pages_proofed_maybe_simulated()
 {
     global $pguser;
 
-    $pagesproofed = user_get_ELR_page_tally( $pguser );
+    $pagesproofed = user_get_ELR_page_tally($pguser);
     $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $pagesproofed);
 
     return $pagesproofed;
 }
 
-function welcome_see_beginner_forum( $pagesproofed, $page_id )
+function welcome_see_beginner_forum($pagesproofed, $page_id)
 {
     global $code_url, $ELR_round, $beginners_site_forum_idx;
 
     // If the ELR_round requires access and the user doesn't currently
     // have it, show them what they need to do.
     $accessable_stages = get_stages_user_can_work_in(User::current_username());
-    if(!isset($accessable_stages[$ELR_round->id]))
-    {
+    if (!isset($accessable_stages[$ELR_round->id])) {
         $uao = $ELR_round->user_access(User::current_username());
 
         // If the user has been denied access, just return and don't show anything
-        if($uao->request_status == 'sat-denied' ||
-            $uao->request_status == 'unsat-denied')
-        {
+        if ($uao->request_status == 'sat-denied' ||
+            $uao->request_status == 'unsat-denied') {
             return;
         }
 
@@ -51,9 +49,8 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must:'));
         echo "<ul>";
-        foreach ($uao->minima_table as $row)
-        {
-            list($criterion_str, $minimum, $user_score, $satisfied) = $row;
+        foreach ($uao->minima_table as $row) {
+            [$criterion_str, $minimum, $user_score, $satisfied] = $row;
             echo "<li>$criterion_str</li>";
         }
         echo "</ul>\n";
@@ -62,9 +59,7 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
         echo "<p>";
         echo sprintf(_('After that you will be able to work in <a href="%1$s">%2$s</a>, the first proofreading round.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
         echo "</div>";
-    }
-    elseif ($pagesproofed <= 100)
-    {
+    } elseif ($pagesproofed <= 100) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -72,16 +67,14 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
 
         // If the user is not on the entry level round page, direct
         // them to that page.
-        if($page_id != $ELR_round->id)
-        {
+        if ($page_id != $ELR_round->id) {
             echo "<p>";
             echo sprintf(_('To start proofreading, see the list of projects on the <a href="%1$s">%2$s</a> round page.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
             echo "</p>";
         }
         // If they are on the entry level round page, let them know that here
         // is a good place to start.
-        else
-        {
+        else {
             echo "<p>";
             // We explicitly don't include a jump to the list of projects in
             // the text to make them scroll down pass the simple proofreading
@@ -92,7 +85,6 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
             echo "<p>";
             echo _("It's best to select a \"BEGINNERS ONLY\" project if one is available in a language in which you are proficient. These projects have been specially prepared to teach you our style of proofing. You can expect to receive feedback from a mentor on pages you proofread in BEGINNERS ONLY projects. This feedback will likely come at least a few days after you have completed the pages.");
             echo "</p>";
-
         }
         echo "<p>";
         echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum($beginners_site_forum_idx));
@@ -105,36 +97,33 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
     }
 }
 
-function thoughts_re_mentor_feedback( $pagesproofed )
+function thoughts_re_mentor_feedback($pagesproofed)
 {
     global $forums_url;
 
-    if ($pagesproofed >= 15 && $pagesproofed < 200)
-    {
+    if ($pagesproofed >= 15 && $pagesproofed < 200) {
         echo "<p>";
         echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), "$forums_url/viewtopic.php?t=6651");
         echo "</p>";
     }
 }
 
-function alert_re_unread_messages( $pagesproofed )
+function alert_re_unread_messages($pagesproofed)
 {
     global $pguser;
 
-    if ($pagesproofed < 300)
-    {
+    if ($pagesproofed < 300) {
         $numofPMs = get_number_of_unread_messages($pguser);
-        if ($numofPMs > 0)
-        {
+        if ($numofPMs > 0) {
             echo "<div class='callout'>";
             echo "<div class='calloutheader'>";
             echo _("You have received a private message in your Inbox.");
             echo "</div>";
-    
+
             echo "<p>";
             echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you <b>read</b> your messages. In the links at the top of this page, there is one that says Inbox. Just click on that to open your Inbox.");
             echo "</p>";
-    
+
             echo "<p><small>";
             echo _("After a period of time, this message will no longer appear.");
             echo "</small></p>";
@@ -149,8 +138,7 @@ function maybe_output_new_proofer_message()
 
     // Help direct new proofers to projects to proof.
     $pagesproofed = get_pages_proofed_maybe_simulated();
-    if($pagesproofed < 100)
-    {
+    if ($pagesproofed < 100) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Looking for projects to proofread?");
@@ -171,37 +159,32 @@ function maybe_output_new_proofer_project_message($project)
     global $code_url, $ELR_round;
 
     // If the user isn't logged in, bail
-    if(User::current_username() === NULL)
-    {
+    if (User::current_username() === null) {
         return;
     }
 
     // If this project isn't in the ELR round, bail
     $round = get_Round_for_project_state($project->state);
-    if($round != $ELR_round)
-    {
+    if ($round != $ELR_round) {
         return;
     }
 
     // If this project isn't available for proofreading, bail
-    if($project->state != $round->project_available_state)
-    {
+    if ($project->state != $round->project_available_state) {
         return;
     }
 
     // If the user has been denied access, bail
     $uao = $ELR_round->user_access(User::current_username());
-    if($uao->request_status == 'sat-denied' ||
-        $uao->request_status == 'unsat-denied')
-    {
+    if ($uao->request_status == 'sat-denied' ||
+        $uao->request_status == 'unsat-denied') {
         return;
     }
 
     $accessable_stages = get_stages_user_can_work_in(User::current_username());
     $pagesproofed = get_pages_proofed_maybe_simulated();
 
-    if(!isset($accessable_stages[$ELR_round->id]))
-    {
+    if (!isset($accessable_stages[$ELR_round->id])) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -210,17 +193,14 @@ function maybe_output_new_proofer_project_message($project)
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must:'));
         echo "<ul>";
-        foreach ($uao->minima_table as $row)
-        {
-            list($criterion_str, $minimum, $user_score, $satisfied) = $row;
+        foreach ($uao->minima_table as $row) {
+            [$criterion_str, $minimum, $user_score, $satisfied] = $row;
             echo "<li>$criterion_str</li>";
         }
         echo "</ul>\n";
         echo "</p>";
         echo "</div>";
-    }
-    elseif($pagesproofed < 100)
-    {
+    } elseif ($pagesproofed < 100) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -244,4 +224,3 @@ function maybe_output_new_proofer_project_message($project)
         echo "</div>";
     }
 }
-

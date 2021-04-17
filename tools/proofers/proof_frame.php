@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
@@ -30,13 +30,11 @@ if (isset($_GET['page_state'])) {
 
     $ppage = get_requested_PPage($_GET);
 
-    $ppage->lpage->resume_saved_page( $pguser );
-}
-else
-{
+    $ppage->lpage->resume_saved_page($pguser);
+} else {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
-    $projectid  = get_projectID_param($_REQUEST, 'projectid');
+    $projectid = get_projectID_param($_REQUEST, 'projectid');
     $proj_state = $_REQUEST['proj_state'];
 
     // Consider the page (if any) that this user most recently "opened" in
@@ -69,11 +67,9 @@ else
     // problem.  Our best guess at this point is that it's an interaction
     // between Firefox and a caching proxy.
 
-    if ( dpsession_page_is_set() )
-    {
-        $npage=getDebounceInfo();
-        if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$projectid)
-        {
+    if (dpsession_page_is_set()) {
+        $npage = getDebounceInfo();
+        if (!($npage['pageTime'] <= (time() - 3)) && $npage['project'] == $projectid) {
             // It probably doesn't matter what we say here.
             // 1) Indications are that users will never see this.
             // 2) The important thing is that we neither assign the user a
@@ -85,9 +81,8 @@ else
     }
 
     // give them a new page
-    $lpage = get_available_page( $projectid, $proj_state, $pguser, $err );
-    if (is_null($lpage))
-    {
+    $lpage = get_available_page($projectid, $proj_state, $pguser, $err);
+    if (is_null($lpage)) {
         $round = get_Round_for_project_state($proj_state);
 
         // If the user can manage the project, they'll most likely want to look at the
@@ -108,7 +103,7 @@ else
         exit;
     }
 
-    setDebounceInfo( $lpage->projectid );
+    setDebounceInfo($lpage->projectid);
 
     $url = "$code_url/tools/proofers/proof_frame.php?projectid=$lpage->projectid&imagefile=$lpage->imagefile&proj_state=$proj_state&page_state=$lpage->page_state";
     metarefresh(0, $url);
@@ -120,12 +115,11 @@ echo_proof_frame($ppage);
 
 function setDebounceInfo($project)
 {
-    dpsession_page_set( $project . '|' . time() );
+    dpsession_page_set($project . '|' . time());
 }
 
 function getDebounceInfo()
 {
-    list($project,$time) = explode( "|", dpsession_page_get() );
-    return array( 'project' => $project, 'pageTime' => $time );
+    [$project, $time] = explode("|", dpsession_page_get());
+    return ['project' => $project, 'pageTime' => $time];
 }
-

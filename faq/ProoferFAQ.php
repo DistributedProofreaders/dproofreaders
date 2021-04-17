@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -316,7 +316,7 @@ different pages.  This will significantly speed up the proofreading process.
           offer an option to list specific sites from which you accept pop-ups.  So
           rather than simply setting it to "Accept all pop-ups", you can set the more
           restrictive option of "Suppress all pop-ups" but include the DP website
-          (<?php echo preg_replace(array("|^[a-z]+://|","|/.*$|"),"",$code_url); ?>) in the Exceptions list. </td></tr>
+          (<?php echo preg_replace(["|^[a-z]+://|", "|/.*$|"], "", $code_url); ?>) in the Exceptions list. </td></tr>
   <tr><td colspan=2> <i>Note:</i> the exact wording of these options will depend on your
           browser.</td></tr>
 </table>

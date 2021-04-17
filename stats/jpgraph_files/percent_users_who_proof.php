@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
@@ -9,9 +9,9 @@ include_once('common.inc');
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(640, 400, 900);
 
-list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+[$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
-list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
+[$joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column] =
     $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
 ///////////////////////////////////////////////////
@@ -37,13 +37,12 @@ $result = mysqli_query(DPDatabase::get_connection(), "
 // This may lead to a misleading graph,
 // depending on its style.
 
-while ( $row = mysqli_fetch_object($result) )
-{
-        $datax[]  = $row->month;
-        $data1y[] = 100 *  $row->num_who_proofed / $row->num_who_joined;
+while ($row = mysqli_fetch_object($result)) {
+    $datax[] = $row->month;
+    $data1y[] = 100 * $row->num_who_proofed / $row->num_who_joined;
 }
 
-$x_text_tick_interval = calculate_text_tick_interval( 'monthly', count($datax) );
+$x_text_tick_interval = calculate_text_tick_interval('monthly', count($datax));
 
 draw_simple_bar_graph(
     $graph,
@@ -51,7 +50,6 @@ draw_simple_bar_graph(
     $data1y,
     $x_text_tick_interval,
     _('Percentage of New Users Who Went on to Proofread By Month'),
-    # xgettext:no-php-format
+    // xgettext:no-php-format
     _('% of newly Joined Users who Proofread')
 );
-

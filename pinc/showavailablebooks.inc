@@ -11,11 +11,11 @@ include_once($relPath.'post_processing.inc');
 
 // -----------------------------------------------------------------------------
 
-function show_projects_for_round( $round, $show_filter_block=TRUE, $allow_special_colors_legend=TRUE )
+function show_projects_for_round($round, $show_filter_block = true, $allow_special_colors_legend = true)
 {
     $initial_project_selector = "state = '{$round->project_available_state}'";
 
-    $filter_custom_display_fields = NULL;
+    $filter_custom_display_fields = null;
 
     $columns = [
         "nameofwork" => ['Title', _("Title")],
@@ -34,7 +34,7 @@ function show_projects_for_round( $round, $show_filter_block=TRUE, $allow_specia
         $show_filter_block,
         $filter_custom_display_fields,
         $allow_special_colors_legend,
-        $columns );
+        $columns);
 }
 
 // -----------------------------------------------------------------------------
@@ -49,7 +49,7 @@ function show_projects_for_smooth_reading()
         smoothread_deadline > UNIX_TIMESTAMP()
     ";
 
-    $filter_custom_display_fields = array("checkedoutby" => TRUE);
+    $filter_custom_display_fields = ["checkedoutby" => true];
 
     $columns = [
         "nameofwork" => ['Title', _("Title")],
@@ -64,22 +64,20 @@ function show_projects_for_smooth_reading()
     ];
 
     // But only show PM, PP, and Uploaded if they are logged in.
-    if ( !isset($pguser) )
-    {
+    if (!isset($pguser)) {
         unset($columns['username']);
         unset($columns['checkedoutby']);
         unset($columns['uploaded']);
 
-        $filter_custom_display_fields['username']     = FALSE;
-        $filter_custom_display_fields['checkedoutby'] = FALSE;
-        $filter_custom_display_fields['uploaded']     = FALSE;
+        $filter_custom_display_fields['username'] = false;
+        $filter_custom_display_fields['checkedoutby'] = false;
+        $filter_custom_display_fields['uploaded'] = false;
     }
 
     // Show the committed project listing if the user is logged in.
     // This listing should not have the legend display and show
     // neither the filter form or be filtered in any way.
-    if ( isset($pguser) )
-    {
+    if (isset($pguser)) {
         $title = _('Projects you have volunteered to Smooth Read');
         echo "\n<h2>$title</h2>";
 
@@ -108,8 +106,7 @@ function show_projects_for_smooth_reading()
 
     // Do it again for non-committed (projects available for SR) listing.
     // This listing should have both the filter and legend display.
-    if ( isset($pguser) )
-    {
+    if (isset($pguser)) {
         $initial_project_selector .= " AND
             projectid NOT IN (
                 SELECT projectid FROM smoothread WHERE smoothread.user = '$pguser'
@@ -146,7 +143,7 @@ function show_projects_for_smooth_reading()
         $initial_project_selector,
         $show_filter_block,
         $filter_custom_display_fields,
-        TRUE, // $allow_special_colors_legend
+        true, // $allow_special_colors_legend
         $columns
     );
 }
@@ -160,12 +157,12 @@ function show_projects_for_stage(
     $filter_custom_display_fields,
     $allow_special_colors_legend,
     $columns,
-    $optional_join_clause="")
+    $optional_join_clause = "")
 // Generate a chunk of HTML consisting of:
 // (1) an optional filter widget,
 // (2) an optional "Special Days" color legend, and
 // (3) a listing of projects.
-// 
+//
 // Arguments:
 // $stage:
 //     An instance of the Stage class (or a subclass thereof).
@@ -188,15 +185,13 @@ function show_projects_for_stage(
     global $pguser;
 
     // SR is a special snowflake that prints its own header
-    if ($stage != get_Stage_for_id('SR'))
-    {
+    if ($stage != get_Stage_for_id('SR')) {
         $title = _('Projects Currently Available');
         echo "\n<h2>$title</h2>";
     }
     echo "\n<p>{$stage->description}</p>";
 
-    if ($show_filter_block)
-    {
+    if ($show_filter_block) {
         process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
     }
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
@@ -220,24 +215,21 @@ function show_projects_for_stage(
     );
 
     // special colors legend
-    if ($allow_special_colors_legend )
-    {
+    if ($allow_special_colors_legend) {
         // Show the special colors legend if
         // the requestor is a guest (not logged in),
         // or is logged in and hasn't opted to suppress it
         // via the preference "Show Special Colors: No".
-        $userSettings =& Settings::get_Settings($pguser);
-        if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
-        {
+        $userSettings = & Settings::get_Settings($pguser);
+        if (!isset($pguser) or !$userSettings->get_boolean('hide_special_colors')) {
             echo_special_legend($initial_project_selector);
         }
     }
-
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_projects_for_pool( $pool, $checkedout_or_available )
+function show_projects_for_pool($pool, $checkedout_or_available)
 {
     global $pguser, $pp_alert_threshold_days;
 
@@ -252,20 +244,18 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $pool->foo_field_name => ['Person', $pool->foo_Header],
     ];
 
-    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $ch_or_av = substr($checkedout_or_available, 0, 2);
     $ext_sort_param_name = "order_{$checkedout_or_available}";
     $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
     $default_ext_sort = 'DaysD';
 
-    if ( $checkedout_or_available == 'checkedout' )
-    {
+    if ($checkedout_or_available == 'checkedout') {
         $header = _('Books I Have Checked Out');
 
         echo "<h2 id='$anchor'>$header</h2>";
 
         $num_alert_projects = count_pp_projects_past_threshold($pguser);
-        if($num_alert_projects)
-        {
+        if ($num_alert_projects) {
             echo "<p class='warning'>";
             echo sprintf(
                 ngettext(
@@ -300,11 +290,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $default_ext_sort = 'VisitedD';
 
-        $columns["days_avail"] = array( 'Days', _("Days Checked Out") );
-        $columns["days_since_visit"] = array( 'Visited', _("Days Since Visit") );
-    }
-    elseif ( $checkedout_or_available == 'available' )
-    {
+        $columns["days_avail"] = ['Days', _("Days Checked Out")];
+        $columns["days_since_visit"] = ['Visited', _("Days Since Visit")];
+    } elseif ($checkedout_or_available == 'available') {
         $header = _('Books Available for Checkout');
 
         echo "<h2 id='$anchor'>$header</h2>";
@@ -317,11 +305,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $optional_select_clause = "";
 
-        $columns["days_avail"] = array( 'Days', _("Days Available") );
-    }
-    else
-    {
-        assert(FALSE);
+        $columns["days_avail"] = ['Days', _("Days Available")];
+    } else {
+        assert(false);
     }
 
     $filtered_project_selector = "$initial_project_selector $projects_filter";
@@ -369,50 +355,46 @@ function show_project_listing(
     $stage,
         // stage object (Round, Pool, or Stage)
 
-    $optional_join_clause="",
+    $optional_join_clause = "",
         // If needed. Default to "", but useful/necessary for SR & PP
 
-    $optional_select_clause=""
+    $optional_select_clause = ""
         // If needed. Default to "", but useful/necessary for PP
-)
-{
+) {
     global $code_url, $pguser, $testing;
 
     // Some columns (notably those with numbers in them)
     // have special formatting styles -- specify them here.
-    $column_styles = array(
+    $column_styles = [
         "n_available_pages" => "text-align: right;",
-        "n_pages"   => "text-align: right;",
-        "days_avail"=> "text-align: right;",
+        "n_pages" => "text-align: right;",
+        "days_avail" => "text-align: right;",
         "days_left" => "text-align: right;",
         "days_since_visit" => "text-align: right;",
-    );
+    ];
 
     // Load the sort column and direction
-    list($curr_sql_sort_col, $curr_sql_sort_dir) =
+    [$curr_sql_sort_col, $curr_sql_sort_dir] =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
 
     // Determine whether to use special colors or not. Do this after we process
     // sorting controls since we can't order by specialday.
     // Visitors always see special colors.
-    $userSettings =& Settings::get_Settings($pguser);
-    if(!isset($pguser) || !$userSettings->get_boolean('hide_special_colors'))
-    {
+    $userSettings = & Settings::get_Settings($pguser);
+    if (!isset($pguser) || !$userSettings->get_boolean('hide_special_colors')) {
         $columns = array_merge(["specialday" => ['SpecialDay', '']], $columns);
     }
 
     // sort on translated column if genre
     $trans_sort_col = $curr_sql_sort_col;
-    if($trans_sort_col == 'genre')
-    {
+    if ($trans_sort_col == 'genre') {
         $trans_sort_col = 'trans_genre';
     }
     $curr_sql_orderclause = "$trans_sort_col $curr_sql_sort_dir";
 
     // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
     // criteria.
-    if($curr_sql_sort_col != "nameofwork")
-    {
+    if ($curr_sql_sort_col != "nameofwork") {
         $curr_sql_orderclause .= ", nameofwork ASC";
     }
 
@@ -420,10 +402,8 @@ function show_project_listing(
     // for $ext_sort_param_name). We should preserve those, and just append the
     // setting for $ext_sort_param_name.
     $other_settings = '';
-    foreach ( $_GET as $name => $value )
-    {
-        if ( $name != $ext_sort_param_name )
-        {
+    foreach ($_GET as $name => $value) {
+        if ($name != $ext_sort_param_name) {
             $other_settings .= urlencode($name) . "=" . urlencode($value) . "&amp;";
         }
     }
@@ -431,10 +411,11 @@ function show_project_listing(
     // $presort allows us to place certain projects at the top of all project
     // listings such as BEGIN projects, but only for Rounds.
     $presort = "";
-    if( is_a( $stage, 'Round' ) )
-    {
+    if (is_a($stage, 'Round')) {
         $presort = round_project_listing_presort($stage);
-        if (!empty($presort)) $presort .= ',';
+        if (!empty($presort)) {
+            $presort .= ',';
+        }
     }
 
     // Build and execute the query against the projects table.
@@ -452,14 +433,12 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
-    if ($testing)
-    {
+    if ($testing) {
         echo_html_comment($query);
     }
     $result = DPDatabase::query($query);
 
-    if( is_a( $stage, 'Round' ) )
-    {
+    if (is_a($stage, 'Round')) {
         prep_for_links_to_project_pages();
     }
 
@@ -468,35 +447,29 @@ function show_project_listing(
     echo "<tr class='center-align'>";
 
     // Print out the header row with links.
-    foreach($columns as $col_id => $col_info)
-    {
-        list($ext_sort_col, $label) = $col_info;
+    foreach ($columns as $col_id => $col_info) {
+        [$ext_sort_col, $label] = $col_info;
 
-        $style_attribute="";
-        if(@$column_styles[$col_id])
-            $style_attribute="style='{$column_styles[$col_id]}'";
+        $style_attribute = "";
+        if (@$column_styles[$col_id]) {
+            $style_attribute = "style='{$column_styles[$col_id]}'";
+        }
 
         echo "\n<th $style_attribute>";
 
         // Change spaces in label to <br>s to force them to wrap. This
         // improves table layout in all browsers.
-        $label = preg_replace("/ /","<br>",$label);
+        $label = preg_replace("/ /", "<br>", $label);
 
-        if(is_null($ext_sort_col))
-        {
+        if (is_null($ext_sort_col)) {
             // We can't sort on this column, so it's a plain header.
             echo $label;
-        }
-        else
-        {
-            if($col_id == $curr_sql_sort_col)
-            {
+        } else {
+            if ($col_id == $curr_sql_sort_col) {
                 // The header-link reverses the current sort direction.
                 $ext_sort_dir = ($curr_sql_sort_dir == "asc" ? "D" : "A");
                 $caret = $ext_sort_dir == 'D' ? "&nbsp;&#9650;" : "&nbsp;&#9660;";
-            }
-            else
-            {
+            } else {
                 // The header-link does an ascending sort.
                 $ext_sort_dir = 'A';
                 $caret = '';
@@ -517,104 +490,80 @@ function show_project_listing(
 
     $rownum = 0;
 
-    while ($book=mysqli_fetch_assoc($result))
-    {
+    while ($book = mysqli_fetch_assoc($result)) {
         echo "<tr>";
 
-        foreach($columns as $col_id => $col_info)
-        {
-            if($col_id == "specialday")
-            {
+        foreach ($columns as $col_id => $col_info) {
+            if ($col_id == "specialday") {
                 $cell = "";
                 $column_styles[$col_id] = '';
 
                 $special_day = get_special_day($book['special_code']);
-                if (!is_null($special_day))
-                {
-                    list($column_styles[$col_id], $cell) =
+                if (!is_null($special_day)) {
+                    [$column_styles[$col_id], $cell] =
                         get_special_day_cell_parts($special_day);
                 }
-            }
-            elseif($col_id == "nameofwork")
-            {
+            } elseif ($col_id == "nameofwork") {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
                 $onclick_attr = (
-                    is_a( $stage, 'Round' )
+                    is_a($stage, 'Round')
                     ? get_onclick_attr_for_link_to_project_page($eURL)
                     : ""
                 );
                 $cell = "<a href=\"$eURL\" $onclick_attr>{$book['nameofwork']}</a>";
-            }
-            elseif($col_id == "genre")
-            {
+            } elseif ($col_id == "genre") {
                 $genre = $book['trans_genre'];
-                if ($book['difficulty'] == "beginner")
-                {
-                    if( is_a( $stage, 'Round' ) )
-                    {
-                        if ( $stage->is_a_mentee_round() )
+                if ($book['difficulty'] == "beginner") {
+                    if (is_a($stage, 'Round')) {
+                        if ($stage->is_a_mentee_round()) {
                             $genre = _("BEGINNERS ONLY")." ".$genre;
-                        else if ( $stage->is_a_mentor_round() )
+                        } elseif ($stage->is_a_mentor_round()) {
                             $genre = _("MENTORS ONLY")." ".$genre;
-                    }
-                    elseif ( $stage->id == 'SR' )
-                    {
+                        }
+                    } elseif ($stage->id == 'SR') {
                         $genre = _("BEGINNERS")." ".$genre;
                     }
-                }
-                elseif ($book['difficulty'] == "easy")
-                {
+                } elseif ($book['difficulty'] == "easy") {
                     $genre = _("EASY")." ".$genre;
-                }
-                elseif ($book['difficulty'] == "hard")
-                {
+                } elseif ($book['difficulty'] == "hard") {
                     $genre = _("HARD")." ".$genre;
                 }
                 $cell = $genre;
-            }
-            elseif($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer" || $col_id == "correctedby")
-            // Create email or PM links for usernames.
-            {
+            } elseif ($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer" || $col_id == "correctedby") {
+                // Create email or PM links for usernames.
                 $user_name = $book[$col_id];
-                if ($show_email)
-                {
+                if ($show_email) {
                     $email = get_forum_email_address($user_name);
                     $contact_url = "mailto:$email";
                 }
 
-                if (!$show_email || $email == "")
-                {
+                if (!$show_email || $email == "") {
                     $contact_url = get_url_to_compose_message_to_user($user_name);
                 }
 
                 $contact_url = attr_safe($contact_url);
                 $cell = "<a href='$contact_url'>$user_name</a>";
-            }
-            elseif($col_id == "uploaded")
-            // Uploaded is a special case because it is pulled from the
-            // filesystem and not from the database, and is hence not sortable.
-            {
+            } elseif ($col_id == "uploaded") {
+                // Uploaded is a special case because it is pulled from the
+                // filesystem and not from the database, and is hence not sortable.
                 global $projects_dir;
-                if ($done_files = glob("$projects_dir/{$book['projectid']}/*smooth_done_*.zip") ) {
-                   $num_done = count($done_files);
+                if ($done_files = glob("$projects_dir/{$book['projectid']}/*smooth_done_*.zip")) {
+                    $num_done = count($done_files);
                 } else {
-                   $num_done = 0;
+                    $num_done = 0;
                 }
                 $cell = $num_done;
-            }
-            elseif( $col_id == "days_avail" || $col_id == "days_left" || $col_id == "days_since_visit" )
-            {
-                $cell = sprintf( "%.1f", $book[$col_id] );
-            }
-            else
-            {
+            } elseif ($col_id == "days_avail" || $col_id == "days_left" || $col_id == "days_since_visit") {
+                $cell = sprintf("%.1f", $book[$col_id]);
+            } else {
                 $cell = $book[$col_id];
             }
 
             // Determine any special style formatting.
-            $style_attribute="";
-            if(@$column_styles[$col_id])
-                $style_attribute="style='{$column_styles[$col_id]}'";
+            $style_attribute = "";
+            if (@$column_styles[$col_id]) {
+                $style_attribute = "style='{$column_styles[$col_id]}'";
+            }
 
             // Finally, output the table cell.
             echo "\n<td $style_attribute>$cell</td>";
@@ -637,7 +586,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 // intent for a sort criteria. It does this by:
 //   1. Checking $_GET for explicit sort order changes
 //   2. If that fails pulling the previous sort order from the database
-//   3. If that fails using a default sort order (first column) 
+//   3. If that fails using a default sort order (first column)
 // After we have a sort criteria, validate it and fall back to
 // the default sort column in ascending order if necessary.
 // After validation the sort criteria is written to the database.
@@ -657,10 +606,10 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 {
     global $pguser;
 
-    $local_trace = FALSE; // set to TRUE when debugging
+    $local_trace = false; // set to TRUE when debugging
 
     // Load user settings
-    $userSettings =& Settings::get_Settings($pguser);
+    $userSettings = & Settings::get_Settings($pguser);
     // Note that if requestor is a guest, $pguser is NULL, and
     // $userSettings->get_value() will return
     // the supplied default (if any) or NULL (if not).
@@ -669,57 +618,52 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     // We get an ext_sort from one of three places,
     // which we consult in the following order,
     // stopping as soon as we get a valid value.
-    $ext_sort_providers = array(
+    $ext_sort_providers = [
 
         // A parameter in the invoking URL's query-string:
-        array(
-            sprintf( _("URL parameter '%s'"), $ext_sort_param_name ),
-            @$_GET[$ext_sort_param_name] ),
+        [
+            sprintf(_("URL parameter '%s'"), $ext_sort_param_name),
+            @$_GET[$ext_sort_param_name], ],
 
         // A setting in the usersettings table in the DB (accessed via Setting class):
-        array(
-            sprintf( _("DB setting '%s'"), $ext_sort_setting_name ),
-            $userSettings->get_value($ext_sort_setting_name) ),
+        [
+            sprintf(_("DB setting '%s'"), $ext_sort_setting_name),
+            $userSettings->get_value($ext_sort_setting_name), ],
 
         // A fallback default:
-        array(
+        [
             _("site default"),
-            $default_ext_sort ),
+            $default_ext_sort, ],
 
         // And if none of those works, give up.
-        'ABORT'
-    );
+        'ABORT',
+    ];
 
-    foreach ( $ext_sort_providers as $ext_sort_provider )
-    {
-        if ($ext_sort_provider == 'ABORT')
-        {
+    foreach ($ext_sort_providers as $ext_sort_provider) {
+        if ($ext_sort_provider == 'ABORT') {
             echo "\n<p>";
             echo _("system error: the fallback default failed!");
             echo "</p>";
             exit;
         }
 
-        list($provider_noun, $curr_ext_sort) = $ext_sort_provider;
-        if ($local_trace)
-        {
+        [$provider_noun, $curr_ext_sort] = $ext_sort_provider;
+        if ($local_trace) {
             echo "\n<p>";
             echo html_safe(
                 sprintf(
                     _("%1\$s supplies value '%2\$s'"),
-                    $provider_noun, $curr_ext_sort )
+                    $provider_noun, $curr_ext_sort)
             );
             echo "</p>";
         }
 
-        if ( is_null($curr_ext_sort) )
-        {
+        if (is_null($curr_ext_sort)) {
             // This (potential) provider isn't supplying a value this time.
             continue;
         }
 
-        if ( is_array($curr_ext_sort) )
-        {
+        if (is_array($curr_ext_sort)) {
             // Invalid data type for provider, skip it
             continue;
         }
@@ -731,45 +675,37 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         // Check column & convert to sql...
 
         // Find the entry in $columns whose $ext_sort_col matches $curr_ext_sort_col.
-        foreach ( $columns as $col_id => $col_info )
-        {
-            list($ext_sort_col, $label) = $col_info;
-            if ($ext_sort_col == $curr_ext_sort_col)
-            {
+        foreach ($columns as $col_id => $col_info) {
+            [$ext_sort_col, $label] = $col_info;
+            if ($ext_sort_col == $curr_ext_sort_col) {
                 $curr_sql_sort_col = $col_id;
                 break;
             }
         }
 
-        if ( !isset($curr_sql_sort_col) )
-        {
+        if (!isset($curr_sql_sort_col)) {
             echo "\n<p class='error'>\n";
             echo html_safe(
                 sprintf(
                     _("%1\$s value '%2\$s' has bad column part: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col )
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col)
             );
             echo "\n</p>";
             continue;
         }
 
         // Check direction & convert to sql...
-        if ( $curr_ext_sort_dir == 'A' )
-        {
+        if ($curr_ext_sort_dir == 'A') {
             $curr_sql_sort_dir = 'asc';
-        }
-        elseif ( $curr_ext_sort_dir == 'D' )
-        {
+        } elseif ($curr_ext_sort_dir == 'D') {
             $curr_sql_sort_dir = 'desc';
-        }
-        else
-        {
+        } else {
             echo "\n<p class='warning'>\n";
             echo html_safe(
                 sprintf(
                     // TRANSLATORS: "sort direction" refers to the sort order direction (ascending vs descending)
                     _("%1\$s value '%2\$s' has bad sort direction: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir )
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir)
             );
 
             // We could skip to the next provider via 'continue',
@@ -783,7 +719,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             echo html_safe(
                 sprintf(
                     _("Using '%s' instead."),
-                    $curr_ext_sort_dir )
+                    $curr_ext_sort_dir)
             );
             echo "\n</p>";
         }
@@ -800,15 +736,13 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         $saved_ext_sort = $userSettings->get_value($ext_sort_setting_name, $default_ext_sort);
 
         // If sort order has changed, save it to database.
-        if ($curr_ext_sort != $saved_ext_sort)
-        {
-            if ($local_trace)
-            {
+        if ($curr_ext_sort != $saved_ext_sort) {
+            if ($local_trace) {
                 echo "\n<p>";
                 echo html_safe(
                     sprintf(
                         _("DB setting '%1\$s' receives value '%2\$s'"),
-                        $ext_sort_setting_name, $curr_ext_sort )
+                        $ext_sort_setting_name, $curr_ext_sort)
                 );
                 echo "</p>";
             }
@@ -819,12 +753,11 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     // Make some sanity-check assertions on the values we're about to return.
 
     // $curr_sql_sort_col is the col_id of one of the columns in $columns:
-    assert( isset($columns[$curr_sql_sort_col]) );
+    assert(isset($columns[$curr_sql_sort_col]));
     // And that column is sortable:
-    assert( !is_null($columns[$curr_sql_sort_col][0]) );
+    assert(!is_null($columns[$curr_sql_sort_col][0]));
 
-    assert( $curr_sql_sort_dir == "asc" || $curr_sql_sort_dir == "desc" );
+    assert($curr_sql_sort_dir == "asc" || $curr_sql_sort_dir == "desc");
 
-    return array($curr_sql_sort_col, $curr_sql_sort_dir);
+    return [$curr_sql_sort_col, $curr_sql_sort_dir];
 }
-

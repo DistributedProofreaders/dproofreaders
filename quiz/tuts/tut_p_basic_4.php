@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -23,4 +23,3 @@ echo "<h3>" . _("Formatting") . "</h3>\n";
 echo "<p>" . _("You may sometimes find formatting already present in the text. <b>Do not add or change this formatting information</b>; the formatters will do that later in the process. Some examples of formatting tasks include &lt;i&gt;italics&lt;/i&gt; for <i>italicized</i> text.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_4'>" . _("Continue to quiz page") . "</a></p>\n";
-

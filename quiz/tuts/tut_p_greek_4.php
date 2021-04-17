@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -14,4 +14,3 @@ echo "<p>" . _("The apostrophes at the ends of some words are, in fact, apostrop
 echo "<p>" . _("There are usually two punctuation marks that differ from English: a question mark, and a medium stop. Modern printings of Greek often use a semicolon \";\" to indicate a question. Use a question mark \"<kbd>?</kbd>\" instead. A vertically centered single dot usually represents a medium stop; replace that with an English semicolon \"<kbd>;</kbd>\".") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_4'>" . _("Continue to quiz page") . "</a></p>\n";
-

@@ -1,14 +1,14 @@
 <?php
 include_once($relPath.'site_vars.php');
 
-$server_name = ( isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "" );
-define( 'COOKIE_DOMAIN', substr_count($server_name, ".") > 0 ?  $server_name : "" );
+$server_name = ($_SERVER['SERVER_NAME'] ?? "");
+define('COOKIE_DOMAIN', substr_count($server_name, ".") > 0 ? $server_name : "");
 
 // -----------------------------------------------------------------------------
 
 // 'user' cookie
 
-function dpsession_begin_( $userID )
+function dpsession_begin_($userID)
 {
     global $pguser;
 
@@ -21,12 +21,11 @@ function dpsession_resume_()
 {
     global $pguser;
 
-    if ( !user_cookie_was_received_from_client() )
-    {
-        return FALSE;
+    if (!user_cookie_was_received_from_client()) {
+        return false;
     }
 
-    $parts = explode("|",user_cookie_getvalue());
+    $parts = explode("|", user_cookie_getvalue());
 
     $pguser = $parts[0];
 
@@ -35,7 +34,7 @@ function dpsession_resume_()
     // Refresh the user's cookies
     user_cookie_send();
 
-    return TRUE;
+    return true;
 }
 
 function dpsession_end()
@@ -76,18 +75,17 @@ function user_cookie_send()
     global $pguser;
 
     $cookie_value = $pguser . '|' . local_encrypt($pguser);
-    local_send_cookie( 'pguser', $cookie_value );
+    local_send_cookie('pguser', $cookie_value);
 }
 
 
 function user_cookie_was_received_from_client()
 {
-    if ( ! isset($_COOKIE['pguser']) )
-    {
-        return FALSE;
+    if (! isset($_COOKIE['pguser'])) {
+        return false;
     }
-    $parts = explode( "|", user_cookie_getvalue() );
-    return ( local_encrypt($parts[0]) == $parts[1] );
+    $parts = explode("|", user_cookie_getvalue());
+    return (local_encrypt($parts[0]) == $parts[1]);
 }
 
 function user_cookie_getvalue()
@@ -102,25 +100,22 @@ function user_cookie_disable()
 
 // -------------
 
-function local_send_cookie( $cookie_name, $cookie_value )
+function local_send_cookie($cookie_name, $cookie_value)
 {
-    if ( $cookie_value == "" )
-    {
+    if ($cookie_value == "") {
         // Tell the receiver to expire the cookie.
         $t_offset = -86400;
-    }
-    else
-    {
+    } else {
         $t_offset = +86400;
     }
-    dp_setcookie( $cookie_name, $cookie_value, time() + $t_offset, [
-      "domain" => COOKIE_DOMAIN,
+    dp_setcookie($cookie_name, $cookie_value, time() + $t_offset, [
+        "domain" => COOKIE_DOMAIN,
     ]);
 }
 
-function local_encrypt( $str )
+function local_encrypt($str)
 {
     global $cookie_encryption_key;
 
-    return md5( $str . $cookie_encryption_key );
+    return md5($str . $cookie_encryption_key);
 }

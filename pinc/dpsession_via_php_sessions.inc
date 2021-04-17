@@ -1,14 +1,14 @@
 <?php
 include_once($relPath.'site_vars.php');
 
-ini_set( 'session.name',            "{$site_abbreviation}_Session" );
-ini_set( 'session.use_cookies',     1 );
-ini_set( 'session.cookie_domain',   '' ); // A sensible value will be used.
-ini_set( 'session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
+ini_set('session.name', "{$site_abbreviation}_Session");
+ini_set('session.use_cookies', 1);
+ini_set('session.cookie_domain', ''); // A sensible value will be used.
+ini_set('session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
 
 // -----------------------------------------------------------------------------
 
-function dpsession_begin_( $userID )
+function dpsession_begin_($userID)
 {
     global $pguser;
 
@@ -24,8 +24,7 @@ function dpsession_resume_()
 
     session_set_handlers_and_start();
 
-    if ( isset($_SESSION['pguser']) && !empty($_SESSION['pguser']) )
-    {
+    if (isset($_SESSION['pguser']) && !empty($_SESSION['pguser'])) {
         // Refresh the cookie
         // (session_start() used to do this for us,
         // but they changed that in PHP 4.3.9)
@@ -36,15 +35,14 @@ function dpsession_resume_()
         );
 
         // set global variable $pguser
-        if (isset($_SESSION['pguser'])) 
+        if (isset($_SESSION['pguser'])) {
             $pguser = $_SESSION['pguser'];
-        return TRUE;
-    }
-    else
-    {
+        }
+        return true;
+    } else {
         session_unset();
         session_destroy();
-        return FALSE;
+        return false;
     }
 }
 
@@ -65,7 +63,7 @@ function dpsession_page_set($info)
 
 function dpsession_page_end()
 {
-    $_SESSION['debouncer'] = NULL;
+    $_SESSION['debouncer'] = null;
 }
 
 function dpsession_page_is_set()
@@ -84,12 +82,9 @@ function dpsession_page_get()
 
 function session_set_handlers_and_start()
 {
-    if ( session_id() )
-    {
+    if (session_id()) {
         // session_start() has already been called
-    }
-    else
-    {
+    } else {
         session_set_save_handler(
             "mysql_session_open",
             "mysql_session_close",
@@ -123,12 +118,9 @@ function mysql_session_select($sid)
     );
     $result = do_session_query($sql);
     $row = mysqli_fetch_assoc($result);
-    if($row)
-    {
+    if ($row) {
         return $row["value"];
-    }
-    else
-    {
+    } else {
         return "";
     }
 }
@@ -140,13 +132,12 @@ function mysql_session_write($sid, $value)
         "SELECT COUNT(*) FROM sessions WHERE sid = '%s'",
         DPDatabase::escape($sid)
     ));
-    list($SessionExists) = mysqli_fetch_row($result);
+    [$SessionExists] = mysqli_fetch_row($result);
     // The table has a uniqueness constraint on 'sid',
     // so $SessionExists must be 0 or 1.
 
 
-    if ( $SessionExists == 0 )
-    {
+    if ($SessionExists == 0) {
         $query = sprintf("
             INSERT INTO sessions
                 (sid, expiration, value)
@@ -155,9 +146,7 @@ function mysql_session_write($sid, $value)
             DPDatabase::escape($sid),
             $expiration,
             DPDatabase::escape($value));
-    }
-    else
-    {
+    } else {
         $query = sprintf("
             UPDATE sessions
             SET
@@ -187,22 +176,22 @@ function mysql_session_garbage_collect($lifetime)
 {
     $result = do_session_query(sprintf(
         "DELETE FROM sessions WHERE expiration < %d",
-        time()-$lifetime)
+        time() - $lifetime)
     );
     return $result;
 }
 
-function do_session_query( $query )
+function do_session_query($query)
 {
     // write_to_session_log( $query );
     $result = DPDatabase::query($query);
     return $result;
 }
 
-function write_to_session_log( $msg )
+function write_to_session_log($msg)
 {
     $time = strftime('%Y-%m-%d %H:%M:%S');
-    $f = fopen('/tmp/session_query_log','a');
-    fwrite( $f, "------\n$time\n$msg\n" );
+    $f = fopen('/tmp/session_query_log', 'a');
+    fwrite($f, "------\n$time\n$msg\n");
     fclose($f);
 }

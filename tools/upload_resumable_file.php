@@ -1,5 +1,5 @@
 <?php
- $relPath="../pinc/";
+ $relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // array_get()
 
@@ -27,39 +27,31 @@ $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
 // handle testChunks request, this allows uploads to be restarted by
 // allowing the browser to query for which parts have been uploaded
 // successfully
-if($_SERVER['REQUEST_METHOD'] === 'GET')
-{
-    if(file_exists($chunk_filename))
-    {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (file_exists($chunk_filename)) {
         header("HTTP/1.0 200 Ok");
-        // continue to try to reassemble
-    }
-    else
-    {
+    // continue to try to reassemble
+    } else {
         header("HTTP/1.0 404 Not Found");
         exit;
     }
 }
 
 // handle a file upload request
-foreach($_FILES as $file)
-{
-    if($file["error"] != UPLOAD_ERR_OK)
-    {
+foreach ($_FILES as $file) {
+    if ($file["error"] != UPLOAD_ERR_OK) {
         report_error(get_upload_err_msg($file['error']));
         exit;
     }
 
-    if(!is_dir($staging_dir))
-    {
+    if (!is_dir($staging_dir)) {
         // Suppress warning by mkdir because despite the check above
         // race conditions from other processes can result in the
         // directory existing when we try to create it here.
         @mkdir($staging_dir, 0777, true);
     }
 
-    if(!move_uploaded_file($file['tmp_name'], $chunk_filename))
-    {
+    if (!move_uploaded_file($file['tmp_name'], $chunk_filename)) {
         report_error("Error saving chunk $chunk_filename for $filename");
         exit;
     }
@@ -78,26 +70,20 @@ foreach($_FILES as $file)
 // the chunks will be gone.
 
 // mode 'c' opens for writing but does not truncate
-if(($fp = fopen("$root_staging_dir/$hashed_filename", "c")) !== FALSE)
-{
-    if(flock($fp, LOCK_EX)) // acquire an exclusive lock
-    {
+if (($fp = fopen("$root_staging_dir/$hashed_filename", "c")) !== false) {
+    if (flock($fp, LOCK_EX)) { // acquire an exclusive lock
         $size_on_server = 0;
         $got_chunks = true;
-        for($i=$total_chunks; $i>=1; $i--)
-        {
+        for ($i = $total_chunks; $i >= 1; $i--) {
             $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-            if(!is_file($chunk_name))
-            {
+            if (!is_file($chunk_name)) {
                 $got_chunks = false;
                 break;
             }
             $size_on_server = $size_on_server + filesize($chunk_name);
         }
-        if($got_chunks && ($size_on_server >= $total_size))
-        {
-            for($i=1; $i<=$total_chunks; $i++)
-            {
+        if ($got_chunks && ($size_on_server >= $total_size)) {
+            for ($i = 1; $i <= $total_chunks; $i++) {
                 $chunk_name = "$staging_dir/$hashed_filename.part.$i";
                 fwrite($fp, file_get_contents($chunk_name));
                 unlink($chunk_name);
@@ -105,15 +91,11 @@ if(($fp = fopen("$root_staging_dir/$hashed_filename", "c")) !== FALSE)
             rmdir($staging_dir);
         }
         flock($fp, LOCK_UN); // release the lock
-    }
-    else
-    {
+    } else {
         report_error("Unable to lock");
     }
     fclose($fp);
-}
-else
-{
+} else {
     report_error("Unable to create $root_staging_dir/$hashed_filename");
 }
 

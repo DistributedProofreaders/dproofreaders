@@ -3,7 +3,7 @@ include_once($relPath.'metarefresh.inc');
 
 class Selector
 {
-    function echo_select_item()
+    public function echo_select_item()
     {
         echo "
             <tr>
@@ -25,7 +25,7 @@ class ColumnSelector extends Selector
         $this->search_origin = $search_origin;
     }
 
-    function get_html_control()
+    public function get_html_control()
     {
         $check = $this->column->is_active() ? " checked" : "";
         return "<input type='checkbox' name='{$this->column->id}'$check>";
@@ -45,26 +45,24 @@ class OptionSelector extends Selector
         $this->search_origin = $search_origin;
     }
 
-    function get_html_control()
+    public function get_html_control()
     {
         echo "<select name='$this->id'>\n";
         $selected_item = $this->get_value();
-        foreach ( $this->options as $option_value => $option_label )
-        {
+        foreach ($this->options as $option_value => $option_label) {
             $selected_attr = ($option_value == $selected_item) ? 'selected' : '';
             echo "<option value='", attr_safe($option_value), "' $selected_attr>", html_safe($option_label), "</option>\n";
         }
         echo "</select>\n";
     }
 
-    function get_value()
+    public function get_value()
     {
         $value = $this->userSettings->get_value("search:{$this->search_origin}.option:$this->id", $this->def_value);
 
         // Validate the value in the DB is one of the options and if not pick
         // the first one
-        if(!isset($this->options[$value]))
-        {
+        if (!isset($this->options[$value])) {
             $options = array_keys($this->options);
             $value = array_shift($options);
         }
@@ -72,11 +70,10 @@ class OptionSelector extends Selector
         return $value;
     }
 
-    function save_value($value)
+    public function save_value($value)
     {
         // Save the value but only if it has changed and is a valid option
-        if($this->get_value() != $value && isset($this->options[$value]))
-        {
+        if ($this->get_value() != $value && isset($this->options[$value])) {
             $this->userSettings->set_value("search:{$this->search_origin}.option:$this->id", $value);
         }
     }
@@ -90,7 +87,7 @@ class OptionData
             'n_results_per_page',
             _('Results per page'),
             100,
-            array( 30 => 30, 100 => 100, 300 => 300 ),
+            [30 => 30, 100 => 100, 300 => 300],
             $userSettings,
             $search_origin
         );
@@ -99,12 +96,12 @@ class OptionData
             'time_form',
             _("Time format"),
             'days',
-            array('days' => _('Days ago'), 'date' => _('Date')),
+            ['days' => _('Days ago'), 'date' => _('Date')],
             $userSettings,
             $search_origin
         );
 
-        $this->options = array($this->results_per_page, $this->time_format);
+        $this->options = [$this->results_per_page, $this->time_format];
     }
 }
 
@@ -113,8 +110,9 @@ class ConfigForm extends ColumnData
     public function __construct($userSettings, $search_origin)
     {
         parent::__construct($userSettings, $search_origin);
-        foreach($this->columns as $column)
+        foreach ($this->columns as $column) {
             $this->column_selectors[] = new ColumnSelector($column, $userSettings, $search_origin);
+        }
 
         $this->option_data = new OptionData($userSettings, $search_origin);
     }
@@ -124,7 +122,7 @@ class ConfigForm extends ColumnData
         global $code_url, $pguser;
 
         echo "<h1>$page_title</h1>\n";
-        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php" );
+        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php");
         echo "<div style='clear: both;'>
             <form method='GET'>
             <input type='hidden' name='show' value='set_columns'>
@@ -139,13 +137,16 @@ class ConfigForm extends ColumnData
         ";
 
         echo $div_table_header;
-        while($index < 9)
+        while ($index < 9) {
             $this->column_selectors[$index++]->echo_select_item();
+        }
         echo "</table></div>$div_table_header";
-        while($index < $count)
+        while ($index < $count) {
             $this->column_selectors[$index++]->echo_select_item();
-        foreach($this->option_data->options as $option)
+        }
+        foreach ($this->option_data->options as $option) {
             $option->echo_select_item();
+        }
         echo "
             </table>
             </div>
@@ -172,28 +173,24 @@ class ConfigSaver extends ColumnData
         $option_data = new OptionData($this->userSettings, $this->search_origin);
 
         $none_selected = true; // check for this case
-        foreach ($this->columns as $column)
-        {
+        foreach ($this->columns as $column) {
             $value = isset($_GET[$column->id]); // can only be 'on'
-            if($value)
+            if ($value) {
                 $none_selected = false;
+            }
             $column->set_active($value);
         }
-        if($none_selected)
-        {
+        if ($none_selected) {
             // force title to be on
-            foreach($this->columns as $column)
-            {
-                if($column->id == "title")
-                {
+            foreach ($this->columns as $column) {
+                if ($column->id == "title") {
                     $column->set_active(true);
                     break;
                 }
             }
         }
         // get the option values
-        foreach($option_data->options as $option)
-        {
+        foreach ($option_data->options as $option) {
             $value = array_get($_GET, $option->id, '');
             $option->save_value($value);
         }
@@ -215,9 +212,8 @@ function handle_set_cols($show_view, $search_origin)
 {
     global $pguser, $code_url;
 
-    if ($show_view == 'set_columns')
-    {
-        $userSettings =& Settings::get_Settings($pguser);
+    if ($show_view == 'set_columns') {
+        $userSettings = & Settings::get_Settings($pguser);
         $config_saver = new ConfigSaver($userSettings, $search_origin);
         $config_saver->store_data();
         $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php");
@@ -229,12 +225,10 @@ function handle_config($show_view, $search_origin, $page_title)
 {
     global $pguser;
 
-    if($show_view == 'config')
-    {
-        $userSettings =& Settings::get_Settings($pguser);
+    if ($show_view == 'config') {
+        $userSettings = & Settings::get_Settings($pguser);
         $config_form = new ConfigForm($userSettings, $search_origin);
         $config_form->render($page_title);
         exit();
     }
 }
-

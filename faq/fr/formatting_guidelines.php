@@ -3,7 +3,7 @@
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 // Updated by user lvl, 2009-03-20
 
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -228,7 +228,7 @@ output_header('Directives de Formatage', NO_STATSBAR, $theme_args);
 <p>S'il manque des r&eacute;ponses dans ce document, ou que vous consid&eacute;rez que certaines
    choses devraient &ecirc;tre trait&eacute;es de mani&egrave;re diff&eacute;rente, ou ou que l'explication est
    trop vague, merci de nous le faire savoir.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Si vous rencontrez une expression inconnue dans ces directives, voyez le
    <a href="http://www.pgdp.net/wiki/French/Jargon">guide du Jargon sur le wiki</a>.
 <?php } ?>

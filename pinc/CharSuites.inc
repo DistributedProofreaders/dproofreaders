@@ -1,20 +1,23 @@
 <?php
 include_once($relPath."unicode.inc");
 
-class CharSuiteNotEnabledException extends Exception { }
+class CharSuiteNotEnabledException extends Exception
+{
+}
 
 class PickerSet
 {
     public $name;
 
-    public function add_subset($name, $codepoints, $title=NULL)
+    public function add_subset($name, $codepoints, $title = null)
     {
         $this->subsets[$name] = $codepoints;
 
-        if($title)
+        if ($title) {
             $this->titles[$name] = $title;
-        else
+        } else {
             $this->titles[$name] = $name;
+        }
     }
 
     public function get_subsets()
@@ -36,9 +39,9 @@ class CharSuite
     public $description;
     public $adhoc;
     public $reference_urls = [];
-    private $_pickerset = NULL;
+    private $_pickerset = null;
 
-    function __construct($name, $title, $codepoints=NULL, $adhoc=FALSE)
+    public function __construct($name, $title, $codepoints = null, $adhoc = false)
     {
         $this->name = $name;
         $this->title = $title;
@@ -48,8 +51,9 @@ class CharSuite
 
     public function __get($name)
     {
-        if($name == 'pickerset')
+        if ($name == 'pickerset') {
             return $this->_pickerset;
+        }
 
         // If we don't recognize the property, raise a notice and return null
         $trace = debug_backtrace();
@@ -63,13 +67,10 @@ class CharSuite
 
     public function __set($name, $value)
     {
-        if($name == 'pickerset')
-        {
+        if ($name == 'pickerset') {
             $this->_pickerset = $value;
             $this->_pickerset->name = $this->name;
-        }
-        else
-        {
+        } else {
             // If we don't recognize the property, raise a notice and return null
             $trace = debug_backtrace();
             trigger_error(
@@ -83,8 +84,9 @@ class CharSuite
 
     public function is_enabled()
     {
-        if($this->adhoc)
-            return TRUE;
+        if ($this->adhoc) {
+            return true;
+        }
 
         $enabled_sets = CharSuites::get_enabled();
         return in_array($this, $enabled_sets);
@@ -98,7 +100,7 @@ class CharSuite
 
 class CharSuites
 {
-    static private $_available_charsuites = [];
+    private static $_available_charsuites = [];
 
     public static function add($charsuite)
     {
@@ -107,8 +109,7 @@ class CharSuites
 
     public static function get($name)
     {
-        if(!isset(self::$_available_charsuites[$name]))
-        {
+        if (!isset(self::$_available_charsuites[$name])) {
             throw new UnexpectedValueException("$name is not a valid charsuite");
         }
         return self::$_available_charsuites[$name];
@@ -130,8 +131,7 @@ class CharSuites
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
         $charsuites = [];
-        while($row = mysqli_fetch_assoc($result))
-        {
+        while ($row = mysqli_fetch_assoc($result)) {
             $charsuites[] = CharSuites::get($row["name"]);
         }
         mysqli_free_result($result);
@@ -170,26 +170,22 @@ class CharSuites
     // and if the latter, return the former.
     public static function resolve($charsuite)
     {
-        if($charsuite instanceof CharSuite)
-        {
+        if ($charsuite instanceof CharSuite) {
             return $charsuite;
-        }
-        else
-        {
+        } else {
             return CharSuites::get($charsuite);
         }
     }
 }
 
-#----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 trait CharSuiteSet
 {
     public function get_pickersets()
     {
         $pickersets = [];
-        foreach($this->get_charsuites() as $charsuite)
-        {
+        foreach ($this->get_charsuites() as $charsuite) {
             $pickersets[] = $charsuite->pickerset;
         }
         return $pickersets;
@@ -197,16 +193,15 @@ trait CharSuiteSet
 
     public function get_valid_codepoints()
     {
-        # Codepoints applicable to all projects
+        // Codepoints applicable to all projects
         $global_codepoints = [
-            'U+000A', # new line
-            'U+000D', # carriage return
-            'U+0020', # space
+            'U+000A', // new line
+            'U+000D', // carriage return
+            'U+0020', // space
         ];
 
         $codepoints = $global_codepoints;
-        foreach($this->get_charsuites() as $charsuite)
-        {
+        foreach ($this->get_charsuites() as $charsuite) {
             $codepoints = array_merge($codepoints, $charsuite->codepoints);
         }
         return $codepoints;
@@ -215,21 +210,17 @@ trait CharSuiteSet
 
 function get_project_or_quiz($identifier)
 {
-    if($identifier == "quiz")
-    {
+    if ($identifier == "quiz") {
         return new QuizCharSuites();
-    }
-    else
-    {
+    } else {
         return new Project($identifier);
     }
 }
 
-#----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 // load all available charsuites
 $charsuite_files = glob($relPath."charsuite-*.inc");
-foreach($charsuite_files as $charsuite_file)
-{
+foreach ($charsuite_files as $charsuite_file) {
     include_once($charsuite_file);
 }

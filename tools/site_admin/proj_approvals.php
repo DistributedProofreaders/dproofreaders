@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
@@ -11,29 +11,23 @@ $title = _("Copyright Approval");
 output_header($title);
 echo "<h1>$title</h1>";
 
-if (!$site_supports_metadata)
-{
+if (!$site_supports_metadata) {
     die('$site_supports_metadata is false, so exiting.');
 }
 
-if (!user_is_a_sitemanager())
-{
+if (!user_is_a_sitemanager()) {
     die('You are not authorized to invoke this script.');
 }
 
 //----------------------------------------------------------------------------------
 
 $projectid = get_projectID_param($_GET, 'projectid', true);
-if (isset($projectid))
-{
+if (isset($projectid)) {
     //update project approval status
-    if ($_GET['metadata'] =='approved')
-    {
+    if ($_GET['metadata'] == 'approved') {
         $statuschange = 'project_new_app';
-    }
-    else
-    {
-        $statuschange = 'project_new_unapp';     
+    } else {
+        $statuschange = 'project_new_unapp';
     }
 
     $result = mysqli_query(DPDatabase::get_connection(), "
@@ -87,4 +81,3 @@ echo "<table class='themed'>\n";
 
 echo "</table>";
 echo "<br>";
-

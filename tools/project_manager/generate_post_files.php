@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
@@ -13,11 +13,11 @@ require_login();
 $valid_round_ids = array_keys($Round_for_round_id_);
 array_unshift($valid_round_ids, '[OCR]');
 
-$projectid            = get_projectID_param($_REQUEST, 'projectid');
-$round_id             = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
-$which_text           = get_enumerated_param($_REQUEST, 'which_text', null, array('EQ', 'LE'));
-$include_proofers     = get_integer_param($_REQUEST,'include_proofers',0,0,1);
-$save_files           = get_integer_param($_REQUEST,'save_files',0,0,1);
+$projectid = get_projectID_param($_REQUEST, 'projectid');
+$round_id = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
+$which_text = get_enumerated_param($_REQUEST, 'which_text', null, ['EQ', 'LE']);
+$include_proofers = get_integer_param($_REQUEST, 'include_proofers', 0, 0, 1);
+$save_files = get_integer_param($_REQUEST, 'save_files', 0, 0, 1);
 
 $errors = [];
 
@@ -34,7 +34,7 @@ if ($include_proofers && ! $project->names_can_be_seen_by_current_user) {
     $errors[] = _('You are not authorized to invoke this script.');
 }
 
-// if we are not saving files, then we are just downloading the zip. 
+// if we are not saving files, then we are just downloading the zip.
 // don't send anything out other than the headers and zip file contents.
 if ($save_files) {
     output_page_header($project);
@@ -48,11 +48,10 @@ if (!$errors) {
             flush();
             generate_post_files($project, $round_id, $which_text, $include_proofers, '');
             echo "<p>" . _("Done.") . "</p>";
-        }
-        else {
+        } else {
             generate_interim_file($project, $round_id, $which_text, $include_proofers);
         }
-    } catch(Exception $exception) {
+    } catch (Exception $exception) {
         $errors[] = $exception->getMessage();
     }
 }
@@ -60,7 +59,7 @@ if (!$errors) {
 if ($errors) {
     output_page_header($project);
 
-    foreach($errors as $error) {
+    foreach ($errors as $error) {
         echo "<p class='error'>" . html_safe($error) . "</p>";
     }
     exit();

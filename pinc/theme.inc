@@ -17,7 +17,7 @@ include_once($relPath.'faq.inc');
 
 // Emit the opening markup and theme tags, and register a callback
 // to close the page after the caller finishes output.
-function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
+function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 {
     $user = User::load_current();
 
@@ -63,7 +63,8 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
     register_shutdown_function('output_footer', $nameofpage, $show_statsbar);
 }
 
-function output_footer($nameofpage, $show_statsbar = True) {
+function output_footer($nameofpage, $show_statsbar = true)
+{
     global $code_url, $site_name, $PAGE_START_TIME;
 
     $user = User::load_current();
@@ -116,7 +117,8 @@ function output_footer($nameofpage, $show_statsbar = True) {
     output_html_footer();
 }
 
-function html_logobar() {
+function html_logobar()
+{
     global $code_url, $site_name;
     global $maintenance, $testing, $alert_message;
 
@@ -131,7 +133,7 @@ function html_logobar() {
 
     if (0) {
         // show number of projects posted to PG
-        $result = mysqli_query(DPDatabase::get_connection(),  "
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*) as numproj
             FROM projects
             WHERE $psd->state_selector
@@ -148,7 +150,7 @@ function html_logobar() {
         // show number of books posted to PG
         // (takes into account that some books are processed as several projects)
 
-        $result = mysqli_query(DPDatabase::get_connection(),  "
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(distinct postednum) as numproj
             FROM projects
             WHERE $psd->state_selector
@@ -160,7 +162,7 @@ function html_logobar() {
             number_format($row["numproj"]));
         echo "</span>\n";
         echo "<span id='month-preserved-summary'>";
-        show_completed_projects(TRUE);
+        show_completed_projects(true);
         echo "</span>";
     }
 
@@ -169,22 +171,20 @@ function html_logobar() {
 
     html_navbar();
 
-    if($testing || $maintenance || $alert_message)
-    {
+    if ($testing || $maintenance || $alert_message) {
         $id = 'alertbar';
         $messages = [];
-        if($testing)
-        {
+        if ($testing) {
             $messages[] = _("This is a test site!");
             $id = 'testbar';
         }
-        if($maintenance)
-        {
+        if ($maintenance) {
             $messages[] = "<span class='error'>" . _("Site is in maintenance mode.") . "</span>";
             $id = 'testbar';
         }
-        if($alert_message)
+        if ($alert_message) {
             $messages[] = $alert_message;
+        }
         echo "<div id='$id-outer'>";
         echo "<div id='$id'>";
         echo "<p><span>" . implode(" | ", $messages) . "</span></p>";
@@ -205,11 +205,12 @@ function html_navbar()
     //Code to display login form if not logged in
     $user = User::load_current();
     if (!$user) {
-        $links = array();
-        $links[] = array('text' => $site_abbreviation, 'url' => "default.php");
-        if ( !empty($blog_url) )
-            $links[] = array('text' => _("Blog"), 'url' => $blog_url);
-        $links[] = array('text' => _("Forums"), 'url' => $forums_url);
+        $links = [];
+        $links[] = ['text' => $site_abbreviation, 'url' => "default.php"];
+        if (!empty($blog_url)) {
+            $links[] = ['text' => _("Blog"), 'url' => $blog_url];
+        }
+        $links[] = ['text' => _("Forums"), 'url' => $forums_url];
         echo "<span id='navbar-left'>";
         echo headerbar_text_array($links);
         echo "</span>\n";
@@ -247,10 +248,10 @@ function html_navbar()
         $login_form .= "<input type='submit' value='" . _("Sign In") ."'>";
         $login_form .= "</div></form>";
 
-        $links=array();
-        $links[] = array('text' => $login_form);
-        $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
-        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
+        $links = [];
+        $links[] = ['text' => $login_form];
+        $links[] = ['text' => _('Register'), 'url' => "accounts/addproofer.php"];
+        $links[] = ['text' => _('Help'), 'url' => get_faq_url("faq_central.php")];
         echo headerbar_text_array($links);
         echo "</div>\n";
     } else {
@@ -261,25 +262,26 @@ function html_navbar()
 
         // left side
         echo "<span id='navbar-left'>";
-        echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
+        echo headerbar_text_array([['text' => $site_abbreviation, 'url' => "default.php"]]);
 
         echo " | ";
 
-        $links = array();
-        $links[] = array('text' => _("Activity Hub"), 'url' => "activity_hub.php");
+        $links = [];
+        $links[] = ['text' => _("Activity Hub"), 'url' => "activity_hub.php"];
 
         // use white-space: nowrap; to keep the rounds within []s together
         $activities_string = "<span style='white-space: nowrap;'>[ ";
-        if(get_pages_proofed_maybe_simulated() < 100)
+        if (get_pages_proofed_maybe_simulated() < 100) {
             $activities_string .= "<span class='text'>" . _("Activities") . ": </span>";
+        }
 
         $activities_string .= headerbar_text_array(get_activity_links());
         $activities_string .= " ]</span>";
-        $links[] = array('text' => $activities_string);
+        $links[] = ['text' => $activities_string];
 
-        $links[] = array('text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php");
+        $links[] = ['text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php"];
 
-        $links[] = array('text' => _("Project Search"), 'url' => "tools/search.php");
+        $links[] = ['text' => _("Project Search"), 'url' => "tools/search.php"];
 
         echo headerbar_text_array($links);
 
@@ -290,31 +292,30 @@ function html_navbar()
         // under the left side if the window isn't large enough to have both
         // on the same line.
         echo "<span id='navbar-right'>";
-        $links = array();
+        $links = [];
         $inbox_text = _("Inbox");
-        if($numofPMs > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs);
-        $links[] = array('text' => $inbox_text, 'url' => get_url_for_inbox());
+        if ($numofPMs > 0) {
+            $inbox_text .= " " . sprintf(_("(%s unread)"), $numofPMs);
+        }
+        $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
 
-        $links[] = array('text' => _("Forums"), 'url' => $forums_url);
-        if(lang_forum())
-        {
-            $links[] = array('text' => _("Your language forums"), 'url' => $forums_url."/".lang_forum());
+        $links[] = ['text' => _("Forums"), 'url' => $forums_url];
+        if (lang_forum()) {
+            $links[] = ['text' => _("Your language forums"), 'url' => $forums_url."/".lang_forum()];
         }
 
-        if ( !empty($blog_url) )
-        {
-            $links[] = array('text' => _("Blog"), 'url' => $blog_url);
+        if (!empty($blog_url)) {
+            $links[] = ['text' => _("Blog"), 'url' => $blog_url];
         }
 
-        if ( !empty($wiki_url) )
-        {
-            $links[] = array('text' => _("Wiki"), 'url' => $wiki_url);
+        if (!empty($wiki_url)) {
+            $links[] = ['text' => _("Wiki"), 'url' => $wiki_url];
         }
 
-        $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
-        $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
-        $links[] = array('text' => _('Help'), 'url' => get_faq_url("faq_central.php"));
-        $links[] = array('text' => sprintf(_("Log Out (%s)"), $user->username), 'url' => "accounts/logout.php");
+        $links[] = ['text' => _("Stats"), 'url' => "stats/stats_central.php"];
+        $links[] = ['text' => _("Prefs"), 'url' => "userprefs.php"];
+        $links[] = ['text' => _('Help'), 'url' => get_faq_url("faq_central.php")];
+        $links[] = ['text' => sprintf(_("Log Out (%s)"), $user->username), 'url' => "accounts/logout.php"];
 
         echo headerbar_text_array($links);
         echo "</span>";
@@ -337,20 +338,19 @@ function headerbar_text_array($entries)
 {
     global $code_url;
 
-    $output_entries = array();
+    $output_entries = [];
 
-    foreach($entries as $entry)
-    {
+    foreach ($entries as $entry) {
         $text = $entry['text'];
         $title = array_get($entry, 'title', '');
-        $target = array_get($entry, 'target', NULL);
+        $target = array_get($entry, 'target', null);
 
-        if(!empty($entry['url']))
-        {
+        if (!empty($entry['url'])) {
             // ensure we have a full url, if not prefix the $code_url
-            $url= $entry['url'];
-            if(!startswith($url,"http"))
-                $url= "$code_url/$url";
+            $url = $entry['url'];
+            if (!startswith($url, "http")) {
+                $url = "$code_url/$url";
+            }
 
             // within the label, change any blanks to non-breaking spaces
             // so that the label doesn't break there
@@ -358,32 +358,28 @@ function headerbar_text_array($entries)
 
             // set the title if specified
             $title_attr = '';
-            if($title)
+            if ($title) {
                 $title_attr = " title='" . attr_safe($title) . "'";
+            }
 
             // set the target if specified
             $target_attr = '';
-            if($target)
+            if ($target) {
                 $target_attr = " target='$target'";
+            }
 
             // if we're on the current page, create a span
-            if(is_url_for_current_page($url))
-            {
+            if (is_url_for_current_page($url)) {
                 $entry_string = "<span class='currentpage'$title_attr>$text</span>";
             }
-            // if we're not, create a link 
-            else
-            {
+            // if we're not, create a link
+            else {
                 $url = attr_safe($url);
                 $entry_string = "<a href='$url'$title_attr$target_attr>$text</a>";
             }
-        }
-        elseif(!empty($title))
-        {
+        } elseif (!empty($title)) {
             $entry_string = "<span title='" . attr_safe($title) . "'>$text</span>";
-        }
-        else
-        {
+        } else {
             $entry_string = $text;
         }
 
@@ -397,16 +393,15 @@ function headerbar_text_array($entries)
     return implode($divider, $output_entries);
 }
 
-function html_statsbar($nameofpage) {
-
+function html_statsbar($nameofpage)
+{
     global $code_url, $PG_home_url;
     global $Round_for_round_id_;
     maybe_show_language_selector();
 
     // For logged-in users, show links to key help documents:
     $user = User::load_current();
-    if ($user)
-    {
+    if ($user) {
         show_key_help_links();
         echo "<hr class='divider'>\n";
     }
@@ -424,20 +419,18 @@ function html_statsbar($nameofpage) {
         $tally_name = get_enumerated_param($_REQUEST, 'round_id', null, $rounds, true);
     }
 
-    if (!isset($tally_name))
-    {
-        if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
-        {
+    if (!isset($tally_name)) {
+        if (strpos($_SERVER['PHP_SELF'], 'activity_hub.php') !== false) {
             show_birthdays();
         }
 
-        if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
+        if (strpos($_SERVER['PHP_SELF'], 'default.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
             echo "<h2>" . _("Recently Completed Titles") . "</h2>\n";
             $state = SQL_CONDITION_GOLD;
-            list_projects_tersely( $state, "ORDER BY modifieddate DESC", "LIMIT 7" );
+            list_projects_tersely($state, "ORDER BY modifieddate DESC", "LIMIT 7");
 
             // Show "More..." link
             echo "<p class='more-link'>";
@@ -451,7 +444,7 @@ function html_statsbar($nameofpage) {
             echo "<h2>" . _("Recently Begun") . "</h2>\n";
             $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
-            list_projects_tersely( $state, "ORDER BY modifieddate DESC", $limit_phrase );
+            list_projects_tersely($state, "ORDER BY modifieddate DESC", $limit_phrase);
 
             // Show "More..." link
             echo "<p class='more-link'>";
@@ -468,10 +461,8 @@ function html_statsbar($nameofpage) {
             show_completed_projects();
             echo "</div>\n";
         }
-    }
-    else
-    {
-        show_tally_specific_stats( $tally_name );
+    } else {
+        show_tally_specific_stats($tally_name);
     }
 
     echo "<p class='more-link'>";
@@ -480,8 +471,7 @@ function html_statsbar($nameofpage) {
     echo "</a>";
     echo "</p>";
 
-    if ($user)
-    {
+    if ($user) {
         // requestor is a logged-in user.
         echo "<hr class='divider'>\n";
         show_user_teams();
@@ -489,8 +479,7 @@ function html_statsbar($nameofpage) {
 
     // SITE-SPECIFIC
     //Display the "About DP" section if user is not logged in
-    if (!$user)
-    {
+    if (!$user) {
         echo "<hr><p id='about-dp'>";
         echo sprintf(_("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG."), $PG_home_url);
         echo "</p>";
@@ -504,14 +493,14 @@ function maybe_show_language_selector()
     global $code_url, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
-    if($user_is_logged_in)
+    if ($user_is_logged_in) {
         return;
+    }
 
     $options = get_locale_translation_selection_options();
-    if(count($options) <= 1)
+    if (count($options) <= 1) {
         return;
-
-    ?>
+    } ?>
     <script><!--
         function submitLang(i) {
             top.document.forms.langform.submit();
@@ -525,9 +514,8 @@ function maybe_show_language_selector()
     echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
     echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
-    foreach($options as $locale => $label)
-    {
-        echo "<option value='$locale'".(($locale==$intlang)?" selected":"").">$label</option>\n";
+    foreach ($options as $locale => $label) {
+        echo "<option value='$locale'".(($locale == $intlang) ? " selected" : "").">$label</option>\n";
     }
     echo "</select>\n";
     $safe_current_url = attr_safe($_SERVER["REQUEST_URI"]);
@@ -547,15 +535,16 @@ function get_activity_links()
 
     $user = User::load_current();
 
-    if (!$user) return;
+    if (!$user) {
+        return;
+    }
     // Should show links to stages that are accessible to people
     // that aren't logged in? (i.e., SR)?
 
-    $links = array();
+    $links = [];
 
-    if (user_is_PM())
-    {
-        $links[] = array('url' => "tools/project_manager/projectmgr.php", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects'));
+    if (user_is_PM()) {
+        $links[] = ['url' => "tools/project_manager/projectmgr.php", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects')];
     }
 
     // Get all stages the user has access to
@@ -566,31 +555,28 @@ function get_activity_links()
 
     // we still need to loop through $Stage_for_id_ to output the stages
     // in order
-    foreach( $Stage_for_id_ as $stage)
-    {
-        if(isset($stages_user_can_see[$stage->id]))
-        {
+    foreach ($Stage_for_id_ as $stage) {
+        if (isset($stages_user_can_see[$stage->id])) {
             $text = $stage->id;
 
             // for PPers, get the number of their projects requiring attention
-            if($stage->id == "PP")
-            {
+            if ($stage->id == "PP") {
                 $total = count_pp_projects_past_threshold($user->username);
-                if($total)
+                if ($total) {
                     $text .= " ($total)";
+                }
             }
-            $links[] = array('url' => $stage->relative_url, 'text' => $text, 'title' => $stage->name);
+            $links[] = ['url' => $stage->relative_url, 'text' => $text, 'title' => $stage->name];
         }
     }
 
-    if(user_is_a_sitemanager())
-    {
-        $links[] = array(
+    if (user_is_a_sitemanager()) {
+        $links[] = [
             'url' => "tools/site_admin/index.php",
             // TRANSLATORS: SA is an abbreviation for Site Administrator
             'text' => _("SA"),
-            'title' => _("Administer Site")
-        );
+            'title' => _("Administer Site"),
+        ];
     }
 
     return $links;
@@ -598,7 +584,7 @@ function get_activity_links()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_tally_specific_stats( $tally_name )
+function show_tally_specific_stats($tally_name)
 {
     global $code_url;
 
@@ -626,23 +612,22 @@ function show_tally_specific_stats( $tally_name )
 
     // Number of users
     echo "<p>\n";
-    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM users" );
-    list($num_users) = mysqli_fetch_row($res);
-    echo sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM users");
+    [$num_users] = mysqli_fetch_row($res);
+    echo sprintf(_('%s users'), number_format($num_users)), "<br>\n";
 
-    $tallyboard = new TallyBoard( $tally_name, 'U' );
+    $tallyboard = new TallyBoard($tally_name, 'U');
     $num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
-    echo 
+    echo
         sprintf(
             _('%1$s users with at least one %2$s page'),
-            number_format($num_positive_users), $tally_name ),
+            number_format($num_positive_users), $tally_name),
         "\n";
 
     // ---------------------------------------------------------------------
 
     $user = User::load_current();
-    if ($user)
-    {
+    if ($user) {
         // The requestor is a logged-in user.
         // Show the user's personal statistics
 
@@ -654,22 +639,16 @@ function show_tally_specific_stats( $tally_name )
 
         //get rank
         global $testing;
-        if ($testing)
-        {
+        if ($testing) {
             // Don't let people discover the honorifics by
             // playing with inflated pagecounts at test-site.
-           $rankname = _('Valued Tester');
-        }
-        else
-        {
-            $round = get_Round_for_round_id( $tally_name );
-            if ($round)
-            {
+            $rankname = _('Valued Tester');
+        } else {
+            $round = get_Round_for_round_id($tally_name);
+            if ($round) {
                 $rankname = $round->get_honorific_for_page_tally(
-                    $usern->get_current_page_tally() );
-            }
-            else
-            {
+                    $usern->get_current_page_tally());
+            } else {
                 $rankname = _('[unknown]');
             }
         }
@@ -683,8 +662,7 @@ function show_tally_specific_stats( $tally_name )
 
         $valid_tally_names = array_keys(get_page_tally_names());
         $site_total = 0;
-        foreach($valid_tally_names as $tally_name_temp)
-        {
+        foreach ($valid_tally_names as $tally_name_temp) {
             $round_tallyboard = new TallyBoard($tally_name_temp, 'U');
             $site_total += $round_tallyboard->get_current_tally($user->u_id);
         }
@@ -713,13 +691,16 @@ function show_tally_specific_stats( $tally_name )
             echo "<h2>" . sprintf(_("Your %s Neighborhood"), $tally_name) . "</h2>\n";
             echo "<p>\n";
 
-            foreach ( $neighbors as $rel_posn => $neighbor )
-            {
-                if ($rel_posn==0) echo "<span class='this-user'>";
+            foreach ($neighbors as $rel_posn => $neighbor) {
+                if ($rel_posn == 0) {
+                    echo "<span class='this-user'>";
+                }
                 echo $neighbor->get_current_page_tally_rank(), ".) ";
-                echo ( $neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username() ), " - ";
+                echo($neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username()), " - ";
                 echo number_format($neighbor->get_current_page_tally());
-                if ($rel_posn==0) echo "</span>";
+                if ($rel_posn == 0) {
+                    echo "</span>";
+                }
                 echo "<br>\n";
             }
 
@@ -753,8 +734,7 @@ function show_user_teams()
     echo "<h2>" .  _("Your Teams") . "</h2>\n";
     echo "<ul>\n";
     $user_teams = $user->load_teams();
-    if($user_teams)
-    {
+    if ($user_teams) {
         $sql = sprintf("
             SELECT id, teamname
             FROM user_teams
@@ -762,8 +742,7 @@ function show_user_teams()
             ORDER BY teamname
         ", implode(",", $user_teams));
         $result = DPDatabase::query($sql);
-        while(list($tid, $teamname) = mysqli_fetch_row($result))
-        {
+        while ([$tid, $teamname] = mysqli_fetch_row($result)) {
             echo "<li>";
             echo "<a href='$code_url/stats/teams/tdetail.php?tid=$tid'>" . html_safe($teamname) . "</a>";
             echo "</li>\n";
@@ -815,17 +794,17 @@ function show_birthdays()
 
     $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
-    if (mysqli_num_rows($result) == 0)
+    if (mysqli_num_rows($result) == 0) {
         return;
+    }
 
     echo "<div id='birthdays'>\n";
-    echo "<h2>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . "</h2>\n";
+    echo "<h2>" . sprintf(_("Today's %s Birthdays"), $site_abbreviation) . "</h2>\n";
 
     echo "<ul>";
 
     $today = getdate(time());
-    while ( list($username, $date_created) = mysqli_fetch_row($result) )
-    {
+    while ([$username, $date_created] = mysqli_fetch_row($result)) {
         $user_date = getdate($date_created);
         $years = $today['year'] - $user_date['year'];
 
@@ -838,7 +817,7 @@ function show_birthdays()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_completed_projects($terse = FALSE)
+function show_completed_projects($terse = false)
 {
     global $code_url;
 
@@ -852,14 +831,13 @@ function show_completed_projects($terse = FALSE)
     }
     $thismonth = date("n");
     $thisyear = date("Y");
-    for ( $months_ago = $num_months; $months_ago >= 0; $months_ago-- )
-    {
+    for ($months_ago = $num_months; $months_ago >= 0; $months_ago--) {
         // midnight that begins the 1st day of this month and the next:
-        $begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
-        $enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
+        $begindate = mktime(0, 0, 0, $thismonth - $months_ago, 1, $thisyear);
+        $enddate = mktime(0, 0, 0, $thismonth - $months_ago + 1, 1, $thisyear);
 
         // TRANSLATORS: This is an strftime-formatted string
-        $displaydate = strftime(_("%b %Y"), $begindate );
+        $displaydate = strftime(_("%b %Y"), $begindate);
 
         $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*) as totalprojects
@@ -875,7 +853,7 @@ function show_completed_projects($terse = FALSE)
             // TRANSLATORS: string is in the format: $totalprojects in $date
             // where $date is an already-translated strftime()-formatted string
             // with the month and year
-            echo sprintf(_('%1$d in %2$s'),$totalprojects,$displaydate) . "&nbsp;&mdash;&nbsp;";
+            echo sprintf(_('%1$d in %2$s'), $totalprojects, $displaydate) . "&nbsp;&mdash;&nbsp;";
         } else {
             echo "<tr>";
             echo   "<td class='month'>";
@@ -888,8 +866,7 @@ function show_completed_projects($terse = FALSE)
             echo "\n";
         }
     }
-    if ($terse)
-    {
+    if ($terse) {
         echo "<a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a>\n";
     } else {
         echo "</table>\n";
@@ -906,7 +883,7 @@ function show_key_help_links()
     $p_summary = get_faq_url("proofing_summary.pdf");
     $f_summary = get_faq_url("formatting_summary.pdf");
 
-    $items = array(
+    $items = [
         "<a href='$faq_central_url'>"._("Frequently Asked Questions")."</a>",
 
         "<a href='$p_guide_url'>"._("Proofreading Guidelines")."</a>".
@@ -914,22 +891,23 @@ function show_key_help_links()
 
         "<a href='$f_guide_url'>"._("Formatting Guidelines")."</a>".
         " <span class='nowrap'>(<a href='$f_summary'>"._("PDF Summary")."</a></span>)",
-    );
+    ];
 
     $url = get_faq_url("official-docs");
-    if($url)
+    if ($url) {
         $items[] = "<a href='$url'>"._("Other Official Documentation")."</a>";
+    }
 
     $url = get_faq_url("request-support");
-    if($url)
+    if ($url) {
         $items[] = "<a href='$url'>"._("Request Support")."</a>";
+    }
 
     echo "<div id='key-help-documents'>";
     echo "<h2>"._("Key Help Documents")."</h2>";
     echo "<ul>\n";
 
-    foreach ($items as $item)
-    {
+    foreach ($items as $item) {
         echo "<li>$item</li>\n";
     }
     echo "</ul>\n";
@@ -938,7 +916,7 @@ function show_key_help_links()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color=TRUE, $color_thresholds=NULL)
+function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color = true, $color_thresholds = null)
 // A simple progress bar can be created by using the following HTML:
 //   <div class='progressbar $progress_bar_class' style='width: $width%;'>&nbsp;</div>
 // The <div> can be placed inside another container used to control
@@ -967,60 +945,48 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
 //   percent_complete   - actual percentage complete in whole numbers
 {
     // Define the color classes used for the status bar graph
-    if(!is_array($color_thresholds))
-    {
+    if (!is_array($color_thresholds)) {
         // Thresholds defined here are assumed to be highest to
         // lowest. Thresholds passed into this function are sorted.
-        $color_thresholds = array(100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely");
-    }
-    else
-    {
+        $color_thresholds = [100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely"];
+    } else {
         krsort($color_thresholds);
     }
 
     // calculate the width and percentage complete
-    if($goal > 0)
-    { 
+    if ($goal > 0) {
         $percent_complete = ceil(($actual / $goal) * 100);
-        if($percent_complete < 0)
+        if ($percent_complete < 0) {
             $percent_complete = 0;
+        }
         $progress_bar_width = min($percent_complete, 100);
-    }
-    else
-    {
+    } else {
         $percent_complete = 100;
         $progress_bar_width = 100;
     }
 
     // Calculate the progress bar color scaling based on the time of day.
-    if($prorate_goal_for_color == 'bar' || $prorate_goal_for_color === TRUE)
-    {
-        $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
-        $fraction_of_time_passed = (time() - $t_start_of_today) / (60*60*24);
-        // Note: Calculation assumes a 24-hour day which is true except
+    if ($prorate_goal_for_color == 'bar' || $prorate_goal_for_color === true) {
+        $t_start_of_today = mktime(0, 0, 0, date('m'), date('d'), date('y'));
+        $fraction_of_time_passed = (time() - $t_start_of_today) / (60 * 60 * 24);
+    // Note: Calculation assumes a 24-hour day which is true except
         // possibly for the first and last days of daylight saving time
         // depending on how PHP calculates DST in the mktime() call.
-    }
-    elseif($prorate_goal_for_color == 'month')
-    {
+    } elseif ($prorate_goal_for_color == 'month') {
         $t_start_of_month = mktime(0, 0, 0, date('m'), 1, date('y'));
-        $fraction_of_time_passed = (time() - $t_start_of_month) / (60*60*24*date("t"));
-    }
-    else
-    {
+        $fraction_of_time_passed = (time() - $t_start_of_month) / (60 * 60 * 24 * date("t"));
+    } else {
         $fraction_of_time_passed = 1;
     }
 
-    foreach($color_thresholds as $threshold => $class)
-    {
-        if($percent_complete >= ($threshold * $fraction_of_time_passed))
-        {
+    foreach ($color_thresholds as $threshold => $class) {
+        if ($percent_complete >= ($threshold * $fraction_of_time_passed)) {
             $progress_bar_class = $class;
             break;
         }
     }
 
-    return array($progress_bar_width, $progress_bar_class, $percent_complete);
+    return [$progress_bar_width, $progress_bar_class, $percent_complete];
 }
 
 // -----------------------------------------------------------------------------
@@ -1032,35 +998,36 @@ function get_dyn_image_url_for_file($filename)
 {
     global $dyn_dir, $dyn_url;
 
-    $image_extensions = array("", ".png",".jpg",".gif");
+    $image_extensions = ["", ".png", ".jpg", ".gif"];
 
-    foreach($image_extensions as $extension)
-    {
+    foreach ($image_extensions as $extension) {
         $test_path = "$dyn_dir/code_images/$filename$extension";
-        $test_url  = "$dyn_url/code_images/$filename$extension";
-        if ( file_exists($test_path) )
+        $test_url = "$dyn_url/code_images/$filename$extension";
+        if (file_exists($test_path)) {
             return $test_url;
+        }
     }
 
-    return NULL;
+    return null;
 }
 
 // Given a page basename, see if we have a header image for the page.
 // If so, return the <img>. If not, return "";
 function get_page_header_image($image)
 {
-    # Try a locale-less image first
+    // Try a locale-less image first
     $dyn_url = get_dyn_image_url_for_file("page_header/$image");
-    if($dyn_url)
+    if ($dyn_url) {
         return "<img style='max-width: 100%;' src='$dyn_url'>";
+    }
 
-    # Now try a locale-based one
+    // Now try a locale-based one
     $locale = get_desired_language();
     $dyn_url = get_dyn_image_url_for_file("page_header/$locale/$image");
-    if($dyn_url)
+    if ($dyn_url) {
         return "<img style='max-width: 100%;' src='$dyn_url'>";
+    }
 
-    # Fall back to nothing
+    // Fall back to nothing
     return "";
 }
-

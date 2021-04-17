@@ -1,16 +1,20 @@
 <?php
 
-class DBConnectionError extends Exception { }
+class DBConnectionError extends Exception
+{
+}
 
-class DBQueryError extends Exception { }
+class DBQueryError extends Exception
+{
+}
 
 final class DPDatabase
 {
-    static private $_connection = FALSE;
-    static private $_db_name = NULL;
-    static public $skip_encoding_check = FALSE;
+    private static $_connection = false;
+    private static $_db_name = null;
+    public static $skip_encoding_check = false;
 
-    static public function connect()
+    public static function connect()
     {
         include('udb_user.php');
         self::$_db_name = $db_name;
@@ -19,11 +23,13 @@ final class DPDatabase
         // gracefully elsewhere.
         self::$_connection = @mysqli_connect($db_server, $db_user, $db_password);
 
-        if(!self::$_connection)
+        if (!self::$_connection) {
             throw new DBConnectionError("Unable to connect to database");
+        }
 
-        if(!mysqli_select_db(self::$_connection, $db_name))
+        if (!mysqli_select_db(self::$_connection, $db_name)) {
             throw new DBConnectionError("Unable to locate database.");
+        }
 
         // Update the sql_mode to disable ONLY_FULL_GROUP_BY
         // Several places in the code, many in the stats pages, use GROUP BY
@@ -31,55 +37,56 @@ final class DPDatabase
         // We disable it here at the session level rather than in my.cnf
         // to not impact other database users (forum, wiki, etc).
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
-        if(!mysqli_query(self::$_connection, $sql))
+        if (!mysqli_query(self::$_connection, $sql)) {
             throw new DBConnectionError("Unable to set sql_mode");
+        }
 
         // To prevent corrupting Latin-1 encoded databases with UTF-8
         // characters, bail if the database is not in the expected UTF-8
         // encoding. We allow an override for upgrade scripts to connect
         // and do the conversion.
-        if(!self::$skip_encoding_check and self::get_default_db_charset() != "utf8mb4")
+        if (!self::$skip_encoding_check and self::get_default_db_charset() != "utf8mb4") {
             throw new DBConnectionError("Database not configured for UTF8.");
+        }
         //-------------------------------------------------------------------
 
         // set character set to UTF8
         mysqli_set_charset(self::$_connection, "utf8mb4");
     }
 
-    static public function close()
+    public static function close()
     {
-        if(!self::$_connection)
+        if (!self::$_connection) {
             return;
+        }
 
         mysqli_close(self::$_connection);
     }
 
-    static public function get_connection()
+    public static function get_connection()
     {
         return self::$_connection;
     }
 
-    static public function escape($value)
+    public static function escape($value)
     {
         return mysqli_real_escape_string(self::$_connection, $value);
     }
 
-    static public function query($sql, $throw_on_failure=TRUE)
+    public static function query($sql, $throw_on_failure = true)
     {
         $result = mysqli_query(self::$_connection, $sql);
-        if(!$result)
-        {
+        if (!$result) {
             // include this function's caller in the backtrace
             $error = self::log_error(1);
-            if($throw_on_failure)
-            {
+            if ($throw_on_failure) {
                 throw new DBQueryError($error);
             }
         }
         return $result;
     }
 
-    static public function log_error($backtrace_level=0)
+    public static function log_error($backtrace_level = 0)
     {
         // Log the SQL error to the PHP error log and return a generic error
         // for display to the user
@@ -90,7 +97,7 @@ final class DPDatabase
         return _("An error occurred during a database query and has been logged.");
     }
 
-    static public function get_default_db_charset()
+    public static function get_default_db_charset()
     {
         $result = self::query(sprintf("
             SELECT *
@@ -105,7 +112,7 @@ final class DPDatabase
         return $default_charset;
     }
 
-    static public function is_table_utf8($table_name)
+    public static function is_table_utf8($table_name)
     {
         $sql = sprintf("
             SELECT TABLE_COLLATION
@@ -121,7 +128,7 @@ final class DPDatabase
         return stripos($table_encoding, 'utf8mb4') === 0;
     }
 
-    static public function does_table_exist($table_name)
+    public static function does_table_exist($table_name)
     {
         $sql = sprintf("
             SELECT TABLE_NAME
@@ -130,13 +137,20 @@ final class DPDatabase
             self::$_db_name,
             self::escape($table_name));
         $result = self::query($sql);
-        return mysqli_fetch_assoc($result) !== NULL;
+        return mysqli_fetch_assoc($result) !== null;
     }
 
     // Prevent this class from being instantiated
-    protected function __construct() {}
-    protected function __clone() {}
-    protected function __sleep() {}
-    protected function __wakeup() {}
+    protected function __construct()
+    {
+    }
+    protected function __clone()
+    {
+    }
+    protected function __sleep()
+    {
+    }
+    protected function __wakeup()
+    {
+    }
 }
-

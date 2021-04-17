@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -9,7 +9,7 @@ maybe_redirect_to_external_faq();
 
 output_header('Welcome Back, Alumni', NO_STATSBAR);
 
-$Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
+$Workflow_Change_Announcement_URL = make_forum_url('t', 0, 15170);
 ?>
 
 <h1>Welcome Back to Distributed Proofreaders, Alumni</h1>

@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
@@ -10,8 +10,7 @@ require_login();
 
 output_header(_("Image Metadata Collection"));
 
-if (!$site_supports_metadata)
-{
+if (!$site_supports_metadata) {
     echo _("md_available.php: \$site_supports_metadata is false, so exiting.");
     exit();
 }
@@ -33,23 +32,23 @@ echo "<table class='themed theme_striped'>\n";
                 WHERE state = 'project_md_first' AND thumbs = 'yes'");
 
       while ($row = mysqli_fetch_assoc($result)) {
-           $projectid = $row["projectid"];
-           $state = $row["state"];
-           $name = $row["nameofwork"];
-           $author = $row["authorsname"];
-           $language = $row["language"];
+          $projectid = $row["projectid"];
+          $state = $row["state"];
+          $name = $row["nameofwork"];
+          $author = $row["authorsname"];
+          $language = $row["language"];
 
-           $project = new Project($projectid);
-           $numpages = $project->get_num_pages();
+          $project = new Project($projectid);
+          $numpages = $project->get_num_pages();
 
-      echo "<tr>";
-      echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
-      echo "<td align='right'>" . html_safe($author) . "</td>\n";
-      echo "<td align='right'>$numpages</td>\n";
+          echo "<tr>";
+          echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
+          echo "<td align='right'>" . html_safe($author) . "</td>\n";
+          echo "<td align='right'>$numpages</td>\n";
 //      echo "<td align='right'>#pages</td>\n";
 
-      echo "</tr>";
-    }
+          echo "</tr>";
+      }
 
 //echo "</table>";
 echo "<br>";
@@ -77,27 +76,26 @@ echo "<br>";
                 WHERE state = 'project_md_second'");
 
       while ($row = mysqli_fetch_assoc($result)) {
-           $projectid = $row["projectid"];
-           $state = $row["state"];
-           $name = $row["nameofwork"];
-           $author = $row["authorsname"];
-           $language = $row["language"];
+          $projectid = $row["projectid"];
+          $state = $row["state"];
+          $name = $row["nameofwork"];
+          $author = $row["authorsname"];
+          $language = $row["language"];
 
-           $project = new Project($projectid);
-           $numpages = $project->get_num_pages();
-           $availpages = $project->get_num_pages_in_state('avail_md_second');
+          $project = new Project($projectid);
+          $numpages = $project->get_num_pages();
+          $availpages = $project->get_num_pages_in_state('avail_md_second');
 
-      echo "<tr>";
-      echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
-      echo "<td align='right'>" . html_safe($author) . "</td>\n";
-      echo "<td align='right'>$numpages</td>\n";
-      echo "<td align='right'>$availpages</td>\n";
+          echo "<tr>";
+          echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">" . html_safe($name) . "</a></td>\n";
+          echo "<td align='right'>" . html_safe($author) . "</td>\n";
+          echo "<td align='right'>$numpages</td>\n";
+          echo "<td align='right'>$availpages</td>\n";
 
-      echo "</tr>";
-    }
+          echo "</tr>";
+      }
 
 echo "</table>";
 
 echo "</center>";
 echo "<br>";
-

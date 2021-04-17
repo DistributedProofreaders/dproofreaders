@@ -24,16 +24,14 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
     $fp = fopen($comments_path, "w");
     // if ( $fp === FALSE ) ???
     write_project_comments($project, $fp);
-    fclose ($fp);
+    fclose($fp);
 
     $other_files = [$comments_path];
 
     // Word files
-    foreach ( array('good', 'bad') as $code )
-    {
+    foreach (['good', 'bad'] as $code) {
         $f = get_project_word_file($project->projectid, $code);
-        if ( $f->size > 0 )
-        {
+        if ($f->size > 0) {
             $other_files[] = $f->abs_path;
         }
     }
@@ -46,7 +44,7 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
     $fp = fopen($plain_path, "w");
     // if ( $fp === FALSE ) ???
     join_proofed_text($pages_res, $include_proofers, true, $fp);
-    fclose ($fp);
+    fclose($fp);
     //
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
@@ -70,24 +68,21 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     }
 
     $filename = $project->projectid;
-    if ('[OCR]' == $limit_round_id) 
-    {
+    if ('[OCR]' == $limit_round_id) {
         $filename .= '_OCR';
-    }
-    else
-    {
+    } else {
         $filename .= '_' . $limit_round_id;
         if ('EQ' == $which_text) {
             $filename .= '_saved';
-        }
-        else 
-        {
+        } else {
             $filename .= '_latest';
         }
     }
 
     $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
-    if ($pages_res === FALSE) return;
+    if ($pages_res === false) {
+        return;
+    }
 
     // join the page texts together
     $filedata = join_proofed_text($pages_res, $include_proofers, false, '');
@@ -105,11 +100,11 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     register_shutdown_function("clean_up_temp", $dirname, $textfile_path, $zip_path);
 
     // now write the text file
-    $handle = fopen($textfile_path,"w");
-    fwrite($handle,$filedata);
+    $handle = fopen($textfile_path, "w");
+    fwrite($handle, $filedata);
     fclose($handle);
     // make the zip and sent it to the user
-    header("Content-type: application/octet-stream");   
+    header("Content-type: application/octet-stream");
     header("Content-disposition: attachment; filename={$filename}.zip");
 
     create_zip_from([$textfile_path], $zip_path);
@@ -131,36 +126,34 @@ function clean_up_temp($dirname, $textfile_path, $zip_path)
 function write_project_comments($project, $fp)
 {
     $header = "<HTML><BODY>";
-    fputs($fp,$header);
+    fputs($fp, $header);
 
     // insert e.g. templates and biographies
     $comments = parse_project_comments($project);
-    fputs($fp,$comments);
+    fputs($fp, $comments);
 
     $footer = "</BODY></HTML>";
-    fputs($fp,$footer);
+    fputs($fp, $footer);
 }
 
 // -----------------------------------------------------------------------------
 
-function get_page_texts( $pages_res )
+function get_page_texts($pages_res)
 // Return an array whose values are the page-texts in the query-result.
 {
-    $page_texts = array();
-    while( list($page_text,$imagename,$proofer_names) = page_info_fetch($pages_res) )
-    {
+    $page_texts = [];
+    while ([$page_text, $imagename, $proofer_names] = page_info_fetch($pages_res)) {
         $page_texts[] = $page_text;
     }
     return $page_texts;
 }
 
-function join_page_texts( $pages_res )
+function join_page_texts($pages_res)
 // Return the concatenation of the page-texts in the query-result.
 // (Similar to join_proofed_text, but without the page-separators.)
 {
     $text = "";
-    while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
-    {
+    while ([$text_data, $filename, $proofer_names] = page_info_fetch($pages_res)) {
         $text .= $text_data . "\r\n";
     }
     return $text;
@@ -178,40 +171,32 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
     $eol = $carriagereturn.$linefeed;
 
     $filedata = "";
-    while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
-    {
+    while ([$text_data, $filename, $proofer_names] = page_info_fetch($pages_res)) {
         $info_str = "-----File: $filename---";
         if ($include_proofers) {
             $info_str .= "\\";
-            foreach ( $proofer_names as $proofer_name )
-            {
+            foreach ($proofer_names as $proofer_name) {
                 $info_str .= "$proofer_name\\";
             }
         }
-        
+
         // This will ensure that the separator line ends with a '-'
         // (in case some PPing software or regex expect that last dash),
         // and pad the string to length 75, if not wider than 75 chars.
-        $separator_line = str_pad( $info_str, 74, '-', STR_PAD_RIGHT ) . '-';
+        $separator_line = str_pad($info_str, 74, '-', STR_PAD_RIGHT) . '-';
         $fileinfo = $eol . $separator_line . $eol . $text_data;
-        if ($save_files) 
-        {
+        if ($save_files) {
             // SENDING PAGE-TEXT TO USER
             // It's a text-file, so no encoding is necessary.
-            fputs($fp,$fileinfo);
-        }
-        else
-        {
+            fputs($fp, $fileinfo);
+        } else {
             $filedata .= $fileinfo;
         }
     }
     // add a final newline
-    if ($save_files)
-    {
+    if ($save_files) {
         fputs($fp, $eol);
-    }
-    else
-    {
+    } else {
         $filedata .= $eol;
     }
     return $filedata;
@@ -219,34 +204,26 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
 
 // -----------------------------------------------------------------------------
 
-function page_info_query( $projectid, $limit_round_id, $which_text )
+function page_info_query($projectid, $limit_round_id, $which_text)
 {
-    if ( $limit_round_id == '[OCR]' ) // somewhat kludgey
-    {
+    if ($limit_round_id == '[OCR]') { // somewhat kludgey
         // doesn't matter what $which_text is.
         $text_column_expr = 'master_text';
         $user_fields = "";
-    }
-    else
-    {
+    } else {
         $limit_round = get_Round_for_round_id($limit_round_id);
-        if (is_null($limit_round))
-        {
+        if (is_null($limit_round)) {
             die("'$limit_round_id' is not a valid round-id\n");
         }
 
-        if ( $which_text == 'EQ' )
-        {
+        if ($which_text == 'EQ') {
             // For each page, fetch the text (if any) saved in the selected round.
             $text_column_expr = $limit_round->text_column_name;
-        }
-        else if ( $which_text == 'LE' )
-        {
+        } elseif ($which_text == 'LE') {
             // For each page, fetch the latest text saved in any round up to and
             // including the selected round.
             $text_column_expr = "CASE";
-            for ( $rn = $limit_round->round_number; $rn > 0; $rn-- )
-            {
+            for ($rn = $limit_round->round_number; $rn > 0; $rn--) {
                 $round = get_Round_for_round_number($rn);
                 $text_column_expr .=
                     " WHEN LENGTH({$round->text_column_name}) THEN {$round->text_column_name}";
@@ -277,15 +254,12 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
             }
             $text_column_expr .= " ELSE master_text";
             $text_column_expr .= " END";
-        }
-        else
-        {
+        } else {
             die("bad value for which_text: '$which_text'");
         }
 
         $user_fields = "";
-        for ( $rn = 1; $rn <= $limit_round->round_number; $rn++ )
-        {
+        for ($rn = 1; $rn <= $limit_round->round_number; $rn++) {
             $round = get_Round_for_round_number($rn);
             $user_fields .= ", {$round->user_column_name}";
         }
@@ -296,16 +270,15 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
         FROM $projectid
         ORDER BY image
     ");
-    if ($res === FALSE)
-    {
+    if ($res === false) {
         echo DPDatabase::log_error();
-        return FALSE;
+        return false;
     }
 
     return $res;
 }
 
-function page_info_fetch( $res )
+function page_info_fetch($res)
 // For the next page in the query-result,
 // return an array consisting of (in order):
 // -- the page text resulting from the page-editing rounds;
@@ -314,17 +287,17 @@ function page_info_fetch( $res )
 // If there's no next page, return FALSE;
 {
     $a = mysqli_fetch_row($res);
-    if (!$a) return FALSE;
+    if (!$a) {
+        return false;
+    }
 
     $text_data = $a[0];
-    $filename  = $a[1];
-    $proofer_names = array_slice( $a, 2 );
+    $filename = $a[1];
+    $proofer_names = array_slice($a, 2);
 
-    return array(
+    return [
         $text_data,
         $filename,
-        $proofer_names
-    );
+        $proofer_names,
+    ];
 }
-
-?>

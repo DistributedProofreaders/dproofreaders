@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -27,4 +27,3 @@ echo "<h3>" . _("Words in Small Capitals") . "</h3>\n";
 echo "<p>" . _("Please proofread only the characters in <span style='font-variant: small-caps'>Small Caps</span> (capital letters which are smaller than the standard capitals). Do not worry about case changes. If the OCR'd text is already ALL-CAPPED, Mixed-Cased, or lower-cased, leave it ALL-CAPPED, Mixed-Cased, or lower-cased.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_3'>" . _("Continue to quiz page") . "</a></p>\n";
-

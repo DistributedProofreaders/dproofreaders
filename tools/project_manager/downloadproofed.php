@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
@@ -7,8 +7,8 @@ include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
 
-$project   = get_projectID_param($_GET, 'project');
-$image     = get_page_image_param($_GET, 'image');
+$project = get_projectID_param($_GET, 'project');
+$image = get_page_image_param($_GET, 'image');
 $round_num = get_integer_param($_GET, 'round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 
 if ($round_num == 0) {
@@ -28,8 +28,7 @@ $sql = sprintf("
     DPDatabase::escape($image));
 $result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
-if (!$row)
-{
+if (!$row) {
     // The page-table exists, but the WHERE clause did not match any row.
     // This could happen if a user saved a URL involving this script,
     // and the page was later deleted or renamed.

@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names()
@@ -7,7 +7,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('common.inc');
 
 $valid_tally_names = array_keys(get_page_tally_names());
-$tally_name  = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
@@ -28,7 +28,7 @@ $result = mysqli_query(DPDatabase::get_connection(),
     )
 );
 
-list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
+[$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
 
 draw_pages_graph(
     $graph,
@@ -41,4 +41,3 @@ draw_pages_graph(
     'increments',
     _('Pages Done Each Month Since the Beginning of Statistics Collection')
 );
-

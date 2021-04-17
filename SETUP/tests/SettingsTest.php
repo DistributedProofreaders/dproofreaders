@@ -6,7 +6,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
     private $PREFIX = 'STU_';
     private $NONEXISTENT_USERNAME = 'SettingsTestUser';
 
-    private $cleanup = FALSE;
+    private $cleanup = false;
 
     protected function setUp(): void
     {
@@ -14,8 +14,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         $row = mysqli_fetch_assoc($result);
-        if(!$row)
-        {
+        if (!$row) {
             $sql = "
                 INSERT INTO users
                 SET id = '$this->TEST_USERNAME',
@@ -24,11 +23,10 @@ class SettingsTest extends PHPUnit\Framework\TestCase
                     email = '$this->TEST_USERNAME@localhost'
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
-            if(!$result)
+            if (!$result) {
                 throw new Exception("Unable to create test user");
-        }
-        else
-        {
+            }
+        } else {
             mysqli_free_result($result);
         }
 
@@ -38,8 +36,9 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             SET username='%s', setting = '%ssetting', value = 'blah'
         ", $this->TEST_USERNAME, $this->PREFIX);
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        if(!$result)
+        if (!$result) {
             throw new Exception("Unable to create test usersetting");
+        }
     }
 
     protected function tearDown(): void
@@ -152,7 +151,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         $settings->add_value($this->PREFIX . "multi_value", "value2");
 
         $values = $settings->get_value($this->PREFIX . "multi_value");
-        $this->assertTrue(in_array($values, array("value1", "value2")));
+        $this->assertTrue(in_array($values, ["value1", "value2"]));
     }
 
     public function testSetMultivaluedSettingAsSingle()

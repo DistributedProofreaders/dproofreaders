@@ -22,10 +22,9 @@ define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 // http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
 function detect_too_large()
 {
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-        empty($_FILES) && array_get($_SERVER, 'CONTENT_LENGTH', 0) > 0)
-    {
-        die( sprintf(_("Uploaded file is too large. Maximum file size is %s."), humanize_bytes(get_max_upload_size())));
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
+        empty($_FILES) && array_get($_SERVER, 'CONTENT_LENGTH', 0) > 0) {
+        die(sprintf(_("Uploaded file is too large. Maximum file size is %s."), humanize_bytes(get_max_upload_size())));
     }
 }
 
@@ -130,9 +129,13 @@ function show_upload_form($form_content, $submit_label)
 // This exception is thrown if problems are found in validate_uploaded_file()
 // or the other file-check functions below. It will contain text describing
 // the problem.
-class FileUploadException extends Exception {}
+class FileUploadException extends Exception
+{
+}
 
-class NoFileUploadedException extends Exception {}
+class NoFileUploadedException extends Exception
+{
+}
 
 // This is called to process the posted information from the upload form
 // It returns a file_info with 'name' (the original file name)
@@ -146,10 +149,8 @@ function validate_uploaded_file($verbose)
 {
     $file_path = "";
     $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
-    try
-    {
-        if('upload' == $mode)
-        {
+    try {
+        if ('upload' == $mode) {
             $file_info = $_FILES['uploaded_file'];
 
             // If a user hits the "Upload" button without first selecting a file,
@@ -157,8 +158,7 @@ function validate_uploaded_file($verbose)
             // name and content are empty. But I think it's also legal for a browser
             // to send a request that doesn't contain a file at all (in which case
             // $file_info would be null.  Check both possibilities.
-            if (is_null($file_info) || $file_info['name'] == '')
-            {
+            if (is_null($file_info) || $file_info['name'] == '') {
                 throw new NoFileUploadedException(_("You must upload a file"));
             }
             $original_name = $file_info['name'];
@@ -166,28 +166,23 @@ function validate_uploaded_file($verbose)
             $error = $file_info['error'];
             $file_size = $file_info['size'];
 
-            if ($error != UPLOAD_ERR_OK)
-            {
+            if ($error != UPLOAD_ERR_OK) {
                 throw new FileUploadException(get_upload_err_msg($error));
             }
             // there must be only one file.
-            if(is_array($original_name) && (count($original_name) > 1))
-            {
-                throw new FileUploadException( _("You may only upload one file") );
+            if (is_array($original_name) && (count($original_name) > 1)) {
+                throw new FileUploadException(_("You may only upload one file"));
             }
             // allow anti_virus to read it
             chmod($file_path, 0644);
-        }
-        else
-        {
+        } else {
             // resumable upload
             $root_staging_dir = "/tmp/resumable_uploads";
             $original_name = array_get($_POST, "resumable_filename", "");
             $identifier = array_get($_POST, "resumable_identifier", "");
             $hashed_filename = md5($identifier);
             $file_path = "$root_staging_dir/$hashed_filename";
-            if(!file_exists($file_path))
-            {
+            if (!file_exists($file_path)) {
                 throw new FileUploadException(_("No file was uploaded"));
             }
             $file_size = filesize($file_path);
@@ -198,17 +193,13 @@ function validate_uploaded_file($verbose)
         empty_check($file_size);
 
         // validate the filename
-        if (!is_valid_filename($file_info["name"]))
-        {
+        if (!is_valid_filename($file_info["name"])) {
             throw new FileUploadException(_("Invalid filename"));
         }
 
         virus_check($file_path, $verbose);
-    }
-    catch(FileUploadException $e)
-    {
-        if(is_file($file_path))
-        {
+    } catch (FileUploadException $e) {
+        if (is_file($file_path)) {
             unlink($file_path);
         }
         throw($e);
@@ -225,16 +216,14 @@ function empty_check($file_size)
 
 function zip_check($original_name, $file_path)
 {
-    if (substr($original_name, -4) != ".zip")
-    {
-        throw new FileUploadException( _("File name extension must be '.zip'") );
+    if (substr($original_name, -4) != ".zip") {
+        throw new FileUploadException(_("File name extension must be '.zip'"));
     }
     // ensure that it's a valid zip. The extension was already checked and the
     // file is not properly named (it has some temporary name), so we should
     // disable the extension check.
-    if (!is_valid_zip_file($file_path, true))
-    {
-        throw new FileUploadException(sprintf(_("%s is not a valid zip file"),  $original_name));
+    if (!is_valid_zip_file($file_path, true)) {
+        throw new FileUploadException(sprintf(_("%s is not a valid zip file"), $original_name));
     }
 }
 
@@ -242,30 +231,26 @@ function zip_check($original_name, $file_path)
 function virus_check($file_path, $verbose)
 {
     global $antivirus_executable;
-    if(!$antivirus_executable)
-    {
+    if (!$antivirus_executable) {
         return;
     }
     show_upload_message($verbose, _("Starting virus check"));
     // perform '$antivirus_executable -- <FILENAME>' and expect return
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
-    $av_test_result = array();
-    $av_retval=0;
+    $av_test_result = [];
+    $av_retval = 0;
 
     $cmd = "$antivirus_executable -- " . escapeshellcmd($file_path);
     exec($cmd, $av_test_result, $av_retval);
     // $av_retval == 0 is ok
-    if ($av_retval == 1)
-    {
+    if ($av_retval == 1) {
         // Log the infected upload so that we can track user/frequency
         $reporting_string = "upload_file.inc - Infected upload: " . $av_test_result[0];
         error_log($reporting_string);
         throw new FileUploadException(sprintf(_("AntiVirus: The scan reported an infection: %s. The upload has been discarded.
             You should perform a complete virus scan on your computer as soon as possible."), $av_test_result[0]));
-    }
-    else if($av_retval > 1)
-    {
+    } elseif ($av_retval > 1) {
         throw new FileUploadException(_("AntiVirus error:") . " " . $av_retval . "<br>" . $av_test_result[0]);
     }
     show_upload_message($verbose, _("No infection found"));
@@ -273,25 +258,24 @@ function virus_check($file_path, $verbose)
 
 function show_upload_message($verbose, $message)
 {
-    if(!$verbose)
+    if (!$verbose) {
         return;
+    }
     echo "<p>$message</p>";
     flush();
 }
 
 // This function has a client-side pair in scripts/file_resume.js:validate()
 // which should be updated if the below logic changes.
-function is_valid_filename($filename, $restrict_extension=False)
+function is_valid_filename($filename, $restrict_extension = false)
 {
     // Filenames can't be longer than 200 characters total
-    if(strlen($filename) > 200)
-    {
+    if (strlen($filename) > 200) {
         return false;
     }
 
     // If we want to restrict the filename extension, check that
-    if($restrict_extension !== FALSE && !endswith($filename, $restrict_extension))
-    {
+    if ($restrict_extension !== false && !endswith($filename, $restrict_extension)) {
         return false;
     }
 
@@ -310,8 +294,7 @@ function is_valid_filename($filename, $restrict_extension=False)
 function is_valid_dirname($dirname)
 {
     // Directory names can't be longer than 200 characters total
-    if(strlen($dirname) > 200)
-    {
+    if (strlen($dirname) > 200) {
         return false;
     }
 

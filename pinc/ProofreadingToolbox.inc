@@ -15,7 +15,7 @@ class ToolButton
 // A link that, when clicked, opens a new window containing some tool.
 class PopupLink
 {
-    public function __construct($label, $url, $window_name, $width, $height )
+    public function __construct($label, $url, $window_name, $width, $height)
     {
         $js = "return openToolboxPopup('$url', $width, $height, '$window_name');";
         $this->html = "<a href='#' class='nowrap' onClick=\"$js\"\n>$label</a>\n";
@@ -59,8 +59,7 @@ class ProofreadingToolbox
             'table_maker' => new PopupLink(_('Table Maker'), 'mktable.php', 'dp_mktable', 600, 500),
             'greek_transliterator' => new PopupLink(_('Greek Transliterator'), 'greek2ascii.php', 'gkasciiWin', 640, 250),
         ];
-        if ($wikihiero_dir)
-        {
+        if ($wikihiero_dir) {
             $this->popup_links['hieroglyph_transliterator'] = new PopupLink(_("Hieroglyphs"), 'hiero/index.php', 'dp_hiero', 600, 400);
         }
     }
@@ -89,23 +88,20 @@ class ProofreadingToolbox
 
         echo "<div id='tools'>";
         $elements = $this->array_extract($this->row1_buttons, $round->pi_tools['tool_buttons']);
-        foreach($elements as $element)
-        {
+        foreach ($elements as $element) {
             echo $element->html;
         }
 
         echo "<br>";
         $elements = $this->array_extract($this->row2_buttons, $round->pi_tools['tool_links']);
-        foreach($elements as $element)
-        {
+        foreach ($elements as $element) {
             echo $element->html;
         }
 
         echo "\n<span class='small'><br>\n<i>". _('Pop-up tools'). ":</i>\n";
         $elements = $this->array_extract($this->popup_links, $round->pi_tools['popup_links']);
         $popups = [];
-        foreach($elements as $element)
-        {
+        foreach ($elements as $element) {
             $popups[] = $element->html;
         }
         echo implode(" | ", $popups);
@@ -121,11 +117,9 @@ class ProofreadingToolbox
 
     private function array_extract($source, $keys)
     {
-        if($keys == 'ALL')
-        {
+        if ($keys == 'ALL') {
             return $source;
         }
         return array_intersect_key($source, array_flip($keys));
     }
 }
-

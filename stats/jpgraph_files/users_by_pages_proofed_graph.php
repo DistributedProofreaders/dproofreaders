@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'page_tally.inc');
 include_once("common.inc");
@@ -7,7 +7,7 @@ include_once("common.inc");
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
-$graph = new Graph(640,400,get_image_cache_filename(),1440);
+$graph = new Graph(640, 400, get_image_cache_filename(), 1440);
 
 ///////////////////////////////////////////////////////////////////
 //Number of users who have done X pages, and how recently logged in
@@ -19,11 +19,11 @@ $seconds_per_day = 24 * 60 * 60;
 $now = time();
 $t_90_days_ago = $now - (90 * $seconds_per_day);
 $t_28_days_ago = $now - (28 * $seconds_per_day);
-$t_7_days_ago  = $now - ( 7 * $seconds_per_day);
+$t_7_days_ago = $now - (7 * $seconds_per_day);
 
-list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+[$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
-list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
+[$joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column] =
     $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
 // how many bars in the graph?
@@ -53,28 +53,25 @@ $result = mysqli_query(DPDatabase::get_connection(), "
 // Initialize the data arrays for all 'possible' values of pagescompleted
 // (many of which won't be the current value for any particular user).
 //
-for ($pagescompleted_i = 0; $pagescompleted_i <= $maxpages; $pagescompleted_i++ )
-{
+for ($pagescompleted_i = 0; $pagescompleted_i <= $maxpages; $pagescompleted_i++) {
     $datax[$pagescompleted_i] = $pagescompleted_i;
 
     $datayAll[$pagescompleted_i] = 0;
-    $datay90[ $pagescompleted_i] = 0;
-    $datay28[ $pagescompleted_i] = 0;
-    $datay7[  $pagescompleted_i] = 0;
+    $datay90[$pagescompleted_i] = 0;
+    $datay28[$pagescompleted_i] = 0;
+    $datay7[$pagescompleted_i] = 0;
 }
 
 
 // For each pagescompleted value in the result-set,
 // add the corresponding n_* values to the arrays of Y-axis data.
 //
-while ($row = mysqli_fetch_object($result))
-{
-    if ($row->pagescompleted >= 0)
-    {
+while ($row = mysqli_fetch_object($result)) {
+    if ($row->pagescompleted >= 0) {
         $datayAll[$row->pagescompleted] = $row->n_all;
-        $datay90[ $row->pagescompleted] = $row->n_90d;
-        $datay28[ $row->pagescompleted] = $row->n_28d;
-        $datay7[  $row->pagescompleted] = $row->n_7d;
+        $datay90[$row->pagescompleted] = $row->n_90d;
+        $datay28[$row->pagescompleted] = $row->n_28d;
+        $datay7[$row->pagescompleted] = $row->n_7d;
     }
 }
 
@@ -103,34 +100,34 @@ $graph->SetShadow();
 
 // Adjust the margin a bit to make more room for titles
 //left, right , top, bottom
-$graph->img->SetMargin(70,30,20,100);
+$graph->img->SetMargin(70, 30, 20, 100);
 
 
 // Create the bar pots
 $bplotAll = new BarPlot($datayAll);
-$bplotAll ->SetFillColor ("cadetblue1");
+$bplotAll ->SetFillColor("cadetblue1");
 $bplotAll->SetLegend(_("All Registered Users"));
 
 $bplot90 = new BarPlot($datay90);
-$bplot90 ->SetFillColor ("mediumseagreen");
+$bplot90 ->SetFillColor("mediumseagreen");
 $bplot90->SetLegend(sprintf(_("Logged on in last %d days"), 90));
 
 
 $bplot28 = new BarPlot($datay28);
-$bplot28 ->SetFillColor ("lime");
+$bplot28 ->SetFillColor("lime");
 $bplot28->SetLegend(sprintf(_("Logged on in last %d days"), 28));
 
 
 $bplot7 = new BarPlot($datay7);
-$bplot7 ->SetFillColor ("yellow");
+$bplot7 ->SetFillColor("yellow");
 $bplot7->SetLegend(sprintf(_("Logged on in last %d days"), 7));
 
 
 // Create the grouped bar plot
-$gbplot = new GroupBarPlot (array($bplotAll ,$bplot90,$bplot28 ,$bplot7 ));
+$gbplot = new GroupBarPlot([$bplotAll, $bplot90, $bplot28, $bplot7]);
 
 // ...and add it to the graPH
-$graph->Add( $gbplot);
+$graph->Add($gbplot);
 
 
 // Setup the title
@@ -143,12 +140,11 @@ $graph->subtitle->Set(
 
 
 
-$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
+$graph->yaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
+$graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
 
 add_graph_timestamp($graph);
 
 // Display the graph
 $graph->Stroke();
-

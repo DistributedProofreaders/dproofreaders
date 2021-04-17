@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'project_states.inc');
@@ -20,12 +20,12 @@ define("MAX_WORD_INSTANCES", 100);
 set_time_limit(0); // no time limit
 
 $projectid = get_projectID_param($_GET, 'projectid');
-$encWord   = @$_GET["word"];
-$word      = rtrim(decode_word($encWord));
+$encWord = @$_GET["word"];
+$word = rtrim(decode_word($encWord));
 
 enforce_edit_authorization($projectid);
 
-$wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
+$wordInstances = get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
 
 $details = json_encode([
     "projectid" => $projectid,
@@ -62,7 +62,7 @@ echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<input type='hidden' name='word' value='$encWord'>";
 echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
 echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='$(\"#wordInstancesForm\").submit()'>";
-foreach(range(10, MAX_WORD_INSTANCES, 10) as $option) {
+foreach (range(10, MAX_WORD_INSTANCES, 10) as $option) {
     echo "<option value='$option'" . ($option == $wordInstances ? " selected" : "") . ">$option</option>";
 }
 echo "</select>";
@@ -71,19 +71,21 @@ echo "</form>";
 
 // get the latest possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-$pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
+$pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
 // iterate through all the pages until we find $wordInstances of the word
 // we're looking for
 $foundInstances = 0;
-while( list($page_text,$page,$proofer_names) = page_info_fetch($pages_res) ) {
+while ([$page_text, $page, $proofer_names] = page_info_fetch($pages_res)) {
     // get a context string
-    list($context_strings,$totalLines)=_get_word_context_from_text($page_text,$word);
-    if(!count($context_strings)) continue;
+    [$context_strings, $totalLines] = _get_word_context_from_text($page_text, $word);
+    if (!count($context_strings)) {
+        continue;
+    }
 
     echo "<p>";
     echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";
-    foreach($context_strings as $lineNum => $context_string) {
-        $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES),$word);
+    foreach ($context_strings as $lineNum => $context_string) {
+        $context_string = _highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
         echo "<b>", _("Line"), "</b>: ",
             // TRANSLATORS: %1$d is the approximate line number, %2$d is the total number of lines
             sprintf(_('~%1$d of %2$d'), $lineNum, $totalLines),
@@ -95,12 +97,13 @@ while( list($page_text,$page,$proofer_names) = page_info_fetch($pages_res) ) {
 
     $foundInstances++;
 
-    if($foundInstances>=$wordInstances) break;
+    if ($foundInstances >= $wordInstances) {
+        break;
+    }
 }
 mysqli_free_result($pages_res);
 
-if($foundInstances>=$wordInstances)
-{
+if ($foundInstances >= $wordInstances) {
     echo "<p>" . _("More instances were found; please choose how many to show from the drop-down.") . "</p>";
 }
 echo "</div></div>";
@@ -109,4 +112,3 @@ echo "<div id='page-browser' class='overflow-hidden'>";
 echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
 echo "</div>";
 echo "</div>";
-

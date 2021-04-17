@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -224,7 +224,7 @@ output_header('Formatierungsrichtlinien', NO_STATSBAR, $theme_args);
 <p>Falls Sie etwas vermissen, etwas Ihrer Ansicht
    nach anders beschrieben werden sollte oder unklar f&uuml;r Sie ist, so lassen
    Sie es uns bitte wissen.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wenn Sie in diesen Richtlinien auf einen Ausdruck sto&szlig;en, mit dem Sie nicht
    vertraut sind, dann schauen Sie in den
    <a href="http://www.pgdp.net/wiki/DP_Jargon">"wiki jargon guide" (nur Englisch)</a>.

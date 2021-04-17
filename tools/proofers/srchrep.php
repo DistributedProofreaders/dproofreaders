@@ -6,11 +6,11 @@ include_once($relPath."misc.inc");
 
 require_login();
 
-slim_header(_("Search/Replace"), array(
-    "js_files" => array(
+slim_header(_("Search/Replace"), [
+    "js_files" => [
         "$code_url/tools/proofers/srchrep.js",
-    ),
-));
+    ],
+]);
 ?>
 <form>
 <table id="tbl">

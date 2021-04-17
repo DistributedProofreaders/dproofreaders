@@ -1,7 +1,7 @@
 <?php
 // Translated by user babymag 18 Feb 2009
 
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -225,7 +225,7 @@ output_header('Regole di Formattazione', NO_STATSBAR, $theme_args);
 </p>
 <p>Se alcuni argomenti mancano, o pensi debbano
    essere affrontati diversamente, o se qualcosa &egrave; vago, faccelo sapere.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Se c'&egrave; un termine in queste guide che non ti &egrave; familiare, leggi il
    <a href="http://www.pgdp.net/wiki/DP_Jargon">glossario nella Wiki</a>.
 <?php } ?>

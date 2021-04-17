@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
@@ -11,9 +11,8 @@ $title = _("Proofreading Font Comparison");
 output_header($title, NO_STATSBAR);
 
 // determine user's current proofreading font, if any and use that as the compare_font
-list($proofreading_font, , $proofreading_font_family) = get_user_proofreading_font();
-if(!$proofreading_font)
-{
+[$proofreading_font, , $proofreading_font_family] = get_user_proofreading_font();
+if (!$proofreading_font) {
     $proofreading_font = 'monospace';
 }
 
@@ -26,30 +25,27 @@ echo "<h2>" . _("Available Proofreading Fonts") . "</h2>";
 
 echo "<p>" . sprintf(_("The following fonts can be selected in your <a href='%s'>preferences</a> for use in the proofreading interface. Browser default is whatever font your browser renders monospace text in unless told otherwise, often Courier or Courier New. The other fonts are available as web fonts and can be selected and used without having them installed on your computer."), "$code_url/userprefs.php?tab=1") . "</p>";
 
-$show_user_custom_font = TRUE;
-foreach(get_available_proofreading_font_faces() as $index => $name)
-{
-    if($index == 1) // other
+$show_user_custom_font = true;
+foreach (get_available_proofreading_font_faces() as $index => $name) {
+    if ($index == 1) { // other
         continue;
+    }
 
-    if($index == 0)
-    {
+    if ($index == 0) {
         $name = BROWSER_DEFAULT_STR;
         $font = 'monospace';
-    }
-    else
-    {
+    } else {
         $font = $name;
     }
 
-    if($font == $proofreading_font)
-        $show_user_custom_font = FALSE;
+    if ($font == $proofreading_font) {
+        $show_user_custom_font = false;
+    }
 
     show_font_specimen($name, $font, $proofreading_font);
 }
 
-if($show_user_custom_font)
-{
+if ($show_user_custom_font) {
     echo "<h2 style='clear: both;'>" . _("Custom Proofreading Font") . "</h2>";
     echo "<p>" . _("Your current proofreading font is one you've specified by name. This is what a specimen looks like in that font.") . "</p>";
     show_font_specimen($proofreading_font, $proofreading_font);
@@ -83,24 +79,25 @@ $character_sets = [
 
 echo "<div style='float: left; padding-right: 1em; margin-bottom: 1em;'>";
 echo "<span style='font-family: monospace;'>" . BROWSER_DEFAULT_STR . "</span><br>";
-if($proofreading_font !== 'monospace' && $proofreading_font != 'DP Sans Mono')
+if ($proofreading_font !== 'monospace' && $proofreading_font != 'DP Sans Mono') {
     echo "<span style=\"font-family: $proofreading_font_family;\">" . html_safe($proofreading_font) . "</span><br>";
+}
 echo "<span style='font-family: DP Sans Mono;'>DP Sans Mono</span>";
 echo "</div>";
 
-foreach($character_sets as $set)
-{
+foreach ($character_sets as $set) {
     echo "<div style='float: left; padding-right: 0.5em; margin-bottom: 1em;'>";
     echo "<span style='font-family: monospace;'>$set</span><br>";
-    if($proofreading_font !== 'monospace' && $proofreading_font != 'DP Sans Mono')
+    if ($proofreading_font !== 'monospace' && $proofreading_font != 'DP Sans Mono') {
         echo "<span style=\"font-family: $proofreading_font_family;\">$set</span><br>";
+    }
     echo "<span style='font-family: DP Sans Mono;'>$set</span>";
     echo "</div>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_font_specimen($name, $font, $proofreading_font = NULL)
+function show_font_specimen($name, $font, $proofreading_font = null)
 {
     echo "<div style='float: left; margin-right: 1em; margin-top: 0;'>";
     //echo "<h3>$name</h3>";
@@ -112,8 +109,8 @@ function show_font_specimen($name, $font, $proofreading_font = NULL)
     echo "!@#$%^&*()[]{}&lt;&gt;'\";:.,\/?<br>";
     echo "</p>";
 
-    if($font == $proofreading_font)
+    if ($font == $proofreading_font) {
         echo "<p><i>" . _("This is your current proofreading font.") . "</i></p>";
+    }
     echo "</div>";
 }
-

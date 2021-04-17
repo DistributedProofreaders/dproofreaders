@@ -35,30 +35,31 @@ function get_available_page_array(
 
     $project = new Project($projectid);
 
-    $err = can_user_get_pages_in_project( $pguser, $project, $round );
-    if ( $err ) return NULL;
+    $err = can_user_get_pages_in_project($pguser, $project, $round);
+    if ($err) {
+        return null;
+    }
 
-    if ( $project->difficulty == 'beginner' and $round->is_a_mentor_round() )
-    {
-            // For beginner projects in a mentor round,
-            // we serve up pages in a different order,
-            // to facilitate mentoring:
-            // 1) Mentors like to give prompt feedback.
-            // 2) Mentors like to deal with all of one proofreader's pages at a time.
-            //
-            // We look at the save-times recorded in the mentee round for pages
-            // in this project, and for each mentee, ascertain their earliest
-            // such save-time, and then order the mentees according to that time.
-            // (So the mentee with the "longest-waiting" page comes first.
-            // In the unlikely event that two mentees have exactly the same
-            // earliest-save-time (down to the second), we break the tie by
-            // taking the users in alphabetical order by username.)
-            //
-            // Taking the mentees in the above order, we serve each one's pages
-            // in 'book order' (i.e., ordered by 'image' field).
-            //
-            // (See http://www.pgdp.net/phpBB3/viewtopic.php?p=1027908#p1027908 and following.)
-            $order = "
+    if ($project->difficulty == 'beginner' and $round->is_a_mentor_round()) {
+        // For beginner projects in a mentor round,
+        // we serve up pages in a different order,
+        // to facilitate mentoring:
+        // 1) Mentors like to give prompt feedback.
+        // 2) Mentors like to deal with all of one proofreader's pages at a time.
+        //
+        // We look at the save-times recorded in the mentee round for pages
+        // in this project, and for each mentee, ascertain their earliest
+        // such save-time, and then order the mentees according to that time.
+        // (So the mentee with the "longest-waiting" page comes first.
+        // In the unlikely event that two mentees have exactly the same
+        // earliest-save-time (down to the second), we break the tie by
+        // taking the users in alphabetical order by username.)
+        //
+        // Taking the mentees in the above order, we serve each one's pages
+        // in 'book order' (i.e., ordered by 'image' field).
+        //
+        // (See http://www.pgdp.net/phpBB3/viewtopic.php?p=1027908#p1027908 and following.)
+        $order = "
                 (
                     SELECT MIN({$round->mentee_round->time_column_name})
                     FROM $projectid
@@ -75,21 +76,16 @@ function get_available_page_array(
 
     // Are there any other restrictions that the page must satisfy?
     // (This should maybe be a property of $round.)
-    if ( empty($preceding_proofer_restriction) )
-    {
+    if (empty($preceding_proofer_restriction)) {
         // Nope, no other restrictions.
-    }
-    else if ($preceding_proofer_restriction == 'not_immediately_preceding')
-    {
+    } elseif ($preceding_proofer_restriction == 'not_immediately_preceding') {
         // Don't give this user a page that they worked on in the preceding round.
         // (Where "preceding" takes into account skipped rounds.)
-        if ( $round->round_number > 1 )
-        {
+        if ($round->round_number > 1) {
             // We need an SQL expression for the preceding proofreader.
             $preceding_proofer = "CASE";
-            for ( $rn = $round->round_number-1; $rn > 0; $rn-- )
-            {
-                $earlier_round = get_Round_for_round_number( $rn );
+            for ($rn = $round->round_number - 1; $rn > 0; $rn--) {
+                $earlier_round = get_Round_for_round_number($rn);
                 $ucn = $earlier_round->user_column_name;
                 $preceding_proofer .= " WHEN LENGTH($ucn) THEN $ucn";
             }
@@ -113,18 +109,13 @@ function get_available_page_array(
 
             $restrictions .= " AND $preceding_proofer != '$pguser'";
         }
-    }
-    else if ($preceding_proofer_restriction == 'not_previously_proofed')
-    {
+    } elseif ($preceding_proofer_restriction == 'not_previously_proofed') {
         // Don't give this user a page that they have worked on before.
-        for ( $rn = 1; $rn < $round->round_number; $rn++ )
-        {
-            $earlier_round = get_Round_for_round_number( $rn );
+        for ($rn = 1; $rn < $round->round_number; $rn++) {
+            $earlier_round = get_Round_for_round_number($rn);
             $restrictions .= " AND {$earlier_round->user_column_name} != '$pguser'";
         }
-    }
-    else
-    {
+    } else {
         // The empty/null (i.e., no restriction) case has already been dealt with.
         die("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
@@ -140,49 +131,50 @@ function get_available_page_array(
     ";
     $result = DPDatabase::query($dbQuery);
     $npage = mysqli_fetch_assoc($result);
-    if(!$npage)
-    {
+    if (!$npage) {
         $err = _("No more files available for proofreading for this round of the project.");
-        return NULL;
+        return null;
     }
 
-    return [ $npage['image'], $npage['state'] ];
+    return [$npage['image'], $npage['state']];
 }
 
-function get_available_page( $projectid, $proj_state, $pguser, &$err )
+function get_available_page($projectid, $proj_state, $pguser, &$err)
 // Returns an LPage, unless no page is available,
 // in which case returns NULL and sets $err.
 {
     global $preceding_proofer_restriction;
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, TRUE);
-    if ( $err ) return NULL;
+    $err = project_continuity_test($projectid, $proj_state, true);
+    if ($err) {
+        return null;
+    }
 
-    $page_array = NULL;
+    $page_array = null;
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
-    if ($preceding_proofer_restriction == 'not_immediately_preceding')
-    {
+    if ($preceding_proofer_restriction == 'not_immediately_preceding') {
         $page_array = get_available_page_array($projectid, $proj_state, $pguser, 'not_previously_proofed', $err);
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
-    if( !$page_array )
-    {
-        $err = NULL;
+    if (!$page_array) {
+        $err = null;
         $page_array = get_available_page_array($projectid, $proj_state, $pguser, $preceding_proofer_restriction, $err);
     }
-    if ( $err ) return NULL;
+    if ($err) {
+        return null;
+    }
 
-    list($imagefile, $state) = $page_array;
+    [$imagefile, $state] = $page_array;
 
-    $lpage = new LPage( $projectid, $imagefile, $state, 0 );
+    $lpage = new LPage($projectid, $imagefile, $state, 0);
 
-    $lpage->checkout( $pguser );
+    $lpage->checkout($pguser);
 
-    $err = NULL;
+    $err = null;
     return $lpage;
 }
 
@@ -193,13 +185,15 @@ function get_indicated_LPage(
     $proj_state,
     $imagefile,
     $page_state,
-    $reverting_to_orig )
+    $reverting_to_orig)
 // Returns an LPage, unless the parameters do not correctly identify a page,
 // in which case it aborts.
 {
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, FALSE);
-    if ( $err ) abort($err);
+    $err = project_continuity_test($projectid, $proj_state, false);
+    if ($err) {
+        abort($err);
+    }
 
     $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT state
@@ -208,21 +202,19 @@ function get_indicated_LPage(
     ") or die(DPDatabase::log_error());
 
     $row = mysqli_fetch_row($res);
-    if (!$row)
-    {
+    if (!$row) {
         // This should only happen if they've been tweaking URLs.
         // Or if the page has actually been deleted.
         $err = _('No such page.');
         abort($err);
     }
 
-    list($current_page_state) = $row;
+    [$current_page_state] = $row;
 
-    if ($page_state != $current_page_state)
-    {
+    if ($page_state != $current_page_state) {
         $err = sprintf(
             _('Page %1$s has changed state from %2$s to %3$s, so your request is invalid.'),
-            $imagefile, $page_state, $current_page_state );
+            $imagefile, $page_state, $current_page_state);
         abort($err);
     }
 
@@ -238,10 +230,10 @@ class LPage
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {
-    function __construct($projectid, $imagefile, $page_state, $reverting_to_orig)
+    public function __construct($projectid, $imagefile, $page_state, $reverting_to_orig)
     {
-        $this->projectid  = $projectid;
-        $this->imagefile  = $imagefile;
+        $this->projectid = $projectid;
+        $this->imagefile = $imagefile;
         $this->page_state = $page_state;
         $this->reverting_to_orig = $reverting_to_orig;
 
@@ -254,24 +246,21 @@ class LPage
 
     // -------------------------------------------------------------------------
 
-    function can_be_reverted_to_last_save()
+    public function can_be_reverted_to_last_save()
     {
-        return ( $this->reverting_to_orig==1
+        return ($this->reverting_to_orig == 1
             || $this->page_state == $this->round->page_save_state
             || $this->page_state == $this->round->page_temp_state
         );
     }
 
-    function get_text()
+    public function get_text()
     {
-        if ( $this->reverting_to_orig==1
+        if ($this->reverting_to_orig == 1
             || $this->page_state == $this->round->page_avail_state
-            || $this->page_state == $this->round->page_out_state )
-        {
+            || $this->page_state == $this->round->page_out_state) {
             $desired_column_name = $this->round->prevtext_column_name;
-        }
-        else
-        {
+        } else {
             $desired_column_name = $this->round->text_column_name;
         }
 
@@ -281,18 +270,18 @@ class LPage
             WHERE image='{$this->imagefile}'
         ";
         $res = mysqli_query(DPDatabase::get_connection(), $q);
-        list($page_text) = mysqli_fetch_row($res);
+        [$page_text] = mysqli_fetch_row($res);
 
         return $page_text;
     }
 
-    function get_language()
+    public function get_language()
     {
         $project = new Project($this->projectid);
         return langcode2_for_langname($project->languages[0]);
     }
 
-    function get_username_for_round( $round )
+    public function get_username_for_round($round)
     {
         $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT {$round->user_column_name}
@@ -305,19 +294,19 @@ class LPage
 
     // -------------------------------------------------------------------------
 
-    function checkout( $user )
+    public function checkout($user)
     {
         $this->page_state =
-            Page_checkout( $this->projectid, $this->imagefile, $this->round, $user );
+            Page_checkout($this->projectid, $this->imagefile, $this->round, $user);
     }
 
-    function saveAsInProgress( $page_text, $user )
+    public function saveAsInProgress($page_text, $user)
     {
-        $this->page_state = Page_saveAsInProgress( $this->projectid, $this->imagefile, $this->round, $user, $page_text );
+        $this->page_state = Page_saveAsInProgress($this->projectid, $this->imagefile, $this->round, $user, $page_text);
         $this->reverting_to_orig = 0;
     }
 
-    function attemptSaveAsDone($text_data,$pguser)
+    public function attemptSaveAsDone($text_data, $pguser)
     // Return an array containing two values:
     // a boolean indicating whether the page was saved,
     // and a boolean indicating whether user has reached the round's daily page limit.
@@ -326,51 +315,51 @@ class LPage
     // if this function says that the page was not saved,
     // it can only be because the user already reached the DPL.)
     {
-        if ($this->round->has_a_daily_page_limit())
-        {
+        if ($this->round->has_a_daily_page_limit()) {
             $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
-            if ($pre_save_dpl_count >= $this->round->daily_page_limit)
+            if ($pre_save_dpl_count >= $this->round->daily_page_limit) {
                 // The user has already reached their limit of this kind of page.
-                return array(FALSE, TRUE);
+                return [false, true];
+            }
         }
 
         $this->page_state =
-            Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
+            Page_saveAsDone($this->projectid, $this->imagefile, $this->round, $pguser, $text_data);
 
         // add to user page count
-        page_tallies_add( $this->round->id, $pguser, +1 );
+        page_tallies_add($this->round->id, $pguser, +1);
 
         $dpl_has_now_been_reached = (
             $this->round->has_a_daily_page_limit()
             &&
             ($pre_save_dpl_count + 1 >= $this->round->daily_page_limit)
         );
-        return array(TRUE, $dpl_has_now_been_reached);
+        return [true, $dpl_has_now_been_reached];
     }
 
-    function returnToRound($pguser)
+    public function returnToRound($pguser)
     {
         $this->page_state =
-            Page_returnToRound( $this->projectid, $this->imagefile, $this->round, $pguser );
+            Page_returnToRound($this->projectid, $this->imagefile, $this->round, $pguser);
     }
 
-    function revertToOriginal()
+    public function revertToOriginal()
     {
         $this->reverting_to_orig = 1;
     }
 
-    function revertToSaved()
+    public function revertToSaved()
     {
         $this->page_state = $this->round->page_temp_state;
         $this->reverting_to_orig = 0;
     }
 
-    function markAsBad( $user, $reason )
+    public function markAsBad($user, $reason)
     // Return TRUE if this report causes project to be marked bad.
     {
         global $code_url, $PAGE_BADNESS_REASONS;
 
-        Page_markAsBad( $this->projectid, $this->imagefile, $this->round, $user, $reason );
+        Page_markAsBad($this->projectid, $this->imagefile, $this->round, $user, $reason);
 
         // Advise PM that the page has been marked bad.
         $project = new Project($this->projectid);
@@ -388,38 +377,34 @@ class LPage
 
         // Now determine whether the project as a whole should be marked bad.
         $project = new Project($this->projectid);
-        if(!$project->is_bad_from_pages($this->round)) {
-            return FALSE;
+        if (!$project->is_bad_from_pages($this->round)) {
+            return false;
         }
 
-        $error_msg = project_transition( $this->projectid, $this->round->project_bad_state, PT_AUTO );
-        if ($error_msg)
-        {
+        $error_msg = project_transition($this->projectid, $this->round->project_bad_state, PT_AUTO);
+        if ($error_msg) {
             echo "$error_msg<br>\n";
         }
-        return TRUE;
+        return true;
     }
 
     // -----------------------------------------------------------------------------
 
-    function resume_saved_page( $pguser )
+    public function resume_saved_page($pguser)
     {
-        if ($this->page_state == $this->round->page_save_state)
-        {
+        if ($this->page_state == $this->round->page_save_state) {
             // Page comes from DONE.
 
             // no need to update text, just record state change
-            $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $this->round, $pguser );
+            $this->page_state = Page_reopen($this->projectid, $this->imagefile, $this->round, $pguser);
 
             // When it was saved, the user's page-count was incremented.
             // Now they are 'unsaving' it, so decrement their page-count.
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
 
-            page_tallies_add( $this->round->id, $pguser, -1 );
-        }
-        else
-        {
+            page_tallies_add($this->round->id, $pguser, -1);
+        } else {
             // Page comes from IN PROGRESS.
 
             // Resuming such a page has no actual effect on the page,
@@ -433,18 +418,14 @@ class LPage
                 FROM $this->projectid
                 WHERE image='$this->imagefile'
             ");
-            list($current_round_user) = mysqli_fetch_row($res);
+            [$current_round_user] = mysqli_fetch_row($res);
 
-            if ($pguser != $current_round_user)
-            {
+            if ($pguser != $current_round_user) {
                 $err = sprintf(
                     _('You (%1$s) do not have the necessary access to page %2$s'),
-                    $pguser, $this->imagefile );
+                    $pguser, $this->imagefile);
                 abort($err);
             }
         }
     }
-
 } // end class
-
-?>

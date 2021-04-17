@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -13,4 +13,3 @@ echo "<p>" . _("In dialog, treat a change in speaker as a new paragraph, with on
 echo "<p>" . _("Stage directions are kept as they are in the original image, so if the stage direction is on a line by itself, proofread it that way; if it is at the end of a line of dialog, leave it there. Stage directions often begin with an opening bracket and omit the closing bracket. This convention is retained; do not close the brackets.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_5'>" . _("Continue to quiz page") . "</a></p>\n";
-

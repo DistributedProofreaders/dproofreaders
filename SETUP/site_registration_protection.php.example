@@ -13,9 +13,9 @@ function get_registration_form_inserters()
 // If none are desired, it should return an empty array.
 // See insert_form_timestamp() for an example of an inserter.
 {
-    return array(
+    return [
         "insert_form_timestamp",
-    );
+    ];
 }
 
 function get_registration_form_validators()
@@ -23,9 +23,9 @@ function get_registration_form_validators()
 // If none are desired, it should return an empty array.
 // See minimum_form_fill_time() for an example validator.
 {
-    return array(
+    return [
         "minimum_form_fill_time",
-    );
+    ];
 }
 
 
@@ -46,11 +46,9 @@ function minimum_form_fill_time($real_name, $username, $userpass, $userpass2, $e
     $MIN_FORM_FILL_TIME = 2;
 
     $timestamp = $_POST["timestamp"];
-    if(time() - $timestamp < $MIN_FORM_FILL_TIME)
-    {
+    if (time() - $timestamp < $MIN_FORM_FILL_TIME) {
         // It's not a good idea to be too specific in your error message
         // to prevent bot makers from understanding what you're checking for
         return _("There was an error processing your request. Please try again in a few seconds.");
     }
 }
-

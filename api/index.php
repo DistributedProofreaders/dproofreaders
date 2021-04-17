@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'bootstrap.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc');
@@ -12,19 +12,17 @@ header("Content-Type: application/json");
 
 handle_cors_headers();
 
-if($maintenance)
-{
+if ($maintenance) {
     throw new ApiException("Site is in maintenance mode");
 }
 
-if(!@$api_enabled)
-{
+if (!@$api_enabled) {
     throw new ApiException("API is not enabled");
 }
 
 api();
 
-# ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 function api()
 {
@@ -46,16 +44,13 @@ function api_authenticate()
     global $pguser;
 
     $api_key = @$_SERVER['HTTP_X_API_KEY'];
-    if($api_key)
-    {
+    if ($api_key) {
         // If the api_key is "SESSION" attempt to load the user session
-        if($api_key == "SESSION")
-        {
+        if ($api_key == "SESSION") {
             dpsession_resume();
         }
         // Otherwise use the API key in the HTTP header
-        else
-        {
+        else {
             try {
                 $user = User::load_from_api_key($api_key);
             } catch (NonexistentUserException $exception) {
@@ -65,8 +60,7 @@ function api_authenticate()
         }
     }
 
-    if(!isset($pguser))
-    {
+    if (!isset($pguser)) {
         throw new UnauthorizedError();
     }
 
@@ -78,8 +72,7 @@ function api_rate_limit($key)
     global $api_rate_limit;
     global $api_rate_limit_requests_per_window, $api_rate_limit_seconds_in_window;
 
-    if(!$api_rate_limit)
-    {
+    if (!$api_rate_limit) {
         return;
     }
 
@@ -93,18 +86,15 @@ function api_rate_limit($key)
 
     // initialize or reset our expire time
     $expire_time = $memcache->get("$key:expire");
-    if($expire_time === FALSE || $expire_time < time())
-    {
+    if ($expire_time === false || $expire_time < time()) {
         $expire_time = time() + $api_rate_limit_seconds_in_window;
         $memcache->set("$key:expire", $expire_time);
         $count = 0;
     }
     // otherwise get the current value
-    else
-    {
+    else {
         $count = $memcache->get("$key:count");
-        if($count === FALSE)
-        {
+        if ($count === false) {
             $count = 0;
         }
     }
@@ -112,8 +102,7 @@ function api_rate_limit($key)
     $count = $count + 1;
 
     // increment (or initialize) our count
-    if($memcache->set("$key:count", $count) === FALSE)
-    {
+    if ($memcache->set("$key:count", $count) === false) {
         // if we can't set the value, memcached probably isn't running
         // regardless, we can't enforce rate limiting so log it and return an error
         error_log("api/index.php - Error setting $key:count=$count in memcache");
@@ -122,8 +111,7 @@ function api_rate_limit($key)
 
     // enforce exceeding the limit
     $seconds_before_reset = $expire_time - time();
-    if($count > $api_rate_limit_requests_per_window)
-    {
+    if ($count > $api_rate_limit_requests_per_window) {
         throw new RateLimitExceeded(
             "Rate limit exceeded, resets in $seconds_before_reset seconds"
         );
@@ -140,7 +128,7 @@ function api_get_request_body()
     return json_decode(file_get_contents('php://input'));
 }
 
-function api_output_response($data, $response_code=200)
+function api_output_response($data, $response_code = 200)
 {
     http_response_code($response_code);
     echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
@@ -153,27 +141,24 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     header("X-Results-Total: $total_rows");
 
     // don't send a pagination header if everything fits on one page
-    if($total_rows <= $per_page)
+    if ($total_rows <= $per_page) {
         return;
+    }
 
     $total_pages = round($total_rows / $per_page);
 
     // create the link base by parsing $query_params
     $params = [];
-    foreach($query_params as $key => $value)
-    {
-        if(in_array($key, [ "page", "per_page" ]))
+    foreach ($query_params as $key => $value) {
+        if (in_array($key, ["page", "per_page"])) {
             continue;
+        }
 
-        if(is_array($value))
-        {
-            foreach($value as $subkey => $value)
-            {
+        if (is_array($value)) {
+            foreach ($value as $subkey => $value) {
                 $params[] = "{$key}[]=" . urlencode($value);
             }
-        }
-        else
-        {
+        } else {
             $params[] = "$key=" . urlencode($value);
         }
     }
@@ -182,8 +167,7 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     // If the URI doesn't include the url param (because the Apache config
     // hasn't been updated) we need to include it here to make valid links.
     $link_base = $_SERVER["SCRIPT_URI"] . "?";
-    if(stripos($link_base, $_GET["url"]) === FALSE)
-    {
+    if (stripos($link_base, $_GET["url"]) === false) {
         $link_base .= "url=" . $_GET["url"] . "&";
     }
     $link_base .= implode("&", $params);
@@ -191,20 +175,17 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     // determine which relative links we need to include
     $links = [];
     $links["first"] = "page=1";
-    if($page > 1)
-    {
+    if ($page > 1) {
         $links["prev"] = "page=" . ($page - 1);
     }
-    if($page < $total_pages)
-    {
+    if ($page < $total_pages) {
         $links["next"] = "page=" . ($page + 1);
     }
     $links["last"] = "page=$total_pages";
 
     // build the string
     $link_header = [];
-    foreach($links as $rel => $url)
-    {
+    foreach ($links as $rel => $url) {
         $link_header[] = "<$link_base&$url>; rel=\"$rel\"";
     }
     header("Link: " . implode(", ", $link_header));
@@ -217,8 +198,7 @@ function handle_cors_headers()
         "https://editor.swagger.io",
     ];
     $origin = @$_SERVER["HTTP_ORIGIN"];
-    if(in_array($origin, $allowed_origins))
-    {
+    if (in_array($origin, $allowed_origins)) {
         header("Access-Control-Allow-Origin: $origin");
     }
 
@@ -232,18 +212,18 @@ function handle_cors_headers()
     header("Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, PATCH");
 
     // If this was a CORS OPTIONS request, stop now with a 200
-    if(@$_SERVER["REQUEST_METHOD"] == "OPTIONS")
-    {
+    if (@$_SERVER["REQUEST_METHOD"] == "OPTIONS") {
         exit();
     }
 }
 
 function production_exception_handler($exception)
 {
-    if($exception instanceof ApiException)
+    if ($exception instanceof ApiException) {
         $response_code = $exception->getStatusCode();
-    else
+    } else {
         $response_code = 500;
+    }
 
     api_output_response(["error" => $exception->getMessage()], $response_code);
 }

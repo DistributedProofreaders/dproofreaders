@@ -26,27 +26,23 @@ function merge_configuration_files($old_filename, $new_filename)
 
     $config_values = load_config_file_values($old_filename);
 
-    list($new_config_parameters, $unused_config_parameters) =
+    [$new_config_parameters, $unused_config_parameters] =
             output_config_file_with_new_values($new_filename, $config_values);
 
-    if(count($new_config_parameters))
-    {
+    if (count($new_config_parameters)) {
         fwrite($STDERR, sprintf("The following variables are in %s but not in %s, you may want confirm they are set to the values you want:\n",
                 $new_filename, $old_filename));
         ksort($new_config_parameters);
-        foreach($new_config_parameters as $parameter => $value)
-        {
+        foreach ($new_config_parameters as $parameter => $value) {
             fwrite($STDERR, "    $parameter=$value\n");
         }
         fwrite($STDERR, "\n");
     }
 
-    if(count($unused_config_parameters))
-    {
+    if (count($unused_config_parameters)) {
         fwrite($STDERR, sprintf("These values are set in %s, but were not found in %s.\n",
                 $old_filename, $new_filename));
-        foreach($unused_config_parameters as $parameter => $value)
-        {
+        foreach ($unused_config_parameters as $parameter => $value) {
             fwrite($STDERR, "    $parameter=$value\n");
         }
         fwrite($STDERR, "You should confirm they are not used as values and thus needed in the new configuration file.\n");
@@ -57,20 +53,17 @@ function merge_configuration_files($old_filename, $new_filename)
 function load_config_file_values($filename)
 {
     $fh = fopen($filename, "r");
-    if(!$fh)
-    {
+    if (!$fh) {
         fwrite($STDERR, "Unable to open $filename for reading\n");
         exit(1);
     }
 
-    $config_values = array();
+    $config_values = [];
 
-    while(!feof($fh))
-    {
+    while (!feof($fh)) {
         $line = fgets($fh);
 
-        if(preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches))
-        {
+        if (preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
             $config_values[$matches[1]] = $matches[2];
         }
     }
@@ -83,28 +76,22 @@ function load_config_file_values($filename)
 function output_config_file_with_new_values($filename, $config_values)
 {
     $fh = fopen($filename, "r");
-    if(!$fh)
-    {
+    if (!$fh) {
         fwrite($STDERR, "Unable to open $filename for reading\n");
         exit(1);
     }
 
-    $new_config_parameters = array();
+    $new_config_parameters = [];
     $unused_config_parameters = $config_values;
 
-    while(!feof($fh))
-    {
+    while (!feof($fh)) {
         $line = fgets($fh);
 
-        if(preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches))
-        {
-            if(isset($config_values[$matches[1]]))
-            {
+        if (preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
+            if (isset($config_values[$matches[1]])) {
                 $line = sprintf("%s=%s\n", $matches[1], $config_values[$matches[1]]);
                 unset($unused_config_parameters[$matches[1]]);
-            }
-            else
-            {
+            } else {
                 $new_config_parameters[$matches[1]] = $matches[2];
             }
         }
@@ -114,20 +101,16 @@ function output_config_file_with_new_values($filename, $config_values)
 
     fclose($fh);
 
-    return(array($new_config_parameters, $unused_config_parameters));
+    return([$new_config_parameters, $unused_config_parameters]);
 }
 
-# ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 $STDERR = fopen('php://stderr', 'w+');
 
-if(count($argv) == 3)
-{
+if (count($argv) == 3) {
     merge_configuration_files($argv[1], $argv[2]);
-}
-else
-{
+} else {
     usage();
     exit(1);
 }
-

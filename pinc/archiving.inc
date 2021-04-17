@@ -9,7 +9,7 @@ include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 include($relPath.'udb_user.php'); // $archive_db_name
 
 
-function archive_project( $project, $dry_run )
+function archive_project($project, $dry_run)
 // -- Move the project's page-table to the archive database.
 // -- Move the project's directory out of $projects_dir &
 //    write out project's metadata to a JSON file.
@@ -18,26 +18,20 @@ function archive_project( $project, $dry_run )
 {
     global $archive_projects_dir, $archive_db_name;
 
-    if(!is_dir($archive_projects_dir))
-    {
+    if (!is_dir($archive_projects_dir)) {
         die("Error: archive directory $archive_projects_dir does not exist.\n");
     }
 
     $projectid = $project->projectid;
 
-    $mod_time_str = strftime('%Y-%m-%d %H:%M:%S',$project->modifieddate);
+    $mod_time_str = strftime('%Y-%m-%d %H:%M:%S', $project->modifieddate);
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
-    if (!does_project_page_table_exist($projectid))
-    {
+    if (!does_project_page_table_exist($projectid)) {
         echo "    Table $projectid does not exist.\n";
-    }
-    elseif ($dry_run)
-    {
+    } elseif ($dry_run) {
         echo "    Move table $projectid to $archive_db_name.\n";
-    }
-    else
-    {
+    } else {
         mysqli_query(DPDatabase::get_connection(), "
             ALTER TABLE $projectid
             RENAME AS $archive_db_name.$projectid
@@ -46,41 +40,32 @@ function archive_project( $project, $dry_run )
 
     $project_dir = $project->dir;
     $new_dir = "$archive_projects_dir/$projectid";
-    if (file_exists($project_dir))
-    {
-        if ($dry_run)
-        {
+    if (file_exists($project_dir)) {
+        if ($dry_run) {
             echo "    Move $project_dir to $new_dir.\n";
-        }
-        else
-        {
+        } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
-            exec( "rm $project_dir/projectID*.txt" );
-            rename( $project_dir, $new_dir ) or die( "Unable to move $project_dir to $new_dir" );
+            exec("rm $project_dir/projectID*.txt");
+            rename($project_dir, $new_dir) or die("Unable to move $project_dir to $new_dir");
         }
-    }
-    else
-    {
+    } else {
         echo "    Warning: $project_dir does not exist.\n";
     }
 
-    archive_ancillary_data_for_project_etc( $project, '        ', $dry_run );
+    archive_ancillary_data_for_project_etc($project, '        ', $dry_run);
 
     generate_project_metadata_json($project, "$new_dir/metadata.json", $dry_run);
 
-    if ($dry_run)
-    {
+    if ($dry_run) {
         echo "    Mark project as archived.\n";
-    }
-    else
-    {
+    } else {
         mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects
             SET archived = '1'
             WHERE projectid='$projectid'
         ") or die(DPDatabase::log_error());
 
-        log_project_event( $projectid, '[archiver]', 'archive' );
+        log_project_event($projectid, '[archiver]', 'archive');
     }
 }
 
@@ -99,12 +84,9 @@ function generate_project_metadata_json($project, $filename, $dry_run)
         "image_source" => $project->image_source,
     ];
 
-    if($dry_run)
-    {
+    if ($dry_run) {
         echo "    Write project metadata to $filename.\n";
-    }
-    else
-    {
+    } else {
         file_put_contents($filename, json_encode($metadata,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
             JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK))
@@ -112,11 +94,11 @@ function generate_project_metadata_json($project, $filename, $dry_run)
     }
 }
 
-function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
+function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
 // Archive the ancillary info relating to $project
 // or to any project that was merged into it (and then deleted).
 {
-    archive_ancillary_data_for_project( $project, $indent, $dry_run );
+    archive_ancillary_data_for_project($project, $indent, $dry_run);
 
     // Check for any deleted projects that were merged into this project,
     // and archive their ancillary info too.
@@ -127,31 +109,26 @@ function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
         AND deletion_reason = 'merged into $project->projectid'
         ORDER BY modifieddate
     ") or die(DPDatabase::log_error());
-    while ( $project2 = mysqli_fetch_object($res2) )
-    {
-        archive_ancillary_data_for_project( $project2, $indent, $dry_run );
+    while ($project2 = mysqli_fetch_object($res2)) {
+        archive_ancillary_data_for_project($project2, $indent, $dry_run);
     }
 }
 
-function archive_ancillary_data_for_project( $project, $indent, $dry_run )
+function archive_ancillary_data_for_project($project, $indent, $dry_run)
 {
     $projectid = $project->projectid;
 
-    if ( $project->state != PROJ_SUBMIT_PG_POSTED && $project->state != PROJ_DELETE )
-    {
+    if ($project->state != PROJ_SUBMIT_PG_POSTED && $project->state != PROJ_DELETE) {
         echo $indent, "$projectid state is '$project->state'; skipping.\n";
         global $skipped_due_to_state;
         $skipped_due_to_state[] = "$projectid $project->state";
         return;
     }
 
-    if ( does_project_page_table_exist($projectid) == FALSE || $dry_run )
-    {
+    if (does_project_page_table_exist($projectid) == false || $dry_run) {
         // project's page table doesn't exist.
         // Good, that's consistent with it having archived='1'
-    }
-    else
-    {
+    } else {
         // project's page table exists (or something else weird happened)
         echo $indent, "$projectid page table exists; skipping.\n";
         global $skipped_due_to_page_table;
@@ -166,7 +143,7 @@ function archive_ancillary_data_for_project( $project, $indent, $dry_run )
 
 // -----------------------------------------------------------------------------
 
-function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry_run )
+function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_run)
 // "Move" (i.e. copy and delete) rows pertaining to the given project
 // from $table_name in the main db to $table_name in the archive db.
 //
@@ -176,8 +153,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
 
     echo $indent, "$projectid $table_name: ";
 
-    if ( $dry_run )
-    {
+    if ($dry_run) {
         echo "move rows to $archive_db_name.$table_name\n";
         return;
     }
@@ -192,10 +168,9 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         WHERE projectid='$projectid'
     ") or die(DPDatabase::log_error());
     $n_copied = mysqli_affected_rows(DPDatabase::get_connection());
-    echo sprintf( "%4d rows copied", $n_copied );
+    echo sprintf("%4d rows copied", $n_copied);
 
-    if ( $n_copied == 0 )
-    {
+    if ($n_copied == 0) {
         echo ".\n";
         return;
     }
@@ -206,20 +181,16 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         WHERE projectid='$projectid'
     ") or die(DPDatabase::log_error());
     $n_deleted = mysqli_affected_rows(DPDatabase::get_connection());
-    if ( $n_deleted == $n_copied )
-    {
+    if ($n_deleted == $n_copied) {
         echo " and deleted";
-    }
-    else
-    {
+    } else {
         echo "BUT $n_deleted DELETED! ABORTING\n";
         exit;
     }
 
     $t_elapsed = $watch->read();
-    if (0)
-    {
-        echo sprintf( " (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed );
+    if (0) {
+        echo sprintf(" (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed);
     }
     echo ".\n";
 
@@ -242,8 +213,8 @@ function archival_skip_logs_init()
 {
     global $skipped_due_to_state, $skipped_due_to_page_table;
 
-    $skipped_due_to_state = array();
-    $skipped_due_to_page_table = array();
+    $skipped_due_to_state = [];
+    $skipped_due_to_page_table = [];
 }
 
 function archival_skip_logs_dump()
@@ -252,16 +223,13 @@ function archival_skip_logs_dump()
 
     echo "\n";
     echo count($skipped_due_to_state), " skipped_due_to_state:\n";
-    foreach ( $skipped_due_to_state as $str )
-    {
+    foreach ($skipped_due_to_state as $str) {
         echo "    $str\n";
     }
 
     echo "\n";
     echo count($skipped_due_to_page_table), " skipped_due_to_page_table:\n";
-    foreach ( $skipped_due_to_page_table as $str )
-    {
+    foreach ($skipped_due_to_page_table as $str) {
         echo "    $str\n";
     }
 }
-

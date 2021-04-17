@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -33,4 +33,3 @@ echo "<h3>" . _("End-of-page Hyphenation and Dashes") . "</h3>\n";
 echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end of the last line, and mark it with a <kbd>*</kbd> after the hyphen or dash.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_2'>" . _("Continue to quiz page") . "</a></p>\n";
-

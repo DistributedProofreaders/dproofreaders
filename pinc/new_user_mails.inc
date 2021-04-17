@@ -20,30 +20,30 @@ function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 
     $body = <<<EOMAIL
 
-Hello $real_name
+        Hello $real_name
 
-This is an automated response to a request for a new account at
-$site_name with the user name: $username
+        This is an automated response to a request for a new account at
+        $site_name with the user name: $username
 
-To complete your registration, please visit this URL:
+        To complete your registration, please visit this URL:
 
-$code_url/accounts/activate.php?id=$ID
+        $code_url/accounts/activate.php?id=$ID
 
-We require this confirmation step to prevent someone from registering
-an account in your name without your knowledge. If you do not follow
-this URL, the account will not be activated.
+        We require this confirmation step to prevent someone from registering
+        an account in your name without your knowledge. If you do not follow
+        this URL, the account will not be activated.
 
-Once you have activated your account, you will receive a new email
-which contains basic information, tips and tricks to help make
-your experience of the site pleasant. At the bottom of that email
-is a collection of common questions which new volunteers may have,
-and their answers.
+        Once you have activated your account, you will receive a new email
+        which contains basic information, tips and tricks to help make
+        your experience of the site pleasant. At the bottom of that email
+        is a collection of common questions which new volunteers may have,
+        and their answers.
 
-Thanks,
+        Thanks,
 
-The $site_name Team
+        The $site_name Team
 
-EOMAIL;
+        EOMAIL;
 
     maybe_mail($email, $activate, $body);
 }
@@ -65,125 +65,121 @@ function maybe_welcome_mail($email, $real_name, $username)
     $dp_wiki_url = "https://www.pgdp.net/wiki";
 
     // only include the feedback paragraph if we are running at pgdp.*
-    if(stripos($code_url, '//www.pgdp.') !== FALSE)
-    {
+    if (stripos($code_url, '//www.pgdp.') !== false) {
         $feedback_pm_url = get_url_to_compose_message_to_user('dp-feedback');
         $feedback_paragraph = <<<EOPARA
-For feedback on projects other than Beginners Only, please send a message
-to dp-feedback via email ( dp-feedback@pgdp.net ) or private message
-( $feedback_pm_url ).
+            For feedback on projects other than Beginners Only, please send a message
+            to dp-feedback via email ( dp-feedback@pgdp.net ) or private message
+            ( $feedback_pm_url ).
 
-EOPARA;
-     }
-     else
-     {
-         $feedback_paragraph = "";
-     }
+            EOPARA;
+    } else {
+        $feedback_paragraph = "";
+    }
 
     $body = <<<EOMAIL
 
-$real_name, welcome to $site_name at $site_url
-and thank you for registering as a volunteer!
+        $real_name, welcome to $site_name at $site_url
+        and thank you for registering as a volunteer!
 
-Your user name is: $username
+        Your user name is: $username
 
-Please retain this email for future reference.
+        Please retain this email for future reference.
 
-The information below is also available on our website at
-$dp_wiki_url/DP_Official_Documentation:General/DP_Welcome_Email
+        The information below is also available on our website at
+        $dp_wiki_url/DP_Official_Documentation:General/DP_Welcome_Email
 
--------------------------
+        -------------------------
 
-Here's how to get started:
+        Here's how to get started:
 
-Before working on the site or posting to the forums,
-please read our Code of Conduct at
-$dp_wiki_url/DP_Official_Documentation:General/Code_of_Conduct
-and our Mission Statement at
-$dp_wiki_url/DP_Official_Documentation:General/Distributed_Proofreaders_Mission_Statement
+        Before working on the site or posting to the forums,
+        please read our Code of Conduct at
+        $dp_wiki_url/DP_Official_Documentation:General/Code_of_Conduct
+        and our Mission Statement at
+        $dp_wiki_url/DP_Official_Documentation:General/Distributed_Proofreaders_Mission_Statement
 
-Computer Requirements
----------------------
+        Computer Requirements
+        ---------------------
 
-If you experience any problems when using the site, please make sure that
-your computer's time and date are correct and that your browser settings
-for $site_name are as follows:
+        If you experience any problems when using the site, please make sure that
+        your computer's time and date are correct and that your browser settings
+        for $site_name are as follows:
 
-- javascript enabled
-- cookies accepted
-- popup windows allowed
-
-
-Start Proofreading
-------------------
-
-1. Log in at $site_url
-
-2. The site will walk you through getting started. Look for boxes labeled
-   'Welcome New Proofreader!'.
-
-To understand the basics of proofreading at $site_name,
-you should review the Proofreading Guidelines Summary:
-$code_url/faq/proofing_summary.pdf
-
-Later you should also read the full Proofreading Guidelines:
-$dp_wiki_url/DP_Official_Documentation:Proofreading/Proofreading_Guidelines
-
-$feedback_paragraph
-
-Start Smooth Reading
---------------------
-
-Smooth Reading involves reading a book that is almost ready for posting
-to Project Gutenberg and reporting anything that disrupts the sense or
-flow of the book.
-
-For detailed information on how to Smooth Read, please visit the
-Smooth Readers FAQ:
-$dp_wiki_url/DP_Official_Documentation:Smooth_Reading/Smooth_Reading_FAQ
+        - javascript enabled
+        - cookies accepted
+        - popup windows allowed
 
 
-Questions
----------
+        Start Proofreading
+        ------------------
 
-For general questions about $site_name, please send an email to
-$general_help_email_addr or ask in our forums at $forums_url
+        1. Log in at $site_url
+
+        2. The site will walk you through getting started. Look for boxes labeled
+           'Welcome New Proofreader!'.
+
+        To understand the basics of proofreading at $site_name,
+        you should review the Proofreading Guidelines Summary:
+        $code_url/faq/proofing_summary.pdf
+
+        Later you should also read the full Proofreading Guidelines:
+        $dp_wiki_url/DP_Official_Documentation:Proofreading/Proofreading_Guidelines
+
+        $feedback_paragraph
+
+        Start Smooth Reading
+        --------------------
+
+        Smooth Reading involves reading a book that is almost ready for posting
+        to Project Gutenberg and reporting anything that disrupts the sense or
+        flow of the book.
+
+        For detailed information on how to Smooth Read, please visit the
+        Smooth Readers FAQ:
+        $dp_wiki_url/DP_Official_Documentation:Smooth_Reading/Smooth_Reading_FAQ
 
 
-General Overview
-----------------
+        Questions
+        ---------
 
-For a general overview of $site_name and other resource material,
-including a list of other ways you can help at $site_name,
-please check out our New Volunteer Frequently Asked Questions at
-$dp_wiki_url/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions
-and browse the resources in our Information for New and
-Returning Volunteers area at
-$dp_wiki_url/DP_Official_Documentation:General#Information_For_New_and_Returning_Volunteers
+        For general questions about $site_name, please send an email to
+        $general_help_email_addr or ask in our forums at $forums_url
 
 
-Certification of Volunteer Work
--------------------------------
+        General Overview
+        ----------------
 
-$site_name tracks only the number of pages proofread. We
-do not track the amount of time our volunteers spend working on those
-pages. For further information, see "Certification of Volunteer Work":
-$dp_wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work
+        For a general overview of $site_name and other resource material,
+        including a list of other ways you can help at $site_name,
+        please check out our New Volunteer Frequently Asked Questions at
+        $dp_wiki_url/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions
+        and browse the resources in our Information for New and
+        Returning Volunteers area at
+        $dp_wiki_url/DP_Official_Documentation:General#Information_For_New_and_Returning_Volunteers
 
--------------------------
 
-Thank you again for joining $site_name. Every page you work on
-helps us make our books available to the public more rapidly. We hope you
-will enjoy volunteering here and we appreciate your contribution towards
-our effort to provide an ever larger and richer collection of free quality
-e-books to the world.
+        Certification of Volunteer Work
+        -------------------------------
 
-Thanks,
+        $site_name tracks only the number of pages proofread. We
+        do not track the amount of time our volunteers spend working on those
+        pages. For further information, see "Certification of Volunteer Work":
+        $dp_wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work
 
-The $site_name Team
+        -------------------------
 
-EOMAIL;
+        Thank you again for joining $site_name. Every page you work on
+        helps us make our books available to the public more rapidly. We hope you
+        will enjoy volunteering here and we appreciate your contribution towards
+        our effort to provide an ever larger and richer collection of free quality
+        e-books to the world.
+
+        Thanks,
+
+        The $site_name Team
+
+        EOMAIL;
 
     maybe_mail($email, $welcome, $body);
 }
-

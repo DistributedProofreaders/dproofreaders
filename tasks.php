@@ -1,5 +1,5 @@
 <?php
-$relPath='pinc/';
+$relPath = 'pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
@@ -27,38 +27,34 @@ $now_sse = time();
 // Convert old-style GET requests into new-style,
 // in case people have them in bookmarks/links.
 
-if (isset($_GET['f']) && !isset($_GET['action']))
-{
-    $f_map = array(
-        'newtask'    => 'show_creation_form',
-        'detail'     => 'show',
-        'notifyme'   => 'notify_me',
+if (isset($_GET['f']) && !isset($_GET['action'])) {
+    $f_map = [
+        'newtask' => 'show_creation_form',
+        'detail' => 'show',
+        'notifyme' => 'notify_me',
         'unnotifyme' => 'unnotify_me',
-    );
+    ];
     $f = get_enumerated_param($_GET, 'f', null, array_keys($f_map));
     $_REQUEST['action'] = $_GET['action'] = $f_map[$f];
     unset($_GET['f']);
     unset($_REQUEST['f']);
 }
 
-if (isset($_GET['tid']) && !isset($_GET['task_id']))
-{
+if (isset($_GET['tid']) && !isset($_GET['task_id'])) {
     $_REQUEST['task_id'] = $_GET['task_id'] = $_GET['tid'];
     unset($_GET['tid']);
     unset($_REQUEST['tid']);
 }
 
-if (isset($_GET['search_text']) && !isset($_GET['action']))
-{
+if (isset($_GET['search_text']) && !isset($_GET['action'])) {
     $_REQUEST['action'] = $_GET['action'] = 'search';
 }
 
 // ---------------------------------------------------------
 
 $request_method = $_SERVER['REQUEST_METHOD'];
-if ($request_method == 'GET')
-{
-    $valid_actions = array(
+if ($request_method == 'GET') {
+    $valid_actions = [
         'show_creation_form',
         'show',
         'notify_me',
@@ -67,13 +63,11 @@ if ($request_method == 'GET')
         'list_open',
         'notify_new',
         'unnotify_new',
-        'edit_comment'
-    );
+        'edit_comment',
+    ];
     $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
-}
-elseif ($request_method == 'POST')
-{
-    $valid_actions = array(
+} elseif ($request_method == 'POST') {
+    $valid_actions = [
         'create',
         'show_editing_form',
         'edit',
@@ -87,11 +81,9 @@ elseif ($request_method == 'POST')
         'reopen',
         'search',
         'save_edit_comment',
-    );
+    ];
     $action = get_enumerated_param($_POST, 'action', null, $valid_actions);
-}
-else
-{
+} else {
     die("unexpected REQUEST_METHOD: '$request_method'");
 }
 
@@ -99,29 +91,29 @@ else
 
 // This section sets up all the "pick from a list" properties of a task.
 
-$tasks_array = array(
+$tasks_array = [
     1 => "Bug Report",
     2 => "Feature Request",
     3 => "Support Request",
-    4 => "Site Administrator Request"
-);
-$severity_array = array(
+    4 => "Site Administrator Request",
+];
+$severity_array = [
     1 => "Catastrophic",
     2 => "Critical",
     3 => "Major",
     4 => "Normal",
     5 => "Minor",
     6 => "Trivial",
-    7 => "Enhancement"
-);
-$priority_array = array(
+    7 => "Enhancement",
+];
+$priority_array = [
     1 => "Very High",
     2 => "High",
     3 => "Medium",
     4 => "Low",
-    5 => "Very Low"
-);
-$categories_array = array(
+    5 => "Very Low",
+];
+$categories_array = [
     1 => "None",
     2 => "Documentation",
     3 => "Entrance",
@@ -154,10 +146,10 @@ $categories_array = array(
     30 => "Teams",
     31 => "Project Notifications",
     32 => "Format Preview",
-    99 => "Other"
-);
+    99 => "Other",
+];
 asort($categories_array);
-$tasks_status_array = array(
+$tasks_status_array = [
     1 => "New",
     2 => "Accepted",
     3 => "Duplicate",
@@ -175,10 +167,10 @@ $tasks_status_array = array(
     15 => "Reopened",
     16 => "Researching",
     17 => "Implemented",
-    18 => "In Progress"
-);
+    18 => "In Progress",
+];
 asort($tasks_status_array);
-$os_array = array(
+$os_array = [
     0 => "All",
     1 => "Windows 3.1",
     2 => "Windows 95",
@@ -217,10 +209,10 @@ $os_array = array(
     35 => "iOS",
     36 => "iPadOS",
     37 => "Android",
-    99 => "Other"
-);
+    99 => "Other",
+];
 natcasesort($os_array);
-$browser_array = array(
+$browser_array = [
     0 => "All",
     1 => "Internet Explorer 6.x",
     2 => "Netscape 6.x",
@@ -273,17 +265,17 @@ $browser_array = array(
     50 => "Opera 10.x",
     51 => "Microsoft Edge",
     52 => "Chrome / Chromium",
-    99 => "Other"
-);
+    99 => "Other",
+];
 asort($browser_array);
-$versions_array = array(
+$versions_array = [
     1 => "pgdp.net (Live)",
     4 => "dp.rastko.net (Live)",
     5 => "pgdpcanada.net (Live)",
     2 => "pgdp.org (Test Server)",
-    3 => "CVS"
-);
-$tasks_close_array = array(
+    3 => "CVS",
+];
+$tasks_close_array = [
     1 => "Not a Bug",
     2 => "Won't Fix",
     3 => "Won't Implement",
@@ -292,10 +284,10 @@ $tasks_close_array = array(
     6 => "Deferred",
     7 => "Fixed",
     8 => "Implemented",
-    9 => "Resolved"
-);
+    9 => "Resolved",
+];
 asort($tasks_close_array);
-$percent_complete_array = array(
+$percent_complete_array = [
     0 => "0%",
     10 => "10%",
     20 => "20%",
@@ -306,31 +298,31 @@ $percent_complete_array = array(
     70 => "70%",
     80 => "80%",
     90 => "90%",
-    100 => "100%"
-);
+    100 => "100%",
+];
 
-$task_assignees_array = array();
+$task_assignees_array = [];
 $taskcenter_managers = array_unique(array_merge(
     Settings::get_users_with_setting('sitemanager', 'yes'),
     Settings::get_users_with_setting('task_center_mgr', 'yes')
 ));
-foreach($taskcenter_managers as $taskcenter_manager) {
+foreach ($taskcenter_managers as $taskcenter_manager) {
     $user = new User($taskcenter_manager);
     $task_assignees_array[$user->u_id] = $taskcenter_manager;
 }
 natcasesort($task_assignees_array);
-$task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
+$task_assignees_array = [0 => 'Unassigned'] + $task_assignees_array;
 
 // -----------------------------------------------------------------------------
 
-$SearchParams_choices = array(
-    'task_status'   => array(998 => _('All Tasks'), 999 => _('All Open Tasks')) + $tasks_status_array,
-    'task_type'     => array(999 => _('All Task Types')) + $tasks_array,
-    'task_severity' => array(999 => _('All Severities')) + $severity_array,
-    'task_priority' => array(999 => _('All Priorities')) + $priority_array,
-    'task_assignee' => array(999 => _('All Developers')) + $task_assignees_array,
-    'task_category' => array(999 => _('All Categories')) + $categories_array,
-);
+$SearchParams_choices = [
+    'task_status' => [998 => _('All Tasks'), 999 => _('All Open Tasks')] + $tasks_status_array,
+    'task_type' => [999 => _('All Task Types')] + $tasks_array,
+    'task_severity' => [999 => _('All Severities')] + $severity_array,
+    'task_priority' => [999 => _('All Priorities')] + $priority_array,
+    'task_assignee' => [999 => _('All Developers')] + $task_assignees_array,
+    'task_category' => [999 => _('All Categories')] + $categories_array,
+];
 
 // XXX Re task_assignee, there's a long-standing bug involving
 // a sitemanager/task_center_mgr whose u_id happens to be 999.
@@ -346,8 +338,9 @@ function SearchParams_echo_controls()
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         $st = $_REQUEST['search_text'];
         $search_text = attr_safe($st);
+    } else {
+        $search_text = "";
     }
-    else $search_text = "";
 
     echo "<form action='$tasks_url' method='get'>";
     echo "<table class='themed'>\n";
@@ -357,8 +350,7 @@ function SearchParams_echo_controls()
     echo "<input type='hidden' name='action' value='search'>\n";
     echo "<input type='text' value='$search_text' name='search_text' style='width: 20em'>\n";
 
-    foreach ($SearchParams_choices as $param_name => $choices)
-    {
+    foreach ($SearchParams_choices as $param_name => $choices) {
         $value = (int) get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
         echo dropdown_select($param_name, $value, $choices);
     }
@@ -376,11 +368,11 @@ function SearchParams_get_sql_condition($request_params)
     global $testing, $SearchParams_choices;
 
     $condition = "1";
-    if(isset($request_params['search_text']))
-    {
+    if (isset($request_params['search_text'])) {
         $search_text = normalize_whitespace($request_params['search_text']);
-        if ($testing)
+        if ($testing) {
             echo_html_comment("\$request_params['search_text'] = $search_text");
+        }
 
         $condition .= sprintf(" AND
             (
@@ -393,8 +385,7 @@ function SearchParams_get_sql_condition($request_params)
 
     // ------
 
-    foreach ($SearchParams_choices as $param_name => $choices)
-    {
+    foreach ($SearchParams_choices as $param_name => $choices) {
         $value = get_enumerated_param($request_params, $param_name, null, array_keys($choices), true);
         if ($param_name == 'task_status') {
             if (is_null($value) || $value == 999) {
@@ -426,14 +417,12 @@ function SearchParams_get_url_query_string()
 
     if (isset($_REQUEST['search_text'])) {
         $t = "action=search&search_text=" . urlencode($_REQUEST['search_text']);
-        foreach ($SearchParams_choices as $param_name => $choices)
-        {
+        foreach ($SearchParams_choices as $param_name => $choices) {
             $value = get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
             $t .= "&{$param_name}={$value}";
         }
         $t .= "&";
-    }
-    else {
+    } else {
         $t = "";
     }
     return $t;
@@ -443,21 +432,21 @@ function SearchParams_get_url_query_string()
 
 function make_default_task_object()
 {
-    $task = new stdClass;
-    $task->task_version     = 1;
-    $task->task_severity    = 4;
-    $task->task_priority    = 3;
-    $task->task_type        = 1;
-    $task->task_category    = 1;
-    $task->task_status      = 1;
-    $task->task_os          = 0;
-    $task->task_browser     = 0;
-    $task->task_assignee    = 0;
-    $task->task_summary     = "";
-    $task->task_details     = "";
+    $task = new stdClass();
+    $task->task_version = 1;
+    $task->task_severity = 4;
+    $task->task_priority = 3;
+    $task->task_type = 1;
+    $task->task_category = 1;
+    $task->task_status = 1;
+    $task->task_os = 0;
+    $task->task_browser = 0;
+    $task->task_assignee = 0;
+    $task->task_summary = "";
+    $task->task_details = "";
     $task->percent_complete = 0;
-    $task->opened_by        = "";
-    $task->task_id          = "";
+    $task->opened_by = "";
+    $task->task_id = "";
     return $task;
 }
 
@@ -483,21 +472,20 @@ function create_task_from_form_submission($formsub)
         return _("You must supply a Task Summary and Task Details.");
     }
 
-    assert (!isset($formsub['task_id']));
+    assert(!isset($formsub['task_id']));
     // Create a new task.
-    $newt_type     = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
+    $newt_type = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
     $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys($categories_array));
-    $newt_status   = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
+    $newt_status = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
     $newt_assignee = (int) get_enumerated_param($formsub, 'task_assignee', null, array_keys($task_assignees_array));
     $newt_severity = (int) get_enumerated_param($formsub, 'task_severity', null, array_keys($severity_array));
     $newt_priority = (int) get_enumerated_param($formsub, 'task_priority', null, array_keys($priority_array));
-    $newt_os       = (int) get_enumerated_param($formsub, 'task_os', null, array_keys($os_array));
-    $newt_browser  = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
-    $newt_version  = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
+    $newt_os = (int) get_enumerated_param($formsub, 'task_os', null, array_keys($os_array));
+    $newt_browser = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
+    $newt_version = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
 
     // Validate the assignee, skipping the case where it is 0 (Unassigned).
-    if($newt_assignee != 0)
-    {
+    if ($newt_assignee != 0) {
         $task_assignee_user = User::load_from_uid($newt_assignee);
     }
 
@@ -548,8 +536,7 @@ function create_task_from_form_submission($formsub)
 
     // If $newt_assignee is 0, there is no user assigned so no notification
     // to send out.
-    if($newt_assignee != 0)
-    {
+    if ($newt_assignee != 0) {
         global $tasks_url, $code_url;
         maybe_mail(
             $task_assignee_user->email,
@@ -559,7 +546,7 @@ function create_task_from_form_submission($formsub)
     }
 
     // Subscribe the current user to this task for notification
-    $userSettings =& Settings::get_Settings($pguser);
+    $userSettings = & Settings::get_Settings($pguser);
     $userSettings->add_value('taskctr_notice', $task_id);
 }
 
@@ -570,10 +557,11 @@ function create_task_from_form_submission($formsub)
 if (!isset($_REQUEST['task_id'])) {
 
     // Default 'action' when no task is specified:
-    if (is_null($action)) $action = 'list_open';
+    if (is_null($action)) {
+        $action = 'list_open';
+    }
 
-    switch ( $action )
-    {
+    switch ($action) {
         case 'show_creation_form':
             // Open a form to specify the properties of a new task.
             TaskHeader("New Task");
@@ -609,13 +597,10 @@ if (!isset($_REQUEST['task_id'])) {
         case 'create':
             // The user is supplying values for the properties of a new task.
             $errmsg = create_task_from_form_submission($_POST);
-            if ($errmsg)
-            {
+            if ($errmsg) {
                 ShowError($errmsg, true);
                 break;
-            }
-            else
-            {
+            } else {
                 // If we successfully create the task, we should reload
                 //   the page to clear the POST data and make sure that
                 //   reloading does not lead to duplicated tasks.
@@ -623,20 +608,20 @@ if (!isset($_REQUEST['task_id'])) {
                 break;
             }
 
+            // no break
         case 'notify_new':
-            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings = & Settings::get_Settings($pguser);
             $userSettings->add_value('taskctr_notice', 'notify_new');
             metarefresh(0, $tasks_url);
             break;
 
         case 'unnotify_new':
-            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings = & Settings::get_Settings($pguser);
             $userSettings->remove_value('taskctr_notice', 'notify_new');
             metarefresh(0, $tasks_url);
             break;
     }
-}
-else {
+} else {
     handle_action_on_a_specified_task();
 }
 
@@ -649,27 +634,27 @@ function handle_action_on_a_specified_task()
     global $action, $tasks_url;
 
     // Default 'action' when a task is specified:
-    if (is_null($action)) $action = 'show';
+    if (is_null($action)) {
+        $action = 'show';
+    }
 
     $task_id = (int)get_float_param($_REQUEST, 'task_id', null, 1, null);
 
     // Fetch the state of the specified task
     // before any requested changes.
-    $pre_task = load_task($task_id, FALSE);
-    if (!$pre_task)
-    {
+    $pre_task = load_task($task_id, false);
+    if (!$pre_task) {
         ShowError(sprintf(_("Task #%d was not found."), $task_id));
         return;
     }
 
     if ($action == 'notify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings = & Settings::get_Settings($pguser);
         $userSettings->add_value('taskctr_notice', $task_id);
         // metarefresh with default action (=show) so that reloading page will not repeat action
         metarefresh(0, "$tasks_url?task_id=$task_id");
-    }
-    elseif ($action == 'unnotify_me') {
-        $userSettings =& Settings::get_Settings($pguser);
+    } elseif ($action == 'unnotify_me') {
+        $userSettings = & Settings::get_Settings($pguser);
         $userSettings->remove_value('taskctr_notice', $task_id);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     }
@@ -677,19 +662,16 @@ function handle_action_on_a_specified_task()
     if ($action == 'show' || $action == 'edit_comment') {
         TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id, $action);
-    }
-    elseif ($action == 'show_editing_form') {
+    } elseif ($action == 'show_editing_form') {
         TaskHeader(title_string_for_task($pre_task));
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
             // The user wants to edit an existing task.
             // Initialize the form with the current values of the task's properties.
             TaskForm($pre_task);
-        }
-        else {
+        } else {
             ShowError(_("You do not have permission to edit this task."), true);
         }
-    }
-    elseif ($action == 'reopen') {
+    } elseif ($action == 'reopen') {
         NotificationMail($task_id, "$pguser reopened this task.");
         $sql = sprintf("
             UPDATE tasks
@@ -707,15 +689,13 @@ function handle_action_on_a_specified_task()
         );
         DPDatabase::query($sql);
         metarefresh(0, "$tasks_url?task_id=$task_id");
-    }
-    elseif ($action == 'edit') {
+    } elseif ($action == 'edit') {
         $task_summary = trim(array_get($_POST, 'task_summary', ''));
         $task_details = trim(array_get($_POST, 'task_details', ''));
         // The user is supplying values for the properties of a pre-existing task.
         if (empty($task_summary) || empty($task_details)) {
             ShowError(_("You must supply a Task Summary and Task Details."), true);
-        }
-        else {
+        } else {
             // Update a pre-existing task.
             NotificationMail($task_id, "$pguser edited this task.");
 
@@ -730,16 +710,16 @@ function handle_action_on_a_specified_task()
             global $versions_array;
             global $percent_complete_array;
 
-            $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
+            $edit_type = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
-            $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
+            $edit_status = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
             $edit_assignee = (int) get_enumerated_param($_POST, 'task_assignee', null, array_keys($task_assignees_array));
             $edit_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys($severity_array));
             $edit_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
-            $edit_os       = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
-            $edit_browser  = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
-            $edit_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
-            $edit_percent  = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
+            $edit_os = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
+            $edit_browser = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
+            $edit_version = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
+            $edit_percent = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
 
             $sql = sprintf("
                 UPDATE tasks
@@ -779,8 +759,7 @@ function handle_action_on_a_specified_task()
             DPDatabase::query($sql);
             metarefresh(0, "$tasks_url?task_id=$task_id");
         }
-    }
-    elseif ($action == 'close') {
+    } elseif ($action == 'close') {
         global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
@@ -807,13 +786,11 @@ function handle_action_on_a_specified_task()
             );
             DPDatabase::query($sql);
             metarefresh(0, $tasks_url);
-        }
-        else {
+        } else {
             ShowError(_("You do not have permission to close tasks."), true);
             return;
         }
-    }
-    elseif ($action == 'add_comment') {
+    } elseif ($action == 'add_comment') {
         $comment = trim(array_get($_POST, 'task_comment', ''));
         if ($comment) {
             NotificationMail($task_id, "$pguser commented:\n\n$comment");
@@ -838,44 +815,37 @@ function handle_action_on_a_specified_task()
             DPDatabase::query($sql);
 
             // subscribe the user to the task for notifications
-            $userSettings =& Settings::get_Settings($pguser);
+            $userSettings = & Settings::get_Settings($pguser);
             $userSettings->add_value('taskctr_notice', $task_id);
 
             // After posting the comment, we should reload as to clear POST data
             //   and avoid comments being posted multiple times.
             $comment_id = create_anchor_for_comment($requester_u_id, $now_sse);
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
-        }
-        else {
+        } else {
             ShowError(_("You must supply a comment before clicking Add Comment."), true);
             return;
         }
-    }
-    elseif ($action == 'add_related_task') {
+    } elseif ($action == 'add_related_task') {
         $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
         process_related_task($pre_task, 'add', $related_task_id);
-    }
-    elseif ($action == 'remove_related_task') {
+    } elseif ($action == 'remove_related_task') {
         $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
         process_related_task($pre_task, 'remove', $related_task_id);
-    }
-    elseif ($action == 'add_related_topic') {
+    } elseif ($action == 'add_related_topic') {
         $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'add', $related_posting_topic);
-    }
-    elseif ($action == 'remove_related_topic') {
+    } elseif ($action == 'remove_related_topic') {
         $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'remove', $related_posting_topic);
-    }
-    elseif ($action == 'add_metoo') {
+    } elseif ($action == 'add_metoo') {
         global $os_array, $browser_array;
-        $vote_os       = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
-        $vote_browser  = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
+        $vote_os = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
+        $vote_browser = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
 
         // Do not insert two votes for the same user
         $meTooCount = get_me_too_count($task_id, $requester_u_id);
-        if ($meTooCount == 0)
-        {
+        if ($meTooCount == 0) {
             $sql = sprintf("
                 INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser)
                 VALUES (%d, %d, %d, %d)",
@@ -889,11 +859,10 @@ function handle_action_on_a_specified_task()
 
         // Redirect back to show task page to clear POST data
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
-    }
-    else if ($action == 'save_edit_comment') {
+    } elseif ($action == 'save_edit_comment') {
         $comment_id = array_get($_POST, 'comment_id', "");
         $comment = trim(array_get($_POST, 'task_comment', ''));
-        list($u_id, $comment_date) = explode('_', $comment_id, 2);
+        [$u_id, $comment_date] = explode('_', $comment_id, 2);
         if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
             $sql = sprintf("
                 UPDATE tasks_comments SET comment='%s'
@@ -907,8 +876,7 @@ function handle_action_on_a_specified_task()
 
             metarefresh(0, "$tasks_url?action=show&task_id=$task_id#$comment_id");
         }
-    }
-    else {
+    } else {
         die("shouldn't be able to reach here");
     }
 }
@@ -926,9 +894,9 @@ function process_related_task($pre_task, $action, $related_task_id)
         return;
     }
 
-    $adding               = ($action == 'add');
-    $pre_task_id          = $pre_task->task_id;
-    $related_task_exists  = load_task($related_task_id) != NULL;
+    $adding = ($action == 'add');
+    $pre_task_id = $pre_task->task_id;
+    $related_task_exists = load_task($related_task_id) != null;
     $task_already_present = in_array($related_task_id, load_related_tasks($pre_task_id));
 
     if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
@@ -963,11 +931,11 @@ function process_related_topic($pre_task, $action, $related_topic_id)
         return;
     }
 
-    $adding                = ($action == 'add');
-    $pre_task_id           = $pre_task->task_id;
-    $related_topics        = decode_array($pre_task->related_postings);
+    $adding = ($action == 'add');
+    $pre_task_id = $pre_task->task_id;
+    $related_topics = decode_array($pre_task->related_postings);
     $topic_already_present = in_array($related_topic_id, $related_topics);
-    $topic_details         = get_topic_details($related_topic_id);
+    $topic_details = get_topic_details($related_topic_id);
 
     if ($adding && ($topic_already_present ||
         !does_topic_exist($related_topic_id) ||
@@ -1005,8 +973,7 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 function dropdown_select($field_name, $current_value, $array)
 {
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
-    foreach($array as $key => $val)
-    {
+    foreach ($array as $key => $val) {
         $return .= "<option value='" . attr_safe($key) . "'";
         if ($current_value == $key) {
             $return .= " SELECTED";
@@ -1024,19 +991,20 @@ function TaskHeader($header, $show_new_alert = false)
     // Allow this function to be called more than once but only output the
     // header once. This allows ShowError() to call the function to ensure
     // the HTML page has been opened once and only once.
-    static $header_output = FALSE;
-    if($header_output)
+    static $header_output = false;
+    if ($header_output) {
         return;
-    $header_output = TRUE;
+    }
+    $header_output = true;
 
     $js_data = <<<EOS
-function showSpan(id) { document.getElementById(id).style.display=""; }
-function hideSpan(id) { document.getElementById(id).style.display="none"; }
-EOS;
+        function showSpan(id) { document.getElementById(id).style.display=""; }
+        function hideSpan(id) { document.getElementById(id).style.display="none"; }
+        EOS;
 
     output_header($header, NO_STATSBAR, ['js_data' => $js_data]);
 
-    $userSettings =& Settings::get_Settings($pguser);
+    $userSettings = & Settings::get_Settings($pguser);
     $notification_settings = $userSettings->get_values('taskctr_notice');
     $notified_for_new = in_array('notify_new', $notification_settings);
 
@@ -1044,15 +1012,11 @@ EOS;
     echo "<a href='$tasks_url'>" . _("Task Center Home") . "</a> | ";
     echo "<a href='$tasks_url?action=show_creation_form'>" . _("New Task") . "</a>";
     echo "<form method='get' style='display: inline;'>";
-    if($show_new_alert)
-    {
-        if($notified_for_new)
-        {
+    if ($show_new_alert) {
+        if ($notified_for_new) {
             echo "<input type='hidden' name='action' value='unnotify_new'>";
             echo " | <input type='submit' value='" . attr_safe(_("Stop New Task Alerts")) . "'>";
-        }
-        else
-        {
+        } else {
             echo "<input type='hidden' name='action' value='notify_new'>";
             echo " | <input type='submit' value='" . attr_safe(_("Receive New Task Alerts")) . "'>";
         }
@@ -1087,8 +1051,10 @@ function encode_array($a)
 function decode_array($str)
 {
     $a = unserialize(base64_decode($str));
-    if (is_array($a)) return $a;
-    return array();
+    if (is_array($a)) {
+        return $a;
+    }
+    return [];
 }
 
 // -----------------------------------------------------------------------------
@@ -1110,19 +1076,19 @@ function select_and_list_tasks($sql_condition)
 {
     global $tasks_url;
 
-    $columns = array(
-        'task_id'          => " class='center-align'",
-        'task_summary'     => "",
-        'task_type'        => " class='nowrap'",
-        'task_severity'    => "",
-        'task_priority'    => "",
-        'date_edited'      => " class='nowrap center-align'",
-        'task_status'      => "",
-        'votes'            => "",
+    $columns = [
+        'task_id' => " class='center-align'",
+        'task_summary' => "",
+        'task_type' => " class='nowrap'",
+        'task_severity' => "",
+        'task_priority' => "",
+        'date_edited' => " class='nowrap center-align'",
+        'task_status' => "",
+        'votes' => "",
         'percent_complete' => "",
-    );
+    ];
 
-    $curr_sort_dir = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+    $curr_sort_dir = get_enumerated_param($_GET, 'direction', 'desc', ['asc', 'desc']);
     $curr_sort_col = get_enumerated_param($_GET, 'orderby', 'date_edited', array_keys($columns));
 
     $sql_query = "
@@ -1152,8 +1118,7 @@ function select_and_list_tasks($sql_condition)
     $t = SearchParams_get_url_query_string();
 
     echo "<table class='themed theme_striped' style='font-size: 0.95em'><tr>\n";
-    foreach ( $columns as $property_id => $attrs )
-    {
+    foreach ($columns as $property_id => $attrs) {
         // Each column-header is a link; clicking on it will cause
         // the resulting listing to be sorted on that column.
         $orderby_for_link = $property_id;
@@ -1175,16 +1140,15 @@ function select_and_list_tasks($sql_condition)
         }
 
         $url = "$tasks_url?{$t}orderby=$orderby_for_link&direction=$direction_for_link";
-        $label = property_get_label($property_id, TRUE);
+        $label = property_get_label($property_id, true);
         echo "<th$attrs><a href='$url'>$label</a></th>\n";
     }
     echo "</tr>\n";
 
     while ($row = mysqli_fetch_assoc($sql_result)) {
         echo "<tr>\n";
-        foreach ( $columns as $property_id => $attrs )
-        {
-            $formatted_value = property_format_value($property_id, $row, TRUE);
+        foreach ($columns as $property_id => $attrs) {
+            $formatted_value = property_format_value($property_id, $row, true);
             echo "<td$attrs>$formatted_value</td>\n";
         }
         echo "</tr>\n";
@@ -1206,7 +1170,7 @@ function TaskForm($task)
 
     // Non-managers can only set the task status to New.
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
-        $tasks_status_array = array(1 => "New");
+        $tasks_status_array = [1 => "New"];
     }
 
     $task_summary_enc = attr_safe($task->task_summary);
@@ -1227,7 +1191,7 @@ function TaskForm($task)
     echo "<h1 style='margin-top: 0;'>$title</h1>";
 
     echo "<p>";
-    echo "<span class='bold'>" . property_get_label('task_summary', FALSE) . "</span>";
+    echo "<span class='bold'>" . property_get_label('task_summary', false) . "</span>";
     echo "&nbsp;";
     echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" style='width: 50%' maxlength='80' required>";
     echo "</p>";
@@ -1258,8 +1222,7 @@ function TaskForm($task)
     echo "<input type='submit' value='";
     if (empty($task->task_id)) {
         echo attr_safe(_("Add Task"));
-    }
-    else {
+    } else {
         echo attr_safe(_("Save Task"));
     }
     echo "'>\n";
@@ -1269,13 +1232,13 @@ function TaskForm($task)
 function property_echo_select_tr($property_id, $current_value, $options)
 // Echo a <tr> element containing a label and a <select> for the given property.
 {
-    $label = property_get_label($property_id, FALSE);
+    $label = property_get_label($property_id, false);
     echo "<tr><th>$label</th><td>\n";
     echo dropdown_select($property_id, $current_value, $options);
     echo "</td></tr>\n";
 }
 
-function load_task($tid, $is_assoc=TRUE)
+function load_task($tid, $is_assoc = true)
 {
     $sql = sprintf("
         SELECT *
@@ -1284,12 +1247,9 @@ function load_task($tid, $is_assoc=TRUE)
         $tid
     );
     $result = DPDatabase::query($sql);
-    if($is_assoc)
-    {
+    if ($is_assoc) {
         $task = mysqli_fetch_assoc($result);
-    }
-    else
-    {
+    } else {
         $task = mysqli_fetch_object($result);
     }
     mysqli_free_result($result);
@@ -1304,21 +1264,17 @@ function TaskDetails($tid, $action)
 
     $task = load_task($tid);
 
-    if(!$task)
-    {
+    if (!$task) {
         ShowError(sprintf(_("Task #%d was not found.", $tid)));
         return;
     }
 
-    $userSettings =& Settings::get_Settings($pguser);
+    $userSettings = & Settings::get_Settings($pguser);
     $notification_settings = $userSettings->get_values('taskctr_notice');
-    if(in_array($tid, $notification_settings) ||
-        in_array('all', $notification_settings))
-    {
+    if (in_array($tid, $notification_settings) ||
+        in_array('all', $notification_settings)) {
         $already_notified = 1;
-    }
-    else
-    {
+    } else {
         $already_notified = 0;
     }
 
@@ -1326,13 +1282,10 @@ function TaskDetails($tid, $action)
     echo "<div style='float: right; padding-top: 1em;'>";
     echo "<form method='get' style='display: inline;'>\n";
     echo "<input type='hidden' name='task_id' value='$tid'>\n";
-    if (empty($already_notified))
-    {
+    if (empty($already_notified)) {
         echo "<input type='hidden' name='action' value='notify_me'>\n";
         echo "<input type='submit' value='" . attr_safe(_("Sign up for task notifications")) . "'>\n";
-    }
-    else
-    {
+    } else {
         echo "<input type='hidden' name='action' value='unnotify_me'>\n";
         echo "<input type='submit' value='" . attr_safe(_("Remove me from task notifications")) . "'>\n";
     }
@@ -1343,8 +1296,7 @@ function TaskDetails($tid, $action)
         echo "<input type='hidden' name='action' value='show_editing_form'>\n";
         echo "<input type='hidden' name='task_id' value='$tid'>\n";
         echo "<input type='submit' value='" . attr_safe(_("Edit Task")) . "'>\n";
-    }
-    elseif (!empty($task['closed_reason'])) {
+    } elseif (!empty($task['closed_reason'])) {
         echo "<input type='hidden' name='action' value='reopen'>\n";
         echo "<input type='hidden' name='task_id' value='$tid'>\n";
         echo "<input type='submit' value='" . attr_safe(_("Re-Open Task")) . "'>\n";
@@ -1353,42 +1305,41 @@ function TaskDetails($tid, $action)
     echo "</div>";
 
     echo "<h1 style='margin-top: 0;'>";
-    echo "#$tid: " . property_format_value('task_summary', $task, FALSE);
+    echo "#$tid: " . property_format_value('task_summary', $task, false);
     echo "</h1>";
 
     echo "<div class='task-detail'>";
     echo "<table class='task-detail-block'>\n";
-    property_echo_value_tr('task_severity',    $task);
-    property_echo_value_tr('task_priority',    $task);
-    property_echo_value_tr('task_category',    $task);
-    property_echo_value_tr('task_os',          $task);
-    property_echo_value_tr('additional_os',    $task, False);
-    property_echo_value_tr('task_browser',     $task);
-    property_echo_value_tr('additional_browser',$task, False);
-    property_echo_value_tr('task_version',     $task);
-    property_echo_value_tr('votes'       ,     $task, False);
+    property_echo_value_tr('task_severity', $task);
+    property_echo_value_tr('task_priority', $task);
+    property_echo_value_tr('task_category', $task);
+    property_echo_value_tr('task_os', $task);
+    property_echo_value_tr('additional_os', $task, false);
+    property_echo_value_tr('task_browser', $task);
+    property_echo_value_tr('additional_browser', $task, false);
+    property_echo_value_tr('task_version', $task);
+    property_echo_value_tr('votes', $task, false);
     echo "</table>";
 
     echo "<table class='task-detail-block'>\n";
-    property_echo_value_tr('task_type',        $task);
+    property_echo_value_tr('task_type', $task);
     property_echo_value_tr('opened_composite', $task);
     property_echo_value_tr('edited_composite', $task);
-    property_echo_value_tr('task_status',      $task);
-    property_echo_value_tr('closed_composite', $task, False);
-    property_echo_value_tr('closed_reason',    $task, False);
-    property_echo_value_tr('maybe_close_button', $task, False);
-    property_echo_value_tr('task_assignee',    $task);
+    property_echo_value_tr('task_status', $task);
+    property_echo_value_tr('closed_composite', $task, false);
+    property_echo_value_tr('closed_reason', $task, false);
+    property_echo_value_tr('maybe_close_button', $task, false);
+    property_echo_value_tr('task_assignee', $task);
     property_echo_value_tr('percent_complete', $task);
     echo "</table>";
     echo "</div>";
 
     echo "<h2 style='clear: both; padding-top: 0.5em;'>" . _("Details") . "</h2>\n";
     echo "<p>";
-    echo property_format_value('task_details', $task, FALSE);
+    echo property_format_value('task_details', $task, false);
     echo "</p>";
 
-    if(!$task['closed_reason'])
-    {
+    if (!$task['closed_reason']) {
         MeToo($tid, $task['task_os'], $task['task_browser']);
     }
 
@@ -1399,13 +1350,14 @@ function TaskDetails($tid, $action)
     }
 }
 
-function property_echo_value_tr( $property_id, $row, $show_if_empty=True )
+function property_echo_value_tr($property_id, $row, $show_if_empty = true)
 {
-    $label = property_get_label($property_id, FALSE);
-    $formatted_value = property_format_value($property_id, $row, FALSE);
+    $label = property_get_label($property_id, false);
+    $formatted_value = property_format_value($property_id, $row, false);
 
-    if(!$show_if_empty && !$formatted_value)
+    if (!$show_if_empty && !$formatted_value) {
         return;
+    }
 
     echo "<tr>";
     echo "<th>$label</th>";
@@ -1424,7 +1376,7 @@ function get_me_too_count($task_id, $requester_u_id)
         $requester_u_id
     );
     $result = DPDatabase::query($sql);
-    list($meTooCheck) = mysqli_fetch_row($result);
+    [$meTooCheck] = mysqli_fetch_row($result);
     return $meTooCheck;
 }
 
@@ -1438,8 +1390,7 @@ function MeToo($tid, $os, $browser)
     echo "<div id='MeTooButton'>";
     if ($meTooAllowed) {
         echo "<input type='button' value='" . attr_safe(_("Me Too!")) . "' onClick=\"showSpan('MeTooMain'); hideSpan('MeTooButton');\">";
-    }
-    else {
+    } else {
         echo "<input type='button' value='" . attr_safe(_('Already submitted "Me Too!"')) . "' disabled>";
     }
     echo "</div>";
@@ -1475,8 +1426,9 @@ function ShowError($message, $goback = false)
 {
     TaskHeader(_("Task Error"));
     echo "<p class='error'>";
-    if ($goback)
+    if ($goback) {
         $message .= "<br>" . sprintf(_("Please go <a %s>back</a> and correct this."), "href='javascript:history.back()'");
+    }
     echo "$message</p>\n";
 }
 
@@ -1546,24 +1498,22 @@ function NotificationMail($tid, $message, $new_task = false)
     global $site_abbreviation, $code_url, $tasks_url, $pguser, $site_name;
 
     $task = load_task($tid);
-    if(!$task)
+    if (!$task) {
         return;
+    }
     $task_summary = $task['task_summary'];
 
     $subject = "$site_abbreviation Task #$tid: $task_summary";
-    $footer  = "\n\n$tasks_url?task_id=$tid";
+    $footer = "\n\n$tasks_url?task_id=$tid";
 
-    if($new_task)
-    {
+    if ($new_task) {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', 'notify_new');
         $body =
             "You have requested notification of new tasks.\n\n"
             . "Task #$tid: '$task_summary' was created by $pguser.\n\n"
             . $task['task_details'] . "\n"
             . $footer;
-    }
-    else
-    {
+    } else {
         $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
         $body =
             "You have requested notification of updates to task #$tid: $task_summary\n\n"
@@ -1572,7 +1522,7 @@ function NotificationMail($tid, $message, $new_task = false)
     }
     $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
     $users_to_notify = array_unique(array_merge($notify_setting_all, $notify_setting_this));
-    foreach($users_to_notify as $username) {
+    foreach ($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
             maybe_mail($user->email, $subject, $body);
@@ -1594,11 +1544,10 @@ function RelatedTasks($tid)
 
     echo "<table class='themed theme_striped'>\n";
     $related_tasks = load_related_tasks($tid);
-    foreach($related_tasks as $val)
-    {
+    foreach ($related_tasks as $val) {
         $task = load_task($val);
         $related_task_summary = html_safe($task["task_summary"]);
-        $related_task_status  = $tasks_status_array[$task["task_status"]];
+        $related_task_status = $tasks_status_array[$task["task_status"]];
 
         echo "<tr><td>";
         echo "<a href='$tasks_url?action=show&task_id=$val'>" . sprintf(_("Task #%d"), $val) . "</a> ($related_task_status) - $related_task_summary";
@@ -1630,12 +1579,12 @@ function load_related_tasks($task_id)
     $result = DPDatabase::query($sql);
 
     $related_tasks = [];
-    while($row = mysqli_fetch_assoc($result))
-    {
-        if($row['task_id_1'] != $task_id)
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['task_id_1'] != $task_id) {
             $related_tasks[] = $row['task_id_1'];
-        else
+        } else {
             $related_tasks[] = $row['task_id_2'];
+        }
     }
 
     sort($related_tasks);
@@ -1659,8 +1608,9 @@ function insert_related_task($task1, $task2)
 
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
-    if($row['count'] > 0)
+    if ($row['count'] > 0) {
         return;
+    }
 
     // Now do the insertion
     $sql = sprintf("
@@ -1705,8 +1655,7 @@ function RelatedPostings($tid)
     echo "<table class='themed theme_striped'>\n";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
-    foreach($related_postings as $val)
-    {
+    foreach ($related_postings as $val) {
         $row = get_topic_details($val);
         $forum_url = get_url_to_view_forum($row["forum_id"]);
         $topic_url = get_url_to_view_topic($row["topic_id"]);
@@ -1729,32 +1678,31 @@ function RelatedPostings($tid)
     echo "</table>";
 }
 
-function property_get_label( $property_id, $for_list_of_tasks )
+function property_get_label($property_id, $for_list_of_tasks)
 {
-    switch ( $property_id )
-    {
-        case 'date_edited'   : return _('Date Edited');
-        case 'task_assignee' : return _('Assigned To');
-        case 'task_browser'  : return _('Browser');
-        case 'task_category' : return _('Category');
-        case 'task_id'       : return _('ID');
-        case 'task_os'       : return _('Operating System');
-        case 'task_priority' : return _('Priority');
-        case 'task_severity' : return _('Severity');
-        case 'task_status'   : return _('Status');
-        case 'task_summary'  : return _('Summary');
-        case 'task_type'     : return _('Task Type');
-        case 'task_version'  : return _('Reported Version');
-        case 'votes'         : return _('Votes');
-        case 'additional_os' : return '';
-        case 'additional_browser' : return '';
-        case 'opened_composite'   : return _("Opened");
-        case 'edited_composite'   : return _("Last Edited");
-        case 'closed_composite'   : return _("Closed By");
-        case 'closed_reason'      : return _("Closed Reason");
+    switch ($property_id) {
+        case 'date_edited': return _('Date Edited');
+        case 'task_assignee': return _('Assigned To');
+        case 'task_browser': return _('Browser');
+        case 'task_category': return _('Category');
+        case 'task_id': return _('ID');
+        case 'task_os': return _('Operating System');
+        case 'task_priority': return _('Priority');
+        case 'task_severity': return _('Severity');
+        case 'task_status': return _('Status');
+        case 'task_summary': return _('Summary');
+        case 'task_type': return _('Task Type');
+        case 'task_version': return _('Reported Version');
+        case 'votes': return _('Votes');
+        case 'additional_os': return '';
+        case 'additional_browser': return '';
+        case 'opened_composite': return _("Opened");
+        case 'edited_composite': return _("Last Edited");
+        case 'closed_composite': return _("Closed By");
+        case 'closed_reason': return _("Closed Reason");
 
         case 'percent_complete':
-            return ( $for_list_of_tasks ? _("Progress") : _("Percent Complete") );
+            return ($for_list_of_tasks ? _("Progress") : _("Percent Complete"));
     }
 }
 
@@ -1771,42 +1719,42 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_status_array;
     global $versions_array;
 
-    $raw_value = array_get($task_a, $property_id, NULL);
-    switch ($property_id)
-    {
+    $raw_value = array_get($task_a, $property_id, null);
+    switch ($property_id) {
         // The raw value is used directly:
         case 'task_id': $fv = $raw_value; break; // maybe wrap in <a>
 
         // The raw value is an index into an array.
-        case 'closed_reason' : return array_get($tasks_close_array, $raw_value, "");
-        case 'task_browser'  : return $browser_array[$raw_value];
-        case 'task_category' : return $categories_array[$raw_value];
-        case 'task_os'       : return $os_array[$raw_value];
-        case 'task_priority' : return $priority_array[$raw_value];
-        case 'task_severity' : return $severity_array[$raw_value];
-        case 'task_status'   : return $tasks_status_array[$raw_value];
-        case 'task_type'     : return $tasks_array[$raw_value];
-        case 'task_version'  : return $versions_array[$raw_value];
+        case 'closed_reason': return array_get($tasks_close_array, $raw_value, "");
+        case 'task_browser': return $browser_array[$raw_value];
+        case 'task_category': return $categories_array[$raw_value];
+        case 'task_os': return $os_array[$raw_value];
+        case 'task_priority': return $priority_array[$raw_value];
+        case 'task_severity': return $severity_array[$raw_value];
+        case 'task_status': return $tasks_status_array[$raw_value];
+        case 'task_type': return $tasks_array[$raw_value];
+        case 'task_version': return $versions_array[$raw_value];
 
         // The raw value is an integer denoting seconds-since-epoch.
-        case 'date_edited' : return date("d-M-Y", $raw_value);
-        case 'date_opened' : return date("d-M-Y", $raw_value);
-        case 'date_closed' : return $raw_value ? date("d-M-Y", $raw_value) : "";
+        case 'date_edited': return date("d-M-Y", $raw_value);
+        case 'date_opened': return date("d-M-Y", $raw_value);
+        case 'date_closed': return $raw_value ? date("d-M-Y", $raw_value) : "";
 
         // Synthetic fields
-        case 'opened_composite' :
+        case 'opened_composite':
             return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_opened"]),
                         private_message_link_for_uid($task_a['opened_by'])
                     );
-        case 'edited_composite' :
+        case 'edited_composite':
             return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_edited"]),
                         private_message_link_for_uid($task_a['edited_by'])
                     );
-        case 'closed_composite' :
-            if(!$task_a["date_closed"])
+        case 'closed_composite':
+            if (!$task_a["date_closed"]) {
                 return "";
+            }
 
             return sprintf("%s &mdash; %s",
                         date("d-M-Y", $task_a["date_closed"]),
@@ -1814,9 +1762,9 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                     );
 
         // The raw value is a user's u_id:
-        case 'opened_by' : return $raw_value ? private_message_link_for_uid($raw_value) : "";
-        case 'edited_by' : return $raw_value ? private_message_link_for_uid($raw_value) : "";
-        case 'closed_by' : return $raw_value ? get_username_for_uid($raw_value) : "";
+        case 'opened_by': return $raw_value ? private_message_link_for_uid($raw_value) : "";
+        case 'edited_by': return $raw_value ? private_message_link_for_uid($raw_value) : "";
+        case 'closed_by': return $raw_value ? get_username_for_uid($raw_value) : "";
         case 'task_assignee':
             return (
                 empty($raw_value)
@@ -1839,8 +1787,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             // task listing or a task details
             $div_width = $for_list_of_tasks ? '50' : '150';
 
-            list($progress_bar_width, $progress_bar_class) =
-                calculate_progress_bar_properties($raw_value, 100, FALSE, [0 => "goal-on-target"]);
+            [$progress_bar_width, $progress_bar_class] =
+                calculate_progress_bar_properties($raw_value, 100, false, [0 => "goal-on-target"]);
 
             return "
                 <div class='default-border' style='width: {$div_width}px;'>
@@ -1851,8 +1799,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         case 'votes':
             // If this is the task listing, $raw_value will be set
-            if(!isset($raw_value))
-            {
+            if (!isset($raw_value)) {
                 $sql = sprintf("
                     SELECT count(*) AS count
                     FROM tasks_votes
@@ -1860,15 +1807,17 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                     $task_a['task_id']
                 );
                 $result = DPDatabase::query($sql);
-                list($raw_value) = mysqli_fetch_row($result);
+                [$raw_value] = mysqli_fetch_row($result);
             }
 
             // If votes are zero, return an empty string
-            if($raw_value == 0)
+            if ($raw_value == 0) {
                 return "";
-            else
+            } else {
                 return $raw_value;
+            }
 
+            // no break
         case 'additional_os':
             $sql = sprintf("
                 SELECT DISTINCT vote_os
@@ -1877,19 +1826,21 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 $task_a['task_id']
             );
             $result = DPDatabase::query($sql);
-            $list = array();
-            while($row = mysqli_fetch_assoc($result))
-            {
-                if($row['vote_os'] == $task_a['task_os'])
+            $list = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row['vote_os'] == $task_a['task_os']) {
                     continue;
+                }
                 $list[] = $os_array[$row['vote_os']];
             }
             array_unique($list);
-            if($list)
+            if ($list) {
                 return implode(", ", $list);
-            else
+            } else {
                 return "";
+            }
 
+            // no break
         case 'additional_browser':
             $sql = sprintf("
                 SELECT DISTINCT vote_browser
@@ -1898,22 +1849,23 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 $task_a['task_id']
             );
             $result = DPDatabase::query($sql);
-            $list = array();
-            while($row = mysqli_fetch_assoc($result))
-            {
-                if($row['vote_browser'] == $task_a['task_browser'])
+            $list = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row['vote_browser'] == $task_a['task_browser']) {
                     continue;
+                }
                 $list[] = $browser_array[$row['vote_browser']];
             }
             array_unique($list);
-            if($list)
+            if ($list) {
                 return implode(", ", $list);
-            else
+            } else {
                 return "";
+            }
 
+            // no break
         case 'maybe_close_button':
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($task_a['closed_reason'])) {
-
                 $dropdown = dropdown_select('closed_reason', "", $tasks_close_array);
 
                 return "
@@ -1924,14 +1876,13 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                         <input type='submit' value='" . attr_safe(_("Close Task")) . "'>
                       </form>
                 ";
-            }
-            else
-            {
+            } else {
                 return "";
             }
 
+            // no break
         default:
-            assert(FALSE);
+            assert(false);
     }
 
     // Cases that don't return directly,
@@ -1940,9 +1891,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     // If appropriate, wrap $fv in an <a> element
     // that links to the task's details page.
 
-    assert( isset($fv) );
-    if ($for_list_of_tasks)
-    {
+    assert(isset($fv));
+    if ($for_list_of_tasks) {
         $url = "$tasks_url?action=show&task_id=" . $task_a['task_id'];
         $fv = "<a href='$url'>$fv</a>";
     }
@@ -1953,7 +1903,7 @@ function private_message_link_for_uid($u_id)
 // Return a 'private message link' for the user specified by $u_id.
 {
     $username = get_username_for_uid($u_id);
-    $link = private_message_link($username, NULL);
+    $link = private_message_link($username, null);
     return $link;
 }
 
@@ -1969,4 +1919,3 @@ function title_string_for_task($pre_task)
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
 }
-

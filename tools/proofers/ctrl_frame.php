@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'stages.inc');
@@ -13,8 +13,7 @@ $round = get_Round_for_round_id($round_id);
 // used for the MRU local storage prefix and the character selector will
 // provide the quiz pickers
 $projectid = array_get($_GET, 'projectid', 'quiz');
-if($projectid != "quiz")
-{
+if ($projectid != "quiz") {
     validate_projectID($projectid);
 }
 

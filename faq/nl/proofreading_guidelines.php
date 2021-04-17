@@ -2,7 +2,7 @@
 
 // Translated by PGDP Team Netherlands; file received from user Clog 17 Feb 2009
 
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -232,7 +232,7 @@ output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 </p>
 <p>Als er iets ontbreekt, of als je denkt dat iets op een andere manier behandeld zou moeten worden,
    of als iets vaag is, laat het ons alsjeblieft weten.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wanneer je in deze richtlijnen een onbekende term tegenkomt, dan is deze (of de engelse vertaling hiervan)
    te vinden in <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a> (Engels).
 <?php } ?>

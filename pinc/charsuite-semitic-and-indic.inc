@@ -6,7 +6,7 @@ use voku\helper\UTF8;
 $charsuite = new CharSuite("semitic-and-indic", _("Semitic and Indic transcriptions"));
 $charsuite->description = _("Characters used in Romanized forms of languages such as Arabic, Hebrew, and Sanskrit.");
 $charsuite->codepoints = [
-    # https://www.pgdp.net/wiki/Semitic_and_Indic_transcriptions
+    // https://www.pgdp.net/wiki/Semitic_and_Indic_transcriptions
     'U+0100-U+0101',
     'U+0112-U+0113',
     'U+012a-U+012b',

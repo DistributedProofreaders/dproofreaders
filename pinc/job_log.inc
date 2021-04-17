@@ -1,8 +1,8 @@
 <?php
 
-function insert_job_log_entry($filename, $event, $comments, $tracetime=NULL)
+function insert_job_log_entry($filename, $event, $comments, $tracetime = null)
 {
-    if(!$tracetime) {
+    if (!$tracetime) {
         $tracetime = time();
     }
 

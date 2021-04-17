@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../generic/quiz_defaults.inc'); // $blackletter_url
@@ -36,4 +36,3 @@ echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blacklett
 echo "<p>" . _("The hyphen in blackletter usually looks like a slanted equals sign.  Treat this just like a normal hyphen, and rejoin words that are hyphenated across lines.  You may need to leave hyphens as <kbd>-*</kbd> more frequently than in other projects, because spelling and hyphenation in older texts is often unpredictable.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_3'>" . _("Continue to quiz page") . "</a></p>\n";
-

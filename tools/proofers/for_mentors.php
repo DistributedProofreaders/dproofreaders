@@ -5,7 +5,7 @@
 
     ************************************
 */
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');          // for dpsql_dump_query
 include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
@@ -28,67 +28,53 @@ echo "<h1>$title</h1>";
 // Decide which mentoring-round we're dealing with.
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
-if ( $round_id != '' )
-{
+if ($round_id != '') {
     $mentoring_round = get_Round_for_round_id($round_id);
-}
-else
-{
+} else {
     // Consider the page they came from.
     $referer = @$_SERVER['HTTP_REFERER'];
 
     // If they're coming to this page from a MENTORS ONLY book in X2,
     // referrer should contain &expected_state=X2.proj_avail.
-    foreach ( $Round_for_round_id_ as $round )
-        {
-        if ( strpos($referer, $round->project_available_state) )
-        {
+    foreach ($Round_for_round_id_ as $round) {
+        if (strpos($referer, $round->project_available_state)) {
             $mentoring_round = $round;
             break;
         }
     }
 
-    if ( !isset($mentoring_round) )
-    {
+    if (!isset($mentoring_round)) {
         // Just take the first.
-        foreach ( $Round_for_round_id_ as $round )
-        {
-            if ( $round->is_a_mentor_round() )
-            {
+        foreach ($Round_for_round_id_ as $round) {
+            if ($round->is_a_mentor_round()) {
                 $mentoring_round = $round;
                 break;
             }
         }
-        if ( !isset($mentoring_round) )
-        {
+        if (!isset($mentoring_round)) {
             die("There are no mentoring rounds!");
         }
     }
 }
 
-if ( !$mentoring_round->is_a_mentor_round() )
-{
+if (!$mentoring_round->is_a_mentor_round()) {
     die("$mentoring_round->id is not a mentoring round!");
 }
 
 // ---------------------------------------------------------------
 
 // Are there other mentoring rounds? If so, provide mentoring links for them.
-$other_mentoring_rounds = array();
-foreach ( $Round_for_round_id_ as $round )
-{
-    if ( $round->is_a_mentor_round() && $round->id != $mentoring_round->id )
-    {
+$other_mentoring_rounds = [];
+foreach ($Round_for_round_id_ as $round) {
+    if ($round->is_a_mentor_round() && $round->id != $mentoring_round->id) {
         $other_mentoring_rounds[] = $round;
     }
 }
-if ( count($other_mentoring_rounds) > 0 )
-{
+if (count($other_mentoring_rounds) > 0) {
     echo "<p>" . _('Show this page for:');
 
-    $links = array();
-    foreach( $other_mentoring_rounds as $other_round )
-    {
+    $links = [];
+    foreach ($other_mentoring_rounds as $other_round) {
         $url = "$code_url/tools/proofers/for_mentors.php?round_id={$other_round->id}";
         $links[] = "<a href='$url'>{$other_round->id}</a>";
     }
@@ -98,8 +84,7 @@ if ( count($other_mentoring_rounds) > 0 )
 
 // ---------------------------------------------------------------
 
-if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
-{
+if (!user_can_work_on_beginner_pages_in_round($mentoring_round)) {
     echo "<p class='warning'>";
     echo sprintf(
             _("You do not have access to 'Mentors Only' projects in %s."),
@@ -121,19 +106,15 @@ echo sprintf(_("Please check the Saved column in the 'Which proofreader did each
 echo "</p>";
 
 $projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state);
-if($projects_available)
-{
+if ($projects_available) {
     echo "<ol>";
-    foreach($projects_available as $proj_obj)
-    {
+    foreach ($projects_available as $proj_obj) {
         echo "<li><a href='#$proj_obj->projectid'>";
         echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
         echo "</a></li>";
     }
     echo "</ol>";
-}
-else
-{
+} else {
     echo "<p><i>" . _("No projects available") . "</i></p>";
 }
 
@@ -145,31 +126,25 @@ echo _("Oldest project listed first.");
 echo "</p>";
 
 $projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state);
-if($projects_waiting)
-{
+if ($projects_waiting) {
     echo "<ol>";
-    foreach($projects_waiting as $proj_obj)
-    {
+    foreach ($projects_waiting as $proj_obj) {
         $project = new Project($proj_obj->projectid);
         echo "<li>";
         echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
-        if(in_array($mentoring_round->project_waiting_state, $project->get_hold_states()))
-        {
+        if (in_array($mentoring_round->project_waiting_state, $project->get_hold_states())) {
             // TRANSLATORS: string indicates that the project is "on hold"
             echo " <b>[" . _("On hold") . "]</b>";
         }
         echo "</li>";
     }
     echo "</ol>";
-}
-else
-{
+} else {
     echo "<p><i>" . _("No projects waiting") . "</i></p>";
 }
 
 // output details about each available project
-foreach($projects_available as $proj_obj)
-{
+foreach ($projects_available as $proj_obj) {
     output_project_details($mentored_round, $proj_obj->projectid, $proj_obj->nameofwork, $proj_obj->authorsname);
 }
 
@@ -220,8 +195,7 @@ function get_beginner_projects_in_state($state)
     );
     $result = DPDatabase::query($sql);
     $projects = [];
-    while($proj_obj = mysqli_fetch_object($result))
-    {
+    while ($proj_obj = mysqli_fetch_object($result)) {
         $projects[] = $proj_obj;
     }
     return $projects;
@@ -233,9 +207,9 @@ function page_summary_sql($mentored_round, $projectid)
 {
     global $code_url;
 
-    $round_tallyboard = new TallyBoard($mentored_round->id, 'U' );
+    $round_tallyboard = new TallyBoard($mentored_round->id, 'U');
 
-    list($joined_with_user_page_tallies, $user_page_tally_column) =
+    [$joined_with_user_page_tallies, $user_page_tally_column] =
             $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
 
@@ -296,4 +270,3 @@ function page_list_sql($mentored_round, $projectid)
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order" ;
 }
-

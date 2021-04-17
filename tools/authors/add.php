@@ -11,40 +11,46 @@ require_login();
 abort_if_not_authors_db_editor(true);
 
 // two default values (B. C.)
-$bbc = $dbc = FALSE;
+$bbc = $dbc = false;
 
 // load posted values or defaults
 $last_name = @$_POST['last_name'];
 if (isset($last_name)) {
     // get the values from the form
     $other_names = @$_POST['other_names'];
-    if(@$_POST['byear'] == '') $byear = null;
-    else $byear  = get_integer_param($_POST, 'byear', null, 0, null);
-    $bmonth      = get_integer_param($_POST, 'bmonth', null, 0, 12);
-    $bday        = get_integer_param($_POST, 'bday', null, 0, 31);
-    $bcomments   = @$_POST['bcomments'];
-    $byearRadio  = get_integer_param($_POST, 'byearRadio', null, 0, 1);
-    if(@$_POST['dyear'] == '') $dyear = null;
-    else $dyear  = get_integer_param($_POST, 'dyear', null, 0, null);
-    $dmonth      = get_integer_param($_POST, 'dmonth', null, 0, 12);
-    $dday        = get_integer_param($_POST, 'dday', null, 0, 31);
-    $dcomments   = @$_POST['dcomments'];
-    $dyearRadio  = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
-    $author_id   = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
+    if (@$_POST['byear'] == '') {
+        $byear = null;
+    } else {
+        $byear = get_integer_param($_POST, 'byear', null, 0, null);
+    }
+    $bmonth = get_integer_param($_POST, 'bmonth', null, 0, 12);
+    $bday = get_integer_param($_POST, 'bday', null, 0, 31);
+    $bcomments = @$_POST['bcomments'];
+    $byearRadio = get_integer_param($_POST, 'byearRadio', null, 0, 1);
+    if (@$_POST['dyear'] == '') {
+        $dyear = null;
+    } else {
+        $dyear = get_integer_param($_POST, 'dyear', null, 0, null);
+    }
+    $dmonth = get_integer_param($_POST, 'dmonth', null, 0, 12);
+    $dday = get_integer_param($_POST, 'dday', null, 0, 31);
+    $dcomments = @$_POST['dcomments'];
+    $dyearRadio = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
+    $author_id = get_integer_param($_POST, 'author_id', null, null, null, true);
 
     // years are specified using radio-buttons and text-fields.
     // a little logic to get the right data
     // also, years might be negated by checking 'B. C.'
-    if ($byearRadio == '0')
+    if ($byearRadio == '0') {
         $byear = 0;
-    elseif (isset($_POST['bbc'])) {
-        $bbc = TRUE;
+    } elseif (isset($_POST['bbc'])) {
+        $bbc = true;
         $byear = -$byear;
     }
-    if ($dyearRadio == '0')
+    if ($dyearRadio == '0') {
         $dyear = 0;
-    elseif (isset($_POST['dbc'])) {
-        $dbc = TRUE;
+    } elseif (isset($_POST['dbc'])) {
+        $dbc = true;
         $dyear = -$dyear;
     }
 
@@ -73,8 +79,7 @@ if (isset($last_name)) {
             );
             $result = DPDatabase::query($sql);
             $msg = _('The author was successfully updated in the database!');
-        }
-        else {
+        } else {
             // add new author to database
             $sql = sprintf("
                 INSERT INTO authors
@@ -105,50 +110,48 @@ if (isset($last_name)) {
             $msg = _('The author was successfully entered into the database!');
             if (isset($_POST['SaveAndExit'])) {
                 // exit to where? mode=manage: manage.php, all else: listing.php
-                if (isset($_POST['mode']) && $_POST['mode'] == 'manage')
+                if (isset($_POST['mode']) && $_POST['mode'] == 'manage') {
                     $exit_to = 'manage.php';
-                else
+                } else {
                     $exit_to = 'listing.php';
+                }
                 header("Location: $exit_to?message=" . urlencode($msg));
-            }
-            else if (isset($_POST['SaveAndBio']))
+            } elseif (isset($_POST['SaveAndBio'])) {
                 header('Location: addbio.php?message=' . urlencode($msg) . '&author_id=' . $author_id);
-            else if (isset($_POST['SaveAndNew']))
+            } elseif (isset($_POST['SaveAndNew'])) {
                 header('Location: add.php?message=' . urlencode($msg));
-        }
-        else {
+            }
+        } else {
             // failure!
             echo _('The author could not be added into the database.');
             echo ' ' . _('Please try again.');
             echo ' ' . _('If the problem persists, please contact a system administrator.');
         }
         exit();
-    }
-    else {
+    } else {
         // Preview
     }
-}
-else {
+} else {
     // GET => output form
-    $author_id   = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
+    $author_id = get_integer_param($_GET, 'author_id', null, null, null, true);
 
     if ($author_id) {
         // edit specified author
         // get the values from the database
         $sql = sprintf("SELECT * FROM authors WHERE author_id = %d;", $author_id);
         $result = DPDatabase::query($sql);
-        $vars = array( 'last_name', 'other_names',
-                       'byear', 'bmonth', 'bday', 'bcomments',
-                       'dyear', 'dmonth', 'dday', 'dcomments'  );
+        $vars = ['last_name', 'other_names',
+            'byear', 'bmonth', 'bday', 'bcomments',
+            'dyear', 'dmonth', 'dday', 'dcomments',  ];
         $row = mysqli_fetch_assoc($result);
-        foreach ($vars as $var)
+        foreach ($vars as $var) {
             $$var = $row[$var];
+        }
         // select the correct year-radio-button
         if ($byear == 0) {
             $byearRadio = '0';
             $byear = '';
-        }
-        else {
+        } else {
             $byearRadio = '1';
             $bbc = ($byear < 0);
             $byear = abs($byear);
@@ -156,14 +159,12 @@ else {
         if ($dyear == 0) {
             $dyearRadio = '0';
             $dyear = '';
-        }
-        else {
+        } else {
             $dyearRadio = '1';
             $dbc = ($dyear < 0);
             $dyear = abs($dyear);
         }
-    }
-    else {
+    } else {
         // default values
         $last_name = $other_names = $byear = $dyear = $bcomments = $dcomments = '';
         $bmonth = $bday = $dmonth = $dday = $dyearRadio = $byearRadio = '0';
@@ -174,30 +175,36 @@ else {
 // produce form (with blank values
 // or those to be edited)
 
-if(isset($_GET['author_id']))
+if (isset($_GET['author_id'])) {
     $title = _('Edit author');
-else
+} else {
     $title = _("Add author");
+}
 output_header(_('Add author'));
 echo "<h1>$title</h1>";
 
 echo_menu();
 
-function write_months_list($bd, $selected) {
+function write_months_list($bd, $selected)
+{
     global $months;
     echo "<select name=\"$bd" . "month\" size=\"1\">\n";
-    for ($i = 0; $i < $selected; $i++)
+    for ($i = 0; $i < $selected; $i++) {
         echo "<option value=\"$i\">$months[$i]</option>\n";
+    }
     echo "<option value=\"$selected\" SELECTED>$months[$i]</option>\n";
-    for ($i = $selected + 1; $i < 13; $i++)
+    for ($i = $selected + 1; $i < 13; $i++) {
         echo "<option value=\"$i\">$months[$i]</option>\n";
+    }
     echo "</select>\n";
 }
-function write_days_list($bd, $selected) {
+function write_days_list($bd, $selected)
+{
     echo "<select name=\"$bd" . "day\" size=\"1\">\n";
-    echo "<option value=\"0\"" . ($selected=='0' ? ' SELECTED' : '') . ">" . _('Unknown');
-    for ($i = 1; $i <= 31; $i++)
-        echo "<option value=\"$i\"". ($i==$selected?' SELECTED':'') .">$i\n";
+    echo "<option value=\"0\"" . ($selected == '0' ? ' SELECTED' : '') . ">" . _('Unknown');
+    for ($i = 1; $i <= 31; $i++) {
+        echo "<option value=\"$i\"". ($i == $selected ? ' SELECTED' : '') .">$i\n";
+    }
     echo "</select>\n";
 }
 
@@ -325,48 +332,53 @@ eval("document.addform."+bd+"comments.value=comments;");
 </script>
 <?php
 $message = @$_GET['message'];
-if (isset($message))
+if (isset($message)) {
     echo '<p>' . html_safe($message) . '</p>';
-elseif (isset($_POST['Preview'])) {
+} elseif (isset($_POST['Preview'])) {
     echo_author($last_name, $other_names,
                 format_date($byear, $bmonth, $bday, $bcomments),
                 format_date($dyear, $dmonth, $dday, $dcomments),
-                 (isset($_POST['author_id']) ? $_POST['author_id'] : FALSE) );
+                 ($_POST['author_id'] ?? false));
     echo '<br>';
-    if (isset($_POST['author_id']))
+    if (isset($_POST['author_id'])) {
         $author_id = $_POST['author_id'];
+    }
 }
 ?>
 <form name="addform" action="add.php" method="POST" onSubmit="return validate();">
 <?php
-if (isset($author_id))
+if (isset($author_id)) {
     echo "<input type='hidden' name='author_id' value='$author_id'>\n";
+}
 
-function _var($bd, $name) {
+function _var($bd, $name)
+{
     $var = $bd . $name;
     global $$var;
     return $$var;
 }
-function echo_date_fields($bd) {
-?>
+function echo_date_fields($bd)
+{
+    ?>
 <table class='no-border'>
 <tr><td><?php echo _('Month'); ?>:</td><td>
 <?php echo write_months_list($bd, _var($bd, 'month')); ?></td></tr>
 <tr><td><?php echo _('Day'); ?>:</td><td>
 <?php echo write_days_list($bd, _var($bd, 'day')); ?></td></tr>
 <tr><td><?php echo _('Year'); ?>:</td><td>
-<input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?>><?php echo _('Unknown'); ?>
-<br><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo (_var($bd, 'yearRadio')=='1'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" ><?php echo _('As entered'); ?>:
-<input type="number" name="<?php echo $bd; ?>year" min="1" style='width: 4em;'<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
-<input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?>><?php echo _('B. C.'); ?>
+<input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo(_var($bd, 'yearRadio') == '0' ? ' CHECKED' : ''); ?>><?php echo _('Unknown'); ?>
+<br><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo(_var($bd, 'yearRadio') == '1' ? ' CHECKED' : ''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" ><?php echo _('As entered'); ?>:
+<input type="number" name="<?php echo $bd; ?>year" min="1" style='width: 4em;'<?php echo(_var($bd, 'yearRadio') == '1' ? ' VALUE="'.abs(_var($bd, 'year')).'"' : ''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
+<input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo(_var($bd, 'bc') ? ' CHECKED' : ''); ?>><?php echo _('B. C.'); ?>
 </td></tr><tr><td><?php echo _('Comments (in<br>English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo attr_safe(_var($bd, 'comments')); ?>"> 
 <?php echo _('Handy links:').' '; ?>
 <a href="javascript:setComments('<?php echo $bd; ?>', '');" onClick="false">Empty (Unknown)</A> | 
 <a href="javascript:setComments('<?php echo $bd; ?>', '(circa)');" onClick="false">(circa)</A>
 <?php
     // 'Still alive' only if death-field.
-    if ($bd == 'd')
+    if ($bd == 'd') {
         echo " | <a href=\"javascript:setComments('$bd', 'Still alive');\" onClick=\"false\">Still alive</A>";
+    }
     echo '</td></tr></table>';
 }
 
@@ -375,8 +387,7 @@ function echo_date_fields($bd) {
 if (isset($_GET['mode']) && $_GET['mode'] == 'manage') {
     echo '<input type="hidden" name="mode" value="manage">';
     $exit_to = 'manage.php';
-}
-else {
+} else {
     $exit_to = 'listing.php';
 }
 
@@ -424,4 +435,3 @@ echo '<li><a href="http://www.britannica.com/" target="_blank">' . _('Encyclop&a
 echo '<li><a href="http://authorities.loc.gov/" target="_blank">' . _('The Library of Congress') . '</a></li>';
 
 echo '</ul>';
-

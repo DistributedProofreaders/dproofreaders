@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -8,31 +8,30 @@ include_once($relPath.'misc.inc'); // html_safe(), get_integer_param(), get_enum
 
 require_login();
 
-if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
-{
+if (!(user_is_a_sitemanager() or user_is_site_news_editor())) {
     die("You are not authorized to use this form.");
 }
 
 $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NEWS_PAGES), true);
-$action = get_enumerated_param($_GET, 'action', null, array('add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'), true);
+$action = get_enumerated_param($_GET, 'action', null, ['add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'], true);
 $item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
 $header = array_get($_POST, 'header', '');
 $content = array_get($_POST, 'content', '');
-$locale_options = array_merge(array('' => _("Any language")), get_locale_translation_selection_options());
+$locale_options = array_merge(['' => _("Any language")], get_locale_translation_selection_options());
 $locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
-$status_options = array(
-    'current'  => _("Sticky"),
-    'recent'   => _("Recent/Random"),
+$status_options = [
+    'current' => _("Sticky"),
+    'recent' => _("Recent/Random"),
     'archived' => _("Archived"),
-);
+];
 $item_status = get_enumerated_param($_POST, 'status', null, array_keys($status_options), true);
 $item_type_options = [
-    'normal'       => _("Normal"),
+    'normal' => _("Normal"),
     'announcement1' => _("Announcement - High"),
     'announcement2' => _("Announcement - Medium"),
     'announcement3' => _("Announcement - Low"),
-    'celebration'  => _("Celebration"),
-    'maintenance'  => _("Maintenance"),
+    'celebration' => _("Celebration"),
+    'maintenance' => _("Maintenance"),
 ];
 $item_type = get_enumerated_param($_POST, 'item_type', null, array_keys($item_type_options), true);
 
@@ -40,12 +39,12 @@ if (isset($news_page_id)) {
     handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type);
 
     $news_subject = get_news_subject($news_page_id);
-    $title = sprintf(_('News Desk for %s'), $news_subject );
+    $title = sprintf(_('News Desk for %s'), $news_subject);
     output_header($title, NO_STATSBAR);
     output_page_links($news_page_id);
     echo "<h1>$title</h1>";
 
-    $date_changed = get_news_page_last_modified_date( $news_page_id );
+    $date_changed = get_news_page_last_modified_date($news_page_id);
     // TRANSLATORS: this is a strftime-formatted string
     $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
     echo "<p>" . _("Last modified") . ": ".$last_modified . "</p>";
@@ -53,23 +52,21 @@ if (isset($news_page_id)) {
     show_item_editor($news_page_id, $action, $item_id);
     show_all_news_items_for_page($news_page_id);
 } else {
-
     $title = _("Site News Central");
-    output_header($title, True);
+    output_header($title, true);
     echo "<h1>$title</h1>";
     echo "<ul>";
     echo "\n";
-    foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
-    {
+    foreach ($NEWS_PAGES as $news_page_id => $news_subject) {
         echo "<li>";
 
         $news_subject = get_news_subject($news_page_id);
         $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
-        echo sprintf( _("Edit Site News for %s"), $link );
+        echo sprintf(_("Edit Site News for %s"), $link);
         echo "\n";
 
-        $date_changed = get_news_page_last_modified_date( $news_page_id );
-        if ( !is_null($date_changed) ) {
+        $date_changed = get_news_page_last_modified_date($news_page_id);
+        if (!is_null($date_changed)) {
             // TRANSLATORS: this is a strftime-formatted string
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo "<br>". _("Last modified").": ".$last_modified;
@@ -86,14 +83,14 @@ function output_page_links($current_page_id)
 {
     global $NEWS_PAGES;
 
-    $links = array();
+    $links = [];
     $links[] = "<a href='sitenews.php'>" . _("Site News Central") . "</a>";
-    foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
-    {
-        if($news_page_id == $current_page_id)
+    foreach ($NEWS_PAGES as $news_page_id => $news_subject) {
+        if ($news_page_id == $current_page_id) {
             $links[] = $news_page_id;
-        else
+        } else {
             $links[] = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_page_id</a>";
+        }
     }
     echo "<p>" . implode(" | ", $links) . "</p>";
 }
@@ -103,11 +100,11 @@ function output_page_links($current_page_id)
 function echo_selection($name, $options, $value_selected)
 {
     echo "<select name='$name'>";
-    foreach($options as $value => $option)
-    {
+    foreach ($options as $value => $option) {
         $selected = '';
-        if($value_selected == $value)
+        if ($value_selected == $value) {
             $selected = ' selected';
+        }
         echo "<option value='$value' $selected>$option</option>";
     }
     echo "</select>";
@@ -116,8 +113,7 @@ function echo_selection($name, $options, $value_selected)
 function handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type)
 {
     $allowed_tags = '<a><b><i><u><span><img><p><div><br>';
-    switch($action)
-    {
+    switch ($action) {
         case 'add':
             // Save a new site news item
             $content = strip_tags($content, $allowed_tags);
@@ -181,13 +177,13 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
 
         case 'moveup':
             // Move a specific site news item higher in the display list
-            move_news_item ($news_page_id, $item_id, 'up');
+            move_news_item($news_page_id, $item_id, 'up');
             news_change_made($news_page_id);
             break;
 
         case 'movedown':
             // Move a specific site news item lower in the display list
-            move_news_item ($news_page_id, $item_id, 'down');
+            move_news_item($news_page_id, $item_id, 'down');
             news_change_made($news_page_id);
             break;
 
@@ -271,27 +267,33 @@ function show_item_editor($news_page_id, $action, $item_id)
     echo "<input type='hidden' name='item_id' value='$item_id'>";
     echo "<table class='newsedit'>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("Show to users using") . "</b></td>";
-        echo "<td class='items'>"; echo_selection("locale", $locale_options, $locale); echo "</td>";
+    echo "<td class='commands'><b>" . _("Show to users using") . "</b></td>";
+    echo "<td class='items'>";
+    echo_selection("locale", $locale_options, $locale);
+    echo "</td>";
     echo "</tr>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("Status") . "</b></td>";
-        echo "<td class='items'>"; echo_selection("status", $status_options, $item_status); echo "</td>";
+    echo "<td class='commands'><b>" . _("Status") . "</b></td>";
+    echo "<td class='items'>";
+    echo_selection("status", $status_options, $item_status);
+    echo "</td>";
     echo "</tr>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("News Type") . "</b></td>";
-        echo "<td class='items'>"; echo_selection("item_type", $item_type_options, $item_type); echo "</td>";
+    echo "<td class='commands'><b>" . _("News Type") . "</b></td>";
+    echo "<td class='items'>";
+    echo_selection("item_type", $item_type_options, $item_type);
+    echo "</td>";
     echo "</tr>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("News Header") . "</b></td>";
-        echo "<td class='items'><input name='header' style='width:100%;' value='" . attr_safe($header) . "'></td>";
+    echo "<td class='commands'><b>" . _("News Header") . "</b></td>";
+    echo "<td class='items'><input name='header' style='width:100%;' value='" . attr_safe($header) . "'></td>";
     echo "</tr>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("News Item") . "</b></td>";
-        echo "<td class='items'><textarea name='content' style='width:100%;height:9em;'>" . html_safe($initial_content) . "</textarea></td>";
+    echo "<td class='commands'><b>" . _("News Item") . "</b></td>";
+    echo "<td class='items'><textarea name='content' style='width:100%;height:9em;'>" . html_safe($initial_content) . "</textarea></td>";
     echo "</tr>";
     echo "<tr>";
-        echo "<td></td><td><input type='submit' value='$submit_button_label' name='submit'></td>";
+    echo "<td></td><td><input type='submit' value='$submit_button_label' name='submit'></td>";
     echo "</tr>";
     echo "</table>";
     echo "</form>";
@@ -299,51 +301,50 @@ function show_item_editor($news_page_id, $action, $item_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_all_news_items_for_page( $news_page_id )
+function show_all_news_items_for_page($news_page_id)
 {
     // three categories:
     // 1) current  (currently displayed on page every time)
     // 2) recent   (displayed on "Recent News", and one shown as Random)
     // 3) archived (not visible to users at all, saved for later use or historical interest)
 
-    $categories = array(
-        array(
-            'status'   => 'current',
-            'title'    => _('Sticky News Items'),
-            'blurb'    => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
+    $categories = [
+        [
+            'status' => 'current',
+            'title' => _('Sticky News Items'),
+            'blurb' => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
             'order_by' => 'ordering DESC',
-            'actions'  => array(
-                'hide'     => _('Unstick'),
-                'archive'  => _('Archive'),
-                'moveup'   => _('Move Up'),
+            'actions' => [
+                'hide' => _('Unstick'),
+                'archive' => _('Archive'),
+                'moveup' => _('Move Up'),
                 'movedown' => _('Move Down'),
-            ),
-        ),
+            ],
+        ],
 
-        array(
-            'status'   => 'recent',
-            'title'    => _('Random/Recent News Items'),
-            'blurb'    => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
+        [
+            'status' => 'recent',
+            'title' => _('Random/Recent News Items'),
+            'blurb' => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
             'order_by' => 'ordering DESC',
-            'actions'  => array(
+            'actions' => [
                 'display' => _('Stick'),
                 'archive' => _('Archive'),
-            ),
-        ),
+            ],
+        ],
 
-        array(
-            'status'   => 'archived',
-            'title'    => _('Archived News Items'),
-            'blurb'    => _("Items here are not visible anywhere, and can be safely stored here until they become current again."),
+        [
+            'status' => 'archived',
+            'title' => _('Archived News Items'),
+            'blurb' => _("Items here are not visible anywhere, and can be safely stored here until they become current again."),
             'order_by' => 'id DESC',
-            'actions'  => array(
+            'actions' => [
                 'unarchive' => _('Unarchive'),
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    foreach ( $categories as $category )
-    {
+    foreach ($categories as $category) {
         $status = $category['status'];
 
         $sql = sprintf("
@@ -355,35 +356,37 @@ function show_all_news_items_for_page( $news_page_id )
            DPDatabase::escape($status));
         $result = DPDatabase::query($sql);
 
-        if (mysqli_num_rows($result) == 0) continue;
+        if (mysqli_num_rows($result) == 0) {
+            continue;
+        }
 
         echo "<h2>{$category['title']}</h2>";
         echo "<p>" . $category['blurb'] . "</p>\n";
 
         $actions = $category['actions'] +
-            array(
-                'edit'     => _('Edit'),
-                'delete'   => _('Delete'),
-            );
+            [
+                'edit' => _('Edit'),
+                'delete' => _('Delete'),
+            ];
 
         echo "<table class='newsedit'>";
-        while($news_item = mysqli_fetch_array($result))
-        {
+        while ($news_item = mysqli_fetch_array($result)) {
             echo "<tbody class='padding'>";
             echo "<tr>";
             echo "<td class='commands'>";
             echo "<p><b>" . _("Posted") . ":</b><br>";
             echo strftime(_("%B %e, %Y"), $news_item['date_posted']) . "</b>";
-            if($news_item['locale'])
+            if ($news_item['locale']) {
                 echo "<br><b>" . _("Locale") . ":</b><br>" . $news_item['locale'];
+            }
             echo "</p>";
-            foreach ( $actions as $action => $label )
-            {
+            foreach ($actions as $action => $label) {
                 $url = "sitenews.php?news_page_id=$news_page_id&item_id={$news_item['id']}&action=$action";
-                if($action == "delete")
+                if ($action == "delete") {
                     $onclick = "onclick='return confirm(\"" . javascript_safe(_("Delete this news item?")) . "\");'";
-                else
+                } else {
                     $onclick = '';
+                }
                 echo "<a href='$url' $onclick>$label</a><br>";
             }
             echo "</td>";
@@ -414,7 +417,8 @@ function update_news_item_status($item_id, $status)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function news_change_made ($news_page_id) {
+function news_change_made($news_page_id)
+{
     $sql = sprintf("
         REPLACE INTO news_pages
         SET news_page_id = '%s', t_last_change = %d
@@ -425,8 +429,8 @@ function news_change_made ($news_page_id) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
-
+function move_news_item($news_page_id, $id_of_item_to_move, $direction)
+{
     $sql = sprintf("
         SELECT *
         FROM news_items
@@ -444,7 +448,9 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
             WHERE id = %d
         ", $i, $curr_id);
         DPDatabase::query($sql);
-        if (intval($curr_id) == intval($id_of_item_to_move)) {$old_pos = $i;}
+        if (intval($curr_id) == intval($id_of_item_to_move)) {
+            $old_pos = $i;
+        }
         $i++;
     }
 
@@ -470,4 +476,3 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
         DPDatabase::query($sql);
     }
 }
-

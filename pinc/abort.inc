@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc'); // html_safe()
 include_once($relPath.'misc.inc'); // html_safe()
 
-function abort( $error_message )
+function abort($error_message)
 {
     slim_header(_("Error"));
 
@@ -24,8 +24,7 @@ function abort( $error_message )
     echo "<pre>\n";
     dump_request_info();
 
-    if (0)
-    {
+    if (0) {
         echo "\n";
         echo "<hr>\n";
         echo "\n";
@@ -47,9 +46,8 @@ function provide_escape_links()
     // link to project home
     {
         $projectid = get_parameter_value(
-            array('projectid', 'projectname', 'project') );
-        if ( !is_null($projectid) )
-        {
+            ['projectid', 'projectname', 'project']);
+        if (!is_null($projectid)) {
             // This link won't work if the error is that the project doesn't exist.
             $link_url = "$code_url/project.php?id=$projectid";
             $link_text = _('Project Home');
@@ -60,14 +58,12 @@ function provide_escape_links()
     // link to round
     {
         $round = get_Round_for_project_state(
-            get_parameter_value( array('proj_state', 'proofstate') ) );
-        if ( is_null($round) )
-        {
+            get_parameter_value(['proj_state', 'proofstate']));
+        if (is_null($round)) {
             $round = get_Round_for_page_state(
-                get_parameter_value( array('pagestate', 'page_state') ) );
+                get_parameter_value(['pagestate', 'page_state']));
         }
-        if ( !is_null($round) )
-        {
+        if (!is_null($round)) {
             $link_url = "$code_url/tools/proofers/round.php?round_id={$round->id}";
             $link_text = $round->name;
             echo "<li><a href='$link_url' target='_top'>$link_text</a></li>\n";
@@ -84,24 +80,28 @@ function provide_escape_links()
     echo "</p>\n";
 }
 
-function get_parameter_value( $possible_names )
+function get_parameter_value($possible_names)
 // Look through request parameters for a parameter with one of the given names
 // and a non-empty value. Return the value, or NULL if none found.
 {
-    foreach ( $possible_names as $possible_name )
-    {
+    foreach ($possible_names as $possible_name) {
         $v = @$_GET[$possible_name];
-        if ( $v != '' ) return $v;
+        if ($v != '') {
+            return $v;
+        }
 
         $v = @$_POST[$possible_name];
-        if ( $v != '' ) return $v;
+        if ($v != '') {
+            return $v;
+        }
     }
-    return NULL;
+    return null;
 }
 
 function dump_request_info()
 {
-    $now = time(); $date = date('Y-m-d H:i:s',$now);
+    $now = time();
+    $date = date('Y-m-d H:i:s', $now);
     echo "time: $now ($date)\n";
     echo "username: {$GLOBALS['pguser']}\n";
     echo "requested path: " . html_safe($_SERVER['PHP_SELF']) . "\n";
@@ -110,43 +110,33 @@ function dump_request_info()
     // in the proofreading interface, echoing the request parameters will
     // give them a last chance to save the page text.
 
-    foreach ( array('_GET', '_POST') as $array_name )
-    {
+    foreach (['_GET', '_POST'] as $array_name) {
         echo "$array_name:\n";
-        switch($array_name)
-        {
-            case '_GET':  $array = $_GET;  break;
+        switch ($array_name) {
+            case '_GET':  $array = $_GET; break;
             case '_POST': $array = $_POST; break;
-            default: assert(FALSE);
+            default: assert(false);
         }
 
         // var_dump($array);
 
-        if (count($array) == 0)
-        {
+        if (count($array) == 0) {
             echo "    (empty)\n";
             continue;
         }
-        foreach( $array as $param_name => $param_value )
-        {
+        foreach ($array as $param_name => $param_value) {
             echo "    $param_name = ";
-            if ( is_string($param_value) )
-            {
+            if (is_string($param_value)) {
                 $htmlescaped_param_value = html_safe($param_value);
 
-                if ( strpos($param_value, "\n") )
-                {
+                if (strpos($param_value, "\n")) {
                     echo "'''\n";
                     echo $htmlescaped_param_value, "\n";
                     echo "'''\n";
-                }
-                else
-                {
+                } else {
                     echo "'$htmlescaped_param_value'\n";
                 }
-            }
-            else
-            {
+            } else {
                 // might be an array.
                 // This will be ugly, but I don't care.
                 var_dump($param_value);
@@ -154,4 +144,3 @@ function dump_request_info()
         }
     }
 }
-

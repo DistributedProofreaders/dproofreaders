@@ -13,23 +13,21 @@ abort_if_not_authors_db_editor(true);
 // load posted values or defaults
 if (isset($_GET['author_id'])) {
     // init creation of new bio
-    $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
+    $author_id = get_integer_param($_GET, 'author_id', null, null, null, true);
     $bio = '';
     $bio_format = 'markdown';
-}
-elseif (isset($_GET['bio_id'])) {
+} elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
-    $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, TRUE);
+    $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, true);
     $sql = sprintf("SELECT * FROM biographies WHERE bio_id = %d;", $bio_id);
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
-    $author_id  = $row["author_id"];
-    $bio        = $row["bio"];
+    $author_id = $row["author_id"];
+    $bio = $row["bio"];
     $bio_format = $row["bio_format"];
-}
-elseif (isset($_POST['author_id'])) {
+} elseif (isset($_POST['author_id'])) {
     // preview / save
-    $author_id = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
+    $author_id = get_integer_param($_POST, 'author_id', null, null, null, true);
     $bio = $_POST['bio'];
     $bio_format = get_enumerated_param($_POST, 'bio_format', null, ['html', 'markdown']);
 
@@ -39,7 +37,7 @@ elseif (isset($_POST['author_id'])) {
 
         if (isset($_POST['bio_id'])) {
             // edit existing bio
-            $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, TRUE);
+            $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, true);
             $sql = sprintf("
                 UPDATE biographies
                 SET bio = '%s'
@@ -47,8 +45,7 @@ elseif (isset($_POST['author_id'])) {
             ", DPDatabase::escape($bio), $bio_id);
             $result = DPDatabase::query($sql);
             $msg = _('The biography was successfully updated in the database!');
-        }
-        else {
+        } else {
             // add to database
             $sql = sprintf("
                 INSERT INTO biographies
@@ -62,14 +59,14 @@ elseif (isset($_POST['author_id'])) {
         }
         if ($result) {
             // success
-            if (isset($_POST['SaveAndExit']))
+            if (isset($_POST['SaveAndExit'])) {
                 header('Location: listing.php?message=' . urlencode($msg));
-            else if (isset($_POST['SaveAndView']))
+            } elseif (isset($_POST['SaveAndView'])) {
                 header("Location: bio.php?bio_id=$bio_id&message=" . urlencode($msg));
-            else if (isset($_POST['SaveAndNew']))
+            } elseif (isset($_POST['SaveAndNew'])) {
                 header('Location: add.php?message=' . urlencode($msg));
-        }
-        else {
+            }
+        } else {
             // failure!
             output_header(_('An error occurred'));
             echo _('It was not possible to save the biography.');
@@ -77,20 +74,19 @@ elseif (isset($_POST['author_id'])) {
             echo DPDatabase::log_error();
         }
         exit;
-    }
-    else {
+    } else {
         // Preview
     }
-}
-else {
+} else {
     // someone's trying to display this page outside of the workflow.
     output_header(_('An error occurred'));
     echo _('Some information is missing and this page can not be displayed. This has most likely occurred ' .
                  'because you have entered the URL manually. Please enter this page by following links from other pages.');
     exit;
 }
-if (isset($_POST['bio_id']))
+if (isset($_POST['bio_id'])) {
     $bio_id = $_POST['bio_id'];
+}
 
 // from here on to end of file:
 // produce form (with blank values
@@ -103,13 +99,14 @@ echo "<h1>" . $header_text . "</h1>";
 echo_menu();
 
 
-if (isset($msg))
+if (isset($msg)) {
     echo html_safe($msg);
+}
 
 $message = @$_GET['message'];
-if (isset($message))
+if (isset($message)) {
     echo html_safe($message) . '<br>';
-elseif (isset($_POST['Preview'])) {
+} elseif (isset($_POST['Preview'])) {
     echo '<table border="1"><td>' . html_safe($bio) . '</td></table>';
     echo '<br>';
 }
@@ -125,7 +122,7 @@ if (isset($bio_id)) {
 if (!isset($bio_id) || $bio_format === 'markdown') {
     $comment_format_text = "<a href='https://www.pgdp.net/wiki/Markdown'>Markdown</a>";
 } else {
-    $comment_format_text =  'HTML';
+    $comment_format_text = 'HTML';
 }
 ?>
 <table border="1">
@@ -146,4 +143,3 @@ if (!isset($bio_id) || $bio_format === 'markdown') {
 
 <?php
 echo_menu();
-

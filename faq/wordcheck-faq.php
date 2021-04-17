@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'wordcheck_engine.inc');
@@ -179,9 +179,10 @@ output_header('WordCheck FAQ', NO_STATSBAR);
 <?php createWordListTable(get_site_possible_bad_word_lists()); ?>
 
 <?php
-function createWordListTable($word_lists) {
+function createWordListTable($word_lists)
+{
     // return if there aren't any word_lists
-    if(count($word_lists)==0) {
+    if (count($word_lists) == 0) {
         echo "<p style='padding-left: 2em'><i>None.</i></p>";
         return;
     }
@@ -198,10 +199,10 @@ function createWordListTable($word_lists) {
     $datetime_format = _("%A, %B %e, %Y at %X");
 
     // loop through the word lists building rows as we go
-    foreach($word_lists as $word_list_file => $word_list_url) {
-        $filename=basename($word_list_file);
-        $word_count=count(explode("\n",file_get_contents($word_list_file)))-1;
-        $modifiedString=strftime($datetime_format,filemtime($word_list_file));
+    foreach ($word_lists as $word_list_file => $word_list_url) {
+        $filename = basename($word_list_file);
+        $word_count = count(explode("\n", file_get_contents($word_list_file))) - 1;
+        $modifiedString = strftime($datetime_format, filemtime($word_list_file));
         echo "<tr>";
         echo "<td><a href=\"$word_list_url\">$filename</a></td>";
         echo "<td>$word_count</td>";
@@ -221,9 +222,9 @@ function createWordListTable($word_lists) {
 <p>The following languages have dictionaries installed on the site:</p>
 <ul>
 <?php
-$languages=array_values(get_languages_with_dictionaries());
+$languages = array_values(get_languages_with_dictionaries());
 sort($languages);
-foreach($languages as $language) {
+foreach ($languages as $language) {
     echo "<li>$language</li>";
 }
 ?>

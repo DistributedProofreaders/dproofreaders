@@ -27,16 +27,19 @@ include_once($relPath."3rdparty/mediawiki/DiffEngine.php");
 include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
 include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
 
-class DifferenceEngineWrapper {
+class DifferenceEngineWrapper
+{
     private $oldText;
     private $newText;
 
-    public function setText($oldText, $newText) {
+    public function setText($oldText, $newText)
+    {
         $this->oldText = $oldText;
         $this->newText = $newText;
     }
 
-    public function showDiff($oldTitle, $newTitle) {
+    public function showDiff($oldTitle, $newTitle)
+    {
         $otext = $this->oldText;
         $ntext = $this->newText;
 
@@ -48,40 +51,42 @@ class DifferenceEngineWrapper {
         echo $this->addHeader($difftext, $oldTitle, $newTitle);
     }
 
-    private function generateTextDiffBody($otext, $ntext) {
+    private function generateTextDiffBody($otext, $ntext)
+    {
         // lifted from DifferenceEngine::generateTextDiffBody()
         global $wgContLang;
 
-        $otext = str_replace( "\r\n", "\n", $otext );
-        $ntext = str_replace( "\r\n", "\n", $ntext );
+        $otext = str_replace("\r\n", "\n", $otext);
+        $ntext = str_replace("\r\n", "\n", $ntext);
 
         // ripped out the $wgExternalDiffEngine code
 
-        # Native PHP diff
-        $ota = explode( "\n", $wgContLang->segmentForDiff( $otext ) );
-        $nta = explode( "\n", $wgContLang->segmentForDiff( $ntext ) );
-        $diffs = new Diff( $ota, $nta );
+        // Native PHP diff
+        $ota = explode("\n", $wgContLang->segmentForDiff($otext));
+        $nta = explode("\n", $wgContLang->segmentForDiff($ntext));
+        $diffs = new Diff($ota, $nta);
         $formatter = new TableDiffFormatter();
-        $difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) );
+        $difftext = $wgContLang->unsegmentForDiff($formatter->format($diffs));
 
         return $difftext;
     }
 
-    private function addHeader($diff, $otitle, $ntitle, $multi='', $notice='') {
+    private function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
+    {
         // lifted from DifferenceEngine::addHeader()
         // but without any of the $userLang bits
 
         $tableClass = 'diff';
         $header = "<table class='$tableClass'>";
 
-        if ( !$diff && !$otitle ) {
+        if (!$diff && !$otitle) {
             $header .= "
             <tr class='diff-title'>
             <td class='diff-ntitle'>{$ntitle}</td>
             </tr>";
             $multiColspan = 1;
         } else {
-            if ( $diff ) { // Safari/Chrome show broken output if cols not used
+            if ($diff) { // Safari/Chrome show broken output if cols not used
                 $header .= "
                 <col class='diff-marker' />
                 <col class='diff-content' />
@@ -100,68 +105,78 @@ class DifferenceEngineWrapper {
             </tr>";
         }
 
-        if ( $multi != '' ) {
+        if ($multi != '') {
             $header .= "<tr><td colspan='{$multiColspan}' class='diff-multi'>{$multi}</td></tr>";
         }
-        if ( $notice != '' ) {
+        if ($notice != '') {
             $header .= "<tr><td colspan='{$multiColspan}' class='diff-notice'>{$notice}</td></tr>";
         }
 
         return $header . $diff . "</table>";
     }
 
-    private function localiseLineNumbers( $text ) {
+    private function localiseLineNumbers($text)
+    {
         // lifted from DifferenceEngine::localiseLineNumbers()
         return preg_replace_callback(
             '/<!--LINE (\d+)-->/',
-            array( &$this, 'localiseLineNumbersCb' ),
+            [&$this, 'localiseLineNumbersCb'],
             $text
         );
     }
 
-    private function localiseLineNumbersCb($line_numbers) {
+    private function localiseLineNumbersCb($line_numbers)
+    {
         // DP-specific function
         return sprintf(_("Line %d"), $line_numbers[1]);
     }
 }
 
 // stub classes and global instances
-class ContLang {
-    function segmentForDiff($string) {
+class ContLang
+{
+    public function segmentForDiff($string)
+    {
         return $string;
     }
 
-    function unsegmentForDiff($string) {
+    public function unsegmentForDiff($string)
+    {
         return $string;
     }
 }
 
-$wgContLang = new ContLang;
+$wgContLang = new ContLang();
 
 // DifferenceEngine uses the Xml::tags function
 // so we will define a rough simulation to satisfy
 // the requirements
-if(!class_exists("Xml")) {
-    class Xml {
-        static function tags( $tagName, $className, $contents ) {
+if (!class_exists("Xml")) {
+    class Xml
+    {
+        public static function tags($tagName, $className, $contents)
+        {
             return "<$tagName>$contents</$tagName>";
         }
     }
 }
 
 // MW code references wfDebug() in some places
-if(!function_exists("wfDebug")) {
-    function wfDebug($text, $dest='all', array $context=[]) {
+if (!function_exists("wfDebug")) {
+    function wfDebug($text, $dest = 'all', array $context = [])
+    {
         // don't log any debug messages
-        return;
+
     }
 }
 
 // Override default css for DP customizations
-function get_DifferenceEngine_css_data() {
-    list( , $font_size, $font_family) = get_user_proofreading_font();
-    if($font_size != '')
+function get_DifferenceEngine_css_data()
+{
+    [, $font_size, $font_family] = get_user_proofreading_font();
+    if ($font_size != '') {
         $font_size = "font-size: $font_size;";
+    }
 
     return "
 .diff-otitle,
@@ -182,4 +197,3 @@ function get_DifferenceEngine_css_data() {
 }
 ";
 }
-

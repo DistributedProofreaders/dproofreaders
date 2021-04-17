@@ -5,7 +5,7 @@ use voku\helper\UTF8;
 
 $charsuite = new CharSuite("basic-greek", _("Basic Greek"));
 $charsuite->codepoints = [
-    # https://en.wikipedia.org/wiki/Greek_and_Coptic
+    // https://en.wikipedia.org/wiki/Greek_and_Coptic
     'U+0391-U+03a1',
     'U+03a3-U+03a9',
     'U+03b1-U+03c9',

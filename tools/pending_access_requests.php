@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
@@ -7,7 +7,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("permission denied");
+if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) {
+    die("permission denied");
+}
 
 $title = _('Pending Access Requests');
 
@@ -15,10 +17,8 @@ output_header($title);
 
 echo "<h1>$title</h1>\n";
 
-foreach ( $Activity_for_id_ as $activity )
-{
-    if ( $activity->after_satisfying_minima == 'REQ-HUMAN' )
-    {
+foreach ($Activity_for_id_ as $activity) {
+    if ($activity->after_satisfying_minima == 'REQ-HUMAN') {
         $activity_ids[] = $activity->id;
     }
 }
@@ -29,10 +29,8 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     FROM usersettings
     WHERE setting LIKE '%.access' AND value='requested'
 ") or die(DPDatabase::log_error());
-while ( list($activity_id) = mysqli_fetch_row($res) )
-{
-    if ( !in_array( $activity_id, $activity_ids ) )
-    {
+while ([$activity_id] = mysqli_fetch_row($res)) {
+    if (!in_array($activity_id, $activity_ids)) {
         $activity_ids[] = $activity_id;
     }
 }
@@ -50,10 +48,9 @@ mysqli_query(DPDatabase::get_connection(), "
     GROUP BY activity, subject_username
 ") or die(DPDatabase::log_error());
 
-foreach ( $activity_ids as $activity_id )
-{
+foreach ($activity_ids as $activity_id) {
     echo "<h3>";
-    echo sprintf( _('Users requesting access to %s'), $activity_id );
+    echo sprintf(_('Users requesting access to %s'), $activity_id);
     echo "</h3>\n";
 
     $access_name = "$activity_id.access";
@@ -76,30 +73,24 @@ foreach ( $activity_ids as $activity_id )
         ORDER BY username
     ") or die(DPDatabase::log_error());
 
-    if ( mysqli_num_rows($res) == 0 )
-    {
+    if (mysqli_num_rows($res) == 0) {
         $word = pgettext("no user", "none");
         echo "<i>$word</i>";
-    }
-    else
-    {
+    } else {
         $review_round = get_Round_for_round_id($activity_id);
-        if ( $review_round && $review_round->after_satisfying_minima == 'REQ-HUMAN' )
-        {
-            $can_review_work = TRUE;
+        if ($review_round && $review_round->after_satisfying_minima == 'REQ-HUMAN') {
+            $can_review_work = true;
             // These users are all requesting access to round Y.  For each, we will
             // provide a link to allow the requestor to review their round X work,
             // by considering each page they worked on in X, and comparing
             // their X result to the subsequent Y result (if it exists yet).
             //
             // (We assume that X is the round immediately preceding Y.)
-            $work_round = get_Round_for_round_number($review_round->round_number-1);
+            $work_round = get_Round_for_round_number($review_round->round_number - 1);
 
             $round_params = "work_round_id={$work_round->id}&amp;review_round_id={$review_round->id}";
-        }
-        else
-        {
-            $can_review_work = FALSE;
+        } else {
+            $can_review_work = false;
         }
 
         echo "<table class='basic striped'>\n";
@@ -107,8 +98,7 @@ foreach ( $activity_ids as $activity_id )
         {
             echo "<tr>";
             echo "<th>"._("Username")."</th>";
-            if ( $can_review_work )
-            {
+            if ($can_review_work) {
                 echo "<th>"._("Review Work")."</th>";
             }
             echo "<th>"._("Requested")."</th>";
@@ -120,15 +110,13 @@ foreach ( $activity_ids as $activity_id )
         $seconds = 60 * 60 * 24;
         $now = time();
         $tformat = '%Y-%m-%d';
-        while ( list($username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site) = mysqli_fetch_row($res) )
-        {
+        while ([$username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site] = mysqli_fetch_row($res)) {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
             $t_latest_request_f = strftime($tformat, $t_latest_request);
             $t_latest_request_d = round(($now - $t_latest_request) / $seconds);
             $t_latest_deny_f = '';
             $t_latest_deny_d = -1;
-            if ($t_latest_deny != 0) 
-            {
+            if ($t_latest_deny != 0) {
                 $t_latest_deny_f = strftime($tformat, $t_latest_deny);
                 $t_latest_deny_d = round(($now - $t_latest_deny) / $seconds);
             }
@@ -139,8 +127,7 @@ foreach ( $activity_ids as $activity_id )
             echo   "<td>";
             echo     "<a href='$member_stats_url'>$username</a>";
             echo   "</td>";
-            if ( $can_review_work )
-            {
+            if ($can_review_work) {
                 $review_work_url = "$code_url/tools/proofers/review_work.php?username=$username&amp;$round_params";
                 echo   "<td>";
                 echo     "<a href='$review_work_url'>", _("Review Work"), "</a>";
@@ -153,8 +140,7 @@ foreach ( $activity_ids as $activity_id )
             echo   "</td>";
             echo   "<td>";
             echo     $t_latest_deny_f;
-            if ($t_latest_deny_d >= 0) 
-            {
+            if ($t_latest_deny_d >= 0) {
                 echo " <span style='white-space: nowrap'>(",
                     sprintf(_("%s days"), $t_latest_deny_d), ")</span>";
             }
@@ -172,4 +158,3 @@ foreach ( $activity_ids as $activity_id )
 }
 
 echo '<br>';
-

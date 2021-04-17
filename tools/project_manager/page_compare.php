@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
@@ -14,25 +14,25 @@ $comparator->render();
 
 class Comparator
 {
-    function __construct()
+    public function __construct()
     {
         global $PROJECT_STATES_IN_ORDER;
 
-        $this->L_round_options = array('P1', 'P2', 'P3', 'F1');
-        $this->R_round_options = array('F1', 'F2');
+        $this->L_round_options = ['P1', 'P2', 'P3', 'F1'];
+        $this->R_round_options = ['F1', 'F2'];
         $this->state_index = array_flip($PROJECT_STATES_IN_ORDER);
     }
 
-    function get_data()
+    public function get_data()
     {
         $this->projectid = get_projectID_param($_GET, 'project');
         $this->L_round_id = get_enumerated_param($_GET, "L_round_id", "P3", $this->L_round_options);
         $this->R_round_id = get_enumerated_param($_GET, "R_round_id", "F1", $this->R_round_options);
-        $this->page_set = get_enumerated_param($_GET, "page_set", "all", array('left', 'right', 'all'));
+        $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
         $this->go_compare = isset($_GET['compare']);
     }
 
-    function render()
+    public function render()
     {
         global $pguser, $code_url;
 
@@ -51,8 +51,7 @@ class Comparator
         $label = _("Return to Project Page");
         echo "<p><a href='$project_url'>$label</a></p>\n";
 
-        if(!$this->project->check_pages_table_exists($warn_message))
-        {
+        if (!$this->project->check_pages_table_exists($warn_message)) {
             echo "<p class='warning'>$warn_message</p>\n";
             exit();
         }
@@ -73,13 +72,11 @@ class Comparator
             "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
 
         // if this is first entry don't do anything else
-        if(!$this->go_compare)
-        {
+        if (!$this->go_compare) {
             exit();
         }
 
-        if(!$this->has_project_started_round($this->L_round_id) || !$this->has_project_started_round($this->R_round_id))
-        {
+        if (!$this->has_project_started_round($this->L_round_id) || !$this->has_project_started_round($this->R_round_id)) {
             exit();
         }
 
@@ -91,7 +88,7 @@ class Comparator
         $R_round_num = $R_round->round_number;
 
         $username = $pguser;
-        switch($this->page_set) {
+        switch ($this->page_set) {
             case 'right':
                 $condition = sprintf(
                     "$R_round->user_column_name = '%s'",
@@ -108,8 +105,7 @@ class Comparator
         }
 
         $right_complete = ($this->state_index[$this->project->state] >= $this->state_index["{$this->R_round_id}.proj_done"]);
-        if(!$right_complete)
-        {
+        if (!$right_complete) {
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
@@ -122,32 +118,26 @@ class Comparator
         $res = DPDatabase::query($sql);
 
         $num_rows = mysqli_num_rows($res);
-        if($num_rows == 0)
-        {
+        if ($num_rows == 0) {
             echo "<p>", _("There are no pages to compare"), "</p>\n";
             exit();
-        }
-        else
-        {
+        } else {
             echo "<p>", sprintf(_("Comparing %d pages"), $num_rows), "</p>\n";
         }
 
         // make an array of imagenames of pages with diffs
-        $diff_pages = array();
+        $diff_pages = [];
         $un_formatter = new PageUnformatter();
-        while($page_res = mysqli_fetch_assoc($res))
-        {
+        while ($page_res = mysqli_fetch_assoc($res)) {
             // also unwrap
             $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
             $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);
-            if(0 != strcmp($L_text, $R_text))
-            {
+            if (0 != strcmp($L_text, $R_text)) {
                 $diff_pages[] = $page_res['image'];
             }
         }
 
-        if(empty($diff_pages))
-        {
+        if (empty($diff_pages)) {
             echo "<p>", _("There are no differences"), "</p>\n";
             exit();
         }
@@ -155,21 +145,18 @@ class Comparator
         // Draw the results
         echo "<p>", _("Clicking on a link will show the differences in a new window or tab."), "</p>\n";
         echo "<p>";
-        foreach($diff_pages as $imagename)
-        {
+        foreach ($diff_pages as $imagename) {
             echo "<a href='$code_url/tools/project_manager/diff.php?project=$this->projectid&amp;image=$imagename&amp;L_round_num=$L_round_num&amp;R_round_num=$R_round_num&amp;format=remove' target='_blank'>$imagename</a>\n";
         }
         echo "</p>";
     }
 
-    function selector_string($selected_round, $name, $rounds)
+    public function selector_string($selected_round, $name, $rounds)
     {
         $sel_str = "<select name=$name>";
-        foreach($rounds as $round)
-        {
+        foreach ($rounds as $round) {
             $sel_str .= "<option value='$round'";
-            if($round == $selected_round)
-            {
+            if ($round == $selected_round) {
                 $sel_str .= " selected";
             }
             $sel_str .= ">$round</option>";
@@ -178,20 +165,18 @@ class Comparator
         return $sel_str;
     }
 
-    function radio_string($value, $label)
+    public function radio_string($value, $label)
     {
         $checked = ($this->page_set === $value) ? " checked" : "";
         return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
     }
 
-    function has_project_started_round($round_id)
+    public function has_project_started_round($round_id)
     {
-        if($this->state_index[$this->project->state] < $this->state_index["{$round_id}.proj_avail"])
-        {
+        if ($this->state_index[$this->project->state] < $this->state_index["{$round_id}.proj_avail"]) {
             echo "<p>", sprintf(_("%s has not started"), $round_id), "</p>";
             return false;
         }
         return true;
     }
 }
-

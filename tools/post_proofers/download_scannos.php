@@ -4,7 +4,7 @@
 // Guiguts' .rc files should be in the format 'scanno' => 'scanno',\n
 // enclosed in %scannoslist = ( );.
 
-$relPath="../../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
@@ -12,13 +12,12 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 require_login();
 
 
-$lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));
-$flavour  = get_enumerated_param($_GET, 'type', null, array('common', 'suspect', 'rare'));
+$lang = get_enumerated_param($_GET, 'language', null, ['eng', 'es', 'fr', 'ger']);
+$flavour = get_enumerated_param($_GET, 'type', null, ['common', 'suspect', 'rare']);
 $filename = "$code_dir/faq/stealth_scannos_".$lang."_".$flavour.".txt";
 $this_url = html_safe($_SERVER['PHP_SELF']);
 
 if (!file_exists($filename)) {
-
     output_header(_("Download Stealth Scannos"));
     echo "<h1>"._("Download Stealth Scannos")."</h1>
           <p>"._("The following scanno lists are available in .rc format:")."</p>
@@ -44,17 +43,17 @@ if (!file_exists($filename)) {
 
 $output = "%scannoslist = (\n";
 
-$raw_scannos = fopen($filename,"r");
+$raw_scannos = fopen($filename, "r");
 while (!feof($raw_scannos)) {
-   $trans_scannos = fscanf($raw_scannos, "%[^\t]\t%[^\r\n]\n");
-   if ($trans_scannos) {
-     list($scanno1, $scanno2) = $trans_scannos;
-     // Escape 's to avoid messing up the file
-     $sc1 = str_replace("'", "\'", $scanno1);
-     $sc2 = str_replace("'", "\'", $scanno2);
-     $output .= "'$sc1' => '$sc2',\r\n";
-   }
-   $trans_scannos=NULL;
+    $trans_scannos = fscanf($raw_scannos, "%[^\t]\t%[^\r\n]\n");
+    if ($trans_scannos) {
+        [$scanno1, $scanno2] = $trans_scannos;
+        // Escape 's to avoid messing up the file
+        $sc1 = str_replace("'", "\'", $scanno1);
+        $sc2 = str_replace("'", "\'", $scanno2);
+        $output .= "'$sc1' => '$sc2',\r\n";
+    }
+    $trans_scannos = null;
 }
 fclose($raw_scannos);
 
@@ -66,4 +65,3 @@ header("Content-Disposition: attachment; filename=\"".$lang."_".$flavour.".rc\""
 header("Content-Length: ".strlen($output));
 
 echo $output;
-

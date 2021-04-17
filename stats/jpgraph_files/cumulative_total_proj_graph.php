@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -13,7 +13,7 @@ $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors)
 // Argument to init_projects_graph is the cache timeout in minutes.
 $graph = init_projects_graph(60);
 
-// Create "cumulative projects Xed per day" graph for all days 
+// Create "cumulative projects Xed per day" graph for all days
 // since state stats started being recorded up to yesterday
 
 $psd = get_project_status_descriptor($which);
@@ -29,7 +29,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY date ASC
 ");
 
-list($datax,$datay1) = dpsql_fetch_columns($result);
+[$datax, $datay1] = dpsql_fetch_columns($result);
 
 if (empty($datay1)) {
     $datay1[0] = 0;
@@ -43,4 +43,3 @@ draw_projects_graph(
     $psd->color,
     "$psd->cumulative_title ($timeframe)"
 );
-

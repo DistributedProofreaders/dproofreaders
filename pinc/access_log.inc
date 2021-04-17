@@ -1,14 +1,14 @@
 <?php
 include_once($relPath.'misc.inc');
 
-function log_access_change( $subject_username, $modifier_username, $activity_id, $action_type )
+function log_access_change($subject_username, $modifier_username, $activity_id, $action_type)
 {
     $setters = join(", ", [
         set_col_num("timestamp", time()),
         set_col_str("subject_username", $subject_username),
         set_col_str("modifier_username", $modifier_username),
         set_col_str("action", $action_type),
-        set_col_str("activity", $activity_id)
+        set_col_str("activity", $activity_id),
     ]);
     $sql = "
         INSERT INTO access_log
@@ -36,7 +36,7 @@ function get_first_granted_date($username, $stage)
     if ($row) {
         return $row["timestamp"];
     } else {
-        return NULL;
+        return null;
     }
 }
 
@@ -54,8 +54,9 @@ function get_latest_access_change_entry($username, $activity_id)
     );
     $result = DPDatabase::query($sql);
 
-    if($result)
+    if ($result) {
         return mysqli_fetch_assoc($result);
-    else
-        return NULL;
+    } else {
+        return null;
+    }
 }

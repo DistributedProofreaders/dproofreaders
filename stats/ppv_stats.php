@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -30,4 +30,3 @@ echo "<br>\n";
 echo _("Note that the above figures are as accurate as possible within the bounds of the current database structure");
 
 echo "<br>\n";
-

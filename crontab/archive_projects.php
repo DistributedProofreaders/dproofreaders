@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
@@ -14,9 +14,8 @@ header('Content-type: text/plain');
 
 $DAYS_TO_RETAIN = 100;
 
-$dry_run = array_get( $_GET, 'dry_run', '' );
-if ($dry_run)
-{
+$dry_run = array_get($_GET, 'dry_run', '');
+if ($dry_run) {
     echo "This is a dry run.\n";
 }
 
@@ -32,11 +31,9 @@ $result = mysqli_query(DPDatabase::get_connection(), "
 
 echo "Archiving page-tables for ", mysqli_num_rows($result), " projects...\n";
 
-while ( $project_data = mysqli_fetch_assoc($result) )
-{
+while ($project_data = mysqli_fetch_assoc($result)) {
     $project = new Project($project_data);
     archive_project($project, $dry_run);
 }
 
 echo "archive_projects.php executed.\n";
-

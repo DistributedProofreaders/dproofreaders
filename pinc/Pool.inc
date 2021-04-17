@@ -5,13 +5,13 @@ include_once($relPath.'Stage.inc');
 
 // -----------------------------------------------------------------------------
 
-$Pool_for_id_ = array();
-$Pool_for_state_ = array();
+$Pool_for_id_ = [];
+$Pool_for_state_ = [];
 
 class Pool extends Stage
 // A container for various constants relating to a particular pool.
 {
-    function __construct(
+    public function __construct(
         $pool_id,
         $pool_name,
         $access_minima,
@@ -29,13 +29,12 @@ class Pool extends Stage
         $foo_field_name,
             // The relevant person to display in pool listings, both
             // as shown to the user and as a field in the projects table
-            // (e.g. "postprocessor" when listing books available for PPV). 
+            // (e.g. "postprocessor" when listing books available for PPV).
             // Used by pinc/showavailablebooks.inc
 
         $blather
             // An array of strings to echo on the pool's home page.
-    )
-    {
+    ) {
         parent::__construct(
             $pool_id,
             $pool_name,
@@ -49,34 +48,32 @@ class Pool extends Stage
         );
 
         $this->project_checkedout_state = $project_checkedout_state;
-        $this->project_available_state  = $project_available_state;
-        $this->foo_Header               = $foo_Header;
-        $this->foo_field_name           = $foo_field_name;
-        $this->blather                  = $blather;
+        $this->project_available_state = $project_available_state;
+        $this->foo_Header = $foo_Header;
+        $this->foo_field_name = $foo_field_name;
+        $this->blather = $blather;
 
         global $Pool_for_id_;
-        $Pool_for_id_[$this->id] =& $this;
+        $Pool_for_id_[$this->id] = & $this;
 
         global $Pool_for_state_;
-        $Pool_for_state_[$this->project_checkedout_state] =& $this;
-        $Pool_for_state_[$this->project_available_state]  =& $this;
+        $Pool_for_state_[$this->project_checkedout_state] = & $this;
+        $Pool_for_state_[$this->project_available_state] = & $this;
     }
 }
 
 // ---------------------------
 
-function get_Pool_for_id( $pool_id )
+function get_Pool_for_id($pool_id)
 {
     global $Pool_for_id_;
-    return array_get( $Pool_for_id_, $pool_id, NULL );
+    return array_get($Pool_for_id_, $pool_id, null);
 }
 
-function get_Pool_for_state( $state )
+function get_Pool_for_state($state)
 {
     global $Pool_for_state_;
-    return array_get( $Pool_for_state_, $state, NULL );
+    return array_get($Pool_for_state_, $state, null);
 }
 
 // ---------------------------
-
-?>

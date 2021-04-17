@@ -5,7 +5,7 @@ use voku\helper\UTF8;
 
 $charsuite = new CharSuite("polytonic-greek", _("Polytonic Greek"));
 $charsuite->codepoints = [
-    # https://en.wikipedia.org/wiki/Greek_and_Coptic
+    // https://en.wikipedia.org/wiki/Greek_and_Coptic
     'U+02b9',
     'U+0375',
     'U+0391-U+03a1',
@@ -19,7 +19,7 @@ $charsuite->codepoints = [
     'U+03dd',
     'U+03f2',
     'U+03f9',
-    # tonos accented characters
+    // tonos accented characters
     'U+0386',
     'U+0388',
     'U+0389',
@@ -36,7 +36,7 @@ $charsuite->codepoints = [
     'U+03cc',
     'U+03cd',
     'U+03ce',
-    # polytonic characters
+    // polytonic characters
     'U+1f00-U+1f15',
     'U+1f18-U+1f1d',
     'U+1f20-U+1f45',
@@ -47,43 +47,43 @@ $charsuite->codepoints = [
     'U+1f5d',
     'U+1f5f',
     'U+1f60-U+1f70',
-    # skip oxia U+1f71
+    // skip oxia U+1f71
     'U+1f72',
-    # skip oxia U+1f73
+    // skip oxia U+1f73
     'U+1f74',
-    # skip oxia U+1f75
+    // skip oxia U+1f75
     'U+1f76',
-    # skip oxia U+1f77
+    // skip oxia U+1f77
     'U+1f78',
-    # skip oxia U+1f79
+    // skip oxia U+1f79
     'U+1f7a',
-    # skip oxia U+1f7b
+    // skip oxia U+1f7b
     'U+1f7c',
-    # skip oxia U+1f7d
+    // skip oxia U+1f7d
     'U+1f80-U+1fb4',
     'U+1fb6-U+1fba',
-    # skip oxia U+1fbb
+    // skip oxia U+1fbb
     'U+1fbc',
     'U+1fc2-U+1fc4',
     'U+1fc6-U+1fc8',
-    # skip oxia U+1fc9
+    // skip oxia U+1fc9
     'U+1fca',
-    # skip oxia U+1fcb
+    // skip oxia U+1fcb
     'U+1fcc',
     'U+1fd0-U+1fd2',
-    # skip oxia U+1fd3
+    // skip oxia U+1fd3
     'U+1fd6-U+1fda',
-    # skip oxia U+1fdb
+    // skip oxia U+1fdb
     'U+1fe0-U+1fe2',
-    # skip oxia U+1fe3
+    // skip oxia U+1fe3
     'U+1fe4-U+1fea',
-    # skip oxia U+1feb
+    // skip oxia U+1feb
     'U+1fec',
     'U+1ff2-U+1ff4',
     'U+1ff6-U+1ff8',
-    # skip oxia U+1ff9
+    // skip oxia U+1ff9
     'U+1ffa',
-    # skip oxia U+1ffb
+    // skip oxia U+1ffb
     'U+1ffc',
 ];
 $charsuite->reference_urls = [

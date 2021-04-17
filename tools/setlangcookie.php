@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath."base.inc");
 include_once($relPath."misc.inc");
 include_once($relPath."metarefresh.inc");
@@ -9,16 +9,12 @@ include_once($relPath."metarefresh.inc");
 $language = array_get($_POST, 'lang', '');
 $location = array_get($_POST, 'returnto', "$code_url/default.php");
 
-if($language)
-{
+if ($language) {
     // set the cookie
-    dp_setcookie("language", $language, time()+31536000);
-}
-else
-{
+    dp_setcookie("language", $language, time() + 31536000);
+} else {
     // delete the cookie
-    dp_setcookie("language", '', time()-3600);
+    dp_setcookie("language", '', time() - 3600);
 }
 
 metarefresh(0, $location);
-

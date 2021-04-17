@@ -1,20 +1,19 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 require_login();
 
 // check to see if the user is authorized to be here
-if ( !(user_is_a_sitemanager()) )
-{
+if (!(user_is_a_sitemanager())) {
     die("You are not authorized to use this form.");
 }
 
-$action = array_get($_POST, "action", NULL);
-$document = get_enumerated_param($_POST, "document", NULL, array_keys(RandomRule::$document_values), true);
-$url = array_get($_POST, "url", NULL);
-$langcode = strtolower(array_get($_POST, "langcode", NULL));
+$action = array_get($_POST, "action", null);
+$document = get_enumerated_param($_POST, "document", null, array_keys(RandomRule::$document_values), true);
+$url = array_get($_POST, "url", null);
+$langcode = strtolower(array_get($_POST, "langcode", null));
 
 $title = _("Manage Random Rules");
 
@@ -25,14 +24,11 @@ echo "<h1>" . html_safe($title) . "</h1>";
 echo "<p>" . _("On the round pages, users are presented a random rule from the proofreading or formatting guidelines. These rules are stored in the database. The database is populated from the guidelines directly, either the guidelines contained within the code or those in the pgdp.net wiki (or similarly-formatted rules), via URL. If the guidelines are updated, the rules will need to be reloaded using this page. Rules are managed as a language-document unit and are deleted or updated as that unit, and cannot be replaced or added as individual rules.") . "</p>";
 
 // do POST actions
-if($action == 'update')
-{
+if ($action == 'update') {
     RandomRule::reload_rules($url, $document, $langcode);
     // TRANSLATORS: %3$s is a URL
     echo "<p class='warning'>" . sprintf(_('Loaded rules for document %1$s and language %2$s from %3$s.'), RandomRule::$document_values[$document], $langcode, $url) . "</p>";
-}
-elseif($action == 'delete')
-{
+} elseif ($action == 'delete') {
     RandomRule::delete_rules($document, $langcode);
     echo "<p class='warning'>" . sprintf(_('Deleted rules for document %1$s and language %2$s.'), RandomRule::$document_values[$document], $langcode) . "</p>";
 }
@@ -49,8 +45,7 @@ echo "<th></th>";
 echo "</tr>";
 
 $used_langcodes = [];
-foreach($summary as $entry)
-{
+foreach ($summary as $entry) {
     $used_langcodes[] = $entry['langcode'];
     echo "<tr>";
     echo "<td>" . $entry['langcode']  . "</td>";
@@ -58,12 +53,12 @@ foreach($summary as $entry)
     echo "<td>" . $entry['count'] . "</td>";
     echo "<td><a href='displayrandrules.php?document=" . $entry['document'] . "&amp;langcode=" . $entry['langcode'] . "'>" . _("View") . "</a></td>";
     echo "<td>";
-        echo "<form method='POST'>";
-        echo "<input type='hidden' name='action' value='delete'>";
-        echo "<input type='hidden' name='langcode' value='" . attr_safe($entry['langcode']) . "'>";
-        echo "<input type='hidden' name='document' value='" . attr_safe($entry['document']) . "'>";
-        echo "<input type='submit' value='" . attr_safe(_("Delete")) . "'>";
-        echo "</form>";
+    echo "<form method='POST'>";
+    echo "<input type='hidden' name='action' value='delete'>";
+    echo "<input type='hidden' name='langcode' value='" . attr_safe($entry['langcode']) . "'>";
+    echo "<input type='hidden' name='document' value='" . attr_safe($entry['document']) . "'>";
+    echo "<input type='submit' value='" . attr_safe(_("Delete")) . "'>";
+    echo "</form>";
     echo "</td>";
     echo "</tr>";
 }
@@ -82,12 +77,10 @@ echo "<form method='POST'>";
 echo "<input type='hidden' name='action' value='update'>";
 echo _("Language") . ": <input type='text' name='langcode' size='5' maxlength='5' required> ";
 echo "<select name='document'>";
-foreach(RandomRule::$document_values as $key => $value)
-{
+foreach (RandomRule::$document_values as $key => $value) {
     echo "<option value='$key'>$value</option>";
 }
 echo "</select> ";
 echo _("URL") . ": <input type='text' name='url' size='75' required> ";
 echo "<input type='submit'>";
 echo "</form>";
-

@@ -22,16 +22,14 @@ function get_page_tally_names()
 {
     global $Round_for_round_id_;
 
-    $page_tally_names = array();
-    if ( TRUE )
-    {
+    $page_tally_names = [];
+    if (true) {
         $page_tally_names['R*'] =
             _('Pages saved-as-done in old rounds R1+R2');
     }
-    foreach ( $Round_for_round_id_ as $round )
-    {
+    foreach ($Round_for_round_id_ as $round) {
         $page_tally_names[$round->id] =
-            sprintf( _('Pages saved-as-done in round %s'), $round->id );
+            sprintf(_('Pages saved-as-done in round %s'), $round->id);
     }
     return $page_tally_names;
 }
@@ -49,14 +47,14 @@ function get_ELR_tallyboards()
     // of the user's experience.
 
     return [
-        new TallyBoard( $ELR_round->id, 'U' ),  # users
-        new TallyBoard( $ELR_round->id, 'T' ),  # teams
+        new TallyBoard($ELR_round->id, 'U'),  // users
+        new TallyBoard($ELR_round->id, 'T'),  // teams
     ];
 }
 
 // -----------------------------------------------------------------------------
 
-function page_tallies_add( $tally_name, $username, $amount )
+function page_tallies_add($tally_name, $username, $amount)
 // Add $amount to the user's page tally,
 // and to the page tally of each team that the user currently belongs to.
 {
@@ -64,24 +62,23 @@ function page_tallies_add( $tally_name, $username, $amount )
     $user = new User($username);
 
     // update page tally for user
-    $user_tallyboard = new TallyBoard( $tally_name, 'U' );
-    $user_tallyboard->add_to_tally( $user->u_id, $amount );
+    $user_tallyboard = new TallyBoard($tally_name, 'U');
+    $user_tallyboard->add_to_tally($user->u_id, $amount);
 
     // update page tally for site
-    $site_tallyboard = new TallyBoard( $tally_name, 'S' );
-    $site_tallyboard->add_to_tally( 1, $amount );
+    $site_tallyboard = new TallyBoard($tally_name, 'S');
+    $site_tallyboard->add_to_tally(1, $amount);
 
     // update page tally for each team
-    $team_tallyboard = new TallyBoard( $tally_name, 'T' );
-    foreach ($user->load_teams() as $team_id)
-    {
-        $team_tallyboard->add_to_tally( $team_id, $amount );
+    $team_tallyboard = new TallyBoard($tally_name, 'T');
+    foreach ($user->load_teams() as $team_id) {
+        $team_tallyboard->add_to_tally($team_id, $amount);
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function get_daily_average( $start_time, $total )
+function get_daily_average($start_time, $total)
 // Not actually tally-specific, but that's all it's used for.
 {
     $now = time();
@@ -92,13 +89,13 @@ function get_daily_average( $start_time, $total )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_get_ELR_page_tally( $username )
+function user_get_ELR_page_tally($username)
 // Return the user's page tally for the Entry-Level Round.
 {
-    list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
+    [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
-    list($joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column) =
-        $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+    [$joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column] =
+        $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
     $sql = sprintf("
         SELECT $user_ELR_page_tally_column
@@ -109,8 +106,7 @@ function user_get_ELR_page_tally( $username )
     $res = DPDatabase::query($sql);
     $row = mysqli_fetch_row($res);
 
-    if(!$row)
-    {
+    if (!$row) {
         // No row matched username='$username'.
         // This probably shouldn't happen.
         return 0;
@@ -121,7 +117,7 @@ function user_get_ELR_page_tally( $username )
 
 // -----------------------------------------------------------------------------
 
-function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
+function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 //
 // $radius is the (maximum) number of neighbors (on each side) to include in
 // the neighborhood. (It will include fewer that the maximum iff the target
@@ -137,7 +133,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 {
     $user = new User($username);
 
-    $tallyboard = new TallyBoard( $tally_name, 'U' );
+    $tallyboard = new TallyBoard($tally_name, 'U');
     $nb =
         $tallyboard->get_neighborhood(
             $user->u_id, $radius,
@@ -148,18 +144,14 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
             'current_rank'
         );
 
-    $neighbors = array();
-    foreach ( $nb as $rel_posn => $row )
-    {
-        if ( should_anonymize( $row['username'], $row['u_privacy'] ) )
-        {
-            $neighbor_is_anonymized = TRUE;
-            $neighbor_username = NULL;
-            $neighbor_date_joined = NULL;
-        }
-        else
-        {
-            $neighbor_is_anonymized = FALSE;
+    $neighbors = [];
+    foreach ($nb as $rel_posn => $row) {
+        if (should_anonymize($row['username'], $row['u_privacy'])) {
+            $neighbor_is_anonymized = true;
+            $neighbor_username = null;
+            $neighbor_date_joined = null;
+        } else {
+            $neighbor_is_anonymized = false;
             $neighbor_username = $row['username'];
             $neighbor_date_joined = $row['date_created'];
         }
@@ -181,7 +173,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 
 class PageTally_Neighbor
 {
-    function __construct( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
+    public function __construct($tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank)
     {
         $this->tallyboard = $tallyboard;
         $this->is_anonymized = $is_anonymized;
@@ -192,25 +184,43 @@ class PageTally_Neighbor
         $this->current_page_tally_rank = $current_page_tally_rank;
     }
 
-    function is_anonymized()               { return $this->is_anonymized; }
-    function get_username()                { return $this->username; }
-    function get_date_joined()             { return $this->date_joined; }
-    function get_u_id()                    { return $this->u_id; }
-    function get_current_page_tally()      { return $this->current_page_tally; }
-    function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
+    public function is_anonymized()
+    {
+        return $this->is_anonymized;
+    }
+    public function get_username()
+    {
+        return $this->username;
+    }
+    public function get_date_joined()
+    {
+        return $this->date_joined;
+    }
+    public function get_u_id()
+    {
+        return $this->u_id;
+    }
+    public function get_current_page_tally()
+    {
+        return $this->current_page_tally;
+    }
+    public function get_current_page_tally_rank()
+    {
+        return $this->current_page_tally_rank;
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function should_anonymize( $username, $user_privacy_setting )
+function should_anonymize($username, $user_privacy_setting)
 // Should we anonymize information about the given user?
 {
-    return !can_reveal_details_about( $username, $user_privacy_setting );
+    return !can_reveal_details_about($username, $user_privacy_setting);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$SECONDS_TO_YESTERDAY = 1 + 3*60*60;
+$SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
 //
 // Normally, a snapshot is taken shortly after local midnight, and ascribed
 // (in the past_tallies table) to a timestamp equal to precisely local midnight.
@@ -241,36 +251,36 @@ $SECONDS_TO_YESTERDAY = 1 + 3*60*60;
 
 // -----------------------------------------------------------------------------
 
-function get_site_page_tally_summary( $tally_name )
+function get_site_page_tally_summary($tally_name)
 // Return an object whose attributes are various useful statistics re
 // the site page tally:
 //     curr_day_{goal,actual}
 //     prev_day_{goal,actual}
 //     curr_month_{goal,actual}
 {
-    $site_stats = new StdClass;
+    $site_stats = new StdClass();
 
     // Goals
 
     $site_stats->curr_day_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "date = CURRENT_DATE" );
+            "date = CURRENT_DATE");
 
     $site_stats->prev_day_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "date = (CURRENT_DATE - INTERVAL 1 DAY)" );
+            "date = (CURRENT_DATE - INTERVAL 1 DAY)");
 
     $site_stats->curr_month_goal =
         get_site_tally_goal_summed(
             $tally_name,
             "YEAR(date) = YEAR(CURRENT_DATE) AND
-            MONTH(date) = MONTH(CURRENT_DATE)" );
+            MONTH(date) = MONTH(CURRENT_DATE)");
 
     // Actuals
 
-    $tallyboard = new TallyBoard( $tally_name, 'S' );
+    $tallyboard = new TallyBoard($tally_name, 'S');
 
     $holder_id = 1;
 
@@ -285,16 +295,16 @@ function get_site_page_tally_summary( $tally_name )
 
     $today = getdate();
     $site_stats->curr_month_actual =
-        $tallyboard->get_delta_sum( $holder_id,
-            mktime( 0,0,0, $today['mon'],   1, $today['year'] ),
-            mktime( 0,0,0, $today['mon']+1, 1, $today['year'] ) )
+        $tallyboard->get_delta_sum($holder_id,
+            mktime(0, 0, 0, $today['mon'], 1, $today['year']),
+            mktime(0, 0, 0, $today['mon'] + 1, 1, $today['year']))
         +
         $site_stats->curr_day_actual;
 
     return $site_stats;
 }
 
-function get_site_tally_goal_summed( $tally_name, $date_condition )
+function get_site_tally_goal_summed($tally_name, $date_condition)
 {
     $sql = sprintf("
         SELECT SUM(goal)
@@ -303,33 +313,30 @@ function get_site_tally_goal_summed( $tally_name, $date_condition )
         DPDatabase::escape($tally_name)
     );
     $res = DPDatabase::query($sql);
-    list($sum) = mysqli_fetch_row($res);
+    [$sum] = mysqli_fetch_row($res);
     return $sum;
 }
 
 // -----------------------------------------------------------------------------
 
 function select_from_site_past_tallies_and_goals(
-    $tally_name, 
+    $tally_name,
     $select,
     $where,
     $groupby,
     $orderby,
-    $limit )
+    $limit)
 // Return a string containing an SQL 'select' statement
 // dealing with site-specific rows from the past_tallies table,
 // and corresponding rows from the site_tally_goals table.
 {
     global $SECONDS_TO_YESTERDAY;
 
-    if (empty($where))
-    {
+    if (empty($where)) {
         $where_addition = '';
-    }
-    else
-    {
+    } else {
         $where_addition =
-            preg_replace( '/^\s*WHERE\s+(.*)$/i', 'AND (\1)', $where );
+            preg_replace('/^\s*WHERE\s+(.*)$/i', 'AND (\1)', $where);
     }
 
     $s = "
@@ -350,15 +357,14 @@ function select_from_site_past_tallies_and_goals(
     ";
 
     $date_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m-%d')";
-    $ym_expr   = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m')";
-    $y_expr    = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y')";
+    $ym_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m')";
+    $y_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y')";
 
-    $s = preg_replace( '/{date}/',          $date_expr,          $s );
-    $s = preg_replace( '/{year_month}/',    $ym_expr,            $s );
-    $s = preg_replace( '/{year}/',          $y_expr,             $s );
+    $s = preg_replace('/{date}/', $date_expr, $s);
+    $s = preg_replace('/{year_month}/', $ym_expr, $s);
+    $s = preg_replace('/{year}/', $y_expr, $s);
 
-    if (0)
-    {
+    if (0) {
         echo "<pre>\n";
         echo $s;
         echo "</pre>\n";
@@ -376,26 +382,20 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
 {
     global $SECONDS_TO_YESTERDAY;
 
-    if ($days_back == "all")
-    {
+    if ($days_back == "all") {
         $min_timestamp = 0;
-    }
-    else
-    {
+    } else {
         $min_timestamp = time() - ($days_back * 86400);
     }
 
-    $tallyboard = new TallyBoard( $tally_name, $holder_type );
-    $deltas = $tallyboard->get_deltas( $holder_id, $min_timestamp );
+    $tallyboard = new TallyBoard($tally_name, $holder_type);
+    $deltas = $tallyboard->get_deltas($holder_id, $min_timestamp);
 
-    $pages_per_day = array();
-    foreach ( $deltas as $timestamp => $tally_delta )
-    {
+    $pages_per_day = [];
+    foreach ($deltas as $timestamp => $tally_delta) {
         $date = strftime("%Y-%m-%d", $timestamp - $SECONDS_TO_YESTERDAY);
         $pages_per_day[$date] = $tally_delta;
     }
 
     return $pages_per_day;
 }
-
-?>

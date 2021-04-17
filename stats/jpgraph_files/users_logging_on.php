@@ -1,12 +1,12 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('common.inc');
 
-$past      = get_enumerated_param($_GET, 'past', null, array('year', 'day'));
-$preceding = get_enumerated_param($_GET, 'preceding', null, array('hour', 'day', 'week', 'fourweek'));
+$past = get_enumerated_param($_GET, 'past', null, ['year', 'day']);
+$preceding = get_enumerated_param($_GET, 'preceding', null, ['hour', 'day', 'week', 'fourweek']);
 
 // For each hour in the $past interval,
 // show the number of (distinct) users who had logged in
@@ -14,8 +14,7 @@ $preceding = get_enumerated_param($_GET, 'preceding', null, array('hour', 'day',
 
 $seconds_per_day = 24 * 60 * 60;
 
-switch ($past)
-{
+switch ($past) {
     case 'year':
         $min_timestamp = time() - 366 * $seconds_per_day;
         $date_format = '%Y-%b-%d';
@@ -30,8 +29,7 @@ switch ($past)
         die("bad value for 'past'");
 }
 
-switch ($preceding)
-{
+switch ($preceding) {
     case 'hour':
         $title = _("Number of users newly logged in each hour");
         $column_name = 'L_hour';
@@ -75,9 +73,9 @@ $result = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY time_stamp
 ");
 
-list($datax,$datay) = dpsql_fetch_columns($result);
+[$datax, $datay] = dpsql_fetch_columns($result);
 
-$x_text_tick_interval = calculate_text_tick_interval( 'hourly', count($datay) );
+$x_text_tick_interval = calculate_text_tick_interval('hourly', count($datay));
 
 draw_simple_bar_graph(
     $graph,
@@ -87,4 +85,3 @@ draw_simple_bar_graph(
     $title,
     _('Fresh Logons')
 );
-

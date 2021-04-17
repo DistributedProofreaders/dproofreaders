@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'User.inc');
@@ -19,15 +19,14 @@ $email_updates = array_get($_POST, 'email_updates', 1);
 $referrer = array_get($_POST, 'referrer', '');
 $referrer_details = array_get($_POST, 'referrer_details', '');
 
-$form_data_inserters = array();
+$form_data_inserters = [];
 $form_validators = [
     "_validate_fields",
     "_validate_csrf",
 ];
 
 // If configured, load site-specific bot-prevention and validation funcs
-if($site_registration_protection_code)
-{
+if ($site_registration_protection_code) {
     include_once($site_registration_protection_code);
     $form_data_inserters = get_registration_form_inserters();
     $form_validators = array_merge($form_validators, get_registration_form_validators());
@@ -36,30 +35,28 @@ if($site_registration_protection_code)
 // assume there is no error
 $error = "";
 
-if(count($_POST))
-{
+if (count($_POST)) {
     // When in testing mode, to avoid leaking private email addresses,
     // create a fake but distinct email address based on the username.
     // DP usernames allow [0-9A-Za-z@._ -]. '@' and ' ' are not valid
     // (unless quoted) in the local part of an email address, so
     // convert those to '%' and '+' respectively.
     if ($testing) {
-        $local_part = str_replace(array('@', ' '), array('%', '+'), $username);
-        $email      = $local_part . "@localhost";
-        $email2     = $email;
+        $local_part = str_replace(['@', ' '], ['%', '+'], $username);
+        $email = $local_part . "@localhost";
+        $email2 = $email;
     }
 
     // Run all form validators against the data
-    foreach($form_validators as $func)
-    {
+    foreach ($form_validators as $func) {
         $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details);
-        if(!empty($error))
+        if (!empty($error)) {
             break;
+        }
     }
 
     // if all fields validated, create the registration
-    if(empty($error))
-    {
+    if (empty($error)) {
         $intlang = get_desired_language();
         $register = new NonactivatedUser();
         $register->real_name = $real_name;
@@ -72,8 +69,7 @@ if(count($_POST))
         $register->u_intlang = $intlang;
         $register->user_password = forum_password_hash($userpass);
 
-        try
-        {
+        try {
             $register->save();
 
             // delete the cookie tracking the HTTP_REFERER
@@ -93,9 +89,7 @@ if(count($_POST))
                html_safe($username));
             echo "</p>";
             exit();
-        }
-        catch(Exception $exception)
-        {
+        } catch (Exception $exception) {
             $error = _("Can not initiate user registration.");
         }
     }
@@ -109,13 +103,12 @@ if(count($_POST))
 // to this file & run the above commands.
 
 $header = _("Create An Account");
-output_header($header, SHOW_STATSBAR, array("js_files" => array("$code_url/accounts/addproofer.js")));
+output_header($header, SHOW_STATSBAR, ["js_files" => ["$code_url/accounts/addproofer.js"]]);
 
 echo "<h1>" . _("Account Registration") . "</h1>";
 
 // See if the user is already logged in
-if(User::load_current())
-{
+if (User::load_current()) {
     echo "<p class='error'>" . _("You already have an account and cannot create another one while logged in.") . "</p>";
     exit;
 }
@@ -129,8 +122,7 @@ echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is co
 echo "<li>" . sprintf(_("<strong>Before</strong> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), $general_help_email_addr) . "</li>";
 echo "</ul>";
 
-if ( $testing )
-{
+if ($testing) {
     echo "<p class='test_warning'>";
     echo _("Because this is a test site, you <strong>don't</strong> need to provide an email address and an email <strong>won't</strong> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <strong>Your account won't be created until you access the confirmation link.</strong>");
     echo "</p>\n";
@@ -138,14 +130,12 @@ if ( $testing )
 
 // If the user filled out the form but there was an error during the
 // data validation, print out the error here and let them resubmit.
-if(!empty($error))
-{
+if (!empty($error)) {
     echo "<p class='error'>$error</p>";
 }
 
 echo "<form method='post' action='addproofer.php'>\n";
-foreach($form_data_inserters as $func)
-{
+foreach ($form_data_inserters as $func) {
     $func();
 }
 echo_csrf_token_form_input();
@@ -192,13 +182,14 @@ echo "<tr>";
 echo "  <th>" . _("How did you hear about us?") . "</th>";
 echo "  <td>";
 echo "    <select name='referrer'>";
-if(!$referrer)
+if (!$referrer) {
     echo "  <option selected disabled>" . _("Please select one") . "</option>";
-foreach(User::get_referrer_options() as $key => $value)
-{
+}
+foreach (User::get_referrer_options() as $key => $value) {
     $selected = "";
-    if($key == $referrer)
+    if ($key == $referrer) {
         $selected = "selected";
+    }
     echo "<option value='$key' $selected>$value</option>";
 }
 echo "    </select>";
@@ -227,43 +218,34 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     global $testing, $general_help_email_addr;
 
     // Make sure that password and confirmed password are equal.
-    if ($userpass != $userpass2)
-    {
+    if ($userpass != $userpass2) {
         return _("The passwords you entered were not equal.");
     }
 
     // Make sure that email and confirmed email are equal.
-    if ($email != $email2)
-    {
+    if ($email != $email2) {
         return _("The e-mail addresses you entered were not equal.");
     }
 
     // See if there is already an account creation request for this email
-    try
-    {
+    try {
         NonactivatedUser::load_from_email($email);
-        $email_exists = TRUE;
-    }
-    catch(NonuniqueNonactivatedUserException $e)
-    {
-        $email_exists = TRUE;
-    }
-    catch(NonexistentNonactivatedUserException $e)
-    {
+        $email_exists = true;
+    } catch (NonuniqueNonactivatedUserException $e) {
+        $email_exists = true;
+    } catch (NonexistentNonactivatedUserException $e) {
         // this is the expected case
-        $email_exists = FALSE;
+        $email_exists = false;
     }
 
-    if($email_exists)
-    {
+    if ($email_exists) {
         return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to arrive in your inbox. It is also a good idea to check your spam folder. If you have not received it within 12 hours, please contact %s to have it re-sent."), $general_help_email_addr);
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
 
-    $err = check_username( $username, TRUE );
-    if ( $err != '' )
-    {
+    $err = check_username($username, true);
+    if ($err != '') {
         return $err;
     }
 
@@ -272,15 +254,13 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     // thinks the domain should end in a 2-4 character top level
     // domain, so disable the address check for testing.
     if (!$testing) {
-        $err = check_email_address( $email );
-        if ( $err != '' )
-        {
+        $err = check_email_address($email);
+        if ($err != '') {
             return $err;
         }
     }
 
-    if (empty($userpass) || empty($real_name))
-    {
+    if (empty($userpass) || empty($real_name)) {
         return _("You did not completely fill out the form.");
     }
 
@@ -288,19 +268,15 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     // Use non-strict validation, which will return TRUE if the username
     // is the same as an existing one, or differs only by case or trailing
     // whitespace.
-    if(User::is_valid_user($username, FALSE))
-    {
+    if (User::is_valid_user($username, false)) {
         return _("That user name already exists, please try another.");
     }
 
     // Ensure we don't already have a registration with this name
-    try
-    {
+    try {
         $na_user = new NonactivatedUser($username);
         return _("That username has already been requested. Please try another.");
-    }
-    catch(NonexistentNonactivatedUserException$exception)
-    {
+    } catch (NonexistentNonactivatedUserException$exception) {
         // pass
     }
 
@@ -310,8 +286,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     // forum software which, if used, will cause account creation to fail in
     // activate.php.
 
-    if(!$referrer || ($referrer == 'other' && !$referrer_details))
-    {
+    if (!$referrer || ($referrer == 'other' && !$referrer_details)) {
         return _("Please tell us how you heard about us.");
     }
 
@@ -320,15 +295,11 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
 
 function _validate_csrf()
 {
-    try
-    {
+    try {
         validate_csrf_token();
-    }
-    catch(InvalidCSRFTokenException $e)
-    {
+    } catch (InvalidCSRFTokenException $e) {
         return $e->getMessage();
     }
 
     return '';
 }
-

@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
@@ -10,19 +10,16 @@ require_login();
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-$projectid      = get_projectID_param($_GET, 'projectid');
-$expected_state = get_enumerated_param($_GET, 'proj_state', NULL, $PROJECT_STATES_IN_ORDER, TRUE);
+$projectid = get_projectID_param($_GET, 'projectid');
+$expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
 
 $project = new Project($projectid);
 
 // Check $expected_state.
-if(!$expected_state)
-{
+if (!$expected_state) {
     abort(_("No expected state found in request."));
-}
-elseif($expected_state != $project->state)
-{
-    slim_header( $project->nameofwork );
+} elseif ($expected_state != $project->state) {
+    slim_header($project->nameofwork);
 
     echo "<p>";
     echo sprintf(
@@ -38,9 +35,8 @@ elseif($expected_state != $project->state)
 }
 
 // Check that the project is in a proofable state
-list($code,$msg) = $project->can_be_proofed_by_current_user();
-if ( $code != $project->CBP_OKAY )
-{
+[$code, $msg] = $project->can_be_proofed_by_current_user();
+if ($code != $project->CBP_OKAY) {
     abort($msg);
 }
 
@@ -50,18 +46,18 @@ if ( $code != $project->CBP_OKAY )
 $round = get_Round_for_project_state($project->state);
 $nameofwork = "[" . $round->id . "] " . $project->nameofwork;
 
-$header_args = array(
-    "js_files" => array(
+$header_args = [
+    "js_files" => [
         "$code_url/tools/proofers/dp_proof.js",
         "$code_url/tools/proofers/dp_scroll.js",
-    )
-);
+    ],
+];
 slim_header_frameset($nameofwork." - "._("Proofreading Interface"), $header_args);
 
-$frameGet="?" . $_SERVER['QUERY_STRING'];
+$frameGet = "?" . $_SERVER['QUERY_STRING'];
 ?>
 <frameset id="proof_frames" rows="*,85">
-<frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}"; ?>" marginwidth="2" marginheight="2" frameborder="0">
 <frame name="menuframe" src="ctrl_frame.php?projectid=<?php echo $projectid; ?>&amp;round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 <noframes>

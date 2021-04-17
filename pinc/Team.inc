@@ -7,7 +7,7 @@ class Team
 {
     // static functions
 
-    static public function log_recent_join($tid, $uid)
+    public static function log_recent_join($tid, $uid)
     {
         $sql = sprintf("
             UPDATE user_teams
@@ -18,7 +18,7 @@ class Team
         DPDatabase::query($sql);
     }
 
-    static public function active_member_count($tid)
+    public static function active_member_count($tid)
     {
         $sql = sprintf("
             SELECT count(*)
@@ -27,7 +27,7 @@ class Team
         ", $tid);
 
         $result = DPDatabase::query($sql);
-        list($count) = mysqli_fetch_row($result);
+        [$count] = mysqli_fetch_row($result);
         mysqli_free_result($result);
         return $count;
     }

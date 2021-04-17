@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'user_is.inc'); // user_can_mentor_in_any_round()
@@ -14,7 +14,7 @@ $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/page_browse.js",
     "$code_url/tools/page_browser.js",
-    ];
+];
 
 $header_args = [
     "js_files" => $js_files,
@@ -27,4 +27,3 @@ $header_args = [
 slim_header($title, $header_args);
 
 echo "<div id='page-browser'></div>";
-

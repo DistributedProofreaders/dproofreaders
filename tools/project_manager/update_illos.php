@@ -15,16 +15,14 @@ require_login();
 // They should perhaps be refactored.)
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');
-$operation = get_enumerated_param($_REQUEST, 'operation', 'replace', array('replace', 'delete', 'delete_all'));
+$operation = get_enumerated_param($_REQUEST, 'operation', 'replace', ['replace', 'delete', 'delete_all']);
 
-if ($operation !== 'delete_all')
-{
-    $image     = @$_REQUEST['image'];
+if ($operation !== 'delete_all') {
+    $image = @$_REQUEST['image'];
     // Note that using validate_page_image() here would be inappropriate,
     // because it's specific to *page* images (which this isn't),
     // and so enforces a maximum filename length.
-    if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add_files.php
-    {
+    if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) { // see _check_file() in add_files.php
         // This should only happen if someone is URL-tweaking.
         die(_("Parameter 'image' is not a valid illustration filename."));
     }
@@ -33,16 +31,11 @@ if ($operation !== 'delete_all')
 $project = new Project($projectid);
 
 $is_delete_all_operation = false;
-if ($operation == 'replace')
-{
+if ($operation == 'replace') {
     $operation_image_str = _('Replace Illustration');
-}
-elseif ($operation == 'delete')
-{
+} elseif ($operation == 'delete') {
     $operation_image_str = _('Delete Illustration');
-}
-else
-{
+} else {
     $operation_image_str = _('Delete All Illustrations');
     $is_delete_all_operation = true;
 }
@@ -55,8 +48,7 @@ echo "<p>";
 echo "<b>" . _("Project") . ":</b> " . html_safe($project->nameofwork) . "<br>";
 echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
 echo "<b>" . _("Project state") . ":</b> {$project->state}<br>";
-if (!$is_delete_all_operation)
-{
+if (!$is_delete_all_operation) {
     $image_link = "<a href='$projects_url/$projectid/" . rawurlencode($image) . "'>" . html_safe($image) . "</a>";
     echo "<b>" . _("Illustration") . ":</b> $image_link<br>";
 }
@@ -64,23 +56,20 @@ echo "</p>";
 
 echo "<h2>$operation_image_str</h2>\n";
 
-if (!$project->can_be_managed_by_current_user)
-{
+if (!$project->can_be_managed_by_current_user) {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
     provide_escape_links();
     exit;
 }
 
-if (($is_delete_all_operation || $operation == 'delete') && $project->state != PROJ_NEW && $project->state != PROJ_P1_UNAVAILABLE)
-{
+if (($is_delete_all_operation || $operation == 'delete') && $project->state != PROJ_NEW && $project->state != PROJ_P1_UNAVAILABLE) {
     echo "<p>", _('You can only delete illustrations for a project in the new or P1 unavailable states.'), "</p>\n";
     provide_escape_links();
     exit;
 }
 
 $nonpage_image_names = $project->get_illustrations();
-if (!$is_delete_all_operation && (!in_array($image, $nonpage_image_names) || !is_file("$projects_dir/$projectid/$image")))
-{
+if (!$is_delete_all_operation && (!in_array($image, $nonpage_image_names) || !is_file("$projects_dir/$projectid/$image"))) {
     // This too should only happen if someone is URL-tweaking.
     // (Or conceivably, the file was recently deleted, and the user
     // has an image_index that was generated before the deletion.)
@@ -89,29 +78,22 @@ if (!$is_delete_all_operation && (!in_array($image, $nonpage_image_names) || !is
     exit;
 }
 
-if ( isset($_FILES['replacement_image']) )
-{
+if (isset($_FILES['replacement_image'])) {
     // The user has uploaded a file.
-    $err_msg = handle_upload($projectid, $image, $_FILES['replacement_image'] );
+    $err_msg = handle_upload($projectid, $image, $_FILES['replacement_image']);
     $success_msg = _('Illustration successfully replaced.');
-}
-elseif (@$_REQUEST['confirmed'] == 'yes')
-{
-    if ($is_delete_all_operation)
-    {
+} elseif (@$_REQUEST['confirmed'] == 'yes') {
+    if ($is_delete_all_operation) {
         $err_msg = handle_delete_all($projectid, $nonpage_image_names);
         $success_msg = _('All project illustrations successfully deleted.');
-    }
-    else
-    {
+    } else {
         $err_msg = handle_delete($projectid, $image);
         $success_msg = _('Illustration successfully deleted.');
     }
 }
 
 if (isset($success_msg)) {
-    if ( $err_msg == '' )
-    {
+    if ($err_msg == '') {
         echo "<p>", $success_msg, "</p>\n";
         echo "<p>",
             "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>",
@@ -119,9 +101,7 @@ if (isset($success_msg)) {
             "</a>",
             "</p>\n";
         exit;
-    }
-    else
-    {
+    } else {
         echo "<p class='error'>";
         echo _('An error occurred.'), "\n";
         echo $err_msg, "\n";
@@ -131,8 +111,7 @@ if (isset($success_msg)) {
     }
 }
 
-if ($operation == 'replace')
-{
+if ($operation == 'replace') {
     echo "<p>", _('Select a replacement illustration to upload:'), "</p>\n";
     echo "
         <form enctype='multipart/form-data' method='post'>
@@ -144,9 +123,7 @@ if ($operation == 'replace')
         <input type='submit' value='", attr_safe(_("Upload Illustration")), "'>
         </form>
     ";
-}
-elseif ($operation == 'delete')
-{
+} elseif ($operation == 'delete') {
     echo "<p>", _('Are you sure you want to delete this illustration?'), "</p>\n";
     echo "
         <form method='post'>
@@ -158,9 +135,7 @@ elseif ($operation == 'delete')
         <input type='submit' value='", attr_safe(_("Do It")), "'>
         </form>
     ";
-}
-else
-{
+} else {
     echo "<p>", _('Are you sure you want to delete all project illustrations?'), "</p>\n";
     echo "
         <form method='post'>
@@ -175,7 +150,7 @@ else
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function handle_upload( $projectid, $image, $replacement_image_info )
+function handle_upload($projectid, $image, $replacement_image_info)
 // If there's a problem, return a string containing an error message.
 // If no problem, return the empty string.
 {
@@ -183,10 +158,9 @@ function handle_upload( $projectid, $image, $replacement_image_info )
 
     // Check the error code.
     $error_code = $replacement_image_info['error'];
-    if ($error_code != UPLOAD_ERR_OK)
-    {
+    if ($error_code != UPLOAD_ERR_OK) {
         return
-            sprintf( _('Error code = %d.'), $error_code )
+            sprintf(_('Error code = %d.'), $error_code)
             . "\n"
             . "(" . get_upload_err_msg($error_code) . ")";
     }
@@ -194,8 +168,7 @@ function handle_upload( $projectid, $image, $replacement_image_info )
     // Check that the extensions match.
     $curr_ext = pathinfo($image, PATHINFO_EXTENSION);
     $repl_ext = pathinfo($replacement_image_info['name'], PATHINFO_EXTENSION);
-    if ( $curr_ext != $repl_ext )
-    {
+    if ($curr_ext != $repl_ext) {
         return sprintf(
             _('Replacement file\'s extension (%1$s) does not match current file\'s extension (%2$s).'),
             $repl_ext,
@@ -209,17 +182,14 @@ function handle_upload( $projectid, $image, $replacement_image_info )
 
     $image_path = "$projects_dir/$projectid/$image";
     $r = move_uploaded_file($replacement_image_info['tmp_name'], $image_path);
-    if ( $r )
-    {
+    if ($r) {
         return '';
-    }
-    else
-    {
+    } else {
         return _('The uploaded file cannot be moved into the project directory for some reason.');
     }
 }
 
-function handle_delete( $projectid, $image)
+function handle_delete($projectid, $image)
 // If there's a problem, return a string containing an error message.
 // If no problem, return the empty string.
 {
@@ -228,17 +198,14 @@ function handle_delete( $projectid, $image)
     // Check the error code.
     $image_path = "$projects_dir/$projectid/$image";
     $r = unlink($image_path);
-    if ( $r )
-    {
+    if ($r) {
         return '';
-    }
-    else
-    {
+    } else {
         return _('The uploaded file cannot be deleted from the project directory for some reason.');
     }
 }
 
-function handle_delete_all( $projectid, $nonpage_image_names)
+function handle_delete_all($projectid, $nonpage_image_names)
 // If there's a problem, return a string containing an error message.
 // If no problem, return the empty string.
 {
@@ -246,23 +213,17 @@ function handle_delete_all( $projectid, $nonpage_image_names)
 
     $has_error = false;
     // Check the error code.
-    foreach ($nonpage_image_names as $nonpage_image_name)
-    {
+    foreach ($nonpage_image_names as $nonpage_image_name) {
         $image_path = "$projects_dir/$projectid/$nonpage_image_name";
         $r = unlink($image_path);
-        if ( !$r )
-        {
+        if (!$r) {
             $has_error = true;
         }
     }
 
-    if (!$has_error)
-    {
+    if (!$has_error) {
         return "";
-    }
-    else
-    {
+    } else {
         return _('One or more illustrations could not be deleted.');
     }
 }
-

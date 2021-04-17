@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -29,4 +29,3 @@ echo "<p>" . _("The loop of the capital thorn is normally larger, and the stem m
 echo " " . _("You can insert them using the character picker at the bottom of the Proofreading Interface.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz page") . "</a></p>\n";
-

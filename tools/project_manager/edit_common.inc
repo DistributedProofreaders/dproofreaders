@@ -9,16 +9,16 @@ include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
 include_once($relPath.'User.inc');
 include_once($relPath.'CharSuites.inc');
 
-function just_echo( $field_value )
+function just_echo($field_value)
 {
     echo html_safe($field_value);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function text_field( $field_value, $field_name, $args=array())
+function text_field($field_value, $field_name, $args = [])
 {
-    $maxlength = array_get($args, "maxlength", NULL);
+    $maxlength = array_get($args, "maxlength", null);
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
     $required = array_get($args, "required", false);
     $required_attr = $required ? " required" : "";
@@ -30,7 +30,7 @@ function text_field( $field_value, $field_name, $args=array())
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function DP_user_field( $field_value, $field_name, $args=array())
+function DP_user_field($field_value, $field_name, $args = [])
 {
     $required = array_get($args, "required", false);
     $required_attr = $required ? " required" : "";
@@ -44,13 +44,10 @@ function DP_user_field( $field_value, $field_name, $args=array())
 
 function language_list($language)
 {
-    if (strpos($language, "with") > 0)
-    {
+    if (strpos($language, "with") > 0) {
         $pri_language = trim(substr($language, 0, strpos($language, "with")));
-        $sec_language = trim(substr($language, (strpos($language, "with")+5)));
-    }
-    else
-    {
+        $sec_language = trim(substr($language, (strpos($language, "with") + 5)));
+    } else {
         $pri_language = $language;
         $sec_language = '';
     }
@@ -67,8 +64,7 @@ function language_list($language)
 
 function echo_language_options($default)
 {
-    foreach(get_iso_language_list() as $language)
-    {
+    foreach (get_iso_language_list() as $language) {
         $lang_name = $language['lang_name'];
         $selected_string = ($default == $lang_name) ? " selected" : "";
         echo "<option value='", attr_safe($lang_name), "'$selected_string>$lang_name</option>\n";
@@ -82,10 +78,11 @@ function genre_list($genre)
     $genres = load_genre_translation_array();
     echo "<select name='genre' required>\n";
     maybe_echo_placeholder_option($genre);
-    foreach($genres as $k=>$v)
-    {
+    foreach ($genres as $k => $v) {
         echo "<option value='".attr_safe($k)."'";
-        if ($genre == $k) { echo " SELECTED"; }
+        if ($genre == $k) {
+            echo " SELECTED";
+        }
         echo ">$v</option>";
         echo "\n";
     }
@@ -99,25 +96,23 @@ function charsuite_list($charsuites, $project_charsuites)
     $enabled_charsuites = CharSuites::get_enabled();
 
     $all_charsuites = [];
-    foreach($enabled_charsuites as $enabled_charsuite)
-    {
+    foreach ($enabled_charsuites as $enabled_charsuite) {
         $all_charsuites[$enabled_charsuite->name] = $enabled_charsuite->title;
     }
-    foreach($project_charsuites as $project_charsuite)
-    {
+    foreach ($project_charsuites as $project_charsuite) {
         $all_charsuites[$project_charsuite->name] = $project_charsuite->title;
     }
     $existing_charsuites = [];
-    foreach($charsuites as $charsuite)
-    {
-        $existing_charsuites[$charsuite] = TRUE;
+    foreach ($charsuites as $charsuite) {
+        $existing_charsuites[$charsuite] = true;
     }
 
     ksort($all_charsuites);
-    foreach($all_charsuites as $k=>$v)
-    {
+    foreach ($all_charsuites as $k => $v) {
         echo "<label><input type='checkbox' name='charsuites[]' value='".attr_safe($k)."'";
-        if (@$existing_charsuites[$k]) { echo " checked"; }
+        if (@$existing_charsuites[$k]) {
+            echo " checked";
+        }
         echo ">" . html_safe($v) . "</label><br>";
         echo "\n";
     }
@@ -129,22 +124,21 @@ function difficulty_list($difficulty_level)
 {
     global $pguser;
 
-    $difficulty_list = array(
-        'beginner' => _("Beginner"), 
-        'easy'     => _("Easy"), 
-        'average'  => _("Average"), 
-        'hard'     => _("Hard")
-    );
+    $difficulty_list = [
+        'beginner' => _("Beginner"),
+        'easy' => _("Easy"),
+        'average' => _("Average"),
+        'hard' => _("Hard"),
+    ];
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    if (($pguser != "BEGIN") && (!user_is_a_sitemanager()))
+    if (($pguser != "BEGIN") && (!user_is_a_sitemanager())) {
         unset($difficulty_list['beginner']);
-        
-    foreach ($difficulty_list as $name => $label)
-    {
+    }
+
+    foreach ($difficulty_list as $name => $label) {
         echo "<label><input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
-        if (strtolower($difficulty_level) == $name)
-        {
+        if (strtolower($difficulty_level) == $name) {
             echo " CHECKED";
         }
         echo ">$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
@@ -168,11 +162,10 @@ function special_list($special)
     $specs_result = DPDatabase::query($sql);
 
     // it'd be nice to make this static, or something, so it only was loaded once
-    $specials_array = array();
+    $specials_array = [];
 
     // put list into array
-    while ($s_row = mysqli_fetch_assoc($specs_result))
-    {
+    while ($s_row = mysqli_fetch_assoc($specs_result)) {
         $show = $s_row['display_name']." (".$s_row['Start Date'].")";
         $code = $s_row['spec_code'];
         $specials_array["$code"] = $show;
@@ -189,8 +182,7 @@ function special_list($special)
     echo "\n";
 
     echo "<option value='Birthday'";
-    if (strncmp ( $special, 'Birthday', 8) == 0)
-    {
+    if (strncmp($special, 'Birthday', 8) == 0) {
         echo " SELECTED";
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
@@ -199,8 +191,7 @@ function special_list($special)
     echo "\n";
 
     echo "<option value='Otherday'";
-    if (strncmp ( $special, 'Otherday', 8) == 0)
-    {
+    if (strncmp($special, 'Otherday', 8) == 0) {
         echo " SELECTED";
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
@@ -210,16 +201,17 @@ function special_list($special)
 
 
     // add the rest of the special days (the "ordinary" special days ;) )
-    foreach($specials_array as $k=>$v)
-    {
+    foreach ($specials_array as $k => $v) {
         echo "<option value='".attr_safe($k)."'";
-        if ($special == $k) { echo " SELECTED"; }
+        if ($special == $k) {
+            echo " SELECTED";
+        }
         echo ">$v</option>";
         echo "\n";
     }
     echo "</select>";
 
-    echo " " . new_window_link( "show_specials.php", _("Special Days Info") );
+    echo " " . new_window_link("show_specials.php", _("Special Days Info"));
     echo "<br>";
 
     // drop down selects for month and date, used for Birthday and Otherday specials
@@ -227,11 +219,12 @@ function special_list($special)
     echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
-    while ($i <= 12)
-    {
+    while ($i <= 12) {
         $v = sprintf("%02d", $i);
         echo "<option value='$v'";
-        if ($v == $bdaymonth) { echo " SELECTED"; }
+        if ($v == $bdaymonth) {
+            echo " SELECTED";
+        }
         echo ">$v</option>";
         echo "\n";
         $i++;
@@ -242,11 +235,12 @@ function special_list($special)
     echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
-    while ($i <= 31)
-    {
+    while ($i <= 31) {
         $v = sprintf("%02d", $i);
         echo "<option value='$v'";
-        if ($v == $bdayday) { echo " SELECTED"; }
+        if ($v == $bdayday) {
+            echo " SELECTED";
+        }
         echo ">$v</option>";
         echo "\n";
         $i++;
@@ -268,14 +262,13 @@ function image_source_list($image_source)
     ";
     $imso_result = DPDatabase::query($sql);
 
-    $imso_array = array(
+    $imso_array = [
         // TRANSLATORS: %s is the site abbreviation
         "_internal" => sprintf(_("%s Internal"), $site_abbreviation),
-    );
+    ];
 
     // put list into array
-    while ($i_row = mysqli_fetch_assoc($imso_result))
-    {
+    while ($i_row = mysqli_fetch_assoc($imso_result)) {
         $code = $i_row['code_name'];
         // unfortunately, $code can be a numeric value which confuses the php array
         // e.g. 1.5 and 1.6 would both be cast to 1
@@ -288,28 +281,29 @@ function image_source_list($image_source)
     echo "<select name='image_source' required>\n";
     maybe_echo_placeholder_option($image_source);
     // add the pre-defined image_sources
-    foreach($imso_array as $k=>$v)
-    {
+    foreach ($imso_array as $k => $v) {
         // strip off the string-forcing trailing colon if it exists
-        if(endswith($k, ':'))
+        if (endswith($k, ':')) {
             $k = substr($k, 0, strlen($k) - 1);
+        }
         echo "<option value='".attr_safe($k)."'";
-        if ($image_source === $k) { echo " SELECTED"; }
+        if ($image_source === $k) {
+            echo " SELECTED";
+        }
         echo ">$v</option>";
         echo "\n";
     }
 
     echo "</select> ";
-    echo "<span class='small'>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</span>";
-    echo " " . new_window_link( "show_image_sources.php", _("Details of Image Sources") );
+    echo "<span class='small'>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), $site_abbreviation)."</span>";
+    echo " " . new_window_link("show_image_sources.php", _("Details of Image Sources"));
     echo "<br>";
 }
 
 function maybe_echo_placeholder_option($initial)
 {
-    if("" == $initial)
-    // none of the real options can have this value
-    {
+    if ("" == $initial) {
+        // none of the real options can have this value
         echo "<option value=''>", _("Select One"), "</option>\n";
     }
 }
@@ -318,16 +312,14 @@ function maybe_echo_placeholder_option($initial)
 
 function proj_comments_format($comment_format)
 {
-    $comment_format_list = array(
+    $comment_format_list = [
         'markdown' => new_window_link('https://www.pgdp.net/wiki/Markdown', 'Markdown'),
-        'html'     => "HTML"
-    );
+        'html' => "HTML",
+    ];
 
-    foreach ($comment_format_list as $name => $label)
-    {
+    foreach ($comment_format_list as $name => $label) {
         echo "<label><input type='radio'  name='comment_format' value='$name'";
-        if (strtolower($comment_format) == $name)
-        {
+        if (strtolower($comment_format) == $name) {
             echo " CHECKED";
         }
         echo ">";
@@ -352,7 +344,8 @@ function proj_comments_field($comments, $field_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function word_lists($value,$fieldname,$projectid) {
+function word_lists($value, $fieldname, $projectid)
+{
     echo new_window_link(
         "edit_project_word_lists.php?projectid=$projectid",
         _("Edit project word lists")
@@ -372,7 +365,7 @@ function extra_credits_field($extra_credits)
 
 
 
-function description_field( $description, $field_name )
+function description_field($description, $field_name)
 {
     $enc_description = html_safe($description);
 
@@ -387,11 +380,9 @@ function check_user_exists($possible_user, $description)
 {
     $result = '';
 
-    if(!User::is_valid_user($possible_user))
-    {
+    if (!User::is_valid_user($possible_user)) {
         $result = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
             $description) . "<br>";
     }
     return $result;
 }
-

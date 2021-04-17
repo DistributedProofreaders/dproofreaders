@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -11,8 +11,7 @@ include_once($relPath.'misc.inc'); // array_get()
 require_login();
 
 // check to see if the user is authorized to be here
-if ( !(user_is_a_sitemanager()) )
-{
+if (!(user_is_a_sitemanager())) {
     die("You are not authorized to use this form.");
 }
 
@@ -32,8 +31,7 @@ echo "<h1>$title</h1>";
 
 $display_list = _handle_action($action, $list_type, $language, $word_string);
 
-if($display_list)
-{
+if ($display_list) {
     echo "<h2>" . _("Create a new site word list") . "</h2>";
 
     // show create form
@@ -43,8 +41,7 @@ if($display_list)
     echo "<tr>";
     echo "<td>" . _("Language") . ":</td>";
     echo "<td><select name='language'>";
-    foreach(get_iso_language_list() as $langArray)
-    {
+    foreach (get_iso_language_list() as $langArray) {
         $language = $langArray["lang_name"];
         echo "<option value='$language'>$language</option>";
     }
@@ -84,15 +81,13 @@ if($display_list)
 
     $site_lists = get_site_word_files("/txt$/");
     asort($site_lists);
-    foreach($site_lists as $full_filename => $url)
-    {
+    foreach ($site_lists as $full_filename => $url) {
         $filename = basename($full_filename);
-        if(!preg_match("/^(\w+)_words\.(\w+)\.txt$/",$filename,$matches))
-        {
+        if (!preg_match("/^(\w+)_words\.(\w+)\.txt$/", $filename, $matches)) {
             // found a file we don't recognize so skip it
             continue;
         }
-        list($null,$list_type,$langcode3) = $matches;
+        [$null, $list_type, $langcode3] = $matches;
         $list_words = load_word_list($full_filename);
         $word_count = count($list_words);
         $language = langname_for_langcode3($langcode3);
@@ -129,10 +124,9 @@ function _handle_action($action, $list_type, $language, $word_string)
     // look up the langcode3 for the language passed-in
     $langcode3 = langcode3_for_langname($language);
 
-    $display_list = FALSE;
+    $display_list = false;
 
-    switch($action)
-    {
+    switch ($action) {
         case "delete":
             // they want to delete a list, prompt for confirmation first
             echo "<p>" . sprintf(_('Are you sure you want to delete the <b>%1$s</b> site word list for language <b>%2$s</b>?'), $list_type, $language) . "<p>";
@@ -150,10 +144,10 @@ function _handle_action($action, $list_type, $language, $word_string)
 
         case "deleteconfirmed":
             // they've confirmed a deletion, delete the file
-            $fileObject = get_site_word_file( $langcode3, $list_type );
+            $fileObject = get_site_word_file($langcode3, $list_type);
             unlink($fileObject->abs_path);
-            echo "<p>" . sprintf(_("File <b>%s</b> has been deleted."),$fileObject->abs_path) . "</p>";
-            $display_list = TRUE;
+            echo "<p>" . sprintf(_("File <b>%s</b> has been deleted."), $fileObject->abs_path) . "</p>";
+            $display_list = true;
             break;
 
         case "create":
@@ -162,15 +156,12 @@ function _handle_action($action, $list_type, $language, $word_string)
             $fileObject = get_site_word_file($langcode3, $list_type);
             $list_words = load_word_list($fileObject->abs_path);
 
-            if(count($list_words))
-            // it does so give an error message
-            {
+            if (count($list_words)) {
+                // it does so give an error message
                 echo "<p class='error'>" . sprintf(_('Can\'t create a <b>%1$s</b> list for <b>%2$s</b> (<b>%3$s</b>) as it already exists! Edit the list below instead.'), $list_type, $language, $langcode3) . "</p>";
-                $display_list = TRUE;
-            }
-            else
-            // it doesn't so lets let them create one
-            {
+                $display_list = true;
+            } else {
+                // it doesn't so lets let them create one
                 echo "<p>" . sprintf(_('Creating a <b>%1$s</b> list for language <b>%2$s</b>.'), $list_type, $language) . "</p>";
                 _echo_input_form($list_type, $langcode3, $language);
             }
@@ -187,11 +178,11 @@ function _handle_action($action, $list_type, $language, $word_string)
 
             // calculate the changes
             // load existing word list
-            $fileObject = get_site_word_file( $langcode3, $list_type);
+            $fileObject = get_site_word_file($langcode3, $list_type);
             $old_words = load_word_list($fileObject->abs_path);
             // clean up the new words
-            $new_words = explode("\n",$word_string);
-            $new_words = array_map('rtrim',$new_words);
+            $new_words = explode("\n", $word_string);
+            $new_words = array_map('rtrim', $new_words);
             $new_words = array_unique($new_words);
             // the above set mirrors the clean-up code in save_word_list
             // TODO: other good checks might be ensuring that the words are
@@ -199,10 +190,10 @@ function _handle_action($action, $list_type, $language, $word_string)
             // them, that they are all in $charset, etc
 
             // calculate the differences
-            $unchanged = count(array_intersect($old_words,$new_words));
-            $additions = count(array_diff($new_words,$old_words));
-            $deletions = count(array_diff($old_words,$new_words));
-            
+            $unchanged = count(array_intersect($old_words, $new_words));
+            $additions = count(array_diff($new_words, $old_words));
+            $deletions = count(array_diff($old_words, $new_words));
+
             echo "<p>" . sprintf(_('Are you sure you want to save the <b>%1$s</b> site word list for language <b>%2$s</b>?'), $list_type, $language) . "<p>";
             echo "<p>" . sprintf(_('You made %1$d additions and %2$d deletions from the list (with %3$d words unchanged).'), $additions, $deletions, $unchanged) . "</p>";
             echo "<form action='manage_site_word_lists.php' method='post'>";
@@ -220,15 +211,15 @@ function _handle_action($action, $list_type, $language, $word_string)
 
         case "saveconfirmed":
             // save the list if requested
-            $fileObject = get_site_word_file( $langcode3, $list_type);
-            $words = explode("\n",$word_string);
+            $fileObject = get_site_word_file($langcode3, $list_type);
+            $words = explode("\n", $word_string);
             save_word_list($fileObject->abs_path, $words, "\n");
             echo "<p>" . sprintf(_('The <b>%1$s</b> list for language <b>%2$s</b> has been saved.'), $list_type, $language) . "</p>";
-            $display_list = TRUE;
+            $display_list = true;
             break;
 
         case "list":
-            $display_list = TRUE;
+            $display_list = true;
             break;
 
         default:
@@ -239,10 +230,11 @@ function _handle_action($action, $list_type, $language, $word_string)
 }
 
 // common code to print out an editing form
-function _echo_input_form($list_type, $langcode3, $language) {
-    $fileObject = get_site_word_file( $langcode3, $list_type);
+function _echo_input_form($list_type, $langcode3, $language)
+{
+    $fileObject = get_site_word_file($langcode3, $list_type);
     $words = load_word_list($fileObject->abs_path);
-    $word_string = implode("\n",$words);
+    $word_string = implode("\n", $words);
     echo "<form action='manage_site_word_lists.php' method='post'>";
     echo "<input type='hidden' name='action' value='save'>";
     echo "<input type='hidden' name='list_type' value='$list_type'>";
@@ -255,4 +247,3 @@ function _echo_input_form($list_type, $langcode3, $language) {
     echo "<input type='submit' value='" . _("Cancel") . "'>";
     echo "</form>";
 }
-

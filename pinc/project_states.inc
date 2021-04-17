@@ -25,16 +25,16 @@ include_once($relPath.'site_vars.php');
   (Actually, the naming convention is in transition.)
 */
 
-$PROJECT_STATES_IN_ORDER = array();
-$project_state_medium_label_ = array();
-$project_state_long_label_ = array();
-$project_state_forum_ = array();
-$project_state_phase_ = array();
-$project_states_for_star_metal_ = array(
-    'BRONZE' => array(),
-    'SILVER' => array(),
-    'GOLD'   => array(),
-);
+$PROJECT_STATES_IN_ORDER = [];
+$project_state_medium_label_ = [];
+$project_state_long_label_ = [];
+$project_state_forum_ = [];
+$project_state_phase_ = [];
+$project_states_for_star_metal_ = [
+    'BRONZE' => [],
+    'SILVER' => [],
+    'GOLD' => [],
+];
 
 function declare_project_state(
     $constant_name,
@@ -43,7 +43,7 @@ function declare_project_state(
     $long_label,
     $forum,
     $phase,
-    $star_metal )
+    $star_metal)
 {
     global $PROJECT_STATES_IN_ORDER;
     global $project_state_medium_label_;
@@ -52,42 +52,44 @@ function declare_project_state(
     global $project_state_phase_;
     global $project_states_for_star_metal_;
 
-    define( $constant_name, $constant_value );
+    define($constant_name, $constant_value);
     $PROJECT_STATES_IN_ORDER[] = $constant_value;
     $project_state_medium_label_[$constant_value] = $medium_label;
     $project_state_long_label_[$constant_value] = $long_label;
     $project_state_forum_[$constant_value] = $forum;
     $project_state_phase_[$constant_value] = $phase;
-    if ($star_metal) $project_states_for_star_metal_[$star_metal][] = $constant_value;
+    if ($star_metal) {
+        $project_states_for_star_metal_[$star_metal][] = $constant_value;
+    }
 }
 
 function get_medium_label_for_project_state($state)
 {
     global $project_state_medium_label_;
-    return array_get( $project_state_medium_label_, $state, '' );
+    return array_get($project_state_medium_label_, $state, '');
 }
 
 function project_states_text($state)
 {
     global $project_state_long_label_;
-    return array_get( $project_state_long_label_, $state, '' );
+    return array_get($project_state_long_label_, $state, '');
 }
 
 function get_forum_id_for_project_state($state)
 {
     global $project_state_forum_;
-    return array_get( $project_state_forum_, $state, -1 );
+    return array_get($project_state_forum_, $state, -1);
 }
 
 function get_phase_containing_project_state($state)
 {
     global $project_state_phase_;
-    return array_get( $project_state_phase_, $state, 'NONE' );
+    return array_get($project_state_phase_, $state, 'NONE');
 }
 
 // -----------------------------------------------
 
-function declare_project_states_for_round( $round_id, $round_name )
+function declare_project_states_for_round($round_id, $round_name)
 {
     global $projects_forum_idx;
     global $waiting_projects_forum_idx;
@@ -106,7 +108,7 @@ function declare_project_states_for_round( $round_id, $round_name )
         "$round_id.proj_unavail",
         "$round_id: " . _("Unavailable"),
         "$round_name: " . _("Unavailable"),
-        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
         'PAGE_EDITING',
         ''
     );
@@ -115,7 +117,7 @@ function declare_project_states_for_round( $round_id, $round_name )
         "$round_id.proj_waiting",
         "$round_id: " . _("Waiting"),
         "$round_name: " . _("Waiting for Release"),
-        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
         'PAGE_EDITING',
         ''
     );
@@ -161,8 +163,7 @@ declare_project_state(
 );
 
 // METADATA
-if ($site_supports_metadata)
-{
+if ($site_supports_metadata) {
     declare_project_state(
         "PROJ_NEW_WAITING_APPROVAL",
         "project_new_waiting_app",
@@ -248,13 +249,13 @@ if ($site_supports_metadata)
 
 
 // PROOF
-declare_project_states_for_round( 'P1', _('Proofreading Round 1') );
-declare_project_states_for_round( 'P2', _('Proofreading Round 2') );
-declare_project_states_for_round( 'P3', _('Proofreading Round 3') );
+declare_project_states_for_round('P1', _('Proofreading Round 1'));
+declare_project_states_for_round('P2', _('Proofreading Round 2'));
+declare_project_states_for_round('P3', _('Proofreading Round 3'));
 
 // FORMAT
-declare_project_states_for_round( 'F1', _('Formatting Round 1') );
-declare_project_states_for_round( 'F2', _('Formatting Round 2') );
+declare_project_states_for_round('F1', _('Formatting Round 1'));
+declare_project_states_for_round('F2', _('Formatting Round 2'));
 
 
 // POST
@@ -330,8 +331,7 @@ declare_project_state(
 );
 
 // CORRECT
-if ($site_supports_corrections_after_posting)
-{
+if ($site_supports_corrections_after_posting) {
     declare_project_state(
         "PROJ_CORRECT_AVAILABLE",
         "proj_correct_available",
@@ -381,34 +381,30 @@ declare_project_state(
 // SQL_CONDITION_SILVER
 // SQL_CONDITION_GOLD
 
-foreach ( $project_states_for_star_metal_ as $star_metal => $project_states )
-{
+foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
     $sql_constant_name = "SQL_CONDITION_$star_metal";
     $sql_condition = '(';
-    foreach ( $project_states as $project_state )
-    {
-    if ($sql_condition != '(')
-    {
-        $sql_condition .= ' OR ';
-    }
-    $sql_condition .= "state='$project_state'";
+    foreach ($project_states as $project_state) {
+        if ($sql_condition != '(') {
+            $sql_condition .= ' OR ';
+        }
+        $sql_condition .= "state='$project_state'";
     }
     $sql_condition .= ')';
 
-    define( $sql_constant_name, $sql_condition );
+    define($sql_constant_name, $sql_condition);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function sql_collater_for_project_state( $state_column )
+function sql_collater_for_project_state($state_column)
 // In an SQL query, if you "ORDER BY state", it will use alphabetical order,
 // which is not very useful. Instead, ORDER BY the result of this function,
 // and it will use the canonical order-of-declaration for project states.
 {
     global $PROJECT_STATES_IN_ORDER;
     $s = "FIELD($state_column";
-    foreach ( $PROJECT_STATES_IN_ORDER as $project_state )
-    {
+    foreach ($PROJECT_STATES_IN_ORDER as $project_state) {
         $s .= ",'$project_state'";
     }
     $s .= ")";
@@ -416,9 +412,9 @@ function sql_collater_for_project_state( $state_column )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-$project_status_descriptors = array('created', 'proofed', 'PPd', 'posted');
+$project_status_descriptors = ['created', 'proofed', 'PPd', 'posted'];
 
-function get_project_status_descriptor( $which )
+function get_project_status_descriptor($which)
 // $which is a word denoting a possible status of a project
 // (created, proofed, PPd, or posted).
 // Return an object whose attributes hold various constants that
@@ -429,10 +425,9 @@ function get_project_status_descriptor( $which )
 // projects having that status.
 // (Somewhat ad hoc, but useful.)
 {
-    $obj = new stdClass;
+    $obj = new stdClass();
 
-    switch ( $which )
-    {
+    switch ($which) {
         case 'created':
             $obj->state_selector = "(
                 state NOT LIKE 'project_new%' AND state != 'project_delete'
@@ -492,5 +487,3 @@ function get_project_status_descriptor( $which )
 
     return $obj;
 }
-
-?>

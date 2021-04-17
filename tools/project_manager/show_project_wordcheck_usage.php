@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'Project.inc');
@@ -15,7 +15,7 @@ $projectid = get_projectID_param($_GET, 'projectid');
 
 enforce_edit_authorization($projectid);
 
-$title=_("WordCheck Project Usage");
+$title = _("WordCheck Project Usage");
 output_header($title, NO_STATSBAR);
 
 
@@ -39,8 +39,9 @@ echo "</ul>";
     <th class='label'><?php echo _("Page"); ?></th>
     <th class='label'><?php echo pgettext("page state", "State"); ?></th>
 <?php
-    foreach($Round_for_round_id_ as $round)
+    foreach ($Round_for_round_id_ as $round) {
         echo "<th class='label'>$round->id</td>";
+    }
 ?>
 </tr>
 <?php
@@ -52,7 +53,7 @@ echo "</ul>";
 
 // build the SQL to return the fields and WordCheck status for each round
 $round_fields_select = "";
-foreach($Round_for_round_id_ as $round) {
+foreach ($Round_for_round_id_ as $round) {
     $rn = $round->round_number;
     $round_fields_select .= "
         $round->user_column_name,
@@ -77,17 +78,17 @@ $sql = "
     ORDER BY image ASC
 ";
 $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
-while($result = mysqli_fetch_assoc($res)) {
+while ($result = mysqli_fetch_assoc($res)) {
     $page = $result["image"];
     echo "<tr>";
-    echo "<td>" . recycle_window_link("../page_browser.php?project=$projectid&amp;imagefile=$page",$page,"pageView") . "</td>";
+    echo "<td>" . recycle_window_link("../page_browser.php?project=$projectid&amp;imagefile=$page", $page, "pageView") . "</td>";
     echo "<td>" . $result["state"] . "</td>";
 
     // get the current round for the page
     $currentRound = get_Round_for_page_state($result["state"]);
 
     // foreach round print out the available info
-    foreach($Round_for_round_id_ as $round) {
+    foreach ($Round_for_round_id_ as $round) {
         $roundID = $round->id;
         $rn = $round->round_number;
 
@@ -104,27 +105,28 @@ while($result = mysqli_fetch_assoc($res)) {
             $currentRound->round_number > $round->round_number ||
             $round->page_save_state == $result["state"];
 
-        if(!empty($lastProofer))
+        if (!empty($lastProofer)) {
             $lastProoferLink = private_message_link($lastProofer);
-        
+        }
+
         $class = $data = "";
         // if there is no proofreader's name, the round was likely skipped
         // or the page has never been worked on
-        if(empty($lastProofer)) {
+        if (empty($lastProofer)) {
             // placeholder
         }
         // if the page is finished and WordCheck'd
-        elseif($pageIsDoneInRound && $timesChecked>0) {
+        elseif ($pageIsDoneInRound && $timesChecked > 0) {
             $class = "class='WC'";
             $data = "$timesChecked: $lastProoferLink";
         }
         // if the page was finished before WordCheck was deployed on the site
-        elseif($pageIsDoneInRound && $timesChecked==0 && $timeProofed < @$t_wordcheck_start) {
+        elseif ($pageIsDoneInRound && $timesChecked == 0 && $timeProofed < @$t_wordcheck_start) {
             $class = "class='preWC'";
             $data = $lastProoferLink;
         }
         // if the page is finished but was not ran through WordCheck
-        elseif($pageIsDoneInRound && $timesChecked==0) {
+        elseif ($pageIsDoneInRound && $timesChecked == 0) {
             $class = "class='noWC'";
             $data = "$timesChecked: $lastProoferLink";
         }

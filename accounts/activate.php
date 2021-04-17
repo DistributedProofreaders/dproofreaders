@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
@@ -11,26 +11,19 @@ include_once($relPath.'User.inc');
 $ID = array_get($_GET, "id", "");
 
 // If the user is already logged in, redirect them to the Activity Hub.
-if(User::current_username())
-{
+if (User::current_username()) {
     metarefresh(0, "$code_url/activity_hub.php");
 }
 
-try
-{
+try {
     $user = NonactivatedUser::load_from_id($ID);
-}
-catch(NonexistentNonactivatedUserException $exception)
-{
+} catch (NonexistentNonactivatedUserException $exception) {
     // See if the user is already activated.
-    try
-    {
+    try {
         $user_test = User::load_from_registration_token($ID);
         $existing_user = $user_test->username;
-    }
-    catch(Exception $exception)
-    {
-        $existing_user = NULL;
+    } catch (Exception $exception) {
+        $existing_user = null;
     }
 }
 
@@ -42,8 +35,8 @@ $title = _('Activate account');
 output_header($title);
 echo "<h1>$title</h1>";
 
-if(!isset($user->id)) {
-    if($existing_user) {
+if (!isset($user->id)) {
+    if ($existing_user) {
         echo "<p>";
         echo _("It appears that the account has already been activated.");
         echo "\n";
@@ -55,9 +48,7 @@ if(!isset($user->id)) {
         echo "<p>";
         echo _("Please enter your username and password in the fields above to login to your account.");
         echo "</p>";
-    }
-    else
-    {
+    } else {
         echo "<p>";
         echo sprintf(
             _("There is no account with the id '%s' waiting to be activated."), html_safe($ID)
@@ -68,7 +59,7 @@ if(!isset($user->id)) {
         $mailto_url = "mailto:$general_help_email_addr";
         echo sprintf(
             _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-            $mailto_url, $general_help_email_addr );
+            $mailto_url, $general_help_email_addr);
         echo "</p>";
     }
 
@@ -76,9 +67,9 @@ if(!isset($user->id)) {
 }
 
 // Verify we can create the user's forum account, and bail if we can't.
-$create_user_status = create_forum_user($user->username, $user->user_password, $user->email, TRUE);
+$create_user_status = create_forum_user($user->username, $user->user_password, $user->email, true);
 
-if($create_user_status !== TRUE) {
+if ($create_user_status !== true) {
     // Failure here should be rare (which is good given that this is not a
     // great user experience). The most common instance where this could
     // come up is for the 'Anonymous' user. Better validation is needed in
@@ -92,7 +83,7 @@ if($create_user_status !== TRUE) {
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-        $mailto_url, $general_help_email_addr );
+        $mailto_url, $general_help_email_addr);
     echo "\n";
     echo sprintf(
         _("Please include the account activation code %s in your email for assistance."),
@@ -107,7 +98,7 @@ $query = sprintf("
                        email_updates, referrer, referrer_details, http_referrer, u_neigh, u_intlang)
     VALUES ('%s', '%s', '%s', '%s', $user->date_created,
             $user->email_updates, '%s', '%s', '%s', 10, '%s')
-    ",  DPDatabase::escape($ID),
+    ", DPDatabase::escape($ID),
         DPDatabase::escape($user->real_name),
         DPDatabase::escape($user->username),
         DPDatabase::escape($user->email),
@@ -129,9 +120,9 @@ $profile->u_ref = $u_id;
 $profile->save();
 
 // add ref to profile
-$refString=sprintf("
+$refString = sprintf("
     UPDATE users SET u_profile=%d WHERE id='%s' AND username='%s'
-    ",  DPDatabase::escape($profile->id),
+    ", DPDatabase::escape($profile->id),
         DPDatabase::escape($ID),
         DPDatabase::escape($user->username)
 );
@@ -167,4 +158,3 @@ $csrf_token
 </table>
 <p><input type='submit' value='".attr_safe(_("Sign In"))."'></p>
 </form>";
-

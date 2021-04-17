@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once('common.inc');
 
@@ -8,7 +8,7 @@ include_once('common.inc');
 // Last argument to init_pie_graph is the cache timeout in minutes.
 $graph = init_pie_graph(640, 400, 58);
 
-$res=mysqli_query(DPDatabase::get_connection(), "
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         SUBSTRING_INDEX(email,'.',-1) AS domain,
         COUNT(*) AS num
@@ -18,14 +18,14 @@ $res=mysqli_query(DPDatabase::get_connection(), "
     ORDER BY num DESC
 ");
 
-$x=array(); $y=array();
+$x = []; $y = [];
 
-while($r=mysqli_fetch_assoc($res)) {
-        array_push($x,$r['domain']);
-        array_push($y,$r['num']);
+while ($r = mysqli_fetch_assoc($res)) {
+    array_push($x, $r['domain']);
+    array_push($y, $r['num']);
 }
 
-$title=_("Number of users per country");
+$title = _("Number of users per country");
 
 draw_pie_graph(
     $graph,
@@ -33,4 +33,3 @@ draw_pie_graph(
     $y,
     $title
 );
-

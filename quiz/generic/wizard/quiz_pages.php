@@ -1,5 +1,5 @@
 <?php
-$relPath='../../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // html_safe()
@@ -10,12 +10,9 @@ output_header(_('Quiz Wizard'));
 
 function evalpages()
 {
-    if (isset($_SESSION['quiz_data']['pages'][$_POST['page_id']]))
-    {
+    if (isset($_SESSION['quiz_data']['pages'][$_POST['page_id']])) {
         return false;
-    }
-    else
-    {
+    } else {
         $_SESSION['quiz_data']['pages'][$_POST['page_id']] = $_POST['page_name'];
         return true;
     }
@@ -33,28 +30,23 @@ function evalstart()
 function filltext($x)
 {
     global $fill;
-    if ($fill)
+    if ($fill) {
         return html_safe($_POST[$x]);
+    }
 }
 
 echo "<h2>" . _("Add Quiz Pages") . "</h2>";
 
-if ($_SESSION['quiz_data']['lastpage'] == 'newquiz') 
-{
+if ($_SESSION['quiz_data']['lastpage'] == 'newquiz') {
     evalstart();
     echo "<p>" . _("Fill out the details for the first page in your quiz.") . "</p>\n";
-}
-else
-{
-    if (!evalpages())
-    {
-        $fill = TRUE;
+} else {
+    if (!evalpages()) {
+        $fill = true;
         echo "<p>" . _("This page ID is already taken:") . " '" . html_safe($_POST['page_id']) . "' ";
         echo _("Please choose a different one.") . "</p>\n";
-    }
-    else
-    {
-        $fill = FALSE;
+    } else {
+        $fill = false;
     }
     echo "<p>" . sprintf(_("If you have entered all quiz pages, <a href='%s'>click here</a> to view the output."), "./output_quiz.php") . "</p>\n";
 }
@@ -71,4 +63,3 @@ echo _("HTML allowed. For example, &lt;b&gt;Page 5&lt;/b&gt;: Poetry, font size 
 echo "<p><input type='submit' value='" . _("send") . "'></p>\n</form>";
 
 $_SESSION['quiz_data']['lastpage'] = 'quizpages';
-

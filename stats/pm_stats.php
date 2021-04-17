@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -16,11 +16,11 @@ echo "<h2>" . _("Number of Distinct Project Managers") . "</h2>\n";
 
 dpsql_dump_themed_query("
     SELECT
-        count(distinct username) as '" 
+        count(distinct username) as '"
             // TRANSLATORS: PMs = project managers
             . mysqli_real_escape_string(DPDatabase::get_connection(), _("Different PMs")) . "'
     FROM projects
-",  0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
+", 0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
 
 echo "<br>\n";
 
@@ -54,4 +54,3 @@ dpsql_dump_themed_query("
 ", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
-
