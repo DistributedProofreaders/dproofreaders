@@ -5,8 +5,8 @@
  */
 class MARCRecordTest extends PHPUnit\Framework\TestCase
 {
-    private $YAZ_ARRAY = NULL;
-    private $YAZ_ARRAY_STR = NULL;
+    private $YAZ_ARRAY = null;
+    private $YAZ_ARRAY_STR = null;
 
     protected function setUp(): void
     {
@@ -27,7 +27,7 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     public function testEmptyConstructor()
     {
         $marc_record = new MARCRecord();
-        $this->assertEquals(array(), $marc_record->get_yaz_array());
+        $this->assertEquals([], $marc_record->get_yaz_array());
     }
 
     public function testLoadYazArray()

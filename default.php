@@ -1,5 +1,5 @@
 <?php
-$relPath="./pinc/";
+$relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
@@ -8,12 +8,13 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'walkthrough.inc');
 
-output_header(_("Welcome"), True);
+output_header(_("Welcome"), true);
 $etext_limit = 10;
 
 $image = get_page_header_image("FRONT");
-if($image)
+if ($image) {
     echo "<div style='margin-top: 1em;'>$image</div>";
+}
 
 show_news_for_page("FRONT");
 
@@ -86,8 +87,7 @@ echo "<p>"
         "$code_url/accounts/addproofer.php");
 
 $walkthrough_url = get_walkthrough_url();
-if($walkthrough_url)
-{
+if ($walkthrough_url) {
     echo " " . sprintf(
         _("Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
         $walkthrough_url);
@@ -121,13 +121,13 @@ echo "\n"
     . "\n";
 
 //Gold E-texts
-showstartexts($etext_limit,'gold');
+showstartexts($etext_limit, 'gold');
 
 //Silver E-texts
-showstartexts($etext_limit,'silver');
+showstartexts($etext_limit, 'silver');
 
 //Bronze E-texts
-showstartexts($etext_limit,'bronze');
+showstartexts($etext_limit, 'bronze');
 
 echo "<hr style='clear: both'>";
 echo "<p class='center-align'>\n";
@@ -135,21 +135,20 @@ echo _("Our community of proofreaders, project managers, developers, etc. is com
 echo "<br>\n";
 
 // Show the number of users that have been active over various recent timescales.
-foreach ( array(1,7,30) as $days_back )
-{
+foreach ([1, 7, 30] as $days_back) {
     $res = DPDatabase::query(sprintf("
         SELECT COUNT(*)
         FROM users
         WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
     ", $days_back));
-    list($num_users) = mysqli_fetch_row($res);
-    
+    [$num_users] = mysqli_fetch_row($res);
+
     $template = (
         $days_back == 1
         ? _('%s active users in the past twenty-four hours.')
         : _('%1$s active users in the past %2$d days.')
     );
-    $msg = sprintf( $template, number_format($num_users), $days_back );
+    $msg = sprintf($template, number_format($num_users), $days_back);
     echo "<span class='bold italic'>$msg</span><br>\n";
 }
 
@@ -160,4 +159,3 @@ echo sprintf(
     "mailto:$general_help_email_addr",
     $general_help_email_addr);
 echo "</p>\n";
-

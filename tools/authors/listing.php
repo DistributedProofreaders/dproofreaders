@@ -17,9 +17,10 @@ echo "<h1>$title</h1>";
 
 echo_menu();
 
-$message  = @$_GET['message'];
-if (isset($message))
+$message = @$_GET['message'];
+if (isset($message)) {
     echo html_safe($message) . '<br>';
+}
 
 $sortUtility = new SortUtility('authors_listing');
 
@@ -48,8 +49,9 @@ if ($browseUtility->isNextBrowseAvailable()) {
     $prev_next_links .= "<a href='listing.php?$query".$browseUtility->getNextBrowseQueryString()."'>"
                            . _('Next') . ' -&gt;</a>';
 }
-if ($prev_next_links != '')
+if ($prev_next_links != '') {
     echo "<p>$prev_next_links</p>";
+}
 
 // table of search results
 echo '<table class="themed"><tr>';
@@ -68,8 +70,9 @@ echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableVa
 echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_dead).
      "'>" . _("Deceased") . "</a></th>\n";
 
-if ($can_edit)
+if ($can_edit) {
     echo "<th>" . _("Edit") . "</th>\n";
+}
 
 echo "\n";
 
@@ -83,16 +86,16 @@ while ($i++ < $count && $row = @mysqli_fetch_array($result)) {
          html_safe($row['other_names']) . "</td><td>" .
          format_date_from_array($row, 'b') . '</td><td>' .
          format_date_from_array($row, 'd') . '</td>' .
-         ($can_edit?("<td><a href='add.php?author_id=$id'>" .
-         _('Edit') . '</a></td>'):'') . "</tr>\n";
+         ($can_edit ? ("<td><a href='add.php?author_id=$id'>" .
+         _('Edit') . '</a></td>') : '') . "</tr>\n";
 }
 
 echo '</table>';
 
-if ($prev_next_links != '')
+if ($prev_next_links != '') {
     echo "<p>$prev_next_links</p>";
+}
 
 echo '<br>';
 
 $browseUtility->echoCountSelectionList();
-

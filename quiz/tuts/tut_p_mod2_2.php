@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -25,4 +25,3 @@ echo "  </tbody>\n";
 echo "</table>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_2'>" . _("Continue to quiz page") . "</a></p>\n";
-

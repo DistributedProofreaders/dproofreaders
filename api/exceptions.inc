@@ -3,7 +3,7 @@
 // Base exception that all API exceptions should derive from
 class ApiException extends Exception
 {
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 400;
     }
@@ -12,16 +12,18 @@ class ApiException extends Exception
 //---------------------------------------------------------------------------
 // Common / expected errors we include in the documentation
 
-class BadRequest extends ApiException {}
+class BadRequest extends ApiException
+{
+}
 
 class UnauthorizedError extends ApiException
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct("Unauthorized");
     }
 
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 401;
     }
@@ -29,12 +31,12 @@ class UnauthorizedError extends ApiException
 
 class NotFoundError extends ApiException
 {
-    function __construct($message="Object not found")
+    public function __construct($message = "Object not found")
     {
         parent::__construct($message);
     }
 
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 404;
     }
@@ -42,7 +44,7 @@ class NotFoundError extends ApiException
 
 class RateLimitExceeded extends ApiException
 {
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 429;
     }
@@ -52,16 +54,18 @@ class RateLimitExceeded extends ApiException
 // Exceptions that shouldn't happen unless someone is futzing with something
 // they shouldn't be, or there's an unexpected problem.
 
-class UnexpectedError extends ApiException {}
+class UnexpectedError extends ApiException
+{
+}
 
 class InvalidAPI extends ApiException
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct("Invalid API path");
     }
 
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 404;
     }
@@ -69,12 +73,12 @@ class InvalidAPI extends ApiException
 
 class MethodNotAllowed extends ApiException
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct("API endpoint doesn't support this method");
     }
 
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 405;
     }
@@ -82,7 +86,7 @@ class MethodNotAllowed extends ApiException
 
 class NotImplementedError extends ApiException
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct("API not implemented");
     }
@@ -90,12 +94,12 @@ class NotImplementedError extends ApiException
 
 class ServerError extends ApiException
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct("An unhandled error happened on the server");
     }
 
-    function getStatusCode()
+    public function getStatusCode()
     {
         return 500;
     }

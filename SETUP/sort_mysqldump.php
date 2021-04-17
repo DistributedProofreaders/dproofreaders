@@ -17,7 +17,9 @@
 // c) It's somewhat fragile on where the preamble sorts to.
 
 $lines = file('php://stdin');
-if ( $lines === FALSE ) die('file() returned FALSE');
+if ($lines === false) {
+    die('file() returned FALSE');
+}
 $text = implode('', $lines);
 
 $chunks = preg_split('/(?m)^(?=--\n-- Table structure )/', $text);
@@ -27,21 +29,17 @@ $preamble = array_shift($chunks);
 
 // Pull out the postamble.
 $i = count($chunks) - 1;
-if ( preg_match('#(?ms)(.*?)^(/\*.*)#', $chunks[$i], $matches ) )
-{
+if (preg_match('#(?ms)(.*?)^(/\*.*)#', $chunks[$i], $matches)) {
     $chunks[$i] = $matches[1] . "\n";
-    $postamble  = $matches[2];
-}
-else
-{
+    $postamble = $matches[2];
+} else {
     $postamble = '';
 }
 
 // For each table-chunk, extract the table-name.
-$named_chunks = array();
-foreach ( $chunks as $chunk )
-{
-    preg_match('/^--\n-- Table structure for table `(.*)`/', $chunk, $matches );
+$named_chunks = [];
+foreach ($chunks as $chunk) {
+    preg_match('/^--\n-- Table structure for table `(.*)`/', $chunk, $matches);
     $table_name = $matches[1];
     $named_chunks[$table_name] = $chunk;
 }
@@ -51,7 +49,7 @@ ksort($named_chunks);
 
 // And now output everything.
 echo $preamble;
-foreach ( $named_chunks as $chunk ) echo $chunk;
+foreach ($named_chunks as $chunk) {
+    echo $chunk;
+}
 echo $postamble;
-
-?>

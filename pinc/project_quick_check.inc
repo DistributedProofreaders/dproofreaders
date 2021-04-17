@@ -16,18 +16,15 @@ function gate_on_pqc($projectid)
     $results = get_pqc_test_results($projectid);
 
     // loop thorugh results looking for errors
-    $found_error = FALSE;
-    foreach($results as $function => $test_result)
-    {
-        if($test_result["status"] == _("Error"))
-        {
-            $found_error = TRUE;
+    $found_error = false;
+    foreach ($results as $function => $test_result) {
+        if ($test_result["status"] == _("Error")) {
+            $found_error = true;
             break;
         }
     }
 
-    if($found_error)
-    {
+    if ($found_error) {
         $title = _("Change Project State");
         slim_header($title);
         echo "<h1>$title</h1>";
@@ -45,13 +42,13 @@ function gate_on_pqc($projectid)
         echo "</p>";
 
         echo "<h2>" . _("Project Quick Check Summary") . "</h2>";
-        show_pqc_result_summary($results, FALSE);
+        show_pqc_result_summary($results, false);
 
         exit();
     }
 }
 
-function show_pqc_result_summary($results, $output_links = True)
+function show_pqc_result_summary($results, $output_links = true)
 {
     echo "<table class='basic striped'>";
     echo "<tr>";
@@ -59,16 +56,17 @@ function show_pqc_result_summary($results, $output_links = True)
     echo "<th>" . _("Status") . "</th>";
     echo "<th>" . _("Summary") . "</th>";
     echo "</tr>";
-    foreach($results as $function => $test_result)
-    {
+    foreach ($results as $function => $test_result) {
         echo "<tr>";
         echo "<td>" . $test_result["name"] . "</td>";
         echo "<td>";
-        if($output_links)
+        if ($output_links) {
             echo "<a href='#$function'>";
+        }
         echo $test_result["status"];
-        if($output_links)
+        if ($output_links) {
             echo "</a>";
+        }
         echo "</td>";
         $css = get_css_for_pqc_status($test_result["status"]);
         echo "<td $css>" . $test_result["summary"] . "</td>";
@@ -79,12 +77,13 @@ function show_pqc_result_summary($results, $output_links = True)
 
 function get_css_for_pqc_status($status)
 {
-    if($status == _("Warning"))
+    if ($status == _("Warning")) {
         $css = "class='warning'";
-    elseif($status == _("Error"))
+    } elseif ($status == _("Error")) {
         $css = "class='error'";
-    else
+    } else {
         $css = '';
+    }
     return $css;
 }
 
@@ -92,9 +91,8 @@ function get_pqc_test_results($projectid)
 {
     global $test_functions;
 
-    $result = array();
-    foreach($test_functions as $function)
-    {
+    $result = [];
+    foreach ($test_functions as $function) {
         $result[$function] = $function($projectid);
     }
     return $result;
@@ -122,7 +120,7 @@ function get_pqc_test_results($projectid)
 //    ]
 
 global $test_functions;
-$test_functions  = array(
+$test_functions = [
     // Automatic tests
     "_test_project_has_all_page_images",
     "_test_project_for_bad_bytes",
@@ -135,7 +133,7 @@ $test_functions  = array(
     "_test_project_for_credited_source",
     "_test_project_for_correct_metadata",
     "_test_project_for_missing_pages",
-);
+];
 
 function _test_project_for_large_page_images($projectid)
 {
@@ -147,11 +145,10 @@ function _test_project_for_large_page_images($projectid)
     $test_desc = _("This test checks to see if there are any unusually large image files within a project.");
 
     $project = new Project($projectid);
-    if($project->pages_table_exists)
-    {
+    if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
-    
+
         $details = "<table class='basic striped'>";
         $details .= "<tr>";
         $details .= "<th>" . _("Image") . "</th>";
@@ -159,19 +156,18 @@ function _test_project_for_large_page_images($projectid)
         $details .= "</tr>";
 
         $num_large_images = 0;
-        while(list($image) = mysqli_fetch_row($result_res)) {
+        while ([$image] = mysqli_fetch_row($result_res)) {
             // the the file's info
-            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
 
             // check to see if the file is > size limit
             $error = get_image_size_error($file_info->size);
-            if(isset($error))
-            {
+            if (isset($error)) {
                 $details .= "<tr>";
                 $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
                 $details .= "<td>" . $error . "</td>";
                 $details .= "</tr>";
-    
+
                 $num_large_images++;
             }
         }
@@ -180,26 +176,21 @@ function _test_project_for_large_page_images($projectid)
 
         $details .= "</table>";
 
-        if($num_large_images==0)
-        {
+        if ($num_large_images == 0) {
             $status = _("Success");
             $summary = sprintf(_("No pages with images > %dkb."), $page_image_size_limit);
             $details = "";
-        }
-        else
-        {
+        } else {
             $status = _("Warning");
             $summary = sprintf(_("%d pages had images > %dkb, see detail."), $num_large_images, $page_image_size_limit);
         }
-    }
-    else
-    {
+    } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");
         $details = "";
     }
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_corrupt_pngs($projectid)
@@ -214,14 +205,11 @@ function _test_project_for_corrupt_pngs($projectid)
 
     // see if pngcheck is installed
     exec('pngcheck', $output, $return_code);
-    if($return_code != 2)
-    {
+    if ($return_code != 2) {
         $status = _("Skipped");
         $summary = _("pngcheck program not available on this system.");
         $details = "";
-    }
-    else if($project->pages_table_exists)
-    {
+    } elseif ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
 
@@ -232,22 +220,21 @@ function _test_project_for_corrupt_pngs($projectid)
         $details .= "</tr>";
 
         $error_pngs = 0;
-        while(list($image) = mysqli_fetch_row($result_res)) {
+        while ([$image] = mysqli_fetch_row($result_res)) {
             // the the file's info
-            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
 
             // if the file doesn't exist, skip it -- we're not testing for that
-            if(!$file_info->exists)
+            if (!$file_info->exists) {
                 continue;
+            }
 
             $path_info = pathinfo($file_info->abs_path);
 
-            if(strtolower($path_info["extension"]) == "png")
-            {
+            if (strtolower($path_info["extension"]) == "png") {
                 $output = "";
                 exec('pngcheck -q ' . escapeshellarg($file_info->abs_path), $output, $return_code);
-                if($return_code != 0)
-                {
+                if ($return_code != 0) {
                     $details .= "<tr>";
                     $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
                     $details .= "<td>" . str_replace($file_info->abs_path, "", $output[0]) . "</td>";
@@ -262,26 +249,21 @@ function _test_project_for_corrupt_pngs($projectid)
 
         $details .= "</table>";
 
-        if($error_pngs == 0)
-        {
+        if ($error_pngs == 0) {
             $status = _("Success");
             $summary = _("No corrupt PNGs.");
             $details = "";
-        }
-        else
-        {
+        } else {
             $status = _("Error");
             $summary = _("Some pages images have corrupt PNGs.");
         }
-    }
-    else
-    {
+    } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");
         $details = "";
     }
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_illo_images($projectid)
@@ -294,14 +276,12 @@ function _test_project_for_illo_images($projectid)
     $test_desc = _("This test checks to see if there are any non-page (probably illustration) files within a project. Even for books without illustrations, adding a high-res image of the cover and/or title page is encouraged, where at all possible.");
 
     $project = new Project($projectid);
-    if($project->pages_table_exists)
-    {
+    if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
 
-        $page_image_names = array();
-        while ( list($image) = mysqli_fetch_row($result_res) )
-        {
+        $page_image_names = [];
+        while ([$image] = mysqli_fetch_row($result_res)) {
             $page_image_names[] = $image;
         }
         mysqli_free_result($result_res);
@@ -316,13 +296,10 @@ function _test_project_for_illo_images($projectid)
         $nonpage_image_names = array_diff($existing_image_names, $page_image_names);
 
         $num_nonpage_image_files = count($nonpage_image_names);
-        if ($num_nonpage_image_files > 0)
-        {
+        if ($num_nonpage_image_files > 0) {
             $status = _("Success");
             $summary = sprintf(_("%d illustration files found"), $num_nonpage_image_files);
-        }
-        else
-        {
+        } else {
             $status = _("Warning");
             $summary = _("No illustration files found");
         }
@@ -331,15 +308,13 @@ function _test_project_for_illo_images($projectid)
             <p><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>" . _("Image Index") . "</a></p>
             <p>$summary</p>
         ";
-    }
-    else
-    {
+    } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");
         $details = "";
     }
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_missing_pages($projectid)
@@ -359,7 +334,7 @@ function _test_project_for_missing_pages($projectid)
     $summary = _("This is a manual test.");
     $details = "";
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_correct_metadata($projectid)
@@ -386,7 +361,7 @@ function _test_project_for_correct_metadata($projectid)
     $details .= "<p><b>" . _("Language") . "</b>: $language</p>";
     $details .= "<p><b>" . _("Difficulty") . "</b>: $difficulty</p>";
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_credited_source($projectid)
@@ -402,7 +377,7 @@ function _test_project_for_credited_source($projectid)
     $details = "";
     $details .= "<p><b>" . _("Image Source") . "</b>: $image_source</p>";
 
-    return array("name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details);
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
 function _test_project_for_bad_bytes($projectid)
@@ -413,8 +388,7 @@ function _test_project_for_bad_bytes($projectid)
     $r['description'] = "This test checks the project's latest page-texts for bad byte-sequences.";
 
     $project = new Project($projectid);
-    if(!$project->pages_table_exists)
-    {
+    if (!$project->pages_table_exists) {
         $r['status'] = _("Skipped");
         $r['details'] = '';
         $r['summary'] = _("Page table does not exist.");
@@ -422,10 +396,9 @@ function _test_project_for_bad_bytes($projectid)
     }
 
     $pages_res = page_info_query($projectid, 'F2', 'LE');
-    if ( $pages_res === FALSE )
-    {
+    if ($pages_res === false) {
         echo "!page_info_query returned FALSE!\n";
-        return NULL;
+        return null;
     }
 
     $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
@@ -448,8 +421,7 @@ function _test_project_for_bad_bytes($projectid)
     $n_bad_pages = 0;
     $valid_codepoints = $project->get_valid_codepoints();
 
-    while (list($text, $imagename, $proofers) = page_info_fetch($pages_res))
-    {
+    while ([$text, $imagename, $proofers] = page_info_fetch($pages_res)) {
         $round_num = get_round_num_from_proofers($proofers);
 
         // note that this can change $text
@@ -457,8 +429,7 @@ function _test_project_for_bad_bytes($projectid)
         $invalid_chars = get_invalid_characters($text, $valid_codepoints);
 
         $number_bad_chars = count($occurrences) + count($invalid_chars);
-        if ($number_bad_chars == 0)
-        {
+        if ($number_bad_chars == 0) {
             // Nothing bad on this page!
             continue;
         }
@@ -472,12 +443,9 @@ function _test_project_for_bad_bytes($projectid)
         $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
         $details_for_this_page = "<tr>\n";
         $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-        if($round_num == 0)
-        {
+        if ($round_num == 0) {
             $round_name = 'OCR';
-        }
-        else
-        {
+        } else {
             $round = get_Round_for_round_number($round_num);
             $round_name = $round->id;
         }
@@ -487,10 +455,9 @@ function _test_project_for_bad_bytes($projectid)
         // columns so only write it on subsequent rows
         $first_row = true;
         // write bad bytes data
-        ksort( $occurrences );
+        ksort($occurrences);
 
-        foreach ($occurrences as $raw => $n_occurrences)
-        {
+        foreach ($occurrences as $raw => $n_occurrences) {
             $details_for_this_page .= write_row_start($first_row);
             $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
             $details_for_this_page .= tds_for_bad_bytes($raw);
@@ -498,8 +465,7 @@ function _test_project_for_bad_bytes($projectid)
         }
 
         ksort($invalid_chars);
-        foreach ($invalid_chars as $raw => $n_occurrences)
-        {
+        foreach ($invalid_chars as $raw => $n_occurrences) {
             $details_for_this_page .= write_row_start($first_row);
             $details_for_this_page .= "<td class='right-align'>$n_occurrences</td>\n";
             $details_for_this_page .= tds_for_invalid_chars($raw);
@@ -511,14 +477,11 @@ function _test_project_for_bad_bytes($projectid)
 
     $details_for_this_project .= "</table>";
 
-    if ($n_bad_pages == 0)
-    {
+    if ($n_bad_pages == 0) {
         $r['status'] = _('Success');
         $r['summary'] = _('No pages with bad characters.');
         $r['details'] = "";
-    }
-    else
-    {
+    } else {
         $r['status'] = _('Error');
         $r['summary'] = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
         $r['details'] = $details_for_this_project;
@@ -530,13 +493,10 @@ function _test_project_for_bad_bytes($projectid)
 // write <tr> if not the first row
 function write_row_start(&$first_row)
 {
-    if($first_row)
-    {
+    if ($first_row) {
         $first_row = false;
         return "";
-    }
-    else
-    {
+    } else {
         return "<tr>\n";
     }
 }
@@ -546,10 +506,10 @@ function write_row_start(&$first_row)
 function get_round_num_from_proofers($proofers)
 {
     $round_num = 0;
-    foreach($proofers as $proofer)
-    {
-        if($proofer == '')
+    foreach ($proofers as $proofer) {
+        if ($proofer == '') {
             break;
+        }
         $round_num++;
     }
 
@@ -565,20 +525,17 @@ function tds_for_bad_bytes($raw)
 
     $tds .= "<td>$raw</td>";
 
-    if (startswith($raw,'&'))
-    {
+    if (startswith($raw, '&')) {
         // It's a named or numeric character reference
         // so just show the reference itself,
         // rather than converting it to hex.
         $tds .= "<td>" . htmlspecialchars($raw) . "</td><td></td>";
-    }
-    else
-    {
+    } else {
         $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
         $tds .= "<td>" . string_to_codepoints_string($raw) . "</td>"; // codepoints
     }
 
-    list($intended_character, $why_bad) = get_remarks_for_bad_byte_sequence($raw);
+    [$intended_character, $why_bad] = get_remarks_for_bad_byte_sequence($raw);
 
     $tds .= "<td>" . htmlspecialchars($intended_character) . "</td>";
 
@@ -611,24 +568,21 @@ function _test_project_for_word_lists($projectid)
     $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
     $details .= "</ul></p>";
 
-    if($num_good_words || $num_bad_words)
-    {
+    if ($num_good_words || $num_bad_words) {
         $status = _("Success");
         $summary = _("At least one of the good and bad word lists have entries.");
-    }
-    else
-    {
+    } else {
         $status = _("Warning");
         $summary = _("Both of the word lists are empty.");
     }
 
-    return array(
+    return [
         "name" => $test_name,
         "description" => $test_desc,
         "status" => $status,
         "summary" => $summary,
-        "details" => $details
-    );
+        "details" => $details,
+    ];
 }
 
 function _test_project_for_valid_clearance($projectid)
@@ -643,25 +597,22 @@ function _test_project_for_valid_clearance($projectid)
 
     $valid_pattern_1 = '/^20[0-9]{12}[a-z]+\.?$/';
     $valid_pattern_2 = '/^gbn[0-9]/';
-    if(preg_match($valid_pattern_1, $clearance) || preg_match($valid_pattern_2, $clearance))
-    {
+    if (preg_match($valid_pattern_1, $clearance) || preg_match($valid_pattern_2, $clearance)) {
         $status = _("Success");
         $summary = _("Clearance line appears to be in a valid format.");
-    }
-    else
-    {
+    } else {
         $status = _("Warning");
         $summary = _("Unrecognized clearance format.");
         $details .= "<p>" . _("Unrecognized clearance format, confirm the clearance line is correct.");
     }
 
-    return array(
+    return [
         "name" => $test_name,
         "description" => $test_desc,
         "status" => $status,
         "summary" => $summary,
-        "details" => $details
-    );
+        "details" => $details,
+    ];
 }
 
 function _test_project_has_all_page_images($projectid)
@@ -674,8 +625,7 @@ function _test_project_has_all_page_images($projectid)
 
     $project = new Project($projectid);
 
-    if($project->pages_table_exists)
-    {
+    if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
         $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
 
@@ -683,12 +633,11 @@ function _test_project_has_all_page_images($projectid)
         $details .= "<ul>";
         $error_images = 0;
         $image_count = 0;
-        while(list($image) = mysqli_fetch_row($result_res)) {
+        while ([$image] = mysqli_fetch_row($result_res)) {
             // the the file's info
-            $file_info = get_file_info_object($image,"$projects_dir/$projectid","$projects_url/$projectid");
+            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
 
-            if(!$file_info->exists)
-            {
+            if (!$file_info->exists) {
                 $details .= "<li>$image</li>";
                 $error_images++;
             }
@@ -698,37 +647,29 @@ function _test_project_has_all_page_images($projectid)
 
         mysqli_free_result($result_res);
 
-        if($image_count == 0)
-        {
+        if ($image_count == 0) {
             $status = _("Error");
             $summary = _("Project has no page images.");
             $details = "<p>" . _("Project has no page images.") . "</p>";
-        }
-        elseif($error_images == 0)
-        {
+        } elseif ($error_images == 0) {
             $status = _("Success");
             $summary = _("All images exist on the server.");
             $details = "";
-        }
-        else
-        {
+        } else {
             $status = _("Error");
             $summary = _("Some images are missing on the server.");
         }
-    }
-    else
-    {
+    } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");
         $details = "";
     }
 
-    return array(
+    return [
         "name" => $test_name,
         "description" => $test_desc,
         "status" => $status,
         "summary" => $summary,
         "details" => $details,
-    );
+    ];
 }
-

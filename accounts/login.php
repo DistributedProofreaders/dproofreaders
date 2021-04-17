@@ -16,53 +16,42 @@ Accordingly, this file should pull in only the smallest possible set of DP
 includes needed to provide authentication.
 */
 
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
 // We must *not* include User.inc here, as phpBB also defines a User class
 // and including pinc/User.inc here would cause a conflict.
 
-$destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
+$destination = ($_REQUEST['destination'] ?? '');
 
 $userNM = @$_POST['userNM'];
 $userPW = @$_POST['userPW'];
 
-if ($userNM == '')
-{
+if ($userNM == '') {
     login_failure('no_username', $destination);
 }
 
 
-if ($userPW == '')
-{
+if ($userPW == '') {
     login_failure('no_password', $destination);
 }
 
 // Validate CSRF
-try
-{
+try {
     validate_csrf_token();
-}
-catch(InvalidCSRFTokenException $e)
-{
+} catch (InvalidCSRFTokenException $e) {
     login_failure('form_timeout', $destination);
 }
 
 // Attempt to log into forum
-list($success, $reason) = login_forum_user($userNM, $userPW);
-if(!$success)
-{
-    if($reason == 'unknown')
-    {
+[$success, $reason] = login_forum_user($userNM, $userPW);
+if (!$success) {
+    if ($reason == 'unknown') {
         login_failure('unknown_failure', $destination);
-    }
-    elseif($reason == 'too_many_attempts')
-    {
+    } elseif ($reason == 'too_many_attempts') {
         login_failure('too_many_attempts', $destination);
-    }
-    else
-    {
+    } else {
         login_failure('auth_failure', $destination);
     }
 }
@@ -74,8 +63,7 @@ $q = sprintf("
 );
 $u_res = DPDatabase::query($q);
 $u_row = mysqli_fetch_assoc($u_res);
-if (!$u_row)
-{
+if (!$u_row) {
     login_failure('reg_mismatch', $destination);
 }
 
@@ -99,7 +87,7 @@ if (!$u_row)
 $userNM = $u_row['username'];
 
 // Start the DP session.
-dpsession_begin( $userNM );
+dpsession_begin($userNM);
 
 // It's possible that a user might be redirected back to this page after
 // a successful login in this scenario:
@@ -113,15 +101,12 @@ dpsession_begin( $userNM );
 // send them to the correct page. We also ignore $destination if it is
 // default.php and intentionally redirect them to the Activity Hub.
 if (!empty($destination) && !endswith($destination, "login_failure.php") &&
-    !endswith($destination, "default.php") && !endswith("$code_url/", $destination))
-{
+    !endswith($destination, "default.php") && !endswith("$code_url/", $destination)) {
     // They were heading to $destination (via a bookmark, say)
     // when we sidetracked them into the login pages.
     // Make sure they get to where they were going.
     $url = $destination;
-}
-else
-{
+} else {
     $url = "$code_url/activity_hub.php";
 }
 metarefresh(0, $url, "", "");
@@ -139,4 +124,3 @@ function login_failure($error_code, $destination)
 
     metarefresh(0, "$code_url/accounts/login_failure.php?error_code=$error_code&destination=" . urlencode($destination), "", "");
 }
-

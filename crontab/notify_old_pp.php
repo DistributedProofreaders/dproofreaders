@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'maybe_mail.inc');
@@ -13,18 +13,14 @@ $projects_by_PPer = get_pp_projects_past_threshold();
 
 // if the script is run before the 14th of the month, send out the first email
 // otherwise send out the second one
-if(strftime("%d", time()) < 14)
-{
+if (strftime("%d", time()) < 14) {
     $which_message = "first";
-}
-else
-{
+} else {
     $which_message = "second";
 }
 
 // now send them notifications
-foreach($projects_by_PPer as $PPer => $projects)
-{
+foreach ($projects_by_PPer as $PPer => $projects) {
     send_pp_reminders($PPer, $projects, $which_message);
 }
 
@@ -41,8 +37,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
     configure_gettext_for_user($user);
 
     $projects_list = [];
-    foreach($projects as $project)
-    {
+    foreach ($projects as $project) {
         $nameofwork = $project["nameofwork"];
         $authorsname = $project["authorsname"];
         $projectid = $project["projectid"];
@@ -52,7 +47,8 @@ function send_pp_reminders($PPer, $projects, $which_message)
         // TRANSLATORS: %1$s is a project title, %2$s is the author, %3%s is the projectid
         $work_details = sprintf(_('%1$s by %2$s (%3$s)'), $nameofwork, $authorsname, $projectid);
         // TRANSLATORS: %1$s and %2$s are already-translated date strings
-        $time_details = sprintf(_('[checked out since %1$s, project last visited %2$s]'), $modifieddate, $lastvisitdate);;
+        $time_details = sprintf(_('[checked out since %1$s, project last visited %2$s]'), $modifieddate, $lastvisitdate);
+        ;
         $projects_list[] = "$work_details\n$time_details\n    $code_url/project.php?id=$projectid";
     }
 
@@ -62,8 +58,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
     echo "\nNotifying $PPer about $numprojs project(s):\n$projects_list_string\n\n";
 
     $message = [];
-    if($which_message == "first")
-    {
+    if ($which_message == "first") {
         // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
         $subject = sprintf(_("%s: Renew or Return Post-Processing Projects"), $site_abbreviation);
 
@@ -85,9 +80,7 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $message[] = "==" . _("Are there any problems?") . "==";
         $message[] = sprintf(_("If any project is missing page images or illustrations, please contact the Project Manager (PM) for assistance. If the PM does not respond within a reasonable amount of time, please email %s and request help concerning any problems."), $db_requests_email_addr);
         $message[] = sprintf(_("Thank you for volunteering with %s!"), $site_name);
-    }
-    else
-    {
+    } else {
         // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
         $subject = sprintf(_("%s Second Notice: Renew or Return Post-Processing Projects"), $site_abbreviation);
 
@@ -101,15 +94,13 @@ function send_pp_reminders($PPer, $projects, $which_message)
     $email = $user->email;
     $message_string = implode("\n\n", $message);
 
-    $headers = [ "Reply-To: $db_requests_email_addr" ];
+    $headers = ["Reply-To: $db_requests_email_addr"];
 
     $mail_accepted = maybe_mail($email, $subject, $message_string, $headers);
-    if(!$mail_accepted)
-    {
+    if (!$mail_accepted) {
         echo "WARNING: Email failed to send for $PPer <$email>\n";
     }
 
     // restore gettext to current user's locale
     configure_gettext_for_user();
 }
-

@@ -3,9 +3,13 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'SettingsClass.inc');
 
-class NonexistentUserException extends Exception { }
+class NonexistentUserException extends Exception
+{
+}
 
-class NonuniqueUserException extends Exception { }
+class NonuniqueUserException extends Exception
+{
+}
 
 class User
 {
@@ -13,14 +17,14 @@ class User
     private $current_profile;
 
     // List of fields that when set for a user should never change
-    private $immutable_fields = array(
+    private $immutable_fields = [
         "id",
         "username",
         "u_id",
-    );
+    ];
 
     // Fields are assumed to be integers unless included here
-    private $string_fields = array(
+    private $string_fields = [
         "id",
         "real_name",
         "username",
@@ -29,13 +33,12 @@ class User
         "i_theme",
         "u_intlang",
         "api_key",
-    );
+    ];
 
 
-    public function __construct($username=NULL)
+    public function __construct($username = null)
     {
-        if($username !== NULL)
-        {
+        if ($username !== null) {
             $this->load("username", $username);
         }
     }
@@ -45,20 +48,17 @@ class User
     // See the PHP docs for "magic methods".
     public function __set($name, $value)
     {
-        if(isset($this->$name) && in_array($name, $this->immutable_fields))
-        {
+        if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
             throw new DomainException(sprintf(
                 _("%s is an immutable field"), $name)
             );
         }
 
-        switch($name)
-        {
+        switch ($name) {
             case "profile":
                 // set the user's profile, but first make sure it's a valid
                 // profile and they own it
-                if((! $value instanceof UserProfile) || $value->u_ref != $this->u_id)
-                {
+                if ((! $value instanceof UserProfile) || $value->u_ref != $this->u_id) {
                     throw new NonexistentUserProfileException(
                         "Invalid profile"
                     );
@@ -74,8 +74,7 @@ class User
                 DPDatabase::query($sql);
 
                 // now set the profile cookie if this is for the current user
-                if($this->username == User::current_username())
-                {
+                if ($this->username == User::current_username()) {
                     dp_setcookie("profile", $this->current_profile->id);
                 }
                 break;
@@ -86,39 +85,33 @@ class User
 
     public function __get($name)
     {
-        switch($name)
-        {
+        switch ($name) {
             case "profile":
-                if($this->current_profile)
+                if ($this->current_profile) {
                     return $this->current_profile;
+                }
 
                 // If this is the current user and a profile cookie is set,
                 // use that profile ID if it exists and belongs to the user.
                 // This allows a user to use different profiles across
                 // different browsers/devices.
-                if($this->username == User::current_username() && @$_COOKIE["profile"])
-                {
-                    try
-                    {
+                if ($this->username == User::current_username() && @$_COOKIE["profile"]) {
+                    try {
                         $profile = new UserProfile($_COOKIE["profile"]);
-                        if($profile->u_ref != $this->u_id)
-                        {
+                        if ($profile->u_ref != $this->u_id) {
                             throw new NonexistentUserProfileException(
                                 "Profile does not belong to user"
                             );
                         }
                         $this->current_profile = $profile;
-                    }
-                    catch(NonexistentUserProfileException $exception)
-                    {
+                    } catch (NonexistentUserProfileException $exception) {
                         // reset the cookie since the value was invalid
 
                         // We can only reset the cookie if the headers haven't
                         // yet been sent. Resetting the cookie is a nicety
                         // since it will only be used if it is valid, so it's
                         // OK if we can't.
-                        if(!header_sent())
-                        {
+                        if (!header_sent()) {
                             dp_setcookie("profile");
                         }
 
@@ -126,8 +119,9 @@ class User
                     }
                 }
 
-                if(!$this->current_profile)
+                if (!$this->current_profile) {
                     $this->current_profile = new UserProfile($this->u_profile);
+                }
 
                 return $this->current_profile;
             default:
@@ -140,14 +134,11 @@ class User
         return isset($this->table_row[$name]);
     }
 
-    private function load($field, $value, $strict=TRUE)
+    private function load($field, $value, $strict = true)
     {
-        if(in_array($field, $this->string_fields))
-        {
+        if (in_array($field, $this->string_fields)) {
             $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
-        }
-        else
-        {
+        } else {
             $escaped_value = sprintf("%d", $value);
         }
 
@@ -158,15 +149,12 @@ class User
         ";
 
         $result = DPDatabase::query($sql);
-        if(mysqli_num_rows($result) == 0)
-        {
+        if (mysqli_num_rows($result) == 0) {
             throw new NonexistentUserException(sprintf(
                 _('No user found with %1$s = %2$s'),
                     $field, $value)
             );
-        }
-        elseif(mysqli_num_rows($result) > 1)
-        {
+        } elseif (mysqli_num_rows($result) > 1) {
             throw new NonuniqueUserException(sprintf(
                 _('Multiple users found with %1$s = %2$s'),
                     $field, $value)
@@ -174,13 +162,12 @@ class User
         }
         $this->table_row = mysqli_fetch_assoc($result);
 
-        # MySQL does case-insensitive matches for strings, as well as
-        # ignores trailing whitespace. If $strict is TRUE, and the field
-        # is the username, require that the requested $username matches the
-        # existing username in case and whitespace by doing a PHP string
-        # compare.
-        if($strict and $field == 'username' and $this->username != $value)
-        {
+        // MySQL does case-insensitive matches for strings, as well as
+        // ignores trailing whitespace. If $strict is TRUE, and the field
+        // is the username, require that the requested $username matches the
+        // existing username in case and whitespace by doing a PHP string
+        // compare.
+        if ($strict and $field == 'username' and $this->username != $value) {
             throw new NonexistentUserException(sprintf(
                 _('No user found with %1$s = %2$s'),
                     $field, $value)
@@ -204,8 +191,7 @@ class User
         ", $this->u_id);
         $result = DPDatabase::query($sql);
         $teams = [];
-        while($row = mysqli_fetch_assoc($result))
-        {
+        while ($row = mysqli_fetch_assoc($result)) {
             $teams[] = $row["t_id"];
         }
         mysqli_free_result($result);
@@ -214,8 +200,7 @@ class User
 
     public function add_team($team_id)
     {
-        if(in_array($team_id, $this->load_teams()))
-        {
+        if (in_array($team_id, $this->load_teams())) {
             return;
         }
 
@@ -248,22 +233,22 @@ class User
     // allows the caller to specify if the suffix should be included
     // without forcing the logic of what needs it into this class.
 
-    public function grant_access($activity, $requester, $use_access_suffix=TRUE)
+    public function grant_access($activity, $requester, $use_access_suffix = true)
     {
         $this->_change_access("grant", $activity, $requester, $use_access_suffix);
     }
 
-    public function revoke_access($activity, $requester, $use_access_suffix=TRUE)
+    public function revoke_access($activity, $requester, $use_access_suffix = true)
     {
         $this->_change_access("revoke", $activity, $requester, $use_access_suffix);
     }
 
-    public function request_access($activity, $use_access_suffix=TRUE)
+    public function request_access($activity, $use_access_suffix = true)
     {
         $this->_change_access("request", $activity, 'n/a', $use_access_suffix);
     }
 
-    public function deny_access($activity, $requester, $use_access_suffix=TRUE)
+    public function deny_access($activity, $requester, $use_access_suffix = true)
     {
         $this->_change_access("deny_request_for", $activity, $requester, $use_access_suffix);
     }
@@ -272,26 +257,28 @@ class User
     {
         global $Activity_for_id_;
 
-        if($use_access_suffix)
+        if ($use_access_suffix) {
             $suffix = '.access';
-        else
+        } else {
             $suffix = '';
+        }
 
-        $userSettings =& Settings::get_Settings($this->username);
-        if($action_type == "request")
+        $userSettings = & Settings::get_Settings($this->username);
+        if ($action_type == "request") {
             $userSettings->set_value("$activity$suffix", "requested");
-        elseif($action_type == "deny_request_for")
-            $userSettings->set_value("$activity$suffix", NULL);
-        else
+        } elseif ($action_type == "deny_request_for") {
+            $userSettings->set_value("$activity$suffix", null);
+        } else {
             $userSettings->set_boolean("$activity$suffix", $action_type == 'grant');
+        }
         log_access_change($this->username, $requester, $activity, $action_type);
 
         // do callback if defined
-        if(isset($Activity_for_id_[$activity]))
-        {
+        if (isset($Activity_for_id_[$activity])) {
             $callback_function = $Activity_for_id_[$activity]->access_change_callback;
-            if($callback_function)
+            if ($callback_function) {
                 $callback_function($this, $action_type);
+            }
         }
     }
 
@@ -307,22 +294,17 @@ class User
     // Load the current user object
     public static function load_current()
     {
-        static $current_user = NULL;
+        static $current_user = null;
 
-        if(is_null(User::current_username()))
-        {
-            return NULL;
+        if (is_null(User::current_username())) {
+            return null;
         }
 
-        if(!$current_user)
-        {
-            try
-            {
+        if (!$current_user) {
+            try {
                 $current_user = new User(User::current_username());
-            }
-            catch(NonexistentUserException $e)
-            {
-                return NULL;
+            } catch (NonexistentUserException $e) {
+                return null;
             }
         }
         return $current_user;
@@ -367,7 +349,7 @@ class User
 
     // Static function to determine if the specified username is associated
     // with a valid user without the overhead of creating an object.
-    public static function is_valid_user($username, $strict=TRUE)
+    public static function is_valid_user($username, $strict = true)
     {
         $sql = sprintf("
             SELECT username
@@ -375,33 +357,24 @@ class User
             WHERE username='%s'
         ", DPDatabase::escape($username));
         $result = DPDatabase::query($sql);
-        if(mysqli_num_rows($result) == 0)
-        {
-            $is_valid = FALSE;
-        }
-        else
-        {
-            # MySQL does case-insensitive matches for strings and, with some
-            # collations, ignores trailing whitespace:
-            # https://saveriomiroddi.github.io/Summary-of-trailing-spaces-handling-in-MySQL-with-version-8.0-upgrade-considerations/
-            # If $strict is TRUE, require that the requested $username matches
-            # the existing username in case and whitespace by doing a PHP string
-            # compare.
-            if($strict)
-            {
-                list($existing_username) = mysqli_fetch_row($result);
-                if($username != $existing_username)
-                {
-                    $is_valid = FALSE;
+        if (mysqli_num_rows($result) == 0) {
+            $is_valid = false;
+        } else {
+            // MySQL does case-insensitive matches for strings and, with some
+            // collations, ignores trailing whitespace:
+            // https://saveriomiroddi.github.io/Summary-of-trailing-spaces-handling-in-MySQL-with-version-8.0-upgrade-considerations/
+            // If $strict is TRUE, require that the requested $username matches
+            // the existing username in case and whitespace by doing a PHP string
+            // compare.
+            if ($strict) {
+                [$existing_username] = mysqli_fetch_row($result);
+                if ($username != $existing_username) {
+                    $is_valid = false;
+                } else {
+                    $is_valid = true;
                 }
-                else
-                {
-                    $is_valid = TRUE;
-                }
-            }
-            else
-            {
-                $is_valid = TRUE;
+            } else {
+                $is_valid = true;
             }
         }
 
@@ -412,7 +385,7 @@ class User
     // Static function to return possible user referrer options
     public static function get_referrer_options()
     {
-        return array(
+        return [
             "pg" => _("Project Gutenberg"),
             "blog" => _("Distributed Proofreaders Blog"),
             "ebook" => _("Within an E-book"),
@@ -424,7 +397,7 @@ class User
             "twitter" => _("Twitter"),
             "facebook" => _("Facebook"),
             "other" => _("Other"),
-        );
+        ];
     }
 }
 
@@ -432,10 +405,10 @@ class User
 
 global $valid_username_chars_statement_for_reg_form;
 global $valid_username_chars_statement_for_elsewhere;
-$valid_username_chars_statement_for_reg_form  = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
+$valid_username_chars_statement_for_reg_form = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
 $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
 
-function check_username( $username, $registering=FALSE )
+function check_username($username, $registering = false)
 // Check whether $username is a reasonable/acceptable User Name (ID).
 // If it is, return an empty string.
 // If not, return a string detailing the problem.
@@ -444,34 +417,28 @@ function check_username( $username, $registering=FALSE )
     $username_max_len = 25;
     // This is the length of the 'username' field in the 'users' table.
 
-    if ( $username == '' )
-    {
+    if ($username == '') {
         $error = _("You did not supply a User Name (ID).");
         return $error;
     }
 
-    if ( strlen($username) > $username_max_len )
-    {
+    if (strlen($username) > $username_max_len) {
         $error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
         return $error;
     }
 
     // For new registrations, we disallow underscore (because it confuses the wiki software).
     // Elsewhere, we still have to allow underscore in usernames, for pre-existing users.
-    if ($registering)
-    {
+    if ($registering) {
         global $valid_username_chars_statement_for_reg_form;
         $bad_char_regex = "/[^-a-zA-Z0-9@. ]/";
         $valid_username_chars_statement = $valid_username_chars_statement_for_reg_form;
-    }
-    else
-    {
+    } else {
         global $valid_username_chars_statement_for_elsewhere;
         $bad_char_regex = "/[^-a-zA-Z0-9@._ ]/";
         $valid_username_chars_statement = $valid_username_chars_statement_for_elsewhere;
     }
-    if ( preg_match( $bad_char_regex, $username) )
-    {
+    if (preg_match($bad_char_regex, $username)) {
         $error = _("Your User Name contains invalid characters.")
             . "<br>"
             . $valid_username_chars_statement;
@@ -482,18 +449,15 @@ function check_username( $username, $registering=FALSE )
     // any space character in $username must have a non-space on either side.
     // Thus, no leading or trailing spaces, and no adjacent spaces.
 
-    if ( trim($username) != $username )
-    {
+    if (trim($username) != $username) {
         $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
         return $error;
     }
 
-    if (str_contains($username, "  "))
-    {
+    if (str_contains($username, "  ")) {
         $error = _("Your User Name contains adjacent space characters, which is not allowed.");
         return $error;
     }
 
     return '';
 }
-

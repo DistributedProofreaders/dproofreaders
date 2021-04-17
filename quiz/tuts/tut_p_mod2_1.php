@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -15,4 +15,3 @@ echo "<h3>" . _("Multiple Columns") . "</h3>\n";
 echo "<p>" . _("Proofread ordinary text that has been printed in multiple columns as a single column. Place the text from the left-most column first, the text from the next column below that, and so on. Do not mark where the columns were split, just join them together.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_1'>" . _("Continue to quiz page") . "</a></p>\n";
-

@@ -1,12 +1,11 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
 require_localhost_request();
 
-if (!$site_supports_metadata)
-{
+if (!$site_supports_metadata) {
     echo 'genthumbs.php: $site_supports_metadata is false, so exiting.';
     exit();
 }
@@ -23,7 +22,7 @@ $state = $row["state"];
 
 //make thumbs directory
 $dest_project_dir = "$projects_dir/$projectid/thumbs";
-if (!file_exists($dest_project_dir)) { 
+if (!file_exists($dest_project_dir)) {
     mkdir("$dest_project_dir", 0777);
     chmod("$dest_project_dir", 0777);
 }
@@ -32,7 +31,6 @@ if (!file_exists($dest_project_dir)) {
 $result = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM $projectid");
 
 while ($row = mysqli_fetch_assoc($result)) {
-
     $imagename = $row["image"];
 
     //setup our source and destination images
@@ -56,15 +54,15 @@ while ($row = mysqli_fetch_assoc($result)) {
     $dest_height = $dest_width * $aspect_ratio;
 
     //process the image
-    //$dest_img = imagecreatetruecolor($dest_width,$dest_height); 
-    $dest_img = imagecreate($dest_width,$dest_height); 
-    imagecopyresampled($dest_img, $src_img, 0, 0, 0 ,0, $dest_width, $dest_height, $src_width, $src_height); 
+    //$dest_img = imagecreatetruecolor($dest_width,$dest_height);
+    $dest_img = imagecreate($dest_width, $dest_height);
+    imagecopyresampled($dest_img, $src_img, 0, 0, 0, 0, $dest_width, $dest_height, $src_width, $src_height);
 
     //write it out
-    imagepng($dest_img, $new_image); 
+    imagepng($dest_img, $new_image);
 
     //clean up memory
-    imagedestroy($src_img); 
+    imagedestroy($src_img);
     imagedestroy($dest_img);
 }
 

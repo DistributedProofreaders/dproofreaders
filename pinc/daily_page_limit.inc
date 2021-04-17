@@ -1,7 +1,7 @@
 <?php
 
 // This include file is dedicated to the "Daily Page Limit" (DPL) feature:
-// each round can optionally impose a daily limit on the 
+// each round can optionally impose a daily limit on the
 // number of pages that each user can save-as-done in a server day.
 //
 // (More precisely, the limit is on the *net* number of pages saved-as-done;
@@ -36,4 +36,3 @@ function get_dpl_count_for_user_in_round($username, $round)
 
     return $round_tallyboard->get_delta_since_latest_snapshot($user->u_id);
 }
-

@@ -1,5 +1,5 @@
 <?php
-$relPath="../../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once('../../stats/jpgraph_files/common.inc');
@@ -17,8 +17,7 @@ draw_simple_bar_graph(
    init_simple_bar_graph(600, 300, 0.001), // ignore any cached graph image
    $graph_pages_per_number_of_flags["graph_x"],
    $graph_pages_per_number_of_flags["graph_y"],
-   ceil(count($graph_pages_per_number_of_flags["graph_x"])/40),
+   ceil(count($graph_pages_per_number_of_flags["graph_x"]) / 40),
    _("Number of flags on a page"),
    _("Pages with that many flags")
 );
-

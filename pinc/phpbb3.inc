@@ -16,13 +16,12 @@
 
 $this_is_top_level_cli_invocation = (
     php_sapi_name() == 'cli' &&
-    count(get_included_files()) == 1 );
+    count(get_included_files()) == 1);
 // i.e., this file is being executed because it was the
 // script argument to a command-line invocation of php,
 // probably invoked by DP code via exec() or system().
 
-if ( $this_is_top_level_cli_invocation )
-{
+if ($this_is_top_level_cli_invocation) {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
     include_once($relPath.'site_vars.php'); // $forums_dir, $charset
@@ -37,16 +36,16 @@ include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 include_once($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
 // phpBB 3.1 and 3.2 include compatibility functions
-if(is_file($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx))
+if (is_file($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx)) {
     include_once($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx);
+}
 
 
 // -----------------------------------------------------------------------------
 
 function phpbb3_encode_and_hash_password(
     $password
-)
-{
+) {
     // phpBB3 code does pre-processing on the password as it comes in from
     // the web browser. We need to do the same pre-processing before
     // hashing the password if we want ours to match theirs.
@@ -60,8 +59,7 @@ function phpbb3_create_user(
     $password,
     $email,
     $lang
-)
-{
+) {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     // get the group_id for the REGISTERED user group
@@ -74,7 +72,7 @@ function phpbb3_create_user(
     $group_id = (int) $db->sql_fetchfield('group_id');
     $db->sql_freeresult($result);
 
-    $user_row = array(
+    $user_row = [
         "username" => $username,
         "user_password" => $password,
         "user_email" => $email,
@@ -84,7 +82,7 @@ function phpbb3_create_user(
         "user_lang" => $lang,
         "user_regdate" => time(),
         "user_allow_viewemail" => 0,
-    );
+    ];
 
     $user_id = user_add($user_row);
     return $user_id;
@@ -97,8 +95,7 @@ function phpbb3_create_topic(
     $poster_name,
     $poster_is_real,
     $make_poster_watch_topic
-)
-{
+) {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     $post_result = _insert_post(
@@ -125,7 +122,7 @@ function phpbb3_move_topic($topic_id, $forum_id)
 
 function phpbb3_sync_forum($forum_id)
 {
-    $forum_ids = array($forum_id);
+    $forum_ids = [$forum_id];
     sync('forum', 'forum_id', $forum_ids, true, true);
 }
 
@@ -137,8 +134,7 @@ function phpbb3_add_post(
     $post_text,
     $poster_name,
     $poster_is_real
-)
-{
+) {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     // Which forum is the topic in?
@@ -150,8 +146,7 @@ function phpbb3_add_post(
     ";
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
-    if(!$row or !$row["forum_id"])
-    {
+    if (!$row or !$row["forum_id"]) {
         die_nz("no such topic: '$topic_id'\n");
     }
 
@@ -174,7 +169,7 @@ function _insert_post(
     $post_text,
     $poster_name,
     $poster_is_real,
-    $watch_topic=NULL
+    $watch_topic = null
 )
 // Use submit_post() to post to a topic.
 // -- if $poster_is_real, deduce $poster_id from $poster_name;
@@ -185,18 +180,15 @@ function _insert_post(
 {
     global $charset;
 
-    # see: https://phpbbmodders.net/articles/3.0/create_post/
+    // see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
 
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    if ( $poster_is_real )
-    {
+    if ($poster_is_real) {
         $username = $poster_name;
         $poster_name = '';
-    }
-    else
-    {
+    } else {
         $username = "Anonymous";
     }
     $sql = "
@@ -206,7 +198,7 @@ function _insert_post(
     ";
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
-    if(!$row) {
+    if (!$row) {
         die_nz("no user named '$username'");
     }
     $db->sql_freeresult($result);
@@ -215,13 +207,10 @@ function _insert_post(
     $user->ip = '127.0.0.1';
     $auth->acl($user->data);
 
-    if ( $poster_is_real)
-    {
+    if ($poster_is_real) {
         $poster_id = $user->data["user_id"];
         $attach_sig = $user->optionget('attachsig');
-    }
-    else
-    {
+    } else {
         // poster is fake
         // (i.e., $poster_name is not the username of an actual user)
         $poster_id = -1;
@@ -229,11 +218,11 @@ function _insert_post(
     }
 
     $post_subject = utf8_recode($post_subject, $charset);
-    $post_text    = utf8_recode($post_text, $charset);
+    $post_text = utf8_recode($post_text, $charset);
 
-    # see: https://wiki.phpbb.com/Function.submit_post
+    // see: https://wiki.phpbb.com/Function.submit_post
     $subject = utf8_normalize_nfc($post_subject);
-    $text    = utf8_normalize_nfc($post_text);
+    $text = utf8_normalize_nfc($post_text);
 
     // phpBB encodes the subject (but not the body) using ENT_COMPAT, the chain is:
     // phpBB3/posting.php
@@ -243,80 +232,71 @@ function _insert_post(
     $subject = htmlspecialchars($subject, ENT_COMPAT, 'UTF-8', false);
 
     // phpBB 3.3.x does some munging for Astral characters in phpBB3/posting.php
-    if(function_exists('utf8_encode_ucr'))
-    {
+    if (function_exists('utf8_encode_ucr')) {
         $subject = utf8_encode_ucr($subject);
     }
 
     $poll = $uid = $bitfield = $options = '';
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
-    $data = array(
+    $data = [
         // General Posting Settings
-        'forum_id'      => $forum_id,// The forum ID in which the post will be placed. (int)
-        'topic_id'      => $topic_id,// Post a new topic or in an existing one? Set to 0 to create a new one, if not, specify your topic ID here instead.
-        'icon_id'       => false,    // The Icon ID in which the post will be displayed with on the viewforum, set to false for icon_id. (int)
+        'forum_id' => $forum_id, // The forum ID in which the post will be placed. (int)
+        'topic_id' => $topic_id, // Post a new topic or in an existing one? Set to 0 to create a new one, if not, specify your topic ID here instead.
+        'icon_id' => false,    // The Icon ID in which the post will be displayed with on the viewforum, set to false for icon_id. (int)
 
         // Defining Post Options
         'enable_bbcode' => true,    // Enable BBcode in this post. (bool)
-        'enable_smilies'=> false,   // Enabe smilies in this post. (bool)
-        'enable_urls'   => true,    // Enable self-parsing URL links in this post. (bool)
-        'enable_sig'    => $attach_sig,// Enable the signature of the poster to be displayed in the post. (bool)
+        'enable_smilies' => false,   // Enabe smilies in this post. (bool)
+        'enable_urls' => true,    // Enable self-parsing URL links in this post. (bool)
+        'enable_sig' => $attach_sig, // Enable the signature of the poster to be displayed in the post. (bool)
 
         // Message Body
-        'message'       => $text,      // Your text you wish to have submitted. It should pass through generate_text_for_storage() before this. (string)
-        'message_md5'   => md5($text), // The md5 hash of your message
+        'message' => $text,      // Your text you wish to have submitted. It should pass through generate_text_for_storage() before this. (string)
+        'message_md5' => md5($text), // The md5 hash of your message
 
         // Values from generate_text_for_storage()
         'bbcode_bitfield' => $bitfield, // Value created from the generate_text_for_storage() function.
-        'bbcode_uid'      => $uid,      // Value created from the generate_text_for_storage() function.
+        'bbcode_uid' => $uid,      // Value created from the generate_text_for_storage() function.
 
         // Other Options
         'post_edit_locked' => 0,        // Disallow post editing? 1 = Yes, 0 = No
-        'topic_title'      => $subject, // Subject/Title of the topic. (string)
+        'topic_title' => $subject, // Subject/Title of the topic. (string)
 
         // Email Notification Settings
-        'post_time'     => 0,        // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
-        'forum_name'    => '',       // For identifying the name of the forum in a notification email. (string)
+        'post_time' => 0,        // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
+        'forum_name' => '',       // For identifying the name of the forum in a notification email. (string)
 
         // Indexing
-        'enable_indexing'=> true,    // Allow indexing the post? (bool)
+        'enable_indexing' => true,    // Allow indexing the post? (bool)
 
         // 3.0.6
-        'force_approved_state'=> true, // Allow the post to be submitted without going into unapproved queue
+        'force_approved_state' => true, // Allow the post to be submitted without going into unapproved queue
 
         // 3.1-dev, overwrites force_approve_state
-        'force_visibility'=> true, // Allow the post to be submitted without going into unapproved queue, or make it be deleted
-    );
+        'force_visibility' => true, // Allow the post to be submitted without going into unapproved queue, or make it be deleted
+    ];
 
     // notify_set and notify control if the topic will be watched or not.
     // How notify_set is used seems unintuitive, but this is the logic
     // based on the submit_post() code.
-    if($watch_topic === NULL)
-    {
+    if ($watch_topic === null) {
         // don't change the watch status
         $data['notify_set'] = false;
         $data['notify'] = false;
-    }
-    elseif($watch_topic)
-    {
+    } elseif ($watch_topic) {
         // watch the topic
         $data['notify_set'] = false;
         $data['notify'] = true;
-    }
-    else
-    {
+    } else {
         // stop watching the topic
         $data['notify_set'] = true;
         $data['notify'] = false;
     }
 
-    if($topic_id)
-    {
+    if ($topic_id) {
         $post_method = "reply";
-    }
-    else
-    {
+    } else {
         $post_method = "post";
     }
 
@@ -338,21 +318,18 @@ function die_nz($string)
 
 // -----------------------------------------------------------------------------
 
-if ( $this_is_top_level_cli_invocation )
-{
+if ($this_is_top_level_cli_invocation) {
     // $argv[0] is the location of this file.
     // $argv[1] indicates the function to call.
     // $argv[2+] are the arguments to pass to it.
 
     $func_name = 'phpbb3_' . $argv[1];
-    $args = array_slice( $argv, 2 );
+    $args = array_slice($argv, 2);
 
     // echo "calling $func_name with "; var_dump($args);
-    $result = call_user_func_array( $func_name, $args );
+    $result = call_user_func_array($func_name, $args);
     echo $result;
     // So that $result will show up as the last line of input,
     // which is captured & returned by exec() and system(),
     // assuming that's how this is being invoked.
 }
-
-?>

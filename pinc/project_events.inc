@@ -1,6 +1,6 @@
 <?php
 
-function log_project_event( $projectid, $who, $event_type, $details1='', $details2='', $details3='' )
+function log_project_event($projectid, $who, $event_type, $details1 = '', $details2 = '', $details3 = '')
 {
     $esc_details1 = mysqli_real_escape_string(DPDatabase::get_connection(), $details1);
     $esc_details2 = mysqli_real_escape_string(DPDatabase::get_connection(), $details2);
@@ -17,14 +17,9 @@ function log_project_event( $projectid, $who, $event_type, $details1='', $detail
             details2   = '$esc_details2',
             details3   = '$esc_details3'
     ");
-    if ( !$res )
-    {
+    if (!$res) {
         return DPDatabase::log_error();
-    }
-    else
-    {
+    } else {
         return '';
     }
 }
-
-?>

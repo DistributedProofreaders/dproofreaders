@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -15,29 +15,28 @@ include_once($relPath.'page_table.inc');  // page_state_is_a_bad_state()
 require_login();
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');
-$image     = get_page_image_param($_REQUEST, 'image');
-$modify    = array_get($_REQUEST, 'modify', '');
-$cancel    = array_get($_POST, 'cancel', '');
-$prev_text = array_get($_POST, 'prev_text', NULL);
-$text_column = array_get($_REQUEST, 'text_column', NULL);
-$resolution = array_get($_POST, 'resolution', NULL);
+$image = get_page_image_param($_REQUEST, 'image');
+$modify = array_get($_REQUEST, 'modify', '');
+$cancel = array_get($_POST, 'cancel', '');
+$prev_text = array_get($_POST, 'prev_text', null);
+$text_column = array_get($_REQUEST, 'text_column', null);
+$resolution = array_get($_POST, 'resolution', null);
 
-if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
-{
+if (user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT) {
     die("You are not authorized to manage this project.");
 }
 
 $project = new Project($projectid);
 
 // prevent changes to the project table if it isn't UTF-8
-if(!$project->is_utf8)
-{
+if (!$project->is_utf8) {
     die(_("Project table is not UTF-8."));
 }
 
 // If the user hit a cancel button, return them to the starting form
-if($cancel)
+if ($cancel) {
     $modify = '';
+}
 
 if (!$resolution) {
     //Find out information about the bad page report
@@ -47,7 +46,7 @@ if (!$resolution) {
         DPDatabase::escape($image));
     $result = DPDatabase::query($sql);
     $page = mysqli_fetch_assoc($result);
-    $state  = $page['state'];
+    $state = $page['state'];
     $b_User = $page['b_user'];
     $b_Code = $page['b_code'];
 
@@ -58,28 +57,22 @@ if (!$resolution) {
     // since it reiterates stuff that appears in other files,
     // but this page is kind of messy to begin with.
     // It'll get cleaned up eventually.
-    for ( $prev_round_num = $round->round_number-1; $prev_round_num > 0; $prev_round_num-- )
-    {
+    for ($prev_round_num = $round->round_number - 1; $prev_round_num > 0; $prev_round_num--) {
         $r = get_Round_for_round_number($prev_round_num);
-        if ( $page[$r->user_column_name] != '' )
-        {
+        if ($page[$r->user_column_name] != '') {
             $prevtext_column = $r->text_column_name;
             break;
         }
     }
-    if ( $prev_round_num == 0 )
-    {
+    if ($prev_round_num == 0) {
         $prevtext_column = 'master_text';
     }
 
     // Is it a bad page report, or are we merely fixing an ordinary page
     $is_a_bad_page = page_state_is_a_bad_state($state);
-    if ($is_a_bad_page)
-    {
+    if ($is_a_bad_page) {
         $header = _("Bad Page Report");
-    }
-    else
-    {
+    } else {
         $header = _("Fix Page");
     }
 
@@ -115,59 +108,42 @@ if (!$resolution) {
     echo "<a href='../page_browser.php?project=$projectid&imagefile=$image' target='_new'>" . _("Image") . "</a>";
     echo "</p>";
 
-    $show_resolution_form = TRUE;
+    $show_resolution_form = true;
     //Determine if modify is set & if so display the form to either modify the image or text
-    if($modify == "current_text")
-    {
-        if($prev_text == NULL)
-        {
+    if ($modify == "current_text") {
+        if ($prev_text == null) {
             $prev_text = $page[$prevtext_column];
             show_text_update_form($projectid, $image, $prev_text, $prevtext_column, $modify);
-            $show_resolution_form = FALSE;
-        }
-        else
-        {
-            Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
+            $show_resolution_form = false;
+        } else {
+            Page_modifyText($projectid, $image, $prev_text, $prevtext_column, $pguser);
             echo "<p><b>"._("Update of text from previous round complete!")."</b></p>";
         }
-    }
-    elseif($modify == "round_text")
-    {
-        if(!user_is_a_sitemanager())
-        {
+    } elseif ($modify == "round_text") {
+        if (!user_is_a_sitemanager()) {
             echo "<p class='error'>" . _("You are not authorized to perform this action.") . "</p>";
-        }
-        else
-        {
-            if($prev_text == NULL)
-            {
+        } else {
+            if ($prev_text == null) {
                 $prev_text = $page[$text_column];
                 show_text_update_form($projectid, $image, $prev_text, $text_column, $modify);
-                $show_resolution_form = FALSE;
-            }
-            else
-            {
-                Page_modifyText( $projectid, $image, $prev_text, $text_column, $pguser );
+                $show_resolution_form = false;
+            } else {
+                Page_modifyText($projectid, $image, $prev_text, $text_column, $pguser);
                 echo "<p><b>"._("Update of text from round complete!")."</b></p>";
             }
         }
-    }
-    elseif($modify == "image")
-    {
-        if(!count($_FILES))
-        {
+    } elseif ($modify == "image") {
+        if (!count($_FILES)) {
             show_image_update_form($projectid, $image);
-            $show_resolution_form = FALSE;
-        }
-        else
-        {
+            $show_resolution_form = false;
+        } else {
             update_image($projectid, $image);
         }
     }
 
-    if($show_resolution_form)
+    if ($show_resolution_form) {
         show_resolution_form($projectid, $image, $state, $round, $is_a_bad_page, $b_User, $b_Code);
-
+    }
 } else {
     //Get variables passed from form
     $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
@@ -175,19 +151,20 @@ if (!$resolution) {
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
         $round = get_Round_for_page_state($state);
-        Page_eraseBadMark( $projectid, $image, $round, $pguser );
+        Page_eraseBadMark($projectid, $image, $round, $pguser);
     }
 
     //Redirect the user back to the project detail page.
     header("Location: $code_url/tools/project_manager/page_detail.php?project=$projectid");
 }
 
-#----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 function get_round_name($round_number)
 {
-    if($round_number == 0)
+    if ($round_number == 0) {
         return _("OCR");
+    }
 
     $round = get_Round_for_round_number($round_number);
     return $round->id;
@@ -197,22 +174,19 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
 {
     global $code_url, $PAGE_BADNESS_REASONS, $Round_for_round_id_;
 
-    if($is_a_bad_page)
-    {
+    if ($is_a_bad_page) {
         echo "<h2>" . _("Resolve bad page") . "</h2>";
         echo "<p>" . _("This page has been marked bad by the following user.") . "</p>";
 
         echo "<p>";
-        if (!empty($b_user))
-        {
+        if (!empty($b_user)) {
             $contact_url = get_url_to_compose_message_to_user($b_user);
             $contact_url = attr_safe($contact_url);
             echo "<b>" . _("User") . ":</b> $b_user ".
                 "(<a href='$contact_url'>" . _("Private Message") . "</a>)<br>";
         }
 
-        if (!empty($b_code))
-        {
+        if (!empty($b_code)) {
             echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_code]}</br>";
         }
         echo "</p>";
@@ -221,8 +195,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
     echo "<p>" . _("From here you can") . ":</p>";
     echo "<ul>";
     echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=current_text'>"._("Update page text from previous round")."</a></li>";
-    if(user_is_a_sitemanager())
-    {
+    if (user_is_a_sitemanager()) {
         echo "<li>" . _("Update page text for round") . ": ";
         echo "<form style='display: inline'; action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='round_text'>";
@@ -231,11 +204,11 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         echo "<input type='hidden' name='state' value='$state'>";
         echo "<select name='text_column'>";
         echo "<option value='master_text'>" . _("OCR") . "</option>";
-        foreach($Round_for_round_id_ as $round_id => $round)
-        {
+        foreach ($Round_for_round_id_ as $round_id => $round) {
             echo "<option value='$round->text_column_name'";
-            if($project_round->id == $round_id)
+            if ($project_round->id == $round_id) {
                 echo "SELECTED";
+            }
             echo ">$round_id</option>";
         }
         echo "</select>";
@@ -245,8 +218,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         echo "</li>";
     }
     echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Update page image")."</a></li>";
-    if ($is_a_bad_page)
-    {
+    if ($is_a_bad_page) {
         echo "<li>" . _("Mark page as") . ":";
         echo "<form action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -258,15 +230,13 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         echo "<input type='submit' value='" . attr_safe(_("Submit")) . "'>";
         echo "</form>";
         echo "</li>";
-    }
-    else
-    {
+    } else {
         echo "<li><a href='$code_url/tools/project_manager/page_detail.php?project=$projectid'>" . ("Return to page detail") . "</a></li>";
     }
     echo "</ul>";
 }
 
-function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify='current_text')
+function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify = 'current_text')
 {
     global $Round_for_round_id_;
 
@@ -274,10 +244,10 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
 
     // look up the round_id from the $text_column
     $round_id = _("OCR");
-    foreach($Round_for_round_id_ as $round)
-    {
-        if($round->text_column_name == $text_column)
+    foreach ($Round_for_round_id_ as $round) {
+        if ($round->text_column_name == $text_column) {
             $round_id = $round->id;
+        }
     }
 
     // TRANSLATORS: %s is the round ID
@@ -288,14 +258,11 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
     echo "</div>";
 
     echo "<div id='proofdiv'>";
-    if($modify == 'current_text')
-    {
+    if ($modify == 'current_text') {
         // TRANSLATORS: %s is the image name.
         echo sprintf(_("The textarea below contains the text from the previous round  (%1\$s) for %2\$s."), $round_id, $image) . "<br>";
         echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
-    }
-    else
-    {
+    } else {
         // TRANSLATORS: %1$s is the round ID; %2$ss is the image name.
         echo sprintf(_("The textarea below contains the text from round <b>%1\$s</b> for %2\$s."), $round_id, $image) . "<br>";
     }
@@ -342,9 +309,9 @@ function update_image($projectid, $image)
     $org_image_basename = basename($image, $org_image_ext);
     $tmp_image_ext = substr($_FILES['image_upload']['name'], -4);
 
-    if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
-        if ( $tmp_image_ext == $org_image_ext ) {
-            copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
+    if ($tmp_image_ext == ".png" || $tmp_image_ext == ".jpg") {
+        if ($tmp_image_ext == $org_image_ext) {
+            copy($_FILES['image_upload']['tmp_name'], "$projects_dir/$projectid/$image") or die("Could not upload new image!");
             echo "<p><b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b></p>";
         } else {
             echo "<p class='error'>"._("Image NOT updated.<br>");
@@ -361,4 +328,3 @@ function update_image($projectid, $image)
         exit;
     }
 }
-

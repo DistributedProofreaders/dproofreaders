@@ -2,9 +2,9 @@
 
 class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
 {
-    const TMP_DIRECTORY_PATH = 'tmp_flatten_directory';
-    const EMPTY_DIRECTORY_PATH = 'tmp_flatten_directory/empty_directory';
-    const NESTED_DIRECTORY_PATH = 'tmp_flatten_directory/nested_directory';
+    public const TMP_DIRECTORY_PATH = 'tmp_flatten_directory';
+    public const EMPTY_DIRECTORY_PATH = 'tmp_flatten_directory/empty_directory';
+    public const NESTED_DIRECTORY_PATH = 'tmp_flatten_directory/nested_directory';
 
     protected function setUp(): void
     {
@@ -54,12 +54,14 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    public function testFlatteningNonExistentDirectory() {
+    public function testFlatteningNonExistentDirectory()
+    {
         $this->expectException(InvalidArgumentException::class);
         flatten_directory('non_existent_directory');
     }
 
-    public function testFlatteningDirectoryWithNestedSubdirectories() {
+    public function testFlatteningDirectoryWithNestedSubdirectories()
+    {
         flatten_directory(self::NESTED_DIRECTORY_PATH);
 
         $actual = glob(self::NESTED_DIRECTORY_PATH.'/*');
@@ -67,5 +69,4 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
 
         $this->assertEquals(sort($actual), sort($expected));
     }
-
 }

@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
@@ -15,24 +15,24 @@ $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names
 
 $now_timestamp = time();
 $curr_year_month = strftime('%Y-%m', $now_timestamp);
-$curr_year       = strftime('%Y',    $now_timestamp);
+$curr_year = strftime('%Y', $now_timestamp);
 
 // -----------------------------------
 
-$title = sprintf( _("Miscellaneous Statistics for Round %s"), $tally_name );
+$title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
 output_header($title);
 
 echo "<h1>$title</h1>\n";
 
 show_all_time_total();
 
-show_month_sums( 'top_ten' );
+show_month_sums('top_ten');
 
-show_top_days( 30, 'ever' );
-show_top_days( 10, 'this_year' );
+show_top_days(30, 'ever');
+show_top_days(10, 'this_year');
 
-show_month_sums( 'all_chron' );
-show_month_sums( 'all_by_pages' );
+show_month_sums('all_chron');
+show_month_sums('all_by_pages');
 
 show_months_with_most_days_over(5000);
 show_months_with_most_days_over(6000);
@@ -50,7 +50,7 @@ function show_all_time_total()
     echo "<h2>$sub_title</h2>\n";
 
 
-    $site_tallyboard = new TallyBoard( $tally_name, 'S' );
+    $site_tallyboard = new TallyBoard($tally_name, 'S');
     $holder_id = 1;
     echo number_format($site_tallyboard->get_current_tally($holder_id));
 
@@ -58,24 +58,23 @@ function show_all_time_total()
     echo "<br>\n";
 }
 
-function show_top_days( $n, $when )
+function show_top_days($n, $when)
 {
     global $tally_name, $curr_year, $curr_year_month;
 
-    switch ( $when )
-    {
+    switch ($when) {
         case 'ever':
             $where = '';
-            $sub_title = sprintf( _('Top %d Proofreading Days Ever'), $n );
+            $sub_title = sprintf(_('Top %d Proofreading Days Ever'), $n);
             break;
 
         case 'this_year':
             $where = "WHERE {year} = '$curr_year'";
-            $sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
+            $sub_title = sprintf(_('Top %d Proofreading Days This Year'), $n);
             break;
 
         default:
-            die( "bad value for 'when': '$when'" );
+            die("bad value for 'when': '$when'");
     }
 
     echo "<h2>$sub_title</h2>\n";
@@ -86,7 +85,7 @@ function show_top_days( $n, $when )
             "SELECT
                 {date} as '" . DPDatabase::escape(_("Date")) . "',
                 tally_delta as '" . DPDatabase::escape(_("Pages Proofread")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '"
                    . DPDatabase::escape(_("This Month?")) . "'",
             $where,
             "",
@@ -98,12 +97,11 @@ function show_top_days( $n, $when )
     echo "<br>\n";
 }
 
-function show_month_sums( $which )
+function show_month_sums($which)
 {
     global $tally_name, $curr_year_month;
 
-    switch ( $which )
-    {
+    switch ($which) {
         case 'top_ten':
             $sub_title = _("Top Ten Best Proofreading Months");
             $order = '2 DESC';
@@ -123,7 +121,7 @@ function show_month_sums( $which )
             break;
 
         default:
-            die( "bad value for 'which': '$which'" );
+            die("bad value for 'which': '$which'");
     }
 
     echo "<h2>$sub_title</h2>\n";
@@ -133,11 +131,11 @@ function show_month_sums( $which )
             $tally_name,
             "SELECT
                 {year_month} as '" . DPDatabase::escape(_("Month")) . "',
-                CAST(SUM(tally_delta) AS SIGNED) as '" 
+                CAST(SUM(tally_delta) AS SIGNED) as '"
                     . DPDatabase::escape(_("Pages Proofread")) . "',
-                CAST(SUM(goal) AS SIGNED) as '" 
+                CAST(SUM(goal) AS SIGNED) as '"
                     . DPDatabase::escape(_("Monthly Goal")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '"
                     . DPDatabase::escape(_("This Month?")) . "'",
             "",
             "GROUP BY 1",
@@ -149,11 +147,11 @@ function show_month_sums( $which )
     echo "<br>\n";
 }
 
-function show_months_with_most_days_over( $n )
+function show_months_with_most_days_over($n)
 {
     global $tally_name, $curr_year_month;
 
-    $sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
+    $sub_title = sprintf(_('Months with most days over %s pages'), number_format($n));
     echo "<h2>$sub_title</h2>\n";
 
     dpsql_dump_themed_query(
@@ -162,7 +160,7 @@ function show_months_with_most_days_over( $n )
             "SELECT
                 {year_month} as '" . DPDatabase::escape(_("Month")) . "',
                 count(*) as '" . DPDatabase::escape(_("Number of Days")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '"
                     . DPDatabase::escape(_("This Month?")) . "'",
             "WHERE tally_delta >= $n",
             "GROUP BY 1",
@@ -173,4 +171,3 @@ function show_months_with_most_days_over( $n )
 
     echo "<br>\n";
 }
-

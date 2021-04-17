@@ -1,5 +1,5 @@
 <?php
-$relPath='./../pinc/';
+$relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -49,7 +49,7 @@ show_news_for_page("STATS");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
-function count_books_in_state($state, $clauses="")
+function count_books_in_state($state, $clauses = "")
 {
     $sql = sprintf("
         SELECT COUNT(*) AS numbooks
@@ -66,10 +66,10 @@ function count_books_in_state($state, $clauses="")
 $table = new ThemedTable(
     3,
     _('General Site Statistics'),
-    array( 'width' => 'auto' )
+    ['width' => 'auto']
 );
 
-$table->set_column_alignments( 'left', 'right', 'left' );
+$table->set_column_alignments('left', 'right', 'left');
 
    //get total users active in the last 7 days
     $begin_time = time() - 604800; // in seconds
@@ -95,7 +95,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
 
 
 
-    $view_books=_("(View)");
+    $view_books = _("(View)");
     //get total first round books waiting to be released
     $totalfirstwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE);
 
@@ -185,8 +185,7 @@ $table = new ThemedTable(
     _("Pages in Rounds")
 );
 
-foreach ( get_page_tally_names() as $tally_name => $tally_title )
-{
+foreach (get_page_tally_names() as $tally_name => $tally_title) {
     $qs = "tally_name=$tally_name";
     $table->row(
         $tally_name,
@@ -212,8 +211,7 @@ $table->column_headers(
     _('Graphed Over Time')
 );
 
-foreach ( array('created','proofed','PPd','posted') as $which )
-{
+foreach (['created', 'proofed', 'PPd', 'posted'] as $which) {
     $psd = get_project_status_descriptor($which);
 
     $sql = "
@@ -225,7 +223,7 @@ foreach ( array('created','proofed','PPd','posted') as $which )
         LIMIT 1
     ";
     $res = DPDatabase::query($sql);
-    list($num_so_far) = mysqli_fetch_row($res);
+    [$num_so_far] = mysqli_fetch_row($res);
 
     $table->row(
         $psd->projects_Xed_title,
@@ -240,7 +238,7 @@ $table->end();
 // Total Projects Created, Proofread, Post-Processed and Posted
 
 $table = new ThemedTable(
-    1, 
+    1,
     _("Total Projects Created, Proofread, Post-Processed and Posted")
 );
 
@@ -256,4 +254,3 @@ $table->row(
 );
 
 $table->end();
-

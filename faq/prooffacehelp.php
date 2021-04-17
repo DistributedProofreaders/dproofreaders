@@ -1,32 +1,25 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'faq.inc');
 
 $i_type = 0;
-if ( isset($_GET['i_type']) )
-{
+if (isset($_GET['i_type'])) {
     $i_type = $_GET['i_type'];
-}
-else
-{
+} else {
     $user = User::load_current();
-    if($user)
-    {
+    if ($user) {
         $i_type = $user->profile->i_type;
     }
 }
 
 // -----------------------------------------------------------------------------
 
-if ( $i_type == 0 )
-{
+if ($i_type == 0) {
     output_header('Standard Proofreading Interface Help', NO_STATSBAR);
     echo "<h1>Standard Proofreading Interface Help</h1>";
-}
-else
-{
+} else {
     output_header('Enhanced Proofreading Interface Help', NO_STATSBAR);
     echo "<h1>Enhanced Proofreading Interface Help</h1>";
 }
@@ -113,7 +106,7 @@ it is automatically <a href="#progr">"IN PROGRESS"</a>
 
 // -----------------------------------------------------------------------------
 
-$help = Array();
+$help = [];
 
 $help["Save as 'Done'"] = "
 <p>
@@ -351,12 +344,11 @@ $help['Set Image Zoom Percent'] = "
 
 // -----------------------------------------------------------------------------
 
-if ( $i_type == 0 )
-{
+if ($i_type == 0) {
     echo "<form>\n";
     echo "<dl>\n";
-    foreach(
-    Array(
+    foreach (
+    [
         "Save as 'In Progress'",
         "Save as 'Done' & Proofread Next Page",
         "Save as 'Done'",
@@ -367,21 +359,17 @@ if ( $i_type == 0 )
         'Report Bad Page',
         'WordCheck',
         'Preview',
-    )
-    as $name )
-    {
-    echo "<dt>";
-    if ( $name == 'Switch to Vertical/Horizontal' )
-    {
-        echo "<input type='button' value='Switch to Vertical'> / ";
-        echo "<input type='button' value='Switch to Horizontal'>";
-    }
-    else
-    {
-        echo "<input type='button' value=\"$name\">";
-    }
-    echo "</dt>\n";
-    echo "<dd>$help[$name]</dd>\n";
+    ]
+    as $name) {
+        echo "<dt>";
+        if ($name == 'Switch to Vertical/Horizontal') {
+            echo "<input type='button' value='Switch to Vertical'> / ";
+            echo "<input type='button' value='Switch to Horizontal'>";
+        } else {
+            echo "<input type='button' value=\"$name\">";
+        }
+        echo "</dt>\n";
+        echo "<dd>$help[$name]</dd>\n";
     }
 
     echo "
@@ -451,11 +439,8 @@ if ( $i_type == 0 )
     ";
     echo "</dl>\n";
     echo "</form>\n";
-}
-
-else
-{
-?>
+} else {
+    ?>
 
 <DIV ALIGN="CENTER"><TABLE
 BORDER="1" WIDTH="98%" CELLPADDING="6">
@@ -476,42 +461,38 @@ COLSPAN="2">
 
 <?php
 
-function echo_row( $name, $tooltip, $button_image_base, $accelerator )
+function echo_row($name, $tooltip, $button_image_base, $accelerator)
 {
     global $help;
     echo "<TR><TD class='top-align'>\n";
     $tooltip_esc = attr_safe($tooltip);
-    foreach( explode('+', $button_image_base) as $bib )
-    {
-    echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
+    foreach (explode('+', $button_image_base) as $bib) {
+        echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
         ALT='$tooltip_esc' TITLE='$tooltip_esc'
         WIDTH='26' HEIGHT='26' BORDER='0'>\n";
     }
     echo "</TD><TD class='top-align'><B>$name</B><BR>\n";
-    if ( $accelerator != '' )
-    {
-    echo "Accelerator key: <B>$accelerator</B><br>\n";
+    if ($accelerator != '') {
+        echo "Accelerator key: <B>$accelerator</B><br>\n";
     }
     echo "$help[$name]</TD></TR>\n";
 }
 
-echo_row( 'Stop Proofreading', 'Stop Proofreading without Saving', 'bt1', '9' );
-echo_row( "Save as 'Done'", "Save as 'Done'", 'bt13', '' );
-echo_row( "Save as 'Done' & Proofread Next Page", "Save as 'Done' & Proofread Next Page", 'bt2', '8' );
-echo_row( "Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7' );
-echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
-echo_row( 'Return Page to Round', 'Return Page to Round', 'bt15', '' );
-echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
-echo_row( 'Run WordCheck', 'Run WordCheck', 'bt16', '' );
-echo_row( 'View Project Comments', 'View Project Comments', 'bt12', '' );
-echo_row( 'Preview', 'Format preview', 'bt20', '' );
-echo_row( 'Show All Text', 'Show All Text', 'bt9', '' );
-echo_row( 'Undo Revert', 'Undo Revert', 'bt7', '' );
-echo_row( 'Revert to Original Document', 'Revert to Original Document', 'bt8', '' );
-echo_row( 'Refresh Image', 'Refresh Image', 'bt6', '' );
-echo_row( 'Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', '' );
-
-?>
+    echo_row('Stop Proofreading', 'Stop Proofreading without Saving', 'bt1', '9');
+    echo_row("Save as 'Done'", "Save as 'Done'", 'bt13', '');
+    echo_row("Save as 'Done' & Proofread Next Page", "Save as 'Done' & Proofread Next Page", 'bt2', '8');
+    echo_row("Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7');
+    echo_row('Report Bad Page', 'Report Bad Page', 'bt14', '');
+    echo_row('Return Page to Round', 'Return Page to Round', 'bt15', '');
+    echo_row('Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6');
+    echo_row('Run WordCheck', 'Run WordCheck', 'bt16', '');
+    echo_row('View Project Comments', 'View Project Comments', 'bt12', '');
+    echo_row('Preview', 'Format preview', 'bt20', '');
+    echo_row('Show All Text', 'Show All Text', 'bt9', '');
+    echo_row('Undo Revert', 'Undo Revert', 'bt7', '');
+    echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', '');
+    echo_row('Refresh Image', 'Refresh Image', 'bt6', '');
+    echo_row('Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', ''); ?>
 
 <TR><TD><B>Font Size</B>
 <BR>Selection Menu</TD><TD class='top-align'>Select a point size (pt) for the current font

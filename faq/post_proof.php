@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -1019,7 +1019,7 @@ tidy-up process (such as short lines being left after the removal of HTML markup
 
 <p>
 If you want to make your book available for
-<a href="<?php echo $wiki_url;?>/Smooth-reading_FAQ">smoothreading</a>,
+<a href="<?php echo $wiki_url; ?>/Smooth-reading_FAQ">smoothreading</a>,
 now's the time.
 </p>
 
@@ -1030,7 +1030,7 @@ now's the time.
 
 <p>
 An extra pair of eyes is always helpful in finding things you might have overlooked
-in the text. <a href="<?php echo $wiki_url;?>/Smooth-reading_FAQ">Smoothreading</a>
+in the text. <a href="<?php echo $wiki_url; ?>/Smooth-reading_FAQ">Smoothreading</a>
 is an option available to all post-processors and is generally
 done on a text version.
 </p>

@@ -10,35 +10,35 @@
  * Protect against register_globals vulnerabilities.
  * This line must be present before any global variable is referenced.
  */
-if( !defined( 'MEDIAWIKI' ) ) {
-        echo( "This is an extension to the MediaWiki package and cannot be run standalone.\n" );
-        die( -1 );
+if (!defined('MEDIAWIKI')) {
+    echo("This is an extension to the MediaWiki package and cannot be run standalone.\n");
+    die(-1);
 }
 
 // NOTE: Update this to reflect your installation's path to the c/pinc directory
 $relPath = '/var/www/htdocs/c/pinc/';
- 
-// Extension credits that will show up on Special:Version    
-$wgExtensionCredits['parserhook'][] = array(
-        'path'           => __FILE__,
-        'name'           => 'DP Extensions',
-        'version'        => '1.2',
-        'author'         => 'Distributed Proofreaders', 
-        'url'            => '',
-        'descriptionmsg' => '',
-        'description'    => 'Provides custom tags for listing DP projects and PG titles'
-);
+
+// Extension credits that will show up on Special:Version
+$wgExtensionCredits['parserhook'][] = [
+    'path' => __FILE__,
+    'name' => 'DP Extensions',
+    'version' => '1.2',
+    'author' => 'Distributed Proofreaders',
+    'url' => '',
+    'descriptionmsg' => '',
+    'description' => 'Provides custom tags for listing DP projects and PG titles',
+];
 
 $wgExtensionFunctions[] = "wfPgFormats";
 $wgExtensionFunctions[] = "wfProjectInfo";
 
-function wfPgFormats() 
+function wfPgFormats()
 {
     global $wgParser;
-    $wgParser->setHook( "pg_formats", "getPgFormats" );
+    $wgParser->setHook("pg_formats", "getPgFormats");
 }
 
-function getPgFormats( $input, $argv ) 
+function getPgFormats($input, $argv)
 {
     global $relPath, $code_url;
     include($relPath.'site_vars.php');
@@ -49,8 +49,9 @@ function getPgFormats( $input, $argv )
     $err = "<strong style='color: red;'>[Error: getPgFormats: %s]</strong>";
 
     $etext = $argv['etext'];
-    if (empty($etext) || !is_numeric($etext))
-        return sprintf($err,"invalid etext number");
+    if (empty($etext) || !is_numeric($etext)) {
+        return sprintf($err, "invalid etext number");
+    }
 
     $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT formats
@@ -60,18 +61,21 @@ function getPgFormats( $input, $argv )
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $etext)));
 
     $row = mysqli_fetch_assoc($result);
-    if (!$row)
-        return sprintf($err,"invalid etext number; possibly not yet posted");
+    if (!$row) {
+        return sprintf($err, "invalid etext number; possibly not yet posted");
+    }
 
     $formats = '[' . $row["formats"] . ']';
 
-    if (empty($input))
+    if (empty($input)) {
         return $formats;
+    }
 
-    @preg_match('/([^,]+),(.*)/',$input,$matches);
+    @preg_match('/([^,]+),(.*)/', $input, $matches);
 
-    if (empty($matches[1]) || empty($matches[2]))
-        return sprintf($err,"No comma in input text. Use short tag instead.");
+    if (empty($matches[1]) || empty($matches[2])) {
+        return sprintf($err, "No comma in input text. Use short tag instead.");
+    }
 
     return "<a href='http://www.gutenberg.org/ebooks/$etext' class='extiw'>" .
         "$matches[1]</a>, $matches[2] -- $formats";
@@ -79,9 +83,10 @@ function getPgFormats( $input, $argv )
 
 // ----------------------------------------------------------------------------
 
-function wfProjectInfo() {
+function wfProjectInfo()
+{
     global $wgParser;
-    $wgParser->setHook("projectinfo","showProjectInfo");
+    $wgParser->setHook("projectinfo", "showProjectInfo");
 }
 
 function showProjectInfo($input, $argv, $parser)
@@ -104,8 +109,9 @@ function showProjectInfo($input, $argv, $parser)
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $pid)));
 
     $project = mysqli_fetch_assoc($result);
-    if (!$project)
-        return sprintf($err,"Invalid projectID: $pid");
+    if (!$project) {
+        return sprintf($err, "Invalid projectID: $pid");
+    }
 
     $project['raw_state'] = $project['state'];
     $project['state'] = project_states_text($project['state']);
@@ -113,33 +119,33 @@ function showProjectInfo($input, $argv, $parser)
     $project['title'] = $project['nameofwork'];
     $project['author'] = $project['authorsname'];
 
-    $project['n_completed_pages'] = 
+    $project['n_completed_pages'] =
         ($project['n_pages'] - $project['n_available_pages']);
 
-    $matches = array();
-    preg_match('/(.).+(.): (.+)/',$project['state'],$matches);
+    $matches = [];
+    preg_match('/(.).+(.): (.+)/', $project['state'], $matches);
     @$project['short_state'] = $matches[1] . $matches[2];
 
-    $search = array("Available","Waiting for Release","Unavailable");
-    $replace = array("","*","-Unavail");
+    $search = ["Available", "Waiting for Release", "Unavailable"];
+    $replace = ["", "*", "-Unavail"];
 
-    @$project['short_state'] = $project['short_state'] . 
-        str_replace($search,$replace,$matches[3]);
+    @$project['short_state'] = $project['short_state'] .
+        str_replace($search, $replace, $matches[3]);
 
     $project['uri'] = $project['url'] = "$code_url/project.php?" .
         "id=$project[projectid]&expected_state=$project[raw_state]";
 
-    $project['link']="<a href='$project[uri]' class='extiw'>$project[title]</a>";
+    $project['link'] = "<a href='$project[uri]' class='extiw'>$project[title]</a>";
 
     unset($project['clearance']);    // email
     unset($project['comments']);     // long
     unset($project['postcomments']); // long
 
-    if (empty($project['checkedoutby']))
+    if (empty($project['checkedoutby'])) {
         $project['checkedoutby'] = '(none)';
+    }
 
-    if (isset ($argv['summary']) || empty($input))
-    {
+    if (isset($argv['summary']) || empty($input)) {
         $output = "<table class='projectinfo plainlinks'>".
         " <tr><td class='pi_a'>Title</td><td>$project[link]</td></tr>".
         " <tr><td class='pi_a'>Author</td><td>$project[authorsname]</td></tr>".
@@ -147,19 +153,17 @@ function showProjectInfo($input, $argv, $parser)
         " <tr><td class='pi_a'><a href='/wiki/PM'>PM</a>/<a href='/wiki/PPer'>".
         "PPer</a> </td><td>$project[username]/$project[checkedoutby]</td></tr>";
 
-        if (substr($project['raw_state'],-5) == 'avail')
+        if (substr($project['raw_state'], -5) == 'avail') {
             $output .= " <tr><td class='pi_a'>Pages (left/total)</td>" .
                 "<td>$project[n_available_pages]/$project[n_pages]</td></tr>";
+        }
 
         $output .= "</table>";
-    }
-    else
-    {
-        $intermediate = $parser->parse( $input, $parser->mTitle, $parser->mOptions, false, false );
+    } else {
+        $intermediate = $parser->parse($input, $parser->mTitle, $parser->mOptions, false, false);
         $output = $intermediate->getText();
-        foreach ($project as $field => $value)
-        {
-            $output = str_replace('%'.$field.'%',$value,$output);
+        foreach ($project as $field => $value) {
+            $output = str_replace('%'.$field.'%', $value, $output);
         }
     }
 

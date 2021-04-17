@@ -36,8 +36,9 @@ class Column
     public function get_long_label()
     {
         // can also be overridden
-        if(empty($this->long_label))
+        if (empty($this->long_label)) {
             return $this->label;
+        }
         return $this->long_label;
     }
 
@@ -63,10 +64,11 @@ class Column
         // * true
         // * false
         // * undefined (in which case we use the default)
-        if($setting)
+        if ($setting) {
             $value = "yes";
-        else
+        } else {
             $value = "no";
+        }
 
         $this->userSettings->set_value("search:{$this->search_origin}.column:$this->id", $value);
     }
@@ -75,8 +77,9 @@ class Column
     {
         // See comment in set_active() for why we can't use get/set_boolean()
         $value = $this->userSettings->get_value("search:{$this->search_origin}.column:$this->id");
-        if($value === NULL)
+        if ($value === null) {
             return $this->default_display;
+        }
 
         return $value === 'yes';
     }
@@ -84,42 +87,32 @@ class Column
     public function echo_header_cell($sort_column_id, $sql_sort_dir, $sec_sort)
     {
         $label = $this->get_label();
-        if($this->sortable)
-        {
+        if ($this->sortable) {
             // if we sort on a column which was previously the secondary sort
             // change secondary to the current sort column or they will be the same
             $switch_sort = [];
-            if($sort_column_id == $this->id)
-            {
+            if ($sort_column_id == $this->id) {
                 $sec_sorter = "";
                 // The header-link reverses the current sort direction.
-                if($sql_sort_dir == "asc")
-                {
+                if ($sql_sort_dir == "asc") {
                     $dir_code = "D";
                     $marker = "&#9650;";
-                }
-                else
-                {
+                } else {
                     $dir_code = "A";
                     $marker = "&#9660;";
                 }
-            }
-            else
-            { // sort ascending
+            } else { // sort ascending
                 $dir_code = "A";
                 $marker = "";
-                if($sec_sort == $this->id)
-                {
+                if ($sec_sort == $this->id) {
                     $sec_sorter = "&nbsp;^";
                     $switch_sort = ['sec_sort' => $sort_column_id];
-                }
-                else
-                {
-                    $sec_sort_array = array('sec_sort' => $this->id, 'results_offset' => 0);
+                } else {
+                    $sec_sort_array = ['sec_sort' => $this->id, 'results_offset' => 0];
                     $sec_sorter = "&nbsp;" . make_link($sec_sort_array, "^", "#head");
                 }
             }
-            $pri_sort_array = array_merge(array('sort' => "$this->id$dir_code", 'results_offset' => 0), $switch_sort);
+            $pri_sort_array = array_merge(['sort' => "$this->id$dir_code", 'results_offset' => 0], $switch_sort);
             $label = make_link($pri_sort_array, $label, "#head") . "$marker$sec_sorter";
         }
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
@@ -149,22 +142,22 @@ class TimeColumn extends Column
     public function get_label()
     {
         $label = $this->label;
-        if($this->time_format == 'days')
+        if ($this->time_format == 'days') {
             // TRANSLATORS: e.g. 'Last proofed (days ago)'
             $label = sprintf(_("%s (days&nbsp;ago)"), $label);
+        }
         return $label;
     }
 
     public function print_cell_data($project)
     {
         $data = $project->{$this->db_column};
-        if(0 == $data)
+        if (0 == $data) {
             echo _("never");
-        else
-        {
-            switch($this->time_format) {
+        } else {
+            switch ($this->time_format) {
             case 'days':
-                echo sprintf("%.1f", (time() - $data)/86400);
+                echo sprintf("%.1f", (time() - $data) / 86400);
                 break;
             default: // case 'date':
                 // TRANSLATORS: This is a strftime-formatted string for the date with year
@@ -198,8 +191,7 @@ class LinkColumn extends Column
     public function print_cell_data($project)
     {
         $name = $project->{$this->db_column};
-        if($name != '')
-        {
+        if ($name != '') {
             $contact_url = attr_safe(get_url_to_compose_message_to_user($name));
             echo "<a href='$contact_url'>$name</a>";
         }
@@ -215,16 +207,17 @@ class GenreColumn extends Column
 
     public function print_cell_data($project)
     {
-        $diff_prefix = array(
-            "beginner"  => _("BEGINNERS"),
-            "average"   => "",
-            "easy"      => _("EASY"),
-            "hard"      => _("HARD")
-        );
+        $diff_prefix = [
+            "beginner" => _("BEGINNERS"),
+            "average" => "",
+            "easy" => _("EASY"),
+            "hard" => _("HARD"),
+        ];
         $genre = $project->trans_genre;
         $prefix = $diff_prefix[$project->difficulty];
-        if($prefix != "")
+        if ($prefix != "") {
             $genre = $prefix." ".$genre;
+        }
         echo $genre;
     }
 }
@@ -253,9 +246,8 @@ class StateColumn extends Column
     {
         global $pguser, $code_url;
 
-        $transitions = get_valid_transitions( $project, $pguser );
-        if ( count($transitions) > 0 )
-        {
+        $transitions = get_valid_transitions($project, $pguser);
+        if (count($transitions) > 0) {
             $here = attr_safe($_SERVER['REQUEST_URI']);
             echo "
                 <form
@@ -279,23 +271,20 @@ class StateColumn extends Column
                     onchange='this.form.submit()'>
             ";
 
-            $this->_echo_project_state_option( $project->state, 1 );
+            $this->_echo_project_state_option($project->state, 1);
 
-            foreach ( $transitions as $transition )
-            {
+            foreach ($transitions as $transition) {
                 $disabled = $transition->is_disabled($project);
                 $optional_reason = $transition->why_disabled($project);
 
-                $this->_echo_project_state_option( $transition->to_state, 0, $disabled, $optional_reason);
+                $this->_echo_project_state_option($transition->to_state, 0, $disabled, $optional_reason);
             }
 
             echo "
                 </select>
                 </form>
             ";
-        }
-        else
-        {
+        } else {
             echo get_medium_label_for_project_state($project->state), "\n";
         }
     }
@@ -303,18 +292,21 @@ class StateColumn extends Column
     private function _echo_project_state_option($project_state, $selected, $disabled = 0, $reason = '')
     {
         echo "<option value='$project_state'";
-        if ($selected) echo " SELECTED";
-        if ($disabled) echo " disabled";
-        echo ">";
-        if ($project_state == 'automodify')
-        {
-            echo _('automodify');
+        if ($selected) {
+            echo " SELECTED";
         }
-        else
-        {
+        if ($disabled) {
+            echo " disabled";
+        }
+        echo ">";
+        if ($project_state == 'automodify') {
+            echo _('automodify');
+        } else {
             echo get_medium_label_for_project_state($project_state);
         }
-        if ($disabled) echo " [$reason]";
+        if ($disabled) {
+            echo " [$reason]";
+        }
         echo "</option>\n";
     }
 }
@@ -328,17 +320,14 @@ class OptionsColumn extends Column
         $actions = '';
 
         $topic_id = $project->topic_id;
-        if (!empty($topic_id))
-        {
+        if (!empty($topic_id)) {
             $url = get_url_to_view_topic($topic_id) . "&amp;view=unread#unread";
             $actions .= "<a href='$url' target='_blank'>" . _("View Forum") . "</a><br>\n";
         }
-        if($project->user_can_do_quick_check())
-        {
+        if ($project->user_can_do_quick_check()) {
             $actions .= "<a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a><br>";
         }
-        if($project->can_be_managed_by_user($pguser))
-        {
+        if ($project->can_be_managed_by_user($pguser)) {
             $actions .= "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a><br>
             <a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a><br>
             <a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a><br>
@@ -349,31 +338,26 @@ class OptionsColumn extends Column
             // the Good Words file was last modified.
             // In future, there might be various reasons to do so.
             // (But then what would we put in the tooltip?)
-            $f_g  = get_project_word_file( $projectid, 'good' );
+            $f_g = get_project_word_file($projectid, 'good');
             $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
-            if ( $count >= 1 )
-            {
+            if ($count >= 1) {
                 $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
                 echo "<a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>
                     <img src='$code_url/graphics/exclamation.gif' title='$tooltip' alt='!'></a>";
             }
         }
-        if(user_can_work_in_stage($pguser, 'PP'))
-        {
+        if (user_can_work_in_stage($pguser, 'PP')) {
             if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
                 $project->state == PROJ_POST_FIRST_AVAILABLE ||
-                $project->state == PROJ_POST_FIRST_CHECKED_OUT)
-            {
-                $actions .="<a href=\"$projects_url/$projectid/$projectid.zip\">" . _("Download") . "</a><br>\n";
+                $project->state == PROJ_POST_FIRST_CHECKED_OUT) {
+                $actions .= "<a href=\"$projects_url/$projectid/$projectid.zip\">" . _("Download") . "</a><br>\n";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
-                $project->state == PROJ_POST_COMPLETE)
-            {
-                $actions .="<a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("Download") . "</a><br>\n";
+                $project->state == PROJ_POST_COMPLETE) {
+                $actions .= "<a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("Download") . "</a><br>\n";
             }
         }
-        if(!empty($actions))
-        {
+        if (!empty($actions)) {
             // identify the buttons by projectid
             echo "<div class='dropdown'>
                 <button class='dropdown-button' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
@@ -389,10 +373,8 @@ class HoldColumn extends Column
     {
         global $code_url;
 
-        if($project->hold)
-        {
-            if($project->can_be_managed_by_current_user)
-            {
+        if ($project->hold) {
+            if ($project->can_be_managed_by_current_user) {
                 echo "
                     <form method='post' action='$code_url/tools/remove_project_hold.php'>
                     <input type='hidden' name='projectid' value='$project->projectid'>
@@ -400,9 +382,7 @@ class HoldColumn extends Column
                     <input type='hidden' name='return_uri' value='" . attr_safe($_SERVER['REQUEST_URI']) . "'>
                     <button type='submit' title='", attr_safe(_("Click to remove hold")), "'>", _("Remove hold"), "</button>
                     </form>";
-            }
-            else
-            {
+            } else {
                 echo "&#x2714;"; // heavy check mark
             }
         }
@@ -418,7 +398,7 @@ class ColumnData
         $this->userSettings = $userSettings;
         $this->search_origin = $search_origin;
 
-        $this->columns = array(
+        $this->columns = [
             new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork'),
             new Column("author", _('Author'), '', 'left-align', true, true, 'authorsname'),
             new Column("projectid", _('Project ID'), '', 'left-align', false, true, 'projectid'),
@@ -432,18 +412,18 @@ class ColumnData
             new LinkColumn("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier'),
             new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', $time_format),
             new PGColumn("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum'),
-            new Column('p_avail', _('Available pages'), '',  'right-align', false, true, 'n_available_pages'),
+            new Column('p_avail', _('Available pages'), '', 'right-align', false, true, 'n_available_pages'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages'),
             new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', $time_format),
             new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state'),
-            new HoldColumn('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold')
-        );
-        if(user_can_work_in_stage($pguser, 'PP') || user_is_PM())
+            new HoldColumn('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold'),
+        ];
+        if (user_can_work_in_stage($pguser, 'PP') || user_is_PM()) {
             $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '');
+        }
 
         // Set column datastore
-        foreach($this->columns as $column)
-        {
+        foreach ($this->columns as $column) {
             $column->set_datastore($this->userSettings, $this->search_origin);
         }
     }
@@ -457,7 +437,7 @@ class ProjectSearchResults
 
         assert(($search_origin === 'PM') || ($search_origin === 'PS'));
 
-        $this->userSettings =& Settings::get_Settings($pguser);
+        $this->userSettings = & Settings::get_Settings($pguser);
         $this->search_origin = $search_origin;
         $option_data = new OptionData($this->userSettings, $this->search_origin);
         $this->page_size = $option_data->results_per_page->get_value();
@@ -472,21 +452,19 @@ class ProjectSearchResults
 
         // construct active columns array so we don't have to keep checking
         // whether the column is active (these are references)
-        foreach($column_data->columns as $column)
-        {
-            if($column->is_active())
+        foreach ($column_data->columns as $column) {
+            if ($column->is_active()) {
                 $this->active_columns[] = $column;
+            }
         }
         $this->get_sorting();
     }
 
     private function results_navigator($numrows, $num_found_rows, $results_offset)
     {
-        if ( $results_offset > 0 )
-        {
+        if ($results_offset > 0) {
             $prev_offset = max(0, $results_offset - $this->page_size);
-            echo make_link(array('results_offset' => $prev_offset), _('Previous'), "#head") . " | ";
-
+            echo make_link(['results_offset' => $prev_offset], _('Previous'), "#head") . " | ";
         }
         echo sprintf(
             // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
@@ -497,24 +475,21 @@ class ProjectSearchResults
         );
         echo "\n";
 
-        if ( $results_offset + $numrows < $num_found_rows )
-        {
+        if ($results_offset + $numrows < $num_found_rows) {
             $next_offset = $results_offset + $this->page_size;
-            echo " | " . make_link(array('results_offset' => $next_offset), _('Next'), "#head");
+            echo " | " . make_link(['results_offset' => $next_offset], _('Next'), "#head");
         }
     }
 
     private function get_sort_sql($col_id)
     {
-        foreach($this->active_columns as $column)
-        {
-            if($column->sortable && ($column->id == $col_id))
-            {
+        foreach ($this->active_columns as $column) {
+            if ($column->sortable && ($column->id == $col_id)) {
                 $valid = true;
                 return $column->get_sort_sql();
             }
         }
-        return NULL;
+        return null;
     }
 
     private function get_sorting()
@@ -534,22 +509,19 @@ class ProjectSearchResults
 
         $this->sort_sql = $this->get_sort_sql($this->sort_column_id);
 
-        if($this->sort_sql)  // check direction D is ok else assume A
-        {
-            if($sort_dir == "D")
+        if ($this->sort_sql) {  // check direction D is ok else assume A
+            if ($sort_dir == "D") {
                 $this->sql_sort_dir = "desc";
-            else // A or not
+            } else { // A or not
                 $this->sql_sort_dir = "asc";
-        }
-        else // use default
-        {
+            }
+        } else { // use default
             $sort_param = "stateA";
             $this->sort_column_id = 'state';
             $this->sql_sort_dir = "asc";
             $this->sort_sql = sql_collater_for_project_state('state');
         }
-        if($sort_param != $saved_sort)
-        {
+        if ($sort_param != $saved_sort) {
             $this->userSettings->set_value("search:{$this->search_origin}.sort", $sort_param);
         }
         $this->sort_sql .= " $this->sql_sort_dir";
@@ -559,13 +531,11 @@ class ProjectSearchResults
         $saved_sec_sort = $this->userSettings->get_value("search:{$this->search_origin}.sort_sec", " ");
         $this->sec_sort = array_get($_GET, "sec_sort", $saved_sec_sort);
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
-        if(NULL == $sec_sort_sql)
-        {
+        if (null == $sec_sort_sql) {
             $this->sec_sort = 'title';
             $sec_sort_sql = 'nameofwork';
         }
-        if($this->sec_sort != $saved_sec_sort)
-        {
+        if ($this->sec_sort != $saved_sec_sort) {
             $this->userSettings->set_value("search:{$this->search_origin}.sort_sec", $this->sec_sort);
         }
 
@@ -587,8 +557,9 @@ class ProjectSearchResults
         " . sprintf("
             LIMIT %d OFFSET %d
         ", $this->page_size, $results_offset);
-        if ($testing)
+        if ($testing) {
             echo_html_comment($sql);
+        }
         $result = DPDatabase::query($sql);
         return $result;
     }
@@ -605,32 +576,29 @@ class ProjectSearchResults
         $numrows = mysqli_num_rows($result);
 
         $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-        list($num_found_rows) = mysqli_fetch_row($res_found);
-        if ( $numrows == 0 )
-        {
+        [$num_found_rows] = mysqli_fetch_row($res_found);
+        if ($numrows == 0) {
             echo "<p><b>", _("No projects matched the search criteria."), "</b></p>";
             return;
         }
 
         $warning = '';
-        foreach($this->active_columns as $column)
-        {
+        foreach ($this->active_columns as $column) {
             $warning .= $column->get_warning();
         }
-        if(!empty($warning))
+        if (!empty($warning)) {
             echo "\n<p class='warning'>$warning</p>\n";
+        }
 
         echo "<p id='head'>" . _("To set primary sort term, click on the column name; to set secondary sort term, click on the <span class='underlined'>^</span> that follows the column name.") . "</p>";
         $this->results_navigator($numrows, $num_found_rows, $results_offset);
 
         echo "\n<table class='themed theme_striped'>\n";
         echo "<tr>\n";
-        if($this->show_special_colors)
-        {
+        if ($this->show_special_colors) {
             echo "<th></th>";
         }
-        foreach($this->active_columns as $column)
-        {
+        foreach ($this->active_columns as $column) {
             $column->echo_header_cell($this->sort_column_id, $this->sql_sort_dir, $this->sec_sort);
         }
         echo "</tr>\n";
@@ -641,21 +609,18 @@ class ProjectSearchResults
 
             echo "<tr>\n";
 
-            if($this->show_special_colors)
-            {
+            if ($this->show_special_colors) {
                 $style = '';
                 $cell = '';
                 $special_day = get_special_day($project_assoc['special_code']);
-                if (!is_null($special_day))
-                {
-                    list($style, $cell) = get_special_day_cell_parts($special_day);
+                if (!is_null($special_day)) {
+                    [$style, $cell] = get_special_day_cell_parts($special_day);
                     $style = "style='$style'";
                 }
                 echo "<td $style>$cell</td>";
             }
 
-            foreach($this->active_columns as $column)
-            {
+            foreach ($this->active_columns as $column) {
                 $column->echo_data_cell($project);
             }
             echo "</tr>\n";
@@ -672,8 +637,7 @@ class ProjectSearchResults
         // exact color probably doesn't matter and,
         // furthermore, the PM 'knows' the project and
         // what's so special about it.
-        if ($this->show_special_colors)
-        {
+        if ($this->show_special_colors) {
             echo_special_legend(" 1 = 1");
         }
     }
@@ -691,10 +655,10 @@ function make_link($new_array, $text, $anchor = '')
     return "<a href='" . attr_safe($url) . "'>$text</a>";
 }
 
-function get_refine_search_link($label=NULL)
+function get_refine_search_link($label = null)
 {
-    if(!$label)
+    if (!$label) {
         $label = _("Refine Search");
-    return make_link(array('show' => 'search_form'), $label);
+    }
+    return make_link(['show' => 'search_form'], $label);
 }
-

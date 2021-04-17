@@ -3,20 +3,17 @@
 
 use voku\helper\UTF8;
 
-function array_get( $arr, $key, $default )
+function array_get($arr, $key, $default)
 // Return $arr[$key], or if it's not defined, $default.
 {
-    if ( isset($arr[$key]) )
-    {
+    if (isset($arr[$key])) {
         return $arr[$key];
-    }
-    else
-    {
+    } else {
         return $default;
     }
 }
 
-function get_enumerated_param( $arr, $key, $default, $choices, $allownull = false)
+function get_enumerated_param($arr, $key, $default, $choices, $allownull = false)
 // If $arr[$key] is defined and is one of the strings in $choices,
 // return that string.
 // If it's not defined, and $default is non-null, return $default.
@@ -32,26 +29,23 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
 {
     {
         // sanity checks on the args
-        assert( is_array($arr) );
-        assert(!is_array($key) );
+        assert(is_array($arr));
+        assert(!is_array($key));
 
-        assert( is_null($default) || is_string($default) );
-        assert( is_array($choices) );
-        assert( count($choices) > 0 );
+        assert(is_null($default) || is_string($default));
+        assert(is_array($choices));
+        assert(count($choices) > 0);
 
-        if ( !is_null($default) )
-        {
-            assert( in_array($default, $choices) );
-            assert( !$allownull);
+        if (!is_null($default)) {
+            assert(in_array($default, $choices));
+            assert(!$allownull);
         }
     }
 
-    if ( isset($arr[$key]) )
-    {
+    if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if(!is_string($s))
-        {
+        if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
                 $key));
@@ -70,7 +64,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         // default value of FALSE. What happens then is that in_array()
         // converts $s to a numeric value and compares *that* to the integer
         // values in $choices.
-        // 
+        //
         // Now, that would be fine and exactly what we want to have happen,
         // except that PHP's string-to-number conversion is rather loose: it
         // only looks for valid numeric data at the start of the string, and
@@ -86,52 +80,41 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         // (Note that this wouldn't work if $choices contained both integers and
         // non-numeric strings.)
         //
-        if (is_int(current($choices)))
-        {
-            if (!is_numeric($s))
-            {
+        if (is_int(current($choices))) {
+            if (!is_numeric($s)) {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not numeric"),
                     $key, $s));
             }
             $s = 0 + $s;
-            if (!is_int($s))
-            {
+            if (!is_int($s)) {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not an integer"),
                     $key, $s));
             }
         }
 
-        if ( in_array($s, $choices) )
-        {
+        if (in_array($s, $choices)) {
             return $s;
-        }
-        else
-        {
+        } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is not one of %3\$s"),
                 $key, $s, implode(", ", $choices)));
         }
-    }
-    else
-    {
+    } else {
         // parameter not set, use default
-        if ( is_null($default) && !$allownull )
-        {
+        if (is_null($default) && !$allownull) {
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
                 $key));
-        }
-        else
-        {
+        } else {
             return $default;
         }
     }
 }
 
-function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false )
+function get_integer_param($arr, $key, $default, $min, $max, $allownull = false)
 // If $arr[$key] is defined and is the string-rep of an integer
 // satisfying certain simple constraints, return that integer.
 // If it's not defined, and $default is non-null, return $default.
@@ -151,7 +134,7 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
     return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
 }
 
-function get_float_param( $arr, $key, $default, $min, $max, $allownull = false )
+function get_float_param($arr, $key, $default, $min, $max, $allownull = false)
 // This function operates identically to get_integer_param() except for floats
 {
     return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
@@ -165,35 +148,36 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
 {
     {
         // sanity checks on the args
-        assert( is_array($arr) );
-        assert(!is_array($key) );
+        assert(is_array($arr));
+        assert(!is_array($key));
 
-        if($type == 'integer')
-            assert( is_null($default) || is_int($default) );
-        else
-            assert( is_null($default) || is_float($default) );
-        assert( is_null($min)     || is_numeric($min) );
-        assert( is_null($max)     || is_numeric($max) );
+        if ($type == 'integer') {
+            assert(is_null($default) || is_int($default));
+        } else {
+            assert(is_null($default) || is_float($default));
+        }
+        assert(is_null($min) || is_numeric($min));
+        assert(is_null($max) || is_numeric($max));
 
-        if ( !is_null($default) )
-        {
-            if (!is_null($min)) assert( $default >= $min );
-            if (!is_null($max)) assert( $default <= $max );
+        if (!is_null($default)) {
+            if (!is_null($min)) {
+                assert($default >= $min);
+            }
+            if (!is_null($max)) {
+                assert($default <= $max);
+            }
             assert(!$allownull);
         }
 
-        if ( !is_null($min) && !is_null($max) )
-        {
-            assert( $min <= $max );
+        if (!is_null($min) && !is_null($max)) {
+            assert($min <= $max);
         }
     }
 
-    if ( isset($arr[$key]) )
-    {
+    if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if(!is_string($s))
-        {
+        if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
                 $key));
@@ -202,71 +186,55 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
         // Trim whitespace from both ends of the string.
         $s = trim($s);
 
-        if ( $type == 'integer' )
-        {
-            if ( preg_match('/^[-+]?\d+$/', $s ) )
-            {
+        if ($type == 'integer') {
+            if (preg_match('/^[-+]?\d+$/', $s)) {
                 // It's a well-formed (decimal) rep of an integer
                 $i = intval($s);
-            }
-            else
-            {
+            } else {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not an integer"),
                     $key, $s));
             }
-        }
-        elseif ( $type == 'float' )
-        {
+        } elseif ($type == 'float') {
             // We'll accept an integer or a floating point number
-            if ( preg_match('/^[-+]?\d+$/', $s ) ||
-                 preg_match('/^[-+]?\d*\.\d+$/', $s ) )
-            {
+            if (preg_match('/^[-+]?\d+$/', $s) ||
+                 preg_match('/^[-+]?\d*\.\d+$/', $s)) {
                 // It's a well-formed (decimal) rep of a float
                 $i = floatval($s);
-            }
-            else
-            {
+            } else {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not a float"),
                     $key, $s));
             }
         }
 
-        if ( !is_null($min) && $i < $min )
-        {
+        if (!is_null($min) && $i < $min) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is less than the minimum %3\$d"),
                 $key, $s, $min));
         }
 
-        if ( !is_null($max) && $i > $max )
-        {
+        if (!is_null($max) && $i > $max) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is greater than the maximum %3\$d"),
                 $key, $s, $max));
         }
 
         return $i;
-    }
-    else
-    {
+    } else {
         // not set, use default
-        if ( is_null($default) && !$allownull )
-        {
+        if (is_null($default) && !$allownull) {
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
                 $key));
-        }
-        else
-        {
+        } else {
             return $default;
         }
     }
 }
 
-function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false)
+function get_param_matching_regex($arr, $key, $default, $regex, $allownull = false)
 // If $arr[$key] is defined and matches $regex, return it.
 // If it's not defined, and $default is non-null, return $default.
 // If it's not defined, and $default is null and $allownull is true, return null.
@@ -285,24 +253,21 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
 {
     // sanity checks on args
     {
-        assert( is_array($arr) );
-        assert(!is_array($key) );
+        assert(is_array($arr));
+        assert(!is_array($key));
 
         assert(is_null($default) || is_string($default));
         assert(is_string($regex));
-        
-        if (!is_null($default))
-        {
+
+        if (!is_null($default)) {
             assert(!$allownull);
         }
     }
 
-    if (isset($arr[$key]))
-    {
+    if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if(!is_string($s))
-        {
+        if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
                 $key));
@@ -311,29 +276,21 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         // Trim whitespace from both ends of the string.
         $s = trim($s);
 
-        if ( preg_match($regex, $s) )
-        {
+        if (preg_match($regex, $s)) {
             return $s;
-        }
-        else
-        {
+        } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') does not match the regex %3\$s"),
                 $key, $s, $regex));
         }
-    }
-    else
-    {
+    } else {
         // not set, use default
-        if ( is_null($default) && !$allownull )
-        {
+        if (is_null($default) && !$allownull) {
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
                 $key));
-        }
-        else
-        {
+        } else {
             return $default;
         }
     }
@@ -353,11 +310,10 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
 // If the $charset global isn't defined, use whatever the PHP default_charset
 // is. Note that using default_charset is the default behavior for
 // htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
-function html_safe($string, $flags=ENT_QUOTES)
+function html_safe($string, $flags = ENT_QUOTES)
 {
     $charset = @$GLOBALS['charset'];
-    if(!@$charset)
-    {
+    if (!@$charset) {
         $charset = ini_get("default_charset");
     }
     return htmlspecialchars($string, $flags, $charset);
@@ -397,18 +353,18 @@ function attr_safe($string)
 {
     global $charset;
     return htmlspecialchars($string, ENT_QUOTES, $charset,
-                            FALSE /* $double_encode */);
+                            false /* $double_encode */);
 }
 
 // -----------------------------------------------------------------------------
 
-function javascript_safe($str, $encoding=NULL)
+function javascript_safe($str, $encoding = null)
 // Return a string that is safe for inclusion in a javascript string
-// (surrounded by either single or double quotes). 
+// (surrounded by either single or double quotes).
 // Does an implied attr_safe(), so the output can be enclosed directly
-// in an html attribute. 
+// in an html attribute.
 //
-// Example usage: 
+// Example usage:
 // echo '<script>alert("' . javascript_safe($string, $charset) . '"); </script>';
 // echo "<script>alert('" . javascript_safe($string, $charset) . "'); </script>";
 // echo '<a ... onClick=\'confirm("' . javascript_safe($string, $charset) . '")\'>';
@@ -422,26 +378,23 @@ function javascript_safe($str, $encoding=NULL)
 // - backslash will be converted to \ooo octal too. It needs to be encoded
 //   anyway, and \ooo allows to reuse the same regexp.
 // - also convert anything that may be control characters to \ooo octal or
-//   \uHHHH hexadecimal. That will notably ensure that line ending 
+//   \uHHHH hexadecimal. That will notably ensure that line ending
 //   characters are not present in the returned string.
 //   (according to the ECMA-262 specification, line ending characters can
-//   include weird characters such as \u2028 (Line separator) and \u2029 
+//   include weird characters such as \u2028 (Line separator) and \u2029
 //   (Paragraph separator) in addition to the plain \r and \n.)
-//   Specifically: 
+//   Specifically:
 //   - If the encoding is latin-1, \ooo octal encoded will be used for
 //     all characters in the range [\000-\017\177-\237]
-//   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII 
+//   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII
 //     characters, and \ooo for control ASCII chars [\000-\017\177]
 {
-    
     global $charset;
-    if (!$encoding)
-    {
+    if (!$encoding) {
         $encoding = $charset;
     }
 
-    if (!strcasecmp($encoding, 'UTF-8')) 
-    {
+    if (!strcasecmp($encoding, 'UTF-8')) {
         $str = preg_replace_callback('/([\000-\037\"\'\\\\<\177])/',
             function ($matches) {
                 return sprintf("\\%03o", ord($matches[0]));
@@ -452,9 +405,7 @@ function javascript_safe($str, $encoding=NULL)
             function ($matches) {
                 return sprintf("\\u%04x", UTF8::ord($matches[0]) & 0xffffff);
             }, $str);
-    }
-    else
-    {
+    } else {
         // assume Latin-1 encoding
         $str = preg_replace_callback('/([\000-\017\\\\"\'<\177-\237])/',
             function ($matches) {
@@ -467,7 +418,7 @@ function javascript_safe($str, $encoding=NULL)
 // -----------------------------------------------------------------------------
 
 // Use HTMLPurifier to sanitize HTML
-function sanitize_html($html, $parent_tag='div')
+function sanitize_html($html, $parent_tag = 'div')
 {
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.Parent', $parent_tag);
@@ -526,8 +477,7 @@ function echo_html_comment($comment_body)
     $safe_comment_body = str_replace('--', '~~', $comment_body);
 
     echo "<!--\n";
-    if ( $n_occurrences > 0 )
-    {
+    if ($n_occurrences > 0) {
         echo "(NOTE: In this comment, $n_occurrences occurrence(s) of double-hyphen have been changed to double-tilde.)\n";
     }
     echo $safe_comment_body;
@@ -536,34 +486,33 @@ function echo_html_comment($comment_body)
 
 // -----------------------------------------------------------------------------
 
-function startswith( $subject, $prefix )
+function startswith($subject, $prefix)
 // Return TRUE iff $subject starts with $prefix.
 {
-    return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
+    return (strncmp($subject, $prefix, strlen($prefix)) == 0);
 }
 
-function endswith( $subject, $suffix )
+function endswith($subject, $suffix)
 // Return TRUE iff $subject ends with $suffix.
 {
-    return ( substr( $subject, -strlen($suffix) ) == $suffix );
+    return (substr($subject, -strlen($suffix)) == $suffix);
 }
 
-if(!function_exists('str_contains')) {
+if (!function_exists('str_contains')) {
     // str_contains() now exists in PHP8
-    function str_contains( $haystack, $needle )
+    function str_contains($haystack, $needle)
     {
-        return ( strpos( $haystack, $needle ) !== FALSE );
+        return (strpos($haystack, $needle) !== false);
     }
 }
 
-function surround_and_join( $strings, $L, $R, $joiner )
+function surround_and_join($strings, $L, $R, $joiner)
 {
-    $parts = array();
-    foreach ( $strings as $string )
-    {
+    $parts = [];
+    foreach ($strings as $string) {
         $parts[] = $L . $string . $R;
     }
-    return implode($joiner,$parts);
+    return implode($joiner, $parts);
 }
 
 /**
@@ -583,8 +532,7 @@ function set_col_str($colname, $s)
  */
 function set_col_num($colname, $i)
 {
-    if (!is_numeric($i))
-    {
+    if (!is_numeric($i)) {
         throw new InvalidArgumentException("$i is not a number");
     }
     return sprintf("%s=%d", $colname, $i);
@@ -607,14 +555,10 @@ function set_col_num($colname, $i)
 function create_mysql_update_string($source_array, $string_fields = [])
 {
     $update_fields = [];
-    foreach($source_array as $field => $value)
-    {
-        if (in_array($field, $string_fields))
-        {
+    foreach ($source_array as $field => $value) {
+        if (in_array($field, $string_fields)) {
             $update_fields[] = set_col_str($field, trim($value));
-        }
-        else
-        {
+        } else {
             $update_fields[] = set_col_num($field, $value ? intval($value) : 0);
         }
     }
@@ -628,27 +572,30 @@ function create_mysql_update_string($source_array, $string_fields = [])
 // $dirpath: the directory to search in. May be relative to the cwd.
 // $validext: an array of extensions to check filenames against, may inclue the '.'
 // $with_path: If true, the list of returned names has the directory prepended.
-function get_filelist($dirpath, $validext = array(), $with_path = False)
+function get_filelist($dirpath, $validext = [], $with_path = false)
 {
-    $filelist = array();
-    if (false === ($d = opendir($dirpath))) return False;
-    while (false !== ($f = readdir($d)))
-    {
+    $filelist = [];
+    if (false === ($d = opendir($dirpath))) {
+        return false;
+    }
+    while (false !== ($f = readdir($d))) {
         // Ignore non-files
-        if (!is_file("$dirpath/$f")) continue;
+        if (!is_file("$dirpath/$f")) {
+            continue;
+        }
 
         // If we're not filering on validexts, all filenames are OK
         $filename_ok = count($validext) == 0;
 
         // Otherwise iterate over all the extensions,
         // stopping if we've matched on any so far.
-        foreach($validext as $ext)
-        {
-            if ($filename_ok) break;
+        foreach ($validext as $ext) {
+            if ($filename_ok) {
+                break;
+            }
             $filename_ok = endswith($f, $ext);
         }
-        if ($filename_ok)
-        {
+        if ($filename_ok) {
             $filelist[] = $with_path ? "$dirpath/$f" : $f;
         }
     }
@@ -695,8 +642,7 @@ function flatten_directory(string $directory_to_flatten)
                 throw new RuntimeException(sprintf(_("Could not remove directory '%1\$s' while flattening '%2\$s'."),
                     $file->getRealPath(), $directory_to_flatten));
             }
-        }
-        else {
+        } else {
             $new_name = $directory_to_flatten . '/' . $file->getFilename();
             $result = rename($file->getRealPath(), $new_name);
 
@@ -800,8 +746,7 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
 // if it is not valid, throw an InvalidArgumentException.
 function remove_common_basedir_from_zip(string $path_to_zip)
 {
-    if (!is_valid_zip_file($path_to_zip))
-    {
+    if (!is_valid_zip_file($path_to_zip)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid zip file."),
             $path_to_zip));
@@ -812,8 +757,7 @@ function remove_common_basedir_from_zip(string $path_to_zip)
 
     $filenames = [];
     $last_index = $zip->numFiles - 1;
-    for ($i = 0; $i <= $last_index; $i++)
-    {
+    for ($i = 0; $i <= $last_index; $i++) {
         $filenames[] = $zip->getNameIndex($i);
     }
 
@@ -828,26 +772,20 @@ function remove_common_basedir_from_zip(string $path_to_zip)
     // of them. If the directory itself is listed (must be first) delete it.
     $first_file = $filenames[0];
     $first_solidus = strpos($first_file, "/");
-    if($first_solidus !== false)
-    {
+    if ($first_solidus !== false) {
         $basedir_len = $first_solidus + 1;
         $basedir = substr($first_file, 0, $basedir_len);
-        if(startswith($filenames[$last_index], $basedir))
-        {
+        if (startswith($filenames[$last_index], $basedir)) {
             // we have a common subdirectory
-            if(strlen($first_file) === $basedir_len)
-            {
+            if (strlen($first_file) === $basedir_len) {
                 // it is the dir name itself - delete it and remove basedir from others
                 $zip->deleteName($first_file);
                 $i = 1;
-            }
-            else
-            {
+            } else {
                 // remove basedir from all
                 $i = 0;
             }
-            while ($i <= $last_index)
-            {
+            while ($i <= $last_index) {
                 $zip->renameName($filenames[$i], substr($filenames[$i], $basedir_len));
                 $i++;
             }
@@ -877,18 +815,13 @@ function create_zip_from(array $files_to_zip, string $path_to_zip): bool
             $path_to_zip));
     }
 
-    foreach ($files_to_zip as $file)
-    {
-        if(is_dir($file))
-        {
-            $status = $zip->addGlob("$file/*", 0, ['remove_all_path' => TRUE, 'add_path' => basename($file) . "/"]);
+    foreach ($files_to_zip as $file) {
+        if (is_dir($file)) {
+            $status = $zip->addGlob("$file/*", 0, ['remove_all_path' => true, 'add_path' => basename($file) . "/"]);
+        } else {
+            $status = $zip->addGlob($file, 0, ['remove_all_path' => true]);
         }
-        else
-        {
-            $status = $zip->addGlob($file, 0, ['remove_all_path' => TRUE]);
-        }
-        if (!$status)
-        {
+        if (!$status) {
             throw new InvalidArgumentException(sprintf(_("Could not add '%1\$s' to '%2\$s' ZipArchive."), $file, $path_to_zip));
         }
     }
@@ -903,8 +836,7 @@ function get_upload_err_msg($upload_error_code)
 // (The wording is taken from "Handling File Uploads: Error Messages Explained"
 // in the PHP online documentation.)
 {
-    switch ($upload_error_code)
-    {
+    switch ($upload_error_code) {
         case UPLOAD_ERR_OK:
             return _('There is no error, the file uploaded with success.');
         case UPLOAD_ERR_INI_SIZE:
@@ -930,9 +862,8 @@ function get_upload_err_msg($upload_error_code)
 function humanize_bytes($n)
 {
     $i = 0;
-    $units = array("B", "KB", "MB", "GB", "TB", "PB");
-    while($n >= 1024)
-    {
+    $units = ["B", "KB", "MB", "GB", "TB", "PB"];
+    while ($n >= 1024) {
         $i += 1;
         $n /= 1024.0;
     }
@@ -942,7 +873,7 @@ function humanize_bytes($n)
 
 // -----------------------------------------------------------------------------
 
-function factor_strings( $strings )
+function factor_strings($strings)
 // Given an array of N>0 strings, return an array
 //     [$left_common, $middles, $right_common]
 // where
@@ -956,16 +887,14 @@ function factor_strings( $strings )
 //     $strings[$i] == $left_common . $middles[$i] . $right_common
 // for all $i.
 {
-    assert( count($strings) > 0 );
+    assert(count($strings) > 0);
 
     // Find the shortest string
-    $str_with_minlen = NULL;
-    $minlen = NULL;
-    foreach ( $strings as $string )
-    {
+    $str_with_minlen = null;
+    $minlen = null;
+    foreach ($strings as $string) {
         $len = strlen($string);
-        if (is_null($minlen) || $len < $minlen)
-        {
+        if (is_null($minlen) || $len < $minlen) {
             $minlen = $len;
             $str_with_minlen = $string;
         }
@@ -975,24 +904,21 @@ function factor_strings( $strings )
 
     // --------------------------------------------------------------
 
-    for ( $L = 0; ; $L++ )
-    {
+    for ($L = 0; ; $L++) {
         // Invariant: all strings match in their first $L characters.
 
-        if ($L == $minlen) break;
+        if ($L == $minlen) {
+            break;
+        }
 
         // Do they match in their first $L+1 characters?
         // Examine the ($L+1)th character, i.e. the one at index $L.
 
-        $c = substr( $base, $L, 1 );
-        foreach ( $strings as $string )
-        {
-            if ( substr( $string, $L, 1 ) == $c )
-            {
+        $c = substr($base, $L, 1);
+        foreach ($strings as $string) {
+            if (substr($string, $L, 1) == $c) {
                 // good so far
-            }
-            else
-            {
+            } else {
                 // mismatch.
                 // The invariant does not hold for $L+1.
                 // So $L is the maximum value that satisfies the invariant.
@@ -1006,27 +932,24 @@ function factor_strings( $strings )
 
     // --------------------------------------------------------------
 
-    for ( $R = 0; ; $R++ )
-    {
+    for ($R = 0; ; $R++) {
         // Invariant: all strings match in their last $R characters.
 
-        if ( $left_match_length + $R == $minlen ) break;
+        if ($left_match_length + $R == $minlen) {
+            break;
+        }
 
         // Do they match in their last $R+1 characters?
         // Examine the ($R+1)th-last character, i.e., the one at index -($R+1).
         // e.g. when $R == 0, examine the last character, at index -1
         //      when $R == 1, examine the 2nd-last character, at index -2
 
-        $c = substr($base,-($R+1),1);
+        $c = substr($base, -($R + 1), 1);
 
-        foreach ( $strings as $string )
-        {
-            if ( substr( $string, -($R+1), 1 ) == $c )
-            {
+        foreach ($strings as $string) {
+            if (substr($string, -($R + 1), 1) == $c) {
                 // good so far
-            }
-            else
-            {
+            } else {
                 // mismatch.
                 // The invariant does not hold for $R+1.
                 // So $R is the maximum value that satisfies the invariant.
@@ -1040,54 +963,44 @@ function factor_strings( $strings )
 
     // --------------------------------------------------------------
 
-    $left_common = NULL;
-    $right_common = NULL;
-    $middles = array();
+    $left_common = null;
+    $right_common = null;
+    $middles = [];
 
-    foreach ( $strings as $string )
-    {
-        assert( $left_match_length >= 0 );
-        assert( $right_match_length >= 0 );
-        assert( $left_match_length + $right_match_length <= strlen($string) );
+    foreach ($strings as $string) {
+        assert($left_match_length >= 0);
+        assert($right_match_length >= 0);
+        assert($left_match_length + $right_match_length <= strlen($string));
 
-        if ( $left_match_length == strlen($string) )
-        {
+        if ($left_match_length == strlen($string)) {
             // substr() misbehaves
             $left = $string;
             $middle = '';
             $right = '';
-        }
-        else
-        {
-            $left = substr( $string, 0, $left_match_length );
+        } else {
+            $left = substr($string, 0, $left_match_length);
 
-            if ( $right_match_length == 0 )
-            {
-                $middle = substr( $string, $left_match_length );
-                $right  = '';
-            }
-            else
-            {
-                $middle = substr( $string, $left_match_length, -$right_match_length );
-                $right  = substr( $string, -$right_match_length );
+            if ($right_match_length == 0) {
+                $middle = substr($string, $left_match_length);
+                $right = '';
+            } else {
+                $middle = substr($string, $left_match_length, -$right_match_length);
+                $right = substr($string, -$right_match_length);
             }
         }
 
-        if ( is_null($left_common) )
-        {
-            $left_common  = $left;
+        if (is_null($left_common)) {
+            $left_common = $left;
             $right_common = $right;
-        }
-        else
-        {
-            assert( $left  == $left_common );
-            assert( $right == $right_common );
+        } else {
+            assert($left == $left_common);
+            assert($right == $right_common);
         }
 
         $middles[] = $middle;
     }
 
-    return array( $left_common, $middles, $right_common );
+    return [$left_common, $middles, $right_common];
 }
 
 // -----------------------------------------------------------------------------
@@ -1095,28 +1008,23 @@ function factor_strings( $strings )
 function requester_is_localhost()
 // function to determine if page requester is from localhost
 {
-    if(php_sapi_name() == "cli")
-    {
-        return TRUE;
+    if (php_sapi_name() == "cli") {
+        return true;
     }
 
-    if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-        $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'])
-    {
-        return TRUE;
-    }
-    else
-    {
-        return FALSE;
+    if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
+        $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR']) {
+        return true;
+    } else {
+        return false;
     }
 }
 
-function require_localhost_request($deny_cli=FALSE)
+function require_localhost_request($deny_cli = false)
 // If the requester is not localhost, bail
 {
-    if(!requester_is_localhost() ||
-        ($deny_cli && php_sapi_name() == 'cli'))
-    {
+    if (!requester_is_localhost() ||
+        ($deny_cli && php_sapi_name() == 'cli')) {
         die("You are not authorized to perform this request.\n");
     }
 }
@@ -1135,35 +1043,30 @@ function is_url_for_current_page($url)
 // numofpages parameter. The converse, however, is not true.
 {
     $url_components = parse_url($url);
-    
+
     // first check the path
-    if(@$url_components['path'] != $_SERVER['SCRIPT_NAME'])
-    {
-        return FALSE;
+    if (@$url_components['path'] != $_SERVER['SCRIPT_NAME']) {
+        return false;
     }
-    
+
     // now check the queries
-    if(isset($url_components['query']))
-    {
+    if (isset($url_components['query'])) {
         $parameters = explode('&', $url_components['query']);
-        foreach($parameters as $parameter)
-        {
-            list($key, $value) = explode('=', $parameter);
-            if(@$_GET[$key] != $value)
-            {
-                return FALSE;
+        foreach ($parameters as $parameter) {
+            [$key, $value] = explode('=', $parameter);
+            if (@$_GET[$key] != $value) {
+                return false;
             }
         }
     }
-    
-    return TRUE;
+
+    return true;
 }
 
 function return_bytes($size_str)
 // from http://php.net/manual/en/function.ini-get.php
 {
-    switch (substr($size_str, -1))
-    {
+    switch (substr($size_str, -1)) {
         case 'M': case 'm': return (int)$size_str * 1048576;
         case 'K': case 'k': return (int)$size_str * 1024;
         case 'G': case 'g': return (int)$size_str * 1073741824;
@@ -1173,17 +1076,20 @@ function return_bytes($size_str)
 
 // -----------------------------------------------------------------------------
 
-class InvalidCSRFTokenException extends UnexpectedValueException {}
-
-function set_csrf_token($force_set = TRUE)
+class InvalidCSRFTokenException extends UnexpectedValueException
 {
-    if(!$force_set && @$_COOKIE["CSRFtoken"])
+}
+
+function set_csrf_token($force_set = true)
+{
+    if (!$force_set && @$_COOKIE["CSRFtoken"]) {
         return;
+    }
 
     $token = bin2hex(random_bytes(32));
     dp_setcookie("CSRFtoken", $token, time() + 60 * 60 * 24, [
-      "httponly" => TRUE,
-      "samesite" => "Strict",
+        "httponly" => true,
+        "samesite" => "Strict",
     ]);
     $_COOKIE["CSRFtoken"] = $token;
 }
@@ -1205,8 +1111,7 @@ function echo_csrf_token_form_input()
 
 function validate_csrf_token()
 {
-    if(@$_POST["CSRFtoken"] != @$_COOKIE["CSRFtoken"])
-    {
+    if (@$_POST["CSRFtoken"] != @$_COOKIE["CSRFtoken"]) {
         throw new InvalidCSRFTokenException(
             _("Form submission timeout, go back and try again.")
         );
@@ -1218,5 +1123,6 @@ function validate_csrf_token()
 
 // Useful exceptions
 
-class NotImplementedException extends BadMethodCallException {}
-
+class NotImplementedException extends BadMethodCallException
+{
+}

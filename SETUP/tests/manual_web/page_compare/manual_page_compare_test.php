@@ -1,5 +1,5 @@
 <?php
-$relPath="../../../../pinc/";
+$relPath = "../../../../pinc/";
 include_once($relPath.'base.inc'); // require_login()
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'theme.inc'); // output_header()
@@ -44,14 +44,10 @@ echo "
     <textarea readonly rows='10' cols='80'>$R_text</textarea>
     \n";
 
-if($ignore_case)
-{
+if ($ignore_case) {
     $diff = strcasecmp($L_text, $R_text);
-}
-else
-{
+} else {
     $diff = strcmp($L_text, $R_text);
 }
-$no = (0 === $diff) ? " no ": " ";
+$no = (0 === $diff) ? " no " : " ";
 echo "<p>There are{$no}differences</p>";
-

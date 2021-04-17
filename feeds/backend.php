@@ -1,13 +1,13 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
-$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'smoothreading')); // Which feed the user wants
+$content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
 // Time in seconds for how often the feeds get refreshed
 // Disable delay if we are on the test server
 $refreshDelay = $testing ? 0 : 30 * 60;
-$refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
+$refreshAge = time() - $refreshDelay; // How long ago $refreshDelay was in UNIX time
 $limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
 // Determine if we should display a 0.91 compliant RSS feed or our own feed
@@ -19,8 +19,8 @@ if (isset($_GET['type'])) {
 }
 
 // If the file does not exist or is stale, let's (re)create it
-if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
-    $relPath="./../pinc/";
+if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
+    $relPath = "./../pinc/";
     include_once($relPath.'pg.inc');
     include_once($relPath.'project_states.inc');
 
@@ -30,7 +30,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     $encoded_url = xmlencode($absolute_url);
 
     if ($content == "posted" || $content == "postprocessing" || $content == "proofing" || $content == "smoothreading") {
-        switch($content) {
+        switch ($content) {
             case "posted":
                 $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
                 $desc = sprintf(_("The latest releases posted to Project Gutenberg from %1\$s."), $site_name);
@@ -47,7 +47,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 $link = "$code_url/list_etexts.php?x=b";
                 break;
             case "smoothreading":
-                // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds) 
+                // Query for SR projects which have been moved into SR in the last 30 days (30 days * 24 hours * 60 minutes * 60 seconds)
                 $query = "
                     SELECT 
                         projectid, nameofwork, authorsname, genre, language, postednum, e.timestamp AS modifieddate
@@ -65,8 +65,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         }
 
         // If $query is not set, use the default query.
-        if (!isset($query))
-        {
+        if (!isset($query)) {
             $query = "
                 SELECT * 
                 FROM projects 
@@ -78,7 +77,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         $data = '';
         $result = mysqli_query(DPDatabase::get_connection(), $query);
         while ($row = mysqli_fetch_array($result)) {
-            $posteddate = date("r",($row['modifieddate']));
+            $posteddate = date("r", ($row['modifieddate']));
             if (isset($_GET['type'])) {
                 $data .= "<item>
                 <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
@@ -95,8 +94,9 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <posteddate>".$posteddate."</posteddate>
                 <genre>".xmlencode($row['genre'])."</genre>
                 <links>";
-                if($row['postednum'])
+                if ($row['postednum']) {
                     $data .= "<PG_catalog>".xmlencode(get_pg_catalog_url_for_etext($row['postednum']))."</PG_catalog>";
+                }
                 $data .= "<library>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</library>
                 </links>
                 </project>
@@ -128,21 +128,20 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         }
     }
 
-    $file = fopen($xmlfile,"w");
-    fwrite($file,$xmlpage);
+    $file = fopen($xmlfile, "w");
+    fwrite($file, $xmlpage);
     $file = fclose($file);
 }
 
 // If we're here, the file exists and is fresh, output it
 
-$fileModifiedTime=filemtime($xmlfile);
-$secondsOfFreshnessRemaining=$fileModifiedTime + $refreshDelay - time();
+$fileModifiedTime = filemtime($xmlfile);
+$secondsOfFreshnessRemaining = $fileModifiedTime + $refreshDelay - time();
 
 // Let the browser cache it until the local cache becomes stale
 header("Content-Type: text/xml; charset=$charset");
-header("Expires: " . gmdate("D, d M Y H:i:s",$fileModifiedTime + $refreshDelay) . " GMT");
+header("Expires: " . gmdate("D, d M Y H:i:s", $fileModifiedTime + $refreshDelay) . " GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s", $fileModifiedTime) . " GMT");
 header("Cache-Control: max-age=$secondsOfFreshnessRemaining, public, must-revalidate");
 
 readfile($xmlfile);
-

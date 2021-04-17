@@ -9,21 +9,20 @@ include_once("exceptions.inc");
 function api_v1_stats_site($method, $data, $query_params)
 {
     $res = DPDatabase::query("SELECT COUNT(*) FROM users");
-    list($registered_users) = mysqli_fetch_row($res);
+    [$registered_users] = mysqli_fetch_row($res);
 
     $stats = [
         "server_time" => date(DATE_ATOM),
         "registered_users" => $registered_users,
     ];
 
-    foreach ( array(1,7,30) as $days_back )
-    {
+    foreach ([1, 7, 30] as $days_back) {
         $res = DPDatabase::query(sprintf("
             SELECT COUNT(*)
             FROM users
             WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
         ", $days_back));
-        list($num_users) = mysqli_fetch_row($res);
+        [$num_users] = mysqli_fetch_row($res);
         $key = sprintf("active_users_%d_day", $days_back);
         $stats[$key] = $num_users;
     }
@@ -53,8 +52,7 @@ function api_v1_stats_site_rounds($method, $data, $query_params)
     global $Round_for_round_id_;
 
     $return = [];
-    foreach(array_keys($Round_for_round_id_) as $round_id)
-    {
+    foreach (array_keys($Round_for_round_id_) as $round_id) {
         $return[$round_id] = render_round_stats($round_id);
     }
 

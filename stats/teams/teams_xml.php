@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
@@ -20,7 +20,7 @@ if (empty($_GET["id"])) {
     exit();
 }
 
-$req_team_id = get_integer_param( $_GET, 'id', null, 0, null );
+$req_team_id = get_integer_param($_GET, 'id', null, 0, null);
 
 //Try our best to make sure no browser caches the page
 header("Content-Type: text/xml; charset=$charset");
@@ -52,24 +52,23 @@ $data = "<teaminfo id='$team_id'>
         <currentmembers>".Team::active_member_count($team_id)."</currentmembers>
         <retiredmembers>".($curTeam['member_count'] - Team::active_member_count($team_id))."</retiredmembers>";
 
-foreach ( get_page_tally_names() as $tally_name => $tally_title )
-{
-    $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
+foreach (get_page_tally_names() as $tally_name => $tally_title) {
+    $teams_tallyboard = new TallyBoard($tally_name, 'T');
 
-    $pageCount = $teams_tallyboard->get_current_tally( $team_id );
-    $pageCountRank = $teams_tallyboard->get_rank( $team_id );
+    $pageCount = $teams_tallyboard->get_current_tally($team_id);
+    $pageCountRank = $teams_tallyboard->get_rank($team_id);
 
-    $avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
+    $avg_pages_per_day = get_daily_average($curTeam['created'], $pageCount);
 
-    list($bestDayCount, $bestDayTimestamp) =
-        $teams_tallyboard->get_info_re_largest_delta( $team_id );
-    $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
+    [$bestDayCount, $bestDayTimestamp] =
+        $teams_tallyboard->get_info_re_largest_delta($team_id);
+    $bestDayTime = date("M. jS, Y", ($bestDayTimestamp - 1));
 
     $data .= "
         <roundinfo id='$tally_name'>
             <totalpages>$pageCount</totalpages>
             <rank>".$pageCountRank."/".$totalTeams."</rank>
-            <avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
+            <avgpagesday>".number_format($avg_pages_per_day, 1)."</avgpagesday>
             <mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
         </roundinfo>";
 }
@@ -91,10 +90,8 @@ $sql = sprintf("
     ORDER BY username ASC
 ", $team_id);
 $mbrQuery = DPDatabase::query($sql);
-while ($curMbr = mysqli_fetch_assoc($mbrQuery))
-{
-    if ($curMbr['u_privacy'] == PRIVACY_PRIVATE)
-    {
+while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
+    if ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
         $data .= "<member id=\"".$curMbr['u_id']."\">
             <username>".xmlencode($curMbr['username'])."</username>
             <datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
@@ -111,4 +108,3 @@ $data
 </teamstats>";
 
 echo $xmlpage;
-

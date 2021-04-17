@@ -1,14 +1,15 @@
 <?php
 include_once($relPath.'resolution.inc');
 
-function get_newHelpWin_javascript($popHelpDir) {
+function get_newHelpWin_javascript($popHelpDir)
+{
     global $i_resolutions;
 
     $user = User::load_current();
 
-    $wSize=explode("x",$i_resolutions[$user->profile->i_res]);
-    $top=($wSize[1]-300)/2;
-    $left=($wSize[0]-400)/2;
+    $wSize = explode("x", $i_resolutions[$user->profile->i_res]);
+    $top = ($wSize[1] - 300) / 2;
+    $left = ($wSize[0] - 400) / 2;
 
     return "
     function newHelpWin(wFile)
@@ -18,4 +19,3 @@ function get_newHelpWin_javascript($popHelpDir) {
     }
     ";
 }
-

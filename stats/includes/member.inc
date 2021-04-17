@@ -12,29 +12,25 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), get_integer_param()
 
-function showMbrInformation( $user, $tally_name )
+function showMbrInformation($user, $tally_name)
 {
     showMbrProfile($user);
 
-    showMbrTallySelector( $user->u_id, $tally_name );
+    showMbrTallySelector($user->u_id, $tally_name);
 
-    if ( is_null($tally_name) )
-    {
+    if (is_null($tally_name)) {
         showMbrAccess($user);
-    }
-    else
-    {
+    } else {
         showMbrPageStats($user, $tally_name);
         showMbrNeighbors($user, $tally_name);
         $now = time();
-        if (($now - $user->date_created) > 86400)
-        {
+        if (($now - $user->date_created) > 86400) {
             showMbrHistory($user, $tally_name);
         }
     }
 }
 
-function showXmlButton( $username )
+function showXmlButton($username)
 {
     global $code_url;
 
@@ -45,8 +41,8 @@ function showXmlButton( $username )
     return $xml_button;
 }
 
-function showMbrProfile($user) {
-
+function showMbrProfile($user)
+{
     echo "\n";
     echo "<table style='width: 100%;'>";
     echo "\n";
@@ -62,7 +58,7 @@ function showMbrProfile($user) {
     showMbrDpProfile($user);
 
     echo "</td></tr>";
-    
+
     echo "<tr><td style='vertical-align: top;'>";
 
     showMbrTeams($user);
@@ -72,38 +68,40 @@ function showMbrProfile($user) {
 
 function days_to_now($timestamp)
 // return a string like "Today!", or "Yesterday", or "2 days ago" depending on
-// a timestamp 
+// a timestamp
 {
     // Ensure that all calls to this function have the same base time.
-    static $now = NULL;
-    if (is_null($now)) $now = time();
+    static $now = null;
+    if (is_null($now)) {
+        $now = time();
+    }
 
-    $days = floor(($now - $timestamp)/86400);
-    if ($days == 0)
+    $days = floor(($now - $timestamp) / 86400);
+    if ($days == 0) {
         return _("Today!");
-    elseif ($days == 1)
+    } elseif ($days == 1) {
         return _("Yesterday");
-    else
-        return sprintf(ngettext(_("%s day ago"), _("%s days ago"), $days),  
-            number_format($days)); 
+    } else {
+        return sprintf(ngettext(_("%s day ago"), _("%s days ago"), $days),
+            number_format($days));
+    }
 }
 
-function showMbrDpProfile( $user)
+function showMbrDpProfile($user)
 {
     global $site_abbreviation;
     // Days since joined:
     $daysInExistenceString = days_to_now($user->date_created);
-    if ($user->t_last_activity != 0)
-    {
+    if ($user->t_last_activity != 0) {
         $daysSinceLastSeen = days_to_now($user->t_last_activity);
     }
 
     $t = new ThemedTable(
         2,
         // TRANSLATORS: %s is the site abbreviation
-        sprintf(_("%s Profile"),$site_abbreviation)
+        sprintf(_("%s Profile"), $site_abbreviation)
     );
-    $t->set_column_widths( 30, 70 );
+    $t->set_column_widths(30, 70);
 
     $t->row(
         _("Date Joined"),
@@ -129,71 +127,58 @@ function showMbrDpProfile( $user)
 
 function showMbrRoles($user)
 {
-    list($users_ELR_page_tallyboard, ) = get_ELR_tallyboards();
-    $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $user->u_id );
+    [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
+    $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally($user->u_id);
 
-    $settings =& Settings::get_Settings($user->username);
+    $settings = & Settings::get_Settings($user->username);
 
-    $roles = array();
+    $roles = [];
 
-    if ($current_P_page_tally < 50)
-    {
-        $roles[] = array( 'newbie', _("Newbie"), 25 );
-    }
-    else
-    {
-        $roles[] = array( 'proofer', _("Proofreader"), 25 );
+    if ($current_P_page_tally < 50) {
+        $roles[] = ['newbie', _("Newbie"), 25];
+    } else {
+        $roles[] = ['proofer', _("Proofreader"), 25];
     }
 
-    if ($settings->get_boolean('manager'))
-    {
-        $roles[] = array( 'pm', _("Project Manager"), 50 );
+    if ($settings->get_boolean('manager')) {
+        $roles[] = ['pm', _("Project Manager"), 50];
     }
 
     global $Round_for_round_id_;
-    foreach ( $Round_for_round_id_ as $round )
-    {
-        if ( $round->is_a_mentor_round() )
-        {
+    foreach ($Round_for_round_id_ as $round) {
+        if ($round->is_a_mentor_round()) {
             $access_id = $round->id . "_mentor.access";
-            if ($settings->get_boolean($access_id))
-            {
+            if ($settings->get_boolean($access_id)) {
                 $label = sprintf(_("Mentor in round %s"), $round->id);
-                $roles[] = array( 'mentor', $label, 25 );
+                $roles[] = ['mentor', $label, 25];
             }
         }
     }
 
-    if ($settings->get_boolean('PP.access'))
-    {
-        $roles[] = array( 'pp', _("Post-Processor"), 25 );
+    if ($settings->get_boolean('PP.access')) {
+        $roles[] = ['pp', _("Post-Processor"), 25];
     }
 
-    if ($settings->get_boolean('DU.access'))
-    {
-        $roles[] = array( 'du', _("Direct Uploader"), 25 );
+    if ($settings->get_boolean('DU.access')) {
+        $roles[] = ['du', _("Direct Uploader"), 25];
     }
 
-    if ($settings->get_boolean('PPV.access'))
-    {
-        $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 );
+    if ($settings->get_boolean('PPV.access')) {
+        $roles[] = ['ppv', _("Post-Processing Verifier"), 25];
     }
 
-    if ($settings->get_boolean('proj_facilitator'))
-    {
-        $roles[] = array( 'pf', _("Project Facilitator"), 25 );
+    if ($settings->get_boolean('proj_facilitator')) {
+        $roles[] = ['pf', _("Project Facilitator"), 25];
     }
 
-    if ($settings->get_boolean('sitemanager'))
-    {
-        $roles[] = array( 'sa', _("Site Administrator"), 25 );
+    if ($settings->get_boolean('sitemanager')) {
+        $roles[] = ['sa', _("Site Administrator"), 25];
     }
 
     $mbrStatus = "";
-    foreach ( $roles as $role )
-    {
+    foreach ($roles as $role) {
         global $code_url;
-        list($id, $label, $icon_width) = $role;
+        [$id, $label, $icon_width] = $role;
         $icon_url = "$code_url/graphics/icon_$id.png";
         $mbrStatus .= "<img
             src='$icon_url'
@@ -206,7 +191,8 @@ function showMbrRoles($user)
     return $mbrStatus;
 }
 
-function showForumProfile($username) {
+function showForumProfile($username)
+{
     global $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
@@ -215,14 +201,11 @@ function showForumProfile($username) {
     $text = _('View');
     $viewlink = "&nbsp;[<a href='$view_url'>$text</a>]";
 
-    if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser'])
-    {
+    if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser']) {
         $edit_url = get_url_to_edit_profile();
         $text = _('Edit');
         $editlink = "&nbsp;[<a href='$edit_url'>$text</a>]";
-    }
-    else
-    {
+    } else {
         $editlink = '';
     }
 
@@ -233,12 +216,9 @@ function showForumProfile($username) {
 
     $avatar = get_url_for_user_avatar($username);
 
-    if ($avatar == NULL)
-    {
+    if ($avatar == null) {
         $rhs = "<i>" . pgettext("no avatar", "none") . "</i>";
-    }
-    else
-    {
+    } else {
         $rhs = "<img style='border: 0;' src='$avatar' alt='avatar'>";
     }
     $t->row(
@@ -246,8 +226,7 @@ function showForumProfile($username) {
         $rhs
     );
 
-    if ($bb_user["rank"] != 0)
-    {
+    if ($bb_user["rank"] != 0) {
         $bb_title = get_forum_rank_title($bb_user["rank"]);
         $t->row(
                '',
@@ -255,105 +234,112 @@ function showForumProfile($username) {
         );
     }
 
-    $t->hr( 90 );
+    $t->hr(90);
 
     $t->row(
         _("Posts"),
         $bb_user["posts"]
     );
 
-    if (!empty($bb_user["from"]))      { $t->row( _("Location"),   $bb_user["from"] ); }
-    if (!empty($bb_user["occ"]))       { $t->row( _("Occupation"), $bb_user["occ"] ); }
-    if (!empty($bb_user["interests"])) { $t->row( _("Interests"),  $bb_user["interests"] ); }
-    if (!empty($bb_user["website"]))   { $t->row( _("Website"),    "<a href='" . $bb_user["website"] . "'>".$bb_user["website"]."</a>" ); }
+    if (!empty($bb_user["from"])) {
+        $t->row(_("Location"), $bb_user["from"]);
+    }
+    if (!empty($bb_user["occ"])) {
+        $t->row(_("Occupation"), $bb_user["occ"]);
+    }
+    if (!empty($bb_user["interests"])) {
+        $t->row(_("Interests"), $bb_user["interests"]);
+    }
+    if (!empty($bb_user["website"])) {
+        $t->row(_("Website"), "<a href='" . $bb_user["website"] . "'>".$bb_user["website"]."</a>");
+    }
 
-    $t->hr( 90 );
+    $t->hr(90);
 
-    $email_data = array();
-    if($bb_user["viewemail"])
-    {
-        $email_data = array(array(
+    $email_data = [];
+    if ($bb_user["viewemail"]) {
+        $email_data = [[
             _("E-mail"),
             $bb_user["email"],
             "mailto:" . $bb_user["email"],
-            ''
-        ));
+            '',
+        ]];
     }
-    $contact_data = array(
-        array(
+    $contact_data = [
+        [
             _("Private Message"),
             $username,
             attr_safe(get_url_to_compose_message_to_user($username)),
-            ''
-        ),
-        array(
+            '',
+        ],
+        [
             "AIM",
             $bb_user["aim"],
-            NULL,
-            ''
-        ),
-        array(
+            null,
+            '',
+        ],
+        [
             "MSN",
             $bb_user["msnm"],
-            NULL,
-            ''
-        ),
-        array(
+            null,
+            '',
+        ],
+        [
             _("Yahoo Message"),
             $bb_user["yim"],
             "ymsgr:sendim?" . $bb_user["yim"],
             '',
-        ),
-        array(
+        ],
+        [
             "ICQ",
             $bb_user["icq"],
             "https://www.icq.com/people/" . $bb_user["icq"] . "/",
-            "_new"
-        ),
-        array(
+            "_new",
+        ],
+        [
             "Facebook",
             @$bb_user["facebook"],
             "https://www.facebook.com/" . @$bb_user["facebook"],
-            "_new"
-        ),
-        array(
+            "_new",
+        ],
+        [
             "Twitter",
             @$bb_user["twitter"],
             "https://www.twitter.com/" . @$bb_user["twitter"],
-            "_new"
-        ),
-        array(
+            "_new",
+        ],
+        [
             "Google+",
             @$bb_user["googleplus"],
             "https://plus.google.com/" . (preg_match('/^\d{20,}$/', trim(@$bb_user["googleplus"])) ? "" : "+") . @$bb_user["googleplus"],
-            "_new"
-        ),
-        array(
+            "_new",
+        ],
+        [
             "Skype",
             @$bb_user["skype"],
             "skype:" . @$bb_user["skype"] . "?userinfo",
             '',
-        ),
-        array(
+        ],
+        [
             "YouTube",
             @$bb_user["youtube"],
             "http://youtube.com/user/" . @$bb_user["youtube"],
-            "_new"
-        ),
-    );
+            "_new",
+        ],
+    ];
 
     $output_data = $email_data + $contact_data;
 
-    foreach ( $output_data as $contact )
-    {
-        list( $label, $value, $url, $target ) = $contact;
+    foreach ($output_data as $contact) {
+        [$label, $value, $url, $target] = $contact;
 
-        if (!$value) continue;
+        if (!$value) {
+            continue;
+        }
 
         $output = $value;
-        if($url)
-        {
-            $target_str = ( empty($target) ? '' : " target='$target'" );
+        if ($url) {
+            $target_str = (empty($target) ? '' : " target='$target'");
             $output = "<a href='$url'$target_str>$value</a>";
         }
 
@@ -368,33 +354,32 @@ function showForumProfile($username) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrAccess( $user )
+function showMbrAccess($user)
 {
-    if (!user_can_see_user_access_chart_of($user->username)) return;
+    if (!user_can_see_user_access_chart_of($user->username)) {
+        return;
+    }
 
     echo "<i>(";
     echo _('This chart is not generally visible.');
     echo ")</i><br>\n";
 
-    show_user_access_chart( $user->username );
+    show_user_access_chart($user->username);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrTallySelector( $u_id, $tally_name )
+function showMbrTallySelector($u_id, $tally_name)
 {
     $choices = '';
     $page_tally_names = get_page_tally_names();
-    foreach ( $page_tally_names as $t_name => $t_title )
-    {
-        if (!empty($choices))
-        {
+    foreach ($page_tally_names as $t_name => $t_title) {
+        if (!empty($choices)) {
             $choices .= " | ";
         }
 
         $text = $t_name;
-        if ($t_name != $tally_name)
-        {
+        if ($t_name != $tally_name) {
             $text = "<a href='mdetail.php?id=$u_id&amp;tally_name=$t_name'>$text</a>";
         }
         $choices .= $text;
@@ -407,7 +392,9 @@ function showMbrTallySelector( $u_id, $tally_name )
     echo "\n";
     echo "<hr style='width: 95%;'>";
 
-    if ( is_null($tally_name) ) return;
+    if (is_null($tally_name)) {
+        return;
+    }
 
     $tally_title = $page_tally_names[$tally_name];
     echo "\n";
@@ -418,11 +405,11 @@ function showMbrTallySelector( $u_id, $tally_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrPageStats( $user, $tally_name )
+function showMbrPageStats($user, $tally_name)
 {
-    $users_tallyboard = new TallyBoard( $tally_name, 'U' );
+    $users_tallyboard = new TallyBoard($tally_name, 'U');
 
-    $vitals = $users_tallyboard->get_vitals( $user->u_id );
+    $vitals = $users_tallyboard->get_vitals($user->u_id);
 
     $now = time();
 
@@ -433,33 +420,28 @@ function showMbrPageStats( $user, $tally_name )
     $site_R_apocalypse = 1117576800;
     $site_P_genesis = 1117720800;
 
-    if ($tally_name == "R*")
-    {
+    if ($tally_name == "R*") {
         $firstWorkInRound = $user->date_created;
-        $daysInRoundInteger = floor(($site_R_apocalypse - $firstWorkInRound)/86400);
-    }
-    elseif ($tally_name == "P1")
-    {
+        $daysInRoundInteger = floor(($site_R_apocalypse - $firstWorkInRound) / 86400);
+    } elseif ($tally_name == "P1") {
         $firstWorkInRound = ($user->date_created > $site_P_genesis) ? $user->date_created : $site_P_genesis;
-        $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
-    }
-    else
-    {
-        $firstWorkInRound = get_first_granted_date($user->username,$tally_name);
+        $daysInRoundInteger = floor(($now - $firstWorkInRound) / 86400);
+    } else {
+        $firstWorkInRound = get_first_granted_date($user->username, $tally_name);
         if ($firstWorkInRound) {
-            $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
+            $daysInRoundInteger = floor(($now - $firstWorkInRound) / 86400);
         } else {
             $daysInRoundInteger = 0;
         }
     }
 
-    $daysInRoundString = sprintf(_("%s days"), 
+    $daysInRoundString = sprintf(_("%s days"),
         number_format($daysInRoundInteger)); // '1,234 days' (not localized)
 
-    $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
+    $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp - 1));
 
     if ($daysInRoundInteger > 0) {
-        $daily_Average = $vitals->current_tally/$daysInRoundInteger;
+        $daily_Average = $vitals->current_tally / $daysInRoundInteger;
     } else {
         $daily_Average = 0;
     }
@@ -469,12 +451,9 @@ function showMbrPageStats( $user, $tally_name )
         _("Page Statistics")
     );
 
-    if ($firstWorkInRound != 0)
-    {
+    if ($firstWorkInRound != 0) {
         $round_row = date("m/d/Y", $firstWorkInRound) . "&nbsp;($daysInRoundString)";
-    }
-    else
-    {
+    } else {
         $round_row = '--';
     }
 
@@ -493,7 +472,7 @@ function showMbrPageStats( $user, $tally_name )
     $t->row(
         _("Highest Rank"),
         number_format($vitals->best_rank)
-        . "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp-1) . ")</i>"
+        . "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp - 1) . ")</i>"
         . "&nbsp;" . showChangeInRank($vitals->best_rank, $vitals->current_rank)
     );
     $t->row(
@@ -509,42 +488,40 @@ function showMbrPageStats( $user, $tally_name )
     $t->end();
 }
 
-function showMbrNeighbors($user, $tally_name) {
+function showMbrNeighbors($user, $tally_name)
+{
     global $site_abbreviation;
     $now = time();
 
     $t = new ThemedTable(
         4,
         _("Neighbors"),
-        array('theme_striped' => TRUE)
+        ['theme_striped' => true]
     );
-    $t->set_column_widths( 15, 28, 28, 29 );
+    $t->set_column_widths(15, 28, 28, 29);
     $t->column_headers(
         _("Rank"),
         _("Username"),
-        sprintf(_("Date Joined %s"),$site_abbreviation),
+        sprintf(_("Date Joined %s"), $site_abbreviation),
         _("Overall Pages Completed")
     );
 
     $neighbors =
         user_get_page_tally_neighborhood(
-            $tally_name, $user->username, 4 );
-    foreach ( $neighbors as $rel_posn => $neighbor )
-    {
+            $tally_name, $user->username, 4);
+    foreach ($neighbors as $rel_posn => $neighbor) {
         $rank = $neighbor->get_current_page_tally_rank();
         $pagescompleted = number_format($neighbor->get_current_page_tally());
 
         if (!$neighbor->is_anonymized()) {
-
             $u_id = $neighbor->get_u_id();
             $username = $neighbor->get_username();
             $date_created = $neighbor->get_date_joined();
 
             $username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&amp;tally_name=$tally_name'>$username</a>";
             $day_html = date("m/d/Y", $date_created)." <i>("
-                . sprintf(_("%s days"), number_format(floor(($now - $date_created)/86400)))
+                . sprintf(_("%s days"), number_format(floor(($now - $date_created) / 86400)))
                 . ")</i>";
-
         } else {
             $username_html = "Anonymous";
             $day_html = "--/--/-- <i>(" . sprintf(_("%s days"), '---') .")</i>";
@@ -565,15 +542,16 @@ function showMbrTeams($user)
     global $code_url;
 
     $user_teams = $user->load_teams();
-    if(!$user_teams)
+    if (!$user_teams) {
         return;
+    }
 
     $t = new ThemedTable(
         2,
         _("Teams"),
-        array('theme_striped' => TRUE)
+        ['theme_striped' => true]
     );
-    $t->set_column_widths( 50, 50 );
+    $t->set_column_widths(50, 50);
     $t->column_headers(
         _("Team Name"),
         _("Active Members")
@@ -587,7 +565,7 @@ function showMbrTeams($user)
     ", implode(",", $user_teams));
     $result = DPDatabase::query($sql);
 
-    while (list($tid, $teamname) = mysqli_fetch_row($result)) {
+    while ([$tid, $teamname] = mysqli_fetch_row($result)) {
         $url = "$code_url/stats/teams/tdetail.php?tid=$tid";
         $t->row(
             "<a href='$url'>" . html_safe($teamname) . "</a>",
@@ -598,25 +576,24 @@ function showMbrTeams($user)
     $t->end();
 }
 
-function showMbrHistory($user, $tally_name) {
-
+function showMbrHistory($user, $tally_name)
+{
     if (@$_GET['range'] == 'all') {
         $range = 'all';
     } else {
         $range = get_integer_param($_GET, 'range', 30, 1, null);
     }
 
-    $choices = array();
+    $choices = [];
     $u_id = $user->u_id;
-    foreach( array( 7, 14, 30, 60, 365, 'all' ) as $d )
-    {
+    foreach ([7, 14, 30, 60, 365, 'all'] as $d) {
         $text =
             ($d == 'all')
             ? _('Lifetime')
-            : sprintf( _('Last %d Days'), $d );
+            : sprintf(_('Last %d Days'), $d);
         $choices[] = "<a href='mdetail.php?id=$u_id&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
-    $choices_str = join( ' | ', $choices );
+    $choices_str = join(' | ', $choices);
 
     $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=U&amp;holder_id=$u_id&amp;days_back=$range";
 
@@ -630,5 +607,3 @@ function showMbrHistory($user, $tally_name) {
     );
     $t->end();
 }
-
-?>

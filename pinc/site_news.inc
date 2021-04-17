@@ -2,22 +2,21 @@
 include_once($relPath.'stages.inc');
 include_once($relPath.'misc.inc');
 
-$NEWS_PAGES = array(
-    'GLOBAL'  => _('Global'),
-    'FRONT'   => _('Front Page'),
-    'FAQ'     => _('FAQ Central'),
-    'HUB'     => _('Activity Hub'),
-    'STATS'   => _('Stats Central'),
-    'SR'      => _('Smooth Reading'),
+$NEWS_PAGES = [
+    'GLOBAL' => _('Global'),
+    'FRONT' => _('Front Page'),
+    'FAQ' => _('FAQ Central'),
+    'HUB' => _('Activity Hub'),
+    'STATS' => _('Stats Central'),
+    'SR' => _('Smooth Reading'),
     'SR_PREV' => _('Smooth Reading Preview'),
-    'PM'      => _('Project Management'),
-);
-foreach ( $Stage_for_id_ as $stage_id => $stage )
-{
+    'PM' => _('Project Management'),
+];
+foreach ($Stage_for_id_ as $stage_id => $stage) {
     $NEWS_PAGES[$stage_id] = $stage->name;
 }
 
-function get_news_subject( $news_page_id )
+function get_news_subject($news_page_id)
 {
     global $NEWS_PAGES;
     return $NEWS_PAGES[$news_page_id];
@@ -25,7 +24,7 @@ function get_news_subject( $news_page_id )
 
 // -----------------------------------------------------------------------------
 
-function get_news_page_last_modified_date( $news_page_id )
+function get_news_page_last_modified_date($news_page_id)
 {
     $sql = sprintf("
         SELECT t_last_change
@@ -35,20 +34,17 @@ function get_news_page_last_modified_date( $news_page_id )
     $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($res);
-    if (!$row)
-    {
+    if (!$row) {
         // The news_pages table does not have an entry for $news_page_id.
-        return NULL;
-    }
-    else
-    {
+        return null;
+    } else {
         return $row['t_last_change'];
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function show_news_for_page( $news_page_id )
+function show_news_for_page($news_page_id)
 // Show the news block for the given page, consisting of:
 // -- a header,
 // -- all the 'current' news items,
@@ -61,7 +57,7 @@ function show_news_for_page( $news_page_id )
     $user_locale = get_desired_language();
 
     $news_subject = get_news_subject($news_page_id);
-    
+
     // -------------------------------------------
 
     // Get the set of 'current' news items
@@ -93,8 +89,7 @@ function show_news_for_page( $news_page_id )
     // -------------------------------------------
 
     if (mysqli_num_rows($res_current) > 0 || mysqli_num_rows($res_random) > 0
-        || ( user_is_a_sitemanager() or user_is_site_news_editor()))
-    {
+        || (user_is_a_sitemanager() or user_is_site_news_editor())) {
         // We have at least one news item to show, or are an SA or news editor,
         // so display the news header.
 
@@ -102,23 +97,19 @@ function show_news_for_page( $news_page_id )
 
         echo "<div class='newsupdated'>";
         echo "<small>";
-        if ( user_is_a_sitemanager() or user_is_site_news_editor())
-        {
+        if (user_is_a_sitemanager() or user_is_site_news_editor()) {
             $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
             $linktext = _("Update News");
             echo "<a href='$url'>$linktext</a> - ";
         }
 
-        $date_changed = get_news_page_last_modified_date( $news_page_id );
-        if ( is_null($date_changed) )
-        {
+        $date_changed = get_news_page_last_modified_date($news_page_id);
+        if (is_null($date_changed)) {
             // This probably shouldn't happen.
-        }
-        else
-        {
+        } else {
             // TRANSLATORS: this is a strftime-formatted string
             $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo sprintf( _("last changed %s"), $formatted_date );
+            echo sprintf(_("last changed %s"), $formatted_date);
         }
         echo "</small>";
         echo "</div>";
@@ -128,12 +119,10 @@ function show_news_for_page( $news_page_id )
         // -------------------------------------------
         // Output the 'current' news items, if any.
 
-        while ($news_item = mysqli_fetch_assoc($res_current))
-        {
+        while ($news_item = mysqli_fetch_assoc($res_current)) {
             echo "<div class='newsitem'>";
 
-            if($news_item['header'])
-            {
+            if ($news_item['header']) {
                 echo "<div class='news-header news-{$news_item['item_type']}'>";
                 echo $news_item['header'];
                 echo "</div>";
@@ -150,12 +139,10 @@ function show_news_for_page( $news_page_id )
         // Output the 'random' news item, if any.
 
         $news_item = mysqli_fetch_assoc($res_random);
-        if($news_item)
-        {
+        if ($news_item) {
             echo "<div class='newsitem'>";
 
-            if($news_item['header'])
-            {
+            if ($news_item['header']) {
                 echo "<div class='news-header news-{$news_item['item_type']}'>";
                 echo $news_item['header'];
                 echo "</div>";
@@ -174,4 +161,3 @@ function show_news_for_page( $news_page_id )
         echo "</div>"; // div.news
     }
 }
-

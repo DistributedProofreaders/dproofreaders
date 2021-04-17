@@ -12,24 +12,21 @@ class ApiRouter
 
     public function add_route($method, $url, $function)
     {
-        # Confirm the function is defined or raise an assert exception
+        // Confirm the function is defined or raise an assert exception
         assert(function_exists($function), "$function not defined");
 
         $url_map = &$this->_url_map;
         $parts = explode("/", $url);
-        foreach($parts as $part)
-        {
-            # If this is a param placeholder, confirm there is a validator
-            # for it.
-            if(startswith($part, ":"))
-            {
+        foreach ($parts as $part) {
+            // If this is a param placeholder, confirm there is a validator
+            // for it.
+            if (startswith($part, ":")) {
                 assert(
                     isset($this->_validators[$part]),
                     "No validator specified for $part"
                 );
             }
-            if(!isset($url_map[$part]))
-            {
+            if (!isset($url_map[$part])) {
                 $url_map[$part] = [];
             }
             $url_map = &$url_map[$part];
@@ -42,26 +39,20 @@ class ApiRouter
         $url_map = &$this->_url_map;
         $data = [];
         $parts = explode("/", $url);
-        foreach($parts as $part)
-        {
-            if(isset($url_map[$part]))
-            {
+        foreach ($parts as $part) {
+            if (isset($url_map[$part])) {
                 $url_map = &$url_map[$part];
-            }
-            else
-            {
-                list($param_name, $validator) = $this->get_validator($url_map);
+            } else {
+                [$param_name, $validator] = $this->get_validator($url_map);
                 $url_map = &$url_map[$param_name];
                 $data[$param_name] = $validator($part, $data);
             }
         }
-        if(!isset($url_map["endpoint"]))
-        {
+        if (!isset($url_map["endpoint"])) {
             throw new InvalidAPI();
         }
         $method = $_SERVER["REQUEST_METHOD"];
-        if(!isset($url_map["endpoint"][$method]))
-        {
+        if (!isset($url_map["endpoint"][$method])) {
             throw new MethodNotAllowed();
         }
         $function = $url_map["endpoint"][$method];
@@ -75,21 +66,20 @@ class ApiRouter
 
     private function get_validator($url_map)
     {
-        foreach(array_keys($url_map) as $route)
-        {
-            if(startswith($route, ":"))
-            {
+        foreach (array_keys($url_map) as $route) {
+            if (startswith($route, ":")) {
                 return [$route, $this->_validators[$route]];
             }
         }
         throw new InvalidAPI();
     }
 
-    static public function get_router()
+    public static function get_router()
     {
-        static $router = NULL;
-        if(!$router)
+        static $router = null;
+        if (!$router) {
             $router = new ApiRouter();
+        }
         return $router;
     }
 }

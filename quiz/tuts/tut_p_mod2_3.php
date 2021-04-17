@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -12,4 +12,3 @@ echo "<h3>" . _("Accented/Non-ASCII Characters") . "</h3>\n";
 echo "<p>" . _("The œ character (oe ligature) should be inserted into the proofread text, just like other special characters.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_3'>" . _("Continue to quiz page") . "</a></p>\n";
-

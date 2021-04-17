@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -19,7 +19,7 @@ $psd = get_project_status_descriptor($which);
 
 $todaysTimeStamp = time();
 
-$year  = date("Y", $todaysTimeStamp);
+$year = date("Y", $todaysTimeStamp);
 $month = date("m", $todaysTimeStamp);
 $monthVar = _(date("F", $todaysTimeStamp));
 $timeframe = "$monthVar $year";
@@ -35,19 +35,18 @@ $result = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY date
 ");
 
-list($datax,$y_num_projects) = dpsql_fetch_columns($result);
+[$datax, $y_num_projects] = dpsql_fetch_columns($result);
 
 // get base level, total at beginning of 1st day of month
     // snapshot is taken just after midnight,
     // so day = 1 has total at beginning of month
     // Subtract that base level from each subsequent day's value
 $datay1 = array_subtract_first_from_each($y_num_projects);
-array_shift( $datay1 );
+array_shift($datay1);
 
 // Pad out the rest of the month
-for ( $i = count($datay1); $i < $maxday; $i++ )
-{
-    $datax[$i] = $i+1;
+for ($i = count($datay1); $i < $maxday; $i++) {
+    $datax[$i] = $i + 1;
     $datay1[$i] = "";
 }
 
@@ -59,4 +58,3 @@ draw_projects_graph(
     $psd->color,
     "$psd->cumulative_title ($timeframe)"
 );
-

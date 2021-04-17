@@ -1,17 +1,18 @@
 <?php
 include_once($relPath."misc.inc"); // html_safe()
 
-$months = array( _('Unknown'),
-                 _('January'), _('February'), _('March'),
-                 _('April'), _('May'), _('June'),
-                 _('July'), _('August'), _('September'),
-                 _('October'), _('November'), _('December') );
+$months = [_('Unknown'),
+    _('January'), _('February'), _('March'),
+    _('April'), _('May'), _('June'),
+    _('July'), _('August'), _('September'),
+    _('October'), _('November'), _('December'), ];
 
 // Arguments: the data to be displayed. If $author_id is FALSE, no biographies will be displayed.
 // If $author_id is not FALSE, all biographies that apply to that author id will be listed
 // and a link to the xml data will be provided.
-function echo_author($last_name, $other_names, $born, $dead, $author_id) {
-    $name = $last_name . ($other_names!='' ? ", $other_names" : '');
+function echo_author($last_name, $other_names, $born, $dead, $author_id)
+{
+    $name = $last_name . ($other_names != '' ? ", $other_names" : '');
 
     echo "<h2>" . html_safe($name);
     if ($author_id) {
@@ -32,11 +33,10 @@ function echo_author($last_name, $other_names, $born, $dead, $author_id) {
         $row = mysqli_fetch_assoc($result);
         $bio_id = $row["bio_id"];
         if ($numrow == 1) {
-            echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'),$bio_id) . "</a></td></tr>\n";
-        }
-        elseif ($numrow > 1) {
+            echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'), $bio_id) . "</a></td></tr>\n";
+        } elseif ($numrow > 1) {
             echo "<tr><th rowspan=\"$numrow\" class=\"top-align\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
-            while($row = mysqli_fetch_assoc($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
                 $bio_id = $row["bio_id"];
                 echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a></td></tr>\n";
             }
@@ -47,46 +47,51 @@ function echo_author($last_name, $other_names, $born, $dead, $author_id) {
 // end echo_author
 
 // $bd is 'b' or 'd'
-function format_date_from_sqlset($row, $bd) {
+function format_date_from_sqlset($row, $bd)
+{
     $date = format_ymd($row[$bd.'year'], $row[$bd.'month'], $row[$bd.'day']);
     $comments = $row[$bd."comments"];
 
     if ($date == null) {
-        if ($comments == '')
+        if ($comments == '') {
             return _('Unknown');
-        else
+        } else {
             return $comments;
-    }
-    else {
-        if ($comments == '')
+        }
+    } else {
+        if ($comments == '') {
             return $date;
-        else
+        } else {
             return "$date $comments";
+        }
     }
 }
 
 // $bd is 'b' or 'd'
-function format_date_from_array($row, $bd) {
+function format_date_from_array($row, $bd)
+{
     return format_date($row[$bd.'year'],
                        $row[$bd.'month'],
                        $row[$bd.'day'],
                        $row[$bd.'comments']);
 }
 
-function format_date($year, $month, $day, $comments) {
+function format_date($year, $month, $day, $comments)
+{
     $date = format_ymd($year, $month, $day);
 
     if ($date == null) {
-       if ($comments == '')
-          return _('Unknown');
-       else
-          return $comments;
-    }
-    else {
-        if ($comments == '')
+        if ($comments == '') {
+            return _('Unknown');
+        } else {
+            return $comments;
+        }
+    } else {
+        if ($comments == '') {
             return $date;
-        else
+        } else {
             return "$date $comments";
+        }
     }
 }
 
@@ -99,33 +104,37 @@ function format_date($year, $month, $day, $comments) {
 //   null
 // Years < 0 : Add B. C.
 // Years > 0 : Add A. D. if it's year 150 or earlier (this limit is very subjective).
-function format_ymd($y, $m, $d) {
+function format_ymd($y, $m, $d)
+{
     global $months;
     // one-letter variables contain database data
     // multi-letters variables contain formatted data
-    if ($y > 150)
-       $year = $y;
-    else if ($y > 0)
-       // TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
-       $year = $y . ' ' . _('A. D.');
-    else if ($y < 0)
-       // TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
-       $year = -$y . ' ' . _('B. C.');
-    else
-       // Year unknown = Everything unknown
+    if ($y > 150) {
+        $year = $y;
+    } elseif ($y > 0) {
+        // TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
+        $year = $y . ' ' . _('A. D.');
+    } elseif ($y < 0) {
+        // TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
+        $year = -$y . ' ' . _('B. C.');
+    } else {
+        // Year unknown = Everything unknown
         return null;
+    }
 
-    if ($m > 0)
+    if ($m > 0) {
         $month = $months[$m];
-    else
+    } else {
         // Month unknown = Only year known
         return $year;
+    }
 
-    if ($d > 0)
+    if ($d > 0) {
         $day = $d;
-    else
+    } else {
         // Day unknown = Year & Month known
         return $month . ', ' . $year;
+    }
 
     // Everything known
     return $month . ' ' . $day . ', ' . $year;
@@ -135,10 +144,12 @@ function format_ymd($y, $m, $d) {
 
 // $echo_header-argument should be true if the calling script has not yet output a header.
 
-function abort_if_not_authors_db_manager($echo_header = false) {
+function abort_if_not_authors_db_manager($echo_header = false)
+{
     if (!user_is_authors_db_manager()) {
-        if ($echo_header)
+        if ($echo_header) {
             output_header(_('Sorry!'));
+        }
         echo "<h2 class='center-align'>" . _('Sorry!') . "</h2>";
         echo _('You do not have permission to access this page.
                 If you believe you should, please contact a system administrator.');
@@ -146,10 +157,12 @@ function abort_if_not_authors_db_manager($echo_header = false) {
     }
 }
 
-function abort_if_not_authors_db_editor($echo_header = false) {
+function abort_if_not_authors_db_editor($echo_header = false)
+{
     if (!user_is_authors_db_editor()) {
-        if ($echo_header)
+        if ($echo_header) {
             output_header(_('Sorry!'));
+        }
         echo "<h2 class='center-align'>" . _('Sorry!') . "</h2>";
         echo _('You do not have permission to access this page.
                 If you believe you should, please contact a system administrator.');

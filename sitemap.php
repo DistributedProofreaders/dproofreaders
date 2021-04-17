@@ -13,34 +13,34 @@ header('Content-type: application/xml; charset=utf-8');
 
 // see https://en.wikipedia.org/wiki/Sitemaps#File_format
 echo <<<XML_HEADER
-<?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <?xml version="1.0" encoding="utf-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-XML_HEADER;
+    XML_HEADER;
 
 // sitemaps are limited to 50k URLs, so we need to keep track of how many
 // we output and stop when we get to that number
 $MAX_URLS = 50000;
 $url_count = 0;
 
-foreach($fixed_pages as $page => $frequency)
-{
-    if($url_count >= $MAX_URLS)
+foreach ($fixed_pages as $page => $frequency) {
+    if ($url_count >= $MAX_URLS) {
         break;
+    }
 
     $url = "$code_url/$page";
     $lastmod = strftime("%Y-%m-%d", filemtime("$code_dir/$page"));
     echo <<<URL
-    <url>
-        <loc>$url</loc>
-        <lastmod>$lastmod</lastmod>
-        <changefreq>$frequency</changefreq>
-        <priority>1.0</priority>
-    </url>
+            <url>
+                <loc>$url</loc>
+                <lastmod>$lastmod</lastmod>
+                <changefreq>$frequency</changefreq>
+                <priority>1.0</priority>
+            </url>
 
-URL;
+        URL;
     $url_count += 1;
 }
 
@@ -57,30 +57,31 @@ $sql = "
     ORDER BY $order_by
 ";
 $result = mysqli_query(DPDatabase::get_connection(), $sql);
-while($row = mysqli_fetch_assoc($result))
-{
-    if($url_count >= $MAX_URLS)
+while ($row = mysqli_fetch_assoc($result)) {
+    if ($url_count >= $MAX_URLS) {
         break;
+    }
 
     // skip entries with no modifieddate
-    if($row["modifieddate"] == 0)
+    if ($row["modifieddate"] == 0) {
         continue;
+    }
 
     $url = "$code_url/project.php?id=" . $row["projectid"];
     $lastmod = strftime("%Y-%m-%d", $row["modifieddate"]);
 
     echo <<<URL
-    <url>
-        <loc>$url</loc>
-        <lastmod>$lastmod</lastmod>
-        <priority>0.5</priority>
-    </url>
+            <url>
+                <loc>$url</loc>
+                <lastmod>$lastmod</lastmod>
+                <priority>0.5</priority>
+            </url>
 
-URL;
+        URL;
     $url_count += 1;
 }
 
 echo <<<XML_FOOTER
-</urlset>
+    </urlset>
 
-XML_FOOTER;
+    XML_FOOTER;

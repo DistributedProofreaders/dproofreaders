@@ -162,23 +162,18 @@ function show_a_table_of_bads($desired_badness)
         </tr>
     ";
     global $_bad_byte_sequences;
-    foreach ($_bad_byte_sequences as $raw => $remarks)
-    {
-        list($code_point, $why_bad) = $remarks;
-        if (startswith($desired_badness, '/'))
-        {
+    foreach ($_bad_byte_sequences as $raw => $remarks) {
+        [$code_point, $why_bad] = $remarks;
+        if (startswith($desired_badness, '/')) {
             $matches = preg_match($desired_badness, $why_bad);
-        }
-        else
-        {
+        } else {
             $matches = str_contains($why_bad, $desired_badness);
         }
-        if ($matches)
-        {
+        if ($matches) {
             echo "<tr>", tds_for_bad_bytes($raw), "</tr>\n";
         }
     }
     echo "</table>\n";
 }
 
-# vim: sw=4 ts=4 expandtab
+// vim: sw=4 ts=4 expandtab

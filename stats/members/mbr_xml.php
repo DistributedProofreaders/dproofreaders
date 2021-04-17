@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'misc.inc'); // xmlencode()
@@ -13,7 +13,7 @@ require_login();
 
 $username = @$_GET['username'];
 $user = new User($username);
-$forum_profile= get_forum_user_details($username);
+$forum_profile = get_forum_user_details($username);
 
 //Try our best to make sure no browser caches the page
 header("Content-Type: text/xml; charset=$charset");
@@ -24,14 +24,13 @@ header("Pragma: no-cache");
 
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
-    
+
 $now = time();
-$daysInExistence = floor(($now - $user->date_created)/86400);
+$daysInExistence = floor(($now - $user->date_created) / 86400);
 
 
 //User info
-if ($user->u_privacy == PRIVACY_PRIVATE)
-{
+if ($user->u_privacy == PRIVACY_PRIVATE) {
     echo "
         <userinfo id='$user->u_id'>
             <username>".xmlencode($user->username)."</username>
@@ -43,21 +42,20 @@ if ($user->u_privacy == PRIVACY_PRIVATE)
             <website>".xmlencode($forum_profile['website'])."</website>";
 
 
-    foreach ( get_page_tally_names() as $tally_name => $tally_title )
-    {
-        $tallyboard = new TallyBoard( $tally_name, 'U' );
+    foreach (get_page_tally_names() as $tally_name => $tally_title) {
+        $tallyboard = new TallyBoard($tally_name, 'U');
 
         $current_page_tally = $tallyboard->get_current_tally($user->u_id);
         $currentRank = $tallyboard->get_rank($user->u_id);
 
-        list($bestDayCount,$bestDayTimestamp) =
+        [$bestDayCount, $bestDayTimestamp] =
             $tallyboard->get_info_re_largest_delta($user->u_id);
-        $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
+        $bestDayTime = date("M. jS, Y", ($bestDayTimestamp - 1));
 
         if ($daysInExistence > 0) {
-                $daily_Average = $current_page_tally/$daysInExistence;
+            $daily_Average = $current_page_tally / $daysInExistence;
         } else {
-                $daily_Average = 0;
+            $daily_Average = 0;
         }
 
         echo "
@@ -75,11 +73,11 @@ if ($user->u_privacy == PRIVACY_PRIVATE)
     echo "
         </userinfo>";
 
-//Team info
+    //Team info
     echo "
         <teaminfo>";
     $user_teams = $user->load_teams();
-    if($user_teams) {
+    if ($user_teams) {
         $teams_clause = implode(",", $user_teams);
         $result = select_from_teams("id IN ($teams_clause)");
         while ($row = mysqli_fetch_assoc($result)) {
@@ -96,4 +94,3 @@ if ($user->u_privacy == PRIVACY_PRIVATE)
 
 echo "
 </memberstats>";
-

@@ -1,14 +1,14 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names() get_pages_per_day_for_past_n_days
 include_once('common.inc');
 
 $valid_tally_names = array_keys(get_page_tally_names());
-$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
-$holder_type  = get_enumerated_param($_GET, 'holder_type', null, array('U', 'T'));
-$holder_id    = get_integer_param($_GET, 'holder_id', null, 0, null);
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$holder_type = get_enumerated_param($_GET, 'holder_type', null, ['U', 'T']);
+$holder_id = get_integer_param($_GET, 'holder_id', null, 0, null);
 if (@$_GET['days_back'] == 'all') {
     $days_back = 'all';
 } else {
@@ -25,14 +25,14 @@ $pages_per_day = get_pages_per_day_for_past_n_days($tally_name, $holder_type, $h
 $datax = array_keys($pages_per_day);
 $datay = array_values($pages_per_day);
 
-$x_text_tick_interval = calculate_text_tick_interval( 'daily', count($datax) );
+$x_text_tick_interval = calculate_text_tick_interval('daily', count($datax));
 
-if (empty($datax) || empty($datay))
-{
-    if($holder_type == 'U')
+if (empty($datax) || empty($datay)) {
+    if ($holder_type == 'U') {
         $error = _("This user has not completed any pages in this round.");
-    else
+    } else {
         $error = _("This team has not completed any pages in this round.");
+    }
     dpgraph_error($error, 600, 300);
     die;
 }
@@ -45,4 +45,3 @@ draw_simple_bar_graph(
     _('Pages Completed per Day'),
     _('Pages')
 );
-

@@ -1,5 +1,5 @@
 <?php
-$relPath="./pinc/";
+$relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -28,21 +28,17 @@ echo "<p>" . _("The following open source dependencies are used by the dproofrea
 $credit_details = load_composer_credit_details($code_dir);
 output_credit_details($credit_details);
 
-#----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 function output_credit_details($credit_details)
 {
     echo "<ul>";
-    foreach($credit_details as $detail)
-    {
+    foreach ($credit_details as $detail) {
         echo "<li>";
         echo "<b><a href='" . $detail["url"] . "'>" . html_safe($detail["name"]) . "</a></b><br>";
-        if(isset($detail["license_url"]))
-        {
+        if (isset($detail["license_url"])) {
             echo _("License") . ": <a href='" . $detail["license_url"] . "'>" . html_safe($detail["license"]) . "</a>";
-        }
-        else
-        {
+        } else {
             echo _("License") . ": " . html_safe($detail["license"]);
         }
         echo "</li>";
@@ -55,16 +51,16 @@ function load_bundled_credit_details($code_dir)
     $credit_details = [];
     $dir_iter = new PermissiveRecursiveDirectoryIterator($code_dir);
     $files = new RecursiveIteratorIterator($dir_iter);
-    foreach($files as $file_info)
-    {
+    foreach ($files as $file_info) {
         $file = $file_info->getPathname();
-        if(basename($file) != "details.json")
+        if (basename($file) != "details.json") {
             continue;
-        $details = json_decode(file_get_contents($file), TRUE);
-        if(isAssoc($details))
-            $details = [ $details ];
-        foreach($details as $detail)
-        {
+        }
+        $details = json_decode(file_get_contents($file), true);
+        if (isAssoc($details)) {
+            $details = [$details];
+        }
+        foreach ($details as $detail) {
             $credit_details[$detail["name"]] = $detail;
         }
     }
@@ -78,8 +74,7 @@ function load_composer_credit_details()
     global $code_dir;
 
     $packages = json_decode(file_get_contents("$code_dir/composer.lock"));
-    foreach($packages->packages as $index => $package)
-    {
+    foreach ($packages->packages as $index => $package) {
         $credit_details[$package->name] = [
             "name" => $package->name,
             "url" => $package->homepage,
@@ -91,22 +86,26 @@ function load_composer_credit_details()
     return $credit_details;
 }
 
-# Ignore exceptions when iterating over the directory, such as permission
-# errors from SETUP/
-# from antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
-class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator {
-    function getChildren() {
+// Ignore exceptions when iterating over the directory, such as permission
+// errors from SETUP/
+// from antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
+class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator
+{
+    public function getChildren()
+    {
         try {
             return new PermissiveRecursiveDirectoryIterator($this->getPathname());
-        } catch(UnexpectedValueException $e) {
-            return new RecursiveArrayIterator(array());
+        } catch (UnexpectedValueException $e) {
+            return new RecursiveArrayIterator([]);
         }
     }
 }
 
-# https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+// https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
 function isAssoc(array $arr)
 {
-    if (array() === $arr) return false;
+    if ([] === $arr) {
+        return false;
+    }
     return array_keys($arr) !== range(0, count($arr) - 1);
 }

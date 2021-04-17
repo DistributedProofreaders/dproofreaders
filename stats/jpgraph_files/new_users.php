@@ -1,28 +1,28 @@
 <?php
 // Graph the number of user registered per day.
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once('common.inc');
 
-$time_interval_options = array(
-    'day' => array(
+$time_interval_options = [
+    'day' => [
         'format' => '%Y-%b-%d',
         'title' => _("Number of users registered per day"),
-    ),
-    'week' => array(
+    ],
+    'week' => [
         'format' => '%Y-%U',
         'title' => _("Number of users registered per week"),
-    ),
-    'month' => array(
+    ],
+    'month' => [
         'format' => '%Y-%M',
         'title' => _("Number of users registered per month"),
-    ),
-    'year' => array(
+    ],
+    'year' => [
         'format' => '%Y',
         'title' => _("Number of users registered per year"),
-    ),
-);
+    ],
+];
 
 $time_interval = get_enumerated_param($_GET, 'time_interval', 'day', array_keys($time_interval_options));
 $date_format = $time_interval_options[$time_interval]['format'];
@@ -37,7 +37,7 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY date_created
 ") or die(DPDatabase::log_error());
 
-list($datax, $datay) = dpsql_fetch_columns($res);
+[$datax, $datay] = dpsql_fetch_columns($res);
 
 $tick = calculate_text_tick_interval('daily', count($datay));
 
@@ -49,4 +49,3 @@ draw_simple_bar_graph(
     $title,
     _('# users')
 );
-

@@ -20,26 +20,21 @@ function output_small_header($quiz)
 
     // XXX localization bug:
     // $guide_url should point to the locale-appropriate version of the guidelines.
-    if ($quiz->activity_type == "format")
-    {
+    if ($quiz->activity_type == "format") {
         $guide_url = get_faq_url("formatting_guidelines.php");
         $guide_text = _("Formatting Guidelines");
-    }
-    elseif ($quiz->activity_type == "proof")
-    {
+    } elseif ($quiz->activity_type == "proof") {
         $guide_url = get_faq_url("proofreading_guidelines.php");
         $guide_text = _("Proofreading Guidelines");
-    }
-    else
-    {
+    } else {
         $guide_url = get_faq_url("faq_central.php");
         $guide_text = _("Help");
     }
 
-    $links = array(
-        array('text' => $site_abbreviation, 'url' => "$code_url/default.php", 'target' => '_top'),
-        array('text' => "<span class='currentpage'>$quiz_name</span>"),
-    );
+    $links = [
+        ['text' => $site_abbreviation, 'url' => "$code_url/default.php", 'target' => '_top'],
+        ['text' => "<span class='currentpage'>$quiz_name</span>"],
+    ];
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
@@ -48,10 +43,10 @@ function output_small_header($quiz)
     echo headerbar_text_array($links);
     echo "</span>";
 
-    $links = array(
-        array('text' => _("Activity Hub"), 'url' => "$code_url/activity_hub.php", 'target' => '_top'),
-        array('text' => $guide_text, 'url' => $guide_url, 'target' => '_top'),
-    );
+    $links = [
+        ['text' => _("Activity Hub"), 'url' => "$code_url/activity_hub.php", 'target' => '_top'],
+        ['text' => $guide_text, 'url' => $guide_url, 'target' => '_top'],
+    ];
 
     echo "<span id='navbar-right'>";
     echo headerbar_text_array($links);
@@ -71,4 +66,3 @@ function output_small_footer()
     echo "</div>\n";
     output_html_footer();
 }
-

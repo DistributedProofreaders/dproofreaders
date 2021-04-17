@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
@@ -12,50 +12,43 @@ require_login();
 abort_if_not_manager();
 
 $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
-$new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
-$projectids = array();
-foreach(explode( ',', @$_GET['projects'] ) as $projectid) {
+$new_state = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
+$projectids = [];
+foreach (explode(',', @$_GET['projects']) as $projectid) {
     validate_projectID($projectid);
     $projectids[] = $projectid;
 }
 
 echo "<pre>\n";
 
-echo sprintf( _("Moving projects from '%1\$s' to '%2\$s'..."), $curr_state, $new_state);
+echo sprintf(_("Moving projects from '%1\$s' to '%2\$s'..."), $curr_state, $new_state);
 echo "\n\n";
 
-foreach( $projectids as $projectid )
-{
+foreach ($projectids as $projectid) {
     echo "\n";
     echo "$projectid ...\n";
 
-    try
-    {
+    try {
         $project = new Project($projectid);
-    }
-    catch(NonexistentProjectException $exception)
-    {
+    } catch (NonexistentProjectException $exception) {
         echo "    " . _("does not exist.") . "\n";
         continue;
     }
 
     $result = user_can_edit_project($projectid);
-    if ( $result == USER_CANNOT_EDIT_PROJECT )
-    {
+    if ($result == USER_CANNOT_EDIT_PROJECT) {
         echo "    " . _("You are not authorize to manage this project.") . "\n";
         continue;
     }
 
-    if ( $project->state != $curr_state )
-    {
+    if ($project->state != $curr_state) {
         // TRANSLATORS: %1$s is a project name, %2$s and %3$s are project states
-        echo "    " . sprintf( _('%1$s is no longer in %2$s. Now in %3$s.'), $project->nameofwork, $curr_state, $project->state) . "\n";
+        echo "    " . sprintf(_('%1$s is no longer in %2$s. Now in %3$s.'), $project->nameofwork, $curr_state, $project->state) . "\n";
         continue;
     }
 
-    $error_msg = project_transition( $projectid, $new_state, $pguser );
-    if ( $error_msg )
-    {
+    $error_msg = project_transition($projectid, $new_state, $pguser);
+    if ($error_msg) {
         echo "    " . html_safe($project->nameofwork) . "\n";
         echo "    $error_msg\n";
         continue;
@@ -69,4 +62,3 @@ echo "</pre>\n";
 
 echo "<hr>\n";
 echo "<p>" . sprintf(_("Back to the <a href='%s'>project manager</a> page."), "projectmgr.php") . "</p>\n";
-

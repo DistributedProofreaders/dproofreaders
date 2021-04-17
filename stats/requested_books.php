@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -29,8 +29,7 @@ $comments_url3 = DPDatabase::escape("</a>");
 // Instead, custom-build a project-state condition that includes the
 // WAITING and AVAILABLE states from each round.
 $state_condition = '0';
-for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-{
+for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
     $round = get_Round_for_round_number($rn);
     $state_condition .= "
         OR state='{$round->project_waiting_state}'
@@ -87,4 +86,3 @@ dpsql_dump_themed_query("
     ORDER BY 5 DESC
     LIMIT 50
 ", 1, DPSQL_SHOW_RANK);
-

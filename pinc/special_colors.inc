@@ -50,45 +50,37 @@ function load_special_days()
 function get_special_day($special_code)
 {
     static $specials_array = [];
-    if(!$specials_array)
-    {
+    if (!$specials_array) {
         $specials_array = load_special_days();
     }
 
-    $special_day = NULL;
+    $special_day = null;
 
     // default Special colour (will be over-ridden by any specific matches below)
-    if (!is_null($special_code) and strlen($special_code))
-    {
+    if (!is_null($special_code) and strlen($special_code)) {
         $special_day = $specials_array['_OTHER_SPECIAL'];
     }
 
     // very light blue for birthday books still available after the day
-    if ( startswith( $special_code, 'Birthday' ) )
-    {
+    if (startswith($special_code, 'Birthday')) {
         $special_day = $specials_array['_BIRTHDAY_RECENT'];
     }
 
     // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
-    if ( startswith( $special_code, "Birthday $bday" ) )
-    {
+    if (startswith($special_code, "Birthday $bday")) {
         $special_day = $specials_array['_BIRTHDAY_TODAY'];
     }
 
     // if we recognise the special code, use the associated colour
-    if(isset($specials_array[$special_code]))
-    {
+    if (isset($specials_array[$special_code])) {
         $special_day = $specials_array[$special_code];
     }
 
-    if($special_day)
-    {
+    if ($special_day) {
         return $special_day;
-    }
-    else
-    {
-        return NULL;
+    } else {
+        return null;
     }
 }
 
@@ -99,7 +91,7 @@ function get_special_day($special_code)
 // specified by $projects_where_clause (WHERE keyword NOT needed)
 // for use as a legend.
 
-function echo_special_legend( $projects_where_clause)
+function echo_special_legend($projects_where_clause)
 {
     global $code_url;
 
@@ -114,8 +106,9 @@ function echo_special_legend( $projects_where_clause)
     $day_array = [];
 
     while ($cs_row = mysqli_fetch_assoc($currspecs_result)) {
-        if(isset($specials_array[$cs_row['spec']]))
+        if (isset($specials_array[$cs_row['spec']])) {
             $day_array[] = $specials_array[$cs_row['spec']];
+        }
     }
     // sort day_array by display_name
     array_multisort(array_column($day_array, 'display_name'), SORT_ASC, $day_array);
@@ -130,24 +123,20 @@ function echo_special_legend( $projects_where_clause)
     $items_in_columns = round(count($day_array) / $num_columns);
     $column_index = 0;
     $columns = [];
-    foreach($day_array as $day_entry)
-    {
+    foreach ($day_array as $day_entry) {
         $columns[$column_index][] = $day_entry;
-        if(count($columns[$column_index]) % $items_in_columns == 0)
-        {
+        if (count($columns[$column_index]) % $items_in_columns == 0) {
             $column_index += 1;
         }
     }
     echo "<table>\n";
     echo "<tr>";
-    for( ; $column_index > 0; $column_index--)
-    {
+    for (; $column_index > 0; $column_index--) {
         echo "<td class='top-align'>";
         echo "<table class='basic'>\n";
         $column = array_shift($columns);
-        foreach($column as $day_entry)
-        {
-            list($style, $contents) = get_special_day_cell_parts($day_entry, FALSE);
+        foreach ($column as $day_entry) {
+            [$style, $contents] = get_special_day_cell_parts($day_entry, false);
             echo "<tr>";
             echo "<td style='$style'>$contents</td>";
             echo "<td>{$day_entry['display_name']}</td>";
@@ -161,7 +150,7 @@ function echo_special_legend( $projects_where_clause)
 }
 
 // Given a special day, return building blocks to construct a cell for a row
-function get_special_day_cell_parts($special_day, $include_title=TRUE)
+function get_special_day_cell_parts($special_day, $include_title = true)
 {
     $background_color = str_replace("#", "", $special_day['color']);
     $text_color = pick_text_color_given_bgcolor($background_color, "white", "black");
@@ -171,8 +160,7 @@ function get_special_day_cell_parts($special_day, $include_title=TRUE)
     // If the symbol is empty, return an em-space so that the browser
     // will show a tooltip for the cell.
     $contents = $special_day['symbol'] == '' ? '&emsp;' : $special_day['symbol'];
-    if($include_title)
-    {
+    if ($include_title) {
         $title = attr_safe($special_day['display_name']);
         $contents = "<span title='$title'>$contents</span>";
     }

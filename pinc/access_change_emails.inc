@@ -6,8 +6,9 @@ function pp_access_change_email($user, $access_change)
     global $site_name, $site_abbreviation, $db_requests_email_addr;
 
     // only send emails on grant
-    if($access_change != "grant")
+    if ($access_change != "grant") {
         return;
+    }
 
     // configure gettext to translate user email
     configure_gettext_for_user($user);
@@ -47,7 +48,7 @@ function pp_access_change_email($user, $access_change)
     $email = $user->email;
     $message_string = implode("\n\n", $message);
 
-    $headers = [ "Reply-To: $db_requests_email_addr" ];
+    $headers = ["Reply-To: $db_requests_email_addr"];
 
     $mail_accepted = maybe_mail($email, $subject, $message_string, $headers);
 
@@ -63,8 +64,9 @@ function f1_access_change_email($user, $access_change)
     $daily_limit = $Round_for_round_id_['F1']->daily_page_limit;
 
     // only send emails on grant
-    if($access_change != "grant")
+    if ($access_change != "grant") {
         return;
+    }
 
     // configure gettext to translate user email
     configure_gettext_for_user($user);
@@ -80,9 +82,8 @@ function f1_access_change_email($user, $access_change)
 
     $message[] = _("After all of the pages of a project are completed in F1, the project moves into F2 for review and any needed corrections. F2 is the final round of formatting before Post-Processing.");
 
-    if($daily_limit)
-    {
-        $message[] = "***" . sprintf( _("Please keep in mind that we currently have a limit in F1 of no more than %d pages per day."), $daily_limit) . "*** " .
+    if ($daily_limit) {
+        $message[] = "***" . sprintf(_("Please keep in mind that we currently have a limit in F1 of no more than %d pages per day."), $daily_limit) . "*** " .
             _("(This is a daily limit, not an average.) The limit is there to make sure that we have a variety of projects available in the round at all times.");
         // The above paragraph will be added to the email only if the daily limit
         // is a postiive integer. Currently, if the daily limit value is zero or
@@ -116,9 +117,9 @@ function f1_access_change_email($user, $access_change)
 
     $message[] = "- " . _("Always use the formatting shortcut buttons when adding formatting tags. Manually typing in the tags is more time-consuming and prone to error. To use the shortcut buttons, highlight the text you need to add tags around (using your mouse or keyboard arrows) and click on the appropriate button. The buttons are found along the bottom of the formatting interface.");
 
-     $message[] = "- " . _("If you accidentally add incorrect inline tags, highlight the text again, and click on the button labelled <x> with a horizontal line through the middle. This removes inline formatting only (such as italics, bold, small caps, etc.), but does not affect illustration, footnote, blockquote, nowrap, or other non-inline tagging.");
+    $message[] = "- " . _("If you accidentally add incorrect inline tags, highlight the text again, and click on the button labelled <x> with a horizontal line through the middle. This removes inline formatting only (such as italics, bold, small caps, etc.), but does not affect illustration, footnote, blockquote, nowrap, or other non-inline tagging.");
 
-   $message[] = "- " . sprintf(_("Check out our F1 Self Evaluation Project: %s . It's an easy way to gain formatting experience without working on a 'live' project. You may want to start with this before working on a regular F1 project. Please read the instructions on the Project Page carefully before you begin."),
+    $message[] = "- " . sprintf(_("Check out our F1 Self Evaluation Project: %s . It's an easy way to gain formatting experience without working on a 'live' project. You may want to start with this before working on a regular F1 project. Please read the instructions on the Project Page carefully before you begin."),
         "https://www.pgdp.net/c/project.php?id=projectID50cd68d39b208");
 
     $message[] = "- " . sprintf(_("Once you've become familiar with the Formatting Guidelines, you may want to look through our Library of Formatting Examples (LoFE), which is found in the Formatting forums here: %s . While the LoFE should not be used in place of the Guidelines, it's a useful resource for common formatting issues that may not be covered completely by the Guidelines."),

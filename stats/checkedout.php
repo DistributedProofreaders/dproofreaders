@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -7,22 +7,22 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 
-$ordermap = array(
-    'nameofwork'             => 'nameofwork ASC',
-    'checkedoutby'           => 'checkedoutby ASC, modifieddate ASC',
-    'postproofer'            => 'postproofer ASC, modifieddate ASC',
-    'modifieddate'           => 'modifieddate ASC',
-    'holder_t_last_activity' => 'holder_t_last_activity ASC'
-);
+$ordermap = [
+    'nameofwork' => 'nameofwork ASC',
+    'checkedoutby' => 'checkedoutby ASC, modifieddate ASC',
+    'postproofer' => 'postproofer ASC, modifieddate ASC',
+    'modifieddate' => 'modifieddate ASC',
+    'holder_t_last_activity' => 'holder_t_last_activity ASC',
+];
 
 $order = get_enumerated_param($_GET, 'order', 'checkedoutby', array_keys($ordermap));
 $state = get_enumerated_param($_GET, 'state', PROJ_POST_FIRST_CHECKED_OUT,
-    array(PROJ_POST_FIRST_CHECKED_OUT, PROJ_POST_SECOND_CHECKED_OUT));
+    [PROJ_POST_FIRST_CHECKED_OUT, PROJ_POST_SECOND_CHECKED_OUT]);
 
-if ( $state == PROJ_POST_FIRST_CHECKED_OUT ) {
+if ($state == PROJ_POST_FIRST_CHECKED_OUT) {
     $title = _('Books Checked Out for Post Processing');
 }
-if ( $state == PROJ_POST_SECOND_CHECKED_OUT ) {
+if ($state == PROJ_POST_SECOND_CHECKED_OUT) {
     $title = _('Books Checked Out for Post Processing Verification');
     $inPPV = 1;
 }
@@ -40,35 +40,33 @@ echo "<h1>$title</h1>\n";
 // Header row
 
 if (isset($inPPV)) {
-    $colspecs = array(
+    $colspecs = [
         // TRANSLATORS: this is a column header meaning "number"
-        'bogus'                  => _('#'),
-        'nameofwork'             => _('Name of Work'),
-        'postproofer'            => _('PPer'),
-        'checkedoutby'           => _('Checked Out By'),
-        'modifieddate'           => _('Date Last Modified'),
-        'holder_t_last_activity' => _('User Last on Site')
-   );
+        'bogus' => _('#'),
+        'nameofwork' => _('Name of Work'),
+        'postproofer' => _('PPer'),
+        'checkedoutby' => _('Checked Out By'),
+        'modifieddate' => _('Date Last Modified'),
+        'holder_t_last_activity' => _('User Last on Site'),
+    ];
 } else {
-    $colspecs = array(
-        'bogus'                  => _('#'),
-        'nameofwork'             => _('Name of Work'),
-        'checkedoutby'           => _('Checked Out By'),
-        'modifieddate'           => _('Date Last Modified'),
-        'holder_t_last_activity' => _('User Last on Site')
-    );
+    $colspecs = [
+        'bogus' => _('#'),
+        'nameofwork' => _('Name of Work'),
+        'checkedoutby' => _('Checked Out By'),
+        'modifieddate' => _('Date Last Modified'),
+        'holder_t_last_activity' => _('User Last on Site'),
+    ];
 }
 
 echo "<table class='themed theme_striped'>\n";
 
 echo "<tr>";
-foreach ( $colspecs as $col_order => $col_header )
-{
+foreach ($colspecs as $col_order => $col_header) {
     $s = $col_header;
     // Make each column-header a link that will sort on that column,
     // except for the header of the column that we're already sorting on.
-    if ( $col_order != $order && $col_order != 'bogus' )
-    {
+    if ($col_order != $order && $col_order != 'bogus') {
         $s = "<a href='checkedout.php?state=$state&amp;order=$col_order'>$s</a>";
     }
     echo "<th>$s</th>";
@@ -94,8 +92,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
 ");
 
 $rownum = 0;
-while ( $project = mysqli_fetch_object( $result ) )
-{
+while ($project = mysqli_fetch_object($result)) {
     $rownum++;
 
     //calc last modified date for project
@@ -117,12 +114,11 @@ while ( $project = mysqli_fetch_object( $result ) )
         <td>$rownum</td>
         <td>" . html_safe($project->nameofwork) . "</td>
       ";
-     
-      if (isset($inPPV)) { 
 
-            echo "    <td style='white-space: nowrap;'>$project->postproofer</td>";
-      }
-      echo "       
+    if (isset($inPPV)) {
+        echo "    <td style='white-space: nowrap;'>$project->postproofer</td>";
+    }
+    echo "       
         <td style='white-space: nowrap;'>$project->checkedoutby</td>
         <td style='white-space: nowrap;'>$datestamp</td>
         <td style='white-space: nowrap;'>$holder_t_last_activity_date</td>
@@ -131,4 +127,3 @@ while ( $project = mysqli_fetch_object( $result ) )
 }
 
 echo "</table>";
-

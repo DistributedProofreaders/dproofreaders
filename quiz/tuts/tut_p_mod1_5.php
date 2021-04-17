@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -13,4 +13,3 @@ echo "<p>" . _("Place each footnote on a separate line in order of appearance, w
 echo "<p>" . _("Do not include any horizontal lines separating the footnotes from the main text.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_5'>" . _("Continue to quiz page") . "</a></p>\n";
-

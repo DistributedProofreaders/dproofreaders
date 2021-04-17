@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
@@ -7,12 +7,12 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 
-$clausemap = array(
-    'nameofwork'   => 'nameofwork ASC',
+$clausemap = [
+    'nameofwork' => 'nameofwork ASC',
     'modifieddate' => 'modifieddate ASC',
-    'PPer'         => 'postproofer ASC',
-    'PM'           => 'username ASC'
-);
+    'PPer' => 'postproofer ASC',
+    'PM' => 'username ASC',
+];
 $order = get_enumerated_param($_GET, 'order', 'nameofwork', array_keys($clausemap));
 $orderclause = $clausemap[$order];
 
@@ -27,23 +27,21 @@ echo "<h1>$title</h1>\n";
 
 // Header row
 
-$colspecs = array(
-    'bogus'        => _('#'),
-    'nameofwork'   => _('Name of Work'),
-    'PM'           => _('Project Manager'),
-    'PPer'         => _('Post-Processed By'),
+$colspecs = [
+    'bogus' => _('#'),
+    'nameofwork' => _('Name of Work'),
+    'PM' => _('Project Manager'),
+    'PPer' => _('Post-Processed By'),
     'modifieddate' => _('Date Last Modified'),
-);
+];
 
 echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
-foreach ( $colspecs as $col_order => $col_header )
-{
+foreach ($colspecs as $col_order => $col_header) {
     $s = $col_header;
     // Make each column-header a link that will sort on that column,
     // except for the header of the column that we're already sorting on.
-    if ( $col_order != $order && $col_order != 'bogus' )
-    {
+    if ($col_order != $order && $col_order != 'bogus') {
         $s = "<a href='PPV_avail.php?order=$col_order'>$s</a>";
     }
     echo "<th>$s</th>";
@@ -66,8 +64,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
 ");
 
 $rownum = 0;
-while ( $project = mysqli_fetch_object( $result ) )
-{
+while ($project = mysqli_fetch_object($result)) {
     $rownum++;
 
     //calc last modified date for project
@@ -89,4 +86,3 @@ while ( $project = mysqli_fetch_object( $result ) )
 }
 
 echo "</table>";
-

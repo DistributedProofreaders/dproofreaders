@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -17,4 +17,3 @@ Please go there and update your bookmarks, if any.
 <?php
 
 // ---------------------------------------------------------
-

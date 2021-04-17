@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -73,4 +73,3 @@ dpsql_dump_themed_query("
 ", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
-

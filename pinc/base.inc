@@ -17,8 +17,7 @@
 
 include_once($relPath."bootstrap.inc");
 
-if(!headers_sent())
-{
+if (!headers_sent()) {
     header("Content-Type: text/html; charset=$charset");
 
     // Disallow other sites from embedding pages in frames/iframes
@@ -27,25 +26,24 @@ if(!headers_sent())
 }
 
 // If we don't have a database connection, don't try to resume the session.
-if(DPDatabase::get_connection())
+if (DPDatabase::get_connection()) {
     $user_is_logged_in = dpsession_resume();
+}
 
 configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
-if ($maintenance && !@$maintenance_override)
-{
+if ($maintenance && !@$maintenance_override) {
     /*
     Including user_is.inc causes a perf impact because it includes
     page_tally.inc, which includes stages.inc - all of which have a
     great deal of overhead. That's a whole lot of work to satisfy a
-    rare edge case (that we're in maintenance mode). 
+    rare edge case (that we're in maintenance mode).
     Until that's resolved, conditionally include it.
     */
     include_once($relPath.'user_is.inc');
     include_once($relPath.'slim_header.inc');
 
-    if (!user_is_a_sitemanager())
-    {
+    if (!user_is_a_sitemanager()) {
         $title = sprintf(_("%s Maintenance"), $site_name);
         slim_header($title);
         echo "<h1>$title</h1>";
@@ -53,8 +51,9 @@ if ($maintenance && !@$maintenance_override)
         $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
         echo "<p>$message</p>";
 
-        if($maintenance_message)
+        if ($maintenance_message) {
             echo $maintenance_message;
+        }
 
         exit();
     }
@@ -66,8 +65,7 @@ function production_exception_handler($exception)
 {
     global $maintenance;
 
-    if($exception instanceof DBConnectionError && !$maintenance)
-    {
+    if ($exception instanceof DBConnectionError && !$maintenance) {
         // We output the timestamp in the same format and timezone (UTC) as
         // the MySQL error log (sans microseconds) for easier correlation.
         $error_message = gmstrftime("%FT%TZ") . " " .  $exception->getMessage();
@@ -99,8 +97,9 @@ function require_login()
     global $relPath;
 
     // return if the user is already logged in
-    if($user_is_logged_in)
+    if ($user_is_logged_in) {
         return;
+    }
 
     include_once($relPath.'metarefresh.inc');
 
@@ -109,7 +108,6 @@ function require_login()
     // (urlencode it because it might contain characters [specifically, &]
     // that would confuse parsing of the login.php URL.)
     $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
-    $url="$code_url/accounts/require_login.php?destination=$request_uri_encoded";
+    $url = "$code_url/accounts/require_login.php?destination=$request_uri_encoded";
     metarefresh(0, $url);
 }
-

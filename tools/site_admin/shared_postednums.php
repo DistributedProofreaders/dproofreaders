@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
@@ -30,9 +30,10 @@ $res = dpsql_query("
     HAVING c > 1
     ORDER BY postednum
 ");
-while( list($postednum,$count) = mysqli_fetch_row($res) )
-{
-    if ( is_null($postednum) ) continue;
+while ([$postednum, $count] = mysqli_fetch_row($res)) {
+    if (is_null($postednum)) {
+        continue;
+    }
 
     echo "<br>$postednum:\n";
 
@@ -43,14 +44,12 @@ while( list($postednum,$count) = mysqli_fetch_row($res) )
             WHERE postednum=$postednum
             ORDER BY nameofwork
         ");
-        $titles=array();
-        while ( list($title) = mysqli_fetch_row($res2) )
-        {
+        $titles = [];
+        while ([$title] = mysqli_fetch_row($res2)) {
             $titles[] = $title;
         }
-        list($left,$middles,$right) = factor_strings( $titles );
-        if ( strings_count_up( $middles ) )
-        {
+        [$left, $middles, $right] = factor_strings($titles);
+        if (strings_count_up($middles)) {
             echo "skipping '$left&lt;N&gt;$right'...<br>\n";
             continue;
         }
@@ -64,20 +63,15 @@ while( list($postednum,$count) = mysqli_fetch_row($res) )
     ");
 }
 
-function strings_count_up( $strings )
+function strings_count_up($strings)
 // The given strings contain numerals '1', '2', '3', etc.
 {
-    for ( $i = 0; $i < count($strings); $i++ )
-    {
-        if ( $strings[$i] == (''.($i+1)) )
-        {
+    for ($i = 0; $i < count($strings); $i++) {
+        if ($strings[$i] == (''.($i + 1))) {
             // good so far
-        }
-        else
-        {
-            return FALSE;
+        } else {
+            return false;
         }
     }
-    return TRUE;
+    return true;
 }
-

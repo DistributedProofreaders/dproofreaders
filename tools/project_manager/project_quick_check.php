@@ -1,7 +1,7 @@
 <?php
 // Run a bunch of quick tests on a given project,
 // looking for common errors/problems.
-$relPath="../../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), html_safe()
@@ -36,8 +36,7 @@ echo "<input type='submit' value='Test'>";
 echo "</form>";
 
 // stop if no projectid was specified
-if(empty($projectid))
-{
+if (empty($projectid)) {
     exit;
 }
 
@@ -70,12 +69,12 @@ echo "</table>";
 
 echo "<p>";
 echo "<a href='$code_url/project.php?id=$projectid'>" . _("Project Page") . "</a>";
-if($project->pages_table_exists)
+if ($project->pages_table_exists) {
     echo " | <a href='$code_url/tools/proofers/images_index.php?project=$projectid'>" . _("Image Index") . "</a>";
+}
 echo "</p>";
 
-if (!$project->user_can_do_quick_check())
-{
+if (!$project->user_can_do_quick_check()) {
     echo "<p class='error'>" . _("You are not authorized to run this script on that project.") . "</p>";
     exit;
 }
@@ -88,8 +87,7 @@ echo "<h1>" . _("Result Summary") . "</h1>";
 show_pqc_result_summary($results);
 
 echo "<h1>" . _("Result Details") . "</h1>";
-foreach($results as $function => $test_result)
-{
+foreach ($results as $function => $test_result) {
     echo "<a name='$function'></a>";
     echo "<h2>" . $test_result["name"] . "</h2>";
     $css = get_css_for_pqc_status($test_result["status"]);
@@ -97,4 +95,3 @@ foreach($results as $function => $test_result)
     echo "<p>" . $test_result["description"] . "</p>";
     echo $test_result["details"];
 }
-

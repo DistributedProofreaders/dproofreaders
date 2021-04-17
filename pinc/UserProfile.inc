@@ -1,7 +1,9 @@
 <?php
 include_once($relPath."misc.inc"); // create_mysql_update_string()
 
-class NonexistentUserProfileException extends Exception { }
+class NonexistentUserProfileException extends Exception
+{
+}
 
 class UserProfile
 {
@@ -20,10 +22,9 @@ class UserProfile
         "h_fntf_other",
     ];
 
-    public function __construct($id=NULL)
+    public function __construct($id = null)
     {
-        if($id !== NULL)
-        {
+        if ($id !== null) {
             $this->load($id);
         }
     }
@@ -33,8 +34,7 @@ class UserProfile
     // See the PHP docs for "magic methods".
     public function __set($name, $value)
     {
-        if(isset($this->$name) && in_array($name, $this->immutable_fields))
-        {
+        if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
             throw new DomainException(sprintf(
                 _("%s is an immutable field"), $name)
             );
@@ -62,8 +62,7 @@ class UserProfile
         ", $id);
 
         $result = DPDatabase::query($sql);
-        if(mysqli_num_rows($result) == 0)
-        {
+        if (mysqli_num_rows($result) == 0) {
             throw new NonexistentUserProfileException(sprintf(
                 _('No user profile found with id = %s'),
                     $id)
@@ -76,11 +75,9 @@ class UserProfile
 
     public function save()
     {
-        if(!isset($this->id))
-        {
+        if (!isset($this->id)) {
             // validate that we have a u_ref
-            if(!isset($this->u_ref))
-            {
+            if (!isset($this->u_ref)) {
                 throw new UnexpectedValueException(
                     _('Unable to save new profile without a user reference (u_ref)')
                 );
@@ -91,13 +88,12 @@ class UserProfile
                 INSERT INTO user_profiles
                 SET $set_string
             ";
-        }
-        else
-        {
+        } else {
             // remove immutable rows
             $update_data = $this->table_row;
-            foreach($this->immutable_fields as $field)
+            foreach ($this->immutable_fields as $field) {
                 unset($update_data[$field]);
+            }
 
             $set_string = create_mysql_update_string($update_data, $this->string_fields);
             $sql = sprintf("
@@ -108,16 +104,14 @@ class UserProfile
         }
         DPDatabase::query($sql);
 
-        if(!isset($this->id))
-        {
+        if (!isset($this->id)) {
             $this->id = mysqli_insert_id(DPDatabase::get_connection());
         }
     }
 
     public function delete()
     {
-        if(!isset($this->id))
-        {
+        if (!isset($this->id)) {
             throw NonexistentUserProfileException(
                 _("Cannot delete nonexistent profile")
             );
@@ -131,7 +125,7 @@ class UserProfile
     }
 
     // static functions
-    static public function load_user_profiles($u_ref)
+    public static function load_user_profiles($u_ref)
     {
         $sql = sprintf("
             SELECT id
@@ -142,8 +136,7 @@ class UserProfile
 
         $profiles = [];
         $result = DPDatabase::query($sql);
-        while($row = mysqli_fetch_assoc($result))
-        {
+        while ($row = mysqli_fetch_assoc($result)) {
             $profiles[] = new UserProfile($row["id"]);
         }
         mysqli_free_result($result);

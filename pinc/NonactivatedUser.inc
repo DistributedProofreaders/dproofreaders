@@ -1,33 +1,36 @@
 <?php
 
-class NonexistentNonactivatedUserException extends Exception { }
+class NonexistentNonactivatedUserException extends Exception
+{
+}
 
-class NonuniqueNonactivatedUserException extends Exception { }
+class NonuniqueNonactivatedUserException extends Exception
+{
+}
 
 class NonactivatedUser
 {
     private $table_row;
 
     // List of fields that can never be set outside of this class
-    private $unsettable_fields = array(
+    private $unsettable_fields = [
         "id",
         "date_created",
-    );
+    ];
 
     // List of fields that when set should never change
-    private $immutable_fields = array(
+    private $immutable_fields = [
         "username",
-    );
+    ];
 
     // Fields are assumed to be strings unless included here
-    private $integer_fields = array(
+    private $integer_fields = [
         "email_updates",
-    );
+    ];
 
-    public function __construct($username=NULL)
+    public function __construct($username = null)
     {
-        if($username !== NULL)
-        {
+        if ($username !== null) {
             $this->load("username", $username);
         }
     }
@@ -37,15 +40,13 @@ class NonactivatedUser
     // See the PHP docs for "magic methods".
     public function __set($name, $value)
     {
-        if(in_array($name, $this->unsettable_fields))
-        {
+        if (in_array($name, $this->unsettable_fields)) {
             throw new DomainException(sprintf(
                 _("%s is an unsettable field"), $name)
             );
         }
 
-        if(isset($this->$name) && in_array($name, $this->immutable_fields))
-        {
+        if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
             throw new DomainException(sprintf(
                 _("%s is an immutable field"), $name)
             );
@@ -64,14 +65,11 @@ class NonactivatedUser
         return isset($this->table_row[$name]);
     }
 
-    private function load($field, $value, $strict=TRUE)
+    private function load($field, $value, $strict = true)
     {
-        if(!in_array($field, $this->integer_fields))
-        {
+        if (!in_array($field, $this->integer_fields)) {
             $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
-        }
-        else
-        {
+        } else {
             $escaped_value = $value;
         }
 
@@ -82,15 +80,12 @@ class NonactivatedUser
         ";
         $result = DPDatabase::query($sql);
 
-        if(mysqli_num_rows($result) == 0)
-        {
+        if (mysqli_num_rows($result) == 0) {
             throw new NonexistentNonactivatedUserException(sprintf(
                 _('No non_activated_user found with %1$s = %2$s'),
                     $field, $value)
             );
-        }
-        elseif(mysqli_num_rows($result) > 1)
-        {
+        } elseif (mysqli_num_rows($result) > 1) {
             throw new NonuniqueNonactivatedUserException(sprintf(
                 _('Multiple non_activated_users found with %1$s = %2$s'),
                     $field, $value)
@@ -98,13 +93,12 @@ class NonactivatedUser
         }
         $this->table_row = mysqli_fetch_assoc($result);
 
-        # MySQL does case-insensitive matches for strings, as well as
-        # ignores trailing whitespace. If $strict is TRUE, and the field
-        # is the username, require that the requested $username matches the
-        # existing username in case and whitespace by doing a PHP string
-        # compare.
-        if($strict and $field == 'username' and $this->username != $value)
-        {
+        // MySQL does case-insensitive matches for strings, as well as
+        // ignores trailing whitespace. If $strict is TRUE, and the field
+        // is the username, require that the requested $username matches the
+        // existing username in case and whitespace by doing a PHP string
+        // compare.
+        if ($strict and $field == 'username' and $this->username != $value) {
             throw new NonexistentNonactivatedUserException(sprintf(
                 _('No non_activated_user found with %1$s = %2$s'),
                     $field, $value)
@@ -120,8 +114,7 @@ class NonactivatedUser
 
         // If this object doesn't have a unique ID, generate one before saving it to
         // the database.
-        if(!isset($this->table_row["id"]))
-        {
+        if (!isset($this->table_row["id"])) {
             // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
             $this->table_row["id"] = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
         }
@@ -158,7 +151,7 @@ class NonactivatedUser
                 http_referrer = LEFT('%s', 256),
                 u_intlang = '%s',
                 user_password = '%s'
-        ",  $this->table_row["id"],
+        ", $this->table_row["id"],
             DPDatabase::escape($this->username),
             DPDatabase::escape($this->real_name),
             DPDatabase::escape($this->email),
@@ -179,17 +172,17 @@ class NonactivatedUser
             DPDatabase::escape($this->user_password)
         );
 
-        $result = DPDatabase::query($query, FALSE);
-        if(!$result)
-        {
+        $result = DPDatabase::query($query, false);
+        if (!$result) {
             throw new UnexpectedValueException(DPDatabase::log_error());
         }
     }
 
     public function delete()
     {
-        if(!isset($this->id))
+        if (!isset($this->id)) {
             return;
+        }
 
         $sql = sprintf("
             DELETE FROM non_activated_users
@@ -221,4 +214,3 @@ class NonactivatedUser
         return $user;
     }
 }
-

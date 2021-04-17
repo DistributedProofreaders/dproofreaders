@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 
-function check_email_address( $email_address )
+function check_email_address($email_address)
 // Check whether $email_address is a reasonable/acceptable E-mail Address.
 // If it is, return an empty string.
 // If it isn't, return a string detailing the problem.
@@ -9,26 +9,22 @@ function check_email_address( $email_address )
     $email_address_max_len = 100;
     // This is the length of the 'email' field in the 'users' table.
 
-    if ( $email_address == '' )
-    {
+    if ($email_address == '') {
         $error = _("You did not supply an E-mail Address.");
         return $error;
     }
 
-    if ( strlen($email_address) > $email_address_max_len )
-    {
+    if (strlen($email_address) > $email_address_max_len) {
         $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
         return $error;
     }
 
     $parts = explode('@', $email_address);
-    if ( count($parts) == 1 )
-    {
+    if (count($parts) == 1) {
         $error = _("Your E-mail Address does not contain an '@' sign.");
         return $error;
     }
-    if ( count($parts) > 2 )
-    {
+    if (count($parts) > 2) {
         $error = _("Your E-mail Address contains more than one '@' sign.");
         return $error;
     }
@@ -63,19 +59,16 @@ function check_email_address( $email_address )
 
     $let_dig_re = '[A-Za-z0-9]';
     $ldh_str_re = '[A-Za-z0-9-]+';
-    $label_re   = "$let_dig_re(($ldh_str_re)?$let_dig_re)?";
-    $domain_re  = "($label_re\.)+[A-Za-z]{2,4}";
+    $label_re = "$let_dig_re(($ldh_str_re)?$let_dig_re)?";
+    $domain_re = "($label_re\.)+[A-Za-z]{2,4}";
 
     // Formerly:
     // $domain_re = "((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)";
 
-    if ( !preg_match( "/^$local_part_re@$domain_re$/i", $email_address ) )
-    {
+    if (!preg_match("/^$local_part_re@$domain_re$/i", $email_address)) {
         $error = _("Your E-mail Address appears to be invalid.");
         return $error;
     }
 
     return '';
 }
-
-?>

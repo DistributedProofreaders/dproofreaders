@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
@@ -24,28 +24,25 @@ echo "<table class='list_special_days show_special_days'>";
 
 $current_month = -1;
 
-while ( $row = mysqli_fetch_assoc($result) )
-{
+while ($row = mysqli_fetch_assoc($result)) {
     $month = $row['open_month'];
 
     // This handles the exceptions for the 'special' special days which aren't really
     // associated with specific dates, but are defined solely to create a queue.
-    if ($month == 0 && $current_month != 0)
-    {
+    if ($month == 0 && $current_month != 0) {
         $current_month = $month;
         echo "<tr class='month'><td colspan='5'><h2>" . _("Undated Entries") . "</h2></td></tr>\n";
         output_column_headers();
     }
 
-    if ($month != $current_month)
-    {
+    if ($month != $current_month) {
         $current_month = $month;
         echo "<tr class='month'><td colspan='5'><h2>";
         echo strftime("%B", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
         output_column_headers();
     }
 
-    list($style, $symbol_cell) = get_special_day_cell_parts($row, FALSE);
+    [$style, $symbol_cell] = get_special_day_cell_parts($row, false);
     echo "<tr>";
     echo "<td style='$style'>$symbol_cell</td>";
     echo "<td>";
@@ -58,7 +55,7 @@ while ( $row = mysqli_fetch_assoc($result) )
     echo "<div title=\"" . html_safe($row['comment']) ."\">";
     echo html_safe($row['comment']) . "</div></td>\n";
     echo "<td class='center'>";
-    if ($current_month != 0 ) {
+    if ($current_month != 0) {
         echo html_safe($row['open_day']);
     } else {
         // TRANSLATORS: N/A = "Not applicable"
@@ -86,4 +83,3 @@ function output_column_headers()
     echo "<th>" . _("More Info") . "</th>";
     echo "</tr>\n";
 }
-

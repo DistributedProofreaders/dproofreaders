@@ -6,7 +6,7 @@ use voku\helper\UTF8;
 $charsuite = new CharSuite("extended-european-latin-c", _("Extended European Latin C"));
 $charsuite->description = _("Supplementary characters for Polish, Croatian, Lithuanian, and Maltese");
 $charsuite->codepoints = [
-    # https://en.wikipedia.org/wiki/Latin_Extended-A
+    // https://en.wikipedia.org/wiki/Latin_Extended-A
     'U+0104-U+0107',
     'U+010a-U+010d',
     'U+0110-U+0111',

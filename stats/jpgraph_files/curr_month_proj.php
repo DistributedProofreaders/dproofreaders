@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
@@ -20,7 +20,7 @@ $psd = get_project_status_descriptor($which);
 
 $todaysTimeStamp = time();
 
-$year  = date("Y", $todaysTimeStamp);
+$year = date("Y", $todaysTimeStamp);
 $month = date("m", $todaysTimeStamp);
 $monthVar = _(date("F", $todaysTimeStamp));
 $timeframe = "$monthVar $year";
@@ -36,14 +36,13 @@ $result = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY date
 ");
 
-list($datax,$y_cumulative) = dpsql_fetch_columns($result);
+[$datax, $y_cumulative] = dpsql_fetch_columns($result);
 
 $datay1 = array_successive_differences($y_cumulative);
 
 // Pad out the rest of the month
-for ( $i = count($datay1); $i < $maxday; $i++ )
-{
-    $datax[$i] = $i+1;
+for ($i = count($datay1); $i < $maxday; $i++) {
+    $datax[$i] = $i + 1;
     $datay1[$i] = 0;
 }
 
@@ -55,4 +54,3 @@ draw_projects_graph(
     $psd->color,
     "$psd->per_day_title ($timeframe)"
 );
-

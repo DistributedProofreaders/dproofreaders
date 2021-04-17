@@ -12,19 +12,21 @@ include_once($relPath.'../stats/includes/common.inc');
 $team_avatars_dir = "$dyn_dir/teams/avatar";
 $team_avatars_url = "$dyn_url/teams/avatar";
 
-$team_icons_dir   = "$dyn_dir/teams/icon";
-$team_icons_url   = "$dyn_url/teams/icon";
+$team_icons_dir = "$dyn_dir/teams/icon";
+$team_icons_url = "$dyn_url/teams/icon";
 
 // Define the maximum number of teams the user can be a member of.
 define("MAX_USER_TEAM_MEMBERSHIP", 6);
 
-function select_from_teams( $where_body, $other_clauses='' )
+function select_from_teams($where_body, $other_clauses = '')
 {
-    list(, $teams_ELR_page_tallyboard) = get_ELR_tallyboards();
-    list($joined_with_team_ELR_page_tallies,$team_ELR_page_tally_column) =
+    [, $teams_ELR_page_tallyboard] = get_ELR_tallyboards();
+    [$joined_with_team_ELR_page_tallies, $team_ELR_page_tally_column] =
         $teams_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('id');
 
-    if ($where_body == '') $where_body = '1';
+    if ($where_body == '') {
+        $where_body = '1';
+    }
 
     $q = "
         SELECT
@@ -36,7 +38,9 @@ function select_from_teams( $where_body, $other_clauses='' )
         $other_clauses
     ";
     $res = mysqli_query(DPDatabase::get_connection(), $q);
-    if (!$res) die(DPDatabase::log_error());
+    if (!$res) {
+        die(DPDatabase::log_error());
+    }
     return $res;
 }
 
@@ -46,17 +50,15 @@ function showTeamInformation($curTeam, $tally_name)
 {
     showTeamProfile($curTeam);
 
-    showTeamTallySelector($curTeam, $tally_name );
+    showTeamTallySelector($curTeam, $tally_name);
 
-    if ( !is_null($tally_name) )
-    {
+    if (!is_null($tally_name)) {
         showTeamStats($curTeam, $tally_name);
         showTeamMbrs($curTeam, $tally_name);
 
         // Only show the team history if they are more than a day old
         $now = time();
-        if (($now - $curTeam['created']) > 86400)
-        {
+        if (($now - $curTeam['created']) > 86400) {
             showTeamHistory($curTeam, $tally_name);
         }
     }
@@ -64,7 +66,7 @@ function showTeamInformation($curTeam, $tally_name)
 
 // -----------------------------------------------------------------------------
 
-function showTeamProfile($curTeam, $preview=FALSE)
+function showTeamProfile($curTeam, $preview = false)
 {
     global $team_avatars_url;
     global $code_url;
@@ -72,41 +74,33 @@ function showTeamProfile($curTeam, $preview=FALSE)
     $user = User::load_current();
     $team_id = $curTeam['id'];
 
-    if($team_id)
+    if ($team_id) {
         $xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
-    else
+    } else {
         $xml_doc_url = "";
+    }
     $xml_img_url = "$code_url/graphics/xml.gif";
     $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle;' alt='XML'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
     // Allow team owner and site administrators to edit the team
-    if (!$preview && $user && (($user->u_id == $curTeam['owner']) || user_is_a_sitemanager()))
-    {
+    if (!$preview && $user && (($user->u_id == $curTeam['owner']) || user_is_a_sitemanager())) {
         $op_url = "tedit.php?tid=$team_id";
         $text = _('Edit');
         $editlink = "&nbsp;[<a href='$op_url'>$text</a>]";
-    }
-    else
-    {
+    } else {
         $editlink = '';
     }
 
-    if ($preview || !$user)
-    {
+    if ($preview || !$user) {
         // The requestor is not logged in,
         // so they can't join or quit the team.
         $joinquitlink = '';
-    }
-    else
-    {
-        if(!in_array($team_id, $user->load_teams()))
-        {
+    } else {
+        if (!in_array($team_id, $user->load_teams())) {
             $op = 'jointeam';
             $text = _('Join');
-        }
-        else
-        {
+        } else {
             $op = 'quitteam';
             $text = _('Quit');
         }
@@ -114,18 +108,21 @@ function showTeamProfile($curTeam, $preview=FALSE)
         $joinquitlink = "&nbsp;[<a href='$op_url'>$text</a>]";
     }
 
-    if($curTeam['topic_id'])
+    if ($curTeam['topic_id']) {
         $last_post_date = get_last_post_time_in_topic($curTeam['topic_id']);
-    else
-        $last_post_date = NULL;
-    if ($last_post_date != NULL) {
+    } else {
+        $last_post_date = null;
+    }
+    if ($last_post_date != null) {
         $last_post_date = date("n/j/Y g:i:sA", $last_post_date);
     }
 
     $now = time();
-    $daysInExistence = number_format(floor(($now - $curTeam['created'])/86400));
+    $daysInExistence = number_format(floor(($now - $curTeam['created']) / 86400));
 
-    if(empty($curTeam['avatar'])) { $curTeam['avatar'] = "avatar_default.png"; }
+    if (empty($curTeam['avatar'])) {
+        $curTeam['avatar'] = "avatar_default.png";
+    }
 
     echo "<table style='width: 100%;'>";
     echo "<tr>";
@@ -137,9 +134,9 @@ function showTeamProfile($curTeam, $preview=FALSE)
     $t = new ThemedTable(
         2,
         html_safe($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
-        array( 'width' => 100 )
+        ['width' => 100]
     );
-    $t->set_column_widths( 25, 75 );
+    $t->set_column_widths(25, 75);
     $t->set_column_alignments('left', 'left');
 
     $t->row(
@@ -160,9 +157,9 @@ function showTeamProfile($curTeam, $preview=FALSE)
         "<a href='$owner_url'>" . html_safe($owner_name) . "</a>"
     );
 
-    # Team descriptions may contain limited HTML formatting (see
-    # stripAllString() for the full list) and should not be wrapped
-    # in html_safe().
+    // Team descriptions may contain limited HTML formatting (see
+    // stripAllString() for the full list) and should not be wrapped
+    // in html_safe().
     $t->row(
         _("Description"),
         $curTeam['team_info']
@@ -178,13 +175,14 @@ function showTeamProfile($curTeam, $preview=FALSE)
     $t->row(
         _("Forums"),
         "<a href='$topic_url'>"._("Team Discussion")."</a> "
-        . ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
+        . (is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)")
     );
 
-    if($team_id)
+    if ($team_id) {
         $mbrCountRank = team_get_member_count_rank($team_id);
-    else
+    } else {
         $mbrCountRank = 0;
+    }
     $t->row(
         _("Members")
             . " <i>("._("Rank").")</i>",
@@ -205,7 +203,7 @@ function showTeamProfile($curTeam, $preview=FALSE)
     echo "</td></tr></table>";
 }
 
-function team_get_member_count_rank( $team_id )
+function team_get_member_count_rank($team_id)
 {
     $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT id
@@ -213,30 +211,29 @@ function team_get_member_count_rank( $team_id )
         ORDER BY member_count DESC
     ");
     $i = 1;
-    while ( list($id) = mysqli_fetch_row($result) ) {
-        if ($id == $team_id) { return $i; }
+    while ([$id] = mysqli_fetch_row($result)) {
+        if ($id == $team_id) {
+            return $i;
+        }
         $i++;
     }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamTallySelector( $curTeam, $tally_name )
+function showTeamTallySelector($curTeam, $tally_name)
 {
     $team_id = $curTeam['id'];
 
     $choices = '';
     $page_tally_names = get_page_tally_names();
-    foreach ( $page_tally_names as $t_name => $t_title )
-    {
-        if (!empty($choices))
-        {
+    foreach ($page_tally_names as $t_name => $t_title) {
+        if (!empty($choices)) {
             $choices .= " | ";
         }
 
         $text = $t_name;
-        if ($t_name != $tally_name)
-        {
+        if ($t_name != $tally_name) {
             $text = "<a href='tdetail.php?tid=$team_id&amp;tally_name=$t_name'>$text</a>";
         }
         $choices .= $text;
@@ -249,7 +246,9 @@ function showTeamTallySelector( $curTeam, $tally_name )
     echo "\n";
     echo "<hr style='width: 95%;'>";
 
-    if ( is_null($tally_name) ) return;
+    if (is_null($tally_name)) {
+        return;
+    }
 
     $tally_title = $page_tally_names[$tally_name];
     echo "\n";
@@ -260,20 +259,20 @@ function showTeamTallySelector( $curTeam, $tally_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamStats($curTeam, $tally_name) {
+function showTeamStats($curTeam, $tally_name)
+{
+    $teams_tallyboard = new TallyBoard($tally_name, 'T');
 
-    $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
+    $vitals = $teams_tallyboard->get_vitals($curTeam['id']);
 
-    $vitals = $teams_tallyboard->get_vitals( $curTeam['id'] );
-
-    $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
+    $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp - 1));
 
     $t = new ThemedTable(
         2,
         _("Team Statistics"),
-        array('theme_striped' => TRUE)
+        ['theme_striped' => true]
     );
-    $t->set_column_widths( 60, 40 );
+    $t->set_column_widths(60, 40);
 
     $t->row(
         _("Total Pages")
@@ -282,10 +281,10 @@ function showTeamStats($curTeam, $tally_name) {
             . "&nbsp;<i>(#$vitals->current_rank)</i>"
     );
 
-    $avg_pages_per_day = get_daily_average($curTeam['created'],$vitals->current_tally);
+    $avg_pages_per_day = get_daily_average($curTeam['created'], $vitals->current_tally);
     $t->row(
         _("Avg. Pages per Day"),
-        "<b>" . number_format($avg_pages_per_day,1) . "</b>"
+        "<b>" . number_format($avg_pages_per_day, 1) . "</b>"
     );
     $t->row(
         _("Most Pages Done per Day"),
@@ -296,11 +295,12 @@ function showTeamStats($curTeam, $tally_name) {
     $t->end();
 }
 
-function showTeamMbrs($curTeam, $tally_name) {
+function showTeamMbrs($curTeam, $tally_name)
+{
     global $code_url, $site_abbreviation;
 
-    $order       = get_enumerated_param($_GET, 'order', 'mbr', array('mbr', 'pages', 'date'));
-    $direction   = get_enumerated_param($_GET, 'direction', 'asc', array('asc', 'desc'));
+    $order = get_enumerated_param($_GET, 'order', 'mbr', ['mbr', 'pages', 'date']);
+    $direction = get_enumerated_param($_GET, 'direction', 'asc', ['asc', 'desc']);
     $req_team_id = get_integer_param($_GET, 'tid', null, 0, null);
 
     $subtitle = null;
@@ -315,26 +315,25 @@ function showTeamMbrs($curTeam, $tally_name) {
     $t = new ThemedTable(
         3,
         _("Team Member Details"),
-        array(
-            'theme_striped' => TRUE,
-            'subtitle' => $subtitle
-        )
+        [
+            'theme_striped' => true,
+            'subtitle' => $subtitle,
+        ]
     );
-    $t->set_column_widths( 35, 35, 30 );
+    $t->set_column_widths(35, 35, 30);
 
-    $header_content_ = array();
+    $header_content_ = [];
 
     $column_descriptors =
-        array(
-            array( 'mbr',   'username',      'asc',  _("Username")        ),
-            array( 'pages', 'current_tally', 'desc', _("Pages Completed") ),
-            array( 'date',  'date_created',  'asc',  sprintf(_("Date Joined %s"),$site_abbreviation)  )
-        );
-    foreach ( $column_descriptors as $column_descriptor )
-    {
-        list( $cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text ) =
+        [
+            ['mbr',   'username',      'asc',  _("Username")],
+            ['pages', 'current_tally', 'desc', _("Pages Completed")],
+            ['date',  'date_created',  'asc',  sprintf(_("Date Joined %s"), $site_abbreviation)],
+        ];
+    foreach ($column_descriptors as $column_descriptor) {
+        [$cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text] =
             $column_descriptor;
-        if ( $cd_order == $order ) {
+        if ($cd_order == $order) {
             // This is the column by which we are to sort the table.
 
             // So here's the db-column to ORDER BY in the SQL query.
@@ -345,7 +344,6 @@ function showTeamMbrs($curTeam, $tally_name) {
 
             // And provide a link to sort by this column in the opposite direction.
             $dir = ($direction == "asc") ? "desc" : "asc";
-
         } else {
             // This is a non-sorting column (for this request).
 
@@ -359,12 +357,12 @@ function showTeamMbrs($curTeam, $tally_name) {
         $header_content_[] = "<a href='$url'>$cd_header_text</a>$dir_indicator";
     }
 
-    $t->column_headers( $header_content_ );
+    $t->column_headers($header_content_);
 
-    $users_tallyboard = new TallyBoard( $tally_name, 'U' );
+    $users_tallyboard = new TallyBoard($tally_name, 'U');
 
-    list( $joined_with_user_tallies, $user_tally_column ) =
-        $users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+    [$joined_with_user_tallies, $user_tally_column] =
+        $users_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
     $sql = sprintf("
         SELECT *, $user_tally_column AS current_tally
@@ -381,18 +379,13 @@ function showTeamMbrs($curTeam, $tally_name) {
     $totalAnonUsers = 0;
     $totalPagesAnonUsers = 0;
     while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
-        if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS)
-        {
+        if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS) {
             $totalAnonUsers++;
             $totalPagesAnonUsers += $curMbr['current_tally'];
-        }
-        elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($GLOBALS['pguser']))
-        {
+        } elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($GLOBALS['pguser'])) {
             $totalAnonUsers++;
             $totalPagesAnonUsers += $curMbr['current_tally'];
-        }
-        else
-        {
+        } else {
             $username = $curMbr['username'];
             $member_url = "$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'];
             $t->row(
@@ -402,10 +395,9 @@ function showTeamMbrs($curTeam, $tally_name) {
             );
         }
     }
-    if ($totalAnonUsers > 0)
-    {
+    if ($totalAnonUsers > 0) {
         $t->row(
-            isset($GLOBALS['pguser']) ? _("Anonymous users") : _("Anonymous/Private users"), 
+            isset($GLOBALS['pguser']) ? _("Anonymous users") : _("Anonymous/Private users"),
             number_format($totalPagesAnonUsers),
             "&nbsp;"
         );
@@ -414,23 +406,23 @@ function showTeamMbrs($curTeam, $tally_name) {
     $t->end();
 }
 
-function showTeamHistory($curTeam, $tally_name) {
+function showTeamHistory($curTeam, $tally_name)
+{
     if (@$_GET['range'] == 'all') {
         $range = 'all';
     } else {
         $range = get_integer_param($_GET, 'range', 30, 1, null);
     }
 
-    $choices = array();
-    foreach ( array( 7, 14, 30, 60, 365, 'all' ) as $d )
-    {
+    $choices = [];
+    foreach ([7, 14, 30, 60, 365, 'all'] as $d) {
         $text =
             ($d == 'all')
             ? _('Lifetime')
-            : sprintf( _('Last %d Days'), $d );
+            : sprintf(_('Last %d Days'), $d);
         $choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
-    $choices_str = join( ' | ', $choices );
+    $choices_str = join(' | ', $choices);
 
     $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=T&amp;holder_id=".$curTeam['id']."&amp;days_back=$range";
 
@@ -447,43 +439,48 @@ function showTeamHistory($curTeam, $tally_name) {
     $t->end();
 }
 
-function stripAllString($ttext) {
+function stripAllString($ttext)
+{
     return str_replace(
-        array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
-        array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
+        ['[b]', '[B]', '[/b]', '[/B]', '[i]', '[I]', '[/i]', '[/I]', '[p]', '[P]', '[/p]', '[/P]', '[lb]', '[LB]'],
+        ['<b>', '<b>', '</b>', '</b>', '<i>', '<i>', '</i>', '</i>', '<p>', '<p>', '</p>', '</p>', '<br>', '<br>'],
         html_safe(strip_tags($ttext), ENT_NOQUOTES));
 }
 
-function unstripAllString($ttext) {
+function unstripAllString($ttext)
+{
     return str_replace(
-        array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
-        array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
+        ['<b>', '</b>', '<i>', '</i>', '<p>', '</p>', '<br>'],
+        ['[b]', '[/b]', '[i]', '[/i]', '[p]', '[/p]', '[lb]'],
         $ttext);
 }
 
-function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
+function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
 {
     global $teamimages;
 
     $user = User::load_current();
 
     echo "<form enctype='multipart/form-data' id='mkTeam' name='mkTeam' action='";
-    if ($tedit == 1) { echo "new_team.php"; } else { echo "tedit.php"; }
+    if ($tedit == 1) {
+        echo "new_team.php";
+    } else {
+        echo "tedit.php";
+    }
     echo "' method='post' target='_top'>";
     echo "<input type='hidden' name='tsid' value='$tsid'>";
-    if(@$teamimages['avatar'])
+    if (@$teamimages['avatar']) {
         echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>";
-    if(@$teamimages['icon'])
+    }
+    if (@$teamimages['icon']) {
         echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>";
+    }
 
     echo "\n<table class='themed'>";
     echo "<tr><th colspan='2'>";
-    if ($tedit != 1)
-    {
+    if ($tedit != 1) {
         echo _("Edit Team Information");
-    }
-    else
-    {
+    } else {
         echo _("New Proofreading Team");
     }
     echo "</th></tr>";
@@ -516,7 +513,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     echo "<tr>";
     echo "<td class='center-align' colspan='2'>";
     $user_teams = $user->load_teams();
-    if($tedit == 1 && count($user_teams) >= MAX_USER_TEAM_MEMBERSHIP) {
+    if ($tedit == 1 && count($user_teams) >= MAX_USER_TEAM_MEMBERSHIP) {
         echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='otid' title='".attr_safe(_("Team List"))."'>";
         $sql = sprintf("
@@ -526,7 +523,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
             ORDER BY teamname
         ", implode(",", $user_teams));
         $result = DPDatabase::query($sql);
-        while (list($id, $teamname) = mysqli_fetch_row($result)) {
+        while ([$id, $teamname] = mysqli_fetch_row($result)) {
             echo "<option value='$id'>" . html_safe($teamname) . "</option>";
         }
         echo "</select>";
@@ -536,7 +533,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     echo "</td>";
     echo "</tr>";
 
-    if($tedit == 1) {
+    if ($tedit == 1) {
         echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
@@ -554,13 +551,13 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
 }
 
 
-function uploadImages($preview,$tid,$type)
+function uploadImages($preview, $tid, $type)
 {
     global $team_avatars_dir, $team_icons_dir;
-    $teamimages = array(
-        'avatar' => NULL,
-        'icon' => NULL,
-    );
+    $teamimages = [
+        'avatar' => null,
+        'icon' => null,
+    ];
 
     if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
         if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
@@ -581,7 +578,7 @@ function uploadImages($preview,$tid,$type)
         }
     }
 
-    if (!empty($_FILES['teamicon']['tmp_name']) && ($type =="both" || $type == "icon")) {
+    if (!empty($_FILES['teamicon']['tmp_name']) && ($type == "both" || $type == "icon")) {
         if (strtolower(substr($_FILES['teamicon']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".gif") {
             if ($_FILES['teamicon']['size'] > 1048576) {
                 echo "<p class='error'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</p>";
@@ -609,14 +606,14 @@ function deleteImages()
     global $team_avatars_dir, $team_icons_dir;
     $oneHourAgo = time() - 600;
 
-    $files_to_always_keep = array(
+    $files_to_always_keep = [
         "avatar_default.png",
         "avatar_default2.png",
         "dp_avatar.png",
         "icon_default.png",
         "icon_default2.png",
         "dp_icon.png",
-    );
+    ];
 
     // Delete unused avatars
     $result = mysqli_query(DPDatabase::get_connection(), "SELECT id,avatar FROM user_teams");
@@ -627,10 +624,8 @@ function deleteImages()
 
     $avatars = get_filelist($team_avatars_dir);
     $unused_avatars = array_diff($avatars, $activeAvatars, $files_to_always_keep);
-    foreach($unused_avatars as $file)
-    {
-        if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo)
-        {
+    foreach ($unused_avatars as $file) {
+        if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo) {
             unlink("$team_avatars_dir/$file");
         }
     }
@@ -644,10 +639,8 @@ function deleteImages()
 
     $icons = get_filelist($team_icons_dir);
     $unused_icons = array_diff($icons, $activeIcons, $files_to_always_keep);
-    foreach($unused_icons as $file)
-    {
-        if (filemtime("$team_icons_dir/$file") <= $oneHourAgo)
-        {
+    foreach ($unused_icons as $file) {
+        if (filemtime("$team_icons_dir/$file") <= $oneHourAgo) {
             unlink("$team_icons_dir/$file");
         }
     }

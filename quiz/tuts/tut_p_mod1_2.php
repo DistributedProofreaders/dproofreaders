@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -19,4 +19,3 @@ echo "<p><i>" . _("Dashes in Deliberately Omitted or Censored Words or Names.") 
 echo _("If represented by a dash in the image, proofread these as two hyphens or four hyphens as described for em-dashes &amp; long dashes. When it represents a word, we leave appropriate space around it like it's really a word. If it's only part of a word, then no spaces&mdash;join it with the rest of the word.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_2'>" . _("Continue to quiz page") . "</a></p>\n";
-

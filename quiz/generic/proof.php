@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // html_safe()
@@ -14,34 +14,30 @@ $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 include "./quiz_page.inc"; // qp_initial_page_text qp_sample_solution
 
 // Figure out what font to use
-if ($user_is_logged_in)
-{
-    list( , $font_size, $font_family) = get_user_proofreading_font();
+if ($user_is_logged_in) {
+    [, $font_size, $font_family] = get_user_proofreading_font();
 
     $font_settings = "font-family: $font_family; ";
-    if ( $font_size != '' )
-    {
+    if ($font_size != '') {
         $font_settings .= "font-size: $font_size;";
     }
-}
-else
-{
+} else {
     $font_settings = '';
 }
 // 'quiz' will result in codepoints for quizes
 $quiz = get_project_or_quiz("quiz");
 $valid_character_pattern = build_character_regex_filter($quiz->get_valid_codepoints(), "js");
 
-$header_args = array(
-    "js_files" => array(
+$header_args = [
+    "js_files" => [
         "$code_url/scripts/character_test.js",
         "$code_url/tools/proofers/process_diacritcal_markup.js",
-        ),
+    ],
     "js_data" => "
         var validCharacterPattern = '$valid_character_pattern';
     ",
     'body_attributes' => "onload='top.initializeStuff(1)'",
-);
+];
 
 slim_header("", $header_args);
 ?>
@@ -53,8 +49,7 @@ slim_header("", $header_args);
 <input type="submit" value="<?php echo _("Check"); ?>">
 <input type="reset" value="<?php echo _("Restart"); ?>">
 <?php
-    if ($testing)
-    {
+    if ($testing) {
         $solution = qp_sample_solution();
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";

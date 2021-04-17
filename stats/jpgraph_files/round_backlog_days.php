@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once('common.inc');
@@ -14,9 +14,9 @@ include_once('common.inc');
 
 // Start with creating the Graph, this enables the use of the cache
 // where possisble
-$width=300;
-$height=200;
-$cache_timeout=59; # in minutes
+$width = 300;
+$height = 200;
+$cache_timeout = 59; // in minutes
 $graph = new Graph($width, $height, get_image_cache_filename(), $cache_timeout);
 
 // Pull all interested phases, primarily all the rounds and PP
@@ -29,8 +29,7 @@ $stats = get_round_backlog_stats($interested_phases);
 $stats_total = array_sum($stats);
 
 // If this is a new system there won't be any stats so don't divide by zero
-if($stats_total == 0)
-{
+if ($stats_total == 0) {
     dpgraph_error(_("No pages found."), $width, $height);
 }
 
@@ -38,47 +37,46 @@ if($stats_total == 0)
 // Get page saveAsDone trend information
 $holder_id = 1;
 $today = getdate();
-foreach($stats as $phase => $pages)
-{
-    $tallyboard = new TallyBoard( $phase, 'S' );
+foreach ($stats as $phase => $pages) {
+    $tallyboard = new TallyBoard($phase, 'S');
 
-    $pages_last_week = $tallyboard->get_delta_sum( $holder_id,
-        mktime( 0,0,0, $today['mon'], $today['mday']-7, $today['year'] ),
-        mktime( 0,0,0, $today['mon'], $today['mday'],   $today['year'] ) );
+    $pages_last_week = $tallyboard->get_delta_sum($holder_id,
+        mktime(0, 0, 0, $today['mon'], $today['mday'] - 7, $today['year']),
+        mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year']));
 
     $avg_pages_per_day[$phase] = $pages_last_week / 7;
 
     // calculate the number of days to complete at the current rate
-    if($avg_pages_per_day[$phase])
-        $stats[$phase]=$pages / $avg_pages_per_day[$phase];
-    else
-        $stats[$phase]=0;
+    if ($avg_pages_per_day[$phase]) {
+        $stats[$phase] = $pages / $avg_pages_per_day[$phase];
+    } else {
+        $stats[$phase] = 0;
+    }
 }
 
 // calculate the goal percent as 100 / number_of_phases
-$goal_percent = ceil( 100 / count($stats) );
+$goal_percent = ceil(100 / count($stats));
 
 // colors
-$barColors=array();
-$barColorDefault="#EEEEEE";
-$barColorAboveGoal="#FF484F";
-$goalColor="#0000FF";
+$barColors = [];
+$barColorDefault = "#EEEEEE";
+$barColorAboveGoal = "#FF484F";
+$goalColor = "#0000FF";
 
 $days_total = array_sum($stats);
-if($days_total == 0)
-{
+if ($days_total == 0) {
     $days_total = 1;
 }
 
 // calculate the percentage of work remaining in each round
 // and the color for each bar
-foreach($stats as $phase => $num_days)
-{
+foreach ($stats as $phase => $num_days) {
     $stats_percentage[$phase] = ceil(($num_days / $days_total) * 100);
-    if($stats_percentage[$phase] > $goal_percent) 
-        $barColors[]=$barColorAboveGoal;
-    else
-        $barColors[]=$barColorDefault;
+    if ($stats_percentage[$phase] > $goal_percent) {
+        $barColors[] = $barColorAboveGoal;
+    } else {
+        $barColors[] = $barColorDefault;
+    }
 }
 
 // Some graph variables
@@ -90,7 +88,7 @@ $title = _("Days to finish all pages in Rounds");
 $x_title = _("Help is most needed in the red rounds");
 
 // scale from 0 to 110% of max
-$graph->SetScale("textint",0,max($datay)*1.1);
+$graph->SetScale("textint", 0, max($datay) * 1.1);
 $graph->graph_theme = null;
 $graph->img->SetAntiAliasing();
 
@@ -102,7 +100,7 @@ $graph->SetShadow();
 
 // Adjust the margin a bit to make more room for titles
 // left, right, top, bottom
-$graph->img->SetMargin(50,20,30,60);
+$graph->img->SetMargin(50, 20, 30, 60);
 
 // Set title
 $graph->title->Set($title);
@@ -132,4 +130,3 @@ $plot->value->SetFormat("%d");
 
 // Display the graph
 $graph->Stroke();
-

@@ -2,7 +2,6 @@
 
 class TableDocumentation
 {
-
     private $display_name;
     private $columns_information;
 
@@ -24,7 +23,7 @@ class TableDocumentation
 
         return implode("\n",
             TableDocumentation::create_markdown_table($columns_information,
-                [ 'Field', 'Type', 'Null', 'Key', 'Default', 'Extra' ]));
+                ['Field', 'Type', 'Null', 'Key', 'Default', 'Extra']));
     }
 
     public function generate_column_definitions(): string
@@ -132,8 +131,7 @@ class TableDocumentation
                 if (in_array($column_name, $column_names)) {
                     $should_delete_this_part = false;
                     $encountered_columns[] = $column_name;
-                }
-                else {
+                } else {
                     $should_delete_this_part = true;
                 }
             }
@@ -167,13 +165,11 @@ class TableDocumentation
         foreach ($lines as $index => $line) {
             if (startswith($line, '|') && !$finished_table) {
                 $reached_table = true;
-            }
-            elseif ($reached_table && !$finished_table) {
+            } elseif ($reached_table && !$finished_table) {
                 $finished_table = true;
                 $lines_with_new_table = array_merge($lines_with_new_table, $new_table);
                 $lines_with_new_table[] = $line;
-            }
-            else {
+            } else {
                 $lines_with_new_table[] = $line;
             }
         }
@@ -194,8 +190,7 @@ class TableDocumentation
         foreach ($lines as $index => $line) {
             if (startswith($line, '|')) {
                 $first_table_lines[] = $line;
-            }
-            elseif (count($first_table_lines) > 0) {
+            } elseif (count($first_table_lines) > 0) {
                 break;
             }
         }

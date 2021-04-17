@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
 include_once('PPage.inc');
@@ -10,4 +10,3 @@ require_login();
 $ppage = get_requested_PPage($_GET);
 
 echo_text_frame_std($ppage);
-

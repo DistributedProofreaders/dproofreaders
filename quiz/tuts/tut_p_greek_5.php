@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -36,4 +36,3 @@ echo "    <td><kbd>r</kbd></td></tr>\n";
 echo "</table>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_5'>" . _("Continue to quiz page") . "</a></p>\n";
-

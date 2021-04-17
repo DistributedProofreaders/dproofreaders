@@ -8,25 +8,25 @@ include_once($relPath."misc.inc"); // array_get
 global $pp_alert_threshold_days;
 $pp_alert_threshold_days = 90;
 
-function count_pp_projects_past_threshold($PPer=NULL)
+function count_pp_projects_past_threshold($PPer = null)
 {
-    $columns = [ "count(*) AS total" ];
+    $columns = ["count(*) AS total"];
     $result = _run_pp_threshold_query_result(PROJ_POST_FIRST_CHECKED_OUT, $columns, $PPer);
 
-    list($total) = mysqli_fetch_row($result);
+    [$total] = mysqli_fetch_row($result);
     return $total;
 }
 
-function count_ppv_projects_past_threshold($PPVer=NULL)
+function count_ppv_projects_past_threshold($PPVer = null)
 {
-    $columns = [ "count(*) AS total" ];
+    $columns = ["count(*) AS total"];
     $result = _run_pp_threshold_query_result(PROJ_POST_SECOND_CHECKED_OUT, $columns, $PPVer);
 
-    list($total) = mysqli_fetch_row($result);
+    [$total] = mysqli_fetch_row($result);
     return $total;
 }
 
-function get_pp_projects_past_threshold($PPer=NULL)
+function get_pp_projects_past_threshold($PPer = null)
 {
     $columns = [
         "nameofwork",
@@ -43,25 +43,24 @@ function get_pp_projects_past_threshold($PPer=NULL)
 
     $projects_grouped_by_PPer = [];
 
-    while($row = mysqli_fetch_assoc($result))
-    {
+    while ($row = mysqli_fetch_assoc($result)) {
         $row_PPer = $row["checkedoutby"];
-        if(!isset($projects_grouped_by_PPer[$row_PPer]))
-        {
+        if (!isset($projects_grouped_by_PPer[$row_PPer])) {
             $projects_grouped_by_PPer[$row_PPer] = [];
         }
         $projects_grouped_by_PPer[$row_PPer][] = $row;
     }
 
-    if($PPer)
+    if ($PPer) {
         return array_get($projects_grouped_by_PPer, $PPer, []);
-    else
+    } else {
         return $projects_grouped_by_PPer;
+    }
 }
 
 // internal function to avoid duplicating the SQL logic that determines
 // projects past the PP alert threshold
-function _run_pp_threshold_query_result($state, $columns, $user, $ordering_criteria=NULL)
+function _run_pp_threshold_query_result($state, $columns, $user, $ordering_criteria = null)
 {
     global $pp_alert_threshold_days;
 

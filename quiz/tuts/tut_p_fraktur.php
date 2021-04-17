@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -18,4 +18,3 @@ echo "<p>" . _("There are two different forms of the lower case letter 's'.  The
 echo "<p>" . sprintf(_("If you have difficulty identifying letters in fraktur, there is a <a target='_blank' href='%s'>fraktur tool</a> similar to the Greek Transliterator but using the fraktur alphabet."), "http://www.kurald-galain.com/fraktur2ascii.html") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_fraktur'>" . _("Continue to quiz page") . "</a></p>\n";
-

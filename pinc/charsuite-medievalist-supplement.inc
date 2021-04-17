@@ -6,7 +6,7 @@ use voku\helper\UTF8;
 $charsuite = new CharSuite("medievalist-supplement", _("Medievalist supplement"));
 $charsuite->description = _("Characters used for transcription and analysis of medieval writings");
 $charsuite->codepoints = [
-    # https://www.pgdp.net/wiki/Medievalist_supplement
+    // https://www.pgdp.net/wiki/Medievalist_supplement
     'U+0100-U+0103',
     'U+0111-U+0115',
     'U+0118-U+0119',

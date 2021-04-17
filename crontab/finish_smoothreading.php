@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
@@ -11,16 +11,15 @@ require_localhost_request();
 
 header('Content-type: text/plain');
 
-$dry_run = array_get( $_GET, 'dry_run', '' );
-if ($dry_run)
-{
+$dry_run = array_get($_GET, 'dry_run', '');
+if ($dry_run) {
     echo "This is a dry run.\n";
 }
 
 // Interval relative to current time
 //   Select all projects whose smooth reading deadline is within this interval.
-$from =  -60 * 60;
-$to   =   60 * 60;
+$from = -60 * 60;
+$to = 60 * 60;
 
 $result = mysqli_query(DPDatabase::get_connection(), "
     SELECT *
@@ -37,8 +36,7 @@ $any_work_done = false;
 // Used for checking smoothread_deadline within the loop
 $curr_time = strftime('%Y-%m-%d %H', time());
 
-while ( $project = mysqli_fetch_assoc($result) )
-{
+while ($project = mysqli_fetch_assoc($result)) {
     $name = $project['nameofwork'];
     $projectid = $project['projectid'];
     $objProject = new Project($project);
@@ -46,20 +44,16 @@ while ( $project = mysqli_fetch_assoc($result) )
     // Check if the time is right, with precision of an hour
     $deadline = strftime('%Y-%m-%d %H', $project['smoothread_deadline']);
 
-    if ($curr_time == $deadline)
-    {
+    if ($curr_time == $deadline) {
         $output .= "$name\n";
         $any_work_done = true;
 
-        if ($dry_run)
-        {
+        if ($dry_run) {
             $output .= "  Since this is a dry run, we won't send an email and log an event\n";
-        }
-        else
-        {
+        } else {
             $output .= "  Sending email and logging event...\n";
-            log_project_event( $projectid, '[AUTO]', 'smooth-reading', 'finished' );
-            notify_project_event_subscribers( $objProject, 'sr_complete' );
+            log_project_event($projectid, '[AUTO]', 'smooth-reading', 'finished');
+            notify_project_event_subscribers($objProject, 'sr_complete');
         }
     }
 }
@@ -67,8 +61,6 @@ while ( $project = mysqli_fetch_assoc($result) )
 $output .= "finish_smoothreading.php executed.\n";
 
 // Don't output anything if no work was done
-if ($any_work_done)
-{
+if ($any_work_done) {
     echo $output;
 }
-

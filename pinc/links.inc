@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 
-function new_window_link( $href, $linktext )
+function new_window_link($href, $linktext)
 // Returns a string containing a snippet of HTML
 // for a link that opens in a new window.
 {
@@ -19,7 +19,7 @@ function new_window_link( $href, $linktext )
 
 // -----------------------------------------------------------------------------
 
-function recycle_window_link( $href, $linktext, $target )
+function recycle_window_link($href, $linktext, $target)
 // Returns a string containing a snippet of HTML
 // for a link that opens in a specific target.
 {
@@ -35,7 +35,7 @@ function recycle_window_link( $href, $linktext, $target )
 
 // -----------------------------------------------------------------------------
 
-function new_help_window_link( $help_topic_id, $linktext )
+function new_help_window_link($help_topic_id, $linktext)
 // Returns a string containing a snippet of HTML
 // for a link that opens a help topic in a new window.
 {
@@ -51,7 +51,7 @@ function new_help_window_link( $help_topic_id, $linktext )
 
 // -----------------------------------------------------------------------------
 
-function private_message_link( $proofer_username, $target="_blank" )
+function private_message_link($proofer_username, $target = "_blank")
 // returns a string containing a snippet of HTML
 // for a link that opens a window to send a PM to the
 // specified user.
@@ -60,15 +60,16 @@ function private_message_link( $proofer_username, $target="_blank" )
 {
     global $code_url;
 
-    $targetString="";
-    if(!empty($target))
+    $targetString = "";
+    if (!empty($target)) {
         $targetString = " target='$target'";
+    }
 
     $message_url = attr_safe(get_url_to_compose_message_to_user($proofer_username));
 
     $a = "<a href='$message_url'$targetString>$proofer_username</a>";
 
-    if($target == "_blank") {
+    if ($target == "_blank") {
         $title = _('Link opens in a new window');
         $img = "<img src='$code_url/graphics/New-Window.gif' title='$title'>";
 
@@ -77,5 +78,3 @@ function private_message_link( $proofer_username, $target="_blank" )
 
     return $a;
 }
-
-?>

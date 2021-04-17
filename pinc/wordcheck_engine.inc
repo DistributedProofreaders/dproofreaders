@@ -32,21 +32,21 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡�
 
 // There are four "levels" of specificity
 // at which words are deemed bad or good.
-define('WC_WORLD',   1);
-define('WC_SITE',    2);
+define('WC_WORLD', 1);
+define('WC_SITE', 2);
 define('WC_PROJECT', 3);
-define('WC_PAGE',    4);
+define('WC_PAGE', 4);
 
 
 // Wrapper functions for _get_bad_words_for_project_text() that abstract if
 // the function returns FREQS or LEVELS. See that function for arguments
 // and return values.
-function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language='', $adhoc_good_words=[])
+function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
 {
     return _get_bad_words_for_project_text('FREQS', $text, $projectid, $aux_language, $adhoc_good_words);
 }
 
-function get_bad_word_levels_for_project_text($text, $projectid, $aux_language='', $adhoc_good_words=[])
+function get_bad_word_levels_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
 {
     return _get_bad_words_for_project_text('LEVELS', $text, $projectid, $aux_language, $adhoc_good_words);
 }
@@ -81,7 +81,7 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
     $languages = array_values(get_project_languages($projectid, $aux_language));
 
     // And the langcode3s for those languages
-    list($langcode3s, $new_messages) = get_langcode3s_for_languages($languages);
+    [$langcode3s, $new_messages] = get_langcode3s_for_languages($languages);
     $messages += $new_messages;
 
     $word_lists = [
@@ -89,10 +89,10 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
         "site_good" => load_site_good_words($langcode3s),
         "site_bad" => load_site_bad_words($langcode3s),
         "project_good" => load_project_good_words($projectid),
-        "project_bad" => load_project_bad_words($projectid)
+        "project_bad" => load_project_bad_words($projectid),
     ];
 
-    list($input_words_w_freq, $bad_words, $new_messages) =
+    [$input_words_w_freq, $bad_words, $new_messages] =
         get_bad_words_for_text($text, $languages, $word_lists);
     $messages += $new_messages;
 
@@ -104,19 +104,14 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
     // But the way we do the intersection determines the values that are
     // associated with those words.
     //
-    if($which_result_values == 'FREQS')
-    {
+    if ($which_result_values == 'FREQS') {
         // Associate each bad word with its frequency in the text.
         $bad_words_in_text = array_intersect_key($input_words_w_freq, $bad_words);
-    }
-    elseif($which_result_values == 'LEVELS')
-    {
+    } elseif ($which_result_values == 'LEVELS') {
         // Associate each bad word with the most specific level at which it was deemed bad.
         $bad_words_in_text = array_intersect_key($bad_words, $input_words_w_freq);
-    }
-    else
-    {
-        assert(FALSE);
+    } else {
+        assert(false);
     }
 
     return [$bad_words_in_text, $languages, $messages];
@@ -138,7 +133,7 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
 //      - array of text words with frequency
 //      - array of bad words
 //      - array of possible warning/error messages
-function get_bad_words_for_text($text, $languages, $word_lists=[])
+function get_bad_words_for_text($text, $languages, $word_lists = [])
 {
     $input_words_w_freq = get_distinct_words_in_text($text);
 
@@ -150,7 +145,7 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
     // The world
     {
-        list($external_bad_words, $messages) =
+        [$external_bad_words, $messages] =
             get_bad_words_via_external_checker($input_words_w_freq, $languages);
         $acc->messages += $messages;
         $acc->add_bad_words($external_bad_words, WC_WORLD);
@@ -190,7 +185,7 @@ function get_bad_words_for_text($text, $languages, $word_lists=[])
 
 class BadWordAccumulator
 {
-    function __construct()
+    public function __construct()
     {
         $this->words = [];
         // Each key is a bad word, and its value is
@@ -200,31 +195,23 @@ class BadWordAccumulator
         $this->messages = [];
     }
 
-    function add_bad_words($bad_words, $val)
+    public function add_bad_words($bad_words, $val)
     {
-        if(is_string($bad_words))
-        {
+        if (is_string($bad_words)) {
             $this->messages[] = $bad_words;
-        }
-        else
-        {
-            foreach($bad_words as $word)
-            {
+        } else {
+            foreach ($bad_words as $word) {
                 $this->words[$word] = $val;
             }
         }
     }
 
-    function remove_good_words($good_words)
+    public function remove_good_words($good_words)
     {
-        if(is_string($good_words))
-        {
+        if (is_string($good_words)) {
             $this->messages[] = $good_words;
-        }
-        else
-        {
-            foreach($good_words as $word)
-            {
+        } else {
+            foreach ($good_words as $word) {
                 unset($this->words[$word]);
             }
         }
@@ -258,22 +245,21 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     $tmp_file_text = join("\n", array_keys($input_words_w_freq));
     $wasWritten = file_put_contents($tmp_file_path, $tmp_file_text);
     unset($tmp_file_text);
-    if($wasWritten === FALSE)
-    {
+    if ($wasWritten === false) {
         $messages[] = sprintf(_("Error: unable to write text to temp file: %s"), $tmp_file_path);
         return [[], $messages];
     }
 
     $misspellings = [];
-    foreach($languages as $language) {
+    foreach ($languages as $language) {
         $langcode = langcode2_for_langname($language);
-        if($langcode) {
+        if ($langcode) {
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
-            if(is_file($dict_file)) {
+            if (is_file($dict_file)) {
                 // run aspell using this language
 
                 // create the aspell command
-                $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset}";
+                $aspell_command = "cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset}";
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // build our list of possible misspellings
                 $misspellings[$langcode] = explode("\n",
@@ -287,24 +273,20 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 $misspellings[$langcode] = filter_words_to_script(
                     $misspellings[$langcode], get_script_for_langcode($langcode)
                 );
-            }
-            else
-            {
+            } else {
                 $messages[] = sprintf(_("Warning: no external dictionary installed for '%s'"), $language);
             }
-        }
-        else
-        {
+        } else {
             $messages[] = sprintf(_("Warning: unknown language '%s'"), $language);
         }
     }
 
     // now remove the temporary file
-    if(is_file($tmp_file_path)) {
+    if (is_file($tmp_file_path)) {
         unlink($tmp_file_path);
     }
 
-    if(count($misspellings) == 0) {
+    if (count($misspellings) == 0) {
         $finalMisspellings = [];
         return [$finalMisspellings, $messages];
     }
@@ -314,11 +296,9 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     // and a French dictionary, the words that are misspelled in both are the
     // ones actually misspelled. We only intersect by language script, however,
     // as a misspelled Greek word won't show up in the English list or vice versa.
-    foreach($misspellings as $lang_code => $words)
-    {
+    foreach ($misspellings as $lang_code => $words) {
         $lang_script = get_script_for_langcode($lang_code);
-        if(!isset($misspellings[$lang_script]))
-        {
+        if (!isset($misspellings[$lang_script])) {
             $misspellings[$lang_script] = $words;
             unset($misspellings[$lang_code]);
             continue;
@@ -331,8 +311,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 
     // Now merge all misspellings by language script together
     $finalMisspellings = [];
-    foreach($misspellings as $lang_script => $words)
-    {
+    foreach ($misspellings as $lang_script => $words) {
         $finalMisspellings = array_merge($finalMisspellings, $words);
     }
     unset($misspellings);
@@ -375,10 +354,8 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
     // containing non-Latin-1 characters as bad at the world-level.
     //
     $bad_words = [];
-    foreach($input_words_w_freq as $word => $freq)
-    {
-        if(str_contains($word, '['))
-        {
+    foreach ($input_words_w_freq as $word => $freq) {
+        if (str_contains($word, '[')) {
             $bad_words[] = $word;
         }
     }
@@ -400,7 +377,7 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
 //
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
-    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
 
     $badWords = [];
 
@@ -414,19 +391,20 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
         // etc
     ];
     $exceptions = [];
-    foreach($langcode3s as $langcode3)
-    {
+    foreach ($langcode3s as $langcode3) {
         $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
     }
     $exceptions = join('|', $exceptions);
     $exceptions_pattern = "/^($exceptions)$/u";
 
-    foreach($input_words_w_freq as $word => $freq) {
+    foreach ($input_words_w_freq as $word => $freq) {
         // if the word has both a digit and a word_letter
-        if(preg_match("/\d/u", $word) && preg_match("/\D/u", $word)) {
+        if (preg_match("/\d/u", $word) && preg_match("/\D/u", $word)) {
 
             // ignore common <digit><letter> combinations
-            if(preg_match($exceptions_pattern, $word)) continue;
+            if (preg_match($exceptions_pattern, $word)) {
+                continue;
+            }
 
             $badWords[] = $word;
         }
@@ -450,11 +428,9 @@ function get_bad_words_with_multi_scripts($input_words_w_freq)
 {
     $bad_words = [];
 
-    foreach($input_words_w_freq as $word => $freq)
-    {
+    foreach ($input_words_w_freq as $word => $freq) {
         $scripts = utf8_string_scripts($word);
-        if(count(array_diff($scripts, ["Common", "Inherited"])) > 1)
-        {
+        if (count(array_diff($scripts, ["Common", "Inherited"])) > 1) {
             $bad_words[] = $word;
         }
     }
@@ -481,12 +457,12 @@ function load_site_possible_bad_words($langcode3s)
 
 function _load_site_words($type, $langcode3s)
 {
-    if(!is_array($langcode3s))
+    if (!is_array($langcode3s)) {
         $langcode3s = [$langcode3s];
+    }
 
     $words = [];
-    foreach($langcode3s as $langcode3)
-    {
+    foreach ($langcode3s as $langcode3) {
         $fileObject = get_site_word_file($langcode3, $type);
         $words = array_merge($words, load_word_list($fileObject->abs_path));
     }
@@ -603,7 +579,7 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
 {
     // save the corrections in wdiff format
     $correction_list = [];
-    foreach ($corrections as list($orig, $new)) {
+    foreach ($corrections as [$orig, $new]) {
         $correction_list[] = "[-$orig-] {+$new+}";
     }
 
@@ -614,7 +590,7 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
         set_col_str("round_id", $round),
         set_col_str("username", $proofer),
         set_col_str("suggestions", join("\n", $suggestions)),
-        set_col_str("corrections", join("\n", $correction_list))
+        set_col_str("corrections", join("\n", $correction_list)),
     ]);
     $sql = "INSERT INTO wordcheck_events
             SET $setters";
@@ -626,7 +602,7 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
 // suggestions. This function can be used as a faster alternative
 // to counting the result of load_wordcheck_events, when one does
 // not need the precise number of suggested words.
-function count_wordcheck_suggestion_events($projectid, $start_time=0)
+function count_wordcheck_suggestion_events($projectid, $start_time = 0)
 {
     $sql = sprintf("
         SELECT count(*) AS numevents FROM wordcheck_events
@@ -645,7 +621,7 @@ function count_wordcheck_suggestion_events($projectid, $start_time=0)
     return $row["numevents"];
 }
 
-function load_wordcheck_events($projectid, $start_time=0)
+function load_wordcheck_events($projectid, $start_time = 0)
 {
     $sql = sprintf("
         SELECT * FROM wordcheck_events
@@ -658,7 +634,7 @@ function load_wordcheck_events($projectid, $start_time=0)
     $res = DPDatabase::query($sql);
 
     $eventArray = [];
-    while($resultSet = mysqli_fetch_assoc($res)) {
+    while ($resultSet = mysqli_fetch_assoc($res)) {
         $time = $resultSet["timestamp"];
         $round = $resultSet["round_id"];
         $page = $resultSet["image"];
@@ -666,15 +642,17 @@ function load_wordcheck_events($projectid, $start_time=0)
         $words = $resultSet["suggestions"];
         $corrections = $resultSet["corrections"];
 
-        if($words != "")
+        if ($words != "") {
             $words = explode("\n", $words);
-        else
+        } else {
             $words = [];
+        }
 
-        if($corrections != "")
+        if ($corrections != "") {
             $corrections = explode("\n", $corrections);
-        else
+        } else {
             $corrections = [];
+        }
 
         $eventArray[] = [$time, $round, $page, $proofer, $words, $corrections];
     }
@@ -685,20 +663,23 @@ function load_wordcheck_events($projectid, $start_time=0)
 }
 
 
-function load_project_good_word_suggestions($projectid, $start_time=0)
+function load_project_good_word_suggestions($projectid, $start_time = 0)
 {
     $eventArray = load_wordcheck_events($projectid, $start_time);
 
     $wordsArray = [];
 
-    if(!count($eventArray)) return $wordsArray;
+    if (!count($eventArray)) {
+        return $wordsArray;
+    }
 
-    foreach($eventArray as $event) {
-        list($time, $round, $page, $proofer, $words, $corrections) = $event;
+    foreach ($eventArray as $event) {
+        [$time, $round, $page, $proofer, $words, $corrections] = $event;
 
-        if(count($words)) {
-            if(!is_array(@$wordsArray[$round][$page]))
+        if (count($words)) {
+            if (!is_array(@$wordsArray[$round][$page])) {
                 $wordsArray[$round][$page] = [];
+            }
             $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page], $words);
         }
     }
@@ -711,21 +692,21 @@ function load_project_good_word_suggestions($projectid, $start_time=0)
 function load_site_good_words_given_project($projectid)
 {
     $languages = array_values(get_project_languages($projectid));
-    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_good_words($langcode3s);
 }
 
 function load_site_bad_words_given_project($projectid)
 {
     $languages = array_values(get_project_languages($projectid));
-    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_bad_words($langcode3s);
 }
 
 function load_site_possible_bad_words_given_project($projectid)
 {
     $languages = array_values(get_project_languages($projectid));
-    list($langcode3s, $messages) = get_langcode3s_for_languages($languages);
+    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_possible_bad_words($langcode3s);
 }
 
@@ -737,8 +718,8 @@ function get_project_word_file($projectid, $code)
     global $projects_dir, $projects_url;
 
     $filename_for_code = [
-        'good'       => 'good_words.txt',
-        'bad'        => 'bad_words.txt',
+        'good' => 'good_words.txt',
+        'bad' => 'bad_words.txt',
     ];
     assert(array_key_exists($code, $filename_for_code));
 
@@ -753,8 +734,8 @@ function get_site_word_file($langcode3, $code)
     global $dyn_dir, $dyn_url;
 
     $filename_for_code = [
-        'good'         => "good_words.$langcode3.txt",
-        'bad'          => "bad_words.$langcode3.txt",
+        'good' => "good_words.$langcode3.txt",
+        'bad' => "bad_words.$langcode3.txt",
         'possible_bad' => "possible_bad_words.$langcode3.txt",
     ];
     assert(array_key_exists($code, $filename_for_code));
@@ -775,16 +756,15 @@ function get_site_word_file($langcode3, $code)
 // (size and mod_time are set to zero if the file doesn't exist.)
 function get_file_info_object($filename, $base_dir, $base_url)
 {
-
     clearstatcache();
 
-    $o = new StdClass;
+    $o = new StdClass();
 
     $o->filename = $filename;
     $o->abs_path = "$base_dir/{$o->filename}";
-    $o->abs_url  = "$base_url/{$o->filename}";
-    $o->exists   = @file_exists($o->abs_path);
-    $o->size     = $o->exists ? filesize($o->abs_path) : 0;
+    $o->abs_url = "$base_url/{$o->filename}";
+    $o->exists = @file_exists($o->abs_path);
+    $o->size = $o->exists ? filesize($o->abs_path) : 0;
     $o->mod_time = $o->exists ? filemtime($o->abs_path) : 0;
 
     return $o;
@@ -799,8 +779,7 @@ function get_file_info_object($filename, $base_dir, $base_url)
 //   on error:   a string containing an error message
 function load_word_list($path)
 {
-    if(!is_file($path))
-    {
+    if (!is_file($path)) {
         // The file does not exist.
         // Treat that the same as if it existed and was empty.
         return [];
@@ -810,8 +789,7 @@ function load_word_list($path)
     // parameter since it wasn't added until PHP 5.0.0 *and* because
     // it only removes \n, not \r\n, so we'd still need to rtrim later
     $words = file($path);
-    if($words === FALSE)
-    {
+    if ($words === false) {
         return sprintf(_("Error reading file %s"), $path);
     }
 
@@ -822,8 +800,9 @@ function load_word_list($path)
     array_walk($words, 'rtrim_walk');
 
     // remove the last "empty" word caused by the last newline
-    if(count($words) && $words[count($words)-1]=="")
+    if (count($words) && $words[count($words) - 1] == "") {
         array_pop($words);
+    }
 
     return $words;
 }
@@ -835,7 +814,7 @@ function save_word_list($path, $words)
     // standardize word list
     array_walk($words, 'rtrim_walk');
     $words = array_unique($words);
-    uasort($words,"deterministicStrnatcasecmp");
+    uasort($words, "deterministicStrnatcasecmp");
 
     // remove any empty words
     $words = array_diff($words, ['']);
@@ -849,8 +828,7 @@ function save_word_list($path, $words)
 
     // if no change was made, return Success
     // without modifying file
-    if($words == $oldWords)
-    {
+    if ($words == $oldWords) {
         return "Success";
     }
 
@@ -858,18 +836,18 @@ function save_word_list($path, $words)
     // now open the file
     $fh = @fopen($path, "w");
 
-    if($fh === FALSE)
-    {
+    if ($fh === false) {
         return _("Error: Unable to write to wordlist file.");
     }
 
     // get an exclusive lock; lock is cleared by fclose
     flock($fh, LOCK_EX);
 
-    foreach($words as $word)
-    {
+    foreach ($words as $word) {
         // skip any blank words
-        if ($word == "") continue;
+        if ($word == "") {
+            continue;
+        }
 
         fputs($fh, "$word\r\n");
     }
@@ -882,25 +860,23 @@ function save_word_list($path, $words)
 
 // Returns an associative array of all languages for a project
 //   $array[$langcode]=$language;
-function get_project_languages($projectid, $aux_language=NULL)
+function get_project_languages($projectid, $aux_language = null)
 {
     $returnArray = [];
 
-    try
-    {
+    try {
         $project = new Project($projectid);
-    }
-    catch(NonexistentProjectException $exception)
-    {
+    } catch (NonexistentProjectException $exception) {
         return $returnArray;
     }
     $languages = $project->languages;
-    if($aux_language)
+    if ($aux_language) {
         $languages[] = $aux_language;
+    }
 
-    foreach($languages as $language) {
+    foreach ($languages as $language) {
         $langcode = langcode2_for_langname($language);
-        if($langcode) {
+        if ($langcode) {
             $returnArray[$langcode] = $language;
         }
     }
@@ -938,27 +914,32 @@ function get_site_possible_bad_word_lists()
 //
 // Note: 'empty' files (2 bytes in size or smaller) are not returned
 // regardless of the pattern specified
-function get_site_word_files($pattern="", $urlbase=TRUE)
+function get_site_word_files($pattern = "", $urlbase = true)
 {
     global $dyn_dir;
     global $dyn_url;
 
-    if($urlbase)
+    if ($urlbase) {
         $base = $dyn_url;
-    else
+    } else {
         $base = $dyn_dir;
+    }
 
     $wordLists = [];
 
-    $wordsDir="$dyn_dir/words";
-    if(is_dir($wordsDir)) {
-        foreach(scandir($wordsDir) as $filename) {
+    $wordsDir = "$dyn_dir/words";
+    if (is_dir($wordsDir)) {
+        foreach (scandir($wordsDir) as $filename) {
             // skip files that don't match the pattern
-            if(!empty($pattern) && !preg_match($pattern, $filename)) continue;
+            if (!empty($pattern) && !preg_match($pattern, $filename)) {
+                continue;
+            }
 
             // skip files that are only two bytes or smaller
             // as these usually contain just \r and/or \n
-            if(filesize("$wordsDir/$filename")<=2) continue;
+            if (filesize("$wordsDir/$filename") <= 2) {
+                continue;
+            }
 
             $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
         }
@@ -992,15 +973,11 @@ function get_distinct_words_in_text($text)
     // (usually at least 100kb), so any value for $break_point in the range of
     // 5kb to 100kb would have the same effect on branching.
 
-    if(is_string($text))
-    {
-        if(strlen($text) < $break_point)
-        {
+    if (is_string($text)) {
+        if (strlen($text) < $break_point) {
             // The result of get_all_words_in_text($text) will be small enough.
             $input_words_w_freq = array_count_values(get_all_words_in_text($text));
-        }
-        else
-        {
+        } else {
             // The result of get_all_words_in_text($text) would be rather large,
             // so avoid it.  The following alternative is somewhat slower but
             // more space efficient.
@@ -1009,32 +986,25 @@ function get_distinct_words_in_text($text)
             $input_words_w_freq = [];
             $offset = 0;
             $flags = PREG_OFFSET_CAPTURE;
-            while(preg_match($word_pattern, $text, $matches, $flags, $offset))
-            {
-                list($word, $word_start) = $matches[0];
+            while (preg_match($word_pattern, $text, $matches, $flags, $offset)) {
+                [$word, $word_start] = $matches[0];
                 @$input_words_w_freq[$word]++;
                 $offset = $word_start + strlen($word);
             }
         }
-    }
-    elseif(is_array($text))
-    {
+    } elseif (is_array($text)) {
         // We assume that the strings in $text are smaller than $break_point,
         // so it's okay to call get_all_words_in_text() on each. (Currently,
         // each string is a single page-text, so the assumption is valid.)
 
         $input_words_w_freq = [];
-        foreach($text as $chunk)
-        {
-            foreach(get_all_words_in_text($chunk) as $word)
-            {
+        foreach ($text as $chunk) {
+            foreach (get_all_words_in_text($chunk) as $word) {
                 @$input_words_w_freq[$word] += 1;
             }
         }
-    }
-    else
-    {
-        assert(FALSE);
+    } else {
+        assert(false);
     }
 
     return $input_words_w_freq;
@@ -1055,21 +1025,18 @@ function get_distinct_words_in_text($text)
 //    took roughly an hour just to print the first four items in the array!)
 //    Note that it's *not* inefficient accessing an array with the same number
 //    of items, but having consecutive integers as the keys!
-function get_all_words_in_text($text, $with_offsets=FALSE)
+function get_all_words_in_text($text, $with_offsets = false)
 {
     global $word_pattern;
     $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
     $n_matches = preg_match_all($word_pattern, $text, $matches, $flags);
-    if($n_matches === FALSE)
-    {
+    if ($n_matches === false) {
         die("get_all_words_in_text: An error occurred.");
     }
 
-    if($with_offsets)
-    {
+    if ($with_offsets) {
         $result = [];
-        foreach($matches[0] as list($word, $offset_bytes))
-        {
+        foreach ($matches[0] as [$word, $offset_bytes]) {
             $search_offset = 0;
             // offsets from preg_match_all() are in bytes, but we need the
             // offset in characters
@@ -1077,9 +1044,7 @@ function get_all_words_in_text($text, $with_offsets=FALSE)
             $result[$offset] = $word;
         }
         return $result;
-    }
-    else
-    {
+    } else {
         return $matches[0];
     }
 }
@@ -1102,15 +1067,11 @@ function get_langcode3s_for_languages($languages)
 {
     $messages = [];
     $langcode3s = [];
-    foreach($languages as $language)
-    {
+    foreach ($languages as $language) {
         $langcode3 = langcode3_for_langname($language);
-        if(is_null($langcode3))
-        {
+        if (is_null($langcode3)) {
             $messages[] = sprintf(_("Warning: unknown language '%s'"), $language);
-        }
-        else
-        {
+        } else {
             $langcode3s[] = $langcode3;
         }
     }
@@ -1137,13 +1098,10 @@ function rtrim_walk(&$item)
 function filter_words_to_script($words, $script)
 {
     $script_words = [];
-    foreach($words as $word)
-    {
-        if(in_array($script, utf8_string_scripts($word)))
-        {
+    foreach ($words as $word) {
+        if (in_array($script, utf8_string_scripts($word))) {
             $script_words[] = $word;
         }
     }
     return $script_words;
 }
-

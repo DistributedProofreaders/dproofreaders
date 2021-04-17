@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -29,4 +29,3 @@ echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over o
 echo "</ul>";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_3'>" . _("Continue to quiz page") . "</a></p>";
-

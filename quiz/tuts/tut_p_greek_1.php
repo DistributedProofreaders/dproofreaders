@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../generic/quiz_defaults.inc'); // $Greek_translit_url
@@ -20,4 +20,3 @@ echo "<p>" . sprintf(_("Press the \"Greek Transliterator\" link near the bottom 
 echo "<p>" . sprintf(_("If the transliteration tool does not appear when you click on the button, your computer may be blocking pop-ups. Make sure that your software allows pop-ups from the %s site."), $site_abbreviation) . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_1'>" . _("Continue to quiz page") . "</a></p>\n";
-

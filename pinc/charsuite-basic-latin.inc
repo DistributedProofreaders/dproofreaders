@@ -5,23 +5,23 @@ use voku\helper\UTF8;
 
 $charsuite = new CharSuite("basic-latin", _("Basic Latin"));
 $charsuite->codepoints = [
-    # https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
+    // https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)
     'U+0020-U+007e',
-    # https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)
-    # without the soft hyphen
+    // https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)
+    // without the soft hyphen
     'U+00a1-U+00ac',
     'U+00ae-U+00ff',
-    # codepoints that map to Windows-1252
-    'U+0152', # OE ligature
-    'U+0153', # oe ligature
-    'U+0160', # [vS]
-    'U+0161', # [vs]
-    'U+017d', # [vZ]
-    'U+017e', # [vz]
-    'U+0178', # [:Y]
-    'U+0192', # latin small letter f with hook florin
-    'U+2039', # open single guillemet
-    'U+203a', # close single guillemet
+    // codepoints that map to Windows-1252
+    'U+0152', // OE ligature
+    'U+0153', // oe ligature
+    'U+0160', // [vS]
+    'U+0161', // [vs]
+    'U+017d', // [vZ]
+    'U+017e', // [vz]
+    'U+0178', // [:Y]
+    'U+0192', // latin small letter f with hook florin
+    'U+2039', // open single guillemet
+    'U+203a', // close single guillemet
 ];
 $charsuite->reference_urls = [
     "https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)",

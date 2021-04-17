@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -19,4 +19,3 @@ echo "</ul>";
 echo "<p>" . _("Watch out for these. Normally the context of the sentence is sufficient to determine which is the correct character, but be careful&mdash;often your mind will automatically 'correct' these as you are reading.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_4'>" . _("Continue to quiz page") . "</a></p>\n";
-

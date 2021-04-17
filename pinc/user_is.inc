@@ -20,7 +20,7 @@ function & get_pguser_settings()
 
 function that_user_is_a_sitemanager($username)
 {
-    $userSettings =& Settings::get_settings($username);
+    $userSettings = & Settings::get_settings($username);
     return $userSettings->get_boolean("sitemanager");
 }
 
@@ -34,7 +34,7 @@ function user_is_a_sitemanager()
 
 function that_user_is_proj_facilitator($username)
 {
-    $userSettings =& Settings::get_settings($username);
+    $userSettings = & Settings::get_settings($username);
     return
         $userSettings->get_boolean("proj_facilitator")
         ||
@@ -51,19 +51,19 @@ function user_is_proj_facilitator()
 
 function user_is_an_access_request_reviewer()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return $userSettings->get_boolean("access_request_reviewer");
 }
 
 function user_is_taskcenter_mgr()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
 function user_can_see_user_access_chart_of($subject_username)
 {
-    list($can_grant, $can_revoke) = user_can_modify_access_of($subject_username);
+    [$can_grant, $can_revoke] = user_can_modify_access_of($subject_username);
     return ($can_grant || $can_revoke || user_is_proj_facilitator());
     // If X can modify the access of Y, then X needs to be able to see Y's access chart.
     // We also allow PFs to see access charts.
@@ -72,37 +72,35 @@ function user_can_see_user_access_chart_of($subject_username)
 function user_can_modify_access_of($subject_username)
 {
     // Currently, $subject_username is ignored unless $testing is true.
-    if ( user_is_a_sitemanager() || user_is_an_access_request_reviewer() )
-    {
-        $can_grant = TRUE; $can_revoke = TRUE;
-    }
-    else
-    {
-        $can_grant = FALSE; $can_revoke = FALSE;
+    if (user_is_a_sitemanager() || user_is_an_access_request_reviewer()) {
+        $can_grant = true;
+        $can_revoke = true;
+    } else {
+        $can_grant = false;
+        $can_revoke = false;
     }
 
     global $testing, $pguser;
-    if ( $testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser)
-    {
-        static $shown = FALSE;
-        if  (!$shown)
-        {
+    if ($testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser) {
+        static $shown = false;
+        if (!$shown) {
             echo "<p class='test_warning'>";
             echo _("You would not normally be able to grant+revoke access, but because this is a test site, you are permitted to do so <i>for yourself</i>.");
             echo "</p>";
-            $shown = TRUE;
+            $shown = true;
         }
-        $can_grant = TRUE; $can_revoke = TRUE;
+        $can_grant = true;
+        $can_revoke = true;
     }
 
-    return array( $can_grant, $can_revoke );
+    return [$can_grant, $can_revoke];
 }
 
 // ---------
 
 function that_user_is_PM($username)
 {
-    $userSettings =& Settings::get_settings($username);
+    $userSettings = & Settings::get_settings($username);
 
     return that_user_is_a_sitemanager($username)
             || that_user_is_proj_facilitator($username)
@@ -115,7 +113,7 @@ function user_is_PM()
 }
 function that_user_has_project_loads_disabled($username)
 {
-    $userSettings =& Settings::get_settings($username);
+    $userSettings = & Settings::get_settings($username);
     return $userSettings->get_boolean("disable_project_loads");
 }
 function user_has_project_loads_disabled()
@@ -127,11 +125,10 @@ function user_has_project_loads_disabled()
 
 function that_user_is_over_PP_checked_out_limit($username)
 {
-    $userSettings =& Settings::get_settings($username);
+    $userSettings = & Settings::get_settings($username);
     $limit = $userSettings->get_value("PP_checked_out_limit", 'none');
-    if (! is_numeric($limit) )
-    {
-        return FALSE;
+    if (! is_numeric($limit)) {
+        return false;
     }
     // the user does have a limit
     $actual_limit = intval($limit);
@@ -143,8 +140,8 @@ function that_user_is_over_PP_checked_out_limit($username)
         WHERE checkedoutby LIKE '%s'
             AND state = 'proj_post_first_checked_out'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
-    $result = mysqli_query(DPDatabase::get_connection(),  $query );
-    $row =  mysqli_fetch_row($result);
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $row = mysqli_fetch_row($result);
     $number_out = $row[0];
 
     // a limit of zero counts as no limit
@@ -161,13 +158,13 @@ function user_is_over_PP_checked_out_limit()
 
 function user_is_site_news_editor()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_news_editor");
 }
 
 function user_is_site_translator()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
@@ -175,16 +172,13 @@ function user_can_mentor_in_any_round()
 {
     global $Round_for_round_id_;
 
-    if(user_is_a_sitemanager() || user_is_proj_facilitator())
-    {
+    if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
         return true;
     }
 
-    $userSettings =& get_pguser_settings();
-    foreach($Round_for_round_id_ as $round)
-    {
-        if($userSettings->get_boolean("{$round->id}_mentor.access"))
-        {
+    $userSettings = & get_pguser_settings();
+    foreach ($Round_for_round_id_ as $round) {
+        if ($userSettings->get_boolean("{$round->id}_mentor.access")) {
             return true;
         }
     }
@@ -193,7 +187,7 @@ function user_can_mentor_in_any_round()
 
 function user_can_mentor_in_round($round)
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("{$round->id}_mentor.access");
@@ -202,46 +196,47 @@ function user_can_mentor_in_round($round)
 function user_can_work_on_beginner_pages_in_round($round)
 {
     $round_number = $round->round_number;
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     if (user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("see_BEGIN_R".$round_number)
             || $userSettings->get_boolean("{$round->id}_mentor.access")
-        )
-        return TRUE;
+        ) {
+        return true;
+    }
 
     global $pguser;
-    $n_pages = user_get_ELR_page_tally( $pguser );
-    if ($round_number == 1)
+    $n_pages = user_get_ELR_page_tally($pguser);
+    if ($round_number == 1) {
         return $n_pages <= 40;
-    else if ($round_number == 2)
+    } elseif ($round_number == 2) {
         // Can't qualify by page-count. Must qualify by mentor.access above.
-        return FALSE;
-    else
-        return TRUE;
-        // The round-restriction is sufficient.
+        return false;
+    } else {
+        return true;
+    }
+    // The round-restriction is sufficient.
 }
 
 function user_is_authors_db_manager()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
 }
 
-function user_is_authors_db_editor() {
-  return user_is_PM();
+function user_is_authors_db_editor()
+{
+    return user_is_PM();
 }
 
 function user_is_image_sources_manager()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("image_sources_manager");
 }
 
 function user_has_DU_access()
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings = & get_pguser_settings();
     return $userSettings->get_boolean("DU.access") || $userSettings->get_boolean("PPV.access");
 }
-
-?>

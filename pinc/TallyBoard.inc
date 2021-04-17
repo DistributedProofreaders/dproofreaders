@@ -32,15 +32,14 @@ function get_all_current_tallyboards()
 // Return an array of TallyBoard objects, representing all
 // boards on which there is some tally explicitly recorded.
 {
-    $tallyboards = array();
+    $tallyboards = [];
     $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT DISTINCT tally_name, holder_type
         FROM current_tallies
         ORDER BY holder_type, tally_name
     ") or die(DPDatabase::log_error());
-    while ( list($tally_name, $holder_type) = mysqli_fetch_row($res) )
-    {
-        $tallyboards[] = new TallyBoard( $tally_name, $holder_type );
+    while ([$tally_name, $holder_type] = mysqli_fetch_row($res)) {
+        $tallyboards[] = new TallyBoard($tally_name, $holder_type);
     }
     return $tallyboards;
 }
@@ -49,15 +48,15 @@ function get_all_current_tallyboards()
 
 class TallyBoard
 {
-    function __construct( $tally_name, $holder_type )
+    public function __construct($tally_name, $holder_type)
     {
-        $this->tally_name  = $tally_name;
+        $this->tally_name = $tally_name;
         $this->holder_type = $holder_type;
     }
 
     // -------------------------------------------------------------------------
 
-    function add_to_tally( $holder_id, $amount )
+    public function add_to_tally($holder_id, $amount)
     {
         $sql = sprintf("
             INSERT INTO current_tallies
@@ -78,7 +77,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_sql_joinery_for_current_tallies( $holder_id_expr )
+    public function get_sql_joinery_for_current_tallies($holder_id_expr)
     // Return an array containing two strings of SQL code.
     // You can use these in a SELECT statement when you want to
     // extract the current tallies for a (SQL-specified) set of holders.
@@ -116,12 +115,12 @@ class TallyBoard
             )",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type));
-        return array($join_sql, "IFNULL($alias.tally_value,0)");
+        return [$join_sql, "IFNULL($alias.tally_value,0)"];
     }
 
     // -------------------------------------------------------------------------
 
-    function get_num_holders_with_positive_tally()
+    public function get_num_holders_with_positive_tally()
     {
         $sql = sprintf("
             SELECT COUNT(*)
@@ -133,13 +132,13 @@ class TallyBoard
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type));
         $res = DPDatabase::query($sql);
-        list($count) = mysqli_fetch_row($res);
+        [$count] = mysqli_fetch_row($res);
         return $count;
     }
 
     // -------------------------------------------------------------------------
 
-    function get_current_tally( $holder_id )
+    public function get_current_tally($holder_id)
     // Return the given holder's current tally on this TallyBoard.
     // (Note that if you want tallies for multiple holders, it's probably
     // more efficient to use SQL-joinery supplied by the previous method.)
@@ -157,14 +156,11 @@ class TallyBoard
         $res = DPDatabase::query($sql);
 
         $row = mysqli_fetch_assoc($res);
-        if ( !$row )
-        {
+        if (!$row) {
             // The given holder is not on this board.
             // So they implicitly have a tally of zero.
             $current_tally = 0;
-        }
-        else
-        {
+        } else {
             $current_tally = $row["tally_value"];
         }
         return $current_tally;
@@ -172,7 +168,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_rank( $holder_id )
+    public function get_rank($holder_id)
     // Return the given holder's rank, as determined
     // by the current tallies on this TallyBoard.
     {
@@ -186,13 +182,14 @@ class TallyBoard
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type));
         $result = DPDatabase::query($sql);
-        $ranker = new Ranker(TRUE);
-        while (list($h_id,$tally_value) = mysqli_fetch_row($result))
-        {
-            $rank = $ranker->next( $tally_value );
-            if ($h_id == $holder_id) { return $rank; }
+        $ranker = new Ranker(true);
+        while ([$h_id, $tally_value] = mysqli_fetch_row($result)) {
+            $rank = $ranker->next($tally_value);
+            if ($h_id == $holder_id) {
+                return $rank;
+            }
         }
-        
+
         // The given holder is not on this board.
         // So they implicitly have a tally of zero.
         // So they have a rank of zero (null rank).
@@ -201,7 +198,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_neighborhood(
+    public function get_neighborhood(
         $target_holder_id,
         $radius,
         // The remaining params are an optimization for extracting
@@ -226,7 +223,7 @@ class TallyBoard
     //    an associative array as returned by mysqli_fetch_assoc(), with an
     //    item added for the neighbor's rank.
     {
-        assert( $radius >= 0 );
+        assert($radius >= 0);
 
         $sql = sprintf("
             SELECT
@@ -252,21 +249,18 @@ class TallyBoard
 
         // First, run through the results,
         // looking for the row that contains the target holder.
-        $target_holder_r = NULL;
+        $target_holder_r = null;
         $r = 1;
-        while($row = mysqli_fetch_assoc($result))
-        {
-            if ( $row['_holder_id'] == $target_holder_id )
-            {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row['_holder_id'] == $target_holder_id) {
                 $target_holder_r = $r;
                 break;
             }
             $r += 1;
         }
 
-        if ( is_null($target_holder_r) )
-        {
-            die( "Holder '$target_holder_id' does not appear in $other_table.$holder_id_expr." );
+        if (is_null($target_holder_r)) {
+            die("Holder '$target_holder_id' does not appear in $other_table.$holder_id_expr.");
         }
         // Note that it's *not* a problem if $target_holder_id doesn't appear
         // in current_tallies.holder_id. That's handled by the LEFT OUTER JOIN
@@ -276,18 +270,16 @@ class TallyBoard
         // and when you're in the neighborhood of the target holder,
         // save the results in the $neighbors array.
 
-        mysqli_data_seek( $result, 0 );
+        mysqli_data_seek($result, 0);
 
-        $neighbors = array();
+        $neighbors = [];
         $r = 1;
-        $ranker = new Ranker(FALSE);
-        while ($row = mysqli_fetch_assoc($result))
-        {
-            $rank = $ranker->next( $row[$tally_alias] );
+        $ranker = new Ranker(false);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rank = $ranker->next($row[$tally_alias]);
 
             $rel_posn = $r - $target_holder_r;
-            if ( abs($rel_posn) <= $radius )
-            {
+            if (abs($rel_posn) <= $radius) {
                 // We're in the neighborhood of the target holder.
 
                 $row[$rank_alias] = $rank;
@@ -302,30 +294,25 @@ class TallyBoard
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    function take_snapshot( $ascribe_time, $dry_run )
+    public function take_snapshot($ascribe_time, $dry_run)
     // Take a snapshot of this TallyBoard's current data,
     // and append it to the TallyBoard's history
     // (ascribing it to $ascribe_time rather than the current time).
     // If $dry_run is true, merely echo queries that would change db.
-    // 
+    //
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
-        $prev_tally_for_ = array();
-        $best_rank_for_  = array();
-        if ( is_null($prev_ascribe_time) )
-        {
+        $prev_tally_for_ = [];
+        $best_rank_for_ = [];
+        if (is_null($prev_ascribe_time)) {
             // No previous snapshot on this TallyBoard.
-        }
-        else
-        {
+        } else {
             // There was a previous snapshot on this TallyBoard.
 
-            if ( !$dry_run )
-            {
+            if (!$dry_run) {
                 // Abort if this TallyBoard already has a snapshot for $ascribe_time
-                if ( $prev_ascribe_time == $ascribe_time )
-                {
+                if ($prev_ascribe_time == $ascribe_time) {
                     return 'already';
                 }
             }
@@ -341,8 +328,7 @@ class TallyBoard
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type));
             $result = DPDatabase::query($sql);
-            while ( list($holder_id, $prev_tally_value) = mysqli_fetch_row($result) )
-            {
+            while ([$holder_id, $prev_tally_value] = mysqli_fetch_row($result)) {
                 $prev_tally_for_[$holder_id] = $prev_tally_value;
             }
 
@@ -356,8 +342,7 @@ class TallyBoard
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type));
             $result = DPDatabase::query($sql);
-            while ( list($holder_id, $best_rank ) = mysqli_fetch_row($result) )
-            {
+            while ([$holder_id, $best_rank] = mysqli_fetch_row($result)) {
                 $best_rank_for_[$holder_id] = $best_rank;
             }
         }
@@ -374,11 +359,10 @@ class TallyBoard
             DPDatabase::escape($this->holder_type));
         $result = DPDatabase::query($sql);
 
-        $ranker = new Ranker(TRUE);
-        while ( list($holder_id, $current_tally) = mysqli_fetch_row($result) )
-        {
-            $rank = $ranker->next( $current_tally );
-            $previous_tally = array_get( $prev_tally_for_, $holder_id, 0 );
+        $ranker = new Ranker(true);
+        while ([$holder_id, $current_tally] = mysqli_fetch_row($result)) {
+            $rank = $ranker->next($current_tally);
+            $previous_tally = array_get($prev_tally_for_, $holder_id, 0);
             $tally_delta = $current_tally - $previous_tally;
             $query = sprintf("
                 INSERT INTO past_tallies
@@ -392,19 +376,15 @@ class TallyBoard
                 DPDatabase::escape($this->tally_name),
                 DPDatabase::escape($this->holder_type),
                 intval($holder_id));
-            if ($dry_run)
-            {
+            if ($dry_run) {
                 // Normalize whitespace
                 $query = preg_replace('/\s+/', ' ', trim($query));
                 echo "$query\n";
-            }
-            else
-            {
+            } else {
                 DPDatabase::query($query);
             }
 
-            if ( $rank > 0 && ( !isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id] ) )
-            {
+            if ($rank > 0 && (!isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id])) {
                 $query = sprintf("
                     REPLACE INTO best_tally_rank
                     SET
@@ -416,14 +396,11 @@ class TallyBoard
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
                     intval($holder_id));
-                if ($dry_run)
-                {
+                if ($dry_run) {
                     // Normalize whitespace
                     $query = preg_replace('/\s+/', ' ', trim($query));
                     echo "$query\n";
-                }
-                else
-                {
+                } else {
                     DPDatabase::query($query);
                 }
             }
@@ -432,7 +409,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_time_of_latest_snapshot( $default=NULL )
+    public function get_time_of_latest_snapshot($default = null)
     // Return the ascribed timestamp of the latest snapshot for this TallyBoard,
     // or $default if there has been no snapshot yet.
     {
@@ -447,13 +424,10 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $row = mysqli_fetch_assoc($result);
-        if ( !$row )
-        {
+        if (!$row) {
             // No snapshots for this TallyBoard yet.
             $max_timestamp = $default;
-        }
-        else
-        {
+        } else {
             $max_timestamp = $row["max_timestamp"];
         }
 
@@ -462,7 +436,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_info_from_latest_snapshot( $holder_id )
+    public function get_info_from_latest_snapshot($holder_id)
     // Return an associative array of information about the given holder
     // from the latest snapshot. Keys are:
     //     'timestamp'
@@ -484,8 +458,7 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_assoc($result);
-        if (!$info)
-        {
+        if (!$info) {
             // That holder does not appear in any snapshot for this TallyBoard.
             // So we can infer that, at the latest snapshot:
             //     his tally would have been zero, and thus
@@ -494,18 +467,18 @@ class TallyBoard
 
             $timestamp = $this->get_time_of_latest_snapshot(0);
 
-            $info = array(
+            $info = [
                 'timestamp' => $timestamp,
                 'tally_delta' => 0,
-                'tally_value' => 0
-            );
+                'tally_value' => 0,
+            ];
         }
         return $info;
     }
 
     // -------------------------------------------------------------------------
 
-    function get_info_re_largest_delta( $holder_id )
+    public function get_info_re_largest_delta($holder_id)
     // Return an array consisting of:
     // -- the given holder's largest recorded delta on this TallyBoard, and
     // -- the earliest timestamp for which that delta was recorded.
@@ -525,19 +498,18 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
-        if(!$info)
-        {
+        if (!$info) {
             // That holder does not appear in any snapshot for this TallyBoard.
             $largest_delta = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
-            $info = array( $largest_delta, $timestamp );
+            $info = [$largest_delta, $timestamp];
         }
         return $info;
     }
 
     // -------------------------------------------------------------------------
 
-    function get_info_re_best_rank( $holder_id )
+    public function get_info_re_best_rank($holder_id)
     // Return an array consisting of:
     // -- the given holder's best recorded rank on this TallyBoard, and
     // -- the earliest timestamp for which that rank was recorded.
@@ -555,19 +527,18 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
-        if(!$info)
-        {
+        if (!$info) {
             // That holder does not appear on this TallyBoard.
             $best_rank = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
-            $info = array( $best_rank, $timestamp );
+            $info = [$best_rank, $timestamp];
         }
         return $info;
     }
 
     // -------------------------------------------------------------------------
 
-    function get_deltas( $holder_id, $min_timestamp )
+    public function get_deltas($holder_id, $min_timestamp)
     // Return all tally deltas recorded for the given holder
     // since $min_timestamp.
     // Specifically, the result is an array of key => value pairs,
@@ -589,9 +560,8 @@ class TallyBoard
             intval($holder_id));
         $result = DPDatabase::query($sql);
 
-        $delta_at_ = array();
-        while( list($timestamp, $tally_delta) = mysqli_fetch_row($result) )
-        {
+        $delta_at_ = [];
+        while ([$timestamp, $tally_delta] = mysqli_fetch_row($result)) {
             $delta_at_[$timestamp] = $tally_delta;
         }
         return $delta_at_;
@@ -599,7 +569,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_delta_sum( $holder_id, $start_timestamp, $end_timestamp )
+    public function get_delta_sum($holder_id, $start_timestamp, $end_timestamp)
     // Return the sum of the 'tally_delta' values at all timestamps such that
     //     $start_timestamp < timestamp <= $end_timestamp
     // Note that the case of timestamp = $start_timestamp is excluded,
@@ -623,13 +593,13 @@ class TallyBoard
             DPDatabase::escape($this->holder_type),
             intval($holder_id));
         $res = DPDatabase::query($sql);
-        list($sum) = mysqli_fetch_row($res);
+        [$sum] = mysqli_fetch_row($res);
         return $sum;
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    function get_delta_since_latest_snapshot( $holder_id )
+    public function get_delta_since_latest_snapshot($holder_id)
     {
         $current_tally = $this->get_current_tally($holder_id);
         $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
@@ -637,34 +607,32 @@ class TallyBoard
         return ($current_tally - $latest_snapshot_tally);
     }
 
-    function get_vitals( $holder_id )
+    public function get_vitals($holder_id)
     // Return an object whose members are various useful quantities
     // from this tallyboard for the given holder.
     // (This is just a convenience function.)
     {
-        $obj = new StdClass;
+        $obj = new StdClass();
 
         $obj->current_tally = $this->get_current_tally($holder_id);
-        $obj->current_rank  = $this->get_rank($holder_id);
+        $obj->current_rank = $this->get_rank($holder_id);
 
         $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
         $obj->latest_snapshot_timestamp = $snapshot_info['timestamp'];
-        $obj->latest_snapshot_delta     = $snapshot_info['tally_delta'];
-        $obj->latest_snapshot_tally     = $snapshot_info['tally_value'];
+        $obj->latest_snapshot_delta = $snapshot_info['tally_delta'];
+        $obj->latest_snapshot_tally = $snapshot_info['tally_value'];
 
-        list($obj->best_delta, $obj->best_delta_timestamp) =
+        [$obj->best_delta, $obj->best_delta_timestamp] =
             $this->get_info_re_largest_delta($holder_id);
         $today_delta = $obj->current_tally - $obj->latest_snapshot_tally;
-        if ($today_delta > $obj->best_delta)
-        {
+        if ($today_delta > $obj->best_delta) {
             $obj->best_delta = $today_delta;
             $obj->best_delta_timestamp = time();
         }
 
-        list($obj->best_rank, $obj->best_rank_timestamp) =
+        [$obj->best_rank, $obj->best_rank_timestamp] =
             $this->get_info_re_best_rank($holder_id);
-        if ($obj->current_rank < $obj->best_rank)
-        {
+        if ($obj->current_rank < $obj->best_rank) {
             $obj->best_rank = $obj->current_rank;
             $obj->best_rank_timestamp = time();
         }
@@ -680,7 +648,7 @@ class TallyBoard
 
 class Ranker
 {
-    function __construct( $zero_begets_zero )
+    public function __construct($zero_begets_zero)
     // If $zero_begets_zero is TRUE,
     // a value of zero or less will yield the special rank of zero.
     // (Think of it as a null rank.)
@@ -693,7 +661,7 @@ class Ranker
         // and is thus the first approximation to each item's rank.
     }
 
-    function next( $value )
+    public function next($value)
     {
         $this->n++;
 
@@ -701,35 +669,26 @@ class Ranker
         // must be non-increasing
         // (i.e., each value must be less than or equal to the previous).
         //
-        if ( $this->n == 1 )
-        {
+        if ($this->n == 1) {
             // First call to 'next', no previous value.
-            assert( !isset($this->prev_value) );
-        }
-        else
-        {
-            assert( $value <= $this->prev_value );
+            assert(!isset($this->prev_value));
+        } else {
+            assert($value <= $this->prev_value);
         }
 
-        if ( $this->zero_begets_zero && $value <= 0 )
-        {
+        if ($this->zero_begets_zero && $value <= 0) {
             $rank = 0;
-        }
-        else if ( $this->n == 1 || $value != $this->prev_value )
-        {
+        } elseif ($this->n == 1 || $value != $this->prev_value) {
             // new rank
             $rank = $this->n;
-        }
-        else
-        {
+        } else {
             // same rank as previous
             $rank = $this->prev_rank;
         }
 
         $this->prev_value = $value;
-        $this->prev_rank  = $rank;
+        $this->prev_rank = $rank;
 
         return $rank;
     }
 }
-

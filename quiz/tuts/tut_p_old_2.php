@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -21,4 +21,3 @@ echo " <img src='../generic/images/amp_blackletter2.png' width='31' height='41' 
 echo "<p>" . _("As in many books through the 1800s, the phrase <i>et cetera</i> may be abbreviated as <kbd>&amp;c.</kbd> rather than the modern <kbd>etc</kbd>.  Leave it as the author wrote it.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_old_2'>" . _("Continue to quiz page") . "</a></p>\n";
-

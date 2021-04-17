@@ -19,12 +19,12 @@ if ($site_supports_metadata) {
     new Stage(
         'CA',
         _('Clearance Approvals'),
-        array(),
+        [],
         'REQ-HUMAN',
         '',
-        NULL, /* access_change_callback */
+        null, // access_change_callback
         _('A qualified person must confirm that the work is in the public domain.'),
-        NULL,
+        null,
         "tools/site_admin/proj_approvals.php"
     );
 }
@@ -35,12 +35,12 @@ if ($site_supports_metadata) {
     new Stage(
         'MD',
         _('Metadata Collection'),
-        array(),
+        [],
         'REQ-HUMAN',
         '',
-        NULL, /* access_change_callback */
+        null, // access_change_callback
         _('We collect various bits of metadata for each page in a project.'),
-        NULL,
+        null,
         "tools/proofers/md_available.php"
     );
 }
@@ -53,54 +53,54 @@ if ($site_supports_metadata) {
 // passed into the Round() constructors below. The names refer to ToolButtons
 // and PopupLink objects defined in pinc/ProofreadingToolbox.inc.
 
-$pi_tools_for_P = array(
-    'popup_links'  => array('search_and_replace','greek_transliterator','hieroglyph_transliterator'),
-    'tool_buttons' => array('remove_markup','upper_case','title_case','lower_case'),
-    'tool_links'   => array('greek','note','brackets','braces','blank_page'),
-);
-$pi_tools_for_F = array(
-    'popup_links'  => 'ALL',
+$pi_tools_for_P = [
+    'popup_links' => ['search_and_replace', 'greek_transliterator', 'hieroglyph_transliterator'],
+    'tool_buttons' => ['remove_markup', 'upper_case', 'title_case', 'lower_case'],
+    'tool_links' => ['greek', 'note', 'brackets', 'braces', 'blank_page'],
+];
+$pi_tools_for_F = [
+    'popup_links' => 'ALL',
     'tool_buttons' => 'ALL',
-    'tool_links'   => 'ALL',
-);
+    'tool_links' => 'ALL',
+];
 
 new Round(
     'P1',
     _('Proofreading Round 1'),
-    array(),
+    [],
     'IMMEDIATE',
     '',
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
-    NULL, /* daily_page_limit */
-    array(),
-    array(
-             0 => _('Novice'),
-            25 => _('Proofreading Pupil'),
-           100 => _('Proofreading Apprentice'),
-           500 => _('Proofreading Scholar'),
-          1000 => _('Proofreading Prodigy'),
-          2500 => _('Prefect of Proofreaders'),
-          5000 => _('Proofreading Graduate'),
-         10000 => _('Proofreading Alumnus'),
-         20000 => _('Fellow of Proofreading'),
-         30000 => _('Doctor of Proofreading'),
-         40000 => _('Proofreading Don'),
-         50000 => _('Dean of Proofreading'),
-         60000 => _('Proofreading Proctor'),
-         70000 => _('Principal Proofreader'),
-         80000 => _('Master Proofreader'),
-         90000 => _('Prefect of Proofreaders'),
-         99000 => _('Supervising Proofreader'),
+    null, // daily_page_limit
+    [],
+    [
+        0 => _('Novice'),
+        25 => _('Proofreading Pupil'),
+        100 => _('Proofreading Apprentice'),
+        500 => _('Proofreading Scholar'),
+        1000 => _('Proofreading Prodigy'),
+        2500 => _('Prefect of Proofreaders'),
+        5000 => _('Proofreading Graduate'),
+        10000 => _('Proofreading Alumnus'),
+        20000 => _('Fellow of Proofreading'),
+        30000 => _('Doctor of Proofreading'),
+        40000 => _('Proofreading Don'),
+        50000 => _('Dean of Proofreading'),
+        60000 => _('Proofreading Proctor'),
+        70000 => _('Principal Proofreader'),
+        80000 => _('Master Proofreader'),
+        90000 => _('Prefect of Proofreaders'),
+        99000 => _('Supervising Proofreader'),
         100000 => _('Proofreading Professor'),
         110000 => _('Peer of Proofreading'),
         120000 => _('Doyen of Proofreading'),
         130000 => _('Proofreading Chancellor'),
         140000 => _('Proofreading Primate'),
         150000 => _('Paramount Proofreader'),
-    )
+    ]
 );
 
 // -----------------------------------------------------------------------------
@@ -108,40 +108,40 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
+    ['P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1],
     'REQ-AUTO',
     '',
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
-    NULL, /* daily_page_limit */
-    array( 'P1' ),
-    array(
-             0 => _('Precise Proofreader'),
-            25 => _('Picky Proofreader'),
-           100 => _('Painstaking Proofreader'),
-           500 => _('Punctilious Proofreader'),
-          1000 => _('Persnickety Proofreader'),
-          2500 => _('Particular Proofreader'),
-          5000 => _('Proficient Proofreader'),
-         10000 => _('Proper Proofreader'),
-         20000 => _('Prudent Proofreader'),
-         30000 => _('Proofreading Personage'),
-         40000 => _('Proofreading Poppet'),
-         50000 => _('Plighted Proofreader'),
-         60000 => _('Proofreading Proctor'),
-         70000 => _('Principal Proofreader'),
-         80000 => _('Prime Proofreader'),
-         90000 => _('Primal Proofreader'),
-         99000 => _('Proofreading Personality'),
+    null, // daily_page_limit
+    ['P1'],
+    [
+        0 => _('Precise Proofreader'),
+        25 => _('Picky Proofreader'),
+        100 => _('Painstaking Proofreader'),
+        500 => _('Punctilious Proofreader'),
+        1000 => _('Persnickety Proofreader'),
+        2500 => _('Particular Proofreader'),
+        5000 => _('Proficient Proofreader'),
+        10000 => _('Proper Proofreader'),
+        20000 => _('Prudent Proofreader'),
+        30000 => _('Proofreading Personage'),
+        40000 => _('Proofreading Poppet'),
+        50000 => _('Plighted Proofreader'),
+        60000 => _('Proofreading Proctor'),
+        70000 => _('Principal Proofreader'),
+        80000 => _('Prime Proofreader'),
+        90000 => _('Primal Proofreader'),
+        99000 => _('Proofreading Personality'),
         100000 => _('Proofreading Professional'),
         110000 => _('Peerless Proofreader'),
         120000 => _('Plighted Proofreader'),
         130000 => _('Paraproofreader'),
         140000 => _('Proofreading Panjandrum'),
         150000 => _('Perfectionist Proofreader'),
-    )
+    ]
 );
 
 // -----------------------------------------------------------------------------
@@ -149,40 +149,40 @@ new Round(
 new Round(
     'P3',
     _('Proofreading Round 3'),
-    array( 'P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_mod2' => 1 ),
+    ['P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_mod2' => 1],
     'REQ-HUMAN',
     _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofread them to P3 standards, you'll be granted access."),
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
-    NULL, /* daily_page_limit */
-    array( 'P1', 'P2' ),
-    array(
-             0 => _('Specialist Proofreader'),
-            25 => _('Precious Proofreader'),
-           100 => _('Prized Proofreader'),
-           500 => _('Premiere Proofreader'),
-          1000 => _('Proofreading Perfectionist'),
-          2500 => _('Pillar of Proofreading'),
-          5000 => _('Proofreading Purist'),
-         10000 => _('Proofreader of Precision'),
-         20000 => _('Archetypal Proofreader'),
-         30000 => _('Proofreading Nonpareil'),
-         40000 => _('Paradigmatic Proofreader'),
-         50000 => _('Preeminent Proofreader'),
-         60000 => _('Prime Proofreader'),
-         70000 => _('Proofreader of Plenariness'),
-         80000 => _('Perpetual Proofreader'),
-         90000 => _('Prefect of Proofreaders'),
-         99000 => _('Impeccable Proofreader'),
+    null, // daily_page_limit
+    ['P1', 'P2'],
+    [
+        0 => _('Specialist Proofreader'),
+        25 => _('Precious Proofreader'),
+        100 => _('Prized Proofreader'),
+        500 => _('Premiere Proofreader'),
+        1000 => _('Proofreading Perfectionist'),
+        2500 => _('Pillar of Proofreading'),
+        5000 => _('Proofreading Purist'),
+        10000 => _('Proofreader of Precision'),
+        20000 => _('Archetypal Proofreader'),
+        30000 => _('Proofreading Nonpareil'),
+        40000 => _('Paradigmatic Proofreader'),
+        50000 => _('Preeminent Proofreader'),
+        60000 => _('Prime Proofreader'),
+        70000 => _('Proofreader of Plenariness'),
+        80000 => _('Perpetual Proofreader'),
+        90000 => _('Prefect of Proofreaders'),
+        99000 => _('Impeccable Proofreader'),
         100000 => _('Proofreader of Persistence'),
         110000 => _('Patent Proofreader'),
         120000 => _('Proofreading Philosopher'),
         130000 => _('Patron of Proofreaders'),
         140000 => _('Proofreading Partner'),
         150000 => _('Pioneer of Proofreaders'),
-    )
+    ]
 );
 
 // -----------------------------------------------------------------------------
@@ -190,40 +190,40 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
+    ['P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1],
     'REQ-AUTO',
     '',
-    "f1_access_change_email", /* access_change_callback */
+    "f1_access_change_email", // access_change_callback
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     $pi_tools_for_F,
-    NULL, /* daily_page_limit */
-    array(),
-    array(
-             0 => _('Formatting Neophyte'),
-            25 => _('Formatting Intern'),
-           100 => _('Journeyman Formatter'),
-           500 => _('Crafter of Texts'),
-          1000 => _('Detailer of Books'),
-          2500 => _('Fastidious Formatter'),
-          5000 => _('Foremost Formatter'),
-         10000 => _('Fine Formatter'),
-         20000 => _('Flamboyant Formatter'),
-         30000 => _('Fabulous Formatter'),
-         40000 => _('Upgrader of Texts'),
-         50000 => _('Famous Formatter'),
-         60000 => _('Indefatigable Formatter'),
-         70000 => _('Finisher of Texts'),
-         80000 => _('Formatter of Choice'),
-         90000 => _('Capital Formatter'),
-         99000 => _('Formatter with Flair'),
+    null, // daily_page_limit
+    [],
+    [
+        0 => _('Formatting Neophyte'),
+        25 => _('Formatting Intern'),
+        100 => _('Journeyman Formatter'),
+        500 => _('Crafter of Texts'),
+        1000 => _('Detailer of Books'),
+        2500 => _('Fastidious Formatter'),
+        5000 => _('Foremost Formatter'),
+        10000 => _('Fine Formatter'),
+        20000 => _('Flamboyant Formatter'),
+        30000 => _('Fabulous Formatter'),
+        40000 => _('Upgrader of Texts'),
+        50000 => _('Famous Formatter'),
+        60000 => _('Indefatigable Formatter'),
+        70000 => _('Finisher of Texts'),
+        80000 => _('Formatter of Choice'),
+        90000 => _('Capital Formatter'),
+        99000 => _('Formatter with Flair'),
         100000 => _('Formatter of Finesse'),
         110000 => _('Formatter with Forte'),
         120000 => _('First-Class Formatter'),
         130000 => _('Formatter of Favour'),
         140000 => _('Formatter of Refinement'),
         150000 => _('Flawless Formatter'),
-    )
+    ]
 );
 
 // -----------------------------------------------------------------------------
@@ -231,40 +231,40 @@ new Round(
 new Round(
     'F2',
     _('Formatting Round 2'),
-    array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
+    ['F1' => 400, 'days since reg' => 91], // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("Once you have met the requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages that have been completed in F2. If they've been formatted to F2 standards, you'll be granted access."),
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting errors."),
     'formatting_guidelines.php',
     $pi_tools_for_F,
-    NULL, /* daily_page_limit */
-    array( 'F1' ),
-    array(
-             0 => _('Refurbisher of Texts'),
-            25 => _('Sprucer of Texts'),
-           100 => _('Formatter Savant'),
-           500 => _('Formatting Wunderkind'),
-          1000 => _('Elite Formatter'),
-          2500 => _('Polisher of Texts'),
-          5000 => _('Formatting Artiste'),
-         10000 => _('Cultivator of Texts'),
-         20000 => _('Formatter of Enrichment'),
-         30000 => _('Designing Formatter'),
-         40000 => _('Formatting Artisan'),
-         50000 => _('Formatting Aficionado'),
-         60000 => _('Guru of Formatters'),
-         70000 => _('Formatting Familiar'),
-         80000 => _('Formatting Virtuoso'),
-         90000 => _('Formatter of Excellence'),
-         99000 => _('Exquisite Formatter'),
+    null, // daily_page_limit
+    ['F1'],
+    [
+        0 => _('Refurbisher of Texts'),
+        25 => _('Sprucer of Texts'),
+        100 => _('Formatter Savant'),
+        500 => _('Formatting Wunderkind'),
+        1000 => _('Elite Formatter'),
+        2500 => _('Polisher of Texts'),
+        5000 => _('Formatting Artiste'),
+        10000 => _('Cultivator of Texts'),
+        20000 => _('Formatter of Enrichment'),
+        30000 => _('Designing Formatter'),
+        40000 => _('Formatting Artisan'),
+        50000 => _('Formatting Aficionado'),
+        60000 => _('Guru of Formatters'),
+        70000 => _('Formatting Familiar'),
+        80000 => _('Formatting Virtuoso'),
+        90000 => _('Formatter of Excellence'),
+        99000 => _('Exquisite Formatter'),
         100000 => _('Elite Formatter'),
         110000 => _('Formatting Genius'),
         120000 => _('Formatter of Fine Feats'),
         130000 => _('Harmoniser of Texts'),
         140000 => _('Formatting Architect'),
         150000 => _('Preserver of Texts'),
-    )
+    ]
 );
 
 // ---------------------------
@@ -272,11 +272,11 @@ new Round(
 // After creating all rounds:
 
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
-assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
+assert($n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS);
 
 // ---------------------------
 
-declare_mentoring_pair( 'P1', 'P2' );
+declare_mentoring_pair('P1', 'P2');
 
 // -----------------------------------------------------------------------------
 
@@ -297,7 +297,7 @@ $ELR_round = get_Round_for_round_number(1);
 
 // -----------------------------------------------------------------------------
 
-function can_user_get_pages_in_project( $username, $project, $round )
+function can_user_get_pages_in_project($username, $project, $round)
 // If the given user is allowed to get a new page
 // of the given project in the given round
 // (via "Start Proofreading" or "Save and Do Another"),
@@ -314,24 +314,18 @@ function can_user_get_pages_in_project( $username, $project, $round )
 {
     // Projects with difficulty='beginner' are treated differently in
     // various ways.
-    if ( $project->difficulty == 'beginner' )
-    {
-        if ( $round->is_a_mentee_round() )
-        {
-            if ( !user_can_work_on_beginner_pages_in_round($round) )
-            {
+    if ($project->difficulty == 'beginner') {
+        if ($round->is_a_mentee_round()) {
+            if (!user_can_work_on_beginner_pages_in_round($round)) {
                 return
                     _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
                     . " "
                     . _("Perhaps you could try working on an EASY project.");
             }
 
-            if (user_is_a_sitemanager() || user_is_proj_facilitator())
-            {
+            if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
                 // User is exempt from N-pages-per-beginner-project restriction.
-            }
-            else
-            {
+            } else {
                 // When a beginner project is in a mentored round,
                 // any given user can work on at most N pages
                 // from that project in that round.
@@ -344,26 +338,20 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     SELECT COUNT(*) as pagesdone
                     FROM {$project->projectid}
                     WHERE {$round->user_column_name} = '$username'
-                "); 
+                ");
                 $row = mysqli_fetch_assoc($result);
-                if ($row["pagesdone"] >= $max_n_pages_per_project)
-                {
+                if ($row["pagesdone"] >= $max_n_pages_per_project) {
                     return
                         _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
                         . " "
                         . _("Or you could try working on an EASY project.");
                 }
             }
-        }
-        else if ( $round->is_a_mentor_round() )
-        {
-            if ( !user_can_work_on_beginner_pages_in_round($round) )
-            {
+        } elseif ($round->is_a_mentor_round()) {
+            if (!user_can_work_on_beginner_pages_in_round($round)) {
                 return _("You do not have access to difficulty='beginner' (Mentors Only) projects in this round.");
             }
-        }
-        else
-        {
+        } else {
             // In other rounds, difficulty='beginner' projects aren't handled specially.
         }
     }
@@ -371,8 +359,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
     // In P1, English and French projects, for a while after their release,
     // are reserved for inexperienced users.
     $n_days_of_reserve = get_reserve_length($project, $round);
-    if ($n_days_of_reserve > 0)
-    {
+    if ($n_days_of_reserve > 0) {
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
@@ -387,18 +374,14 @@ function can_user_get_pages_in_project( $username, $project, $round )
         // echo "t_release = $t_release<br>\n";
         // echo "t_generally_available = $t_generally_available<br>\n";
         // echo "t_now = $t_now<br>\n";
-        if ( $t_now < $t_generally_available )
-        {
+        if ($t_now < $t_generally_available) {
             // The project is still in its "reserved" period.
             // It is available only to inexperienced users plus a few others.
 
-            if ( $project->can_be_managed_by_user($username) )
-            {
+            if ($project->can_be_managed_by_user($username)) {
                 // The current user is an SA, PF, or the project's PM,
                 // and is not subject to this restriction.
-            }
-            else
-            {
+            } else {
                 // Is this user an inexperienced user?
 
                 $user = new User($username);
@@ -408,14 +391,11 @@ function can_user_get_pages_in_project( $username, $project, $round )
                 $P1_page_tally = user_get_ELR_page_tally($username);
                 // echo "P1_page_tally = $P1_page_tally<br>\n";
 
-                if ( $days_on_site < $days_on_site_threshold or $P1_page_tally < $page_tally_threshold )
-                {
+                if ($days_on_site < $days_on_site_threshold or $P1_page_tally < $page_tally_threshold) {
                     // Yes, inexperienced.
                     // So not subject to this restriction
                     // (and so, allowed to proofread, unless there's some other problem).
-                }
-                else
-                {
+                } else {
                     // No, experienced.
                     // So cannot proofread this project yet.
                     return
@@ -427,21 +407,19 @@ function can_user_get_pages_in_project( $username, $project, $round )
                         . "<br>" .
                         sprintf(
                             _('It will become generally available %s.'),
-                            strftime( $datetime_format, $t_generally_available )
+                            strftime($datetime_format, $t_generally_available)
                         )
                     ;
                 }
             }
-        }
-        else
-        {
+        } else {
             // The project has finished its "reserved" period.
             // It is available to all (subject to other restrictions).
         }
     }
 
     // None of the above restrictions apply.
-    return NULL;
+    return null;
 }
 
 function get_reserve_length($project, $round)
@@ -451,21 +429,28 @@ function get_reserve_length($project, $round)
 // If not, return 0.
 {
     // We only reserve-for-newbies in P1.
-    if ($round->id != 'P1') return 0;
+    if ($round->id != 'P1') {
+        return 0;
+    }
 
     // Missing page(s) projects are exempted from being reserved
     // because we want them to catch up to their "parent" project
     // as quickly as possible.
-    if (str_contains($project->nameofwork, '[missing page')) return 0;
+    if (str_contains($project->nameofwork, '[missing page')) {
+        return 0;
+    }
 
     // *->P1 projects are exempted, because they were already reserved
     // for inexperienced users on their first pass through P1.
-    if (str_contains($project->nameofwork, '->P1}')) return 0;
+    if (str_contains($project->nameofwork, '->P1}')) {
+        return 0;
+    }
 
-    if ($project->language == 'English' || $project->language == 'French')
-    {
+    if ($project->language == 'English' || $project->language == 'French') {
         // All 'special day' projects are exempted.
-        if ($project->special_code != '') return 0;
+        if ($project->special_code != '') {
+            return 0;
+        }
 
         // Otherwise, reserve for 3 days.
         return 3;
@@ -479,7 +464,7 @@ function get_reserve_length($project, $round)
 
 // -------------------------------------------------------------------
 
-function round_project_listing_presort( $round )
+function round_project_listing_presort($round)
 // On each round page, the order of the project list can be adjusted by
 // clicking on column headers. If you want certain criteria to take precedence
 // over such sorts, have this function return a string expressing those criteria
@@ -497,15 +482,12 @@ function round_project_listing_presort( $round )
 // If you don't want any criteria to take precedence over column-sorts,
 // return NULL or the empty string.
 {
-    if(is_proofreading_round($round))
-    {
+    if (is_proofreading_round($round)) {
         return "
             (difficulty = 'beginner') DESC,
             (nameofwork LIKE '%Newcomers Only%' OR nameofwork LIKE '%Rapid Review%') DESC
         ";
-    }
-    else if(is_formatting_round($round))
-    {
+    } elseif (is_formatting_round($round)) {
         return "
             (
                 nameofwork LIKE '%Fast Formatting Feedback%' OR
@@ -513,10 +495,8 @@ function round_project_listing_presort( $round )
                 nameofwork LIKE '%F2 Qual%'
             ) DESC
         ";
-    }
-    else
-    {
-        assert( FALSE );
+    } else {
+        assert(false);
     }
 }
 
@@ -535,10 +515,10 @@ function is_formatting_round($round)
 new Pool(
     'PP',
     _('Post-Processing'),
-    array( 'F1' => 400 ),
+    ['F1' => 400],
     'REQ-AUTO',
     '',
-    "pp_access_change_email", /* access_change_callback */
+    "pp_access_change_email", // access_change_callback
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
 
@@ -548,13 +528,13 @@ new Pool(
     _("Manager"),
     'username',
 
-    array(
+    [
         "<p>",
         "<b>" . _("First Time Here?") . "</b>",
-        sprintf( _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
+        sprintf(_("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
         "$code_url/faq/post_proof.php"),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
-        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx) ),
+        sprintf(_("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx)),
         _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
 
@@ -564,7 +544,7 @@ new Pool(
         _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project."),
         _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first."),
         "</p>",
-    )
+    ]
 );
 
 function echo_postcomments_instructions()
@@ -603,12 +583,12 @@ function echo_postcomments_instructions()
 new Stage(
     'SR',
     _('Smooth Reading'),
-    array(),
+    [],
     'IMMEDIATE',
     '',
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
-    NULL,
+    null,
     "tools/post_proofers/smooth_reading.php"
 );
 
@@ -617,10 +597,10 @@ new Stage(
 new Pool(
     'PPV',
     _('Post-Processing Verification'),
-    array(),
+    [],
     'NOREQ', // "Peer approval. Also gives F2 access."
     '',
-    NULL, /* access_change_callback */
+    null, // access_change_callback
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
 
@@ -630,20 +610,20 @@ new Pool(
     _("Post-Processor"),
     'postproofer',
 
-    array(
+    [
         "<p>",
         _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
-        sprintf( _("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
+        sprintf(_("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
             "$code_url/faq/ppv.php"),
-        sprintf( _("The PPV reporting form is <a href='%s'>here</a>."),
+        sprintf(_("The PPV reporting form is <a href='%s'>here</a>."),
             "$code_url/tools/post_proofers/ppv_report.php"),
         "</p>",
 
         "<p>",
-        sprintf( _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
-            get_url_to_view_forum($post_processing_forum_idx) ),
+        sprintf(_("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
+            get_url_to_view_forum($post_processing_forum_idx)),
         "</p>",
-    )
+    ]
 );
 
 // -----------------------------------------------------------------------------
@@ -652,12 +632,12 @@ if ($site_supports_corrections_after_posting) {
     new Pool(
         'CR',
         _('Corrections Review'),
-        array( 'F1' => 400 ),
+        ['F1' => 400],
         'REQ-AUTO',
         '',
-        NULL, /* access_change_callback */
-        _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
-        NULL,
+        null, // access_change_callback
+        _('Readers can submit corrections. We need to review them and possibly revise the text.'),
+        null,
 
         PROJ_CORRECT_CHECKED_OUT,
         PROJ_CORRECT_AVAILABLE,
@@ -665,14 +645,14 @@ if ($site_supports_corrections_after_posting) {
         _("Editor"),
         'correctedby',
 
-        array(
+        [
             "<p>",
             _("The books listed below have already been posted to Project Gutenberg, but a reader has found errors and submitted a corrected text."),
             _("We need you to review the corrections to see if they're valid."),
             _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
             _("When you have finished your work on the book, send the book to Project Gutenberg to be posted."),
             "</p>",
-        )
+        ]
     );
 }
 
@@ -681,19 +661,17 @@ if ($site_supports_corrections_after_posting) {
 new Activity(
     'DU',
     _('Uploading to Project Gutenberg'),
-    array(),
+    [],
     'NOREQ',
     'OOGA',
-    NULL /* access_change_callback */
+    null // access_change_callback
 );
 
 new Activity(
     "P2_mentor",
-    sprintf( _("Mentoring in round %s"), 'P2' ),
-    array(),
+    sprintf(_("Mentoring in round %s"), 'P2'),
+    [],
     'NOREQ',
     '',
-    NULL /* access_change_callback */
+    null // access_change_callback
 );
-
-?>

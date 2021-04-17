@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc'); // new_window_link
@@ -11,9 +11,9 @@ include_once('image_block_enh.inc');
 
 // text_data should be set before we get here -- should take place in processtext.php
 
-$revert_text=isset($_POST['revert_text']) ? $_POST['revert_text'] : $text_data;
+$revert_text = $_POST['revert_text'] ?? $text_data;
 
-$is_header_visible = array_get($_SESSION,"is_header_visible",1);
+$is_header_visible = array_get($_SESSION, "is_header_visible", 1);
 
 $project = new Project($ppage->projectid());
 $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
@@ -33,21 +33,20 @@ $word_check_messages = json_encode([
 
 $user = User::load_current();
 
-$header_args = array(
-    "js_files" => array(
+$header_args = [
+    "js_files" => [
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
-    ),
+    ],
     "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
         var validCharacterPattern = '$valid_character_pattern';
         var wordCheckMessages = $word_check_messages;
     ",
 
     "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
-);
+];
 
-if($user->profile->i_type == 1)
-{
+if ($user->profile->i_type == 1) {
     $header_args["js_data"] .= ibe_get_js();
     $header_args["css_data"] = ibe_get_styles();
 }
@@ -55,19 +54,15 @@ if($user->profile->i_type == 1)
 slim_header(_("WordCheck"), $header_args);
 
 // print basic image html
-if ($user->profile->i_type == 1)
-{
-    if ($user->profile->i_layout == 1)
-    {
+if ($user->profile->i_type == 1) {
+    if ($user->profile->i_layout == 1) {
         $iWidth = $user->profile->v_zoom;
-    }
-    else
-    {
+    } else {
         $iWidth = $user->profile->h_zoom;
     }
-    $iWidth = round((1000*$iWidth)/100);
+    $iWidth = round((1000 * $iWidth) / 100);
 
-    ibe_echo_block( $ppage->url_for_image(TRUE), $iWidth );
+    ibe_echo_block($ppage->url_for_image(true), $iWidth);
 
     echo '<div id="controlframe">';
 } else {
@@ -77,27 +72,27 @@ if ($user->profile->i_type == 1)
 <form name="spcorrects" action="processtext.php" method="POST">
 <?php
     // change all EOL characters to [lf]
-    $revert_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$revert_text);
+    $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);
 
     echo "<input type='hidden' name='revert_text' value='" . attr_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='is_changed' name='is_changed' value='$is_changed'>\n";
-    echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" 
-        . attr_safe(implode(' ',$accepted_words)) . "'>\n";
+    echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='"
+        . attr_safe(implode(' ', $accepted_words)) . "'>\n";
     echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
-    list($page_contents,$languages,$messages) =
-        spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words );
+    [$page_contents, $languages, $messages] =
+        spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words);
 
     // start the div containing the link to show/hide the WordCheck header
     echo "<div>";
     echo "<a id='wc_header_link' href='#' onClick='return toggleWCHeader();'>";
-    if($is_header_visible) {
+    if ($is_header_visible) {
         echo _("Hide WordCheck Header");
-        $header_style="";
+        $header_style = "";
     } else {
         echo _("Show WordCheck Header");
-        $header_style="style='display: none;'";
+        $header_style = "style='display: none;'";
     }
     echo "</a>";
     echo "</div>";
@@ -105,12 +100,10 @@ if ($user->profile->i_type == 1)
     // start the div that consists of the WordCheck header
     // that can be toggled shown/hidden
     echo "<div id='wc_header' $header_style>";
-    if ( count($messages) != 0 )
-    {
+    if (count($messages) != 0) {
         // warnings or errors were raised, print them out
         echo "<p class='warning'>" . _("The following warnings/errors were raised:") . "<br>\n";
-        foreach ( $messages as $message )
-        {
+        foreach ($messages as $message) {
             echo "$message<br>\n";
         }
         echo "</p>";
@@ -119,16 +112,19 @@ if ($user->profile->i_type == 1)
     // start the first line of the WordCheck header
     // printing any dictionaries used
     echo "<p>";
-    if(count($languages) > 0) {
-        echo sprintf(_("Dictionaries used: <b>%s</b>."),implode(', ', $languages));
+    if (count($languages) > 0) {
+        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $languages));
     } else {
         echo "<b>" . _("No check against a dictionary has been made.") . "</b>";
     }
 
     // for the vertical layout, stick in a line break
     // for the horizontal one, stick in a space
-    if ($user->profile->i_layout == 1) echo "<br>";
-    else echo " ";
+    if ($user->profile->i_layout == 1) {
+        echo "<br>";
+    } else {
+        echo " ";
+    }
 
     // output the code allowing the user to select another language
     echo _("Use additional: ");
@@ -138,11 +134,15 @@ if ($user->profile->i_type == 1)
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
     asort($dict_list);
-    foreach($dict_list as $langcode => $language) {
+    foreach ($dict_list as $langcode => $language) {
         // skip the languages that we just used.
-        if(in_array($language,$languages)) continue;
+        if (in_array($language, $languages)) {
+            continue;
+        }
         echo "<option value='" .  attr_safe($language) . "'";
-        if(strcmp($language,$aux_language)==0) echo " selected";
+        if (strcmp($language, $aux_language) == 0) {
+            echo " selected";
+        }
         echo ">$language</option>\n";
     }
     echo "</select>";
@@ -175,7 +175,7 @@ if ($user->profile->i_type == 1)
 <?php
     // print the link to the WordCheck FAQ
     echo " &nbsp; ";
-    echo new_window_link( get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ") );
+    echo new_window_link(get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ"));
 ?>
 </td></tr>
 <tr>
@@ -210,8 +210,9 @@ if ($user->profile->i_type == 1)
             value="<?php echo attr_safe(_("Save as 'Done' & Proofread Next Page")); ?>"
             title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
 <?php
-    if($is_changed)
+    if ($is_changed) {
         echo "            disabled\n";
+    }
 ?>
         >
     </td>
@@ -231,28 +232,27 @@ function get_page_js($interface_type_init_value)
     $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
 
     return <<<PAGE_JS
-        function ldAll() {
-            top.initializeStuff($interface_type_init_value);
-        }
-
-        function toggleWCHeader() {
-            var header=document.getElementById('wc_header');
-            var headerLink=document.getElementById('wc_header_link');
-            var headerStateSave=document.getElementById('is_header_visible');
-
-            if(header) {
-                if(header.style.display=='') {
-                    header.style.display='none';
-                    headerLink.innerHTML='$show_wc_header_label';
-                    headerStateSave.value=0;
-                } else{
-                    header.style.display='';
-                    headerLink.innerHTML='$hide_wc_header_label';
-                    headerStateSave.value=1;
+                function ldAll() {
+                    top.initializeStuff($interface_type_init_value);
                 }
-            }
-            return false;
-        }
-PAGE_JS;
-}
 
+                function toggleWCHeader() {
+                    var header=document.getElementById('wc_header');
+                    var headerLink=document.getElementById('wc_header_link');
+                    var headerStateSave=document.getElementById('is_header_visible');
+
+                    if(header) {
+                        if(header.style.display=='') {
+                            header.style.display='none';
+                            headerLink.innerHTML='$show_wc_header_label';
+                            headerStateSave.value=0;
+                        } else{
+                            header.style.display='';
+                            headerLink.innerHTML='$hide_wc_header_label';
+                            headerStateSave.value=1;
+                        }
+                    }
+                    return false;
+                }
+        PAGE_JS;
+}

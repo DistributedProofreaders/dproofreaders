@@ -22,22 +22,18 @@ function get_rounds_to_display($project)
     // If the project is in a round, then users expect that round to appear here,
     // even if there's no data in it.
     //
-    if ( !is_null($project_round) )
-    {
+    if (!is_null($project_round)) {
         // Look for $project_round in $rounds_to_display.
         // If it does appear, it will normally be the last item,
         // but check everywhere, just in case.
-        $found = FALSE;
-        foreach ( $rounds_to_display as $round )
-        {
-            if ( $round->id == $project_round->id )
-            {
-                $found = TRUE;
+        $found = false;
+        foreach ($rounds_to_display as $round) {
+            if ($round->id == $project_round->id) {
+                $found = true;
                 break;
             }
         }
-        if ( !$found )
-        {
+        if (!$found) {
             $rounds_to_display[] = $project_round;
         }
     }
@@ -74,27 +70,23 @@ the lower-level database structure. The returned format looks like:
     }
 }
 */
-function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_round = NULL)
+function fetch_page_table_data($project, $page_selector = null, $proofed_in_round = null)
 {
     $rounds_to_display = get_rounds_to_display($project);
 
     $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
     $tables = $project->projectid;
     $prev_text_column_name = 'master_text';
-    foreach ( $rounds_to_display as $round )
-    {
+    foreach ($rounds_to_display as $round) {
         $rn = $round->round_number;
 
-        $tallyboard = new TallyBoard( $round->id, 'U' );
-        list($joined_with_user_page_tallies,$user_page_tally_column) =
-            $tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
+        $tallyboard = new TallyBoard($round->id, 'U');
+        [$joined_with_user_page_tallies, $user_page_tally_column] =
+            $tallyboard->get_sql_joinery_for_current_tallies("users$rn.u_id");
 
-        if(is_formatting_round($round))
-        {
+        if (is_formatting_round($round)) {
             $wordcheck_query = "NULL as wordcheck_status$rn";
-        }
-        else
-        {
+        } else {
             $wordcheck_query = sprintf("
                 (
                     SELECT count(*)
@@ -123,42 +115,32 @@ function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_roun
         $prev_text_column_name = $round->text_column_name;
     }
 
-    if ( is_null($page_selector) )
-    {
+    if (is_null($page_selector)) {
         // Select all pages
         $where_condition = "1";
-    }
-    elseif ( is_string($page_selector) )
-    {
+    } elseif (is_string($page_selector)) {
         // Select all pages of a particular user.
         $username_for_selecting_pages = $page_selector;
 
         $where_condition = "0";
         $work_round = get_Round_for_round_id($proofed_in_round);
-        if (is_null($proofed_in_round) || is_null($work_round))
-        {
+        if (is_null($proofed_in_round) || is_null($work_round)) {
             // want pages that the specified user did in any round
-            foreach ( $rounds_to_display as $round )
-            {
+            foreach ($rounds_to_display as $round) {
                 $where_condition .= sprintf("
                     OR $round->user_column_name = '%s'
                 ", DPDatabase::escape($username_for_selecting_pages));
             }
-        }
-        else
-        {
+        } else {
             // want only pages that the specified user did in the specified round
             $where_condition .= sprintf("
                 OR $work_round->user_column_name = '%s'
             ", DPDatabase::escape($username_for_selecting_pages));
-
         }
-        $page_selector = NULL;
-    }
-    else
-    {
+        $page_selector = null;
+    } else {
         // $page_selector is an array whose keys are imagenames of the pages to select
-        $imagenames_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
+        $imagenames_str = surround_and_join(array_keys($page_selector), "'", "'", ",");
         $where_condition = "image IN ($imagenames_str)";
     }
 
@@ -169,8 +151,7 @@ function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_roun
         ORDER BY image ASC
     ";
     $res = DPDatabase::query($sql);
-    while($row = mysqli_fetch_assoc($res))
-    {
+    while ($row = mysqli_fetch_assoc($res)) {
         // reconstruct the row data into a structured format
         $data = [
             "image" => $row['image'],
@@ -185,17 +166,13 @@ function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_roun
             ],
         ];
 
-        foreach ( $rounds_to_display as $round )
-        {
+        foreach ($rounds_to_display as $round) {
             $rn = $round->round_number;
 
             $wordcheck_status = $row["wordcheck_status$rn"];
-            if($wordcheck_status == NULL)
-            {
-                $wordcheck_ran = NULL;
-            }
-            else
-            {
+            if ($wordcheck_status == null) {
+                $wordcheck_ran = null;
+            } else {
                 $wordcheck_ran = $wordcheck_status > 0;
             }
 
@@ -216,9 +193,9 @@ function fetch_page_table_data($project, $page_selector = NULL, $proofed_in_roun
 function echo_page_table(
     $project,
     $show_image_size,
-    $disable_editing = FALSE,
-    $page_selector = NULL ,
-    $proofed_in_round = NULL)
+    $disable_editing = false,
+    $page_selector = null,
+    $proofed_in_round = null)
 {
     global $projects_dir, $code_url, $pguser;
 
@@ -227,11 +204,10 @@ function echo_page_table(
     // want PPers able to see names
     $can_see_names_for_all_pages = $project->names_can_be_seen_by_current_user;
 
-    if ( $disable_editing )
-    {
+    if ($disable_editing) {
         // Although the user may be allowed to edit the project,
         // this particular page should not let them do so.
-        $can_edit = FALSE;
+        $can_edit = false;
         // But they still get to see names.
     }
 
@@ -240,7 +216,7 @@ function echo_page_table(
 
     $project_phase = get_phase_containing_project_state($state);
 
-    $show_delete = (($project_phase=='NEW' || $project_phase=='PR') && $can_edit) || user_is_proj_facilitator();
+    $show_delete = (($project_phase == 'NEW' || $project_phase == 'PR') && $can_edit) || user_is_proj_facilitator();
 
     $project_round = get_Round_for_project_state($project->state);
 
@@ -248,8 +224,7 @@ function echo_page_table(
 
     $upload_colspan = 2 + $show_image_size;
 
-    if ( $can_edit )
-    {
+    if ($can_edit) {
         echo "<form name='pagesform' method='post' action='$code_url/tools/project_manager/edit_pages.php'>\n";
         echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     }
@@ -259,22 +234,21 @@ function echo_page_table(
     $n_cols_per_round = 3; // Diff, Date, Text
     // Even if the user can't see names for all pages, they can see names
     // for the pages they've worked on, so we always include the User column.
-    if (TRUE)           $n_cols_per_round += 1; // User
+    if (true) {
+        $n_cols_per_round += 1;
+    } // User
 
     // Top header row
     {
         echo "<tr>\n";
-        if ($can_edit)
-        {
+        if ($can_edit) {
             echo "    <td>&nbsp;</td>\n";
         }
         echo "    <td>&nbsp;</td>\n";
         echo "    <td colspan='$upload_colspan'>"._("Upload")."</td>\n";
         echo "    <td>&nbsp;</td>\n";
-        foreach ( $rounds_to_display as $round )
-        {
-            if ($project_phase == 'PAGE_EDITING' && $round->id == $project_round->id)
-            {
+        foreach ($rounds_to_display as $round) {
+            if ($project_phase == 'PAGE_EDITING' && $round->id == $project_round->id) {
                 $n_cols_per_round++;
             }
 
@@ -288,17 +262,15 @@ function echo_page_table(
         echo "<tr>\n";
 
         $td_start = "<th>";
-        $td_end   = "</th>\n";
+        $td_end = "</th>\n";
 
-        if ($can_edit)
-        {
+        if ($can_edit) {
             echo "{$td_start}X{$td_end}";
         }
         echo "{$td_start}I{$td_end}";
 
         echo "{$td_start}"._("Image")."{$td_end}";
-        if ($show_image_size)
-        {
+        if ($show_image_size) {
             echo "{$td_start}"._("Size")."{$td_end}";
         }
 
@@ -306,30 +278,25 @@ function echo_page_table(
 
         echo "{$td_start}"._("Page State")."{$td_end}";
 
-        foreach ( $rounds_to_display as $round )
-        {
+        foreach ($rounds_to_display as $round) {
             echo "{$td_start}"._("Diff")."{$td_end}";
             echo "{$td_start}"._("Date")."{$td_end}";
-            if (TRUE)
-            {
+            if (true) {
                 echo "{$td_start}"._("User")."{$td_end}";
             }
             echo "{$td_start}"._("Text")."{$td_end}";
         }
 
-        if ($project_phase == 'PAGE_EDITING')
-        {
+        if ($project_phase == 'PAGE_EDITING') {
             echo "{$td_start}"._("Edit")."{$td_end}";
         }
 
-        if ($can_edit)
-        {
+        if ($can_edit) {
             echo "{$td_start}"._("Clear")."{$td_end}";
             echo "{$td_start}"._("Bad/Fix")."{$td_end}";
         }
 
-        if ($show_delete)
-        {
+        if ($show_delete) {
             echo "{$td_start}"._("Delete")."{$td_end}";
         }
     }
@@ -339,8 +306,7 @@ function echo_page_table(
     $avail_pages = [];
 
     $row_count = 0;
-    foreach(fetch_page_table_data($project, $page_selector, $proofed_in_round) as $page_res)
-    {
+    foreach (fetch_page_table_data($project, $page_selector, $proofed_in_round) as $page_res) {
         $row_count += 1;
 
         $imagename = $page_res['image'];
@@ -349,8 +315,7 @@ function echo_page_table(
 
         // --------------------------------------------
         // Selector
-        if ( $can_edit )
-        {
+        if ($can_edit) {
             echo "<td><input type='checkbox' name='selected_pages[$imagename]'></td>\n";
         }
 
@@ -364,12 +329,9 @@ function echo_page_table(
         // Image
         $cell_class_attr = '';
         $imagesize = $page_res["image_size"];
-        if($imagesize === 0)
-        {
+        if ($imagesize === 0) {
             $cell_class_attr = "class='error'";
-        }
-        elseif($imagesize === NULL)
-        {
+        } elseif ($imagesize === null) {
             $cell_class_attr = "class='error'";
             $imagesize = "X";
         }
@@ -377,8 +339,7 @@ function echo_page_table(
         echo "<td $cell_class_attr><a href='$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$imagename'>$imagename</a></td>\n";
 
         // Image Size
-        if ($show_image_size)
-        {
+        if ($show_image_size) {
             echo "<td $cell_class_attr style='text-align: right'>$imagesize</td>";
         }
 
@@ -392,35 +353,30 @@ function echo_page_table(
         $page_state = $page_res['state'];
         echo "<td>$page_state</td>\n";
 
-        if (page_state_is_an_avail_state($page_state))
+        if (page_state_is_an_avail_state($page_state)) {
             $avail_pages[] = $row_count;
+        }
 
         // --------------------------------------------
         // Per-Round Info
 
-        if ($can_see_names_for_all_pages)
-        {
-            $can_see_names_for_this_page = TRUE;
-        }
-        else
-        {
+        if ($can_see_names_for_all_pages) {
+            $can_see_names_for_this_page = true;
+        } else {
             // The user can see the names of all the proofreaders for this page
             // only if they are one of those proofreaders.
-            $can_see_names_for_this_page = FALSE;
-            foreach ( $rounds_to_display as $round )
-            {
+            $can_see_names_for_this_page = false;
+            foreach ($rounds_to_display as $round) {
                 $proofer_name = $page_res["pagerounds"][$round->id]["username"];
-                if ( $proofer_name != '' && $proofer_name == $pguser )
-                {
-                    $can_see_names_for_this_page = TRUE;
+                if ($proofer_name != '' && $proofer_name == $pguser) {
+                    $can_see_names_for_this_page = true;
                     break;
                 }
             }
         }
 
         $prev_rn = 0;
-        foreach ( $rounds_to_display as $round )
-        {
+        foreach ($rounds_to_display as $round) {
             $rn = $round->round_number;
             echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $can_see_names_for_this_page);
             $prev_rn = $rn;
@@ -434,19 +390,16 @@ function echo_page_table(
 
         // --------------------------------------------
         // Link to proofreading interface
-        if ($project_phase == 'PAGE_EDITING')
-        {
+        if ($project_phase == 'PAGE_EDITING') {
             if (!$page_is_in_bad_state
                 && $page_res["pagerounds"][$project_round->id]["username"] == $pguser
-                && $page_state != $project_round->page_avail_state)
-            {
-
+                && $page_state != $project_round->page_avail_state) {
                 $url = url_for_pi_do_particular_page(
-                    $projectid, $state, $imagename, $page_state, TRUE );
+                    $projectid, $state, $imagename, $page_state, true);
                 echo "<td><a href='$url'>"._("Edit")."</a></td>\n";
-            }
-            else
+            } else {
                 echo "<td></td>";
+            }
         }
 
         // --------------------------------------------
@@ -458,10 +411,9 @@ function echo_page_table(
             // Anticipate the tests in page_clear()
             // and only make a link if page_clear will do something
             if (
-                $project_phase=='PAGE_EDITING' &&
+                $project_phase == 'PAGE_EDITING' &&
                 $page_state == $project_round->page_save_state
-            )
-            {
+            ) {
                 $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&amp;selected_pages[$imagename]=on&amp;operation=clear'>"._("Clear")."</a>";
             }
             echo "<td>$clear_string</td>";
@@ -477,8 +429,7 @@ function echo_page_table(
             echo "</td>\n";
 
             // Delete
-            if ($show_delete)
-            {
+            if ($show_delete) {
                 echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&amp;selected_pages[$imagename]=on&amp;operation=delete'>" . _("Delete") . "</a></td>\n";
             }
         }
@@ -487,9 +438,8 @@ function echo_page_table(
     }
     echo "</table>";
 
-    if ( $can_edit )
-    {
-?>
+    if ($can_edit) {
+        ?>
 <script><!--
 let avail_pages = <?php echo json_encode($avail_pages); ?>;
 let num_rows = <?php echo $row_count; ?>;
@@ -531,8 +481,7 @@ function changeSelection(sel) {
         echo "<select name='operation'>\n";
         // echo "  <option value='bad'   >" . _("Mark as bad") . "</option>\n";
         echo "  <option value='clear' >" . _("Clear effects of current round") . "</option>\n";
-        if($show_delete)
-        {
+        if ($show_delete) {
             echo "  <option value='delete'>" . _("Delete") . "</option>\n";
         }
         echo "</select>\n";
@@ -542,16 +491,15 @@ function changeSelection(sel) {
         // We can't easily do a multipage mark-as-bad,
         // because it requires a per-page reason.
     }
-
 }
 
 // -----------------------------------------------------------------------------
 
-function get_rounds_with_data( $projectid )
+function get_rounds_with_data($projectid)
 // Returns an array of Rounds representing those rounds
 // for which the given project has some useful data.
 {
-    $rounds_with_data = array();
+    $rounds_with_data = [];
 
     // Currently, when a project skips a round, the time and text of the
     // corresponding slot are still set. It's this data that we exclude by
@@ -561,9 +509,8 @@ function get_rounds_with_data( $projectid )
 
     global $Round_for_round_id_;
 
-    $sums = array();
-    foreach ( $Round_for_round_id_ as $round_id => $round )
-    {
+    $sums = [];
+    foreach ($Round_for_round_id_ as $round_id => $round) {
         $sums[] = "SUM({$round->user_column_name} != '') AS $round_id";
     }
     $body = join(',', $sums);
@@ -576,15 +523,11 @@ function get_rounds_with_data( $projectid )
     $res = DPDatabase::query($sql);
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
-    foreach ( $Round_for_round_id_ as $round_id => $round )
-    {
-        if ( $num_filled_user_fields_for_round_[$round_id] == 0 )
-        {
+    foreach ($Round_for_round_id_ as $round_id => $round) {
+        if ($num_filled_user_fields_for_round_[$round_id] == 0) {
             // no real info in this slot
             // (skipped round or not-yet-reached round)
-        }
-        else
-        {
+        } else {
             // There's some real info in this slot
             $rounds_with_data[] = $round;
         }
@@ -595,17 +538,17 @@ function get_rounds_with_data( $projectid )
 
 // -----------------------------------------------------------------------------
 
-function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the only "real" params.
+function echo_cells_for_round($round_num, $diff_round_num, // <- These are the only "real" params.
     $page_res,
     $projectid, $can_see_names_for_this_page)
 {
     global $pguser, $code_url;
 
-    $imagename  = $page_res['image'];
+    $imagename = $page_res['image'];
     $page_state = $page_res['state'];
 
     $round = get_Round_for_round_number($round_num);
-    assert( !is_null($round) );
+    assert(!is_null($round));
 
     $round_data = $page_res["pagerounds"][$round->id];
     $R_username = $round_data["username"];
@@ -621,14 +564,13 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
         }
 
         // a page saved as IN PROGRESS by the user has an orangey background
-        else if ($page_state == $round->page_temp_state
+        elseif ($page_state == $round->page_temp_state
             || $page_state == $round->page_out_state) {
             $cell_class_attr = "class='in_progress'";
         }
 
         // a page by the user but not available for editing has a reddish background
-        else if ($page_state != $round->page_avail_state)
-        {
+        elseif ($page_state != $round->page_avail_state) {
             $cell_class_attr = "class='done_previous'";
         }
     }
@@ -638,7 +580,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
     echo "<td>";
     if ($page_state != $round->page_avail_state) {
-        if($round_data["is_diff"]) {
+        if ($round_data["is_diff"]) {
             echo _("No diff");
         } else {
             echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round_num=$diff_round_num&amp;R_round_num=$round_num'>"._("Diff")."</a>";
@@ -651,12 +593,9 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     // Date
 
     $R_time = $round_data["modified_timestamp"];
-    if ($R_time == 0)
-    {
+    if ($R_time == 0) {
         $R_time_str = '';
-    }
-    else
-    {
+    } else {
         // TRANSLATORS: This is an strftime-formatted string
         $R_time_str = strftime(_("%Y %b %e %H:%M"), $R_time);
     }
@@ -665,35 +604,23 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     // ------------------------------
     // User
 
-    if ($R_username == '')
-    {
+    if ($R_username == '') {
         echo "<td></td>\n";
-    }
-    else if ($R_username == "[none]")
-    {
+    } elseif ($R_username == "[none]") {
         echo "<td class='text-link-disabled'>" . html_safe($R_username) . "</td>\n";
-    }
-    else if ($can_see_names_for_this_page)
-    {
+    } elseif ($can_see_names_for_this_page) {
         $R_pages_completed = $round_data["user_page_tally"];
 
-        if ($round_data["wordcheck_ran"] === NULL)
-        {
+        if ($round_data["wordcheck_ran"] === null) {
             $wordcheck_status = '';
-        }
-        elseif ($round_data["wordcheck_ran"])
-        {
+        } elseif ($round_data["wordcheck_ran"]) {
             $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
-        }
-        else
-        {
+        } else {
             $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
         }
 
-        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed)$wordcheck_status</td>\n";
-    }
-    else
-    {
+        echo "<td $cell_class_attr>" . private_message_link($R_username, null) . " ($R_pages_completed)$wordcheck_status</td>\n";
+    } else {
         echo "<td></td>\n";
     }
 
@@ -702,12 +629,9 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
     $R_text_length = $round_data["page_size"];
 
-    if ( $R_text_length == 0 )
-    {
+    if ($R_text_length == 0) {
         echo "<td $cell_class_attr> </td>\n";
-    }
-    else
-    {
+    } else {
         echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
     }
 }
@@ -716,35 +640,31 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
 function page_state_is_an_avail_state($page_state)
 {
-    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-    {
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
         $round = get_Round_for_round_number($rn);
-        if ( $page_state == $round->page_avail_state )
-        {
-            return TRUE;
+        if ($page_state == $round->page_avail_state) {
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 function page_state_is_a_bad_state($page_state)
 {
-    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-    {
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
         $round = get_Round_for_round_number($rn);
-        if ( $page_state == $round->page_bad_state )
-        {
-            return TRUE;
+        if ($page_state == $round->page_bad_state) {
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 // -----------------------------------------------------------------------------
 
 function echo_detail_legend()
 {
-?>
+    ?>
 <table class='pagedetail'>
     <tr>
         <td colspan='3'><?php echo _("Pages proofread by you and..."); ?></td>
@@ -757,4 +677,3 @@ function echo_detail_legend()
 </table>
 <?php
 }
-

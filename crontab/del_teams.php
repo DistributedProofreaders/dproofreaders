@@ -1,5 +1,5 @@
 <?php
-$relPath="./../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
@@ -22,7 +22,7 @@ $sql = sprintf("
 ", $old_date);
 $result = DPDatabase::query($sql);
 
-while (list($id, $teamname) = mysqli_fetch_row($result)) {
+while ([$id, $teamname] = mysqli_fetch_row($result)) {
     echo "Deleting team $teamname as it has no members after 90 days\n";
     DPDatabase::query("DELETE FROM user_teams WHERE id = $id");
 }

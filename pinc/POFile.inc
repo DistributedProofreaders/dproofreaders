@@ -3,10 +3,10 @@
 class POFile
 {
     private $po_filename;
-    private $num_messages = NULL;
-    private $num_messages_translated = NULL;
+    private $num_messages = null;
+    private $num_messages_translated = null;
 
-    public function __construct($po_filename=NULL)
+    public function __construct($po_filename = null)
     {
         $this->po_filename = $po_filename;
     }
@@ -29,15 +29,17 @@ class POFile
 
     private function get_messages_count()
     {
-        if($this->num_messages === NULL)
+        if ($this->num_messages === null) {
             $this->count_translated_strings();
+        }
         return $this->num_messages;
     }
 
     private function get_messages_translated_count()
     {
-        if($this->num_messages_translated === NULL)
+        if ($this->num_messages_translated === null) {
             $this->count_translated_strings();
+        }
         return $this->num_messages_translated;
     }
 
@@ -48,23 +50,23 @@ class POFile
         $iterator = new POFileIterator($this->po_filename);
         $count = 0;
         $translated = 0;
-        foreach($iterator as $block)
-        {
+        foreach ($iterator as $block) {
             // if the block is a saved (but not used) fuzzy translation,
             // skip it
-            if(startswith($block, "#, fuzzy") or
-                startswith($block, "#~ "))
+            if (startswith($block, "#, fuzzy") or
+                startswith($block, "#~ ")) {
                 continue;
+            }
 
             $count++;
-            if($this->is_block_translated($block))
+            if ($this->is_block_translated($block)) {
                 $translated++;
+            }
         }
 
         // The first record is always metadata and flags as translated
         // so our count starts at -1 if there was anything in the file.
-        if($count > 0)
-        {
+        if ($count > 0) {
             $count = $count - 1;
             $translated = $translated - 1;
         }
@@ -78,11 +80,12 @@ class POFile
     // strings, hence the gymnastics.
     private function is_block_translated($block)
     {
-        list($msgid, $msgstr) = @explode("msgstr", $block);
+        [$msgid, $msgstr] = @explode("msgstr", $block);
         $msgstr = "msgstr$msgstr";
-        if(strpos($msgstr, 'msgstr ""') === 0 &&
-            substr_count($msgstr, "\n") == 1)
+        if (strpos($msgstr, 'msgstr ""') === 0 &&
+            substr_count($msgstr, "\n") == 1) {
             return false;
+        }
 
         return true;
     }
@@ -92,13 +95,14 @@ class POFile
     private function get_content_type()
     {
         $fh = fopen($this->po_filename, "rt");
-        if(!$fh)
-            return NULL;
+        if (!$fh) {
+            return null;
+        }
 
-        $content_type = NULL;
+        $content_type = null;
         while (($line = fgets($fh, 4096)) !== false) {
-            if(stripos($line, "Content-type")) {
-                $content_type = str_replace(array('\n', '\r', '"'), "", $line);
+            if (stripos($line, "Content-type")) {
+                $content_type = str_replace(['\n', '\r', '"'], "", $line);
                 break;
             }
         }
@@ -115,22 +119,25 @@ class POFile
                      "--locale=$locale",
              $exec_out, $return_value);
 
-        if($return_value != 0)
+        if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
+        }
     }
 
-    public function merge_from_template($template, $fuzzy=FALSE)
+    public function merge_from_template($template, $fuzzy = false)
     {
-        if($fuzzy)
+        if ($fuzzy) {
             $fuzzy_option = "";
-        else
+        } else {
             $fuzzy_option = "-N";
+        }
 
         exec("msgmerge --sort-by-file -U $fuzzy_option '$this->po_filename' '$template' 2>&1",
             $exec_out, $return_value);
 
-        if($return_value != 0)
+        if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
+        }
     }
 
     public function compile()
@@ -140,8 +147,9 @@ class POFile
         exec("msgfmt '$this->po_filename' -o '$compiled_filename' 2>&1",
             $exec_out, $return_value);
 
-        if($return_value != 0)
+        if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
+        }
     }
 }
 
@@ -149,8 +157,8 @@ class POFile
 class POFileIterator implements Iterator
 {
     private $po_filename;
-    private $file_handle = NULL;
-    private $current_block = NULL;
+    private $file_handle = null;
+    private $current_block = null;
     private $block_count = -1;
 
     public function __construct($po_filename)
@@ -158,69 +166,63 @@ class POFileIterator implements Iterator
         $this->po_filename = $po_filename;
     }
 
-    function rewind()
+    public function rewind()
     {
-        if($this->file_handle)
-        {
+        if ($this->file_handle) {
             fseek($this->file_handle, 0);
-        }
-        else
-        {
+        } else {
             $this->file_handle = fopen($this->po_filename, "rt");
         }
 
         $this->next();
     }
 
-    function current()
+    public function current()
     {
         return $this->current_block;
     }
 
-    function key()
+    public function key()
     {
         return $this->block_count;
     }
 
-    function next()
+    public function next()
     {
-        if(!$this->file_handle)
+        if (!$this->file_handle) {
             return;
+        }
 
         $block = "";
         while (($line = fgets($this->file_handle, 4096)) !== false) {
             $line = trim($line);
-            if($line)
-            {
+            if ($line) {
                 $block .= "$line\n";
-            }
-            elseif($block)
-            {
+            } elseif ($block) {
                 $this->current_block = $block;
                 $this->block_count++;
                 return;
             }
         }
-        if($block)
-        {
+        if ($block) {
             $this->current_block = $block;
             $this->block_count++;
             return;
         }
-        $this->current_block = NULL;
+        $this->current_block = null;
         fclose($this->file_handle);
-        $this->file_handle = NULL;
+        $this->file_handle = null;
     }
 
-    function valid()
+    public function valid()
     {
-        return ($this->current_block != NULL);
+        return ($this->current_block != null);
     }
 
-    function __destruct()
+    public function __destruct()
     {
-        if($this->file_handle)
+        if ($this->file_handle) {
             fclose($this->file_handle);
+        }
     }
 }
-

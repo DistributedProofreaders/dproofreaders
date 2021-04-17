@@ -2,7 +2,7 @@
 
 // Translated by user 'rfarinha' at pgdp.net, 3/7/2009
 
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -232,7 +232,7 @@ output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
 </p>
 <p>Se faltar algum item, se achar que deveria haver uma outra metodologia,
    ou se achar alguma explica&ccedil;&atilde;o vaga, por favor diga-nos.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Se se deparar com um termo desconhecido nestas regras, consulte o
    <a href="http://www.pgdp.net/wiki/DP_Jargon">guia de jarg&atilde;o wiki</a>.
 <?php } ?>

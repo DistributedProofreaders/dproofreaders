@@ -1,5 +1,5 @@
 <?php
-$relPath='../../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -8,8 +8,7 @@ require_login();
 output_header(_('Quiz Wizard'));
 
 
-if ($_SESSION['quiz_data']['lastpage'] == 'output_quiz' || $_SESSION['quiz_data']['lastpage'] == 'start')
-{
+if ($_SESSION['quiz_data']['lastpage'] == 'output_quiz' || $_SESSION['quiz_data']['lastpage'] == 'start') {
     unset($_SESSION['quiz_data']['messages']);
     unset($_SESSION['quiz_data']['tests']);
 }
@@ -72,4 +71,3 @@ echo "</p>\n<hr>\n";
 echo "<p><input type='submit' value='" . _("send") . "'></p>\n</form>\n";
 
 $_SESSION['quiz_data']['lastpage'] = 'general';
-

@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 class PageCompareTest extends PHPUnit\Framework\TestCase
@@ -20,17 +20,13 @@ class PageCompareTest extends PHPUnit\Framework\TestCase
         $file_array = [];
         $data_dir_name = "page_compare_data";
         $data_dir_handle = opendir($data_dir_name);
-        if($data_dir_handle)
-        {
-            while (($file = readdir($data_dir_handle)) !== false)
-            {
-                if ($file == '.' || $file == '..')
-                {
+        if ($data_dir_handle) {
+            while (($file = readdir($data_dir_handle)) !== false) {
+                if ($file == '.' || $file == '..') {
                     continue;
                 }
                 $file_path = $data_dir_name . "/" . $file;
-                if(is_dir($file_path))
-                {
+                if (is_dir($file_path)) {
                     $file_path .= "/";
                     $file_array[] = [$file_path . "formatted.txt", $file_path . "unformatted.txt"];
                 }

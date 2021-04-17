@@ -1,5 +1,5 @@
 <?php
-$relPath="../../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once('../../stats/jpgraph_files/common.inc');
@@ -17,8 +17,7 @@ draw_simple_bar_graph(
    init_simple_bar_graph(600, 300, 0.001), // ignore any cached graph image
    $graph_flags_per_page["graph_x"],
    $graph_flags_per_page["graph_y"],
-   ceil(count($graph_flags_per_page["graph_x"])/40),
+   ceil(count($graph_flags_per_page["graph_x"]) / 40),
    _("Flagged words per page"),
    _("Flags")
 );
-

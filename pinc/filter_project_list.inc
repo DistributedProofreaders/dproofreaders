@@ -14,7 +14,7 @@ include_once($relPath.'iso_lang_list.inc');
 
 class ProjectFilterElement
 {
-    function __construct($id, $label, $data, $state_sql, $active_fields)
+    public function __construct($id, $label, $data, $state_sql, $active_fields)
     {
         $this->id = $id;
         $this->label = $label;
@@ -24,10 +24,9 @@ class ProjectFilterElement
         $this->selected_options = [];
     }
 
-    function echo_html_control()
+    public function echo_html_control()
     {
-        if(!$this->active)
-        {
+        if (!$this->active) {
             return;
         }
         $this->echo_active_html_control();
@@ -48,11 +47,9 @@ class ProjectFilterElement
         $options = $this->get_options();
         $selected_keys = array_get($this->data, $this->id, []);
         echo_option("", _('Any'), empty($selected_keys));
-        foreach($options as $key => $value)
-        {
+        foreach ($options as $key => $value) {
             $selected = in_array($key, $selected_keys);
-            if($selected)
-            {
+            if ($selected) {
                 // make array of values to use in display
                 $this->selected_options[] = $value;
             }
@@ -67,8 +64,7 @@ class ProjectFilterElement
         $query = "SELECT distinct $this->id FROM projects WHERE ($this->state_sql) ORDER BY $this->id";
         $options = [];
         $result = DPDatabase::query($query);
-        while ($cols = mysqli_fetch_row($result))
-        {
+        while ($cols = mysqli_fetch_row($result)) {
             $options[$cols[0]] = $cols[0];
         }
         return $options;
@@ -92,8 +88,7 @@ class GenreElement extends ProjectFilterElement
             WHERE ($this->state_sql) ORDER BY trans_genre";
         $options = [];
         $result = DPDatabase::query($query);
-        while ($cols = mysqli_fetch_row($result))
-        {
+        while ($cols = mysqli_fetch_row($result)) {
             $options[$cols[0]] = $cols[1];
         }
         return $options;
@@ -110,8 +105,7 @@ class SpecialDayElement extends ProjectFilterElement
             WHERE projects.special_code = special_days.spec_code AND ($this->state_sql) ORDER BY display_name";
         $options = [];
         $result = DPDatabase::query($query);
-        while ($cols = mysqli_fetch_row($result))
-        {
+        while ($cols = mysqli_fetch_row($result)) {
             $options[$cols[0]] = $cols[1];
         }
         return $options;
@@ -123,8 +117,7 @@ class LanguageElement extends ProjectFilterElement
     protected function get_options()
     {
         $options = [];
-        foreach(get_iso_language_list() as $name_code)
-        {
+        foreach (get_iso_language_list() as $name_code) {
             $lang = $name_code["lang_name"];
             $options[$lang] = $lang;
         }
@@ -143,10 +136,9 @@ class LanguageElement extends ProjectFilterElement
             'primary' => _("Primary only"),
             'primwith' => _("Primary with any"),
             'anywhere' => _("Primary or Secondary"),
-            ];
+        ];
         echo "<select name='lang-match' id='lang-match'>";
-        foreach($lang_options as $key => $value)
-        {
+        foreach ($lang_options as $key => $value) {
             echo_option($key, $value, $key == $selected_key);
         }
         echo "</select>";
@@ -156,20 +148,19 @@ class LanguageElement extends ProjectFilterElement
 
 class DifficultyElement extends ProjectFilterElement
 {
-    function echo_active_html_control()
+    public function echo_active_html_control()
     {
         echo "<p><b>$this->label:</b> ";
         echo "<label for='diff-all'>" . pgettext("all difficulties", "All") . "</label><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
         $difficulty = array_get($this->data, "difficulty", []);
-        if(!count($difficulty))
+        if (!count($difficulty)) {
             echo " checked";
+        }
         echo ">\n";
-        $difficulty_options= array('beginner' => _("Beginners Only"), 'easy' => _("Easy"), 'average' => _("Average"), 'hard' => _("Hard"));
-        foreach($difficulty_options as $value => $option)
-        {
+        $difficulty_options = ['beginner' => _("Beginners Only"), 'easy' => _("Easy"), 'average' => _("Average"), 'hard' => _("Hard")];
+        foreach ($difficulty_options as $value => $option) {
             echo "<label for='$value'>&nbsp;$option</label><input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
-            if(is_array($difficulty) && in_array($value, $difficulty))
-            {
+            if (is_array($difficulty) && in_array($value, $difficulty)) {
                 echo " checked";
                 $this->selected_options[] = $option;
             }
@@ -179,49 +170,41 @@ class DifficultyElement extends ProjectFilterElement
     }
 }
 
-function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields = NULL)
+function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields = null)
 {
     $display_fields = [
-        "language" => TRUE,
-        "genre" => TRUE,
-        "username" => TRUE,
-        "difficulty" => TRUE,
-        "special_code" => TRUE,
-        "checkedoutby" => FALSE,
+        "language" => true,
+        "genre" => true,
+        "username" => true,
+        "difficulty" => true,
+        "special_code" => true,
+        "checkedoutby" => false,
     ];
     // overwrite the default display state of the form fields with any
     // custom display requests
-    if($custom_display_fields && is_array($custom_display_fields))
-    {
+    if ($custom_display_fields && is_array($custom_display_fields)) {
         $display_fields = array_merge($display_fields, $custom_display_fields);
     }
     // if there is data save it, else get saved data
     // if they want to reset the filter, zero out the data passed in
-    if(array_key_exists("reset", $data))
-    {
+    if (array_key_exists("reset", $data)) {
         $data = [];
         save_data($username, $filter_type, $data);
-    }
-    else if(array_key_exists("apply", $data))
-    {
+    } elseif (array_key_exists("apply", $data)) {
         unset($data["apply"]);
         // remove the 'any' options, save space,
         // for making sql we would have to exclude them if they were present
         // for controls we have to interpret nothing as any
         $new_data = [];
-        foreach($data as $category => $values)
-        {
-            if (is_array($values) && (($key = array_search('', $values)) !== false))
-            {
+        foreach ($data as $category => $values) {
+            if (is_array($values) && (($key = array_search('', $values)) !== false)) {
                 unset($values[$key]);
             }
             $new_data[$category] = $values;
         }
         $data = $new_data;
         save_data($username, $filter_type, $data);
-    }
-    else
-    {
+    } else {
         $data = get_saved_data($username, $filter_type);
     }
 
@@ -249,8 +232,7 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
     $elements_on_first_line = [$genre_element, $pm_element, $pp_element, $special_day_element, $pri_lang_element];
 
-    foreach($elements_on_first_line as $element)
-    {
+    foreach ($elements_on_first_line as $element) {
         $element->echo_html_control();
     }
     echo "</tr>\n";
@@ -265,28 +247,22 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
     // construct the summary display
     $display_lines = [];
-    foreach($elements as $element)
-    {
-        if($element->selected_options)
-        {
+    foreach ($elements as $element) {
+        if ($element->selected_options) {
             $display_lines[] = $element->label . " = " . implode("; ", $element->selected_options);
         }
     }
     // save a single line version to use in activity hub
-    save_display($username, $filter_type, implode(" | ",$display_lines));
+    save_display($username, $filter_type, implode(" | ", $display_lines));
 
     echo "<p>", _("Current filter:"), " <b>";
 
     // show multi-line version on this page
-    if(!empty($display_lines))
-    {
-        foreach($display_lines as $line)
-        {
+    if (!empty($display_lines)) {
+        foreach ($display_lines as $line) {
             echo "<br>$line";
         }
-    }
-    else
-    {
+    } else {
         echo _("No filter, all books shown.");
     }
     echo "</b></p>\n";
@@ -296,35 +272,34 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
 class ProjectSearchElement
 {
-    function __construct($id, $data)
+    public function __construct($id, $data)
     {
         $this->id = $id;
         $this->data = $data;
     }
 
-    function get_sql_component()
+    public function get_sql_component()
     {
         $values = array_get($this->data, $this->id, []);
-        if(empty($values))
-        {
+        if (empty($values)) {
             return "";
         }
-        array_walk($values, function(&$value) {
+        array_walk($values, function (&$value) {
             $value = DPDatabase::escape($value);
         });
         return $this->construct_sql($values);
     }
 
-    function construct_sql($values)
+    public function construct_sql($values)
     {
-        $values_list = surround_and_join( $values, "'", "'", ", " );
+        $values_list = surround_and_join($values, "'", "'", ", ");
         return " AND $this->id IN ($values_list)";
     }
 }
 
 class LanguageSearchElement extends ProjectSearchElement
 {
-    function construct_sql($values)
+    public function construct_sql($values)
     {
         // some languages have regex special chars which need escaping
         $values = array_map('quotemeta', $values);
@@ -332,7 +307,7 @@ class LanguageSearchElement extends ProjectSearchElement
         // for primary language match strings starting with it
         // for primary only match end also
         // need to check "with" to avoid matching "French, Old" etc.
-        switch(get_lang_match($this->data)) {
+        switch (get_lang_match($this->data)) {
         case "primary":
             $prefix = "^";
             $suffix = "$";
@@ -364,8 +339,7 @@ function get_project_filter_sql($pguser, $filter_type)
     ];
 
     $filter = "";
-    foreach($search_elements as $element)
-    {
+    foreach ($search_elements as $element) {
         $filter .= $element->get_sql_component();
     }
     return $filter;
@@ -412,7 +386,6 @@ function get_project_filter_display($pguser, $filter_type)
 
 function get_raw_saved_data($pguser, $data_name)
 {
-
     $query = sprintf("
         SELECT value
         FROM user_filters
@@ -425,4 +398,3 @@ function get_raw_saved_data($pguser, $data_name)
     $row = mysqli_fetch_assoc($result);
     return $row ? $row["value"] : "";
 }
-

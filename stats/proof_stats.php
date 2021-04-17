@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
@@ -13,17 +13,17 @@ require_login();
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
-$title = sprintf( _('Top 100 Proofreaders for Round %s'), $tally_name );
+$title = sprintf(_('Top 100 Proofreaders for Round %s'), $tally_name);
 
 output_header($title);
 
 echo "<h1>$title</h1>\n";
 
-echo "<p>" . sprintf( _('Users with the Highest Number of Pages Saved-as-Done in Round %s'), $tally_name ) . "</p>";
+echo "<p>" . sprintf(_('Users with the Highest Number of Pages Saved-as-Done in Round %s'), $tally_name) . "</p>";
 
-$users_tallyboard = new TallyBoard( $tally_name, 'U' );
+$users_tallyboard = new TallyBoard($tally_name, 'U');
 
-list($joined_with_user_page_tallies,$user_page_tally_column) =
+[$joined_with_user_page_tallies, $user_page_tally_column] =
     $users_tallyboard->get_sql_joinery_for_current_tallies('users.u_id');
 
 // TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2' or 'R*')
@@ -46,4 +46,3 @@ $sql = sprintf("
 dpsql_dump_themed_query($sql, 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
-

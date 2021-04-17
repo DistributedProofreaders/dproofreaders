@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
@@ -13,37 +13,33 @@ $show_image_size = '';
 
 $projectid = get_projectID_param($_GET, 'projectid');
 
-if (!$site_supports_metadata)
-{
+if (!$site_supports_metadata) {
     echo _("md_phase1.php: \$site_supports_metadata is false, so exiting.");
     exit();
 }
 
 
-if (isset($_POST['done']))
-{
+if (isset($_POST['done'])) {
     $badmetadata = handle_page_params();
     if ($badmetadata == 1) {
         $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
-        metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
+        metarefresh(0, 'md_available.php', _("Image Metadata Collection"), "");
     } else {
         $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
         $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'avail_md_second'");
-        metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
+        metarefresh(0, 'md_available.php', _("Image Metadata Collection"), "");
     }
     exit;
 }
 
-if(isset($_POST['return']))
-{
+if (isset($_POST['return'])) {
     //they don't want to save so clean it up and return them to md_available
-    metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
+    metarefresh(0, 'md_available.php', _("Image Metadata Collection"), "");
     exit;
 }
 
 
-if(isset($_POST['continue']))
-{
+if (isset($_POST['continue'])) {
     handle_page_params();
     // ignore the return value
 }
@@ -53,8 +49,7 @@ function handle_page_params()
 {
     global $projectid;
 
-    foreach ( $_POST['orig_page_num_'] as $image => $orig_page_num )
-    {
+    foreach ($_POST['orig_page_num_'] as $image => $orig_page_num) {
         $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET orig_page_num = '%s'
@@ -64,8 +59,7 @@ function handle_page_params()
     }
 
     $badmetadata = 0;
-    foreach ( $_POST['metadata_'] as $image => $metadata )
-    {
+    foreach ($_POST['metadata_'] as $image => $metadata) {
         $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET metadata = '%s'
@@ -130,11 +124,10 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
 
     $fields_to_get = 'image, state, metadata';
 
-    $res = mysqli_query(DPDatabase::get_connection(),  "SELECT image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
     $num_rows = mysqli_num_rows($res);
 
-    for ( $rownum=0; $rownum < $num_rows; $rownum++ )
-    {
+    for ($rownum = 0; $rownum < $num_rows; $rownum++) {
         $page_res = mysqli_fetch_assoc($res);
 
         $image = $page_res['image'];
@@ -145,39 +138,41 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
 
         // --------------------------------------------
         // Index
-        $index = $rownum+1;
+        $index = $rownum + 1;
         echo "<td align='right'>$index</td>\n";
 
         if (file_exists($path.$image)) {
-            if ($show_image_size) $imagesize = filesize(realpath($path.$image));
+            if ($show_image_size) {
+                $imagesize = filesize(realpath($path.$image));
+            }
         } else {
-            if ($show_image_size) $imagesize = 0;
+            if ($show_image_size) {
+                $imagesize = 0;
+            }
         }
         echo "<td><a href=../page_browser.php?project=$projectid&imagefile=$image>$image</a></td>\n";
 
-        // Original Page Number   
+        // Original Page Number
         echo "<td><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
 
 
         // Set up existing page metadata if there is any, page defaults to nonblank
-        $metadata_possibles = array(
+        $metadata_possibles = [
             'illustration' => _("Illustration"),
-            'blank'        => _("Blank"),
-            'missing'      => _("Page Missing After This One"),
-            'badscan'      => _("Bad Scan"),
-            'sequence'     => _("Page Out of Sequence"),
-            'nonblank'     => _("Non-Blank"),
-        );
+            'blank' => _("Blank"),
+            'missing' => _("Page Missing After This One"),
+            'badscan' => _("Bad Scan"),
+            'sequence' => _("Page Out of Sequence"),
+            'nonblank' => _("Non-Blank"),
+        ];
 
-        if ( !array_key_exists($metadata, $metadata_possibles) )
-        {
+        if (!array_key_exists($metadata, $metadata_possibles)) {
             // e.g., $metadata == ''
             $metadata = 'nonblank';
         }
 
         echo "<td align='left'>\n";
-        foreach ( $metadata_possibles as $code => $label )
-        {
+        foreach ($metadata_possibles as $code => $label) {
             $checked = ($code == $metadata ? 'checked' : '');
             echo "<input type='radio' name='metadata_[$image]' value='$code' $checked>$label<br>\n";
         }
@@ -198,4 +193,3 @@ echo "<form method ='post'><table class='themed theme_striped'>\n";
 
 echo "</form></center>";
 echo "<br>";
-

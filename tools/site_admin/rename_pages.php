@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
@@ -8,9 +8,8 @@ include_once($relPath.'user_is.inc');
 
 require_login();
 
-if ( !user_is_a_sitemanager() )
-{
-    die( "You are not allowed to run this script." );
+if (!user_is_a_sitemanager()) {
+    die("You are not allowed to run this script.");
 }
 
 $extra_args["css_data"] = "
@@ -26,8 +25,7 @@ echo "<p>" . _("This tool will allow you to rename pages in a project.") . "</p>
 
 $projectid = get_projectID_param($_REQUEST, 'projectid', true);
 
-if ( !$projectid )
-{
+if (!$projectid) {
     echo "<form method='GET'>";
     echo "Project: ";
     echo "<input type='text' name='projectid' size='23' required>";
@@ -50,18 +48,16 @@ $res = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY image
 ") or die(DPDatabase::log_error());
 
-$current_image_for_fileid_ = array();
-while ( list($fileid,$image) = mysqli_fetch_row($res) )
-{
+$current_image_for_fileid_ = [];
+while ([$fileid, $image] = mysqli_fetch_row($res)) {
     $current_image_for_fileid_[$fileid] = $image;
 }
 
 // -----------
 
-$submit_button = array_get( $_POST, 'submit_button', '' );
+$submit_button = array_get($_POST, 'submit_button', '');
 
-switch ( $submit_button )
-{
+switch ($submit_button) {
     case '':
 
         echo "<form method='post'>";
@@ -109,17 +105,15 @@ switch ( $submit_button )
 
     case 'Check renamings':
 
-        $renumber_from_n = array_get( $_POST, 'renumber_from_n', 'off' );
+        $renumber_from_n = array_get($_POST, 'renumber_from_n', 'off');
 
-        if ( $renumber_from_n == 'on' )
-        {
+        if ($renumber_from_n == 'on') {
             // Ignore any name-mapping in $_POST.
 
-            $start_str = array_get( $_POST, 'renumbering_start', '001' );
+            $start_str = array_get($_POST, 'renumbering_start', '001');
 
-            $n_matches = preg_match( '/^(\D*)(\d+)(\D*)$/', $start_str, $matches );
-            if ($n_matches == 0)
-            {
+            $n_matches = preg_match('/^(\D*)(\d+)(\D*)$/', $start_str, $matches);
+            if ($n_matches == 0) {
                 echo "<p class='error'>";
                 echo "Starting name '$start_str' is invalid.\n";
                 echo "Please hit 'Back' and fix.\n";
@@ -127,14 +121,13 @@ switch ( $submit_button )
                 return;
             }
 
-            list($all,$prefix,$numeral,$postfix) = $matches;
+            [$all, $prefix, $numeral, $postfix] = $matches;
             $n_digits = strlen($numeral);
             $numeral_format = "%0{$n_digits}d";
 
             $start_number = intval($numeral);
             $end_number = $start_number + count($current_image_for_fileid_) - 1;
-            if ( $end_number >= pow(10,$n_digits) )
-            {
+            if ($end_number >= pow(10, $n_digits)) {
                 echo "<p class='error'>";
                 echo "The last page would be numbered $end_number, which exceeds $n_digits digits.\n";
                 echo "Please hit 'Back' and fix.\n";
@@ -142,18 +135,15 @@ switch ( $submit_button )
                 return;
             }
 
-            $new_fileid_for_ = array();
+            $new_fileid_for_ = [];
             $i = $start_number;
-            foreach ( $current_image_for_fileid_ as $fileid => $image )
-            {
-                $new_numeral = sprintf( $numeral_format, $i );
+            foreach ($current_image_for_fileid_ as $fileid => $image) {
+                $new_numeral = sprintf($numeral_format, $i);
                 $new_fileid = $prefix . $new_numeral . $postfix;
                 $new_fileid_for_[$fileid] = $new_fileid;
                 $i++;
             }
-        }
-        else
-        {
+        } else {
             $new_fileid_for_ = get_requested_name_mapping();
         }
 
@@ -176,20 +166,16 @@ switch ( $submit_button )
         echo "</tr>";
         echo "\n";
 
-        foreach ( $current_image_for_fileid_ as $old_fileid => $old_image )
-        {
+        foreach ($current_image_for_fileid_ as $old_fileid => $old_image) {
             $new_fileid = $new_fileid_for_[$old_fileid];
             $new_image = "$new_fileid.png";
 
             echo "<tr>";
             echo "<td>$old_fileid</td>";
             echo "<td>$old_image</td>";
-            if ( $new_fileid == $old_fileid && $new_image == $old_image )
-            {
+            if ($new_fileid == $old_fileid && $new_image == $old_image) {
                 echo "<td>==</td>";
-            }
-            else
-            {
+            } else {
                 echo "<td>-></td>";
             }
             echo "<td>$new_fileid</td>";
@@ -205,10 +191,8 @@ switch ( $submit_button )
 
         $n_errors = 0;
 
-        foreach( array_count_values( $new_fileid_for_ ) as $new_fileid => $freq )
-        {
-            if ( $new_fileid != '' && $freq > 1 )
-            {
+        foreach (array_count_values($new_fileid_for_) as $new_fileid => $freq) {
+            if ($new_fileid != '' && $freq > 1) {
                 echo "<p class='error'>";
                 echo "Error: You have requested $new_fileid as the new fileid for $freq different pages.\n";
                 echo "</p>\n";
@@ -216,10 +200,9 @@ switch ( $submit_button )
             }
         }
 
-        if ( $n_errors > 0 )
-        {
+        if ($n_errors > 0) {
             echo "\n";
-            die( "Hit 'Back' and fix." );
+            die("Hit 'Back' and fix.");
         }
 
         // ------------
@@ -228,11 +211,10 @@ switch ( $submit_button )
         // uniqueness constraint on each of the fileid and image columns.
         // Try it both backward and forward.
 
-        $direction_that_works = NULL;
+        $direction_that_works = null;
 
         echo "<pre>";
-        foreach ( array( 'forward', 'backward' ) as $direction )
-        {
+        foreach (['forward', 'backward'] as $direction) {
             echo "<hr>";
             echo "Considering doing the renamings $direction ...\n";
             echo "\n";
@@ -245,59 +227,49 @@ switch ( $submit_button )
             $olds = (
                 $direction == 'forward' ?
                 $current_image_for_fileid_ :
-                array_reverse($current_image_for_fileid_, TRUE)
+                array_reverse($current_image_for_fileid_, true)
             );
 
             $i = 0;
-            foreach ( $olds as $old_fileid => $old_image )
-            {
+            foreach ($olds as $old_fileid => $old_image) {
                 $i++;
 
                 $new_fileid = $new_fileid_for_[$old_fileid];
                 $new_image = "$new_fileid.png";
 
-                unset( $sim[$old_fileid] );
+                unset($sim[$old_fileid]);
 
-                $reasons = array();
-                if ( array_key_exists($new_fileid, $sim) )
-                {
+                $reasons = [];
+                if (array_key_exists($new_fileid, $sim)) {
                     $reasons[] = "a row with fileid='$new_fileid' will already exist";
                 }
 
-                if ( in_array($new_image, $sim) )
-                {
+                if (in_array($new_image, $sim)) {
                     $reasons[] = "a row with image='$new_image' will already exist";
                 }
 
-                if ( count($reasons) > 0 )
-                {
+                if (count($reasons) > 0) {
                     $n_failed_steps++;
-                    if ($n_failed_steps <= $max_n_failed_steps_to_show)
-                    {
+                    if ($n_failed_steps <= $max_n_failed_steps_to_show) {
                         echo "Renamings will fail at step #$i:\n";
                         echo "    ($old_fileid,$old_image) -> ($new_fileid,$new_image)\n";
                         echo "because:\n";
-                        foreach ( $reasons as $reason )
-                        {
+                        foreach ($reasons as $reason) {
                             echo "    $reason\n";
                         }
                         echo "\n";
                     }
                 }
-                
+
                 $sim[$new_fileid] = $new_image;
             }
 
-            if ($n_failed_steps == 0)
-            {
+            if ($n_failed_steps == 0) {
                 echo "Okay, it looks like $direction will work.\n\n";
                 $direction_that_works = $direction;
                 break;
-            }
-            else
-            {
-                if ($n_failed_steps > $max_n_failed_steps_to_show)
-                {
+            } else {
+                if ($n_failed_steps > $max_n_failed_steps_to_show) {
                     $n_more = $n_failed_steps - $max_n_failed_steps_to_show;
                     echo "and $n_more more such failures.\n";
                     echo "\n";
@@ -307,9 +279,8 @@ switch ( $submit_button )
             }
         }
 
-        if ( is_null($direction_that_works) )
-        {
-            die( "Neither forward nor backward works." );
+        if (is_null($direction_that_works)) {
+            die("Neither forward nor backward works.");
         }
 
         echo "</pre>";
@@ -332,15 +303,12 @@ switch ( $submit_button )
         $for_real = 1;
 
         $new_fileid_for_ = get_requested_name_mapping();
-        $direction = array_get( $_POST, 'direction', '' );
+        $direction = array_get($_POST, 'direction', '');
 
-        if ( empty($direction) )
-        {
-            die( "direction param is empty" );
-        }
-        else if ( $direction != 'forward' && $direction != 'backward' )
-        {
-            die( "direction param is '$direction'" );
+        if (empty($direction)) {
+            die("direction param is empty");
+        } elseif ($direction != 'forward' && $direction != 'backward') {
+            die("direction param is '$direction'");
         }
 
         echo "<pre>";
@@ -350,31 +318,26 @@ switch ( $submit_button )
         // cd to project dir to simplify filesystem moves
         $project_dir = "$projects_dir/$projectid";
         echo "cd $project_dir\n";
-        if ( ! chdir( $project_dir ) )
-        {
-            die( "Unable to 'cd $project_dir'" );
+        if (! chdir($project_dir)) {
+            die("Unable to 'cd $project_dir'");
         }
         echo "\n";
 
         $olds = (
             $direction == 'forward' ?
             $current_image_for_fileid_ :
-            array_reverse($current_image_for_fileid_, TRUE)
+            array_reverse($current_image_for_fileid_, true)
         );
 
-        foreach ( $olds as $old_fileid => $old_image )
-        {
+        foreach ($olds as $old_fileid => $old_image) {
             $new_fileid = $new_fileid_for_[$old_fileid];
-            assert( !empty($new_fileid) );
+            assert(!empty($new_fileid));
             $new_image = "$new_fileid.png";
 
             echo "($old_fileid,$old_image) ";
-            if ( $new_fileid == $old_fileid && $new_image == $old_image )
-            {
+            if ($new_fileid == $old_fileid && $new_image == $old_image) {
                 echo "-> no change\n";
-            }
-            else
-            {
+            } else {
                 echo "-> ($new_fileid,$new_image) ...\n";
 
                 // database
@@ -385,15 +348,13 @@ switch ( $submit_button )
                     WHERE fileid='$old_fileid' AND image='$old_image'
                 ";
                 echo $query;
-                if ($for_real)
-                {
+                if ($for_real) {
                     mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
                     $n = mysqli_affected_rows(DPDatabase::get_connection());
                     echo "
                         $n rows affected.
                     ";
-                    if ($n != 1)
-                    {
+                    if ($n != 1) {
                         echo "\n";
                         echo "Unexpected number of rows affected.\n";
                         die("Aborting");
@@ -406,15 +367,13 @@ switch ( $submit_button )
                 echo "
                     mv $old_image $new_image
                 ";
-                if ($for_real)
-                {
-                    $success = rename( $old_image, $new_image );
-                    $s = ( $success ? 'succeeded' : 'FAILED' ); 
+                if ($for_real) {
+                    $success = rename($old_image, $new_image);
+                    $s = ($success ? 'succeeded' : 'FAILED');
                     echo "
                         mv $s
                     ";
-                    if (!$success)
-                    {
+                    if (!$success) {
                         echo "\n";
                         die("Aborting");
                     }
@@ -460,9 +419,9 @@ function echo_name_mapping_subform()
 
     $WORKAROUND_MAX = 100;
     $i = 0;
-    foreach ( $current_image_for_fileid_ as $fileid => $image )
-    {
-        $k = floor($i / $WORKAROUND_MAX); $i += 1;
+    foreach ($current_image_for_fileid_ as $fileid => $image) {
+        $k = floor($i / $WORKAROUND_MAX);
+        $i += 1;
         echo "<tr>";
         echo "<td>$fileid</td>";
         echo "<td>$image</td>";
@@ -476,42 +435,36 @@ function echo_name_mapping_hiddens($new_fileid_for_)
 {
     $WORKAROUND_MAX = 100;
     $i = 0;
-    foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
-    {
-        $k = floor($i / $WORKAROUND_MAX); $i += 1;
+    foreach ($new_fileid_for_ as $old_fileid => $new_fileid) {
+        $k = floor($i / $WORKAROUND_MAX);
+        $i += 1;
         echo "<input type='hidden' name='nff_[$k][$old_fileid]' value='$new_fileid'>";
     }
 }
 
 function get_requested_name_mapping()
 {
-    $nff_ = array_get( $_POST, 'nff_', NULL );
+    $nff_ = array_get($_POST, 'nff_', null);
 
-    if ( empty($nff_) )
-    {
-        die( "nff_ param is empty" );
+    if (empty($nff_)) {
+        die("nff_ param is empty");
     }
 
-    foreach ( $nff_ as $k => $part_new_fileid_for_ )
-    {
+    foreach ($nff_ as $k => $part_new_fileid_for_) {
         // (Ignore $k, it doesn't convey any useful information.)
 
-        foreach ( $part_new_fileid_for_ as $old_fileid => $new_fileid )
-        {
-            assert( !isset($new_fileid_for_[$old_fileid]) );
+        foreach ($part_new_fileid_for_ as $old_fileid => $new_fileid) {
+            assert(!isset($new_fileid_for_[$old_fileid]));
             $new_fileid_for_[$old_fileid] = $new_fileid;
         }
     }
 
     // If the user left the field empty, it means don't rename that page.
-    foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
-    {
-        if ( empty($new_fileid) )
-        {
+    foreach ($new_fileid_for_ as $old_fileid => $new_fileid) {
+        if (empty($new_fileid)) {
             $new_fileid_for_[$old_fileid] = $old_fileid;
         }
     }
 
     return $new_fileid_for_;
 }
-

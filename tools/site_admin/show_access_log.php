@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -7,20 +7,19 @@ include_once($relPath.'dpsql.inc');
 
 $username = array_get($_GET, 'username', '');
 $activity_choices = _get_activity_choices();
-$activity = get_enumerated_param($_GET, 'activity', NULL, $activity_choices, TRUE);
-$since_choices = array(
+$activity = get_enumerated_param($_GET, 'activity', null, $activity_choices, true);
+$since_choices = [
     'all' => _("All"),
     'start_of_year' => _("Start of year"),
     'start_of_month_before_previous' => _("Last two months"),
-);
+];
 $since = get_enumerated_param($_GET, 'since', 'start_of_month_before_previous', array_keys($since_choices));
-$action_choices = array("", "grant", "revoke", "block", "unblock", "request", "deny_request_for");
-$action = get_enumerated_param($_GET, 'action', NULL, $action_choices, TRUE);
+$action_choices = ["", "grant", "revoke", "block", "unblock", "request", "deny_request_for"];
+$action = get_enumerated_param($_GET, 'action', null, $action_choices, true);
 
 require_login();
 
-if (!user_is_a_sitemanager() && !user_is_an_access_request_reviewer())
-{
+if (!user_is_a_sitemanager() && !user_is_an_access_request_reviewer()) {
     die(_("You are not authorized to access this page."));
 }
 
@@ -54,47 +53,38 @@ echo "</form>";
 echo "<hr>";
 
 $where_username = "";
-if($username)
-{
+if ($username) {
     $where_username = sprintf("
         AND subject_username = '%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
 }
 
 $where_action = "";
-if($action)
-{
+if ($action) {
     $where_action = "
         AND action = '$action'
     ";
 }
 
 $where_activity = "";
-if($activity)
-{
-    $where_activity= sprintf("
+if ($activity) {
+    $where_activity = sprintf("
         AND activity = '%s'
     ", mysqli_real_escape_string(DPDatabase::get_connection(), $activity));
 }
 
 $now = getdate();
-if ($since == 'start_of_year')
-{
+if ($since == 'start_of_year') {
     $t_min = mktime(0, 0, 0, 1, 1, $now['year']);
-}
-elseif ($since == 'start_of_month_before_previous')
-{
-    $t_min = mktime(0, 0, 0, $now['mon']-2, 1, $now['year']);
-}
-else
-{
+} elseif ($since == 'start_of_month_before_previous') {
+    $t_min = mktime(0, 0, 0, $now['mon'] - 2, 1, $now['year']);
+} else {
     $t_min = 0;
 }
 $where_timestamp = "AND timestamp >= $t_min";
 
 $query_limit = "";
-if(!$username && !$activity && $since == 'all')
-{
+if (!$username && !$activity && $since == 'all') {
     $query_limit = "LIMIT 200";
 }
 
@@ -103,8 +93,7 @@ $t_min_fmt = strftime('%Y-%m-%d %H:%M', $t_min);
 // TRANSLATORS: %s is a time in the format YYYY-MM-DD HH:MM
 echo "<p>" . sprintf(_("The following table shows entries in the access_log table that have occurred since %s"), $t_min_fmt) . "</p>";
 
-if($query_limit)
-{
+if ($query_limit) {
     echo "<p class='warning'>" . _("Results have been limited to 200 entries.") . "</p>";
 }
 
@@ -131,9 +120,8 @@ function _get_activity_choices()
     ";
     $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
-    $activities = array('');
-    while($row = mysqli_fetch_row($result))
-    {
+    $activities = [''];
+    while ($row = mysqli_fetch_row($result)) {
         $activities[] = $row[0];
     }
     return $activities;
@@ -142,8 +130,7 @@ function _get_activity_choices()
 function _create_select($choices, $selected, $name)
 {
     $output = "<select name='$name'>";
-    foreach($choices as $choice)
-    {
+    foreach ($choices as $choice) {
         $checked = $choice == $selected ? "selected" : "";
         $output .= "<option value='" . attr_safe($choice) . "' $checked>$choice</option>";
     }
@@ -153,12 +140,10 @@ function _create_select($choices, $selected, $name)
 
 function _create_since_choices($choices, $selected)
 {
-    $radio_choices = array();
-    foreach($choices as $value => $label)
-    {
+    $radio_choices = [];
+    foreach ($choices as $value => $label) {
         $checked = $value == $selected ? "checked" : "";
         $radio_choices[] = "<input name='since' type='radio' value='$value' $checked>$label";
     }
     return implode("<br>", $radio_choices);
 }
-

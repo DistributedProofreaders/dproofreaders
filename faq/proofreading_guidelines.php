@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -219,7 +219,7 @@ output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 </p>
 <p>If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    If you come across an unfamiliar term in these guidelines, see the
    <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a>.
 <?php } ?>

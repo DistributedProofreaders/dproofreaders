@@ -6,7 +6,7 @@ use voku\helper\UTF8;
 $charsuite = new CharSuite("extended-european-latin-b", _("Extended European Latin B"));
 $charsuite->description = _("Supplementary characters for Slovenian, Estonian, Czech, Slovak, and Latvian");
 $charsuite->codepoints = [
-    # https://en.wikipedia.org/wiki/Latin_Extended-A
+    // https://en.wikipedia.org/wiki/Latin_Extended-A
     'U+0100-U+0101',
     'U+010c-U+010f',
     'U+0112-U+0113',

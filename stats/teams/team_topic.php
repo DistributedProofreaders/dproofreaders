@@ -1,6 +1,6 @@
 <?php
 // DP includes
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create & get_url_to_view_topic
@@ -9,7 +9,7 @@ include_once($relPath.'misc.inc'); // get_integer_param()
 require_login();
 
 // Which team?
-$team_id = get_integer_param( $_GET, 'team', null, 0, null );
+$team_id = get_integer_param($_GET, 'team', null, 0, null);
 
 // Get info about team
 
@@ -20,9 +20,7 @@ $row = mysqli_fetch_array($team_result);
 $topic_id = $row['topic_id'];
 
 //Determine if there is an existing topic or not; if not, create one
-if(($topic_id == "") || ($topic_id == 0))
-{
-
+if (($topic_id == "") || ($topic_id == 0)) {
     $tname = $row['teamname'];
     $towner_name = $row['createdby'];
     $towner_id = $row['owner'];
@@ -48,16 +46,14 @@ Use this area to have a discussion with your fellow teammates! :-D
                 $post_subject,
                 $message,
                 $towner_name,
-                TRUE,
-                FALSE );
+                true,
+                false);
 
     //Update user_teams with topic_id so it won't be created again
     $update_team = mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
-
 }
 
 // By here, either we had a topic or we've just created one, so redirect to it
 
 $redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
-

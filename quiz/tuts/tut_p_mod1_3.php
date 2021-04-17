@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -24,4 +24,3 @@ echo "<h3>" . _("Fractions") . "</h3>\n";
 echo "<p>" . _("Proofread fractions as follows: <kbd>¼</kbd> becomes <kbd>1/4</kbd>, and <kbd>2½</kbd> becomes <kbd>2-1/2</kbd>. The hyphen prevents the whole and fractional part from becoming separated when the lines are rewrapped during post-processing.") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_mod1_3'>" . _("Continue to quiz page") . "</a></p>\n";
-

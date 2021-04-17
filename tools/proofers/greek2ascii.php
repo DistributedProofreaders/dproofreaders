@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
@@ -11,7 +11,7 @@ require_login();
 $greek_contents = @$_GET['textbox'];
 
 $title = _("Greek to Latin-1 Transliteration");
-$header_args = array(
+$header_args = [
     "js_data" => "
         function clearBox() {
             document.greek.textbox.value = '';
@@ -25,7 +25,7 @@ $header_args = array(
             document.greek.textbox.value += '';
         }
     ",
-);
+];
 slim_header($title, $header_args);
 ?>
 <table border="0" cellspacing="0" cellpadding="0" width="600">
@@ -39,10 +39,11 @@ slim_header($title, $header_args);
 // Use the form x/y coords for image button to see which one was pressed.
 // Later, we can add other glyphsets and image maps, for alternate glyphs.
 
-if ( @$_REQUEST['italic_y'] != 0 || @$_REQUEST['italic_x'] != 0 )
- { echo "src=\"gfx/igreek.png\""; }
-else
- { echo "src=\"gfx/greek.png\""; }
+if (@$_REQUEST['italic_y'] != 0 || @$_REQUEST['italic_x'] != 0) {
+    echo "src=\"gfx/igreek.png\"";
+} else {
+    echo "src=\"gfx/greek.png\"";
+}
 ?>
 
  height="80" width="600" usemap="#charmap" border="0">
@@ -95,10 +96,11 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 $url = get_faq_url('transliterating-greek');
 
 // In case get_faq_url fails to find the url, default to the Gutenberg page
-if (!$url)
-    echo sprintf( _("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url);
-else
-    echo sprintf( _("Please read the <a href='%s' target='_new'>Transliterating Greek</a> documentation for more information."), $url);
+if (!$url) {
+    echo sprintf(_("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url);
+} else {
+    echo sprintf(_("Please read the <a href='%s' target='_new'>Transliterating Greek</a> documentation for more information."), $url);
+}
 ?>
 <br>
 <a href="#" onclick="window.close()"><b><?php echo _("Close"); ?></b></a>

@@ -5,8 +5,8 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     private $valid_projectID = "projectID45c225f598e32";
     private $valid_page_image = "001.png";
 
-    #------------------------------------------------------------------------
-    # projectID validation
+    //------------------------------------------------------------------------
+    // projectID validation
 
     public function test_validate_projectID_positive_path()
     {
@@ -34,8 +34,8 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     public function test_get_projectID_param_null_positive_path()
     {
         $params = [];
-        $projectid = get_projectID_param($params, "projectid", TRUE);
-        $this->assertEquals(NULL, $projectid);
+        $projectid = get_projectID_param($params, "projectid", true);
+        $this->assertEquals(null, $projectid);
     }
 
     public function test_get_projectID_param_null_negative_path()
@@ -45,8 +45,8 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $projectid = get_projectID_param($params, "projectid");
     }
 
-    #------------------------------------------------------------------------
-    # page image validation
+    //------------------------------------------------------------------------
+    // page image validation
 
     public function test_validate_page_image_positive_path()
     {
@@ -74,8 +74,8 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     public function test_get_page_image_param_null_positive_path()
     {
         $params = [];
-        $image = get_page_image_param($params, "image", TRUE);
-        $this->assertEquals(NULL, $image);
+        $image = get_page_image_param($params, "image", true);
+        $this->assertEquals(null, $image);
     }
 
     public function test_get_page_image_param_null_negative_path()
@@ -85,4 +85,3 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $image = get_page_image_param($params, "image");
     }
 }
-

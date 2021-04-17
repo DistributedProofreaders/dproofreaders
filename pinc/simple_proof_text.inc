@@ -26,7 +26,7 @@ echo "</p>\n\n";
 
 
 echo "<p class='italic'>";
-echo sprintf(_("The <a href='%s'>Proofreading Guidelines</a> (for reference) provide much more detail."),"$code_url/faq/proofreading_guidelines.php");
+echo sprintf(_("The <a href='%s'>Proofreading Guidelines</a> (for reference) provide much more detail."), "$code_url/faq/proofreading_guidelines.php");
 echo "</p><p>\n";
 echo _("BEGINNERS ONLY projects are reserved for new proofreaders. After you have done 5-15 pages in total from these projects, please leave them for proofreaders who are newer than you. EASY projects make a good next step.");
 echo "</p></div>\n";

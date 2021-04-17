@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -202,7 +202,7 @@ Reglas de Revisi&oacute;n <a href="../proofreading_guidelines.php">en ingl&eacut
 <p>Hemos incluido en estas Reglas de Revisi&oacute;n todos los puntos que han generado dudas en los nuevos revisores. Existen, adem&aacute;s, unas <a href="../formatting_guidelines.php">Reglas de Formato</a> (en ingl&eacute;s) distintas, utilizadas por el grupo de voluntarios que trabaja en las rondas de formato. Si usted encuentra un tema que no se encuentra mencionado en estas reglas, es posible que el problema vaya a ser abordado en las rondas de formato. Si usted no est&aacute; seguro, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>.
 </p>
 <p>Si encuentra alg&uacute;n tema que no haya sido tratado, considera que un punto debe ser abordado de manera diferente o que la explicaci&oacute;n es demasiado vaga, por favor h&aacute;ganoslo saber. 
-<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if ($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
 Si se encuentra con un t&eacute;rmino que no conoce en estas reglas, puede revisar la <a href="http://www.pgdp.net/wiki/DP_Jargon">gu&iacute;a de jerga en la Wiki</a>. 
 <?php } ?>
 Este documento se encuentra en permanente elaboraci&oacute;n. Ay&uacute;denos a mejorarlo publicando sugerencias para cambios en <a href="<?php echo $Guideline_discussion_URL; ?>">este hilo</a> del Foro de Documentaci&oacute;n.

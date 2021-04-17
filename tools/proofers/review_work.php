@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
@@ -10,19 +10,19 @@ include_once($relPath.'User.inc');
 
 require_login();
 
-define("MESSAGE_INFO",0);
-define("MESSAGE_WARNING",1);
-define("MESSAGE_ERROR",2);
+define("MESSAGE_INFO", 0);
+define("MESSAGE_WARNING", 1);
+define("MESSAGE_ERROR", 2);
 
 // get an array of round IDs
 $rounds = array_keys($Round_for_round_id_);
 
 // load any data passed into the page
-$username = array_get($_GET,"username", $pguser);
-$work_round_id = get_enumerated_param( $_GET, "work_round_id", NULL, $rounds, true);
-$review_round_id = get_enumerated_param( $_GET, "review_round_id", NULL, $rounds, true);
-$sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, NULL);
-$days = get_integer_param($_GET, "days", 100, 0, NULL);
+$username = array_get($_GET, "username", $pguser);
+$work_round_id = get_enumerated_param($_GET, "work_round_id", null, $rounds, true);
+$review_round_id = get_enumerated_param($_GET, "review_round_id", null, $rounds, true);
+$sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, null);
+$days = get_integer_param($_GET, "days", 100, 0, null);
 $use_eval_query = get_integer_param($_GET, "use_eval_query", 1, 0, 1);
 
 $user_can_review_others = user_is_a_sitemanager() ||
@@ -31,8 +31,7 @@ $user_can_review_others = user_is_a_sitemanager() ||
 
 // if the user isn't a site manager or an access request reviewer,
 // or a project facilitator they can only access their own pages
-if(!$user_can_review_others)
-{
+if (!$user_can_review_others) {
     $username = $pguser;
     $use_eval_query = 0;
 }
@@ -44,20 +43,16 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
-if ($user_can_review_others)
-{
+if ($user_can_review_others) {
     echo "<p>" . _("This tool allows you to review your work or the work of another user.") . "</p>";
-}
-else
-{
+} else {
     echo "<p>" . _("This tool allows you to review your work in a round with changes made in later rounds.") . "</p>";
 }
 
 // show form
 echo "<form action='review_work.php' method='GET'>";
 echo "<table class='basic'>";
-if ($user_can_review_others)
-{
+if ($user_can_review_others) {
     // only let site admins or reviewers to access non-self records and eval query
     echo  "<tr>";
     echo   "<th>" . _("Username") . "</th>";
@@ -73,13 +68,13 @@ if ($user_can_review_others)
 echo  "<tr>";
 echo   "<th>" . _("Work Round") . "</th>";
 echo   "<td><select name='work_round_id'>";
-_echo_round_select($rounds,$work_round_id);
+_echo_round_select($rounds, $work_round_id);
 echo    "</select>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<th>" . _("Review Round") . "</th>";
 echo   "<td><select name='review_round_id'>";
-_echo_round_select(array_slice($rounds,1),$review_round_id);
+_echo_round_select(array_slice($rounds, 1), $review_round_id);
 echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
@@ -94,39 +89,44 @@ echo "</table>";
 echo "<input type='submit' value='Search'>";
 echo "</form>";
 
-function _echo_eval_query_select($selected) {
-    $options = array(1 => _("Yes"), 0 => _("No"));
-    foreach($options as $value => $name) {
+function _echo_eval_query_select($selected)
+{
+    $options = [1 => _("Yes"), 0 => _("No")];
+    foreach ($options as $value => $name) {
         echo "<option value='$value'";
-        if($value== $selected) echo " selected";
+        if ($value == $selected) {
+            echo " selected";
+        }
         echo ">$name</option>";
     }
 }
 
-function _echo_round_select($rounds,$selected) {
-    foreach($rounds as $round) {
+function _echo_round_select($rounds, $selected)
+{
+    foreach ($rounds as $round) {
         echo "<option value='" . attr_safe($round) . "'";
-        if($round == $selected) echo " selected";
+        if ($round == $selected) {
+            echo " selected";
+        }
         echo ">$round</option>";
     }
 }
 
 // if not all the required values are set (ie: not passed into the script)
 // stop the page here
-if(empty($username) ||
+if (empty($username) ||
    empty($work_round_id) ||
    empty($review_round_id)) {
     exit;
 }
 
-if(!User::is_valid_user($username))
-{
+if (!User::is_valid_user($username)) {
     echo "<p class='error'>" . _("Invalid username") . "</p>";
     exit;
 }
 
 // confirm the review_round_id is later than work_round_id
-if(array_search($review_round_id,$rounds)<=array_search($work_round_id,$rounds)) {
+if (array_search($review_round_id, $rounds) <= array_search($work_round_id, $rounds)) {
     echo "<p class='error'>" . _("Review Round should be a round later than Work Round.") . "</p>";
     exit;
 }
@@ -135,7 +135,7 @@ if(array_search($review_round_id,$rounds)<=array_search($work_round_id,$rounds))
 echo "<hr>";
 
 // we should have valid information at this point
-$work_round   = get_Round_for_round_id($work_round_id);
+$work_round = get_Round_for_round_id($work_round_id);
 $review_round = get_Round_for_round_id($review_round_id);
 $time_limit = time() - $days * 24 * 60 * 60;
 
@@ -147,8 +147,7 @@ $time_limit = time() - $days * 24 * 60 * 60;
 // Here we split the middle and allow evaluators (and PMs and PFs) to use
 // the slower evaluation query and route everyone else to the faster and more
 // performant one.
-if($use_eval_query)
-{
+if ($use_eval_query) {
     $sql = sprintf("
         SELECT
             page_events.projectid,
@@ -166,9 +165,7 @@ if($use_eval_query)
     ", DPDatabase::escape($work_round->id),
         DPDatabase::escape($username),
         $time_limit);
-}
-else
-{
+} else {
     $sql = sprintf("
         SELECT
             user_project_info.projectid,
@@ -196,8 +193,7 @@ echo "</h2>";
 // ---------------------------------------------
 // snippets for use in queries
 $state_builder = [];
-for ( $rn = $review_round->round_number+1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-{
+for ($rn = $review_round->round_number + 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
     $round = get_Round_for_round_number($rn);
     // this will be used in sprintf()s below so for the final query to have a
     // single % in it, we need to make it 4x here
@@ -218,7 +214,7 @@ $there_is_a_diff = "
 // ---------------------------------------------
 
 echo "<p>";
-echo sprintf( _("These projects are (or have been) available in <b>%s</b>."), $review_round->id );
+echo sprintf(_("These projects are (or have been) available in <b>%s</b>."), $review_round->id);
 echo "</p>\n";
 
 echo "<table class='basic striped'>";
@@ -226,40 +222,35 @@ echo "<table class='basic striped'>";
 echo "<tr>";
 echo "<th>" . _("Title") . "</th>";
 echo "<th>" . _("Current State") . "</th>";
-if($use_eval_query)
-{
+if ($use_eval_query) {
     echo "<th>" . sprintf(_("Last saved by user in %s"), $work_round->id) . "</th>";
-}
-else
-{
+} else {
     echo "<th>" . _("Last saved by user in project") . "</th>";
 }
 // TRANSLATORS: %s is the round ID.
-echo "<th>" . sprintf(_("Pages saved by user in %s"),$work_round->id) . "</th>";
+echo "<th>" . sprintf(_("Pages saved by user in %s"), $work_round->id) . "</th>";
 // TRANSLATORS: %s is the round ID.
-echo "<th>" . sprintf(_("Pages saved by others in %s"),$review_round->id) . "</th>";
+echo "<th>" . sprintf(_("Pages saved by others in %s"), $review_round->id) . "</th>";
 echo "<th>" . _("Pages with differences") . "</th>";
-if($sampleLimit > 0)
-{
+if ($sampleLimit > 0) {
     // TRANSLATORS: %s is a number of diffs.
     echo "<th>" . sprintf(_("%s most recent diffs"), $sampleLimit) . "</th>";
 }
 echo "</tr>";
 
-$total_n_saved   = 0;
+$total_n_saved = 0;
 $total_n_latered = 0;
-$total_n_w_diff  = 0;
+$total_n_w_diff = 0;
 $total_valid_projects = 0;
 
-$messages = array();  // will contain error messages
+$messages = [];  // will contain error messages
 // each message will be an array of: project, state, other info, level
 
-$projects_done = array(); // the projects that we've done rows for
+$projects_done = []; // the projects that we've done rows for
 
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
-while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysqli_fetch_row($res2) )
-{
+while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save] = mysqli_fetch_row($res2)) {
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
     $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
 
@@ -268,12 +259,11 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // this may give us duplicates in the list. This relies on the deletion
     // reason containing 'merged' and the projectid.
 
-    $was_merged = ($state == 'project_delete') &&  
+    $was_merged = ($state == 'project_delete') &&
         str_contains($deletion_reason, 'merged');
     // see if the deletion reason contains "merged", and if so look for the projectid
-    if ($was_merged && 
-        (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) 
-    {
+    if ($was_merged &&
+        (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) {
         $deleted_projectid = $projectid;
         $projectid = $matches[0];
         $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
@@ -288,30 +278,28 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
             "<a href='$deleted_url'>" . html_safe($deleted_nameofwork) . "</a>",
             $deleted_state,
             sprintf(_("Merged into %s"), "<a href='$url'>" . html_safe($nameofwork) . "</a>"),
-            MESSAGE_INFO
+            MESSAGE_INFO,
         ];
     }
     // TODO: what do we do if it was merged but we haven't found a projectid?
 
     // see if we've already done this project
-    if ("" != @$projects_done[$projectid])
-    {
+    if ("" != @$projects_done[$projectid]) {
         // we've done it before
         continue; // go on to next project
     }
-    
+
     // haven't done it yet
     $projects_done[$projectid] = $projectid;
 
     // see if the pages table exists
-    if (!does_project_page_table_exist($projectid))
-    {
+    if (!does_project_page_table_exist($projectid)) {
         // table doesn't exist. We are not interested.
         $messages[] = [
             "<a href='$url'>" . html_safe($nameofwork) . "</a>",
             $state,
             _("Page information no longer available"),
-            MESSAGE_ERROR
+            MESSAGE_ERROR,
         ];
         continue;
     }
@@ -327,11 +315,10 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         ", DPDatabase::escape($username),
         $time_limit);
     $work_pages_done_result = DPDatabase::query($sql);
-    list($pages_worked_in_review_round) = mysqli_fetch_row($work_pages_done_result);
+    [$pages_worked_in_review_round] = mysqli_fetch_row($work_pages_done_result);
     mysqli_free_result($work_pages_done_result);
     // if not, skip this project
-    if($pages_worked_in_review_round == 0)
-    {
+    if ($pages_worked_in_review_round == 0) {
         continue;
     }
 
@@ -344,15 +331,15 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
        ", DPDatabase::escape($projectid),
         DPDatabase::escape($work_round->project_complete_state));
     $work_round_result = DPDatabase::query($sql);
-    list($max_done_timestamp) = mysqli_fetch_row($work_round_result);
+    [$max_done_timestamp] = mysqli_fetch_row($work_round_result);
     mysqli_free_result($work_round_result);
-    if (NULL == $max_done_timestamp) {
+    if (null == $max_done_timestamp) {
         // hasn't finished the work round. We are not interested.
         $messages[] = [
             "<a href='$url'>" . html_safe($nameofwork) . "</a>",
             $state,
             sprintf(_("Has not finished %s"), $work_round_id),
-            MESSAGE_INFO
+            MESSAGE_INFO,
         ];
         continue;
     }
@@ -368,7 +355,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         DPDatabase::escape($review_round->project_available_state),
         $max_done_timestamp);
     $review_round_result = DPDatabase::query($sql);
-    list($done_in_rround) = mysqli_fetch_row($review_round_result);
+    [$done_in_rround] = mysqli_fetch_row($review_round_result);
     mysqli_free_result($review_round_result);
     if (0 == $done_in_rround) {
         // hasn't been proofread in review round. We are not interested.
@@ -376,7 +363,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
             "<a href='$url'>" . html_safe($nameofwork) . "</a>",
             $state,
             sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round_id, $pages_worked_in_review_round),
-            MESSAGE_INFO
+            MESSAGE_INFO,
         ];
         continue;
     }
@@ -394,18 +381,18 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         WHERE {$work_round->user_column_name} = '%s'
     ", DPDatabase::escape($username));
     $res3 = DPDatabase::query($query);
-    list( $n_saved, $n_latered, $n_with_diff ) = mysqli_fetch_row($res3);
+    [$n_saved, $n_latered, $n_with_diff] = mysqli_fetch_row($res3);
     mysqli_free_result($res3);
-    if($n_latered > 0)
-        $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_latered)*100);
-    else
+    if ($n_latered > 0) {
+        $n_with_diff_percent = sprintf("%d", ($n_with_diff / $n_latered) * 100);
+    } else {
         $n_with_diff_percent = 0;
+    }
     $table_found = 1;
 
     // don't include this project if none of the user's pages have been proofread in the
     // review round
-    if($n_saved == 0)
-    {
+    if ($n_saved == 0) {
         // Don't print a message in the Other Projects table to avoid confusion -- this will
         // need to be re-introduced once we limit the projects to ones that the user has
         // actually worked on in the work round
@@ -420,9 +407,8 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
     // now get the $sampleLimit most recent pages that are different
     // don't use page_events because of the problems with merged projects
-    $diffLinkString="";
-    if ($sampleLimit >0 )
-    {
+    $diffLinkString = "";
+    if ($sampleLimit > 0) {
         validate_projectID($projectid);
         $query = sprintf("
            SELECT image 
@@ -435,9 +421,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         ", DPDatabase::escape($username),
             $sampleLimit);
         $result = DPDatabase::query($query);
-        $diffLinkString="";
-        while( list($image) = mysqli_fetch_row($result) ) {
-            $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
+        $diffLinkString = "";
+        while ([$image] = mysqli_fetch_row($result)) {
+            $diffLinkString .= "<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
         }
         mysqli_free_result($result);
     }
@@ -446,36 +432,32 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // are highlighted as that data doesn't really tell me much
     // ... but it shows the evaluator which projects to look at
     // ... but not necessary with revamp of page
-    
-    $n_w_diff_class  = ( $n_with_diff > 0 ? "has-diff" : "" );
-        
-    $total_n_saved   += $n_saved;
+
+    $n_w_diff_class = ($n_with_diff > 0 ? "has-diff" : "");
+
+    $total_n_saved += $n_saved;
     $total_n_latered += $n_latered;
-    $total_n_w_diff  += $n_with_diff;
+    $total_n_w_diff += $n_with_diff;
 
     echo "<tr>";
     echo "<td><a href='$url'>" . html_safe($nameofwork) . "</a></td>";
     echo "<td nowrap>";
-    echo get_medium_label_for_project_state( $state );
+    echo get_medium_label_for_project_state($state);
     echo "</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td class='right-align'>$n_saved</td>";
     echo "<td class='right-align'>$n_latered</td>";
     echo "<td class='right-align $n_w_diff_class'>$n_with_diff ($n_with_diff_percent%)</td>";
-    if($sampleLimit > 0)
-    {
+    if ($sampleLimit > 0) {
         echo "<td class='$n_w_diff_class'>$diffLinkString</td>";
     }
     echo "</tr>";
     echo "\n";
 } // end of doing each project
 
-if($total_n_latered > 0) 
-{
-    $total_n_w_diff_percent = sprintf("%d",($total_n_w_diff/$total_n_latered)*100);
-}
-else 
-{
+if ($total_n_latered > 0) {
+    $total_n_w_diff_percent = sprintf("%d", ($total_n_w_diff / $total_n_latered) * 100);
+} else {
     $total_n_w_diff_percent = 0;
 }
 
@@ -484,8 +466,7 @@ echo "<th colspan='3'>" . _("Totals") . ":</th>";
 echo "<th class='right-align'>$total_n_saved</th>";
 echo "<th class='right-align'>$total_n_latered</th>";
 echo "<th class='right-align'>$total_n_w_diff ($total_n_w_diff_percent%)</th>";
-if($sampleLimit > 0)
-{
+if ($sampleLimit > 0) {
     echo "<th></th>";
 }
 echo "</tr>";
@@ -494,8 +475,8 @@ echo "</table>";
 echo sprintf(_("(%d projects)"), $total_valid_projects);
 
 // show messages
-$total_invalid_projects = count($messages); 
-if($total_invalid_projects) {
+$total_invalid_projects = count($messages);
+if ($total_invalid_projects) {
     echo "<h2>" . _("Other projects") . "</h2>";
     echo "<table class='basic striped'>";
     echo "<tr>";
@@ -503,15 +484,13 @@ if($total_invalid_projects) {
     echo    "<th>" . _("Current State") . "</th>";
     echo    "<th>" . _("Status") ."</th>";
     echo "</tr>";
-    foreach($messages as $message)
-    {
+    foreach ($messages as $message) {
         echo "<tr><td>{$message[0]}</td>";
         echo "<td nowrap>";
-        echo get_medium_label_for_project_state( $message[1] );
+        echo get_medium_label_for_project_state($message[1]);
         echo "</td>";
         echo"<td>{$message[2]}</td></tr>";
     }
     echo "</table>";
     echo sprintf(_("(%d projects)"), $total_invalid_projects);
 }
-

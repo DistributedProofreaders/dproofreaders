@@ -1,5 +1,5 @@
 <?php
-$relPath="./../../pinc/";
+$relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once('common.inc');
@@ -23,7 +23,7 @@ $result = mysqli_query(DPDatabase::get_connection(), "
     ORDER BY hour
 ");
 
-list($datax,$datay) = dpsql_fetch_columns($result);
+[$datax, $datay] = dpsql_fetch_columns($result);
 
 draw_simple_bar_graph(
     $graph,
@@ -33,4 +33,3 @@ draw_simple_bar_graph(
     _('Average number of users newly logged in each hour'),
     _('Fresh Logons')
 );
-

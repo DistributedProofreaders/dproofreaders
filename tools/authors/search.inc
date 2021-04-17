@@ -16,14 +16,15 @@ include_once($relPath."misc.inc"); // get_enumerated_param(), attr_safe(), html_
 // columns. URL '?orderby=dead' sorts by 'dead', i.e. the
 // db-table-columns 'dyear, dmonth, dday'
 
-function prepare_search() {
+function prepare_search()
+{
     global $last_name, $other_names,
            $sql_what_to_list, $human_what_to_list, $human_order,
            $query, $query_without_view, $sortUtility,
            $sort_author_id, $sort_last_name, $sort_other_names,
            $sort_born, $sort_dead;
 
-    $view = get_enumerated_param($_REQUEST, 'view', null, array('enabled', 'disabled', 'all'), true);
+    $view = get_enumerated_param($_REQUEST, 'view', null, ['enabled', 'disabled', 'all'], true);
 
     // Create columns
     $sort_author_id = new SortableValue('author_id', 'Id');
@@ -54,10 +55,11 @@ function prepare_search() {
         $human_what_to_list = _('Search Results');
         $sql_what_to_list = '';
         $query = '';
-        foreach (array('last_name', 'other_names') as $key) {
+        foreach (['last_name', 'other_names'] as $key) {
             $$key = html_safe($_REQUEST[$key]);
-            if ($$key != '')
+            if ($$key != '') {
                 $sql_what_to_list .= " AND $key LIKE '" . sql_like_encode($_REQUEST[$key]) . "'";
+            }
             $query .= "&$key=$_REQUEST[$key]";
         }
         $sql_what_to_list = substr($sql_what_to_list, 5);
@@ -82,15 +84,16 @@ function prepare_search() {
 
     if (user_is_authors_db_manager() && isset($view)) {
         // argument 'view': 'enabled'(default), 'disabled', 'all'
-        if ($view == 'disabled')
+        if ($view == 'disabled') {
             $sql_what_to_list = "enabled != 'yes' AND ($sql_what_to_list)";
-        else if ($view != 'all')
+        } elseif ($view != 'all') {
             $sql_what_to_list = "($sql_what_to_list) AND enabled = 'yes'";
+        }
         // the view argument should be passed on to any re-sorts
         $query .= "view=" . urlencode($view) . "&";
-    }
-    else
+    } else {
         $sql_what_to_list = "($sql_what_to_list) AND enabled = 'yes'";
+    }
 
     // NOTE: If a search is made that ends up returning all authors in the database,
     // it will read 'Search Results' rather than 'All'.
@@ -103,12 +106,14 @@ function prepare_search() {
     $human_order = '<code>' . $sortingValue->getLabel() .'</code>';
 
     // Descending?
-    if ($sortUtility->getSortingDirection() == DESCENDING)
+    if ($sortUtility->getSortingDirection() == DESCENDING) {
         $human_order .= ' (' . _('descending') . ')';
+    }
 }
 
 // prepare a string for use with LIKE
-function sql_like_encode($str) {
+function sql_like_encode($str)
+{
     // escape quotes -- note: does not encode % and _ !
     $str = mysqli_real_escape_string(DPDatabase::get_connection(), $str);
     // % to \%
@@ -121,29 +126,31 @@ function sql_like_encode($str) {
     // ^ means start-of-string
     // $ means end-of-string
     // i.e. don't pad with wildcard %
-    if (substr($str, 0, 1) == '^')
+    if (substr($str, 0, 1) == '^') {
         $str = substr($str, 1);
-    else
+    } else {
         $str = "%$str";
-    if (substr($str, -1) == '$')
+    }
+    if (substr($str, -1) == '$') {
         $str = substr($str, 0, -1);
-    else
+    } else {
         $str = "$str%";
+    }
     return $str;
 }
 
-function echo_search_form() {
+function echo_search_form()
+{
     global $last_name, $other_names;
-    $view    = array_get($_REQUEST, 'view', null);
+    $view = array_get($_REQUEST, 'view', null);
     $orderby = array_get($_REQUEST, 'orderby', null);
-    $desc    = array_get($_REQUEST, 'desc', null);
+    $desc = array_get($_REQUEST, 'desc', null);
     echo "<h2>" . _("Search") . "</h2>";
     echo "<p>" . _('Case insensitive.') . " ";
     echo sprintf(
             _('Use %1$s for partial matches or %2$s to match exactly one character.' .
             '%3$s encodes start-of-string and %4$s encodes end-of-string.'),
-            '<b>*</b>', '<b>?</b>', '<b>^</b>', '<b>$</b>');
-    ?>
+            '<b>*</b>', '<b>?</b>', '<b>^</b>', '<b>$</b>'); ?>
     <form method="GET">
     <table class='themed' style='width: auto;'>
     <tr><td>Last name:</td><td><input type="text" name="last_name" size="20" value="<?php echo $last_name; ?>"></td></tr>
@@ -155,22 +162,27 @@ function echo_search_form() {
     <?php
     echo "<a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a>\n";
 
-    if (isset($view))
+    if (isset($view)) {
         echo "<input type='hidden' name='view' value='" . attr_safe($view) . "'>\n";
-    if (isset($orderby))
+    }
+    if (isset($orderby)) {
         echo "<input type='hidden' name='orderby' value='" . attr_safe($orderby) . "'>\n";
-    if (isset($desc))
+    }
+    if (isset($desc)) {
         echo "<input type='hidden' name='desc' value=''>\n";
+    }
     echo '</form>';
 }
 
 // e.g. "All sorted by Last name"
-function get_search_title() {
+function get_search_title()
+{
     global $human_what_to_list, $human_order;
     return $human_what_to_list . ' ' . _('sorted by') . ' ' . $human_order;
 }
 
-function search() {
+function search()
+{
     global $sortUtility, $sql_what_to_list, $search_result;
     $orderby = $sortUtility->getOrderBy();
     $sql = "SELECT * FROM authors WHERE $sql_what_to_list ORDER BY $orderby";
@@ -180,13 +192,15 @@ function search() {
 
 // Builds a query string by joining the arguments by '&',
 // ignoring arguments that are blank strings.
-function build_query_string() {
+function build_query_string()
+{
     $count = func_num_args();
-    $non_empty = array();
+    $non_empty = [];
     for ($i = 0; $i < $count; $i++) {
         $arg = func_get_arg($i);
-        if ($arg != '')
+        if ($arg != '') {
             array_push($non_empty, $arg);
+        }
     }
     return join('&', $non_empty);
 }

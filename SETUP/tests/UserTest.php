@@ -11,8 +11,7 @@ class UserTest extends PHPUnit\Framework\TestCase
         $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
         $result = mysqli_query(DPDatabase::get_connection(), $sql);
         $row = mysqli_fetch_assoc($result);
-        if(!$row)
-        {
+        if (!$row) {
             $sql = "
                 INSERT INTO users
                 SET id = '$this->TEST_USERNAME',
@@ -21,8 +20,9 @@ class UserTest extends PHPUnit\Framework\TestCase
                     email = '$this->TEST_USERNAME@localhost'
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
-            if(!$result)
+            if (!$result) {
                 throw new Exception("Unable to create test user 1");
+            }
 
             $sql = "
                 INSERT INTO users
@@ -32,11 +32,10 @@ class UserTest extends PHPUnit\Framework\TestCase
                     email = '$this->TEST_USERNAME@localhost'
             ";
             $result = mysqli_query(DPDatabase::get_connection(), $sql);
-            if(!$result)
+            if (!$result) {
                 throw new Exception("Unable to create test user 2");
-        }
-        else
-        {
+            }
+        } else {
             mysqli_free_result($result);
         }
     }
@@ -70,28 +69,28 @@ class UserTest extends PHPUnit\Framework\TestCase
 
     public function testValidateValidUserStrictDifferCase()
     {
-        $username=strtoupper($this->TEST_USERNAME);
+        $username = strtoupper($this->TEST_USERNAME);
         $is_valid = User::is_valid_user($username);
         $this->assertFalse($is_valid);
     }
 
     public function testValidateValidUserStrictDifferWhitespace()
     {
-        $username=$this->TEST_USERNAME . "  ";
+        $username = $this->TEST_USERNAME . "  ";
         $is_valid = User::is_valid_user($username);
         $this->assertFalse($is_valid);
     }
 
     public function testValidateValidUserNotStrict()
     {
-        $is_valid = User::is_valid_user($this->TEST_USERNAME, FALSE);
+        $is_valid = User::is_valid_user($this->TEST_USERNAME, false);
         $this->assertTrue($is_valid);
     }
 
     public function testValidateValidUserNotStrictDifferCase()
     {
-        $username=strtoupper($this->TEST_USERNAME);
-        $is_valid = User::is_valid_user($username, FALSE);
+        $username = strtoupper($this->TEST_USERNAME);
+        $is_valid = User::is_valid_user($username, false);
         $this->assertTrue($is_valid);
     }
 

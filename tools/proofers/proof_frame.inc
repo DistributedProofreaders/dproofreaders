@@ -6,26 +6,23 @@
 include_once('proof_frame_std.inc');
 include_once('proof_frame_enh.inc');
 
-function echo_proof_frame( $ppage )
+function echo_proof_frame($ppage)
 {
     $user = User::load_current();
 
     $interface_type = $user->profile->i_type;
-    switch ($interface_type)
-    {
+    switch ($interface_type) {
         case 0:
             // standard interface
-            echo_proof_frame_std( $ppage );
+            echo_proof_frame_std($ppage);
             break;
 
         case 1:
             // enhanced interface
-            echo_proof_frame_enh( $ppage );
+            echo_proof_frame_enh($ppage);
             break;
 
         default:
-            die( "unknown i_type: '$interface_type'" );
+            die("unknown i_type: '$interface_type'");
     }
 }
-
-?>

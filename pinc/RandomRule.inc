@@ -14,10 +14,9 @@ class RandomRule
         "formatting_guidelines.php" => "Formatting Guidelines",
     ];
 
-    public function __construct($id=NULL)
+    public function __construct($id = null)
     {
-        if($id !== NULL)
-        {
+        if ($id !== null) {
             $this->load($id);
         }
     }
@@ -46,7 +45,7 @@ class RandomRule
     }
 
     // Get a specific RandomRule given its document/anchor/langcode
-    public static function load_from_anchor($document, $anchor, $langcode='en')
+    public static function load_from_anchor($document, $anchor, $langcode = 'en')
     {
         $sql = sprintf("
             SELECT id
@@ -63,13 +62,14 @@ class RandomRule
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
-        if(!$row)
-            return NULL;
+        if (!$row) {
+            return null;
+        }
         return new RandomRule($row["id"]);
     }
 
     // Get a RandomRule object for a given document-langcode pair.
-    public static function get_random($document, $langcode='en')
+    public static function get_random($document, $langcode = 'en')
     {
         $sql = sprintf("
             SELECT id
@@ -85,13 +85,14 @@ class RandomRule
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
-        if(!$row)
-            return NULL;
+        if (!$row) {
+            return null;
+        }
         return new RandomRule($row["id"]);
     }
 
     // Return an array of RandomRule objects for a given document/langcode pair
-    public static function get_rules($document, $langcode='en')
+    public static function get_rules($document, $langcode = 'en')
     {
         $sql = sprintf("
             SELECT id
@@ -106,8 +107,7 @@ class RandomRule
         $result = DPDatabase::query($sql);
 
         $rules = [];
-        while($row = mysqli_fetch_assoc($result))
-        {
+        while ($row = mysqli_fetch_assoc($result)) {
             $rules[] = new RandomRule($row["id"]);
         }
         mysqli_free_result($result);
@@ -127,8 +127,7 @@ class RandomRule
         $result = DPDatabase::query($sql);
 
         $summary = [];
-        while($row = mysqli_fetch_assoc($result))
-        {
+        while ($row = mysqli_fetch_assoc($result)) {
             $summary[] = [
                 'document' => $row['document'],
                 'langcode' => $row['langcode'],
@@ -164,29 +163,24 @@ class RandomRule
 
         $fhandle = fopen($url, "rt");
 
-        $anchor = $subject = $rule= "";
+        $anchor = $subject = $rule = "";
         $in_rule = false;
-        while($line = fgets($fhandle))
-        {
+        while ($line = fgets($fhandle)) {
             // wiki syntax
-            if(preg_match('/^<div id="(.*)"><\/div>$/', $line, $matches))
-            {
-                if($in_rule)
-                {
+            if (preg_match('/^<div id="(.*)"><\/div>$/', $line, $matches)) {
+                if ($in_rule) {
                     RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
-                    $anchor = $subject = $rule= "";
+                    $anchor = $subject = $rule = "";
                 }
                 $anchor = $matches[1];
                 $in_rule = true;
                 continue;
             }
             // code syntax
-            if(preg_match('/<h3><a name="(.*)">(.*)<\/a><\/h3>/', $line, $matches))
-            {
-                if($in_rule)
-                {
+            if (preg_match('/<h3><a name="(.*)">(.*)<\/a><\/h3>/', $line, $matches)) {
+                if ($in_rule) {
                     RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
-                    $anchor = $subject = $rule= "";
+                    $anchor = $subject = $rule = "";
                 }
                 $anchor = $matches[1];
                 $subject = $matches[2];
@@ -194,27 +188,25 @@ class RandomRule
                 continue;
             }
             // wiki syntax
-            elseif(preg_match('/^<h3>.*>(.*)<.*<\/h3>/', $line, $matches))
-            {
+            elseif (preg_match('/^<h3>.*>(.*)<.*<\/h3>/', $line, $matches)) {
                 $subject = $matches[1];
                 continue;
             }
             // wiki and code syntax
-            if(preg_match('/Back to top/', $line) || preg_match('/END RR/', $line))
-            {
+            if (preg_match('/Back to top/', $line) || preg_match('/END RR/', $line)) {
                 RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
-                $anchor = $subject = $rule= "";
+                $anchor = $subject = $rule = "";
                 $in_rule = false;
                 continue;
             }
-            if($in_rule)
-            {
+            if ($in_rule) {
                 $rule .= $line;
                 continue;
             }
         }
-        if($in_rule)
+        if ($in_rule) {
             RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
+        }
         fclose($fhandle);
     }
 
@@ -222,28 +214,22 @@ class RandomRule
     private static function _add_rule($document, $langcode, $url, $anchor, $subject, $rule)
     {
         // skip "empty" rules, likely caused by parser errors
-        if(!$anchor || !$subject || !$rule)
+        if (!$anchor || !$subject || !$rule) {
             return;
+        }
 
         // update rule URLs
         $rule = preg_replace_callback('/<a href="([^"]*)"[^>]*/',
             function ($match) use ($url) {
-                if(startswith($match[1], '#'))
-                {
+                if (startswith($match[1], '#')) {
                     return '<a href="' . $url . $match[1] . '"';
-                }
-                elseif(startswith($match[1], '/'))
-                {
+                } elseif (startswith($match[1], '/')) {
                     $url_parts = parse_url($url);
                     return '<a href="' . $url_parts["scheme"] . "://" . $url_parts["host"] . $match[1] . '"';
-                }
-                elseif(!startswith($match[1], 'http'))
-                {
+                } elseif (!startswith($match[1], 'http')) {
                     $base_url = dirname($url) . '/';
                     return '<a href="' . $base_url . $match[1] . '"';
-                }
-                else
-                {
+                } else {
                     return $match[0];
                 }
             },

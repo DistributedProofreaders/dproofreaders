@@ -1,5 +1,5 @@
 <?php
-$relPath="../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
@@ -23,8 +23,8 @@ require_login();
 *
 ****************************************************************************************/
 
-$projectid   = get_projectID_param($_POST, 'projectid');
-$action      = get_enumerated_param($_POST, 'action', null, array('commit', 'withdraw'));
+$projectid = get_projectID_param($_POST, 'projectid');
+$action = get_enumerated_param($_POST, 'action', null, ['commit', 'withdraw']);
 $refresh_url = @$_POST['next_url'];
 
 switch ($action) {
@@ -45,4 +45,3 @@ case "withdraw":
 
 
 metarefresh(2, "$refresh_url#smooth_start", $title, $body);
-

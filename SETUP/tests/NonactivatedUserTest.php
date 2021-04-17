@@ -3,7 +3,7 @@
 class NonactivatedUserTest extends PHPUnit\Framework\TestCase
 {
     private $TEST_USERNAME = "NonactivatedUserTest_php";
-    private $createdRecords = array();
+    private $createdRecords = [];
 
     private function createNonactivatedUser($username)
     {
@@ -23,8 +23,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
-        foreach($this->createdRecords as $username)
-        {
+        foreach ($this->createdRecords as $username) {
             $sql = "
                 DELETE FROM non_activated_users
                 WHERE username = '$username'
@@ -96,7 +95,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
     public function testDeleteNonactivatedUser()
     {
         $this->expectException(NonexistentNonactivatedUserException::class);
-        # Creating and deleting a user show leave us with no user...
+        // Creating and deleting a user show leave us with no user...
         $user = $this->createNonactivatedUser($this->TEST_USERNAME);
         $user->delete();
         new NonactivatedUser($this->TEST_USERNAME);

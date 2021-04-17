@@ -1,5 +1,5 @@
 <?php
-$relPath='../../pinc/';
+$relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
@@ -44,11 +44,12 @@ function remove_insignificant_whitespace($x)
 
     // Remove whitespace at the end of each line.
     // (Note that this also converts line-ends from CRLF to just LF.)
-    $arr = explode("\n",$x);
-    foreach($arr as $line)
+    $arr = explode("\n", $x);
+    foreach ($arr as $line) {
         $out[] = rtrim($line);
+    }
 
-    return implode("\n",$out);
+    return implode("\n", $out);
 
     // This function is similar to _normalize_page_text() in pinc/DPage.inc.
     // Should we just call that one instead?
@@ -58,17 +59,15 @@ function handle_anticipated_error()
 {
     global $tests, $text;
 
-    foreach ($tests as $test)
-    {
+    foreach ($tests as $test) {
         $message_id = qp_text_contains_anticipated_error($text, $test);
-        if ($message_id != "")
-        {
+        if ($message_id != "") {
             qp_echo_error_html($message_id);
-            return TRUE;
+            return true;
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 function handle_unanticipated_error()
@@ -85,9 +84,10 @@ function handle_solved()
     global $pguser;
     global $quiz_page_id;
 
-    if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
+    if (isset($pguser)) {
+        record_quiz_attempt($pguser, $quiz_page_id, 'pass');
+    }
     qp_echo_solved_html();
 
-    return TRUE;
+    return true;
 }
-

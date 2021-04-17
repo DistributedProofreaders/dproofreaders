@@ -5,18 +5,14 @@ include_once($relPath.'stages.inc');
 
 function project_continuity_test($projectid, $orig_state, $no_more_pages)
 {
-    try
-    {
+    try {
         $project = new Project($projectid);
-    }
-    catch(NonexistentProjectException $exception)
-    {
+    } catch (NonexistentProjectException $exception) {
         return $exception->getMessage();
     }
 
     $curr_state = $project->state;
-    if ($curr_state != $orig_state)
-    {
+    if ($curr_state != $orig_state) {
         $orig_state_text = project_states_text($orig_state);
         $curr_state_text = project_states_text($curr_state);
         $err = sprintf(
@@ -25,11 +21,9 @@ function project_continuity_test($projectid, $orig_state, $no_more_pages)
             $curr_state_text
         );
 
-        if ($no_more_pages)
-        {
+        if ($no_more_pages) {
             $err .= "\n" . _("The project has no more pages available for proofreading in that round.");
         }
         return $err;
     }
 }
-

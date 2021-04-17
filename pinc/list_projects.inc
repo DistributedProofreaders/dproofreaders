@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
 
-function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
+function list_projects_tersely($where_condition, $order_clause, $limit_clause)
 // List the specified projects,
 // giving very brief information about each.
 {
@@ -17,14 +17,12 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
 
     echo "<ul>\n";
 
-    while (list($title,$author,$language,$postednum) = mysqli_fetch_row($result))
-    {
+    while ([$title, $author, $language, $postednum] = mysqli_fetch_row($result)) {
         echo "<li class='title-listing'>";
 
         echo "<span class='book-title'>" . html_safe($title) . "</span>";
         echo ", " . html_safe($author) . " (" . html_safe($language) . ")";
-        if ( !is_null($postednum) )
-        {
+        if (!is_null($postednum)) {
             echo "<br>", get_pg_catalog_link_for_etext($postednum);
         }
         echo "</li>";
@@ -34,7 +32,7 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
     echo "</ul>\n";
 }
 
-function list_projects( $where_condition, $order_clause, $url_base, $per_page = 20, $offset = 0)
+function list_projects($where_condition, $order_clause, $url_base, $per_page = 20, $offset = 0)
 // List the specified projects,
 // giving brief information about each.
 // url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
@@ -64,7 +62,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     $numrows = mysqli_num_rows($result);
 
     $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-    list($num_found_rows) = mysqli_fetch_row($res_found);
+    [$num_found_rows] = mysqli_fetch_row($res_found);
 
     if ($num_found_rows == 0) {
         echo _("There are currently no projects in this category.");
@@ -79,7 +77,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     echo "<p>";
     echo sprintf(_('Projects %1$d to %2$d of %3$d'), $first, $last, $num_found_rows);
     echo "</p>\n";
-    
+
     // Display a 'page line' with up to 5 pages from the current page
     // in either direction, and previous/next links.
     if ($num_found_rows > $per_page || $offset != 0) {
@@ -90,20 +88,20 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
             $url = $url_base . "per_page=$per_page&amp;offset=$prev_offset";
             echo "<a href='$url'>$t</a> ";
         }
-    
+
         $MAXPAGES = 5;
-        $curpage = floor($offset/$per_page);
+        $curpage = floor($offset / $per_page);
         $firstpage = max(0, $curpage - $MAXPAGES);
-        $lastpage = min($curpage + $MAXPAGES, $num_found_rows/$per_page);
-        for($i = $firstpage; $i <= $lastpage; $i++) {
+        $lastpage = min($curpage + $MAXPAGES, $num_found_rows / $per_page);
+        for ($i = $firstpage; $i <= $lastpage; $i++) {
             $url = $url_base . "per_page=$per_page&amp;offset=" . ($i * $per_page);
             if ($i == $curpage) {
-                echo " <b>" . ($i+1) . "</b> ";
+                echo " <b>" . ($i + 1) . "</b> ";
             } else {
-                echo " <a href='$url'>" . ($i+1) . "</a> ";
+                echo " <a href='$url'>" . ($i + 1) . "</a> ";
             }
         }
-    
+
         // Display 'next' link if we're not on the last page
         if ($offset + $per_page < $num_found_rows) {
             $t = _('Next');
@@ -113,17 +111,16 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         }
         echo "<br>\n";
     }
-    
+
     echo "<ol start='$first'>";
-    while ($project = mysqli_fetch_array($result))
-    {
+    while ($project = mysqli_fetch_array($result)) {
         $projectid = $project['projectid'];
-        $author    = $project['authorsname'];
-        $title     = $project['nameofwork'];
-        $language  = $project['language'];
+        $author = $project['authorsname'];
+        $title = $project['nameofwork'];
+        $language = $project['language'];
         $pagecount = $project['n_pages'];
         // TRANSLATORS: this is a strftime-formatted string
-        $moddate   = strftime( _("%A, %B %e, %Y"), $project['modifieddate'] );
+        $moddate = strftime(_("%A, %B %e, %Y"), $project['modifieddate']);
         $postednum = $project['postednum'];
 
 
@@ -142,23 +139,22 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
 
         // Second line
         // Number of pages
-        if ($pagecount != 0) { echo sprintf(_("%d pages"),$pagecount) . "; "; }
+        if ($pagecount != 0) {
+            echo sprintf(_("%d pages"), $pagecount) . "; ";
+        }
         // Last-modification date
         echo $moddate;
         echo "<br>";
 
         // Third line
         // Download info
-        if ( !is_null($postednum) )
-        {
+        if (!is_null($postednum)) {
             echo get_pg_catalog_link_for_etext($postednum);
-            if($project['formats'])
-            {
+            if ($project['formats']) {
                 echo " [{$project['formats']}]";
             }
 
-            if ($site_supports_corrections_after_posting)
-            {
+            if ($site_supports_corrections_after_posting) {
                 echo ", ";
                 if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
