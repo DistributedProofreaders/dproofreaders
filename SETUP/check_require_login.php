@@ -115,6 +115,10 @@ foreach($files as $file)
     if(startswith($file, "vendor/"))
         continue;
 
+    # If it's in the node_modules directory, skip it
+    if(startswith($file, "node_modules/"))
+    continue;
+
     echo "$file\n";
 
     # If it requires authentication, skip it
