@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Distributed Proofreaders is a web application intended to ease the process of converting public domain books into e-texts.",
   "scripts": {
-    "lint": "eslint \"./**/*.js\"",
+    "lint": "eslint \"./**/*.js\" --max-warnings=0",
     "lint-fix": "eslint --fix \"./**/*.js\"",
     "test": "node ./SETUP/tests/jsUnit.js"
   },
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/DistributedProofreaders/dproofreaders",
   "devDependencies": {
-    "eslint": "^7.1.0",
-    "geckodriver": "^1.19.1",
+    "eslint": "^7.24.0",
+    "geckodriver": "^1.22.3",
     "lessc": "^1.0.2",
-    "selenium-webdriver": "^4.0.0-alpha.7"
+    "selenium-webdriver": "^4.0.0-beta.3"
   }
 }
