@@ -93,50 +93,31 @@ var maketextControl = function(textArea, storageKey) {
     return [fontFaceSelector, fontSizeSelector, wrapControl];
 };
 
-function makeTextWidget(container, storageKey) {
+function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
     let textArea = $("<textarea>", {class: "text-pane"});
-    textArea.prop("readonly", true);
-    let controls = maketextControl(textArea, storageKey);
-    let controlDiv = makeControlDiv(container, controls, storageKey);
-    controlDiv.content.append(textArea);
-    return {
-        setText: function (text) {
-            textArea.val(text)
-                .scrollTop(0)
-                .scrollLeft(0);
-        }
-    };
-}
-
-function makeSplitTextWidget(container, storageKey, reLayout) {
-    let splitterKey = storageKey + "-text-split";
-    let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-    if(!$.isPlainObject(textSplitData)) {
-        textSplitData = {
-            split: 100
-        };
-    }
-
-    function saveData() {
-        localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
-    }
-
-    let textArea = $("<textarea>", {class: "text-pane"});
-    textArea.prop("readonly", false);
-
+    textArea.prop("readonly", !splitter);
     let controls = maketextControl(textArea, storageKey);
     let controlDiv = makeControlDiv(container, controls, storageKey, reLayout);
+    if(splitter) {
+        let splitterKey = storageKey + "-split";
+        let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
+        if(!$.isPlainObject(textSplitData)) {
+            textSplitData = {
+                split: 100
+            };
+        }
+        let topTextDiv = $("<div>").append(textArea);
+        let bottomTextDiv = $("<div>");
+        controlDiv.content.append(topTextDiv, bottomTextDiv);
 
-    let topTextDiv = $("<div>").append(textArea);
-    let bottomTextDiv = $("<div>");
-    controlDiv.content.append(topTextDiv, bottomTextDiv);
-
-    let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.split, reDraw: reLayout});
-    subSplitter.dragEnd.add(function (percent) {
-        textSplitData.split = percent;
-        saveData();
-    });
-
+        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.split, reDraw: reLayout});
+        subSplitter.dragEnd.add(function (percent) {
+            textSplitData.split = percent;
+            localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
+        });
+    } else {
+        controlDiv.content.append(textArea);
+    }
     return {
         setText: function (text) {
             textArea.val(text)
@@ -410,9 +391,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     let textDiv = $("<div>");
+                    let textStorageKey = storageKey + "-text";
                     switch(displayMode) {
                     case "text":
-                        textWidget = makeTextWidget(textDiv, storageKey + "-text");
+                        textWidget = makeTextWidget(textDiv, textStorageKey);
                         fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
                         stretchDiv.append(textDiv);
                         break;
@@ -422,9 +404,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, browseData, saveData);
                         if(mentorMode) {
-                            textWidget = makeSplitTextWidget(textDiv, storageKey + "-text", theSplitter.mainSplit.reSize);
+                            // make a text widget with splitter
+                            textWidget = makeTextWidget(textDiv, textStorageKey, true, theSplitter.mainSplit.reSize);
                         } else {
-                            textWidget = makeTextWidget(textDiv, storageKey + "-text");
+                            textWidget = makeTextWidget(textDiv, textStorageKey);
                         }
                         fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
