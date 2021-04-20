@@ -101,7 +101,9 @@ function makeTextWidget(container, storageKey) {
     controlDiv.content.append(textArea);
     return {
         setText: function (text) {
-            textArea.val(text);
+            textArea.val(text)
+                .scrollTop(0)
+                .scrollLeft(0);
         }
     };
 }
@@ -111,7 +113,7 @@ function makeSplitTextWidget(container, storageKey, reLayout) {
     let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
     if(!$.isPlainObject(textSplitData)) {
         textSplitData = {
-            split: 100,
+            split: 100
         };
     }
 
@@ -137,7 +139,9 @@ function makeSplitTextWidget(container, storageKey, reLayout) {
 
     return {
         setText: function (text) {
-            textArea.val(text);
+            textArea.val(text)
+                .scrollTop(0)
+                .scrollLeft(0);
         }
     };
 }
