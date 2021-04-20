@@ -334,6 +334,9 @@ function makeImageWidget(container, storageKey) {
     return {
         setImage: function (src) {
             imageElement.attr("src", src);
+            controlDiv.content
+                .scrollTop(0)
+                .scrollLeft(0);
         }
     };
 }
