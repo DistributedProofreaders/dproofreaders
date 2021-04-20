@@ -176,7 +176,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
 
     let leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
         .append($("<i>", {class: 'fas fa-caret-left'}));
-    let centreButton = $("<button>", {class: 'navbutton', title: texts.controlMid}).append('|');
+    let centreButton = $("<button>", {class: 'navbutton', title: texts.controlCentre}).append('|');
     let rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
         .append($("<i>", {class: 'fas fa-caret-right'}));
     let topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
