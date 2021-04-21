@@ -30,7 +30,7 @@ function echo_proof_frame_enh($ppage)
 
 
     $header_args = [
-        "css_files" => array["$code_url/styles/preview.css"],
+        "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
@@ -58,7 +58,7 @@ function echo_proof_frame_enh($ppage)
 
     slim_header(_("Proofreading Page"), $header_args);
 
-    if ($user->profile->i_layout == 1)
+    if ($user->profile->i_layout == 1) {
         $iWidth = $user->profile->v_zoom;
     } else {
         $iWidth = $user->profile->h_zoom;
