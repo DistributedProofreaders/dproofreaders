@@ -326,11 +326,17 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     };
 }
 
-function makeImageWidget(container, storageKey) {
+function makeImageWidget(container, storageKey, align = "C") {
+    const alignment = {
+        L: "left",
+        C: "center",
+        R: "right"
+    };
     let imageElement = $("<img>");
     let controls = imageControl(imageElement, storageKey);
     let controlDiv = makeControlDiv(container, controls, storageKey);
-    controlDiv.content.addClass("center-align").append(imageElement);
+
+    controlDiv.content.css("text-align", alignment[align]).append(imageElement);
     return {
         setImage: function (src) {
             imageElement.attr("src", src);
