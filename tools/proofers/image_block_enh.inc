@@ -56,59 +56,80 @@ function ibe_get_styles()
     // (This assumes that 25px is about 3% of either dimension of the proofframe;
     // i.e., that the proofframe is roughly 800 x 800px.)
     return <<<STYLES
-            #controlframe {
-                position:absolute;
-                left:$textLeft;
-                top:$textTop;
-                width:$textWidth%;
-                height:$textHeight%;
-                /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
-                text-align:center;
-                z-index:6;
-                overflow:auto;
-            }
+    #controlframe {
+        position:absolute;
+        left:$textLeft;
+        top:$textTop;
+        width:$textWidth%;
+        height:$textHeight%;
+        /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
+        text-align:center;
+        z-index:6;
+        overflow:auto;
+    }
 
-            #imagehorz {
-                position:absolute;
-                left:$minor_width;
-                top:0px;
-                width:$major_width;
-                height:$minor_height;
-                z-index:3;
-            }
-            #imagevert {
-                position:absolute;
-                left:0px;
-                top:$minor_height;
-                width:$minor_width;
-                height:$major_height;
-                z-index:4;
-            }
-            #imageframe {
-                position:absolute;
-                top:$minor_height;
-                left:$minor_width;
-                width:$major_width;
-                height:$major_height;
-                /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
-                z-index:2;
-                text-align:center;
-                overflow:auto;
-            }
-            #imagedisplay {
-                position:absolute;
-                left:0px;
-                top:0px;
-                z-index:1;
-            }
-        STYLES;
+    #imagehorz {
+        position:absolute;
+        left:$minor_width;
+        top:0px;
+        width:$major_width;
+        height:$minor_height;
+        z-index:3;
+    }
+    #imagevert {
+        position:absolute;
+        left:0px;
+        top:$minor_height;
+        width:$minor_width;
+        height:$major_height;
+        z-index:4;
+    }
+    #imageframe {
+        position:absolute;
+        top:$minor_height;
+        left:$minor_width;
+        width:$major_width;
+        height:$major_height;
+        /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
+        z-index:2;
+        text-align:center;
+        overflow:auto;
+    }
+    #imagedisplay {
+        position:absolute;
+        left:0px;
+        top:0px;
+        z-index:1;
+    }
+
+    #newimageframe {
+        position:absolute;
+        top: 0px;
+        width:{$block_width_pc}%;
+        height:{$block_height_pc}%;
+        z-index:2;
+        text-align:center;
+        overflow:auto;
+    }
+
+STYLES;
 }
 
 // -----------------------------------------------------------------------------
 
 function ibe_echo_block($img_src, $img_width)
 {
-    ?>
+/*    echo "<div style='height: 100vh;'>
+    <div id='image-view'>
+    </div></div>";
+*/
+    echo "<div id='newimageframe'>
+    <div id='image-view'>
+    </div></div>";
+
+
+    /*
+?>
     <div id="imagehorz">
         <table id="tbhorz" width="100%">
             <tr>
@@ -152,7 +173,7 @@ function ibe_echo_block($img_src, $img_width)
             </a>
         </div>
     </div>
-<?php
+<?php*/
 }
 
 function ibe_echo_jump_scroller($direction, $label)

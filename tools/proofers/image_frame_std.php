@@ -13,7 +13,7 @@ $user = User::load_current();
 
 $js_files = [
     "$code_url/scripts/control_bar.js",
-    "$code_url/tools/proofers/image_frame_std.js",
+    "$code_url/tools/proofers/proof_image.js",
 ];
 
 $storage_key = "proof-std" . (($user->profile->i_layout == 1) ? "-v" : "-h");
@@ -21,6 +21,7 @@ $storage_key = "proof-std" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 $image_data = json_encode([
     "imageUrl" => $ppage->url_for_image(TRUE),
     "storageKey" => $storage_key,
+    "align" => "C",
 ]);
 
 $header_args = [
