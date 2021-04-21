@@ -92,7 +92,7 @@ class SortUtility
     // HTTP-arguments on sorting
     public $_name;
     // the SortableValues
-      public $_collection;
+    public $_collection;
 
     // optionally: one SortableValue is 'primary' meaning it is
     // always sorted by
