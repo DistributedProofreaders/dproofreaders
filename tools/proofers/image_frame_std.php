@@ -3,28 +3,36 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('PPage.inc');
 
 require_login();
 
 $ppage = get_requested_PPage($_GET);
-
-slim_header("Image Frame", ['body_attributes' => 'id="standard_interface_image"']);
-
 $user = User::load_current();
-if ($user->profile->i_layout == 1) {
-    $iWidth = $user->profile->v_zoom;
-} else {
-    $iWidth = $user->profile->h_zoom;
-}
-$iWidth = round((1000 * $iWidth) / 100);
-?>
 
-<div class="center-align" id="imagedisplay">
-<img name="scanimage" id="scanimage" title="" alt=""
-    src="<?php echo $ppage->url_for_image(true); ?>"
-    width="<?php echo $iWidth; ?>"
->
-</div>
+$js_files = [
+    "$code_url/scripts/control_bar.js",
+    "$code_url/tools/proofers/image_frame_std.js",
+];
 
-<?php
+$storage_key = "proof-std" . (($user->profile->i_layout == 1) ? "-v" : "-h");
+
+$image_data = json_encode([
+    "imageUrl" => $ppage->url_for_image(TRUE),
+    "storageKey" => $storage_key,
+]);
+
+$header_args = [
+    "js_files" => $js_files,
+    "js_data" => get_control_bar_texts() . "
+            var imageData = $image_data;
+        ",
+    "body_attributes" => 'id="standard_interface_image"',
+];
+
+slim_header("Image Frame", $header_args);
+
+echo "<div style='height: 100vh;'>
+<div id='image-view'>
+</div></div>";
