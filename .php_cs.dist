@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('pinc/3rdparty')
     ->exclude('vendor')
+    ->exclude('node_modules')
     ->in(__DIR__)
     ->name('*.php')
     ->name('*.inc')

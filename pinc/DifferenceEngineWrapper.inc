@@ -166,7 +166,6 @@ if (!function_exists("wfDebug")) {
     function wfDebug($text, $dest = 'all', array $context = [])
     {
         // don't log any debug messages
-
     }
 }
 
