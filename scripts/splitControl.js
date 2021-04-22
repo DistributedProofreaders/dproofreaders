@@ -70,8 +70,8 @@ var splitControl = function(container, config) {
         if (splitPos > maxPos) {
             splitPos = maxPos;
         }
-        pane1.css({flex: `0 0 ${splitPos - base}px`, overflow: 'hidden'});
-        pane2.css({flex: '1 1 1px', overflow: 'hidden'});
+        pane1.css({flex: `0 0 ${splitPos - base}px`, overflow: 'auto'});
+        pane2.css({flex: '1 1 1px', overflow: 'auto'});
         if (theConfig.splitVertical) {
             container.css({display: 'flex', flexDirection: 'row'});
             pane1.height('');

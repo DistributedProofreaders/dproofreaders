@@ -210,7 +210,7 @@ echo_page_footer($t_to_generate_data);
 echo "</div></div>";
 
 echo "<div>";
-echo "<iframe name='detailframe' width='100%' height='100%' style='border:none;'></iframe>";
+echo "<iframe name='detailframe' width='100%' height='100%' style='border:none; vertical-align: bottom;'></iframe>";
 echo "</div></div>";
 
 //---------------------------------------------------------------------------
