@@ -94,12 +94,13 @@ var maketextControl = function(textArea, storageKey) {
 };
 
 function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
+    let textWidgetKey = storageKey + "-textwidget";
     let textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
-    let controls = maketextControl(textArea, storageKey);
-    let controlDiv = makeControlDiv(container, controls, storageKey, reLayout);
+    let controls = maketextControl(textArea, textWidgetKey);
+    let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
     if(splitter) {
-        let splitterKey = storageKey + "-split";
+        let splitterKey = textWidgetKey + "-split";
         let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
         if(!$.isPlainObject(textSplitData)) {
             textSplitData = {
@@ -391,23 +392,22 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     let textDiv = $("<div>");
-                    let textStorageKey = storageKey + "-text";
                     switch(displayMode) {
                     case "text":
-                        textWidget = makeTextWidget(textDiv, textStorageKey);
+                        textWidget = makeTextWidget(textDiv, storageKey);
                         fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
                         stretchDiv.append(textDiv);
                         break;
                     case "imageText": {
                         let imageDiv = $("<div>");
-                        imageWidget = makeImageWidget(imageDiv, storageKey + "-image");
+                        imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, browseData, saveData);
                         if(mentorMode) {
                             // make a text widget with splitter
-                            textWidget = makeTextWidget(textDiv, textStorageKey, true, theSplitter.mainSplit.reSize);
+                            textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
                         } else {
-                            textWidget = makeTextWidget(textDiv, textStorageKey);
+                            textWidget = makeTextWidget(textDiv, storageKey);
                         }
                         fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
@@ -424,7 +424,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     }
 
                     let imageDiv = $("<div>");
-                    imageWidget = makeImageWidget(imageDiv, storageKey + "-image");
+                    imageWidget = makeImageWidget(imageDiv, storageKey);
                     stretchDiv.append(imageDiv);
                     showImageText();
                 } else {

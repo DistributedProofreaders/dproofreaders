@@ -30,8 +30,7 @@ $wordInstances = get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTA
 
 $details = json_encode([
     "projectid" => $projectid,
-    'storageKeyLayout' => 'show_word_context_layout',
-    'imageKey' => 'show_word_context',
+    'storageKey' => 'show_word_context',
 ]);
 
 $header_args = [
