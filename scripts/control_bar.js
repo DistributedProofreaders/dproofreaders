@@ -332,9 +332,10 @@ function makeImageWidget(container, storageKey, align = "C") {
         C: "center",
         R: "right"
     };
+    let imageWidgetKey = storageKey + "-imagewidget";
     let imageElement = $("<img>");
-    let controls = imageControl(imageElement, storageKey);
-    let controlDiv = makeControlDiv(container, controls, storageKey);
+    let controls = imageControl(imageElement, imageWidgetKey);
+    let controlDiv = makeControlDiv(container, controls, imageWidgetKey);
 
     controlDiv.content.css("text-align", alignment[align]).append(imageElement);
     return {

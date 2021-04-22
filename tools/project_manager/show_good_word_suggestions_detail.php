@@ -34,8 +34,7 @@ enforce_edit_authorization($projectid);
 
 $details = json_encode([
     "projectid" => $projectid,
-    'storageKeyLayout' => "show_good_words_layout",
-    'imageKey' => 'show_good_word_suggestions_detail',
+    'storageKey' => 'show_good_word_suggestions_detail',
 ]);
 
 $header_args = [
