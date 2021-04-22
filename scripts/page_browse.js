@@ -130,15 +130,19 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
 
 // Construct the buttons for horizontal/vertical split
 // and return a splitter variable.
-var viewSplitter = function(container, data, saveData) {
-    // stored value is "horizontal" or "vertical"
-    let splitDirString = data.textImageSplitDir || "horizontal";
-    // splitVertical is true or false
-    let splitVertical = (splitDirString === "vertical");
+var viewSplitter = function(container, storageKey) {
+    let storageKeyLayout = storageKey + "-layout";
+    let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
+    if(!$.isPlainObject(layout)) {
+        layout = {splitPercent: 50, splitDirection: "horizontal"};
+    }
+    let splitVertical = (layout.splitDirection === "vertical");
 
-    let splitPercent = data.splitPercent || 50;
+    function saveLayout() {
+        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
+    }
 
-    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: splitPercent});
+    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: layout.splitPercent});
 
     let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
     let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
@@ -162,9 +166,8 @@ var viewSplitter = function(container, data, saveData) {
     function changeSplit(splitVertical) {
         mainSplit.setSplit(splitVertical);
         setSplitControls(splitVertical);
-        splitDirString = splitVertical ? "vertical" : "horizontal";
-        data.textImageSplitDir = splitDirString;
-        saveData();
+        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
+        saveLayout();
     }
 
     vSwitchButton.click(function () {
@@ -178,8 +181,8 @@ var viewSplitter = function(container, data, saveData) {
     setSplitControls(splitVertical);
 
     mainSplit.dragEnd.add(function (percent) {
-        data.splitPercent = percent;
-        saveData();
+        layout.splitPercent = percent;
+        saveLayout();
     });
 
     return {
@@ -276,8 +279,6 @@ function makePageControl(pages, selectedImageFileName, changePage) {
 }
 
 function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
-    const browseDataId = "page-browse";
-    let browseData = JSON.parse(localStorage.getItem(browseDataId)) || {};
     // showCurrentImageFile will be set to a function so that subsequent pages
     // can be shown without redrawing the whole page
     let showCurrentImageFile = null;
@@ -298,10 +299,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     let fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
-
-    function saveData() {
-        localStorage.setItem(browseDataId, JSON.stringify(browseData));
-    }
 
     // show error if ajax fails
     function showError(jqxhr) {
@@ -402,7 +399,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         let imageDiv = $("<div>");
                         imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(stretchDiv, browseData, saveData);
+                        let theSplitter = viewSplitter(stretchDiv, storageKey);
                         if(mentorMode) {
                             // make a text widget with splitter
                             textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
