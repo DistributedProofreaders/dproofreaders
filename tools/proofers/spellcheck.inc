@@ -32,13 +32,24 @@ $word_check_messages = json_encode([
 ]);
 
 $user = User::load_current();
+$storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
+
+$image_data = json_encode([
+    "imageUrl" => $ppage->url_for_image(TRUE),
+    "storageKey" => $storage_key,
+    "align" => "L",
+]);
 
 $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
+        "$code_url/scripts/control_bar.js",
+        "$code_url/tools/proofers/proof_image.js",
     ],
-    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
+    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
+        get_control_bar_texts() . "
+        var imageData = $image_data;
         var validCharacterPattern = '$valid_character_pattern';
         var wordCheckMessages = $word_check_messages;
     ",

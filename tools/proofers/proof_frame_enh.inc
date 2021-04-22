@@ -27,8 +27,6 @@ function echo_proof_frame_enh($ppage)
         "align" => "L",
     ]);
 
-
-
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
