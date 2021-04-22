@@ -32,14 +32,15 @@ if ($action == 'default') {
     echo "<p>";
     printf(_("To change the address, please enter the name of the user below or
     <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
-    echo "</p>"; ?>
-    <br>
-    <form method='get'><input type='hidden' name='action' value='get_user'>
-    <?php echo _("Username"); ?>: <input type='text' name='username' required>
-    <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>'>
-    </form>
-    <br>
-    <?php
+    echo "</p>";
+    echo "<br>";
+
+    echo "<form method='get'>";
+    echo "<input type='hidden' name='action' value='get_user'>";
+    echo _("Username") . ": <input type='text' name='username' required>";
+    echo  " <input type='submit' value='" . attr_safe(_("Continue")) . "'>";
+    echo "</form>";
+    echo "<br>";
 } elseif ($action == 'list_all') {
     $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
@@ -87,18 +88,18 @@ if ($action == 'default') {
 
     echo "<p>";
     echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
-    echo "</p>"; ?>
-    <br>
-    <form method='get'>
-    <input type='hidden' name='action' value='set_email'>
-    <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
-    <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
-    <br>
-    <?php echo _("E-mail"); ?>: <input type='text' name='email' size='50' value='<?php echo attr_safe($user->email); ?>' required>
-    <br>
-    <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
-    </form>
-    <?php
+    echo "</p>";
+    echo "<br>";
+
+    echo "<form method='get'>";
+    echo "<input type='hidden' name='action' value='set_email'>";
+    echo "<input type='hidden' name='username' value='" . attr_safe($username) . "'>";
+    echo _("Username") . ": " . html_safe($username);
+    echo "<br>";
+    echo _("E-mail") . ": <input type='text' name='email' size='50' value='" . attr_safe($user->email) . "' required>";
+    echo "<br>";
+    echo "<input type='submit' value='" . attr_safe(_("Update address and resend activation mail")) . "'>";
+    echo "</form>";
 } elseif ($action == 'set_email') {
     if (check_username($username) != '') {
         die("Invalid parameter username.");
