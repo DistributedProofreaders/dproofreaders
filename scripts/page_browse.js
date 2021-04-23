@@ -104,16 +104,16 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
         let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
         if(!$.isPlainObject(textSplitData)) {
             textSplitData = {
-                split: 100
+                splitPercent: 100
             };
         }
         let topTextDiv = $("<div>").append(textArea);
         let bottomTextDiv = $("<div>");
         controlDiv.content.append(topTextDiv, bottomTextDiv);
 
-        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.split, reDraw: reLayout});
+        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.splitPercent, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
-            textSplitData.split = percent;
+            textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
     } else {
