@@ -9,7 +9,7 @@ function get_control_bar_texts()
         "dockBot" => _("Dock control bar to bottom"),
         "controlLeft" => _("Left-align controls"),
         "controlRight" => _("Right-align controls"),
-        "controlCentre" => _("Center-align controls"),
+        "controlCenter" => _("Center-align controls"),
         "controlTop" => _("Top-align controls"),
         "controlBot" => _("Bottom-align controls"),
         "controlMid" => _("Middle-align controls"),

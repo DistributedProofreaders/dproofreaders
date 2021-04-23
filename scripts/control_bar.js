@@ -176,7 +176,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
 
     let leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
         .append($("<i>", {class: 'fas fa-caret-left'}));
-    let centreButton = $("<button>", {class: 'navbutton', title: texts.controlCentre}).append('|');
+    let centerButton = $("<button>", {class: 'navbutton', title: texts.controlCenter}).append('|');
     let rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
         .append($("<i>", {class: 'fas fa-caret-right'}));
     let topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
@@ -209,7 +209,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
             controlHoriz();
             controlBar.css({borderWidth: "0 0 1px 0"});
             menu.css({top: "0.21em", left: "", right: "", bottom: ""});
-            fillNavBox([leftButton, centreButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
+            fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
             break;
         case "W":
             controlFirst();
@@ -230,7 +230,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
             controlHoriz();
             controlBar.css({borderWidth: "1px 0 0 0"});
             menu.css({top: "", left: "", right: "", bottom: "2em"});
-            fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centreButton, rightButton]);
+            fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
             break;
         }
         if(onChange) {
@@ -293,7 +293,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
         newBME('B');
     });
 
-    centreButton.click(() => {
+    centerButton.click(() => {
         newBME('M');
     });
 
