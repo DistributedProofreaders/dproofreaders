@@ -259,9 +259,9 @@ function reSizeRelative(factor) {
     return true;
 }
 
-function focusText() {
+function focusText(noScroll = false) {
     if (isLded && inProof) {
-        docRef.editform.text_data.focus();
+        docRef.editform.text_data.focus({preventScroll: noScroll});
     }
 }
 

@@ -15,7 +15,7 @@ $(function () {
         $(".selected-tab", charSelector).removeClass("selected-tab");
         $("#" + newCode, charSelector).addClass("selected-tab");
         largeChar.value = ""; // remove old character
-        top.focusText();
+        top.focusText(true);
     }
 
     // The mru (most recently used) list stores a set of characters
