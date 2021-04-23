@@ -67,7 +67,7 @@ $header_args = [
         "$code_url/scripts/splitControl.js",
         "./show_all_good_word_suggestions.js",
     ],
-    "js_data" => get_cutoff_script($cutoffOptions,$instances),
+    "js_data" => get_cutoff_script($cutoffOptions, $instances),
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
