@@ -118,7 +118,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
 
     let controlBar = $("<div>", {class: 'page-interface control-panel'});
     // control2 contains the controls, control1 & control3 adjust the layout
-    let control1 = $("<div>");
+    let control1 = $("<div>", {class: 'left-align'});
     let control2 = $("<div>").css({flex: '0 1 auto'});
     let control3 = $("<div>");
     controlBar.append(control1, control2, control3);
@@ -199,7 +199,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     menu.append(navBox);
     let menuHolder = $("<div>").css({position: "relative"})
         .append(menu);
-    control1.append($("<div>", {class: "condiv"}).append(menuButton), menuHolder);
+    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menuHolder);
 
     function navigate() {
         $(".navbutton", navBox).detach();
