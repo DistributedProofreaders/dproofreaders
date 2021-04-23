@@ -333,11 +333,33 @@ function makeImageWidget(container, storageKey, align = "C") {
         R: "right"
     };
     let imageWidgetKey = storageKey + "-imagewidget";
-    let imageElement = $("<img>");
+    let imageElement = $("<img>").css("cursor", "grab");
     let controls = imageControl(imageElement, imageWidgetKey);
     let controlDiv = makeControlDiv(container, controls, imageWidgetKey);
 
     controlDiv.content.css("text-align", alignment[align]).append(imageElement);
+
+    let scrollDiffX = 0;
+    let scrollDiffY = 0;
+    function mousemove(event) {
+        controlDiv.content.scrollTop(scrollDiffY - event.pageY);
+        controlDiv.content.scrollLeft(scrollDiffX - event.pageX);
+    }
+
+    function mouseup() {
+        $(document).unbind("mousemove mouseup");
+        imageElement.css("cursor", "grab");
+    }
+
+    imageElement.mousedown( function(event) {
+        event.preventDefault();
+        imageElement.css("cursor", "grabbing");
+        scrollDiffX = event.pageX + controlDiv.content.scrollLeft();
+        scrollDiffY = event.pageY + controlDiv.content.scrollTop();
+        $(document).on("mousemove", mousemove)
+            .on("mouseup", mouseup);
+    });
+
     return {
         setImage: function (src) {
             imageElement.attr("src", src);
