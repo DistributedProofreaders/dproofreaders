@@ -1,50 +1,36 @@
-/*global $ proofIntData makeApiAjaxSettings splitControl */
+/*global $ proofIntData makeApiAjaxSettings splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
 // the controls are given class "control" so we can remove them from
 // fixHead when changing modes while keeping project name and reset project
 
-// Construct the image sizing controls.
-var imageControl = function(imageElement) {
-    const imagePercentID = "image_percent";
-    let percent = localStorage.getItem(imagePercentID);
-    if(!percent) {
-        percent = 100;
+// Construct the font-face, font-size and wrap controls
+var maketextControl = function(textArea, storageKey) {
+
+    let textKey = storageKey + "-text";
+    let textData = JSON.parse(localStorage.getItem(textKey));
+    if(!$.isPlainObject(textData)) {
+        textData = {
+            textWrap: "N",
+            fontFaceIndex: 0,
+            fontSize: ""
+        };
     }
 
-    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent});
+    function saveData() {
+        localStorage.setItem(textKey, JSON.stringify(textData));
+    }
 
-    let setZoom = function () {
-        imageElement.width(10 * percent);
-        imageElement.height("auto");
-    };
-
-    percentInput.change(function() {
-        percent = this.value;
-        localStorage.setItem(imagePercentID, percent);
-        setZoom();
-    });
-
-    setZoom();
-    return $("<span>", {class: "nowrap control"}).append(proofIntData.strings.zoom + " ", percentInput, "% ");
-};
-
-// Construct the font-face, font-size and wrap controls
-var textControl = function(textArea) {
     let fontFaceSelector = document.createElement("select");
     fontFaceSelector.title = proofIntData.strings.changeFontFace;
     let fontSizeSelector = document.createElement("select");
     fontSizeSelector.title = proofIntData.strings.changeFontSize;
 
-    const fontFaceID = "font_face";
-    const fontSizeID = "font_size";
-    const wrapID = "text_wrap";
-
     function setFontFace(fontFaceIndex) {
         textArea.css("font-family", proofIntData.font.faceFamilies[fontFaceIndex]);
     }
 
-    let currentFontFaceIndex = localStorage.getItem(fontFaceID);
+    let currentFontFaceIndex = textData.fontFaceIndex;
 
     // set up the font selector
     let fontFaces = proofIntData.font.faces;
@@ -59,7 +45,8 @@ var textControl = function(textArea) {
     $(fontFaceSelector).change(function () {
         let fontFaceIndex = this.value;
         setFontFace(fontFaceIndex);
-        localStorage.setItem(fontFaceID, fontFaceIndex);
+        textData.fontFaceIndex = fontFaceIndex;
+        saveData();
     });
 
     function setFontSize(fontSize) {
@@ -67,10 +54,7 @@ var textControl = function(textArea) {
         textArea.css("font-size", fontSizeCss);
     }
 
-    let currentFontSize = localStorage.getItem(fontSizeID);
-    if(currentFontSize === null) {
-        currentFontSize = '';
-    }
+    let currentFontSize = textData.fontSize;
 
     proofIntData.font.sizes.forEach(function(fontSize) {
         let selected = (currentFontSize === fontSize);
@@ -82,7 +66,8 @@ var textControl = function(textArea) {
     $(fontSizeSelector).change(function () {
         let fontSize = fontSizeSelector.value;
         setFontSize(fontSize);
-        localStorage.setItem(fontSizeID, fontSize);
+        textData.fontSize = fontSize;
+        saveData();
     });
 
     function setWrap(textWrap) {
@@ -92,41 +77,72 @@ var textControl = function(textArea) {
     let wrapCheck = $("<input>", {type: 'checkbox'});
 
     // stored value is "W" or "N", if not set textWrap will be false
-    let textWrap = ("W" === localStorage.getItem(wrapID));
+    let textWrap = ("W" === textData.textWrap);
     wrapCheck.prop("checked", textWrap);
     setWrap(textWrap);
 
     wrapCheck.change(function () {
         textWrap = wrapCheck.prop("checked");
-        localStorage.setItem(wrapID, textWrap ? "W" : "N");
+        textData.textWrap = textWrap ? "W" : "N";
+        saveData();
         setWrap(textWrap);
     });
 
-    let wrapControl = $("<label>", {text: proofIntData.strings.wrap}).append(wrapCheck);
+    let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
 
-    return $("<span>", {class: "nowrap control"}).append(fontFaceSelector, fontSizeSelector, wrapControl);
+    return [fontFaceSelector, fontSizeSelector, wrapControl];
 };
+
+function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
+    let textWidgetKey = storageKey + "-textwidget";
+    let textArea = $("<textarea>", {class: "text-pane"});
+    textArea.prop("readonly", !splitter);
+    let controls = maketextControl(textArea, textWidgetKey);
+    let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
+    if(splitter) {
+        let splitterKey = textWidgetKey + "-split";
+        let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
+        if(!$.isPlainObject(textSplitData)) {
+            textSplitData = {
+                splitPercent: 100
+            };
+        }
+        let topTextDiv = $("<div>").append(textArea);
+        let bottomTextDiv = $("<div>");
+        controlDiv.content.append(topTextDiv, bottomTextDiv);
+
+        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.splitPercent, reDraw: reLayout});
+        subSplitter.dragEnd.add(function (percent) {
+            textSplitData.splitPercent = percent;
+            localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
+        });
+    } else {
+        controlDiv.content.append(textArea);
+    }
+    return {
+        setText: function (text) {
+            textArea.val(text)
+                .scrollTop(0)
+                .scrollLeft(0);
+        }
+    };
+}
 
 // Construct the buttons for horizontal/vertical split
 // and return a splitter variable.
-var viewSplitter = function(container) {
-    const textImageSplitID = "text_image_split";
-    const splitPercentID = "split_percent";
-
-    // stored value is "horizontal" or "vertical"
-    let splitDirString = localStorage.getItem(textImageSplitID);
-    if(!splitDirString) {
-        splitDirString = "horizontal";
+var viewSplitter = function(container, storageKey) {
+    let storageKeyLayout = storageKey + "-layout";
+    let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
+    if(!$.isPlainObject(layout)) {
+        layout = {splitPercent: 50, splitDirection: "horizontal"};
     }
-    // splitVertical is true or false
-    let splitVertical = (splitDirString === "vertical");
+    let splitVertical = (layout.splitDirection === "vertical");
 
-    let splitPercent = localStorage.getItem(splitPercentID);
-    if(!splitPercent) {
-        splitPercent = 50;
+    function saveLayout() {
+        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
     }
 
-    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: splitPercent});
+    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: layout.splitPercent});
 
     let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
     let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
@@ -150,8 +166,8 @@ var viewSplitter = function(container) {
     function changeSplit(splitVertical) {
         mainSplit.setSplit(splitVertical);
         setSplitControls(splitVertical);
-        splitDirString = splitVertical ? "vertical" : "horizontal";
-        localStorage.setItem(textImageSplitID, splitDirString);
+        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
+        saveLayout();
     }
 
     vSwitchButton.click(function () {
@@ -165,7 +181,8 @@ var viewSplitter = function(container) {
     setSplitControls(splitVertical);
 
     mainSplit.dragEnd.add(function (percent) {
-        localStorage.setItem(splitPercentID, percent);
+        layout.splitPercent = percent;
+        saveLayout();
     });
 
     return {
@@ -261,7 +278,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     return controls;
 }
 
-function pageBrowse(params, replaceUrl, mentorMode = false) {
+function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     // showCurrentImageFile will be set to a function so that subsequent pages
     // can be shown without redrawing the whole page
     let showCurrentImageFile = null;
@@ -310,11 +327,11 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
     }
 
     function displayPages(pages) {
-        let imageElement = $("<img>", {src: ''});
-        let textArea = $("<textarea>", {class: "text-pane"});
         let textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
         let imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
         let imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
+        let imageWidget = null;
+        let textWidget = null;
 
         function getRoundControls() {
             return $("<span>", {class: "nowrap control"}).append(proofIntData.strings.round + " ", roundSelector);
@@ -331,9 +348,9 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                 params.set("imagefile", imageFileName);
                 document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
                 if(displayMode !== "text") {
-                    imageElement.attr("src", page.image_url).parent()
-                        .scrollTop(0)
-                        .scrollLeft(0);
+                    if(imageWidget) {
+                        imageWidget.setImage(page.image_url);
+                    }
                 }
                 if(displayMode !== "image") {
                     // if the supplied round_id was invalid it will be replaced
@@ -342,9 +359,7 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                     params.set("round_id", round);
                     $.ajax(makeApiAjaxSettings("v1/projects/" + projectId + "/pages/" + imageFileName + "/pagerounds/" + round))
                         .done(function(data) {
-                            textArea.val(data.text)
-                                .scrollTop(0)
-                                .scrollLeft(0);
+                            textWidget.setText(data.text);
                         })
                         .fail(showError);
                 }
@@ -370,43 +385,28 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                 // remove any old controls from fixHead
                 $(".control", fixHead).detach();
 
-                const breakLine = "<br class='control'>";
-
                 function showTextModes() {
-                    textArea.prop("readonly", !mentorMode);
                     let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
+                    let textDiv = $("<div>");
                     switch(displayMode) {
                     case "text":
-                        fixHead.append(imageButton, imageTextButton, pageControls, roundControls, breakLine, textControl(textArea));
-                        stretchDiv.append(textArea);
+                        textWidget = makeTextWidget(textDiv, storageKey);
+                        fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
+                        stretchDiv.append(textDiv);
                         break;
                     case "imageText": {
-                        let imageDiv = $("<div>", {class: 'overflow-auto'}).append(imageElement);
-                        let textDiv = $("<div>").append(textArea);
-                        if(mentorMode) {
-                            let topTextDiv = textDiv;
-                            let bottomTextDiv = $("<div>");
-                            textDiv = $("<div>").append(topTextDiv, bottomTextDiv);
-                        }
+                        let imageDiv = $("<div>");
+                        imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(stretchDiv);
+                        let theSplitter = viewSplitter(stretchDiv, storageKey);
                         if(mentorMode) {
-                            const subSplitID = "sub_split_percent";
-                            let subSplitPercent = parseFloat(localStorage.getItem(subSplitID));
-                            if(!subSplitPercent) {
-                                // if not defined or 0, set the value to 100 so the text is shown
-                                subSplitPercent = 100;
-                            }
-
-                            let subSplitter = splitControl(textDiv,
-                                {splitVertical: false, splitPercent: subSplitPercent, reDraw: theSplitter.mainSplit.reSize});
-                            subSplitter.dragEnd.add(function (percent) {
-                                localStorage.setItem(subSplitID, percent);
-                            });
+                            // make a text widget with splitter
+                            textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
+                        } else {
+                            textWidget = makeTextWidget(textDiv, storageKey);
                         }
-                        fixHead.append(imageButton, textButton, pageControls, roundControls, breakLine, imageControl(imageElement),
-                            theSplitter.buttons, textControl(textArea));
+                        fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
                     }
                     }
@@ -415,11 +415,14 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
 
                 if(displayMode === "image") {
                     if(simpleHeader) {
-                        fixHead.append(imageControl(imageElement), pageControls);
+                        fixHead.append(pageControls);
                     } else {
-                        fixHead.append(textButton, imageTextButton, pageControls, breakLine, imageControl(imageElement));
+                        fixHead.append(textButton, imageTextButton, pageControls);
                     }
-                    stretchDiv.addClass("overflow-auto").append(imageElement);
+
+                    let imageDiv = $("<div>");
+                    imageWidget = makeImageWidget(imageDiv, storageKey);
+                    stretchDiv.append(imageDiv);
                     showImageText();
                 } else {
                     // in case initial round_id was invalid, get round from

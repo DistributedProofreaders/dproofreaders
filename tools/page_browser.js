@@ -7,5 +7,5 @@ $(function () {
         window.history.replaceState(null, '', url.href);
     }
 
-    pageBrowse(url.searchParams, replaceUrl, mentorMode);
+    pageBrowse(url.searchParams, "page-browse", replaceUrl, mentorMode);
 });
