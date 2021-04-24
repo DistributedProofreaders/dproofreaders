@@ -105,12 +105,12 @@ echo " ";
 echo sprintf(_("Please check the Saved column in the 'Which proofreader did each page...' section for each project listed below, to make sure you first work on the project with the oldest pages saved in %s."), "<b>$mentored_round->id</b>");
 echo "</p>";
 
-$projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state);
+$projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state, $mentored_round->id);
 if ($projects_available) {
     echo "<ol>";
     foreach ($projects_available as $proj_obj) {
         echo "<li><a href='#$proj_obj->projectid'>";
-        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
+        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
         echo "</a></li>";
     }
     echo "</ol>";
@@ -125,13 +125,13 @@ echo " ";
 echo _("Oldest project listed first.");
 echo "</p>";
 
-$projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state);
+$projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state, $mentored_round->id);
 if ($projects_waiting) {
     echo "<ol>";
     foreach ($projects_waiting as $proj_obj) {
         $project = new Project($proj_obj->projectid);
         echo "<li>";
-        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname);
+        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
         if (in_array($mentoring_round->project_waiting_state, $project->get_hold_states())) {
             // TRANSLATORS: string indicates that the project is "on hold"
             echo " <b>[" . _("On hold") . "]</b>";
@@ -150,10 +150,14 @@ foreach ($projects_available as $proj_obj) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function output_project_label($nameofwork, $authorsname)
+function output_project_label($nameofwork, $authorsname, $date = null)
 {
     // TRANSLATORS: format is <title> by <author>.
-    echo sprintf("%1\$s by %2\$s", $nameofwork, $authorsname);
+    echo sprintf(_("%1\$s by %2\$s"), $nameofwork, $authorsname);
+    if (!is_null($date)) {
+        $date = strftime("%Y-%m-%d %R %Z", $date);
+        echo " ($date)";
+    }
 }
 
 // For each mentorable project (in this round), show a summary (one line per mentee)
@@ -166,7 +170,7 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
 
     // Display project summary info
     $proj_url = "$code_url/project.php?id=$projectid";
-    echo "<p id='$projectid' style='font-weight: bold'>";
+    echo "<p id='$projectid' class='bold'>";
     output_project_label("<a href='$proj_url'>" . html_safe($nameofwork) . "</a>", html_safe($authorsname));
     echo "</p>" ;
 
@@ -181,16 +185,26 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
 
 // -------------------------------------------------------------------
 
-function get_beginner_projects_in_state($state)
+function get_beginner_projects_in_state($state, $mentored_round)
 {
+    $mentored_round_detail = $mentored_round . '.proj_done';
+
     $sql = sprintf("
-        SELECT projectid, nameofwork, authorsname
-        FROM projects
+        SELECT
+            projects.projectid,
+            projects.nameofwork,
+            projects.authorsname,
+            MAX(project_events.timestamp) AS t_left_mentee_round
+        FROM projects LEFT OUTER JOIN project_events USING (projectid)
         WHERE
-            difficulty = 'BEGINNER' AND
-            state='%s'
+            difficulty = 'BEGINNER'
+            AND project_events.event_type = 'transition'
+            AND project_events.details2 = '%s'
+            AND projects.state = '%s'
+        GROUP BY projects.projectid
         ORDER BY
-            modifieddate ASC",
+            project_events.timestamp ASC",
+        DPDatabase::escape($mentored_round_detail),
         DPDatabase::escape($state)
     );
     $result = DPDatabase::query($sql);
@@ -261,9 +275,9 @@ function page_list_sql($mentored_round, $projectid)
             p.{$mentored_round->user_column_name} AS '$proofreader',
             (SELECT count(*)
              FROM wordcheck_events
-             WHERE projectid='$projectid'
+             WHERE projectid = '$projectid'
                 AND round_id = '$mentored_round->id'
-                AND username=p.{$mentored_round->user_column_name}
+                AND username = p.{$mentored_round->user_column_name}
                 AND SUBSTRING_INDEX(image, '.', 1)=p.fileid
             ) AS '$wc_events'
         FROM $projectid AS p
