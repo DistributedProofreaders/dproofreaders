@@ -116,14 +116,14 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     container.css({display: 'flex', height: "100%"});
     container.append(content);
 
-    let controlBar = $("<div>", {class: 'page-interface control-panel'});
+    let controlBar = $("<div>", {class: 'page-interface control-bar'});
     // control2 contains the controls, control1 & control3 adjust the layout
     let control1 = $("<div>", {class: 'left-align'});
     let control2 = $("<div>").css({flex: '0 1 auto'});
     let control3 = $("<div>");
     controlBar.append(control1, control2, control3);
 
-    let menu = $("<div>", {class: "nav-menu"});
+    let menu = $("<div>", {class: "control-bar-menu"});
 
     let menuButton = $("<button>", {title: texts.adjustPanel})
         .append($("<i>", {class: 'fas fa-cog'}))

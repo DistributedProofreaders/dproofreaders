@@ -959,8 +959,8 @@
   min-height: 10px;
 }
 /* ------------------------------------------------------------------------ */
-/* Control Pane */
-.control-panel {
+/* Control Bar */
+.control-bar {
   padding: 0.1em;
   flex: 0 0 auto;
   display: flex;
@@ -969,40 +969,40 @@
   border-style: solid;
   border-color: gray;
 }
-.control-panel input,
-.control-panel select,
-.control-panel button {
+.control-bar input,
+.control-bar select,
+.control-bar button {
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
 }
-.control-panel input[type=number] {
+.control-bar input[type=number] {
   width: 2.2em;
   -moz-appearance: textfield;
 }
-.control-panel input::-webkit-outer-spin-button,
-.control-panel input::-webkit-inner-spin-button {
+.control-bar input::-webkit-outer-spin-button,
+.control-bar input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.control-panel input[type=submit]:disabled,
-.control-panel input[type=button]:disabled,
-.control-panel button:disabled {
+.control-bar input[type=submit]:disabled,
+.control-bar input[type=button]:disabled,
+.control-bar button:disabled {
   background-color: #b3ae9a;
 }
-.control-panel button,
-.control-panel input[type=submit],
-.control-panel input[type=button] {
+.control-bar button,
+.control-bar input[type=submit],
+.control-bar input[type=button] {
   box-shadow: 1px 1px grey;
   border-radius: 3px;
   width: 25px;
   height: 25px;
   padding: 0;
 }
-.control-panel input[type=checkbox] {
+.control-bar input[type=checkbox] {
   vertical-align: bottom;
 }
-.nav-menu {
+.control-bar-menu {
   position: absolute;
   padding: 0.3em;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
