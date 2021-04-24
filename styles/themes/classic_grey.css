@@ -959,6 +959,61 @@
   min-height: 10px;
 }
 /* ------------------------------------------------------------------------ */
+/* Control Bar */
+.control-bar {
+  padding: 0.1em;
+  flex: 0 0 auto;
+  display: flex;
+  background-color: #CDC0B0;
+  color: black;
+  border-style: solid;
+  border-color: gray;
+}
+.control-bar input,
+.control-bar select,
+.control-bar button {
+  background-color: #FFF8DC;
+  color: black;
+  border: thin solid #000000;
+}
+.control-bar input[type=number] {
+  width: 2.2em;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+.control-bar input::-webkit-outer-spin-button,
+.control-bar input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.control-bar input[type=submit]:disabled,
+.control-bar input[type=button]:disabled,
+.control-bar button:disabled {
+  background-color: #b3ae9a;
+}
+.control-bar button,
+.control-bar input[type=submit],
+.control-bar input[type=button] {
+  box-shadow: 1px 1px grey;
+  border-radius: 3px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+}
+.control-bar input[type=checkbox] {
+  vertical-align: bottom;
+}
+.control-bar-menu {
+  position: absolute;
+  padding: 0.3em;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 0.3em;
+  background-color: #CDC0B0;
+  border: 1px solid gray;
+  display: none;
+  z-index: 1;
+}
+/* ------------------------------------------------------------------------ */
 /* Common color definitions
  * Where a particular color family has multiple shades available, a
  * suffix indicates relative contrast as compared with the default

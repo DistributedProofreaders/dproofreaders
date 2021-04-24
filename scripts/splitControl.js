@@ -53,7 +53,7 @@ var splitControl = function(container, config) {
     let pane1 = $(children[0]);
     let pane2 = $(children[1]);
 
-    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor});
+    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`});
     pane1.after(dragBar);
 
     // coordinates of the container
@@ -70,14 +70,13 @@ var splitControl = function(container, config) {
         if (splitPos > maxPos) {
             splitPos = maxPos;
         }
-        pane2.css('flex', 1);
+        pane1.css({flex: `0 0 ${splitPos - base}px`, overflow: 'auto'});
+        pane2.css({flex: '1 1 1px', overflow: 'auto'});
         if (theConfig.splitVertical) {
             container.css({display: 'flex', flexDirection: 'row'});
-            pane1.width(splitPos - base);
             pane1.height('');
         } else {
             container.css({display: 'flex', flexDirection: 'column'});
-            pane1.height(splitPos - base);
             pane1.width('');
         }
         reSize.fire();
@@ -94,12 +93,10 @@ var splitControl = function(container, config) {
             range = width;
             base = divLeft;
             dragBar.height('100%');
-            dragBar.width(theConfig.dragBarSize);
             dragBar.css("cursor", "ew-resize");
         } else {
             range = height;
             base = divTop;
-            dragBar.height(theConfig.dragBarSize);
             dragBar.width('100%');
             dragBar.css("cursor", "ns-resize");
         }
