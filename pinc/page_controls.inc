@@ -8,7 +8,6 @@ function get_proofreading_interface_data_js()
     ];
 
     $strings = [
-        "zoom" => _("Zoom"),
         "page" => _("Page"),
         "previous" => _("Previous"),
         "next" => _("Next"),

@@ -10,6 +10,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
+include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('./post_files.inc'); // page_info_query()
 include_once("./word_freq_table.inc"); // enforce_edit_authorization(), decode_word()
 
@@ -29,16 +30,18 @@ $wordInstances = get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTA
 
 $details = json_encode([
     "projectid" => $projectid,
-    'storageKeyLayout' => 'show_word_context_layout',
+    'storageKey' => 'show_word_context',
 ]);
 
 $header_args = [
     "js_files" => [
         "$code_url/scripts/splitControl.js",
+        "$code_url/scripts/control_bar.js",
         "$code_url/scripts/page_browse.js",
         "./show_word_context.js",
     ],
-    "js_data" => get_proofreading_interface_data_js() . "
+    "js_data" => get_proofreading_interface_data_js() .
+        get_control_bar_texts() . "
         var showWordContext = $details;",
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw;"',
