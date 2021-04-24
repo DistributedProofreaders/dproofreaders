@@ -978,6 +978,7 @@
 }
 .control-bar input[type=number] {
   width: 2.2em;
+  text-align: right;
   -moz-appearance: textfield;
 }
 .control-bar input::-webkit-outer-spin-button,
