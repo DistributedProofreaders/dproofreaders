@@ -26,7 +26,6 @@ function get_proofreading_interface_data_js()
         "projectid" => _("Project ID"),
         "selectAPage" => _("Please select a page"),
         "browserDefault" => BROWSER_DEFAULT_STR,
-        "browsePages" => _("Browse pages"),
         "displayPageX" => _("Display Page: %s"),
         "noPages" => _("There are no pages in this project"),
         "enterID" => _("Please enter a project ID"),

@@ -457,6 +457,7 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
                     fixHead.append(getRoundControls());
                 });
             }
+            document.title = proofIntData.strings.selectAPage;
         }
 
         // if there are no pages in the project show alert message
@@ -494,7 +495,7 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
         // just show the project input
         fixHead.empty();
         $(".imtext").remove();
-        document.title = proofIntData.strings.browsePages;
+        document.title = proofIntData.strings.selectProject;
 
         let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
         let projectInput = $("<input>", {type: 'text', required: true});
