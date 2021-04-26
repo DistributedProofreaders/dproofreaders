@@ -268,8 +268,8 @@ function pageBrowse(params, replaceUrl, mentorMode = false) {
     // parameters will be null if not defined
     let projectId = params.get("project");
     let displayMode = params.get("mode");
-    if(!displayMode) {
-        displayMode = "image";
+    if(!['image', 'text', 'imageText'].includes(displayMode)) {
+        displayMode = 'image';
     }
     // if round_id is not defined or invalid, first option will be used
     let currentRound = params.get("round_id");
