@@ -6,6 +6,8 @@ window.onload = function () {
 
     function replaceUrl() {
         window.history.pushState(null, '', url.href);
+        // to not save history replace previous line with next:
+        // window.history.replaceState(null, '', url.href);
     }
 
     pageBrowse(url.searchParams, replaceUrl, mentorMode);
