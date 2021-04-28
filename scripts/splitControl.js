@@ -53,7 +53,10 @@ var splitControl = function(container, config) {
     let pane1 = $(children[0]);
     let pane2 = $(children[1]);
 
-    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`});
+    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`, display: 'flex', 'justify-content': 'center'})
+        // this div puts a row of dashes in the centre of the drag bar
+        .append($("<div>").css({border: `${theConfig.dragBarSize / 3}px dashed DimGray`, margin: `${theConfig.dragBarSize / 6}px`, flex: '0 0 6em'}));
+
     pane1.after(dragBar);
 
     // coordinates of the container
@@ -93,12 +96,12 @@ var splitControl = function(container, config) {
             range = width;
             base = divLeft;
             dragBar.height('100%');
-            dragBar.css("cursor", "ew-resize");
+            dragBar.css({cursor: 'ew-resize', 'flex-direction': 'column'});
         } else {
             range = height;
             base = divTop;
             dragBar.width('100%');
-            dragBar.css("cursor", "ns-resize");
+            dragBar.css({cursor: 'ns-resize', 'flex-direction': 'row'});
         }
         range -= theConfig.dragBarSize;
         minPos = base;

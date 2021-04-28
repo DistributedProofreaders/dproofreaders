@@ -93,10 +93,10 @@ var maketextControl = function(textArea, storageKey) {
     return [fontFaceSelector, fontSizeSelector, wrapControl];
 };
 
-function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
+function makeTextWidget(container, storageKey, splitter = false, reLayout = null, readOnly = true) {
     let textWidgetKey = storageKey + "-textwidget";
     let textArea = $("<textarea>", {class: "text-pane"});
-    textArea.prop("readonly", !splitter);
+    textArea.prop("readonly", readOnly);
     let controls = maketextControl(textArea, textWidgetKey);
     let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
     if(splitter) {
@@ -104,7 +104,7 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
         let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
         if(!$.isPlainObject(textSplitData)) {
             textSplitData = {
-                splitPercent: 100
+                splitPercent: 80
             };
         }
         let topTextDiv = $("<div>").append(textArea);
@@ -400,12 +400,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        if(mentorMode) {
-                            // make a text widget with splitter
-                            textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
-                        } else {
-                            textWidget = makeTextWidget(textDiv, storageKey);
-                        }
+                        textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize, !mentorMode);
                         fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
                     }
