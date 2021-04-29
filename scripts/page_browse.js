@@ -93,32 +93,13 @@ var maketextControl = function(textArea, storageKey) {
     return [fontFaceSelector, fontSizeSelector, wrapControl];
 };
 
-function makeTextWidget(container, storageKey, splitter = false, reLayout = null, readOnly = true) {
+function makeTextWidget(container, storageKey, readOnly = true) {
     let textWidgetKey = storageKey + "-textwidget";
     let textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", readOnly);
     let controls = maketextControl(textArea, textWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
-    if(splitter) {
-        let splitterKey = textWidgetKey + "-split";
-        let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-        if(!$.isPlainObject(textSplitData)) {
-            textSplitData = {
-                splitPercent: 80
-            };
-        }
-        let topTextDiv = $("<div>").append(textArea);
-        let bottomTextDiv = $("<div>");
-        controlDiv.content.append(topTextDiv, bottomTextDiv);
-
-        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.splitPercent, reDraw: reLayout});
-        subSplitter.dragEnd.add(function (percent) {
-            textSplitData.splitPercent = percent;
-            localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
-        });
-    } else {
-        controlDiv.content.append(textArea);
-    }
+    let controlDiv = makeControlDiv(container, controls, textWidgetKey);
+    controlDiv.content.append(textArea);
     return {
         setText: function (text) {
             textArea.val(text)
@@ -400,7 +381,23 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize, !mentorMode);
+                        let topTextDiv = $("<div>");//.append(textArea);
+                        let bottomTextDiv = $("<div>");
+                        textDiv.append(topTextDiv, bottomTextDiv);
+
+                        let storageKeySubSplit = storageKey + "-subsplit";
+                        let subSplit = JSON.parse(localStorage.getItem(storageKeySubSplit));
+                        if(!$.isPlainObject(subSplit)) {
+                            subSplit = {splitPercent: 100};
+                        }
+
+                        let subSplitter = splitControl(textDiv, {splitVertical: false, splitPercent: subSplit.splitPercent, reDraw: theSplitter.mainSplit.reSize});
+                        subSplitter.dragEnd.add(function (percent) {
+                            subSplit.splitPercent = percent;
+                            localStorage.setItem(storageKeySubSplit, JSON.stringify(subSplit));
+                        });
+
+                        textWidget = makeTextWidget(topTextDiv, storageKey, !mentorMode);
                         fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
                     }
