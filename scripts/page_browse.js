@@ -96,10 +96,11 @@ var maketextControl = function(textArea, storageKey) {
 function makeTextWidget(container, storageKey, readOnly = true) {
     let textWidgetKey = storageKey + "-textwidget";
     let textArea = $("<textarea>", {class: "text-pane"});
+    let content = $("<div>");
     textArea.prop("readonly", readOnly);
     let controls = maketextControl(textArea, textWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, textWidgetKey);
-    controlDiv.content.append(textArea);
+    makeControlDiv(container, content, controls, textWidgetKey);
+    content.append(textArea);
     return {
         setText: function (text) {
             textArea.val(text)
@@ -364,9 +365,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     switch(displayMode) {
                     case "text": {
                         textWidget = makeTextWidget(textDiv, storageKey);
-                        let controls = [imageButton, imageTextButton].concat(pageControls).concat(roundControls);
-                        let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
-                        controlDiv.content.append(textDiv);
+                        let controls = [imageButton, imageTextButton].concat(pageControls, roundControls);
+                        let content = $("<div>");
+                        makeControlDiv(stretchDiv, content, controls, storageKey);
+                        content.append(textDiv);
                         break;
                     }
                     case "imageText": {
@@ -379,10 +381,11 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
 
                         textDiv.append(topTextDiv, bottomTextDiv);
 
-                        let controls = [imageButton, textButton].concat(pageControls).concat(roundControls);
-                        let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
-                        controlDiv.content.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(controlDiv.content, storageKey);
+                        let content = $("<div>");
+                        content.append(imageDiv, textDiv);
+                        let theSplitter = viewSplitter(content, storageKey);
+                        let controls = [imageButton, textButton].concat(pageControls, roundControls, theSplitter.buttons);
+                        makeControlDiv(stretchDiv, content, controls, storageKey);
 
                         let storageKeySubSplit = storageKey + "-subsplit";
                         let subSplit = JSON.parse(localStorage.getItem(storageKeySubSplit));
@@ -410,8 +413,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     }
                     let imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv, storageKey);
-                    let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
-                    controlDiv.content.append(imageDiv);
+                    let content = $("<div>");
+                    makeControlDiv(stretchDiv, content, controls, storageKey);
+                    content.append(imageDiv);
                     showImageText();
                 } else {
                     // in case initial round_id was invalid, get round from
