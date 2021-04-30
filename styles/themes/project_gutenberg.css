@@ -992,10 +992,11 @@
   background-color: #b3ae9a;
 }
 .control-bar button,
-.control-bar input[type=submit],
-.control-bar input[type=button] {
+.control-bar input {
   box-shadow: 1px 1px grey;
   border-radius: 3px;
+}
+.control-bar button {
   width: 25px;
   height: 25px;
   padding: 0;

@@ -175,7 +175,6 @@ var viewSplitter = function(container, storageKey) {
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
     let pageSelector = document.createElement("select");
-    let controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
 
     if(!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
@@ -191,7 +190,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
             changePage(pages[pageSelector.value]);
         });
 
-        return controls;
+        return [pageSelector];
     }
 
     pages.forEach(function(page, index) {
@@ -255,8 +254,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     });
 
     enableButtons();
-    controls.append(prevButton, nextButton);
-    return controls;
+    return [pageSelector, prevButton, nextButton];
 }
 
 function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
@@ -280,6 +278,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     let fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
+    let stretchDiv = $("<div>", {class: 'stretch-box'});
+    topDiv.append(stretchDiv);
 
     // show error if ajax fails
     function showError(jqxhr) {
@@ -315,7 +315,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         let textWidget = null;
 
         function getRoundControls() {
-            return $("<span>", {class: "nowrap control"}).append(proofIntData.strings.round + " ", roundSelector);
+            return [roundSelector];
         }
 
         function showCurrentPage(page) {
@@ -355,35 +355,34 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             function showCurrentMode() {
                 // url with correct mode will be set in showImageText()
                 params.set("mode", displayMode);
-
-                // remove current image/text div if present
-                // re-make the div here rather than making it higher up the chain
-                // and emptying it here because the view splitter manipulates its
-                // style causing side-effects if re-using it
-                $(".imtext").remove();
-                let stretchDiv = $("<div>", {class: 'imtext stretch-box'});
-                topDiv.append(stretchDiv);
-                // remove any old controls from fixHead
-                $(".control", fixHead).detach();
+                stretchDiv.children().detach();
 
                 function showTextModes() {
                     let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     let textDiv = $("<div>");
                     switch(displayMode) {
-                    case "text":
+                    case "text": {
                         textWidget = makeTextWidget(textDiv, storageKey);
-                        fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
-                        stretchDiv.append(textDiv);
+                        let controls = [imageButton, imageTextButton].concat(pageControls).concat(roundControls);
+                        let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
+                        controlDiv.content.append(textDiv);
                         break;
+                    }
                     case "imageText": {
                         let imageDiv = $("<div>");
                         imageWidget = makeImageWidget(imageDiv, storageKey);
-                        stretchDiv.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        let topTextDiv = $("<div>");//.append(textArea);
+
+                        let topTextDiv = $("<div>");
+                        textWidget = makeTextWidget(topTextDiv, storageKey, !mentorMode);
                         let bottomTextDiv = $("<div>");
+
                         textDiv.append(topTextDiv, bottomTextDiv);
+
+                        let controls = [imageButton, textButton].concat(pageControls).concat(roundControls);
+                        let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
+                        controlDiv.content.append(imageDiv, textDiv);
+                        let theSplitter = viewSplitter(controlDiv.content, storageKey);
 
                         let storageKeySubSplit = storageKey + "-subsplit";
                         let subSplit = JSON.parse(localStorage.getItem(storageKeySubSplit));
@@ -396,9 +395,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             subSplit.splitPercent = percent;
                             localStorage.setItem(storageKeySubSplit, JSON.stringify(subSplit));
                         });
-
-                        textWidget = makeTextWidget(topTextDiv, storageKey, !mentorMode);
-                        fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
                     }
                     }
@@ -406,15 +402,16 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 }
 
                 if(displayMode === "image") {
+                    let controls;
                     if(simpleHeader) {
-                        fixHead.append(pageControls);
+                        controls = pageControls;
                     } else {
-                        fixHead.append(textButton, imageTextButton, pageControls);
+                        controls = [textButton, imageTextButton].concat(pageControls);
                     }
-
                     let imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv, storageKey);
-                    stretchDiv.append(imageDiv);
+                    let controlDiv = makeControlDiv(stretchDiv, controls, storageKey);
+                    controlDiv.content.append(imageDiv);
                     showImageText();
                 } else {
                     // in case initial round_id was invalid, get round from
@@ -446,10 +443,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             let initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
-            fixHead.append(initalPageControls);
+//            fixHead.append(initalPageControls);
             if(displayMode !== "image") {
                 getRoundSelector(function () {
-                    fixHead.append(getRoundControls());
+//                    fixHead.append(getRoundControls());
                 });
             }
         }
@@ -487,8 +484,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         // keep mode and round
         replaceUrl();
         // just show the project input
-        fixHead.empty();
-        $(".imtext").remove();
+//        fixHead.empty();
+//        $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
         let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
@@ -505,8 +502,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             getProjectData();
         });
 
-        fixHead.append($("<span>", {class: "nowrap"})
-            .append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
+//        fixHead.append($("<span>", {class: "nowrap"})
+//            .append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
     }
 
     function showProjectInfo(projectData) {
@@ -519,7 +516,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             });
             const projectRef = new URL(proofIntData.projectFile);
             projectRef.searchParams.append("id", projectId);
-            fixHead.append($("<p>").append($("<a>", {href: projectRef}).append(projectData.title)), resetButton);
+            fixHead.append($("<a>", {href: projectRef}).append(projectData.title), resetButton);
         }
         // get pages
         $.ajax(makeApiAjaxSettings(`v1/projects/${projectId}/pages`)).done(displayPages)
