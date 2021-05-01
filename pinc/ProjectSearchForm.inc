@@ -196,7 +196,6 @@ class ProjectSearchForm
                 display_name,
                 DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')
             FROM special_days
-            WHERE enable = 1
             ORDER BY open_month, open_day
         ";
         $special_day_res = DPDatabase::query($sql);
