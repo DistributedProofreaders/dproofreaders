@@ -154,9 +154,9 @@ function special_list($special)
         SELECT
             spec_code,
             display_name,
+            enable,
             DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
         FROM special_days
-        WHERE enable = 1
         ORDER BY open_month, open_day
     ";
     $specs_result = DPDatabase::query($sql);
@@ -166,9 +166,11 @@ function special_list($special)
 
     // put list into array
     while ($s_row = mysqli_fetch_assoc($specs_result)) {
-        $show = $s_row['display_name']." (".$s_row['Start Date'].")";
-        $code = $s_row['spec_code'];
-        $specials_array["$code"] = $show;
+        if ($s_row['enable'] || $s_row['spec_code'] == $special) {
+            $show = $s_row['display_name'] . " (" . $s_row['Start Date'] . ")";
+            $code = $s_row['spec_code'];
+            $specials_array["$code"] = $show;
+        }
     }
 
     $bdaymonth = 0;
@@ -198,7 +200,6 @@ function special_list($special)
     }
     echo ">", _("Otherday"), "</option>";
     echo "\n";
-
 
     // add the rest of the special days (the "ordinary" special days ;) )
     foreach ($specials_array as $k => $v) {

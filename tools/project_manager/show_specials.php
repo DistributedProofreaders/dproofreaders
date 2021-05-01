@@ -13,6 +13,8 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
+echo "<p>" . _("If a Special Day has been disabled, <span class='small'>[Disabled]</span> will be displayed following the name of the special day in the \"Name\" column.") . "</p>\n";
+
 $sql = "
     SELECT *
     FROM special_days
@@ -50,6 +52,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo urlencode($row['spec_code']) ."&amp;n_results_per_page=100\" title=\"";
     echo urlencode($row['display_name']) ."\">\n";
     echo html_safe($row['display_name']) . "</a>";
+    if ($row['enable'] == 0) {
+        $maybe_disabled = _("Disabled");
+        echo "<br><span class='small'>[" . $maybe_disabled . "]</span>";
+    }
     echo "</td>\n";
     echo "<td>";
     echo "<div title=\"" . html_safe($row['comment']) ."\">";
