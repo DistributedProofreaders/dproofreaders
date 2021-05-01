@@ -96,6 +96,8 @@ var imageControl = function(imageElement, storageKey) {
 };
 
 function makeControlDiv(container, content, controls, storageKey, onChange) {
+    // onChange can be a function which is called when the control bar
+    // position is changed
     let barKey = storageKey + "-bar";
     let barData = JSON.parse(localStorage.getItem(barKey));
 
@@ -234,7 +236,7 @@ function makeControlDiv(container, content, controls, storageKey, onChange) {
             break;
         }
         if(onChange) {
-            onChange.fire();
+            onChange();
         }
     }
 
@@ -336,7 +338,7 @@ function makeImageWidget(container, storageKey, align = "C") {
     let imageElement = $("<img>").css("cursor", "grab");
     let controls = imageControl(imageElement, imageWidgetKey);
     let content = $("<div>");
-    let controlDiv = makeControlDiv(container, content, controls, imageWidgetKey);
+    makeControlDiv(container, content, controls, imageWidgetKey);
 
     content.css("text-align", alignment[align]).append(imageElement);
 

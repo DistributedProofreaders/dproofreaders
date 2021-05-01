@@ -385,7 +385,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         content.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(content, storageKey);
                         let controls = [imageButton, textButton].concat(pageControls, roundControls, theSplitter.buttons);
-                        makeControlDiv(stretchDiv, content, controls, storageKey);
+                        // the splitter must be redrawn when control bar is moved.
+                        makeControlDiv(stretchDiv, content, controls, storageKey, theSplitter.mainSplit.reLayout);
 
                         let storageKeySubSplit = storageKey + "-subsplit";
                         let subSplit = JSON.parse(localStorage.getItem(storageKeySubSplit));

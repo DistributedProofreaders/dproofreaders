@@ -906,10 +906,6 @@
   overflow: auto;
   border-bottom: thin solid #999;
 }
-#page-browser .control-pane .img-button {
-  border: 0;
-  box-shadow: none;
-}
 #page-browser .control-pane p {
   margin: 0.2em 0;
 }
@@ -918,10 +914,6 @@
 }
 #page-browser .control-pane select {
   margin-right: 0.4em;
-}
-#page-browser .control-pane .img-button {
-  vertical-align: middle;
-  padding: 0;
 }
 #page-browser .control-pane img {
   display: block;
@@ -1000,6 +992,10 @@
   width: 25px;
   height: 25px;
   padding: 0;
+}
+.control-bar .img-button {
+  border: 0;
+  vertical-align: top;
 }
 .control-bar input[type=checkbox] {
   vertical-align: bottom;
