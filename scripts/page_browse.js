@@ -272,7 +272,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     let getProjectData;
 
     let topDiv = $("#page-browser");
-    // the non-scrolling area which will contain any error message and the form with controls
+    // non-scrolling area which for project name and button to select another
     let fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
