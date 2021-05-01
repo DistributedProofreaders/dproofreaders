@@ -312,10 +312,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         let imageWidget = null;
         let textWidget = null;
 
-        function getRoundControls() {
-            return [roundSelector];
-        }
-
         function showCurrentPage(page) {
             // show a page selector and previous and next buttons and display the
             // page in current mode with controls
@@ -356,13 +352,12 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 stretchDiv.children().detach();
 
                 function showTextModes() {
-                    let roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     let textDiv = $("<div>");
                     switch(displayMode) {
                     case "text": {
                         textWidget = makeTextWidget(textDiv, storageKey);
-                        let controls = [imageButton, imageTextButton].concat(pageControls, roundControls);
+                        let controls = [imageButton, imageTextButton, " "].concat(pageControls, " ", roundSelector);
                         let content = $("<div>");
                         makeControlDiv(stretchDiv, content, controls, storageKey);
                         content.append(textDiv);
@@ -381,7 +376,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         let content = $("<div>");
                         content.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(content, storageKey);
-                        let controls = [imageButton, textButton].concat(pageControls, roundControls, theSplitter.buttons);
+                        let controls = [imageButton, textButton, " "].concat(pageControls, " ", roundSelector, theSplitter.buttons);
                         // the splitter must be redrawn when control bar is moved.
                         makeControlDiv(stretchDiv, content, controls, storageKey, theSplitter.mainSplit.reLayout);
 
@@ -407,7 +402,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     if(simpleHeader) {
                         controls = pageControls;
                     } else {
-                        controls = [textButton, imageTextButton].concat(pageControls);
+                        controls = [textButton, imageTextButton, " "].concat(pageControls);
                     }
                     let imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv, storageKey);
