@@ -448,10 +448,13 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             let initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
-//            fixHead.append(initalPageControls);
-            if(displayMode !== "image") {
+            let content = $("<div>");
+
+            if(displayMode === "image") {
+                makeControlDiv(stretchDiv, content, initalPageControls, storageKey);
+            } else {
                 getRoundSelector(function () {
-//                    fixHead.append(getRoundControls());
+                    makeControlDiv(stretchDiv, content, initalPageControls.concat(roundSelector), storageKey);
                 });
             }
         }
@@ -489,7 +492,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         // keep mode and round
         replaceUrl();
         // just show the project input
-//        fixHead.empty();
+        fixHead.empty();
+        stretchDiv.empty();
 //        $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
@@ -507,8 +511,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             getProjectData();
         });
 
-//        fixHead.append($("<span>", {class: "nowrap"})
-//            .append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
+        fixHead.append($("<span>", {class: "nowrap"})
+            .append(proofIntData.strings.projectid, " ", projectInput), projectSelectButton);
     }
 
     function showProjectInfo(projectData) {
