@@ -1,9 +1,6 @@
 /*global $ proofIntData makeApiAjaxSettings splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
-// the controls are given class "control" so we can remove them from
-// fixHead when changing modes while keeping project name and reset project
-
 // Construct the font-face, font-size and wrap controls
 var maketextControl = function(textArea, storageKey) {
 
@@ -127,9 +124,9 @@ var viewSplitter = function(container, storageKey) {
     let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: layout.splitPercent});
 
     let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
-    let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
+    let vSwitchButton = $("<button>", {type: 'button', class: 'img-button', title: proofIntData.strings.switchVert}).append(vSplitImage);
     let hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
-    let hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
+    let hSwitchButton = $("<button>", {type: 'button', class: 'img-button', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
     // The splitter could be laid out before images are loaded so that when
     // images appear some controls could be pushed out of view
     vSplitImage.on("load", mainSplit.reLayout);
@@ -309,9 +306,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     }
 
     function displayPages(pages) {
-        let textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
-        let imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
-        let imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
+        let textButton = $("<input>", {type: 'button', value: proofIntData.strings.showText});
+        let imageButton = $("<input>", {type: 'button', value: proofIntData.strings.showImage});
+        let imageTextButton = $("<input>", {type: 'button', value: proofIntData.strings.showImageText});
         let imageWidget = null;
         let textWidget = null;
 
@@ -494,7 +491,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         // just show the project input
         fixHead.empty();
         stretchDiv.empty();
-//        $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
         let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
