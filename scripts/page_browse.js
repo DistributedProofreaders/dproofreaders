@@ -257,6 +257,13 @@ function makePageControl(pages, selectedImageFileName, changePage) {
 }
 
 function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
+    // If this function is used at the 'top level' params are represents the
+    // url. So when we change params we call the function replaceUrl so that
+    // the url can be used as a link to the page shown. replaceUrl also
+    // changes the browse history record so we must not call replaceUrl unless
+    // we have actually changed params or the forward/back buttons will not
+    // work as expected.
+
     // showCurrentImageFile will be set to a function so that subsequent pages
     // can be shown without redrawing the whole page
     let showCurrentImageFile = null;
@@ -340,21 +347,26 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         })
                         .fail(showError);
                 }
-                replaceUrl();
             }
 
             let pageControls = makePageControl(pages, page.image, function (newPage) {
                 page = newPage;
+                params.set("imagefile", page.image);
+                replaceUrl();
                 showImageText();
             });
 
             function showCurrentMode() {
-                // url with correct mode will be set in showImageText()
-                params.set("mode", displayMode);
                 stretchDiv.children().detach();
 
                 function showTextModes() {
-                    $(roundSelector).change(showImageText);
+                    $(roundSelector).change( function() {
+                        let round = roundSelector.value;
+                        params.set("round_id", round);
+                        replaceUrl();
+                        showImageText();
+                    });
+
                     let textDiv = $("<div>");
                     switch(displayMode) {
                     case "text": {
@@ -420,19 +432,23 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
 
             } // end of showCurrentMode
 
-            textButton.click(function () {
-                displayMode = "text";
+            function changeMode(mode) {
+                displayMode = mode;
+                params.set("mode", displayMode);
+                replaceUrl();
                 showCurrentMode();
+            }
+
+            textButton.click(function () {
+                changeMode("text");
             });
 
             imageButton.click(function () {
-                displayMode = "image";
-                showCurrentMode();
+                changeMode("image");
             });
 
             imageTextButton.click(function () {
-                displayMode = "imageText";
-                showCurrentMode();
+                changeMode("imageText");
             });
 
             showCurrentMode();
@@ -441,6 +457,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         function initialPageSelect() {
             document.title = proofIntData.strings.selectAPage;
             let initalPageControls = makePageControl(pages, null, function (page) {
+                params.set("imagefile", page.image);
+                replaceUrl();
                 showCurrentPage(page);
             });
             let content = $("<div>");
@@ -482,10 +500,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     } // end of displayPages
 
     function selectAProject() {
-        params.delete("project");
-        params.delete("imagefile");
-        // keep mode and round
-        replaceUrl();
         // just show the project input
         fixHead.empty();
         stretchDiv.empty();
@@ -515,6 +529,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             // show project name and button to select another
             let resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
             resetButton.click(function () {
+                params.delete("project");
+                params.delete("imagefile");
+                // keep mode and round
+                replaceUrl();
                 selectAProject();
             });
             const projectRef = new URL(proofIntData.projectFile);
