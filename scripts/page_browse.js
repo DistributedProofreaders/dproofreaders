@@ -19,9 +19,9 @@ var maketextControl = function(textArea, storageKey) {
     }
 
     let fontFaceSelector = document.createElement("select");
-    fontFaceSelector.title = proofIntData.strings.changeFontFace;
+    fontFaceSelector.title = proofIntData.strings.selectFontFace;
     let fontSizeSelector = document.createElement("select");
-    fontSizeSelector.title = proofIntData.strings.changeFontSize;
+    fontSizeSelector.title = proofIntData.strings.selectFontSize;
 
     function setFontFace(fontFaceIndex) {
         textArea.css("font-family", proofIntData.font.faceFamilies[fontFaceIndex]);
@@ -85,7 +85,7 @@ var maketextControl = function(textArea, storageKey) {
         setWrap(textWrap);
     });
 
-    let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
+    let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap, title: proofIntData.strings.lineWrap}).append(wrapCheck);
 
     return [fontFaceSelector, fontSizeSelector, wrapControl];
 };
@@ -173,6 +173,7 @@ var viewSplitter = function(container, storageKey) {
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
     let pageSelector = document.createElement("select");
+    pageSelector.title = proofIntData.strings.page;
 
     if(!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
@@ -197,8 +198,8 @@ function makePageControl(pages, selectedImageFileName, changePage) {
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
 
-    let prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
-    let nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
+    let prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous, title: proofIntData.strings.previousPage});
+    let nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next, title: proofIntData.strings.nextPage});
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
@@ -293,6 +294,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             callback();
         } else {
             roundSelector = document.createElement("select");
+            roundSelector.title = proofIntData.strings.round;
             $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
                 .done(function(rounds) {
                     rounds.forEach(function(round) {
@@ -437,6 +439,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         } // end of showCurrentPage
 
         function initialPageSelect() {
+            document.title = proofIntData.strings.selectAPage;
             let initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
@@ -486,7 +489,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         // just show the project input
         fixHead.empty();
         stretchDiv.empty();
-        document.title = proofIntData.strings.browsePages;
+        document.title = proofIntData.strings.selectProject;
 
         let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
         let projectInput = $("<input>", {type: 'text', required: true});
