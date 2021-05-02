@@ -61,7 +61,7 @@ $(function () {
         } else {
             params.set("imagefile", imageFile);
             // give a no-action function for replace params
-            getShowCurrentImageFile = pageBrowse(params, showWordContext.storageKey, function () {});
+            getShowCurrentImageFile = pageBrowse($("#page-browser"), params, showWordContext.storageKey, function () {});
         }
     });
 });

@@ -256,42 +256,29 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     return [pageSelector, prevButton, nextButton];
 }
 
-function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
-    // If this function is used at the 'top level' params are represents the
+function pageBrowse(container, params, storageKey, replaceUrl, mentorMode = false) {
+    // If this function is used at the 'top level' params represents the
     // url. So when we change params we call the function replaceUrl so that
     // the url can be used as a link to the page shown. replaceUrl also
     // changes the browse history record so we must not call replaceUrl unless
     // we have actually changed params or the forward/back buttons will not
     // work as expected.
 
-    // showCurrentImageFile will be set to a function so that subsequent pages
-    // can be shown without redrawing the whole page
-    let showCurrentImageFile = null;
-    // parameters will be null if not defined
-    let projectId = params.get("project");
-    let displayMode = params.get("mode");
-    if(!displayMode) {
-        displayMode = "image";
-    }
-    // if round_id is not defined or invalid, first option will be used
-    let currentRound = params.get("round_id");
-    let simpleHeader = params.get("simpleHeader");
-    // declare this here to avoid use before define warning
-    let getProjectData;
-
-    let topDiv = $("#page-browser");
-    // non-scrolling area which for project name and button to select another
-    let fixHead = $("<div>", {class: 'fixed-box control-pane'});
-    // replace any previous content of topDiv
-    topDiv.html(fixHead);
-    let stretchDiv = $("<div>", {class: 'stretch-box'});
-    topDiv.append(stretchDiv);
-
     // show error if ajax fails
     function showError(jqxhr) {
         alert(jqxhr.responseJSON.error);
     }
 
+    let projectId = params.get("project");
+    let displayMode = params.get("mode");
+    if(!displayMode) {
+        displayMode = "image";
+    }
+    let simpleHeader = params.get("simpleHeader");
+
+    // showCurrentImageFile will be set to a function so that subsequent pages
+    // can be shown without redrawing the whole page
+    let showCurrentImageFile = null;
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
     // when roundSelector is built do callback
@@ -300,6 +287,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         if(roundSelector) {
             callback();
         } else {
+            // if round_id is not defined or invalid, first option will be used
+            let currentRound = params.get("round_id");
             roundSelector = document.createElement("select");
             roundSelector.title = proofIntData.strings.round;
             $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
@@ -357,7 +346,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             });
 
             function showCurrentMode() {
-                stretchDiv.children().detach();
+                container.children().detach();
 
                 function showTextModes() {
                     $(roundSelector).change( function() {
@@ -373,7 +362,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         textWidget = makeTextWidget(textDiv, storageKey);
                         let controls = [imageButton, imageTextButton, " "].concat(pageControls, " ", roundSelector);
                         let content = $("<div>");
-                        makeControlDiv(stretchDiv, content, controls, storageKey);
+                        makeControlDiv(container, content, controls, storageKey);
                         content.append(textDiv);
                         break;
                     }
@@ -392,7 +381,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         let theSplitter = viewSplitter(content, storageKey);
                         let controls = [imageButton, textButton, " "].concat(pageControls, " ", roundSelector, theSplitter.buttons);
                         // the splitter must be redrawn when control bar is moved.
-                        makeControlDiv(stretchDiv, content, controls, storageKey, theSplitter.mainSplit.reLayout);
+                        makeControlDiv(container, content, controls, storageKey, theSplitter.mainSplit.reLayout);
 
                         let storageKeySubSplit = storageKey + "-subsplit";
                         let subSplit = JSON.parse(localStorage.getItem(storageKeySubSplit));
@@ -421,7 +410,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     let imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv, storageKey);
                     let content = $("<div>");
-                    makeControlDiv(stretchDiv, content, controls, storageKey);
+                    makeControlDiv(container, content, controls, storageKey);
                     content.append(imageDiv);
                     showImageText();
                 } else {
@@ -464,10 +453,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             let content = $("<div>");
 
             if(displayMode === "image") {
-                makeControlDiv(stretchDiv, content, initalPageControls, storageKey);
+                makeControlDiv(container, content, initalPageControls, storageKey);
             } else {
                 getRoundSelector(function () {
-                    makeControlDiv(stretchDiv, content, initalPageControls.concat(roundSelector), storageKey);
+                    makeControlDiv(container, content, initalPageControls.concat(roundSelector), storageKey);
                 });
             }
         }
@@ -499,64 +488,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         showCurrentImageFile(params.get("imagefile"));
     } // end of displayPages
 
-    function selectAProject() {
-        // just show the project input
-        fixHead.empty();
-        stretchDiv.empty();
-        document.title = proofIntData.strings.selectProject;
-
-        let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
-        let projectInput = $("<input>", {type: 'text', required: true});
-
-        projectSelectButton.click(function () {
-            projectId = projectInput.val();
-            if("" === projectId) {
-                alert(proofIntData.strings.enterID);
-                return;
-            }
-            params.set("project", projectId);
-            replaceUrl();
-            getProjectData();
-        });
-
-        fixHead.append($("<span>", {class: "nowrap"})
-            .append(proofIntData.strings.projectid, " ", projectInput), projectSelectButton);
-    }
-
-    function showProjectInfo(projectData) {
-        if(!simpleHeader) {
-            fixHead.empty();
-            // show project name and button to select another
-            let resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
-            resetButton.click(function () {
-                params.delete("project");
-                params.delete("imagefile");
-                // keep mode and round
-                replaceUrl();
-                selectAProject();
-            });
-            const projectRef = new URL(proofIntData.projectFile);
-            projectRef.searchParams.append("id", projectId);
-            fixHead.append($("<a>", {href: projectRef}).append(projectData.title), resetButton);
-        }
-        // get pages
-        $.ajax(makeApiAjaxSettings(`v1/projects/${projectId}/pages`)).done(displayPages)
-            .fail(showError);
-    }
-
-    getProjectData = function() {
-        $.ajax(makeApiAjaxSettings("v1/projects/" + projectId)).done(showProjectInfo)
-            .fail(function(jqxhr) {
-                showError(jqxhr);
-                selectAProject();
-            });
-    };
-
-    if(projectId) {
-        getProjectData();
-    } else {
-        selectAProject();
-    }
+    $.ajax(makeApiAjaxSettings(`v1/projects/${projectId}/pages`)).done(displayPages)
+        .fail(showError);
 
     // showCurrentImageFile will be null when we first get here
     // return a function to get its current value
