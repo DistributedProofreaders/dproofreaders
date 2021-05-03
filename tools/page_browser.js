@@ -2,10 +2,9 @@
 
 $(function () {
     let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
+    let params = url.searchParams;
 
     function replaceUrl() {
-        url.search = params.toString();
         window.history.replaceState(null, '', url.href);
     }
 
