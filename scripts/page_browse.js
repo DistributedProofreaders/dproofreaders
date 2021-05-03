@@ -271,8 +271,8 @@ function pageBrowse(container, params, storageKey, replaceUrl, mentorMode = fals
 
     let projectId = params.get("project");
     let displayMode = params.get("mode");
-    if(!displayMode) {
-        displayMode = "image";
+    if(!['image', 'text', 'imageText'].includes(displayMode)) {
+        displayMode = 'image';
     }
     let simpleHeader = params.get("simpleHeader");
 
