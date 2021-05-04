@@ -15,7 +15,6 @@
  *       by default this is fired by $(window).resize()
  *       for a subsidiary splitter use reSize returned by the parent splitter
  *   dragBarSize: (6), the width/height of the splitterbar in pixels,
- *   dragBarColor: ("darkgray"),
  * }
  *
  * Returns:
@@ -36,7 +35,7 @@ var splitControl = function(container, config) {
         windowResize.fire();
     });
 
-    let theConfig = {reDraw: windowResize, splitVertical: true, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
+    let theConfig = {reDraw: windowResize, splitVertical: true, splitPercent: 50, dragBarSize: 6};
     for(let key in config) {
         theConfig[key] = config[key];
     }
@@ -52,9 +51,9 @@ var splitControl = function(container, config) {
     let pane1 = $(children[0]).css({overflow: 'auto'});
     let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
 
-    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`, display: 'flex', 'justify-content': 'center'})
-        // this div puts a row of dashes in the centre of the drag bar
-        .append($("<div>").css({border: `${theConfig.dragBarSize / 3}px dashed DimGray`, margin: `${theConfig.dragBarSize / 6}px`, flex: '0 0 6em'}));
+    // Drag bar with a row of dashes in the centre
+    let dragBar = $("<div>", {class: 'drag-bar'}).css({flex: `0 0 ${theConfig.dragBarSize}px`})
+        .append($("<div>", {class: 'drag-bar-marker'}).css({'border-width': `${theConfig.dragBarSize / 3}px`, margin: `${theConfig.dragBarSize / 6}px`}));
 
     pane1.after(dragBar);
 
