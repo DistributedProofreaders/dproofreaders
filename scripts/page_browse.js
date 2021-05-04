@@ -276,7 +276,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     let getProjectData;
 
     let topDiv = $("#page-browser");
-    // the non-scrolling area which will contain any error message and the form with controls
+    // the non-scrolling area which will contain the page controls
     let fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
@@ -381,7 +381,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         imageWidget = makeImageWidget(imageDiv, storageKey);
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        let topTextDiv = $("<div>");//.append(textArea);
+                        let topTextDiv = $("<div>");
                         let bottomTextDiv = $("<div>");
                         textDiv.append(topTextDiv, bottomTextDiv);
 
