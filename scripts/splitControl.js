@@ -47,11 +47,10 @@ var splitControl = function(container, config) {
     let range;
     let minPos;
     let maxPos;
-    container = $(container);
-
+    container = $(container).css({display: 'flex'});
     let children = container.children();
-    let pane1 = $(children[0]);
-    let pane2 = $(children[1]);
+    let pane1 = $(children[0]).css({overflow: 'auto'});
+    let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
 
     let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`});
     pane1.after(dragBar);
@@ -70,15 +69,7 @@ var splitControl = function(container, config) {
         if (splitPos > maxPos) {
             splitPos = maxPos;
         }
-        pane1.css({flex: `0 0 ${splitPos - base}px`, overflow: 'auto'});
-        pane2.css({flex: '1 1 1px', overflow: 'auto'});
-        if (theConfig.splitVertical) {
-            container.css({display: 'flex', flexDirection: 'row'});
-            pane1.height('');
-        } else {
-            container.css({display: 'flex', flexDirection: 'column'});
-            pane1.width('');
-        }
+        pane1.css({flex: `0 0 ${splitPos - base}px`});
         reSize.fire();
     }
 
@@ -90,14 +81,14 @@ var splitControl = function(container, config) {
         let divTop = containerOffset.top;
         let divLeft = containerOffset.left;
         if (theConfig.splitVertical) {
+            container.css({flexDirection: 'row'});
             range = width;
             base = divLeft;
-            dragBar.height('100%');
             dragBar.css("cursor", "ew-resize");
         } else {
+            container.css({flexDirection: 'column'});
             range = height;
             base = divTop;
-            dragBar.width('100%');
             dragBar.css("cursor", "ns-resize");
         }
         range -= theConfig.dragBarSize;
