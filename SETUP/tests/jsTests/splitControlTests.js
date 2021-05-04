@@ -23,7 +23,6 @@ QUnit.test("splitter defaults config values", function(assert) {
 
     const dragBar = $($('#container div').get(1));
     assert.strictEqual(dragBar.css('cursor'), 'ew-resize', 'verify drag bar has east west resize for vertical split');
-    assert.strictEqual(dragBar.css('background-color'), 'rgb(169, 169, 169)', 'verify drag bar has darkgray background');
 });
 
 QUnit.test("vertical split test draws east west drag bar", function(assert) {
@@ -40,12 +39,4 @@ QUnit.test("horizontal split test draws north south drag bar", function(assert) 
 
     assert.strictEqual($($('#container div').get(1))
         .css('cursor'), 'ns-resize', 'verify drag bar has north south resize for horizontal split');
-});
-
-QUnit.test("drag bar color is customizable", function(assert) {
-    let mainSplit = splitControl("#container", {dragBarColor: 'rebeccapurple'});
-    mainSplit.reLayout();
-
-    assert.strictEqual($($('#container div').get(1))
-        .css('background-color'), 'rgb(102, 51, 153)', 'verify drag bar has custom color');
 });
