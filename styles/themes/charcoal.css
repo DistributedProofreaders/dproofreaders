@@ -203,9 +203,8 @@
   justify-content: center;
 }
 .drag-bar-marker {
-  border-style: dashed;
-  border-color: DimGray;
-  flex: 0 0 6em;
+  flex: 0 0 5em;
+  background-repeat: space;
 }
 /* ------------------------------------------------------------------------ */
 /* Standard Editing Interface */

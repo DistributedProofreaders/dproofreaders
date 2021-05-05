@@ -1,4 +1,4 @@
-/*global $ */
+/* global $ codeUrl */
 /* exported splitControl */
 
 /*
@@ -53,7 +53,7 @@ var splitControl = function(container, config) {
 
     // Drag bar with a row of dashes in the centre
     let dragBar = $("<div>", {class: 'drag-bar'}).css({flex: `0 0 ${theConfig.dragBarSize}px`})
-        .append($("<div>", {class: 'drag-bar-marker'}).css({'border-width': `${theConfig.dragBarSize / 3}px`, margin: `${theConfig.dragBarSize / 6}px`}));
+        .append($("<div>", {class: 'drag-bar-marker'}).css({'background-image': `url(${codeUrl}/graphics/drag_marker.svg`, 'background-size': `${theConfig.dragBarSize}px`}));
 
     pane1.after(dragBar);
 
