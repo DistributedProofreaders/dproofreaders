@@ -1,5 +1,5 @@
 /* global $ QUnit splitControl */
-/* eslint-disable no-unused-vars */
+/* exported codeUrl */
 
 var codeUrl = '../../..';
 
