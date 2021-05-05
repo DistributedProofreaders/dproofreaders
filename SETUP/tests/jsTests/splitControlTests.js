@@ -1,5 +1,7 @@
 /* global $ QUnit splitControl */
 
+var codeUrl = '../../..';
+
 QUnit.module("splitControl tests", {
     beforeEach: function() {
         $(document.body).append(`
