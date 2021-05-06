@@ -1,7 +1,4 @@
 /* global $ QUnit splitControl */
-/* exported codeUrl */
-
-var codeUrl = '../../..';
 
 QUnit.module("splitControl tests", {
     beforeEach: function() {

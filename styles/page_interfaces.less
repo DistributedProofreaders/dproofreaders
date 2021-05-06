@@ -72,15 +72,23 @@
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* Drag Bar */
+
 .drag-bar {
     background-color: darkgray;
     display: flex;
     justify-content: center;
 }
 
+@drag-marker-color: dimgray;
+// if need #rrggbb use @drag-marker-color: escape("#rrggbb");
+// svg doesn't like #, this url-encodes it as %23
+
 .drag-bar-marker {
     flex: 0 0 5em;
     background-repeat: space;
+    background-image: url("data:image/svg+xml,<svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'> <rect x='4' y='4' width='8' height='8' fill='@{drag-marker-color}'/></svg>");
 }
 
 /* ------------------------------------------------------------------------ */

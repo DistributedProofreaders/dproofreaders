@@ -1,4 +1,4 @@
-/* global $ codeUrl */
+/* global $ */
 /* exported splitControl */
 
 /*
@@ -51,9 +51,9 @@ var splitControl = function(container, config) {
     let pane1 = $(children[0]).css({overflow: 'auto'});
     let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
 
-    // Drag bar with a row of dashes in the centre
+    // Drag bar with a marker in the centre
     let dragBar = $("<div>", {class: 'drag-bar'}).css({flex: `0 0 ${theConfig.dragBarSize}px`})
-        .append($("<div>", {class: 'drag-bar-marker'}).css({'background-image': `url(${codeUrl}/graphics/drag_marker.svg`, 'background-size': `${theConfig.dragBarSize}px`}));
+        .append($("<div>", {class: 'drag-bar-marker'}).css({'background-size': `${theConfig.dragBarSize}px`}));
 
     pane1.after(dragBar);
 
