@@ -3,11 +3,10 @@
 
 /*
  * Create a splitter between two <div>s within a container.
- * splitControl returns:
  * Arguments for splitControl:
  * container - ID of a <div> which contains two <div>s (herein referred
- *     to as pane1 and pane2). The splitter will be created between these.
- * config - optional dictionary that controls the div: (defaults in brackets)
+ * to as pane1 and pane2). The splitter will be created between these.
+ * config - optional object that controls the div: (defaults in brackets)
  * {
  *   splitVertical: (true) true or false,
  *   splitPercent: (50), percentage of contaner occupied by pane1,
