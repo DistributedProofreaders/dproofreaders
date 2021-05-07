@@ -111,7 +111,7 @@ class User
                         // yet been sent. Resetting the cookie is a nicety
                         // since it will only be used if it is valid, so it's
                         // OK if we can't.
-                        if (!header_sent()) {
+                        if (!headers_sent()) {
                             dp_setcookie("profile");
                         }
 
