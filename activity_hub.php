@@ -400,15 +400,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
         echo "<td class='pages-completed'>{$round_stats->curr_day_actual}</td>";
         echo "<td><div class='progressbar $progress_bar_class' style='width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
     } else {
-        // IE6 & 7 do not display the top and left borders of a cell if
-        // border-collapse=collapse and the border=1px. The following
-        // tweak is to ensure that if we show the filter that the filter
-        // cell has a border all the way around it.
-        if ($show_filtered_projects) {
-            echo "<td colspan='4' class='nocell' style='border-bottom: 1px solid black;'></td>";
-        } else {
-            echo "<td colspan='4' class='nocell'></td>";
-        }
+        echo "<td colspan='4' class='nocell'></td>";
     }
 
     echo "</tr>\n";
@@ -421,8 +413,14 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
         } else {
             $display_filter = sprintf(_('<a href="%1$s">Add filter</a>'), $filter_link);
         }
+        // specificity of inline style is needed to override default style to
+        // force the filter links to align to the left.
         echo "<tr>";
-        echo "<td colspan='7' style='text-align: left;'>";
+        if (is_a($stage, 'Round')) {
+            echo "<td colspan='7' style='text-align: left;'>";
+        } else {
+            echo "<td colspan='3' style='text-align: left;'>";
+        }
         echo "<small>$display_filter</small>";
         echo "</td>";
         echo "</tr>";
