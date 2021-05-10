@@ -60,7 +60,7 @@ echo "<tr>";
 echo "<th>" . _("Title") . "</th>";
 echo "<th>" . _("Author") . "</th>";
 echo "<th>" . _("Project Manager") . "</th>";
-echo "<th>" . _("State") . "</th>";
+echo "<th>" . pgettext("project state", "State") . "</th>";
 echo "<th>" . _("Clearance") . "</th>";
 echo "</tr>";
 
