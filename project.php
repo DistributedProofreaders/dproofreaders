@@ -1870,6 +1870,7 @@ function do_smooth_reading()
             echo "</li>\n";
 
             echo "<li>";
+            // TRANSLATORS: Should be translated as past tense.
             echo_uploaded_zips('_smooth_done_', _('Smooth Read'));
             echo "</li>";
             echo "</ul>";
