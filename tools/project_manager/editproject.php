@@ -344,7 +344,7 @@ class ProjectInfoHolder
             : $pri_language);
 
         $this->charsuites = [];
-        foreach (@$_POST['charsuites'] as $charsuite) {
+        foreach ($_POST['charsuites'] ?? [] as $charsuite) {
             array_push($this->charsuites, $charsuite);
         }
         if (sizeof($this->charsuites) == 0) {
