@@ -42,13 +42,13 @@ function stackedAreaChart(id, config) {
         .range([margin.left, width - margin.right]);
 
     const yAxis = g => g
-        .attr("transform", `translate(${width - margin.right},0)`)
-        .call(d3.axisRight(y))
+        .attr("transform", `translate(${config.axisLeft ? margin.left : width - margin.right},0)`)
+        .call(config.axisLeft ? d3.axisLeft(y) : d3.axisRight(y))
         .call(g => g.select(".domain").remove());
     const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).ticks(width / 80)
-            .tickFormat(d => `${d.getFullYear()}-${d.getMonth()} ${d.getDate()}`)
+        .call(d3.axisBottom(x).ticks(width / 100)
+            .tickFormat(d => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`)
             .tickSizeOuter(0));
 
     const color = d3.scaleOrdinal()
@@ -94,8 +94,8 @@ function stackedAreaChart(id, config) {
         .data(Object.keys(config.data))
         .enter()
         .append("circle")
-        .attr("cx", margin.left + 10)
-        .attr("cy", (d,i) => 40 + i * 25)
+        .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
+        .attr("cy", (d,i) => margin.left + 10 + i * 25)
         .attr("r", 7)
         .style("fill", d => color(d));
 
@@ -104,7 +104,7 @@ function stackedAreaChart(id, config) {
         .enter()
         .append("text")
         .attr("fill", "currentColor")
-        .attr("x", margin.left + 25)
+        .attr("x", margin.left + (config.axisLeft ? 55 : 25))
         .attr("y", (d,i) => 45 + i * 25)
         .text(d => d);
 }
