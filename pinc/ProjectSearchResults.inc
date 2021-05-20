@@ -315,23 +315,24 @@ class OptionsColumn extends Column
 {
     public function print_cell_data($project)
     {
-        global $pguser, $projects_url, $code_url;
+        global $pguser, $code_url;
         $projectid = $project->projectid;
-        $actions = '';
+        $actions = [];
 
         $topic_id = $project->topic_id;
         if (!empty($topic_id)) {
             $url = get_url_to_view_topic($topic_id) . "&amp;view=unread#unread";
-            $actions .= "<a href='$url' target='_blank'>" . _("View Forum") . "</a><br>\n";
+            $actions[] = "<a href='$url' target='_blank'>" . _("View Forum") . "</a>";
         }
         if ($project->user_can_do_quick_check()) {
-            $actions .= "<a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid' target='_blank'>"._("Project Quick Check")."</a><br>";
+            $actions[] = "<a href='$code_url/tools/project_manager/project_quick_check.php?projectid=$projectid' target='_blank'>" . _("Project Quick Check") . "</a>";
         }
         if ($project->can_be_managed_by_user($pguser)) {
-            $actions .= "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a><br>
-            <a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a><br>
-            <a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>"._("Email db-req")."</a><br>
-            <a href='$code_url/../noncvs/send_email.php?to=dp-format&amp;subject=$projectid' target='_blank'>"._("Email dp-format")."</a><br>\n";
+            $actions[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$projectid' target='_blank'>" . _("Edit Info") . "</a>";
+
+            if ($project->dir_exists) {
+                $actions[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a>";
+            }
 
             // Should we show an "attention" icon?
             // Currently, we only do this if suggestions have been added since
@@ -350,14 +351,15 @@ class OptionsColumn extends Column
             if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
                 $project->state == PROJ_POST_FIRST_AVAILABLE ||
                 $project->state == PROJ_POST_FIRST_CHECKED_OUT) {
-                $actions .= "<a href=\"$projects_url/$projectid/$projectid.zip\">" . _("Download") . "</a><br>\n";
+                $actions[] = "<a href=\"$project->url/$projectid.zip\">" . _("Download") . "</a>";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
                 $project->state == PROJ_POST_COMPLETE) {
-                $actions .= "<a href=\"$projects_url/$projectid/".$projectid."_second.zip\">" . _("Download") . "</a><br>\n";
+                $actions[] = "<a href=\"$project->url/${projectid}_second.zip\">" . _("Download") . "</a>";
             }
         }
-        if (!empty($actions)) {
+        if ($actions) {
+            $actions = join("<br>", $actions);
             // identify the buttons by projectid
             echo "<div class='dropdown'>
                 <button class='dropdown-button' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
