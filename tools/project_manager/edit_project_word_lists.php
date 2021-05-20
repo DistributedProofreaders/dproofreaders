@@ -9,24 +9,22 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc');  // attr_safe(), html_safe()
-include_once($relPath.'faq.inc');  // attr_safe()
+include_once($relPath.'faq.inc');
 
 require_login();
 
 $return = array_get($_REQUEST, "return", "$code_url/tools/project_manager/projectmgr.php");
+$projectid = get_projectID_param($_REQUEST, 'projectid');
 
-if (!user_is_PM()) {
-    die('permission denied');
-}
+$pwlh = new ProjectWordListHolder($projectid);
 
-$pwlh = new ProjectWordListHolder();
-
-$fatal_errors = $errors = [];
+$fatal_error = $pwlh->validate_project_and_access();
+$errors = [];
 $good_word_conflict = $bad_word_conflict = false;
 
 if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POST['save'])) {
-    $fatal_errors = $pwlh->set_from_post();
-    if (!$fatal_errors) {
+    if (!$fatal_error) {
+        $pwlh->set_from_post();
         [$good_word_conflict, $bad_word_conflict, $errors] = $pwlh->save_to_files();
         if (!$errors) {
             if (isset($_POST['saveAndProject'])) {
@@ -58,11 +56,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
     // fall through
 }
 
-if (!$fatal_errors) {
-    $fatal_errors = $pwlh->set_from_db();
-}
-
-if (!$fatal_errors) {
+if (!$fatal_error) {
     $errors = array_merge($errors, $pwlh->set_from_files(!$good_word_conflict, !$bad_word_conflict));
 }
 
@@ -71,15 +65,13 @@ $page_title = _("Edit project word lists");
 output_header($page_title, NO_STATSBAR);
 echo "<h1>$page_title</h1>\n";
 
-if ($fatal_errors) {
-    foreach ($fatal_errors as $error) {
-        echo "<p class='error'>$error</p>";
-    }
+if ($fatal_error) {
+    echo "<p class='error'>" . html_safe($fatal_error) . "</p>";
     exit();
 }
 
 foreach ($errors as $error) {
-    echo "<p class='error'>$error</p>";
+    echo "<p class='error'>" . html_safe($error) . "</p>";
 }
 
 $pwlh->show_form();
@@ -88,35 +80,30 @@ $pwlh->show_form();
 
 class ProjectWordListHolder
 {
-    // load data from database
-    public function set_from_db()
+    public function __construct($projectid)
     {
-        $projectid = get_projectID_param($_REQUEST, 'projectid');
+        $this->projectid = $projectid;
+        $this->project = new Project($projectid);
+    }
 
-        $ucep_result = user_can_edit_project($projectid);
+    public function validate_project_and_access()
+    {
+        if (!$this->project->dir_exists) {
+            return _("Project directory does not exist, unable to manage word lists.");
+        }
+
+        $ucep_result = user_can_edit_project($this->projectid);
         // we only let people clone projects that they can edit, so this
         // is valid whether they are cloning or editing
-        if ($ucep_result == PROJECT_DOES_NOT_EXIST) {
-            return [_("parameter 'projectid' is invalid: no such project").": '$projectid'"];
-        } elseif ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
-            return [_("You are not authorized to manage this project.").": '$projectid'"];
+        if ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
+            return _("You are not authorized to manage this project.");
         } elseif ($ucep_result == USER_CAN_EDIT_PROJECT) {
             // fine
         } else {
-            return [_("unexpected return value from user_can_edit_project") . ": '$ucep_result'"];
+            return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
         }
 
-        $project = new Project($projectid);
-        $this->projectid = $projectid;
-        // These fields are accessed via $this->$field in show_visible_controls()
-        $this->nameofwork = $project->nameofwork;
-        $this->projectmanager = $project->username;
-        $this->authorsname = $project->authorsname;
-        $this->language = $project->language;
-        $this->checkedoutby = $project->checkedoutby;
-        $this->state = $project->state;
-
-        return [];
+        return null;
     }
 
     public function set_from_files($load_good_words = true, $load_bad_words = true)
@@ -153,28 +140,10 @@ class ProjectWordListHolder
 
     public function set_from_post()
     {
-        if (isset($_POST['projectid'])) {
-            $this->projectid = get_projectID_param($_POST, 'projectid');
-
-            $ucep_result = user_can_edit_project($this->projectid);
-            if ($ucep_result == PROJECT_DOES_NOT_EXIST) {
-                return [_("parameter 'projectid' is invalid: no such project").": '$this->projectid'"];
-            } elseif ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
-                return [_("You are not authorized to manage this project.").": '$this->projectid'"];
-            } elseif ($ucep_result == USER_CAN_EDIT_PROJECT) {
-                // fine
-            } else {
-                return [_("unexpected return value from user_can_edit_project") . ": '$ucep_result'"];
-            }
-        }
-
-        $this->projectid = get_projectID_param($_POST, 'projectid');
         $this->good_words = @$_POST['good_words'];
         $this->bad_words = @$_POST['bad_words'];
         $this->gwl_timestamp = get_integer_param($_POST, 'gwl_timestamp', null, null, null);
         $this->bwl_timestamp = get_integer_param($_POST, 'bwl_timestamp', null, null, null);
-
-        return [];
     }
 
 
@@ -277,7 +246,7 @@ class ProjectWordListHolder
             "projectid" => _("Project ID"),
             "nameofwork" => _("Name of Work"),
             "authorsname" => _("Author's Name"),
-            "projectmanager" => _("Project Manager"),
+            "username" => _("Project Manager"),
             "checkedoutby" => _("Post-Processor"),
             "language" => _("Language"),
         ];
@@ -285,7 +254,7 @@ class ProjectWordListHolder
         foreach ($fields as $field => $label) {
             echo "<tr>";
             echo "<th class='label'>$label</th>";
-            echo "<td>" . html_safe($this->$field) . "</td>";
+            echo "<td>" . html_safe($this->project->$field) . "</td>";
             echo "</tr>";
         }
 
@@ -296,7 +265,7 @@ class ProjectWordListHolder
         // so we'll check to see if the project is in a state after P1 and count
         // that as just as good
         if (!$exist_pages_in_P1_or_later) {
-            $current_project_round = get_Round_for_project_state($this->state);
+            $current_project_round = get_Round_for_project_state($this->project->state);
             if ($current_project_round && $current_project_round->round_number > 1) {
                 $exist_pages_in_P1_or_later = true;
             }
@@ -462,6 +431,10 @@ class ProjectWordListHolder
 
     public function number_of_pages_in_round($round)
     {
+        if (!$this->project->pages_table_exists) {
+            return 0;
+        }
+
         if ($round !== null) {
             $round_column = $round->text_column_name;
         } else {
@@ -471,10 +444,6 @@ class ProjectWordListHolder
         $sql = "select count(*) from $this->projectid where $round_column <> ''";
 
         $res = DPDatabase::query($sql);
-        if ($res === false) {
-            return 0;
-        }
-
         $count = mysqli_fetch_row($res);
 
         mysqli_free_result($res);

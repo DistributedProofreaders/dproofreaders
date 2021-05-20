@@ -838,9 +838,11 @@ function do_edit_above()
         $links[] = "<a href='$code_url/tools/project_manager/editproject.php?action=edit&amp;project=$project->projectid&amp;return=" .
             // TRANSLATORS: "Edit" as in modify as opposed to correct
             urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit the above information") . "</a>";
-        $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
-            // TRANSLATORS: "Edit" as in modify as opposed to correct
-            urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
+        if ($project->dir_exists) {
+            $links[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" .
+                // TRANSLATORS: "Edit" as in modify as opposed to correct
+                urlencode($_SERVER["REQUEST_URI"]) . "'>" . _("Edit project word lists") ."</a>";
+        }
     }
 
     if ($project->user_can_do_quick_check()) {
