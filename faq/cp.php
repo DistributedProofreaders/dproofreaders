@@ -2,7 +2,6 @@
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
-include_once($relPath.'pg.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'theme.inc');
 
@@ -11,7 +10,6 @@ maybe_redirect_to_external_faq();
 output_header("Content Provider's FAQ", NO_STATSBAR);
 
 $content_providing_forum_url = get_url_to_view_forum($content_providing_forum_idx);
-
 ?>
   <meta name="Author" content="Stephen Schulze">
   <meta name="author" content="thundergnat">
@@ -19,6 +17,8 @@ $content_providing_forum_url = get_url_to_view_forum($content_providing_forum_id
 <h1>Content Provider's FAQ</h1>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanning.php">Scanning
 FAQ</a></p>
+<hr size="3" width="100%" align="left">
+<p class='warning'>The content for this FAQ document has been moved into the wiki and is no longer maintained in the code.</p>
 <hr size="3" width="100%" align="left">
 <p>So you've reached the rank of "Proofreader Extraordinaire" and figured
 that you would branch out into different arenas.<br>
@@ -70,7 +70,7 @@ expired). In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
 it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
-on <a href="<?php echo $PG_copyright_howto_url; ?>">this</a> page.&nbsp;
+on <a href="https://www.gutenberg.org/help/copyright.html">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
  href="http://digital.library.upenn.edu/books/okbooks.html">this</a>
 page.<br>
@@ -83,10 +83,10 @@ site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
 A different <span class="italic">version</span> of an
 existing book is OK though. You can check the <a
- href="<?php echo $PG_catalog_url; ?>">Project Gutenberg online catalog</a> to
+ href="https://www.gutenberg.org/ebooks/">Project Gutenberg online catalog</a> to
 see if a book is already on there.</p>
 <p>There is also a site called <a
- href="<?php echo $PG_in_progress_url; ?>">David's
+ href="https://pglaf.org/~ccx074/gutip.html">David's
 In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
 If you find your book listed but the clearance date is over a few years old

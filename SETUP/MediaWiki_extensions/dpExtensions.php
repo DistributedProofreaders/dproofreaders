@@ -77,7 +77,7 @@ function getPgFormats($input, $argv)
         return sprintf($err, "No comma in input text. Use short tag instead.");
     }
 
-    return "<a href='http://www.gutenberg.org/ebooks/$etext' class='extiw'>" .
+    return "<a href='https://www.gutenberg.org/ebooks/$etext' class='extiw'>" .
         "$matches[1]</a>, $matches[2] -- $formats";
 }
 

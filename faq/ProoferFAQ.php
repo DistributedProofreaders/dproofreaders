@@ -2,7 +2,6 @@
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
-include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
 maybe_redirect_to_external_faq();
@@ -12,6 +11,10 @@ output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 
 <h1>Beginning Proofreaders' <br> Frequently Asked Questions (FAQ)</h1>
 <h3 align="right">Version 1.7, released May 27, 2004 </h3>
+
+<hr>
+<p class='warning'>The content for this FAQ document has been moved into the wiki and is no longer maintained in the code.</p>
+<hr>
 
 <p> The purpose of this FAQ is to provide answers to common questions that new people
     joining us at the Distributed Proofreaders web site have asked.
@@ -54,8 +57,7 @@ output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 </table>
 
 <h3><a name="1">1. What is Distributed Proofreaders? </a></h3>
-Distributed Proofreaders is an effort to support <a href="
-<?php echo $PG_home_url; ?>">Project Gutenberg</a>, and a recognized affiliated site of
+Distributed Proofreaders is an effort to support <a href="https://www.gutenberg.org/">Project Gutenberg</a>, and a recognized affiliated site of
 Project Gutenberg.  The basic concept is that our website software allows several
 proofreaders to be working on the same book at the same time, each proofreading on
 different pages.  This will significantly speed up the proofreading process.
@@ -102,7 +104,7 @@ different pages.  This will significantly speed up the proofreading process.
     only legal to do this with older books (in general, copyrighted before 1923). As a
     result, Project Gutenberg is mostly comprised of the "Classics." </p>
 <p> You can read more about the history of Project Gutenberg <a
-    href="<?php echo $PG_history_url; ?>">here</a></p>
+    href="https://www.gutenberg.org/about/">here</a></p>
 
 <h3><a name="3">3. Why do we pick the books that we do? </a></h3>
 <p> The Project Managers pick whatever books we can find. Due to US
@@ -113,9 +115,9 @@ different pages.  This will significantly speed up the proofreading process.
     price.  </p>
 
 <p> Before selecting a book to convert to an etext, we check
-    <a href="<?php echo $PG_gutindex_url; ?>">Project Gutenberg's list</a>
+    <a href="https://www.gutenberg.org/dirs/GUTINDEX.ALL">Project Gutenberg's list</a>
     (to make certain that it hasn't already been done) and we check
-    <a href="<?php echo $PG_in_progress_url; ?>">David's In-Progress List</a>
+    <a href="https://pglaf.org/~ccx074/gutip.html">David's In-Progress List</a>
     (to make certain that it isn't being done by someone else). </p>
 
 <p> In summary, <i>we do whatever books people provide to us (that we legally can).</i>
@@ -146,19 +148,13 @@ different pages.  This will significantly speed up the proofreading process.
     have experienced Project Managers who will mentor you in this process.) When you
     feel ready, contact us at <a href="mailto:<?php echo $general_help_email_addr; ?>">DP Help</a>. </p>
 
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-      <input type="hidden" name="cmd" value="_xclick">
-      <input type="hidden" name="business" value="<?php echo $PG_paypal_business_id; ?>">
-      <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif"
-      align="right" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
-    </form>
 <p> If you want to do more for the site, but don't have the time, or inclination, to
     become a Project Manager, you might consider <b>making a donation</b>. Funding for
     the site comes entirely from <?php echo $site_funder; ?> and the Project Managers, and voluntary
     donations.
     See the "donate" button on our
     <a href="..">main page</a> if you wish to make a
-    tax-deductable donation. Or here! </p>
+    tax-deductable donation.</p>
 
 <p> You can also <b>donate books</b> (Public Domain) by shipping them to us for scanning
     (better if they do not need to be returned). You can also scan the books and send us
@@ -255,7 +251,7 @@ different pages.  This will significantly speed up the proofreading process.
 
 <h3><a name="9">9. How can I get copies of other Gutenberg etexts? </a></h3>
 <p> You can go to Project Gutenberg's <a
-    href="<?php echo $PG_catalog_url; ?>">online catalog</a> and get copies of any etext in
+    href="https://www.gutenberg.org/ebooks/">online catalog</a> and get copies of any etext in
     the library, including the ones done through Distributed Proofreaders. </p>
 
 <h3><a name="10">10. I think I messed something up (did something wrong), how can I fix it? </a></h3>
@@ -342,7 +338,7 @@ different pages.  This will significantly speed up the proofreading process.
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+        <a href="https://www.gutenberg.org/">Project Gutenberg home page</a>.
         </font>
     </td>
 </tr>

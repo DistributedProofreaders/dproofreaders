@@ -71,8 +71,8 @@ $external_faq_overrides = [
     "request-support" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Main/Request_Support",
     ],
-    "transliterating-greek" => [
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Transliterating_Greek",
+    "greek" => [
+        "en" => "https://www.pgdp.net/wiki/Greek",
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/French/Translitt%C3%A9ration_du_grec",
     ],
 ];

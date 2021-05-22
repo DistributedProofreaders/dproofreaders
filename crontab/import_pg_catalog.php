@@ -3,6 +3,7 @@ $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'Stopwatch.inc');
+include_once($relPath.'pg.inc');
 
 require_localhost_request(true /* deny_cli */);
 
@@ -59,7 +60,7 @@ $display_mapping = [
 
 $start_from_scratch = true;
 
-$remote_catalog_url = "http://www.gutenberg.org/cache/epub/feeds/rdf-files.tar.bz2";
+$remote_catalog_url = "$PG_home_url/cache/epub/feeds/rdf-files.tar.bz2";
 $local_compressed_file = "/tmp/rdf-files.tar.bz2";
 $local_catalog_dir = "$dyn_dir/pg/catalog";
 
