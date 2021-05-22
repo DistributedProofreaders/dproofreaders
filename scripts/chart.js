@@ -8,7 +8,7 @@ function stackedAreaChart(id, config) {
         bottom: 30,
         left: 30
     });
-    const height = 500;
+    const height = 400;
     const width = 640;
 
     const length = Object.entries(config.data)[0][1].x.length;
@@ -48,7 +48,7 @@ function stackedAreaChart(id, config) {
     const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x).ticks(width / 100)
-            .tickFormat(d => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`)
+            .tickFormat(d => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`)
             .tickSizeOuter(0));
 
     const color = d3.scaleOrdinal()
