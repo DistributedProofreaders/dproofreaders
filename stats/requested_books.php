@@ -2,6 +2,7 @@
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
+include_once($relPath.'pg.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
@@ -72,10 +73,10 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2>\n";
 
-$pg_url1 = DPDatabase::escape("<a href='http://www.gutenberg.org/ebooks/");
+$pg_url1 = DPDatabase::escape(sprintf("<a href='%s", get_pg_catalog_url_for_etext('')));
 dpsql_dump_themed_query("
     SELECT
-        CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
+        CONCAT('$pg_url1', postednum, '$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
         authorsname AS '" . DPDatabase::escape(_("Author")) . "',
         genre AS '" . DPDatabase::escape(_("Genre")) . "',
         language AS '" . DPDatabase::escape(_("Language")) . "',

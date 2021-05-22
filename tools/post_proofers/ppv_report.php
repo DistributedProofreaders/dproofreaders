@@ -9,6 +9,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
 include_once($relPath.'misc.inc');  // array_get() startswith() attr_safe()
 include_once($relPath.'faq.inc');
+include_once($relPath.'pg.inc');
 
 header_remove("Expires");
 header_remove("Cache-Control");
@@ -464,7 +465,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e1_pre_num', _("Use of &lt;pre&gt; tags instead of their CSS equivalents"))
                 . number_box('e1_body_num', _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them"))
                 . number_box('e1_tabl_num', _("Use of tables for things that are not tables"))
-                . number_box('e1_css_num', sprintf(_("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a>)"), 'http://upload.pglaf.org/'))
+                . number_box('e1_css_num', sprintf(_("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a>)"), $PGLAF_upload_url))
                 . number_box('e1_xhtml_num', _("Used HTML version other than XHTML 1.0 Strict or 1.1"))
                 . number_box('e1_chapter_num', _("Failure to add &lt;div class=\"chapter\"&gt; or &lt;div class=\"section\"&gt; at chapter breaks to enable proper page breaks for e-readers"))
                 . number_box('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field below)"))
@@ -492,7 +493,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e2_tidy_num', _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)"))
-                . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), 'http://upload.pglaf.org/'))
+                . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), $PGLAF_upload_url))
                 . number_box('e2_links_num', _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num', _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
                 . number_box('e2_cover_num', sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet <a href='%s'>current DP guidelines</a>.)"), "$pp_faq_url#covers"))

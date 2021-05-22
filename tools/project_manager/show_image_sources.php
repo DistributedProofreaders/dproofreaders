@@ -356,8 +356,7 @@ if (!isset($_GET['name'])) {
             if ($which != "INPROG") {
                 echo "<td class='center-align'>";
                 if (!is_null($row['postednum'])) {
-                    echo "<a href='{$PG_home_url}ebooks/"
-                    . $row['postednum'] . "'>" . $row['postednum'] . "</a>";
+                    echo get_pg_catalog_link_for_etext($row['postednum'], $row['postednum']);
                 } else {
                     echo _("In Progress");
                 }

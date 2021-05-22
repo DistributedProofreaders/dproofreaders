@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
@@ -81,11 +80,10 @@ echo attr_safe(_("Italic"))?>" title="<?php echo attr_safe(_("Italic Glyphs"))?>
 <tr>
 <td colspan="3">
 <?php
-echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
+echo "<p>" . _("The Greek glyphs above are <b>clickable</b>.") . "</p>";
 // TRANSLATORS: %s is an image of a rough-breathing mark.
-echo sprintf(_("Diacritical marks may be ignored except for the rough-breathing mark, (%s) above the letter."),
-    "<img src='gfx/greekrough.png' height='12' width='10'>") . "<br>";
-echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the word begins with '<code>r</code>'. For those, put '<code>h</code>' <em>after</em> the '<code>r</code>'.");
+echo sprintf("<p>" . _("Diacritical marks may be ignored except for the rough-breathing mark, (%s) above the letter. For these, put '<code>h</code>' before the letter <em>unless</em> the word begins with '<code>r</code>'. For those, put '<code>h</code>' <em>after</em> the '<code>r</code>'."),
+    "<img src='gfx/greekrough.png' height='12' width='10'>") . "</p>";
 ?>
 </td>
 </tr>
@@ -93,13 +91,13 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 <tr>
 <td colspan="3">
 <?php
-$url = get_faq_url('transliterating-greek');
+$url = get_faq_url('greek');
 
-// In case get_faq_url fails to find the url, default to the Gutenberg page
+// In case get_faq_url fails to find the url, suggest searching the dpwiki
 if (!$url) {
-    echo sprintf(_("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url);
+    echo _("For more information, please search the wiki for articles concerning Greek transliteration.");
 } else {
-    echo sprintf(_("Please read the <a href='%s' target='_new'>Transliterating Greek</a> documentation for more information."), $url);
+    echo sprintf(_("Please read the <a href='%s' target='_new'>Greek</a> documentation for more information."), $url);
 }
 ?>
 <br>
