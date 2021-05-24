@@ -19,9 +19,9 @@ output_header($title, SHOW_STATSBAR, [
 echo "<h1>$title</h1>";
 
 echo "<div style='max-width: 640px'>";
-// echo "<div id='past_day_preceding_hour'></div><hr>";
-echo "<div id='past_year_preceding_hour'></div><hr>";
-echo "<div id='past_year_preceding_day'></div><hr>";
-echo "<div id='past_year_preceding_week'></div><hr>";
-echo "<div id='past_year_preceding_fourweek'></div>";
+// echo "<div id='past_day_preceding_hour' style='max-height: 400px'></div><hr>";
+echo "<div id='past_year_preceding_hour' style='max-height: 400px'></div><hr>";
+echo "<div id='past_year_preceding_day' style='max-height: 400px'></div><hr>";
+echo "<div id='past_year_preceding_week' style='max-height: 400px'></div><hr>";
+echo "<div id='past_year_preceding_fourweek' style='max-height: 400px'></div>";
 echo "</div>";
