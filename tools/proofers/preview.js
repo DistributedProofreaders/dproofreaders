@@ -107,6 +107,36 @@ $(function () {
             }
         }
 
+        function checkProoferNotes() {
+            // look for [** then look for ] (good) or [** (bad)
+            let reNote = /(\[\*\*)|(\])/g;
+            let result, closeResult;
+            while(null !== (result = reNote.exec(txt))) {
+                if(result[2]) {
+                    // found ], could be legit.
+                    continue;
+                }
+                // found [**
+                closeResult = reNote.exec(txt);
+                if((null === closeResult) || closeResult[1]) {
+                    // no closing ] or another [**
+                    reportIssue(result.index, 3, "noCloseBrack", 1);
+                    badParse();
+                    break;
+                }
+            }
+        }
+
+        function removeAllNotes() {
+            // if comment starts at beginning of a line and ends at the end of a line
+            // remove any following nl character also so doesn't count as blank line
+            // $1 will be \n or empty string if at start
+            txt = txt.replace(/(^|\n)\[\*\*[^\]]*\](?:$|\n)/g, '$1');
+
+            // remove other comments, possibly containing newlines
+            txt = txt.replace(/\[\*\*[^\]]*\]/g, '');
+        }
+
         // find end of line (or eot) following ix
         function findEnd(ix) {
             var re = /\n|$/g;
@@ -244,7 +274,6 @@ $(function () {
             var start = 0;
             var tagStack = [];
             var result;
-            var res1;
             var stackTop;
             var preChar;
             var postChar;
@@ -254,24 +283,10 @@ $(function () {
                 return tagData.tag === tagString;
             }
 
-            // regex to match valid inline tags or a blank line or [**
-            var re = new RegExp("\\[\\*\\*|<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
-            var reCloseBrack = /\]|$/gm;  // ] or eol or eot
+            // regex to match valid inline tags or a blank line
+            var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
 
             while ((result = re.exec(txt)) !== null) {
-                if (result[0] === "[**") { // advance to end of comment or eol
-                    reCloseBrack.lastIndex = re.lastIndex;
-                    res1 = reCloseBrack.exec(txt);  // can't be null if has $
-                    if (res1[0] !== "]") {
-                    // user note missing ], make an issue to avoid parsing probs
-                    // if there are tags in the note
-                        reportIssue(result.index, 3, "noCloseBrack", 1);
-                        badParse();
-                    }
-                    re.lastIndex = reCloseBrack.lastIndex;
-                    continue;
-                }
-
                 if (result[0] === "\n\n") {
                     while (tagStack.length !== 0) {
                         stackTop = tagStack.pop();
@@ -699,24 +714,27 @@ $(function () {
             }
         }
 
-        parseInLine();
-        // if inline parse fails then checkSC might not work
-        if (parseOK) {
-            checkSC();
+        checkProoferNotes();
+        if(parseOK) {
+            removeAllNotes();
+            parseInLine();
+            // if inline parse fails then checkSC might not work
+            if (parseOK) {
+                checkSC();
+            }
+            checkBlankNumber();
+            if (parseOK) {
+            // only do this is inline parse succeeded and blank lines ok
+                boldHeading();
+            }
+            parseOol();
+            checkFootnotes();
+            unRecog();
+            checkBlankLines();
+            if(config.allowMathPreview) {
+                checkMath();
+            }
         }
-        checkBlankNumber();
-        if (parseOK) {
-        // only do this is inline parse succeeded and blank lines ok
-            boldHeading();
-        }
-        parseOol();
-        checkFootnotes();
-        unRecog();
-        checkBlankLines();
-        if(config.allowMathPreview) {
-            checkMath();
-        }
-
         // we must avoid two issues giving overlapping markup
         // sort them first and mark from end towards beginning
         // sort them so that if two start in same place, then the more serious is
@@ -730,8 +748,11 @@ $(function () {
             }
         });
 
-        return issArray;
-    };
+        return {
+            issArray: issArray,
+            text: txt,
+        };
+    }; // end of analyse
 
     getILTags = function(configuration) {
         let ILTags = "[ibfg]|sc";
@@ -1109,7 +1130,9 @@ $(function () {
         // but then problems e.g. marking the character after 3 blank lines if
         // encoded <  as &lt, so treat these lines separately.
         removeCommentLines();
-        let issArray = analyse(txt, styler);
+        let analysis = analyse(txt, styler);
+        let issArray = analysis.issArray;
+        txt = analysis.text;
         addMarkUp(issArray);
         restoreCommentLines();
 
