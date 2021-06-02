@@ -38,6 +38,7 @@ function echo_manager_links()
         }
         echo "<li><a href='$code_url/tools/project_manager/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
         echo "<li><a href='$code_url/tools/project_manager/clearance_check.php'>"._("Clearance Check")."</a></li>\n";
+        echo "<li><a href='$code_url/tools/charsuites.php'>"._("Character Suites")."</a></li>\n";
         // SITE-SPECIFIC
         echo "<li>"._("Email").": ";
         echo "<a href='$code_url/../noncvs/send_email.php?to=db-req'>db-req</a> | ";
