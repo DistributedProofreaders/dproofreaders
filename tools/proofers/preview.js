@@ -27,15 +27,6 @@ function processExMath(text, textFunction, allowMath) {
 }
 
 $(function () {
-    function removeComments(textLine) {
-        return textLine.replace(/\[\*\*[^\]]*\]/g, '');
-    }
-
-    // true if txtLine contains anything except only comments or spaces
-    function nonComment(textLine) {
-        return (/\S/.test(removeComments(textLine)));
-    }
-
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
@@ -128,13 +119,17 @@ $(function () {
         }
 
         function removeAllNotes() {
-            // if comment starts at beginning of a line and ends at the end of a line
+            // if note starts at beginning of a line and ends at the end of a line
             // remove any following nl character also so doesn't count as blank line
             // $1 will be \n or empty string if at start
             txt = txt.replace(/(^|\n)\[\*\*[^\]]*\](?:$|\n)/g, '$1');
 
-            // remove other comments, possibly containing newlines
+            // remove other notes, possibly containing newlines
             txt = txt.replace(/\[\*\*[^\]]*\]/g, '');
+
+            // remove trailing whitespace on each line and trailing blank lines
+            txt = txt.replace(/ *$/mg, "");
+            txt = txt.replace(/\s*$/, "");
         }
 
         // find end of line (or eot) following ix
@@ -180,7 +175,7 @@ $(function () {
             // check that no other characters are on the same line
             function chkAlone(start, len, str1) {
                 var ix = start + len;
-                if (nonComment(txt.slice(ix, findEnd(ix)))) {
+                if (ix != findEnd(ix)) {
                     reportIssue(start, len, "charAfter", 1, str1);
                     return;
                 }
@@ -195,11 +190,11 @@ $(function () {
 
                 chkAlone(start, 2, tagString);
                 // for an opening tag check previous line is blank
-                // or an opening block quote tag possibly with a comment
+                // or an opening block quote tag
                 // allow also an opening no-wrap to avoid giving a misleading message
                 // that it is "normal text". The error will be caught elsewhere.
                 if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
-                    prevLin = removeComments(findPrevLine(start));
+                    prevLin = findPrevLine(start);
                     if (!(("/#" === prevLin) || ("/*" === prevLin))) {
                         reportIssue(start, 2, "OolPrev");
                     }
@@ -384,29 +379,22 @@ $(function () {
             }
         }
 
-        // check for no upper case between small caps tags, ignore inside note
+        // check for no upper case between small caps tags
         function checkSC() {
-            var reCloseBrack = /\]/g;
             var result;
-            var re = /\[\*\*|<sc>([^]*?)<\/sc>/g; // [** or <sc> text
+            var re = /<sc>([^]*?)<\/sc>/g; // <sc> text
             var res1;
             while ((result = re.exec(txt)) !== null) {
-                if (result[0] === "[**") {
-                // advance to end of comment, caught no ] earlier
-                    reCloseBrack.lastIndex = re.lastIndex;
-                    reCloseBrack.exec(txt);
-                    re.lastIndex = reCloseBrack.lastIndex;
-                    continue;
-                }
                 res1 = result[1];
-                if (res1 === res1.toLowerCase() && res1.charAt(0) !== "*") { // no upper case found - definite
-                    reportIssue(result.index, 4, "scNoCap", 1);
-                    continue;
-                }
-                res1 = removeComments(res1);
-                if (res1 === res1.toLowerCase()) { // either a lowercase fragment, or upper case was in a note - poss
-                // mark only a text char incase no tags shown
-                    reportIssue(result.index + 4, 1, "scNoCap", 0);
+                if (res1 === res1.toLowerCase()) {
+                    if(res1.charAt(0) !== "*") {
+                        // definite issue
+                        reportIssue(result.index, 4, "scNoCap", 1);
+                    } else {
+                        // a lower case fragment, mark first character
+                        // incase no tags shown
+                        reportIssue(result.index + 4, 1, "scNoCap", 0);
+                    }
                 }
             }
         }
@@ -591,7 +579,7 @@ $(function () {
                 }
             }
 
-            // check no non-comment chars follow on same line and next line is blank
+            // check no chars follow on same line and next line is blank
             function chkAfter(start, len, str1, type, checkBlank) {
                 // true if find */ or \n or eot
                 function endNWorBlank(pc) {
@@ -603,7 +591,7 @@ $(function () {
 
                 var ix = start + len;
                 var end = findEnd(ix);
-                if (nonComment(txt.slice(ix, end))) {
+                if (ix != end) {
                     reportIssue(start, len, "charAfter", type, str1);
                     return;
                 }
@@ -852,19 +840,15 @@ $(function () {
         function showStyle() {
             var sc1 = "&lt;sc&gt;";
             var sc2 = "&lt;/sc&gt;";
-            var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
-            // a user note or string of small capitals
-            var smallCapRegex = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
-            var noNote;
+            // a string of small capitals
+            var smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
+            var scString;
 
             function transformSC(match, p1) { // if all upper case transform to lower
-                if (!p1) { // must be user note
-                    return match;
-                }
-                noNote = removeComments(p1);
+                scString = p1;
                 // remove tags so that all uppercase string is correctly identified
-                noNote = noNote.replace(/&lt;\/?.&gt;/g, '');
-                if (noNote === noNote.toUpperCase()) { // found no lower-case
+                scString = scString.replace(/&lt;\/?.&gt;/g, '');
+                if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
                     return match;
@@ -882,9 +866,6 @@ $(function () {
                     "u": "%"
                 };
 
-                if (!p2) { // must be user note
-                    return match;
-                }
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
@@ -915,8 +896,8 @@ $(function () {
             if (viewMode !== "flat") {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
-            // find user note or inline tag
-            var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+            // find inline tag
+            var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
@@ -951,7 +932,7 @@ $(function () {
         }
 
         // attempt to make an approximate representation of formatted text
-        // remove comments, use numbers of blank lines to mark headings and
+        // use numbers of blank lines to mark headings and
         // sub-headings, re-wrap except for no-wrap markup
         function reWrap() {
             var blankLines = 0; // counts the number of blank lines which we have passed
@@ -970,7 +951,7 @@ $(function () {
 
             function processLine() {
                 var textLine = txtLines[index];
-                // trailing space will have been removed earlier by removeCommentLines()
+                // trailing space will have been removed earlier
                 if (textLine === "") {
                     newPage = false;
                     if (inNoWrap) {
@@ -983,11 +964,6 @@ $(function () {
                     }
                     blankLines += 1;
                     return;
-                }
-                // remove embedded comments
-                textLine = removeComments(textLine);
-                if (textLine === "") {
-                    return; // whole line is comment, do nothing
                 }
 
                 if (textLine === "&lt;tb&gt;") {    // thought break
@@ -1070,71 +1046,10 @@ $(function () {
             }
         }
 
-        // these store the removed comment lines for later re-insertion
-        var comLine = [];
-        var comIndex = [];
-
-        function removeCommentLines() {
-            function htmlEncodeString(s) {
-                return s.replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-            }
-
-            var txtLines = [];
-            var index;  // counts lines
-            var tempLine;
-
-            // split the text into an array of lines
-            txtLines = txt.split('\n');
-            index = txtLines.length - 1;
-            // splice changes txtLines so start from end and work backwards
-            while (index >= 0) {
-            // remove trailing space
-                tempLine = txtLines[index].replace(/\s+$/, "");
-                txtLines[index] = tempLine;
-                // ignore lines which are entirely comment and space
-                if ("" !== tempLine) {
-                    if (!nonComment(tempLine)) {
-                        txtLines.splice(index, 1);
-                        comLine.push(htmlEncodeString(tempLine));
-                        comIndex.push(index);
-                    }
-                }
-                index -= 1;
-            }
-            txt = txtLines.join("\n");
-        }
-
-        function restoreCommentLines() {
-            var txtLines = [];
-            // split the text into an array of lines
-            txtLines = txt.split('\n');
-            var ix = comIndex.length - 1;
-            // insert first comment line, which is store last in comLine, first
-            // then subsequent lines in txtLines will be shifted up so that lines
-            // from comLines will be inserted in the right place
-            while (ix >= 0) {
-                txtLines.splice(comIndex[ix], 0, comLine[ix]);
-                ix -= 1;
-            }
-            txt = txtLines.join("\n");
-        }
-
-        // remove trailing whitespace
-        txt = txt.replace(/\s+$/, "");
-
-        // remove lines which are entirely comments to simplify checking
-        // where there should be blank lines
-        // we need to encode html in these lines. Could encode everything at start
-        // but then problems e.g. marking the character after 3 blank lines if
-        // encoded <  as &lt, so treat these lines separately.
-        removeCommentLines();
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
         txt = analysis.text;
         addMarkUp(issArray);
-        restoreCommentLines();
 
         let issues = 0;
         let possIss = 0;
