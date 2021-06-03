@@ -749,7 +749,7 @@ $(function () {
         });
 
         return {
-            issArray: issArray,
+            issues: issArray,
             text: txt,
         };
     }; // end of analyse
@@ -1131,7 +1131,7 @@ $(function () {
         // encoded <  as &lt, so treat these lines separately.
         removeCommentLines();
         let analysis = analyse(txt, styler);
-        let issArray = analysis.issArray;
+        let issArray = analysis.issues;
         txt = analysis.text;
         addMarkUp(issArray);
         restoreCommentLines();
