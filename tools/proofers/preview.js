@@ -702,6 +702,9 @@ $(function () {
             }
         }
 
+        // the formatting rules are applied as if proofers' notes were
+        // invisible so remove them first. But if they are malformed mark the
+        // problem and do nothing else.
         checkProoferNotes();
         if(parseOK) {
             removeAllNotes();
@@ -712,7 +715,7 @@ $(function () {
             }
             checkBlankNumber();
             if (parseOK) {
-            // only do this is inline parse succeeded and blank lines ok
+            // only do this if inline parse succeeded and blank lines ok
                 boldHeading();
             }
             parseOol();
