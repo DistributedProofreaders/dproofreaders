@@ -311,6 +311,12 @@ QUnit.module("Format preview test", function() {
         noIssueTest(assert);
     });
 
+    QUnit.test("multi-line user note", function (assert) {
+        text = "[** abcd\nefgh]";
+        issArray = analyse(text, configuration).issues;
+        noIssueTest(assert);
+    });
+
     QUnit.test("user note missing ]", function (assert) {
         text = "[** abc";
         issArray = analyse(text, configuration).issues;
@@ -318,7 +324,7 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("nested user note", function (assert) {
-        text = "[** abc \n[** ABC]]";
+        text = "[** abc [** ABC]]";
         issArray = analyse(text, configuration).issues;
         issueTest(assert, 0, 0, 3, "noCloseBrack", 1);
     });
