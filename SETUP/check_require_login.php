@@ -83,7 +83,6 @@ $ok_files = [
     "stats/jpgraph_files/round_backlog_days.php",
     "stats/jpgraph_files/round_backlog.php",
     "stats/jpgraph_files/cumulative_total_proj_graph.php",
-    "stats/jpgraph_files/users_logging_on.php",
     "stats/jpgraph_files/users_by_language.php",
     "stats/jpgraph_files/total_proj_graph.php",
     "stats/jpgraph_files/average_hour_users_logging_on.php",
