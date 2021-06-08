@@ -5,6 +5,11 @@ _Preserving history, one page at a time._
 This repository contains the code that powers https://www.pgdp.net and other
 sister DP sites world-wide.
 
+**This branch should not be merged into master.**
+
+This branch is for pgdp.net-specific production hacks and should not be merged
+into master.
+
 ## About
 
 Distributed Proofreaders is a web application (written in PHP and backed by a
