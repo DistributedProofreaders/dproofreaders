@@ -329,23 +329,28 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
 
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
-    // when roundSelector is built do callback
     // the roundSelector retains its selected item so we do not have to
-    function getRoundSelector(callback) {
-        if(roundSelector) {
-            callback();
-        } else {
-            roundSelector = document.createElement("select");
-            $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
-                .done(function(rounds) {
-                    rounds.forEach(function(round) {
-                        let selected = (currentRound === round);
-                        roundSelector.add(new Option(round, round, selected, selected));
+    function getRoundSelector() {
+        const gotRoundSelector = new Promise(function(resolve, reject) {
+            if(roundSelector) {
+                resolve();
+            } else {
+                roundSelector = document.createElement("select");
+                $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
+                    .done(function(rounds) {
+                        rounds.forEach(function(round) {
+                            let selected = (currentRound === round);
+                            roundSelector.add(new Option(round, round, selected, selected));
+                        });
+                        resolve();
+                    })
+                    .fail(function(jqxhr) {
+                        showError(jqxhr);
+                        reject();
                     });
-                    callback();
-                })
-                .fail(showError);
-        }
+            }
+        });
+        return gotRoundSelector;
     }
 
     function displayPages(pages) {
@@ -407,37 +412,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 // remove any old controls from fixHead
                 $(".control", fixHead).detach();
 
-                function showTextModes() {
-                    let roundControls = getRoundControls();
-                    $(roundSelector).change(showImageText);
-                    let textDiv = $("<div>");
-                    switch(displayMode) {
-                    case "text":
-                        textWidget = makeTextWidget(textDiv);
-                        textWidget.setup(storageKey);
-                        fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
-                        stretchDiv.append(textDiv);
-                        break;
-                    case "imageText": {
-                        let imageDiv = $("<div>");
-                        imageWidget = makeImageWidget(imageDiv);
-                        stretchDiv.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        if(mentorMode) {
-                            // make a text widget with splitter
-                            textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
-                        } else {
-                            textWidget = makeTextWidget(textDiv);
-                        }
-                        theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
-                        theSplitter.fireSetSplitDir();
-                        fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
-                        break;
-                    }
-                    }
-                    showImageText();
-                }
-
                 if(displayMode === "image") {
                     if(simpleHeader) {
                         fixHead.append(pageControls);
@@ -453,9 +427,37 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 } else {
                     // in case initial round_id was invalid, get round from
                     // round selector, but wait until it is drawn
-                    getRoundSelector(showTextModes);
+                    getRoundSelector().then(function showTextModes() {
+                        let roundControls = getRoundControls();
+                        $(roundSelector).change(showImageText);
+                        let textDiv = $("<div>");
+                        switch(displayMode) {
+                        case "text":
+                            textWidget = makeTextWidget(textDiv);
+                            textWidget.setup(storageKey);
+                            fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
+                            stretchDiv.append(textDiv);
+                            break;
+                        case "imageText": {
+                            let imageDiv = $("<div>");
+                            imageWidget = makeImageWidget(imageDiv);
+                            stretchDiv.append(imageDiv, textDiv);
+                            let theSplitter = viewSplitter(stretchDiv, storageKey);
+                            if(mentorMode) {
+                                // make a text widget with splitter
+                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
+                            } else {
+                                textWidget = makeTextWidget(textDiv);
+                            }
+                            theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
+                            theSplitter.fireSetSplitDir();
+                            fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
+                            break;
+                        }
+                        }
+                        showImageText();
+                    });
                 }
-
             } // end of showCurrentMode
 
             textButton.click(function () {
@@ -482,7 +484,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             });
             fixHead.append(initalPageControls);
             if(displayMode !== "image") {
-                getRoundSelector(function () {
+                getRoundSelector().then(function() {
                     fixHead.append(getRoundControls());
                 });
             }
