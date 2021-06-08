@@ -74,7 +74,7 @@ new Round(
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
-    null, // daily_page_limit
+    90, // daily_page_limit
     [],
     [
         0 => _('Novice'),
@@ -115,7 +115,7 @@ new Round(
     _("The page-texts have already been proofread, and now need to have the text WordChecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
-    null, // daily_page_limit
+    120, // daily_page_limit
     ['P1'],
     [
         0 => _('Precise Proofreader'),
@@ -197,7 +197,7 @@ new Round(
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     $pi_tools_for_F,
-    null, // daily_page_limit
+    35, // daily_page_limit
     [],
     [
         0 => _('Formatting Neophyte'),
