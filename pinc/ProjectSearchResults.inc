@@ -332,6 +332,9 @@ class OptionsColumn extends Column
                 $actions[] = "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid' target='_blank'>" . _("Edit Word Lists") . "</a>";
             }
 
+            $actions[] = "<a href='$code_url/../noncvs/send_email.php?to=db-req&amp;subject=$projectid' target='_blank'>" . _("Email db-req") . "</a>";
+            $actions[] = "<a href='$code_url/../noncvs/send_email.php?to=dp-format&amp;subject=$projectid' target='_blank'>" . _("Email dp-format") . "</a>";
+
             // Should we show an "attention" icon?
             // Currently, we only do this if suggestions have been added since
             // the Good Words file was last modified.
