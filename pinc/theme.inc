@@ -399,6 +399,21 @@ function html_statsbar($nameofpage)
     global $Round_for_round_id_;
     maybe_show_language_selector();
 
+    // SITE-SPECIFIC
+    // Display the donation icon and link to donate.
+    //
+    // It was decided that, at pgdp.net, we would show the donation block
+    // only on the front page and the Activity Hub.
+    // It's somewhat kludgey to effect that here -- a better design
+    // would express that in the respective calls to output_header() --
+    // but this approach has a much lower impact (code diff),
+    // and its drawbacks probably won't bite us.
+    if (endswith($_SERVER['SCRIPT_NAME'], "/default.php") ||
+        endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php")) {
+        show_donation_stuff();
+        show_social_media_links();
+    }
+
     // For logged-in users, show links to key help documents:
     $user = User::load_current();
     if ($user) {
@@ -478,9 +493,24 @@ function html_statsbar($nameofpage)
     }
 
     // SITE-SPECIFIC
-    //Display the "About DP" section if user is not logged in
+    echo "<hr>";
+    echo "<h2 id='about-dp'>" . _("About DP") . "</h2>";
+
+    echo "<p class='center-align'>";
+    echo "<a href='https://www.pgdp.net/wiki/DP_Official_Documentation:General/Code_of_Conduct'>" . _("Code of Conduct") . "</a>";
+    echo " &middot; ";
+    echo "<a href='https://www.pgdp.net/wiki/DP_Official_Documentation:General/Privacy_policy'>" . _("Privacy Policy") . "</a>";
+    echo "</p>";
+
+    echo "<h3>" . _("Mission") . "</h3>";
+    echo "<p>";
+    echo sprintf(_("Distributed Proofreaders is dedicated to the preservation of written works that are in the Public Domain in the United States by converting them into high-quality, freely available digital transcriptions. This is accomplished through the efforts of a supportive community of volunteers. Distributed Proofreaders follows the principles of the <a href='%s'>American Library Association Freedom to Read statement</a>."), "http://www.ala.org/advocacy/intfreedom/freedomreadstatement");
+    echo "</p>";
+
+    //Display the history section if user is not logged in
     if (!$user) {
-        echo "<hr><p id='about-dp'>";
+        echo "<h3>" . _("History") . "</h3>";
+        echo "<p>";
         echo sprintf(_("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG."), $PG_home_url);
         echo "</p>";
     }
@@ -912,6 +942,72 @@ function show_key_help_links()
     }
     echo "</ul>\n";
     echo "</div>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_donation_stuff()
+{
+    $pgdp_wiki_url = "https://www.pgdp.net/wiki";
+    $DPF_home_url = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
+    $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
+
+    echo "<div>";
+    echo "<p class='small sans-serif no-margin'>";
+    echo sprintf(
+        _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
+        $DPF_home_url
+    );
+    echo "<br>";
+    echo "<div class='center-align' style='padding-top: 3px;'>";
+    echo "<button type='button' onclick='window.open(\"$DPF_donor_url\");' class='button bold' style='font-size: 1em; box-shadow: 2px 2px;'>";
+    echo _("Donate");
+    echo "</button>";
+    echo "</div>";
+    echo "</p>\n";
+
+    echo "</div>\n";
+    echo "<hr class='divider'>\n";
+}
+
+function show_social_media_links()
+{
+    global $dyn_url;
+
+    // insert social media links
+    $social_links = [
+        "WordPress" => [
+            "class" => "fab fa-wordpress fa-2x",
+            "url" => "https://blog.pgdp.net",
+        ],
+        "Twitter" => [
+            "class" => "fab fa-twitter fa-2x",
+            "url" => "https://twitter.com/DProofreaders",
+        ],
+        "Facebook" => [
+            "class" => "fab fa-facebook-f fa-2x",
+            "url" => "https://www.facebook.com/distributed.proofreaders/",
+        ],
+        "GitHub" => [
+            "class" => "fab fa-github fa-2x",
+            "url" => "https://github.com/DistributedProofreaders/dproofreaders/blob/master/README.md",
+        ],
+    ];
+    echo "<div class='center-align'>";
+
+    $links = [];
+    foreach ($social_links as $name => $data) {
+        $class = $data["class"];
+        $url = $data["url"];
+        $links[] = "<a style='text-decoration: none;' href='$url' aria-label='$name'>" .
+            "<i aria-hidden='true' class='$class' title='$name'></i>" .
+            "</a>";
+    }
+
+    echo join(" &nbsp; ", $links);
+
+    echo "</div>";
+    echo "<hr class='divider'>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
