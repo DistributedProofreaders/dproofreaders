@@ -67,8 +67,8 @@ $pi_tools_for_F = [
 new Round(
     'P1',
     _('Proofreading Round 1'),
-    [],
-    'IMMEDIATE',
+    ['quiz/p_basic' => 1],
+    'REQ-AUTO',
     '',
     null, // access_change_callback
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
