@@ -66,6 +66,17 @@ switch ($c_or_i) {
         die("bad 'cori' value: '$c_or_i'");
 }
 
+// hack:
+if ($tally_name == 'R*' and $timeframe == 'all_time') {
+    if ($c_or_i == 'increments') {
+        $start_timestamp = 1110960000;
+    } else {
+        $start_timestamp = 1110960000 - 10;
+    }
+    $end_timestamp = mktime(0, 0, 0, 6, 8, 2005);
+    $title_timeframe = _('since we started keeping track');
+}
+
 // -----------------------------------------------------------------------------
 
 $result = dpsql_query(

@@ -17,11 +17,17 @@ $graph = init_pages_graph(60);
 ///////////////////////////////////////////////////
 //Total pages by month since beginning of stats
 
+if ($tally_name == 'R*') {
+    $where = "WHERE timestamp > 1110960000";
+} else {
+    $where = "";
+}
+
 $result = mysqli_query(DPDatabase::get_connection(),
     select_from_site_past_tallies_and_goals(
         $tally_name,
         "SELECT {year_month}, SUM(tally_delta), SUM(goal)",
-        "",
+        $where,
         "GROUP BY 1",
         "ORDER BY 1",
         ""
