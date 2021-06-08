@@ -440,7 +440,7 @@ new ProjectTransition(
         'project_restriction' => null,
         'action_name' => '[default]',
         'confirmation_question' => null,
-        'detour' => null,
+        'detour' => 'gate_on_pqc',
         'settings_template' => '',
         'collateral_actions' => null,
     ]
