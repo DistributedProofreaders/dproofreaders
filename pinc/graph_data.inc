@@ -544,7 +544,9 @@ function total_pages_by_month_graph($tally_name)
     ///////////////////////////////////////////////////
     //Total pages by month since beginning of stats
 
-    $data = get_site_tally_grouped($tally_name, 'year_month');
+    $min_timestamp = $tally_name == 'R*' ? 1110960000 : null;
+
+    $data = get_site_tally_grouped($tally_name, 'year_month', $min_timestamp);
     $datax = array_column($data, 0);
     $datay1 = array_column($data, 1);
     $datay2 = array_column($data, 2);
@@ -628,6 +630,16 @@ function pages_daily(string $tally_name, string $c_or_i, string $timeframe)
 
         default:
             throw new UnexpectedValueException("bad 'cori' value: '$c_or_i'");
+    }
+
+    if ($tally_name == 'R*' and $timeframe == 'all_time') {
+        if ($c_or_i == 'increments') {
+            $start_timestamp = 1110960000;
+        } else {
+            $start_timestamp = 1110960000 - 10;
+        }
+        $end_timestamp = mktime(0, 0, 0, 6, 8, 2005);
+        $title_timeframe = _('since we started keeping track');
     }
 
     $days_to_average = 21;
