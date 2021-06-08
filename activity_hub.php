@@ -49,6 +49,22 @@ welcome_see_beginner_forum($pagesproofed, "HUB");
 
 thoughts_re_mentor_feedback($pagesproofed);
 
+echo <<<IE11
+    <script>
+    $(function() {
+        // Only shows on IE11 (not even earlier versions of IE) and not Edge
+        if (navigator.userAgent.match(/Trident\/7/i)) {
+            $('#ie11warning').show();
+        }
+    });
+    </script>
+    <div id='ie11warning' class='callout' style='display: none;'>
+    <div class='calloutheader' style='color: red'>
+    Internet Explorer 11 no longer supported
+    </div>
+    <p>As of 31 Dec 2020 the site no longer supports Internet Explorer 11. You are strongly encouraged to switch to another browser, such as <a href='https://www.microsoft.com/en-us/edge'>Microsoft Edge</a>, <a href='https://www.mozilla.org/en-US/firefox/windows/'>Firefox</a>, <a href='https://www.google.com/chrome/'>Google Chrome</a>, or <a href='https://www.opera.com/download'>Opera</a>. See also the list of <a href='https://www.pgdp.net/wiki/DP_Official_Documentation:General/Supported_Browsers'>Supported Browsers</a>.</p>
+    </div>
+    IE11;
 
 // Site News
 show_news_for_page("HUB");
