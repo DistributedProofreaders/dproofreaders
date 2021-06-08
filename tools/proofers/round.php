@@ -9,6 +9,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
+include_once($relPath.'quals.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'faq.inc');
 
@@ -41,6 +42,7 @@ encourage_highest_round($pguser, $round->id);
 
 show_news_for_page($round_id);
 
+output_qual_projects($round_id);
 
 if ($pagesproofed < 100 && $ELR_round->id == $round_id) {
     if ($pagesproofed > 80) {
