@@ -19,6 +19,8 @@ echo "</p>";
 
 echo "<h2>" . _("Total Projects Post-Processed Since Statistics were Kept") . "</h2>\n";
 
+echo "<i>" . _("Sorry, this table has been temporarily disabled.") . "</i>\n";
+/*
 $psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
     SELECT
@@ -26,6 +28,7 @@ dpsql_dump_themed_query("
     FROM project_state_stats WHERE $psd->state_selector
     GROUP BY date ORDER BY date DESC LIMIT 1
 ");
+*/
 
 echo "<br>\n";
 
