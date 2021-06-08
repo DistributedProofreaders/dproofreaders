@@ -2,24 +2,19 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var imageControl = function(imageElement, storageKey) {
-    let imageKey = storageKey + "-image";
-    let imageData = JSON.parse(localStorage.getItem(imageKey));
-    if(!$.isPlainObject(imageData)) {
-        imageData = {zoom: 100};
-    }
-    let percent = imageData.zoom;
-
+var makeImageControl = function(imageElement) {
+    let imageKey;
+    let percent;
     let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
-    let setZoom = function () {
+    function setZoom() {
         imageElement.css({"vertical-align": "middle"});
         imageElement.width(10 * percent);
         imageElement.height("auto");
-    };
+    }
 
     function saveZoom() {
-        imageData.zoom = percent;
+        let imageData = {zoom: percent};
         localStorage.setItem(imageKey, JSON.stringify(imageData));
     }
 
@@ -84,31 +79,36 @@ var imageControl = function(imageElement, storageKey) {
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
     setZoom();
-    return [
-        fitHeight,
-        fitWidth,
-        " ",
-        $("<span>", {class: "nowrap"}).append(percentInput, "%"),
-        " ",
-        zoomIn,
-        zoomOut
-    ];
+    return {
+        controls: [
+            fitHeight,
+            fitWidth,
+            " ",
+            $("<span>", {class: "nowrap"}).append(percentInput, "%"),
+            " ",
+            zoomIn,
+            zoomOut
+        ],
+        setup: function(storageKey) {
+            imageKey = storageKey + "-image";
+            let imageData = JSON.parse(localStorage.getItem(imageKey));
+            if(!$.isPlainObject(imageData)) {
+                imageData = {zoom: 100};
+            }
+            percent = imageData.zoom;
+            percentInput.val(percent);
+            setZoom();
+        },
+    };
 };
 
-function makeControlDiv(container, controls, storageKey, onChange) {
-    let barKey = storageKey + "-bar";
-    let barData = JSON.parse(localStorage.getItem(barKey));
-
-    // location is two letters, 1st position of bar: North East South West,
-    // 2nd controls within it Begin Middle End
-    if(!$.isPlainObject(barData)) {
-        barData = {location: "NM"};
-    }
-    let point = barData.location[0];
-    let begMidEnd = barData.location[1];
+function makeControlDiv(container, controls, onChange) {
+    let barKey;
+    let compassPoint;
+    let begMidEnd;
 
     function saveLocation() {
-        barData.location = point + begMidEnd;
+        let barData = {location: compassPoint + begMidEnd};
         localStorage.setItem(barKey, JSON.stringify(barData));
     }
 
@@ -201,9 +201,9 @@ function makeControlDiv(container, controls, storageKey, onChange) {
         .append(menu);
     control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menuHolder);
 
-    function navigate() {
+    function setCompassPoint() {
         $(".navbutton", navBox).detach();
-        switch(point) {
+        switch(compassPoint) {
         case "N":
             controlFirst();
             controlHoriz();
@@ -238,7 +238,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
         }
     }
 
-    function navStyle() {
+    function setBegMidEnd() {
         switch(begMidEnd) {
         case "B":
             control1.css({flex: '0 0 auto'});
@@ -260,9 +260,9 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     });
 
     function newPoint(newP) {
-        point = newP;
+        compassPoint = newP;
         saveLocation();
-        navigate();
+        setCompassPoint();
         menu.hide();
     }
 
@@ -285,7 +285,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     function newBME(newBME) {
         begMidEnd = newBME;
         saveLocation();
-        navStyle();
+        setBegMidEnd();
         menu.hide();
     }
 
@@ -318,24 +318,35 @@ function makeControlDiv(container, controls, storageKey, onChange) {
             .append(control));
     });
 
-    navigate();
-    navStyle();
-
     return {
-        content: content
+        content: content,
+
+        setupControls: function (storageKey) {
+            barKey = storageKey + "-bar";
+            let barData = JSON.parse(localStorage.getItem(barKey));
+            if(!$.isPlainObject(barData)) {
+                barData = {location: "NM"};
+            }
+            // location is two letters:
+            // 1st compass point of bar: North East South West,
+            // 2nd controls position within it: Begin Middle End
+            compassPoint = barData.location[0];
+            begMidEnd = barData.location[1];
+            setCompassPoint();
+            setBegMidEnd();
+        },
     };
 }
 
-function makeImageWidget(container, storageKey, align = "C") {
+function makeImageWidget(container, align = "C") {
     const alignment = {
         L: "left",
         C: "center",
         R: "right"
     };
-    let imageWidgetKey = storageKey + "-imagewidget";
     let imageElement = $("<img>").css("cursor", "grab");
-    let controls = imageControl(imageElement, imageWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, imageWidgetKey);
+    let imageControl = makeImageControl(imageElement);
+    let controlDiv = makeControlDiv(container, imageControl.controls);
 
     controlDiv.content.css("text-align", alignment[align]).append(imageElement);
 
@@ -361,6 +372,12 @@ function makeImageWidget(container, storageKey, align = "C") {
     });
 
     return {
+        setup: function (storageKey) {
+            let imageWidgetKey = storageKey + "-imagewidget";
+            imageControl.setup(imageWidgetKey);
+            controlDiv.setupControls(imageWidgetKey);
+        },
+
         setImage: function (src) {
             imageElement.attr("src", src);
             controlDiv.content

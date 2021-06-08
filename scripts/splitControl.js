@@ -158,7 +158,10 @@ var splitControl = function(container, config) {
             theConfig.splitVertical = splitVertical;
             reLayout();
         },
-
+        setSplitPercent: function (percent) {
+            splitRatio = percent / 100;
+            reLayout();
+        },
         reLayout: reLayout,
         reSize: reSize,
         dragEnd: dragEnd,

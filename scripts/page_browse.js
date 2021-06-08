@@ -1,21 +1,10 @@
 /*global $ proofIntData makeApiAjaxSettings splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
-// the controls are given class "control" so we can remove them from
-// fixHead when changing modes while keeping project name and reset project
-
 // Construct the font-face, font-size and wrap controls
-var maketextControl = function(textArea, storageKey) {
-
-    let textKey = storageKey + "-text";
-    let textData = JSON.parse(localStorage.getItem(textKey));
-    if(!$.isPlainObject(textData)) {
-        textData = {
-            textWrap: "N",
-            fontFaceIndex: 0,
-            fontSize: ""
-        };
-    }
+var maketextControl = function(textArea) {
+    let textKey;
+    let textData;
 
     function saveData() {
         localStorage.setItem(textKey, JSON.stringify(textData));
@@ -30,17 +19,11 @@ var maketextControl = function(textArea, storageKey) {
         textArea.css("font-family", proofIntData.font.faceFamilies[fontFaceIndex]);
     }
 
-    let currentFontFaceIndex = textData.fontFaceIndex;
-
     // set up the font selector
     let fontFaces = proofIntData.font.faces;
     Object.keys(fontFaces).forEach(function(index) {
-        let selected = (index === currentFontFaceIndex);
-        fontFaceSelector.add(new Option(fontFaces[index], index, selected, selected));
+        fontFaceSelector.add(new Option(fontFaces[index], index));
     });
-    // use value from selector incase the user defined option has been
-    // removed and value has changed from 1 to 0
-    setFontFace(fontFaceSelector.value);
 
     $(fontFaceSelector).change(function () {
         let fontFaceIndex = this.value;
@@ -54,14 +37,10 @@ var maketextControl = function(textArea, storageKey) {
         textArea.css("font-size", fontSizeCss);
     }
 
-    let currentFontSize = textData.fontSize;
-
     proofIntData.font.sizes.forEach(function(fontSize) {
-        let selected = (currentFontSize === fontSize);
         let displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
-        fontSizeSelector.add(new Option(displayFontSize, fontSize, selected, selected));
+        fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
-    setFontSize(currentFontSize);
 
     $(fontSizeSelector).change(function () {
         let fontSize = fontSizeSelector.value;
@@ -76,13 +55,8 @@ var maketextControl = function(textArea, storageKey) {
 
     let wrapCheck = $("<input>", {type: 'checkbox'});
 
-    // stored value is "W" or "N", if not set textWrap will be false
-    let textWrap = ("W" === textData.textWrap);
-    wrapCheck.prop("checked", textWrap);
-    setWrap(textWrap);
-
     wrapCheck.change(function () {
-        textWrap = wrapCheck.prop("checked");
+        let textWrap = wrapCheck.prop("checked");
         textData.textWrap = textWrap ? "W" : "N";
         saveData();
         setWrap(textWrap);
@@ -90,28 +64,51 @@ var maketextControl = function(textArea, storageKey) {
 
     let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
 
-    return [fontFaceSelector, fontSizeSelector, wrapControl];
+    return {
+        controls: [fontFaceSelector, fontSizeSelector, wrapControl],
+        setup: function(storageKey) {
+            textKey = storageKey + "-text";
+            textData = JSON.parse(localStorage.getItem(textKey));
+            if(!$.isPlainObject(textData)) {
+                textData = {
+                    textWrap: "N",
+                    fontFaceIndex: 0,
+                    fontSize: ""
+                };
+            }
+            let currentFontFaceIndex = textData.fontFaceIndex;
+            // find the corresponding selector option and select it
+            fontFaceSelector.querySelector(`[value="${currentFontFaceIndex}"]`).selected = true;
+            // use value from selector incase the user defined option has been
+            // removed and value has changed from 1 to 0
+            setFontFace(fontFaceSelector.value);
+
+            let currentFontSize = textData.fontSize;
+            fontSizeSelector.querySelector(`[value="${currentFontSize}"]`).selected = true;
+            setFontSize(currentFontSize);
+
+            // stored value is "W" or "N", if not set textWrap will be false
+            let textWrap = ("W" === textData.textWrap);
+            wrapCheck.prop("checked", textWrap);
+            setWrap(textWrap);
+        },
+    };
 };
 
-function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
-    let textWidgetKey = storageKey + "-textwidget";
+function makeTextWidget(container, splitter = false, reLayout = null) {
     let textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
-    let controls = maketextControl(textArea, textWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
+    let textControl = maketextControl(textArea);
+    let controlDiv = makeControlDiv(container, textControl.controls, reLayout);
+    let subSplitter;
+    let splitterKey;
+    let textSplitData;
     if(splitter) {
-        let splitterKey = textWidgetKey + "-split";
-        let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-        if(!$.isPlainObject(textSplitData)) {
-            textSplitData = {
-                splitPercent: 100
-            };
-        }
         let topTextDiv = $("<div>").append(textArea);
         let bottomTextDiv = $("<div>");
         controlDiv.content.append(topTextDiv, bottomTextDiv);
 
-        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.splitPercent, reDraw: reLayout});
+        subSplitter = splitControl(controlDiv.content, {splitVertical: false, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
@@ -120,6 +117,21 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
         controlDiv.content.append(textArea);
     }
     return {
+        setup: function(storageKey) {
+            let textWidgetKey = storageKey + "-textwidget";
+            if(splitter) {
+                splitterKey = textWidgetKey + "-split";
+                textSplitData = JSON.parse(localStorage.getItem(splitterKey));
+                if(!$.isPlainObject(textSplitData)) {
+                    textSplitData = {splitPercent: 100};
+                }
+                subSplitter.setSplitPercent(textSplitData.splitPercent);
+            }
+
+            textControl.setup(textWidgetKey);
+            controlDiv.setupControls(textWidgetKey);
+        },
+
         setText: function (text) {
             textArea.val(text)
                 .scrollTop(0)
@@ -134,24 +146,28 @@ var viewSplitter = function(container, storageKey) {
     let storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
     if(!$.isPlainObject(layout)) {
-        layout = {splitPercent: 50, splitDirection: "horizontal"};
+        layout = {splitDirection: "horizontal"};
     }
     let splitVertical = (layout.splitDirection === "vertical");
 
-    function saveLayout() {
-        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
-    }
-
-    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: layout.splitPercent});
+    let mainSplit = splitControl(container, {splitVertical: splitVertical});
 
     let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
     let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
     let hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
     let hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
-    // The splitter could be laid out before images are loaded so that when
-    // images appear some controls could be pushed out of view
-    vSplitImage.on("load", mainSplit.reLayout);
-    hSplitImage.on("load", mainSplit.reLayout);
+
+    let splitKey;
+    let setSplitDirCallback = $.Callbacks();
+    setSplitDirCallback.add(function(storageKey) {
+        // get the split percent for vertical or horizontal
+        splitKey = storageKey + "-split";
+        let directionData = JSON.parse(localStorage.getItem(splitKey));
+        if(!$.isPlainObject(directionData)) {
+            directionData = {splitPercent: 50};
+        }
+        mainSplit.setSplitPercent(directionData.splitPercent);
+    });
 
     function setSplitControls(splitVertical) {
         if (splitVertical) {
@@ -163,11 +179,16 @@ var viewSplitter = function(container, storageKey) {
         }
     }
 
+    function fireSetSplitDir() {
+        setSplitDirCallback.fire(storageKey + "-" + layout.splitDirection);
+    }
+
     function changeSplit(splitVertical) {
         mainSplit.setSplit(splitVertical);
         setSplitControls(splitVertical);
         layout.splitDirection = splitVertical ? "vertical" : "horizontal";
-        saveLayout();
+        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
+        fireSetSplitDir();
     }
 
     vSwitchButton.click(function () {
@@ -181,13 +202,14 @@ var viewSplitter = function(container, storageKey) {
     setSplitControls(splitVertical);
 
     mainSplit.dragEnd.add(function (percent) {
-        layout.splitPercent = percent;
-        saveLayout();
+        localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
     });
 
     return {
-        mainSplit: mainSplit,
+        mainSplit,
         buttons: [vSwitchButton, hSwitchButton],
+        setSplitDirCallback,
+        fireSetSplitDir,
     };
 };
 
@@ -391,21 +413,24 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     let textDiv = $("<div>");
                     switch(displayMode) {
                     case "text":
-                        textWidget = makeTextWidget(textDiv, storageKey);
+                        textWidget = makeTextWidget(textDiv);
+                        textWidget.setup(storageKey);
                         fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
                         stretchDiv.append(textDiv);
                         break;
                     case "imageText": {
                         let imageDiv = $("<div>");
-                        imageWidget = makeImageWidget(imageDiv, storageKey);
+                        imageWidget = makeImageWidget(imageDiv);
                         stretchDiv.append(imageDiv, textDiv);
                         let theSplitter = viewSplitter(stretchDiv, storageKey);
                         if(mentorMode) {
                             // make a text widget with splitter
-                            textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
+                            textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
                         } else {
-                            textWidget = makeTextWidget(textDiv, storageKey);
+                            textWidget = makeTextWidget(textDiv);
                         }
+                        theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
+                        theSplitter.fireSetSplitDir();
                         fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                         break;
                     }
@@ -421,7 +446,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     }
 
                     let imageDiv = $("<div>");
-                    imageWidget = makeImageWidget(imageDiv, storageKey);
+                    imageWidget = makeImageWidget(imageDiv);
+                    imageWidget.setup(storageKey);
                     stretchDiv.append(imageDiv);
                     showImageText();
                 } else {
