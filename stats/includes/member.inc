@@ -404,17 +404,24 @@ function showMbrTallySelector($u_id, $tally_name)
 
 function showMbrPageStats($user, $tally_name)
 {
-    global $ELR_round;
-
     $users_tallyboard = new TallyBoard($tally_name, 'U');
 
     $vitals = $users_tallyboard->get_vitals($user->u_id);
 
     $now = time();
 
-    // If this is the entry-level round, use the user creation date
-    if ($tally_name == $ELR_round->id) {
+    // There are two special cases needed here:
+    // Firstly, the R* tally should span the time period from date_created to the site R* apocalypse
+    // Secondly, the P1 tally should start from the site P genesis, or date_created, whichever is later.
+
+    $site_R_apocalypse = 1117576800;
+    $site_P_genesis = 1117720800;
+
+    if ($tally_name == "R*") {
         $firstWorkInRound = $user->date_created;
+        $daysInRoundInteger = floor(($site_R_apocalypse - $firstWorkInRound) / 86400);
+    } elseif ($tally_name == "P1") {
+        $firstWorkInRound = ($user->date_created > $site_P_genesis) ? $user->date_created : $site_P_genesis;
         $daysInRoundInteger = floor(($now - $firstWorkInRound) / 86400);
     } else {
         $firstWorkInRound = get_first_granted_date($user->username, $tally_name);

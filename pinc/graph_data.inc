@@ -535,10 +535,16 @@ function total_pages_by_month_graph($tally_name)
     ///////////////////////////////////////////////////
     //Total pages by month since beginning of stats
 
+    if ($tally_name == 'R*') {
+        $where = "WHERE timestamp > 1110960000";
+    } else {
+        $where = "";
+    }
+
     $result = DPDatabase::query(select_from_site_past_tallies_and_goals(
         $tally_name,
         "SELECT {year_month}, SUM(tally_delta), SUM(goal)",
-        "",
+        $where,
         "GROUP BY 1",
         "ORDER BY 1",
         ""
@@ -631,6 +637,16 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
         default:
             die("bad 'cori' value: '$c_or_i'");
+    }
+
+    if ($tally_name == 'R*' and $timeframe == 'all_time') {
+        if ($c_or_i == 'increments') {
+            $start_timestamp = 1110960000;
+        } else {
+            $start_timestamp = 1110960000 - 10;
+        }
+        $end_timestamp = mktime(0, 0, 0, 6, 8, 2005);
+        $title_timeframe = _('since we started keeping track');
     }
 
     // -----------------------------------------------------------------------------

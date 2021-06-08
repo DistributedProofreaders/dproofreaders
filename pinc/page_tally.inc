@@ -21,6 +21,7 @@ include_once($relPath.'User.inc');
 function get_page_tally_names()
 {
     $page_tally_names = [];
+    $page_tally_names['R*'] = _('Pages saved-as-done in old rounds R1+R2');
     foreach (Rounds::get_all() as $round) {
         $page_tally_names[$round->id] =
             sprintf(_('Pages saved-as-done in round %s'), $round->id);
