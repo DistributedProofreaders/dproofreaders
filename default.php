@@ -8,7 +8,42 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'walkthrough.inc');
 
-output_header(_("Welcome"), true);
+// SITE-SPECIFIC
+// Add social media tags to main page for PROD
+$extra_args = [];
+if (!$testing) {
+    $extra_args = ['head_data' => <<<EOF
+            <meta name='description' content='Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time.'>
+            <meta property='og:type'  content='website'>
+            <meta property='og:url'   content='$code_url/'>
+            <meta property='og:title' content='Distributed Proofreaders'>
+            <meta property='og:description' content='Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time.'>
+            <meta property='og:image' content='https://www.pgdp.net/dp_branding/dp-mark-400px-white.png'>
+            <meta property='og:image:width'  content='400'>
+            <meta property='og:image:height' content='400'>
+            <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  "name": "Distributed Proofreaders",
+                  "legalName": "Distributed Proofreaders",
+                  "url": "https://www.pgdp.net",
+                  "logo": "https://www.pgdp.net/dp_branding/dp-mark-400px-white.png",
+                  "foundingDate": "2000",
+                  "sameAs": [
+                    "https://www.pgdp.net/c",
+                    "https://blog.pgdp.net/",
+                    "https://universeodon.com/@DProofreaders",
+                    "https://www.linkedin.com/groups/832347/",
+                    "https://www.facebook.com/distributed.proofreaders/"
+                  ]
+                }
+            </script>
+        EOF
+    ];
+}
+
+output_header(_("Welcome"), true, $extra_args);
 $etext_limit = 10;
 
 $image = get_page_header_image("FRONT");
