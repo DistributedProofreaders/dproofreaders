@@ -222,3 +222,68 @@ function maybe_output_new_proofer_project_message($project)
         echo "</div>";
     }
 }
+
+function encourage_p1_to_p2($round)
+{
+    global $code_url, $pguser;
+
+    if ($round != 'P1') {
+        return;
+    }
+
+    // see if the user already has access to P3 or P2, if they do just
+    // encourage them to proof there instead
+    $userSettings = & Settings::get_Settings($pguser);
+    $p2_access = $userSettings->get_boolean("P2.access");
+    $p3_access = $userSettings->get_boolean("P3.access");
+    if ($p2_access || $p3_access) {
+        if ($p3_access) {
+            $round_target = "P3";
+        } else {
+            $round_target = "P2";
+        }
+
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo "Consider working on projects in $round_target!";
+        echo "</div>";
+
+        echo "<p>Please consider proofreading a project in $round_target rather than here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=$round_target'>$round_target</a> helps significantly.</p>";
+        echo "<p>Thank you!</p>";
+        echo "</div>";
+        return;
+    }
+
+    // if they are already eligible but have not requested access, tell them
+    $round = get_Round_for_round_id("P2");
+    $uao = $round->user_access($pguser);
+    if ($uao->all_minima_satisfied) {
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo "You are eligible to work in P2!";
+        echo "</div>";
+
+        echo "<p>You are eligible to work on projects in P2! Simply <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and find a <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> project that interests you.</p>";
+        echo "<p>Please consider working on P2 projects rather than projects here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> helps significantly.</p>";
+        echo "<p>Thank you!</p>";
+        echo "</div>";
+        return;
+    }
+
+    // they aren't yet eligible, but if they've been here for the required
+    // number of days and done the required number of pages and just need to
+    // take and pass the quiz, so nudge them along
+    $uao = $round->user_access($pguser);
+    if ($uao->minima_table["P1"][3] && $uao->minima_table["days since reg"][3]) {
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo "You are just a few quizzes away from P2!";
+        echo "</div>";
+
+        echo "<p>You are almost eligible to work in the P2 round! The only thing left is to pass the short <a href='$code_url/quiz/start.php?show_level=P_MOD'>moderate proofreading quizzes</a>. After you pass them you can <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and you'll be able to work on projects in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a>.</p>";
+        echo "<p>Please consider working on P2 projects rather than projects here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> helps significantly.</p>";
+        echo "<p>Thank you!</p>";
+        echo "</div>";
+        return;
+    }
+}
