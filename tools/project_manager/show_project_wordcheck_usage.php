@@ -46,6 +46,7 @@ echo "</ul>";
 </tr>
 <?php
 
+$t_wordcheck_start = 1173762000;
 // identifying pages that were proofread pre-WordCheck requires
 // $t_wordcheck_start being defined in site_vars.php
 // with its value set to the timestamp of when WordCheck was
