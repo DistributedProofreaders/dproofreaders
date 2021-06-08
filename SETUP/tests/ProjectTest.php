@@ -403,6 +403,8 @@ class ProjectTest extends ProjectUtils
 
     public function test_can_be_proofed_available()
     {
+        $this->markTestSkipped('Not valid in pgdp-production where P1 requires approval first.');
+
         global $pguser;
 
         $pguser = $this->TEST_USERNAME;
