@@ -39,6 +39,8 @@ if (!$uao->can_access) {
     show_user_access_object($uao, true /* will_autogrant */);
 }
 
+encourage_p1_to_p2($round->id);
+
 show_news_for_page($round_id);
 
 
