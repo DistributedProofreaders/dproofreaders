@@ -127,6 +127,11 @@ function maybe_welcome_mail($email, $real_name, $username)
         Later you should also read the full Proofreading Guidelines:
         $dp_wiki_url/DP_Official_Documentation:Proofreading/Proofreading_Guidelines
 
+        Before starting proofreading, you will need to successfully complete all
+        five pages of the interactive proofreading quiz, and are encouraged to read
+        through their associated tutorials:
+        $code_url/quiz/start.php?show_level=P_BASIC
+
         $feedback_paragraph
 
         Start Smooth Reading
