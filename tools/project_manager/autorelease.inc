@@ -409,7 +409,8 @@ class ReleaseRestrictor
     public function approves_project($project)
     {
         $is_special = !empty($project['special_code']);
-        if ($is_special) {
+        // temp hack - enable "no duplicate author" restriction for Childrens Book Week and type-in projects
+        if ($is_special && ($project['special_code'] != 'ChBookWk') && ($project['special_code'] != 'TypeInProject')) {
             echo "        It's special, so it's exempt from release restrictions.\n";
             return true;
         }
