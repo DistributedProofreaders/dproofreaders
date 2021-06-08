@@ -636,6 +636,19 @@ function do_project_info_table()
         // insert e.g. templates and biographies
         $comments = parse_project_comments($project);
 
+        // Automatically prepend mentor round comments template for Beginners Only
+        if ($project->difficulty == "beginner") {
+            if ($round && $round->is_a_mentor_round()) {
+                $comments = "
+                <p>This book has changed from a BEGINNERS ONLY project to a MENTORS project.</p>
+
+                <p><b>NOTE:</b> You may find a list of which beginner has done which page, and  the number of pages proofread by each, at the <a href='https://www.pgdp.net/c/tools/proofers/for_mentors.php'>For Mentors page</a>.</p>
+
+                <p>Also, should you be issued a page that shows any of the Project Facilitators as the P1 proofreader, you may safely skip the feedback--unless, of course, we NEED it! That page will have been reclaimed, then proofread by one of us in order to move the project on to P2.</p>
+                " . $comments;
+            }
+        }
+
         if ($comments == '') {
             // Put in *something*, otherwise it'll probably look odd.
             $comments = '&nbsp;';
