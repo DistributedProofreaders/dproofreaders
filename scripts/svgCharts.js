@@ -16,29 +16,35 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("x", (width / 2))
             .attr("y", (margin.top / 2) + 1)
             .attr("text-anchor", "middle")
-            .attr("class", "charts-text")
             .attr("fill", "currentColor")
             .text(config.title);
     }
 
-    function addLegend(svg, color, config) {
-        svg.selectAll("seriesColor")
-            .data(Object.keys(config.data))
-            .enter()
-            .append("circle")
-            .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
-            .attr("cy", (d,i) => margin.left + 10 + i * 25)
-            .attr("r", 7)
-            .style("fill", d => color(d));
+    function addLegend(svg, color, config, isBar) {
+        if (!isBar) {
+            svg.selectAll("seriesColor")
+                .data(Object.keys(config.data))
+                .enter()
+                .append("circle")
+                .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
+                .attr("cy", (d,i) => margin.left + 10 + i * 25)
+                .attr("r", 7)
+                .style("fill", d => color(d));
+        }
 
-        svg.selectAll("series")
+        const series = svg.selectAll("series")
             .data(Object.keys(config.data))
             .enter()
             .append("text")
             .attr("fill", "currentColor")
-            .attr("x", margin.left + (config.axisLeft ? 55 : 25))
-            .attr("y", (d,i) => 45 + i * 25)
-            .text(d => d);
+            .attr("x", isBar ? -(height / 2) : margin.left + (config.axisLeft ? 55 : 25))
+            .attr("y", isBar ? 20 : (d,i) => 45 + i * 25);
+
+        if (isBar) {
+            series.attr("transform", "rotate(-90)");
+            series.attr("text-anchor", "middle");
+        }
+        series.text(d => d);
     }
 
     function stackedAreaChart(id, config) {
@@ -122,6 +128,7 @@ const {barChart, stackedAreaChart} = (function () {
     }
 
     function barChart(id, config) {
+        const barMargin = {...margin, left: 50, bottom: 50};
         const seriesTitle = Object.keys(config.data)[0];
         const data = config.data[seriesTitle].x.reduce((acc, value, index) => {
             acc.push({[seriesTitle]: value, value: parseInt(config.data[seriesTitle].y[index], 10)});
@@ -130,28 +137,28 @@ const {barChart, stackedAreaChart} = (function () {
 
         const x = d3.scaleBand()
             .domain(d3.range(data.length))
-            .range([margin.left, width - margin.right])
+            .range([barMargin.left, width - barMargin.right])
             .padding(0.1);
 
         const xAxis = g => g
-            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .attr("transform", `translate(0,${height - barMargin.bottom})`)
             .call(d3.axisBottom(x).tickFormat(i => data[i][seriesTitle])
                 .tickSizeOuter(0));
 
         const y = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.value)])
             .nice()
-            .range([height - margin.bottom, margin.top]);
+            .range([height - barMargin.bottom, barMargin.top]);
 
         const yAxisTicks = y.ticks().filter(Number.isInteger);
 
         const yAxis = g => g
-            .attr("transform", `translate(${margin.left},0)`)
+            .attr("transform", `translate(${barMargin.left},0)`)
             .call(d3.axisLeft(y).tickValues(yAxisTicks)
                 .tickFormat(d3.format('d')))
             .call(g => g.select(".domain").remove())
             .call(g => g.append("text")
-                .attr("x", -margin.left)
+                .attr("x", -barMargin.left)
                 .attr("y", 10)
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "start")
@@ -175,13 +182,18 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("width", x.bandwidth());
 
         svg.append("g")
-            .call(xAxis);
+            .call(xAxis)
+            .selectAll("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -5)
+            .attr("x", -6)
+            .style("text-anchor", "end");
 
         svg.append("g")
             .call(yAxis);
 
         addTitle(svg, config);
-        addLegend(svg, color, config);
+        addLegend(svg, color, config, true);
     }
 
     return {
