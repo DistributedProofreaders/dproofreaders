@@ -78,7 +78,6 @@ var makeImageControl = function(imageElement) {
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
-    setZoom();
     return {
         controls: [
             fitHeight,
