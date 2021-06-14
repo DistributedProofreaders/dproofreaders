@@ -8,7 +8,6 @@ var makeImageControl = function(imageElement) {
     const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
     function setZoom() {
-        imageElement.css({"vertical-align": "middle"});
         imageElement.width(10 * percent);
         imageElement.height("auto");
     }
@@ -342,7 +341,7 @@ function makeImageWidget(container, align = "C") {
         C: "center",
         R: "right"
     };
-    const imageElement = $("<img>").css("cursor", "grab");
+    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
     const imageControl = makeImageControl(imageElement);
     const controlDiv = makeControlDiv(container, imageControl.controls);
 
