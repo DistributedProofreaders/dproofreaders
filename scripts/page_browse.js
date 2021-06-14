@@ -10,9 +10,9 @@ var maketextControl = function(textArea) {
         localStorage.setItem(textKey, JSON.stringify(textData));
     }
 
-    let fontFaceSelector = document.createElement("select");
+    const fontFaceSelector = document.createElement("select");
     fontFaceSelector.title = proofIntData.strings.changeFontFace;
-    let fontSizeSelector = document.createElement("select");
+    const fontSizeSelector = document.createElement("select");
     fontSizeSelector.title = proofIntData.strings.changeFontSize;
 
     function setFontFace(fontFaceIndex) {
@@ -20,30 +20,30 @@ var maketextControl = function(textArea) {
     }
 
     // set up the font selector
-    let fontFaces = proofIntData.font.faces;
+    const fontFaces = proofIntData.font.faces;
     Object.keys(fontFaces).forEach(function(index) {
         fontFaceSelector.add(new Option(fontFaces[index], index));
     });
 
     $(fontFaceSelector).change(function () {
-        let fontFaceIndex = this.value;
+        const fontFaceIndex = this.value;
         setFontFace(fontFaceIndex);
         textData.fontFaceIndex = fontFaceIndex;
         saveData();
     });
 
     function setFontSize(fontSize) {
-        let fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
+        const fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
         textArea.css("font-size", fontSizeCss);
     }
 
     proofIntData.font.sizes.forEach(function(fontSize) {
-        let displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
+        const displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
         fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
 
     $(fontSizeSelector).change(function () {
-        let fontSize = fontSizeSelector.value;
+        const fontSize = fontSizeSelector.value;
         setFontSize(fontSize);
         textData.fontSize = fontSize;
         saveData();
@@ -53,16 +53,16 @@ var maketextControl = function(textArea) {
         textArea.attr('wrap', textWrap ? 'soft' : 'off');
     }
 
-    let wrapCheck = $("<input>", {type: 'checkbox'});
+    const wrapCheck = $("<input>", {type: 'checkbox'});
 
     wrapCheck.change(function () {
-        let textWrap = wrapCheck.prop("checked");
+        const textWrap = wrapCheck.prop("checked");
         textData.textWrap = textWrap ? "W" : "N";
         saveData();
         setWrap(textWrap);
     });
 
-    let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
+    const wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
 
     return {
         controls: [fontFaceSelector, fontSizeSelector, wrapControl],
@@ -76,19 +76,18 @@ var maketextControl = function(textArea) {
                     fontSize: ""
                 };
             }
-            let currentFontFaceIndex = textData.fontFaceIndex;
             // find the corresponding selector option and select it
-            fontFaceSelector.querySelector(`[value="${currentFontFaceIndex}"]`).selected = true;
+            fontFaceSelector.querySelector(`[value="${textData.fontFaceIndex}"]`).selected = true;
             // use value from selector incase the user defined option has been
             // removed and value has changed from 1 to 0
             setFontFace(fontFaceSelector.value);
 
-            let currentFontSize = textData.fontSize;
+            const currentFontSize = textData.fontSize;
             fontSizeSelector.querySelector(`[value="${currentFontSize}"]`).selected = true;
             setFontSize(currentFontSize);
 
             // stored value is "W" or "N", if not set textWrap will be false
-            let textWrap = ("W" === textData.textWrap);
+            const textWrap = ("W" === textData.textWrap);
             wrapCheck.prop("checked", textWrap);
             setWrap(textWrap);
         },
@@ -96,16 +95,16 @@ var maketextControl = function(textArea) {
 };
 
 function makeTextWidget(container, splitter = false, reLayout = null) {
-    let textArea = $("<textarea>", {class: "text-pane"});
+    const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
-    let textControl = maketextControl(textArea);
-    let controlDiv = makeControlDiv(container, textControl.controls, reLayout);
+    const textControl = maketextControl(textArea);
+    const controlDiv = makeControlDiv(container, textControl.controls, reLayout);
     let subSplitter;
     let splitterKey;
     let textSplitData;
     if(splitter) {
-        let topTextDiv = $("<div>").append(textArea);
-        let bottomTextDiv = $("<div>");
+        const topTextDiv = $("<div>").append(textArea);
+        const bottomTextDiv = $("<div>");
         controlDiv.content.append(topTextDiv, bottomTextDiv);
 
         subSplitter = splitControl(controlDiv.content, {splitVertical: false, reDraw: reLayout});
@@ -118,7 +117,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
     }
     return {
         setup: function(storageKey) {
-            let textWidgetKey = storageKey + "-textwidget";
+            const textWidgetKey = storageKey + "-textwidget";
             if(splitter) {
                 splitterKey = textWidgetKey + "-split";
                 textSplitData = JSON.parse(localStorage.getItem(splitterKey));
@@ -143,22 +142,22 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
 // Construct the buttons for horizontal/vertical split
 // and return a splitter variable.
 var viewSplitter = function(container, storageKey) {
-    let storageKeyLayout = storageKey + "-layout";
+    const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
     if(!$.isPlainObject(layout)) {
         layout = {splitDirection: "horizontal"};
     }
-    let splitVertical = (layout.splitDirection === "vertical");
+    const splitVertical = (layout.splitDirection === "vertical");
 
-    let mainSplit = splitControl(container, {splitVertical: splitVertical});
+    const mainSplit = splitControl(container, {splitVertical: splitVertical});
 
-    let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
-    let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
-    let hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
-    let hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
+    const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
+    const vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
+    const hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
+    const hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
 
     let splitKey;
-    let setSplitDirCallback = $.Callbacks();
+    const setSplitDirCallback = $.Callbacks();
     setSplitDirCallback.add(function(storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
@@ -169,8 +168,8 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
 
-    function setSplitControls(splitVertical) {
-        if (splitVertical) {
+    function setSplitControls(splitVert) {
+        if (splitVert) {
             hSwitchButton.show();
             vSwitchButton.hide();
         } else {
@@ -183,10 +182,10 @@ var viewSplitter = function(container, storageKey) {
         setSplitDirCallback.fire(storageKey + "-" + layout.splitDirection);
     }
 
-    function changeSplit(splitVertical) {
-        mainSplit.setSplit(splitVertical);
-        setSplitControls(splitVertical);
-        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
+    function changeSplit(splitVert) {
+        mainSplit.setSplit(splitVert);
+        setSplitControls(splitVert);
+        layout.splitDirection = splitVert ? "vertical" : "horizontal";
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
         fireSetSplitDir();
     }
@@ -215,13 +214,13 @@ var viewSplitter = function(container, storageKey) {
 
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
-    let pageSelector = document.createElement("select");
-    let controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
+    const pageSelector = document.createElement("select");
+    const controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
 
     if(!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
         pageSelector.required = true;
-        let firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
+        const firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
         firstOption.disabled = true;
         pageSelector.add(firstOption);
         pages.forEach(function(page, index) {
@@ -236,13 +235,13 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     }
 
     pages.forEach(function(page, index) {
-        let imageFilename = page.image;
-        let selected = (selectedImageFileName === imageFilename);
+        const imageFilename = page.image;
+        const selected = (selectedImageFileName === imageFilename);
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
 
-    let prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
-    let nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
+    const prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
+    const nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
@@ -311,14 +310,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         displayMode = "image";
     }
     // if round_id is not defined or invalid, first option will be used
-    let currentRound = params.get("round_id");
-    let simpleHeader = params.get("simpleHeader");
+    const currentRound = params.get("round_id");
+    const simpleHeader = params.get("simpleHeader");
     // declare this here to avoid use before define warning
     let getProjectData;
 
-    let topDiv = $("#page-browser");
+    const topDiv = $("#page-browser");
     // the non-scrolling area which will contain the page controls
-    let fixHead = $("<div>", {class: 'fixed-box control-pane'});
+    const fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
 
@@ -354,9 +353,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     }
 
     function displayPages(pages) {
-        let textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
-        let imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
-        let imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
+        const textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
+        const imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
+        const imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
         let imageWidget = null;
         let textWidget = null;
 
@@ -371,7 +370,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             function showImageText() {
                 // show image and/or text for current page according to the
                 // displayMode and set the url
-                let imageFileName = page.image;
+                const imageFileName = page.image;
                 params.set("imagefile", imageFileName);
                 document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
                 if(displayMode !== "text") {
@@ -382,7 +381,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 if(displayMode !== "image") {
                     // if the supplied round_id was invalid it will be replaced
                     // by the shown (first) option
-                    let round = roundSelector.value;
+                    const round = roundSelector.value;
                     params.set("round_id", round);
                     $.ajax(makeApiAjaxSettings("v1/projects/" + projectId + "/pages/" + imageFileName + "/pagerounds/" + round))
                         .done(function(data) {
@@ -393,7 +392,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 replaceUrl();
             }
 
-            let pageControls = makePageControl(pages, page.image, function (newPage) {
+            const pageControls = makePageControl(pages, page.image, function (newPage) {
                 page = newPage;
                 showImageText();
             });
@@ -407,7 +406,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 // and emptying it here because the view splitter manipulates its
                 // style causing side-effects if re-using it
                 $(".imtext").remove();
-                let stretchDiv = $("<div>", {class: 'imtext stretch-box'});
+                const stretchDiv = $("<div>", {class: 'imtext stretch-box'});
                 topDiv.append(stretchDiv);
                 // remove any old controls from fixHead
                 $(".control", fixHead).detach();
@@ -419,7 +418,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         fixHead.append(textButton, imageTextButton, pageControls);
                     }
 
-                    let imageDiv = $("<div>");
+                    const imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv);
                     imageWidget.setup(storageKey);
                     stretchDiv.append(imageDiv);
@@ -428,9 +427,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     // in case initial round_id was invalid, get round from
                     // round selector, but wait until it is drawn
                     getRoundSelector().then(function showTextModes() {
-                        let roundControls = getRoundControls();
+                        const roundControls = getRoundControls();
                         $(roundSelector).change(showImageText);
-                        let textDiv = $("<div>");
+                        const textDiv = $("<div>");
                         switch(displayMode) {
                         case "text":
                             textWidget = makeTextWidget(textDiv);
@@ -439,10 +438,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             stretchDiv.append(textDiv);
                             break;
                         case "imageText": {
-                            let imageDiv = $("<div>");
+                            const imageDiv = $("<div>");
                             imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
-                            let theSplitter = viewSplitter(stretchDiv, storageKey);
+                            const theSplitter = viewSplitter(stretchDiv, storageKey);
                             if(mentorMode) {
                                 // make a text widget with splitter
                                 textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
@@ -479,7 +478,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         } // end of showCurrentPage
 
         function initialPageSelect() {
-            let initalPageControls = makePageControl(pages, null, function (page) {
+            const initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
             fixHead.append(initalPageControls);
@@ -499,7 +498,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         showCurrentImageFile = function(currentImageFileName) {
             if(currentImageFileName) {
                 // does filename exist in the project?
-                let currentPage = pages.find( function(page) {
+                const currentPage = pages.find( function(page) {
                     return (currentImageFileName === page.image);
                 });
                 if(currentPage) {
@@ -527,8 +526,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
-        let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
-        let projectInput = $("<input>", {type: 'text', required: true});
+        const projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
+        const projectInput = $("<input>", {type: 'text', required: true});
 
         projectSelectButton.click(function () {
             projectId = projectInput.val();
@@ -549,7 +548,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         if(!simpleHeader) {
             fixHead.empty();
             // show project name and button to select another
-            let resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
+            const resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
             resetButton.click(function () {
                 selectAProject();
             });
