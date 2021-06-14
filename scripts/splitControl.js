@@ -125,10 +125,13 @@ var splitControl = function(container, config) {
 
     function dragMouseUp() {
         $(document).unbind("mousemove mouseup");
+        $("body").css("cursor", "default");
         dragMoveEnd();
     }
 
     function dragMouseDown(event) {
+        // prevent cursor flicker by persisting cursor style while dragging
+        $("body").css("cursor", dragBar.css("cursor"));
         dragStart(event);
         $(document).on("mousemove", dragMove)
             .on("mouseup", dragMouseUp);
