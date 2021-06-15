@@ -140,9 +140,13 @@ const {barChart, stackedAreaChart} = (function () {
             .range([barMargin.left, width - barMargin.right])
             .padding(0.1);
 
+        const interval = Math.ceil(data.length / 40);
+
         const xAxis = g => g
             .attr("transform", `translate(0,${height - barMargin.bottom})`)
-            .call(d3.axisBottom(x).tickFormat(i => data[i][seriesTitle])
+            .call(d3.axisBottom(x)
+                .tickValues(x.domain().filter((_, i) => i % interval === 0))
+                .tickFormat(i => data[i][seriesTitle])
                 .tickSizeOuter(0));
 
         const y = d3.scaleLinear()
