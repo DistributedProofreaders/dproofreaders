@@ -1,70 +1,49 @@
 /*global $ proofIntData makeApiAjaxSettings splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
-// the controls are given class "control" so we can remove them from
-// fixHead when changing modes while keeping project name and reset project
-
 // Construct the font-face, font-size and wrap controls
-var maketextControl = function(textArea, storageKey) {
-
-    let textKey = storageKey + "-text";
-    let textData = JSON.parse(localStorage.getItem(textKey));
-    if(!$.isPlainObject(textData)) {
-        textData = {
-            textWrap: "N",
-            fontFaceIndex: 0,
-            fontSize: ""
-        };
-    }
+var maketextControl = function(textArea) {
+    let textKey;
+    let textData;
 
     function saveData() {
         localStorage.setItem(textKey, JSON.stringify(textData));
     }
 
-    let fontFaceSelector = document.createElement("select");
+    const fontFaceSelector = document.createElement("select");
     fontFaceSelector.title = proofIntData.strings.changeFontFace;
-    let fontSizeSelector = document.createElement("select");
+    const fontSizeSelector = document.createElement("select");
     fontSizeSelector.title = proofIntData.strings.changeFontSize;
 
     function setFontFace(fontFaceIndex) {
         textArea.css("font-family", proofIntData.font.faceFamilies[fontFaceIndex]);
     }
 
-    let currentFontFaceIndex = textData.fontFaceIndex;
-
     // set up the font selector
-    let fontFaces = proofIntData.font.faces;
+    const fontFaces = proofIntData.font.faces;
     Object.keys(fontFaces).forEach(function(index) {
-        let selected = (index === currentFontFaceIndex);
-        fontFaceSelector.add(new Option(fontFaces[index], index, selected, selected));
+        fontFaceSelector.add(new Option(fontFaces[index], index));
     });
-    // use value from selector incase the user defined option has been
-    // removed and value has changed from 1 to 0
-    setFontFace(fontFaceSelector.value);
 
     $(fontFaceSelector).change(function () {
-        let fontFaceIndex = this.value;
+        const fontFaceIndex = this.value;
         setFontFace(fontFaceIndex);
         textData.fontFaceIndex = fontFaceIndex;
         saveData();
     });
 
     function setFontSize(fontSize) {
-        let fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
+        const fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
         textArea.css("font-size", fontSizeCss);
     }
 
-    let currentFontSize = textData.fontSize;
-
     proofIntData.font.sizes.forEach(function(fontSize) {
-        let selected = (currentFontSize === fontSize);
-        let displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
-        fontSizeSelector.add(new Option(displayFontSize, fontSize, selected, selected));
+        const displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
+        fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
-    setFontSize(currentFontSize);
 
     $(fontSizeSelector).change(function () {
-        let fontSize = fontSizeSelector.value;
+        const fontSize = fontSizeSelector.value;
         setFontSize(fontSize);
         textData.fontSize = fontSize;
         saveData();
@@ -74,44 +53,61 @@ var maketextControl = function(textArea, storageKey) {
         textArea.attr('wrap', textWrap ? 'soft' : 'off');
     }
 
-    let wrapCheck = $("<input>", {type: 'checkbox'});
-
-    // stored value is "W" or "N", if not set textWrap will be false
-    let textWrap = ("W" === textData.textWrap);
-    wrapCheck.prop("checked", textWrap);
-    setWrap(textWrap);
+    const wrapCheck = $("<input>", {type: 'checkbox'});
 
     wrapCheck.change(function () {
-        textWrap = wrapCheck.prop("checked");
+        const textWrap = wrapCheck.prop("checked");
         textData.textWrap = textWrap ? "W" : "N";
         saveData();
         setWrap(textWrap);
     });
 
-    let wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
+    const wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
 
-    return [fontFaceSelector, fontSizeSelector, wrapControl];
+    return {
+        controls: [fontFaceSelector, fontSizeSelector, wrapControl],
+        setup: function(storageKey) {
+            textKey = storageKey + "-text";
+            textData = JSON.parse(localStorage.getItem(textKey));
+            if(!$.isPlainObject(textData)) {
+                textData = {
+                    textWrap: "N",
+                    fontFaceIndex: 0,
+                    fontSize: ""
+                };
+            }
+            // find the corresponding selector option and select it
+            fontFaceSelector.querySelector(`[value="${textData.fontFaceIndex}"]`).selected = true;
+            // use value from selector incase the user defined option has been
+            // removed and value has changed from 1 to 0
+            setFontFace(fontFaceSelector.value);
+
+            const currentFontSize = textData.fontSize;
+            fontSizeSelector.querySelector(`[value="${currentFontSize}"]`).selected = true;
+            setFontSize(currentFontSize);
+
+            // stored value is "W" or "N", if not set textWrap will be false
+            const textWrap = ("W" === textData.textWrap);
+            wrapCheck.prop("checked", textWrap);
+            setWrap(textWrap);
+        },
+    };
 };
 
-function makeTextWidget(container, storageKey, splitter = false, reLayout = null) {
-    let textWidgetKey = storageKey + "-textwidget";
-    let textArea = $("<textarea>", {class: "text-pane"});
+function makeTextWidget(container, splitter = false, reLayout = null) {
+    const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
-    let controls = maketextControl(textArea, textWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, textWidgetKey, reLayout);
+    const textControl = maketextControl(textArea);
+    const controlDiv = makeControlDiv(container, textControl.controls, reLayout);
+    let subSplitter;
+    let splitterKey;
+    let textSplitData;
     if(splitter) {
-        let splitterKey = textWidgetKey + "-split";
-        let textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-        if(!$.isPlainObject(textSplitData)) {
-            textSplitData = {
-                splitPercent: 100
-            };
-        }
-        let topTextDiv = $("<div>").append(textArea);
-        let bottomTextDiv = $("<div>");
+        const topTextDiv = $("<div>").append(textArea);
+        const bottomTextDiv = $("<div>");
         controlDiv.content.append(topTextDiv, bottomTextDiv);
 
-        let subSplitter = splitControl(controlDiv.content, {splitVertical: false, splitPercent: textSplitData.splitPercent, reDraw: reLayout});
+        subSplitter = splitControl(controlDiv.content, {splitVertical: false, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
@@ -120,6 +116,21 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
         controlDiv.content.append(textArea);
     }
     return {
+        setup: function(storageKey) {
+            const textWidgetKey = storageKey + "-textwidget";
+            if(splitter) {
+                splitterKey = textWidgetKey + "-split";
+                textSplitData = JSON.parse(localStorage.getItem(splitterKey));
+                if(!$.isPlainObject(textSplitData)) {
+                    textSplitData = {splitPercent: 100};
+                }
+                subSplitter.setSplitPercent(textSplitData.splitPercent);
+            }
+
+            textControl.setup(textWidgetKey);
+            controlDiv.setupControls(textWidgetKey);
+        },
+
         setText: function (text) {
             textArea.val(text)
                 .scrollTop(0)
@@ -131,30 +142,34 @@ function makeTextWidget(container, storageKey, splitter = false, reLayout = null
 // Construct the buttons for horizontal/vertical split
 // and return a splitter variable.
 var viewSplitter = function(container, storageKey) {
-    let storageKeyLayout = storageKey + "-layout";
+    const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
     if(!$.isPlainObject(layout)) {
-        layout = {splitPercent: 50, splitDirection: "horizontal"};
+        layout = {splitDirection: "horizontal"};
     }
-    let splitVertical = (layout.splitDirection === "vertical");
+    const splitVertical = (layout.splitDirection === "vertical");
 
-    function saveLayout() {
-        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
-    }
+    const mainSplit = splitControl(container, {splitVertical: splitVertical});
 
-    let mainSplit = splitControl(container, {splitVertical: splitVertical, splitPercent: layout.splitPercent});
+    const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
+    const vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
+    const hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
+    const hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
 
-    let vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
-    let vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
-    let hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
-    let hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
-    // The splitter could be laid out before images are loaded so that when
-    // images appear some controls could be pushed out of view
-    vSplitImage.on("load", mainSplit.reLayout);
-    hSplitImage.on("load", mainSplit.reLayout);
+    let splitKey;
+    const setSplitDirCallback = $.Callbacks();
+    setSplitDirCallback.add(function(storageKey) {
+        // get the split percent for vertical or horizontal
+        splitKey = storageKey + "-split";
+        let directionData = JSON.parse(localStorage.getItem(splitKey));
+        if(!$.isPlainObject(directionData)) {
+            directionData = {splitPercent: 50};
+        }
+        mainSplit.setSplitPercent(directionData.splitPercent);
+    });
 
-    function setSplitControls(splitVertical) {
-        if (splitVertical) {
+    function setSplitControls(splitVert) {
+        if (splitVert) {
             hSwitchButton.show();
             vSwitchButton.hide();
         } else {
@@ -163,11 +178,16 @@ var viewSplitter = function(container, storageKey) {
         }
     }
 
-    function changeSplit(splitVertical) {
-        mainSplit.setSplit(splitVertical);
-        setSplitControls(splitVertical);
-        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
-        saveLayout();
+    function fireSetSplitDir() {
+        setSplitDirCallback.fire(storageKey + "-" + layout.splitDirection);
+    }
+
+    function changeSplit(splitVert) {
+        mainSplit.setSplit(splitVert);
+        setSplitControls(splitVert);
+        layout.splitDirection = splitVert ? "vertical" : "horizontal";
+        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
+        fireSetSplitDir();
     }
 
     vSwitchButton.click(function () {
@@ -181,25 +201,26 @@ var viewSplitter = function(container, storageKey) {
     setSplitControls(splitVertical);
 
     mainSplit.dragEnd.add(function (percent) {
-        layout.splitPercent = percent;
-        saveLayout();
+        localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
     });
 
     return {
-        mainSplit: mainSplit,
+        mainSplit,
         buttons: [vSwitchButton, hSwitchButton],
+        setSplitDirCallback,
+        fireSetSplitDir,
     };
 };
 
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
-    let pageSelector = document.createElement("select");
-    let controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
+    const pageSelector = document.createElement("select");
+    const controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
 
     if(!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
         pageSelector.required = true;
-        let firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
+        const firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
         firstOption.disabled = true;
         pageSelector.add(firstOption);
         pages.forEach(function(page, index) {
@@ -214,13 +235,13 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     }
 
     pages.forEach(function(page, index) {
-        let imageFilename = page.image;
-        let selected = (selectedImageFileName === imageFilename);
+        const imageFilename = page.image;
+        const selected = (selectedImageFileName === imageFilename);
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
 
-    let prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
-    let nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
+    const prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
+    const nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
@@ -289,14 +310,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         displayMode = 'image';
     }
     // if round_id is not defined or invalid, first option will be used
-    let currentRound = params.get("round_id");
-    let simpleHeader = params.get("simpleHeader");
+    const currentRound = params.get("round_id");
+    const simpleHeader = params.get("simpleHeader");
     // declare this here to avoid use before define warning
     let getProjectData;
 
-    let topDiv = $("#page-browser");
+    const topDiv = $("#page-browser");
     // the non-scrolling area which will contain the page controls
-    let fixHead = $("<div>", {class: 'fixed-box control-pane'});
+    const fixHead = $("<div>", {class: 'fixed-box control-pane'});
     // replace any previous content of topDiv
     topDiv.html(fixHead);
 
@@ -307,29 +328,34 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
 
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
-    // when roundSelector is built do callback
     // the roundSelector retains its selected item so we do not have to
-    function getRoundSelector(callback) {
-        if(roundSelector) {
-            callback();
-        } else {
-            roundSelector = document.createElement("select");
-            $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
-                .done(function(rounds) {
-                    rounds.forEach(function(round) {
-                        let selected = (currentRound === round);
-                        roundSelector.add(new Option(round, round, selected, selected));
+    function getRoundSelector() {
+        const gotRoundSelector = new Promise(function(resolve, reject) {
+            if(roundSelector) {
+                resolve();
+            } else {
+                roundSelector = document.createElement("select");
+                $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
+                    .done(function(rounds) {
+                        rounds.forEach(function(round) {
+                            let selected = (currentRound === round);
+                            roundSelector.add(new Option(round, round, selected, selected));
+                        });
+                        resolve();
+                    })
+                    .fail(function(jqxhr) {
+                        showError(jqxhr);
+                        reject();
                     });
-                    callback();
-                })
-                .fail(showError);
-        }
+            }
+        });
+        return gotRoundSelector;
     }
 
     function displayPages(pages) {
-        let textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
-        let imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
-        let imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
+        const textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
+        const imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
+        const imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
         let imageWidget = null;
         let textWidget = null;
 
@@ -344,7 +370,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             function showImageText() {
                 // show image and/or text for current page according to the
                 // displayMode and set the url
-                let imageFileName = page.image;
+                const imageFileName = page.image;
                 params.set("imagefile", imageFileName);
                 document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
                 if(displayMode !== "text") {
@@ -355,7 +381,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 if(displayMode !== "image") {
                     // if the supplied round_id was invalid it will be replaced
                     // by the shown (first) option
-                    let round = roundSelector.value;
+                    const round = roundSelector.value;
                     params.set("round_id", round);
                     $.ajax(makeApiAjaxSettings("v1/projects/" + projectId + "/pages/" + imageFileName + "/pagerounds/" + round))
                         .done(function(data) {
@@ -366,7 +392,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 replaceUrl();
             }
 
-            let pageControls = makePageControl(pages, page.image, function (newPage) {
+            const pageControls = makePageControl(pages, page.image, function (newPage) {
                 page = newPage;
                 showImageText();
             });
@@ -380,38 +406,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 // and emptying it here because the view splitter manipulates its
                 // style causing side-effects if re-using it
                 $(".imtext").remove();
-                let stretchDiv = $("<div>", {class: 'imtext stretch-box'});
+                const stretchDiv = $("<div>", {class: 'imtext stretch-box'});
                 topDiv.append(stretchDiv);
                 // remove any old controls from fixHead
                 $(".control", fixHead).detach();
-
-                function showTextModes() {
-                    let roundControls = getRoundControls();
-                    $(roundSelector).change(showImageText);
-                    let textDiv = $("<div>");
-                    switch(displayMode) {
-                    case "text":
-                        textWidget = makeTextWidget(textDiv, storageKey);
-                        fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
-                        stretchDiv.append(textDiv);
-                        break;
-                    case "imageText": {
-                        let imageDiv = $("<div>");
-                        imageWidget = makeImageWidget(imageDiv, storageKey);
-                        stretchDiv.append(imageDiv, textDiv);
-                        let theSplitter = viewSplitter(stretchDiv, storageKey);
-                        if(mentorMode) {
-                            // make a text widget with splitter
-                            textWidget = makeTextWidget(textDiv, storageKey, true, theSplitter.mainSplit.reSize);
-                        } else {
-                            textWidget = makeTextWidget(textDiv, storageKey);
-                        }
-                        fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
-                        break;
-                    }
-                    }
-                    showImageText();
-                }
 
                 if(displayMode === "image") {
                     if(simpleHeader) {
@@ -420,16 +418,45 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                         fixHead.append(textButton, imageTextButton, pageControls);
                     }
 
-                    let imageDiv = $("<div>");
-                    imageWidget = makeImageWidget(imageDiv, storageKey);
+                    const imageDiv = $("<div>");
+                    imageWidget = makeImageWidget(imageDiv);
+                    imageWidget.setup(storageKey);
                     stretchDiv.append(imageDiv);
                     showImageText();
                 } else {
                     // in case initial round_id was invalid, get round from
                     // round selector, but wait until it is drawn
-                    getRoundSelector(showTextModes);
+                    getRoundSelector().then(function showTextModes() {
+                        const roundControls = getRoundControls();
+                        $(roundSelector).change(showImageText);
+                        const textDiv = $("<div>");
+                        switch(displayMode) {
+                        case "text":
+                            textWidget = makeTextWidget(textDiv);
+                            textWidget.setup(storageKey);
+                            fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
+                            stretchDiv.append(textDiv);
+                            break;
+                        case "imageText": {
+                            const imageDiv = $("<div>");
+                            imageWidget = makeImageWidget(imageDiv);
+                            stretchDiv.append(imageDiv, textDiv);
+                            const theSplitter = viewSplitter(stretchDiv, storageKey);
+                            if(mentorMode) {
+                                // make a text widget with splitter
+                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
+                            } else {
+                                textWidget = makeTextWidget(textDiv);
+                            }
+                            theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
+                            theSplitter.fireSetSplitDir();
+                            fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
+                            break;
+                        }
+                        }
+                        showImageText();
+                    });
                 }
-
             } // end of showCurrentMode
 
             textButton.click(function () {
@@ -451,12 +478,12 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         } // end of showCurrentPage
 
         function initialPageSelect() {
-            let initalPageControls = makePageControl(pages, null, function (page) {
+            const initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
             fixHead.append(initalPageControls);
             if(displayMode !== "image") {
-                getRoundSelector(function () {
+                getRoundSelector().then(function() {
                     fixHead.append(getRoundControls());
                 });
             }
@@ -471,7 +498,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         showCurrentImageFile = function(currentImageFileName) {
             if(currentImageFileName) {
                 // does filename exist in the project?
-                let currentPage = pages.find( function(page) {
+                const currentPage = pages.find( function(page) {
                     return (currentImageFileName === page.image);
                 });
                 if(currentPage) {
@@ -499,8 +526,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
-        let projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
-        let projectInput = $("<input>", {type: 'text', required: true});
+        const projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
+        const projectInput = $("<input>", {type: 'text', required: true});
 
         projectSelectButton.click(function () {
             projectId = projectInput.val();
@@ -521,7 +548,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
         if(!simpleHeader) {
             fixHead.empty();
             // show project name and button to select another
-            let resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
+            const resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
             resetButton.click(function () {
                 selectAProject();
             });
