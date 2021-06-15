@@ -2,29 +2,22 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var imageControl = function(imageElement, storageKey) {
-    let imageKey = storageKey + "-image";
-    let imageData = JSON.parse(localStorage.getItem(imageKey));
-    if(!$.isPlainObject(imageData)) {
-        imageData = {zoom: 100};
-    }
-    let percent = imageData.zoom;
+var makeImageControl = function(imageElement) {
+    let imageKey;
+    let percent;
+    const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
-    let percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
-
-    let setZoom = function () {
-        imageElement.css({"vertical-align": "middle"});
+    function setZoom() {
         imageElement.width(10 * percent);
         imageElement.height("auto");
-    };
+    }
 
     function saveZoom() {
-        imageData.zoom = percent;
-        localStorage.setItem(imageKey, JSON.stringify(imageData));
+        localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     percentInput.change(function() {
-        let value = parseInt(this.value);
+        const value = parseInt(this.value);
         if(isNaN(value)) {
             percent = 100;
         } else if(value < 10) {
@@ -48,7 +41,7 @@ var imageControl = function(imageElement, storageKey) {
 
     function unPersist() {
         // reset width and height so that fitting does not persist
-        let width = imageElement.width();
+        const width = imageElement.width();
         imageElement.width(width);
         imageElement.height("auto");
         // assume 100% means 1000px wide
@@ -56,87 +49,91 @@ var imageControl = function(imageElement, storageKey) {
         setPercent();
     }
 
-    let fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
+    const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
         imageElement.width('100%');
         unPersist();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
-    let fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
+    const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
         imageElement.height('100%');
         imageElement.width("auto");
         unPersist();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
-    let zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
+    const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         percent *= 1.1;
         setPercent();
         setZoom();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
-    let zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
+    const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
         percent *= 0.909;
         setPercent();
         setZoom();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
-    setZoom();
-    return [
-        fitHeight,
-        fitWidth,
-        " ",
-        $("<span>", {class: "nowrap"}).append(percentInput, "%"),
-        " ",
-        zoomIn,
-        zoomOut
-    ];
+    return {
+        controls: [
+            fitHeight,
+            fitWidth,
+            " ",
+            $("<span>", {class: "nowrap"}).append(percentInput, "%"),
+            " ",
+            zoomIn,
+            zoomOut
+        ],
+        setup: function(storageKey) {
+            imageKey = storageKey + "-image";
+            let imageData = JSON.parse(localStorage.getItem(imageKey));
+            if(!$.isPlainObject(imageData)) {
+                imageData = {zoom: 100};
+            }
+            percent = imageData.zoom;
+            percentInput.val(percent);
+            setZoom();
+        },
+    };
 };
 
-function makeControlDiv(container, controls, storageKey, onChange) {
-    let barKey = storageKey + "-bar";
-    let barData = JSON.parse(localStorage.getItem(barKey));
-
-    // location is two letters, 1st position of bar: North East South West,
-    // 2nd controls within it Begin Middle End
-    if(!$.isPlainObject(barData)) {
-        barData = {location: "NM"};
-    }
-    let point = barData.location[0];
-    let begMidEnd = barData.location[1];
+function makeControlDiv(container, controls, onChange) {
+    let barKey;
+    let compassPoint;
+    let begMidEnd;
 
     function saveLocation() {
-        barData.location = point + begMidEnd;
+        const barData = {location: compassPoint + begMidEnd};
         localStorage.setItem(barKey, JSON.stringify(barData));
     }
 
-    let content = $("<div>", {class: 'overflow-auto'}).css({flex: 'auto'});
+    const content = $("<div>", {class: 'overflow-auto'}).css({flex: 'auto'});
     container.css({display: 'flex', height: "100%"});
     container.append(content);
 
-    let controlBar = $("<div>", {class: 'page-interface control-bar'});
+    const controlBar = $("<div>", {class: 'page-interface control-bar'});
     // control2 contains the controls, control1 & control3 adjust the layout
-    let control1 = $("<div>", {class: 'left-align'});
-    let control2 = $("<div>").css({flex: '0 1 auto'});
-    let control3 = $("<div>");
+    const control1 = $("<div>", {class: 'left-align'});
+    const control2 = $("<div>").css({flex: '0 1 auto'});
+    const control3 = $("<div>");
     controlBar.append(control1, control2, control3);
 
-    let menu = $("<div>", {class: "control-bar-menu"});
+    const menu = $("<div>", {class: "control-bar-menu"});
 
-    let menuButton = $("<button>", {title: texts.adjustPanel})
+    const menuButton = $("<button>", {title: texts.adjustPanel})
         .append($("<i>", {class: 'fas fa-cog'}))
         .click(function () {
             menu.toggle();
         });
 
     // build navBox
-    let navBox = $("<table>");
-    let navCell = [];
+    const navBox = $("<table>");
+    const navCell = [];
     let cellIndex = 0;
     for(let rowIndex = 0; rowIndex < 3; rowIndex++) {
-        let row = $("<tr>");
+        const row = $("<tr>");
         navBox.append(row);
         for(let columnIndex = 0; columnIndex < 3; columnIndex++) {
             navCell[cellIndex] = $("<td>");
@@ -174,36 +171,36 @@ function makeControlDiv(container, controls, storageKey, onChange) {
         controlBar.css({"text-align": "center", "flex-direction": "column"});
     }
 
-    let leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
+    const leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
         .append($("<i>", {class: 'fas fa-caret-left'}));
-    let centerButton = $("<button>", {class: 'navbutton', title: texts.controlCenter}).append('|');
-    let rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
+    const centerButton = $("<button>", {class: 'navbutton', title: texts.controlCenter}).append('|');
+    const rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
         .append($("<i>", {class: 'fas fa-caret-right'}));
-    let topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
+    const topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
         .append($("<i>", {class: 'fas fa-caret-up'}));
-    let midButton = $("<button>", {class: 'navbutton', title: texts.controlMid}).append('−');
-    let botButton = $("<button>", {class: 'navbutton', title: texts.controlBot})
+    const midButton = $("<button>", {class: 'navbutton', title: texts.controlMid}).append('−');
+    const botButton = $("<button>", {class: 'navbutton', title: texts.controlBot})
         .append($("<i>", {class: 'fas fa-caret-down'}));
 
-    let westButton = $("<button>", {class: 'navbutton', title: texts.dockLeft})
+    const westButton = $("<button>", {class: 'navbutton', title: texts.dockLeft})
         .append($("<i>", {class: 'fas fa-arrow-left'}));
-    let northButton = $("<button>", {class: 'navbutton', title: texts.dockTop})
+    const northButton = $("<button>", {class: 'navbutton', title: texts.dockTop})
         .append($("<i>", {class: 'fas fa-arrow-up'}));
-    let southButton = $("<button>", {class: 'navbutton', title: texts.dockBot})
+    const southButton = $("<button>", {class: 'navbutton', title: texts.dockBot})
         .append($("<i>", {class: 'fas fa-arrow-down'}));
-    let eastButton = $("<button>", {class: 'navbutton', title: texts.dockRight})
+    const eastButton = $("<button>", {class: 'navbutton', title: texts.dockRight})
         .append($("<i>", {class: 'fas fa-arrow-right'}));
 
-    let hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
+    const hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
 
     menu.append(navBox);
-    let menuHolder = $("<div>").css({position: "relative"})
+    const menuHolder = $("<div>").css({position: "relative"})
         .append(menu);
     control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menuHolder);
 
-    function navigate() {
+    function setCompassPoint() {
         $(".navbutton", navBox).detach();
-        switch(point) {
+        switch(compassPoint) {
         case "N":
             controlFirst();
             controlHoriz();
@@ -238,7 +235,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
         }
     }
 
-    function navStyle() {
+    function setBegMidEnd() {
         switch(begMidEnd) {
         case "B":
             control1.css({flex: '0 0 auto'});
@@ -260,9 +257,9 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     });
 
     function newPoint(newP) {
-        point = newP;
+        compassPoint = newP;
         saveLocation();
-        navigate();
+        setCompassPoint();
         menu.hide();
     }
 
@@ -285,7 +282,7 @@ function makeControlDiv(container, controls, storageKey, onChange) {
     function newBME(newBME) {
         begMidEnd = newBME;
         saveLocation();
-        navStyle();
+        setBegMidEnd();
         menu.hide();
     }
 
@@ -318,24 +315,35 @@ function makeControlDiv(container, controls, storageKey, onChange) {
             .append(control));
     });
 
-    navigate();
-    navStyle();
-
     return {
-        content: content
+        content: content,
+
+        setupControls: function (storageKey) {
+            barKey = storageKey + "-bar";
+            let barData = JSON.parse(localStorage.getItem(barKey));
+            if(!$.isPlainObject(barData)) {
+                barData = {location: "NM"};
+            }
+            // location is two letters:
+            // 1st compass point of bar: North East South West,
+            // 2nd controls position within it: Begin Middle End
+            compassPoint = barData.location[0];
+            begMidEnd = barData.location[1];
+            setCompassPoint();
+            setBegMidEnd();
+        },
     };
 }
 
-function makeImageWidget(container, storageKey, align = "C") {
+function makeImageWidget(container, align = "C") {
     const alignment = {
         L: "left",
         C: "center",
         R: "right"
     };
-    let imageWidgetKey = storageKey + "-imagewidget";
-    let imageElement = $("<img>").css("cursor", "grab");
-    let controls = imageControl(imageElement, imageWidgetKey);
-    let controlDiv = makeControlDiv(container, controls, imageWidgetKey);
+    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
+    const imageControl = makeImageControl(imageElement);
+    const controlDiv = makeControlDiv(container, imageControl.controls);
 
     controlDiv.content.css("text-align", alignment[align]).append(imageElement);
 
@@ -361,6 +369,12 @@ function makeImageWidget(container, storageKey, align = "C") {
     });
 
     return {
+        setup: function (storageKey) {
+            const imageWidgetKey = storageKey + "-imagewidget";
+            imageControl.setup(imageWidgetKey);
+            controlDiv.setupControls(imageWidgetKey);
+        },
+
         setImage: function (src) {
             imageElement.attr("src", src);
             controlDiv.content
