@@ -779,23 +779,6 @@ CREATE TABLE `user_teams` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `user_teams_membership`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `user_teams_membership` (
-  `u_id` int(11) unsigned NOT NULL,
-  `t_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`u_id`,`t_id`),
-  KEY (`t_id`),
-  FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
-  FOREIGN KEY (`t_id`) REFERENCES `user_teams` (`id`)
-);
-# --------------------------------------------------------
-
-#
 # Table structure for table `users`
 #
 # Creation:
@@ -831,6 +814,23 @@ CREATE TABLE `users` (
   KEY `t_last_activity` (`t_last_activity`),
   KEY `api_key_username` (`api_key`,`username`),
   KEY `email` (`email`)
+);
+# --------------------------------------------------------
+
+#
+# Table structure for table `user_teams_membership`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `user_teams_membership` (
+  `u_id` int(11) unsigned NOT NULL,
+  `t_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`u_id`,`t_id`),
+  KEY (`t_id`),
+  FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
+  FOREIGN KEY (`t_id`) REFERENCES `user_teams` (`id`)
 );
 # --------------------------------------------------------
 
