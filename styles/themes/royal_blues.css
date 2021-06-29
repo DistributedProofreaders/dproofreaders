@@ -1491,6 +1491,11 @@ div.newsitem p {
 div.newsitem img {
   max-width: 100%;
 }
+div.newsitem iframe {
+  width: 320px;
+  height: 205px;
+  border: 0;
+}
 .news-header {
   font-size: 1.25em;
   font-weight: bold;
