@@ -15,6 +15,7 @@ const {barChart, stackedAreaChart} = (function () {
         svg.append("text")
             .attr("x", (width / 2))
             .attr("y", (margin.top / 2) + 3)
+            .attr("font-size", "16px")
             .attr("text-anchor", "middle")
             .attr("fill", "currentColor")
             .text(config.title);
