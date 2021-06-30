@@ -40,7 +40,8 @@ const {barChart, stackedAreaChart} = (function () {
             series.attr("text-anchor", "middle");
             if (config.bottomLegend) {
                 series.attr("x", config.width / 2)
-                    .attr("y", height - 15);
+                    .attr("y", height - 15)
+                    .attr("font-size", "15px");
             } else {
                 series.attr("transform", "rotate(-90)")
                     .attr("x", -((config.height || height) / 2))
