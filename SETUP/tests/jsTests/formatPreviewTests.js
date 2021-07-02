@@ -1,4 +1,4 @@
-/* global QUnit analyse processExMath */
+/* global QUnit analyse processExMath findClose */
 
 QUnit.module("Format preview test", function() {
     let configuration = {
@@ -433,5 +433,10 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(procText, "ABC\\[d\nef\\]GHI\\(jkl\\)MNO");
         procText = processExMath(text, toUpper, false);
         assert.strictEqual(procText, "ABC\\[D\nEF\\]GHI\\(JKL\\)MNO");
+    });
+
+    QUnit.test("Find unmatched closing bracket", function (assert) {
+        let text = "xy]za[b[c]d]ef]";
+        assert.strictEqual(findClose(text, 3), 14);
     });
 });

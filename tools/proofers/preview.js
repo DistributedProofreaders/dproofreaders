@@ -26,6 +26,25 @@ function processExMath(text, textFunction, allowMath) {
     }
 }
 
+// find index of next unmatched ] return 0 if none found
+function findClose(txt, index) {
+    var result;
+    var nestLevel = 0;
+    var re = /\[|\]/g;  // [ or ]
+    re.lastIndex = index;
+    while ((result = re.exec(txt)) !== null) {
+        if ("[" === result[0]) {
+            nestLevel += 1;
+        } else { // must be ]
+            if (0 === nestLevel) {
+                return result.index;
+            }
+            nestLevel -= 1;
+        }
+    }
+    return 0;
+}
+
 $(function () {
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
@@ -98,32 +117,13 @@ $(function () {
             }
         }
 
-        // find index of next unmatched ] return 0 if none found
-        function findClose(index) {
-            var result;
-            var nestLevel = 0;
-            var re = /\[|\]/g;  // [ or ]
-            re.lastIndex = index;
-            while ((result = re.exec(txt)) !== null) {
-                if ("[" === result[0]) {
-                    nestLevel += 1;
-                } else { // must be ]
-                    if (0 === nestLevel) {
-                        return result.index;
-                    }
-                    nestLevel -= 1;
-                }
-            }
-            return 0;
-        }
-
         const reNoteStart = /\[\*\*/g;
 
         function checkProoferNotes() {
             // look for [** then look for ] skipping matched [ ]
             let result, closeIndex;
             while(null !== (result = reNoteStart.exec(txt))) {
-                closeIndex = findClose(reNoteStart.lastIndex);
+                closeIndex = findClose(txt, reNoteStart.lastIndex);
                 if (0 === closeIndex) {
                     // no ] found
                     reportIssue(result.index, 3, "noCloseBrack", 1);
@@ -136,7 +136,7 @@ $(function () {
             }
         }
 
-        function removeAllNotes() {
+        function removeAllNotes(txt) {
             let beginIndex = 0;
             let txtOut = "";
             let result, noteStartIndex, noteEndIndex;
@@ -146,7 +146,7 @@ $(function () {
             // find start of note
             while (null != (result = reNoteStart.exec(txt))) {
                 noteStartIndex = result.index;
-                noteEndIndex = findClose(reNoteStart.lastIndex);
+                noteEndIndex = findClose(txt, reNoteStart.lastIndex);
                 // copy text to start of note
                 txtOut += txt.slice(beginIndex, noteStartIndex);
                 // if note starts at beginning of a line and ends at the end of a line
@@ -163,11 +163,10 @@ $(function () {
             // copy any remaining text
             // If beginIndex is greater than or equal to str.length, an empty string is returned.
             txtOut += txt.slice(beginIndex);
-            txt = txtOut;
 
             // remove trailing whitespace on each line and trailing blank lines
-            txt = txt.replace(/ *$/mg, "");
-            txt = txt.replace(/\s*$/, "");
+            txtOut = txtOut.replace(/ *$/mg, "");
+            return txtOut.replace(/\s*$/, "");
         }
 
         // find end of line (or eot) following ix
@@ -627,7 +626,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, true);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -647,7 +646,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, true);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -663,7 +662,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, !config.suppress.sideNoteBlank);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -726,7 +725,7 @@ $(function () {
         // problem and do nothing else.
         checkProoferNotes();
         if(parseOK) {
-            removeAllNotes();
+            txt = removeAllNotes(txt);
             parseInLine();
             // if inline parse fails then checkSC might not work
             if (parseOK) {
