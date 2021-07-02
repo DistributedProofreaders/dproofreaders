@@ -98,34 +98,72 @@ $(function () {
             }
         }
 
-        function checkProoferNotes() {
-            // look for [** then look for ] (good) or [** (bad)
-            let reNote = /(\[\*\*)|(\])/g;
-            let result, closeResult;
-            while(null !== (result = reNote.exec(txt))) {
-                if(result[2]) {
-                    // found ], could be legit.
-                    continue;
+        // find index of next unmatched ] return 0 if none found
+        function findClose(index) {
+            var result;
+            var nestLevel = 0;
+            var re = /\[|\]/g;  // [ or ]
+            re.lastIndex = index;
+            while ((result = re.exec(txt)) !== null) {
+                if ("[" === result[0]) {
+                    nestLevel += 1;
+                } else { // must be ]
+                    if (0 === nestLevel) {
+                        return result.index;
+                    }
+                    nestLevel -= 1;
                 }
-                // found [**
-                closeResult = reNote.exec(txt);
-                if((null === closeResult) || closeResult[1]) {
-                    // no closing ] or another [**
+            }
+            return 0;
+        }
+
+        const reNoteStart = /\[\*\*/g;
+
+        function checkProoferNotes() {
+            // look for [** then look for ] skipping matched [ ]
+            let result, closeIndex;
+            while(null !== (result = reNoteStart.exec(txt))) {
+                closeIndex = findClose(reNoteStart.lastIndex);
+                if (0 === closeIndex) {
+                    // no ] found
                     reportIssue(result.index, 3, "noCloseBrack", 1);
                     badParse();
-                    break;
+                    return;
+                } else {
+                    // continue search from the ] we found
+                    reNoteStart.lastIndex = closeIndex;
                 }
             }
         }
 
         function removeAllNotes() {
-            // if note starts at beginning of a line and ends at the end of a line
-            // remove any following nl character also so doesn't count as blank line
-            // $1 will be \n or empty string if at start
-            txt = txt.replace(/(^|\n)\[\*\*[^\]]*\](?:$|\n)/g, '$1');
-
-            // remove other notes, possibly containing newlines
-            txt = txt.replace(/\[\*\*[^\]]*\]/g, '');
+            let beginIndex = 0;
+            let txtOut = "";
+            let result, noteStartIndex, noteEndIndex;
+            const maxIndex = txt.length - 1;
+            reNoteStart.lastIndex = 0;
+            // we've already checked that notes are correctly terminated
+            // find start of note
+            while (null != (result = reNoteStart.exec(txt))) {
+                noteStartIndex = result.index;
+                noteEndIndex = findClose(reNoteStart.lastIndex);
+                // copy text to start of note
+                txtOut += txt.slice(beginIndex, noteStartIndex);
+                // if note starts at beginning of a line and ends at the end of a line
+                // remove any following nl character also so doesn't count as a blank line
+                if(((noteStartIndex === 0) || (txt.charAt(noteStartIndex - 1) === "\n")) && ((noteEndIndex === maxIndex) || (txt.charAt(noteEndIndex + 1) === "\n"))) {
+                    // let next copy begin after the ending \n
+                    beginIndex = noteEndIndex + 2;
+                } else {
+                    // let next copy begin after the note
+                    beginIndex = noteEndIndex + 1;
+                }
+                reNoteStart.lastIndex = beginIndex;
+            }
+            // copy any remaining text
+            // If beginIndex is greater than or equal to str.length, an empty string is returned.
+            txtOut += txt.slice(beginIndex);
+            txt = txtOut;
 
             // remove trailing whitespace on each line and trailing blank lines
             txt = txt.replace(/ *$/mg, "");
@@ -551,25 +589,6 @@ $(function () {
         // possible issue if there is an unmatched ] in the text
         // message includes "Footnote" etc. to clarify the problem
         function checkBlankLines() {
-        // find index of next unmatched ] return 0 if none found
-            function findClose(index) {
-                var result;
-                var nestLevel = 0;
-                var re = /\[|\]/g;  // [ or ]
-                re.lastIndex = index;
-                while ((result = re.exec(txt)) !== null) {
-                    if ("[" === result[0]) {
-                        nestLevel += 1;
-                    } else { // must be ]
-                        if (0 === nestLevel) {
-                            return result.index;
-                        }
-                        nestLevel -= 1;
-                    }
-                }
-                return 0;
-            }
-
             // check for chars before tag or on previous line
             function chkBefore(start, len, checkBlank) {
                 if (/./.test(txt.charAt(start - 1))) {

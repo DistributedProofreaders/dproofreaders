@@ -323,12 +323,6 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 0, 3, "noCloseBrack", 1);
     });
 
-    QUnit.test("nested user note", function (assert) {
-        text = "[** abc [** ABC]]";
-        issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 0, 3, "noCloseBrack", 1);
-    });
-
     QUnit.test("Footnote etc. missing ]", function (assert) {
         text = "*[Footnote: ab\ncd";
         issArray = analyse(text, configuration).issues;
