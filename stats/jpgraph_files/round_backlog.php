@@ -2,9 +2,9 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once('common.inc');
 include_once($relPath.'graph_data.inc');
 include_once($relPath.'slim_header.inc');
+include_once('common.inc');
 
 
 // This image shows the total number of pages remaining in each round.
@@ -59,7 +59,7 @@ $x_title = _("Help is most needed in the red rounds");
 
 // If this is a new system there won't be any stats so don't divide by zero
 if ($stats_total == 0) {
-  $title = _("No pages found.");
+    $title = _("No pages found.");
 }
 
 $js_data = '$(function(){barChart("round_backlog",' . json_encode([
@@ -75,16 +75,15 @@ $js_data = '$(function(){barChart("round_backlog",' . json_encode([
     "width" => $width,
     "height" => $height,
     "barBorder" => true,
-    "bottomLegend" => $x_title
+    "bottomLegend" => $x_title,
 ]) . ');});';
 
 
 slim_header($title, [
-  "body_attributes" => "style='margin: 0'",
-  "js_files" => get_graph_js_files(),
-  "js_data" => $js_data,
+    "body_attributes" => "style='margin: 0'",
+    "js_files" => get_graph_js_files(),
+    "js_data" => $js_data,
 
 ]);
 
 echo "<div id='round_backlog' style='width:" . $width . "px;height:" . $height . "px;'></div>";
-
