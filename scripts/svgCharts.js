@@ -165,7 +165,9 @@ const {barChart, stackedAreaChart} = (function () {
             .nice()
             .range([height - barMargin.bottom, barMargin.top]);
 
-        const yAxisTicks = y.ticks().filter(Number.isInteger);
+        const yInterval = config.yAxisTickCount ? Math.ceil(y.ticks().length / config.yAxisTickCount) : Number.MAX_SAFE_INTEGER;
+        const yAxisTicks = y.ticks().filter(Number.isInteger)
+            .filter((_, i) => i % yInterval === 0);
 
         const yAxis = g => g
             .attr("transform", `translate(${barMargin.left},0)`)

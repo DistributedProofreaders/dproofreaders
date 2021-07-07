@@ -76,6 +76,7 @@ $js_data = '$(function(){barChart("round_backlog",' . json_encode([
     "height" => $height,
     "barBorder" => true,
     "bottomLegend" => $x_title,
+    "yAxisTickCount" => 5,
 ]) . ');});';
 
 
