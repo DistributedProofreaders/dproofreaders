@@ -197,6 +197,24 @@ const {barChart, stackedAreaChart} = (function () {
             barColors = () => color(seriesTitle);
         }
 
+        const tooltip = d3.select('#' + id)
+            .append("div")
+            .attr("class", "chart-tooltip")
+            .style("opacity", 0);
+
+
+        var mouseover = () => {
+            tooltip.style("opacity", 1);
+        };
+        var mousemove = (event, {value}) => {
+            tooltip.text(value)
+                .style("left", (d3.pointer(event, document.body)[0]) + "px")
+                .style("top", (d3.pointer(event, document.body)[1]) + "px");
+        };
+        var mouseleave = () => {
+            tooltip.style("opacity", 0);
+        };
+
         svg.append("g")
             .selectAll("rect")
             .data(data)
@@ -207,7 +225,10 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("x", (d, i) => x(i))
             .attr("y", d => y(d.value))
             .attr("height", d => y(0) - y(d.value))
-            .attr("width", x.bandwidth());
+            .attr("width", x.bandwidth())
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave);
 
         svg.append("g")
             .call(xAxis)
