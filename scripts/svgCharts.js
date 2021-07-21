@@ -74,8 +74,8 @@ const {barChart, stackedAreaChart} = (function () {
             delete rowEntry.currentY;
             data.push(rowEntry);
         }
-        data.columns = ['date', ...data.columns];
-        data.y = 'date';
+        data.columns = ["date", ...data.columns];
+        data.y = "date";
         const series = d3.stack().keys(data.columns.slice(1))(data);
 
         const y = d3.scaleLinear()
@@ -93,7 +93,7 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("transform", `translate(${config.axisLeft ? margin.left : width - margin.right},0)`)
             .call((config.axisLeft ? d3.axisLeft(y) : d3.axisRight(y))
                 .tickValues(yAxisTicks)
-                .tickFormat(d3.format('d')))
+                .tickFormat(d3.format("d")))
             .call(g => g.select(".domain").remove());
         const xAxis = g => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -110,7 +110,7 @@ const {barChart, stackedAreaChart} = (function () {
             .y0(d => y(d[0]))
             .y1(d => y(d[1]));
 
-        const svg = d3.select('#' + id).append('svg')
+        const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
 
         svg.append("g")
@@ -172,7 +172,7 @@ const {barChart, stackedAreaChart} = (function () {
         const yAxis = g => g
             .attr("transform", `translate(${barMargin.left},0)`)
             .call(d3.axisLeft(y).tickValues(yAxisTicks)
-                .tickFormat(d3.format('d')))
+                .tickFormat(d3.format("d")))
             .call(g => g.select(".domain").remove())
             .call(g => g.append("text")
                 .attr("x", -barMargin.left)
@@ -181,7 +181,7 @@ const {barChart, stackedAreaChart} = (function () {
                 .attr("text-anchor", "start")
                 .text(data.y));
 
-        const svg = d3.select('#' + id).append('svg')
+        const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
 
         const color = d3.scaleOrdinal()
@@ -197,22 +197,21 @@ const {barChart, stackedAreaChart} = (function () {
             barColors = () => color(seriesTitle);
         }
 
-        const tooltip = d3.select('#' + id)
+        const tooltip = d3.select("#" + id)
             .append("div")
             .attr("class", "chart-tooltip")
-            .style("opacity", 0);
+            .style("display", "none");
 
 
-        var mouseover = () => {
-            tooltip.style("opacity", 1);
-        };
-        var mousemove = (event, {value}) => {
-            tooltip.text(value)
+        const mouseAction = (event, {value}) => {
+            tooltip.style("display", "")
+                .text(value)
                 .style("left", (d3.pointer(event, document.body)[0]) + "px")
-                .style("top", (d3.pointer(event, document.body)[1]) + "px");
+                .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
         };
+
         var mouseleave = () => {
-            tooltip.style("opacity", 0);
+            tooltip.style("display", "none");
         };
 
         svg.append("g")
@@ -226,8 +225,8 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("y", d => y(d.value))
             .attr("height", d => y(0) - y(d.value))
             .attr("width", x.bandwidth())
-            .on("mouseover", mouseover)
-            .on("mousemove", mousemove)
+            .on("mouseover", mouseAction)
+            .on("mousemove", mouseAction)
             .on("mouseleave", mouseleave);
 
         svg.append("g")
