@@ -439,4 +439,10 @@ QUnit.module("Format preview test", function() {
         let text = "xy]za[b[c]d]ef]";
         assert.strictEqual(findClose(text, 3), 14);
     });
+
+    QUnit.test("Check proofers note removed", function (assert) {
+        let text = "xy]za[** b[c]d]ef";
+        let procText = analyse(text, configuration).text;
+        assert.strictEqual(procText, "xy]zaef");
+    });
 });
