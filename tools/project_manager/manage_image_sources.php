@@ -221,7 +221,7 @@ class ImageSource
 
         echo "<tr class='$row_class'>";
         echo "<td colspan='6'>";
-        echo "<b>" . _("Credits Line") . ": </b>";
+        echo "<b>" . _("Credits Line (no URLs)") . ": </b>";
         echo html_safe($this->credit);
         echo "</td></tr>";
 
@@ -275,7 +275,7 @@ class ImageSource
         $this->_show_edit_row('display_name', _('Display Name'), false, 30, true);
         $this->_show_edit_row('full_name', _('Full Name'), false, 100, true);
         $this->_show_edit_row('url', _('Website'), false, 200);
-        $this->_show_edit_row('credit', _('Credits Line'), true, 200);
+        $this->_show_edit_row('credit', _('Credits Line (no URLs)'), true, 200);
         $this->_show_edit_permissions_row();
         $this->_show_edit_row('public_comment', _('Description (public comments)'), true, 255);
         $this->_show_edit_row('internal_comment', _('Notes (internal comments)'), true);
