@@ -2,6 +2,8 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'graph_data.inc');
+include_once($relPath.'slim_header.inc');
 include_once('common.inc');
 
 // This image shows how many days it would take to complete all pages in
@@ -12,12 +14,8 @@ include_once('common.inc');
 //
 // see also: http://www.pgdp.net/wiki/Round_backlog_graphs
 
-// Start with creating the Graph, this enables the use of the cache
-// where possisble
 $width = 300;
 $height = 200;
-$cache_timeout = 59; // in minutes
-$graph = new Graph($width, $height, get_image_cache_filename(), $cache_timeout);
 
 // Pull all interested phases, primarily all the rounds and PP
 $interested_phases = array_keys($Round_for_round_id_);
@@ -27,12 +25,6 @@ $stats = get_round_backlog_stats($interested_phases);
 
 // get the total of all phases
 $stats_total = array_sum($stats);
-
-// If this is a new system there won't be any stats so don't divide by zero
-if ($stats_total == 0) {
-    dpgraph_error(_("No pages found."), $width, $height);
-}
-
 
 // Get page saveAsDone trend information
 $holder_id = 1;
@@ -87,46 +79,34 @@ $title = _("Days to finish all pages in Rounds");
 //              Try to keep the translation the same length as the English text.
 $x_title = _("Help is most needed in the red rounds");
 
-// scale from 0 to 110% of max
-$graph->SetScale("textint", 0, max($datay) * 1.1);
-$graph->graph_theme = null;
-$graph->img->SetAntiAliasing();
+// If this is a new system there won't be any stats so don't divide by zero
+if ($stats_total == 0) {
+    $title = _("No pages found.");
+}
 
-// Set background to white
-$graph->SetMarginColor('white');
+$js_data = '$(function(){barChart("round_backlog_days",' . json_encode([
+    "title" => $title,
+    "axisLeft" => true,
+    "barColors" => $barColors,
+    "data" => [
+        $x_title => [
+            "x" => $datax,
+            "y" => $datay,
+        ],
+    ],
+    "width" => $width,
+    "height" => $height,
+    "barBorder" => true,
+    "bottomLegend" => $x_title,
+    "yAxisTickCount" => 5,
+]) . ');});';
 
-// Add a drop shadow
-$graph->SetShadow();
 
-// Adjust the margin a bit to make more room for titles
-// left, right, top, bottom
-$graph->img->SetMargin(50, 20, 30, 60);
+slim_header($title, [
+    "body_attributes" => "style='margin: 0'",
+    "js_files" => get_graph_js_files(),
+    "js_data" => $js_data,
 
-// Set title
-$graph->title->Set($title);
-$graph->title->SetFont($jpgraph_FF, FS_BOLD, 10);
+]);
 
-// Set X axis
-$graph->xaxis->SetTickLabels($datax);
-$graph->xaxis->title->Set($x_title);
-$graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
-$graph->xaxis->title->SetMargin(10);
-$graph->xaxis->HideTicks();
-
-// Set Y axis
-$graph->yaxis->HideTicks();
-
-// Create a bar plot
-$plot = new BarPlot($datay);
-$plot->SetFillColor($barColors);
-$graph->Add($plot);
-
-// Add display of values at top of bars
-$plot->value->Show();
-$plot->value->SetColor("black");
-$plot->value->SetFont($jpgraph_FF, $jpgraph_FS, 8);
-$plot->value->SetAngle(0);
-$plot->value->SetFormat("%d");
-
-// Display the graph
-$graph->Stroke();
+echo "<div id='round_backlog_days' style='width:" . $width . "px;height:" . $height . "px;'></div>";
