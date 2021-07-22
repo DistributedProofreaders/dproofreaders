@@ -454,12 +454,11 @@ class ProjectInfoHolder
                 $errors .= sprintf(
                     _("Posted Number \"%s\" is not of the correct format."),
                     html_safe($this->postednum)) . "<br>";
-                // You'll sometimes see PG etext numbers with a 'C' appended.
-                // The 'C' is not part of the etext number
-                // (e.g., it does not appear in PG's RDF catalog),
-                // rather it's a bit of information about the identified text,
-                // namely that it's still under (US) copyright.
-                // Anyhow, the 'C' should not be included here.
+                // Occasionally, there will be a PG ebook that is still
+                // under U.S. copyright. This is indicated in their system
+                // by appending a 'C' to the etext number. The link to
+                // the etext, however, does not include the 'C', nor should
+                // the DP link. If this changes, update the pattern here.
             }
         }
 
@@ -877,7 +876,7 @@ class ProjectInfoHolder
         $this->row(_("Original Image Source"), 'image_source_list', $this->image_source);
         $this->row(_("Image Preparer"), 'DP_user_field', $this->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
         $this->row(_("Text Preparer"), 'DP_user_field', $this->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), $site_abbreviation));
-        $this->row(_("Extra Credits<br>(to be included in list of names)"),
+        $this->row(_("Extra Credits<br>(to be included in list of names--no URLs)"),
                                                'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {
             $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->scannercredit, 'scannercredit');
