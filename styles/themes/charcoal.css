@@ -1377,6 +1377,16 @@ footer small,
 .quick-links li:first-child::before {
   content: "";
 }
+/* ------------------------------------------------------------------------ */
+/* Chart/Graphs */
+.chart-tooltip {
+  background-color: #262626;
+  border: thin solid #565656;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+}
 /*
  If the screen is "narrow enough" we move the statsbar below the page
  content using a flex layout. We don't use a flex layout for the
@@ -1490,6 +1500,9 @@ div.newsitem p {
 }
 div.newsitem img {
   max-width: 100%;
+}
+div.newsitem iframe {
+  border: 0;
 }
 .news-header {
   font-size: 1.25em;
