@@ -241,7 +241,7 @@ const {barChart, stackedAreaChart} = (function () {
         svg.append("g")
             .call(yAxis);
 
-        addTitle(svg, config);
+        addTitle(svg, config, width);
         addLegend(svg, color, config, true, width, height);
     }
 
