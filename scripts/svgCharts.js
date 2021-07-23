@@ -12,7 +12,8 @@ const {barChart, stackedAreaChart} = (function () {
     function addTitle(svg, config, width) {
         svg.append("text")
             .attr("x", ((config.width || width) / 2))
-            .attr("y", (margin.top / 2) + 1)
+            .attr("y", (margin.top / 2) + 3)
+            .attr("font-size", "16px")
             .attr("text-anchor", "middle")
             .attr("fill", "currentColor")
             .text(config.title);
@@ -240,7 +241,7 @@ const {barChart, stackedAreaChart} = (function () {
         svg.append("g")
             .call(yAxis);
 
-        addTitle(svg, config);
+        addTitle(svg, config, width);
         addLegend(svg, color, config, true, width, height);
     }
 
