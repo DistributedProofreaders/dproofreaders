@@ -10,8 +10,15 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_
 // If you need to upload only small files your form can contain an
 // <input type='file'> with name='uploaded_file' Then validate_uploaded_file()
 // can be used to process the upload.
+//
+// When setting RESUMABLE_UPLOAD_SIZE, consider also the following settings in
+// clamd.conf:
+// MaxScanSize -- should be set to twice the desired max upload size
+// AlertExceedsMax -- should be set to true if you wish files that cannot be
+//                    scanned at that limit to be rejected.
+// See `man clamd.conf` for more detailed info
 
-define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
+define("RESUMABLE_UPLOAD_SIZE", 200 * 1024 * 1024);  // 200MB
 
 // If uploading large files this function should be called near the beginning
 // of the page to which the upload is submitted (resumable or not). It detects
