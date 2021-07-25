@@ -130,6 +130,7 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
     $datax = array_keys($pages_per_day);
     $datay = array_values($pages_per_day);
 
+    $error = null;
     if (empty($datax) || empty($datay)) {
         if ($holder_type == 'U') {
             $error = _("This user has not completed any pages in this round.");
