@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'graph_data.inc');
 include_once('../includes/team.inc'); // showTeamInformation()
 
 require_login();
@@ -22,7 +23,10 @@ if (!$curTeam) {
 
 // TRANSLATORS: %s is a team name
 $title = sprintf(_("%s Statistics"), $curTeam['teamname']);
-output_header($title);
+
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+]);
 echo "<br><div class='center-align'>";
 
 showTeamInformation($curTeam, $tally_name);
