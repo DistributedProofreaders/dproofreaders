@@ -39,27 +39,6 @@ function setMaxScrolls() {
     }
 }
 
-function setWinWidth() {
-    if (imgWin.clientWidth) {
-        imgWinX = imgWin.clientWidth;
-    } else if (imgWin.offsetWidth) {
-        imgWinX = imgWin.offsetWidth;
-    } else if (imgWintyle.clip.width) {
-        imgWinX = imgWinstyle.clip.width;
-    } else {
-        imgWinX = 0;
-    }
-}
-function setWinHeight() {
-    if (imgWin.offsetHeight) {
-        imgWinY = imgWin.offsetHeight;
-    } else if (imgWinstyle.clip.height) {
-        imgWinY = imgWinstyle.clip.height;
-    } else {
-        imgWinY = 0;
-    }
-}
-
 function setViewWidth() {
     if (frameRef.getElementById('scanimage').offsetWidth) {
         imgviewX = frameRef.getElementById('scanimage').offsetWidth;
@@ -90,63 +69,8 @@ function setScrollWidths() {
     setMaxScrolls();
 }
 
-function getNSLayer(layroot, layname) {
-
-    for (i = 0;i < layroot.layers.length;i++) {
-        curLay = layroot.layers[i];
-        if (curLay.name == layname) {
-            return curLay;
-        } else {
-            if (curLay.document.layers.length > 0) {
-                curLay = getNSLayer(curLay.document, layname);
-                if (curLay != null) {
-                    return curLay;
-                }
-            }
-        }
-    }
-    return null;
-}
-
-function setLayer() {
-    if (frameRef.getElementById) {
-        imgblock = frameRef.getElementById('imagedisplay');
-        imgWin = frameRef.getElementById('imageframe');
-    } else if (imgblock.all) {
-        imgblock = frameRef.all['imagedisplay'];
-        imgWin = frameRef.all['imageframe'];
-    } else if (imgblock.layers) {
-        imgWin = getNSLayer(frameRef, 'imageframe');
-    } else {
-        imgblock = null;imgWin = null;
-    }
-    if(imgblock && imgWin) {
-        imgstyle = imgblock.style ? imgblock.style : imgblock;
-        imgWinstyle = imgWin.style ? imgWin.style : imgWin;
-        setWinHeight();
-        setWinWidth();
-        setScrollWidths();
-        imgstyle.top = 0 + bPX;
-        imgstyle.left = 0 + bPX;
-    }
-}
-
 // ------------------------------------------------
 // The following functions are the "exported" ones.
-
-function reSize(newsize) {
-    if (newsize < imgMinSize) {
-        newsize = imgMinSize;
-    }
-    if (frameRef.scanimage) {
-        frameRef.scanimage.width = newsize;
-        setScrollWidths();
-        imgstyle.top = 0 + bPX;
-        imgstyle.left = 0 + bPX;
-    }
-    return newsize; //which allows the caller to take appropriate action
-    //if the new size was not the same as what was asked for
-}
 
 function reSizeRelative(factor) {
     if (frameRef.scanimage) {
@@ -190,20 +114,16 @@ function initializeStuff(wFace) {
     if(wFace == 1) {
         // enhanced interface, non-spellcheck
         docRef = top.proofframe.document;
-        setLayer();
     } else if (wFace == 0) {
         // standard interface, non-spellcheck
         docRef = top.proofframe.textframe.document;
     } else if (wFace == 2) {
         // enhanced interface, spellcheck
         docRef = top.proofframe.document;
-        setLayer();
     } else if (wFace == 3) {
         // standard interface, spellcheck
         docRef = top.proofframe.textframe.document;
     }
-
-
 }
 inProof = 0; // used by dp_proof.js
 isLded = 0;
