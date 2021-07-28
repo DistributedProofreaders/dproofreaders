@@ -12,7 +12,6 @@ define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT', 'I');
 define('SAVE_AS_IN_PROGRESS', 'J');
 define('SET_IMAGE_ZOOM', 'K');
-define('SET_IMAGE_ACTUAL', 'Q');
 define('SPELL_CHECK', 'L');
 
 define('PROJECT_COMMENTS', 'M');
@@ -149,16 +148,6 @@ function echo_button($button_id, $which_interface)
                 'title' => attr_safe(_("Set Image Zoom Percent")),
                 'src' => "gfx/bt10.png",
                 'onclick' => "top.showIZ(); return false;",
-            ];
-            break;
-
-        case SET_IMAGE_ACTUAL:
-            $attrs = [
-                'name' => "button36",
-                $label => attr_safe(_("Zoom to Actual Size")),
-                'title' => attr_safe(_("Zoom to Actual Size")),
-                'src' => "gfx/bt18.png",
-                'onclick' => "return(top.showActual());",
             ];
             break;
 

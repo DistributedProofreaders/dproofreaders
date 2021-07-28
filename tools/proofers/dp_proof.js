@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showActual, showNW, replaceAllText, doBU, transformText */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, doBU, transformText */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
@@ -73,11 +73,6 @@ function showIZ() {
 
     docRef.editform.zmSize.value = Math.round(100 * (zP / iW));
     return false;
-}
-
-function showActual() {
-    docRef.editform.zmSize.value = cW / 10;
-    return showIZ();
 }
 
 function loadImageSize() {
