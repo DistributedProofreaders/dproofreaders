@@ -11,7 +11,6 @@ define('REVERT_TO_ORIGINAL', 'F');
 define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT', 'I');
 define('SAVE_AS_IN_PROGRESS', 'J');
-define('SET_IMAGE_ZOOM', 'K');
 define('SPELL_CHECK', 'L');
 
 define('PROJECT_COMMENTS', 'M');
@@ -138,16 +137,6 @@ function echo_button($button_id, $which_interface)
                 'title' => attr_safe(_("Save as 'In Progress'")),
                 'src' => "gfx/bt3.png",
                 'class' => "check_button",
-            ];
-            break;
-
-        case SET_IMAGE_ZOOM:
-            $attrs = [
-                'name' => "button35",
-                $label => attr_safe(_("Set Image Zoom Percent")),
-                'title' => attr_safe(_("Set Image Zoom Percent")),
-                'src' => "gfx/bt10.png",
-                'onclick' => "top.showIZ(); return false;",
             ];
             break;
 

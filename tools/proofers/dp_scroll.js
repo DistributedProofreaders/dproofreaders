@@ -191,7 +191,6 @@ function initializeStuff(wFace) {
         // enhanced interface, non-spellcheck
         docRef = top.proofframe.document;
         setLayer();
-        doBU();
     } else if (wFace == 0) {
         // standard interface, non-spellcheck
         docRef = top.proofframe.textframe.document;

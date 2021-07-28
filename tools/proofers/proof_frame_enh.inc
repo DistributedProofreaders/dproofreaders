@@ -138,14 +138,6 @@ function echo_button_menu($ppage)
         echo $optP;
     }
     echo "</select>";
-
-    $value = $user->profile->i_layout ? $user->profile->v_zoom : $user->profile->h_zoom;
-    // xgettext:no-php-format
-    $title = attr_safe(_("Input Zoom %"));
-    echo "<input type='number' value='$value' name='zmSize' ID='zmSize' title='$title'
-        class='bottom-align' style='width: 3.5em'>";
-
-    echo_button(SET_IMAGE_ZOOM, 'a');
     echo "\n";
 
     echo_button(REVERT_TO_ORIGINAL, 'a');
