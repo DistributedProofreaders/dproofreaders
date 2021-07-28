@@ -56,14 +56,7 @@ function echo_proof_frame_enh($ppage)
 
     slim_header(_("Proofreading Page"), $header_args);
 
-    if ($user->profile->i_layout == 1) {
-        $iWidth = $user->profile->v_zoom;
-    } else {
-        $iWidth = $user->profile->h_zoom;
-    }
-    $iWidth = round((1000 * $iWidth) / 100);
-
-    ibe_echo_block($ppage->url_for_image(true), $iWidth); ?>
+    ibe_echo_block(); ?>
     <div id="controlframe">
         <?php
         output_preview_div();

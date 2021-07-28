@@ -116,7 +116,7 @@ STYLES;
 
 // -----------------------------------------------------------------------------
 
-function ibe_echo_block($img_src, $img_width)
+function ibe_echo_block()
 {
     echo "<div id='newimageframe'>
     <div id='image-view'>
