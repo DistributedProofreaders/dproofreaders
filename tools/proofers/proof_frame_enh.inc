@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'button_defs.inc');
+include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('preview.inc');
@@ -17,6 +18,15 @@ function echo_proof_frame_enh($ppage)
     $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
 
+    $user = User::load_current();
+    $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
+
+    $image_data = json_encode([
+        "imageUrl" => $ppage->url_for_image(TRUE),
+        "storageKey" => $storage_key,
+        "align" => "L",
+    ]);
+
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
@@ -26,8 +36,12 @@ function echo_proof_frame_enh($ppage)
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
+            "$code_url/scripts/control_bar.js",
+            "$code_url/tools/proofers/proof_image.js",
         ],
-        "js_data" => ibe_get_js() . get_preview_js_vars() . get_preview_font_data_js() . "
+        "js_data" => ibe_get_js() . get_preview_js_vars() . get_preview_font_data_js() .
+        get_control_bar_texts() . "
+        var imageData = $image_data;
         function ldAll() {
             top.initializeStuff(1);
         }
@@ -42,7 +56,6 @@ function echo_proof_frame_enh($ppage)
 
     slim_header(_("Proofreading Page"), $header_args);
 
-    $user = User::load_current();
     if ($user->profile->i_layout == 1) {
         $iWidth = $user->profile->v_zoom;
     } else {

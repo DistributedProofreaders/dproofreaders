@@ -101,58 +101,26 @@ function ibe_get_styles()
                 top:0px;
                 z-index:1;
             }
-        STYLES;
+    #newimageframe {
+        position:absolute;
+        top: 0px;
+        width:{$block_width_pc}%;
+        height:{$block_height_pc}%;
+        z-index:2;
+        text-align:center;
+        overflow:auto;
+    }
+
+STYLES;
 }
 
 // -----------------------------------------------------------------------------
 
 function ibe_echo_block($img_src, $img_width)
 {
-    ?>
-    <div id="imagehorz">
-        <table id="tbhorz" width="100%">
-            <tr>
-                <td class="left-align">
-                    <?php ibe_echo_jump_scroller('left', _('Move Left')); ?>
-                    &nbsp;&nbsp;&nbsp;
-                    <?php ibe_echo_smooth_scroller('left', _('Scroll Left')); ?>
-                </td>
-                <td class="right-align">
-                    <?php ibe_echo_smooth_scroller('right', _('Scroll Right')); ?>
-                    &nbsp;&nbsp;&nbsp;
-                    <?php ibe_echo_jump_scroller('right', _('Move Right')); ?>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="imagevert">
-        <table id="tbvert" height="95%">
-            <tr>
-                <td class="top-align">
-                    <?php ibe_echo_jump_scroller('up', _('Move Up')); ?>
-                    <p>
-                    <?php ibe_echo_smooth_scroller('up', _('Scroll Up')); ?>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td class="bottom-align">
-                    <?php ibe_echo_smooth_scroller('down', _('Scroll Down')); ?>
-                    <p>
-                    <?php ibe_echo_jump_scroller('down', _('Move Down')); ?>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="imageframe">
-        <div id="imagedisplay">
-            <a href="JavaScript: //">
-            <img name="scanimage" id="scanimage" title="" alt="" src="<?php echo $img_src; ?>" border="0" width="<?php echo $img_width; ?>">
-            </a>
-        </div>
-    </div>
-<?php
+    echo "<div id='newimageframe'>
+    <div id='image-view'>
+    </div></div>";
 }
 
 function ibe_echo_jump_scroller($direction, $label)
