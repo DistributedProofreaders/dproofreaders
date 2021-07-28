@@ -491,7 +491,6 @@ function echo_row($name, $tooltip, $button_image_base, $accelerator)
     echo_row('Show All Text', 'Show All Text', 'bt9', '');
     echo_row('Undo Revert', 'Undo Revert', 'bt7', '');
     echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', '');
-    echo_row('Refresh Image', 'Refresh Image', 'bt6', '');
     echo_row('Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', ''); ?>
 
 <TR><TD><B>Font Size</B>

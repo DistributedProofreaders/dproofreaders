@@ -16,7 +16,6 @@ define('SET_IMAGE_ACTUAL', 'Q');
 define('SPELL_CHECK', 'L');
 
 define('PROJECT_COMMENTS', 'M');
-define('REFRESH_IMAGE', 'N');
 define('REVERT_TO_LAST_SAVE_DISABLED', 'O');
 define('SHOW_ALL_TEXT', 'P');
 define('PREVIEW', 'S');
@@ -218,14 +217,6 @@ function echo_img($id)
                 'src' => "gfx/bt12.png",
                 'alt' => attr_safe(_("Project Comments")),
                 'title' => attr_safe(_("Project Comments")),
-            ];
-            break;
-
-        case REFRESH_IMAGE:
-            $attrs = [
-                'src' => "gfx/bt6.png",
-                'alt' => attr_safe(_("Refresh Image")),
-                'title' => attr_safe(_("Refresh Image")),
             ];
             break;
 

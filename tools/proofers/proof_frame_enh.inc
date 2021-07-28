@@ -148,11 +148,6 @@ function echo_button_menu($ppage)
     echo_button(SET_IMAGE_ZOOM, 'a');
     echo "\n";
 
-    $url = $ppage->url_for_image(true);
-    echo "<a href='#' onclick='top.proofframe.imageframe.document.scanimage.src=\"$url\"'>";
-    echo_img(REFRESH_IMAGE, 'a');
-    echo "</a>";
-
     echo_button(REVERT_TO_ORIGINAL, 'a');
     echo "\n";
 
