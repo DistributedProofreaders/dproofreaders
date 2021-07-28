@@ -123,24 +123,6 @@ function ibe_echo_block()
     </div></div>";
 }
 
-function ibe_echo_jump_scroller($direction, $label)
-{
-    $img_src = "gfx/a1_$direction.png";
-    $label = attr_safe($label);
-    echo "<a href='JavaScript:scrollImage(\"$direction\")'>";
-    echo "<img src='$img_src' width='11' height='11' alt='$label' title='$label' border='0'>";
-    echo "</a>";
-}
-
-function ibe_echo_smooth_scroller($direction, $label)
-{
-    $img_src = "gfx/a2_$direction.png";
-    $label = attr_safe($label);
-    echo "<a href='JavaScript: //' onmouseover='scrollOver(\"$direction\")' onmouseout='stopOver()'>";
-    echo "<img src='$img_src' width='11' height='11' alt='$label' title='$label' border='0'>";
-    echo "</a>";
-}
-
 // -----------------------------------------------------------------------------
 
 function ibe_get_js()
