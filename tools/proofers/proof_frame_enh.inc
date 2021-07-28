@@ -39,7 +39,7 @@ function echo_proof_frame_enh($ppage)
             "$code_url/scripts/control_bar.js",
             "$code_url/tools/proofers/proof_image.js",
         ],
-        "js_data" => ibe_get_js() . get_preview_js_vars() . get_preview_font_data_js() .
+        "js_data" => get_preview_js_vars() . get_preview_font_data_js() .
         get_control_bar_texts() . "
         var imageData = $image_data;
         function ldAll() {
@@ -95,17 +95,6 @@ function echo_button_menu($ppage)
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
     $font_family_fallback = get_proofreading_font_family_fallback();
-
-    $access_keys = [
-        ',' => 'left',
-        '.' => 'right',
-        "'" => 'up',
-        '/' => 'down',
-    ];
-    foreach ($access_keys as $key => $direction) {
-        echo "<a href='#' accesskey='$key' onfocus='scrollImage(\"$direction\")'
-            onclick='scrollImage(\"$direction\")'></a>";
-    }
 
     $title = attr_safe(_("Change Font Face"));
     echo "<select name='fntFace' ID='fntFace' class='dropsmall' title='$title'

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-/* exported scrollImage, scrollOver, stopOver, reSize, reSizeRelative, focusText, initializeStuff */
+/* exported stopOver, reSize, reSizeRelative, focusText, initializeStuff */
 imgX = 0;
 imgY = 0;
 frameRef = null; // used by dp_proof.js
@@ -133,89 +133,6 @@ function setLayer() {
 
 // ------------------------------------------------
 // The following functions are the "exported" ones.
-
-function scrollImage(sDir) {
-    if (imgstyle) {
-        curTop = parseInt(imgstyle.top);
-        curLeft = parseInt(imgstyle.left);
-
-        if (sDir == 'up') {
-            newTop = curTop + scrollMaxY;
-            if (newTop < 0) {
-                imgstyle.top = newTop + bPX;
-            } else {
-                imgstyle.top = 0 + bPX;
-            }
-        } else if (sDir == 'down') {
-            newTop = curTop - scrollMaxY;
-            if (newTop > imgMaxY) {
-                imgstyle.top = newTop + bPX;
-            } else {
-                imgstyle.top = imgMaxY + bPX;
-            }
-        } else if (sDir == 'right') {
-            newLeft = curLeft - scrollMaxX;
-            if (newLeft > imgMaxX) {
-                imgstyle.left = newLeft + bPX;
-            } else {
-                imgstyle.left = imgMaxX + bPX;
-            }
-        } else if (sDir == 'left') {
-            newLeft = curLeft + scrollMaxX;
-            if (newLeft < 0) {
-                imgstyle.left = newLeft + bPX;
-            } else {
-                imgstyle.left = 0 + bPX;
-            }
-        }
-    }
-}
-
-
-function scrollOver(sDir) {
-    if (imgstyle && isLded == 1) {
-        curTop = parseInt(imgstyle.top);
-        curLeft = parseInt(imgstyle.left);
-        if (scrollTime) {
-            clearTimeout(scrollTime);
-        }
-        if (sDir == 'up') {
-            newTop = curTop + scrollAmount;
-            if (newTop < 0) {
-                imgstyle.top = newTop + bPX;
-            } else {
-                imgstyle.top = 0 + bPX;
-            }
-        } else if (sDir == 'down') {
-            newTop = curTop - scrollAmount;
-            if (newTop > imgMaxY) {
-                imgstyle.top = newTop + bPX;
-            } else {
-                imgstyle.top = imgMaxY + bPX;
-            }
-        } else if (sDir == 'right') {
-            newLeft = curLeft - scrollAmount;
-            if (newLeft > imgMaxX) {
-                imgstyle.left = newLeft + bPX;
-            } else {
-                imgstyle.left = imgMaxX + bPX;
-            }
-        } else if (sDir == 'left') {
-            newLeft = curLeft + scrollAmount;
-            if (newLeft < 0) {
-                imgstyle.left = newLeft + bPX;
-            } else {
-                imgstyle.left = 0 + bPX;
-            }
-        }
-        scrollTime = setTimeout("scrollOver('" + sDir + "')", 20);
-    }
-}
-
-function stopOver() {
-    clearTimeout(scrollTime);
-    scrollTime = 0;
-}
 
 function reSize(newsize) {
     if (newsize < imgMinSize) {

@@ -58,7 +58,6 @@ $header_args = [
 ];
 
 if ($user->profile->i_type == 1) {
-    $header_args["js_data"] .= ibe_get_js();
     $header_args["css_data"] = ibe_get_styles();
 }
 
