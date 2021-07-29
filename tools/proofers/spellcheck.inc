@@ -178,13 +178,8 @@ if ($user->profile->i_type == 1) {
 ?>
 <table id="tbtext">
 <tr><td id="tdtop">
-<?php echo _("Resize image:"); ?>
-    <input title="<?php echo attr_safe(_("Zoom Out 25%")); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-    <input title="<?php echo attr_safe(_("Zoom In 25%")); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-    <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 <?php
     // print the link to the WordCheck FAQ
-    echo " &nbsp; ";
     echo new_window_link(get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ"));
 ?>
 </td></tr>
