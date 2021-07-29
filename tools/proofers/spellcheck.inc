@@ -65,15 +65,7 @@ slim_header(_("WordCheck"), $header_args);
 
 // print basic image html
 if ($user->profile->i_type == 1) {
-    if ($user->profile->i_layout == 1) {
-        $iWidth = $user->profile->v_zoom;
-    } else {
-        $iWidth = $user->profile->h_zoom;
-    }
-    $iWidth = round((1000 * $iWidth) / 100);
-
-    ibe_echo_block($ppage->url_for_image(true), $iWidth);
-
+    ibe_echo_block();
     echo '<div id="controlframe">';
 } else {
     echo '<div>';
