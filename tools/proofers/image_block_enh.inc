@@ -32,28 +32,28 @@ function ibe_get_styles()
     // (This assumes that 25px is about 3% of either dimension of the proofframe;
     // i.e., that the proofframe is roughly 800 x 800px.)
     return <<<STYLES
-            #controlframe {
-                position:absolute;
-                left:$textLeft;
-                top:$textTop;
-                width:$textWidth%;
-                height:$textHeight%;
-                /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
-                text-align:center;
-                z-index:6;
-                overflow:auto;
-            }
+                #controlframe {
+                    position:absolute;
+                    left:$textLeft;
+                    top:$textTop;
+                    width:$textWidth%;
+                    height:$textHeight%;
+                    /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
+                    text-align:center;
+                    z-index:6;
+                    overflow:auto;
+                }
 
-    #newimageframe {
-        position:absolute;
-        top: 0px;
-        width:{$block_width_pc}%;
-        height:{$block_height_pc}%;
-        z-index:2;
-        text-align:center;
-        overflow:auto;
-    }
-STYLES;
+                #newimageframe {
+                    position:absolute;
+                    top: 0px;
+                    width:{$block_width_pc}%;
+                    height:{$block_height_pc}%;
+                    z-index:2;
+                    text-align:center;
+                    overflow:auto;
+                }
+        STYLES;
 }
 
 // -----------------------------------------------------------------------------
