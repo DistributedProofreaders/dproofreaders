@@ -30,6 +30,6 @@ function initializeStuff(wFace) {
         docRef = top.proofframe.textframe.document;
     }
 }
-inProof = 0; // used by dp_proof.js
+inProof = 0;
 isLded = 0;
 inFace = 0;
