@@ -68,39 +68,6 @@ function ibe_get_styles()
                 overflow:auto;
             }
 
-            #imagehorz {
-                position:absolute;
-                left:$minor_width;
-                top:0px;
-                width:$major_width;
-                height:$minor_height;
-                z-index:3;
-            }
-            #imagevert {
-                position:absolute;
-                left:0px;
-                top:$minor_height;
-                width:$minor_width;
-                height:$major_height;
-                z-index:4;
-            }
-            #imageframe {
-                position:absolute;
-                top:$minor_height;
-                left:$minor_width;
-                width:$major_width;
-                height:$major_height;
-                /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
-                z-index:2;
-                text-align:center;
-                overflow:auto;
-            }
-            #imagedisplay {
-                position:absolute;
-                left:0px;
-                top:0px;
-                z-index:1;
-            }
     #newimageframe {
         position:absolute;
         top: 0px;
@@ -110,7 +77,6 @@ function ibe_get_styles()
         text-align:center;
         overflow:auto;
     }
-
 STYLES;
 }
 
