@@ -8,6 +8,7 @@ include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(), attr_safe(), get_filelist()
 include_once($relPath.'../stats/includes/common.inc');
+include_once($relPath.'graph_data.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
 $team_avatars_url = "$dyn_url/teams/avatar";
@@ -424,7 +425,7 @@ function showTeamHistory($curTeam, $tally_name)
     }
     $choices_str = join(' | ', $choices);
 
-    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=T&amp;holder_id=".$curTeam['id']."&amp;days_back=$range";
+    $tallyboard_deltas_config = tallyboard_deltas($tally_name, "T", $curTeam['id'], $range);
 
     $t = new ThemedTable(
         1,
@@ -433,10 +434,13 @@ function showTeamHistory($curTeam, $tally_name)
 
     $t->row(
         "<p style='text-align: center;'>$choices_str</p>" .
-        "<p style='text-align: center;'><img src='$image_url' style='max-width: 100%'></p>"
+        "<div style='display:flex;flex-direction:column;align-items:center'><div id='tallyboard_deltas' style='width:600px;height:300px'></div></div>"
     );
 
     $t->end();
+    echo "<script type='application/javascript'>";
+    echo "$(function(){barChart('tallyboard_deltas', " . json_encode($tallyboard_deltas_config) . ")});";
+    echo "</script>";
 }
 
 function stripAllString($ttext)
