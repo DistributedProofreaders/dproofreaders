@@ -22,7 +22,7 @@ function echo_proof_frame_enh($ppage)
     $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 
     $image_data = json_encode([
-        "imageUrl" => $ppage->url_for_image(TRUE),
+        "imageUrl" => $ppage->url_for_image(),
         "storageKey" => $storage_key,
         "align" => "L",
     ]);

@@ -19,7 +19,7 @@ $js_files = [
 $storage_key = "proof-std" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 
 $image_data = json_encode([
-    "imageUrl" => $ppage->url_for_image(TRUE),
+    "imageUrl" => $ppage->url_for_image(),
     "storageKey" => $storage_key,
     "align" => "C",
 ]);
