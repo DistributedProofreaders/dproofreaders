@@ -1,24 +1,6 @@
 <?php
 include_once($relPath.'misc.inc');
 
-/*
-The "image block" comprises (at the top level) 3 divs,
-which are arranged by absolute positioning into a rectangular grid:
-
-    +----------------------+-----------------------+   ---
-    |                      |                       |    ^
-    |                      | <div id="imagehorz">  |   $minor_height
-    |                      |                       |    v
-    +----------------------+-----------------------+   ---
-    |                      |                       |    ^
-    | <div id="imagevert"> | <div id="imageframe"> |   $major_height
-    |                      |                       |    v
-    +----------------------+-----------------------+   ---
-
-    |<--- $minor_width --->|<---- $major_width --->|
-
-*/
-
 // "ibe" for "image block enhanced"
 
 // -----------------------------------------------------------------------------
@@ -46,12 +28,6 @@ function ibe_get_styles()
         $textTop = (100 - $user->profile->h_tframe) . "%";
         $textLeft = "1%";
     }
-
-    $minor_width = '25px';
-    $minor_height = '25px';
-
-    $major_width = ($block_width_pc - 3) . '%';
-    $major_height = ($block_height_pc - 3) . '%';
 
     // (This assumes that 25px is about 3% of either dimension of the proofframe;
     // i.e., that the proofframe is roughly 800 x 800px.)
