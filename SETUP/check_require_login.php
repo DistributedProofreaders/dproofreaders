@@ -89,7 +89,6 @@ $ok_files = [
     "stats/jpgraph_files/total_pages_by_month_graph.php",
     "stats/jpgraph_files/new_users.php",
     "stats/jpgraph_files/cumulative_month_proj.php",
-    "stats/jpgraph_files/tallyboard_deltas.php",
     "stats/jpgraph_files/curr_month_proj.php",
     "stats/jpgraph_files/equilibria.php",
     // Design documentation

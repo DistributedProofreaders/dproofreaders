@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once($relPath.'User.inc');
+include_once($relPath.'graph_data.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
@@ -28,7 +29,9 @@ if ($can_reveal) {
 }
 
 $desc = sprintf(_("Details for user %s"), $user_referent);
-output_header($desc);
+output_header($desc, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+]);
 
 echo "<h1>$desc</h1>";
 

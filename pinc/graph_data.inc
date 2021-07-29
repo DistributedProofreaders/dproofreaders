@@ -2,6 +2,7 @@
 
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'page_tally.inc');
 
 function get_graph_js_files()
 {
@@ -113,6 +114,40 @@ function user_logging_on($past, $preceding)
         "axisLeft" => true,
         "data" => [
             _('Fresh Logons') => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
+        ],
+    ];
+}
+
+function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
+{
+    $valid_tally_names = array_keys(get_page_tally_names());
+
+    $pages_per_day = get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back);
+
+    $datax = array_keys($pages_per_day);
+    $datay = array_values($pages_per_day);
+
+    $error = null;
+    if (empty($datax) || empty($datay)) {
+        if ($holder_type == 'U') {
+            $error = _("This user has not completed any pages in this round.");
+        } else {
+            $error = _("This team has not completed any pages in this round.");
+        }
+    }
+
+    return [
+        "title" => _('Pages Completed per Day'),
+        "axisLeft" => true,
+        "bottomLegend" => $error,
+        "width" => 600,
+        "height" => 300,
+        "xAxisHeight" => 65,
+        "data" => [
+            is_null($error) ? _('Pages') : $error => [
                 "x" => $datax,
                 "y" => $datay,
             ],

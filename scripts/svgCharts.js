@@ -40,7 +40,7 @@ const {barChart, stackedAreaChart} = (function () {
         if (isBar) {
             series.attr("text-anchor", "middle");
             if (config.bottomLegend) {
-                series.attr("x", config.width / 2)
+                series.attr("x", (config.width || width) / 2)
                     .attr("y", height - 15)
                     .attr("font-size", "15px");
             } else {
@@ -138,7 +138,7 @@ const {barChart, stackedAreaChart} = (function () {
     }
 
     function barChart(id, config) {
-        const barMargin = {...margin, left: 50, bottom: 50};
+        const barMargin = {...margin, left: 50, bottom: config.xAxisHeight || 50};
         const seriesTitle = Object.keys(config.data)[0];
         const data = config.data[seriesTitle].x.reduce((acc, value, index) => {
             acc.push({[seriesTitle]: value, value: parseInt(config.data[seriesTitle].y[index], 10)});
@@ -166,7 +166,7 @@ const {barChart, stackedAreaChart} = (function () {
             .nice()
             .range([height - barMargin.bottom, barMargin.top]);
 
-        const yInterval = config.yAxisTickCount ? Math.ceil(y.ticks().length / config.yAxisTickCount) : Number.MAX_SAFE_INTEGER;
+        const yInterval = config.yAxisTickCount ? Math.ceil(y.ticks().length / config.yAxisTickCount) : 1;
         const yAxisTicks = y.ticks().filter(Number.isInteger)
             .filter((_, i) => i % yInterval === 0);
 

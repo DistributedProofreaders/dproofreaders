@@ -11,6 +11,7 @@ include_once($relPath.'../stats/includes/common.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), get_integer_param()
+include_once($relPath.'graph_data.inc');
 
 function showMbrInformation($user, $tally_name)
 {
@@ -595,7 +596,7 @@ function showMbrHistory($user, $tally_name)
     }
     $choices_str = join(' | ', $choices);
 
-    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=U&amp;holder_id=$u_id&amp;days_back=$range";
+    $tallyboard_deltas_config = tallyboard_deltas($tally_name, "U", $u_id, $range);
 
     $t = new ThemedTable(
         1,
@@ -603,7 +604,10 @@ function showMbrHistory($user, $tally_name)
     );
     $t->row(
         "<p style='text-align: center;'>$choices_str</p>" .
-        "<p style='text-align: center;'><img src='$image_url' style='max-width: 100%'></p>"
+        "<div style='display:flex;flex-direction:column;align-items:center'><div id='tallyboard_deltas' style='width:600px;height:300px'></div></div>"
     );
     $t->end();
+    echo "<script type='application/javascript'>";
+    echo "$(function(){barChart('tallyboard_deltas', " . json_encode($tallyboard_deltas_config) . ")});";
+    echo "</script>";
 }
