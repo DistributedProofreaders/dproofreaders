@@ -52,6 +52,7 @@ function ibe_get_styles()
                     z-index:2;
                     text-align:center;
                     overflow:auto;
+                    border: 1px solid black;
                 }
         STYLES;
 }
