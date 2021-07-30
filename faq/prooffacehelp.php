@@ -453,8 +453,7 @@ function echo_row($name, $tooltip, $button_image_base, $accelerator)
     echo_row('Preview', 'Format preview', 'bt20', '');
     echo_row('Show All Text', 'Show All Text', 'bt9', '');
     echo_row('Undo Revert', 'Undo Revert', 'bt7', '');
-    echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', '');
-?>
+    echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', ''); ?>
 
 <TR><TD><B>Font Size</B>
 <BR>Selection Menu</TD><TD class='top-align'>Select a point size (pt) for the current font
