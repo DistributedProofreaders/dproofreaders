@@ -38,7 +38,6 @@ function ibe_get_styles()
                     top:$textTop;
                     width:$textWidth%;
                     height:$textHeight%;
-                    /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
                     text-align:center;
                     z-index:6;
                     overflow:auto;
