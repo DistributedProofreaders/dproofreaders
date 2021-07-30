@@ -319,29 +319,6 @@ $help['Revert to Original Document'] = "
 </p>
 ";
 
-$help['Refresh Image'] = "
-<p>
-    Reloads the image file of the scanned page.
-    Useful if the image 'gets stuck'
-    and doesn't load completely the first time;
-    sometimes it makes an apparently 'missing' image 'reappear'.
-</p>
-";
-
-$help['Set Image Zoom Percent'] = "
-<p>
-    Type a number as a percent into the box to the left of this button
-    and then click this button to zoom the scanned image width
-    to the percent indicated.
-</p>
-<p>
-    All percentages are calculated using 1000 pixels=100% width.
-</p>
-<p>
-    Please, <B>do not</B> include the percent (%) sign in your number.
-</p>
-";
-
 // -----------------------------------------------------------------------------
 
 if ($i_type == 0) {
@@ -422,20 +399,6 @@ if ($i_type == 0) {
     proofreading in the page browser in a new browser window.
     </p>
     </dd>
-
-    <dt>Image Resize:
-    <input type='button' value='-25%'>
-    <input type='button' value='+25%'>
-    <input type='button' value='Original'>
-    </dt>
-    <dd>
-    <p>
-    These three buttons change the zoom of
-    the image already loaded inside the main proofreading browser window.
-    They can be useful in making out small, faded or blurry type
-    in the scanned images.
-    </p>
-    </dd>
     ";
     echo "</dl>\n";
     echo "</form>\n";
@@ -491,7 +454,7 @@ function echo_row($name, $tooltip, $button_image_base, $accelerator)
     echo_row('Show All Text', 'Show All Text', 'bt9', '');
     echo_row('Undo Revert', 'Undo Revert', 'bt7', '');
     echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', '');
-    echo_row('Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', ''); ?>
+?>
 
 <TR><TD><B>Font Size</B>
 <BR>Selection Menu</TD><TD class='top-align'>Select a point size (pt) for the current font
