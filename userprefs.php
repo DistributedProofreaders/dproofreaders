@@ -563,24 +563,6 @@ function echo_proofreading_tab($user)
     td_pophelp("font_sample");
     echo "</tr>\n";
 
-
-    echo "<tr>\n";
-    show_preference(
-        _('Image Zoom'), 'v_zoom', 'v_zoom',
-        $user->profile->v_zoom,
-        'numberfield',
-        // xgettext:no-php-format
-        ['5em', 'required', _("% of 1000 pixels")]
-    );
-    show_preference(
-        _('Image Zoom'), 'h_zoom', 'h_zoom',
-        $user->profile->h_zoom,
-        'numberfield',
-        // xgettext:no-php-format
-        ['5em', 'required', _("% of 1000 pixels")]
-    );
-    echo "</tr>\n";
-
     echo "<tr>\n";
     show_preference(
         _('Text Frame Size'), 'v_tframe', 'v_textsize',
@@ -692,8 +674,8 @@ function save_proofreading_tab($user)
     $profile_fields = [
         "profilename", "v_fntf_other", "h_fntf_other", "i_res", "i_type",
         "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts",
-        "v_zoom", "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap",
-        "h_fntf", "h_fnts", "h_zoom", "h_tframe", "h_tscroll", "h_tlines",
+        "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap",
+        "h_fntf", "h_fnts", "h_tframe", "h_tscroll", "h_tlines",
         "h_tchars", "h_twrap",
     ];
 
