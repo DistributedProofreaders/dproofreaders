@@ -23,13 +23,12 @@ function cumulative_total_proj_summary_graph()
         $psd = get_project_status_descriptor($which);
 
         //query db and put results into arrays
-        $result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT date, SUM(num_projects)
+        $sql = sprintf("SELECT date, SUM(num_projects)
             FROM project_state_stats
-            WHERE $psd->state_selector
+            WHERE %s
             GROUP BY DATE
-            ORDER BY date ASC
-        ");
+            ORDER BY date ASC", $psd->state_selector);
+        $result = DPDatabase::query($sql);
 
         [$datax, $datay] = dpsql_fetch_columns($result);
 
@@ -101,11 +100,14 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $result = mysqli_query(DPDatabase::get_connection(), "
-      SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format'), $column_name
+    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'%s'), %s
       FROM user_active_log
-      WHERE time_stamp >= $min_timestamp
-      ORDER BY time_stamp");
+      WHERE time_stamp >= %d
+      ORDER BY time_stamp",
+      DPDatabase::escape($date_format),
+      DPDatabase::escape($column_name),
+      $min_timestamp);
+    $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
 
@@ -179,11 +181,11 @@ function new_users($time_interval)
     $date_format = $time_interval_options[$time_interval]['format'];
     $title = $time_interval_options[$time_interval]['title'];
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
-    SELECT FROM_UNIXTIME(date_created,'$date_format'), COUNT(*)
-    FROM users
-    GROUP BY 1
-    ORDER BY date_created") or die(DPDatabase::log_error());
+    $sql = sprintf("SELECT FROM_UNIXTIME(date_created,'%s'), COUNT(*)
+      FROM users
+      GROUP BY 1
+      ORDER BY date_created", DPDatabase::escape($date_format));
+    $res = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($res);
 
@@ -205,11 +207,11 @@ function average_hour_users_logging_on()
     //Numbers of users logging on in each hour of the day, since the start of stats
 
     //query db and put results into arrays
-    $result = mysqli_query(DPDatabase::get_connection(), "
-      SELECT hour, AVG(L_hour)
+    $sql = "SELECT hour, AVG(L_hour)
       FROM user_active_log
       GROUP BY hour
-      ORDER BY hour");
+      ORDER BY hour";
+    $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
 
