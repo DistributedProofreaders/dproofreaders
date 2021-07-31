@@ -2,21 +2,41 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var makeImageControl = function(imageElement) {
+var makeImageControl = function(canvas) {
     let imageKey;
-    let percent;
-    const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
+    let scale = 1;
+    let imageWidth, imageHeight;
+    const image = document.createElement("img");
+    let ctx = canvas.getContext("2d");
 
-    function setZoom() {
-        imageElement.width(10 * percent);
-        imageElement.height("auto");
+    const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: 100, title: texts.zoomPercent});
+
+    function drawCanvas () {
+        canvas.width = imageWidth * scale;
+        canvas.height = imageHeight * scale;
+        ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        ctx.drawImage(image, 0, 0);
     }
 
-    function saveZoom() {
+    function reDraw() {
+        // clearRect acts through transform
+        ctx.clearRect( 0, 0, imageWidth, imageHeight);
+        // clearRect does not take effect if we do drawCanvas immediately
+        setTimeout(drawCanvas, 0);
+    }
+
+    image.onload = function() {
+        imageWidth = image.width;
+        imageHeight = image.height;
+        reDraw();
+    };
+
+    function saveZoom(percent) {
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     percentInput.change(function() {
+        let percent;
         const value = parseInt(this.value);
         if(isNaN(value)) {
             percent = 100;
@@ -29,50 +49,43 @@ var makeImageControl = function(imageElement) {
         }
         // in case above has changed it
         this.value = percent;
-        setZoom();
-        saveZoom();
+        scale = percent / 100;
+        reDraw();
+        saveZoom(percent);
     });
 
     function setPercent() {
-        percent = Math.round(percent);
+        let percent = Math.round(100 * scale);
         percentInput.val(percent);
-        saveZoom();
-    }
-
-    function unPersist() {
-        // reset width and height so that fitting does not persist
-        const width = imageElement.width();
-        imageElement.width(width);
-        imageElement.height("auto");
-        // assume 100% means 1000px wide
-        percent = width / 10;
-        setPercent();
+        saveZoom(percent);
     }
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        imageElement.width('100%');
-        unPersist();
+        scale = canvas.parentNode.clientWidth / imageWidth;
+        setPercent();
+        reDraw();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        imageElement.height('100%');
-        imageElement.width("auto");
-        unPersist();
+        scale = canvas.parentNode.clientHeight / imageHeight;
+        setPercent();
+        reDraw();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
-        percent *= 1.1;
         setPercent();
-        setZoom();
+        scale *= 1.1;
+        setPercent();
+        reDraw();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
-        percent *= 0.909;
+        scale /= 1.1;
         setPercent();
-        setZoom();
+        reDraw();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
@@ -92,10 +105,14 @@ var makeImageControl = function(imageElement) {
             if(!$.isPlainObject(imageData)) {
                 imageData = {zoom: 100};
             }
-            percent = imageData.zoom;
+            let percent = imageData.zoom;
             percentInput.val(percent);
-            setZoom();
+            scale = percent / 100;
+            reDraw();
         },
+        setImage: function(src) {
+            image.src = src;
+        }
     };
 };
 
@@ -341,11 +358,12 @@ function makeImageWidget(container, align = "C") {
         C: "center",
         R: "right"
     };
-    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
-    const imageControl = makeImageControl(imageElement);
+    const canvas = document.createElement("canvas");
+    canvas.classList.add("middle-align");
+    const imageControl = makeImageControl(canvas);
     const controlDiv = makeControlDiv(container, imageControl.controls);
 
-    controlDiv.content.css("text-align", alignment[align]).append(imageElement);
+    controlDiv.content.css("text-align", alignment[align]).append(canvas);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
@@ -356,12 +374,12 @@ function makeImageWidget(container, align = "C") {
 
     function mouseup() {
         $(document).unbind("mousemove mouseup");
-        imageElement.css("cursor", "grab");
+        $(canvas).css("cursor", "grab");
     }
 
-    imageElement.mousedown( function(event) {
+    $(canvas).mousedown( function(event) {
         event.preventDefault();
-        imageElement.css("cursor", "grabbing");
+        $(canvas).css("cursor", "grabbing");
         scrollDiffX = event.pageX + controlDiv.content.scrollLeft();
         scrollDiffY = event.pageY + controlDiv.content.scrollTop();
         $(document).on("mousemove", mousemove)
@@ -376,7 +394,7 @@ function makeImageWidget(container, align = "C") {
         },
 
         setImage: function (src) {
-            imageElement.attr("src", src);
+            imageControl.setImage(src);
             controlDiv.content
                 .scrollTop(0)
                 .scrollLeft(0);
