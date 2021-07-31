@@ -16,7 +16,6 @@ $charts = [
 ];
 
 $js_data = '$(function(){';
-$js_data .= '';
 foreach ($charts as $chart) {
     $js_data .= $chart["type"] . '("' . $chart["id"] . '", ' . json_encode(user_logging_on($chart["past"], $chart["preceding"])) . ');';
 }

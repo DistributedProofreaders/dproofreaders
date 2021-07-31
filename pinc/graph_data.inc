@@ -154,3 +154,73 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
         ],
     ];
 }
+
+function new_users($time_interval)
+{
+    $time_interval_options = [
+        'day' => [
+            'format' => '%Y-%b-%d',
+            'title' => _("Number of users registered per day"),
+        ],
+        'week' => [
+            'format' => '%Y-%U',
+            'title' => _("Number of users registered per week"),
+        ],
+        'month' => [
+            'format' => '%Y-%M',
+            'title' => _("Number of users registered per month"),
+        ],
+        'year' => [
+            'format' => '%Y',
+            'title' => _("Number of users registered per year"),
+        ],
+    ];
+
+    $date_format = $time_interval_options[$time_interval]['format'];
+    $title = $time_interval_options[$time_interval]['title'];
+
+    $res = mysqli_query(DPDatabase::get_connection(), "
+    SELECT FROM_UNIXTIME(date_created,'$date_format'), COUNT(*)
+    FROM users
+    GROUP BY 1
+    ORDER BY date_created") or die(DPDatabase::log_error());
+
+    [$datax, $datay] = dpsql_fetch_columns($res);
+
+    return [
+        "title" => $title,
+        "xAxisHeight" => 90,
+        "data" => [
+            _('# users') => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
+        ],
+    ];
+}
+
+function average_hour_users_logging_on()
+{
+    ///////////////////////////////////////////////////
+    //Numbers of users logging on in each hour of the day, since the start of stats
+
+    //query db and put results into arrays
+    $result = mysqli_query(DPDatabase::get_connection(), "
+      SELECT hour, AVG(L_hour)
+      FROM user_active_log
+      GROUP BY hour
+      ORDER BY hour");
+
+    [$datax, $datay] = dpsql_fetch_columns($result);
+
+    return [
+        "title" => _('Average number of users newly logged in each hour'),
+        "yAxisWidth" => "60",
+        "data" => [
+            _('Fresh Logons') => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
+        ],
+    ];
+}

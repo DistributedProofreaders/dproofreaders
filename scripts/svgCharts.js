@@ -138,10 +138,13 @@ const {barChart, stackedAreaChart} = (function () {
     }
 
     function barChart(id, config) {
-        const barMargin = {...margin, left: 50, bottom: config.xAxisHeight || 50};
+        const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
         const seriesTitle = Object.keys(config.data)[0];
         const data = config.data[seriesTitle].x.reduce((acc, value, index) => {
-            acc.push({[seriesTitle]: value, value: parseInt(config.data[seriesTitle].y[index], 10)});
+            acc.push({
+                [seriesTitle]: value,
+                value: Number(config.data[seriesTitle].y[index])
+            });
             return acc;
         }, []);
         const height = config.height || 400;
@@ -167,13 +170,15 @@ const {barChart, stackedAreaChart} = (function () {
             .range([height - barMargin.bottom, barMargin.top]);
 
         const yInterval = config.yAxisTickCount ? Math.ceil(y.ticks().length / config.yAxisTickCount) : 1;
-        const yAxisTicks = y.ticks().filter(Number.isInteger)
-            .filter((_, i) => i % yInterval === 0);
+        const integerYTicks = y.ticks().filter(Number.isInteger);
+        if (integerYTicks > 1) {
+            y.ticks().filter(Number.isInteger);
+        }
+        const yAxisTicks = y.ticks().filter((_, i) => i % yInterval === 0);
 
         const yAxis = g => g
             .attr("transform", `translate(${barMargin.left},0)`)
-            .call(d3.axisLeft(y).tickValues(yAxisTicks)
-                .tickFormat(d3.format("d")))
+            .call(d3.axisLeft(y).tickValues(yAxisTicks))
             .call(g => g.select(".domain").remove())
             .call(g => g.append("text")
                 .attr("x", -barMargin.left)
