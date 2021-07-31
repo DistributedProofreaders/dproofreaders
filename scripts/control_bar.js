@@ -11,21 +11,57 @@ var makeImageControl = function(canvas) {
 
     const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: 100, title: texts.zoomPercent});
 
+    let sine = 0, cosine = 1;
+
     function drawCanvas () {
-        canvas.width = imageWidth * scale;
-        canvas.height = imageHeight * scale;
-        ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        let scaleWidth = imageWidth * scale;
+        let scaleHeight = imageHeight * scale;
+        if(cosine != 0) {
+            // 0 or 180
+            canvas.width = scaleWidth;
+            canvas.height = scaleHeight;
+        } else {
+            // +- 90
+            canvas.width = scaleHeight;
+            canvas.height = scaleWidth;
+        }
+        let xOff = 0;
+        let yOff = 0;
+        if(cosine == -1) {
+            // 180 deg
+            xOff = scaleWidth;
+            yOff = scaleHeight;
+        } else if(sine == 1) {
+            // 90 deg
+            yOff = scaleWidth;
+        } else if(sine == -1) {
+            // -90 deg
+            xOff = scaleHeight;
+        }
+
+        let scaleCosine = cosine * scale;
+        let scaleSine = sine * scale;
+        ctx.setTransform(scaleCosine, -scaleSine, scaleSine, scaleCosine, xOff, yOff);
         ctx.drawImage(image, 0, 0);
+    }
+
+    function clearCanvas() {
+        canvas.width = canvas.parentNode.clientHeight;
+        canvas.height = canvas.parentNode.clientWidth;
+        ctx.resetTransform();
+        ctx.clearRect( 0, 0, canvas.width, canvas.height);
     }
 
     function reDraw() {
         // clearRect acts through transform
-        ctx.clearRect( 0, 0, imageWidth, imageHeight);
+        ctx.resetTransform();
+        ctx.clearRect( 0, 0, canvas.width, canvas.height);
         // clearRect does not take effect if we do drawCanvas immediately
         setTimeout(drawCanvas, 0);
     }
 
     image.onload = function() {
+        clearCanvas();
         imageWidth = image.width;
         imageHeight = image.height;
         reDraw();
@@ -61,18 +97,39 @@ var makeImageControl = function(canvas) {
     }
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        scale = canvas.parentNode.clientWidth / imageWidth;
+        // if rotated 90deg fit fit image height to pane width
+        let imagesize = (sine == 0) ? imageWidth : imageHeight;
+        scale = canvas.parentNode.clientWidth / imagesize;
         setPercent();
         reDraw();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        scale = canvas.parentNode.clientHeight / imageHeight;
+        let imagesize = (sine == 0) ? imageHeight : imageWidth;
+        scale = canvas.parentNode.clientHeight / imagesize;
         setPercent();
         reDraw();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
+
+    let clockRotateInput = $("<button>")
+        .append($("<i>", {class: 'fas fa-redo-alt'}))
+        .click( function () {
+            let newCos = sine;
+            sine = -cosine;
+            cosine = newCos;
+            reDraw();
+        });
+
+    let anticlockRotateInput = $("<button>")
+        .append($("<i>", {class: 'fas fa-undo-alt'}))
+        .click( function () {
+            let newCos = -sine;
+            sine = cosine;
+            cosine = newCos;
+            reDraw();
+        });
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         setPercent();
@@ -97,7 +154,9 @@ var makeImageControl = function(canvas) {
             $("<span>", {class: "nowrap"}).append(percentInput, "%"),
             " ",
             zoomIn,
-            zoomOut
+            zoomOut,
+            clockRotateInput,
+            anticlockRotateInput
         ],
         setup: function(storageKey) {
             imageKey = storageKey + "-image";
@@ -111,7 +170,10 @@ var makeImageControl = function(canvas) {
             reDraw();
         },
         setImage: function(src) {
+            sine = 0;
+            cosine = 1;
             image.src = src;
+            clearCanvas();
         }
     };
 };
