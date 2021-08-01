@@ -13,18 +13,37 @@ var makeImageControl = function(canvas) {
 
     let sine = 0, cosine = 1;
 
-    function drawCanvas () {
+    function maxVal(a, b) {
+        return (a > b) ? a : b;
+    }
+
+    function reDraw() {
+        // clearRect acts through transform
+        ctx.resetTransform();
+        ctx.clearRect( 0, 0, canvas.width, canvas.height);
+
         let scaleWidth = imageWidth * scale;
         let scaleHeight = imageHeight * scale;
+        let newWidth, newHeight;
         if(cosine != 0) {
             // 0 or 180
-            canvas.width = scaleWidth;
-            canvas.height = scaleHeight;
+            newWidth = scaleWidth;
+            newHeight = scaleHeight;
         } else {
             // +- 90
-            canvas.width = scaleHeight;
-            canvas.height = scaleWidth;
+            newWidth = scaleHeight;
+            newHeight = scaleWidth;
         }
+        // if either image dimension is larger than the pane then make canvas
+        // to fit it. Scroll bars will appear. Otherwise make canvas dimension
+        // fill pane. If we always make canvas fit image then when reducing
+        // size rapidly with spinner canvas does not get cleared even when
+        // redrawing with setTimer(0).
+        canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
+        canvas.height = maxVal(newHeight, canvas.parentNode.clientHeight);
+        // calculate again in case a scrollbar has appeared
+        canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
+
         let xOff = 0;
         let yOff = 0;
         if(cosine == -1) {
@@ -46,18 +65,8 @@ var makeImageControl = function(canvas) {
     }
 
     function clearCanvas() {
-        canvas.width = canvas.parentNode.clientHeight;
-        canvas.height = canvas.parentNode.clientWidth;
         ctx.resetTransform();
         ctx.clearRect( 0, 0, canvas.width, canvas.height);
-    }
-
-    function reDraw() {
-        // clearRect acts through transform
-        ctx.resetTransform();
-        ctx.clearRect( 0, 0, canvas.width, canvas.height);
-        // clearRect does not take effect if we do drawCanvas immediately
-        setTimeout(drawCanvas, 0);
     }
 
     image.onload = function() {
@@ -170,10 +179,10 @@ var makeImageControl = function(canvas) {
             reDraw();
         },
         setImage: function(src) {
+            // reset to normal orientation
             sine = 0;
             cosine = 1;
             image.src = src;
-            clearCanvas();
         }
     };
 };
