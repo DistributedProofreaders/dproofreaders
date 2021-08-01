@@ -105,7 +105,7 @@ function user_logging_on($past, $preceding)
         WHERE time_stamp >= %d
         ORDER BY time_stamp",
         DPDatabase::escape($date_format),
-        DPDatabase::escape($column_name),
+        $column_name,
         $min_timestamp);
     $result = DPDatabase::query($sql);
 
