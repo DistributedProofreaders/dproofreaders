@@ -452,6 +452,7 @@ function makeImageWidget(container, align = "C", reSize = null) {
 
     const canvas = document.createElement("canvas");
     canvas.classList.add("middle-align");
+    canvas.style.cursor = "grab";
     const imageControl = makeImageControl(canvas, reSize);
 
     const controlDiv = makeControlDiv(container, imageControl.controls, reSize);
@@ -467,12 +468,12 @@ function makeImageWidget(container, align = "C", reSize = null) {
 
     function mouseup() {
         $(document).unbind("mousemove mouseup");
-        $(canvas).css("cursor", "grab");
+        canvas.style.cursor = "grab";
     }
 
     $(canvas).mousedown( function(event) {
         event.preventDefault();
-        $(canvas).css("cursor", "grabbing");
+        canvas.style.cursor = "grabbing";
         scrollDiffX = event.pageX + controlDiv.content.scrollLeft();
         scrollDiffY = event.pageY + controlDiv.content.scrollTop();
         $(document).on("mousemove", mousemove)
