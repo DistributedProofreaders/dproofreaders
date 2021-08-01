@@ -100,13 +100,14 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'%s'), %s
-      FROM user_active_log
-      WHERE time_stamp >= %d
-      ORDER BY time_stamp",
-      DPDatabase::escape($date_format),
-      DPDatabase::escape($column_name),
-      $min_timestamp);
+    $sql = sprintf("SELECT
+        DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), %s
+        FROM user_active_log
+        WHERE time_stamp >= %d
+        ORDER BY time_stamp",
+        DPDatabase::escape($date_format),
+        DPDatabase::escape($column_name),
+        $min_timestamp);
     $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
@@ -181,7 +182,7 @@ function new_users($time_interval)
     $date_format = $time_interval_options[$time_interval]['format'];
     $title = $time_interval_options[$time_interval]['title'];
 
-    $sql = sprintf("SELECT FROM_UNIXTIME(date_created,'%s'), COUNT(*)
+    $sql = sprintf("SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
       FROM users
       GROUP BY 1
       ORDER BY date_created", DPDatabase::escape($date_format));
