@@ -23,13 +23,12 @@ function cumulative_total_proj_summary_graph()
         $psd = get_project_status_descriptor($which);
 
         //query db and put results into arrays
-        $result = mysqli_query(DPDatabase::get_connection(), "
-            SELECT date, SUM(num_projects)
+        $sql = sprintf("SELECT date, SUM(num_projects)
             FROM project_state_stats
-            WHERE $psd->state_selector
+            WHERE %s
             GROUP BY DATE
-            ORDER BY date ASC
-        ");
+            ORDER BY date ASC", $psd->state_selector);
+        $result = DPDatabase::query($sql);
 
         [$datax, $datay] = dpsql_fetch_columns($result);
 
@@ -101,11 +100,13 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $result = mysqli_query(DPDatabase::get_connection(), "
-      SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format'), $column_name
-      FROM user_active_log
-      WHERE time_stamp >= $min_timestamp
-      ORDER BY time_stamp");
+    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
+        FROM user_active_log
+        WHERE time_stamp >= %d
+        ORDER BY time_stamp",
+        DPDatabase::escape($date_format),
+        $min_timestamp);
+    $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
 
@@ -150,6 +151,140 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
             is_null($error) ? _('Pages') : $error => [
                 "x" => $datax,
                 "y" => $datay,
+            ],
+        ],
+    ];
+}
+
+function new_users($time_interval)
+{
+    $time_interval_options = [
+        'day' => [
+            'format' => '%Y-%b-%d',
+            'title' => _("Number of users registered per day"),
+        ],
+        'week' => [
+            'format' => '%Y-%U',
+            'title' => _("Number of users registered per week"),
+        ],
+        'month' => [
+            'format' => '%Y-%M',
+            'title' => _("Number of users registered per month"),
+        ],
+        'year' => [
+            'format' => '%Y',
+            'title' => _("Number of users registered per year"),
+        ],
+    ];
+
+    $date_format = $time_interval_options[$time_interval]['format'];
+    $title = $time_interval_options[$time_interval]['title'];
+
+    $sql = sprintf("SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
+      FROM users
+      GROUP BY 1
+      ORDER BY date_created", DPDatabase::escape($date_format));
+    $res = DPDatabase::query($sql);
+
+    [$datax, $datay] = dpsql_fetch_columns($res);
+
+    return [
+        "title" => $title,
+        "xAxisHeight" => 90,
+        "data" => [
+            _('# users') => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
+        ],
+    ];
+}
+
+function average_hour_users_logging_on()
+{
+    ///////////////////////////////////////////////////
+    //Numbers of users logging on in each hour of the day, since the start of stats
+
+    //query db and put results into arrays
+    $sql = "SELECT hour, AVG(L_hour)
+      FROM user_active_log
+      GROUP BY hour
+      ORDER BY hour";
+    $result = DPDatabase::query($sql);
+
+    [$datax, $datay] = dpsql_fetch_columns($result);
+
+    return [
+        "title" => _('Average number of users newly logged in each hour'),
+        "yAxisWidth" => "60",
+        "data" => [
+            _('Fresh Logons') => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
+        ],
+    ];
+}
+
+function users_by_language()
+{
+    $res = DPDatabase::query("SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
+      FROM users
+      GROUP BY intlang
+      ORDER BY num DESC");
+
+    $x = [];
+    $y = [];
+
+    while ($r = mysqli_fetch_assoc($res)) {
+        array_push($x, (
+        $r['intlang'] ?
+            dgettext("iso_639", eng_name($r['intlang'])) :
+            _("Browser default")
+        )
+    );
+        array_push($y, $r['num']);
+    }
+
+    $title = _("Number of users per user interface language");
+    return [
+        "title" => $title,
+        "xAxisHeight" => 100,
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Interface Language') => [
+                "x" => $x,
+                "y" => $y,
+            ],
+        ],
+    ];
+}
+
+function users_by_country()
+{
+    $res = DPDatabase::query("SELECT SUBSTRING_INDEX(email, '.' ,-1) AS domain,
+        COUNT(*) AS num
+        FROM users
+        WHERE email LIKE '%@%.%'
+        GROUP BY domain
+        ORDER BY num DESC");
+
+    $x = [];
+    $y = [];
+
+    while ($r = mysqli_fetch_assoc($res)) {
+        array_push($x, $r['domain']);
+        array_push($y, $r['num']);
+    }
+
+    $title = _("Number of users per country");
+    return [
+        "title" => $title,
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Country') => [
+                "x" => $x,
+                "y" => $y,
             ],
         ],
     ];
