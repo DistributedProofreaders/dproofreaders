@@ -439,9 +439,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             break;
                         case "imageText": {
                             const imageDiv = $("<div>");
-                            imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
                             const theSplitter = viewSplitter(stretchDiv, storageKey);
+                            imageWidget = makeImageWidget(imageDiv, "C", theSplitter.mainSplit.reSize);
                             if(mentorMode) {
                                 // make a text widget with splitter
                                 textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);

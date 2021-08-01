@@ -2,7 +2,7 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var makeImageControl = function(canvas) {
+var makeImageControl = function(canvas, reSize) {
     let imageKey;
     let scale = 1;
     let imageWidth, imageHeight;
@@ -17,6 +17,17 @@ var makeImageControl = function(canvas) {
         return (a > b) ? a : b;
     }
 
+    // If we always make the canvas fit image then when reducing the image size
+    // rapidly with spinner the canvas does not get cleared even when
+    // redrawing with setTimer(0).
+    // So, make canvas fit image only if either image dimension is larger
+    // than the pane. Scroll bars will then appear. Otherwise make canvas
+    // dimension fill pane.
+    // This introduces a new problem: if the image is smaller than the pane
+    // and the pane size decreases it is possible to scroll the image out
+    // of view. So redraw when pane size changes.
+    // This would be easy if we could use ResizeObserver(). In the meantime
+    // use a resize callback which gets fired when pane size changes.
     function reDraw() {
         // clearRect acts through transform
         ctx.resetTransform();
@@ -34,11 +45,6 @@ var makeImageControl = function(canvas) {
             newWidth = scaleHeight;
             newHeight = scaleWidth;
         }
-        // if either image dimension is larger than the pane then make canvas
-        // to fit it. Scroll bars will appear. Otherwise make canvas dimension
-        // fill pane. If we always make canvas fit image then when reducing
-        // size rapidly with spinner canvas does not get cleared even when
-        // redrawing with setTimer(0).
         canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
         canvas.height = maxVal(newHeight, canvas.parentNode.clientHeight);
         // calculate again in case a scrollbar has appeared
@@ -62,6 +68,10 @@ var makeImageControl = function(canvas) {
         let scaleSine = sine * scale;
         ctx.setTransform(scaleCosine, -scaleSine, scaleSine, scaleCosine, xOff, yOff);
         ctx.drawImage(image, 0, 0);
+    }
+
+    if(reSize) {
+        reSize.add(reDraw);
     }
 
     function clearCanvas() {
@@ -423,16 +433,28 @@ function makeControlDiv(container, controls, onChange) {
     };
 }
 
-function makeImageWidget(container, align = "C") {
+function makeImageWidget(container, align = "C", reSize = null) {
     const alignment = {
         L: "left",
         C: "center",
         R: "right"
     };
+
+    // if we are inside a splitter then reSize will fire when pane size
+    // changes.Otherwise fire on window reSize. It will also fire when the
+    // control bar changes position.
+    if(!reSize) {
+        reSize = $.Callbacks();
+        $(window).resize(function () {
+            reSize.fire();
+        });
+    }
+
     const canvas = document.createElement("canvas");
     canvas.classList.add("middle-align");
-    const imageControl = makeImageControl(canvas);
-    const controlDiv = makeControlDiv(container, imageControl.controls);
+    const imageControl = makeImageControl(canvas, reSize);
+
+    const controlDiv = makeControlDiv(container, imageControl.controls, reSize);
 
     controlDiv.content.css("text-align", alignment[align]).append(canvas);
 
