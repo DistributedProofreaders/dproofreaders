@@ -100,8 +100,7 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $sql = sprintf("SELECT
-        DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), %s
+    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), %s
         FROM user_active_log
         WHERE time_stamp >= %d
         ORDER BY time_stamp",
