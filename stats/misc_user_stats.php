@@ -8,17 +8,15 @@ require_login();
 
 $title = _("Miscellaneous User Statistics");
 $charts = [
-    ["id" => "average_hour_users_logging_on", "url" => null, "config" => average_hour_users_logging_on()],
-    ["id" => "users_by_language", "url" => "jpgraph_files/users_by_language.php", "config" => null],
-    ["id" => "users_by_country", "url" => "jpgraph_files/users_by_country.php", "config" => null],
-    ["id" => "new_users", "url" => null, "config" => new_users("month")],
+    ["id" => "average_hour_users_logging_on", "config" => average_hour_users_logging_on()],
+    ["id" => "users_by_language", "config" => users_by_language()],
+    ["id" => "users_by_country", "config" => users_by_country()],
+    ["id" => "new_users", "config" => new_users("month")],
 ];
 
 $js_data = '$(function(){';
 foreach ($charts as $chart) {
-    if (!is_null($chart["config"])) {
-        $js_data .= 'barChart("' . $chart["id"] . '", ' . json_encode($chart["config"]) . ');';
-    }
+    $js_data .= 'barChart("' . $chart["id"] . '", ' . json_encode($chart["config"]) . ');';
 }
 $js_data .= '});';
 
@@ -30,10 +28,6 @@ echo "<h1>$title</h1>";
 
 echo "<div style='max-width: 640px'>";
 foreach ($charts as $chart) {
-    if (!is_null($chart["url"])) {
-        echo "<img style='max-width: 100%' src='" . $chart["url"] . "'><br>\n";
-    } else {
-        echo "<div id='" . $chart["id"] . "' style='max-height: 400px'></div><hr>";
-    }
+    echo "<div id='" . $chart["id"] . "' style='max-height: 400px'></div><hr>";
 }
 echo "</div>";

@@ -226,3 +226,67 @@ function average_hour_users_logging_on()
         ],
     ];
 }
+
+function users_by_language()
+{
+    $res = DPDatabase::query("SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
+      FROM users
+      GROUP BY intlang
+      ORDER BY num DESC");
+
+    $x = [];
+    $y = [];
+
+    while ($r = mysqli_fetch_assoc($res)) {
+        array_push($x, (
+        $r['intlang'] ?
+            dgettext("iso_639", eng_name($r['intlang'])) :
+            _("Browser default")
+        )
+    );
+        array_push($y, $r['num']);
+    }
+
+    $title = _("Number of users per user interface language");
+    return [
+        "title" => $title,
+        "xAxisHeight" => 100,
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Interface Language') => [
+                "x" => $x,
+                "y" => $y,
+            ],
+        ],
+    ];
+}
+
+function users_by_country()
+{
+    $res = DPDatabase::query("SELECT SUBSTRING_INDEX(email, '.' ,-1) AS domain,
+        COUNT(*) AS num
+        FROM users
+        WHERE email LIKE '%@%.%'
+        GROUP BY domain
+        ORDER BY num DESC");
+
+    $x = [];
+    $y = [];
+
+    while ($r = mysqli_fetch_assoc($res)) {
+        array_push($x, $r['domain']);
+        array_push($y, $r['num']);
+    }
+
+    $title = _("Number of users per country");
+    return [
+        "title" => $title,
+        "xAxisHeight" => 100,
+        "data" => [
+            _('Country') => [
+                "x" => $x,
+                "y" => $y,
+            ],
+        ],
+    ];
+}
