@@ -100,12 +100,11 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), %s
+    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
         FROM user_active_log
         WHERE time_stamp >= %d
         ORDER BY time_stamp",
         DPDatabase::escape($date_format),
-        $column_name,
         $min_timestamp);
     $result = DPDatabase::query($sql);
 
