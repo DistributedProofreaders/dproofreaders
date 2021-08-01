@@ -281,7 +281,7 @@ function users_by_country()
     $title = _("Number of users per country");
     return [
         "title" => $title,
-        "xAxisHeight" => 100,
+        "yAxisWidth" => 75,
         "data" => [
             _('Country') => [
                 "x" => $x,
