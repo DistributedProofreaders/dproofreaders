@@ -20,9 +20,9 @@ var makeImageControl = function(canvas, reSize) {
     // If we always make the canvas fit image then when reducing the image size
     // rapidly with spinner the canvas does not get cleared even when
     // redrawing with setTimer(0).
-    // So, make canvas fit image only if either image dimension is larger
-    // than the pane. Scroll bars will then appear. Otherwise make canvas
-    // dimension fill pane.
+    // So, make canvas dimension fit image dimension only if it is larger
+    // than the pane. A scroll bar will then appear. Otherwise make canvas
+    // dimension fill pane. Canvas now always clears.
     // This introduces a new problem: if the image is smaller than the pane
     // and the pane size decreases it is possible to scroll the image out
     // of view. So redraw when pane size changes.
@@ -433,13 +433,7 @@ function makeControlDiv(container, controls, onChange) {
     };
 }
 
-function makeImageWidget(container, align = "C", reSize = null) {
-    const alignment = {
-        L: "left",
-        C: "center",
-        R: "right"
-    };
-
+function makeImageWidget(container, reSize = null) {
     // if we are inside a splitter then reSize will fire when pane size
     // changes.Otherwise fire on window reSize. It will also fire when the
     // control bar changes position.
@@ -451,13 +445,14 @@ function makeImageWidget(container, align = "C", reSize = null) {
     }
 
     const canvas = document.createElement("canvas");
+    // this avoids the extra space for descender for inline element
     canvas.classList.add("middle-align");
     canvas.style.cursor = "grab";
     const imageControl = makeImageControl(canvas, reSize);
 
     const controlDiv = makeControlDiv(container, imageControl.controls, reSize);
 
-    controlDiv.content.css("text-align", alignment[align]).append(canvas);
+    controlDiv.content.append(canvas);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
@@ -489,6 +484,7 @@ function makeImageWidget(container, align = "C", reSize = null) {
 
         setImage: function (src) {
             imageControl.setImage(src);
+            // reset scroll to top left
             controlDiv.content
                 .scrollTop(0)
                 .scrollLeft(0);
