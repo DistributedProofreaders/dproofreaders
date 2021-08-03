@@ -132,7 +132,7 @@ var makeImageControl = function(canvas, reSize) {
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
-    let clockRotateInput = $("<button>")
+    let clockRotateInput = $("<button>", {title: texts.clockRotate})
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             let newCos = sine;
@@ -141,7 +141,7 @@ var makeImageControl = function(canvas, reSize) {
             reDraw();
         });
 
-    let anticlockRotateInput = $("<button>")
+    let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             let newCos = -sine;

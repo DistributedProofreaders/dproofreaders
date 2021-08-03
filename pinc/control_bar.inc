@@ -18,7 +18,9 @@ function get_control_bar_texts()
         "fitWidth" => _("Fit image to width of window"),
         "zoomIn" => _("Zoom in 10%"),
         "zoomOut" => _("Zoom out 10%"),
-        "zoomPercent" => _("Zoom to percentage of 1000 pixels wide"),
+        "zoomPercent" => _("Zoom to percentage of natural width"),
+        "clockRotate" => _("Rotate image clockwise 90°"),
+        "anticlockRotate" => _("Rotate image anticlockwise 90°"),
     ]);
 
     return "var texts = $texts;";
