@@ -47,9 +47,8 @@ var makeImageControl = function(canvas, reSize) {
         }
         canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
         canvas.height = maxVal(newHeight, canvas.parentNode.clientHeight);
-        // calculate again in case a scrollbar has appeared
-        canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
 
+        // rotation is about point (0,0); offset so image is in canvas area
         let xOff = 0;
         let yOff = 0;
         if(cosine == -1) {
