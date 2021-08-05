@@ -418,15 +418,6 @@ function cumulative_month_proj($which)
         $datay1[$i] = "";
     }
 
-    //draw_projects_graph(
-//    $graph,
-//    $datax,
-//    $datay1,
-//    'cumulative',
-//    $psd->color,
-//    "$psd->cumulative_title ($timeframe)"
-    //);
-
     return [
         "title" => "$psd->cumulative_title ($timeframe)",
         "yAxisWidth" => 75,
