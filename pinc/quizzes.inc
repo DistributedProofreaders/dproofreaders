@@ -126,7 +126,7 @@ new QuizLevel(
     "proof",
     "<p>" . sprintf(_("This section covers topics that are not addressed in the <a href='%s'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects."), get_faq_url("proofreading_guidelines.php")) .
         "</p>\n<p>" .
-        _("If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
+        _("The following quizzes are not required, but can be useful. If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
         "</p>",
     [
 
