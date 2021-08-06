@@ -181,9 +181,9 @@ function new_users($time_interval)
     $title = $time_interval_options[$time_interval]['title'];
 
     $sql = sprintf("SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
-      FROM users
-      GROUP BY 1
-      ORDER BY date_created", DPDatabase::escape($date_format));
+        FROM users
+        GROUP BY 1
+        ORDER BY date_created", DPDatabase::escape($date_format));
     $res = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($res);
@@ -207,9 +207,9 @@ function average_hour_users_logging_on()
 
     //query db and put results into arrays
     $sql = "SELECT hour, AVG(L_hour)
-      FROM user_active_log
-      GROUP BY hour
-      ORDER BY hour";
+        FROM user_active_log
+        GROUP BY hour
+        ORDER BY hour";
     $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
@@ -332,13 +332,13 @@ function curr_month_proj($which)
 
     //query db and put results into arrays
     $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
-      FROM project_state_stats
-      WHERE MONTH(date) = %d AND YEAR(date) = %d AND (%s)
-      GROUP BY DAYOFMONTH(date)
-      ORDER BY date",
-      DPDatabase::escape($month),
-      DPDatabase::escape($year),
-      $psd->state_selector);
+        FROM project_state_stats
+        WHERE MONTH(date) = %d AND YEAR(date) = %d AND (%s)
+        GROUP BY DAYOFMONTH(date)
+        ORDER BY date",
+        DPDatabase::escape($month),
+        DPDatabase::escape($year),
+        $psd->state_selector);
     $result = DPDatabase::query($sql);
 
     [$datax, $y_cumulative] = dpsql_fetch_columns($result);
@@ -394,13 +394,13 @@ function cumulative_month_proj($which)
 
     //query db and put results into arrays
     $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
-      FROM project_state_stats
-      WHERE MONTH(date) = %s AND YEAR(date) = %s AND (%s)
-      GROUP BY DAYOFMONTH(date)
-      ORDER BY date",
-      DPDatabase::escape($month),
-      DPDatabase::escape($year),
-      $psd->state_selector);
+        FROM project_state_stats
+        WHERE MONTH(date) = %s AND YEAR(date) = %s AND (%s)
+        GROUP BY DAYOFMONTH(date)
+        ORDER BY date",
+        DPDatabase::escape($month),
+        DPDatabase::escape($year),
+        $psd->state_selector);
     $result = DPDatabase::query($sql);
 
     [$datax, $y_num_projects] = dpsql_fetch_columns($result);
