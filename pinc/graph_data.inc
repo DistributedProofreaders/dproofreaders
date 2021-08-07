@@ -229,9 +229,9 @@ function average_hour_users_logging_on()
 function users_by_language()
 {
     $res = DPDatabase::query("SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
-      FROM users
-      GROUP BY intlang
-      ORDER BY num DESC");
+        FROM users
+        GROUP BY intlang
+        ORDER BY num DESC");
 
     $x = [];
     $y = [];
@@ -441,10 +441,10 @@ function total_proj_graph($which)
 
     //query db and put results into arrays
     $result = DPDatabase::query("SELECT date, SUM(num_projects)
-      FROM project_state_stats
-      WHERE $psd->state_selector
-      GROUP BY date
-      ORDER BY date");
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY date
+        ORDER BY date");
 
     [$datax, $y_cumulative] = dpsql_fetch_columns($result);
 
@@ -475,10 +475,10 @@ function cumulative_total_proj_graph($which)
 
     //query db and put results into arrays
     $result = DPDatabase::query("SELECT date, SUM(num_projects)
-    FROM project_state_stats
-    WHERE $psd->state_selector
-    GROUP BY date
-    ORDER BY date ASC");
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY date
+        ORDER BY date ASC");
 
     [$datax, $datay1] = dpsql_fetch_columns($result);
 
