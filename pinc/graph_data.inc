@@ -181,9 +181,9 @@ function new_users($time_interval)
     $title = $time_interval_options[$time_interval]['title'];
 
     $sql = sprintf("SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
-      FROM users
-      GROUP BY 1
-      ORDER BY date_created", DPDatabase::escape($date_format));
+        FROM users
+        GROUP BY 1
+        ORDER BY date_created", DPDatabase::escape($date_format));
     $res = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($res);
@@ -207,9 +207,9 @@ function average_hour_users_logging_on()
 
     //query db and put results into arrays
     $sql = "SELECT hour, AVG(L_hour)
-      FROM user_active_log
-      GROUP BY hour
-      ORDER BY hour";
+        FROM user_active_log
+        GROUP BY hour
+        ORDER BY hour";
     $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
@@ -229,9 +229,9 @@ function average_hour_users_logging_on()
 function users_by_language()
 {
     $res = DPDatabase::query("SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
-      FROM users
-      GROUP BY intlang
-      ORDER BY num DESC");
+        FROM users
+        GROUP BY intlang
+        ORDER BY num DESC");
 
     $x = [];
     $y = [];
@@ -285,6 +285,215 @@ function users_by_country()
             _('Country') => [
                 "x" => $x,
                 "y" => $y,
+            ],
+        ],
+    ];
+}
+
+function array_successive_differences($arr)
+// Return the array defined by:
+//     $result[$i] = $arr[$i+1] - $arr[$i]
+{
+    $result = [];
+    foreach ($arr as $key => $value) {
+        if (isset($prev_key)) {
+            $result[$prev_key] = $value - $prev_value;
+        }
+        $prev_key = $key;
+        $prev_value = $value;
+    }
+    return $result;
+}
+
+function get_number_of_days_in_current_month()
+{
+    $current = getdate();
+    // The last day of this month is the "zeroth" day of next month.
+    $last_day_timestamp =
+        mktime(0, 0, 0, $current['mon'] + 1, 0, $current['year']);
+    $last_day = getdate($last_day_timestamp);
+    return $last_day['mday'];
+}
+
+function curr_month_proj($which)
+{
+    // Create "projects Xed per day" graph for current month
+
+    $psd = get_project_status_descriptor($which);
+
+    $todaysTimeStamp = time();
+
+    $year = date("Y", $todaysTimeStamp);
+    $month = date("m", $todaysTimeStamp);
+    $monthVar = _(date("F", $todaysTimeStamp));
+    $timeframe = "$monthVar $year";
+
+    $maxday = get_number_of_days_in_current_month();
+
+    //query db and put results into arrays
+    $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+        FROM project_state_stats
+        WHERE MONTH(date) = %d AND YEAR(date) = %d AND (%s)
+        GROUP BY DAYOFMONTH(date)
+        ORDER BY date",
+        DPDatabase::escape($month),
+        DPDatabase::escape($year),
+        $psd->state_selector);
+    $result = DPDatabase::query($sql);
+
+    [$datax, $y_cumulative] = dpsql_fetch_columns($result);
+
+    $datay1 = array_successive_differences($y_cumulative);
+
+    // Pad out the rest of the month
+    for ($i = count($datay1); $i < $maxday; $i++) {
+        $datax[$i] = $i + 1;
+        $datay1[$i] = 0;
+    }
+
+    return [
+        "title" => "$psd->per_day_title ($timeframe)",
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Projects') => [
+                "x" => $datax,
+                "y" => $datay1,
+            ],
+        ],
+    ];
+}
+
+function array_subtract_first_from_each($arr)
+// Return the array defined by:
+//     $result[$i] = $arr[$i] - $arr[0]
+{
+    $result = [];
+    foreach ($arr as $key => $value) {
+        if (count($result) == 0) {
+            $first_value = $value;
+        }
+        $result[$key] = $value - $first_value;
+    }
+    return $result;
+}
+
+function cumulative_month_proj($which)
+{
+    // Create "projects Xed per day" graph for current month
+
+    $psd = get_project_status_descriptor($which);
+
+    $todaysTimeStamp = time();
+
+    $year = date("Y", $todaysTimeStamp);
+    $month = date("m", $todaysTimeStamp);
+    $monthVar = _(date("F", $todaysTimeStamp));
+    $timeframe = "$monthVar $year";
+
+    $maxday = get_number_of_days_in_current_month();
+
+    //query db and put results into arrays
+    $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+        FROM project_state_stats
+        WHERE MONTH(date) = %s AND YEAR(date) = %s AND (%s)
+        GROUP BY DAYOFMONTH(date)
+        ORDER BY date",
+        DPDatabase::escape($month),
+        DPDatabase::escape($year),
+        $psd->state_selector);
+    $result = DPDatabase::query($sql);
+
+    [$datax, $y_num_projects] = dpsql_fetch_columns($result);
+
+    // get base level, total at beginning of 1st day of month
+    // snapshot is taken just after midnight,
+    // so day = 1 has total at beginning of month
+    // Subtract that base level from each subsequent day's value
+    $datay1 = array_subtract_first_from_each($y_num_projects);
+    array_shift($datay1);
+
+    // Pad out the rest of the month
+    for ($i = count($datay1); $i < $maxday; $i++) {
+        $datax[$i] = $i + 1;
+        $datay1[$i] = "";
+    }
+
+    return [
+        "title" => "$psd->cumulative_title ($timeframe)",
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Projects') => [
+                "x" => $datax,
+                "y" => $datay1,
+            ],
+        ],
+    ];
+}
+
+function total_proj_graph($which)
+{
+    //Create "projects Xed per day" graph for all known history
+
+    $psd = get_project_status_descriptor($which);
+
+    $timeframe = _('since stats began');
+
+
+    //query db and put results into arrays
+    $result = DPDatabase::query("SELECT date, SUM(num_projects)
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY date
+        ORDER BY date");
+
+    [$datax, $y_cumulative] = dpsql_fetch_columns($result);
+
+    $datay1 = array_successive_differences($y_cumulative);
+    $datay1[] = 0;
+
+    return [
+        "title" => "$psd->per_day_title ($timeframe)",
+        "xAxisHeight" => 75,
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Projects') => [
+                "x" => $datax,
+                "y" => $datay1,
+            ],
+        ],
+    ];
+}
+
+function cumulative_total_proj_graph($which)
+{
+    // Create "cumulative projects Xed per day" graph for all days
+    // since state stats started being recorded up to yesterday
+
+    $psd = get_project_status_descriptor($which);
+
+    $timeframe = _('since stats began');
+
+    //query db and put results into arrays
+    $result = DPDatabase::query("SELECT date, SUM(num_projects)
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY date
+        ORDER BY date ASC");
+
+    [$datax, $datay1] = dpsql_fetch_columns($result);
+
+    if (empty($datay1)) {
+        $datay1[0] = 0;
+    }
+
+    return [
+        "title" => "$psd->cumulative_title ($timeframe)",
+        "xAxisHeight" => 75,
+        "yAxisWidth" => 75,
+        "data" => [
+            _('Projects') => [
+                "x" => $datax,
+                "y" => $datay1,
             ],
         ],
     ];

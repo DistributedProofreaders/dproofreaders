@@ -81,11 +81,7 @@ $ok_files = [
     "stats/jpgraph_files/round_backlog_trend.php",
     "stats/jpgraph_files/round_backlog_days.php",
     "stats/jpgraph_files/round_backlog.php",
-    "stats/jpgraph_files/cumulative_total_proj_graph.php",
-    "stats/jpgraph_files/total_proj_graph.php",
     "stats/jpgraph_files/total_pages_by_month_graph.php",
-    "stats/jpgraph_files/cumulative_month_proj.php",
-    "stats/jpgraph_files/curr_month_proj.php",
     "stats/jpgraph_files/equilibria.php",
     // Design documentation
     "styles/style_demo.php",

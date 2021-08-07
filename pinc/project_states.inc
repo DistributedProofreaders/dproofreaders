@@ -432,7 +432,6 @@ function get_project_status_descriptor($which)
             $obj->state_selector = "(
                 state NOT LIKE 'project_new%' AND state != 'project_delete'
             )";
-            $obj->color = 'green';
             $obj->Xed_title = _('Created');
             $obj->projects_Xed_title = _('Projects Created');
             $obj->graphs_title = _('Created Projects Graphs');
@@ -446,7 +445,6 @@ function get_project_status_descriptor($which)
                 OR state LIKE 'proj_correct%'
                 OR state LIKE 'proj_post%'
             )";
-            $obj->color = 'blue';
             $obj->Xed_title = _('Proofread');
             $obj->projects_Xed_title = _('Projects Proofread');
             $obj->graphs_title = _('Proofread Projects Graphs');
@@ -460,7 +458,6 @@ function get_project_status_descriptor($which)
                 OR state LIKE 'proj_correct%'
                 OR state LIKE 'proj_post_second%'
             )";
-            $obj->color = 'silver';
             $obj->Xed_title = _('Post-Processed');
             $obj->projects_Xed_title = _('Projects Post-Processed');
             $obj->graphs_title = _('PPd Projects Graphs');
@@ -473,7 +470,6 @@ function get_project_status_descriptor($which)
                 state LIKE 'proj_submit%'
                 OR state LIKE 'proj_correct%'
             )";
-            $obj->color = 'gold';
             $obj->Xed_title = _('Posted to PG');
             $obj->projects_Xed_title = _('Projects Posted');
             $obj->graphs_title = _('Posted Projects Graphs');

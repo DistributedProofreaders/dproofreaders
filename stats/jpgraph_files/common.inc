@@ -27,47 +27,6 @@ function get_image_cache_filename()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_number_of_days_in_current_month()
-{
-    $current = getdate();
-    // The last day of this month is the "zeroth" day of next month.
-    $last_day_timestamp =
-        mktime(0, 0, 0, $current['mon'] + 1, 0, $current['year']);
-    $last_day = getdate($last_day_timestamp);
-    return $last_day['mday'];
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function array_subtract_first_from_each($arr)
-// Return the array defined by:
-//     $result[$i] = $arr[$i] - $arr[0]
-{
-    $result = [];
-    foreach ($arr as $key => $value) {
-        if (count($result) == 0) {
-            $first_value = $value;
-        }
-        $result[$key] = $value - $first_value;
-    }
-    return $result;
-}
-
-function array_successive_differences($arr)
-// Return the array defined by:
-//     $result[$i] = $arr[$i+1] - $arr[$i]
-{
-    $result = [];
-    foreach ($arr as $key => $value) {
-        if (isset($prev_key)) {
-            $result[$prev_key] = $value - $prev_value;
-        }
-        $prev_key = $key;
-        $prev_value = $value;
-    }
-    return $result;
-}
-
 function array_accumulate($arr)
 // Return the array defined by:
 //     $result[$i] = sum( $arr[$j] for $j up to and including $i )
