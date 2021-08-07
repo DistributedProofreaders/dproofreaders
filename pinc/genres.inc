@@ -74,7 +74,7 @@ function load_genre_translation_array()
         'Romance' => _('Romance'),
         'Satire' => _('Satire'),
         'Science' => _('Science'),
-        'Science Fiction' => _('Science Fiction'),
+        'Science Fiction & Fantasy' => _('Science Fiction & Fantasy'),
         'Short Story' => _('Short Story'),
         'Sociology' => _('Sociology'),
         'Speech' => _('Speech'),
