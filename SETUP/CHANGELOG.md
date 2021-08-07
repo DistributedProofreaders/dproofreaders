@@ -6,6 +6,10 @@ see the git history.
 ## R??????
 Scripts supporting this upgrade are in `SETUP/upgrade/16`
 
+* Renamed the 'Science Fiction' genre to 'Science Fiction & Fantasy'.
+    There is no upgrade script for the `queue_defns` table; since
+    release queues do not come pre-defined, updating those entries
+    should be done manually by those who have genre queues enabled.
 
 ## R202102
 Scripts supporting this upgrade are in `SETUP/upgrade/15`
