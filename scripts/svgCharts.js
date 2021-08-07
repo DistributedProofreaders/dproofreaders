@@ -164,8 +164,9 @@ const {barChart, stackedAreaChart} = (function () {
                 .tickFormat(i => data[i][seriesTitle])
                 .tickSizeOuter(0));
 
+        const minYValue = d3.min(data, d => d.value);
         const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value)])
+            .domain([minYValue > 0 ? 0 : minYValue, d3.max(data, d => d.value)])
             .nice()
             .range([height - barMargin.bottom, barMargin.top]);
 
@@ -229,8 +230,8 @@ const {barChart, stackedAreaChart} = (function () {
             .attr("stroke-width", 1)
             .attr("stroke", () => config.barBorder ? "black" : "")
             .attr("x", (d, i) => x(i))
-            .attr("y", d => y(d.value))
-            .attr("height", d => y(0) - y(d.value))
+            .attr("y", ({value}) => value < 0 ? y(0) : y(value))
+            .attr("height", d => Math.abs(y(0) - y(d.value)))
             .attr("width", x.bandwidth())
             .on("mouseover", mouseAction)
             .on("mousemove", mouseAction)
