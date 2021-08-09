@@ -60,7 +60,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<td style='white-space: nowrap;'>$username</td>";
     echo "<td style='white-space: nowrap;'>$datestamp</td>";
     echo "<td>$language</td>";
-    echo "<td>$genre</td>";
+    echo "<td>" . html_safe($genre) . "</td>";
     echo "</tr>\n";
 }
 

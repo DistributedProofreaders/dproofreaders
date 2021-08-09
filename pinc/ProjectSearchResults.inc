@@ -218,7 +218,7 @@ class GenreColumn extends Column
         if ($prefix != "") {
             $genre = $prefix." ".$genre;
         }
-        echo $genre;
+        echo html_safe($genre);
     }
 }
 
