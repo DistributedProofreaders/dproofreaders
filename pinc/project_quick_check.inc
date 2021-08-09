@@ -355,9 +355,9 @@ function _test_project_for_correct_metadata($projectid)
     $difficulty = $project->difficulty;
 
     $status = _("Manual");
-    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>, Difficulty: <b>%s</b>"), $page_details_link, $genre, $language, $difficulty);
+    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>, Difficulty: <b>%s</b>"), $page_details_link, html_safe($genre), $language, $difficulty);
     $details = "";
-    $details .= "<p><b>" . _("Genre") . "</b>: $genre</p>";
+    $details .= "<p><b>" . _("Genre") . "</b>: " . html_safe($genre) . "</p>";
     $details .= "<p><b>" . _("Language") . "</b>: $language</p>";
     $details .= "<p><b>" . _("Difficulty") . "</b>: $difficulty</p>";
 

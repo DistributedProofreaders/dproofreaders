@@ -528,7 +528,7 @@ function show_project_listing(
                 } elseif ($book['difficulty'] == "hard") {
                     $genre = _("HARD")." ".$genre;
                 }
-                $cell = $genre;
+                $cell = html_safe($genre);
             } elseif ($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer" || $col_id == "correctedby") {
                 // Create email or PM links for usernames.
                 $user_name = $book[$col_id];

@@ -424,7 +424,7 @@ function do_project_info_table()
     echo_row_a(_("Title"), $project->nameofwork, true);
     echo_row_a(_("Author"), $project->authorsname, true);
     echo_row_a(_("Language"), $project->language);
-    echo_row_a(_("Genre"), _($project->genre));
+    echo_row_a(_("Genre"), _($project->genre), true);
 
     echo_row_a(_("Difficulty"), _($project->difficulty));
 
@@ -442,7 +442,7 @@ function do_project_info_table()
             $spec_display = $special_days[$spec_code]["display_name"] ?? "($spec_code)";
         }
 
-        echo_row_a(_("Special Day"), $spec_display);
+        echo_row_a(_("Special Day"), $spec_display, true);
     }
 
     // -------

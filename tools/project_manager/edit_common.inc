@@ -83,7 +83,7 @@ function genre_list($genre)
         if ($genre == $k) {
             echo " SELECTED";
         }
-        echo ">$v</option>";
+        echo ">" . html_safe($v) . "</option>";
         echo "\n";
     }
     echo "</select>";
@@ -207,7 +207,7 @@ function special_list($special)
         if ($special == $k) {
             echo " SELECTED";
         }
-        echo ">$v</option>";
+        echo ">" . html_safe($v) . "</option>";
         echo "\n";
     }
     echo "</select>";
@@ -291,7 +291,7 @@ function image_source_list($image_source)
         if ($image_source === $k) {
             echo " SELECTED";
         }
-        echo ">$v</option>";
+        echo ">" . html_safe($v) . "</option>";
         echo "\n";
     }
 

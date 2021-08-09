@@ -346,7 +346,7 @@ if (!isset($_GET['name'])) {
             echo html_safe($row['authorsname']);
             echo "</td>";
             echo "<td class='center-align'>";
-            echo $row['genre'];
+            echo html_safe($row['genre']);
             echo "</td>";
             echo "<td class='center-align'>";
             echo $row['language'];
