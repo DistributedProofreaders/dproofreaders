@@ -877,7 +877,7 @@ class ProjectInfoHolder
         $this->row(_("Image Preparer"), 'DP_user_field', $this->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
         $this->row(_("Text Preparer"), 'DP_user_field', $this->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), $site_abbreviation));
         $this->row(_("Extra Credits<br>(to be included in list of names--no URLs)"),
-                                               'extra_credits_field', $this->extra_credits);
+                                               'extra_credits_field', $this->extra_credits, null, '', '', true);
         if ($this->scannercredit != '') {
             $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->scannercredit, 'scannercredit');
         }
@@ -891,16 +891,16 @@ class ProjectInfoHolder
         }
     }
 
-    public function row($label, $display_function, $field_value, $field_name = null, $explain = '', $args = '')
+    public function row($label, $display_function, $field_value, $field_name = null, $explain = '', $args = '', $html_label = false)
     {
         echo "<tr>";
         echo   "<th class='label'>";
-        echo     "$label";
+        echo     $html_label ? $label : html_safe($label);
         echo   "</th>";
         echo   "<td>";
         $display_function($field_value, $field_name, $args);
         echo   "  ";
-        echo   $explain;
+        echo   html_safe($explain);
         echo   "</td>";
         echo "</tr>";
         echo "\n";

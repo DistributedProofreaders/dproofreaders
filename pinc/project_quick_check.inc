@@ -164,7 +164,7 @@ function _test_project_for_large_page_images($projectid)
             $error = get_image_size_error($file_info->size);
             if (isset($error)) {
                 $details .= "<tr>";
-                $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
+                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
                 $details .= "<td>" . $error . "</td>";
                 $details .= "</tr>";
 
@@ -236,7 +236,7 @@ function _test_project_for_corrupt_pngs($projectid)
                 exec('pngcheck -q ' . escapeshellarg($file_info->abs_path), $output, $return_code);
                 if ($return_code != 0) {
                     $details .= "<tr>";
-                    $details .= "<td><a href='{$file_info->abs_url}'>$image</a></td>";
+                    $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
                     $details .= "<td>" . str_replace($file_info->abs_path, "", $output[0]) . "</td>";
                     $details .= "</tr>";
 
@@ -355,11 +355,11 @@ function _test_project_for_correct_metadata($projectid)
     $difficulty = $project->difficulty;
 
     $status = _("Manual");
-    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>, Difficulty: <b>%s</b>"), $page_details_link, html_safe($genre), $language, $difficulty);
+    $summary = sprintf(_("This is a manual test: %s. Genre: <b>%s</b>. Language: <b>%s</b>, Difficulty: <b>%s</b>"), $page_details_link, html_safe($genre), html_safe($language), html_safe($difficulty));
     $details = "";
-    $details .= "<p><b>" . _("Genre") . "</b>: " . html_safe($genre) . "</p>";
-    $details .= "<p><b>" . _("Language") . "</b>: $language</p>";
-    $details .= "<p><b>" . _("Difficulty") . "</b>: $difficulty</p>";
+    $details .= "<p><b>" . html_safe(_("Genre")) . "</b>: " . html_safe($genre) . "</p>";
+    $details .= "<p><b>" . html_safe(_("Language")) . "</b>: " . html_safe($language) . "</p>";
+    $details .= "<p><b>" . html_safe(_("Difficulty")) . "</b>: " . html_safe($difficulty) . "</p>";
 
     return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
@@ -373,9 +373,9 @@ function _test_project_for_credited_source($projectid)
     $test_desc = _("This manual test confirms if a valid source has been credited for the images.");
 
     $status = _("Manual");
-    $summary = sprintf(_("This is a manual test. Image Source: <b>%s</b>"), $image_source);
+    $summary = sprintf(_("This is a manual test. Image Source: <b>%s</b>"), html_safe($image_source));
     $details = "";
-    $details .= "<p><b>" . _("Image Source") . "</b>: $image_source</p>";
+    $details .= "<p><b>" . _("Image Source") . "</b>: " . html_safe($image_source) . "</p>";
 
     return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
@@ -449,7 +449,7 @@ function _test_project_for_bad_bytes($projectid)
             $round = get_Round_for_round_number($round_num);
             $round_name = $round->id;
         }
-        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>$round_name</a></td>\n";
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>" . html_safe($round_name) . "</a></td>\n";
 
         // on the first row <tr> is already written out with image and round
         // columns so only write it on subsequent rows

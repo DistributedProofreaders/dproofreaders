@@ -349,7 +349,7 @@ if (!isset($_GET['name'])) {
             echo html_safe($row['genre']);
             echo "</td>";
             echo "<td class='center-align'>";
-            echo $row['language'];
+            echo html_safe($row['language']);
             echo "</td>";
 
             // For In Progress, suppress final column since it conveys no info

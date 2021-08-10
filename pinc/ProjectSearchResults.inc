@@ -291,7 +291,7 @@ class StateColumn extends Column
 
     private function _echo_project_state_option($project_state, $selected, $disabled = 0, $reason = '')
     {
-        echo "<option value='$project_state'";
+        echo "<option value='" . attr_safe($project_state) . "'";
         if ($selected) {
             echo " SELECTED";
         }
@@ -302,7 +302,7 @@ class StateColumn extends Column
         if ($project_state == 'automodify') {
             echo _('automodify');
         } else {
-            echo get_medium_label_for_project_state($project_state);
+            echo html_safe(get_medium_label_for_project_state($project_state));
         }
         if ($disabled) {
             echo " [$reason]";

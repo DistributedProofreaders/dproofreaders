@@ -423,10 +423,10 @@ function do_project_info_table()
 
     echo_row_a(_("Title"), $project->nameofwork, true);
     echo_row_a(_("Author"), $project->authorsname, true);
-    echo_row_a(_("Language"), $project->language);
+    echo_row_a(_("Language"), $project->language, true);
     echo_row_a(_("Genre"), _($project->genre), true);
 
-    echo_row_a(_("Difficulty"), _($project->difficulty));
+    echo_row_a(_("Difficulty"), _($project->difficulty), true);
 
     // -------------------------------------------------------------------------
     // Basic DP info
@@ -462,14 +462,14 @@ function do_project_info_table()
 
     // We choose not to show guests anything involving users' names.
     if ($user_is_logged_in) {
-        echo_row_a(_("Project Manager"), $project->username);
+        echo_row_a(_("Project Manager"), $project->username, true);
 
         if ($project->PPer) {
-            echo_row_a(_("Post Processor"), $project->PPer);
+            echo_row_a(_("Post Processor"), $project->PPer, true);
         }
 
         if ($project->PPVer) {
-            echo_row_a(_("PP Verifier"), $project->PPVer);
+            echo_row_a(_("PP Verifier"), $project->PPVer, true);
         }
 
         if ($site_supports_corrections_after_posting) {
@@ -480,7 +480,7 @@ function do_project_info_table()
                 $CorrectionsReviewer = $project->checkedoutby;
             }
             if (isset($CorrectionsReviewer)) {
-                echo_row_a(_("Corrections Reviewer"), $CorrectionsReviewer);
+                echo_row_a(_("Corrections Reviewer"), $CorrectionsReviewer, true);
             }
         }
 
@@ -497,11 +497,13 @@ function do_project_info_table()
     echo_row_a(
         _("Last Edit of Project Info"),
         strftime($datetime_format, $project->t_last_edit)
-        . $current_time_addition);
+        . $current_time_addition,
+        true);
 
     echo_row_a(
         _("Last State Change"),
-        strftime($datetime_format, $project->modifieddate));
+        strftime($datetime_format, $project->modifieddate),
+        true);
 
     if ($round) {
         $last_proofread_time = $project->get_last_proofread_time($round);
@@ -510,7 +512,7 @@ function do_project_info_table()
         } else {
             $lastproofed = _("Project has not been proofread in this round.");
         }
-        echo_row_a(_("Last Proofread"), $lastproofed);
+        echo_row_a(_("Last Proofread"), $lastproofed, true);
     }
 
     // -------------------------------------------------------------------------
@@ -569,17 +571,17 @@ function do_project_info_table()
     if (!empty($topic_id)) {
         $last_post_date = get_last_post_time_in_topic($topic_id);
         $last_post_date = strftime($datetime_format, $last_post_date);
-        echo_row_a(_("Last Forum Post"), $last_post_date);
+        echo_row_a(_("Last Forum Post"), $last_post_date, true);
     }
 
     // If the topic is only visible to logged-in users,
     // there's little point showing guests the link to it.
     if ($user_is_logged_in) {
         if (($state == PROJ_DELETE) && ($topic_id == "")) {
-            echo_row_a(_("Forum"), _("The project has been deleted, and no discussion exists."));
+            echo_row_a(_("Forum"), _("The project has been deleted, and no discussion exists."), true);
         } else {
             if ($topic_id == "") {
-                $blurb = _("Start a discussion about this project");
+                $blurb = html_safe(_("Start a discussion about this project"));
                 $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
                 echo_row_a(_("Forum"), "<a href='$url'>$blurb</a>");
             } else {
@@ -589,7 +591,7 @@ function do_project_info_table()
                 } else {
                     $replies = '';
                 }
-                $blurb = _("Discuss this project");
+                $blurb = html_safe(_("Discuss this project"));
                 $url = get_url_to_view_topic($topic_id);
                 echo_row_a(_("Forum"), "<a href='$url'>$blurb</a> $replies");
             }
@@ -606,13 +608,13 @@ function do_project_info_table()
         } else {
             if ($project->check_pages_table_exists($detail)) {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
-                $blurb = _("Images, Pages Proofread, & Differences");
+                $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
                 $url2 = "$url&amp;select_by_user";
-                $blurb2 = _("Just my pages");
+                $blurb2 = html_safe(_("Just my pages"));
                 $detail = "<a href='$url'>$blurb</a> &middot; <a href='$url2'><b>$blurb2</b></a>";
                 if ($project->has_entered_formatting_round()) {
                     $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
-                    $blurb3 = _("Compare without formatting");
+                    $blurb3 = html_safe(_("Compare without formatting"));
                     $detail .= " &middot; <a href='$url3'>$blurb3</a>";
                 }
             }
@@ -710,7 +712,7 @@ function echo_row_a($left, $right, $escape_right = false)
         $right = html_safe($right);
     }
     echo "<tr>";
-    echo "<th class='label'>$left</th>";
+    echo "<th class='label'>" . html_safe($left) . "</th>";
     echo "<td colspan='4'>$right</td>";
     echo "</tr>\n";
 }
@@ -1284,7 +1286,7 @@ function do_history()
                         // TRANSLATORS: i.e. no fields changed
                         $list_of_changed_fields = pgettext("no fields", "none");
                     } else {
-                        $list_of_changed_fields = implode(', ', $labels);
+                        $list_of_changed_fields = implode(', ', html_safe($labels));
                     }
                 }
                 echo "<td colspan='3'>";
