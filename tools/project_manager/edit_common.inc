@@ -52,11 +52,11 @@ function language_list($language)
         $sec_language = '';
     }
 
-    echo _("Primary"), ": <select name='pri_language' required>\n";
+    echo html_safe(_("Primary")), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
     echo_language_options($pri_language);
     echo "</select><br>\n";
-    echo _("Secondary"), ": <select name='sec_language'>\n";
+    echo html_safe(_("Secondary")), ": <select name='sec_language'>\n";
     echo "<option value=''>&nbsp;</option>\n";
     echo_language_options($sec_language);
     echo "</select>\n";
@@ -67,7 +67,7 @@ function echo_language_options($default)
     foreach (get_iso_language_list() as $language) {
         $lang_name = $language['lang_name'];
         $selected_string = ($default == $lang_name) ? " selected" : "";
-        echo "<option value='", attr_safe($lang_name), "'$selected_string>$lang_name</option>\n";
+        echo "<option value='", attr_safe($lang_name), "'$selected_string>", html_safe($lang_name), "</option>\n";
     }
 }
 
@@ -141,7 +141,7 @@ function difficulty_list($difficulty_level)
         if (strtolower($difficulty_level) == $name) {
             echo " CHECKED";
         }
-        echo ">$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
+        echo ">" . html_safe($label) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
     }
 }
 
@@ -189,7 +189,7 @@ function special_list($special)
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
     }
-    echo ">", _("Birthday"), "</option>";
+    echo ">", html_safe(_("Birthday")), "</option>";
     echo "\n";
 
     echo "<option value='Otherday'";
@@ -198,7 +198,7 @@ function special_list($special)
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
     }
-    echo ">", _("Otherday"), "</option>";
+    echo ">", html_safe(_("Otherday")), "</option>";
     echo "\n";
 
     // add the rest of the special days (the "ordinary" special days ;) )
@@ -216,7 +216,7 @@ function special_list($special)
     echo "<br>";
 
     // drop down selects for month and date, used for Birthday and Otherday specials
-    echo " ", _("Birthday/Otherday: (month)"), " <select name='bdaymonth'>";
+    echo " ", html_safe(_("Birthday/Otherday: (month)")), " <select name='bdaymonth'>";
     echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
@@ -232,7 +232,7 @@ function special_list($special)
     }
     echo "</select>";
 
-    echo " ", _("(day)"), " <select name='bdayday'>";
+    echo " ", html_safe(_("(day)")), " <select name='bdayday'>";
     echo "<option value=''>&nbsp;</option>";
     echo "\n";
     $i = 1;
@@ -296,7 +296,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<span class='small'>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), $site_abbreviation)."</span>";
+    echo "<span class='small'>". html_safe(sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), $site_abbreviation))."</span>";
     echo " " . new_window_link("show_image_sources.php", _("Details of Image Sources"));
     echo "<br>";
 }
@@ -305,7 +305,7 @@ function maybe_echo_placeholder_option($initial)
 {
     if ("" == $initial) {
         // none of the real options can have this value
-        echo "<option value=''>", _("Select One"), "</option>\n";
+        echo "<option value=''>", html_safe(_("Select One")), "</option>\n";
     }
 }
 

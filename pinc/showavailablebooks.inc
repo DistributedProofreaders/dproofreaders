@@ -510,7 +510,7 @@ function show_project_listing(
                     ? get_onclick_attr_for_link_to_project_page($eURL)
                     : ""
                 );
-                $cell = "<a href=\"$eURL\" $onclick_attr>{$book['nameofwork']}</a>";
+                $cell = "<a href=\"$eURL\" $onclick_attr>" . html_safe($book['nameofwork']) . "</a>";
             } elseif ($col_id == "genre") {
                 $genre = $book['trans_genre'];
                 if ($book['difficulty'] == "beginner") {
@@ -542,7 +542,7 @@ function show_project_listing(
                 }
 
                 $contact_url = attr_safe($contact_url);
-                $cell = "<a href='$contact_url'>$user_name</a>";
+                $cell = "<a href='$contact_url'>" . html_safe($user_name) . "</a>";
             } elseif ($col_id == "uploaded") {
                 // Uploaded is a special case because it is pulled from the
                 // filesystem and not from the database, and is hence not sortable.
@@ -556,7 +556,7 @@ function show_project_listing(
             } elseif ($col_id == "days_avail" || $col_id == "days_left" || $col_id == "days_since_visit") {
                 $cell = sprintf("%.1f", $book[$col_id]);
             } else {
-                $cell = $book[$col_id];
+                $cell = html_safe($book[$col_id]);
             }
 
             // Determine any special style formatting.
