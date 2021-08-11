@@ -95,6 +95,18 @@ while ([$project_state, $count] = mysqli_fetch_row($result)) {
     $n_projects_in_state_[$project_state] = $count;
 }
 
+// SR projects have an additional qualifier beyond just the state,
+// so we need an additional query to pull the SR count, and to add
+// it to $n_projects_in_state_
+$sql = "
+    SELECT COUNT(*)
+    FROM projects
+    WHERE state = '" . PROJ_POST_FIRST_CHECKED_OUT . "' AND
+        smoothread_deadline > UNIX_TIMESTAMP()
+";
+$result = DPDatabase::query($sql);
+[$n_projects_in_state_['SR']] = mysqli_fetch_row($result);
+
 // Users can elect to show project stats for all projects, or just for
 // projects that match their project filter (ie: the filter used on
 // the corresponding Round or Pool pages to limit the projects shown on those
@@ -121,7 +133,6 @@ if ($pagesproofed <= 20) {
     $show_filtered_projects = false;
     $show_filtering_links = false;
 }
-
 
 progress_snapshot_table($show_filtered_projects, $show_filtering_links, ($pagesproofed < 300));
 
@@ -243,12 +254,36 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
         if (is_a($stage, 'Pool') || is_a($stage, 'Round')) {
             continue;
         }
+        if ($stage->id == "SR") {
+            echo "\n<tr>";
+            echo "<th class='activity-icon-header'></th>";
+            echo "<th colspan='3'>" . _("Projects") . " = ";
+            if ($show_filtered_projects) {
+                if ($show_filtering_links) {
+                    echo "<a href='?show_filtered=0#progress_snapshot'>" . pgettext("all projects", "All") . "</a> | ";
+                }
+                echo "<b>" . _("Filtered") . "</b>";
+            } else {
+                echo "<b>" . pgettext("all projects", "All") . "</b>";
+                if ($show_filtering_links) {
+                    echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
+                }
+            }
+            echo "</tr>\n";
 
-        $desired_states = [];
+            //There is no real 'SR' state, but we hacked a row into the
+            // n_projects_in_state array to hold the SR count.
+            $desired_states = ['SR'];
 
-        summarize_stage($stage, $desired_states);
+            summarize_stage($stage, $desired_states, $show_filtered_projects, $stage->id);
+        } else {
+            $desired_states = [];
+
+            summarize_stage($stage, $desired_states);
+        }
     }
     echo "\n</table>\n";
+
     echo "<a href='faq/site_progress_snapshot_legend.php' target='_blank'>" . _("Information about this table") . "</a>";
 }
 
@@ -337,10 +372,16 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
             }
         }
 
+        if ($stage->id == 'SR') {
+            $where_clause = "state = '" . PROJ_POST_FIRST_CHECKED_OUT . "' AND smoothread_deadline > UNIX_TIMESTAMP()";
+        } else {
+            $where_clause = "state IN ($states_list)";
+        }
+
         $sql = "
             SELECT state, COUNT(*)
             FROM projects
-            WHERE state IN ($states_list) $project_filter
+            WHERE $where_clause $project_filter
             GROUP BY state
         ";
         $result = DPDatabase::query($sql);
@@ -393,6 +434,8 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
             }
             echo "</td>";
         }
+    } elseif ($stage->id == 'SR') {
+        echo "<td colspan='3'>$total_projects</td>";
     } else {
         echo "<td colspan='3' class='nocell'></td>";
     }
