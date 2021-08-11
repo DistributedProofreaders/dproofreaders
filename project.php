@@ -1274,7 +1274,7 @@ function do_history()
 
                     $labels = [];
                     foreach (explode(' ', $changed_fields) as $fieldname) {
-                        $labels[] = array_get($label_for_project_field_, $fieldname, $fieldname);
+                        $labels[] = html_safe(array_get($label_for_project_field_, $fieldname, $fieldname));
                     }
                     // Note that this lists the changed fields in the same order
                     // as they appear in the 'details1' field of the events table,
@@ -1286,7 +1286,7 @@ function do_history()
                         // TRANSLATORS: i.e. no fields changed
                         $list_of_changed_fields = pgettext("no fields", "none");
                     } else {
-                        $list_of_changed_fields = implode(', ', html_safe($labels));
+                        $list_of_changed_fields = implode(', ', $labels);
                     }
                 }
                 echo "<td colspan='3'>";
