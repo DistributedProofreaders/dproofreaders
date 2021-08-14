@@ -733,7 +733,7 @@ $(function () {
         checkProoferNotes();
         if(parseOK) {
             txt = removeAllNotes(txt);
-        console.log(notes);
+//        console.log(notes);
             parseInLine();
             // if inline parse fails then checkSC might not work
             if (parseOK) {
@@ -757,9 +757,9 @@ $(function () {
         // sort them so that if two start in same place, then the more serious is
         // marked first. Do this here so we can test the result.
         issArray.sort(function (a, b) {
-            var diff = b.start - a.start;   // last first
+            var diff = a.start - b.start;   // normal order
             if (diff === 0) {
-                return b.type - a.type;
+                return a.type - b.type;
             } else {
                 return diff;
             }
@@ -820,7 +820,63 @@ $(function () {
             return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
+        function makeIssueInserts(issArray) {
+            console.log(issArray);
+            // issArray is already reversed
+            let issueInserts = [];
+            // end0 is end of previous issue to check if 2 issues overlap
+            let end0 = 0;
+            var errorString;
+            issArray.forEach(function(issue) {
+                console.log(issue);
+                // don't mark 2 issues in one place
+                if (issue.start >= end0) {
+                    if (issue.type === 0) {
+                        errorString = makeErrStr("hlt");
+                    } else {
+                        errorString = makeErrStr("err");
+                    }
+                    let message = previewMessages[issue.code].replace("%s", issue.subText);
+                    end0 = issue.start + issue.len;
+                    issueInserts.push({start: issue.start, text: errorString + message + endSpan});
+                    issueInserts.push({start: end0, text: endSpan});
+                }
+            });
+            return issueInserts;
+        }
+
+
         function addMarkUp(issArray) {
+            // split up the string into an array of characters
+            var tArray = txt.split("");
+
+            function htmlEncodeChar(s, i) {
+                if (s === "&") {
+                    tArray[i] = "&amp;";
+                } else if (s === "<") {
+                    tArray[i] = "&lt;";
+                } else if (s === ">") {
+                    tArray[i] = "&gt;";
+                }
+            }
+
+            tArray.forEach(htmlEncodeChar);
+            let issueInserts = makeIssueInserts(issArray);
+            // merge with notes so that if both start at same index note appears first
+
+            issueInserts.reverse();
+            console.log(issueInserts);
+
+            // since inserting the markups moves all later parts of the array up
+            // we must start from the last one
+            issueInserts.forEach(function (insert) {
+                tArray.splice(insert.start, 0, insert.text);
+            });
+
+            txt = tArray.join("");  // join it back into a string
+        }
+
+/*        function addMarkUp(issArray) {
         // start0 is start of previous issue to check if 2 issues overlap
         // initially a large number so it works 1st time
             var start0 = 100000;
@@ -860,8 +916,7 @@ $(function () {
             tArray.forEach(htmlEncodeChar);
             issArray.forEach(markIss);
             txt = tArray.join("");  // join it back into a string
-        }
-
+        }*/
 
 
         // add style and optional colouring for marked-up text
@@ -1078,6 +1133,7 @@ $(function () {
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
         txt = analysis.text;
+//        makeIssueInserts(issArray);
         addMarkUp(issArray);
 
         let issues = 0;
