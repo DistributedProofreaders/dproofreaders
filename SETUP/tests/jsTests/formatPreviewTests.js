@@ -76,15 +76,15 @@ QUnit.module("Format preview test", function() {
     QUnit.test("no inline end tag in the paragraph", function (assert) {
         text = "the <i>df\n\nnew paragraph</b> ab";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 1, 4, 3, "noEndTagInPara", 1);
-        issueTest(assert, 0, 24, 4, "noStartTag", 1);
+        issueTest(assert, 0, 4, 3, "noEndTagInPara", 1);
+        issueTest(assert, 1, 24, 4, "noStartTag", 1);
     });
 
     QUnit.test("mismatched tags", function (assert) {
         text = "the <i>df</b> ab";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 1, 4, 3, "misMatchTag", 1);
-        issueTest(assert, 0, 9, 4, "misMatchTag", 1);
+        issueTest(assert, 0, 4, 3, "misMatchTag", 1);
+        issueTest(assert, 1, 9, 4, "misMatchTag", 1);
     });
 
     QUnit.test("bold inside italic, ok", function (assert) {
@@ -102,8 +102,8 @@ QUnit.module("Format preview test", function() {
     QUnit.test("unrecognised tag, u not enabled", function (assert) {
         text = "ab <u>cd</u>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 1, 3, 3, "unRecTag", 0);
-        issueTest(assert, 0, 8, 4, "unRecTag", 0);
+        issueTest(assert, 0, 3, 3, "unRecTag", 0);
+        issueTest(assert, 1, 8, 4, "unRecTag", 0);
     });
 
     QUnit.test("u tag enabled", function (assert) {
@@ -217,8 +217,8 @@ QUnit.module("Format preview test", function() {
     QUnit.test("only 1, 2 or 4 blank lines", function (assert) {
         text = "\n\n\nabc\n\n\n\n\ndef\n\n\n\n\n\nghi";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 20, 1, "blankLines124", 1);
-        issueTest(assert, 1, 3, 1, "blankLines124", 1);
+        issueTest(assert, 0, 3, 1, "blankLines124", 1);
+        issueTest(assert, 1, 20, 1, "blankLines124", 1);
     });
 
     QUnit.test("4 blank lines with note", function (assert) {
@@ -228,33 +228,33 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test(",.;:!? after start tag", function (assert) {
-        text = "as<i>,df</i>";
+        text = "as <i>,df</i>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 5, 1, "puncAfterStart", 0);
+        issueTest(assert, 0, 6, 1, "puncAfterStart", 0);
     });
 
     QUnit.test("space after start tag", function (assert) {
-        text = "as<i> df</i>";
+        text = "as <i> df</i>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 5, 1, "spaceAfterStart", 1);
+        issueTest(assert, 0, 6, 1, "spaceAfterStart", 1);
     });
 
     QUnit.test("new line after start tag", function (assert) {
-        text = "as<sc>\nDf</sc>";
+        text = "as <sc>\nDf</sc>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 2, 4, "nlAfterStart", 1);
+        issueTest(assert, 0, 3, 4, "nlAfterStart", 1);
     });
 
     QUnit.test("new line before end tag", function (assert) {
-        text = "as<sc>Df\n</sc>";
+        text = "as <sc>Df\n</sc>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 9, 5, "nlBeforeEnd", 1);
+        issueTest(assert, 0, 10, 5, "nlBeforeEnd", 1);
     });
 
     QUnit.test("space before end tag", function (assert) {
-        text = "as<f>Df </f>";
+        text = "as <f>Df </f>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 7, 1, "spaceBeforeEnd", 1);
+        issueTest(assert, 0, 8, 1, "spaceBeforeEnd", 1);
     });
 
     QUnit.test("entirely bold heading", function (assert) {
@@ -398,16 +398,16 @@ QUnit.module("Format preview test", function() {
     QUnit.test("pair of inline tags with no content", function (assert) {
         text = "<g></g>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 1, 0, 3, "emptyTag", 1);
-        issueTest(assert, 0, 3, 4, "emptyTag", 1);
+        issueTest(assert, 0, 0, 3, "emptyTag", 1);
+        issueTest(assert, 1, 3, 4, "emptyTag", 1);
     });
 
     QUnit.test("multiple footnote anchors", function (assert) {
         text = "abc[A]\ndef[A]\nghi[A]\njkl[B]\n\n[Footnote A: abc]\n\n[Footnote B: mno]";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 2, 3, 3, "multipleAnchors", 0);
+        issueTest(assert, 0, 3, 3, "multipleAnchors", 0);
         issueTest(assert, 1, 10, 3, "multipleAnchors", 0);
-        issueTest(assert, 0, 17, 3, "multipleAnchors", 0);
+        issueTest(assert, 2, 17, 3, "multipleAnchors", 0);
     });
 
     QUnit.test("missing maths start tag in non-math mode", function (assert) {
@@ -425,15 +425,15 @@ QUnit.module("Format preview test", function() {
     QUnit.test("mismatched maths tags", function (assert) {
         text = "\\(e=mc^2\\]";
         issArray = analyse(text, mathConfig).issues;
-        issueTest(assert, 1, 0, 2, "misMatchTag", 1);
-        issueTest(assert, 0, 8, 2, "misMatchTag", 1);
+        issueTest(assert, 0, 0, 2, "misMatchTag", 1);
+        issueTest(assert, 1, 8, 2, "misMatchTag", 1);
     });
 
     QUnit.test("missing maths end tag", function (assert) {
         text = "\\[e=mc^2\\(";
         issArray = analyse(text, mathConfig).issues;
-        issueTest(assert, 1, 0, 2, "noEndTag", 1);
-        issueTest(assert, 0, 8, 2, "noEndTag", 1);
+        issueTest(assert, 0, 0, 2, "noEndTag", 1);
+        issueTest(assert, 1, 8, 2, "noEndTag", 1);
     });
 
     QUnit.test("process outside math markup", function (assert) {

@@ -733,7 +733,6 @@ $(function () {
         checkProoferNotes();
         if(parseOK) {
             txt = removeAllNotes(txt);
-//        console.log(notes);
             parseInLine();
             // if inline parse fails then checkSC might not work
             if (parseOK) {
@@ -753,9 +752,10 @@ $(function () {
             }
         }
         // we must avoid two issues giving overlapping markup
-        // sort them first and mark from end towards beginning
-        // sort them so that if two start in same place, then the more serious is
-        // marked first. Do this here so we can test the result.
+        // sort them first from beginning
+        // sort them so that if two start in same place, then the more serious
+        // placed first. Then 2nd will be discarded later.
+        // Do this here so we can test the result.
         issArray.sort(function (a, b) {
             var diff = a.start - b.start;   // normal order
             if (diff === 0) {
@@ -768,6 +768,7 @@ $(function () {
         return {
             issues: issArray,
             text: txt,
+            noteArray: notes,
         };
     }; // end of analyse
 
@@ -821,14 +822,13 @@ $(function () {
         }
 
         function makeIssueInserts(issArray) {
-            console.log(issArray);
-            // issArray is already reversed
+//            console.log(issArray);
             let issueInserts = [];
             // end0 is end of previous issue to check if 2 issues overlap
             let end0 = 0;
             var errorString;
             issArray.forEach(function(issue) {
-                console.log(issue);
+//                console.log(issue);
                 // don't mark 2 issues in one place
                 if (issue.start >= end0) {
                     if (issue.type === 0) {
@@ -846,7 +846,7 @@ $(function () {
         }
 
 
-        function addMarkUp(issArray) {
+        function addMarkUp(issArray, noteArray) {
             // split up the string into an array of characters
             var tArray = txt.split("");
 
@@ -862,62 +862,23 @@ $(function () {
 
             tArray.forEach(htmlEncodeChar);
             let issueInserts = makeIssueInserts(issArray);
-            // merge with notes so that if both start at same index note appears first
-
-            issueInserts.reverse();
-            console.log(issueInserts);
+            // merge with notes so that if both start at same index the issue appears first
+            // array will be reversed, high indexes will appear first
+            let allInserts = noteArray.concat(issueInserts);
+            allInserts.sort(function(a, b) {
+                // if starts are same return 0, order unchanged
+                return b.start - a.start;
+            });
+//            console.log(allInserts);
 
             // since inserting the markups moves all later parts of the array up
             // we must start from the last one
-            issueInserts.forEach(function (insert) {
+            allInserts.forEach(function (insert) {
                 tArray.splice(insert.start, 0, insert.text);
             });
 
             txt = tArray.join("");  // join it back into a string
         }
-
-/*        function addMarkUp(issArray) {
-        // start0 is start of previous issue to check if 2 issues overlap
-        // initially a large number so it works 1st time
-            var start0 = 100000;
-            var end;
-            var errorString;
-            // split up the string into an array of characters
-            var tArray = txt.split("");
-
-            function htmlEncodeChar(s, i) {
-                if (s === "&") {
-                    tArray[i] = "&amp;";
-                } else if (s === "<") {
-                    tArray[i] = "&lt;";
-                } else if (s === ">") {
-                    tArray[i] = "&gt;";
-                }
-            }
-
-            function markIss(iss) {
-                if (iss.type === 0) {
-                    errorString = makeErrStr("hlt");
-                } else {
-                    errorString = makeErrStr("err");
-                }
-                end = iss.start + iss.len;
-                // don't mark 2 issues in one place
-                if ((iss.start < start0) && (end <= start0)) {
-                    let message = previewMessages[iss.code].replace("%s", iss.subText);
-                    start0 = iss.start;
-                    tArray.splice(end, 0, endSpan);
-                    tArray.splice(start0, 0, errorString + message + endSpan);
-                }
-            }
-            // since inserting the markups moves all later parts of the array up
-            // we must start from the last one
-
-            tArray.forEach(htmlEncodeChar);
-            issArray.forEach(markIss);
-            txt = tArray.join("");  // join it back into a string
-        }*/
-
 
         // add style and optional colouring for marked-up text
         // this works on text which has already had < and > encoded as &lt; &gt;
@@ -1133,8 +1094,7 @@ $(function () {
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
         txt = analysis.text;
-//        makeIssueInserts(issArray);
-        addMarkUp(issArray);
+        addMarkUp(issArray, analysis.noteArray);
 
         let issues = 0;
         let possIss = 0;
