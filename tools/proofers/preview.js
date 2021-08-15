@@ -847,21 +847,22 @@ $(function () {
 
 
         function addMarkUp(issArray, noteArray) {
-            // split up the string into an array of characters
-            var tArray = txt.split("");
 
-            function htmlEncodeChar(s, i) {
-                if (s === "&") {
-                    tArray[i] = "&amp;";
-                } else if (s === "<") {
-                    tArray[i] = "&lt;";
-                } else if (s === ">") {
-                    tArray[i] = "&gt;";
-                }
+            function htmlEncode(s) {
+                return s.replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
             }
 
-            tArray.forEach(htmlEncodeChar);
+            // split up the string into an array of characters
+            var tArray = txt.split("");
+            tArray = tArray.map(htmlEncode);
+//            tArray.forEach(htmlEncodeChar);
             let issueInserts = makeIssueInserts(issArray);
+
+            noteArray.forEach(function(note) {
+                note.text = htmlEncode(note.text);
+            });
             // merge with notes so that if both start at same index the issue appears first
             // array will be reversed, high indexes will appear first
             let allInserts = noteArray.concat(issueInserts);
