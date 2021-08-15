@@ -492,13 +492,12 @@ function do_project_info_table()
 
     $formatted_now = strftime($time_format, time());
     $ct = _("Current Time");
-    $current_time_addition = "&nbsp;&nbsp;&nbsp;($ct: $formatted_now)";
+    $current_time_addition = "&nbsp;&nbsp;&nbsp;" . html_safe("($ct: $formatted_now)");
 
     echo_row_a(
         _("Last Edit of Project Info"),
         strftime($datetime_format, $project->t_last_edit)
-        . $current_time_addition,
-        true);
+        . $current_time_addition);
 
     echo_row_a(
         _("Last State Change"),
