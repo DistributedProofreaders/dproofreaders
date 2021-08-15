@@ -822,13 +822,11 @@ $(function () {
         }
 
         function makeIssueInserts(issArray) {
-//            console.log(issArray);
             let issueInserts = [];
             // end0 is end of previous issue to check if 2 issues overlap
             let end0 = 0;
             var errorString;
             issArray.forEach(function(issue) {
-//                console.log(issue);
                 // don't mark 2 issues in one place
                 if (issue.start >= end0) {
                     if (issue.type === 0) {
@@ -864,7 +862,6 @@ $(function () {
             // split up the string into an array of characters
             var tArray = text.split("");
             tArray = tArray.map(htmlEncode);
-//            tArray.forEach(htmlEncodeChar);
             let issueInserts = makeIssueInserts(issArray);
 
             noteArray.forEach(function(note) {
@@ -877,7 +874,6 @@ $(function () {
                 // if starts are same return 0, order unchanged
                 return b.start - a.start;
             });
-//            console.log(allInserts);
 
             // since inserting the markups moves all later parts of the array up
             // we must start from the last one
@@ -890,7 +886,6 @@ $(function () {
 
         function decodeNoteTags() {
             txt = txt.replace(/█/g, "&lt;");
-            // replace placeholder with &lt;
         }
 
         // add style and optional colouring for marked-up text
@@ -1106,13 +1101,8 @@ $(function () {
 
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
-//        txt = analysis.text;
-        if (wrapMode) {
-            // leave out notes
-            txt = addMarkUp(analysis.text, issArray, []);
-        } else {
-            txt = addMarkUp(analysis.text, issArray, analysis.noteArray);
-        }
+        // if wrapMode leave out notes
+        txt = addMarkUp(analysis.text, issArray, wrapMode ? [] : analysis.noteArray);
         let issues = 0;
         let possIss = 0;
         issArray.forEach(function(issue) {
