@@ -846,7 +846,7 @@ $(function () {
         }
 
 
-        function addMarkUp(issArray, noteArray) {
+        function addMarkUp(text, issArray, noteArray) {
 
             function htmlEncode(s) {
                 return s.replace(/&/g, "&amp;")
@@ -854,14 +854,21 @@ $(function () {
                     .replace(/>/g, "&gt;");
             }
 
+            // temporarily encode < to placeholder █ so notes do not get styled
+            function modifiedEncode(s) {
+                return s.replace(/&/g, "&amp;")
+                    .replace(/</g, "█")
+                    .replace(/>/g, "&gt;");
+            }
+
             // split up the string into an array of characters
-            var tArray = txt.split("");
+            var tArray = text.split("");
             tArray = tArray.map(htmlEncode);
 //            tArray.forEach(htmlEncodeChar);
             let issueInserts = makeIssueInserts(issArray);
 
             noteArray.forEach(function(note) {
-                note.text = htmlEncode(note.text);
+                note.text = modifiedEncode(note.text);
             });
             // merge with notes so that if both start at same index the issue appears first
             // array will be reversed, high indexes will appear first
@@ -878,7 +885,12 @@ $(function () {
                 tArray.splice(insert.start, 0, insert.text);
             });
 
-            txt = tArray.join("");  // join it back into a string
+            return tArray.join("");  // join it back into a string
+        }
+
+        function decodeNoteTags() {
+            txt = txt.replace(/█/g, "&lt;");
+            // replace placeholder with &lt;
         }
 
         // add style and optional colouring for marked-up text
@@ -1094,9 +1106,13 @@ $(function () {
 
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
-        txt = analysis.text;
-        addMarkUp(issArray, analysis.noteArray);
-
+//        txt = analysis.text;
+        if (wrapMode) {
+            // leave out notes
+            txt = addMarkUp(analysis.text, issArray, []);
+        } else {
+            txt = addMarkUp(analysis.text, issArray, analysis.noteArray);
+        }
         let issues = 0;
         let possIss = 0;
         issArray.forEach(function(issue) {
@@ -1111,6 +1127,7 @@ $(function () {
         let ok = (issues === 0);
         if (ok) {
             showStyle();
+            decodeNoteTags();
             if (wrapMode) {
                 reWrap();
             }
