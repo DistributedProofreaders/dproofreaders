@@ -127,10 +127,6 @@ function output_preview_div()
                     <span class='ilb'><label for="id_color_on">$color_markup</label>
                         <input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" >
                     </span>
-                    <span class='ilb'>$image
-                        <input type="button" value="-" onclick="top.reSizeRelative(0.91);">
-                        <input type="button" value="+" onclick="top.reSizeRelative(1.10);">
-                    </span>
                     <span class='ilb'>$text
                         <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
                         <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">

@@ -32,13 +32,24 @@ $word_check_messages = json_encode([
 ]);
 
 $user = User::load_current();
+$storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
+
+$image_data = json_encode([
+    "imageUrl" => $ppage->url_for_image(),
+    "storageKey" => $storage_key,
+    "align" => "L",
+]);
 
 $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
+        "$code_url/scripts/control_bar.js",
+        "$code_url/tools/proofers/proof_image.js",
     ],
-    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
+    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
+        get_control_bar_texts() . "
+        var imageData = $image_data;
         var validCharacterPattern = '$valid_character_pattern';
         var wordCheckMessages = $word_check_messages;
     ",
@@ -47,7 +58,6 @@ $header_args = [
 ];
 
 if ($user->profile->i_type == 1) {
-    $header_args["js_data"] .= ibe_get_js();
     $header_args["css_data"] = ibe_get_styles();
 }
 
@@ -55,15 +65,7 @@ slim_header(_("WordCheck"), $header_args);
 
 // print basic image html
 if ($user->profile->i_type == 1) {
-    if ($user->profile->i_layout == 1) {
-        $iWidth = $user->profile->v_zoom;
-    } else {
-        $iWidth = $user->profile->h_zoom;
-    }
-    $iWidth = round((1000 * $iWidth) / 100);
-
-    ibe_echo_block($ppage->url_for_image(true), $iWidth);
-
+    ibe_echo_block();
     echo '<div id="controlframe">';
 } else {
     echo '<div>';
@@ -168,13 +170,8 @@ if ($user->profile->i_type == 1) {
 ?>
 <table id="tbtext">
 <tr><td id="tdtop">
-<?php echo _("Resize image:"); ?>
-    <input title="<?php echo attr_safe(_("Zoom Out 25%")); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-    <input title="<?php echo attr_safe(_("Zoom In 25%")); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-    <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 <?php
     // print the link to the WordCheck FAQ
-    echo " &nbsp; ";
     echo new_window_link(get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ"));
 ?>
 </td></tr>

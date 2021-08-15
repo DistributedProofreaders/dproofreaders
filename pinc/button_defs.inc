@@ -11,12 +11,9 @@ define('REVERT_TO_ORIGINAL', 'F');
 define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT', 'I');
 define('SAVE_AS_IN_PROGRESS', 'J');
-define('SET_IMAGE_ZOOM', 'K');
-define('SET_IMAGE_ACTUAL', 'Q');
 define('SPELL_CHECK', 'L');
 
 define('PROJECT_COMMENTS', 'M');
-define('REFRESH_IMAGE', 'N');
 define('REVERT_TO_LAST_SAVE_DISABLED', 'O');
 define('SHOW_ALL_TEXT', 'P');
 define('PREVIEW', 'S');
@@ -143,26 +140,6 @@ function echo_button($button_id, $which_interface)
             ];
             break;
 
-        case SET_IMAGE_ZOOM:
-            $attrs = [
-                'name' => "button35",
-                $label => attr_safe(_("Set Image Zoom Percent")),
-                'title' => attr_safe(_("Set Image Zoom Percent")),
-                'src' => "gfx/bt10.png",
-                'onclick' => "top.showIZ(); return false;",
-            ];
-            break;
-
-        case SET_IMAGE_ACTUAL:
-            $attrs = [
-                'name' => "button36",
-                $label => attr_safe(_("Zoom to Actual Size")),
-                'title' => attr_safe(_("Zoom to Actual Size")),
-                'src' => "gfx/bt18.png",
-                'onclick' => "return(top.showActual());",
-            ];
-            break;
-
         case SPELL_CHECK:
             $attrs = [
                 'name' => "button10",
@@ -218,14 +195,6 @@ function echo_img($id)
                 'src' => "gfx/bt12.png",
                 'alt' => attr_safe(_("Project Comments")),
                 'title' => attr_safe(_("Project Comments")),
-            ];
-            break;
-
-        case REFRESH_IMAGE:
-            $attrs = [
-                'src' => "gfx/bt6.png",
-                'alt' => attr_safe(_("Refresh Image")),
-                'title' => attr_safe(_("Refresh Image")),
             ];
             break;
 

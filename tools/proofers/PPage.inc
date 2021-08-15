@@ -86,7 +86,7 @@ class PPage
 
     // -----------------------------------------------------
 
-    public function url_for_image($escape_amp = false)
+    public function url_for_image()
     {
         global $projects_url;
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";

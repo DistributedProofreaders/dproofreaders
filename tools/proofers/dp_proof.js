@@ -1,16 +1,7 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showActual, showNW, replaceAllText, doBU, transformText */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
-
-// image width
-var iW = '1000';
-
-// image actual width
-var cW = '0';
-// image copy for width
-var imageCopy = new Image();
-imageCopy.onload = loadImageSize;
 
 // picker character selection
 function insertCharacter(wM) {
@@ -64,39 +55,6 @@ function changeFontSize(font_size_index, font_size) {
     fixText();
 }
 
-function showIZ() {
-    nP = docRef.editform.zmSize.value;
-    zP = Math.round(iW * (nP / 100));
-    zP = reSize(zP); // the two Zp's will be the same unless reSize doesn't
-    //succeed in making the image the requested size, i.e. if the
-    //requested size is too small.
-
-    docRef.editform.zmSize.value = Math.round(100 * (zP / iW));
-    return false;
-}
-
-function showActual() {
-    docRef.editform.zmSize.value = cW / 10;
-    return showIZ();
-}
-
-function loadImageSize() {
-    if (imageCopy.complete) {
-        // This needs to be fixed properly.
-        // There is a varying maximum limit to image size, above which the
-        // image vanishes from the proofing interface.  Don't know why, yet.
-        if (imageCopy.width > 2000) {
-            cW = 2000;
-        } else {
-            cW = imageCopy.width;
-        }
-    }
-}
-
-function makeImageCopy() {
-    imageCopy.src = frameRef.scanimage.src;
-}
-
 function showNW() {
     nW = window.open();
     nW.document.open();
@@ -135,13 +93,6 @@ function html_safe(str) {
 
 function replaceAllText(wM) {
     docRef.editform.text_data.value = wM;
-}
-
-function doBU() {
-    if (frameRef.scanimage) {
-        makeImageCopy();
-        showIZ();
-    }
 }
 
 // apply tagOpen/tagClose to selection in textarea,

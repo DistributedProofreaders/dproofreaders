@@ -94,9 +94,6 @@ if ($user->profile->i_type == 1) {
     if (isset($_POST['fntSize'])) {
         $fntSize = $_POST['fntSize'];
     }
-    if (isset($_POST['zmSize'])) {
-        $zmSize = $_POST['zmSize'];
-    }
 
     if ($user->profile->i_layout == 1) {
         if (isset($fntFace)) {
@@ -105,9 +102,6 @@ if ($user->profile->i_type == 1) {
         if (isset($fntSize)) {
             $user->profile->v_fnts = $fntSize;
         }
-        if (isset($zmSize)) {
-            $user->profile->v_zoom = $zmSize;
-        }
     } else {
         if (isset($fntFace)) {
             $user->profile->h_fntf = $fntFace;
@@ -115,12 +109,9 @@ if ($user->profile->i_type == 1) {
         if (isset($fntSize)) {
             $user->profile->h_fnts = $fntSize;
         }
-        if (isset($zmSize)) {
-            $user->profile->h_zoom = $zmSize;
-        }
     }
 
-    if (isset($fntFace) || isset($fntSize) || isset($zmSize)) {
+    if (isset($fntFace) || isset($fntSize)) {
         $user->profile->save();
     }
 }

@@ -153,9 +153,9 @@ echo "<table cols ='2' border = '1'>";
 //Display image
 $user = User::load_current();
 if ($user->profile->i_layout == 1) {
-    $iWidth = $user->profile->v_zoom;
+    $iWidth = 59;
 } else {
-    $iWidth = $user->profile->h_zoom;
+    $iWidth = 76;
 }
 $iWidth = round((1000 * $iWidth) / 100);
 

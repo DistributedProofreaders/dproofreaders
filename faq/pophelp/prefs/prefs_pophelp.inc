@@ -307,18 +307,6 @@ The lower control frame is not included when calculating this percentage.</p>"),
             'content' => _("<p>Enable/Disable wrapping of lines in the proofreading area that exceed the 'Length of Text Lines' setting.</p>"),
         ],
 
-    'set_h_zoom' =>
-        [
-            'title' => _("Image Zoom"),
-            'content' => _("<p>This setting specifies a default zoom percentage for the image width of the page image.</p>"),
-        ],
-
-    'set_v_zoom' =>
-        [
-            'title' => _("Image Zoom"),
-            'content' => _("<p>This setting specifies a default zoom percentage for the image width of the page image.</p>"),
-        ],
-
     'set_newwindow' =>
         [
             'title' => _("Launch in New Window"),
