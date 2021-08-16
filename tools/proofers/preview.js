@@ -821,29 +821,6 @@ $(function () {
             return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
-        function makeIssueInserts(issArray) {
-            let issueInserts = [];
-            // end0 is end of previous issue to check if 2 issues overlap
-            let end0 = 0;
-            var errorString;
-            issArray.forEach(function(issue) {
-                // don't mark 2 issues in one place
-                if (issue.start >= end0) {
-                    if (issue.type === 0) {
-                        errorString = makeErrStr("hlt");
-                    } else {
-                        errorString = makeErrStr("err");
-                    }
-                    let message = previewMessages[issue.code].replace("%s", issue.subText);
-                    end0 = issue.start + issue.len;
-                    issueInserts.push({start: issue.start, text: errorString + message + endSpan});
-                    issueInserts.push({start: end0, text: endSpan});
-                }
-            });
-            return issueInserts;
-        }
-
-
         function addMarkUp(text, issArray, noteArray) {
 
             function htmlEncode(s) {
@@ -862,14 +839,35 @@ $(function () {
             // split up the string into an array of characters
             var tArray = text.split("");
             tArray = tArray.map(htmlEncode);
-            let issueInserts = makeIssueInserts(issArray);
+
+            let issueStarts = [];
+            let issueEnds = [];
+            // end0 is end of previous issue to check if 2 issues overlap
+            let end0 = 0;
+            var errorString;
+            issArray.forEach(function(issue) {
+                // don't mark 2 issues in one place
+                if (issue.start >= end0) {
+                    if (issue.type === 0) {
+                        errorString = makeErrStr("hlt");
+                    } else {
+                        errorString = makeErrStr("err");
+                    }
+                    let message = previewMessages[issue.code].replace("%s", issue.subText);
+                    end0 = issue.start + issue.len;
+                    issueStarts.push({start: issue.start, text: errorString + message + endSpan});
+                    issueEnds.push({start: end0, text: endSpan});
+                }
+            });
 
             noteArray.forEach(function(note) {
                 note.text = modifiedEncode(note.text);
             });
-            // merge with notes so that if both start at same index the issue appears first
+            // merge issue arrays with notes so that if both start at same
+            // index the issueStart appears after the note but the issueEnd
+            // appears before the note.
             // array will be reversed, high indexes will appear first
-            let allInserts = noteArray.concat(issueInserts);
+            let allInserts = issueStarts.concat(noteArray).concat(issueEnds);
             allInserts.sort(function(a, b) {
                 // if starts are same return 0, order unchanged
                 return b.start - a.start;
