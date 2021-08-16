@@ -821,84 +821,19 @@ $(function () {
             return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
-        function addMarkUp(text, issArray, noteArray) {
-
-            function htmlEncode(s) {
-                return s.replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-            }
-
-            // temporarily encode < to placeholder █ so notes do not get styled
-            function modifiedEncode(s) {
-                return s.replace(/&/g, "&amp;")
-                    .replace(/</g, "█")
-                    .replace(/>/g, "&gt;");
-            }
-
-            // split up the string into an array of characters
-            var tArray = text.split("");
-            tArray = tArray.map(htmlEncode);
-
-            let issueStarts = [];
-            let issueEnds = [];
-            // end0 is end of previous issue to check if 2 issues overlap
-            let end0 = 0;
-            var errorString;
-            issArray.forEach(function(issue) {
-                // don't mark 2 issues in one place
-                if (issue.start >= end0) {
-                    if (issue.type === 0) {
-                        errorString = makeErrStr("hlt");
-                    } else {
-                        errorString = makeErrStr("err");
-                    }
-                    let message = previewMessages[issue.code].replace("%s", issue.subText);
-                    end0 = issue.start + issue.len;
-                    issueStarts.push({start: issue.start, text: errorString + message + endSpan});
-                    issueEnds.push({start: end0, text: endSpan});
-                }
-            });
-
-            noteArray.forEach(function(note) {
-                note.text = modifiedEncode(note.text);
-            });
-            // merge issue arrays with notes so that if both start at same
-            // index the issueStart appears after the note but the issueEnd
-            // appears before the note.
-            // array will be reversed, high indexes will appear first
-            let allInserts = issueStarts.concat(noteArray).concat(issueEnds);
-            allInserts.sort(function(a, b) {
-                // if starts are same return 0, order unchanged
-                return b.start - a.start;
-            });
-
-            // since inserting the markups moves all later parts of the array up
-            // we must start from the last one
-            allInserts.forEach(function (insert) {
-                tArray.splice(insert.start, 0, insert.text);
-            });
-
-            return tArray.join("");  // join it back into a string
-        }
-
-        function decodeNoteTags() {
-            txt = txt.replace(/█/g, "&lt;");
-        }
-
         // add style and optional colouring for marked-up text
-        // this works on text which has already had < and > encoded as &lt; &gt;
         function showStyle() {
-            var sc1 = "&lt;sc&gt;";
-            var sc2 = "&lt;/sc&gt;";
+            var sc1 = "<sc>";
+            var sc2 = "</sc>";
             // a string of small capitals
             var smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
             var scString;
 
             function transformSC(match, p1) { // if all upper case transform to lower
                 scString = p1;
-                // remove tags so that all uppercase string is correctly identified
-                scString = scString.replace(/&lt;\/?.&gt;/g, '');
+                // remove tags such as <i> within the string so that all
+                // uppercase string is correctly identified, (only 1 char)
+                scString = scString.replace(/<\/?.>/g, '');
                 if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
@@ -920,7 +855,8 @@ $(function () {
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
-                    tagMark = match;
+                    // html encode the tags
+                    tagMark = "&lt;" + p1 + p2 + "&gt;";
                     break;
                 case "flat":
                     tagMark = tagMap[p2];
@@ -948,7 +884,7 @@ $(function () {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
             // find inline tag
-            var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+            var reTag = new RegExp("<(\\/?)(" + ILTags + ")>", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
@@ -1097,10 +1033,14 @@ $(function () {
             }
         }
 
+        function htmlEncode(s) {
+            return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
-        // if wrapMode leave out notes
-        txt = addMarkUp(analysis.text, issArray, wrapMode ? [] : analysis.noteArray);
         let issues = 0;
         let possIss = 0;
         issArray.forEach(function(issue) {
@@ -1113,9 +1053,65 @@ $(function () {
 
         // ok true if no errors which would cause showstyle() or reWrap() to fail
         let ok = (issues === 0);
+
+        // make texts to be inserted to mark issues
+        let issueStarts = [];
+        let issueEnds = [];
+        // end0 is end of previous issue to check if 2 issues overlap
+        let end0 = 0;
+        let errorString;
+        issArray.forEach(function(issue) {
+            // don't mark 2 issues in one place
+            if (issue.start >= end0) {
+                if (issue.type === 0) {
+                    errorString = makeErrStr("hlt");
+                } else {
+                    errorString = makeErrStr("err");
+                }
+                let message = previewMessages[issue.code].replace("%s", issue.subText);
+                end0 = issue.start + issue.len;
+                issueStarts.push({start: issue.start, text: errorString + message + endSpan});
+                issueEnds.push({start: end0, text: endSpan});
+            }
+        });
+
+        var tArray = analysis.text.split("");
+
+        let noteArray;
+        if(ok && wrapMode) {
+            noteArray = [];
+        } else {
+            noteArray = analysis.noteArray;
+            noteArray.forEach(function(note) {
+                note.text = htmlEncode(note.text);
+            });
+        }
+
+        if(!ok) {
+            tArray = tArray.map(htmlEncode);
+            // otherwise encoded tags will be made in showStyle() if neeeded
+        }
+
+        // merge issue arrays with notes so that if both start at same
+        // index the issueStart appears after the note but the issueEnd
+        // appears before the note.
+        // array will be reversed, high indexes will appear first
+        let allInserts = issueStarts.concat(noteArray).concat(issueEnds);
+        allInserts.sort(function(a, b) {
+            // if starts are same return 0, order unchanged
+            return b.start - a.start;
+        });
+
+        // splice issue marking and notes into text
+        allInserts.forEach(function (insert) {
+            tArray.splice(insert.start, 0, insert.text);
+        });
+
+        // join it back into a string
+        txt = tArray.join("");
+
         if (ok) {
             showStyle();
-            decodeNoteTags();
             if (wrapMode) {
                 reWrap();
             }
