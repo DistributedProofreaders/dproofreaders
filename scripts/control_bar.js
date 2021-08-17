@@ -58,6 +58,7 @@ var makeImageControl = function(canvas, reSize) {
             newWidth = scaleHeight;
             newHeight = scaleWidth;
         }
+        // we have to calculate what will happen if scrollbars appear
         let holder = canvas.parentNode;
         let paneWidth = holder.offsetWidth;
         let paneHeight = holder.offsetHeight;
@@ -139,18 +140,52 @@ var makeImageControl = function(canvas, reSize) {
         saveZoom(percent);
     }
 
+    let rotatedImageWidth;
+    let rotatedImageHeight;
+    function rotationCompensate() {
+        if(sine == 0) {
+            rotatedImageWidth = imageWidth;
+            rotatedImageHeight = imageHeight;
+        } else {
+            rotatedImageWidth = imageHeight;
+            rotatedImageHeight = imageWidth;
+        }
+    }
+
+
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        // if rotated 90deg fit fit image height to pane width
-        let imagesize = (sine == 0) ? imageWidth : imageHeight;
-        scale = canvas.parentNode.clientWidth / imagesize;
+        let holder = canvas.parentNode;
+        rotationCompensate();
+        scale = holder.offsetWidth / rotatedImageWidth;
+        // does fitting rotatedImageWidth cause a vertical scrollbar?
+        if(scale * rotatedImageHeight > holder.offsetHeight) {
+            // there would be a vertical scrollbar, fit inside
+            scale = (holder.offsetWidth - scrollbarWidth) / rotatedImageWidth;
+            // rotatedImageHeight will be less so might not need a vertical scrollbar
+            if(scale * rotatedImageHeight < holder.offsetHeight) {
+                // best option is to fit rotatedImageHeight
+                scale = holder.offsetHeight / rotatedImageHeight;
+            }
+        }
         setPercent();
         reDraw();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        let imagesize = (sine == 0) ? imageHeight : imageWidth;
-        scale = canvas.parentNode.clientHeight / imagesize;
+        let holder = canvas.parentNode;
+        rotationCompensate();
+        scale = holder.offsetHeight / rotatedImageHeight;
+        // does fitting rotatedImageHeight cause a horizontal scrollbar?
+        if(scale * rotatedImageWidth > holder.offsetWidth) {
+            // there would be a vertical scrollbar, fit inside
+            scale = (holder.offsetHeight - scrollbarWidth) / rotatedImageHeight;
+            // rotatedImageWidth will be less so might not need a horizontal scrollbar
+            if(scale * rotatedImageWidth < holder.offsetWidth) {
+                // best option is to fit rotatedImageWidth
+                scale = holder.offsetWidth / rotatedImageWidth;
+            }
+        }
         setPercent();
         reDraw();
     })
