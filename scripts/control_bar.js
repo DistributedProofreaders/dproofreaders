@@ -13,6 +13,19 @@ var makeImageControl = function(canvas, reSize) {
 
     let sine = 0, cosine = 1;
 
+    let scrollbarWidth = false;
+    var getScrollbarWidth = function() {
+        if (scrollbarWidth === false) {
+            let testDiv = document.createElement('div');
+            testDiv.innerHTML = '<div style="width:50px;height:5px;position:absolute; overflow:scroll;"><div style="width:100px;height:5px;"></div></div>';
+            let innerDiv = testDiv.firstChild;
+            document.body.appendChild(testDiv);
+            scrollbarWidth = innerDiv.offsetWidth - innerDiv.clientWidth;
+            document.body.removeChild(testDiv);
+        }
+        return scrollbarWidth;
+    };
+
     function maxVal(a, b) {
         return (a > b) ? a : b;
     }
@@ -29,10 +42,10 @@ var makeImageControl = function(canvas, reSize) {
     // This would be easy if we could use ResizeObserver(). In the meantime
     // use a resize callback which gets fired when pane size changes.
     function reDraw() {
+        getScrollbarWidth();
         // clearRect acts through transform
         ctx.resetTransform();
         ctx.clearRect( 0, 0, canvas.width, canvas.height);
-
         let scaleWidth = imageWidth * scale;
         let scaleHeight = imageHeight * scale;
         let newWidth, newHeight;
@@ -45,8 +58,20 @@ var makeImageControl = function(canvas, reSize) {
             newWidth = scaleHeight;
             newHeight = scaleWidth;
         }
-        canvas.width = maxVal(newWidth, canvas.parentNode.clientWidth);
-        canvas.height = maxVal(newHeight, canvas.parentNode.clientHeight);
+        let holder = canvas.parentNode;
+        let paneWidth = holder.offsetWidth;
+        let paneHeight = holder.offsetHeight;
+        if(newHeight > paneHeight) {
+            paneWidth = holder.offsetWidth - scrollbarWidth;
+        }
+        if(newWidth > paneWidth) {
+            paneHeight = holder.offsetHeight - scrollbarWidth;
+        }
+        if(newHeight > paneHeight) {
+            paneWidth = holder.offsetWidth - scrollbarWidth;
+        }
+        canvas.width = maxVal(newWidth, paneWidth);
+        canvas.height = maxVal(newHeight, paneHeight);
 
         // rotation is about point (0,0); offset so image is in canvas area
         let xOff = 0;
