@@ -432,7 +432,7 @@ function makeControlDiv(container, controls, onChange) {
     };
 }
 
-function makeImageWidget(container, reSize = null) {
+function makeImageWidget(container, align, reSize = null) {
     // if we are inside a splitter then reSize will fire when pane size
     // changes.Otherwise fire on window reSize. It will also fire when the
     // control bar changes position.
