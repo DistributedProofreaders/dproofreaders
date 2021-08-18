@@ -526,12 +526,12 @@ function total_pages_by_month_graph($tally_name)
                 "x" => $datax,
                 "y" => $datay2,
                 "type" => "line",
-            ]
+            ],
         ],
         "yAxisLabel" => _("Pages"),
         "legendAdjustment" => [
-          "x" => 40,
-          "y" => 100,
+            "x" => 40,
+            "y" => 100,
         ],
     ];
 }
