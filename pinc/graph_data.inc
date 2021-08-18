@@ -498,3 +498,40 @@ function cumulative_total_proj_graph($which)
         ],
     ];
 }
+
+function total_pages_by_month_graph($tally_name)
+{
+    ///////////////////////////////////////////////////
+    //Total pages by month since beginning of stats
+
+    $result = DPDatabase::query(select_from_site_past_tallies_and_goals(
+        $tally_name,
+        "SELECT {year_month}, SUM(tally_delta), SUM(goal)",
+        "",
+        "GROUP BY 1",
+        "ORDER BY 1",
+        ""));
+
+    [$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
+
+    return [
+        "title" => _("Pages Done Each Month Since the Beginning of Statistics Collection"),
+        "data" => [
+            _("Actual") => [
+                "x" => $datax,
+                "y" => $datay1,
+                "type" => "bar",
+            ],
+            _("Goal") => [
+                "x" => $datax,
+                "y" => $datay2,
+                "type" => "line",
+            ],
+        ],
+        "yAxisLabel" => _("Pages"),
+        "legendAdjustment" => [
+            "x" => 40,
+            "y" => 100,
+        ],
+    ];
+}
