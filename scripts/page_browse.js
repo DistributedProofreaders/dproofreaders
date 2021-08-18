@@ -438,7 +438,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             stretchDiv.append(textDiv);
                             break;
                         case "imageText": {
-                            const imageDiv = $("<div>");
+                            const imageDiv = $("<div>").css({overflow: "hidden"});
                             imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
                             const theSplitter = viewSplitter(stretchDiv, storageKey);

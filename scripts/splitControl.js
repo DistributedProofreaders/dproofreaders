@@ -48,8 +48,8 @@ var splitControl = function(container, config) {
     let maxPos;
     container = $(container).css({display: 'flex'});
     let children = container.children();
-    let pane1 = $(children[0]).css({overflow: 'auto'});
-    let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
+    let pane1 = $(children[0]);
+    let pane2 = $(children[1]).css({flex: '1 1 1px'});
 
     let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`});
     pane1.after(dragBar);
