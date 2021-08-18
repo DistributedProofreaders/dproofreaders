@@ -19,9 +19,16 @@ const {barChart, stackedAreaChart} = (function () {
             .text(config.title);
     }
 
-    function addLegend(svg, color, config, isBar, width, height) {
-        if (!isBar) {
-            svg.selectAll("seriesColor")
+    function addLegend(svg, color, config, width, height) {
+        const hasMultipleSeries = Object.keys(config.data).length > 1;
+        const yAxisLabel = config.yAxisLabel || (!hasMultipleSeries ? Object.keys(config.data)[0] : null);
+        if (hasMultipleSeries) {
+            const container = svg.append("g");
+            if (config.legendAdjustment) {
+                container.attr("transform", `translate(${config.legendAdjustment.x},${config.legendAdjustment.y})`);
+            }
+            const legendBox = container.append("rect");
+            container.selectAll("seriesColor")
                 .data(Object.keys(config.data))
                 .enter()
                 .append("circle")
@@ -29,15 +36,26 @@ const {barChart, stackedAreaChart} = (function () {
                 .attr("cy", (d,i) => margin.left + 10 + i * 25)
                 .attr("r", 7)
                 .style("fill", d => color(d));
+
+            container.selectAll("series")
+                .data(Object.keys(config.data))
+                .enter()
+                .append("text")
+                .attr("fill", "currentColor")
+                .attr("x", margin.left + (config.axisLeft ? 55 : 25))
+                .attr("y", (d,i) => 45 + i * 25)
+                .text(d => d);
+            const containerBox = container.node().getBBox();
+            legendBox.attr("width", containerBox.width + 6)
+                .attr("height", containerBox.height + 6)
+                .attr("x", containerBox.x - 3)
+                .attr("y", containerBox.y - 3)
+                .attr("class", "chart-legend");
         }
 
-        const series = svg.selectAll("series")
-            .data(Object.keys(config.data))
-            .enter()
-            .append("text")
-            .attr("fill", "currentColor");
-
-        if (isBar) {
+        if (yAxisLabel) {
+            const series = svg.append("text")
+                .attr("fill", "currentColor");
             series.attr("text-anchor", "middle");
             if (config.bottomLegend) {
                 series.attr("x", (config.width || width) / 2)
@@ -48,11 +66,8 @@ const {barChart, stackedAreaChart} = (function () {
                     .attr("x", -((config.height || height) / 2))
                     .attr("y", 20);
             }
-        } else {
-            series .attr("x", margin.left + (config.axisLeft ? 55 : 25))
-                .attr("y", (d,i) => 45 + i * 25);
+            series.text(yAxisLabel);
         }
-        series.text(d => d);
     }
 
     function stackedAreaChart(id, config) {
@@ -134,39 +149,24 @@ const {barChart, stackedAreaChart} = (function () {
             .call(yAxis);
 
         addTitle(svg, config, width);
-        addLegend(svg, color, config, false, width, height);
+        addLegend(svg, color, config, width, height);
     }
 
     function barChart(id, config) {
         const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
-        const seriesTitle = Object.keys(config.data)[0];
-        const data = config.data[seriesTitle].x.reduce((acc, value, index) => {
-            acc.push({
-                [seriesTitle]: value,
-                value: Number(config.data[seriesTitle].y[index])
-            });
-            return acc;
-        }, []);
         const height = config.height || 400;
         const width = config.width || 640;
+        const color = d3.scaleOrdinal()
+            .domain(Object.keys(config.data))
+            .range(d3.schemeCategory10);
+        const svg = d3.select("#" + id).append("svg")
+            .attr("viewBox", [0, 0, width, height]);
 
-        const x = d3.scaleBand()
-            .domain(d3.range(data.length))
-            .range([barMargin.left, width - barMargin.right])
-            .padding(0.1);
-
-        const interval = Math.ceil(data.length / 40);
-
-        const xAxis = g => g
-            .attr("transform", `translate(0,${height - barMargin.bottom})`)
-            .call(d3.axisBottom(x)
-                .tickValues(x.domain().filter((_, i) => i % interval === 0))
-                .tickFormat(i => data[i][seriesTitle])
-                .tickSizeOuter(0));
-
-        const minYValue = d3.min(data, d => d.value);
+        const yValues = Object.values(config.data).map(({y}) => y.map(Number))
+            .flatMap(x => x);
+        const minYValue = d3.min(yValues, d => d);
         const y = d3.scaleLinear()
-            .domain([minYValue > 0 ? 0 : minYValue, d3.max(data, d => d.value)])
+            .domain([minYValue > 0 ? 0 : minYValue, d3.max(yValues, d => d)])
             .nice()
             .range([height - barMargin.bottom, barMargin.top]);
 
@@ -177,7 +177,6 @@ const {barChart, stackedAreaChart} = (function () {
             yAxisTicks = yAxisTicks.filter(Number.isInteger);
         }
         yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
-
         const yAxis = g => g
             .attr("transform", `translate(${barMargin.left},0)`)
             .call(d3.axisLeft(y).tickValues(yAxisTicks))
@@ -186,56 +185,86 @@ const {barChart, stackedAreaChart} = (function () {
                 .attr("x", -barMargin.left)
                 .attr("y", 10)
                 .attr("fill", "currentColor")
-                .attr("text-anchor", "start")
-                .text(data.y));
+                .attr("text-anchor", "start"));
 
-        const svg = d3.select("#" + id).append("svg")
-            .attr("viewBox", [0, 0, width, height]);
+        const xValues = Object.values(config.data)[0].x;
+        const x = d3.scaleBand()
+            .domain(d3.range(xValues.length))
+            .range([barMargin.left, width - barMargin.right])
+            .padding(0.1);
 
-        const color = d3.scaleOrdinal()
-            .domain([seriesTitle])
-            .range(d3.schemeCategory10);
+        const interval = Math.ceil(xValues.length / 40);
+        const xAxis = g => g
+            .attr("transform", `translate(0,${height - barMargin.bottom})`)
+            .call(d3.axisBottom(x)
+                .tickValues(x.domain().filter((_, i) => i % interval === 0))
+                .tickFormat(i => xValues[i])
+                .tickSizeOuter(0));
 
-        let barColors;
-        if (config.barColors) {
-            barColors = d3.scaleOrdinal()
-                .domain(config.data[seriesTitle].x)
-                .range(config.barColors);
-        } else {
-            barColors = () => color(seriesTitle);
+        for(const [seriesTitle, seriesData] of Object.entries(config.data)) {
+            const data = seriesData.x.reduce((acc, value, index) => {
+                acc.push({
+                    [seriesTitle]: value,
+                    value: Number(seriesData.y[index])
+                });
+                return acc;
+            }, []);
+
+            let barColors;
+            if (config.barColors) {
+                barColors = d3.scaleOrdinal()
+                    .domain(seriesData.x)
+                    .range(config.barColors);
+            } else {
+                barColors = () => color(seriesTitle);
+            }
+
+            if (seriesData.type === "line") {
+                const line = d3.line()
+                    .x((d, i) => x(i))
+                    .y(({value}) => value < 0 ? y(0) : y(value));
+
+                svg.append("path")
+                    .datum(data)
+                    .attr("fill", "none")
+                    .attr("stroke", barColors())
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-linejoin", "round")
+                    .attr("stroke-linecap", "round")
+                    .attr("d", line);
+            } else {
+                const tooltip = d3.select("#" + id)
+                    .append("div")
+                    .attr("class", "chart-tooltip")
+                    .style("display", "none");
+
+                const mouseAction = (event, {value}) => {
+                    tooltip.style("display", "")
+                        .text(value)
+                        .style("left", (d3.pointer(event, document.body)[0]) + "px")
+                        .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
+                };
+
+                var mouseleave = () => {
+                    tooltip.style("display", "none");
+                };
+
+                svg.append("g")
+                    .selectAll("rect")
+                    .data(data)
+                    .join("rect")
+                    .attr("fill", ({[seriesTitle]: d}) => barColors(d))
+                    .attr("stroke-width", 1)
+                    .attr("stroke", () => config.barBorder ? "black" : "")
+                    .attr("x", (d, i) => x(i))
+                    .attr("y", ({value}) => value < 0 ? y(0) : y(value))
+                    .attr("height", d => Math.abs(y(0) - y(d.value)))
+                    .attr("width", x.bandwidth())
+                    .on("mouseover", mouseAction)
+                    .on("mousemove", mouseAction)
+                    .on("mouseleave", mouseleave);
+            }
         }
-
-        const tooltip = d3.select("#" + id)
-            .append("div")
-            .attr("class", "chart-tooltip")
-            .style("display", "none");
-
-
-        const mouseAction = (event, {value}) => {
-            tooltip.style("display", "")
-                .text(value)
-                .style("left", (d3.pointer(event, document.body)[0]) + "px")
-                .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
-        };
-
-        var mouseleave = () => {
-            tooltip.style("display", "none");
-        };
-
-        svg.append("g")
-            .selectAll("rect")
-            .data(data)
-            .join("rect")
-            .attr("fill", ({[seriesTitle]: d}) => barColors(d))
-            .attr("stroke-width", 1)
-            .attr("stroke", () => config.barBorder ? "black" : "")
-            .attr("x", (d, i) => x(i))
-            .attr("y", ({value}) => value < 0 ? y(0) : y(value))
-            .attr("height", d => Math.abs(y(0) - y(d.value)))
-            .attr("width", x.bandwidth())
-            .on("mouseover", mouseAction)
-            .on("mousemove", mouseAction)
-            .on("mouseleave", mouseleave);
 
         svg.append("g")
             .call(xAxis)
@@ -247,9 +276,8 @@ const {barChart, stackedAreaChart} = (function () {
 
         svg.append("g")
             .call(yAxis);
-
         addTitle(svg, config, width);
-        addLegend(svg, color, config, true, width, height);
+        addLegend(svg, color, config, width, height);
     }
 
     return {
