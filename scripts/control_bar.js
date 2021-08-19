@@ -14,18 +14,16 @@ var makeImageControl = function(canvas, align, reSize) {
 
     let sine = 0, cosine = 1;
 
-    let scrollbarWidth = false;
-    var getScrollbarWidth = function() {
-        if (scrollbarWidth === false) {
-            let testDiv = document.createElement('div');
-            testDiv.innerHTML = '<div style="width:50px;height:5px;position:absolute; overflow:scroll;"><div style="width:100px;height:5px;"></div></div>';
-            let innerDiv = testDiv.firstChild;
-            document.body.appendChild(testDiv);
-            scrollbarWidth = innerDiv.offsetWidth - innerDiv.clientWidth;
-            document.body.removeChild(testDiv);
-        }
-        return scrollbarWidth;
-    };
+    let scrollbarWidth;
+    function getScrollbarWidth() {
+        let testDiv = document.createElement('div');
+        testDiv.innerHTML = '<div style="overflow:scroll;"><div"></div></div>';
+        let innerDiv = testDiv.firstChild;
+        document.body.appendChild(testDiv);
+        scrollbarWidth = innerDiv.offsetWidth - innerDiv.clientWidth;
+        document.body.removeChild(testDiv);
+    }
+    getScrollbarWidth();
 
     // If we always make the canvas fit image then when reducing the image size
     // rapidly with spinner the canvas does not get cleared even when
@@ -39,10 +37,9 @@ var makeImageControl = function(canvas, align, reSize) {
     // This would be easy if we could use ResizeObserver(). In the meantime
     // use a resize callback which gets fired when pane size changes.
     function drawImage() {
-        getScrollbarWidth();
         // clearRect acts through transform
         ctx.resetTransform();
-        ctx.clearRect( 0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         let scaleWidth = imageWidth * scale;
         let scaleHeight = imageHeight * scale;
         let rotatedWidth, rotatedHeight;
