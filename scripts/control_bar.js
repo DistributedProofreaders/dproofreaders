@@ -25,6 +25,10 @@ var makeImageControl = function(canvas, align, reSize) {
     }
     getScrollbarWidth();
 
+    function maxVal(a, b) {
+        return (a > b) ? a : b;
+    }
+
     // If we always make the canvas fit image then when reducing the image size
     // rapidly with spinner the canvas does not get cleared even when
     // redrawing with setTimer(0).
@@ -52,27 +56,28 @@ var makeImageControl = function(canvas, align, reSize) {
             rotatedWidth = scaleHeight;
             rotatedHeight = scaleWidth;
         }
-        // we have to calculate what will happen if scrollbars appear
+        // we need to know if either dimension of the image is bigger than the
+        // window but we do not yet know if there will be any scrollbars
         let holder = canvas.parentNode;
+        // suppose there are no scrollbars
         let paneWidth = holder.offsetWidth;
         let paneHeight = holder.offsetHeight;
         if(rotatedHeight > paneHeight) {
+            // there will be a vertical scrollbar
             paneWidth = holder.offsetWidth - scrollbarWidth;
         }
-        let underWidth = paneWidth - rotatedWidth;
-        if(underWidth < 0) {
-            // image is wider than pane
+        if(rotatedWidth > paneWidth) {
+            // there will be a horizontal scrollbar
             paneHeight = holder.offsetHeight - scrollbarWidth;
-            canvas.width = rotatedWidth;
-        } else {
-            canvas.width = paneWidth;
+            // pane height is now less so there could now be a vertical bar
+            if(rotatedHeight > paneHeight) {
+                // there will be a vertical scrollbar
+                paneWidth = holder.offsetWidth - scrollbarWidth;
+            }
+            // already a horiz. bar so this is the final solution
         }
-        if(rotatedHeight > paneHeight) {
-            paneWidth = holder.offsetWidth - scrollbarWidth;
-            canvas.height = rotatedHeight;
-        } else {
-            canvas.height = paneHeight;
-        }
+        canvas.width = maxVal(rotatedWidth, paneWidth);
+        canvas.height = maxVal(rotatedHeight, paneHeight);
 
         // rotation is about point (0,0); offset so image is in canvas area
         let xOff = 0;
@@ -94,6 +99,7 @@ var makeImageControl = function(canvas, align, reSize) {
 
         // image origin in canvas
         let dx = 0;
+        let underWidth = paneWidth - rotatedWidth;
         if(underWidth > 0) {
             if(align == "C") {
                 dx = underWidth / 2;
