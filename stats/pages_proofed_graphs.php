@@ -12,6 +12,11 @@ $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names
 
 $title = sprintf(_('Graphs for Pages Saved-as-Done in Round %s'), $tally_name);
 $charts = [
+    ["id" => "pages_daily_increments_curr_month", "config" => pages_daily($tally_name, "increments", "curr_month")],
+    ["id" => "pages_daily_cumulative_curr_month", "config" => pages_daily($tally_name, "cumulative", "curr_month")],
+    ["id" => "pages_daily_increments_prev_month", "config" => pages_daily($tally_name, "increments", "prev_month")],
+    ["id" => "pages_daily_increments_all_time", "config" => pages_daily($tally_name, "increments", "all_time")],
+    ["id" => "pages_daily_cumulative_all_time", "config" => pages_daily($tally_name, "cumulative", "all_time")],
     ["id" => "total_pages_by_month_graph", "config" => total_pages_by_month_graph($tally_name)],
 ];
 
@@ -26,18 +31,6 @@ output_header($title, SHOW_STATSBAR, [
     "js_data" => $js_data,
 ]);
 echo "<h1>$title</h1>";
-
-$images = [
-    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=curr_month",
-    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=cumulative&amp;timeframe=curr_month",
-    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=prev_month",
-    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=increments&amp;timeframe=all_time",
-    "jpgraph_files/pages_daily.php?tally_name=$tally_name&amp;cori=cumulative&amp;timeframe=all_time",
-];
-
-foreach ($images as $image) {
-    echo "<img style='max-width: 100%' src='$image'></br>\n";
-}
 
 echo "<div style='max-width: 640px'>";
 foreach ($charts as $chart) {
