@@ -4,6 +4,7 @@
 // Construct the image sizing controls.
 var makeImageControl = function(canvas, align, reSize) {
     let imageKey;
+    let percent;
     let scale = 1;
     let imageWidth, imageHeight;
     const image = document.createElement("img");
@@ -117,10 +118,22 @@ var makeImageControl = function(canvas, align, reSize) {
         ctx.clearRect( 0, 0, canvas.width, canvas.height);
     }
 
+    let relative1000 = true;
+    function percentToScale() {
+        if(relative1000) {
+            // 100% means image scaled to be 1000px wide
+            scale = percent * 10 / imageWidth;
+        } else {
+            // 100% means natural size
+            scale = percent / 100;
+        }
+    }
+
     image.onload = function() {
         clearCanvas();
         imageWidth = image.width;
         imageHeight = image.height;
+        percentToScale();
         drawImage();
     };
 
@@ -129,7 +142,6 @@ var makeImageControl = function(canvas, align, reSize) {
     }
 
     percentInput.change(function() {
-        let percent;
         const value = parseInt(this.value);
         if(isNaN(value)) {
             percent = 100;
@@ -142,13 +154,18 @@ var makeImageControl = function(canvas, align, reSize) {
         }
         // in case above has changed it
         this.value = percent;
-        scale = percent / 100;
+        percentToScale();
         drawImage();
         saveZoom(percent);
     });
 
     function setPercent() {
-        let percent = Math.round(100 * scale);
+        if(relative1000) {
+            percent = scale * imageWidth / 10.0;
+        } else {
+            percent = 100 * scale;
+        }
+        percent = Math.round(percent);
         percentInput.val(percent);
         saveZoom(percent);
     }
@@ -164,7 +181,6 @@ var makeImageControl = function(canvas, align, reSize) {
             rotatedImageHeight = imageWidth;
         }
     }
-
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
         let holder = canvas.parentNode;
@@ -254,10 +270,8 @@ var makeImageControl = function(canvas, align, reSize) {
             if(!$.isPlainObject(imageData)) {
                 imageData = {zoom: 100};
             }
-            let percent = imageData.zoom;
+            percent = imageData.zoom;
             percentInput.val(percent);
-            scale = percent / 100;
-            drawImage();
         },
         setImage: function(src) {
             // reset to normal orientation
