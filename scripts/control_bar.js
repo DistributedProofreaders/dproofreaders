@@ -37,7 +37,7 @@ var makeImageControl = function(canvas, align, reSize) {
     // of view. So redraw when pane size changes.
     // This would be easy if we could use ResizeObserver(). In the meantime
     // use a resize callback which gets fired when pane size changes.
-    function reDraw() {
+    function drawImage() {
         getScrollbarWidth();
         // clearRect acts through transform
         ctx.resetTransform();
@@ -109,7 +109,7 @@ var makeImageControl = function(canvas, align, reSize) {
     }
 
     if(reSize) {
-        reSize.add(reDraw);
+        reSize.add(drawImage);
     }
 
     function clearCanvas() {
@@ -121,7 +121,7 @@ var makeImageControl = function(canvas, align, reSize) {
         clearCanvas();
         imageWidth = image.width;
         imageHeight = image.height;
-        reDraw();
+        drawImage();
     };
 
     function saveZoom(percent) {
@@ -143,7 +143,7 @@ var makeImageControl = function(canvas, align, reSize) {
         // in case above has changed it
         this.value = percent;
         scale = percent / 100;
-        reDraw();
+        drawImage();
         saveZoom(percent);
     });
 
@@ -181,7 +181,7 @@ var makeImageControl = function(canvas, align, reSize) {
             }
         }
         setPercent();
-        reDraw();
+        drawImage();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
@@ -200,7 +200,7 @@ var makeImageControl = function(canvas, align, reSize) {
             }
         }
         setPercent();
-        reDraw();
+        drawImage();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
@@ -210,7 +210,7 @@ var makeImageControl = function(canvas, align, reSize) {
             let newCos = sine;
             sine = -cosine;
             cosine = newCos;
-            reDraw();
+            drawImage();
         });
 
     let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
@@ -219,21 +219,21 @@ var makeImageControl = function(canvas, align, reSize) {
             let newCos = -sine;
             sine = cosine;
             cosine = newCos;
-            reDraw();
+            drawImage();
         });
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         setPercent();
         scale *= 1.1;
         setPercent();
-        reDraw();
+        drawImage();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
         scale /= 1.1;
         setPercent();
-        reDraw();
+        drawImage();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
@@ -258,7 +258,7 @@ var makeImageControl = function(canvas, align, reSize) {
             let percent = imageData.zoom;
             percentInput.val(percent);
             scale = percent / 100;
-            reDraw();
+            drawImage();
         },
         setImage: function(src) {
             // reset to normal orientation
