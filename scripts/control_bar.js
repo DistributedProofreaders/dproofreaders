@@ -223,7 +223,6 @@ var makeImageControl = function(canvas, align, reSize) {
         });
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
-        setPercent();
         scale *= 1.1;
         setPercent();
         drawImage();
