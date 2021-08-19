@@ -2,7 +2,7 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var makeImageControl = function(canvas, reSize) {
+var makeImageControl = function(canvas, align, reSize) {
     let imageKey;
     let scale = 1;
     let imageWidth, imageHeight;
@@ -26,10 +26,6 @@ var makeImageControl = function(canvas, reSize) {
         return scrollbarWidth;
     };
 
-    function maxVal(a, b) {
-        return (a > b) ? a : b;
-    }
-
     // If we always make the canvas fit image then when reducing the image size
     // rapidly with spinner the canvas does not get cleared even when
     // redrawing with setTimer(0).
@@ -48,31 +44,37 @@ var makeImageControl = function(canvas, reSize) {
         ctx.clearRect( 0, 0, canvas.width, canvas.height);
         let scaleWidth = imageWidth * scale;
         let scaleHeight = imageHeight * scale;
-        let newWidth, newHeight;
+        let rotatedWidth, rotatedHeight;
         if(cosine != 0) {
             // 0 or 180
-            newWidth = scaleWidth;
-            newHeight = scaleHeight;
+            rotatedWidth = scaleWidth;
+            rotatedHeight = scaleHeight;
         } else {
             // +- 90
-            newWidth = scaleHeight;
-            newHeight = scaleWidth;
+            rotatedWidth = scaleHeight;
+            rotatedHeight = scaleWidth;
         }
         // we have to calculate what will happen if scrollbars appear
         let holder = canvas.parentNode;
         let paneWidth = holder.offsetWidth;
         let paneHeight = holder.offsetHeight;
-        if(newHeight > paneHeight) {
+        if(rotatedHeight > paneHeight) {
             paneWidth = holder.offsetWidth - scrollbarWidth;
         }
-        if(newWidth > paneWidth) {
+        let underWidth = paneWidth - rotatedWidth;
+        if(underWidth < 0) {
+            // image is wider than pane
             paneHeight = holder.offsetHeight - scrollbarWidth;
+            canvas.width = rotatedWidth;
+        } else {
+            canvas.width = paneWidth;
         }
-        if(newHeight > paneHeight) {
+        if(rotatedHeight > paneHeight) {
             paneWidth = holder.offsetWidth - scrollbarWidth;
+            canvas.height = rotatedHeight;
+        } else {
+            canvas.height = paneHeight;
         }
-        canvas.width = maxVal(newWidth, paneWidth);
-        canvas.height = maxVal(newHeight, paneHeight);
 
         // rotation is about point (0,0); offset so image is in canvas area
         let xOff = 0;
@@ -91,7 +93,18 @@ var makeImageControl = function(canvas, reSize) {
 
         let scaleCosine = cosine * scale;
         let scaleSine = sine * scale;
-        ctx.setTransform(scaleCosine, -scaleSine, scaleSine, scaleCosine, xOff, yOff);
+
+        // image origin in canvas
+        let dx = 0;
+        if(underWidth > 0) {
+            if(align == "C") {
+                dx = underWidth / 2;
+            } else if (align == "R") {
+                dx = underWidth;
+            }
+        }
+
+        ctx.setTransform(scaleCosine, -scaleSine, scaleSine, scaleCosine, xOff + dx, yOff);
         ctx.drawImage(image, 0, 0);
     }
 
@@ -492,7 +505,7 @@ function makeControlDiv(container, controls, onChange) {
     };
 }
 
-function makeImageWidget(container, align, reSize = null) {
+function makeImageWidget(container, align = "C", reSize = null) {
     // if we are inside a splitter then reSize will fire when pane size
     // changes.Otherwise fire on window reSize. It will also fire when the
     // control bar changes position.
@@ -507,7 +520,7 @@ function makeImageWidget(container, align, reSize = null) {
     // this avoids the extra space for descender for inline element
     canvas.classList.add("middle-align");
     canvas.style.cursor = "grab";
-    const imageControl = makeImageControl(canvas, reSize);
+    const imageControl = makeImageControl(canvas, align, reSize);
 
     const controlDiv = makeControlDiv(container, imageControl.controls, reSize);
 
