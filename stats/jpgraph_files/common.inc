@@ -27,21 +27,6 @@ function get_image_cache_filename()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function array_accumulate($arr)
-// Return the array defined by:
-//     $result[$i] = sum( $arr[$j] for $j up to and including $i )
-{
-    $result = [];
-    $sum = 0;
-    foreach ($arr as $key => $value) {
-        $sum += $value;
-        $result[$key] = $sum;
-    }
-    return $result;
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 function init_pages_graph($cache_timeout)
 {
     return new Graph(640, 400, get_image_cache_filename(), $cache_timeout);
