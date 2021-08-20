@@ -395,7 +395,16 @@
 /* Page Browser */
 
 #page-browser {
-    .flex_100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .fixed-box {
+        flex:0 0 auto;
+    }
+    .stretch-box {
+        flex: 1 1 100%;
+        min-height: 10px;
+    }
     .page-interface;
 
     .control-pane {
@@ -443,19 +452,6 @@
         border: 0;
         margin: 0;
         display: block;
-    }
-}
-
-.flex_100vh {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    .fixed-box {
-        flex:0 0 auto;
-    }
-    .stretch-box {
-        flex: 1 1 100vh;
-        min-height: 10px;
     }
 }
 
