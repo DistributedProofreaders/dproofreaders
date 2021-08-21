@@ -78,8 +78,8 @@ $ok_files = [
     "stats/jpgraph_files/percent_users_who_proof.php",
     "stats/jpgraph_files/users_by_pages_proofed_graph.php",
     "stats/jpgraph_files/round_backlog_trend.php",
-    "stats/jpgraph_files/round_backlog_days.php",
-    "stats/jpgraph_files/round_backlog.php",
+    "stats/round_backlog_days.php",
+    "stats/round_backlog.php",
     "stats/jpgraph_files/equilibria.php",
     // Design documentation
     "styles/style_demo.php",
