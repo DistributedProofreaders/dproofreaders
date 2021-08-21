@@ -24,7 +24,7 @@ $header_args = [
             get_control_bar_texts() . "
             var mentorMode = $mentorMode;
         ",
-    "body_attributes" => 'class="no-margin overflow-hidden"',
+    "body_attributes" => 'class="no-margin overflow-hidden fix-full"',
 ];
 
 slim_header($title, $header_args);

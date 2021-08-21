@@ -56,7 +56,7 @@ var makeImageControl = function(imageElement) {
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        imageElement.height('100%');
+        imageElement.height(imageElement.parent().height());
         imageElement.width("auto");
         unPersist();
     })

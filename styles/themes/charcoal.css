@@ -96,6 +96,13 @@
 .inline {
   display: inline;
 }
+.fix-full {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
 /* Because global.less is rendered as part of the themes the web-font URLs
@@ -847,7 +854,7 @@
 /* ------------------------------------------------------------------------ */
 /* Page Browser */
 #page-browser {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #CDCDC1;
@@ -857,7 +864,7 @@
   flex: 0 0 auto;
 }
 #page-browser .stretch-box {
-  flex: 1 1 100vh;
+  flex: 1 1 100%;
   min-height: 10px;
 }
 #page-browser a:link {
@@ -945,18 +952,6 @@
   border: 0;
   margin: 0;
   display: block;
-}
-.flex_100vh {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.flex_100vh .fixed-box {
-  flex: 0 0 auto;
-}
-.flex_100vh .stretch-box {
-  flex: 1 1 100vh;
-  min-height: 10px;
 }
 /* ------------------------------------------------------------------------ */
 /* Control Bar */
