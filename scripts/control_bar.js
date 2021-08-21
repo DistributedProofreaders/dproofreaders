@@ -121,12 +121,33 @@ function makeControlDiv(container, controls, onChange) {
     controlBar.append(control1, control2, control3);
 
     const menu = $("<div>", {class: "control-bar-menu"});
-
     const menuButton = $("<button>", {title: texts.adjustPanel})
         .append($("<i>", {class: 'fas fa-cog'}))
         .click(function () {
+            if(menu.is(":hidden")) {
+                // find the position of the menu button and set position of
+                // menu relative to it
+                const menuButtonWidth = menuButton.outerWidth();
+                const menuWidth = menu.outerWidth();
+                const buttonPos = menuButton.offset();
+                switch(compassPoint) {
+                case "N":
+                    menu.css({top: buttonPos.top + 1.5 * menuButtonWidth, left: buttonPos.left});
+                    break;
+                case "W":
+                    menu.css({top: buttonPos.top, left: buttonPos.left + 1.5 * menuButtonWidth});
+                    break;
+                case "S":
+                    menu.css({top: buttonPos.top - menuWidth - 0.5 * menuButtonWidth, left: buttonPos.left});
+                    break;
+                default: // E
+                    menu.css({top: buttonPos.top, left: buttonPos.left - menuWidth - 0.5 * menuButtonWidth});
+                    break;
+                }
+            }
             menu.toggle();
         });
+
 
     // build navBox
     const navBox = $("<table>");
@@ -194,9 +215,7 @@ function makeControlDiv(container, controls, onChange) {
     const hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
 
     menu.append(navBox);
-    const menuHolder = $("<div>").css({position: "relative"})
-        .append(menu);
-    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menuHolder);
+    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menu);
 
     function setCompassPoint() {
         $(".navbutton", navBox).detach();
@@ -205,28 +224,24 @@ function makeControlDiv(container, controls, onChange) {
             controlFirst();
             controlHoriz();
             controlBar.css({borderWidth: "0 0 1px 0"});
-            menu.css({top: "0.21em", left: "", right: "", bottom: ""});
             fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
             break;
         case "W":
             controlFirst();
             controlVert();
             controlBar.css({borderWidth: "0 1px 0 0"});
-            menu.css({top: "", left: "3em", right: "", bottom: ""});
             fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
             break;
         case "E":
             controlLast();
             controlVert();
             controlBar.css({borderWidth: "0 0 0 1px"});
-            menu.css({top: "", left: "", right: "3em", bottom: ""});
             fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
             break;
         case "S":
             controlLast();
             controlHoriz();
             controlBar.css({borderWidth: "1px 0 0 0"});
-            menu.css({top: "", left: "", right: "", bottom: "2em"});
             fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
             break;
         }

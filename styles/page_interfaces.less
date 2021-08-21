@@ -466,6 +466,7 @@
     color: @control-pane-text;
     border-style: solid;
     border-color: gray;
+    overflow: auto;
 
     input, select, button {
         background-color: @text-pane-background;
@@ -503,11 +504,15 @@
 
 .control-bar-menu {
     position: absolute;
-    padding: 0.3em;
+    padding: 0.2em;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
     border-radius: 0.3em;
     background-color: @control-pane-background;
     border: 1px solid gray;
     display: none;
     z-index: 1;
+
+    td {
+        padding: 0.2em 0.2em;
+    }
 }
