@@ -50,7 +50,7 @@ function ibe_get_styles()
                     height:{$block_height_pc}%;
                     z-index:2;
                     text-align:center;
-                    overflow:hidden;
+                    overflow:auto;
                     border: 1px solid black;
                 }
         STYLES;

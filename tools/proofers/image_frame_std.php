@@ -34,6 +34,6 @@ $header_args = [
 
 slim_header("Image Frame", $header_args);
 
-echo "<div style='height: 100vh; overflow: hidden;'>
+echo "<div style='height: 100vh;'>
 <div id='image-view'>
 </div></div>";
