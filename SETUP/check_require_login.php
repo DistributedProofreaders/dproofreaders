@@ -76,7 +76,7 @@ $ok_files = [
     // Stats graphs that we make globally available
     "stats/default.php",
     "stats/jpgraph_files/percent_users_who_proof.php",
-    "stats/jpgraph_files/pp_stage_goal.php",
+    "stats/pp_stage_goal.php",
     "stats/round_backlog_days.php",
     "stats/round_backlog.php",
     "stats/jpgraph_files/equilibria.php",
