@@ -1,10 +1,9 @@
 <?php
-$relPath = "./../../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'graph_data.inc');
 include_once($relPath.'slim_header.inc');
-include_once('common.inc');
 
 
 // This image shows the total number of pages remaining in each round.
