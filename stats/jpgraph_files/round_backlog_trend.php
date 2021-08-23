@@ -2,6 +2,7 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'graph_data.inc');
 include_once('common.inc');
 
 // This image shows the same data as round_backlog.php but in a trend
