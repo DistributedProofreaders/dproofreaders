@@ -737,11 +737,11 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
     ];
 
     if (!is_null($moving_average)) {
-      $data[sprintf(_("%d-day SMA"), $days_to_average)] = [
-          "x" => $datax,
-          "y" => $moving_average,
-          "type" => "line",
-      ];
+        $data[sprintf(_("%d-day SMA"), $days_to_average)] = [
+            "x" => $datax,
+            "y" => $moving_average,
+            "type" => "line",
+        ];
     }
 
     return [
