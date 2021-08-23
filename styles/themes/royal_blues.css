@@ -976,6 +976,7 @@
   width: 2.2em;
   text-align: right;
   -moz-appearance: textfield;
+  -webkit-logical-width: -webkit-fit-content;
 }
 .control-bar input::-webkit-outer-spin-button,
 .control-bar input::-webkit-inner-spin-button {
