@@ -170,8 +170,12 @@ function makeControlDiv(container, controls, onChange) {
     }
 
     function controlFirst() {
+        // this could be done more simply using prepend
+        // but on Safari the tools disappear sometimes.
+        content.detach();
         controlBar.detach();
-        container.prepend(controlBar);
+        container.append(controlBar);
+        container.append(content);
     }
 
     function controlLast() {
