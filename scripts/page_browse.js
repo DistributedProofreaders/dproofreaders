@@ -98,22 +98,23 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
     const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
     const textControl = maketextControl(textArea);
-    const controlDiv = makeControlDiv(container, textControl.controls, reLayout);
+    const content = $("<div>");
+    const controlDiv = makeControlDiv(container, content, textControl.controls, reLayout);
     let subSplitter;
     let splitterKey;
     let textSplitData;
     if(splitter) {
-        const topTextDiv = $("<div>").append(textArea);
+        const topTextDiv = $("<div>", {class: "display-flex"}).append(textArea);
         const bottomTextDiv = $("<div>");
-        controlDiv.content.append(topTextDiv, bottomTextDiv);
+        content.append(topTextDiv, bottomTextDiv);
 
-        subSplitter = splitControl(controlDiv.content, {splitVertical: false, reDraw: reLayout});
+        subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
     } else {
-        controlDiv.content.append(textArea);
+        content.addClass("display-flex").append(textArea);
     }
     return {
         setup: function(storageKey) {

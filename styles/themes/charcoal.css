@@ -945,7 +945,6 @@
 }
 #page-browser .text-pane {
   width: 100%;
-  height: 100%;
   box-sizing: border-box;
   padding-left: 0.25em;
   resize: none;
@@ -963,6 +962,7 @@
   color: black;
   border-style: solid;
   border-color: gray;
+  overflow: auto;
 }
 .control-bar input,
 .control-bar select,
@@ -975,6 +975,7 @@
   width: 2.2em;
   text-align: right;
   -moz-appearance: textfield;
+  -webkit-logical-width: -webkit-fit-content;
 }
 .control-bar input::-webkit-outer-spin-button,
 .control-bar input::-webkit-inner-spin-button {
@@ -1000,13 +1001,16 @@
 }
 .control-bar-menu {
   position: absolute;
-  padding: 0.3em;
+  padding: 0.2em;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
   border-radius: 0.3em;
   background-color: #CDC0B0;
   border: 1px solid gray;
   display: none;
   z-index: 1;
+}
+.control-bar-menu td {
+  padding: 0.2em 0.2em;
 }
 /* ------------------------------------------------------------------------ */
 /* Common color definitions

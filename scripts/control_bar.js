@@ -99,7 +99,7 @@ var makeImageControl = function(imageElement) {
     };
 };
 
-function makeControlDiv(container, controls, onChange) {
+function makeControlDiv(container, content, controls, onChange) {
     let barKey;
     let compassPoint;
     let begMidEnd;
@@ -109,7 +109,7 @@ function makeControlDiv(container, controls, onChange) {
         localStorage.setItem(barKey, JSON.stringify(barData));
     }
 
-    const content = $("<div>", {class: 'overflow-auto'}).css({flex: 'auto'});
+    content.addClass('overflow-auto').css({flex: 'auto'});
     container.css({display: 'flex', height: "100%"});
     container.append(content);
 
@@ -121,12 +121,32 @@ function makeControlDiv(container, controls, onChange) {
     controlBar.append(control1, control2, control3);
 
     const menu = $("<div>", {class: "control-bar-menu"});
-
     const menuButton = $("<button>", {title: texts.adjustPanel})
         .append($("<i>", {class: 'fas fa-cog'}))
         .click(function () {
+            if(menu.is(":hidden")) {
+                // find the position of the menu button and set position of
+                // menu relative to it
+                const menuWidth = menu.outerWidth();
+                let buttonRect = menuButton[0].getBoundingClientRect();
+                switch(compassPoint) {
+                case "N":
+                    menu.css({top: buttonRect.top, left: buttonRect.right});
+                    break;
+                case "W":
+                    menu.css({top: buttonRect.top, left: buttonRect.right});
+                    break;
+                case "S":
+                    menu.css({top: buttonRect.bottom - menuWidth, left: buttonRect.right});
+                    break;
+                default: // E
+                    menu.css({top: buttonRect.top, left: buttonRect.left - menuWidth});
+                    break;
+                }
+            }
             menu.toggle();
         });
+
 
     // build navBox
     const navBox = $("<table>");
@@ -149,8 +169,12 @@ function makeControlDiv(container, controls, onChange) {
     }
 
     function controlFirst() {
+        // this could be done more simply using prepend
+        // but on Safari the tools disappear sometimes.
+        content.detach();
         controlBar.detach();
-        container.prepend(controlBar);
+        container.append(controlBar);
+        container.append(content);
     }
 
     function controlLast() {
@@ -194,9 +218,7 @@ function makeControlDiv(container, controls, onChange) {
     const hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
 
     menu.append(navBox);
-    const menuHolder = $("<div>").css({position: "relative"})
-        .append(menu);
-    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menuHolder);
+    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menu);
 
     function setCompassPoint() {
         $(".navbutton", navBox).detach();
@@ -205,28 +227,24 @@ function makeControlDiv(container, controls, onChange) {
             controlFirst();
             controlHoriz();
             controlBar.css({borderWidth: "0 0 1px 0"});
-            menu.css({top: "0.21em", left: "", right: "", bottom: ""});
             fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
             break;
         case "W":
             controlFirst();
             controlVert();
             controlBar.css({borderWidth: "0 1px 0 0"});
-            menu.css({top: "", left: "3em", right: "", bottom: ""});
             fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
             break;
         case "E":
             controlLast();
             controlVert();
             controlBar.css({borderWidth: "0 0 0 1px"});
-            menu.css({top: "", left: "", right: "3em", bottom: ""});
             fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
             break;
         case "S":
             controlLast();
             controlHoriz();
             controlBar.css({borderWidth: "1px 0 0 0"});
-            menu.css({top: "", left: "", right: "", bottom: "2em"});
             fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
             break;
         }
@@ -316,8 +334,6 @@ function makeControlDiv(container, controls, onChange) {
     });
 
     return {
-        content: content,
-
         setupControls: function (storageKey) {
             barKey = storageKey + "-bar";
             let barData = JSON.parse(localStorage.getItem(barKey));
@@ -343,15 +359,15 @@ function makeImageWidget(container, align = "C") {
     };
     const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
     const imageControl = makeImageControl(imageElement);
-    const controlDiv = makeControlDiv(container, imageControl.controls);
-
-    controlDiv.content.css("text-align", alignment[align]).append(imageElement);
+    const content = $("<div>").css("text-align", alignment[align])
+        .append(imageElement);
+    const controlDiv = makeControlDiv(container, content, imageControl.controls);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
     function mousemove(event) {
-        controlDiv.content.scrollTop(scrollDiffY - event.pageY);
-        controlDiv.content.scrollLeft(scrollDiffX - event.pageX);
+        content.scrollTop(scrollDiffY - event.pageY);
+        content.scrollLeft(scrollDiffX - event.pageX);
     }
 
     function mouseup() {
@@ -362,8 +378,8 @@ function makeImageWidget(container, align = "C") {
     imageElement.mousedown( function(event) {
         event.preventDefault();
         imageElement.css("cursor", "grabbing");
-        scrollDiffX = event.pageX + controlDiv.content.scrollLeft();
-        scrollDiffY = event.pageY + controlDiv.content.scrollTop();
+        scrollDiffX = event.pageX + content.scrollLeft();
+        scrollDiffY = event.pageY + content.scrollTop();
         $(document).on("mousemove", mousemove)
             .on("mouseup", mouseup);
     });
@@ -377,7 +393,7 @@ function makeImageWidget(container, align = "C") {
 
         setImage: function (src) {
             imageElement.attr("src", src);
-            controlDiv.content
+            content
                 .scrollTop(0)
                 .scrollLeft(0);
         }
