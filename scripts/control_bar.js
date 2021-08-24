@@ -99,7 +99,7 @@ var makeImageControl = function(imageElement) {
     };
 };
 
-function makeControlDiv(container, controls, onChange) {
+function makeControlDiv(container, content, controls, onChange) {
     let barKey;
     let compassPoint;
     let begMidEnd;
@@ -109,7 +109,7 @@ function makeControlDiv(container, controls, onChange) {
         localStorage.setItem(barKey, JSON.stringify(barData));
     }
 
-    const content = $("<div>", {class: 'overflow-auto'}).css({flex: 'auto'});
+    content.addClass('overflow-auto').css({flex: 'auto'});
     container.css({display: 'flex', height: "100%"});
     container.append(content);
 
@@ -335,8 +335,6 @@ function makeControlDiv(container, controls, onChange) {
     });
 
     return {
-        content: content,
-
         setupControls: function (storageKey) {
             barKey = storageKey + "-bar";
             let barData = JSON.parse(localStorage.getItem(barKey));
@@ -362,15 +360,15 @@ function makeImageWidget(container, align = "C") {
     };
     const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
     const imageControl = makeImageControl(imageElement);
-    const controlDiv = makeControlDiv(container, imageControl.controls);
-
-    controlDiv.content.css("text-align", alignment[align]).append(imageElement);
+    const content = $("<div>").css("text-align", alignment[align])
+        .append(imageElement);
+    const controlDiv = makeControlDiv(container, content, imageControl.controls);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
     function mousemove(event) {
-        controlDiv.content.scrollTop(scrollDiffY - event.pageY);
-        controlDiv.content.scrollLeft(scrollDiffX - event.pageX);
+        content.scrollTop(scrollDiffY - event.pageY);
+        content.scrollLeft(scrollDiffX - event.pageX);
     }
 
     function mouseup() {
@@ -381,8 +379,8 @@ function makeImageWidget(container, align = "C") {
     imageElement.mousedown( function(event) {
         event.preventDefault();
         imageElement.css("cursor", "grabbing");
-        scrollDiffX = event.pageX + controlDiv.content.scrollLeft();
-        scrollDiffY = event.pageY + controlDiv.content.scrollTop();
+        scrollDiffX = event.pageX + content.scrollLeft();
+        scrollDiffY = event.pageY + content.scrollTop();
         $(document).on("mousemove", mousemove)
             .on("mouseup", mouseup);
     });
@@ -396,7 +394,7 @@ function makeImageWidget(container, align = "C") {
 
         setImage: function (src) {
             imageElement.attr("src", src);
-            controlDiv.content
+            content
                 .scrollTop(0)
                 .scrollLeft(0);
         }
