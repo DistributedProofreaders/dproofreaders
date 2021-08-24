@@ -127,21 +127,20 @@ function makeControlDiv(container, content, controls, onChange) {
             if(menu.is(":hidden")) {
                 // find the position of the menu button and set position of
                 // menu relative to it
-                const menuButtonWidth = menuButton.outerWidth();
                 const menuWidth = menu.outerWidth();
-                const buttonPos = menuButton.offset();
+                let buttonRect = menuButton[0].getBoundingClientRect();
                 switch(compassPoint) {
                 case "N":
-                    menu.css({top: buttonPos.top + 1.5 * menuButtonWidth, left: buttonPos.left});
+                    menu.css({top: buttonRect.top, left: buttonRect.right});
                     break;
                 case "W":
-                    menu.css({top: buttonPos.top, left: buttonPos.left + 1.5 * menuButtonWidth});
+                    menu.css({top: buttonRect.top, left: buttonRect.right});
                     break;
                 case "S":
-                    menu.css({top: buttonPos.top - menuWidth - 0.5 * menuButtonWidth, left: buttonPos.left});
+                    menu.css({top: buttonRect.bottom - menuWidth, left: buttonRect.right});
                     break;
                 default: // E
-                    menu.css({top: buttonPos.top, left: buttonPos.left - menuWidth - 0.5 * menuButtonWidth});
+                    menu.css({top: buttonRect.top, left: buttonRect.left - menuWidth});
                     break;
                 }
             }
