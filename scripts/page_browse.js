@@ -104,7 +104,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
     let splitterKey;
     let textSplitData;
     if(splitter) {
-        const topTextDiv = $("<div>").append(textArea);
+        const topTextDiv = $("<div>", {class: "display-flex"}).append(textArea);
         const bottomTextDiv = $("<div>");
         content.append(topTextDiv, bottomTextDiv);
 
@@ -114,7 +114,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
     } else {
-        content.append(textArea);
+        content.addClass("display-flex").append(textArea);
     }
     return {
         setup: function(storageKey) {
