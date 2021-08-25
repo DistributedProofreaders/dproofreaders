@@ -9,15 +9,17 @@ include_once($relPath.'page_tally.inc');
 // Get start of current month as unixtime
 $m_start = mktime(0, 0, 0, date('m'), 1, date('Y'));
 
-// We want the "PP pages goal" to be equal to the current month's F2 actuals
+// We want the "PP pages goal" to be equal to the current month's last round before PP (F2) actuals
 $page_offset = 0;
+$round_before_PP = null;
+foreach ($Round_for_round_id_ as $id => $round) {
+    if ($round->id == "PP") {
+        break;
+    }
+    $round_before_PP = $round->id;
+}
 $site_stats = get_site_page_tally_summary("F2");
 $pp_page_goal = $site_stats->curr_month_actual + $page_offset;
-
-// Start with creating the Graph, this enables the use of the cache
-// where possible
-$width = 120;
-$height = 200;
 
 // Get the total pages for projects that have posted
 $page_res = DPDatabase::query(sprintf("
@@ -44,16 +46,15 @@ $datay = [$pp_page_goal, $pp_pages_total];
 $title = _("MTD Pages");
 $x_title = "PP = " . $goal_percent . "% of F2";
 
-// Adjust the margin a bit to make more room for titles
-// left, right, top, bottom
-// $graph->img->SetMargin(50,16,30,48);
-
 // If PP is higher than F2, use greens, else reds
 if ($pp_pages_total > $pp_page_goal) {
     $barColors = ["darkgreen"];
 } else {
     $barColors = ["darkred"];
 }
+
+$width = 160;
+$height = 200;
 
 $js_data = '$(function(){barChart("pp_stage_goal",' . json_encode([
     "title" => $title,
@@ -68,6 +69,7 @@ $js_data = '$(function(){barChart("pp_stage_goal",' . json_encode([
     "height" => $height,
     "barBorder" => true,
     "bottomLegend" => $x_title,
+    "yAxisTickCount" => 5,
 ]) . ');});';
 
 
