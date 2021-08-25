@@ -18,7 +18,7 @@ foreach ($Round_for_round_id_ as $id => $round) {
     }
     $round_before_PP = $round->id;
 }
-$site_stats = get_site_page_tally_summary("F2");
+$site_stats = get_site_page_tally_summary($round_before_PP);
 $pp_page_goal = $site_stats->curr_month_actual + $page_offset;
 
 // Get the total pages for projects that have posted
@@ -41,12 +41,12 @@ if ($pp_page_goal != 0) {
 }
 
 // Some graph variables
-$datax = [_("F2"), _("PP")];
+$datax = [$round_before_PP, "PP"];
 $datay = [$pp_page_goal, $pp_pages_total];
 $title = _("MTD Pages");
-$x_title = "PP = " . $goal_percent . "% of F2";
+$x_title = "PP = " . $goal_percent . "% of $round_before_PP";
 
-// If PP is higher than F2, use greens, else reds
+// If PP is higher than round_before_PP, use greens, else reds
 if ($pp_pages_total > $pp_page_goal) {
     $barColors = ["darkgreen"];
 } else {
