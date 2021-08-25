@@ -170,11 +170,11 @@ const {barChart, stackedAreaChart} = (function () {
             .nice()
             .range([height - barMargin.bottom, barMargin.top]);
 
-        const yInterval = config.yAxisTickCount ? Math.ceil(y.ticks().length / config.yAxisTickCount) : 1;
-        const integerYTicks = y.ticks().filter(Number.isInteger);
         let yAxisTicks = y.ticks();
+        const yInterval = config.yAxisTickCount ? Math.ceil(yAxisTicks.length / config.yAxisTickCount) : 1;
+        const integerYTicks = yAxisTicks.filter(Number.isInteger);
         if (integerYTicks.length > 1) {
-            yAxisTicks = yAxisTicks.filter(Number.isInteger);
+            yAxisTicks = integerYTicks;
         }
         yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
         const yAxis = g => g
