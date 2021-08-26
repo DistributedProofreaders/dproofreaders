@@ -8,45 +8,37 @@ var makeImageControl = function(imageElement) {
     const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
     function setZoom() {
+        percent = Math.round(percent);
+        if(percent < 10) {
+            percent = 10;
+        } else if(percent > 999) {
+            percent = 999;
+        }
+        percentInput.val(percent);
+
         imageElement.width(10 * percent);
         imageElement.height("auto");
     }
 
-    function saveZoom() {
+    function setAndSaveZoom() {
+        setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     percentInput.change(function() {
-        const value = parseInt(this.value);
-        if(isNaN(value)) {
+        percent = parseInt(this.value);
+        if(isNaN(percent)) {
             percent = 100;
-        } else if(value < 10) {
-            percent = 10;
-        } else if(value > 999) {
-            percent = 999;
-        } else {
-            percent = value;
         }
-        // in case above has changed it
-        this.value = percent;
-        setZoom();
-        saveZoom();
+        setAndSaveZoom();
     });
-
-    function setPercent() {
-        percent = Math.round(percent);
-        percentInput.val(percent);
-        saveZoom();
-    }
 
     function unPersist() {
         // reset width and height so that fitting does not persist
         const width = imageElement.width();
-        imageElement.width(width);
-        imageElement.height("auto");
         // assume 100% means 1000px wide
         percent = width / 10;
-        setPercent();
+        setAndSaveZoom();
     }
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
@@ -64,15 +56,13 @@ var makeImageControl = function(imageElement) {
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         percent *= 1.1;
-        setPercent();
-        setZoom();
+        setAndSaveZoom();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
-        percent *= 0.909;
-        setPercent();
-        setZoom();
+        percent /= 1.1;
+        setAndSaveZoom();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
@@ -93,7 +83,6 @@ var makeImageControl = function(imageElement) {
                 imageData = {zoom: 100};
             }
             percent = imageData.zoom;
-            percentInput.val(percent);
             setZoom();
         },
     };
