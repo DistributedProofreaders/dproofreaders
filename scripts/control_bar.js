@@ -4,25 +4,25 @@
 // Construct the image sizing controls.
 var makeImageControl = function(imageElement) {
     let imageKey;
+    // percent need not be an integer but is rounded for display and save
+    // it will typically not be an integer after fit height or width or + or -
     let percent;
     const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
 
     function setZoom() {
-        percent = Math.round(percent);
         if(percent < 10) {
             percent = 10;
         } else if(percent > 999) {
             percent = 999;
         }
-        percentInput.val(percent);
-
+        percentInput.val(Math.round(percent));
         imageElement.width(10 * percent);
         imageElement.height("auto");
     }
 
     function setAndSaveZoom() {
         setZoom();
-        localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
+        localStorage.setItem(imageKey, JSON.stringify({zoom: Math.round(percent)}));
     }
 
     percentInput.change(function() {
