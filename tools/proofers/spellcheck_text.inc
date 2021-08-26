@@ -55,6 +55,8 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     [$font_style, $font_size, $font_family] = get_user_proofreading_font();
     if ($font_size != '') {
         $font_size = "font-size: $font_size";
+    } else {
+        $font_size = "font-size: unset";
     }
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString .= "<style>" .
