@@ -75,7 +75,7 @@ $ok_files = [
     "quiz/index.php",
     // Stats graphs that we make globally available
     "stats/default.php",
-    "stats/jpgraph_files/percent_users_who_proof.php",
+    "stats/percent_users_who_proof.php",
     "stats/pp_stage_goal.php",
     "stats/round_backlog_days.php",
     "stats/round_backlog.php",
