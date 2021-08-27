@@ -22,7 +22,7 @@ var makeImageControl = function(imageElement) {
 
     function setAndSaveZoom() {
         setZoom();
-        localStorage.setItem(imageKey, JSON.stringify({zoom: Math.round(percent)}));
+        localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     percentInput.change(function() {
