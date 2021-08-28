@@ -7,13 +7,17 @@ var makeImageControl = function(imageElement) {
     // percent need not be an integer but is rounded for display and save
     // it will typically not be an integer after fit height or width or + or -
     let percent;
-    const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
+    const minPercent = 10;
+    const maxPercent = 999;
+    const defaultPercent = 100;
+
+    const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
     function setZoom() {
-        if(percent < 10) {
-            percent = 10;
-        } else if(percent > 999) {
-            percent = 999;
+        if(percent < minPercent) {
+            percent = minPercent;
+        } else if(percent > maxPercent) {
+            percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
         imageElement.width(10 * percent);
@@ -28,7 +32,7 @@ var makeImageControl = function(imageElement) {
     percentInput.change(function() {
         percent = parseInt(this.value);
         if(isNaN(percent)) {
-            percent = 100;
+            percent = defaultPercent;
         }
         setAndSaveZoom();
     });
@@ -80,7 +84,7 @@ var makeImageControl = function(imageElement) {
             imageKey = storageKey + "-image";
             let imageData = JSON.parse(localStorage.getItem(imageKey));
             if(!$.isPlainObject(imageData)) {
-                imageData = {zoom: 100};
+                imageData = {zoom: defaultPercent};
             }
             percent = imageData.zoom;
             setZoom();
