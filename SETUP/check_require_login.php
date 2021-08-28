@@ -79,7 +79,7 @@ $ok_files = [
     "stats/pp_stage_goal.php",
     "stats/round_backlog_days.php",
     "stats/round_backlog.php",
-    "stats/jpgraph_files/equilibria.php",
+    "stats/equilibria.php",
     // Design documentation
     "styles/style_demo.php",
     "styles/design_philosophy.php",
