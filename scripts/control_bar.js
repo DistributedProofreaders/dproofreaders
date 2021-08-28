@@ -4,49 +4,45 @@
 // Construct the image sizing controls.
 var makeImageControl = function(imageElement) {
     let imageKey;
+    // percent need not be an integer but is rounded for display and save
+    // it will typically not be an integer after fit height or width or + or -
     let percent;
-    const percentInput = $("<input>", {type: 'number', min: '1', max: '999', value: percent, title: texts.zoomPercent});
+    const minPercent = 10;
+    const maxPercent = 999;
+    const defaultPercent = 100;
+
+    const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
     function setZoom() {
+        if(percent < minPercent) {
+            percent = minPercent;
+        } else if(percent > maxPercent) {
+            percent = maxPercent;
+        }
+        percentInput.val(Math.round(percent));
         imageElement.width(10 * percent);
         imageElement.height("auto");
     }
 
-    function saveZoom() {
+    function setAndSaveZoom() {
+        setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     percentInput.change(function() {
-        const value = parseInt(this.value);
-        if(isNaN(value)) {
-            percent = 100;
-        } else if(value < 10) {
-            percent = 10;
-        } else if(value > 999) {
-            percent = 999;
-        } else {
-            percent = value;
+        percent = parseInt(this.value);
+        if(isNaN(percent)) {
+            percent = defaultPercent;
         }
-        // in case above has changed it
-        this.value = percent;
-        setZoom();
-        saveZoom();
+        setAndSaveZoom();
     });
-
-    function setPercent() {
-        percent = Math.round(percent);
-        percentInput.val(percent);
-        saveZoom();
-    }
 
     function unPersist() {
         // reset width and height so that fitting does not persist
         const width = imageElement.width();
-        imageElement.width(width);
-        imageElement.height("auto");
         // assume 100% means 1000px wide
         percent = width / 10;
-        setPercent();
+        setAndSaveZoom();
     }
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
@@ -64,15 +60,13 @@ var makeImageControl = function(imageElement) {
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         percent *= 1.1;
-        setPercent();
-        setZoom();
+        setAndSaveZoom();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
-        percent *= 0.909;
-        setPercent();
-        setZoom();
+        percent /= 1.1;
+        setAndSaveZoom();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
@@ -90,10 +84,9 @@ var makeImageControl = function(imageElement) {
             imageKey = storageKey + "-image";
             let imageData = JSON.parse(localStorage.getItem(imageKey));
             if(!$.isPlainObject(imageData)) {
-                imageData = {zoom: 100};
+                imageData = {zoom: defaultPercent};
             }
             percent = imageData.zoom;
-            percentInput.val(percent);
             setZoom();
         },
     };
