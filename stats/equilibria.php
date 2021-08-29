@@ -1,39 +1,23 @@
 <?php
-$relPath = "./../../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_tally.inc');
-include_once('common.inc');
+include_once($relPath.'graph_data.inc');
 
 $day_options = ["0", "1", "7", "28", "180"];
 $days = get_enumerated_param($_GET, "days", null, $day_options, true);
 
-if ($days !== null) {
-    display_graph($days);
-    exit;
-}
-
 $title = _("Equilibria");
-
-output_header($title);
-echo "<h1>$title</h1>";
-echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";
-foreach ($day_options as $days) {
-    echo "<img src='?days=$days'><br><br>";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function display_graph($d)
 {
     $total_pages = 0;
 
     if ($d == 0) {
-        $graph = init_pie_graph(660, 400, 5);
-
         $title = _("Net pages saved so far today");
 
         for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
@@ -44,8 +28,6 @@ function display_graph($d)
             $total_pages += $pages;
         }
     } else {
-        $graph = init_pie_graph(660, 400, 60);
-
         $title = sprintf(_("Net pages saved in preceding %s days"), $d);
 
         $now = time();
@@ -58,9 +40,36 @@ function display_graph($d)
         }
     }
 
+    $error = null;
     if ($total_pages == 0) {
-        dpgraph_error(_("No pages saved in specified range"), 660, 400);
+        $error = _("No pages saved in specified range");
     }
 
-    draw_pie_graph($graph, $labels, $data, $title);
+    $config = [
+        "title" => $title,
+        "labels" => $labels,
+        "data" => $data,
+    ];
+
+    if (!is_null($error)) {
+        $config["error"] = $error;
+    }
+
+    return $config;
+}
+
+$js_data = '$(function(){';
+foreach ($day_options as $days) {
+    $js_data .= 'pieChart("' . "equilibria_$days" . '", ' . json_encode(display_graph($days)) . ');';
+}
+$js_data .= '});';
+
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => $js_data,
+]);
+echo "<h1>$title</h1>";
+echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";
+foreach ($day_options as $days) {
+    echo "<div id='equilibria_$days' style='max-width: 660px'></div>";
 }

@@ -1,7 +1,7 @@
 /* global d3 */
-/* exported barChart, stackedAreaChart */
+/* exported barChart, stackedAreaChart, pieChart */
 
-const {barChart, stackedAreaChart} = (function () {
+const {barChart, stackedAreaChart, pieChart} = (function () {
     const margin = ({
         top: 20,
         right: 45,
@@ -11,7 +11,7 @@ const {barChart, stackedAreaChart} = (function () {
 
     function addTitle(svg, config, width) {
         svg.append("text")
-            .attr("x", ((config.width || width) / 2))
+            .attr("x", (config.width || width) / 2)
             .attr("y", (margin.top / 2) + 3)
             .attr("font-size", "16px")
             .attr("text-anchor", "middle")
@@ -19,8 +19,8 @@ const {barChart, stackedAreaChart} = (function () {
             .text(config.title);
     }
 
-    function addLegend(svg, color, config, width, height) {
-        const hasMultipleSeries = Object.keys(config.data).length > 1;
+    function addLegend(svg, color, config, series, width, height) {
+        const hasMultipleSeries = series.length > 1;
         const yAxisLabel = config.yAxisLabel || (!hasMultipleSeries ? Object.keys(config.data)[0] : null);
         if (hasMultipleSeries) {
             const container = svg.append("g");
@@ -29,21 +29,21 @@ const {barChart, stackedAreaChart} = (function () {
             }
             const legendBox = container.append("rect");
             container.selectAll("seriesColor")
-                .data(Object.keys(config.data))
+                .data(series)
                 .enter()
                 .append("circle")
                 .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
-                .attr("cy", (d,i) => margin.left + 10 + i * 25)
+                .attr("cy", (d,i) => (margin.left + 10) + (i * 25))
                 .attr("r", 7)
                 .style("fill", d => color(d));
 
             container.selectAll("series")
-                .data(Object.keys(config.data))
+                .data(series)
                 .enter()
                 .append("text")
                 .attr("fill", "currentColor")
                 .attr("x", margin.left + (config.axisLeft ? 55 : 25))
-                .attr("y", (d,i) => 45 + i * 25)
+                .attr("y", (d,i) => (margin.left + 10) + (i * 25) + 5)
                 .text(d => d);
             const containerBox = container.node().getBBox();
             legendBox.attr("width", containerBox.width + 6)
@@ -149,7 +149,7 @@ const {barChart, stackedAreaChart} = (function () {
             .call(yAxis);
 
         addTitle(svg, config, width);
-        addLegend(svg, color, config, width, height);
+        addLegend(svg, color, config, Object.keys(config.data), width, height);
     }
 
     function barChart(id, config) {
@@ -277,11 +277,76 @@ const {barChart, stackedAreaChart} = (function () {
         svg.append("g")
             .call(yAxis);
         addTitle(svg, config, width);
-        addLegend(svg, color, config, width, height);
+        addLegend(svg, color, config, Object.keys(config.data), width, height);
+    }
+
+    function pieChart(id, config) {
+        const pieMargin = {...margin, top: 50, bottom: 50};
+        let total = 0;
+        const data = config.data.reduce((acc, value, index) => {
+            acc.push({name: config.labels[index], value});
+            total += Number(value);
+            return acc;
+        }, []);
+        const height = config.height || 400;
+        const width = config.width || 660;
+
+        const svg = d3.select("#" + id).append("svg")
+            .attr("viewBox", [0, 0, width, height]);
+
+        if (config.error) {
+            svg.append("text").attr("class", "error")
+                .attr("fill", "currentColor")
+                .attr("x", pieMargin.left)
+                .attr("y", pieMargin.top)
+                .text(config.error);
+        } else if(data.some(({value}) => value !== 0 && value !== null)) {
+            const pie = d3.pie()
+                .sort(null)
+                .value(d => d.value);
+            const radius = Math.min(width - (pieMargin.left + pieMargin.right), height - (pieMargin.top + pieMargin.bottom)) / 2;
+            const arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius);
+
+            const color = d3.scaleOrdinal()
+                .domain(config.labels)
+                .range(d3.schemeCategory10);
+
+            const arcs = pie(data);
+
+            const arcLabel = d3.arc().innerRadius(radius + 20)
+                .outerRadius(radius + 25);
+
+            svg.append("g")
+                .attr("transform", `translate(${width / 2},${height / 2})`)
+                .selectAll("path")
+                .data(arcs)
+                .join("path")
+                .attr("fill", d => color(d.data.name))
+                .attr("d", arc)
+                .append("title")
+                .text(d => `${d.data.name}`);
+
+            svg.append("g")
+                .attr("transform", `translate(${(width / 2) - 25},${(height / 2) + 12})`)
+                .selectAll("text")
+                .data(arcs)
+                .join("text")
+                .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
+                .call(text => text.attr("fill", "currentColor").append("tspan")
+                    .attr("y", "-0.4em")
+                    .attr("font-weight", "bold")
+                    .text(d => Number(d.data.value) !== 0 ? `${d3.format(",.1f")((d.data.value / total) * 100)}%` : ''));
+            addLegend(svg, color, config, config.labels, width, height);
+        }
+
+        addTitle(svg, config, width);
     }
 
     return {
         stackedAreaChart,
         barChart,
+        pieChart,
     };
 })();
