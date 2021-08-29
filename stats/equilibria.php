@@ -40,15 +40,22 @@ function display_graph($d)
         }
     }
 
+    $error = null;
     if ($total_pages == 0) {
-        $title = _("No pages saved in specified range");
+        $error = _("No pages saved in specified range");
     }
 
-    return [
+    $config = [
         "title" => $title,
         "labels" => $labels,
         "data" => $data,
     ];
+
+    if (!is_null($error)) {
+        $config["error"] = $error;
+    }
+
+    return $config;
 }
 
 $js_data = '$(function(){';
@@ -64,5 +71,5 @@ output_header($title, SHOW_STATSBAR, [
 echo "<h1>$title</h1>";
 echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";
 foreach ($day_options as $days) {
-    echo "<div id='equilibria_$days' style='max-width: 640px'></div>";
+    echo "<div id='equilibria_$days' style='max-width: 660px'></div>";
 }
