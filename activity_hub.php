@@ -69,27 +69,29 @@ $t_start_of_today = mktime(0, 0, 0, date('m'), date('d'), date('y'));
 
 // For transition events (event_type = 'transition'), details2 gives
 // the project's new state.
-$res = mysqli_query(DPDatabase::get_connection(), "
+$sql = "
     SELECT details2, count(distinct projectid)
     FROM project_events
     WHERE event_type = 'transition' AND timestamp >= $t_start_of_today
     GROUP BY details2
-") or die(DPDatabase::log_error());
+";
+$result = DPDatabase::query($sql);
 
 $n_projects_transitioned_to_state_ = [];
-while ([$project_state, $count] = mysqli_fetch_row($res)) {
+while ([$project_state, $count] = mysqli_fetch_row($result)) {
     $n_projects_transitioned_to_state_[$project_state] = $count;
 }
 
 // Get the current count for the number of projects in their current state
-$res = mysqli_query(DPDatabase::get_connection(), "
+$sql = "
     SELECT state, COUNT(*)
     FROM projects
     GROUP BY state
-") or die(DPDatabase::log_error());
+";
+$result = DPDatabase::query($sql);
 
 $n_projects_in_state_ = [];
-while ([$project_state, $count] = mysqli_fetch_row($res)) {
+while ([$project_state, $count] = mysqli_fetch_row($result)) {
     $n_projects_in_state_[$project_state] = $count;
 }
 
@@ -335,15 +337,16 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
             }
         }
 
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $sql = "
             SELECT state, COUNT(*)
             FROM projects
             WHERE state IN ($states_list) $project_filter
             GROUP BY state
-        ") or die(DPDatabase::log_error());
+        ";
+        $result = DPDatabase::query($sql);
 
         $total_projects = 0;
-        while ([$project_state, $count] = mysqli_fetch_row($res)) {
+        while ([$project_state, $count] = mysqli_fetch_row($result)) {
             $n_projects_in_state_by_filter_[$project_state] = $count;
             $total_projects += $count;
         }
