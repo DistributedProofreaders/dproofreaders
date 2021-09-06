@@ -547,8 +547,22 @@ class ProjectSearchResults
     private function _search($where_condition, $results_offset)
     {
         global $testing;
+
+        // load a count of the total number of projects
         $sql = "
-            SELECT SQL_CALC_FOUND_ROWS projects.*, genre_translations.trans_genre,
+            SELECT COUNT(*)
+            FROM projects
+            NATURAL JOIN genre_translations
+            LEFT JOIN project_holds
+            USING (projectid, state)
+            WHERE $where_condition
+        ";
+        $result = DPDatabase::query($sql);
+        [$num_found_rows] = mysqli_fetch_row($result);
+
+        // load the result set
+        $sql = "
+            SELECT projects.*, genre_translations.trans_genre,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
             NATURAL JOIN genre_translations
@@ -563,7 +577,8 @@ class ProjectSearchResults
             echo_html_comment($sql);
         }
         $result = DPDatabase::query($sql);
-        return $result;
+
+        return [$result, $num_found_rows];
     }
 
     public function render($where_condition)
@@ -573,12 +588,9 @@ class ProjectSearchResults
         $results_offset = intval(@$_GET['results_offset']);
 
         maybe_create_temporary_genre_translation_table();
-        $result = $this->_search($where_condition, $results_offset);
+        [$result, $num_found_rows] = $this->_search($where_condition, $results_offset);
 
         $numrows = mysqli_num_rows($result);
-
-        $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-        [$num_found_rows] = mysqli_fetch_row($res_found);
         if ($numrows == 0) {
             echo "<p><b>", _("No projects matched the search criteria."), "</b></p>";
             return;
