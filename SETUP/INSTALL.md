@@ -38,7 +38,7 @@ MySQL version 5.7 is the minimum supported version. MySQL 8.x will also work.
 MariaDB version 10.2 and later should also work but has not been tested.
 
 ### phpBB
-[phpBB](https://www.phpbb.com) 3.3 is the minimum supported verison.
+[phpBB](https://www.phpbb.com) 3.3 is the minimum supported version.
 
 For phpBB to work with the DP code, you must disable superglobal checking.
 In the phpBB code edit:
@@ -48,7 +48,7 @@ In the phpBB code edit:
 change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ### jpgraph
-[jpgraph](http://jpgraph.net) version 4.3 is the minimum supported verison.
+[jpgraph](http://jpgraph.net) version 4.3 is the minimum supported version.
 
 ## Distro support
 These middleware components match the following major distribution releases:
