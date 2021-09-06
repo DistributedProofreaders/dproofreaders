@@ -7,13 +7,14 @@ function list_projects_tersely($where_condition, $order_clause, $limit_clause)
 // List the specified projects,
 // giving very brief information about each.
 {
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT nameofwork, authorsname, language, postednum
         FROM projects
         WHERE $where_condition
         $order_clause
         $limit_clause
-    ");
+    ";
+    $result = DPDatabase::query($sql);
 
     echo "<ul>\n";
 
@@ -57,7 +58,7 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
         $order_clause
         LIMIT $per_page OFFSET $offset
     ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(DPDatabase::log_error());
+    $result = DPDatabase::query($sql);
 
     $numrows = mysqli_num_rows($result);
 
