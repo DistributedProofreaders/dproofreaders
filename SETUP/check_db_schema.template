@@ -12,9 +12,9 @@ set -e
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R202009
+prev_tag=R202102
 curr_tag=production
-upgrade_number=15
+upgrade_number=16
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -37,7 +37,7 @@ echo ""
 echo "Creating a config file for a test install..."
 echo "
     TAG=$curr_tag
-    GROUP=users
+    GROUP=www-data
     SHIFT_TO_LIVE=yes
 
     _CODE_DIR=$testing_code_dir
