@@ -6,6 +6,9 @@ see the git history.
 ## R??????
 Scripts supporting this upgrade are in `SETUP/upgrade/16`
 
+* Removed jpgraph and GD dependencies (chrismiceli)
+* Graphs now rendered via client-side Javascript as themed SVGs (chrismiceli)
+
 
 ## R202102
 Scripts supporting this upgrade are in `SETUP/upgrade/15`
