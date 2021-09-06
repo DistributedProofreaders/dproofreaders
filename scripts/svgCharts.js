@@ -161,6 +161,21 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
             .range(d3.schemeCategory10);
         const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
+        const tooltip = d3.select("#" + id)
+            .append("div")
+            .attr("class", "chart-tooltip")
+            .style("display", "none");
+
+        const mouseAction = (event, {value}) => {
+            tooltip.style("display", "")
+                .text(value)
+                .style("left", (d3.pointer(event, document.body)[0]) + "px")
+                .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
+        };
+
+        const mouseLeave = () => {
+            tooltip.style("display", "none");
+        };
 
         const yValues = Object.values(config.data).map(({y}) => y.map(Number))
             .flatMap(x => x);
@@ -192,6 +207,15 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
             .domain(d3.range(xValues.length))
             .range([barMargin.left, width - barMargin.right])
             .padding(0.1);
+        let xGroupOffset;
+        if (config.groupBars) {
+            xGroupOffset = d3.scaleBand()
+                .domain(Object.keys(config.data))
+                .rangeRound([0, x.bandwidth()])
+                .padding(0.05);
+        } else {
+            xGroupOffset = () => 0;
+        }
 
         const interval = Math.ceil(xValues.length / 40);
         const xAxis = g => g
@@ -233,22 +257,6 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
                     .attr("stroke-linecap", "round")
                     .attr("d", line);
             } else {
-                const tooltip = d3.select("#" + id)
-                    .append("div")
-                    .attr("class", "chart-tooltip")
-                    .style("display", "none");
-
-                const mouseAction = (event, {value}) => {
-                    tooltip.style("display", "")
-                        .text(value)
-                        .style("left", (d3.pointer(event, document.body)[0]) + "px")
-                        .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
-                };
-
-                var mouseleave = () => {
-                    tooltip.style("display", "none");
-                };
-
                 svg.append("g")
                     .selectAll("rect")
                     .data(data)
@@ -256,13 +264,13 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
                     .attr("fill", ({[seriesTitle]: d}) => barColors(d))
                     .attr("stroke-width", 1)
                     .attr("stroke", () => config.barBorder ? "black" : "")
-                    .attr("x", (d, i) => x(i))
+                    .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
                     .attr("y", ({value}) => value < 0 ? y(0) : y(value))
                     .attr("height", d => Math.abs(y(0) - y(d.value)))
-                    .attr("width", x.bandwidth())
+                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : x.bandwidth())
                     .on("mouseover", mouseAction)
                     .on("mousemove", mouseAction)
-                    .on("mouseleave", mouseleave);
+                    .on("mouseleave", mouseLeave);
             }
         }
 

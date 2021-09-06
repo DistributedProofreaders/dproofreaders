@@ -707,7 +707,6 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
     }
 
     // if no data was returned from the SELECT, create an empty dataset
-    // otherwise we get an unsightly jpgraph error
     if (empty($datax)) {
         // set arrays to empty before populating them
         $datax = $datay1 = [];
