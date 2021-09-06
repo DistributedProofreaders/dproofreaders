@@ -3,20 +3,33 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
-## R??????
+**If you are upgrading from a release before R202009, you must upgrade to
+[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
+first before upgrading to R202102 or later releases.**
+
+
+## R202109
 Scripts supporting this upgrade are in `SETUP/upgrade/16`
 
-* Renamed the 'Science Fiction' genre to 'Science Fiction & Fantasy'.
-    There is no upgrade script for the `queue_defns` table; since
+**This is the last release to support jpgraph. Future releases will use
+JS-generated SVG graphs.**
+
+* Updated minimum middleware to PHP 7.4 and MySQL 5.7 (cpeel)
+* Moved to use Composer for dependency packaging (cpeel)
+* DP API is now enabled by default as it is used by JS for the UI (cpeel)
+* New standard Image Widget used in Page Browser and proofreading interfaces (70ray)
+* User-provided HTML is sanitized before output (cpeel)
+* Improved cookie security and centralized cookie management (chrismiceli)
+* Renamed the 'Science Fiction' genre to 'Science Fiction & Fantasy' (srjfoo)
+  * There is no upgrade script for the `queue_defns` table; since
     release queues do not come pre-defined, updating those entries
     should be done manually by those who have genre queues enabled.
+* Links to Project Gutenberg updated to use HTTPS (srjfoo)
+* Code style standardization via PHP-CS-Fixer and GitHub linting (cpeel)
+
 
 ## R202102
 Scripts supporting this upgrade are in `SETUP/upgrade/15`
-
-**If you are upgrading from a release before R202009, you must upgrade to
-[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
-first before upgrading to this or later releases.**
 
 **This is the last release to support PHP versions < 7.4 and
 MySQL versions < 5.7.**
