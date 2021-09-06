@@ -75,8 +75,9 @@ function api_v1_projects($method, $data, $query_params)
     $page = get_integer_param($query_params, "page", 1, 1, null);
     $offset = $per_page * ($page - 1);
 
+    // get a page worth of projects
     $sql = "
-        SELECT SQL_CALC_FOUND_ROWS *
+        SELECT *
         FROM projects
         WHERE $where
         ORDER BY $order_by
@@ -87,8 +88,17 @@ function api_v1_projects($method, $data, $query_params)
         throw new ServerError(DPDatabase::log_error());
     }
 
-    $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-    [$total_rows] = mysqli_fetch_row($res_found);
+    // and a count of all projects
+    $sql = "
+        SELECT COUNT(*)
+        FROM projects
+        WHERE $where
+    ";
+    $result_count = DPDatabase::query($sql, false);
+    if (!$result_count) {
+        throw new ServerError(DPDatabase::log_error());
+    }
+    [$total_rows] = mysqli_fetch_row($result_count);
     $total_pages = round($total_rows / $per_page);
 
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);

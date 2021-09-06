@@ -40,8 +40,26 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
 {
     global $code_url;
     global $site_supports_corrections_after_posting;
+
+    // first get the number of projects
     $sql = "
-        SELECT SQL_CALC_FOUND_ROWS
+        SELECT COUNT(*)
+        FROM projects
+            LEFT OUTER JOIN pg_books
+            ON projects.postednum=pg_books.etext_number
+        WHERE $where_condition
+    ";
+    $result = DPDatabase::query($sql);
+    [$num_found_rows] = mysqli_fetch_row($result);
+
+    if ($num_found_rows == 0) {
+        echo _("There are currently no projects in this category.");
+        return;
+    }
+
+    // now load the paged results
+    $sql = "
+        SELECT
             projectid,
             authorsname,
             nameofwork,
@@ -61,14 +79,6 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
     $result = DPDatabase::query($sql);
 
     $numrows = mysqli_num_rows($result);
-
-    $res_found = DPDatabase::query("SELECT FOUND_ROWS()");
-    [$num_found_rows] = mysqli_fetch_row($res_found);
-
-    if ($num_found_rows == 0) {
-        echo _("There are currently no projects in this category.");
-        return;
-    }
 
     $first = $offset + 1;
     $last = $offset + $numrows;
