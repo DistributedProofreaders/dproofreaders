@@ -20,7 +20,6 @@ PHP version 7.4 is the minimum supported version. PHP 8.0 has not been tested.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
-* GD - php-gd
 * Internationalization - php-intl
 * mbstring - php-mbstring
 * memcached - php-memcached (to enable API rate limiting)
@@ -46,9 +45,6 @@ In the phpBB code edit:
 * 3.3: `config/default/container/parameters.yml`
 
 change `core.disable_super_globals` to `false`, and flush the phpbb cache.
-
-### jpgraph
-[jpgraph](http://jpgraph.net) version 4.3 is the minimum supported verison.
 
 ## Distro support
 These middleware components match the following major distribution releases:
@@ -83,7 +79,6 @@ See `apache2.conf.example` for an example Apache config file, including
 examples on enabling page compression and caching.
 
 ### Install PHP
-* Enable GD (for jpgraph) if you want dynamically-generated graphs.
 * Enable YAZ if you want to be able to do external catalog searches when
   creating projects.
 * Enable the CLI for running cron jobs and future upgrade scripts.
@@ -120,18 +115,6 @@ Consult the MySQL documentation for more information.
 
 ### Install gettext and xgettext
 If you want to localize the site messages, install gettext and xgettext.
-
-### Install jpgraph
-The statistics code depends on jpgraph for graph generation.
-Follow the installation instructions included with jpgraph.
-Apply `jpgraph-4.0.2.patch` (will work with all 4.x versions).
-
-The simplest place to install jpgraph is in your document root.
-You will need the location of the jpgraph installation to put into the
-site-configuration for the DP code.
-
-The DP code can take advantage of jpgraph caching if it is
-enabled. See jpgraph documentation on how to enable the cache.
 
 ### Install aspell
 The code uses aspell for the spellchecker in the proofreading interface.
