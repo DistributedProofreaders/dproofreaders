@@ -7,18 +7,14 @@ include_once($relPath.'graph_data.inc');
 require_login();
 
 $title = _("Miscellaneous User Statistics");
-$charts = [
-    ["id" => "average_hour_users_logging_on", "config" => average_hour_users_logging_on()],
-    ["id" => "users_by_language", "config" => users_by_language()],
-    ["id" => "users_by_country", "config" => users_by_country()],
-    ["id" => "new_users", "config" => new_users("month")],
+$graphs = [
+    ["barChart", "average_hour_users_logging_on", average_hour_users_logging_on()],
+    ["barChart", "users_by_language", users_by_language()],
+    ["barChart", "users_by_country", users_by_country()],
+    ["barChart", "new_users", new_users("month")],
 ];
 
-$js_data = '$(function(){';
-foreach ($charts as $chart) {
-    $js_data .= 'barChart("' . $chart["id"] . '", ' . json_encode($chart["config"]) . ');';
-}
-$js_data .= '});';
+$js_data = build_svg_graph_inits($graphs);
 
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
@@ -27,7 +23,7 @@ output_header($title, SHOW_STATSBAR, [
 echo "<h1>$title</h1>";
 
 echo "<div style='max-width: 640px'>";
-foreach ($charts as $chart) {
-    echo "<div id='" . $chart["id"] . "' style='max-height: 400px'></div><hr>";
+foreach ($graphs as [$type, $id]) {
+    echo "<div id='" . $id . "' style='max-height: 400px'></div><hr>";
 }
 echo "</div>";

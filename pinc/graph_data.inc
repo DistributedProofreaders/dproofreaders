@@ -13,6 +13,14 @@ function get_graph_js_files()
     ];
 }
 
+function build_svg_graph_inits($graphs)
+{
+    foreach ($graphs as [$type, $id, $config]) {
+        $js_data[] = "$type('$id', " . json_encode($config) . ");";
+    }
+    return "$(function(){" . "".join($js_data) . "});";
+}
+
 function cumulative_total_proj_summary_graph()
 {
     global $project_status_descriptors;
@@ -730,7 +738,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         ],
         _("Goal") => [
             "x" => $datax,
-            "y" => $datay2,
+            "y" => is_null($datay2) ? [] : $datay2,
             "type" => "line",
         ],
     ];
