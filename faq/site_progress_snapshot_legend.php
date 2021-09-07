@@ -31,14 +31,14 @@ output_header(_('Site Progress Snapshot'), NO_STATSBAR);
 
 <p>In addition each activity has an icon that represents your current ability to work in that stage:
 <ul>
-  <li><div class='access-yes'>✓</div> - You have access to, and are able to work in, this stage.</li>
-  <li><div class='access-eligible'>ⓘ</div> - You satisfy the basic criteria and are eligible to work in this stage. Clicking on the icon will provide more information on how to obtain access.</li>
-  <li><div class='access-no'>✗</div> - You are not yet eligible to work in this stage. Clicking on the icon will show you the entrance requirements for that stage.</li>
+  <li><span class='access-yes' style='float: none;'>✓</span> - You have access to, and are able to work in, this stage.</li>
+  <li><span class='access-eligible' style='float: none;'>ⓘ</span> - You satisfy the basic criteria and may be eligible to work in this stage. Clicking on the icon in the Snapshot table will provide more information on how to obtain access.</li>
+  <li><span class='access-no' style='float: none;'>✗</span> - You are not yet eligible to work in this stage. Clicking on the icon in the Snapshot table will show you the entrance requirements for that stage.</li>
 </ul>
 </p>
 
 <h2>Project information</h2>
-<p>For each activity, information about projects in that activity is included. For projects in the proofreading rounds, this includes the Total, Waiting, and Available projects as well as a count of how many projects were Completed Today. For non-proofreading rounds, this includes the Total, Available, and In Progress projects.</p>
+<p>For each activity, information about projects in that activity is included. For projects in the proofreading rounds, this includes the Total, Waiting, and Available projects as well as a count of how many projects were Completed Today. For post-processing activities, this includes the Total, Available, and In Progress projects. For smooth reading, it displays the number of projects Available for SR.</p>
 
 <p>Project numbers can optionally be filtered using the filter criteria specified on corresponding pages. You can toggle between viewing project numbers for All projects or Filtered projects that match your filter.</p>
 

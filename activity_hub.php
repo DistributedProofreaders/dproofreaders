@@ -306,7 +306,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
     } elseif ($uao->all_minima_satisfied) {
         $access_class = "access-eligible";
         $access_icon = "ⓘ";
-        $access_text = _("You are eligible to work in this activity");
+        $access_text = _("You may be eligible to work in this activity");
         $access_link = "{$stage->relative_url}#Entrance_Requirements";
     } else {
         $access_class = "access-no";
@@ -496,7 +496,13 @@ function activity_descriptions()
 
     foreach ($Stage_for_id_ as $stage) {
         echo "<dt><b>$stage->id</b>: <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a></dt>";
-        echo "<dd>{$stage->description}</dd>\n";
+        echo "<dd>{$stage->description}";
+        if (($stage->id == "PP") || ($stage->id == "SR")) {
+            echo " " .  _("The counts in the Snapshot table, above, for projects
+                available for SR are also included in the numbers of projects in
+                PP, and the PP total.");
+        }
+        echo "</dd>\n";
     }
 
     echo "</dl>";
