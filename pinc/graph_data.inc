@@ -18,7 +18,7 @@ function build_svg_graph_inits($graphs)
     foreach ($graphs as [$type, $id, $config]) {
         $js_data[] = "$type('$id', " . json_encode($config) . ");";
     }
-    return "$(function(){" . "".join($js_data) . "});";
+    return "$(function(){" . join($js_data) . "});";
 }
 
 function cumulative_total_proj_summary_graph()
@@ -738,7 +738,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         ],
         _("Goal") => [
             "x" => $datax,
-            "y" => is_null($datay2) ? [] : $datay2,
+            "y" => is_null($datay2) ?? [],
             "type" => "line",
         ],
     ];

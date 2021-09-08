@@ -607,10 +607,7 @@ function showMbrHistory($user, $tally_name)
         "<div style='display:flex;flex-direction:column;align-items:center'><div id='tallyboard_deltas' style='width:600px;height:300px'></div></div>"
     );
     $t->end();
-    $graphs = [
-        ["barChart", "tallyboard_deltas", $tallyboard_deltas_config],
-    ];
     echo "<script type='application/javascript'>";
-    echo build_svg_graph_inits($graphs);
+    echo build_svg_graph_inits([["barChart", "tallyboard_deltas", $tallyboard_deltas_config]]);
     echo "</script>";
 }

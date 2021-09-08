@@ -438,11 +438,8 @@ function showTeamHistory($curTeam, $tally_name)
     );
 
     $t->end();
-    $graphs = [
-        ["barChart", "tallyboard_deltas", $tallyboard_deltas_config],
-    ];
     echo "<script type='application/javascript'>";
-    echo build_svg_graph_inits($graphs);
+    echo build_svg_graph_inits([["barChart", "tallyboard_deltas", $tallyboard_deltas_config]]);
     echo "</script>";
 }
 

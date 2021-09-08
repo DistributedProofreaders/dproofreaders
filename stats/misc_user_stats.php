@@ -14,16 +14,14 @@ $graphs = [
     ["barChart", "new_users", new_users("month")],
 ];
 
-$js_data = build_svg_graph_inits($graphs);
-
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 echo "<h1>$title</h1>";
 
 echo "<div style='max-width: 640px'>";
 foreach ($graphs as [$type, $id]) {
-    echo "<div id='" . $id . "' style='max-height: 400px'></div><hr>";
+    echo "<div id='$id' style='max-height: 400px'></div><hr>";
 }
 echo "</div>";

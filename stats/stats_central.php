@@ -208,7 +208,7 @@ foreach (get_page_tally_names() as $tally_name => $tally_title) {
 $table->end();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// giStatus
+// Projects by Status
 
 $table = new ThemedTable(
     3,
@@ -253,7 +253,7 @@ $table = new ThemedTable(
 );
 
 $table->row(
-  "<a href='equilibria.php'>" . _("Pages Saved per Day") . "</a>",
+  "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
   "<a href='pages_in_states.php'>" . _("Pages in States") . "</a>"
 );
 
