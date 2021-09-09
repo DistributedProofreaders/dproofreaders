@@ -118,7 +118,7 @@ Server MPM:     Prefork
 <h3>Character sets</h3>
 <p>PO files, also known as message files, can be saved and uploaded in various different encodings, including ISO-8859-1 (ie: Latin-1) and UTF-8. The file encoding must match the "Content-Type" heading at the top of the file to ensure proper localization of the page to the user. Mismatched file encodings and Content-Type headings will result in message corruption in the file.</p>
 
-<p>The DP code currently only supports the ISO-8859-1 (ie: Latin-1) character set. Messages in PO files using different character sets, such as UTF-8, will be converted automatically before being shown to the user. In order to minimize problems caused by PO editors not uniformly saving with the same file encoding declared in the PO headers, all PO files have been set to use a Content-Type of UTF-8. This should not cause problems as long as any characters that do not have an exact representation in ISO-8859-1 are represented using <a href='http://www.w3.org/TR/html4/sgml/entities.html'>HTML entities</a> in the string instead of the actual characters. If you do not encode such characters using HTML entities, they will be silently transliterated to the closest possible character.</p>
+<p>The DP code supports UTF-8 character encoding. Messages in PO files using different character sets will be converted automatically before being shown to the user. In order to minimize problems caused by PO editors not uniformly saving with the same file encoding declared in the PO headers, all PO files have been set to use a Content-Type of UTF-8.</p>
 
 <h3>PO Editors</h3>
 <p>To work with DP code translations, you should use a PO editor. This is a tool that allows working with PO files, also known as message files, and ensures that the file is in the correct format and character set. Here are links to some common editors:</p>
@@ -134,7 +134,7 @@ Server MPM:     Prefork
 </ul>
 
 <h3>Translator coordination</h3>
-<p>PO files contain the entire translation for a locale. When a new PO file is uploaded, its contents replace the prior contents in their entirity, not just any untranslated strings. If multiple translators are working on a single locale, they should coordinate their efforts to work in series, not parallel. </p>
+<p>PO files contain the entire translation for a locale. When a new PO file is uploaded, its contents replace the prior contents in their entirity, not just any untranslated strings. If multiple translators are working on a single locale, they should coordinate their efforts to work in series, not parallel, or select one person to do the actual updates, even if multiple people are helping with the localization.</p>
 
 <h3>Using the Translation Center</h3>
 <p>Translations are managed in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
@@ -167,7 +167,7 @@ Server MPM:     Prefork
 <p>Many strings can be translated as they are. However, there are a number of strings that will contain some kind of code.</p>
 
 <h4>HTML, attributes, entities and spaces</h4>
-<p>Pay attention that you <strong>must not</strong> translate HTML tags, attributes, and entities. For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. If an accented character that is not available in ISO-8859-1 is used in a word, use the entity as a substitute for that letter or letter combination in the translated word, but do not attempt to translate the entity itself. For example: &amp;#257; for &#257;, &amp;oelig; for &oelig;, or &amp;#383; for &#383;.</p>
+<p>You <strong>must not</strong> translate HTML tags, attributes, and entities. For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. Because the site is UTF-8 enabled, you should not need to use entities for most characters.</p>
 
 <p>If you are unfamiliar with HTML tags, attributes and entites, and uncertain whether something should be translated or not, ask for clarification.</p>
 
