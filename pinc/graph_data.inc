@@ -738,7 +738,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         ],
         _("Goal") => [
             "x" => $datax,
-            "y" => is_null($datay2) ?? [],
+            "y" => $datay2 ?? [],
             "type" => "line",
         ],
     ];
