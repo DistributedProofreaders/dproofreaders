@@ -61,29 +61,29 @@ if ($stats_total == 0) {
     $title = _("No pages found.");
 }
 
-$js_data = '$(function(){barChart("round_backlog",' . json_encode([
-    "title" => $title,
-    "axisLeft" => true,
-    "barColors" => $barColors,
-    "data" => [
-        $x_title => [
-            "x" => $datax,
-            "y" => $datay,
+$graphs = [
+    ["barChart", "round_backlog", [
+        "title" => $title,
+        "axisLeft" => true,
+        "barColors" => $barColors,
+        "data" => [
+            $x_title => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
         ],
-    ],
-    "width" => $width,
-    "height" => $height,
-    "barBorder" => true,
-    "bottomLegend" => $x_title,
-    "yAxisTickCount" => 5,
-]) . ');});';
-
+        "width" => $width,
+        "height" => $height,
+        "barBorder" => true,
+        "bottomLegend" => $x_title,
+        "yAxisTickCount" => 5,
+    ]],
+];
 
 slim_header($title, [
     "body_attributes" => "style='margin: 0'",
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
-
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo "<div id='round_backlog' style='width:" . $width . "px;height:" . $height . "px;'></div>";

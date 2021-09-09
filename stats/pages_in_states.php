@@ -64,41 +64,41 @@ $progordone_n_pages[] = @$n_pages_[PROJ_POST_SECOND_CHECKED_OUT];
 // ------------------------
 
 $title = _("Number of pages in various states");
-
-$js_data = '$(function(){barChart("pages_in_states",' . json_encode([
-    "title" => $title,
-    "data" => [
-        _('unavailable') => [
-            "x" => $stage_labels,
-            "y" => $unavail_n_pages,
+$graphs = [
+    ["barChart", "pages_in_states", [
+        "title" => $title,
+        "data" => [
+            _('unavailable') => [
+                "x" => $stage_labels,
+                "y" => $unavail_n_pages,
+            ],
+            _('waiting (to be available)') => [
+                "x" => $stage_labels,
+                "y" => $waiting_n_pages,
+            ],
+            _('available') => [
+                "x" => $stage_labels,
+                "y" => $available_n_pages,
+            ],
+            _('in progress or done') => [
+                "x" => $stage_labels,
+                "y" => $progordone_n_pages,
+            ],
         ],
-        _('waiting (to be available)') => [
-            "x" => $stage_labels,
-            "y" => $waiting_n_pages,
+        "width" => $width,
+        "height" => $height,
+        "groupBars" => true,
+        "legendAdjustment" => [
+            "x" => 500,
+            "y" => 0,
         ],
-        _('available') => [
-            "x" => $stage_labels,
-            "y" => $available_n_pages,
-        ],
-        _('in progress or done') => [
-            "x" => $stage_labels,
-            "y" => $progordone_n_pages,
-        ],
-    ],
-    "width" => $width,
-    "height" => $height,
-    "groupBars" => true,
-    "legendAdjustment" => [
-        "x" => 500,
-        "y" => 0,
-    ],
-]) . ');});';
+    ]],
+];
 
 slim_header($title, [
     "body_attributes" => "style='margin: 0'",
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
-
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo "<div id='pages_in_states' style='width:" . $width . "px;height:" . $height . "px;'></div>";

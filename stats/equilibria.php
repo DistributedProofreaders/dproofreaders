@@ -58,15 +58,13 @@ function display_graph($d)
     return $config;
 }
 
-$js_data = '$(function(){';
 foreach ($day_options as $days) {
-    $js_data .= 'pieChart("' . "equilibria_$days" . '", ' . json_encode(display_graph($days)) . ');';
+    $graphs[] = ["pieChart", "equilibria_$days", display_graph($days)];
 }
-$js_data .= '});';
 
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 echo "<h1>$title</h1>";
 echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";

@@ -142,12 +142,14 @@ $graph_pages_per_number_of_flags = [
     ],
 ];
 
-$js_data = '$(function(){barChart("graph_flags_per_page", ' . json_encode($graph_flags_per_page) . ');';
-$js_data .= 'barChart("graph_pages_per_number_of_flags", ' . json_encode($graph_pages_per_number_of_flags) . ');});';
+$graphs = [
+    ["barChart", "graph_flags_per_page", $graph_flags_per_page],
+    ["barChart", "graph_pages_per_number_of_flags", $graph_pages_per_number_of_flags],
+];
 
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 
 
