@@ -42,23 +42,25 @@ $width = 640;
 $height = 400;
 
 $title = _('Percentage of New Users Who Went on to Proofread By Month');
-$js_data = '$(function(){barChart("percent_users_who_proof",' . json_encode([
-    "title" => $title,
-    "data" => [
-        // xgettext:no-php-format
-        _('% of newly Joined Users who Proofread') => [
-            "x" => $datax,
-            "y" => $data1y,
+$graphs = [
+    ["barChart", "percent_users_who_proof", [
+        "title" => $title,
+        "data" => [
+            // xgettext:no-php-format
+            _('% of newly Joined Users who Proofread') => [
+                "x" => $datax,
+                "y" => $data1y,
+            ],
         ],
-    ],
-    "width" => $width,
-    "height" => $height,
-]) . ');});';
+        "width" => $width,
+        "height" => $height,
+    ]],
+];
 
 slim_header($title, [
     "body_attributes" => "style='margin: 0'",
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_data" => build_svg_graph_inits($graphs),
 
 ]);
 

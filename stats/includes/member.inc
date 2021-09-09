@@ -608,6 +608,6 @@ function showMbrHistory($user, $tally_name)
     );
     $t->end();
     echo "<script type='application/javascript'>";
-    echo "$(function(){barChart('tallyboard_deltas', " . json_encode($tallyboard_deltas_config) . ")});";
+    echo build_svg_graph_inits([["barChart", "tallyboard_deltas", $tallyboard_deltas_config]]);
     echo "</script>";
 }

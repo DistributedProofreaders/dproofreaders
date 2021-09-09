@@ -13,11 +13,13 @@ require_login();
 $title = _("Statistics Central");
 
 $cumulative_total_proj_summary_graph_data = cumulative_total_proj_summary_graph();
+$graphs = [
+    ["stackedAreaChart", "cumulative_total_proj_summary_graph", $cumulative_total_proj_summary_graph_data],
+];
+
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => '$(function(){
-    stackedAreaChart("cumulative_total_proj_summary_graph", ' . json_encode($cumulative_total_proj_summary_graph_data) . ');
-  });',
+    "js_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo "<h1>" . _("Statistics Central") . "</h1>\n";
@@ -239,6 +241,21 @@ foreach (['created', 'proofed', 'PPd', 'posted'] as $which) {
         "<a href='projects_Xed_graphs.php?which=$which'>$psd->graphs_title</a>"
     );
 }
+
+$table->end();
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Miscellaneous Graphs
+
+$table = new ThemedTable(
+  2,
+  _("Miscellaneous Graphs")
+);
+
+$table->row(
+  "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
+  "<a href='pages_in_states.php'>" . _("Pages in States") . "</a>"
+);
 
 $table->end();
 

@@ -56,27 +56,28 @@ if ($pp_pages_total > $pp_page_goal) {
 $width = 160;
 $height = 200;
 
-$js_data = '$(function(){barChart("pp_stage_goal",' . json_encode([
-    "title" => $title,
-    "data" => [
-        $x_title => [
-            "x" => $datax,
-            "y" => $datay,
+$graphs = [
+    ["barChart", "pp_stage_goal", [
+        "title" => $title,
+        "data" => [
+            $x_title => [
+                "x" => $datax,
+                "y" => $datay,
+            ],
         ],
-    ],
-    "barColors" => $barColors,
-    "width" => $width,
-    "height" => $height,
-    "barBorder" => true,
-    "bottomLegend" => $x_title,
-    "yAxisTickCount" => 5,
-]) . ');});';
-
+        "barColors" => $barColors,
+        "width" => $width,
+        "height" => $height,
+        "barBorder" => true,
+        "bottomLegend" => $x_title,
+        "yAxisTickCount" => 5,
+    ]],
+];
 
 slim_header($title, [
     "body_attributes" => "style='margin: 0'",
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_data" => build_svg_graph_inits($graphs),
 
 ]);
 
