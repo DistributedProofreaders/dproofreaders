@@ -21,3 +21,6 @@ For more information about code style and linting:
 For information on site styling and theming, see:
 * [Styling system](../styles/README.md)
 * [Theming](../styles/themes/README.md)
+
+For information on graphs, see:
+* [Graphs](GRAPHS.md)
