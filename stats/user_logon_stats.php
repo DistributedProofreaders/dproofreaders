@@ -8,11 +8,11 @@ require_login();
 
 $title = _("User Logon Statistics");
 $graphs = [
-    ["barChart", "past_day_preceding_hour", user_logging_on("day", "hour")],
-    ["stackedAreaChart", "past_year_preceding_hour", user_logging_on("year", "hour")],
-    ["stackedAreaChart", "past_year_preceding_day", user_logging_on("year", "day")],
-    ["stackedAreaChart", "past_year_preceding_week", user_logging_on("year", "week")],
-    ["stackedAreaChart", "past_year_preceding_fourweek", user_logging_on("year", "fourweek")],
+    ["barLineGraph", "past_day_preceding_hour", user_logging_on("day", "hour")],
+    ["stackedAreaGraph", "past_year_preceding_hour", user_logging_on("year", "hour")],
+    ["stackedAreaGraph", "past_year_preceding_day", user_logging_on("year", "day")],
+    ["stackedAreaGraph", "past_year_preceding_week", user_logging_on("year", "week")],
+    ["stackedAreaGraph", "past_year_preceding_fourweek", user_logging_on("year", "fourweek")],
 ];
 
 output_header($title, SHOW_STATSBAR, [

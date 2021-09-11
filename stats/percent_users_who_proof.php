@@ -43,7 +43,7 @@ $height = 400;
 
 $title = _('Percentage of New Users Who Went on to Proofread By Month');
 $graphs = [
-    ["barChart", "percent_users_who_proof", [
+    ["barLineGraph", "percent_users_who_proof", [
         "title" => $title,
         "data" => [
             // xgettext:no-php-format

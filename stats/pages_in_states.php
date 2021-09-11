@@ -65,7 +65,7 @@ $progordone_n_pages[] = @$n_pages_[PROJ_POST_SECOND_CHECKED_OUT];
 
 $title = _("Number of pages in various states");
 $graphs = [
-    ["barChart", "pages_in_states", [
+    ["barLineGraph", "pages_in_states", [
         "title" => $title,
         "data" => [
             _('unavailable') => [
