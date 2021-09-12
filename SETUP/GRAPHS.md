@@ -29,6 +29,7 @@ render is a PHP array where the entries are
 `stackedAreaGraph`
 * id - id of the div on the page to render the graph into
 * configuration - PHP array configuring the graph. Expanded on below.
+
 Example Usage:
 
 ```php
