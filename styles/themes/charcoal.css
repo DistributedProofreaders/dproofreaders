@@ -1378,8 +1378,8 @@ footer small,
   content: "";
 }
 /* ------------------------------------------------------------------------ */
-/* Chart/Graphs */
-.chart-tooltip {
+/* Graphs */
+.graph-tooltip {
   background-color: #262626;
   border: thin solid #565656;
   border-width: 2px;
@@ -1387,7 +1387,7 @@ footer small,
   padding: 5px;
   position: absolute;
 }
-.chart-legend {
+.graph-legend {
   fill: #262626;
   outline: 2px solid #565656;
   border-radius: 5px;

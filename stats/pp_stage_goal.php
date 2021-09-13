@@ -57,7 +57,7 @@ $width = 160;
 $height = 200;
 
 $graphs = [
-    ["barChart", "pp_stage_goal", [
+    ["barLineGraph", "pp_stage_goal", [
         "title" => $title,
         "data" => [
             $x_title => [

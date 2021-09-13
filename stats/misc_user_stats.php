@@ -8,10 +8,10 @@ require_login();
 
 $title = _("Miscellaneous User Statistics");
 $graphs = [
-    ["barChart", "average_hour_users_logging_on", average_hour_users_logging_on()],
-    ["barChart", "users_by_language", users_by_language()],
-    ["barChart", "users_by_country", users_by_country()],
-    ["barChart", "new_users", new_users("month")],
+    ["barLineGraph", "average_hour_users_logging_on", average_hour_users_logging_on()],
+    ["barLineGraph", "users_by_language", users_by_language()],
+    ["barLineGraph", "users_by_country", users_by_country()],
+    ["barLineGraph", "new_users", new_users("month")],
 ];
 
 output_header($title, SHOW_STATSBAR, [

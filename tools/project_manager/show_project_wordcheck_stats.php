@@ -103,7 +103,6 @@ foreach ($page_stats as $page => $data) {
 
 $graph_flags_per_page = [
     "title" => _("Flagged words per page"),
-    "axisLeft" => true,
     "data" => [
         _("Flags") => [
             "x" => $graph_x,
@@ -133,7 +132,6 @@ for ($numFlags = $total["flagged_min"]; $numFlags <= $total["flagged_max"]; $num
 
 $graph_pages_per_number_of_flags = [
     "title" => _("Number of flags on a page"),
-    "axisLeft" => true,
     "data" => [
         _("Pages with that many flags") => [
             "x" => array_keys($flags_n_pages),
@@ -143,8 +141,8 @@ $graph_pages_per_number_of_flags = [
 ];
 
 $graphs = [
-    ["barChart", "graph_flags_per_page", $graph_flags_per_page],
-    ["barChart", "graph_pages_per_number_of_flags", $graph_pages_per_number_of_flags],
+    ["barLineGraph", "graph_flags_per_page", $graph_flags_per_page],
+    ["barLineGraph", "graph_pages_per_number_of_flags", $graph_pages_per_number_of_flags],
 ];
 
 output_header($title, NO_STATSBAR, [
