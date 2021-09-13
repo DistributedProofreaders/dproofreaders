@@ -12,12 +12,12 @@ $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names
 
 $title = sprintf(_('Graphs for Pages Saved-as-Done in Round %s'), $tally_name);
 $graphs = [
-    ["barChart", "pages_daily_increments_curr_month", pages_daily($tally_name, "increments", "curr_month")],
-    ["barChart", "pages_daily_cumulative_curr_month", pages_daily($tally_name, "cumulative", "curr_month")],
-    ["barChart", "pages_daily_increments_prev_month", pages_daily($tally_name, "increments", "prev_month")],
-    ["barChart", "pages_daily_increments_all_time", pages_daily($tally_name, "increments", "all_time")],
-    ["barChart", "pages_daily_cumulative_all_time", pages_daily($tally_name, "cumulative", "all_time")],
-    ["barChart", "total_pages_by_month_graph", total_pages_by_month_graph($tally_name)],
+    ["barLineGraph", "pages_daily_increments_curr_month", pages_daily($tally_name, "increments", "curr_month")],
+    ["barLineGraph", "pages_daily_cumulative_curr_month", pages_daily($tally_name, "cumulative", "curr_month")],
+    ["barLineGraph", "pages_daily_increments_prev_month", pages_daily($tally_name, "increments", "prev_month")],
+    ["barLineGraph", "pages_daily_increments_all_time", pages_daily($tally_name, "increments", "all_time")],
+    ["barLineGraph", "pages_daily_cumulative_all_time", pages_daily($tally_name, "cumulative", "all_time")],
+    ["barLineGraph", "total_pages_by_month_graph", total_pages_by_month_graph($tally_name)],
 ];
 
 output_header($title, SHOW_STATSBAR, [

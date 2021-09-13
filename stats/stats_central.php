@@ -14,7 +14,7 @@ $title = _("Statistics Central");
 
 $cumulative_total_proj_summary_graph_data = cumulative_total_proj_summary_graph();
 $graphs = [
-    ["stackedAreaChart", "cumulative_total_proj_summary_graph", $cumulative_total_proj_summary_graph_data],
+    ["stackedAreaGraph", "cumulative_total_proj_summary_graph", $cumulative_total_proj_summary_graph_data],
 ];
 
 output_header($title, SHOW_STATSBAR, [

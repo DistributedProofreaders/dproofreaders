@@ -1,7 +1,7 @@
 /* global d3 */
-/* exported barChart, stackedAreaChart, pieChart */
+/* exported barLineGraph, stackedAreaGraph, pieGraph */
 
-const {barChart, stackedAreaChart, pieChart} = (function () {
+const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     const margin = ({
         top: 20,
         right: 45,
@@ -50,7 +50,7 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
                 .attr("height", containerBox.height + 6)
                 .attr("x", containerBox.x - 3)
                 .attr("y", containerBox.y - 3)
-                .attr("class", "chart-legend");
+                .attr("class", "graph-legend");
         }
 
         if (yAxisLabel) {
@@ -70,7 +70,7 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
         }
     }
 
-    function stackedAreaChart(id, config) {
+    function stackedAreaGraph(id, config) {
         const height = 400;
         const width = 640;
         const length = Object.entries(config.data)[0][1].x.length;
@@ -152,7 +152,7 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
         addLegend(svg, color, config, Object.keys(config.data), width, height);
     }
 
-    function barChart(id, config) {
+    function barLineGraph(id, config) {
         const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
         const height = config.height || 400;
         const width = config.width || 640;
@@ -163,7 +163,7 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
             .attr("viewBox", [0, 0, width, height]);
         const tooltip = d3.select("#" + id)
             .append("div")
-            .attr("class", "chart-tooltip")
+            .attr("class", "graph-tooltip")
             .style("display", "none");
 
         const mouseAction = (event, {value}) => {
@@ -288,7 +288,7 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
         addLegend(svg, color, config, Object.keys(config.data), width, height);
     }
 
-    function pieChart(id, config) {
+    function pieGraph(id, config) {
         const pieMargin = {...margin, top: 50, bottom: 50};
         let total = 0;
         const data = config.data.reduce((acc, value, index) => {
@@ -353,8 +353,8 @@ const {barChart, stackedAreaChart, pieChart} = (function () {
     }
 
     return {
-        stackedAreaChart,
-        barChart,
-        pieChart,
+        stackedAreaGraph,
+        barLineGraph,
+        pieGraph,
     };
 })();

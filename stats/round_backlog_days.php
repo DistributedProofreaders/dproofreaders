@@ -84,9 +84,8 @@ if ($stats_total == 0) {
 }
 
 $graphs = [
-    ["barChart", "round_backlog_days", [
+    ["barLineGraph", "round_backlog_days", [
         "title" => $title,
-        "axisLeft" => true,
         "barColors" => $barColors,
         "data" => [
             $x_title => [

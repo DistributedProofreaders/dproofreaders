@@ -9,7 +9,7 @@ function get_graph_js_files()
     global $code_url;
     return [
         "$code_url/pinc/3rdparty/d3/d3.min.js",
-        "$code_url/scripts/svgCharts.js",
+        "$code_url/scripts/svgGraphs.js",
     ];
 }
 
@@ -150,7 +150,6 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
 
     return [
         "title" => _('Pages Completed per Day'),
-        "axisLeft" => true,
         "bottomLegend" => $error,
         "width" => 600,
         "height" => 300,

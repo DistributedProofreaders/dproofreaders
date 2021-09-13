@@ -59,7 +59,7 @@ function display_graph($d)
 }
 
 foreach ($day_options as $days) {
-    $graphs[] = ["pieChart", "equilibria_$days", display_graph($days)];
+    $graphs[] = ["pieGraph", "equilibria_$days", display_graph($days)];
 }
 
 output_header($title, SHOW_STATSBAR, [

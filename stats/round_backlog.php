@@ -62,9 +62,8 @@ if ($stats_total == 0) {
 }
 
 $graphs = [
-    ["barChart", "round_backlog", [
+    ["barLineGraph", "round_backlog", [
         "title" => $title,
-        "axisLeft" => true,
         "barColors" => $barColors,
         "data" => [
             $x_title => [

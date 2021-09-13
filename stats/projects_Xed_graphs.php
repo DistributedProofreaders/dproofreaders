@@ -13,10 +13,10 @@ $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors)
 $psd = get_project_status_descriptor($which);
 
 $graphs = [
-    ["barChart", "curr_month_proj", curr_month_proj($which)],
-    ["barChart", "cumulative_month_proj", cumulative_month_proj($which)],
-    ["barChart", "total_proj_graph", total_proj_graph($which)],
-    ["barChart", "cumulative_total_proj_graph", cumulative_total_proj_graph($which)],
+    ["barLineGraph", "curr_month_proj", curr_month_proj($which)],
+    ["barLineGraph", "cumulative_month_proj", cumulative_month_proj($which)],
+    ["barLineGraph", "total_proj_graph", total_proj_graph($which)],
+    ["barLineGraph", "cumulative_total_proj_graph", cumulative_total_proj_graph($which)],
 ];
 
 output_header($psd->graphs_title, SHOW_STATSBAR, [
