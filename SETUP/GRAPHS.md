@@ -57,7 +57,7 @@ One such page for example of a page designed for being embedded as an iFrame is
 in a news item with the following html.
 
 ```html
-<iframe src="/stats/round_backlog_days.php" style="width:320px;height:205px;border:0;">
+<iframe src="/stats/round_backlog_days.php" style="width: 320px; height: 205px; border: 0;">
 ```
 
 # Configuration
