@@ -420,7 +420,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     }
 
                     const imageDiv = $("<div>");
-                    imageWidget = makeImageWidget(imageDiv);
+                    imageWidget = makeImageWidget(imageDiv, "C");
                     imageWidget.setup(storageKey);
                     stretchDiv.append(imageDiv);
                     showImageText();
@@ -440,9 +440,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             break;
                         case "imageText": {
                             const imageDiv = $("<div>");
-                            imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
                             const theSplitter = viewSplitter(stretchDiv, storageKey);
+                            imageWidget = makeImageWidget(imageDiv, "C");
                             if(mentorMode) {
                                 // make a text widget with splitter
                                 textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
