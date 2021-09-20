@@ -2,7 +2,31 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var makeImageControl = function(imageElement) {
+var makeImageControl = function(content) {
+    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
+    content.append(imageElement);
+
+    let scrollDiffX = 0;
+    let scrollDiffY = 0;
+    function mousemove(event) {
+        content.scrollTop(scrollDiffY - event.pageY);
+        content.scrollLeft(scrollDiffX - event.pageX);
+    }
+
+    function mouseup() {
+        $(document).unbind("mousemove mouseup");
+        imageElement.css("cursor", "grab");
+    }
+
+    imageElement.mousedown( function(event) {
+        event.preventDefault();
+        imageElement.css("cursor", "grabbing");
+        scrollDiffX = event.pageX + content.scrollLeft();
+        scrollDiffY = event.pageY + content.scrollTop();
+        $(document).on("mousemove", mousemove)
+            .on("mouseup", mouseup);
+    });
+
     let imageKey;
     // percent need not be an integer but is rounded for display and save
     // it will typically not be an integer after fit height or width or + or -
@@ -123,6 +147,12 @@ var makeImageControl = function(imageElement) {
             percent = imageData.zoom;
             setZoom();
         },
+        setImage: function(src) {
+            // reset to normal orientation
+            sine = 0;
+            cosine = 1;
+            imageElement[0].src = src;
+        }
     };
 };
 
@@ -384,32 +414,9 @@ function makeImageWidget(container, align = "C") {
         C: "center",
         R: "right"
     };
-    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
-    const imageControl = makeImageControl(imageElement);
-    const content = $("<div>").css("text-align", alignment[align])
-        .append(imageElement);
+    const content = $("<div>").css("text-align", alignment[align]);
+    const imageControl = makeImageControl(content);
     const controlDiv = makeControlDiv(container, content, imageControl.controls);
-
-    let scrollDiffX = 0;
-    let scrollDiffY = 0;
-    function mousemove(event) {
-        content.scrollTop(scrollDiffY - event.pageY);
-        content.scrollLeft(scrollDiffX - event.pageX);
-    }
-
-    function mouseup() {
-        $(document).unbind("mousemove mouseup");
-        imageElement.css("cursor", "grab");
-    }
-
-    imageElement.mousedown( function(event) {
-        event.preventDefault();
-        imageElement.css("cursor", "grabbing");
-        scrollDiffX = event.pageX + content.scrollLeft();
-        scrollDiffY = event.pageY + content.scrollTop();
-        $(document).on("mousemove", mousemove)
-            .on("mouseup", mouseup);
-    });
 
     return {
         setup: function (storageKey) {
@@ -419,7 +426,8 @@ function makeImageWidget(container, align = "C") {
         },
 
         setImage: function (src) {
-            imageElement.attr("src", src);
+            imageControl.setImage(src);
+            // reset scroll to top left
             content
                 .scrollTop(0)
                 .scrollLeft(0);
