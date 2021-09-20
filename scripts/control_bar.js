@@ -10,6 +10,8 @@ var makeImageControl = function(imageElement) {
     const minPercent = 10;
     const maxPercent = 999;
     const defaultPercent = 100;
+    let sine = 0;
+    let cosine = 1;
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
@@ -27,6 +29,11 @@ var makeImageControl = function(imageElement) {
     function setAndSaveZoom() {
         setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
+    }
+
+    function rotateImage() {
+        imageElement.css({transform: `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, 0, 0)`});
+        console.log(imageElement[0].width);
     }
 
     percentInput.change(function() {
@@ -70,6 +77,22 @@ var makeImageControl = function(imageElement) {
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
+    let clockRotateInput = $("<button>", {title: texts.clockRotate})
+        .append($("<i>", {class: 'fas fa-redo-alt'}))
+        .click( function () {
+            [sine, cosine] = [-cosine, sine];
+            rotateImage();
+//            drawCanvasImage();
+        });
+
+    let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
+        .append($("<i>", {class: 'fas fa-undo-alt'}))
+        .click( function () {
+            [sine, cosine] = [cosine, -sine];
+            rotateImage();
+//            drawCanvasImage();
+        });
+
     return {
         controls: [
             fitHeight,
@@ -78,7 +101,9 @@ var makeImageControl = function(imageElement) {
             $("<span>", {class: "nowrap"}).append(percentInput, "%"),
             " ",
             zoomIn,
-            zoomOut
+            zoomOut,
+            clockRotateInput,
+            anticlockRotateInput,
         ],
         setup: function(storageKey) {
             imageKey = storageKey + "-image";
