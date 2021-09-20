@@ -32,8 +32,19 @@ var makeImageControl = function(imageElement) {
     }
 
     function rotateImage() {
-        imageElement.css({transform: `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, 0, 0)`});
-        console.log(imageElement[0].width);
+        // when image is rotated, scroll does not account for any points
+        // with x or y < 0. Rotate about centre. Then if +- 90 deg.
+        // if height > width translate by half difference.
+        let xOffset = 0, yOffset = 0;
+        if(sine != 0) {
+            let offset = (imageElement.height() - imageElement.width()) / 2;
+            if(offset > 0) {
+                xOffset = offset;
+            } else {
+                yOffset = -offset;
+            }
+        }
+        imageElement.css({transform: `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`});
     }
 
     percentInput.change(function() {
@@ -82,7 +93,6 @@ var makeImageControl = function(imageElement) {
         .click( function () {
             [sine, cosine] = [-cosine, sine];
             rotateImage();
-//            drawCanvasImage();
         });
 
     let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
@@ -90,7 +100,6 @@ var makeImageControl = function(imageElement) {
         .click( function () {
             [sine, cosine] = [cosine, -sine];
             rotateImage();
-//            drawCanvasImage();
         });
 
     return {
