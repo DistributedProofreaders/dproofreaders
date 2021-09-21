@@ -8,10 +8,10 @@ var makeImageControl = function(content) {
     const image = document.createElement("img");
     image.classList.add("middle-align");
     image.style.cursor = imageCursor;
-    // When the image is rotated it has width and height as if it were not.
-    // To make scroll work correctly, enclose it in a div with actual width
-    // and height.
-    const imageDiv = $("<div>", {class: "middle-align"}).css({overflow: "hidden", display: "inline-block"});
+    // When the image is rotated it has width and height as if it were not
+    // rotated. To make scroll work correctly, enclose it in a div with actual
+    // width and height.
+    const imageDiv = $("<div>", {class: "middle-align left-align"}).css({overflow: "hidden", display: "inline-block"});
     content.append(imageDiv);
     imageDiv.append(image);
 
@@ -49,22 +49,20 @@ var makeImageControl = function(content) {
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
     function displayImage() {
-        let xOffset = 0, yOffset = 0;
+        let offset;
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         if(sine != 0) {
             imageDiv.height(image.width);
             imageDiv.width(image.height);
-            let offset = (image.height - image.width) / 2;
-            yOffset = -offset;
-            if(offset < 0) {
-                xOffset = offset;
-            }
+            offset = (image.height - image.width) / 2;
         } else {
             imageDiv.height("auto");
             imageDiv.width("auto");
+            offset = 0;
         }
-        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
+        // image rotates about centre. Offset moves it to correct position
+        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${offset}, ${-offset})`;
     }
 
     image.onload = function() {
