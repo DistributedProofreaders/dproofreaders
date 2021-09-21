@@ -3,8 +3,13 @@
 
 // Construct the image sizing controls.
 var makeImageControl = function(content) {
-    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
-    content.append(imageElement);
+    // use plain js image so width or style.width is clear
+    const image = document.createElement("img");
+    image.classList.add("middle-align");
+    image.style.cursor = "grab";
+    const imageDiv = $("<div>", {class: "middle-align"}).css({overflow: "hidden", display: "inline-block"});
+    content.append(imageDiv);
+    imageDiv.append(image);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
@@ -15,12 +20,12 @@ var makeImageControl = function(content) {
 
     function mouseup() {
         $(document).unbind("mousemove mouseup");
-        imageElement.css("cursor", "grab");
+        image.style.cursor = "grab";
     }
 
-    imageElement.mousedown( function(event) {
+    $(image).mousedown( function(event) {
         event.preventDefault();
-        imageElement.css("cursor", "grabbing");
+        image.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft();
         scrollDiffY = event.pageY + content.scrollTop();
         $(document).on("mousemove", mousemove)
@@ -39,6 +44,29 @@ var makeImageControl = function(content) {
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
+    function displayImage() {
+        let xOffset = 0, yOffset = 0;
+        image.style.width = `${10 * percent}px`;
+        image.style.height = "auto";
+        if(sine != 0) {
+            imageDiv.height(image.width);
+            imageDiv.width(image.height);
+            let offset = (image.height - image.width) / 2;
+            yOffset = -offset;
+            if(offset < 0) {
+                xOffset = offset;
+            }
+        } else {
+            imageDiv.height("auto");
+            imageDiv.width("auto");
+        }
+        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
+    }
+
+    image.onload = function() {
+        displayImage();
+    };
+
     function setZoom() {
         if(percent < minPercent) {
             percent = minPercent;
@@ -46,29 +74,12 @@ var makeImageControl = function(content) {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
-        imageElement.width(10 * percent);
-        imageElement.height("auto");
     }
 
-    function setAndSaveZoom() {
+    function setDrawSave() {
         setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
-    }
-
-    function rotateImage() {
-        // when image is rotated, scroll does not account for any points
-        // with x or y < 0. Rotate about centre. Then if +- 90 deg.
-        // if height > width translate by half difference.
-        let xOffset = 0, yOffset = 0;
-        if(sine != 0) {
-            let offset = (imageElement.height() - imageElement.width()) / 2;
-            if(offset > 0) {
-                xOffset = offset;
-            } else {
-                yOffset = -offset;
-            }
-        }
-        imageElement.css({transform: `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`});
+        displayImage();
     }
 
     percentInput.change(function() {
@@ -76,39 +87,39 @@ var makeImageControl = function(content) {
         if(isNaN(percent)) {
             percent = defaultPercent;
         }
-        setAndSaveZoom();
+        setDrawSave();
     });
 
     function unPersist() {
         // reset width and height so that fitting does not persist
-        const width = imageElement.width();
         // assume 100% means 1000px wide
-        percent = width / 10;
-        setAndSaveZoom();
+        percent = image.width / 10;
+        setDrawSave();
     }
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        imageElement.width('100%');
+        image.style.width = '100%';
         unPersist();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        imageElement.height(imageElement.parent().height());
-        imageElement.width("auto");
+        image.style.height = `${content.height()}px`;
+
+        image.style.width = "auto";
         unPersist();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         percent *= 1.1;
-        setAndSaveZoom();
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
         percent /= 1.1;
-        setAndSaveZoom();
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
@@ -116,14 +127,14 @@ var makeImageControl = function(content) {
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             [sine, cosine] = [-cosine, sine];
-            rotateImage();
+            displayImage();
         });
 
     let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
-            rotateImage();
+            displayImage();
         });
 
     return {
@@ -151,7 +162,7 @@ var makeImageControl = function(content) {
             // reset to normal orientation
             sine = 0;
             cosine = 1;
-            imageElement[0].src = src;
+            image.src = src;
         }
     };
 };
