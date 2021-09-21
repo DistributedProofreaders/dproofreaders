@@ -3,10 +3,11 @@
 
 // Construct the image sizing controls.
 var makeImageControl = function(content) {
+    const imageCursor = "grab";
     // use plain js image so width or style.width is clear
     const image = document.createElement("img");
     image.classList.add("middle-align");
-    image.style.cursor = "grab";
+    image.style.cursor = imageCursor;
     // When the image is rotated it has width and height as if it were not.
     // To make scroll work correctly, enclose it in a div with actual width
     // and height.
@@ -23,7 +24,7 @@ var makeImageControl = function(content) {
 
     function mouseup() {
         $(document).unbind("mousemove mouseup");
-        image.style.cursor = "grab";
+        image.style.cursor = imageCursor;
     }
 
     $(image).mousedown( function(event) {
