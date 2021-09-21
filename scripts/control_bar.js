@@ -7,6 +7,9 @@ var makeImageControl = function(content) {
     const image = document.createElement("img");
     image.classList.add("middle-align");
     image.style.cursor = "grab";
+    // When the image is rotated it has width and height as if it were not.
+    // To make scroll work correctly, enclose it in a div with actual width
+    // and height.
     const imageDiv = $("<div>", {class: "middle-align"}).css({overflow: "hidden", display: "inline-block"});
     content.append(imageDiv);
     imageDiv.append(image);
@@ -90,24 +93,29 @@ var makeImageControl = function(content) {
         setDrawSave();
     });
 
-    function unPersist() {
-        // reset width and height so that fitting does not persist
-        // assume 100% means 1000px wide
+    const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
+        let contentWidth = `${content.width()}px`;
+        if(sine == 0) {
+            image.style.width = contentWidth;
+        } else {
+            image.style.height = contentWidth;
+            image.style.width = "auto";
+        }
         percent = image.width / 10;
         setDrawSave();
-    }
-
-    const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        image.style.width = '100%';
-        unPersist();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        image.style.height = `${content.height()}px`;
-
-        image.style.width = "auto";
-        unPersist();
+        let contentHeight = `${content.height()}px`;
+        if(sine == 0) {
+            image.style.height = contentHeight;
+            image.style.width = "auto";
+        } else {
+            image.style.width = contentHeight;
+        }
+        percent = image.width / 10;
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
