@@ -48,7 +48,9 @@ var makeImageControl = function(content) {
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
-    function displayImage() {
+    function setImageStyle() {
+        // when this is called in 'setImage' we will not know dimensions
+        // but sine=0 so do not need to.
         let offset;
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
@@ -65,10 +67,6 @@ var makeImageControl = function(content) {
         image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${offset}, ${-offset})`;
     }
 
-    image.onload = function() {
-        displayImage();
-    };
-
     function setZoom() {
         if(percent < minPercent) {
             percent = minPercent;
@@ -81,7 +79,7 @@ var makeImageControl = function(content) {
     function setDrawSave() {
         setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
-        displayImage();
+        setImageStyle();
     }
 
     percentInput.change(function() {
@@ -134,14 +132,14 @@ var makeImageControl = function(content) {
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             [sine, cosine] = [-cosine, sine];
-            displayImage();
+            setImageStyle();
         });
 
     let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
-            displayImage();
+            setImageStyle();
         });
 
     return {
@@ -170,6 +168,7 @@ var makeImageControl = function(content) {
             sine = 0;
             cosine = 1;
             image.src = src;
+            setImageStyle();
         }
     };
 };
