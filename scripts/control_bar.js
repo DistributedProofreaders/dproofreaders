@@ -154,6 +154,7 @@ var makeImageControl = function(content) {
             " ",
             zoomIn,
             zoomOut,
+            " ",
             clockRotateInput,
             anticlockRotateInput,
         ],
