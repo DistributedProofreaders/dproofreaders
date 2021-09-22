@@ -91,7 +91,7 @@ var makeImageControl = function(content) {
     });
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        let contentWidth = `${content.width()}px`;
+        const contentWidth = `${content.width()}px`;
         if(sine == 0) {
             image.style.width = contentWidth;
         } else {
@@ -104,7 +104,7 @@ var makeImageControl = function(content) {
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        let contentHeight = `${content.height()}px`;
+        const contentHeight = `${content.height()}px`;
         if(sine == 0) {
             image.style.height = contentHeight;
             image.style.width = "auto";
@@ -128,14 +128,14 @@ var makeImageControl = function(content) {
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
 
-    let clockRotateInput = $("<button>", {title: texts.clockRotate})
+    const clockRotateInput = $("<button>", {title: texts.clockRotate})
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             [sine, cosine] = [-cosine, sine];
             setImageStyle();
         });
 
-    let anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
+    const anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
