@@ -138,7 +138,7 @@ var makeImageControl = function(content) {
             setImageStyle();
         });
 
-    const anticlockRotateInput = $("<button>", {title: texts.anticlockRotate})
+    const counterclockRotateInput = $("<button>", {title: texts.counterclockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
@@ -156,7 +156,7 @@ var makeImageControl = function(content) {
             zoomOut,
             " ",
             clockRotateInput,
-            anticlockRotateInput,
+            counterclockRotateInput,
         ],
         setup: function(storageKey) {
             imageKey = storageKey + "-image";

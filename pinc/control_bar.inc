@@ -20,7 +20,7 @@ function get_control_bar_texts()
         "zoomOut" => _("Zoom out 10%"),
         "zoomPercent" => _("Zoom to percentage of 1000 pixels wide"),
         "clockRotate" => _("Rotate image clockwise 90°"),
-        "anticlockRotate" => _("Rotate image counterclockwise 90°"),
+        "counterclockRotate" => _("Rotate image counterclockwise 90°"),
     ]);
 
     return "var texts = $texts;";
