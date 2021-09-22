@@ -1392,6 +1392,66 @@ footer small,
   outline: 2px solid #565656;
   border-radius: 5px;
 }
+.graph-series-fill-10 {
+  fill: #17becf;
+}
+.graph-series-stroke-10 {
+  stroke: #17becf;
+}
+.graph-series-fill-9 {
+  fill: #bcbd22;
+}
+.graph-series-stroke-9 {
+  stroke: #bcbd22;
+}
+.graph-series-fill-8 {
+  fill: #7f7f7f;
+}
+.graph-series-stroke-8 {
+  stroke: #7f7f7f;
+}
+.graph-series-fill-7 {
+  fill: #e377c2;
+}
+.graph-series-stroke-7 {
+  stroke: #e377c2;
+}
+.graph-series-fill-6 {
+  fill: #8c564b;
+}
+.graph-series-stroke-6 {
+  stroke: #8c564b;
+}
+.graph-series-fill-5 {
+  fill: #9467bd;
+}
+.graph-series-stroke-5 {
+  stroke: #9467bd;
+}
+.graph-series-fill-4 {
+  fill: #d62728;
+}
+.graph-series-stroke-4 {
+  stroke: #d62728;
+}
+.graph-series-fill-3 {
+  fill: #2ca02c;
+}
+.graph-series-stroke-3 {
+  stroke: #2ca02c;
+}
+.graph-series-fill-2 {
+  fill: #ff7f0e;
+}
+.graph-series-stroke-2 {
+  stroke: #ff7f0e;
+}
+.graph-series-fill-1 {
+  fill: #1f77b4;
+}
+.graph-series-stroke-1 {
+  stroke: #1f77b4;
+}
 /*
  If the screen is "narrow enough" we move the statsbar below the page
  content using a flex layout. We don't use a flex layout for the

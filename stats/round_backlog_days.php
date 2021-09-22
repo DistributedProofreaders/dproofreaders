@@ -102,7 +102,7 @@ $graphs = [
 ];
 
 slim_header($title, [
-    "body_attributes" => "style='margin: 0'",
+    "body_attributes" => "style='margin: 0;overflow: hidden'",
     "js_files" => get_graph_js_files(),
     "js_data" => build_svg_graph_inits($graphs),
 

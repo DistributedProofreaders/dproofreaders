@@ -122,6 +122,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .range(d3.schemeCategory10);
 
         const area = d3.area()
+            .curve(d3.curveStep)
             .x(d => x(d.data.date))
             .y0(d => y(d[0]))
             .y1(d => y(d[1]));
@@ -136,6 +137,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .attr("fill", ({
                 key
             }) => color(key))
+            .attr("class", (_, i) => `graph-series-fill-${i + 1}`)
             .attr("d", area)
             .append("title")
             .text(({
@@ -225,7 +227,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(i => xValues[i])
                 .tickSizeOuter(0));
 
-        for(const [seriesTitle, seriesData] of Object.entries(config.data)) {
+        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
             const data = seriesData.x.reduce((acc, value, index) => {
                 acc.push({
                     [seriesTitle]: value,
@@ -251,6 +253,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 svg.append("path")
                     .datum(data)
                     .attr("fill", "none")
+                    .attr("class", config.barColors ? "" : `graph-series-stroke-${seriesIndex + 1}`)
                     .attr("stroke", barColors())
                     .attr("stroke-width", 1.5)
                     .attr("stroke-linejoin", "round")
@@ -262,6 +265,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .data(data)
                     .join("rect")
                     .attr("fill", ({[seriesTitle]: d}) => barColors(d))
+                    .attr("class", config.barColors ? "" : `graph-series-fill-${seriesIndex + 1}`)
                     .attr("stroke-width", 1)
                     .attr("stroke", () => config.barBorder ? "black" : "")
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
@@ -272,7 +276,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .on("mousemove", mouseAction)
                     .on("mouseleave", mouseLeave);
             }
-        }
+        });
 
         svg.append("g")
             .call(xAxis)
@@ -332,6 +336,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .data(arcs)
                 .join("path")
                 .attr("fill", d => color(d.data.name))
+                .attr("class", (_, i) => `graph-series-fill-${i + 1}`)
                 .attr("d", arc)
                 .append("title")
                 .text(d => `${d.data.name}`);

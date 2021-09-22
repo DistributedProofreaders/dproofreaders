@@ -166,7 +166,7 @@ respects different configuration properties.
   // Data to render
   data: {
     [seriesTitle: string]: {
-      x: string[]; // X axis labels
+      x: string[]; // X axis labels, converted to a date
       y: string[]; // Y axis values, converted to a number
     };
   };
