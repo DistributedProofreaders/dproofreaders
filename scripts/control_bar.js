@@ -4,16 +4,19 @@
 // Construct the image sizing controls.
 var makeImageControl = function(content) {
     const imageCursor = "grab";
-    // use plain js image so width or style.width is clear
+    // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
     image.classList.add("middle-align");
     image.style.cursor = imageCursor;
     // When the image is rotated it has width and height as if it were not
-    // rotated. To make scroll work correctly, enclose it in a div with actual
-    // width and height.
-    const imageDiv = $("<div>", {class: "middle-align left-align"}).css({overflow: "hidden", display: "inline-block"});
+    // rotated. To make scroll work correctly, enclose it in a div with the
+    //actual width and height.
+    const imageDiv = document.createElement("div");
+    imageDiv.classList.add("middle-align", "left-align");
+    imageDiv.style.overflow = "hidden";
+    imageDiv.style.display = "inline-block";
     content.append(imageDiv);
-    imageDiv.append(image);
+    imageDiv.appendChild(image);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
@@ -55,12 +58,12 @@ var makeImageControl = function(content) {
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         if(sine != 0) {
-            imageDiv.height(image.width);
-            imageDiv.width(image.height);
+            imageDiv.style.height = `${image.width}px`;
+            imageDiv.style.width = `${image.height}px`;
             offset = (image.height - image.width) / 2;
         } else {
-            imageDiv.height("auto");
-            imageDiv.width("auto");
+            imageDiv.style.height = "auto";
+            imageDiv.style.width = "auto";
             offset = 0;
         }
         // image rotates about centre. Offset moves it to correct position
