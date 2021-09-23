@@ -2,16 +2,82 @@
 /* exported makeImageWidget */
 
 // Construct the image sizing controls.
-var makeImageControl = function(imageElement) {
+var makeImageControl = function(content) {
+    const imageCursor = "grab";
+    // use plain js image so width or style.width is clearly differentiated
+    const image = document.createElement("img");
+    image.classList.add("middle-align");
+    image.style.cursor = imageCursor;
+    // When the image is rotated it has width and height as if it were not
+    // rotated. To make scroll work correctly, enclose it in a div with the
+    //actual width and height.
+    const imageDiv = document.createElement("div");
+    imageDiv.classList.add("middle-align", "left-align");
+    imageDiv.style.overflow = "hidden";
+    imageDiv.style.display = "inline-block";
+    content.append(imageDiv);
+    imageDiv.appendChild(image);
+
+    let scrollDiffX = 0;
+    let scrollDiffY = 0;
+    function mousemove(event) {
+        content.scrollTop(scrollDiffY - event.pageY);
+        content.scrollLeft(scrollDiffX - event.pageX);
+    }
+
+    function mouseup() {
+        $(document).unbind("mousemove mouseup");
+        image.style.cursor = imageCursor;
+    }
+
+    $(image).mousedown( function(event) {
+        event.preventDefault();
+        image.style.cursor = "grabbing";
+        scrollDiffX = event.pageX + content.scrollLeft();
+        scrollDiffY = event.pageY + content.scrollTop();
+        $(document).on("mousemove", mousemove)
+            .on("mouseup", mouseup);
+    });
+
     let imageKey;
-    // percent need not be an integer but is rounded for display and save
+    // percent need not be an integer but is rounded for display
     // it will typically not be an integer after fit height or width or + or -
     let percent;
     const minPercent = 10;
     const maxPercent = 999;
     const defaultPercent = 100;
 
+    // sine & cosine define the rotation:
+    //  clockwise angle   sine   cosine
+    //    0 degrees         0       1
+    //   90 degrees        -1       0
+    //  180 degrees         0      -1
+    //  270 degrees         1       0
+    let sine = 0;
+    let cosine = 1;
+
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
+
+    function setImageStyle() {
+        // when this is called in 'setImage' we will not know the dimensions
+        // of the image but it is not rotated (sine=0) so we do not need to.
+        let offset;
+        image.style.width = `${10 * percent}px`;
+        image.style.height = "auto";
+        if(sine != 0) {
+            // rotated 90 or 270 degrees
+            imageDiv.style.height = `${image.width}px`;
+            imageDiv.style.width = `${image.height}px`;
+            offset = (image.height - image.width) / 2;
+        } else {
+            // rotated 0 or 180 degrees
+            imageDiv.style.height = "auto";
+            imageDiv.style.width = "auto";
+            offset = 0;
+        }
+        // image rotates about centre. Offset moves it to correct position
+        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${offset}, ${-offset})`;
+    }
 
     function setZoom() {
         if(percent < minPercent) {
@@ -20,13 +86,12 @@ var makeImageControl = function(imageElement) {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
-        imageElement.width(10 * percent);
-        imageElement.height("auto");
     }
 
-    function setAndSaveZoom() {
+    function setDrawSave() {
         setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
+        setImageStyle();
     }
 
     percentInput.change(function() {
@@ -34,41 +99,60 @@ var makeImageControl = function(imageElement) {
         if(isNaN(percent)) {
             percent = defaultPercent;
         }
-        setAndSaveZoom();
+        setDrawSave();
     });
 
-    function unPersist() {
-        // reset width and height so that fitting does not persist
-        const width = imageElement.width();
-        // assume 100% means 1000px wide
-        percent = width / 10;
-        setAndSaveZoom();
-    }
-
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        imageElement.width('100%');
-        unPersist();
+        const contentWidth = `${content.width()}px`;
+        if(sine == 0) {
+            image.style.width = contentWidth;
+        } else {
+            image.style.height = contentWidth;
+            image.style.width = "auto";
+        }
+        percent = image.width / 10;
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        imageElement.height(imageElement.parent().height());
-        imageElement.width("auto");
-        unPersist();
+        const contentHeight = `${content.height()}px`;
+        if(sine == 0) {
+            image.style.height = contentHeight;
+            image.style.width = "auto";
+        } else {
+            image.style.width = contentHeight;
+        }
+        percent = image.width / 10;
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
     const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
         percent *= 1.1;
-        setAndSaveZoom();
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-search-plus'}));
 
     const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
         percent /= 1.1;
-        setAndSaveZoom();
+        setDrawSave();
     })
         .append($("<i>", {class: 'fas fa-search-minus'}));
+
+    const clockRotateInput = $("<button>", {title: texts.clockRotate})
+        .append($("<i>", {class: 'fas fa-redo-alt'}))
+        .click( function () {
+            [sine, cosine] = [-cosine, sine];
+            setImageStyle();
+        });
+
+    const counterclockRotateInput = $("<button>", {title: texts.counterclockRotate})
+        .append($("<i>", {class: 'fas fa-undo-alt'}))
+        .click( function () {
+            [sine, cosine] = [cosine, -sine];
+            setImageStyle();
+        });
 
     return {
         controls: [
@@ -78,7 +162,10 @@ var makeImageControl = function(imageElement) {
             $("<span>", {class: "nowrap"}).append(percentInput, "%"),
             " ",
             zoomIn,
-            zoomOut
+            zoomOut,
+            " ",
+            clockRotateInput,
+            counterclockRotateInput,
         ],
         setup: function(storageKey) {
             imageKey = storageKey + "-image";
@@ -89,6 +176,13 @@ var makeImageControl = function(imageElement) {
             percent = imageData.zoom;
             setZoom();
         },
+        setImage: function(src) {
+            // reset to normal orientation
+            sine = 0;
+            cosine = 1;
+            image.src = src;
+            setImageStyle();
+        }
     };
 };
 
@@ -350,32 +444,9 @@ function makeImageWidget(container, align = "C") {
         C: "center",
         R: "right"
     };
-    const imageElement = $("<img>", {class: "middle-align"}).css("cursor", "grab");
-    const imageControl = makeImageControl(imageElement);
-    const content = $("<div>").css("text-align", alignment[align])
-        .append(imageElement);
+    const content = $("<div>").css("text-align", alignment[align]);
+    const imageControl = makeImageControl(content);
     const controlDiv = makeControlDiv(container, content, imageControl.controls);
-
-    let scrollDiffX = 0;
-    let scrollDiffY = 0;
-    function mousemove(event) {
-        content.scrollTop(scrollDiffY - event.pageY);
-        content.scrollLeft(scrollDiffX - event.pageX);
-    }
-
-    function mouseup() {
-        $(document).unbind("mousemove mouseup");
-        imageElement.css("cursor", "grab");
-    }
-
-    imageElement.mousedown( function(event) {
-        event.preventDefault();
-        imageElement.css("cursor", "grabbing");
-        scrollDiffX = event.pageX + content.scrollLeft();
-        scrollDiffY = event.pageY + content.scrollTop();
-        $(document).on("mousemove", mousemove)
-            .on("mouseup", mouseup);
-    });
 
     return {
         setup: function (storageKey) {
@@ -385,7 +456,8 @@ function makeImageWidget(container, align = "C") {
         },
 
         setImage: function (src) {
-            imageElement.attr("src", src);
+            imageControl.setImage(src);
+            // reset scroll to top left
             content
                 .scrollTop(0)
                 .scrollLeft(0);
