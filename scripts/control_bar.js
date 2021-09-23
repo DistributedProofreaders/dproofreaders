@@ -40,28 +40,37 @@ var makeImageControl = function(content) {
     });
 
     let imageKey;
-    // percent need not be an integer but is rounded for display and save
+    // percent need not be an integer but is rounded for display
     // it will typically not be an integer after fit height or width or + or -
     let percent;
     const minPercent = 10;
     const maxPercent = 999;
     const defaultPercent = 100;
+
+    // sine & cosine define the rotation:
+    //  clockwise angle   sine   cosine
+    //    0 degrees         0       1
+    //   90 degrees        -1       0
+    //  180 degrees         0      -1
+    //  270 degrees         1       0
     let sine = 0;
     let cosine = 1;
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
 
     function setImageStyle() {
-        // when this is called in 'setImage' we will not know dimensions
-        // but sine=0 so do not need to.
+        // when this is called in 'setImage' we will not know the dimensions
+        // of the image but it is not rotated (sine=0) so we do not need to.
         let offset;
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         if(sine != 0) {
+            // rotated 90 or 270 degrees
             imageDiv.style.height = `${image.width}px`;
             imageDiv.style.width = `${image.height}px`;
             offset = (image.height - image.width) / 2;
         } else {
+            // rotated 0 or 180 degrees
             imageDiv.style.height = "auto";
             imageDiv.style.width = "auto";
             offset = 0;
