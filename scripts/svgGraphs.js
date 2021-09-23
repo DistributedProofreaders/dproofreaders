@@ -209,6 +209,18 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .domain(d3.range(xValues.length))
             .range([barMargin.left, width - barMargin.right])
             .padding(0.1);
+
+        if (minYValue < 0) {
+            svg.append("g")
+                .append("line")
+                .attr("x1", barMargin.left)
+                .attr("x2", width - barMargin.right)
+                .attr("y1", y(0))
+                .attr("y2", y(0))
+                .attr("style", "stroke-width: .5px")
+                .attr("stroke", "currentColor");
+        }
+
         let xGroupOffset;
         if (config.groupBars) {
             xGroupOffset = d3.scaleBand()
@@ -271,7 +283,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
                     .attr("y", ({value}) => value < 0 ? y(0) : y(value))
                     .attr("height", d => Math.abs(y(0) - y(d.value)))
-                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : x.bandwidth())
+                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : Math.max(x.bandwidth(), 1))
                     .on("mouseover", mouseAction)
                     .on("mousemove", mouseAction)
                     .on("mouseleave", mouseLeave);
