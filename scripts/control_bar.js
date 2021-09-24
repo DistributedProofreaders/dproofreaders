@@ -32,6 +32,9 @@ var makeImageControl = function(content) {
 
     $(image).mousedown( function(event) {
         event.preventDefault();
+
+        // so image can be moved with arrow keys
+        content[0].focus();
         image.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft();
         scrollDiffY = event.pageY + content.scrollTop();
