@@ -239,6 +239,17 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(i => xValues[i])
                 .tickSizeOuter(0));
 
+        svg.append("g")
+            .call(xAxis)
+            .selectAll("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -5)
+            .attr("x", -6)
+            .style("text-anchor", "end");
+
+        svg.append("g")
+            .call(yAxis);
+
         Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
             const data = seriesData.x.reduce((acc, value, index) => {
                 acc.push({
@@ -248,14 +259,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 return acc;
             }, []);
 
-            let barColors;
-            if (config.barColors) {
-                barColors = d3.scaleOrdinal()
-                    .domain(seriesData.x)
-                    .range(config.barColors);
-            } else {
-                barColors = () => color(seriesTitle);
-            }
+            const barColors = () => color(seriesTitle);
 
             if (seriesData.type === "line") {
                 const line = d3.line()
@@ -265,7 +269,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 svg.append("path")
                     .datum(data)
                     .attr("fill", "none")
-                    .attr("class", config.barColors ? "" : `graph-series-stroke-${seriesIndex + 1}`)
+                    .attr("class", `graph-series-stroke-${seriesIndex + 1}`)
                     .attr("stroke", barColors())
                     .attr("stroke-width", 1.5)
                     .attr("stroke-linejoin", "round")
@@ -277,7 +281,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .data(data)
                     .join("rect")
                     .attr("fill", ({[seriesTitle]: d}) => barColors(d))
-                    .attr("class", config.barColors ? "" : `graph-series-fill-${seriesIndex + 1}`)
+                    .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1}`)
                     .attr("stroke-width", 1)
                     .attr("stroke", () => config.barBorder ? "black" : "")
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
@@ -290,16 +294,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             }
         });
 
-        svg.append("g")
-            .call(xAxis)
-            .selectAll("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -5)
-            .attr("x", -6)
-            .style("text-anchor", "end");
-
-        svg.append("g")
-            .call(yAxis);
         addTitle(svg, config, width);
         addLegend(svg, color, config, Object.keys(config.data), width, height);
     }
