@@ -47,9 +47,9 @@ $title = _("MTD Pages");
 $x_title = "PP = " . $goal_percent . "% of $round_before_PP";
 
 if ($pp_pages_total > $pp_page_goal) {
-    $barColors = ["graph-normal-series"];
+    $barColors = ["graph-normal-series", "graph-normal-series"];
 } else {
-    $barColors = ["graph-above-goal"];
+    $barColors = ["graph-above-goal", "graph-above-goal"];
 }
 
 $width = 160;

@@ -239,18 +239,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(i => xValues[i])
                 .tickSizeOuter(0));
 
-        svg.append("g")
-            .call(xAxis)
-            .selectAll("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -5)
-            .attr("x", -6)
-            .style("text-anchor", "end");
-
-        svg.append("g")
-            .call(yAxis);
-
-        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+        const renderSeries = ([seriesTitle, seriesData], seriesIndex) => {
             const data = seriesData.x.reduce((acc, value, index) => {
                 acc.push({
                     [seriesTitle]: value,
@@ -292,7 +281,26 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .on("mousemove", mouseAction)
                     .on("mouseleave", mouseLeave);
             }
-        });
+        };
+
+        Object.entries(config.data).filter(([, {type}]) => type !== "line")
+            .forEach(renderSeries);
+
+        svg.append("g")
+            .call(xAxis)
+            .selectAll("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -5)
+            .attr("x", -6)
+            .style("text-anchor", "end");
+
+        svg.append("g")
+            .call(yAxis);
+
+        // render lines after xaxis so they are above axis, but bars are above.
+        Object.entries(config.data).filter(([, {type}]) => type === "line")
+            .forEach(renderSeries);
+
 
         addTitle(svg, config, width);
         addLegend(svg, color, config, Object.keys(config.data), width, height);
