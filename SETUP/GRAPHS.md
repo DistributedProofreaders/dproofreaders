@@ -114,6 +114,7 @@ respects different configuration properties.
     [seriesTitle: string]: {
       x: string[]; // X axis labels
       y: string[]; // Y axis values, converted to a number
+      type: "bar" | "line"; // type of series. Defaults to "bar"
     };
   };
 }

@@ -239,7 +239,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(i => xValues[i])
                 .tickSizeOuter(0));
 
-        const renderSeries = ([seriesTitle, seriesData], seriesIndex) => {
+        const renderSeries = (seriesTitle, seriesData, seriesIndex, seriesToRender) => {
             const data = seriesData.x.reduce((acc, value, index) => {
                 acc.push({
                     [seriesTitle]: value,
@@ -250,7 +250,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
             const barColors = () => color(seriesTitle);
 
-            if (seriesData.type === "line") {
+            if (seriesToRender === "line" && seriesData.type === "line") {
                 const line = d3.line()
                     .x((d, i) => x(i))
                     .y(({value}) => value < 0 ? y(0) : y(value));
@@ -264,13 +264,13 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .attr("stroke-linejoin", "round")
                     .attr("stroke-linecap", "round")
                     .attr("d", line);
-            } else {
+            } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
                 svg.append("g")
                     .selectAll("rect")
                     .data(data)
                     .join("rect")
                     .attr("fill", ({[seriesTitle]: d}) => barColors(d))
-                    .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1}`)
+                    .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
                     .attr("stroke-width", 1)
                     .attr("stroke", () => config.barBorder ? "black" : "")
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
@@ -283,8 +283,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             }
         };
 
-        Object.entries(config.data).filter(([, {type}]) => type !== "line")
-            .forEach(renderSeries);
+        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+            renderSeries(seriesTitle, seriesData, seriesIndex, "bar" /* seriesToRender */);
+        });
 
         svg.append("g")
             .call(xAxis)
@@ -298,9 +299,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .call(yAxis);
 
         // render lines after xaxis so they are above axis, but bars are above.
-        Object.entries(config.data).filter(([, {type}]) => type === "line")
-            .forEach(renderSeries);
-
+        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+            renderSeries(seriesTitle, seriesData, seriesIndex, "line" /* seriesToRender */);
+        });
 
         addTitle(svg, config, width);
         addLegend(svg, color, config, Object.keys(config.data), width, height);

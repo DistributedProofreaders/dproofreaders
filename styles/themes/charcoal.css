@@ -1429,22 +1429,22 @@ footer small,
   stroke: #8c564b;
 }
 .graph-series-fill-5 {
-  fill: #9467bd;
+  fill: #b395d0;
 }
 .graph-series-stroke-5 {
-  stroke: #9467bd;
+  stroke: #b395d0;
 }
 .graph-series-fill-4 {
-  fill: #d62728;
+  fill: #df5353;
 }
 .graph-series-stroke-4 {
-  stroke: #d62728;
+  stroke: #df5353;
 }
 .graph-series-fill-3 {
-  fill: #2ca02c;
+  fill: #73d973;
 }
 .graph-series-stroke-3 {
-  stroke: #2ca02c;
+  stroke: #73d973;
 }
 .graph-series-fill-2 {
   fill: #ff7f0e;
@@ -1453,10 +1453,10 @@ footer small,
   stroke: #ff7f0e;
 }
 .graph-series-fill-1 {
-  fill: #1f77b4;
+  fill: #80b3ff;
 }
 .graph-series-stroke-1 {
-  stroke: #1f77b4;
+  stroke: #80b3ff;
 }
 /*
  If the screen is "narrow enough" we move the statsbar below the page
