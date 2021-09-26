@@ -23,6 +23,10 @@ if (!headers_sent()) {
     // Disallow other sites from embedding pages in frames/iframes
     header("Content-Security-Policy: frame-ancestors 'self'", false);
     header("X-Frame-Options: SAMEORIGIN");
+    header("X-Content-Type-Options: nosniff");
+    if ($use_secure_cookies) {
+      header("Strict-Transport-Security: max-age=63072000; includeSubDomains; preload");
+    }
 }
 
 // If we don't have a database connection, don't try to resume the session.
