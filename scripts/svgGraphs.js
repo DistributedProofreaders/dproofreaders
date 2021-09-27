@@ -258,7 +258,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .join("rect")
                     .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
                     .attr("stroke-width", 1)
-                    .attr("stroke", () => config.barBorder ? "black" : "")
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
                     .attr("y", ({value}) => value < 0 ? y(0) : y(value))
                     .attr("height", d => Math.abs(y(0) - y(d.value)))

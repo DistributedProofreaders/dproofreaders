@@ -93,9 +93,6 @@ respects different configuration properties.
   // An array of class names for the bars to be colored.
   barColors?: string[];
 
-  // Whether a border should be drawn on the bars in the series.
-  barBorder?: boolean;
-
   // Title of the graph, shown at the top center.
   title?: string;
 

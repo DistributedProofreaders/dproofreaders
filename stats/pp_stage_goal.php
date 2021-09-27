@@ -67,7 +67,6 @@ $graphs = [
         "barColors" => $barColors,
         "width" => $width,
         "height" => $height,
-        "barBorder" => true,
         "bottomLegend" => $x_title,
         "yAxisTickCount" => 5,
     ]],
