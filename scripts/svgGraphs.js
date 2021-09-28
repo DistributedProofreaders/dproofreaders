@@ -151,6 +151,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
         const height = config.height || 400;
         const width = config.width || 640;
+        const data = Object.entries(config.data).filter(([,{x}]) => x && x.length > 0);
         const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
         const tooltip = d3.select("#" + id)
@@ -169,7 +170,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             tooltip.style("display", "none");
         };
 
-        const yValues = Object.values(config.data).map(({y}) => y.map(Number))
+        const yValues = data.map(([,{y}]) => y.map(Number))
             .flatMap(x => x);
         const minYValue = d3.min(yValues, d => d);
         const y = d3.scaleLinear()
@@ -194,7 +195,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "start"));
 
-        const xValues = Object.values(config.data)[0].x;
+        const xValues = data[0][1].x;
         const x = d3.scaleBand()
             .domain(d3.range(xValues.length))
             .range([barMargin.left, width - barMargin.right])
@@ -214,7 +215,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         let xGroupOffset;
         if (config.groupBars) {
             xGroupOffset = d3.scaleBand()
-                .domain(Object.keys(config.data))
+                .domain(data.map(([title]) => title))
                 .rangeRound([0, x.bandwidth()])
                 .padding(0.05);
         } else {
@@ -268,7 +269,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             }
         };
 
-        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
             renderSeries(seriesTitle, seriesData, seriesIndex, "bar" /* seriesToRender */);
         });
 
@@ -284,12 +285,12 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .call(yAxis);
 
         // render lines after xaxis so they are above axis, but bars are above.
-        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
             renderSeries(seriesTitle, seriesData, seriesIndex, "line" /* seriesToRender */);
         });
 
         addTitle(svg, config, width);
-        addLegend(svg, config, Object.keys(config.data), width, height);
+        addLegend(svg, config, data.map(([title]) => title), width, height);
     }
 
     function pieGraph(id, config) {
