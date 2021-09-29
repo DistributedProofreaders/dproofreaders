@@ -6,7 +6,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         top: 20,
         right: 45,
         bottom: 30,
-        left: 30
+        left: 45
     });
 
     function addTitle(svg, config, width) {
@@ -19,7 +19,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .text(config.title);
     }
 
-    function addLegend(svg, color, config, series, width, height) {
+    function addLegend(svg, config, series, width, height) {
         const hasMultipleSeries = series.length > 1;
         const yAxisLabel = config.yAxisLabel || (!hasMultipleSeries ? Object.keys(config.data)[0] : null);
         if (hasMultipleSeries) {
@@ -35,7 +35,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
                 .attr("cy", (d,i) => (margin.left + 10) + (i * 25))
                 .attr("r", 7)
-                .style("fill", d => color(d));
+                .attr("class", (_, i) => config.barColors ? "" : `graph-series-fill-${i + 1}`);
 
             container.selectAll("series")
                 .data(series)
@@ -117,10 +117,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(d => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`)
                 .tickSizeOuter(0));
 
-        const color = d3.scaleOrdinal()
-            .domain(data.columns.slice(1))
-            .range(d3.schemeCategory10);
-
         const area = d3.area()
             .curve(d3.curveStep)
             .x(d => x(d.data.date))
@@ -134,9 +130,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .selectAll("path")
             .data(series)
             .join("path")
-            .attr("fill", ({
-                key
-            }) => color(key))
             .attr("class", (_, i) => `graph-series-fill-${i + 1}`)
             .attr("d", area)
             .append("title")
@@ -151,16 +144,14 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .call(yAxis);
 
         addTitle(svg, config, width);
-        addLegend(svg, color, config, Object.keys(config.data), width, height);
+        addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height);
     }
 
     function barLineGraph(id, config) {
         const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
         const height = config.height || 400;
         const width = config.width || 640;
-        const color = d3.scaleOrdinal()
-            .domain(Object.keys(config.data))
-            .range(d3.schemeCategory10);
+        const data = Object.entries(config.data).filter(([,{x}]) => x && x.length > 0);
         const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
         const tooltip = d3.select("#" + id)
@@ -179,7 +170,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             tooltip.style("display", "none");
         };
 
-        const yValues = Object.values(config.data).map(({y}) => y.map(Number))
+        const yValues = data.map(([,{y}]) => y.map(Number))
             .flatMap(x => x);
         const minYValue = d3.min(yValues, d => d);
         const y = d3.scaleLinear()
@@ -204,15 +195,27 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "start"));
 
-        const xValues = Object.values(config.data)[0].x;
+        const xValues = data[0][1].x;
         const x = d3.scaleBand()
             .domain(d3.range(xValues.length))
             .range([barMargin.left, width - barMargin.right])
             .padding(0.1);
+
+        if (minYValue < 0) {
+            svg.append("g")
+                .append("line")
+                .attr("x1", barMargin.left)
+                .attr("x2", width - barMargin.right)
+                .attr("y1", y(0))
+                .attr("y2", y(0))
+                .attr("style", "stroke-width: .5px")
+                .attr("stroke", "currentColor");
+        }
+
         let xGroupOffset;
         if (config.groupBars) {
             xGroupOffset = d3.scaleBand()
-                .domain(Object.keys(config.data))
+                .domain(data.map(([title]) => title))
                 .rangeRound([0, x.bandwidth()])
                 .padding(0.05);
         } else {
@@ -227,7 +230,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .tickFormat(i => xValues[i])
                 .tickSizeOuter(0));
 
-        Object.entries(config.data).forEach(([seriesTitle, seriesData], seriesIndex) => {
+        const renderSeries = (seriesTitle, seriesData, seriesIndex, seriesToRender) => {
             const data = seriesData.x.reduce((acc, value, index) => {
                 acc.push({
                     [seriesTitle]: value,
@@ -236,16 +239,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 return acc;
             }, []);
 
-            let barColors;
-            if (config.barColors) {
-                barColors = d3.scaleOrdinal()
-                    .domain(seriesData.x)
-                    .range(config.barColors);
-            } else {
-                barColors = () => color(seriesTitle);
-            }
-
-            if (seriesData.type === "line") {
+            if (seriesToRender === "line" && seriesData.type === "line") {
                 const line = d3.line()
                     .x((d, i) => x(i))
                     .y(({value}) => value < 0 ? y(0) : y(value));
@@ -253,29 +247,30 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 svg.append("path")
                     .datum(data)
                     .attr("fill", "none")
-                    .attr("class", config.barColors ? "" : `graph-series-stroke-${seriesIndex + 1}`)
-                    .attr("stroke", barColors())
+                    .attr("class", `graph-series-stroke-${seriesIndex + 1}`)
                     .attr("stroke-width", 1.5)
                     .attr("stroke-linejoin", "round")
                     .attr("stroke-linecap", "round")
                     .attr("d", line);
-            } else {
+            } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
                 svg.append("g")
                     .selectAll("rect")
                     .data(data)
                     .join("rect")
-                    .attr("fill", ({[seriesTitle]: d}) => barColors(d))
-                    .attr("class", config.barColors ? "" : `graph-series-fill-${seriesIndex + 1}`)
+                    .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
                     .attr("stroke-width", 1)
-                    .attr("stroke", () => config.barBorder ? "black" : "")
                     .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
                     .attr("y", ({value}) => value < 0 ? y(0) : y(value))
                     .attr("height", d => Math.abs(y(0) - y(d.value)))
-                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : x.bandwidth())
+                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : Math.max(x.bandwidth(), 1))
                     .on("mouseover", mouseAction)
                     .on("mousemove", mouseAction)
                     .on("mouseleave", mouseLeave);
             }
+        };
+
+        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
+            renderSeries(seriesTitle, seriesData, seriesIndex, "bar" /* seriesToRender */);
         });
 
         svg.append("g")
@@ -288,8 +283,14 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
         svg.append("g")
             .call(yAxis);
+
+        // render lines after xaxis so they are above axis, but bars are above.
+        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
+            renderSeries(seriesTitle, seriesData, seriesIndex, "line" /* seriesToRender */);
+        });
+
         addTitle(svg, config, width);
-        addLegend(svg, color, config, Object.keys(config.data), width, height);
+        addLegend(svg, config, data.map(([title]) => title), width, height);
     }
 
     function pieGraph(id, config) {
@@ -321,10 +322,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .innerRadius(0)
                 .outerRadius(radius);
 
-            const color = d3.scaleOrdinal()
-                .domain(config.labels)
-                .range(d3.schemeCategory10);
-
             const arcs = pie(data);
 
             const arcLabel = d3.arc().innerRadius(radius + 20)
@@ -335,7 +332,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .selectAll("path")
                 .data(arcs)
                 .join("path")
-                .attr("fill", d => color(d.data.name))
                 .attr("class", (_, i) => `graph-series-fill-${i + 1}`)
                 .attr("d", arc)
                 .append("title")
@@ -351,7 +347,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                     .attr("y", "-0.4em")
                     .attr("font-weight", "bold")
                     .text(d => Number(d.data.value) !== 0 ? `${d3.format(",.1f")((d.data.value / total) * 100)}%` : ''));
-            addLegend(svg, color, config, config.labels, width, height);
+            addLegend(svg, config, config.labels, width, height);
         }
 
         addTitle(svg, config, width);

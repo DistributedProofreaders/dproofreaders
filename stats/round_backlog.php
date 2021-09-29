@@ -33,9 +33,8 @@ $goal_percent = ceil(100 / count($stats));
 
 // colors
 $barColors = [];
-$barColorDefault = "#EEEEEE";
-$barColorAboveGoal = "#FF484F";
-$goalColor = "#0000FF";
+$barColorDefault = "graph-normal-series";
+$barColorAboveGoal = "graph-above-goal";
 
 // calculate the percentage of work remaining in each round
 // and the color for each bar
@@ -73,7 +72,6 @@ $graphs = [
         ],
         "width" => $width,
         "height" => $height,
-        "barBorder" => true,
         "bottomLegend" => $x_title,
         "yAxisTickCount" => 5,
     ]],

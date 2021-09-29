@@ -198,6 +198,7 @@ function new_users($time_interval)
     return [
         "title" => $title,
         "xAxisHeight" => 90,
+        "yAxisWidth" => 60,
         "data" => [
             _('# users') => [
                 "x" => $datax,
@@ -223,7 +224,7 @@ function average_hour_users_logging_on()
 
     return [
         "title" => _('Average number of users newly logged in each hour'),
-        "yAxisWidth" => "60",
+        "yAxisWidth" => 60,
         "data" => [
             _('Fresh Logons') => [
                 "x" => $datax,
@@ -257,7 +258,7 @@ function users_by_language()
     return [
         "title" => $title,
         "xAxisHeight" => 100,
-        "yAxisWidth" => 75,
+        "yAxisWidth" => 60,
         "data" => [
             _('Interface Language') => [
                 "x" => $x,
@@ -287,7 +288,7 @@ function users_by_country()
     $title = _("Number of users per country");
     return [
         "title" => $title,
-        "yAxisWidth" => 75,
+        "yAxisWidth" => 60,
         "data" => [
             _('Country') => [
                 "x" => $x,
@@ -536,9 +537,10 @@ function total_pages_by_month_graph($tally_name)
             ],
         ],
         "yAxisLabel" => _("Pages"),
+        "yAxisWidth" => 65,
         "legendAdjustment" => [
-            "x" => 40,
-            "y" => 100,
+            "x" => 50,
+            "y" => 15,
         ],
     ];
 }
@@ -755,9 +757,10 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         "data" => $data,
         "yAxisLabel" => _("Pages"),
         "xAxisHeight" => 65,
+        "yAxisWidth" => 65,
         "legendAdjustment" => [
-            "x" => 40,
-            "y" => 100,
+            "x" => 50,
+            "y" => 15,
         ],
     ];
 }

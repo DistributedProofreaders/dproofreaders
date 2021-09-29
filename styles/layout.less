@@ -58,6 +58,8 @@
 @border-color-base-lowc: #d3d3d3;    // lightgrey
 
 @graph-series-colors: #1f77b4, #ff7f0e, #2ca02c, #d62728, #9467bd, #8c564b, #e377c2, #7f7f7f, #bcbd22, #17becf;
+@graph-normal-series: #bbbbbb;
+@graph-above-goal: #ff484f;
 
 /* ------------------------------------------------------------------------ */
 /* mixins with color */
@@ -402,6 +404,13 @@ footer, #footer {
   fill: @page-background;
   outline: 2px solid @border-color-base;
   border-radius: 5px;
+}
+
+.graph-normal-series {
+  fill: @graph-normal-series;
+}
+.graph-above-goal {
+  fill: @graph-above-goal;
 }
 
 .graph-series-loop (@i) when (@i > 0) {

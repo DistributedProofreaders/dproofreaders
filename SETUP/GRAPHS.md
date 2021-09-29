@@ -90,11 +90,8 @@ respects different configuration properties.
   // the same x values;
   groupBars?: boolean;
 
-  // An array of color values for the series to be colored.
+  // An array of class names for the bars to be colored.
   barColors?: string[];
-
-  // Whether a border should be drawn on the bars in the series.
-  barBorder?: boolean;
 
   // Title of the graph, shown at the top center.
   title?: string;
@@ -114,6 +111,7 @@ respects different configuration properties.
     [seriesTitle: string]: {
       x: string[]; // X axis labels
       y: string[]; // Y axis values, converted to a number
+      type: "bar" | "line"; // type of series. Defaults to "bar"
     };
   };
 }

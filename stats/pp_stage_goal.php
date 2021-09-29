@@ -46,11 +46,10 @@ $datay = [$pp_page_goal, $pp_pages_total];
 $title = _("MTD Pages");
 $x_title = "PP = " . $goal_percent . "% of $round_before_PP";
 
-// If PP is higher than round_before_PP, use greens, else reds
 if ($pp_pages_total > $pp_page_goal) {
-    $barColors = ["darkgreen"];
+    $barColors = ["graph-normal-series", "graph-normal-series"];
 } else {
-    $barColors = ["darkred"];
+    $barColors = ["graph-above-goal", "graph-above-goal"];
 }
 
 $width = 160;
@@ -68,7 +67,6 @@ $graphs = [
         "barColors" => $barColors,
         "width" => $width,
         "height" => $height,
-        "barBorder" => true,
         "bottomLegend" => $x_title,
         "yAxisTickCount" => 5,
     ]],

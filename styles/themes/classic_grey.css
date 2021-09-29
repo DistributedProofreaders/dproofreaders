@@ -1445,6 +1445,12 @@ footer small,
   outline: 2px solid #000000;
   border-radius: 5px;
 }
+.graph-normal-series {
+  fill: #bbbbbb;
+}
+.graph-above-goal {
+  fill: #ff484f;
+}
 .graph-series-fill-10 {
   fill: #17becf;
 }

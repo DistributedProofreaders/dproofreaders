@@ -50,9 +50,8 @@ $goal_percent = ceil(100 / count($stats));
 
 // colors
 $barColors = [];
-$barColorDefault = "#EEEEEE";
-$barColorAboveGoal = "#FF484F";
-$goalColor = "#0000FF";
+$barColorDefault = "graph-normal-series";
+$barColorAboveGoal = "graph-above-goal";
 
 $days_total = array_sum($stats);
 if ($days_total == 0) {
@@ -95,7 +94,6 @@ $graphs = [
         ],
         "width" => $width,
         "height" => $height,
-        "barBorder" => true,
         "bottomLegend" => $x_title,
         "yAxisTickCount" => 5,
     ]],
