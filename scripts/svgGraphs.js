@@ -6,7 +6,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         top: 20,
         right: 45,
         bottom: 30,
-        left: 30
+        left: 45
     });
 
     function addTitle(svg, config, width) {
@@ -144,7 +144,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .call(yAxis);
 
         addTitle(svg, config, width);
-        addLegend(svg, config, Object.keys(config.data), width, height);
+        addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height);
     }
 
     function barLineGraph(id, config) {
