@@ -752,14 +752,15 @@ $(function () {
             }
         }
         // we must avoid two issues giving overlapping markup
-        // sort them first from beginning
+        // sort them first from beginning to end
         // sort them so that if two start in same place, then the more serious
         // placed first. Then 2nd will be discarded later.
         // Do this here so we can test the result.
         issArray.sort(function (a, b) {
-            var diff = a.start - b.start;   // normal order
+            // if return value > 0, b is placed first
+            var diff = a.start - b.start;
             if (diff === 0) {
-                return a.type - b.type;
+                return b.type - a.type;
             } else {
                 return diff;
             }
