@@ -414,14 +414,12 @@ QUnit.module("Format preview test", function() {
         text = "ab <i>cd</i>e<b>fg</b> h";
         issArray = analyse(text, configuration).issues;
         issueTest(assert, 0, 12, 1, "charAfterEnd", 0);
-        issueTest(assert, 1, 12, 1, "charBeforeStart", 0);
     });
 
-    QUnit.test("Overlapping markup - issue (first) + possible issue", function (assert) {
+    QUnit.test("Overlapping markup - issue + possible issue", function (assert) {
         text = "ab\n\n\n\nc<i>de</i> fg";
         issArray = analyse(text, configuration).issues;
         issueTest(assert, 0, 6, 1, "blankLines124", 1);
-        issueTest(assert, 1, 6, 1, "charBeforeStart", 0);
     });
 
     QUnit.test("missing maths start tag in non-math mode", function (assert) {

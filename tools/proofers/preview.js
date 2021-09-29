@@ -766,8 +766,19 @@ $(function () {
             }
         });
 
+        // end0 is end of previous issue to check if 2 issues overlap
+        let end0 = 0;
+        let condensedIssues = [];
+        issArray.forEach(function(issue) {
+            // don't mark 2 issues in one place
+            if (issue.start >= end0) {
+                condensedIssues.push(issue);
+                end0 = issue.start + issue.len;
+            }
+        });
+
         return {
-            issues: issArray,
+            issues: condensedIssues,
             text: txt,
             noteArray: notes,
         };
@@ -1058,22 +1069,16 @@ $(function () {
         // make texts to be inserted to mark issues
         let issueStarts = [];
         let issueEnds = [];
-        // end0 is end of previous issue to check if 2 issues overlap
-        let end0 = 0;
         let errorString;
         issArray.forEach(function(issue) {
-            // don't mark 2 issues in one place
-            if (issue.start >= end0) {
-                if (issue.type === 0) {
-                    errorString = makeErrStr("hlt");
-                } else {
-                    errorString = makeErrStr("err");
-                }
-                let message = previewMessages[issue.code].replace("%s", issue.subText);
-                end0 = issue.start + issue.len;
-                issueStarts.push({start: issue.start, text: errorString + message + endSpan});
-                issueEnds.push({start: end0, text: endSpan});
+            if (issue.type === 0) {
+                errorString = makeErrStr("hlt");
+            } else {
+                errorString = makeErrStr("err");
             }
+            let message = previewMessages[issue.code].replace("%s", issue.subText);
+            issueStarts.push({start: issue.start, text: errorString + message + endSpan});
+            issueEnds.push({start: issue.start + issue.len, text: endSpan});
         });
 
         var tArray = analysis.text.split("");
