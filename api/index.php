@@ -30,7 +30,7 @@ function api()
 
     api_rate_limit($username);
 
-    $query_params = $_GET;
+    $query_params = $_REQUEST;
     $path = array_get($query_params, "url", "");
     unset($query_params["url"]);
 

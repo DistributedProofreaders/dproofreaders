@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings */
+/* global $ makeApiAjaxSettings makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings projectId */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -298,6 +298,29 @@ $( function() {
         localStorage.preview_data = JSON.stringify(previewStyles);
     }
 
+    // show error if ajax fails
+    function showError(jqxhr) {
+        alert(jqxhr.responseJSON.error);
+    }
+
+    let viewFrame = document.createElement("iframe");
+
+    let latexPreview = true;
+    function showLatexPreview() {
+        $("#format_preview").hide();
+        viewFrame.srcdoc = "Test";
+        prevDiv.appendChild(viewFrame);
+        let text = txtarea.value;
+        let ajaxSettings = makeApiAjaxSettings(`v1/projects/${projectId}/pdflatex`);
+        ajaxSettings.type = "POST";
+        ajaxSettings.data = {text};
+        $.ajax(ajaxSettings)
+            .done(function (data) {
+                viewFrame.srcdoc = data.pdf;
+            })
+            .fail(showError);
+    }
+
     previewControl = {
         // this is used inside the "hover" markup to move the hover box
         // (by adjusting its margin) so it does not disappear
@@ -336,9 +359,13 @@ $( function() {
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
             enterPreview();
-            font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
-            this.reSizeText(1.0);
-            writePreviewText();
+            if(latexPreview) {
+                showLatexPreview();
+            } else {
+                font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
+                this.reSizeText(1.0);
+                writePreviewText();
+            }
         },
 
         hide: previewToProof,

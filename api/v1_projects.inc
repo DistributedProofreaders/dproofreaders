@@ -316,3 +316,11 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 
     return array_merge(["OCR"], array_keys($Round_for_round_id_));
 }
+
+function api_v1_project_pdflatex($method, $data, $query_params)
+{
+    $page_text = array_get($query_params, "text", "no text");
+    return [
+        "pdf" => $page_text,
+    ];
+}
