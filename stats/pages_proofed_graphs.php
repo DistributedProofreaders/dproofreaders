@@ -15,7 +15,7 @@ $graphs = [
     ["barLineGraph", "pages_daily_increments_curr_month", pages_daily($tally_name, "increments", "curr_month")],
     ["barLineGraph", "pages_daily_cumulative_curr_month", pages_daily($tally_name, "cumulative", "curr_month")],
     ["barLineGraph", "pages_daily_increments_prev_month", pages_daily($tally_name, "increments", "prev_month")],
-    ["barLineGraph", "pages_daily_increments_all_time", pages_daily($tally_name, "increments", "all_time")],
+    ["barLineGraph", "pages_daily_increments_all_time", query_graph_cache("pages_daily", [$tally_name, "increments", "all_time"])],
     ["barLineGraph", "pages_daily_cumulative_all_time", pages_daily($tally_name, "cumulative", "all_time")],
     ["barLineGraph", "total_pages_by_month_graph", total_pages_by_month_graph($tally_name)],
 ];
