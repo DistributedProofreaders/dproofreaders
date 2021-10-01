@@ -319,8 +319,23 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 
 function api_v1_project_pdflatex($method, $data, $query_params)
 {
+    global $projects_dir, $projects_url;
+
+    $temp_dir_name = "temp";
+
+    $temp_path = "$projects_dir/$temp_dir_name";
+    if(!is_dir($temp_path)) {
+        mkdir($temp_path);
+    }
     $page_text = array_get($query_params, "text", "no text");
+    // temporary files will get deleted by cron
+    $tmp_file_path = tempnam($temp_path, "");
+    rename($tmp_file_path, $tmp_file_path .= '.txt');
+//    $tmp_file_path .= ".txt";
+    file_put_contents($tmp_file_path, $page_text);
+    $file_base_name = basename($tmp_file_path);
+
     return [
-        "pdf" => $page_text,
+        "url" => "$projects_url/$temp_dir_name/$file_base_name",
     ];
 }

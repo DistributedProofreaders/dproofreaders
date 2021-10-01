@@ -16,3 +16,16 @@ if ($return != 0) {
         echo "    $line\n";
     }
 }
+
+// remove temporary latex preview files older than 1 day
+unset($output);
+$temp_dir = "$projects_dir/temp";
+exec("/usr/bin/find '$temp_dir' -type f -mtime +1 -delete", $output, $return);
+if ($return != 0) {
+    echo "An error occurred while cleaning up files.\n";
+    echo "Return value: $return\n";
+    echo "Command output:\n";
+    foreach ($output as $line) {
+        echo "    $line\n";
+    }
+}

@@ -304,11 +304,13 @@ $( function() {
     }
 
     let viewFrame = document.createElement("iframe");
+    viewFrame.width='100%';
+    viewFrame.height='100%';
+    viewFrame.style.border = "none";
 
     let latexPreview = true;
     function showLatexPreview() {
         $("#format_preview").hide();
-        viewFrame.srcdoc = "Test";
         prevDiv.appendChild(viewFrame);
         let text = txtarea.value;
         let ajaxSettings = makeApiAjaxSettings(`v1/projects/${projectId}/pdflatex`);
@@ -316,7 +318,8 @@ $( function() {
         ajaxSettings.data = {text};
         $.ajax(ajaxSettings)
             .done(function (data) {
-                viewFrame.srcdoc = data.pdf;
+                console.log(data);
+                viewFrame.src = data.url;
             })
             .fail(showError);
     }
