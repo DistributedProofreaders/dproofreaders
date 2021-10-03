@@ -324,15 +324,15 @@ function api_v1_project_pdflatex($method, $data, $query_params)
     $temp_dir_name = "temp";
 
     $temp_path = "$projects_dir/$temp_dir_name";
-    if(!is_dir($temp_path)) {
+    if (!is_dir($temp_path)) {
         mkdir($temp_path);
     }
     chdir($temp_path);
 
-/*  $files = glob("*");
-            foreach ($files as $file) {
-                unlink($file);
-            }*/
+    /*  $files = glob("*");
+                foreach ($files as $file) {
+                    unlink($file);
+                }*/
 
     $page_text = array_get($query_params, "text", "no text");
 
