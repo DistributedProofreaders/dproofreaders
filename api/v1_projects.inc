@@ -327,31 +327,48 @@ function api_v1_project_pdflatex($method, $data, $query_params)
     if(!is_dir($temp_path)) {
         mkdir($temp_path);
     }
+    chdir($temp_path);
+
+/*  $files = glob("*");
+            foreach ($files as $file) {
+                unlink($file);
+            }*/
+
     $page_text = array_get($query_params, "text", "no text");
-    // TODO incorporate preamble and postamble
-    // TODO incorporate project-specific preamble
 
     $tmp_file_path = tempnam($temp_path, "");
-    $pdf_base_name = basename($tmp_file_path) . ".pdf";
-    $tex_file_path = $tmp_file_path . '.tex';
-    rename($tmp_file_path, $tex_file_path);
-    file_put_contents($tex_file_path, $page_text);
+    $base_name = basename($tmp_file_path);
+    $pdf_base_name = $base_name . ".pdf";
+    $tex_base_name = $base_name . '.tex';
+    rename($base_name, $tex_base_name);
+
+    // incorporate preamble and postamble
+    $preamble =
+'\\documentclass[12pt,oneside]{book}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\begin{document}
+';
+    $postamble = '\\end{document}
+';
+    // TODO incorporate project-specific preamble
+    file_put_contents($tex_base_name, $preamble . $page_text . $postamble);
 
     $result = [];
     $retval = -1;
-    $cmd = "pdflatex -no-shell-escape -halt-on-error -output-directory=$temp_path $tex_file_path";
+    $cmd = "pdflatex -no-shell-escape -halt-on-error $tex_base_name";
     exec($cmd, $result, $retval);
 
     // delete files no longer needed
-    unlink($tex_file_path);
-    unlink($tmp_file_path . '.log');
-    unlink($tmp_file_path . '.aux');
+    unlink($tex_base_name);
+    unlink($base_name . '.log');
+    unlink($base_name . '.aux');
     // pdf file will get deleted by cron
 
     // $retval means
     // 0: no serious problems: pdf file generated
     // 1: pdflatex problem: $result will contains necy. info.
-    // The log file is much longer and not needed
+    // (The log file is much longer and not needed)
     // >1: problem with exec, e.g. couldn't find pdflatex
 
     return [
