@@ -11,6 +11,8 @@ function echo_text_frame_std($ppage)
 
     $project = new Project($ppage->projectid());
     $project_id = $ppage->projectid();
+    // HACK perhaps this should be determined by non-empty preamble field in the project
+    $latex_project = str_contains($project->nameofwork, "LaTeX") ? 1 : 0;
     $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
     $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
@@ -35,6 +37,7 @@ function echo_text_frame_std($ppage)
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';
         var projectId = '$project_id';
+        var latexProject = $latex_project;
         ",
         "body_attributes" => "id='standard_interface_text' onload='ldAll()'",
     ];

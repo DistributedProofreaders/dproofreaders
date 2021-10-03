@@ -328,14 +328,35 @@ function api_v1_project_pdflatex($method, $data, $query_params)
         mkdir($temp_path);
     }
     $page_text = array_get($query_params, "text", "no text");
-    // temporary files will get deleted by cron
+    // TODO incorporate preamble and postamble
+    // TODO incorporate project-specific preamble
+
     $tmp_file_path = tempnam($temp_path, "");
-    rename($tmp_file_path, $tmp_file_path .= '.txt');
-//    $tmp_file_path .= ".txt";
-    file_put_contents($tmp_file_path, $page_text);
-    $file_base_name = basename($tmp_file_path);
+    $pdf_base_name = basename($tmp_file_path) . ".pdf";
+    $tex_file_path = $tmp_file_path . '.tex';
+    rename($tmp_file_path, $tex_file_path);
+    file_put_contents($tex_file_path, $page_text);
+
+    $result = [];
+    $retval = -1;
+    $cmd = "pdflatex -no-shell-escape -halt-on-error -output-directory=$temp_path $tex_file_path";
+    exec($cmd, $result, $retval);
+
+    // delete files no longer needed
+    unlink($tex_file_path);
+    unlink($tmp_file_path . '.log');
+    unlink($tmp_file_path . '.aux');
+    // pdf file will get deleted by cron
+
+    // $retval means
+    // 0: no serious problems: pdf file generated
+    // 1: pdflatex problem: $result will contains necy. info.
+    // The log file is much longer and not needed
+    // >1: problem with exec, e.g. couldn't find pdflatex
 
     return [
-        "url" => "$projects_url/$temp_dir_name/$file_base_name",
+        "retval" => $retval,
+        "result" => $result,
+        "url" => "$projects_url/$temp_dir_name/$pdf_base_name",
     ];
 }

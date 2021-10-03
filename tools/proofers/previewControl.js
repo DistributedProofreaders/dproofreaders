@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ makeApiAjaxSettings makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings projectId */
+/* global $ makeApiAjaxSettings makePreview, fontStyles fontFamilies MathJax
+validateText tagNames previewStrings projectId latexProject */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -303,25 +304,28 @@ $( function() {
         alert(jqxhr.responseJSON.error);
     }
 
-    let viewFrame = document.createElement("iframe");
-    viewFrame.width='100%';
-    viewFrame.height='100%';
-    viewFrame.style.border = "none";
+    function showLatexPreview(data) {
+        let latexView = $("<div>").addClass('flex_container');
+        $(prevDiv).append(latexView);
+        let viewBox = $("<div>").addClass('stretchbox');
+        let controlPane = $("<div>").addClass("fixedbox");
+        latexView.append(viewBox, controlPane);
+        let quitButton = $("<input>", {type: 'button', value: "quit"}).click(function() {
+            $(prevDiv).empty();
+            previewToProof();
+        });
+        controlPane.append(quitButton);
 
-    let latexPreview = true;
-    function showLatexPreview() {
-        $("#format_preview").hide();
-        prevDiv.appendChild(viewFrame);
-        let text = txtarea.value;
-        let ajaxSettings = makeApiAjaxSettings(`v1/projects/${projectId}/pdflatex`);
-        ajaxSettings.type = "POST";
-        ajaxSettings.data = {text};
-        $.ajax(ajaxSettings)
-            .done(function (data) {
-                console.log(data);
-                viewFrame.src = data.url;
-            })
-            .fail(showError);
+        if(0 === data.retval) {
+            // ok
+            let viewFrame = $(`<iframe width='100%' height='100%' src=${data.url}>`).css({border: "none", verticalAlign: "middle"});
+            viewBox.append(viewFrame);
+        } else if (1 === data.retval) {
+            // compile problem
+            viewBox.append(data.result.join("\n")).css({"white-space": "pre"});
+        } else {
+            alert("latex compiler could not run");
+        }
     }
 
     previewControl = {
@@ -361,10 +365,21 @@ $( function() {
             // make the bottom frame very small since it is not useful
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
-            enterPreview();
-            if(latexPreview) {
-                showLatexPreview();
+            // TODO split view and show original text as well as output
+            // for all cases of preview
+            // TODO show line numbers if latex since compiler gives them
+            if(latexProject) {
+                $("#format_preview").hide();
+                prevDiv.style.display = "block";
+                let text = txtarea.value;
+                let ajaxSettings = makeApiAjaxSettings(`v1/projects/${projectId}/pdflatex`);
+                ajaxSettings.type = "POST";
+                ajaxSettings.data = {text};
+                $.ajax(ajaxSettings)
+                    .done(showLatexPreview)
+                    .fail(showError);
             } else {
+                enterPreview();
                 font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
                 this.reSizeText(1.0);
                 writePreviewText();
