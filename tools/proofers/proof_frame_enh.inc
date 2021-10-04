@@ -14,6 +14,9 @@ function echo_proof_frame_enh($ppage)
     global $code_url;
 
     $project = new Project($ppage->projectid());
+    $project_id = $ppage->projectid();
+    // HACK perhaps this should be determined by non-empty preamble field in the project
+    $latex_project = str_contains($project->nameofwork, "LaTeX") ? 1 : 0;
     $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
     $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
@@ -34,6 +37,7 @@ function echo_proof_frame_enh($ppage)
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
+            "$code_url/scripts/api.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
             "$code_url/scripts/control_bar.js",
@@ -49,6 +53,8 @@ function echo_proof_frame_enh($ppage)
         var standardInterface = false;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';
+        var projectId = '$project_id';
+        var latexProject = $latex_project;
         ",
         "css_data" => ibe_get_styles(),
         "body_attributes" => 'id="enhanced_interface" onload="ldAll()"',
