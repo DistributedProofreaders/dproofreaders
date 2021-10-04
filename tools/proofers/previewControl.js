@@ -318,8 +318,17 @@ $( function() {
 
         if(0 === data.retval) {
             // ok
-            let viewFrame = $(`<iframe width='100%' height='100%' src=${data.url}>`).css({border: "none", verticalAlign: "middle"});
+            let binary_string = atob(data.pdf);
+            let len = binary_string.length;
+            let bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binary_string.charCodeAt(i);
+            }
+            let blob = new Blob([bytes.buffer], {type: "application/pdf"});
+            let data_url = URL.createObjectURL(blob);
+            let viewFrame = $(`<iframe width='100%' height='100%' src=${data_url}>`).css({border: "none", verticalAlign: "middle"});
             viewBox.append(viewFrame);
+            URL.revokeObjectURL(data_url);
         } else if (1 === data.retval) {
             // compile problem
             viewBox.append(data.result.join("\n")).css({"white-space": "pre"});

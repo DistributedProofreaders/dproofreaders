@@ -319,28 +319,20 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 
 function api_v1_project_pdflatex($method, $data, $query_params)
 {
-    global $projects_dir, $projects_url;
-
-    $temp_dir_name = "temp";
-
-    $temp_path = "$projects_dir/$temp_dir_name";
+    // make a directory to work in
+    $temp_path = sys_get_temp_dir() . uniqid("/latex_");
+    mkdir($temp_path);
     if (!is_dir($temp_path)) {
-        mkdir($temp_path);
+        throw new UnauthorizedError("Can't create directory");
     }
     chdir($temp_path);
 
-    /*  $files = glob("*");
-                foreach ($files as $file) {
-                    unlink($file);
-                }*/
-
     $page_text = array_get($query_params, "text", "no text");
 
-    $tmp_file_path = tempnam($temp_path, "");
-    $base_name = basename($tmp_file_path);
-    $pdf_base_name = $base_name . ".pdf";
-    $tex_base_name = $base_name . '.tex';
-    rename($base_name, $tex_base_name);
+    // we are in our own directory so can use simple names
+    $base_name = "page";
+    $pdf_base_name = "$base_name.pdf";
+    $tex_base_name = "$base_name.tex";
 
     // incorporate preamble and postamble
     $preamble =
@@ -359,11 +351,15 @@ function api_v1_project_pdflatex($method, $data, $query_params)
     $cmd = "pdflatex -no-shell-escape -halt-on-error $tex_base_name";
     exec($cmd, $result, $retval);
 
+    $enc_pdf = (0 == $retval) ? base64_encode(file_get_contents($pdf_base_name)) : "";
+
     // delete files no longer needed
-    unlink($tex_base_name);
-    unlink($base_name . '.log');
-    unlink($base_name . '.aux');
-    // pdf file will get deleted by cron
+    $files = glob("*");
+    foreach ($files as $file) {
+        unlink($file);
+    }
+    chdir("..");
+    rmdir($temp_path);
 
     // $retval means
     // 0: no serious problems: pdf file generated
@@ -374,6 +370,6 @@ function api_v1_project_pdflatex($method, $data, $query_params)
     return [
         "retval" => $retval,
         "result" => $result,
-        "url" => "$projects_url/$temp_dir_name/$pdf_base_name",
+        "pdf" => $enc_pdf,
     ];
 }
