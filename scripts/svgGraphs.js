@@ -154,140 +154,142 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const data = Object.entries(config.data).filter(([,{x}]) => x && x.length > 0);
         const svg = d3.select("#" + id).append("svg")
             .attr("viewBox", [0, 0, width, height]);
-        const tooltip = d3.select("#" + id)
-            .append("div")
-            .attr("class", "graph-tooltip")
-            .style("display", "none");
+        if (data.length > 0) {
+            const tooltip = d3.select("#" + id)
+                .append("div")
+                .attr("class", "graph-tooltip")
+                .style("display", "none");
 
-        const mouseAction = (event, {value}) => {
-            tooltip.style("display", "")
-                .text(value)
-                .style("left", (d3.pointer(event, document.body)[0]) + "px")
-                .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
-        };
+            const mouseAction = (event, {value}) => {
+                tooltip.style("display", "")
+                    .text(d3.format('d')(value))
+                    .style("left", (d3.pointer(event, document.body)[0]) + "px")
+                    .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
+            };
 
-        const mouseLeave = () => {
-            tooltip.style("display", "none");
-        };
+            const mouseLeave = () => {
+                tooltip.style("display", "none");
+            };
 
-        const yValues = data.map(([,{y}]) => y.map(Number))
-            .flatMap(x => x);
-        const minYValue = d3.min(yValues, d => d);
-        const y = d3.scaleLinear()
-            .domain([minYValue > 0 ? 0 : minYValue, d3.max(yValues, d => d)])
-            .nice()
-            .range([height - barMargin.bottom, barMargin.top]);
+            const yValues = data.map(([,{y}]) => y.map(Number))
+                .flatMap(x => x);
+            const minYValue = d3.min(yValues, d => d);
+            const y = d3.scaleLinear()
+                .domain([minYValue > 0 ? 0 : minYValue, d3.max(yValues, d => d)])
+                .nice()
+                .range([height - barMargin.bottom, barMargin.top]);
 
-        let yAxisTicks = y.ticks();
-        const yInterval = config.yAxisTickCount ? Math.ceil(yAxisTicks.length / config.yAxisTickCount) : 1;
-        const integerYTicks = yAxisTicks.filter(Number.isInteger);
-        if (integerYTicks.length > 1) {
-            yAxisTicks = integerYTicks;
-        }
-        yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
-        const yAxis = g => g
-            .attr("transform", `translate(${barMargin.left},0)`)
-            .call(d3.axisLeft(y).tickValues(yAxisTicks))
-            .call(g => g.select(".domain").remove())
-            .call(g => g.append("text")
-                .attr("x", -barMargin.left)
-                .attr("y", 10)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "start"));
-
-        const xValues = data[0][1].x;
-        const x = d3.scaleBand()
-            .domain(d3.range(xValues.length))
-            .range([barMargin.left, width - barMargin.right])
-            .padding(0.1);
-
-        if (minYValue < 0) {
-            svg.append("g")
-                .append("line")
-                .attr("x1", barMargin.left)
-                .attr("x2", width - barMargin.right)
-                .attr("y1", y(0))
-                .attr("y2", y(0))
-                .attr("style", "stroke-width: .5px")
-                .attr("stroke", "currentColor");
-        }
-
-        let xGroupOffset;
-        if (config.groupBars) {
-            xGroupOffset = d3.scaleBand()
-                .domain(data.map(([title]) => title))
-                .rangeRound([0, x.bandwidth()])
-                .padding(0.05);
-        } else {
-            xGroupOffset = () => 0;
-        }
-
-        const interval = Math.ceil(xValues.length / 40);
-        const xAxis = g => g
-            .attr("transform", `translate(0,${height - barMargin.bottom})`)
-            .call(d3.axisBottom(x)
-                .tickValues(x.domain().filter((_, i) => i % interval === 0))
-                .tickFormat(i => xValues[i])
-                .tickSizeOuter(0));
-
-        const renderSeries = (seriesTitle, seriesData, seriesIndex, seriesToRender) => {
-            const data = seriesData.x.reduce((acc, value, index) => {
-                acc.push({
-                    [seriesTitle]: value,
-                    value: Number(seriesData.y[index])
-                });
-                return acc;
-            }, []);
-
-            if (seriesToRender === "line" && seriesData.type === "line") {
-                const line = d3.line()
-                    .x((d, i) => x(i))
-                    .y(({value}) => value < 0 ? y(0) : y(value));
-
-                svg.append("path")
-                    .datum(data)
-                    .attr("fill", "none")
-                    .attr("class", `graph-series-stroke-${seriesIndex + 1}`)
-                    .attr("stroke-width", 1.5)
-                    .attr("stroke-linejoin", "round")
-                    .attr("stroke-linecap", "round")
-                    .attr("d", line);
-            } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
-                svg.append("g")
-                    .selectAll("rect")
-                    .data(data)
-                    .join("rect")
-                    .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
-                    .attr("stroke-width", 1)
-                    .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
-                    .attr("y", ({value}) => value < 0 ? y(0) : y(value))
-                    .attr("height", d => Math.abs(y(0) - y(d.value)))
-                    .attr("width", config.groupBars ? xGroupOffset.bandwidth() : Math.max(x.bandwidth(), 1))
-                    .on("mouseover", mouseAction)
-                    .on("mousemove", mouseAction)
-                    .on("mouseleave", mouseLeave);
+            let yAxisTicks = y.ticks();
+            const yInterval = config.yAxisTickCount ? Math.ceil(yAxisTicks.length / config.yAxisTickCount) : 1;
+            const integerYTicks = yAxisTicks.filter(Number.isInteger);
+            if (integerYTicks.length > 1) {
+                yAxisTicks = integerYTicks;
             }
-        };
+            yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
+            const yAxis = g => g
+                .attr("transform", `translate(${barMargin.left},0)`)
+                .call(d3.axisLeft(y).tickValues(yAxisTicks))
+                .call(g => g.select(".domain").remove())
+                .call(g => g.append("text")
+                    .attr("x", -barMargin.left)
+                    .attr("y", 10)
+                    .attr("fill", "currentColor")
+                    .attr("text-anchor", "start"));
 
-        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
-            renderSeries(seriesTitle, seriesData, seriesIndex, "bar" /* seriesToRender */);
-        });
+            const xValues = data[0][1].x;
+            const x = d3.scaleBand()
+                .domain(d3.range(xValues.length))
+                .range([barMargin.left, width - barMargin.right])
+                .padding(0.1);
 
-        svg.append("g")
-            .call(xAxis)
-            .selectAll("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -5)
-            .attr("x", -6)
-            .style("text-anchor", "end");
+            if (minYValue < 0) {
+                svg.append("g")
+                    .append("line")
+                    .attr("x1", barMargin.left)
+                    .attr("x2", width - barMargin.right)
+                    .attr("y1", y(0))
+                    .attr("y2", y(0))
+                    .attr("style", "stroke-width: .5px")
+                    .attr("stroke", "currentColor");
+            }
 
-        svg.append("g")
-            .call(yAxis);
+            let xGroupOffset;
+            if (config.groupBars) {
+                xGroupOffset = d3.scaleBand()
+                    .domain(data.map(([title]) => title))
+                    .rangeRound([0, x.bandwidth()])
+                    .padding(0.05);
+            } else {
+                xGroupOffset = () => 0;
+            }
 
-        // render lines after xaxis so they are above axis, but bars are above.
-        data.forEach(([seriesTitle, seriesData], seriesIndex) => {
-            renderSeries(seriesTitle, seriesData, seriesIndex, "line" /* seriesToRender */);
-        });
+            const interval = Math.ceil(xValues.length / 40);
+            const xAxis = g => g
+                .attr("transform", `translate(0,${height - barMargin.bottom})`)
+                .call(d3.axisBottom(x)
+                    .tickValues(x.domain().filter((_, i) => i % interval === 0))
+                    .tickFormat(i => xValues[i])
+                    .tickSizeOuter(0));
+
+            const renderSeries = (seriesTitle, seriesData, seriesIndex, seriesToRender) => {
+                const data = seriesData.x.reduce((acc, value, index) => {
+                    acc.push({
+                        [seriesTitle]: value,
+                        value: Number(seriesData.y[index])
+                    });
+                    return acc;
+                }, []);
+
+                if (seriesToRender === "line" && seriesData.type === "line") {
+                    const line = d3.line()
+                        .x((d, i) => x(i))
+                        .y(({value}) => value < 0 ? y(0) : y(value));
+
+                    svg.append("path")
+                        .datum(data)
+                        .attr("fill", "none")
+                        .attr("class", `graph-series-stroke-${seriesIndex + 1}`)
+                        .attr("stroke-width", 2.5)
+                        .attr("stroke-linejoin", "round")
+                        .attr("stroke-linecap", "round")
+                        .attr("d", line);
+                } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
+                    svg.append("g")
+                        .selectAll("rect")
+                        .data(data)
+                        .join("rect")
+                        .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
+                        .attr("stroke-width", 1)
+                        .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
+                        .attr("y", ({value}) => value < 0 ? y(0) : y(value))
+                        .attr("height", d => Math.abs(y(0) - y(d.value)))
+                        .attr("width", config.groupBars ? xGroupOffset.bandwidth() : Math.max(x.bandwidth(), 1))
+                        .on("mouseover", mouseAction)
+                        .on("mousemove", mouseAction)
+                        .on("mouseleave", mouseLeave);
+                }
+            };
+
+            data.forEach(([seriesTitle, seriesData], seriesIndex) => {
+                renderSeries(seriesTitle, seriesData, seriesIndex, "bar" /* seriesToRender */);
+            });
+
+            svg.append("g")
+                .call(xAxis)
+                .selectAll("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -5)
+                .attr("x", -6)
+                .style("text-anchor", "end");
+
+            svg.append("g")
+                .call(yAxis);
+
+            // render lines after xaxis so they are above axis, but bars are above.
+            data.forEach(([seriesTitle, seriesData], seriesIndex) => {
+                renderSeries(seriesTitle, seriesData, seriesIndex, "line" /* seriesToRender */);
+            });
+        }
 
         addTitle(svg, config, width);
         addLegend(svg, config, data.map(([title]) => title), width, height);
