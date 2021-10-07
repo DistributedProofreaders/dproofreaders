@@ -28,6 +28,6 @@ echo "<h1>$title</h1>";
 
 echo "<div style='max-width: 640px'>";
 foreach ($graphs as [$type, $id]) {
-    echo "<div id='$id' style='max-height: 400px'></div><hr style='margin: 20px 0 20px 0'>";
+    echo "<div id='$id' style='max-height: 400px'></div><hr class='graph-divider'>";
 }
 echo "</div>";
