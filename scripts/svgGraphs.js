@@ -19,7 +19,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .text(config.title);
     }
 
-    function addLegend(svg, config, series, width, height) {
+    function addLegend(svg, config, series, width, height, reverseSeries = false) {
         const hasMultipleSeries = series.length > 1;
         const yAxisLabel = config.yAxisLabel || (!hasMultipleSeries ? Object.keys(config.data)[0] : null);
         if (hasMultipleSeries) {
@@ -33,7 +33,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .enter()
                 .append("circle")
                 .attr("cx", margin.left + (config.axisLeft ? 30 : 10))
-                .attr("cy", (d,i) => (margin.left + 10) + (i * 25))
+                .attr("cy", (_,i) => (margin.left + 10) + ((reverseSeries ? (series.length - i - 1) : i) * 25))
                 .attr("r", 7)
                 .attr("class", (_, i) => config.barColors ? "" : `graph-series-fill-${i + 1}`);
 
@@ -43,7 +43,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .append("text")
                 .attr("fill", "currentColor")
                 .attr("x", margin.left + (config.axisLeft ? 55 : 25))
-                .attr("y", (d,i) => (margin.left + 10) + (i * 25) + 5)
+                .attr("y", (_,i) => (margin.left + 10) + ((reverseSeries ? (series.length - i - 1) : i) * 25) + 5)
                 .text(d => d);
             const containerBox = container.node().getBBox();
             legendBox.attr("width", containerBox.width + 6)
@@ -75,9 +75,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const width = 640;
         const length = Object.entries(config.data)[0][1].x.length;
         const data = [];
-        data.columns = Object.keys(config.data).sort((c1, c2) => config.data[c1].y[0] - config.data[c2].y[0]);
+        data.columns = Object.keys(config.data);
         for (let i = 0; i < length; i++) {
-            const rowEntry = (data.columns.reduce((previousValue, k, currentIndex) => {
+            const rowEntry = data.columns.reduce((previousValue, k, currentIndex) => {
                 const v = config.data[k];
                 previousValue[k] = v.y[i] - previousValue.currentY;
                 previousValue.currentY = v.y[i];
@@ -86,7 +86,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 }
 
                 return previousValue;
-            }, {currentY: 0}));
+            }, {currentY: 0});
             delete rowEntry.currentY;
             data.push(rowEntry);
         }
@@ -144,7 +144,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .call(yAxis);
 
         addTitle(svg, config, width);
-        addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height);
+        addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height, true /* reverse */);
     }
 
     function barLineGraph(id, config) {
