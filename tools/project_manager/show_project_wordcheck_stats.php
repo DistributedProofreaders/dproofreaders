@@ -5,6 +5,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'graph_data.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 
@@ -18,13 +19,6 @@ $project = new Project($projectid);
 enforce_edit_authorization($projectid);
 
 $title = _("Project WordCheck Statistics");
-output_header($title, NO_STATSBAR);
-
-
-echo "<h1>$title</h1>";
-echo "<h2>" . get_project_name($projectid) . "</h2>";
-
-echo "<p>" . _("The following statistics are generated from the most recently saved text of each page and the site and project's Good and Bad Word Lists.") . "</p>";
 
 // load bad words for project
 $proj_bad_words = load_project_bad_words($projectid);
@@ -107,14 +101,15 @@ foreach ($page_stats as $page => $data) {
     array_push($graph_y, $flagged);
 }
 
-// store the data in a file for the graphing script to read
-file_put_contents(
-    sys_get_temp_dir() . "/$projectid-graph_flags_per_page.dat",
-    serialize([
-        "graph_x" => $graph_x,
-        "graph_y" => $graph_y,
-    ])
-);
+$graph_flags_per_page = [
+    "title" => _("Flagged words per page"),
+    "data" => [
+        _("Flags") => [
+            "x" => $graph_x,
+            "y" => $graph_y,
+        ],
+    ],
+];
 
 // calculate the mode by reverse sorting the array, resetting
 // the internal pointer, and using the first element
@@ -135,14 +130,31 @@ for ($numFlags = $total["flagged_min"]; $numFlags <= $total["flagged_max"]; $num
     }
 }
 
-// store the mode for graphing
-file_put_contents(
-    sys_get_temp_dir() . "/$projectid-graph_pages_per_number_of_flags.dat",
-    serialize([
-        "graph_x" => array_keys($flags_n_pages),
-        "graph_y" => array_values($flags_n_pages),
-    ])
-);
+$graph_pages_per_number_of_flags = [
+    "title" => _("Number of flags on a page"),
+    "data" => [
+        _("Pages with that many flags") => [
+            "x" => array_keys($flags_n_pages),
+            "y" => array_values($flags_n_pages),
+        ],
+    ],
+];
+
+$graphs = [
+    ["barLineGraph", "graph_flags_per_page", $graph_flags_per_page],
+    ["barLineGraph", "graph_pages_per_number_of_flags", $graph_pages_per_number_of_flags],
+];
+
+output_header($title, NO_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => build_svg_graph_inits($graphs),
+]);
+
+
+echo "<h1>$title</h1>";
+echo "<h2>" . get_project_name($projectid) . "</h2>";
+
+echo "<p>" . _("The following statistics are generated from the most recently saved text of each page and the site and project's Good and Bad Word Lists.") . "</p>";
 
 // calculate averages
 $total["flagged_avg"] = $total["proj_bad_words_avg"] = $total["site_bad_words_avg"] = 0;
@@ -202,8 +214,8 @@ if ($total["num_pages"] > 0) {
 
 <h2><?php echo _("Flagged words distribution"); ?></h2>
 
-<p><img src="graph_flags_per_page.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of flagged words per page"); ?>"></p>
+<p><div id='graph_flags_per_page' style='max-width: 640px;'></div></p>
 
-<p><img src="graph_pages_per_number_of_flags.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of pages with a given number of flagged words"); ?>"></p>
+<p><div id="graph_pages_per_number_of_flags" style='max-width: 640px;'></div></p>
 
 <?php

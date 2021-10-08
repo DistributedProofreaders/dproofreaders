@@ -57,6 +57,10 @@
 @border-color-base-mediumc: #999999;
 @border-color-base-lowc: #d3d3d3;    // lightgrey
 
+@graph-series-colors: #1f77b4, #ff7f0e, #2ca02c, #d62728, #9467bd, #8c564b, #e377c2, #7f7f7f, #bcbd22, #17becf;
+@graph-normal-series: #bbbbbb;
+@graph-above-goal: #ff484f;
+
 /* ------------------------------------------------------------------------ */
 /* mixins with color */
 
@@ -385,6 +389,48 @@ footer, #footer {
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* Graphs */
+.graph-tooltip {
+  background-color: @page-background;
+  border: thin solid @border-color-base;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+}
+
+.graph-legend {
+  fill: @page-background;
+  outline: 2px solid @border-color-base;
+  border-radius: 5px;
+}
+
+.graph-divider {
+  margin: 1.25em 0 1.25em 0;
+}
+
+.graph-normal-series {
+  fill: @graph-normal-series;
+}
+.graph-above-goal {
+  fill: @graph-above-goal;
+}
+
+.graph-series-loop (@i) when (@i > 0) {
+  .graph-series-fill-@{i} {
+    fill: extract(@graph-series-colors, @i);
+  }
+
+  .graph-series-stroke-@{i} {
+    stroke: extract(@graph-series-colors, @i);
+  }
+
+  .graph-series-loop(@i - 1);
+}
+
+.graph-series-loop(10);
+
 /*
  If the screen is "narrow enough" we move the statsbar below the page
  content using a flex layout. We don't use a flex layout for the
@@ -527,6 +573,9 @@ div.newsitem {
     }
     img {
         max-width: 100%;
+    }
+    iframe {
+        border: 0;
     }
 }
 

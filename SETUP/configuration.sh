@@ -436,19 +436,6 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 # Miscellaneous
 # -------------
 
-_JPGRAPH_DIR=$base_dir/jpgraph
-# The location of the jpgraph installation.
-# The DP code can make efficient use of the jpgraph cache if configured.
-# See jpgraph documentation on how to enable the cache.
-
-_JPGRAPH_FONT_FACE=2        # FF_FONT1
-_JPGRAPH_FONT_STYLE=9002    # FS_BOLD
-# Font face and style values for jpgraph graphs. For possible values, see
-# $_JPGRAPH_DIR/src/jpgraph_ttf.inc.php (the FF_ and FS_ defines). If you
-# have TrueType fonts installed and jpgraph configured to access them,
-# changing these to one of those fonts and FS_NORMAL will give much better
-# looking graphs.
-
 _USE_PHP_SESSIONS=TRUE
 # If set to TRUE, PHP sessions are used to track user preferences, etc;
 # if FALSE, the original DP cookie system is used.

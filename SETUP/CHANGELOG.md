@@ -7,6 +7,12 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/17`
+
+* Removed jpgraph and GD dependencies (chrismiceli)
+* Graphs now rendered via client-side Javascript as themed SVGs (chrismiceli)
+
 
 ## R202109
 Scripts supporting this upgrade are in `SETUP/upgrade/16`

@@ -36,8 +36,6 @@ $dyn_locales_dir = "$dyn_dir/locale";
 
 $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
-$jpgraph_dir = '<<JPGRAPH_DIR>>';
-
 $blog_url = '<<BLOG_URL>>';
 
 $wiki_url = '<<WIKI_URL>>';
@@ -135,6 +133,3 @@ $ordinary_users_can_see_queue_settings = <<ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS
 $external_catalog_locator = '<<EXTERNAL_CATALOG_LOCATOR>>';
 $charset = 'UTF-8';
 $default_project_char_suites = <<DEFAULT_CHAR_SUITES>>;
-
-$jpgraph_FF='<<JPGRAPH_FONT_FACE>>';
-$jpgraph_FS='<<JPGRAPH_FONT_STYLE>>';

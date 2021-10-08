@@ -1,21 +1,23 @@
 <?php
-$relPath = "./../../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once('common.inc');
+include_once($relPath.'graph_data.inc');
+include_once($relPath.'slim_header.inc');
 
 require_login();
 
-$graph = new Graph(800, 500, get_image_cache_filename(), 60);
+$width = 800;
+$height = 500;
 
 $n_pages_ = [];
 $n_available_pages_ = [];
-$res = mysqli_query(DPDatabase::get_connection(), "
+$res = DPDatabase::query("
     SELECT state, SUM(n_pages), SUM(n_available_pages)
     FROM projects
-    WHERE state != 'proj_submit_pgposted' AND state != 'project_delete'
+    WHERE state != '" . PROJ_SUBMIT_PG_POSTED . "' AND state != '" . PROJ_DELETE . "'
     GROUP BY state
-") or die(DPDatabase::log_error());
+");
 while ([$state, $sum_n_pages, $sum_n_available_pages] = mysqli_fetch_row($res)) {
     $n_pages_[$state] = $sum_n_pages;
     $n_available_pages_[$state] = $sum_n_available_pages;
@@ -59,45 +61,44 @@ $waiting_n_pages[] = 0;
 $available_n_pages[] = @$n_pages_[PROJ_POST_SECOND_AVAILABLE];
 $progordone_n_pages[] = @$n_pages_[PROJ_POST_SECOND_CHECKED_OUT];
 
-// ---------------
-
-$graph->SetScale("textlin");
-
-$graph->SetShadow();
-$graph->img->SetMargin(75, 50, 50, 100);
-
 // ------------------------
 
-// Create the bar plots
-$unavail_plot = new BarPlot($unavail_n_pages);
-$unavail_plot->SetLegend(_('unavailable'));
+$title = _("Number of pages in various states");
+$graphs = [
+    ["barLineGraph", "pages_in_states", [
+        "title" => $title,
+        "data" => [
+            _('unavailable') => [
+                "x" => $stage_labels,
+                "y" => $unavail_n_pages,
+            ],
+            _('waiting (to be available)') => [
+                "x" => $stage_labels,
+                "y" => $waiting_n_pages,
+            ],
+            _('available') => [
+                "x" => $stage_labels,
+                "y" => $available_n_pages,
+            ],
+            _('in progress or done') => [
+                "x" => $stage_labels,
+                "y" => $progordone_n_pages,
+            ],
+        ],
+        "width" => $width,
+        "height" => $height,
+        "groupBars" => true,
+        "legendAdjustment" => [
+            "x" => 500,
+            "y" => 0,
+        ],
+    ]],
+];
 
-$waiting_plot = new BarPlot($waiting_n_pages);
-$waiting_plot->SetLegend(_('waiting (to be available)'));
+slim_header($title, [
+    "body_attributes" => "style='margin: 0'",
+    "js_files" => get_graph_js_files(),
+    "js_data" => build_svg_graph_inits($graphs),
+]);
 
-$available_plot = new BarPlot($available_n_pages);
-$available_plot->SetLegend(_('available'));
-
-$progordone_plot = new BarPlot($progordone_n_pages);
-$progordone_plot->SetLegend(_('in progress or done'));
-
-// Create the grouped bar plot
-$gbplot = new GroupBarPlot([$unavail_plot, $waiting_plot, $available_plot, $progordone_plot]);
-
-// ...and add it to the graph
-$graph->Add($gbplot);
-
-// ------------------------
-
-$graph->title->Set(_("Number of pages in various states"));
-$graph->xaxis->title->Set(_("stage"));
-// $graph->yaxis->title->Set(_("# pages"));
-
-$graph->xaxis->SetTickLabels($stage_labels);
-
-$graph->title->SetFont($jpgraph_FF, $jpgraph_FS);
-$graph->yaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
-$graph->xaxis->title->SetFont($jpgraph_FF, $jpgraph_FS);
-
-// Display the graph
-$graph->Stroke();
+echo "<div id='pages_in_states' style='width:" . $width . "px;height:" . $height . "px;'></div>";

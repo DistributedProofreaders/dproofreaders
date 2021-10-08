@@ -2,21 +2,27 @@
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'graph_data.inc');
 
 require_login();
 
 $title = _("User Logon Statistics");
-output_header($title);
-echo "<h1>$title</h1>";
-
-$images = [
-    "jpgraph_files/users_logging_on.php?past=day&amp;preceding=hour",
-    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=hour",
-    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=day",
-    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=week",
-    "jpgraph_files/users_logging_on.php?past=year&amp;preceding=fourweek",
+$graphs = [
+    ["barLineGraph", "past_day_preceding_hour", user_logging_on("day", "hour")],
+    ["stackedAreaGraph", "past_year_preceding_hour", user_logging_on("year", "hour")],
+    ["stackedAreaGraph", "past_year_preceding_day", user_logging_on("year", "day")],
+    ["stackedAreaGraph", "past_year_preceding_week", user_logging_on("year", "week")],
+    ["stackedAreaGraph", "past_year_preceding_fourweek", user_logging_on("year", "fourweek")],
 ];
 
-foreach ($images as $image) {
-    echo "<img style='max-width: 100%' src='$image'><br>\n";
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => build_svg_graph_inits($graphs),
+]);
+echo "<h1>$title</h1>";
+
+echo "<div style='max-width: 640px'>";
+foreach ($graphs as [$type, $id]) {
+    echo "<div id='$id' style='max-height: 400px'></div><hr class='graph-divider'>";
 }
+echo "</div>";

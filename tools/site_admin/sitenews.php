@@ -112,7 +112,7 @@ function echo_selection($name, $options, $value_selected)
 
 function handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type)
 {
-    $allowed_tags = '<a><b><i><u><span><img><p><div><br>';
+    $allowed_tags = '<a><b><i><u><span><img><p><div><br><iframe>';
     switch ($action) {
         case 'add':
             // Save a new site news item

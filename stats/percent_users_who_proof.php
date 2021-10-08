@@ -1,13 +1,9 @@
 <?php
-$relPath = "./../../pinc/";
+$relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'page_tally.inc');
-include_once('common.inc');
-
-// Initialize the graph before anything else.
-// This makes use of the jpgraph cache if enabled.
-// Last argument to init_simple_bar_graph is the cache timeout in minutes.
-$graph = init_simple_bar_graph(640, 400, 900);
+include_once($relPath.'graph_data.inc');
+include_once($relPath.'slim_header.inc');
 
 [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
@@ -19,7 +15,7 @@ $graph = init_simple_bar_graph(640, 400, 900);
 // get the number who joined,
 // and the number of those who have proofread at least one page.
 //
-$result = mysqli_query(DPDatabase::get_connection(), "
+$result = DPDatabase::query("
     SELECT
         FROM_UNIXTIME(date_created, '%Y-%m')
           AS month,
@@ -42,14 +38,30 @@ while ($row = mysqli_fetch_object($result)) {
     $data1y[] = 100 * $row->num_who_proofed / $row->num_who_joined;
 }
 
-$x_text_tick_interval = calculate_text_tick_interval('monthly', count($datax));
+$width = 640;
+$height = 400;
 
-draw_simple_bar_graph(
-    $graph,
-    $datax,
-    $data1y,
-    $x_text_tick_interval,
-    _('Percentage of New Users Who Went on to Proofread By Month'),
-    // xgettext:no-php-format
-    _('% of newly Joined Users who Proofread')
-);
+$title = _('Percentage of New Users Who Went on to Proofread By Month');
+$graphs = [
+    ["barLineGraph", "percent_users_who_proof", [
+        "title" => $title,
+        "data" => [
+            // xgettext:no-php-format
+            _('% of newly Joined Users who Proofread') => [
+                "x" => $datax,
+                "y" => $data1y,
+            ],
+        ],
+        "width" => $width,
+        "height" => $height,
+    ]],
+];
+
+slim_header($title, [
+    "body_attributes" => "style='margin: 0'",
+    "js_files" => get_graph_js_files(),
+    "js_data" => build_svg_graph_inits($graphs),
+
+]);
+
+echo "<div id='percent_users_who_proof' style='width:" . $width . "px;height:" . $height . "px;'></div>";
