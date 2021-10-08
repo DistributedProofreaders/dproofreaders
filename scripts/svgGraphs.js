@@ -3,7 +3,7 @@
 
 const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     const margin = ({
-        top: 20,
+        top: 30,
         right: 45,
         bottom: 30,
         left: 45
@@ -12,7 +12,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     function addTitle(svg, config, width) {
         svg.append("text")
             .attr("x", (config.width || width) / 2)
-            .attr("y", (margin.top / 2) + 3)
+            .attr("y", "13")
             .attr("font-size", "16px")
             .attr("text-anchor", "middle")
             .attr("fill", "currentColor")
@@ -189,12 +189,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             const yAxis = g => g
                 .attr("transform", `translate(${barMargin.left},0)`)
                 .call(d3.axisLeft(y).tickValues(yAxisTicks))
-                .call(g => g.select(".domain").remove())
-                .call(g => g.append("text")
-                    .attr("x", -barMargin.left)
-                    .attr("y", 10)
-                    .attr("fill", "currentColor")
-                    .attr("text-anchor", "start"));
+                .call(g => g.select(".domain").remove());
 
             const xValues = data[0][1].x;
             const x = d3.scaleBand()
