@@ -1445,6 +1445,9 @@ footer small,
   outline: 2px solid #000000;
   border-radius: 5px;
 }
+.graph-divider {
+  margin: 1.25em 0 1.25em 0;
+}
 .graph-normal-series {
   fill: #bbbbbb;
 }
