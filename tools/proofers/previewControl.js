@@ -22,7 +22,6 @@ $( function() {
     var prevWin = document.getElementById("text_preview");
     var txtarea = document.getElementById("text_data");
     var prevDiv = document.getElementById("prevdiv");
-    var tagon = document.getElementById("show_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
     var configPan = document.getElementById("id_config_panel");
@@ -96,11 +95,7 @@ $( function() {
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
         // if there are any issues the tags will be shown
-        // so make the radio buttons agree
-        if (!preview.ok) {
-            tagon.checked = true;
-            viewMode = "show_tags";
-        }
+        // but don't change the radio buttons or viewMode
         // if any issues are suppressed show warning
         var warn = Object.keys(previewStyles.suppress).some(function (key) {
             return previewStyles.suppress[key];
@@ -218,6 +213,7 @@ $( function() {
         testDraw();
     }
 
+    // select the view mode
     $("[name='viewSel']").click(function () {
         viewMode = this.id;
         writePreviewText();
