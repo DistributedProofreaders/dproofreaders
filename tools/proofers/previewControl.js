@@ -94,8 +94,8 @@ $( function() {
         }
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
-        // if there are any issues the tags will be shown
-        // but don't change the radio buttons or viewMode
+        // show the style controls if there are no issues
+        $(".styleoption").toggle(preview.ok);
         // if any issues are suppressed show warning
         var warn = Object.keys(previewStyles.suppress).some(function (key) {
             return previewStyles.suppress[key];

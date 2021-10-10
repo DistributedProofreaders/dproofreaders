@@ -124,7 +124,7 @@ function output_preview_div()
                 </div>
                 <div id="id_controls" class="fixedbox control-pane">
                     <input type='button' onclick="previewControl.hide()" value="$quit">
-                    <span class='ilb'><label for="id_color_on">$color_markup</label>
+                    <span class='ilb styleoption'><label for="id_color_on">$color_markup</label>
                         <input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" >
                     </span>
                     <span class='ilb'>$text
@@ -132,12 +132,12 @@ function output_preview_div()
                         <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
                     </span>
                     <span class='ilb'>$font <select id="id_font_sel"></select></span>
-                    <span class='ilb'>
+                    <span class='ilb styleoption'>
                         <input type="radio" name="viewSel" id="show_tags"><label for="show_tags">$tags</label>
                         <input type="radio" name="viewSel" id="no_tags"><label for="no_tags">$no_tags</label>
                         <input type="radio" name="viewSel" id="flat"><label for="flat">$text</label>
                     </span>
-                    <span class='ilb'>
+                    <span class='ilb styleoption'>
                         <input type="checkbox" id="re_wrap"><label for="re_wrap">$re_wrap</label>
                     </span>
                     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
