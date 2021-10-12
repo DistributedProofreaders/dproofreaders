@@ -12,7 +12,7 @@ require_login();
 
 $title = _("Statistics Central");
 
-$cumulative_total_proj_summary_graph_data = cumulative_total_proj_summary_graph();
+$cumulative_total_proj_summary_graph_data = query_graph_cache("cumulative_total_proj_summary_graph");
 $graphs = [
     ["stackedAreaGraph", "cumulative_total_proj_summary_graph", $cumulative_total_proj_summary_graph_data],
 ];
