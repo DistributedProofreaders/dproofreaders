@@ -844,7 +844,7 @@ function get_round_backlog_stats($interested_phases)
 //
 // Note that the graph function might include _() so it's important that we
 // include the user's language in the key.
-function query_graph_cache($function, $args, $expire_from_now = 3600)
+function query_graph_cache($function, $args = [], $expire_from_now = 3600)
 {
     $memcache = new Memcached();
     $memcache->addServer('localhost', 11211);
