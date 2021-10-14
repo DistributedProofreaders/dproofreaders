@@ -250,11 +250,11 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                         .attr("d", line);
                 } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
                     svg.append("g")
-                        .attr("shape-rendering", "crispEdges")
                         .selectAll("rect")
                         .data(data)
                         .join("rect")
                         .attr("class", (_, i) => config.barColors ? config.barColors[i] : `graph-series-stroke-${seriesIndex + 1} graph-series-fill-${seriesIndex + 1}`)
+                        .style("shape-rendering", "crispEdges")
                         .attr("stroke-width", 1)
                         .attr("x", (d, i) => x(i) + xGroupOffset(seriesTitle))
                         .attr("y", ({value}) => value < 0 ? y(0) : y(value))
