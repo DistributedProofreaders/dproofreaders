@@ -250,6 +250,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                         .attr("d", line);
                 } else if (seriesToRender === "bar" && (seriesData.type === undefined || seriesData.type === "bar")) {
                     svg.append("g")
+                        .attr("shape-rendering", "crispEdges")
                         .selectAll("rect")
                         .data(data)
                         .join("rect")
