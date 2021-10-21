@@ -177,7 +177,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             };
 
             const yValues = data.map(([,{y}]) => y.map(Number))
-                .flatMap(x => x);
+                .reduce((previousValue, currentValue) => ([...previousValue, ...currentValue]), []);
             const minYValue = d3.min(yValues, d => d);
             const y = d3.scaleLinear()
                 .domain([minYValue > 0 ? 0 : minYValue, d3.max(yValues, d => d)])
