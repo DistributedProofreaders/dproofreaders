@@ -148,7 +148,12 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     }
 
     function barLineGraph(id, config) {
-        const barMargin = {...margin, left: config.yAxisWidth || 50, bottom: config.xAxisHeight || 50};
+        const barMargin = {
+            top: margin.top,
+            right: margin.right,
+            left: config.yAxisWidth || 50,
+            bottom: config.xAxisHeight || 50
+        };
         const height = config.height || 400;
         const width = config.width || 640;
         const data = Object.entries(config.data).filter(([,{x}]) => x && x.length > 0);
@@ -172,7 +177,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             };
 
             const yValues = data.map(([,{y}]) => y.map(Number))
-                .flatMap(x => x);
+                .reduce((previousValue, currentValue) => ([...previousValue, ...currentValue]), []);
             const minYValue = d3.min(yValues, d => d);
             const y = d3.scaleLinear()
                 .domain([minYValue > 0 ? 0 : minYValue, d3.max(yValues, d => d)])
@@ -292,7 +297,12 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     }
 
     function pieGraph(id, config) {
-        const pieMargin = {...margin, top: 50, bottom: 50};
+        const pieMargin = {
+            right: margin.right,
+            left: margin.left,
+            top: 50,
+            bottom: 50
+        };
         let total = 0;
         const data = config.data.reduce((acc, value, index) => {
             acc.push({name: config.labels[index], value});
