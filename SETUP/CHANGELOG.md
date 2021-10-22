@@ -12,7 +12,7 @@ Scripts supporting this upgrade are in `SETUP/upgrade/17`
 
 * Removed jpgraph and GD dependencies (chrismiceli)
 * Graphs now rendered via client-side Javascript as themed SVGs (chrismiceli)
-
+* Updated minimum browser versions, see [INSTALL.md](INSTALL.md).
 
 ## R202109
 Scripts supporting this upgrade are in `SETUP/upgrade/16`

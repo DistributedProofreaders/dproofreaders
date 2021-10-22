@@ -55,11 +55,11 @@ These middleware components match the following major distribution releases:
 
 ## Browser support
 The following are the lowest known supported browser versions for the code:
-* Chrome 50
-* Firefox 50
+* Chrome 54
+* Firefox 52
 * Microsoft Edge
-* Opera 40
-* Safari 10
+* Opera 41
+* Safari 11
 
 Internet Explorer is not supported.
 
