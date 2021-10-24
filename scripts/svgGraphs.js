@@ -109,7 +109,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .attr("transform", `translate(${config.axisLeft ? margin.left : width - margin.right},0)`)
             .call((config.axisLeft ? d3.axisLeft(y) : d3.axisRight(y))
                 .tickValues(yAxisTicks)
-                .tickFormat(d3.format("d")))
+                .tickFormat(d3.format(",d")))
             .call(g => g.select(".domain").remove());
         const xAxis = g => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -167,7 +167,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
             const mouseAction = (event, {value}) => {
                 tooltip.style("display", "")
-                    .text(d3.format('d')(value))
+                    .text(d3.format(',d')(value))
                     .style("left", (d3.pointer(event, document.body)[0]) + "px")
                     .style("top", Math.max(d3.pointer(event, document.body)[1] - 32, 0) + "px");
             };
