@@ -112,7 +112,7 @@ new Round(
     'REQ-AUTO',
     '',
     null, // access_change_callback
-    _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
+    _("The page-texts have already been proofread, and now need to have the text WordChecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
     null, // daily_page_limit
