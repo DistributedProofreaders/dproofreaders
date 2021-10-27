@@ -154,6 +154,7 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
         "width" => 600,
         "height" => 300,
         "xAxisHeight" => 65,
+        "yAxisWidth" => 60,
         "data" => [
             is_null($error) ? _('Pages') : $error => [
                 "x" => $datax,
