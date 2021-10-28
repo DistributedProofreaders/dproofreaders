@@ -151,7 +151,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const barMargin = {
             top: margin.top,
             right: margin.right,
-            left: config.yAxisWidth || 50,
             bottom: config.xAxisHeight || 50
         };
         const height = config.height || 400;
@@ -192,20 +191,24 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             }
             yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
             const yAxis = g => g
-                .attr("transform", `translate(${barMargin.left},0)`)
                 .call(d3.axisLeft(y).tickValues(yAxisTicks))
                 .call(g => g.select(".domain").remove());
+
+            const yAxisGroup = svg.append("g")
+                .call(yAxis);
+            const left = (yAxisGroup.node().getBBox().width * 2) + 2;
+            yAxisGroup.attr("transform", `translate(${left},0)`);
 
             const xValues = data[0][1].x;
             const x = d3.scaleBand()
                 .domain(d3.range(xValues.length))
-                .range([barMargin.left, width - barMargin.right])
+                .range([left, width - barMargin.right])
                 .padding(0.1);
 
             if (minYValue < 0) {
                 svg.append("g")
                     .append("line")
-                    .attr("x1", barMargin.left)
+                    .attr("x1", left)
                     .attr("x2", width - barMargin.right)
                     .attr("y1", y(0))
                     .attr("y2", y(0))
@@ -282,9 +285,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .attr("y", -5)
                 .attr("x", -6)
                 .style("text-anchor", "end");
-
-            svg.append("g")
-                .call(yAxis);
 
             // render lines after xaxis so they are above axis, but bars are above.
             data.forEach(([seriesTitle, seriesData], seriesIndex) => {

@@ -73,9 +73,6 @@ respects different configuration properties.
   // Height of the graph in pixels. Defaults to 400 if not provided.
   height?: number;
   
-  // Width of y axis in pixels. Defaults to 50 if not provided.
-  yAxisWidth?: number;
-
   // Y axis label. Defaults to first series label or legend box for multiple
   // series.
   yAxisLabel?: string;
