@@ -196,7 +196,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
             const yAxisGroup = svg.append("g")
                 .call(yAxis);
-            const left = (yAxisGroup.node().getBBox().width * 2) + 2;
+            const left = yAxisGroup.node().getBBox().width + 25;
             yAxisGroup.attr("transform", `translate(${left},0)`);
 
             const xValues = data[0][1].x;
