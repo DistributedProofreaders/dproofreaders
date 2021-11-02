@@ -94,6 +94,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         data.y = "date";
         const series = d3.stack().keys(data.columns.slice(1))(data);
 
+        const svg = d3.select("#" + id).append("svg")
+            .attr("viewBox", [0, 0, width, height]);
+
         const y = d3.scaleLinear()
             .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
             .nice()
@@ -101,16 +104,26 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
         const yAxisTicks = y.ticks().filter(Number.isInteger);
 
-        const x = d3.scaleUtc()
-            .domain(d3.extent(data, d => d.date))
-            .range([margin.left, width - margin.right]);
-
         const yAxis = g => g
-            .attr("transform", `translate(${config.axisLeft ? margin.left : width - margin.right},0)`)
             .call((config.axisLeft ? d3.axisLeft(y) : d3.axisRight(y))
                 .tickValues(yAxisTicks)
                 .tickFormat(d3.format(",d")))
             .call(g => g.select(".domain").remove());
+
+        const yAxisGroup = svg.append("g")
+            .call(yAxis);
+        let left = margin.left;
+        if (config.axisLeft) {
+            left = yAxisGroup.node().getBBox().width + 27;
+            yAxisGroup.attr("transform", `translate(${left},0)`);
+        } else {
+            yAxisGroup.attr("transform", `translate(${width - margin.right},0)`);
+        }
+
+        const x = d3.scaleUtc()
+            .domain(d3.extent(data, d => d.date))
+            .range([left, width - margin.right]);
+
         const xAxis = g => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(d3.axisBottom(x).ticks(width / 100)
@@ -122,9 +135,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             .x(d => x(d.data.date))
             .y0(d => y(d[0]))
             .y1(d => y(d[1]));
-
-        const svg = d3.select("#" + id).append("svg")
-            .attr("viewBox", [0, 0, width, height]);
 
         svg.append("g")
             .selectAll("path")
@@ -139,9 +149,6 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
         svg.append("g")
             .call(xAxis);
-
-        svg.append("g")
-            .call(yAxis);
 
         addTitle(svg, config, width);
         addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height, true /* reverse */);
@@ -196,7 +203,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
             const yAxisGroup = svg.append("g")
                 .call(yAxis);
-            const left = yAxisGroup.node().getBBox().width + 25;
+            const left = yAxisGroup.node().getBBox().width + 27;
             yAxisGroup.attr("transform", `translate(${left},0)`);
 
             const xValues = data[0][1].x;
