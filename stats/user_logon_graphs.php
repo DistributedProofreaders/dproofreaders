@@ -6,7 +6,7 @@ include_once($relPath.'graph_data.inc');
 
 require_login();
 
-$title = _("User Logon Statistics");
+$title = _("User Logon Graphs");
 $graphs = [
     ["barLineGraph", "past_day_preceding_hour", user_logging_on("day", "hour")],
     ["stackedAreaGraph", "past_year_preceding_hour", user_logging_on("year", "hour")],

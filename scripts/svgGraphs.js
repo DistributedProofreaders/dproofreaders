@@ -193,12 +193,16 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             let yAxisTicks = y.ticks();
             const yInterval = config.yAxisTickCount ? Math.ceil(yAxisTicks.length / config.yAxisTickCount) : 1;
             const integerYTicks = yAxisTicks.filter(Number.isInteger);
+            let tickValues = d3.axisLeft(y);
+            const tickFilter = (_, i) => i % yInterval === 0;
             if (integerYTicks.length > 1) {
-                yAxisTicks = integerYTicks;
+                tickValues = tickValues.tickValues(integerYTicks.filter(tickFilter)).tickFormat(d3.format(",d"));
+            } else {
+                tickValues = tickValues.tickValues(yAxisTicks.filter(tickFilter));
             }
-            yAxisTicks = yAxisTicks.filter((_, i) => i % yInterval === 0);
+
             const yAxis = g => g
-                .call(d3.axisLeft(y).tickValues(yAxisTicks))
+                .call(tickValues)
                 .call(g => g.select(".domain").remove());
 
             const yAxisGroup = svg.append("g")
