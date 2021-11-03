@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Install NPM packages (for tests)
         run: npm install
       - name: Run js unit tests
@@ -58,7 +58,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Lint PHP code
         run: cd SETUP && make lint_code && cd ..
       - name: Install NPM packages (for eslint)
@@ -83,7 +83,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Install composer dependencies (for UTF8)
         run: composer install --no-dev
       - name: Install NPM packages (for less)
