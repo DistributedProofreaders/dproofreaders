@@ -176,13 +176,13 @@ $table->row(
 );
 
 $table->row(
-    "<a href='user_logon_stats.php'>" . _("User Logon Statistics") . "</a>",
-    "<a href='pm_stats.php'>" . _("Project Management Statistics") . "</a>"
+    "<a href='pm_stats.php'>" . _("Project Management Statistics") . "</a>",
+    "<a href='pp_stats.php'>" . _("Post-Processing Statistics") . "</a>"
 );
 
 $table->row(
-    "<a href='pp_stats.php'>" . _("Post-Processing Statistics") . "</a>",
-    "<a href='ppv_stats.php'>" . _("Post-Processing Verification Statistics") . "</a>"
+    "<a href='ppv_stats.php'>" . _("Post-Processing Verification Statistics") . "</a>",
+    "",
 );
 
 $table->end();
@@ -253,8 +253,13 @@ $table = new ThemedTable(
 );
 
 $table->row(
-  "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
+  "<a href='user_logon_graphs.php'>" . _("User Logon Graphs") . "</a>",
   "<a href='pages_in_states.php'>" . _("Pages in States") . "</a>"
+);
+
+$table->row(
+  "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
+  "",
 );
 
 $table->end();
