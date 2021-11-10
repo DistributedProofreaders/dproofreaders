@@ -356,8 +356,8 @@ function can_user_get_pages_in_project($username, $project, $round)
         }
     }
 
-    // In P1, English and French projects, for a while after their release,
-    // are reserved for inexperienced users.
+    // Allow projects to be reserved for newcomers based on
+    // criteria defined in get_reserve_length().
     $n_days_of_reserve = get_reserve_length($project, $round);
     if ($n_days_of_reserve > 0) {
         $page_tally_threshold = 500;
@@ -446,7 +446,12 @@ function get_reserve_length($project, $round)
         return 0;
     }
 
-    if ($project->language == 'English' || $project->language == 'French') {
+    // If it is deemed appropriate to add a reserve for languages
+    // other than English, this is the block of code to customize.
+    // If the reserve will be the same as the English reserve, just
+    // add "|| $project->language == '<language>'" to the end of the
+    // condition. Otherwise, a most complex block will be needed.
+    if ($project->language == 'English') {
         // All 'special day' projects are exempted.
         if ($project->special_code != '') {
             return 0;
@@ -457,7 +462,7 @@ function get_reserve_length($project, $round)
     }
 
     // Anything not covered above
-    // (i.e., language other than 'English' or 'French')
+    // (i.e., language other than 'English')
     // is not reserved.
     return 0;
 }
