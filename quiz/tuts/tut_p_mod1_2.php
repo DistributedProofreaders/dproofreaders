@@ -5,9 +5,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header(_('Moderate Proofreading Tutorial'));
+output_header(sprintf(_("Moderate Proofreading Tutorial: Part %d"), 1));
 
-echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, page %d"), 2) . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial: Part %1\$d, Page %2\$d"), 1, 2) . "</h2>\n";
 echo "<h3>" . _("End-of-line Hyphenation") . "</h3>\n";
 echo "<p>" . _("Words like to-day and to-morrow that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. If you're not sure if the author hyphenated it or not, leave the hyphen, put an <kbd>*</kbd> after it, and join the word together like this: <kbd>to-*day</kbd>. The asterisk will bring it to the attention of the post-processor, who has access to all the pages and can determine how the author typically wrote this word.") . "</p>\n";
 

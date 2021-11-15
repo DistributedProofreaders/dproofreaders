@@ -5,9 +5,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header(_('Moderate Proofreading Tutorial'));
+output_header(sprintf(_("Moderate Proofreading Tutorial: Part %d"), 1));
 
-echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, page %d"), 3) . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial: Part %1\$d, Page %2\$d"), 1, 3) . "</h2>\n";
 echo "<h3>" . _("Accented/Non-ASCII Characters") . "</h3>\n";
 echo "<p>" . _("Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see the Project Manager's instructions in the Project Comments.") . "</p>\n";
 

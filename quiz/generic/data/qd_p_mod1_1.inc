@@ -1,8 +1,7 @@
 <?php
 
-
-$browser_title = _("Moderate Proofreading Quiz");
-$intro_title = sprintf(_("Moderate Proofreading Quiz, page %d"), 1);
+$browser_title = sprintf(_("Moderate Proofreading Quiz: Part %d"), 1);
+$intro_title = sprintf(_("Moderate Proofreading Quiz: Part %1\$d, Page %2\$d"), 1, 1);
 $initial_instructions = $initial_instructions__P;
 $initial_text = "warm bath on March 8th (who shall say hereafter\nthat science is unfeeling?), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of Eritish institutions with his four eyebearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.\n\nB3";
 $solutions = [
@@ -12,7 +11,6 @@ $solutions = [
 $criteria = ["e-*b"];
 $parting_message = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("In many books a page footer consisting of a number and/or letter will appear on some pages but not others.  These are <i>printer's marks</i>, used to assist the printer in assembling the sections of the book in order.  They often only appear every 16 pages.  Printer's marks should be deleted like any other page footer.") . "</p>";
-
 
 // error messages
 
@@ -24,7 +22,6 @@ $messages["Eritish"] = [
     "message_title" => _("Scanno"),
     "message_body" => _("There is still a 'scanno': an '<kbd>E</kbd>' in the text where there is a '<kbd>B</kbd>' in the image."),
 ];
-
 
 // error checks
 

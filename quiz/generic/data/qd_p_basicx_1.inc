@@ -1,14 +1,10 @@
 <?php
 
-
-$browser_title = _("Basic Proofreading Quiz");
+$browser_title = _("Basic Proofreading Quiz: Extra Practice");
 $initial_text = "a detective, why was he watching? There was\nindeed no reward offered whatsoever for his arrest.\nPerhaps he belonged to the wretched type of beings\nwho do pride themselves on their public spirit--\nmen who wrote letters to the newspapers and\ninterfered in other people's business. He might now\nwell have wanted to show his public spirit by hand-\ning him over to the police. The newspaper in his\nhand! Of course. He had read his description there,\nand identified him.\nCharles now found himself conjecturing how the\nman would set about carrying out his task of pub-";
 $solutions = ["a detective, why was he watching? There was\nindeed no reward offered whatsoever for his arrest.\nPerhaps he belonged to the wretched type of beings\nwho do pride themselves on their public spirit--men\nwho wrote letters to the newspapers and\ninterfered in other people's business. He might now\nwell have wanted to show his public spirit by handing\nhim over to the police. The newspaper in his\nhand! Of course. He had read his description there,\nand identified him.\n\nCharles now found himself conjecturing how the\nman would set about carrying out his task of pub-*"];
-$intro_title = _("Basic Proofreading Quiz, extra practice");
+$intro_title = sprintf(_("Basic Proofreading Quiz: Extra Practice, Page %d"), 1);
 $initial_instructions = $initial_instructions__P;
-
-
-
 
 $tests[] = ["type" => "expectedtext", "searchtext" => ["pub-*"], "case_sensitive" => true, "error" => "P_eophyphen"];
 $tests[] = ["type" => "forbiddentext", "searchtext" => [" --", "-- "], "case_sensitive" => true, "error" => "P_spacedemdash"];
@@ -21,7 +17,6 @@ $tests[] = ["type" => "expectedtext", "searchtext" => ["handing"], "case_sensiti
 $tests[] = ["type" => "forbiddentext", "searchtext" => ["\nhanding"], "case_sensitive" => true, "error" => "P_hyphenlower"];
 $tests[] = ["type" => "expectedlinebreaks", "number" => 2, "starttext" => "him.", "stoptext" => "Charles now", "case_sensitive" => true, "errorhigh" => "toomanylb", "errorlow" => "P_para"];
 $tests[] = ["type" => "longline", "lengthlimit" => 60, "error" => "P_longline"];
-
 
 $messages["dashlower"] = [
     "message_title" => _("Em-dash placement"),

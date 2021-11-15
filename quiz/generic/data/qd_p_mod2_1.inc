@@ -1,8 +1,7 @@
 <?php
 
-
-$browser_title = _("Moderate Proofreading Quiz");
-$intro_title = sprintf(_("Moderate Proofreading Quiz, page %d"), 6);
+$browser_title = sprintf(_("Moderate Proofreading Quiz: Part %d"), 2);
+$intro_title = sprintf(_("Moderate Proofreading Quiz: Part %1\$d, Page %2\$d"), 2, 1);
 $initial_instructions = $initial_instructions__P;
 $initial_text = "faintly defined over-head.   `\n\nThe\ntraveller.\n\nP----was a traveller: anybody could\nsee that he was a traveller, and if he had\nthen been in any part of the globe, there\nwould not have been the least doubt that\nhe was a traveller travelling on his travels.\nHe looked like a traveller, and was\ndressed like a traveller. He had with him:\n\na travelling-cap    a coat\na portable-desk   a compass\na travelling-shirt    a hand organ\n\nThe hand-organ played its part very\npleasantly in the cabin of the \" Balakla-";
 $solutions = ["faintly defined over-head.\n\nThe\ntraveller.\n\nP---- was a traveller; anybody could\nsee that he was a traveller, and if he had\nthen been in any part of the globe, there\nwould not have been the least doubt that\nhe was a traveller travelling on his travels.\nHe looked like a traveller, and was\ndressed like a traveller. He had with him:\n\na travelling-cap\na portable-desk\na travelling-shirt\na coat\na compass\na hand-organ\n\nThe hand-organ played its part very\npleasantly in the cabin of the \"Balakla-*"];
