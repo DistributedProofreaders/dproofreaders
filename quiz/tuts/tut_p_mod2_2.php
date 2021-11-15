@@ -5,9 +5,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header(_('Moderate Proofreading Tutorial'));
+output_header(sprintf(_("Moderate Proofreading Tutorial: Part %d"), 2));
 
-echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, page %d"), 7) . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial: Part %1\$d, Page %2\$d"), 2, 2) . "</h2>\n";
 echo "<h3>" . _("Subscripts") . "</h3>\n";
 echo "<p>" . _("Subscripted text is often found in scientific works, but is not common in other material. Proofread subscripted text by inserting an underline character <kbd>_</kbd> and surrounding the text with curly braces <kbd>{</kbd> and <kbd>}</kbd>. For example:") . "</p>\n";
 

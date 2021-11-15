@@ -1,8 +1,7 @@
 <?php
 
-
-$browser_title = _("Moderate Proofreading Quiz");
-$intro_title = sprintf(_("Moderate Proofreading Quiz, page %d"), 8);
+$browser_title = sprintf(_("Moderate Proofreading Quiz: Part %d"), 2);
+$intro_title = sprintf(_("Moderate Proofreading Quiz: Part %1\$d, Page %2\$d"), 2, 3);
 $initial_instructions = $initial_instructions__P;
 $initial_text = "tween the quercus* and the olivet there exists a\nhatred so inveterate, that transplanted, either of\nthem, to a site previously occupied by the other,\nthey will die.I The quercus too, if planted near\nthe stoechas, will perish. There is a mortal feud\nexisting also between the cabbage and the vine;\n\n* See B. xi. c. 40. t See B. vii. cc. 5, 8, &c.\n\nI As Fee justly remarks, the greater part of these\nso-called sympathies and antipathies must be looked\nupon as so many fables.";
 $solutions = ["*tween the quercus[*] and the olive[*] there exists a\nhatred so inveterate, that transplanted, either of\nthem, to a site previously occupied by the other,\nthey will die.[*] The quercus too, if planted near\nthe stœchas, will perish. There is a mortal feud\nexisting also between the cabbage and the vine;\n\n* See B. xi. c. 40.\n\n* See B. vii. cc. 5, 8, &c.\n\n* As Fée justly remarks, the greater part of these\nso-called sympathies and antipathies must be looked\nupon as so many fables."];
@@ -49,7 +48,6 @@ $messages["fnmarkerspace"] = [
     "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><kbd>word[*] word</kbd>."),
     "guideline" => "footnotes",
 ];
-
 
 // error checks
 

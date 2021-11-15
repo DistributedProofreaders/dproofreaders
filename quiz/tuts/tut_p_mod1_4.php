@@ -5,9 +5,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header(_('Moderate Proofreading Tutorial'));
+output_header(sprintf(_("Moderate Proofreading Tutorial: Part %d"), 1));
 
-echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, page %d"), 4) . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial: Part %1\$d, Page %2\$d"), 1, 4) . "</h2>\n";
 echo "<h3>" . _("Common OCR Problems") . "</h3>\n";
 echo "<p>" . _("OCR commonly has trouble distinguishing between the similar characters.  Some examples are:") . "</p>\n";
 echo "<ul>";

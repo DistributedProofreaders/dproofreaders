@@ -1,12 +1,10 @@
 <?php
 
-
-$browser_title = _("Basic Proofreading Quiz");
+$browser_title = _("Basic Proofreading Quiz: Extra Practice");
 $initial_text = "repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\nDEAREST mother, this is indeed\nlike some of\nOakwood's happy hours, \" exclaimed\nEmmeline , that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, arid raised her laughing eyes";
 $solutions = ["repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\n\"DEAREST mother, this is indeed\nlike some of\nOakwood's happy hours,\" exclaimed\nEmmeline, that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, and raised her laughing eyes"];
-$intro_title = _("Basic Proofreading Quiz, extra practice");
+$intro_title = sprintf(_("Basic Proofreading Quiz: Extra Practice, Page %d"), 2);
 $initial_instructions = $initial_instructions__P;
-
 
 $tests[] = ["type" => "forbiddentext", "searchtext" => ["arid"], "case_sensitive" => false, "error" => "arid"];
 $tests[] = ["type" => "expectedtext", "searchtext" => ["\"DE"], "case_sensitive" => false, "error" => "missingquote"];
