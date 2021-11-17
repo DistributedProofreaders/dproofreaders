@@ -103,16 +103,10 @@ $(function () {
         // make an entry in issArray. start, len: position in text to mark
         // code: issue, optional type overrides issueType,
         // subText is text to substitute in some messages
-        function reportIssue(start, len, code, type, subText) {
-            // if default params allowed: type = null, subText = ""
-            // ie doesn't support default parameters so if not given
-            // type and subText are undefined: (undefined == null) is true
+        function reportIssue(start, len, code, type = null, subText = "") {
             if (!(config.suppress[code])) {
                 if(type == null) {
                     type = issueType[code];
-                }
-                if(subText == null) {
-                    subText = "";
                 }
                 issArray.push({start: start, len: len, code: code, type: type, subText: subText});
             }
