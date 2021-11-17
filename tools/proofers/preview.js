@@ -1097,13 +1097,16 @@ $(function () {
         // merge issue arrays with notes so that if both start at same
         // index the issueStart appears after the note but the issueEnd
         // appears before the note.
-        // array will be reversed, high indexes will appear first
-        let allInserts = issueStarts.concat(noteArray).concat(issueEnds);
+        // there cannot be > one issue at the same index (if there were, one
+        // will have been discarded) but there can be more than one note, so
+        // ensure order of notes is unchanged
+        let allInserts = issueEnds.concat(noteArray).concat(issueStarts);
         allInserts.sort(function(a, b) {
             // if starts are same return 0, order unchanged
-            return b.start - a.start;
+            return a.start - b.start;
         });
-
+        // reverse the array so splice last elements first
+        allInserts.reverse();
         // splice issue marking and notes into text
         allInserts.forEach(function (insert) {
             tArray.splice(insert.start, 0, insert.text);
