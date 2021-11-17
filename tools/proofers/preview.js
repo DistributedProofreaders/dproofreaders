@@ -26,11 +26,12 @@ function processExMath(text, textFunction, allowMath) {
     }
 }
 
+
 // find index of next unmatched ] return 0 if none found
+const re = /\[|\]/g;  // [ or ]
 function findClose(txt, index) {
-    var result;
-    var nestLevel = 0;
-    var re = /\[|\]/g;  // [ or ]
+    let result;
+    let nestLevel = 0;
     re.lastIndex = index;
     while ((result = re.exec(txt)) !== null) {
         if ("[" === result[0]) {
@@ -157,7 +158,8 @@ $(function () {
                 outNoteStart += noteStartIndex - beginIndex;
                 // if note starts at beginning of a line and ends at the end of a line
                 // remove any following nl character also so doesn't count as a blank line and include the nl in the note
-                if(((noteStartIndex === 0) || (txt.charAt(noteStartIndex - 1) === "\n")) && ((noteEndIndex === maxIndex) || (txt.charAt(noteEndIndex + 1) === "\n"))) {
+                if(((noteStartIndex === 0) || (txt.charAt(noteStartIndex - 1) === "\n"))
+                    && ((noteEndIndex === maxIndex) || (txt.charAt(noteEndIndex + 1) === "\n"))) {
                     // let next copy begin after the ending \n
                     beginIndex = noteEndIndex + 2;
                 } else {
