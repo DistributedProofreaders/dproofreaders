@@ -32,7 +32,7 @@ function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
     // All our themes begin with the initial markup, logo and navbar, and open a
     // table for further layout.
     output_html_header($nameofpage, $extra_args, $show_statsbar);
-    html_logobar();
+    html_logobar($user);
     echo "\n<div id='page-container'>\n";
     echo "<div id='page-body-container'>\n";
 
@@ -117,14 +117,15 @@ function output_footer($nameofpage, $show_statsbar = true)
     output_html_footer();
 }
 
-function html_logobar()
+function html_logobar($user)
 {
     global $code_url, $site_name;
     global $maintenance, $testing, $alert_message;
 
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name'></a>\n";
+    $logo = $user && $user->i_theme == "charcoal" ? "dp-logo-dark-360x68px.png" : "dp-logo-360x68px.png";
+    echo "<a href='$code_url'><img src='$code_url/graphics/$logo' width='360' height='68' alt='$site_name'></a>\n";
     echo "</div>\n";
 
     echo "<div id='titles-preserved'><p>\n";
