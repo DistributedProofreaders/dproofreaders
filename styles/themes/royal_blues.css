@@ -1171,6 +1171,12 @@ header #titles-preserved,
 #header #titles-preserved {
   display: table-cell;
 }
+header #logo svg,
+#header #logo svg,
+header #titles-preserved svg,
+#header #titles-preserved svg {
+  color: black;
+}
 header #logo,
 #header #logo {
   padding: 0.5em 0.5em 0.1em;

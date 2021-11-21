@@ -124,7 +124,7 @@ function html_logobar()
 
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name'></a>\n";
+    echo "<a href='$code_url'><svg width='360' height='68' alt='$site_name'><use href='$code_url/graphics/dp-logo.svg#logo' width='360' height='68'/></svg></a>\n";
     echo "</div>\n";
 
     echo "<div id='titles-preserved'><p>\n";
