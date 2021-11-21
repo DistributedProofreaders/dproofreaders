@@ -1171,11 +1171,12 @@ header #titles-preserved,
 #header #titles-preserved {
   display: table-cell;
 }
-header #logo svg,
-#header #logo svg,
-header #titles-preserved svg,
-#header #titles-preserved svg {
-  color: black;
+header #logo img,
+#header #logo img,
+header #titles-preserved img,
+#header #titles-preserved img {
+  content: url('../../graphics/dp-logo-light.png');
+  visibility: visible !important;
 }
 header #logo,
 #header #logo {
