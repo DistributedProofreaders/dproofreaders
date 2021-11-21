@@ -135,6 +135,11 @@ $(function () {
 
         // make text with notes removed, put them in an array with indexes into the new text
         function removeAllNotes(txt) {
+            // Remove trailing whitespace on each line so whole line notes
+            // are not disguised. Remove trailing blank lines
+            txt = txt.replace(/ *$/mg, "");
+            txt = txt.replace(/\s*$/, "");
+
             let beginIndex = 0;
             let txtOut = "";
             let result, noteStartIndex, noteEndIndex;
@@ -167,9 +172,7 @@ $(function () {
             // If beginIndex is greater than or equal to str.length, an empty string is returned.
             txtOut += txt.slice(beginIndex);
 
-            // remove trailing whitespace on each line and trailing blank lines
-            txtOut = txtOut.replace(/ *$/mg, "");
-            return txtOut.replace(/\s*$/, "");
+            return txtOut;
         }
 
         // find end of line (or eot) following ix
