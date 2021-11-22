@@ -903,7 +903,8 @@ $(function () {
 
             // out of line tags
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
+                txt = txt.replace(/\/\*|\*\/|\/#|#\//g, '<span' + colorString + '>$&</span>');
+                txt = txt.replace(/<tb>/g, '<span' + colorString + '>&lt;tb&gt;</span>');
             }
 
             // show sub- and super-scripts
@@ -964,7 +965,7 @@ $(function () {
                     return;
                 }
 
-                if (textLine === "&lt;tb&gt;") {    // thought break
+                if (textLine === "<tb>") {    // thought break
                     txt += '<div class="tb"></div>';
                     blankLines = 0; // so the following one makes it 1, giving a paragraph
                     return;
