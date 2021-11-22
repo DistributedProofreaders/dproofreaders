@@ -47,6 +47,12 @@ function findClose(txt, index) {
 }
 
 $(function () {
+
+    // true if txtLine contains anything except spaces
+    function nonBlank(textLine) {
+        return (/\S/.test(textLine));
+    }
+
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
@@ -217,8 +223,9 @@ $(function () {
 
             // check that no other characters are on the same line
             function chkAlone(start, len, str1) {
-                var ix = start + len;
-                if (ix != findEnd(ix)) {
+                const ix = start + len;
+                const end = findEnd(ix);
+                if (nonBlank(txt.slice(ix, end))) {
                     reportIssue(start, len, "charAfter", 1, str1);
                     return;
                 }
@@ -613,9 +620,9 @@ $(function () {
                     return !(/./).test(txt.charAt(pc));
                 }
 
-                var ix = start + len;
-                var end = findEnd(ix);
-                if (ix != end) {
+                const ix = start + len;
+                const end = findEnd(ix);
+                if (nonBlank(txt.slice(ix, end))) {
                     reportIssue(start, len, "charAfter", type, str1);
                     return;
                 }
