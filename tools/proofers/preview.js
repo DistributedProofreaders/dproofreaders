@@ -183,11 +183,11 @@ $(function () {
             return result.index;
         }
 
-        function chkCharAfter(start, len, type, str1) {
+        function chkCharAfter(start, len, type, descriptor) {
             const ix = start + len;
             const end = findEnd(ix);
             if (/\S/.test(txt.slice(ix, end))) {
-                reportIssue(start, len, "charAfter", type, str1);
+                reportIssue(start, len, "charAfter", type, descriptor);
                 return true;
             }
             return false;
@@ -225,8 +225,8 @@ $(function () {
             }
 
             // check that no other characters are on the same line
-            function chkAlone(start, len, str1) {
-                if(chkCharAfter(start, len, 1, str1)) {
+            function chkAlone(start, len, descriptor) {
+                if(chkCharAfter(start, len, 1, descriptor)) {
                     return;
                 }
 
@@ -612,7 +612,7 @@ $(function () {
             }
 
             // check no chars follow on same line and next line is blank
-            function chkAfter(start, len, str1, type, checkBlank) {
+            function chkAfter(start, len, descriptor, type, checkBlank) {
                 // true if find */ or \n or eot
                 function endNWorBlank(pc) {
                     if (txt.slice(pc, pc + 2) === "*/") {
@@ -621,13 +621,13 @@ $(function () {
                     return !(/./).test(txt.charAt(pc));
                 }
 
-                if(chkCharAfter(start, len, type, str1)) {
+                if(chkCharAfter(start, len, type, descriptor)) {
                     return;
                 }
 
                 const end = findEnd(start + len);
                 if (checkBlank && !endNWorBlank(end + 1)) {
-                    reportIssue(start, len, "blankAfter", type, str1);
+                    reportIssue(start, len, "blankAfter", type, descriptor);
                 }
             }
 
