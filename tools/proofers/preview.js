@@ -26,7 +26,6 @@ function processExMath(text, textFunction, allowMath) {
     }
 }
 
-
 // find index of next unmatched ] return 0 if none found
 const re = /\[|\]/g;  // [ or ]
 function findClose(txt, index) {
@@ -47,12 +46,6 @@ function findClose(txt, index) {
 }
 
 $(function () {
-
-    // true if txtLine contains anything except spaces
-    function nonBlank(textLine) {
-        return (/\S/.test(textLine));
-    }
-
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
@@ -190,6 +183,16 @@ $(function () {
             return result.index;
         }
 
+        function chkCharAfter(start, len, type, str1) {
+            const ix = start + len;
+            const end = findEnd(ix);
+            if (/\S/.test(txt.slice(ix, end))) {
+                reportIssue(start, len, "charAfter", type, str1);
+                return true;
+            }
+            return false;
+        }
+
         // the parsers for inline and out-of-line tags work with a stack:
         // for correct nesting opening tags are pushed onto the stack and popped off
         // when a corresponding closing tag is found
@@ -223,12 +226,10 @@ $(function () {
 
             // check that no other characters are on the same line
             function chkAlone(start, len, str1) {
-                const ix = start + len;
-                const end = findEnd(ix);
-                if (nonBlank(txt.slice(ix, end))) {
-                    reportIssue(start, len, "charAfter", 1, str1);
+                if(chkCharAfter(start, len, 1, str1)) {
                     return;
                 }
+
                 if (/./.test(txt.charAt(start - 1))) {
                     reportIssue(start, len, "charBefore");
                 }
@@ -620,12 +621,11 @@ $(function () {
                     return !(/./).test(txt.charAt(pc));
                 }
 
-                const ix = start + len;
-                const end = findEnd(ix);
-                if (nonBlank(txt.slice(ix, end))) {
-                    reportIssue(start, len, "charAfter", type, str1);
+                if(chkCharAfter(start, len, type, str1)) {
                     return;
                 }
+
+                const end = findEnd(start + len);
                 if (checkBlank && !endNWorBlank(end + 1)) {
                     reportIssue(start, len, "blankAfter", type, str1);
                 }
