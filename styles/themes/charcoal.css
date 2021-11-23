@@ -1176,7 +1176,6 @@ header #logo img,
 header #titles-preserved img,
 #header #titles-preserved img {
   content: url('../../graphics/dp-logo-light.png');
-  visibility: visible !important;
 }
 header #logo,
 #header #logo {
@@ -2760,6 +2759,14 @@ a {
 }
 #logo img {
   content: url('../../graphics/dp-logo-dark.png') !important;
+}
+#logo,
+#titles-preserved {
+  display: table-cell;
+}
+#logo img,
+#titles-preserved img {
+  content: url('../../graphics/dp-logo-dark.png');
 }
 /* 
  * Image treatment. This is primarily aimed at proofing

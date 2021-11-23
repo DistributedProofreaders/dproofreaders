@@ -1176,7 +1176,6 @@ header #logo img,
 header #titles-preserved img,
 #header #titles-preserved img {
   content: url('../../graphics/dp-logo-light.png');
-  visibility: visible !important;
 }
 header #logo,
 #header #logo {
