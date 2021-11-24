@@ -1,6 +1,21 @@
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
+// the formatting rules are applied as if proofers' notes were
+// invisible so remove them first and save for later. But first check if they
+// are malformed, if so mark the problem and do nothing else.
+
+// then analyse the text without notes and make an array of issues.
+// the issues and the notes are then merged back into the text.
+// The text could have <, > and & characters which should be html encoded,
+// do this before merging since the issue markup will contain < and >.
+// Thus the tags in the text will also be encoded.
+
+// The last stage is to interpret any tags to show the styling.
+// To avoid styling notes change these characters to something else before
+// merging and then convert back to html codes afterwards.
+
+
 var makePreview;
 var analyse;
 var getILTags;
@@ -733,9 +748,6 @@ $(function () {
             }
         }
 
-        // the formatting rules are applied as if proofers' notes were
-        // invisible so remove them first. But if they are malformed mark the
-        // problem and do nothing else.
         checkProoferNotes();
         if(parseOK) {
             txt = removeAllNotes(txt);
@@ -907,7 +919,7 @@ $(function () {
             // for out-of-line tags, tb, sub- and super-scripts
             let colorString = makeColourStyle('etc');
 
-            // out of line tags
+            // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
                 txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
             }
@@ -1088,8 +1100,6 @@ $(function () {
 
         var tArray = analysis.text.split("");
 
-        //encode so that tags don't get processed by showStyle()
-        // and can be html encoded later
         // these are private use codes so shouldn't ever appear in actual text
         const ampCode = "\uE000";
         const ltCode = "\uE001";
@@ -1116,6 +1126,8 @@ $(function () {
             noteArray = [];
         } else {
             noteArray = analysis.noteArray;
+            //encode so that tags don't get processed by showStyle()
+            // and can be html encoded later
             noteArray.forEach(function(note) {
                 note.text = cryptEncode(note.text);
             });
