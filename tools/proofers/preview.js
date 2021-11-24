@@ -841,8 +841,8 @@ $(function () {
 
         // add style and optional colouring for marked-up text
         function showStyle() {
-            var sc1 = "<sc>";
-            var sc2 = "</sc>";
+            const sc1 = "&lt;sc&gt;";
+            const sc2 = "&lt;/sc&gt;";
             // a string of small capitals
             var smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
             var scString;
@@ -851,7 +851,7 @@ $(function () {
                 scString = p1;
                 // remove tags such as <i> within the string so that all
                 // uppercase string is correctly identified, (only 1 char)
-                scString = scString.replace(/<\/?.>/g, '');
+                scString = scString.replace(/&lt;\/?.&gt;/g, '');
                 if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
@@ -873,8 +873,7 @@ $(function () {
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
-                    // html encode the tags
-                    tagMark = "&lt;" + p1 + p2 + "&gt;";
+                    tagMark = match;
                     break;
                 case "flat":
                     tagMark = tagMap[p2];
@@ -902,7 +901,7 @@ $(function () {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
             // find inline tag
-            var reTag = new RegExp("<(\\/?)(" + ILTags + ")>", "g");
+            var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
@@ -910,8 +909,7 @@ $(function () {
 
             // out of line tags
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\//g, '<span' + colorString + '>$&</span>');
-                txt = txt.replace(/<tb>/g, '<span' + colorString + '>&lt;tb&gt;</span>');
+                txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
             }
 
             // show sub- and super-scripts
@@ -972,7 +970,7 @@ $(function () {
                     return;
                 }
 
-                if (textLine === "<tb>") {    // thought break
+                if (textLine === "&lt;tb&gt;") {    // thought break
                     txt += '<div class="tb"></div>';
                     blankLines = 0; // so the following one makes it 1, giving a paragraph
                     return;
@@ -1090,20 +1088,40 @@ $(function () {
 
         var tArray = analysis.text.split("");
 
+        //encode so that tags don't get processed by showStyle()
+        // and can be html encoded later
+        // these are private use codes so shouldn't ever appear in actual text
+        const ampCode = "\uE000";
+        const ltCode = "\uE001";
+        const gtCode = "\uE002";
+
+        function cryptEncode(txt) {
+            return txt.replace(/&/g, ampCode)
+                .replace(/</g, ltCode)
+                .replace(/>/g, gtCode);
+        }
+
+        const reAmp = new RegExp(ampCode, "g");
+        const reLt = new RegExp(ltCode, "g");
+        const reGt = new RegExp(gtCode, "g");
+
+        function cryptHtmlEncode(s) {
+            return s.replace(reAmp, "&amp;")
+                .replace(reLt, "&lt;")
+                .replace(reGt, "&gt;");
+        }
+
         let noteArray;
         if(ok && wrapMode) {
             noteArray = [];
         } else {
             noteArray = analysis.noteArray;
             noteArray.forEach(function(note) {
-                note.text = htmlEncode(note.text);
+                note.text = cryptEncode(note.text);
             });
         }
 
-        if(!ok) {
-            tArray = tArray.map(htmlEncode);
-            // otherwise encoded tags will be made in showStyle() if neeeded
-        }
+        tArray = tArray.map(htmlEncode);
 
         // merge issue arrays with notes so that if both start at same
         // index the issueStart appears after the note but the issueEnd
@@ -1132,6 +1150,8 @@ $(function () {
                 reWrap();
             }
         }
+        // re-encode notes for html
+        txt = cryptHtmlEncode(txt);
 
         return {
             ok: ok,
