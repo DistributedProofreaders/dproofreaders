@@ -25,6 +25,8 @@ $ok_files = [
     "accounts/login.php",
     // API
     "api/index.php",
+    // DP Branding
+    "dp_branding/index.php",
     // FAQs
     "faq/doc-copy.php",
     "faq/font_sample.php",
