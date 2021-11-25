@@ -1,5 +1,5 @@
 <?php
-$relPath='../pinc/';
+$relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
@@ -10,7 +10,7 @@ Created: 2016-05-03
 
 $title = _("Distributed Proofreaders Branding");
 
-output_header($title);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -41,37 +41,23 @@ echo "<p><b>" . _("SVG file") . ":</b> <a href='dp-logo.svg'>dp-logo.svg</a></p>
 echo "<p><b>" . _("PNG files") . ":</b></p>";
 
 echo <<<LOGO
-<style>
-    table.branding {
-        width: 500px;
-        border-collapse: collapse;
-        text-align: center;
-    }
-    table.branding th.gray, table.branding td.gray {
-        background-color: lightgray;
-    }
-    table.branding tr th, table.branding tr td {
-        padding: 0.5em;
-    }
-</style>
-<table class='branding'>
-<tr>
-    <th class='gray'>Transparent<br>Background</th>
-    <td class='gray'>
-        <img src='dp-logo-500px.png'><br>
-        <a href='dp-logo-500px.png'>dp-logo-500px.png</a>
-    </td>
-</tr>
-<tr>
-    <th>White<br>Background</th>
-    <td>
-        <img src='dp-logo-500px-white.png'><br>
-        <a href='dp-logo-500px-white.png'>dp-logo-500px-white.png</a>
-    </td>
-</tr>
-</table>
-LOGO;
-
+    <table class='branding'>
+    <tr>
+        <th class='gray'>Transparent<br>Background</th>
+        <td class='gray'>
+            <img src='dp-logo-500px.png'><br>
+            <a href='dp-logo-500px.png'>dp-logo-500px.png</a>
+        </td>
+    </tr>
+    <tr>
+        <th>White<br>Background</th>
+        <td>
+            <img src='dp-logo-500px-white.png'><br>
+            <a href='dp-logo-500px-white.png'>dp-logo-500px-white.png</a>
+        </td>
+    </tr>
+    </table>
+    LOGO;
 
 echo "<h3 id='bw_logo'>" . _("Black &amp; White Logo") . "</h3>";
 
@@ -80,29 +66,16 @@ echo "<p><b>" . _("SVG file") . ":</b> <a href='dp-logo-bw.svg'>dp-logo-bw.svg</
 echo "<p><b>" . _("PNG files") . ":</b></p>";
 
 echo <<<LOGO
-<style>
-    table.branding {
-        width: 500px;
-        border-collapse: collapse;
-        text-align: center;
-    }
-    table.branding th.gray, table.branding td.gray {
-        background-color: lightgray;
-    }
-    table.branding tr th, table.branding tr td {
-        padding: 0.5em;
-    }
-</style>
-<table class='branding'>
-<tr>
-    <td>
-        <img src='dp-logo-bw-500px.png'><br>
-        <a href='dp-logo-bw-500px.png'>dp-logo-bw-500px.png</a>
-    </td>
-</tr>
-</table>
-LOGO;
-
+    <table class='branding'>
+    <tr>
+        <th class='black-transparent'>Transparent<br>Background</th>
+        <td class='black-transparent'>
+            <img src='dp-logo-bw-500px.png'><br>
+            <a href='dp-logo-bw-500px.png'>dp-logo-bw-500px.png</a>
+        </td>
+    </tr>
+    </table>
+    LOGO;
 
 echo "<h3 id='mark'>" . _("Mark") . "</h3>";
 
@@ -111,73 +84,73 @@ echo "<p><b>" . _("SVG file") . ":</b> <a href='dp-mark.svg'>dp-mark.svg</a></p>
 echo "<p><b>" . _("PNG files") . ":</b></p>";
 
 echo <<<MARK
-<table class='branding'>
-<tr>
-    <th>Size</th>
-    <th class='gray'>Transparent<br>Background</th>
-    <th>White<br>Background</th>
-</tr>
-<tr>
-    <td>32 x 32</td>
-    <td class='gray'>
-        <img src='dp-mark-32px.png'><br>
-        <a href='dp-mark-32px.png'>dp-mark-32px.png</a>
-    </td>
-    <td>
-        <img src='dp-mark-32px-white.png'><br>
-        <a href='dp-mark-32px-white.png'>dp-mark-32px-white.png</a>
-    </td>
-</tr>
-<tr>
-    <td>64 x 64</td>
-    <td class='gray'>
-        <img src='dp-mark-64px.png'><br>
-        <a href='dp-mark-64px.png'>dp-mark-64px.png</a>
-    </td>
-    <td>
-        <img src='dp-mark-64px-white.png'><br>
-        <a href='dp-mark-64px-white.png'>dp-mark-64px-white.png</a>
-    </td>
-</tr>
-<tr>
-    <td>120 x 120</td>
-    <td class='gray'>
-        <img src='dp-mark-120px.png'><br>
-        <a href='dp-mark-120px.png'>dp-mark-120px.png</a>
-    </td>
-    <td>
-        <img src='dp-mark-120px-white.png'><br>
-        <a href='dp-mark-120px-white.png'>dp-mark-120px-white.png</a>
-    </td>
-</tr>
-<tr>
-    <td>400 x 400</td>
-    <td class='gray'>
-        <a href='dp-mark-400px.png'>dp-mark-400px.png</a>
-    </td>
-    <td>
-        <a href='dp-mark-400px-white.png'>dp-mark-400px-white.png</a>
-    </td>
-</tr>
-</table>
+    <table class='branding'>
+    <tr>
+        <th>Size</th>
+        <th class='gray'>Transparent<br>Background</th>
+        <th>White<br>Background</th>
+    </tr>
+    <tr>
+        <td>32 x 32</td>
+        <td class='gray'>
+            <img src='dp-mark-32px.png'><br>
+            <a href='dp-mark-32px.png'>dp-mark-32px.png</a>
+        </td>
+        <td>
+            <img src='dp-mark-32px-white.png'><br>
+            <a href='dp-mark-32px-white.png'>dp-mark-32px-white.png</a>
+        </td>
+    </tr>
+    <tr>
+        <td>64 x 64</td>
+        <td class='gray'>
+            <img src='dp-mark-64px.png'><br>
+            <a href='dp-mark-64px.png'>dp-mark-64px.png</a>
+        </td>
+        <td>
+            <img src='dp-mark-64px-white.png'><br>
+            <a href='dp-mark-64px-white.png'>dp-mark-64px-white.png</a>
+        </td>
+    </tr>
+    <tr>
+        <td>120 x 120</td>
+        <td class='gray'>
+            <img src='dp-mark-120px.png'><br>
+            <a href='dp-mark-120px.png'>dp-mark-120px.png</a>
+        </td>
+        <td>
+            <img src='dp-mark-120px-white.png'><br>
+            <a href='dp-mark-120px-white.png'>dp-mark-120px-white.png</a>
+        </td>
+    </tr>
+    <tr>
+        <td>400 x 400</td>
+        <td class='gray'>
+            <a href='dp-mark-400px.png'>dp-mark-400px.png</a>
+        </td>
+        <td>
+            <a href='dp-mark-400px-white.png'>dp-mark-400px-white.png</a>
+        </td>
+    </tr>
+    </table>
 
-MARK;
+    MARK;
 
 echo "<h3 id='fonts_and_colors'>" . _("Fonts and Colors") . "</h3>";
 
 echo "<p>" . _("If you are looking to create additional branding assets, here are some guidelines for how the current assets were created.") . "</p>";
 
 echo <<<ASSETS
-<ul>
-    <li>DP blue: #007dc1</li>
-    <li>Base logo font: Amiri, available for free from <a href='https://www.google.com/fonts#ChoosePlace:select/Collection:Amiri'>Google Fonts</a></li>
-    <li>'Preserving History' font: Times New Roman</li>
-    <li>DP mark: Garamond</li>
-    <li>DP logo and mark drop shadow (created with the Drop Shadow filter in Inkscape):<ul>
-        <li>Blur radius: 2.0</li>
-        <li>Horiz offset (px): -3.7</li>
-        <li>Vertical offset (px): 3.7</li>
-        <li>Color (RGBA): 00000048</li>
-    </ul></li>
-</ul>
-ASSETS;
+    <ul>
+        <li>DP blue: #007dc1</li>
+        <li>Base logo font: Amiri, available for free from <a href='https://www.google.com/fonts#ChoosePlace:select/Collection:Amiri'>Google Fonts</a></li>
+        <li>'Preserving History' font: Times New Roman</li>
+        <li>DP mark: Garamond</li>
+        <li>DP logo and mark drop shadow (created with the Drop Shadow filter in Inkscape):<ul>
+            <li>Blur radius: 2.0</li>
+            <li>Horiz offset (px): -3.7</li>
+            <li>Vertical offset (px): 3.7</li>
+            <li>Color (RGBA): 00000048</li>
+        </ul></li>
+    </ul>
+    ASSETS;
