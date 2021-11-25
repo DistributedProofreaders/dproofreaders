@@ -2785,6 +2785,25 @@ td.diff-marker {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Branding table */
+table.branding {
+  width: 500px;
+  border-collapse: collapse;
+  text-align: center;
+}
+table.branding th.gray,
+table.branding td.gray {
+  background-color: #121212;
+}
+table.branding th.black-transparent,
+table.branding td.black-transparent {
+  background-color: #121212;
+}
+table.branding tr th,
+table.branding tr td {
+  padding: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
 /* Do not underline links */
 a {
   text-decoration: none;
@@ -2900,4 +2919,12 @@ table.striped tr:nth-child(even) td {
 .diff-deletedline .diffchange {
   color: black;
   opacity: 70%;
+}
+/*--------------------------------------------------------*/
+/* On the branding page, the background behind the black  */
+/* logo needs a hack so that both the logo image and the  */
+/* link to the file are easily readable. */
+table.branding th.black-transparent,
+table.branding td.black-transparent {
+  background-color: #636363;
 }
