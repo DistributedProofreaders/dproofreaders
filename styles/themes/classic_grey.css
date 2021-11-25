@@ -2786,3 +2786,22 @@ td.diff-marker {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Branding table */
+table.branding {
+  width: 500px;
+  border-collapse: collapse;
+  text-align: center;
+}
+table.branding th.gray,
+table.branding td.gray {
+  background-color: #cccccc;
+}
+table.branding th.black-transparent,
+table.branding td.black-transparent {
+  background-color: #cccccc;
+}
+table.branding tr th,
+table.branding tr td {
+  padding: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
