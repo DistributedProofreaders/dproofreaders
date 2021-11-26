@@ -60,6 +60,14 @@ function findClose(txt, index) {
     return 0;
 }
 
+function removeTrail(txt) {
+    // Remove trailing whitespace on each line and trailing blank lines
+    txt = txt.replace(/ *$/mg, "");
+    txt = txt.replace(/\s*$/, "");
+    return txt;
+}
+
+
 $(function () {
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
@@ -150,9 +158,8 @@ $(function () {
         // make text with notes removed, put them in an array with indexes into the new text
         function removeAllNotes(txt) {
             // Remove trailing whitespace on each line so whole line notes
-            // are not disguised. Remove trailing blank lines
-            txt = txt.replace(/ *$/mg, "");
-            txt = txt.replace(/\s*$/, "");
+            // are not disguised.
+            txt = removeTrail(txt);
 
             let beginIndex = 0;
             let txtOut = "";
@@ -960,6 +967,8 @@ $(function () {
             var newPage = true; // use no indent if no blank line before text at start of page
             var inDiv = false;  // so can put in </div> if find blank line or at end
 
+            // could be more trailing spaces after notes removed
+            txt = removeTrail(txt);
             // split the text into an array of lines
             txtLines = txt.split('\n');
             txt = "";
