@@ -380,7 +380,8 @@ $(function () {
                     if (preChar === "\n") {
                         reportIssue(start, tagLen, "nlBeforeEnd");
                     }
-                    if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) { // char after end tag
+                    // letter or number after end tag
+                    if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) {
                         reportIssue(end, 1, "charAfterEnd");
                     }
                     if (tagStack.length === 0) {    // missing start tag
