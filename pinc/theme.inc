@@ -124,7 +124,7 @@ function html_logobar()
 
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'><img width='360' height='68' alt='$site_name'></a>\n";
+    echo "<a href='$code_url' />\n";
     echo "</div>\n";
 
     echo "<div id='titles-preserved'><p>\n";

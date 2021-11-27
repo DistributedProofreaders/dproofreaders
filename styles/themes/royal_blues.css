@@ -1171,15 +1171,13 @@ header #titles-preserved,
 #header #titles-preserved {
   display: table-cell;
 }
-header #logo img,
-#header #logo img,
-header #titles-preserved img,
-#header #titles-preserved img {
-  content: url('../../graphics/dp-logo-light.png');
-}
 header #logo,
 #header #logo {
   padding: 0.5em 0.5em 0.1em;
+  width: 360px;
+  height: 68px;
+  margin: 0.5em;
+  content: url('../../graphics/dp-logo-550x96px-light.png');
 }
 header #titles-preserved,
 #header #titles-preserved {
