@@ -123,9 +123,10 @@ function html_logobar()
     global $maintenance, $testing, $alert_message;
 
     echo "\n<div id='header'>\n";
+    echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url' />\n";
     echo "</div>\n";
+    echo "</a>\n";
 
     echo "<div id='titles-preserved'><p>\n";
 

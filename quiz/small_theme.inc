@@ -13,9 +13,10 @@ function output_small_header($quiz)
     $quiz_name = $quiz->short_name;
 
     echo "\n<div id='header'>\n";
+    echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url' />\n";
     echo "</div>";
+    echo "</a>";
     echo "</div>\n";
 
     // XXX localization bug:
