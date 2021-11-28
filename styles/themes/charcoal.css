@@ -1176,7 +1176,7 @@ header #logo,
   width: 360px;
   height: 68px;
   margin: 0.5em;
-  content: url('../../graphics/dp-logo-360x68px.png');
+  content: url('../../graphics/dp-logo-563x107px.png');
 }
 header #titles-preserved,
 #header #titles-preserved {
@@ -2756,7 +2756,7 @@ a {
 }
 header #logo,
 #header #logo {
-  content: url('../../graphics/dp-logo-360x68px-dark.png');
+  content: url('../../graphics/dp-logo-563x107px-dark.png');
 }
 #logo,
 #titles-preserved {
