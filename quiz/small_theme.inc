@@ -15,7 +15,7 @@ function output_small_header($quiz)
     echo "\n<div id='header'>\n";
     echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "</div>";
+    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
     echo "</a>";
     echo "</div>\n";
 

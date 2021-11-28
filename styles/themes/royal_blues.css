@@ -1173,10 +1173,13 @@ header #titles-preserved,
 }
 header #logo,
 #header #logo {
-  width: 360px;
-  height: 68px;
-  margin: 0.5em;
-  content: url('../../graphics/dp-logo-563x107px.png');
+  height: 75px;
+  margin: 0.25em 0.5em;
+}
+header #logo img,
+#header #logo img {
+  height: 100%;
+  margin: 0.25em 0.5em;
 }
 header #titles-preserved,
 #header #titles-preserved {
@@ -1551,8 +1554,11 @@ footer small,
     text-align: right;
     font-size: 0.8em;
   }
+  #header #logo {
+    max-width: 95%;
+  }
   #header #logo img {
-    max-width: 100%;
+    max-width: 95%;
   }
   #buildtime {
     display: none;

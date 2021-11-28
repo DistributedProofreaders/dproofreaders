@@ -125,6 +125,7 @@ function html_logobar()
     echo "\n<div id='header'>\n";
     echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
+    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
     echo "</div>\n";
     echo "</a>\n";
 

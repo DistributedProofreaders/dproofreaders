@@ -29,12 +29,16 @@ a {
 }
 
 header, #header {
-  #logo {
-      content: url('../../graphics/dp-logo-563x107px-dark.png');
-  }
+    /* Override the logo with a dark one. This doesn't work in
+     * FF 62 and earlier due to lack of content: element-replacement support
+     * https://caniuse.com/mdn-css_properties_content_element_replacement
+     */
+    #logo {
+        content: url('../../graphics/dp-logo-dark.svg');
+    }
 }
 #logo, #titles-preserved {
-  display: table-cell;
+    display: table-cell;
 }
 
 /* 
