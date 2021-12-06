@@ -1173,7 +1173,13 @@ header #titles-preserved,
 }
 header #logo,
 #header #logo {
-  padding: 0.5em 0.5em 0.1em;
+  height: 75px;
+  margin: 0.25em 0.5em;
+}
+header #logo img,
+#header #logo img {
+  height: 100%;
+  margin: 0.25em 0.5em;
 }
 header #titles-preserved,
 #header #titles-preserved {
@@ -1548,8 +1554,11 @@ footer small,
     text-align: right;
     font-size: 0.8em;
   }
+  #header #logo {
+    max-width: 95%;
+  }
   #header #logo img {
-    max-width: 100%;
+    max-width: 95%;
   }
   #buildtime {
     display: none;
@@ -2750,6 +2759,21 @@ td.diff-marker {
 /* Do not underline links */
 a {
   text-decoration: none;
+}
+header,
+#header {
+  /* Override the logo with a dark one. This doesn't work in
+     * FF 62 and earlier due to lack of content: element-replacement support
+     * https://caniuse.com/mdn-css_properties_content_element_replacement
+     */
+}
+header #logo,
+#header #logo {
+  content: url('../../graphics/dp-logo-dark.svg');
+}
+#logo,
+#titles-preserved {
+  display: table-cell;
 }
 /* 
  * Image treatment. This is primarily aimed at proofing

@@ -13,9 +13,10 @@ function output_small_header($quiz)
     $quiz_name = $quiz->short_name;
 
     echo "\n<div id='header'>\n";
+    echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name' border='0'></a>\n";
-    echo "</div>";
+    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
+    echo "</a>";
     echo "</div>\n";
 
     // XXX localization bug:

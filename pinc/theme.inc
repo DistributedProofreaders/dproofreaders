@@ -123,9 +123,11 @@ function html_logobar()
     global $maintenance, $testing, $alert_message;
 
     echo "\n<div id='header'>\n";
+    echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name'></a>\n";
+    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
     echo "</div>\n";
+    echo "</a>\n";
 
     echo "<div id='titles-preserved'><p>\n";
 

@@ -28,6 +28,19 @@ a {
     text-decoration: none;
 }
 
+header, #header {
+    /* Override the logo with a dark one. This doesn't work in
+     * FF 62 and earlier due to lack of content: element-replacement support
+     * https://caniuse.com/mdn-css_properties_content_element_replacement
+     */
+    #logo {
+        content: url('../../graphics/dp-logo-dark.svg');
+    }
+}
+#logo, #titles-preserved {
+    display: table-cell;
+}
+
 /* 
  * Image treatment. This is primarily aimed at proofing
  * images. Leaving information here as a reference for
