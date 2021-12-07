@@ -1,6 +1,21 @@
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
+// the formatting rules are applied as if proofers' notes were
+// invisible so remove them first and save for later. But first check if they
+// are malformed, if so mark the problem and do nothing else.
+
+// then analyse the text without notes and make an array of issues.
+// the issues and the notes are then merged back into the text.
+// The text could have <, > and & characters which should be html encoded,
+// do this before merging since the issue markup will contain < and >.
+// Thus the tags in the text will also be encoded.
+
+// The last stage is to interpret any tags to show the styling.
+// To avoid styling notes change these characters to something else before
+// merging and then convert back to html codes afterwards.
+
+
 var makePreview;
 var analyse;
 var getILTags;
@@ -26,16 +41,34 @@ function processExMath(text, textFunction, allowMath) {
     }
 }
 
+// find index of next unmatched ] return 0 if none found
+const re = /\[|\]/g;  // [ or ]
+function findClose(txt, index) {
+    let result;
+    let nestLevel = 0;
+    re.lastIndex = index;
+    while ((result = re.exec(txt)) !== null) {
+        if ("[" === result[0]) {
+            nestLevel += 1;
+        } else { // must be ]
+            if (0 === nestLevel) {
+                return result.index;
+            }
+            nestLevel -= 1;
+        }
+    }
+    return 0;
+}
+
+function removeTrail(txt) {
+    // Remove trailing whitespace on each line and trailing blank lines
+    txt = txt.replace(/ *$/mg, "");
+    txt = txt.replace(/\s*$/, "");
+    return txt;
+}
+
+
 $(function () {
-    function removeComments(textLine) {
-        return textLine.replace(/\[\*\*[^\]]*\]/g, '');
-    }
-
-    // true if txtLine contains anything except only comments or spaces
-    function nonComment(textLine) {
-        return (/\S/.test(removeComments(textLine)));
-    }
-
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
@@ -92,19 +125,75 @@ $(function () {
         // make an entry in issArray. start, len: position in text to mark
         // code: issue, optional type overrides issueType,
         // subText is text to substitute in some messages
-        function reportIssue(start, len, code, type, subText) {
-            // if default params allowed: type = null, subText = ""
-            // ie doesn't support default parameters so if not given
-            // type and subText are undefined: (undefined == null) is true
+        function reportIssue(start, len, code, type = null, subText = "") {
             if (!(config.suppress[code])) {
                 if(type == null) {
                     type = issueType[code];
                 }
-                if(subText == null) {
-                    subText = "";
-                }
                 issArray.push({start: start, len: len, code: code, type: type, subText: subText});
             }
+        }
+
+        const reNoteStart = /\[\*\*/g;
+
+        function checkProoferNotes() {
+            // look for [** then look for ] skipping matched [ ]
+            let result, closeIndex;
+            while(null !== (result = reNoteStart.exec(txt))) {
+                closeIndex = findClose(txt, reNoteStart.lastIndex);
+                if (0 === closeIndex) {
+                    // no ] found
+                    reportIssue(result.index, 3, "noCloseBrack", 1);
+                    badParse();
+                    return;
+                } else {
+                    // continue search from the ] we found
+                    reNoteStart.lastIndex = closeIndex;
+                }
+            }
+        }
+
+        let notes = [];
+
+        // make text with notes removed, put them in an array with indexes into the new text
+        function removeAllNotes(txt) {
+            // Remove trailing whitespace on each line so whole line notes
+            // are not disguised.
+            txt = removeTrail(txt);
+
+            let beginIndex = 0;
+            let txtOut = "";
+            let result, noteStartIndex, noteEndIndex;
+            // start of note relative to txtOut
+            let outNoteStart = 0;
+            const maxIndex = txt.length - 1;
+            reNoteStart.lastIndex = 0;
+            // we've already checked that notes are correctly terminated
+            // find start of note
+            while (null != (result = reNoteStart.exec(txt))) {
+                noteStartIndex = result.index;
+                noteEndIndex = findClose(txt, reNoteStart.lastIndex);
+                // copy text to start of note
+                txtOut += txt.slice(beginIndex, noteStartIndex);
+                outNoteStart += noteStartIndex - beginIndex;
+                // if note starts at beginning of a line and ends at the end of a line
+                // remove any following nl character also so doesn't count as a blank line and include the nl in the note
+                if(((noteStartIndex === 0) || (txt.charAt(noteStartIndex - 1) === "\n"))
+                    && ((noteEndIndex === maxIndex) || (txt.charAt(noteEndIndex + 1) === "\n"))) {
+                    // let next copy begin after the ending \n
+                    beginIndex = noteEndIndex + 2;
+                } else {
+                    // let next copy begin after the note
+                    beginIndex = noteEndIndex + 1;
+                }
+                notes.push({start: outNoteStart, text: txt.slice(noteStartIndex, beginIndex)});
+                reNoteStart.lastIndex = beginIndex;
+            }
+            // copy any remaining text
+            // If beginIndex is greater than or equal to str.length, an empty string is returned.
+            txtOut += txt.slice(beginIndex);
+
+            return txtOut;
         }
 
         // find end of line (or eot) following ix
@@ -114,6 +203,16 @@ $(function () {
             re.lastIndex = ix;
             result = re.exec(txt);
             return result.index;
+        }
+
+        function chkCharAfter(start, len, type, descriptor) {
+            const ix = start + len;
+            const end = findEnd(ix);
+            if (/\S/.test(txt.slice(ix, end))) {
+                reportIssue(start, len, "charAfter", type, descriptor);
+                return true;
+            }
+            return false;
         }
 
         // the parsers for inline and out-of-line tags work with a stack:
@@ -148,12 +247,11 @@ $(function () {
             }
 
             // check that no other characters are on the same line
-            function chkAlone(start, len, str1) {
-                var ix = start + len;
-                if (nonComment(txt.slice(ix, findEnd(ix)))) {
-                    reportIssue(start, len, "charAfter", 1, str1);
+            function chkAlone(start, len, descriptor) {
+                if(chkCharAfter(start, len, 1, descriptor)) {
                     return;
                 }
+
                 if (/./.test(txt.charAt(start - 1))) {
                     reportIssue(start, len, "charBefore");
                 }
@@ -165,11 +263,11 @@ $(function () {
 
                 chkAlone(start, 2, tagString);
                 // for an opening tag check previous line is blank
-                // or an opening block quote tag possibly with a comment
+                // or an opening block quote tag
                 // allow also an opening no-wrap to avoid giving a misleading message
                 // that it is "normal text". The error will be caught elsewhere.
                 if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
-                    prevLin = removeComments(findPrevLine(start));
+                    prevLin = findPrevLine(start);
                     if (!(("/#" === prevLin) || ("/*" === prevLin))) {
                         reportIssue(start, 2, "OolPrev");
                     }
@@ -244,7 +342,6 @@ $(function () {
             var start = 0;
             var tagStack = [];
             var result;
-            var res1;
             var stackTop;
             var preChar;
             var postChar;
@@ -254,24 +351,10 @@ $(function () {
                 return tagData.tag === tagString;
             }
 
-            // regex to match valid inline tags or a blank line or [**
-            var re = new RegExp("\\[\\*\\*|<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
-            var reCloseBrack = /\]|$/gm;  // ] or eol or eot
+            // regex to match valid inline tags or a blank line
+            var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
 
             while ((result = re.exec(txt)) !== null) {
-                if (result[0] === "[**") { // advance to end of comment or eol
-                    reCloseBrack.lastIndex = re.lastIndex;
-                    res1 = reCloseBrack.exec(txt);  // can't be null if has $
-                    if (res1[0] !== "]") {
-                    // user note missing ], make an issue to avoid parsing probs
-                    // if there are tags in the note
-                        reportIssue(result.index, 3, "noCloseBrack", 1);
-                        badParse();
-                    }
-                    re.lastIndex = reCloseBrack.lastIndex;
-                    continue;
-                }
-
                 if (result[0] === "\n\n") {
                     while (tagStack.length !== 0) {
                         stackTop = tagStack.pop();
@@ -297,7 +380,8 @@ $(function () {
                     if (preChar === "\n") {
                         reportIssue(start, tagLen, "nlBeforeEnd");
                     }
-                    if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) { // char after end tag
+                    // letter or number after end tag
+                    if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) {
                         reportIssue(end, 1, "charAfterEnd");
                     }
                     if (tagStack.length === 0) {    // missing start tag
@@ -369,29 +453,22 @@ $(function () {
             }
         }
 
-        // check for no upper case between small caps tags, ignore inside note
+        // check for no upper case between small caps tags
         function checkSC() {
-            var reCloseBrack = /\]/g;
             var result;
-            var re = /\[\*\*|<sc>([^]*?)<\/sc>/g; // [** or <sc> text
+            var re = /<sc>([^]*?)<\/sc>/g; // <sc> text
             var res1;
             while ((result = re.exec(txt)) !== null) {
-                if (result[0] === "[**") {
-                // advance to end of comment, caught no ] earlier
-                    reCloseBrack.lastIndex = re.lastIndex;
-                    reCloseBrack.exec(txt);
-                    re.lastIndex = reCloseBrack.lastIndex;
-                    continue;
-                }
                 res1 = result[1];
-                if (res1 === res1.toLowerCase() && res1.charAt(0) !== "*") { // no upper case found - definite
-                    reportIssue(result.index, 4, "scNoCap", 1);
-                    continue;
-                }
-                res1 = removeComments(res1);
-                if (res1 === res1.toLowerCase()) { // either a lowercase fragment, or upper case was in a note - poss
-                // mark only a text char incase no tags shown
-                    reportIssue(result.index + 4, 1, "scNoCap", 0);
+                if (res1 === res1.toLowerCase()) {
+                    if(res1.charAt(0) !== "*") {
+                        // definite issue
+                        reportIssue(result.index, 4, "scNoCap", 1);
+                    } else {
+                        // a lower case fragment, mark first character
+                        // incase no tags shown
+                        reportIssue(result.index + 4, 1, "scNoCap", 0);
+                    }
                 }
             }
         }
@@ -548,25 +625,6 @@ $(function () {
         // possible issue if there is an unmatched ] in the text
         // message includes "Footnote" etc. to clarify the problem
         function checkBlankLines() {
-        // find index of next unmatched ] return 0 if none found
-            function findClose(index) {
-                var result;
-                var nestLevel = 0;
-                var re = /\[|\]/g;  // [ or ]
-                re.lastIndex = index;
-                while ((result = re.exec(txt)) !== null) {
-                    if ("[" === result[0]) {
-                        nestLevel += 1;
-                    } else { // must be ]
-                        if (0 === nestLevel) {
-                            return result.index;
-                        }
-                        nestLevel -= 1;
-                    }
-                }
-                return 0;
-            }
-
             // check for chars before tag or on previous line
             function chkBefore(start, len, checkBlank) {
                 if (/./.test(txt.charAt(start - 1))) {
@@ -576,8 +634,8 @@ $(function () {
                 }
             }
 
-            // check no non-comment chars follow on same line and next line is blank
-            function chkAfter(start, len, str1, type, checkBlank) {
+            // check no chars follow on same line and next line is blank
+            function chkAfter(start, len, descriptor, type, checkBlank) {
                 // true if find */ or \n or eot
                 function endNWorBlank(pc) {
                     if (txt.slice(pc, pc + 2) === "*/") {
@@ -586,14 +644,13 @@ $(function () {
                     return !(/./).test(txt.charAt(pc));
                 }
 
-                var ix = start + len;
-                var end = findEnd(ix);
-                if (nonComment(txt.slice(ix, end))) {
-                    reportIssue(start, len, "charAfter", type, str1);
+                if(chkCharAfter(start, len, type, descriptor)) {
                     return;
                 }
+
+                const end = findEnd(start + len);
                 if (checkBlank && !endNWorBlank(end + 1)) {
-                    reportIssue(start, len, "blankAfter", type, str1);
+                    reportIssue(start, len, "blankAfter", type, descriptor);
                 }
             }
 
@@ -605,7 +662,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, true);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -625,7 +682,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, true);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -641,7 +698,7 @@ $(function () {
                 end = start + len;
                 chkBefore(start, len, !config.suppress.sideNoteBlank);
 
-                end1 = findClose(end);
+                end1 = findClose(txt, end);
                 if (0 === end1) { // no ] found
                     reportIssue(start, len, "noCloseBrack");
                 } else {
@@ -699,30 +756,35 @@ $(function () {
             }
         }
 
-        parseInLine();
-        // if inline parse fails then checkSC might not work
-        if (parseOK) {
-            checkSC();
+        checkProoferNotes();
+        if(parseOK) {
+            txt = removeAllNotes(txt);
+            parseInLine();
+            // if inline parse fails then checkSC might not work
+            if (parseOK) {
+                checkSC();
+            }
+            checkBlankNumber();
+            if (parseOK) {
+            // only do this if inline parse succeeded and blank lines ok
+                boldHeading();
+            }
+            parseOol();
+            checkFootnotes();
+            unRecog();
+            checkBlankLines();
+            if(config.allowMathPreview) {
+                checkMath();
+            }
         }
-        checkBlankNumber();
-        if (parseOK) {
-        // only do this is inline parse succeeded and blank lines ok
-            boldHeading();
-        }
-        parseOol();
-        checkFootnotes();
-        unRecog();
-        checkBlankLines();
-        if(config.allowMathPreview) {
-            checkMath();
-        }
-
         // we must avoid two issues giving overlapping markup
-        // sort them first and mark from end towards beginning
-        // sort them so that if two start in same place, then the more serious is
-        // marked first. Do this here so we can test the result.
+        // sort them first from beginning to end
+        // sort them so that if two start in same place, then the more serious
+        // placed first. Then 2nd will be discarded later.
+        // Do this here so we can test the result.
         issArray.sort(function (a, b) {
-            var diff = b.start - a.start;   // last first
+            // if return value > 0, b is placed first
+            var diff = a.start - b.start;
             if (diff === 0) {
                 return b.type - a.type;
             } else {
@@ -730,8 +792,23 @@ $(function () {
             }
         });
 
-        return issArray;
-    };
+        // end0 is end of previous issue to check if 2 issues overlap
+        let end0 = 0;
+        let condensedIssues = [];
+        issArray.forEach(function(issue) {
+            // don't mark 2 issues in one place
+            if (issue.start >= end0) {
+                condensedIssues.push(issue);
+                end0 = issue.start + issue.len;
+            }
+        });
+
+        return {
+            issues: condensedIssues,
+            text: txt,
+            noteArray: notes,
+        };
+    }; // end of analyse
 
     getILTags = function(configuration) {
         let ILTags = "[ibfg]|sc";
@@ -782,68 +859,20 @@ $(function () {
             return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
-        function addMarkUp(issArray) {
-        // start0 is start of previous issue to check if 2 issues overlap
-        // initially a large number so it works 1st time
-            var start0 = 100000;
-            var end;
-            var errorString;
-            // split up the string into an array of characters
-            var tArray = txt.split("");
-
-            function htmlEncodeChar(s, i) {
-                if (s === "&") {
-                    tArray[i] = "&amp;";
-                } else if (s === "<") {
-                    tArray[i] = "&lt;";
-                } else if (s === ">") {
-                    tArray[i] = "&gt;";
-                }
-            }
-
-            function markIss(iss) {
-                if (iss.type === 0) {
-                    errorString = makeErrStr("hlt");
-                } else {
-                    errorString = makeErrStr("err");
-                }
-                end = iss.start + iss.len;
-                // don't mark 2 issues in one place
-                if ((iss.start < start0) && (end <= start0)) {
-                    let message = previewMessages[iss.code].replace("%s", iss.subText);
-                    start0 = iss.start;
-                    tArray.splice(end, 0, endSpan);
-                    tArray.splice(start0, 0, errorString + message + endSpan);
-                }
-            }
-            // since inserting the markups moves all later parts of the array up
-            // we must start from the last one
-
-            tArray.forEach(htmlEncodeChar);
-            issArray.forEach(markIss);
-            txt = tArray.join("");  // join it back into a string
-        }
-
-
-
         // add style and optional colouring for marked-up text
-        // this works on text which has already had < and > encoded as &lt; &gt;
         function showStyle() {
-            var sc1 = "&lt;sc&gt;";
-            var sc2 = "&lt;/sc&gt;";
-            var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
-            // a user note or string of small capitals
-            var smallCapRegex = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
-            var noNote;
+            const sc1 = "&lt;sc&gt;";
+            const sc2 = "&lt;/sc&gt;";
+            // a string of small capitals
+            var smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
+            var scString;
 
             function transformSC(match, p1) { // if all upper case transform to lower
-                if (!p1) { // must be user note
-                    return match;
-                }
-                noNote = removeComments(p1);
-                // remove tags so that all uppercase string is correctly identified
-                noNote = noNote.replace(/&lt;\/?.&gt;/g, '');
-                if (noNote === noNote.toUpperCase()) { // found no lower-case
+                scString = p1;
+                // remove tags such as <i> within the string so that all
+                // uppercase string is correctly identified, (only 1 char)
+                scString = scString.replace(/&lt;\/?.&gt;/g, '');
+                if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
                     return match;
@@ -861,9 +890,6 @@ $(function () {
                     "u": "%"
                 };
 
-                if (!p2) { // must be user note
-                    return match;
-                }
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
@@ -894,14 +920,14 @@ $(function () {
             if (viewMode !== "flat") {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
-            // find user note or inline tag
-            var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+            // find inline tag
+            var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
             let colorString = makeColourStyle('etc');
 
-            // out of line tags
+            // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
                 txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
             }
@@ -930,7 +956,7 @@ $(function () {
         }
 
         // attempt to make an approximate representation of formatted text
-        // remove comments, use numbers of blank lines to mark headings and
+        // use numbers of blank lines to mark headings and
         // sub-headings, re-wrap except for no-wrap markup
         function reWrap() {
             var blankLines = 0; // counts the number of blank lines which we have passed
@@ -942,6 +968,8 @@ $(function () {
             var newPage = true; // use no indent if no blank line before text at start of page
             var inDiv = false;  // so can put in </div> if find blank line or at end
 
+            // could be more trailing spaces after notes removed
+            txt = removeTrail(txt);
             // split the text into an array of lines
             txtLines = txt.split('\n');
             txt = "";
@@ -949,7 +977,7 @@ $(function () {
 
             function processLine() {
                 var textLine = txtLines[index];
-                // trailing space will have been removed earlier by removeCommentLines()
+                // trailing space will have been removed earlier
                 if (textLine === "") {
                     newPage = false;
                     if (inNoWrap) {
@@ -962,11 +990,6 @@ $(function () {
                     }
                     blankLines += 1;
                     return;
-                }
-                // remove embedded comments
-                textLine = removeComments(textLine);
-                if (textLine === "") {
-                    return; // whole line is comment, do nothing
                 }
 
                 if (textLine === "&lt;tb&gt;") {    // thought break
@@ -1049,70 +1072,14 @@ $(function () {
             }
         }
 
-        // these store the removed comment lines for later re-insertion
-        var comLine = [];
-        var comIndex = [];
-
-        function removeCommentLines() {
-            function htmlEncodeString(s) {
-                return s.replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-            }
-
-            var txtLines = [];
-            var index;  // counts lines
-            var tempLine;
-
-            // split the text into an array of lines
-            txtLines = txt.split('\n');
-            index = txtLines.length - 1;
-            // splice changes txtLines so start from end and work backwards
-            while (index >= 0) {
-            // remove trailing space
-                tempLine = txtLines[index].replace(/\s+$/, "");
-                txtLines[index] = tempLine;
-                // ignore lines which are entirely comment and space
-                if ("" !== tempLine) {
-                    if (!nonComment(tempLine)) {
-                        txtLines.splice(index, 1);
-                        comLine.push(htmlEncodeString(tempLine));
-                        comIndex.push(index);
-                    }
-                }
-                index -= 1;
-            }
-            txt = txtLines.join("\n");
+        function htmlEncode(s) {
+            return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
         }
 
-        function restoreCommentLines() {
-            var txtLines = [];
-            // split the text into an array of lines
-            txtLines = txt.split('\n');
-            var ix = comIndex.length - 1;
-            // insert first comment line, which is store last in comLine, first
-            // then subsequent lines in txtLines will be shifted up so that lines
-            // from comLines will be inserted in the right place
-            while (ix >= 0) {
-                txtLines.splice(comIndex[ix], 0, comLine[ix]);
-                ix -= 1;
-            }
-            txt = txtLines.join("\n");
-        }
-
-        // remove trailing whitespace
-        txt = txt.replace(/\s+$/, "");
-
-        // remove lines which are entirely comments to simplify checking
-        // where there should be blank lines
-        // we need to encode html in these lines. Could encode everything at start
-        // but then problems e.g. marking the character after 3 blank lines if
-        // encoded <  as &lt, so treat these lines separately.
-        removeCommentLines();
-        let issArray = analyse(txt, styler);
-        addMarkUp(issArray);
-        restoreCommentLines();
-
+        let analysis = analyse(txt, styler);
+        let issArray = analysis.issues;
         let issues = 0;
         let possIss = 0;
         issArray.forEach(function(issue) {
@@ -1125,12 +1092,88 @@ $(function () {
 
         // ok true if no errors which would cause showstyle() or reWrap() to fail
         let ok = (issues === 0);
+
+        // make texts to be inserted to mark issues
+        let issueStarts = [];
+        let issueEnds = [];
+        let errorString;
+        issArray.forEach(function(issue) {
+            if (issue.type === 0) {
+                errorString = makeErrStr("hlt");
+            } else {
+                errorString = makeErrStr("err");
+            }
+            let message = previewMessages[issue.code].replace("%s", issue.subText);
+            issueStarts.push({start: issue.start, text: errorString + message + endSpan});
+            issueEnds.push({start: issue.start + issue.len, text: endSpan});
+        });
+
+        var tArray = analysis.text.split("");
+
+        // these are private use codes so shouldn't ever appear in actual text
+        const ampCode = "\uE000";
+        const ltCode = "\uE001";
+        const gtCode = "\uE002";
+
+        function cryptEncode(txt) {
+            return txt.replace(/&/g, ampCode)
+                .replace(/</g, ltCode)
+                .replace(/>/g, gtCode);
+        }
+
+        const reAmp = new RegExp(ampCode, "g");
+        const reLt = new RegExp(ltCode, "g");
+        const reGt = new RegExp(gtCode, "g");
+
+        function cryptHtmlEncode(s) {
+            return s.replace(reAmp, "&amp;")
+                .replace(reLt, "&lt;")
+                .replace(reGt, "&gt;");
+        }
+
+        let noteArray;
+        if(ok && wrapMode) {
+            noteArray = [];
+        } else {
+            noteArray = analysis.noteArray;
+            //encode so that tags don't get processed by showStyle()
+            // and can be html encoded later
+            noteArray.forEach(function(note) {
+                note.text = cryptEncode(note.text);
+            });
+        }
+
+        tArray = tArray.map(htmlEncode);
+
+        // merge issue arrays with notes so that if both start at same
+        // index the issueStart appears after the note but the issueEnd
+        // appears before the note.
+        // there cannot be > one issue at the same index (if there were, one
+        // will have been discarded) but there can be more than one note, so
+        // ensure order of notes is unchanged
+        let allInserts = issueEnds.concat(noteArray).concat(issueStarts);
+        allInserts.sort(function(a, b) {
+            // if starts are same return 0, order unchanged
+            return a.start - b.start;
+        });
+        // reverse the array so splice last elements first
+        allInserts.reverse();
+        // splice issue marking and notes into text
+        allInserts.forEach(function (insert) {
+            tArray.splice(insert.start, 0, insert.text);
+        });
+
+        // join it back into a string
+        txt = tArray.join("");
+
         if (ok) {
             showStyle();
             if (wrapMode) {
                 reWrap();
             }
         }
+        // re-encode notes for html
+        txt = cryptHtmlEncode(txt);
 
         return {
             ok: ok,
