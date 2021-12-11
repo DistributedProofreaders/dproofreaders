@@ -25,6 +25,7 @@ $router->add_route("GET", "v1/projects/genres", "api_v1_projects_genres");
 $router->add_route("GET", "v1/projects/languages", "api_v1_projects_languages");
 $router->add_route("GET", "v1/projects/states", "api_v1_projects_states");
 $router->add_route("GET", "v1/projects/pagerounds", "api_v1_projects_pagerounds");
+$router->add_route("GET", "v1/projects/charsuites", "api_v1_projects_charsuites");
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");

@@ -97,6 +97,36 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/charsuites:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project character suites
+      parameters:
+      - name: enabled
+        in: query
+        description: Only return enabled character suites
+        required: false
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: List of valid character suites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/charsuite'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/difficulties:
     get:
       tags:
@@ -604,6 +634,22 @@ components:
           type: string
         state:
           type: string
+
+    charsuite:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        characters:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
 
     site_stats:
       type: object
