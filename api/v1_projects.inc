@@ -316,3 +316,27 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 
     return array_merge(["OCR"], array_keys($Round_for_round_id_));
 }
+
+//---------------------------------------------------------------------------
+// projects/charsuites
+
+function api_v1_projects_charsuites($method, $data, $query_params)
+{
+    if (isset($query_params["enabled"])) {
+        $charsuites = CharSuites::get_enabled();
+    } else {
+        $charsuites = CharSuites::get_all();
+    }
+
+    $return_data = [];
+    foreach ($charsuites as $charsuite) {
+        $return_data[] = [
+            "id" => $charsuite->name,
+            "name" => $charsuite->title,
+            "characters" => convert_codepoint_ranges_to_characters($charsuite->codepoints),
+            "enabled" => $charsuite->is_enabled(),
+        ];
+    }
+
+    return $return_data;
+}
