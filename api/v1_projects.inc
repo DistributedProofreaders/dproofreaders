@@ -3,6 +3,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
+include_once($relPath.'special_colors.inc');
 include_once("exceptions.inc");
 
 // DP API v1 -- Projects
@@ -334,6 +335,36 @@ function api_v1_projects_charsuites($method, $data, $query_params)
             "name" => $charsuite->title,
             "characters" => convert_codepoint_ranges_to_characters($charsuite->codepoints),
             "enabled" => $charsuite->is_enabled(),
+        ];
+    }
+
+    return $return_data;
+}
+
+//---------------------------------------------------------------------------
+// projects/specialdays
+
+function api_v1_projects_specialdays($method, $data, $query_params)
+{
+    $return_data = [];
+
+    $special_days = load_special_days();
+    foreach ($special_days as $spec_code => $special_day) {
+        if (isset($query_params["enabled"]) && !($special_day["enable"] == 1)) {
+            continue;
+        }
+        $return_data[] = [
+            "id" => $special_day["spec_code"],
+            "name" => $special_day["display_name"],
+            "comment" => $special_day["comment"],
+            "url" => $special_day["info_url"],
+            "color" => $special_day["color"],
+            "symbol" => $special_day["symbol"],
+            "date_open_month" => (int)$special_day["open_month"],
+            "date_open_day" => (int)$special_day["open_day"],
+            "date_close_month" => (int)$special_day["close_month"],
+            "date_close_day" => (int)$special_day["close_day"],
+            "enabled" => $special_day["enable"] == 1,
         ];
     }
 
