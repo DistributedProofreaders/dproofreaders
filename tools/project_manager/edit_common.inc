@@ -6,6 +6,7 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
+include_once($relPath.'special_colors.inc'); // load_special_days()
 include_once($relPath.'User.inc');
 include_once($relPath.'CharSuites.inc');
 
@@ -149,27 +150,14 @@ function difficulty_list($difficulty_level)
 
 function special_list($special)
 {
-    // get info on special days
-    $sql = "
-        SELECT
-            spec_code,
-            display_name,
-            enable,
-            DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
-        FROM special_days
-        ORDER BY open_month, open_day
-    ";
-    $specs_result = DPDatabase::query($sql);
+    $special_days = load_special_days();
+    sort_special_days($special_days, "open_month,open_day");
 
-    // it'd be nice to make this static, or something, so it only was loaded once
+    // create an array for populating the <select> options
     $specials_array = [];
-
-    // put list into array
-    while ($s_row = mysqli_fetch_assoc($specs_result)) {
-        if ($s_row['enable'] || $s_row['spec_code'] == $special) {
-            $show = $s_row['display_name'] . " (" . $s_row['Start Date'] . ")";
-            $code = $s_row['spec_code'];
-            $specials_array["$code"] = $show;
+    foreach ($special_days as $spec_code => $special_day) {
+        if ($special_day['enable'] || $spec_code == $special) {
+            $specials_array[$spec_code] = $special_day["option_label"];
         }
     }
 

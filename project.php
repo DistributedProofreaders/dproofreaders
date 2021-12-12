@@ -438,7 +438,7 @@ function do_project_info_table()
         ) {
             $spec_display = $spec_code;
         } else {
-            $special_days = load_special_days();
+            $special_days = load_special_days(true);
             $spec_display = $special_days[$spec_code]["display_name"] ?? "($spec_code)";
         }
 

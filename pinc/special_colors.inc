@@ -23,26 +23,67 @@ function load_common_special_days()
     ];
 }
 
-function load_special_days()
+function load_special_days($load_common = false)
 {
-    $specials_array = load_common_special_days();
+    if ($load_common) {
+        $specials_array = load_common_special_days();
+    } else {
+        $specials_array = [];
+    }
 
     $sql = "
-        SELECT spec_code, color, display_name, symbol
+        SELECT *
         FROM special_days
         ORDER BY display_name
     ";
     $specs_result = DPDatabase::query($sql);
 
     while ($row = mysqli_fetch_assoc($specs_result)) {
-        $specials_array[$row['spec_code']] = [
-            "color" => '#' . $row['color'],
-            "display_name" => $row['display_name'],
-            "symbol" => $row['symbol'],
-        ];
+        $specials_array[$row['spec_code']] = array_merge(
+            // start with the row from the query
+            $row,
+            [
+                // override color to make it a valid HTML value
+                "color" => '#' . $row['color'],
+
+                // provide a localized option label
+                "option_label" => sprintf("%s (%s)", $row["display_name"],
+                    date_format(
+                        date_create(
+                            sprintf("2000-%02d-%02d", $row["open_month"], $row["open_day"])
+                        ),
+                        "j M"
+                    ),
+                ),
+            ]
+        );
     }
 
     return $specials_array;
+}
+
+function sort_special_days(&$special_days, $sort_by = "display_name")
+{
+    $display_name = array_column($special_days, "display_name");
+    $display_name = array_map('strtolower', $display_name);
+
+    if ($sort_by == "display_name") {
+        array_multisort(
+            $display_name, SORT_NATURAL, SORT_ASC,
+            $special_days
+        );
+    } elseif ($sort_by == "open_month,open_day") {
+        $open_month = array_column($special_days, "open_month");
+        $open_day = array_column($special_days, "open_day");
+        array_multisort(
+            $open_month, SORT_NUMERIC, SORT_ASC,
+            $open_day, SORT_NUMERIC, SORT_ASC,
+            $display_name, SORT_NATURAL, SORT_ASC,
+            $special_days
+        );
+    } else {
+        throw Exception("Invalid value for \$sort_by");
+    }
 }
 
 // Returns the special day array associated with this
@@ -51,7 +92,7 @@ function get_special_day($special_code)
 {
     static $specials_array = [];
     if (!$specials_array) {
-        $specials_array = load_special_days();
+        $specials_array = load_special_days(true);
     }
 
     $special_day = null;
@@ -102,7 +143,7 @@ function echo_special_legend($projects_where_clause)
             WHERE $projects_where_clause
         ");
 
-    $specials_array = load_special_days();
+    $specials_array = load_special_days(true);
     $day_array = [];
 
     while ($cs_row = mysqli_fetch_assoc($currspecs_result)) {

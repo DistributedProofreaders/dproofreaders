@@ -189,20 +189,12 @@ class ProjectSearchForm
 
     public static function special_day_options()
     {
-        $special_day_options = [];
-        $sql = "
-            SELECT
-                spec_code,
-                display_name,
-                DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')
-            FROM special_days
-            ORDER BY open_month, open_day
-        ";
-        $special_day_res = DPDatabase::query($sql);
-        while ([$s_code, $s_display_name, $s_start] = mysqli_fetch_row($special_day_res)) {
-            $special_day_options[$s_code] = "$s_display_name ($s_start)";
-        }
-        return $special_day_options;
+        $special_days = load_special_days();
+        sort_special_days($special_days, "open_month,open_day");
+        return array_combine(
+            array_column($special_days, "spec_code"),
+            array_column($special_days, "option_label")
+        );
     }
 
     public static function language_options()
