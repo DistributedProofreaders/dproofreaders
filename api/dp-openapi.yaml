@@ -219,6 +219,36 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/specialdays:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid special days
+      parameters:
+      - name: enabled
+        in: query
+        description: Only return enabled special days
+        required: false
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: List of special days
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/special_day'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/states:
     get:
       tags:
@@ -671,6 +701,39 @@ components:
           type: integer
           readOnly: true
       description: Statistics for the site
+
+    special_day:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        comment:
+          type: string
+        url:
+          type: string
+          format: url
+        color:
+          type: string
+        symbol:
+          type: string
+        date_open_month:
+          type: integer
+          description: Month the special day opens
+        date_open_day:
+          type: integer
+          description: Day of the month the special day opens
+        date_close_month:
+          type: integer
+          description: Month the special day closes
+        date_close_day:
+          type: integer
+          description: Day of the month the special day closes
+        enabled:
+          type: boolean
 
     round_stats:
       type: object
