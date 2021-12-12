@@ -128,14 +128,8 @@ class Project
             return;
         }
 
-        $sql = sprintf("
-            SELECT full_name, credit
-            FROM image_sources
-            WHERE code_name = '%s'",
-            DPDatabase::escape($this->image_source)
-        );
-        $result = DPDatabase::query($sql);
-        $imso_res = mysqli_fetch_assoc($result);
+        $image_sources = load_image_sources();
+        $imso_res = array_get($image_sources, (string)$this->image_source, null);
         if ($imso_res) {
             $this->image_source_name = $imso_res['full_name'];
             $this->image_source_credit = $imso_res['credit'];
@@ -1316,4 +1310,48 @@ function get_page_image_param($arr, $key, $allownull = false)
         ));
     }
     return $page_name;
+}
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Image source functions
+
+function load_image_sources()
+{
+    static $image_sources = [];
+    if ($image_sources) {
+        return $image_sources;
+    }
+
+    $sql = "
+        SELECT *
+        FROM image_sources
+        ORDER BY display_name
+    ";
+    $result = DPDatabase::query($sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $image_sources[(string)$row['code_name']] = $row;
+    }
+    mysqli_free_result($result);
+    return $image_sources;
+}
+
+// Can the current user see this image source based on the source's settings
+function can_user_see_image_source($image_source)
+{
+    // info page visibility
+    //  0 = Image Source Managers and SAs
+    //  1 = also any PM
+    //  2 = also any logged-in user
+    //  3 = anyone
+
+    if (user_is_image_sources_manager()) {
+        $visibility = 0;
+    } elseif (user_is_PM()) {
+        $visibility = 1;
+    } else {
+        $visibility = 2;
+    }
+
+    return $visibility <= $image_source["info_page_visibility"];
 }

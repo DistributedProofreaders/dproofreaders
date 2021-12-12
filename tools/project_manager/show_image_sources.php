@@ -6,63 +6,23 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // array_get(), html_safe()
 include_once($relPath.'pg.inc');
+include_once($relPath.'Project.inc'); // load_image_sources()
 
 require_login();
 
 $which = get_enumerated_param($_GET, 'which', 'DONE', ['ALL', 'DONE', 'INPROG']);
+$imso_code = $_GET['name'] ?? null;
 
-$locuserSettings = & Settings::get_Settings($pguser);
-
-// ---------------------------------------
-// Page construction varies with whether the user is logged in or out
-if (isset($GLOBALS['pguser'])) {
-    $logged_in = true;
-} else {
-    $logged_in = false;
-}
-
-if ($logged_in) {
-    if (user_is_image_sources_manager()) {
-        $min_vis_level = 0;
-    } elseif (user_is_PM()) {
-        $min_vis_level = 1;
-    } else {
-        $min_vis_level = 2;
-    }
-} else {
-    $min_vis_level = 3;
-}
-
-
-if (!isset($_GET['name'])) {
+if (!$imso_code) {
     $header_text = _("Image Sources");
     output_header($header_text, NO_STATSBAR);
 
     echo "<h1>{$header_text}</h1>\n";
 
-    $query = mysqli_query(DPDatabase::get_connection(), "
-        SELECT * FROM
-        (
-            SELECT * FROM image_sources
-            WHERE info_page_visibility >= $min_vis_level
-        ) i
-        LEFT JOIN
-        (
-            SELECT
-            image_source,
-            count(distinct  projectid) as projects_total,
-            sum(".SQL_CONDITION_GOLD.") as projects_completed
-            FROM projects
-            WHERE state != 'project_delete'
-            AND image_source != ''
-            GROUP BY image_source
-        ) p
-        ON (p.image_source = i.code_name)
-        GROUP BY code_name
-        ORDER BY display_name");
+    $image_sources = load_image_sources();
+    $image_sources_stats = load_image_source_stats();
 
     echo "<table class='image_source'>\n";
 
@@ -73,7 +33,12 @@ if (!isset($_GET['name'])) {
     echo "<th style='width: 15%'>" . _("Works: In Progress / Completed / Total") . "</th>\n";
     echo "</tr>\n";
 
-    while ($row = mysqli_fetch_assoc($query)) {
+    foreach ($image_sources as $image_source_id => $row) {
+        // skip the source if the user isn't authorized to see it
+        if (!can_user_see_image_source($row)) {
+            continue;
+        }
+
         echo "<tr class='first'>\n";
         echo "<td rowspan='4' class='center-align'>{$row['display_name']}";
         // Show the status if source is not enabled
@@ -113,12 +78,8 @@ if (!isset($_GET['name'])) {
 
         echo "<td class='title'>$source_fullname ${link_name}</td>";
 
-        if (is_null($row['projects_total'])) {
-            $row['projects_total'] = 0;
-        }
-        if (is_null($row['projects_completed'])) {
-            $row['projects_completed'] = 0;
-        }
+        $row['projects_total'] = $image_sources_stats[$image_source_id]['projects_total'] ?? 0;
+        $row['projects_completed'] = $image_sources_stats[$image_source_id]['projects_completed'] ?? 0;
         $projects_inprogress = $row['projects_total'] - $row['projects_completed'];
 
         echo "<td rowspan='4' class='center-align'>";
@@ -197,71 +158,20 @@ if (!isset($_GET['name'])) {
         echo "<td>{$row['public_comment']}</td>";
         echo "</tr>\n";
 
-        // Preserving the if ($logged_in) logic may seem pointless, but
-        // in the event we decide to remove the login requirement at the
-        // top of the file, we'll want the same behavior back.
-        // The former behavior was:
-        // if ($logged_in)
-        //     sort by display_name and include the internal_comment
-        // else
-        //     sort by the full_name and do not display internal_comment
-        // For now, we'll simply suppress the internal_comment.
-
         echo "<tr>\n";
         echo "<th class='label'>" . _("Notes") . ":</th>\n";
         echo "<td>";
-        if ($logged_in) {
-            echo html_safe($row['internal_comment']);
-        }
+        echo html_safe($row['internal_comment']);
         echo "</td>";
         echo "</tr>\n";
     }
 
     echo "</table>\n";
 } else {
-    $imso_code = $_GET['name'];
+    $image_sources = load_image_sources();
+    $imso = $image_sources[$imso_code] ?? [];
 
-    $imso = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), sprintf("
-        SELECT
-            full_name,
-            display_name,
-            public_comment,
-            internal_comment,
-            info_page_visibility,
-            concat('<a href=\"',url,'\">',url,'</a>') as 'info_url'
-        FROM image_sources
-        WHERE code_name = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $imso_code))));
-
-    $visibility = $imso['info_page_visibility'];
-
-
-    // info page visibility
-    //  0 = Image Source Managers and SAs
-    //  1 = also any PM
-    //  2 = also any logged-in user
-    //  3 = anyone
-
-    // layout below intended to make logic easier to follow:
-    // see it as a tree lying on it's side, the root node the "or"
-    // on the third line
-
-    $can_see = (
-                ($visibility == 3)
-            or
-                ($logged_in
-                    and
-                    (
-                        $visibility == 2
-                        or
-                        (user_is_PM() and $visibility == 1)
-                        or
-                        user_is_image_sources_manager()
-                    )
-                )
-            );
-
-    if ($can_see) {
+    if ($imso && can_user_see_image_source($imso)) {
         $base_link = "<a href='show_image_sources.php?name=%s&amp;which=%s'>%s</a>";
         $all_link = sprintf($base_link, $imso_code, "ALL", pgettext("all sources", "All"));
         $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In Progress"));
@@ -287,7 +197,7 @@ if (!isset($_GET['name'])) {
 
         $description = $imso['public_comment'];
         $internal_notes = $imso['internal_comment'];
-        $info_url = $imso['info_url'];
+        $info_url = sprintf("<a href='%s'>%s</a>", attr_safe($imso['url']), html_safe($imso['url']));
 
         output_header($title, NO_STATSBAR);
 
@@ -312,19 +222,18 @@ if (!isset($_GET['name'])) {
 
         echo "<p><b>" . _("Description") . ":</b> $description</p>\n";
 
-        if ($logged_in) {
-            echo "<p><b>" . _("Internal Notes") . ":</b> $internal_notes</p>\n";
-        }
+        echo "<p><b>" . _("Internal Notes") . ":</b> $internal_notes</p>\n";
         echo "</td></tr>\n";
 
-        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+        $sql = sprintf("
             SELECT
                 projectid, nameofwork, authorsname,
                 genre, language, postednum
             FROM projects
             WHERE image_source = '%s' ".$where_cls."
             ORDER BY nameofwork
-            ", mysqli_real_escape_string(DPDatabase::get_connection(), $imso_code)));
+            ", DPDatabase::escape($imso_code));
+        $result = DPDatabase::query($sql);
 
         echo "<tr>";
         echo "<th>" . _("Title") . "</th>";
@@ -375,4 +284,25 @@ if (!isset($_GET['name'])) {
     }
 }
 
-echo "<br>\n";
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function load_image_source_stats()
+{
+    $stats = [];
+    $sql = "
+        SELECT
+            image_source,
+            count(distinct  projectid) as projects_total,
+            sum(".SQL_CONDITION_GOLD.") as projects_completed
+            FROM projects
+            WHERE state != 'project_delete'
+            AND image_source != ''
+            GROUP BY image_source
+    ";
+    $result = DPDatabase::query($sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $stats[(string)$row['image_source']] = $row;
+    }
+    mysqli_free_result($result);
+    return $stats;
+}

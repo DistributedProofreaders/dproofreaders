@@ -9,6 +9,7 @@ include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
 include_once($relPath.'special_colors.inc'); // load_special_days()
 include_once($relPath.'User.inc');
 include_once($relPath.'CharSuites.inc');
+include_once($relPath.'Project.inc'); // load_image_sources()
 
 function just_echo($field_value)
 {
@@ -242,28 +243,17 @@ function special_list($special)
 function image_source_list($image_source)
 {
     global $site_abbreviation;
-    // get info on image_sources
-    $sql = "
-        SELECT code_name, display_name
-        FROM image_sources
-        WHERE is_active = 1
-        ORDER BY display_name
-    ";
-    $imso_result = DPDatabase::query($sql);
 
     $imso_array = [
         // TRANSLATORS: %s is the site abbreviation
         "_internal" => sprintf(_("%s Internal"), $site_abbreviation),
     ];
-
-    // put list into array
-    while ($i_row = mysqli_fetch_assoc($imso_result)) {
-        $code = $i_row['code_name'];
-        // unfortunately, $code can be a numeric value which confuses the php array
-        // e.g. 1.5 and 1.6 would both be cast to 1
-        // so we append a colon at the end here to force it to be a string and then
-        // strip it again later
-        $imso_array["$code:"] = $i_row['display_name'];
+    foreach (load_image_sources() as $code => $source) {
+        if (($source["is_active"] == 1 && can_user_see_image_source($source)) ||
+            $code == $image_source) {
+            // $code can be a numeric value so we cast it to a string
+            $imso_array[(string)$code] = $source['display_name'];
+        }
     }
 
     // drop down select box for which image source
@@ -271,10 +261,6 @@ function image_source_list($image_source)
     maybe_echo_placeholder_option($image_source);
     // add the pre-defined image_sources
     foreach ($imso_array as $k => $v) {
-        // strip off the string-forcing trailing colon if it exists
-        if (endswith($k, ':')) {
-            $k = substr($k, 0, strlen($k) - 1);
-        }
         echo "<option value='".attr_safe($k)."'";
         if ($image_source === $k) {
             echo " SELECTED";
