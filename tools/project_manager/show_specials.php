@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'special_colors.inc');
 
@@ -15,18 +14,14 @@ echo "<h1>$title</h1>\n";
 
 echo "<p>" . _("If a Special Day has been disabled, <span class='small'>[Disabled]</span> will be displayed following the name of the special day in the \"Name\" column.") . "</p>\n";
 
-$sql = "
-    SELECT *
-    FROM special_days
-    ORDER BY open_month, open_day
-";
-$result = DPDatabase::query($sql);
+$special_days = load_special_days();
+sort_special_days($special_days, "open_month,open_day");
 
 echo "<table class='list_special_days show_special_days'>";
 
 $current_month = -1;
 
-while ($row = mysqli_fetch_assoc($result)) {
+foreach ($special_days as $row) {
     $month = $row['open_month'];
 
     // This handles the exceptions for the 'special' special days which aren't really
