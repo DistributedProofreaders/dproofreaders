@@ -27,6 +27,7 @@ $router->add_route("GET", "v1/projects/states", "api_v1_projects_states");
 $router->add_route("GET", "v1/projects/pagerounds", "api_v1_projects_pagerounds");
 $router->add_route("GET", "v1/projects/charsuites", "api_v1_projects_charsuites");
 $router->add_route("GET", "v1/projects/specialdays", "api_v1_projects_specialdays");
+$router->add_route("GET", "v1/projects/imagesources", "api_v1_projects_imagesources");
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");

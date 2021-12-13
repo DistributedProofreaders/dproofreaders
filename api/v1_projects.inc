@@ -370,3 +370,34 @@ function api_v1_projects_specialdays($method, $data, $query_params)
 
     return $return_data;
 }
+
+//---------------------------------------------------------------------------
+// projects/imagesources
+
+function api_v1_projects_imagesources($method, $data, $query_params)
+{
+    $return_data = [];
+
+    $image_sources = load_image_sources();
+
+    foreach ($image_sources as $id => $image_source) {
+        if (isset($query_params["enabled"]) && !($image_source["is_active"] == 1)) {
+            continue;
+        }
+
+        if (!can_user_see_image_source($image_source)) {
+            continue;
+        }
+
+        $return_data[] = [
+            "id" => $image_source["code_name"],
+            "name" => $image_source["display_name"],
+            "name_full" => $image_source["full_name"],
+            "url" => $image_source["url"],
+            "credit" => $image_source["credit"],
+            "enabled" => $image_source["is_active"] == 1,
+        ];
+    }
+
+    return $return_data;
+}

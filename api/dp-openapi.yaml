@@ -173,6 +173,36 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/imagesources:
+    get:
+      tags:
+      - project
+      description: Returns a list of valid project image sources
+      parameters:
+      - name: enabled
+        in: query
+        description: Only return enabled image sources
+        required: false
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: List of valid image sources
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/image_source'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/languages:
     get:
       tags:
@@ -678,6 +708,25 @@ components:
           type: array
           items:
             type: string
+        enabled:
+          type: boolean
+
+    image_source:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        name_full:
+          type: string
+        url:
+          type: string
+          format: url
+        credit:
+          type: string
         enabled:
           type: boolean
 
