@@ -8,6 +8,7 @@ include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'CharSuites.inc');
+include_once($relPath.'special_colors.inc');
 
 class UTF8ConversionException extends Exception
 {
@@ -57,7 +58,7 @@ class Project
     }
 
     // -------------------------------------------------------------------------
-    // Loading & initialization
+    // Load & Validate
 
     private function _init_fields_to_defaults()
     {
@@ -111,6 +112,145 @@ class Project
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
+    }
+
+    public function validate($throw_on_error = false)
+    {
+        $errors = [];
+
+        if ($this->projectid) {
+            try {
+                validate_projectID($this->projectid);
+            } catch (InvalidProjectIDException $exception) {
+                $errors[] = $exception->getMessage();
+            }
+        }
+
+        $required_fields = [
+            "nameofwork" => _("Title"),
+            "authorsname" => _("Author"),
+            "username" => _("Project Manager"),
+            "language" => _("Language"),
+            "genre" => _("Genre"),
+            "image_source" => _("Image Source"),
+            "difficulty" => _("Difficulty"),
+        ];
+
+        foreach ($required_fields as $field => $label) {
+            if (preg_match('/^\s*$/', $this->$field)) {
+                $errors[] = sprintf(_("%s is required."), $label);
+            }
+        }
+
+        $user_fields = [
+            "username" => _("Project Manager"),
+            "checkedoutby" => _("PPer/PPVer"),
+            "image_preparer" => _("Image Preparer"),
+            "text_preparer" => _("Text Preparer"),
+            "postproofer" => _("Post Processor"),
+            "ppverifier" => _("Post Processor Verifier"),
+        ];
+
+        foreach ($user_fields as $field => $label) {
+            // only check non-empty fields
+            if (!preg_match('/^\s*$/', $this->$field) && !User::is_valid_user($this->$field)) {
+                $errors[] = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
+                    $label);
+            }
+        }
+
+        if ($this->username && !that_user_is_PM($this->username)) {
+            // TRANSLATORS: PM = project manager
+            $errors[] = sprintf(_("%s is not a PM."), $this->username);
+        }
+
+        if ($this->languages[0]) {
+            foreach ($this->languages as $language) {
+                if (langcode2_for_langname($language) === null) {
+                    $errors[] = sprintf(_("%s is not a valid language."), $language);
+                }
+            }
+        }
+
+        if ($this->genre && !in_array($this->genre, array_keys(load_genre_translation_array()))) {
+            $errors[] = sprintf(_("%s is not a valid genre."), $this->genre);
+        }
+
+        if ($this->image_source && !in_array($this->image_source, array_keys(load_image_sources()))) {
+            $errors[] = sprintf(_("%s is not a valid image source."), $this->image_source);
+        }
+
+        if ($this->difficulty && !in_array($this->difficulty, array_keys(get_project_difficulties()))) {
+            $errors[] = sprintf(_("%s is not a valid difficulty."), $this->difficulty);
+        }
+
+        if ($this->special_code) {
+            if (startswith($this->special_code, 'Birthday') ||
+                 startswith($this->special_code, 'Otherday')
+            ) {
+                if (preg_match("/\w+ (\d{2})(\d{2})/", $this->special_code, $matches)) {
+                    if (!checkdate($matches[1], $matches[2], 2000)) {
+                        $errors[] = _("Invalid date supplied for Birthday or Otherday Special.");
+                    }
+                } else {
+                    $errors[] = _("Month and Day are required for Birthday or Otherday Specials.");
+                }
+            } else {
+                if (!in_array($this->special_code, array_keys(load_special_days()))) {
+                    $errors[] = sprintf(_("%s is not a valid special day."), $this->special_code);
+                }
+            }
+        }
+
+        // don't allow an empty PPer/PPVer if the project is checked out
+        if (($this->state == PROJ_POST_FIRST_CHECKED_OUT ||
+             $this->state == PROJ_POST_SECOND_CHECKED_OUT) &&
+             $this->checkedoutby == '') {
+            $errors[] = _("This project is checked out and must specify a PPer/PPVer");
+        }
+
+        if ($this->postednum) {
+            if (! preg_match('/^[1-9][0-9]*$/', $this->postednum)) {
+                $errors[] = sprintf(
+                    _("Posted Number \"%s\" is not of the correct format."),
+                    $this->postednum);
+                // Occasionally, there will be a PG ebook that is still
+                // under U.S. copyright. This is indicated in their system
+                // by appending a 'C' to the etext number. The link to
+                // the etext, however, does not include the 'C', nor should
+                // the DP link. If this changes, update the pattern here.
+            }
+        }
+
+        $custom_chars = utf8_normalize($this->custom_chars);
+        if ($custom_chars) {
+            $codepoints = utf8_codepoints_combining($custom_chars);
+
+            // all characters must be unique
+            if ($codepoints != array_unique($codepoints)) {
+                $errors[] = _("The set of custom characters must be unique.");
+            }
+
+            // only allow 32 characters
+            if (count($codepoints) > 32) {
+                $errors[] = _("A maximum of 32 custom characters are allowed.");
+            }
+
+            // prevent disallowed characters from being added
+            $disallowed_codepoints = array_intersect(get_disallowed_codepoints(), $codepoints);
+            if ($disallowed_codepoints != []) {
+                $errors[] = sprintf(
+                    _("The following custom characters are not allowed: %s"),
+                    implode(", ", array_map('voku\helper\UTF8::hex_to_chr', $disallowed_codepoints))
+                );
+            }
+        }
+
+        if ($errors and $throw_on_error) {
+            throw new ValueError(join("\n", $errors));
+        }
+
+        return $errors;
     }
 
     // -------------------------------------------------------------------------
