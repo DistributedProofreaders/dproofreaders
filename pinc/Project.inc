@@ -64,13 +64,6 @@ class Project
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
-
-        // -------------------------------------------------
-
-        global $projects_url, $projects_dir;
-
-        $this->url = "$projects_url/$this->projectid";
-        $this->dir = "$projects_dir/$this->projectid";
     }
 
     // -------------------------------------------------------------------------
@@ -78,11 +71,15 @@ class Project
 
     public function __get($name)
     {
-        global $pguser;
+        global $pguser, $projects_url, $projects_dir;
 
         static $project_page_table_exists = null;
 
         switch ($name) {
+            case "url":
+                return "$projects_url/$this->projectid";
+            case "dir":
+                return "$projects_dir/$this->projectid";
             case "is_utf8":
                 return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
@@ -972,9 +969,9 @@ class Project
     // Given a MARCRecord, write a dc XML document for this project
     public function create_dc_xml_oai($marc_record)
     {
-        global $charset, $site_name, $code_url, $projects_dir;
+        global $charset, $site_name, $code_url;
 
-        $dirname = "$projects_dir/$this->projectid";
+        $dirname = $this->dir;
         $filename = "$dirname/dc.xml";
 
         if (!is_dir($dirname)) {
