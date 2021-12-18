@@ -15,6 +15,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         "difficulty" => "average",
         // username and image_source are set in setUp() after creation
     ];
+    private $created_projectids = [];
 
     protected function setUp(): void
     {
@@ -41,6 +42,86 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         delete_test_user($this->TEST_USERNAME_PM);
         delete_test_user($this->TEST_USERNAME);
         delete_test_image_source($this->TEST_IMAGESOURCE);
+
+        foreach ($this->created_projectids as $projectid) {
+            $project = new Project($projectid);
+            delete_test_project_remains($project);
+        }
+    }
+
+    //------------------------------------------------------------------------
+    // Project object save and delete
+
+    // helper function to create a project
+    protected function _create_project()
+    {
+        $project = new Project();
+        foreach ($this->valid_project_data as $key => $value) {
+            $project->$key = $value;
+        }
+        $project->save();
+        $this->created_projectids[] = $project->projectid;
+
+        return $project;
+    }
+
+    public function test_save_create()
+    {
+        $project = $this->_create_project();
+
+        // test that the project event was created
+        $events = load_project_events($project);
+        $last_event = array_pop($events);
+        $this->assertEquals("creation", $last_event["event_type"]);
+
+        // test that the project was updated in the DB
+        $check_project = new Project($project->projectid);
+        $this->assertEquals($project->nameofwork, $check_project->nameofwork);
+
+        // confirm the project directory was created
+        $this->assertTrue(is_dir($project->dir), "Project dir created: $project->dir");
+    }
+
+    public function test_save_update()
+    {
+        $project = $this->_create_project();
+
+        // update title and save
+        $project->nameofwork = "New Name";
+        $project->save();
+
+        // test that the project event was created
+        $events = load_project_events($project);
+        $last_event = array_pop($events);
+        $this->assertEquals("edit", $last_event["event_type"]);
+        $this->assertEquals("nameofwork", $last_event["details1"]);
+
+        // test that the project was updated in the DB
+        $check_project = new Project($project->projectid);
+        $this->assertEquals("New Name", $check_project->nameofwork);
+    }
+
+    public function test_save_init_from_array()
+    {
+        $this->expectException(ProjectException::class);
+        $project = new Project($this->valid_project_data);
+        $project->save();
+    }
+
+    public function test_delete()
+    {
+        $project = $this->_create_project();
+
+        $project->delete();
+
+        // clear PHP's stat cache
+        clearstatcache();
+
+        // confirm the project directory was deleted
+        $this->assertTrue(!is_dir($project->dir), "Project dir deleted: $project->dir");
+
+        // confirm the project's pages table does not exist
+        $this->assertTrue(!does_project_page_table_exist($project->projectid), "Pages table deleted");
     }
 
     //------------------------------------------------------------------------

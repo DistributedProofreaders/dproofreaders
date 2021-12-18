@@ -3,6 +3,10 @@ include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc'); // load_genre_translation_array
 include_once($relPath.'unicode.inc'); // guess_string_encoding()
 
+class InvalidMARCRecord extends Exception
+{
+}
+
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format

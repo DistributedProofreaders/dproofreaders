@@ -10,6 +10,7 @@ include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'CharSuites.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_events()
+include_once($relPath.'DPage.inc'); // project_allow_pages()
 
 class UTF8ConversionException extends Exception
 {
@@ -41,11 +42,14 @@ class Project
 {
     use CharSuiteSet;
 
+    private $_create_source = null;
+
     public function __construct($arg = null)
     {
         if (is_string($arg)) {
             // $arg is the projectid.
             $this->_load_from_db($arg);
+            $this->_create_source = "db";
         } elseif (is_array($arg)) {
             // $arg is assumed to be an associative array, such
             // as would be returned by mysqli_fetch_assoc().
@@ -53,8 +57,10 @@ class Project
             foreach ($arg as $key => $value) {
                 $this->$key = $value;
             }
+            $this->_create_source = "array";
         } elseif ($arg === null) {
             $this->_init_fields_to_defaults();
+            $this->_create_source = "empty";
         } else {
             $arg_type = gettype($arg);
             die("Project::Project(): 'arg' has unexpected type $arg_type");
@@ -116,6 +122,22 @@ class Project
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
+    }
+
+    public function populate_from_marc_record($encoded_marc_array)
+    {
+        $yaz_array = unserialize(base64_decode($encoded_marc_array));
+        if (!$yaz_array) {
+            throw new InvalidMARCRecord();
+        }
+
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($yaz_array);
+
+        $this->nameofwork = $marc_record->title;
+        $this->authorsname = $marc_record->author;
+        $this->language = $marc_record->language;
+        $this->genre = $marc_record->literary_form;
     }
 
     public function validate($throw_on_error = false)
@@ -257,6 +279,143 @@ class Project
         }
 
         return $errors;
+    }
+
+    public function save()
+    {
+        // Disallow save if the object was created from an array. There's too
+        // great a chance that there might be missing fields.
+        if ($this->_create_source == "array") {
+            throw new ProjectException("Saving a Project object from an array source is disallowed.");
+        }
+
+        $postednum_str = ($this->postednum == "") ? "NULL" : sprintf("%d", $this->postednum);
+        $project_settings = "
+            username       = '".DPDatabase::escape($this->username)."',
+            nameofwork     = '".DPDatabase::escape(utf8_normalize($this->nameofwork))."',
+            authorsname    = '".DPDatabase::escape(utf8_normalize($this->authorsname))."',
+            language       = '".DPDatabase::escape($this->language)."',
+            genre          = '".DPDatabase::escape($this->genre)."',
+            difficulty     = '".DPDatabase::escape($this->difficulty)."',
+            special_code   = '".DPDatabase::escape($this->special_code)."',
+            clearance      = '".DPDatabase::escape($this->clearance)."',
+            comments       = '".DPDatabase::escape(utf8_normalize($this->comments))."',
+            comment_format = '".DPDatabase::escape($this->comment_format)."',
+            postcomments   = '".DPDatabase::escape(utf8_normalize($this->postcomments))."',
+            postproofer    = '".DPDatabase::escape($this->postproofer)."',
+            ppverifier     = '".DPDatabase::escape($this->ppverifier)."',
+            image_source   = '".DPDatabase::escape($this->image_source)."',
+            scannercredit  = '".DPDatabase::escape($this->scannercredit)."',
+            checkedoutby   = '".DPDatabase::escape($this->checkedoutby)."',
+            postednum      = $postednum_str,
+            image_preparer = '".DPDatabase::escape($this->image_preparer)."',
+            text_preparer  = '".DPDatabase::escape($this->text_preparer)."',
+            extra_credits  = '".DPDatabase::escape(utf8_normalize($this->extra_credits))."',
+            deletion_reason= '".DPDatabase::escape($this->deletion_reason)."',
+            custom_chars   = '".DPDatabase::escape(utf8_normalize($this->custom_chars))."',
+        ";
+
+        // are we creating a new project or updating an existing one?
+        if ($this->projectid) {
+            // Updating an existing project
+
+            // find out what is changing so we can log it
+            $current_values = new Project($this->projectid);
+            $changed_fields = get_changed_fields_for_objects($this, $current_values);
+
+            // If the comments have changed, update t_last_change_comments
+            if (in_array('comments', $changed_fields)) {
+                $project_settings .= "t_last_change_comments = UNIX_TIMESTAMP(),";
+            }
+
+            // We also want to know if the edit is resulting in the project
+            // effectively being checked out to a new PPer. Store the value
+            // for logging after we do the update.
+            if (in_array('checkedoutby', $changed_fields) &&
+                $current_values->state == PROJ_POST_FIRST_CHECKED_OUT) {
+                $project_settings .= "modifieddate = UNIX_TIMESTAMP(),";
+                $PPer_checkout = true;
+            } else {
+                $PPer_checkout = false;
+            }
+
+            $where = sprintf(
+                "WHERE projectid='%s'",
+                DPDatabase::escape($this->projectid)
+            );
+            $sql = "
+                UPDATE projects SET
+                    $project_settings
+                    t_last_edit = UNIX_TIMESTAMP()
+                    $where
+            ";
+            DPDatabase::query($sql);
+
+            // Log the changes
+            $details1 = implode(' ', $changed_fields);
+            if ($details1 == '') {
+                // There are no changed fields.
+
+                // Don't just save '' for the details1 column, because then
+                // do_history() won't be able to distinguish this case (no
+                // changed fields) from old cases (edit occurred before we
+                // started recording changed fields). Instead, use a special value.
+                $details1 = 'NONE';
+            }
+            $this->log_project_event(User::current_username(), 'edit', $details1);
+            if ($PPer_checkout) {
+                // we fake the project transition...
+                $this->project->log_project_event(
+                    User::current_username(),
+                    'transition',
+                    PROJ_POST_FIRST_CHECKED_OUT,
+                    PROJ_POST_FIRST_CHECKED_OUT,
+                    $this->checkedoutby
+                );
+            }
+
+            // Update the MARC record
+            $this->update_marc_record();
+        } else {
+            // Creating a new project
+            $this->projectid = uniqid("projectID"); // The project ID
+
+            // Insert a new row into the projects table
+            $pid_setter = sprintf(
+                "projectid = '%s',",
+                DPDatabase::escape($this->projectid)
+            );
+            $state_setter = sprintf(
+                "state = '%s',",
+                DPDatabase::escape(PROJ_NEW)
+            );
+            $sql = "
+                INSERT INTO projects
+                SET
+                    $pid_setter
+                    $state_setter
+                    $project_settings
+                    t_last_edit = UNIX_TIMESTAMP(),
+                    modifieddate = UNIX_TIMESTAMP(),
+                    t_last_change_comments = UNIX_TIMESTAMP()
+            ";
+            DPDatabase::query($sql);
+
+            // Log that we've created the project
+            $this->log_project_event(User::current_username(), 'creation');
+
+            // Make the project directory
+            if (!mkdir($this->dir, 0777, true)) {
+                throw new RuntimeException("Unable to mkdir '$this->dir'");
+            }
+
+            // Make the project table
+            project_allow_pages($this->projectid);
+
+            // reload the object from the database to pick up initial
+            // values created or assigned from the database
+            $this->_load_from_db($this->projectid);
+        }
     }
 
     public function delete()
@@ -1323,6 +1482,9 @@ class Project
             DPDatabase::escape($this->projectid)
         );
         DPDatabase::query($sql);
+
+        // Update project's Dublin Core file
+        $this->create_dc_xml_oai($marc_record);
     }
 
     // Load the updated MARC record for this project
@@ -1347,6 +1509,32 @@ class Project
         $updated_record->load_yaz_array(unserialize(base64_decode($row["updated_array"])));
 
         return $updated_record;
+    }
+
+    // Update the project's MARC record from the current Project values
+    public function update_marc_record()
+    {
+        $marc_record = $this->load_marc_record();
+
+        // Mapping of Project field names to MARC field names
+        $marc_field_map = [
+            "nameofwork" => "title",
+            "authorsname" => "author",
+            "genre" => "literary_form",
+        ];
+
+        foreach ($marc_field_map as $project_field => $marc_field) {
+            if ($this->$project_field) {
+                $marc_record->$marc_field = $this->$project_field;
+            }
+        }
+
+        // Only pull out the primary language
+        if ($this->languages) {
+            $marc_record->language = langcode3_for_langname($this->languages[0]);
+        }
+
+        $this->save_marc_record($marc_record);
     }
 
     // check if project has entered a formatting round

@@ -129,7 +129,7 @@ function difficulty_list($difficulty_level)
     }
 
     foreach ($difficulty_list as $name => $label) {
-        echo "<label><input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
+        echo "<label><input type='radio' name='difficulty' value='".attr_safe($name)."'";
         if (strtolower($difficulty_level) == $name) {
             echo " CHECKED";
         }
@@ -335,19 +335,4 @@ function description_field($description, $field_name)
     $enc_description = html_safe($description);
 
     echo "<textarea name='$field_name' cols='74' rows='6'>$enc_description</textarea>";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-// returns an empty string if the possible user exists,
-// otherwise an error message
-function check_user_exists($possible_user, $description)
-{
-    $result = '';
-
-    if (!User::is_valid_user($possible_user)) {
-        $result = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
-            $description) . "<br>";
-    }
-    return $result;
 }
