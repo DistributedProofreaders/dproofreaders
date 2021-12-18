@@ -126,12 +126,7 @@ function difficulty_list($difficulty_level)
 {
     global $pguser;
 
-    $difficulty_list = [
-        'beginner' => _("Beginner"),
-        'easy' => _("Easy"),
-        'average' => _("Average"),
-        'hard' => _("Hard"),
-    ];
+    $difficulty_list = get_project_difficulties();
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
     if (($pguser != "BEGIN") && (!user_is_a_sitemanager())) {

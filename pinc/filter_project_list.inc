@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'iso_lang_list.inc');
+include_once($relPath.'Project.inc'); // get_project_difficulties()
 
 // This file includes functions to handle the creation, update, and display of
 // the project filters used on the Round, Project, and Smooth Reading pages.
@@ -157,9 +158,9 @@ class DifficultyElement extends ProjectFilterElement
             echo " checked";
         }
         echo ">\n";
-        $difficulty_options = ['beginner' => _("Beginners Only"), 'easy' => _("Easy"), 'average' => _("Average"), 'hard' => _("Hard")];
-        foreach ($difficulty_options as $value => $option) {
-            echo "<label for='$value'>&nbsp;$option</label><input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
+        foreach (get_project_difficulties() as $value => $option) {
+            $escaped_option = html_safe($option);
+            echo "&nbsp;<label for='$value'>$escaped_option</label><input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
             if (is_array($difficulty) && in_array($value, $difficulty)) {
                 echo " checked";
                 $this->selected_options[] = $option;
