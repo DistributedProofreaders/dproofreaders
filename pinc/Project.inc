@@ -36,31 +36,78 @@ class Project
 {
     use CharSuiteSet;
 
-    public function __construct($arg)
+    public function __construct($arg = null)
     {
         if (is_string($arg)) {
             // $arg is the projectid.
-            $sql = sprintf("
-                SELECT *
-                FROM projects
-                WHERE projectid = '%s'",
-                DPDatabase::escape($arg)
-            );
-            $res = DPDatabase::query($sql);
-            $row = mysqli_fetch_assoc($res);
-            if (!$row) {
-                throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $arg));
-            }
-            $row['t_retrieved'] = time();
+            $this->_load_from_db($arg);
         } elseif (is_array($arg)) {
             // $arg is assumed to be an associative array, such
             // as would be returned by mysqli_fetch_assoc().
-            $row = $arg;
+            $this->_init_fields_to_defaults();
+            foreach ($arg as $key => $value) {
+                $this->$key = $value;
+            }
+        } elseif ($arg === null) {
+            $this->_init_fields_to_defaults();
         } else {
             $arg_type = gettype($arg);
             die("Project::Project(): 'arg' has unexpected type $arg_type");
         }
+    }
 
+    // -------------------------------------------------------------------------
+    // Loading & initialization
+
+    private function _init_fields_to_defaults()
+    {
+        // Initialize Project with core fields and default values.
+        // These alone aren't sufficient to validate() and persist the project.
+        $fields = [
+            "projectid" => null,
+            "nameofwork" => "",
+            "authorsname" => "",
+            "username" => "",
+            "checkedoutby" => "",
+            "language" => "",
+            "scannercredit" => "",
+            "comments" => "",
+            "comment_format" => "markdown",
+            "postproofer" => "",
+            "ppverifier" => "",
+            "postcomments" => "",
+            "clearance" => "",
+            "postednum" => "",
+            "genre" => "",
+            "difficulty" => "",
+            "special_code" => "",
+            "image_source" => "",
+            "image_preparer" => "",
+            "text_preparer" => "",
+            "extra_credits" => "",
+            "deletion_reason" => "",
+            "custom_chars" => "",
+            "state" => "",
+        ];
+        foreach ($fields as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    private function _load_from_db($projectid)
+    {
+        $sql = sprintf("
+            SELECT *
+            FROM projects
+            WHERE projectid = '%s'",
+            DPDatabase::escape($projectid)
+        );
+        $res = DPDatabase::query($sql);
+        $row = mysqli_fetch_assoc($res);
+        if (!$row) {
+            throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $projectid));
+        }
+        $row['t_retrieved'] = time();
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
