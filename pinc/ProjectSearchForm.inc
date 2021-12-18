@@ -213,13 +213,7 @@ class ProjectSearchForm
 
     public static function difficulty_options()
     {
-        return [
-            '' => _('Any'),
-            'beginner' => _('Beginner'),
-            'easy' => _('Easy'),
-            'average' => _('Average'),
-            'hard' => _('Hard'),
-        ];
+        return array_merge(['' => _('Any')], get_project_difficulties());
     }
 
     public static function state_options()

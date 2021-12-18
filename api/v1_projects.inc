@@ -272,8 +272,7 @@ function render_project_page_json($row)
 
 function api_v1_projects_difficulties($method, $data, $query_params)
 {
-    $difficulties = ProjectSearchForm::difficulty_options();
-    unset($difficulties['']);
+    $difficulties = get_project_difficulties();
     return array_keys($difficulties);
 }
 

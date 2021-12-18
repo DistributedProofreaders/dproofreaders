@@ -1355,3 +1355,16 @@ function can_user_see_image_source($image_source)
 
     return $visibility <= $image_source["info_page_visibility"];
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Project difficulty
+
+function get_project_difficulties()
+{
+    return [
+        'beginner' => _('Beginner'),
+        'easy' => _('Easy'),
+        'average' => _('Average'),
+        'hard' => _('Hard'),
+    ];
+}
