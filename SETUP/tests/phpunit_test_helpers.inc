@@ -80,3 +80,54 @@ function delete_test_image_source($image_source)
         throw new Exception(sprintf("Unable to delete test image source %s", $image_source));
     }
 }
+
+function load_project_events($project)
+{
+    $sql = sprintf("
+        SELECT *
+        FROM project_events
+        WHERE projectid = '%s'
+        ORDER BY event_id
+    ", DPDatabase::escape($project->projectid));
+    $res = DPDatabase::query($sql);
+    $events = [];
+    while ($event = mysqli_fetch_assoc($res)) {
+        $events[] = $event;
+    }
+
+    return $events;
+}
+
+// Delete remains of test projects that end up in other tables
+function delete_test_project_remains($project)
+{
+    $projectid = $project->projectid;
+
+    // character suites
+    $project->set_charsuites([]);
+
+    // project_holds
+    $hold_states = $project->get_hold_states();
+    if ($hold_states) {
+        $project->remove_holds($hold_states);
+    }
+
+    // project pages table and directory
+    if (does_project_page_table_exist($project->projectid)) {
+        $project->delete();
+    }
+
+    // project_events
+    $sql = sprintf("
+        DELETE FROM project_events
+        WHERE projectid  = '%s'
+    ", DPDatabase::escape($projectid));
+    DPDatabase::query($sql);
+
+    // projects table
+    $sql = sprintf("
+        DELETE FROM projects
+        WHERE projectid  = '%s'
+    ", DPDatabase::escape($projectid));
+    DPDatabase::query($sql);
+}
