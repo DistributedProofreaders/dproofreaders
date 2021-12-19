@@ -28,6 +28,7 @@ $sections = [
         "copy_pages.php" => _("Copy Pages"),
         "delete_pages.php" => _("Delete Pages"),
         "rename_pages.php" => _("Rename Pages"),
+        "project_jump.php" => _("Jump Project to State"),
         "../project_manager/clearance_check.php?username=" => _("Questionable Clearances"),
         "convert_project_table_utf8.php" => _("Convert Project Table to UTF-8"),
     ],
