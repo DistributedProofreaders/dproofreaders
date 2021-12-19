@@ -78,7 +78,7 @@ function display_form($action, $projectid, $from_image_)
         echo "<tr>";
         echo "<td></td><td>";
         echo "<input type='hidden' name='action' value='check'>\n";
-        echo "<input type='submit' name='submit_button' value='" . _("Check") . "'>";
+        echo "<input type='submit' name='submit_button' value='" . attr_safe(_("Check")) . "'>";
         echo "</td>";
         echo "</tr>";
     } elseif ($action == "check") {
@@ -88,7 +88,7 @@ function display_form($action, $projectid, $from_image_)
         echo "<input type='hidden' name='from_image_[hi]' value='" . attr_safe($from_image_['hi']) . "'>";
         echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
         echo "<input type='hidden' name='action' value='dodelete'>\n";
-        echo "<input type='submit' name='submit_button' value='" . _("Do it!") . "'>";
+        echo "<input type='submit' name='submit_button' value='" . attr_safe(_("Do it")) . "'>";
         echo "</td>";
         echo "</tr>";
     }
