@@ -132,7 +132,7 @@ if ($operation == 'replace') {
         <input type='hidden' name='operation' value='$operation'>
         <input type='hidden' name='confirmed' value='yes'>
         <br>
-        <input type='submit' value='", attr_safe(_("Do It")), "'>
+        <input type='submit' value='", attr_safe(_("Do it")), "'>
         </form>
     ";
 } else {
@@ -143,7 +143,7 @@ if ($operation == 'replace') {
         <input type='hidden' name='operation' value='$operation'>
         <input type='hidden' name='confirmed' value='yes'>
         <br>
-        <input type='submit' value='", attr_safe(_("Do It")), "'>
+        <input type='submit' value='", attr_safe(_("Do it")), "'>
         </form>
     ";
 }
