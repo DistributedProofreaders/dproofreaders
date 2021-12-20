@@ -1175,6 +1175,7 @@ header #logo,
 #header #logo {
   height: 75px;
   margin: 0.25em 0.5em;
+  content: url('../../graphics/dp-logo.svg');
 }
 header #logo img,
 #header #logo img {
