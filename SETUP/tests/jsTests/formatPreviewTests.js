@@ -395,6 +395,18 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 28, 9, "continueFirst", 0);
     });
 
+    QUnit.test("italic footnote ok", function (assert) {
+        text = "xyz[<i>a</i>]\n\n[Footnote <i>a</i>: abc]";
+        issArray = analyse(text, configuration).issues;
+        noIssueTest(assert);
+    });
+
+    QUnit.test("multiple footnotes", function (assert) {
+        text = "xyz[1] pqr[i]\n\n[Footnote i: abc]\n\n[Footnote 1: abc]";
+        issArray = analyse(text, configuration).issues;
+        noIssueTest(assert);
+    });
+
     QUnit.test("pair of inline tags with no content", function (assert) {
         text = "<g></g>";
         issArray = analyse(text, configuration).issues;

@@ -532,6 +532,12 @@ $(function () {
         function checkFootnotes() {
             var anchorArray = [];
             var footnoteArray = [];
+            // let footnote marker be an optionaly tagged letter, or a number
+            // Bad tag caught elsewhere
+            let marker = `(?:<(?:${ILTags})>)?[A-Za-z](?:<.+>)?|\\d+`;
+            let footnoteIDRegex = new RegExp(`^(?:${marker})$`);
+            // also check for *
+            let anchorRegex = new RegExp(`\\[(\\*|${marker})\\]`, "g");
 
             function checkAnchor(anch) {
                 function match(fNote) {
@@ -568,9 +574,7 @@ $(function () {
             }
 
             // search for footnote anchors and put in an array
-            // match an upper case letter or digits or *
             let result;
-            let anchorRegex = /\[(\*|[A-Za-z]|\d+)\]/g;
             while ((result = anchorRegex.exec(txt)) !== null) {
                 if (result[1] === "*") {    // found [*]
                     reportIssue(result.index, 3, "starAnchor");
@@ -606,7 +610,7 @@ $(function () {
                     continue;
                 }
                 noteLine = noteLine.slice(1, colonIndex);    // the id
-                if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
+                if (!footnoteIDRegex.test(noteLine)) {
                     reportIssue(footnoteStartIndex, 9, "footnoteId");
                     continue;
                 }
