@@ -19,6 +19,9 @@ $valid_new_states = [];
 foreach ($Round_for_round_id_ as $id => $round) {
     $valid_new_states[] = $round->project_unavailable_state;
 }
+$valid_new_states = array_merge($valid_new_states, [
+    'proj_post_first_unavailable', 'proj_post_first_available', 'proj_post_first_checked_out',
+]);
 $new_state = get_enumerated_param($_POST, 'new_state', null, $valid_new_states, true);
 
 
@@ -63,6 +66,11 @@ function display_form($action, $projectid, $new_state)
         foreach ($Round_for_round_id_ as $id => $round) {
             echo "<option value='{$round->project_unavailable_state}'>{$round->project_unavailable_state}</option>";
         }
+        echo "
+            <option value='proj_post_first_unavailable'>PP unavailable</option>
+            <option value='proj_post_first_available'>PP available</option>
+            <option value='proj_post_first_checked_out'>PP checked out</option>
+        ";
         echo "</select></td>\n";
         echo "</tr>";
 
@@ -105,6 +113,16 @@ function do_stuff($projectid, $new_state, $just_checking)
     if (!$project->pages_table_exists) {
         error_and_die("Project does not have a pages table and cannot be jumped to a new state");
     }
+
+    if ('proj_post_first_checked_out' == $new_state && '' == $project->checkedoutby) {
+        error_and_die("project must have a PPer assigned to jump to $new_state");
+    } elseif ('proj_post_first_checked_out' == $new_state) {
+        echo "    PPer      : $project->checkedoutby\n";
+    }
+    if ('proj_post_first_available' == $new_state && '' != $project->checkedoutby) {
+        error_and_die("project has a PPer assigned ($project->checkedoutby) so can't jump to $new_state");
+    }
+
 
     if ($just_checking) {
         echo "</pre>\n";
