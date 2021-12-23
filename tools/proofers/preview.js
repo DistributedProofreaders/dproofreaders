@@ -534,7 +534,7 @@ $(function () {
             var footnoteArray = [];
             // let footnote marker be an optionaly tagged letter, or a number
             // Bad tag caught elsewhere
-            let marker = `(?:<(?:${ILTags})>)?[A-Za-z](?:<.+>)?|\\d+`;
+            let marker = `(?:<(?:${ILTags})>)?(?:[A-Za-z]|\\d+)(?:<.+>)?`;
             let footnoteIDRegex = new RegExp(`^(?:${marker})$`);
             // also check for *
             let anchorRegex = new RegExp(`\\[(\\*|${marker})\\]`, "g");

@@ -401,6 +401,18 @@ QUnit.module("Format preview test", function() {
         noIssueTest(assert);
     });
 
+    QUnit.test("small cap footnote ok only with capital", function (assert) {
+        text = "xyz[<sc>A</sc>]\n\n[Footnote <sc>A</sc>: abc]";
+        issArray = analyse(text, configuration).issues;
+        noIssueTest(assert);
+    });
+
+    QUnit.test("bold number footnote ok", function (assert) {
+        text = "xyz[<b>12</b>]\n\n[Footnote <b>12</b>: abc]";
+        issArray = analyse(text, configuration).issues;
+        noIssueTest(assert);
+    });
+
     QUnit.test("multiple footnotes", function (assert) {
         text = "xyz[1] pqr[i]\n\n[Footnote i: abc]\n\n[Footnote 1: abc]";
         issArray = analyse(text, configuration).issues;
