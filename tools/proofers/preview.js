@@ -532,6 +532,12 @@ $(function () {
         function checkFootnotes() {
             var anchorArray = [];
             var footnoteArray = [];
+            // let footnote marker be an optionaly tagged letter, or a number
+            // Bad tag caught elsewhere
+            let marker = `(?:<(?:${ILTags})>)?(?:[A-Za-z]|\\d+)(?:<.+>)?`;
+            let footnoteIDRegex = new RegExp(`^(?:${marker})$`);
+            // also check for *
+            let anchorRegex = new RegExp(`\\[(\\*|${marker})\\]`, "g");
 
             function checkAnchor(anch) {
                 function match(fNote) {
@@ -568,10 +574,8 @@ $(function () {
             }
 
             // search for footnote anchors and put in an array
-            // match an upper case letter or digits or *
-            var result;
-            var re = /\[(\*|[A-Za-z]|\d+)\]/g;
-            while ((result = re.exec(txt)) !== null) {
+            let result;
+            while ((result = anchorRegex.exec(txt)) !== null) {
                 if (result[1] === "*") {    // found [*]
                     reportIssue(result.index, 3, "starAnchor");
                     continue;
@@ -579,42 +583,42 @@ $(function () {
                 anchorArray.push({index: result.index, id: result[1]});
             }
             // search for footnotes, get text to end of line
-            re = /\[Footnote(.*)/g;
-            var noteLine, i, rix;
+            let footnoteRegex = /\[Footnote(.*)/g;
+            let noteLine, colonIndex, footnoteStartIndex;
             function match(fNote) {
                 return fNote.id === noteLine;
             }
-            while ((result = re.exec(txt)) !== null) {
+            while ((result = footnoteRegex.exec(txt)) !== null) {
                 noteLine = result[1];
                 // find text up to :
-                i = noteLine.indexOf(":");
-                rix = result.index;
-                if (-1 === i) {
-                    reportIssue(rix, 9, "noColon");
+                colonIndex = noteLine.indexOf(":");
+                footnoteStartIndex = result.index;
+                if (-1 === colonIndex) {
+                    reportIssue(footnoteStartIndex, 9, "noColon");
                     continue;
                 }
-                if (txt.charAt(rix - 1) === "*") { // continuation
-                    if (i !== 0) {
-                        reportIssue(rix, 9, "colonNext");
+                if (txt.charAt(footnoteStartIndex - 1) === "*") { // continuation
+                    if (colonIndex !== 0) {
+                        reportIssue(footnoteStartIndex, 9, "colonNext");
                     } else if (footnoteArray.length > 0) {
-                        reportIssue(rix, 9, "continueFirst");
+                        reportIssue(footnoteStartIndex, 9, "continueFirst");
                     }
                     continue;
                 }
                 if (!(/^ [^ ]/).test(noteLine)) {
-                    reportIssue(rix, 9, "spaceNext");
+                    reportIssue(footnoteStartIndex, 9, "spaceNext");
                     continue;
                 }
-                noteLine = noteLine.slice(1, i);    // the id
-                if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
-                    reportIssue(rix, 9, "footnoteId");
+                noteLine = noteLine.slice(1, colonIndex);    // the id
+                if (!footnoteIDRegex.test(noteLine)) {
+                    reportIssue(footnoteStartIndex, 9, "footnoteId");
                     continue;
                 }
                 if (footnoteArray.some(match)) {
-                    reportIssue(rix, 9, "dupNote");
+                    reportIssue(footnoteStartIndex, 9, "dupNote");
                     continue;
                 }
-                footnoteArray.push({index: rix, id: noteLine});
+                footnoteArray.push({index: footnoteStartIndex, id: noteLine});
             }
             anchorArray.forEach(checkAnchor);
             footnoteArray.forEach(checkNote);
