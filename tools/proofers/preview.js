@@ -863,19 +863,24 @@ $(function () {
             return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
+        function htmlEncode(s) {
+            return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
         // add style and optional colouring for marked-up text
         function showStyle() {
-            const sc1 = "&lt;sc&gt;";
-            const sc2 = "&lt;/sc&gt;";
+            const sc1 = "<sc>";
+            const sc2 = "</sc>";
             // a string of small capitals
-            var smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
-            var scString;
+            let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
 
             function transformSC(match, p1) { // if all upper case transform to lower
-                scString = p1;
+                let scString = p1;
                 // remove tags such as <i> within the string so that all
                 // uppercase string is correctly identified, (only 1 char)
-                scString = scString.replace(/&lt;\/?.&gt;/g, '');
+                scString = scString.replace(/<\/?.>/g, '');
                 if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
@@ -897,7 +902,7 @@ $(function () {
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
-                    tagMark = match;
+                    tagMark = htmlEncode(match);
                     break;
                 case "flat":
                     tagMark = tagMap[p2];
@@ -925,15 +930,19 @@ $(function () {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
             // find inline tag
-            var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+            var reTag = new RegExp("<(\\/?)(" + ILTags + ")>", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
             let colorString = makeColourStyle('etc');
 
+            function oolReplacer(match) {
+                return `<span${colorString}>${htmlEncode(match)}</span>`;
+            }
+
             // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\/|&lt;tb&gt;/g, '<span' + colorString + '>$&</span>');
+                txt = txt.replace(/\/\*|\*\/|\/#|#\/|<tb>/g, oolReplacer);
             }
 
             // show sub- and super-scripts
@@ -996,7 +1005,7 @@ $(function () {
                     return;
                 }
 
-                if (textLine === "&lt;tb&gt;") {    // thought break
+                if (textLine === "<tb>") {    // thought break
                     txt += '<div class="tb"></div>';
                     blankLines = 0; // so the following one makes it 1, giving a paragraph
                     return;
@@ -1076,12 +1085,6 @@ $(function () {
             }
         }
 
-        function htmlEncode(s) {
-            return s.replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
-        }
-
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
         let issues = 0;
@@ -1147,7 +1150,10 @@ $(function () {
             });
         }
 
-        tArray = tArray.map(htmlEncode);
+        if(!ok) {
+            tArray = tArray.map(htmlEncode);
+        }
+        // otherwise tags will be encoded later in showStyle
 
         // merge issue arrays with notes so that if both start at same
         // index the issueStart appears after the note but the issueEnd
