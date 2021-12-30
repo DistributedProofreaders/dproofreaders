@@ -353,7 +353,7 @@ function echo_page_table(
         $page_state = $page_res['state'];
         echo "<td>$page_state</td>\n";
 
-        if (page_state_is_an_avail_state($page_state)) {
+        if (page_state_is_a($page_state, "page_avail_state")) {
             $avail_pages[] = $row_count;
         }
 
@@ -377,16 +377,15 @@ function echo_page_table(
 
         $prev_rn = 0;
         foreach ($rounds_to_display as $round) {
-            $rn = $round->round_number;
-            echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $can_see_names_for_this_page);
-            $prev_rn = $rn;
+            echo_cells_for_round($round, $prev_rn, $page_res, $projectid, $can_see_names_for_this_page);
+            $prev_rn = $round->round_number;
         }
 
         // (It's annoying that we have to pass all those args,
         // or else make them global, which I don't want to do.)
 
         // Bad Page
-        $page_is_in_bad_state = page_state_is_a_bad_state($page_state);
+        $page_is_in_bad_state = page_state_is_a($page_state, "page_bad_state");
 
         // --------------------------------------------
         // Link to proofreading interface
@@ -538,7 +537,7 @@ function get_rounds_with_data($projectid)
 
 // -----------------------------------------------------------------------------
 
-function echo_cells_for_round($round_num, $diff_round_num, // <- These are the only "real" params.
+function echo_cells_for_round($round, $diff_round_num, // <- These are the only "real" params.
     $page_res,
     $projectid, $can_see_names_for_this_page)
 {
@@ -547,9 +546,7 @@ function echo_cells_for_round($round_num, $diff_round_num, // <- These are the o
     $imagename = $page_res['image'];
     $page_state = $page_res['state'];
 
-    $round = get_Round_for_round_number($round_num);
-    assert(!is_null($round));
-
+    $round_num = $round->round_number;
     $round_data = $page_res["pagerounds"][$round->id];
     $R_username = $round_data["username"];
 
@@ -638,26 +635,23 @@ function echo_cells_for_round($round_num, $diff_round_num, // <- These are the o
 
 // -----------------------------------------------------------------------------
 
-function page_state_is_an_avail_state($page_state)
+function page_state_is_a($page_state, $desired_state)
 {
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-        $round = get_Round_for_round_number($rn);
-        if ($page_state == $round->page_avail_state) {
-            return true;
-        }
+    static $state_cache = [];
+    if (isset($state_cache[$desired_state][$page_state])) {
+        return $state_cache[$desired_state][$page_state];
     }
-    return false;
-}
 
-function page_state_is_a_bad_state($page_state)
-{
+    $state_cache[$desired_state][$page_state] = false;
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
         $round = get_Round_for_round_number($rn);
-        if ($page_state == $round->page_bad_state) {
-            return true;
+        if ($page_state == $round->$desired_state) {
+            $state_cache[$desired_state][$page_state] = true;
+            break;
         }
     }
-    return false;
+
+    return $state_cache[$desired_state][$page_state];
 }
 
 // -----------------------------------------------------------------------------
