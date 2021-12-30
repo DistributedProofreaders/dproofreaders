@@ -999,13 +999,19 @@ function get_distinct_words_in_text($text)
         }
     } elseif (is_array($text)) {
         // We assume that the strings in $text are smaller than $break_point,
-        // so it's okay to call get_all_words_in_text() on each. (Currently,
-        // each string is a single page-text, so the assumption is valid.)
+        // so it's okay to call get_all_words_in_text() on each. To improve
+        // performance, group the strings in $text together until we reach
+        // $break_point for fewer calls to get_all_words_in_text().
 
         $input_words_w_freq = [];
-        foreach ($text as $chunk) {
-            foreach (get_all_words_in_text($chunk) as $word) {
-                @$input_words_w_freq[$word] += 1;
+        $partial_text = "";
+        foreach ($text as $index => $chunk) {
+            $partial_text .= " $chunk";
+            if (strlen($partial_text) >= $break_point || $index == count($text) - 1) {
+                foreach (array_count_values(get_all_words_in_text($partial_text)) as $word => $count) {
+                    @$input_words_w_freq[$word] += $count;
+                }
+                $partial_text = "";
             }
         }
     } else {
