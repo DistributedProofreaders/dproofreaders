@@ -785,19 +785,24 @@ function load_word_list($path)
         return [];
     }
 
-    // Note: we're unable to use the file() function's FILE_IGNORE_NEW_LINES
-    // parameter since it wasn't added until PHP 5.0.0 *and* because
-    // it only removes \n, not \r\n, so we'd still need to rtrim later
-    $words = file($path);
-    if ($words === false) {
+    // It's faster to load the entire file into memory, remove any trailing
+    // spaces, and then explode it into an array than use file() to load
+    // it into an array and then rtrim() / rtrim_walk() the entries. Word lists
+    // should certainly be small enough that we can load the contents into
+    // memory for a brief period.
+
+    // Note that this function needs to work on files that contain \r\n line
+    // endings since that's what we write out in save_word_list() -- which
+    // precludes us from using file() with the FILE_IGNORE_NEW_LINES flag.
+    $file_contents = file_get_contents($path);
+    if ($file_contents === false) {
         return sprintf(_("Error reading file %s"), $path);
     }
 
-    // trim word list to remove trailing spaces
-    // needed in case site word list has trailing spaces
-    // And if/since the file has \r\n line-ends,
-    // this will also remove the trailing \r.
-    array_walk($words, 'rtrim_walk');
+    // remove any trailing spaces, although there shouldn't be any for
+    // lists saved with save_word_list(), and \r
+    $file_contents = preg_replace("/\s*\r*\n/", "\n", $file_contents);
+    $words = explode("\n", $file_contents);
 
     // remove the last "empty" word caused by the last newline
     if (count($words) && $words[count($words) - 1] == "") {
