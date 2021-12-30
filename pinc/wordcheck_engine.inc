@@ -971,12 +971,12 @@ function get_distinct_words_in_text($text)
     // So if $text is project-sized (say, 1.5Mb), the resulting array will be
     // rather large (about 30 Mb).)
     //
-    // Somewhat arbitrarily, we say that an intermediate array of about 1Mb is
-    // the maximum acceptable, which roughly works out to a $text of 50kb.
-    $break_point = 50 * 1024;
+    // Somewhat arbitrarily, we say that an intermediate array of about 2.5Mb is
+    // the maximum acceptable, which roughly works out to a $text of 128kb.
+    $break_point = 128 * 1024;
     // In practice, $text is either a page (usually under 5kb) or a project
-    // (usually at least 100kb), so any value for $break_point in the range of
-    // 5kb to 100kb would have the same effect on branching.
+    // (close to the 1Mb mark), so any value for $break_point in the range of
+    // 5kb to 1Mb would have the same effect on branching.
 
     if (is_string($text)) {
         if (strlen($text) < $break_point) {
