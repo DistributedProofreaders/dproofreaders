@@ -1,9 +1,22 @@
 <?php
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
-include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
 
 define('SIX_MONTHS_IN_SECONDS', 15778463);
+
+// URLs for Quiz links
+$default_feedbackurl = "$forums_url/viewtopic.php?t=55121";
+$old_texts_url = "$wiki_url/Proofing_old_texts";
+$Greek_translit_url = "$wiki_url/Transliterating_Greek";
+$ae_oe_ligatures_url = "$wiki_url/Ae_and_oe_ligatures";
+$thorn_url = "$wiki_url/Thorn";
+$fraktur_url = "$wiki_url/Common_Fraktur_OCR_errors";
+$blackletter_url = "$wiki_url/Proofing_blackletter";
+// XXX localization bug:
+// The preceding URLs point to English-language pages in the wiki.
+// We would generally want to point to a locale-appropriate page, if one exists.
+// E.g. $wiki_url/French/Relecture_des_textes_anciens
+//      $wiki_url/Italian/Correggere_testi_antichi
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

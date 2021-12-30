@@ -4,24 +4,8 @@
 
 $default_hintlink = _("Desperate? Can't find it?");
 $default_challenge = _("Try to correct that or press 'restart'.");
+// TRANSLATORS: The first link in this string will be replaced with a URL
 $default_feedbacktext = _("If you can't find the error(s) remaining on the page, please visit <a href='%s' target='_blank'>this forum topic</a>, click on the \"post reply\" button to post a feedback request. In your post, provide the link to the quiz you're having trouble with, your version of the quiz text, and the exact error message.");
-
-
-// urls for links
-
-$default_feedbackurl = "$forums_url/viewtopic.php?t=55121";
-$old_texts_url = "$wiki_url/Proofing_old_texts";
-$Greek_translit_url = "$wiki_url/Transliterating_Greek";
-$ae_oe_ligatures_url = "$wiki_url/Ae_and_oe_ligatures";
-$thorn_url = "$wiki_url/Thorn";
-$fraktur_url = "$wiki_url/Common_Fraktur_OCR_errors";
-$blackletter_url = "$wiki_url/Proofing_blackletter";
-$latex_url = "$wiki_url/LaTeX_formatting_manual";
-// XXX localization bug:
-// The preceding URLs point to English-language pages in the wiki.
-// We would generally want to point to a locale-appropriate page, if one exists.
-// E.g. $wiki_url/French/Relecture_des_textes_anciens
-//      $wiki_url/Italian/Correggere_testi_antichi
 
 
 // Common initial instructions:
