@@ -34,7 +34,7 @@ $quiz_type_intro = [
 if (
     ($quiz_level_id = @$_GET['show_level'])
     &&
-    ($quiz_level = @$map_quiz_level_id_to_QuizLevel[$quiz_level_id])
+    ($quiz_level = @QuizLevel::$map_quiz_level_id_to_QuizLevel[$quiz_level_id])
 ) {
     output_header($quiz_level->level_name, SHOW_STATSBAR);
     echo "<h1>".$quiz_level->level_name."</h1>\n";
@@ -87,7 +87,7 @@ elseif (
     }
 
     $levels_for_current_type = [];
-    foreach ($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level) {
+    foreach (QuizLevel::$map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level) {
         if ($quiz_level->activity_type == $activity_type) {
             array_push($levels_for_current_type, $quiz_level);
         }

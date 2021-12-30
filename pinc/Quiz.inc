@@ -7,6 +7,8 @@ include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 // for groups of quizzes that go together
 class QuizLevel
 {
+    public static $map_quiz_level_id_to_QuizLevel = [];
+
     public function __construct($level_id, $level_name, $activity_type, $info, $quizzes)
     {
         $this->level_id = $level_id;
@@ -19,9 +21,8 @@ class QuizLevel
             $quiz->activity_type = $activity_type;
         }
 
-        global $map_quiz_level_id_to_QuizLevel;
-        assert(!isset($map_quiz_level_id_to_QuizLevel[$level_id]));
-        $map_quiz_level_id_to_QuizLevel[$level_id] = & $this;
+        assert(!isset(QuizLevel::$map_quiz_level_id_to_QuizLevel[$level_id]));
+        QuizLevel::$map_quiz_level_id_to_QuizLevel[$level_id] = & $this;
     }
 }
 
@@ -29,6 +30,7 @@ class Quiz
 {
     public static $valid_quiz_page_ids = [];
     public static $map_quiz_page_id_to_Quiz = [];
+    public static $map_quiz_id_to_Quiz = [];
 
     public function __construct($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
@@ -43,9 +45,8 @@ class Quiz
         // ['maximum_age'] => time_in_seconds:
         //     Passes recorded longer than time_in_seconds ago are not valid.
 
-        global $map_quiz_id_to_Quiz;
-        assert(!isset($map_quiz_id_to_Quiz[$id]));
-        $map_quiz_id_to_Quiz[$id] = & $this;
+        assert(!isset(Quiz::$map_quiz_id_to_Quiz[$id]));
+        Quiz::$map_quiz_id_to_Quiz[$id] = & $this;
 
         foreach (array_keys($pages) as $quiz_page_id) {
             assert(!in_array($quiz_page_id, self::$valid_quiz_page_ids));
@@ -238,8 +239,7 @@ function get_quiz_id_param($arr, $key)
 // If $arr[$key] is defined and is a valid quiz id, return it.
 // Otherwise, die with an error message.
 {
-    global $map_quiz_id_to_Quiz;
-    return get_enumerated_param($arr, $key, null, array_keys($map_quiz_id_to_Quiz));
+    return get_enumerated_param($arr, $key, null, array_keys(Quiz::$map_quiz_id_to_Quiz));
 }
 
 function get_quiz_page_id_param($arr, $key)
@@ -253,8 +253,7 @@ function get_quiz_page_id_param($arr, $key)
 
 function get_Quiz_with_id($quiz_id)
 {
-    global $map_quiz_id_to_Quiz;
-    return $map_quiz_id_to_Quiz[$quiz_id];
+    return Quiz::$map_quiz_id_to_Quiz[$quiz_id];
 }
 
 function get_Quiz_containing_page($quiz_page_id)
