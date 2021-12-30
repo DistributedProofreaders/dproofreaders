@@ -69,27 +69,17 @@ class Quiz
             SELECT *
             FROM quiz_passes
             WHERE username = '%s'
-        ", DPDatabase::escape($username));
+                AND quiz_page IN (%s)
+                AND result = 'pass'
+        ", DPDatabase::escape($username),
+            surround_and_join(array_keys($this->pages), '"', '"', ","));
         $result = DPDatabase::query($sql);
-        while ($attempt = mysqli_fetch_object($result)) {
-            if ($attempt->result != "pass") {
-                continue;
-            }
-            if (array_key_exists($attempt->quiz_page, $pages_required_results)) {
-                $pages_required_results[$attempt->quiz_page] = $attempt->date;
-            } else {
-                //This quiz page isn't relevant to this quiz.
-                continue;
-            }
-        }
 
-        if (isset($this->pass_requirements['maximum_age'])) {
-            foreach ($pages_required_results as $quiz_page_id => $value) {
-                if ($value == "no") {
-                    // The user hasn't passed the quiz anyway.
-                    continue;
-                }
-                if ((time() - $value) > $this->pass_requirements['maximum_age']) {
+        while ($attempt = mysqli_fetch_object($result)) {
+            $pages_required_results[$attempt->quiz_page] = $attempt->date;
+
+            if (isset($this->pass_requirements['maximum_age'])) {
+                if ((time() - $attempt->date) > $this->pass_requirements['maximum_age']) {
                     $pages_required_results[$quiz_page_id] = "no";
                 }
             }
