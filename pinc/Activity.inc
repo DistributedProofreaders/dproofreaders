@@ -113,7 +113,7 @@ class Activity
             return $uao;
         }
 
-        $user_scores = get_user_scores($username);
+        $user_scores = get_user_scores($username, $this->access_minima);
 
         // -----------------------------------
         // recorded_access is the value recorded in the db for whether the user
@@ -240,16 +240,16 @@ class Activity
 
 // --------------------------------------------------------------------------
 
-function get_user_scores($username)
+function get_user_scores($username, $criteria)
 {
-    global $ACCESS_CRITERIA;
-
-    assert(!is_null($username));
+    if (!$criteria) {
+        return [];
+    }
 
     $user_obj = new User($username);
 
     $user_scores = [];
-    foreach ($ACCESS_CRITERIA as $criterion_code => $criterion_descr) {
+    foreach ($criteria as $criterion_code => $criterion_descr) {
         $user_scores[$criterion_code] = get_user_score($user_obj, $criterion_code);
     }
     return $user_scores;
@@ -448,7 +448,7 @@ function show_user_access_chart($username)
 
     // user scores line
     {
-        $user_scores = get_user_scores($username);
+        $user_scores = get_user_scores($username, $ACCESS_CRITERIA);
 
         echo "<tr>";
         echo "<th>" . _("user score:") . "</th>";
