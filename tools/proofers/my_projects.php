@@ -51,12 +51,12 @@ $pool_sort = get_enumerated_param(
     $pool_sort_options
 );
 
-// Update saved view and sort settings
-$userSettings->set_value("my_projects:round_view", $round_view);
-$userSettings->set_value("my_projects:pool_view", $pool_view);
-$userSettings->set_value("my_projects:round_sort", $round_sort);
-$userSettings->set_value("my_projects:pool_sort", $pool_sort);
-
+// Update saved view and sort settings if they've changed
+foreach (["round_view", "pool_view", "round_sort", "pool_sort"] as $setting) {
+    if ($$setting != $userSettings->get_value("my_projects:$setting")) {
+        $userSettings->set_value("my_projects:$setting", $$setting);
+    }
+}
 
 $page_header = [
     "text_self" => _("My Projects"),
