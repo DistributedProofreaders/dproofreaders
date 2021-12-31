@@ -419,8 +419,23 @@ function get_valid_transitions($project, $username)
 {
     global $PROJECT_TRANSITIONS;
 
+    // Keep a cache of viable transitions for a given "from" state
+    // so we don't have to iterate over every transition for every project/user
+    // combo. We must still do the check for the specific project and user, but
+    // this reduces the search set for the next loop for subsequent callers
+    // (common on the PM page and project search results).
+    static $viable_transitions_from = [];
+    if (!isset($viable_transitions_from[$project->state])) {
+        $viable_transitions_from[$project->state] = [];
+        foreach ($PROJECT_TRANSITIONS as $transition) {
+            if ($transition->from_state == $project->state) {
+                $viable_transitions_from[$project->state][] = $transition;
+            }
+        }
+    }
+
     $valids = [];
-    foreach ($PROJECT_TRANSITIONS as $transition) {
+    foreach ($viable_transitions_from[$project->state] as $transition) {
         if ($transition->is_valid_for($project, $username)) {
             $valids[] = $transition;
         }
