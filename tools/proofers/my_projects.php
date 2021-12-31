@@ -3,7 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // array_get(), surround_and_join(), html_safe()
 include_once($relPath.'theme.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
@@ -637,7 +636,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             $avail_state_clause
         ORDER BY $sql_order
     ";
-    return [dpsql_query($sql), $round_column_specs];
+    return [DPDatabase::query($sql), $round_column_specs];
 }
 
 function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $username)
@@ -733,5 +732,5 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
         ORDER BY $sql_order
     ";
 
-    return [dpsql_query($query), $pool_column_specs, "{$order_col}{$order_dir}"];
+    return [DPDatabase::query($query), $pool_column_specs, "{$order_col}{$order_dir}"];
 }
