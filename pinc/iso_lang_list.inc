@@ -623,8 +623,7 @@ function langname_for_langcode3($langcode3)
 // or null if not found.
 {
     foreach (get_iso_language_list() as $entry) {
-        $entry_code = $entry['lang_code'];
-        if (substr($entry_code, 0, 3) == $langcode3 || substr($entry_code, 4, 3) == $langcode3) {
+        if (in_array($langcode3, explode("/", $entry['lang_code']))) {
             return $entry['lang_name'];
         }
     }
@@ -643,8 +642,7 @@ function langcode3_for_langname($langname)
             // three-letter codes separated by a slash.
             // Not sure if it matters which we return,
             // but for simplicity, we always return the first.
-            // I.e., we return the first 3 characters of $lang_code.
-            return substr($lang_code, 0, 3);
+            return explode("/", $lang_code)[0];
         }
     }
     return null;
@@ -670,8 +668,9 @@ function langcode2_for_langname($langname)
     foreach (get_iso_language_list() as $entry) {
         $entry_name = $entry['lang_name'];
         if ($entry_name == $langname) {
-            $fallback_code = substr($entry['lang_code'], 0, 3);
-            foreach (explode("/", $entry['lang_code']) as $lang_code) {
+            $lang_codes = explode("/", $entry['lang_code']);
+            $fallback_code = $lang_codes[0];
+            foreach ($lang_codes as $lang_code) {
                 if (isset($mapping[$lang_code])) {
                     return $mapping[$lang_code];
                 }
