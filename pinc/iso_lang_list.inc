@@ -9,12 +9,13 @@
 //   $array[$langcode]=$language;
 function get_languages_with_dictionaries()
 {
-    global $relPath, $aspell_prefix;
+    global $aspell_prefix;
 
     $returnArray = [];
 
     foreach (glob("$aspell_prefix/lib/aspell/*.multi") as $filename) {
-        if (preg_match("#([^/]+)\.multi\$#", $filename, $matches)) {
+        // dictionaries need to map to a two- or three-letter language code
+        if (preg_match("#/(\w{2,3})\.multi\$#", $filename, $matches)) {
             $langname = langname_for_langcode($matches[1]);
             if ($langname) {
                 $returnArray[$matches[1]] = $langname;
