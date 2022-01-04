@@ -60,7 +60,7 @@ function check_email_address($email_address)
     $let_dig_re = '[A-Za-z0-9]';
     $ldh_str_re = '[A-Za-z0-9-]+';
     $label_re = "$let_dig_re(($ldh_str_re)?$let_dig_re)?";
-    $domain_re = "($label_re\.)+[A-Za-z]{2,4}";
+    $domain_re = "($label_re\.)+[A-Za-z]{2,63}";
 
     // Formerly:
     // $domain_re = "((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)";

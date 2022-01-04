@@ -251,7 +251,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
 
     // In testing mode, a fake email address is constructed using
     // 'localhost' as the domain. check_email_address() incorrectly
-    // thinks the domain should end in a 2-4 character top level
+    // thinks the domain should end in a 2-63 character top level
     // domain, so disable the address check for testing.
     if (!$testing) {
         $err = check_email_address($email);
