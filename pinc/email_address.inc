@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
 
 function check_email_address($email_address)
 // Check whether $email_address is a reasonable/acceptable E-mail Address.
@@ -15,7 +14,7 @@ function check_email_address($email_address)
     }
 
     if (strlen($email_address) > $email_address_max_len) {
-        $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
+        $error = sprintf(_("Your E-mail Address is too long. The maximum is %d characters."), $email_address_max_len);
         return $error;
     }
 
