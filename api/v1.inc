@@ -4,6 +4,7 @@ include_once("ApiRouter.inc");
 // DP API v1
 include_once("v1_validators.inc");
 include_once("v1_projects.inc");
+include_once("v1_proof.inc");
 include_once("v1_stats.inc");
 
 $router = ApiRouter::get_router();
@@ -14,6 +15,9 @@ $router->add_validator(":projectid", "validate_project");
 $router->add_validator(":roundid", "validate_round");
 $router->add_validator(":pagename", "validate_page_name");
 $router->add_validator(":pageroundid", "validate_page_round");
+$router->add_validator(":projectstateid", "validate_project_state");
+$router->add_validator(":pagestateid", "validate_page_state");
+$router->add_validator(":versionname", "validate_page_version");
 
 // Add routes
 $router->add_route("GET", "v1/projects", "api_v1_projects");
@@ -31,6 +35,12 @@ $router->add_route("GET", "v1/projects/imagesources", "api_v1_projects_imagesour
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
+$router->add_route("POST", "v1/projects/:projectid/projectstates/:projectstateid/checkout", "api_v1_project_state_checkout");
+$router->add_route("GET", "v1/projects/:projectid/projectstates/:projectstateid/pages/:pagename/pagestates/:pagestateid/versions/:versionname", "api_v1_project_state_page_state_version");
+$router->add_route("PUT", "v1/projects/:projectid/projectstates/:projectstateid/pages/:pagename/pagestates/:pagestateid/return", "api_v1_project_state_page_state_return");
+$router->add_route("POST", "v1/projects/:projectid/projectstates/:projectstateid/pages/:pagename/pagestates/:pagestateid/saveinprogress", "api_v1_project_state_page_state_saveinprogress");
+$router->add_route("PUT", "v1/projects/:projectid/projectstates/:projectstateid/pages/:pagename/pagestates/:pagestateid/reopen", "api_v1_project_state_page_state_reopen");
+$router->add_route("POST", "v1/projects/:projectid/projectstates/:projectstateid/pages/:pagename/pagestates/:pagestateid/saveasdone", "api_v1_project_state_page_state_saveasdone");
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");

@@ -42,6 +42,14 @@ class NotFoundError extends ApiException
     }
 }
 
+class LimitExceeded extends ApiException
+{
+    public function getStatusCode()
+    {
+        return 429;
+    }
+}
+
 class RateLimitExceeded extends ApiException
 {
     public function getStatusCode()

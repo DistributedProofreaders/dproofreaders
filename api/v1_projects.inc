@@ -244,7 +244,7 @@ function api_v1_project_page_round($method, $data, $query_params)
         FROM %s
         WHERE image = '%s'
     ", $text_column, $user_column, $data[":projectid"]->projectid,
-        DPDatabase::escape($data[":pagename"])
+        DPDatabase::escape($data[":pagename"]->name)
     );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);

@@ -30,7 +30,7 @@ function api()
 
     api_rate_limit($username);
 
-    $query_params = $_GET;
+    $query_params = $_REQUEST;
     $path = array_get($query_params, "url", "");
     unset($query_params["url"]);
 
@@ -167,8 +167,8 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     // If the URI doesn't include the url param (because the Apache config
     // hasn't been updated) we need to include it here to make valid links.
     $link_base = $_SERVER["SCRIPT_URI"] . "?";
-    if (stripos($link_base, $_GET["url"]) === false) {
-        $link_base .= "url=" . $_GET["url"] . "&";
+    if (stripos($link_base, $_REQUEST["url"]) === false) {
+        $link_base .= "url=" . $_REQUEST["url"] . "&";
     }
     $link_base .= implode("&", $params);
 
