@@ -1402,70 +1402,42 @@ function do_extra_files()
         return;
     }
 
-    echo "<h2>", _('Extra Files in Project Directory'), "</h2>";
-
+    // Build a list of files in the directory
     $saved_dir = getcwd();
-
     chdir($project->dir);
-    $filenames = glob("*");
+    $filenames = array_diff(
+        // get all files
+        glob("*"),
 
+        // exclude directories
+        glob("*", GLOB_ONLYDIR),
+
+        // exclude images
+        glob("*.{png,jpg}", GLOB_BRACE),
+
+        // These appear at "Word Lists"
+        get_wordcheck_file_names(),
+
+        // These three appear under "Post Downloads"
+        [
+            $project->projectid . 'images.zip',
+            $project->projectid . '.zip',
+        ],
+    );
+    chdir($saved_dir);
+
+    echo "<h2>", _('Extra Files in Project Directory'), "</h2>";
     echo "<ul>";
 
-    $n_extra_files = 0;
     foreach ($filenames as $filename) {
-        if (is_an_extra_file($filename) && !is_dir($filename)) {
-            echo "<li><a href='$project->url/$filename'>$filename</a></li>";
-            $n_extra_files += 1;
-        }
+        echo "<li><a href='$project->url/$filename'>$filename</a></li>";
     }
 
-    if ($n_extra_files == 0) {
+    if (count($filenames) == 0) {
         echo "<li><i>", pgettext("no files", "none"), "</i></li>\n";
     }
 
     echo "</ul>";
-
-    chdir($saved_dir);
-}
-
-function is_an_extra_file($filename)
-{
-    global $project;
-
-    static $excluded_filenames = null;
-    if (is_null($excluded_filenames)) {
-        $excluded_filenames = [];
-        // A small set of filenames that we know a priori
-        // will be excluded if they occur.
-
-
-        // These appear at "Word Lists":
-        foreach (['good', 'bad'] as $code) {
-            $f = get_project_word_file($project->projectid, $code);
-            $excluded_filenames[$f->filename] = 1;
-        }
-
-        // These three appear under "Post Downloads":
-        $excluded_filenames[$project->projectid . 'images.zip'] = 1;
-        $excluded_filenames[$project->projectid . '.zip'] = 1;
-
-        // should really exclude uploaded SR, PP and PPV files too,
-        // but we can't just add them to excluded_filenames because we
-        // don't know their names in advance
-    }
-
-    if (array_key_exists($filename, $excluded_filenames)) {
-        return false;
-    }
-
-    // Exclude all images (both page-images and non-page-images).
-    $image_extensions = ['png', 'jpg'];
-    $extension = pathinfo($filename, PATHINFO_EXTENSION);
-    if (in_array($extension, $image_extensions)) {
-        return false;
-    }
-
-    return true;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
