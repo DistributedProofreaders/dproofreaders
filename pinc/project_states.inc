@@ -403,12 +403,8 @@ function sql_collater_for_project_state($state_column)
 // and it will use the canonical order-of-declaration for project states.
 {
     global $PROJECT_STATES_IN_ORDER;
-    $s = "FIELD($state_column";
-    foreach ($PROJECT_STATES_IN_ORDER as $project_state) {
-        $s .= ",'$project_state'";
-    }
-    $s .= ")";
-    return $s;
+    return sprintf("FIELD($state_column, %s)",
+        surround_and_join($PROJECT_STATES_IN_ORDER, "'", "'", ","));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

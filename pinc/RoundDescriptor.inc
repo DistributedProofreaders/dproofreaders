@@ -257,12 +257,8 @@ function sql_collater_for_round_id($round_id_column)
 // and it will use the canonical order-of-declaration for rounds.
 {
     global $Round_for_round_id_;
-    $s = "FIELD($round_id_column";
-    foreach ($Round_for_round_id_ as $round_id => $round) {
-        $s .= ",'$round_id'";
-    }
-    $s .= ")";
-    return $s;
+    return sprintf("FIELD($round_id_column, %s)",
+        surround_and_join(array_keys($Round_for_round_id_), "'", "'", ","));
 }
 
 function sql_collater_for_page_state($state_column)
