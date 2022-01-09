@@ -12,7 +12,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
-include_once($relPath.'project_events.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'js_newpophelp.inc');
 
@@ -617,6 +616,7 @@ class ProjectInfoHolder
             ";
             DPDatabase::query($sql);
 
+            $project = new Project($this->projectid);
             $details1 = implode(' ', $changed_fields);
 
             if ($details1 == '') {
@@ -630,26 +630,16 @@ class ProjectInfoHolder
 
                 $details1 = 'NONE';
             }
-            $e = log_project_event($this->projectid, $GLOBALS['pguser'], 'edit', $details1);
-            if (!empty($e)) {
-                die($e);
-            }
+            $project->log_project_event($pguser, 'edit', $details1);
             if ($PPer_checkout) {
                 // we fake the project transition...
-                $e = log_project_event($this->projectid,
-                                        $GLOBALS['pguser'],
-                                        'transition',
-                                        PROJ_POST_FIRST_CHECKED_OUT,
-                                        PROJ_POST_FIRST_CHECKED_OUT,
-                                        $this->checkedoutby
-                                        );
-                if (!empty($e)) {
-                    die($e);
-                }
+                $project->log_project_event($pguser, 'transition',
+                                            PROJ_POST_FIRST_CHECKED_OUT,
+                                            PROJ_POST_FIRST_CHECKED_OUT,
+                                            $this->checkedoutby);
             }
 
             // Update the MARC record with any info we've received.
-            $project = new Project($this->projectid);
             $marc_record = $project->load_marc_record();
             $this->update_marc_record_from_post($marc_record);
             $project->save_marc_record($marc_record);
@@ -683,10 +673,8 @@ class ProjectInfoHolder
             ";
             DPDatabase::query($sql);
 
-            $e = log_project_event($this->projectid, $GLOBALS['pguser'], 'creation');
-            if (!empty($e)) {
-                die($e);
-            }
+            $project = new Project($this->projectid);
+            $project->log_project_event($pguser, 'creation');
 
             $e = project_allow_pages($this->projectid);
             if (!empty($e)) {

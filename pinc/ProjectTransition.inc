@@ -6,7 +6,6 @@ include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'forum_interface.inc'); // topic_change_forum
 include_once($relPath.'maybe_mail.inc'); // maybe_mail_project_manager
 include_once($relPath.'../tools/project_manager/post_files.inc');
-include_once($relPath.'project_events.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'User.inc');
@@ -280,6 +279,10 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
+        // Reload the project object as the UPDATE above may have changed
+        // fields we need below.
+        $project = new Project($projectid);
+
         //     In case of the Post Proofer returning the project to Post Proofing pool,
         // we want to unsubscribe them from the 'sr_reported' event because they are
         // no longer the Post Proofer for that project and the event is meant for
@@ -294,21 +297,16 @@ class ProjectTransition
         if (!is_null($pool) && $this->to_state == $pool->project_checkedout_state) {
             // we want the project event to record who it's been
             // checked out to
-            $project = new Project($projectid);
             $checkedoutby = $project->checkedoutby;
         }
         // log the project event
-        $err = log_project_event(
-            $projectid,
+        $project->log_project_event(
             $who,
             'transition',
             $this->from_state,
             $this->to_state,
             ($checkedoutby != '' ? "out_to: $checkedoutby" : @$extras['details'])
         );
-        if ($err) {
-            return "log_project_event error: $err";
-        }
 
         if ($from_round != $to_round && !is_null($to_round)) {
             // Transiting into a round from either a different round or a non-round.

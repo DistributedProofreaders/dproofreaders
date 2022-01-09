@@ -7,7 +7,6 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'stages.inc'); // is_formatting_round()
-include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'CharSuites.inc');
 
 class UTF8ConversionException extends Exception
@@ -819,6 +818,28 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    public function log_project_event($who, $event_type, $details1 = '', $details2 = '', $details3 = '')
+    {
+        validate_projectID($this->projectid);
+        $sql = sprintf("
+            INSERT INTO project_events
+            SET
+                timestamp  = UNIX_TIMESTAMP(),
+                projectid  = '%s',
+                who        = '%s',
+                event_type = '%s',
+                details1   = '%s',
+                details2   = '%s',
+                details3   = '%s'
+        ", DPDatabase::escape($this->projectid),
+            DPDatabase::escape($who),
+            DPDatabase::escape($event_type),
+            DPDatabase::escape($details1),
+            DPDatabase::escape($details2),
+            DPDatabase::escape($details3));
+        DPDatabase::query($sql);
+    }
+
     public function get_hold_states()
     // Return an array containing the states for which this project has holds.
     {
@@ -853,7 +874,7 @@ class Project
             VALUES $values
         ";
         DPDatabase::query($sql);
-        log_project_event($this->projectid, $pguser, 'add_holds', join(' ', $states));
+        $this->log_project_event($pguser, 'add_holds', join(' ', $states));
     }
 
     public function remove_holds($states)
@@ -880,7 +901,7 @@ class Project
                 AND state in ($state_values)
         ";
         DPDatabase::query($sql);
-        log_project_event($this->projectid, $pguser, 'remove_holds', join(' ', $states));
+        $this->log_project_event($pguser, 'remove_holds', join(' ', $states));
     }
 
     public function get_hold_state_notify_time($state)

@@ -5,7 +5,6 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'project_events.inc');
 
 require_login();
 
@@ -124,7 +123,7 @@ function do_stuff($projectid, $new_state, $just_checking)
     ", DPDatabase::escape($new_state), DPDatabase::escape($projectid));
     DPDatabase::query($sql);
     echo "    jumped to : $new_state\n";
-    log_project_event($projectid, $pguser, 'transition', $project->state,
+    $project->log_project_event($pguser, 'transition', $project->state,
                        $new_state, 'Project jumped to correct state');
     echo "</pre>";
 }
