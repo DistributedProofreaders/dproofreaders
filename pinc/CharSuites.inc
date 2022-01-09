@@ -102,6 +102,22 @@ class CharSuites
 {
     private static $_available_charsuites = [];
 
+    private static function load()
+    {
+        // load all available charsuites if not already loaded
+
+        global $relPath;
+
+        if (self::$_available_charsuites) {
+            return;
+        }
+
+        $charsuite_files = glob($relPath."charsuite-*.inc");
+        foreach ($charsuite_files as $charsuite_file) {
+            include($charsuite_file);
+        }
+    }
+
     public static function add($charsuite)
     {
         self::$_available_charsuites[$charsuite->name] = $charsuite;
@@ -109,6 +125,8 @@ class CharSuites
 
     public static function get($name)
     {
+        self::load();
+
         if (!isset(self::$_available_charsuites[$name])) {
             throw new UnexpectedValueException("$name is not a valid charsuite");
         }
@@ -117,6 +135,8 @@ class CharSuites
 
     public static function get_all()
     {
+        self::load();
+
         return array_values(self::$_available_charsuites);
     }
 
@@ -215,12 +235,4 @@ function get_project_or_quiz($identifier)
     } else {
         return new Project($identifier);
     }
-}
-
-//----------------------------------------------------------------------------
-
-// load all available charsuites
-$charsuite_files = glob($relPath."charsuite-*.inc");
-foreach ($charsuite_files as $charsuite_file) {
-    include_once($charsuite_file);
 }
