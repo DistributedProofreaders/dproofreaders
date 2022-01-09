@@ -148,7 +148,7 @@ class CharSuites
             WHERE enabled=1
         ";
 
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
 
         $charsuites = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -168,9 +168,9 @@ class CharSuites
             SET name='%s', enabled=1
             ON DUPLICATE KEY UPDATE
                 enabled=1
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $name));
+        ", DPDatabase::escape($name));
 
-        mysqli_query(DPDatabase::get_connection(), $sql);
+        DPDatabase::query($sql);
     }
 
     public static function disable($name)
@@ -181,9 +181,9 @@ class CharSuites
             UPDATE charsuites
             SET enabled=0
             WHERE name='%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $name));
+        ", DPDatabase::escape($name));
 
-        mysqli_query(DPDatabase::get_connection(), $sql);
+        DPDatabase::query($sql);
     }
 
     // Check to see if $charsuite is a real CharSuite object or a charsuite name
