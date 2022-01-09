@@ -676,10 +676,7 @@ class ProjectInfoHolder
             $project = new Project($this->projectid);
             $project->log_project_event($pguser, 'creation');
 
-            $e = project_allow_pages($this->projectid);
-            if (!empty($e)) {
-                die($e);
-            }
+            project_allow_pages($this->projectid);
 
             // Make a directory in the projects_dir for this project
             mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
