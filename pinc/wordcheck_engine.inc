@@ -712,15 +712,22 @@ function load_site_possible_bad_words_given_project($projectid)
 
 // -----------------------------------------------------------------------------
 
-// $code must match one of the keys in the $filename_for_code array below.
+// return an associative array that maps the good/bad shorthand to
+// the filenames on disk
+function get_wordcheck_file_names()
+{
+    return [
+        'good' => 'good_words.txt',
+        'bad' => 'bad_words.txt',
+    ];
+}
+
+// $code must match one of the keys in array returned from get_wordcheck_file_names()
 function get_project_word_file($projectid, $code)
 {
     global $projects_dir, $projects_url;
 
-    $filename_for_code = [
-        'good' => 'good_words.txt',
-        'bad' => 'bad_words.txt',
-    ];
+    $filename_for_code = get_wordcheck_file_names();
     assert(array_key_exists($code, $filename_for_code));
 
     return get_file_info_object($filename_for_code[$code],
