@@ -59,8 +59,7 @@ function project_allow_pages($projectid)
                 ) NOT NULL default ''
         ) $engine
     ";
-    $res = DPDatabase::query($sql, false);
-    return ($res ? '' : DPDatabase::log_error());
+    DPDatabase::query($sql);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
