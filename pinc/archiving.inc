@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php'); // $projects_dir $archive_projects_dir
-include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'project_states.inc'); // PROJ_SUBMIT_PG_POSTED PROJ_DELETE
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
@@ -65,7 +64,7 @@ function archive_project($project, $dry_run)
             WHERE projectid='$projectid'
         ") or die(DPDatabase::log_error());
 
-        log_project_event($projectid, '[archiver]', 'archive');
+        $project->log_project_event('[archiver]', 'archive');
     }
 }
 

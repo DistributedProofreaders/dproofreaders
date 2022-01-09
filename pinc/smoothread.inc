@@ -229,10 +229,10 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
         }
         $details1 = $extend ? "deadline extended" : "text available";
         $smoothread_deadline_sql = "smoothread_deadline = $deadline, ";
-        log_project_event($projectid, $pguser, 'smooth-reading', $details1, $deadline);
+        $project->log_project_event($pguser, 'smooth-reading', $details1, $deadline);
     } else {
         $smoothread_deadline_sql = "";
-        log_project_event($projectid, $pguser, 'smooth-reading', 'text replaced');
+        $project->log_project_event($pguser, 'smooth-reading', 'text replaced');
     }
 
     $qstring = sprintf("
