@@ -7,46 +7,14 @@ class UserTest extends PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        // Attempt to load our test user, if it exists don't create it
-        $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
-        $row = mysqli_fetch_assoc($result);
-        if (!$row) {
-            $sql = "
-                INSERT INTO users
-                SET id = '$this->TEST_USERNAME',
-                    real_name = '$this->TEST_USERNAME',
-                    username = '$this->TEST_USERNAME',
-                    email = '$this->TEST_USERNAME@localhost'
-            ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql);
-            if (!$result) {
-                throw new Exception("Unable to create test user 1");
-            }
-
-            $sql = "
-                INSERT INTO users
-                SET id = '$this->TEST_USERNAME-2',
-                    real_name = '$this->TEST_USERNAME-2',
-                    username = '$this->TEST_USERNAME-2',
-                    email = '$this->TEST_USERNAME@localhost'
-            ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql);
-            if (!$result) {
-                throw new Exception("Unable to create test user 2");
-            }
-        } else {
-            mysqli_free_result($result);
-        }
+        create_test_user($this->TEST_USERNAME);
+        create_test_user("$this->TEST_USERNAME-2");
     }
 
     protected function tearDown(): void
     {
-        $sql = "
-            DELETE FROM users
-            WHERE id = '$this->TEST_USERNAME' or id = '$this->TEST_USERNAME-2'
-        ";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        delete_test_user($this->TEST_USERNAME);
+        delete_test_user("$this->TEST_USERNAME-2");
     }
 
     public function testEmptyConstructor()
