@@ -81,13 +81,18 @@ class Project
     {
         global $pguser;
 
+        static $project_page_table_exists = null;
+
         switch ($name) {
             case "is_utf8":
                 return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
                 return is_dir($this->dir);
             case "pages_table_exists":
-                return does_project_page_table_exist($this->projectid);
+                if ($project_page_table_exists === null) {
+                    $project_page_table_exists = does_project_page_table_exist($this->projectid);
+                }
+                return $project_page_table_exists;
             case "credits_line":
                 return $this->_get_credits_line();
             case "languages":
