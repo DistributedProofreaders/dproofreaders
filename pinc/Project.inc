@@ -553,6 +553,25 @@ class Project
         return false;
     }
 
+    public function get_page_states()
+    {
+        $states = [];
+
+        validate_projectID($this->projectid);
+        $sql = sprintf("
+            SELECT DISTINCT state
+            FROM {$this->projectid}
+            ORDER BY %s
+        ", sql_collater_for_page_state("state"));
+        $res = DPDatabase::query($sql);
+        while ($row = mysqli_fetch_assoc($res)) {
+            $states[] = $row["state"];
+        }
+        mysqli_free_result($res);
+
+        return $states;
+    }
+
     public function get_num_pages_in_state($state = null, $counter_sql = "*")
     {
         if (!$this->pages_table_exists) {

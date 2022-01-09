@@ -265,6 +265,16 @@ function sql_collater_for_round_id($round_id_column)
     return $s;
 }
 
+function sql_collater_for_page_state($state_column)
+// In an SQL query, if you "ORDER BY state", it will use alphabetical order,
+// which is not very useful. Instead, ORDER BY the result of this function,
+// and it will use the canonical order-of-declaration for page states.
+{
+    global $PAGE_STATES_IN_ORDER;
+    return sprintf("FIELD($state_column, %s)",
+        surround_and_join($PAGE_STATES_IN_ORDER, "'", "'", ","));
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function declare_mentoring_pair($mentee_round_id, $mentor_round_id)

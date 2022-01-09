@@ -2075,8 +2075,7 @@ function do_page_summary()
     $total_num_pages = $project->get_num_pages();
 
     echo "<table>\n";
-    global $PAGE_STATES_IN_ORDER;
-    foreach ($PAGE_STATES_IN_ORDER as $page_state) {
+    foreach ($project->get_page_states() as $page_state) {
         $num_pages = $project->get_num_pages_in_state($page_state);
         if ($num_pages != 0) {
             // TRANSLATORS: %s is a page state, this is a label in a table for the number of pages in this state
