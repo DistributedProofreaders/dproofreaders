@@ -244,8 +244,8 @@ class ProjectWordListHolder
 
         $fields = [
             "projectid" => _("Project ID"),
-            "nameofwork" => _("Name of Work"),
-            "authorsname" => _("Author's Name"),
+            "nameofwork" => _("Title"),
+            "authorsname" => _("Author"),
             "username" => _("Project Manager"),
             "checkedoutby" => _("Post-Processor"),
             "language" => _("Language"),

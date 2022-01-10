@@ -32,7 +32,7 @@ echo "<table class='themed theme_striped'>\n";
 
 echo "<tr>\n";
 echo "<th>"._("Index")."</th>
-      <th>"._("Name of Work")."</th>
+      <th>"._("Title")."</th>
       <th><a href =\"to_be_released.php?order=username\">"._("Project Manager")."</a></th>
       <th><a href =\"to_be_released.php?order=modifieddate\">"._("Date Last Modified")."</a></th>
       <th>"._("Language")."</th>

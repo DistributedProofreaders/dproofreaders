@@ -311,7 +311,7 @@ class ProjectSearchForm
             ]),
             new SpecialDayWidget([
                 'id' => 'special_day',
-                'label' => _('Special day'),
+                'label' => _('Special Day'),
                 'type' => 'select',
                 'options' => $this->all_special_day_options(),
                 'can_be_multiple' => true,

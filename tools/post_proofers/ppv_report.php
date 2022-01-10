@@ -373,11 +373,11 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             "<input type='hidden' name='projectid' value='$projectid'>$projectid"
         )
         . tr_w_two_cells(
-            _("Name of Work"),
+            _("Title"),
             $nameofwork
         )
         . tr_w_two_cells(
-            _("Author's Name"),
+            _("Author"),
             $authorsname
         )
         . tr_w_two_cells(

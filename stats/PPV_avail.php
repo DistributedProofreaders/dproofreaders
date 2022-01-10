@@ -29,7 +29,7 @@ echo "<h1>$title</h1>\n";
 
 $colspecs = [
     'bogus' => _('#'),
-    'nameofwork' => _('Name of Work'),
+    'nameofwork' => _('Title'),
     'PM' => _('Project Manager'),
     'PPer' => _('Post-Processed By'),
     'modifieddate' => _('Date Last Modified'),
