@@ -15,6 +15,7 @@ $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/control_bar.js",
     "$code_url/scripts/page_browse.js",
+    "$code_url/scripts/widgets.js",
     "$code_url/tools/page_browser.js",
 ];
 

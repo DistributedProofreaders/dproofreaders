@@ -393,8 +393,7 @@ function echo_page_table(
             if (!$page_is_in_bad_state
                 && $page_res["pagerounds"][$project_round->id]["username"] == $pguser
                 && $page_state != $project_round->page_avail_state) {
-                $url = url_for_pi_do_particular_page(
-                    $projectid, $state, $imagename, $page_state, true);
+                $url = url_for_pi_do_particular_page($projectid, $round->id, $imagename, $page_state);
                 echo "<td><a href='$url'>"._("Edit")."</a></td>\n";
             } else {
                 echo "<td></td>";

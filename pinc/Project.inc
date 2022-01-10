@@ -722,8 +722,9 @@ class Project
     public $CBP_REQUESTOR_NOT_LOGGED_IN = 3;
     public $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
     public $CBP_PROJECT_REQUIRES_MAINTENANCE = 5;
+    public $CBP_PROJECT_NOT_IN_REQUIRED_ROUND = 6;
 
-    public function can_be_proofed_by_current_user()
+    public function can_be_proofed_by_current_user($required_round_id = null)
     // (where "proofed" means "worked on in a round, right now".)
     // Returns an array consisting of:
     // -- one of the above codes, and
@@ -739,6 +740,13 @@ class Project
             return [
                 $this->CBP_PROJECT_NOT_IN_ROUND,
                 _('The project is not in a round.'),
+            ];
+        }
+
+        if(!is_null($required_round_id) && ($required_round_id != $round->id)) {
+            return [
+                $this->CBP_PROJECT_NOT_IN_REQUIRED_ROUND,
+                _('The project is not in the required round.'),
             ];
         }
 

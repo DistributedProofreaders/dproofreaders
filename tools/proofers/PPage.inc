@@ -30,24 +30,11 @@ function url_for_pi_do_whichever_page($projectid, $proj_state, $escape_amp = fal
     ;
 }
 
-function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $page_state, $escape_amp = false)
+function url_for_pi_do_particular_page($projectid, $roundid, $imagefile, $page_state)
 {
     global $code_url;
-    if ($escape_amp) {
-        $amp = '&amp;';
-    } else {
-        $amp = '&';
-    }
-    return "$code_url/tools/proofers/proof.php"
-        . "?"
-        . "projectid=$projectid"
-        . $amp
-        . "imagefile=$imagefile"
-        . $amp
-        . "proj_state=$proj_state"
-        . $amp
-        . "page_state=$page_state"
-    ;
+
+    return "$code_url/tools/proofers/proof.php?projectid=$projectid&roundid=$roundid&imagefile=$imagefile&page_state=$page_state";
 }
 
 // -----------------------------------------------------------------------------

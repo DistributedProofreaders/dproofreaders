@@ -1,4 +1,6 @@
 <?php
+include_once($relPath.'prefs_options.inc'); // get_font_styles()
+
 function get_proofreading_interface_data_js()
 {
     $font_data = [

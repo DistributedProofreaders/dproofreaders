@@ -76,6 +76,7 @@ $ld_json_object = [
 ];
 
 $extra_args = [
+    "js_files" => ["$code_url/project.js"],
     "head_data" => '<script type="application/ld+json">' .
         json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
     '</script>',
@@ -263,12 +264,15 @@ function decide_blurbs()
 
     {
         // If there's any proofreading to be done, this is the link to use.
-        $url = url_for_pi_do_whichever_page($projectid, $state, true);
+        $proj_data = json_encode([
+            "projectId" => $projectid,
+            "roundId" => $round->id,
+        ]);
 
         // If the "Start Proofreading" text is ever changed, be sure and grep
         // through the codebase for any other instances and change them too.
         $label = _("Start Proofreading");
-        $proofreading_link = "<b><a href='$url'>$label</a></b>";
+        $proofreading_link = "<b><a href='javascript:void(0)' class='start-proof' data-proj = '$proj_data'>$label</a></b>";
 
         // When were the project comments last modified?
         $comments_timestamp = $project->t_last_change_comments;
@@ -710,7 +714,7 @@ function echo_row_c($content)
 
 function recentlyproofed($wlist)
 {
-    global $project, $pguser;
+    global $code_url, $project, $pguser;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -769,8 +773,7 @@ function recentlyproofed($wlist)
             $imagefile = $row["image"];
             $timestamp = $row[$round->time_column_name];
             $pagestate = $row["state"];
-            $eURL = url_for_pi_do_particular_page(
-                $projectid, $state, $imagefile, $pagestate, true);
+            $eURL = url_for_pi_do_particular_page($projectid, $round->id, $imagefile, $pagestate);
 
             if ($row["wordcheck_status"] == null) {
                 $wordcheck_status = '';
@@ -780,7 +783,7 @@ function recentlyproofed($wlist)
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
             echo "<td class='center-align'>";
-            echo "<a href=\"$eURL\">";
+            echo "<a href='$eURL'>";
             // TRANSLATORS: This is an strftime-formatted string
             echo strftime(_("%b %d"), $timestamp) . ": " . $imagefile;
             echo "</a>$wordcheck_status";
