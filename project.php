@@ -1238,12 +1238,12 @@ function do_history()
                     // Maybe move this array to Project.inc
                     $label_for_project_field_ = [
                         'deletion_reason' => _("Reason for Deletion"),
-                        'nameofwork' => _("Name of Work"),
-                        'authorsname' => _("Author's Name"),
+                        'nameofwork' => _("Title"),
+                        'authorsname' => _("Author"),
                         'projectmanager' => _("Project Manager"),
                         'language' => _("Language"),
                         'genre' => _("Genre"),
-                        'difficulty_level' => _("Difficulty Level"),
+                        'difficulty_level' => _("Difficulty"),
                         'special_code' => _("Special Day"),
                         'checkedoutby' => _("PPer/PPVer"),
                         'image_source' => _("Original Image Source"),
@@ -1251,8 +1251,8 @@ function do_history()
                         'text_preparer' => _("Text Preparer"),
                         'extra_credits' => _("Extra Credits"),
                         'scannercredit' => _("Scanner Credit"),
-                        'clearance' => _("Clearance Information"),
-                        'postednum' => _("Posted Number"),
+                        'clearance' => _("Clearance Line"),
+                        'postednum' => _("PG etext number"),
                         'comments' => _("Project Comments"),
                     ];
 

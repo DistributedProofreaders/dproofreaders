@@ -308,7 +308,7 @@ class ProjectInfoHolder
         $this->nameofwork = @$_POST['nameofwork'];
         // we're using preg_match as this field will be space-normalised later
         if (preg_match('/^\s*$/', $this->nameofwork)) {
-            $errors .= "Name of work is required.<br>";
+            $errors .= "Title is required.<br>";
         }
 
         $this->authorsname = @$_POST['authorsname'];
@@ -452,7 +452,7 @@ class ProjectInfoHolder
         if ($this->postednum != '') {
             if (! preg_match('/^[1-9][0-9]*$/', $this->postednum)) {
                 $errors .= sprintf(
-                    _("Posted Number \"%s\" is not of the correct format."),
+                    _("PG etext number \"%s\" is not of the correct format."),
                     html_safe($this->postednum)) . "<br>";
                 // Occasionally, there will be a PG ebook that is still
                 // under U.S. copyright. This is indicated in their system
@@ -466,7 +466,7 @@ class ProjectInfoHolder
         if ($this->posted) {
             // We are in the process of marking this project as posted.
             if ($this->postednum == '') {
-                $errors .= _("Posted Number is required.")."<br>";
+                $errors .= _("PG etext number is required.")."<br>";
             }
         }
 
@@ -841,8 +841,8 @@ class ProjectInfoHolder
                 $can_edit_PPer = user_is_a_sitemanager();
             }
         }
-        $this->row(_("Name of Work"), 'text_field', $this->nameofwork, 'nameofwork', '', ["maxlength" => 255, "required" => true]);
-        $this->row(_("Author's Name"), 'text_field', $this->authorsname, 'authorsname', '', ["maxlength" => 255, "required" => true]);
+        $this->row(_("Title"), 'text_field', $this->nameofwork, 'nameofwork', '', ["maxlength" => 255, "required" => true]);
+        $this->row(_("Author"), 'text_field', $this->authorsname, 'authorsname', '', ["maxlength" => 255, "required" => true]);
         if (user_is_a_sitemanager()) {
             // SAs are the only ones who can change this
             $this->row(_("Project Manager"), 'DP_user_field', $this->projectmanager, 'username', sprintf(_("%s username only."), $site_abbreviation), ["required" => true]);
@@ -861,12 +861,12 @@ class ProjectInfoHolder
 
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner) {
             // allow PF to edit a BEGIN project, but without altering the difficulty
-            $this->row(_("Difficulty Level"), 'just_echo', _("Beginner"));
+            $this->row(_("Difficulty"), 'just_echo', _("Beginner"));
             echo "<input type='hidden' name='difficulty_level' value='$this->difficulty_level'>";
         } else {
-            $this->row(_("Difficulty Level"), 'difficulty_list', $this->difficulty_level);
+            $this->row(_("Difficulty"), 'difficulty_list', $this->difficulty_level);
         }
-        $this->row(_("Special Day (optional)"), 'special_list', $this->special_code);
+        $this->row(_("Special Day"), 'special_list', $this->special_code);
         if ($can_edit_PPer) {
             $this->row(_("PPer/PPVer"), 'DP_user_field', $this->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), $site_abbreviation));
         } else {
@@ -881,8 +881,8 @@ class ProjectInfoHolder
         if ($this->scannercredit != '') {
             $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->scannercredit, 'scannercredit');
         }
-        $this->row(_("Clearance Information"), 'text_field', $this->clearance, 'clearance');
-        $this->row(_("Posted Number"), 'text_field', $this->postednum, 'postednum', '', ["type" => "number"]);
+        $this->row(_("Clearance Line"), 'text_field', $this->clearance, 'clearance');
+        $this->row(_("PG etext number"), 'text_field', $this->postednum, 'postednum', '', ["type" => "number"]);
         $this->row(_("Project Comments Format"), 'proj_comments_format', $this->comment_format);
         $this->row(_("Project Comments"), 'proj_comments_field', $this->comments);
         // don't show the word list line if we're in the process of cloning

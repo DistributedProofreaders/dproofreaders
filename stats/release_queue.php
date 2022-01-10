@@ -154,8 +154,8 @@ if (!isset($name)) {
         SELECT
 
             concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') as '"
-                . DPDatabase::escape(_("Name of Work")) . "',
-            authorsname as '" . DPDatabase::escape(_("Author's Name")) . "',
+                . DPDatabase::escape(_("Title")) . "',
+            authorsname as '" . DPDatabase::escape(_("Author")) . "',
             language    as '" . DPDatabase::escape(_("Language")) . "',
             genre       as '" . DPDatabase::escape(_("Genre")) . "',
             difficulty  as '" . DPDatabase::escape(_("Difficulty")) . "',

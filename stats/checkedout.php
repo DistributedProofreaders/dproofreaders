@@ -43,7 +43,7 @@ if (isset($inPPV)) {
     $colspecs = [
         // TRANSLATORS: this is a column header meaning "number"
         'bogus' => _('#'),
-        'nameofwork' => _('Name of Work'),
+        'nameofwork' => _('Title'),
         'postproofer' => _('PPer'),
         'checkedoutby' => _('Checked Out By'),
         'modifieddate' => _('Date Last Modified'),
@@ -52,7 +52,7 @@ if (isset($inPPV)) {
 } else {
     $colspecs = [
         'bogus' => _('#'),
-        'nameofwork' => _('Name of Work'),
+        'nameofwork' => _('Title'),
         'checkedoutby' => _('Checked Out By'),
         'modifieddate' => _('Date Last Modified'),
         'holder_t_last_activity' => _('User Last on Site'),
