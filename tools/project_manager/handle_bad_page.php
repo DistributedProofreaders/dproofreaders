@@ -69,7 +69,7 @@ if (!$resolution) {
     }
 
     // Is it a bad page report, or are we merely fixing an ordinary page
-    $is_a_bad_page = page_state_is_a_bad_state($state);
+    $is_a_bad_page = page_state_is_a($state, "page_bad_state");
     if ($is_a_bad_page) {
         $header = _("Bad Page Report");
     } else {
