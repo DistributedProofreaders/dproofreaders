@@ -5,11 +5,14 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'graph_data.inc');
 
 require_login();
 
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$start = get_param_matching_regex($_GET, 'start', null, '/$(\d{4}-\d{1,2})?$/', true);
+$end = get_param_matching_regex($_GET, 'end', null, '/$(\d{4}-\d{1,2})?$/', true);
 
 // -----------------------------------
 
@@ -20,7 +23,38 @@ $curr_year = strftime('%Y', $now_timestamp);
 // -----------------------------------
 
 $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
-output_header($title);
+
+$js_data = "";
+if (isset($start) && isset($end)) {
+    $sql = select_from_site_past_tallies_and_goals(
+      $tally_name,
+      "SELECT 
+        {year_month} as 'month',
+        CAST(SUM(tally_delta) AS SIGNED),
+        past_tallies.timestamp - $SECONDS_TO_YESTERDAY as 'timestamp'",
+      "AND timestamp >= UNIX_TIMESTAMP(STR_TO_DATE('$start-01', '%Y-%m-%d')) AND
+      timestamp <= UNIX_TIMESTAMP(LAST_DAY(STR_TO_DATE('$end-01', '%Y-%m-%d')))",
+      "GROUP BY 1",
+      "ORDER BY 1",
+      "");
+    $result = DPDatabase::query($sql);
+    [$datax, $datay] = dpsql_fetch_columns($result);
+    $graphConfig = [
+        "title" => "$tally_name Pages Completed by Month",
+        "data" => [
+            "" => [
+                "x" => $datax,
+                "y" => $datay,
+                "type" => "line",
+            ],
+        ],
+    ];
+    $js_data .= build_svg_graph_inits([["barLineGraph", "graph", $graphConfig]]);
+}
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => $js_data,
+]);
 
 echo "<h1>$title</h1>\n";
 
@@ -99,7 +133,7 @@ function show_top_days($n, $when)
 
 function show_month_sums($which)
 {
-    global $tally_name, $curr_year_month;
+    global $tally_name, $curr_year_month, $start, $end;
 
     switch ($which) {
         case 'top_ten':
@@ -112,6 +146,15 @@ function show_month_sums($which)
             $sub_title = _("Historical Log of Total Pages Proofread Per Month");
             $order = '1'; // chronological
             $limit = '';
+            $form = "<form>
+            <label>Start <input value='$start' placeholder='YYYY-MM' name='start'></label>
+            <label>End <input value='$end' placeholder='YYYY-MM' name='end'></label>
+            <input type='hidden' name='tally_name' value='$tally_name'>
+            <input type='submit' value='Graph'>
+            </form>
+            <br>
+            <div id='graph' style='max-width: 640px;max-height: 400px'></div>
+            ";
             break;
 
         case 'all_by_pages':
@@ -143,6 +186,10 @@ function show_month_sums($which)
             $limit
         ), 1, DPSQL_SHOW_RANK
     );
+
+    if (isset($form)) {
+        echo $form;
+    }
 
     echo "<br>\n";
 }
