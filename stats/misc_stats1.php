@@ -11,8 +11,8 @@ require_login();
 
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
-$start = get_param_matching_regex($_GET, 'start', null, '/$(\d{4}-\d{1,2})?$/', true);
-$end = get_param_matching_regex($_GET, 'end', null, '/$(\d{4}-\d{1,2})?$/', true);
+$start = get_param_matching_regex($_GET, 'start', null, '/^\d{4}-\d{1,2}$/', true);
+$end = get_param_matching_regex($_GET, 'end', null, '/^\d{4}-\d{1,2}$/', true);
 
 // -----------------------------------
 
@@ -26,21 +26,24 @@ $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
 
 $js_data = "";
 if (isset($start) && isset($end)) {
+    $SECONDS_IN_DAY = 86400; // 60 * 60 * 24
     $sql = select_from_site_past_tallies_and_goals(
-      $tally_name,
-      "SELECT 
+        $tally_name,
+        "SELECT 
         {year_month} as 'month',
         CAST(SUM(tally_delta) AS SIGNED),
         past_tallies.timestamp - $SECONDS_TO_YESTERDAY as 'timestamp'",
-      "AND timestamp >= UNIX_TIMESTAMP(STR_TO_DATE('$start-01', '%Y-%m-%d')) AND
-      timestamp <= UNIX_TIMESTAMP(LAST_DAY(STR_TO_DATE('$end-01', '%Y-%m-%d')))",
-      "GROUP BY 1",
-      "ORDER BY 1",
-      "");
+        "AND timestamp >= UNIX_TIMESTAMP(STR_TO_DATE('" . DPDatabase::escape($start) . "-01', '%Y-%m-%d'))
+         AND timestamp < (UNIX_TIMESTAMP(LAST_DAY(STR_TO_DATE('" . DPDatabase::escape($end) . "-01', '%Y-%m-%d'))) + $SECONDS_IN_DAY)",
+        "GROUP BY 1",
+        "ORDER BY 1",
+        "");
     $result = DPDatabase::query($sql);
-    [$datax, $datay] = dpsql_fetch_columns($result);
-    $graphConfig = [
-        "title" => "$tally_name Pages Completed by Month",
+    [$datax, $datay, $times] = dpsql_fetch_columns($result);
+    $graph_config = [
+        // %s is a tally name
+        "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
+        "yAxisLabel" => _("Pages"),
         "data" => [
             "" => [
                 "x" => $datax,
@@ -49,7 +52,7 @@ if (isset($start) && isset($end)) {
             ],
         ],
     ];
-    $js_data .= build_svg_graph_inits([["barLineGraph", "graph", $graphConfig]]);
+    $js_data .= build_svg_graph_inits([["barLineGraph", "graph", $graph_config]]);
 }
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
@@ -133,7 +136,7 @@ function show_top_days($n, $when)
 
 function show_month_sums($which)
 {
-    global $tally_name, $curr_year_month, $start, $end;
+    global $code_url, $tally_name, $curr_year_month, $start, $end;
 
     switch ($which) {
         case 'top_ten':
@@ -146,11 +149,11 @@ function show_month_sums($which)
             $sub_title = _("Historical Log of Total Pages Proofread Per Month");
             $order = '1'; // chronological
             $limit = '';
-            $form = "<form>
-            <label>Start <input value='$start' placeholder='YYYY-MM' name='start'></label>
-            <label>End <input value='$end' placeholder='YYYY-MM' name='end'></label>
+            $form = "<br><form id='graph-form' action='$code_url/stats/misc_stats1.php#graph-form'>
+            <label>" . _("Start") . " <input value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
+            <label>" . _("End") . " <input value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
             <input type='hidden' name='tally_name' value='$tally_name'>
-            <input type='submit' value='Graph'>
+            <input type='submit' value='" . _("Graph") . "'>
             </form>
             <br>
             <div id='graph' style='max-width: 640px;max-height: 400px'></div>
