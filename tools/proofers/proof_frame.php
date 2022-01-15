@@ -28,7 +28,11 @@ if (isset($_GET['page_state'])) {
     // get_requested_PPage() expects a 'reverting' parameter.
     $_GET['reverting'] = '0';
 
-    $ppage = get_requested_PPage($_GET);
+    try {
+        $ppage = get_requested_PPage($_GET);
+    } catch (Exception $exception) {
+        abort($exception->getMessage());
+    }
 
     $ppage->lpage->resume_saved_page($pguser);
 } else {

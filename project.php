@@ -23,6 +23,7 @@ include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_i
 include_once($relPath.'faq.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 include_once($relPath.'special_colors.inc'); // load_special_days
+include_once($relPath.'abort.inc'); // abort()
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -45,7 +46,11 @@ $MAX_DETAIL_LEVEL = 4;
 $DEFAULT_DETAIL_LEVEL = 3;
 
 // Validate all the input
-$projectid = get_projectID_param($_GET, 'id');
+try {
+    $projectid = get_projectID_param($_GET, 'id');
+} catch (Exception $exception) {
+    abort($exception->getMessage());
+}
 $expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
 $detail_level = get_integer_param($_GET, 'detail_level', $DEFAULT_DETAIL_LEVEL, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL);
 
