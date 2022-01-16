@@ -61,6 +61,16 @@ output_header($title, SHOW_STATSBAR, [
 
 echo "<h1>$title</h1>\n";
 
+echo "<form action='$code_url/stats/misc_stats1.php'>
+<label>" . _("Start") . " <input value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
+<label>" . _("End") . " <input value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
+<input type='hidden' name='tally_name' value='$tally_name'>
+<input type='submit' value='" . _("Graph") . "'>
+</form>
+<br>
+<div id='graph' style='max-width: 640px;max-height: 400px'></div>
+";
+
 show_all_time_total();
 
 show_month_sums('top_ten');
@@ -149,15 +159,6 @@ function show_month_sums($which)
             $sub_title = _("Historical Log of Total Pages Proofread Per Month");
             $order = '1'; // chronological
             $limit = '';
-            $form = "<br><form id='graph-form' action='$code_url/stats/misc_stats1.php#graph-form'>
-            <label>" . _("Start") . " <input value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
-            <label>" . _("End") . " <input value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
-            <input type='hidden' name='tally_name' value='$tally_name'>
-            <input type='submit' value='" . _("Graph") . "'>
-            </form>
-            <br>
-            <div id='graph' style='max-width: 640px;max-height: 400px'></div>
-            ";
             break;
 
         case 'all_by_pages':
@@ -189,10 +190,6 @@ function show_month_sums($which)
             $limit
         ), 1, DPSQL_SHOW_RANK
     );
-
-    if (isset($form)) {
-        echo $form;
-    }
 
     echo "<br>\n";
 }
