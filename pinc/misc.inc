@@ -13,6 +13,25 @@ function array_get($arr, $key, $default)
     }
 }
 
+function get_changed_fields_for_objects($new, $old)
+// Return an array whose values are the names of the properties
+// whose values differ between the two objects $new and $old.
+{
+    $old_as_array = (array)$old;
+    $new_as_array = (array)$new;
+    // They should have the same set of keys, but just in case,
+    // merge the two sets of keys:
+    $all_keys = array_keys($old_as_array + $new_as_array);
+
+    $changed_fields = [];
+    foreach ($all_keys as $key) {
+        if (@$new_as_array[$key] != @$old_as_array[$key]) {
+            $changed_fields[] = $key;
+        }
+    }
+    return $changed_fields;
+}
+
 function get_enumerated_param($arr, $key, $default, $choices, $allownull = false)
 // If $arr[$key] is defined and is one of the strings in $choices,
 // return that string.
