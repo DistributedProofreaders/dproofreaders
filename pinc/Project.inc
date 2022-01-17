@@ -31,6 +31,9 @@ class NoProjectPageTable extends ProjectException
 class NoProjectDirectory extends ProjectException
 {
 }
+class ProjectPageException extends ProjectException
+{
+}
 
 class Project
 {

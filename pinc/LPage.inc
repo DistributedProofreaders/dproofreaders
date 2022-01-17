@@ -9,7 +9,6 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
-include_once($relPath.'abort.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
@@ -192,7 +191,7 @@ function get_indicated_LPage(
     // Make sure project is still in same state.
     $err = project_continuity_test($projectid, $proj_state, false);
     if ($err) {
-        throw new Exception($err);
+        throw new ProjectException($err);
     }
 
     $sql = "
@@ -207,7 +206,7 @@ function get_indicated_LPage(
         // This should only happen if they've been tweaking URLs.
         // Or if the page has actually been deleted.
         $err = _('No such page.');
-        throw new Exception($err);
+        throw new ProjectPageException($err);
     }
 
     [$current_page_state] = $row;
@@ -216,7 +215,7 @@ function get_indicated_LPage(
         $err = sprintf(
             _('Page %1$s has changed state from %2$s to %3$s, so your request is invalid.'),
             $imagefile, $page_state, $current_page_state);
-        throw new Exception($err);
+        throw new ProjectPageException($err);
     }
 
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
@@ -425,7 +424,7 @@ class LPage
                 $err = sprintf(
                     _('You (%1$s) do not have the necessary access to page %2$s'),
                     $pguser, $this->imagefile);
-                throw new Exception($err);
+                throw new ProjectPageException($err);
             }
         }
     }

@@ -2,7 +2,6 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
-include_once($relPath.'abort.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'unicode.inc');
@@ -500,7 +499,7 @@ function _Page_require(
             . "    "
             . sprintf(_("But it is in %s"), $curr_page_state)
             ;
-        throw new Exception($err);
+        throw new ProjectPageException($err);
     }
 
     if (is_null($allowed_user_colname)) {
@@ -517,7 +516,7 @@ function _Page_require(
                     _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
                     $op_name)
                 ;
-            throw new Exception($err);
+            throw new ProjectPageException($err);
         }
     }
 }

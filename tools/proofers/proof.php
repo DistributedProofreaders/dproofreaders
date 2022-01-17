@@ -12,13 +12,11 @@ require_login();
 
 try {
     $projectid = get_projectID_param($_GET, 'projectid');
+    $expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
+    $project = new Project($projectid);
 } catch (Exception $exception) {
     abort($exception->getMessage());
 }
-
-$expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
-
-$project = new Project($projectid);
 
 // Check $expected_state.
 if (!$expected_state) {
