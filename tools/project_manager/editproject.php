@@ -578,7 +578,7 @@ class ProjectInfoHolder
                 echo "<p class='error'>$fatal_error</p>";
                 exit;
             }
-            $changed_fields = get_changed_fields($this, $old_pih);
+            $changed_fields = get_changed_fields_for_objects($this, $old_pih);
 
             // We're particularly interested in knowing
             // when the project comments change.
@@ -958,43 +958,4 @@ class ProjectInfoHolder
         //Update the Genre
         $marc_record->literary_form = $_POST['genre'];
     }
-}
-
-function get_changed_fields($new_pih, $old_pih)
-// Return an array whose values are the names of the properties
-// whose values differ between the two objects $new_pih and $old_pih.
-// [Note that this is completely generic code, so we could consider
-// moving it to pinc/misc.inc.]
-{
-    $old_pih_as_array = (array)$old_pih;
-    $new_pih_as_array = (array)$new_pih;
-    // They should have the same set of keys, but just in case,
-    // merge the two sets of keys:
-    $all_keys = array_keys($old_pih_as_array + $new_pih_as_array);
-
-    /*
-    {
-        if (count($old_pih_as_array) != count($all_keys))
-        {
-            echo "<p>all - old:";
-            var_dump(array_diff($all_keys, array_keys($old_pih_as_array)));
-            echo "</p>\n";
-        }
-        if (count($new_pih_as_array) != count($all_keys))
-        {
-            echo "<p>all - new:";
-            var_dump(array_diff($all_keys, array_keys($new_pih_as_array)));
-            echo "</p>\n";
-        }
-    }
-    */
-
-    $changed_fields = [];
-    foreach ($all_keys as $key) {
-        if (@$new_pih_as_array[$key] != @$old_pih_as_array[$key]) {
-            // echo "<p>'$key' changed from '{$old_pih_as_array[$key]}' to '{$new_pih_as_array[$key]}'</p>\n";
-            $changed_fields[] = $key;
-        }
-    }
-    return $changed_fields;
 }
