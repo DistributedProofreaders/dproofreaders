@@ -10,13 +10,10 @@ require_login();
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-try {
-    $projectid = get_projectID_param($_GET, 'projectid');
-    $expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
-    $project = new Project($projectid);
-} catch (Exception $exception) {
-    abort($exception->getMessage());
-}
+$projectid = get_projectID_param($_GET, 'projectid');
+$expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
+
+$project = new Project($projectid);
 
 // Check $expected_state.
 if (!$expected_state) {
