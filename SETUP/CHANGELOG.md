@@ -7,11 +7,19 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202202
 Scripts supporting this upgrade are in `SETUP/upgrade/17`
 
-* Removed jpgraph and GD dependencies (chrismiceli)
+**This is the last release to include support for the incomplete Metadata
+and Corrections features.**
+
+* Improved security for session cookies (chrismiceli)
 * Graphs now rendered via client-side Javascript as themed SVGs (chrismiceli)
+* Removed jpgraph and GD dependencies (chrismiceli)
+* Image Browser improvements (70ray)
+* Format Preview footnote improvements (70ray)
+* DP API additions: character suites, special days, image sources (cpeel)
+* Minor code speed optimizations (cpeel)
 * Updated minimum browser versions, see [INSTALL.md](INSTALL.md).
 
 ## R202109
