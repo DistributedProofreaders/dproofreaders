@@ -188,9 +188,9 @@ class ProjectTransition
             // do some checks on the project if it's going into a round
             if ($this->to_state == $to_round->project_waiting_state
               || $this->to_state == $to_round->project_available_state) {
-                $errors = project_pre_release_check(get_object_vars($project), $to_round);
+                $errors = project_pre_release_check($project, $to_round);
                 if ($errors) {
-                    $error = _("Transition disallowed because of project problems:")."\n<pre>\n$errors</pre>";
+                    $error = _("Transition disallowed because of project problems:") . "<pre>" . join("\n", $errors) . "</pre>";
                     // At this point, the corresponding code in changestate.php
                     // would transit the project to the round's bad state.
                     // It's probably sufficient to just leave it in its current state.
@@ -200,8 +200,7 @@ class ProjectTransition
         }
 
         if ($this->to_state == PROJ_DELETE) {
-            global $projects_dir;
-            exec("rm -rf $projects_dir/$projectid");
+            exec("rm -rf $project->dir");
 
             project_drop_pages($projectid);
 
@@ -240,12 +239,12 @@ class ProjectTransition
                         if ($who == PT_AUTO) {
                             return "\$who == PT_AUTO shouldn't happen for <WHO>";
                         }
-                        $replacement = mysqli_real_escape_string(DPDatabase::get_connection(), $who);
+                        $replacement = DPDatabase::escape($who);
                         break;
 
                     case '<G:postcomments>':
                         global $postcomments; // defined in upload_text.php
-                        $replacement = mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments);
+                        $replacement = DPDatabase::escape($postcomments);
                         break;
 
                     default:
@@ -267,12 +266,15 @@ class ProjectTransition
             echo "    settings: $settings<br>\n";
         }
 
-        $res = mysqli_query(DPDatabase::get_connection(), "
-            UPDATE projects SET $settings WHERE projectid = '$projectid'
-        ");
-        if (!$res) {
-            return "mysql error: " . DPDatabase::log_error();
-        }
+        // $settings could have %s in them, so we can't use sprintf to build
+        // the $sql
+        $escaped_projectid = DPDatabase::escape($projectid);
+        $sql = "
+            UPDATE projects
+            SET $settings
+            WHERE projectid = '$escaped_projectid'
+        ";
+        $res = DPDatabase::query($sql);
 
         // ---------------------------------------------------------------------
         // Okay, so the update to the 'projects' table succeeded.
@@ -342,68 +344,49 @@ class ProjectTransition
 
 function project_pre_release_check($project, $round)
 // Check whether the project seems ready to be released into the round.
-// If it is, return an empty string.
-// If it has problems, return a detailed error-message.
+// If it is, return an empty array.
+// If it has problems, return an array of detailed error messages.
 {
-    global $projects_dir;
-
-    $errors = '';
-
-    $projectid = $project['projectid'];
-    $nameofwork = $project['nameofwork'];
-    $author = $project['authorsname'];
-    $language = $project['language'];
-    $clearance = $project['clearance'];
-
-    if ($nameofwork == '') {
-        $errors .= "  "._("The 'Title' field is blank.")."\n";
-    }
-    if ($author == '') {
-        $errors .= "  "._("The 'Author' field is blank.")."\n";
-    }
-    if ($language == '') {
-        $errors .= "  "._("The 'Language' field is blank.")."\n";
-    }
-    if ($clearance == '') {
-        $errors .= "  "._("The 'Clearance' field is blank.")."\n";
+    if (!$project->pages_table_exists) {
+        return [_("There is no page-table.")];
     }
 
-    if ($errors) {
-        $errors .= "\n";
+    $errors = [];
+
+    if ($project->nameofwork == '') {
+        $errors[] = _("The 'Title' field is blank.");
+    }
+    if ($project->authorsname == '') {
+        $errors[] = ("The 'Author' field is blank.");
+    }
+    if ($project->language == '') {
+        $errors[] = ("The 'Language' field is blank.");
+    }
+    if ($project->clearance == '') {
+        $errors[] = _("The 'Clearance' field is blank.");
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    validate_projectID($project->projectid);
+    $sql = "
         SELECT image, LENGTH($round->prevtext_column_name) AS input_text_length
-        FROM $projectid
+        FROM $project->projectid
         ORDER BY image ASC
-    ");
-
-    if (!$res) {
-        $errors .= "  "._("There is no page-table.")."\n";
-        return $errors;
-    }
-
+    ";
+    $res = DPDatabase::query($sql);
 
     if (mysqli_num_rows($res) == 0) {
-        $errors .= "  "._("There are no pages.")."\n";
+        $errors[] = _("There are no pages.");
     }
 
     while ($page = mysqli_fetch_assoc($res)) {
         $filename = $page['image'];
-        $filepath = "$projects_dir/$projectid/$filename";
+        $filepath = "$project->dir/$filename";
 
         if (!file_exists($filepath)) {
-            $errors .= "  $filename: "._("image file is missing")."\n";
+            $errors[] = "$filename: "._("image file is missing");
         } elseif (filesize($filepath) < 100) {
-            $errors .= "  $filename: "._("image file is small and probably bad")."\n";
+            $errors[] = "$filename: "._("image file is small and probably bad");
         }
-
-        /*
-        An empty page-text is no longer an indication that something went wrong.
-        if ($page['input_text_length'] == 0) {
-            $errors .= "  $filename: "._("text is empty")."\n";
-        }
-        */
     }
 
     return $errors;
