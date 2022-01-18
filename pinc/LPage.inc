@@ -116,7 +116,7 @@ function get_available_page_array(
         }
     } else {
         // The empty/null (i.e., no restriction) case has already been dealt with.
-        throw new Exception("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
+        throw new ValueError("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
 
     // Find page to be proofread.
