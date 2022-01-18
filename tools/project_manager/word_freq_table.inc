@@ -1,7 +1,6 @@
 <?php
 include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
@@ -412,8 +411,9 @@ function enforce_edit_authorization($projectid)
 {
     global $code_url;
 
-    $ucep_result = user_can_edit_project($projectid);
-    if ($ucep_result != USER_CAN_EDIT_PROJECT) {
+    $project = new Project($projectid);
+
+    if (!$project->can_be_managed_by_current_user) {
         $message = _("You are not authorized to manage this project.");
         $message .= " ";
         $message .= sprintf(_("Redirecting you to the project page in %d seconds."), 5);

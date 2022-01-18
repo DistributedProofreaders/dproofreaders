@@ -221,24 +221,14 @@ class ProjectInfoHolder
         }
         validate_projectID($projectid);
 
-        $ucep_result = user_can_edit_project($projectid);
-        // we only let people clone projects that they can edit, so this
-        // is valid whether they are cloning or editing
-        if ($ucep_result == PROJECT_DOES_NOT_EXIST) {
-            return _("parameter 'project' is invalid: no such project").": '$projectid'";
-        } elseif ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
-            return _("You are not authorized to manage this project.").": '$projectid'";
-        } elseif ($ucep_result == USER_CAN_EDIT_PROJECT) {
-            // fine
-        } else {
-            return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
-        }
-
         try {
             $project = new Project($projectid);
         } catch (NonexistentProjectException $exception) {
-            // should never get here because user_can_edit_project() catches PROJECT_DOES_NOT_EXIST
             return $exception->getMessage();
+        }
+
+        if (!$project->can_be_managed_by_current_user) {
+            return _("You are not authorized to manage this project.").": '$projectid'";
         }
 
         $this->nameofwork = $project->nameofwork;
@@ -288,15 +278,14 @@ class ProjectInfoHolder
             $projectid = get_projectID_param($_POST, 'projectid');
             $this->projectid = $projectid;
 
-            $ucep_result = user_can_edit_project($this->projectid);
-            if ($ucep_result == PROJECT_DOES_NOT_EXIST) {
-                return _("parameter 'projectid' is invalid: no such project").": '$this->projectid'";
-            } elseif ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
+            try {
+                $project = new Project($projectid);
+            } catch (NonexistentProjectException $exception) {
+                return $exception->getMessage();
+            }
+
+            if (!$project->can_be_managed_by_current_user) {
                 return _("You are not authorized to manage this project.").": '$this->projectid'";
-            } elseif ($ucep_result == USER_CAN_EDIT_PROJECT) {
-                // fine
-            } else {
-                return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
             }
         } elseif (isset($_POST['clone_projectid'])) {
             // we're creating a clone

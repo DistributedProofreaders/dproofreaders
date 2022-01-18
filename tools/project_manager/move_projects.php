@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
@@ -35,8 +34,7 @@ foreach ($projectids as $projectid) {
         continue;
     }
 
-    $result = user_can_edit_project($projectid);
-    if ($result == USER_CANNOT_EDIT_PROJECT) {
+    if (!$project->can_be_managed_by_current_user) {
         echo "    " . _("You are not authorize to manage this project.") . "\n";
         continue;
     }

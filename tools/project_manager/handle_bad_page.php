@@ -7,7 +7,6 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'project_edit.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), get_enumerated_param()
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'page_table.inc');  // page_state_is_a_bad_state()
@@ -22,11 +21,11 @@ $prev_text = array_get($_POST, 'prev_text', null);
 $text_column = array_get($_REQUEST, 'text_column', null);
 $resolution = array_get($_POST, 'resolution', null);
 
-if (user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT) {
+$project = new Project($projectid);
+
+if (!$project->can_be_managed_by_current_user) {
     die("You are not authorized to manage this project.");
 }
-
-$project = new Project($projectid);
 
 // prevent changes to the project table if it isn't UTF-8
 if (!$project->is_utf8) {
