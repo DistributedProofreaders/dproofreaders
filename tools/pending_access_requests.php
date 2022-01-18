@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 require_login();
 
 if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) {
-    die("permission denied");
+    die(_("You are not authorized to invoke this script."));
 }
 
 $title = _('Pending Access Requests');

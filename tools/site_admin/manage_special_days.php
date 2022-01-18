@@ -10,7 +10,7 @@ include_once($relPath.'special_colors.inc');
 require_login();
 
 if (!user_is_a_sitemanager()) {
-    die("You are not allowed to run this script.");
+    die(_("You are not authorized to invoke this script."));
 }
 
 $page_url = "$code_url/tools/site_admin/manage_special_days.php";

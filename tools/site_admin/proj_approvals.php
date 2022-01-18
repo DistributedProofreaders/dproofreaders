@@ -16,7 +16,7 @@ if (!$site_supports_metadata) {
 }
 
 if (!user_is_a_sitemanager()) {
-    die('You are not authorized to invoke this script.');
+    die(_("You are not authorized to invoke this script."));
 }
 
 //----------------------------------------------------------------------------------

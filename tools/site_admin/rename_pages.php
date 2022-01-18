@@ -9,7 +9,7 @@ include_once($relPath.'user_is.inc');
 require_login();
 
 if (!user_is_a_sitemanager()) {
-    die("You are not allowed to run this script.");
+    die(_("You are not authorized to invoke this script."));
 }
 
 $extra_args["css_data"] = "

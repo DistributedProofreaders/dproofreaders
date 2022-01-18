@@ -24,7 +24,7 @@ $resolution = array_get($_POST, 'resolution', null);
 $project = new Project($projectid);
 
 if (!$project->can_be_managed_by_current_user) {
-    die("You are not authorized to manage this project.");
+    die(_("You are not authorized to manage this project."));
 }
 
 // prevent changes to the project table if it isn't UTF-8

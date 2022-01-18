@@ -10,7 +10,7 @@ include_once($relPath.'access_log.inc');
 require_login();
 
 if (!user_is_a_sitemanager()) {
-    die("permission denied");
+    die(_("You are not authorized to invoke this script."));
 }
 
 // --------------------------------------
