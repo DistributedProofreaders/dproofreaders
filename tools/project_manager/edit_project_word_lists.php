@@ -6,7 +6,6 @@ include_once($relPath.'links.inc');
 include_once('edit_common.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc');  // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
@@ -92,15 +91,8 @@ class ProjectWordListHolder
             return _("Project directory does not exist, unable to manage word lists.");
         }
 
-        $ucep_result = user_can_edit_project($this->projectid);
-        // we only let people clone projects that they can edit, so this
-        // is valid whether they are cloning or editing
-        if ($ucep_result == USER_CANNOT_EDIT_PROJECT) {
+        if (!$this->project->can_be_managed_by_current_user) {
             return _("You are not authorized to manage this project.");
-        } elseif ($ucep_result == USER_CAN_EDIT_PROJECT) {
-            // fine
-        } else {
-            return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
         }
 
         return null;
