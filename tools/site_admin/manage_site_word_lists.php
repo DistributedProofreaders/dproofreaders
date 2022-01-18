@@ -12,7 +12,7 @@ require_login();
 
 // check to see if the user is authorized to be here
 if (!(user_is_a_sitemanager())) {
-    die("You are not authorized to use this form.");
+    die(_("You are not authorized to invoke this script."));
 }
 
 // fetch any data sent our way. word_string will only

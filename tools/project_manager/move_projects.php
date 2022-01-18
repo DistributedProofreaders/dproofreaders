@@ -35,7 +35,7 @@ foreach ($projectids as $projectid) {
     }
 
     if (!$project->can_be_managed_by_current_user) {
-        echo "    " . _("You are not authorize to manage this project.") . "\n";
+        echo "    " . _("You are not authorized to manage this project.") . "\n";
         continue;
     }
 

@@ -11,7 +11,7 @@ include_once($relPath.'email_address.inc');
 require_login();
 
 if (!user_is_a_sitemanager()) {
-    die(_('You are not authorized to invoke this script.'));
+    die(_("You are not authorized to invoke this script."));
 }
 
 $title = _("Resend Account Activation Email");

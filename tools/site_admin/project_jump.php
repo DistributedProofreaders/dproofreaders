@@ -9,7 +9,7 @@ include_once($relPath.'Project.inc');
 require_login();
 
 if (!user_is_a_sitemanager()) {
-    die("You are not authorized to invoke this script.");
+    die(_("You are not authorized to invoke this script."));
 }
 
 $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'check', 'dojump']);

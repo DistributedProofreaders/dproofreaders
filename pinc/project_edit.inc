@@ -59,7 +59,7 @@ function abort_if_cant_edit_project($projectid)
     if (!$project->can_be_managed_by_current_user) {
         echo "
             <P>
-            "._("You are not allowed to manage this project")." ($projectid).
+            "._("You are not authorized to manage this project.")." ($projectid).
             <P>
             ", sprintf(_("If this message is an error, contact a <a href='%s'>site manager</a>"),
                 "mailto:$site_manager_email_addr"), "

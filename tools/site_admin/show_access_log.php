@@ -20,7 +20,7 @@ $action = get_enumerated_param($_GET, 'action', null, $action_choices, true);
 require_login();
 
 if (!user_is_a_sitemanager() && !user_is_an_access_request_reviewer()) {
-    die(_("You are not authorized to access this page."));
+    die(_("You are not authorized to invoke this script."));
 }
 
 $title = _("Access Log");
