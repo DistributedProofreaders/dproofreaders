@@ -121,7 +121,7 @@ curl -i -X GET "https://www.pgdp.org/api/v1/projects?title=Monster" \
 
 ### Project details
 
-Load details about a specific project:
+Get details about a specific project:
 
 ```bash
 curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
@@ -151,6 +151,48 @@ Get the good wordlist for a project:
 curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/wordlists/good" \
     -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
+```
+
+### Project updates
+
+Update details about a specific project:
+```bash
+curl -i -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
+    -H "Content-Type: application/json" \
+    -H "X-API-KEY: $API_KEY" \
+    -d @data.json
+```
+
+Where `data.json` contains the fields you want to modify:
+```json
+{
+    "title": "Updated project title",
+    "difficulty": "hard"
+}
+```
+
+### Project creates
+
+Create a project:
+```bash
+curl -i -X POST "https://www.pgdp.org/api/v1/projects" \
+    -H "Content-Type: application/json" \
+    -H "X-API-KEY: $API_KEY" \
+    -d @data.json
+```
+
+Where `data.json` contains at least all the required fields:
+```json
+{
+    "title": "Project created from API",
+    "author": "API Joe",
+    "project_manager": "project_manager_name",
+    "languages": [ "English" ],
+    "difficulty": "average",
+    "genre": "Other",
+    "image_source": "_internal",
+    "character_suites": ["basic-latin"]
+}
 ```
 
 ### Project holds
