@@ -116,37 +116,131 @@ function api_v1_projects($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid
 
+// Return a list of updatable project fields mapped from the API names
+// to the Project object names.
+function get_updatable_project_fields()
+{
+    return [
+        // API name => Project name
+        "title" => "nameofwork",
+        "author" => "authorsname",
+        "languages" => "languages",
+        "genre" => "genre",
+        "difficulty" => "difficulty",
+        "special_day" => "special_code",
+        "project_manager" => "username",
+        "image_source" => "image_source",
+        "image_preparer" => "image_preparer",
+        "text_preparer" => "text_preparer",
+        "pg_ebook_number" => "postednum",
+        "comments" => "comments",
+        "comment_format" => "comment_format",
+        "clearance" => "clearance",
+        "custom_characters" => "custom_chars",
+    ];
+}
+
+function create_or_update_project($project)
+{
+    // can the user manage the existing project?
+    if ($project->projectid && !$project->can_be_managed_by_current_user) {
+        throw new UnauthorizedError();
+    }
+
+    // can the user create new projects?
+    if (!$project->projectid && user_has_project_loads_disabled()) {
+        throw new UnauthorizedError();
+    }
+
+    // update all updatable fields
+    $updates = (array)api_get_request_body();
+    try {
+        foreach (get_updatable_project_fields() as $api_key => $project_key) {
+            // allow partial record updates by only updating specified values
+            if (isset($updates[$api_key])) {
+                $project->$project_key = $updates[$api_key];
+            }
+        }
+
+        $project->validate(true);
+    } catch (ValueError $error) {
+        throw new InvalidValue($error->getMessage());
+    }
+
+    // validate charsuites
+    if (!$project->projectid || isset($updates["character_suites"])) {
+        if (!is_array($updates["character_suites"])) {
+            throw new InvalidValue("character_suites must be an array.");
+        }
+
+        if (sizeof($updates["character_suites"]) == 0) {
+            throw new InvalidValue("At least one Character Suite is required.");
+        }
+
+        $invalid_charsuites = array_diff($updates["character_suites"],
+            array_extract_field(CharSuites::get_all(), "name"));
+        if ($invalid_charsuites) {
+            throw new InvalidValue(sprintf("%s is/are not valid Character Suites.", join(", ", $invalid_charsuites)));
+        }
+    }
+
+    $project->save();
+
+    if (isset($updates["character_suites"])) {
+        $project->set_charsuites($updates["character_suites"]);
+    }
+
+    return $project;
+}
+
 function api_v1_project($method, $data, $query_params)
 {
-    return render_project_json($data[":projectid"]);
+    if ($method == "GET") {
+        return render_project_json($data[":projectid"]);
+    } elseif ($method == "PUT") {
+        $project = $data[":projectid"];
+        return render_project_json(create_or_update_project($project));
+    } elseif ($method == "POST") {
+        $project = create_or_update_project(new Project());
+        // reload the project to fetch defaults managed by the database
+        $project = new Project($project->projectid);
+        return render_project_json($project);
+    }
 }
 
 function render_project_json($project)
 {
     // We want to explicitly call out the parameters we want to return so
     // callers can know what to expect in this version of the API.
-    return [
+    $return_array = [
         "projectid" => $project->projectid,
-        "state" => $project->state,
-        "title" => $project->nameofwork,
-        "author" => $project->authorsname,
-        "languages" => $project->languages,
-        "genre" => $project->genre,
-        "difficulty" => $project->difficulty,
-        "special_day" => $project->special_code,
-        "project_manager" => $project->username,
-        "post_processor" => $project->PPer,
-        "post_process_verifier" => $project->PPVer,
-        "image_source" => $project->image_source,
-        "image_preparer" => $project->image_preparer,
-        "text_preparer" => $project->text_preparer,
-        "pages_available" => $project->n_available_pages,
-        "pages_total" => $project->n_pages,
-        "pg_ebook_number" => $project->postednum,
-        "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
-        "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
-        "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
     ];
+
+    foreach (get_updatable_project_fields() as $api_key => $project_key) {
+        $return_array[$api_key] = $project->$project_key;
+    }
+
+    $charsuites = [];
+    foreach ($project->get_charsuites(false) as $project_charsuite) {
+        array_push($charsuites, $project_charsuite->name);
+    }
+    $return_array["character_suites"] = $charsuites;
+
+    $return_array = array_merge(
+        $return_array,
+        [
+            "post_processor" => $project->PPer,
+            "post_process_verifier" => $project->PPVer,
+            "state" => $project->state,
+            "pages_available" => $project->n_available_pages,
+            "pages_total" => $project->n_pages,
+            "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
+            "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
+            "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
+        ]
+    );
+
+    return $return_array;
 }
 
 //---------------------------------------------------------------------------

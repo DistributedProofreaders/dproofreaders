@@ -96,6 +96,34 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
           $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+      - project
+      description: Create a new project.
+      requestBody:
+        description: Project details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/project'
+      responses:
+        200:
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 
   /projects/charsuites:
     get:
@@ -344,6 +372,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+      - project
+      description: Update an existing project. A partial object can be sent
+        and only those fields included will be updated.
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Project details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/project'
+      responses:
+        200:
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -651,10 +715,18 @@ components:
       required:
       - projectid
       - title
+      - author
+      - languages
+      - genre
+      - difficulty
+      - project_manager
+      - image_source
+      - character_suites
       type: object
       properties:
         projectid:
           type: string
+          readOnly: true
         title:
           type: string
         author:
@@ -663,6 +735,8 @@ components:
           type: array
           items:
             type: string
+          minItems: 1
+          maxItems: 2
         genre:
           type: string
         difficulty:
@@ -673,22 +747,41 @@ components:
           type: string
         post_processor:
           type: string
+          readOnly: true
         post_process_verifier:
           type: string
+          readOnly: true
         image_preparer:
           type: string
         text_preparer:
           type: string
         image_source:
           type: string
-        pages_available:
-          type: integer
-        pages_total:
-          type: integer
         pg_ebook_number:
           type: integer
+          nullable: true
+        comments:
+          type: string
+        comment_format:
+          type: string
+          enum: [markdown, html]
+        clearance:
+          type: string
+        custom_characters:
+          type: string
+        character_suites:
+          type: array
+          items:
+            type: string
+          minItems: 1
         state:
           type: string
+          readOnly: true
+        pages_available:
+          type: integer
+          readOnly: true
+        pages_total:
+          type: integer
           readOnly: true
         last_state_change_time:
           type: string
