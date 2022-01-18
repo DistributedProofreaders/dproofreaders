@@ -39,7 +39,7 @@ if (isset($start) && isset($end)) {
         "ORDER BY 1",
         "");
     $result = DPDatabase::query($sql);
-    [$datax, $datay, $times] = dpsql_fetch_columns($result);
+    [$datax, $datay] = dpsql_fetch_columns($result);
     $graph_config = [
         // %s is a tally name
         "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
@@ -62,8 +62,8 @@ output_header($title, SHOW_STATSBAR, [
 echo "<h1>$title</h1>\n";
 
 echo "<form action='$code_url/stats/misc_stats1.php'>
-<label>" . _("Start") . " <input value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
-<label>" . _("End") . " <input value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
+<label>" . _("Start") . " <input pattern='\d{4}-\d{1,2}' required value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
+<label>" . _("End") . " <input pattern='\d{4}-\d{1,2}' required value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
 <input type='hidden' name='tally_name' value='$tally_name'>
 <input type='submit' value='" . _("Graph") . "'>
 </form>
@@ -146,7 +146,7 @@ function show_top_days($n, $when)
 
 function show_month_sums($which)
 {
-    global $code_url, $tally_name, $curr_year_month, $start, $end;
+    global $tally_name, $curr_year_month;
 
     switch ($which) {
         case 'top_ten':
