@@ -10,8 +10,8 @@ $finder = PhpCsFixer\Finder::create()
     ->name('*.php.example')
 ;
 
-return PhpCsFixer\Config::create()
-    ->setRules([
+$config = new PhpCsFixer\Config();
+return $config->setRules([
         '@PSR12' => true,
         '@PHP74Migration' => true,
         // PHP tags
