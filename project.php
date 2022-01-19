@@ -1235,26 +1235,7 @@ function do_history()
                     // TRANSLATORS: i.e. no fields changed
                     $list_of_changed_fields = pgettext("no fields", "none");
                 } else {
-                    // Maybe move this array to Project.inc
-                    $label_for_project_field_ = [
-                        'deletion_reason' => _("Reason for Deletion"),
-                        'nameofwork' => _("Title"),
-                        'authorsname' => _("Author"),
-                        'projectmanager' => _("Project Manager"),
-                        'language' => _("Language"),
-                        'genre' => _("Genre"),
-                        'difficulty_level' => _("Difficulty"),
-                        'special_code' => _("Special Day"),
-                        'checkedoutby' => _("PPer/PPVer"),
-                        'image_source' => _("Original Image Source"),
-                        'image_preparer' => _("Image Preparer"),
-                        'text_preparer' => _("Text Preparer"),
-                        'extra_credits' => _("Extra Credits"),
-                        'scannercredit' => _("Scanner Credit"),
-                        'clearance' => _("Clearance Line"),
-                        'postednum' => _("PG etext number"),
-                        'comments' => _("Project Comments"),
-                    ];
+                    $label_for_project_field_ = Project::get_field_labels();
 
                     $labels = [];
                     foreach (explode(' ', $changed_fields) as $fieldname) {

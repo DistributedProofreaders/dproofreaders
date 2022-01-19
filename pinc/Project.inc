@@ -116,6 +116,8 @@ class Project
 
     public function validate($throw_on_error = false)
     {
+        $labels = self::get_field_labels();
+
         $errors = [];
 
         if ($this->projectid) {
@@ -127,35 +129,35 @@ class Project
         }
 
         $required_fields = [
-            "nameofwork" => _("Title"),
-            "authorsname" => _("Author"),
-            "username" => _("Project Manager"),
-            "language" => _("Language"),
-            "genre" => _("Genre"),
-            "image_source" => _("Image Source"),
-            "difficulty" => _("Difficulty"),
+            "nameofwork",
+            "authorsname",
+            "username",
+            "language",
+            "genre",
+            "image_source",
+            "difficulty",
         ];
 
-        foreach ($required_fields as $field => $label) {
+        foreach ($required_fields as $field) {
             if (preg_match('/^\s*$/', $this->$field)) {
-                $errors[] = sprintf(_("%s is required."), $label);
+                $errors[] = sprintf(_("%s is required."), $labels[$field]);
             }
         }
 
         $user_fields = [
-            "username" => _("Project Manager"),
-            "checkedoutby" => _("PPer/PPVer"),
-            "image_preparer" => _("Image Preparer"),
-            "text_preparer" => _("Text Preparer"),
-            "postproofer" => _("Post Processor"),
-            "ppverifier" => _("Post Processor Verifier"),
+            "username",
+            "checkedoutby",
+            "image_preparer",
+            "text_preparer",
+            "postproofer",
+            "ppverifier",
         ];
 
-        foreach ($user_fields as $field => $label) {
+        foreach ($user_fields as $field) {
             // only check non-empty fields
             if (!preg_match('/^\s*$/', $this->$field) && !User::is_valid_user($this->$field)) {
                 $errors[] = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
-                    $label);
+                    $labels[$field]);
             }
         }
 
@@ -340,6 +342,42 @@ class Project
             $credits_line = "$credits_line ({$this->image_source_credit})";
         }
         return $credits_line;
+    }
+
+    // -------------------------------------------------------------------------
+
+    // Return an associative array of project fields with localized labels
+    // for use in the UI.
+    public static function get_field_labels()
+    {
+        return [
+            "projectid" => _("Project ID"),
+            "nameofwork" => _("Title"),
+            "authorsname" => _("Author"),
+            "username" => _("Project Manager"),
+            "comments" => _("Project Comments"),
+            "comment_format" => _("Project Comments Format"),
+            "special_code" => _("Special Day"),
+            "checkedoutby" => _("PPer/PPVer"),
+            "scannercredit" => _("Scanner Credit"),
+            "postednum" => _("PG etext number"),
+            "clearance" => _("Clearance Line"),
+            "language" => _("Language"),
+            "genre" => _("Genre"),
+            "difficulty" => _("Difficulty"),
+            "postproofer" => _("Post Processor"),
+            "ppverifier" => _("Post Processor Verifier"),
+            "image_source" => _("Image Source"),
+            "image_preparer" => _("Image Preparer"),
+            "text_preparer" => _("Text Preparer"),
+            "extra_credits" => _("Extra Credits"),
+            "deletion_reason" => _("Reason for Deletion"),
+            "custom_chars" => _("Custom Characters"),
+            // these keys are stored in project_events details1 fields
+            // and map to fields with different names
+            "difficulty_level" => _("Difficulty"),
+            "projectmanager" => _("Project Manager"),
+        ];
     }
 
     // -------------------------------------------------------------------------
