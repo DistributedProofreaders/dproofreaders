@@ -27,14 +27,16 @@ $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
 $js_data = "";
 if (isset($start) && isset($end)) {
     $SECONDS_IN_DAY = 86400; // 60 * 60 * 24
+    $start_timestamp = mktime(0, 0, 0, explode("-", $start)[1], 1, explode("-", $start)[0]);
+    $end_date = new DateTime("$end-01");
+    $end_timestamp = mktime(0, 0, 0, explode("-", $end)[1], $end_date->format('t'), explode("-", $end)[0]) + $SECONDS_IN_DAY;
     $sql = select_from_site_past_tallies_and_goals(
         $tally_name,
         "SELECT 
         {year_month} as 'month',
-        CAST(SUM(tally_delta) AS SIGNED),
-        past_tallies.timestamp - $SECONDS_TO_YESTERDAY as 'timestamp'",
-        "AND timestamp >= UNIX_TIMESTAMP(STR_TO_DATE('" . DPDatabase::escape($start) . "-01', '%Y-%m-%d'))
-         AND timestamp < (UNIX_TIMESTAMP(LAST_DAY(STR_TO_DATE('" . DPDatabase::escape($end) . "-01', '%Y-%m-%d'))) + $SECONDS_IN_DAY)",
+        CAST(SUM(tally_delta) AS SIGNED)",
+        "AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY >= $start_timestamp
+         AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY < $end_timestamp",
         "GROUP BY 1",
         "ORDER BY 1",
         "");
