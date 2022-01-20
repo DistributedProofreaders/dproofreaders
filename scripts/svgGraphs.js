@@ -257,7 +257,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 if (seriesToRender === "line" && seriesData.type === "line") {
                     const line = d3.line()
                         .x((d, i) => x(i))
-                        .y(({value}) => value < 0 ? y(0) : y(value));
+                        .y(({value}) => y(value));
 
                     svg.append("path")
                         .datum(data)

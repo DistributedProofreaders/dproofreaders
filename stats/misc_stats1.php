@@ -5,11 +5,14 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'graph_data.inc');
 
 require_login();
 
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
+$start = get_param_matching_regex($_GET, 'start', null, '/^\d{4}-\d{1,2}$/', true);
+$end = get_param_matching_regex($_GET, 'end', null, '/^\d{4}-\d{1,2}$/', true);
 
 // -----------------------------------
 
@@ -20,9 +23,55 @@ $curr_year = strftime('%Y', $now_timestamp);
 // -----------------------------------
 
 $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
-output_header($title);
+
+$js_data = "";
+if (isset($start) && isset($end)) {
+    $SECONDS_IN_DAY = 86400; // 60 * 60 * 24
+    $start_timestamp = mktime(0, 0, 0, explode("-", $start)[1], 1, explode("-", $start)[0]);
+    $end_date = new DateTime("$end-01");
+    $end_timestamp = mktime(0, 0, 0, explode("-", $end)[1], $end_date->format('t'), explode("-", $end)[0]) + $SECONDS_IN_DAY;
+    $sql = select_from_site_past_tallies_and_goals(
+        $tally_name,
+        "SELECT 
+        {year_month} as 'month',
+        CAST(SUM(tally_delta) AS SIGNED)",
+        "AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY >= $start_timestamp
+         AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY < $end_timestamp",
+        "GROUP BY 1",
+        "ORDER BY 1",
+        "");
+    $result = DPDatabase::query($sql);
+    [$datax, $datay] = dpsql_fetch_columns($result);
+    $graph_config = [
+        // %s is a tally name
+        "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
+        "yAxisLabel" => _("Pages"),
+        "data" => [
+            "" => [
+                "x" => $datax,
+                "y" => $datay,
+                "type" => "line",
+            ],
+        ],
+    ];
+    $js_data .= build_svg_graph_inits([["barLineGraph", "graph", $graph_config]]);
+}
+output_header($title, SHOW_STATSBAR, [
+    "js_files" => get_graph_js_files(),
+    "js_data" => $js_data,
+]);
 
 echo "<h1>$title</h1>\n";
+
+echo "<form action='$code_url/stats/misc_stats1.php'>
+<label>" . _("Start") . " <input pattern='\d{4}-\d{1,2}' required value='" . attr_safe($start) . "' placeholder='YYYY-MM' name='start'></label>
+<label>" . _("End") . " <input pattern='\d{4}-\d{1,2}' required value='" . attr_safe($end) . "' placeholder='YYYY-MM' name='end'></label>
+<input type='hidden' name='tally_name' value='$tally_name'>
+<input type='submit' value='" . _("Graph") . "'>
+</form>
+<br>
+<div id='graph' style='max-width: 640px;max-height: 400px'></div>
+";
 
 show_all_time_total();
 
