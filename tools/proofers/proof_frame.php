@@ -30,11 +30,10 @@ if (isset($_GET['page_state'])) {
 
     try {
         $ppage = get_requested_PPage($_GET);
+        $ppage->lpage->resume_saved_page($pguser);
     } catch (Exception $exception) {
         abort($exception->getMessage());
     }
-
-    $ppage->lpage->resume_saved_page($pguser);
 } else {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
