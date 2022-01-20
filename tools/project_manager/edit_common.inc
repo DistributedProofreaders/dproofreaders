@@ -1,7 +1,6 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc'); // load_genre_translation_array
-include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
@@ -46,13 +45,9 @@ function DP_user_field($field_value, $field_name, $args = [])
 
 function language_list($language)
 {
-    if (strpos($language, "with") > 0) {
-        $pri_language = trim(substr($language, 0, strpos($language, "with")));
-        $sec_language = trim(substr($language, (strpos($language, "with") + 5)));
-    } else {
-        $pri_language = $language;
-        $sec_language = '';
-    }
+    $languages = Project::decode_language($language);
+    $pri_language = $languages[0];
+    $sec_language = $languages[1] ?? '';
 
     echo html_safe(_("Primary")), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
