@@ -44,7 +44,55 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     }
 
     //------------------------------------------------------------------------
+    // Language handling functions
+
+    public function test_encode_languages_single()
+    {
+        $language = Project::encode_languages(["First"]);
+        $this->assertEquals("First", $language);
+    }
+
+    public function test_encode_languages_single_with_blank()
+    {
+        $language = Project::encode_languages(["First", ""]);
+        $this->assertEquals("First", $language);
+    }
+
+    public function test_encode_languages_double()
+    {
+        $language = Project::encode_languages(["First", "Second"]);
+        $this->assertEquals("First with Second", $language);
+    }
+
+    public function test_decode_languages_single()
+    {
+        $languages = Project::decode_language("First");
+        $this->assertEquals(["First"], $languages);
+    }
+
+    public function test_decode_languages_double()
+    {
+        $languages = Project::decode_language("First with Second");
+        $this->assertEquals(["First", "Second"], $languages);
+    }
+
+    public function test_project_languages_setter_single()
+    {
+        $project = new Project($this->valid_project_data);
+        $project->languages = ["First"];
+        $this->assertEquals("First", $project->language);
+    }
+
+    public function test_project_languages_setter_double()
+    {
+        $project = new Project($this->valid_project_data);
+        $project->languages = ["First", "Second"];
+        $this->assertEquals("First with Second", $project->language);
+    }
+
+    //------------------------------------------------------------------------
     // Project object validation
+
     public function test_validate_required_fields_positive_path()
     {
         $project = new Project($this->valid_project_data);

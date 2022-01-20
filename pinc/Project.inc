@@ -312,6 +312,18 @@ class Project
         return null;
     }
 
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case "languages":
+                $this->language = self::encode_languages($value);
+                break;
+            default:
+                $this->$name = $value;
+                break;
+        }
+    }
+
     private function _load_image_source()
     {
         $this->image_source_name = '';
@@ -391,6 +403,11 @@ class Project
 
     public static function encode_languages($languages)
     {
+        // handle the case where the second language is empty
+        if (count($languages) == 2 && $languages[1] == '') {
+            return $languages[0];
+        }
+
         return join(" with ", $languages);
     }
 

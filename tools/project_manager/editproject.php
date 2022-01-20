@@ -335,12 +335,11 @@ class ProjectInfoHolder
             $errors .= _("Primary Language is required.")."<br>";
         }
 
-        $sec_language = @$_POST['sec_language'];
-
-        $this->language = (
-            $sec_language != ''
-            ? Project::encode_languages([$pri_language, $sec_language])
-            : $pri_language);
+        $this->language = Project::encode_languages(
+            [
+                @$_POST['pri_language'], @$_POST['sec_language'],
+            ]
+        );
 
         $this->charsuites = [];
         foreach ($_POST['charsuites'] ?? [] as $charsuite) {
