@@ -5,6 +5,7 @@ include_once($relPath.'RoundDescriptor.inc'); // $PAGE_STATES_IN_ORDER
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
+include_once($relPath.'abort.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
@@ -61,9 +62,11 @@ function get_requested_PPage($request_params)
     $page_state = get_enumerated_param($request_params, 'page_state', null, $PAGE_STATES_IN_ORDER);
     $reverting = get_integer_param($request_params, 'reverting', 0, 0, 1);
 
-    $lpage = get_indicated_LPage(
-        $projectid, $proj_state, $imagefile, $page_state, $reverting
-    );
+    try {
+        $lpage = get_indicated_LPage($projectid, $proj_state, $imagefile, $page_state, $reverting);
+    } catch (ProjectPageException | ProjectException $exception) {
+        abort($exception->getMessage());
+    }
 
     return new PPage($lpage, $proj_state);
 }
@@ -352,22 +355,38 @@ class PPage
 
     public function returnToRound($user)
     {
-        $this->lpage->returnToRound($user);
+        try {
+            $this->lpage->returnToRound($user);
+        } catch (ProjectPageException $exception) {
+            abort($exception->getMessage());
+        }
     }
 
     public function markAsBad($user, $reason)
     {
-        return $this->lpage->markAsBad($user, $reason);
+        try {
+            return $this->lpage->markAsBad($user, $reason);
+        } catch (ProjectPageException $exception) {
+            abort($exception->getMessage());
+        }
     }
 
     public function saveAsInProgress($page_text, $user)
     {
-        $this->lpage->saveAsInProgress($page_text, $user);
+        try {
+            $this->lpage->saveAsInProgress($page_text, $user);
+        } catch (ProjectPageException $exception) {
+            abort($exception->getMessage());
+        }
     }
 
     public function attemptSaveAsDone($page_text, $user)
     {
-        return $this->lpage->attemptSaveAsDone($page_text, $user);
+        try {
+            return $this->lpage->attemptSaveAsDone($page_text, $user);
+        } catch (ProjectPageException $exception) {
+            abort($exception->getMessage());
+        }
     }
 
     public function can_be_reverted_to_last_save()

@@ -2,6 +2,7 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
+include_once($relPath.'abort.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'unicode.inc');
@@ -377,10 +378,14 @@ function Page_returnToRound($projectid, $image, $round, $user)
 
 function Page_reclaim($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
-        [$round->page_out_state, $round->page_temp_state],
-        null, null,
-        'reclaim');
+    try {
+        _Page_require($projectid, $image,
+            [$round->page_out_state, $round->page_temp_state],
+            null, null,
+            'reclaim');
+    } catch (ProjectPageException $exception) {
+        abort($exception->getMessage());
+    }
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
@@ -397,10 +402,14 @@ function Page_reclaim($projectid, $image, $round, $user)
 
 function Page_clearRound($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
-        [$round->page_save_state],
-        null, null,
-        'clearRound');
+    try {
+        _Page_require($projectid, $image,
+            [$round->page_save_state],
+            null, null,
+            'clearRound');
+    } catch (ProjectPageException $exception) {
+        abort($exception->getMessage());
+    }
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
@@ -449,10 +458,14 @@ function Page_markAsBad($projectid, $image, $round, $user, $reason)
 
 function Page_eraseBadMark($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
-        [$round->page_bad_state],
-        null, null,
-        'eraseBadMark');
+    try {
+        _Page_require($projectid, $image,
+            [$round->page_bad_state],
+            null, null,
+            'eraseBadMark');
+    } catch (ProjectPageException $exception) {
+        abort($exception->getMessage());
+    }
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
