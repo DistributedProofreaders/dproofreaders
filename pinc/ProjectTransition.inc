@@ -2,7 +2,7 @@
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
+include_once($relPath.'DPage.inc'); // Pages_prepForRound
 include_once($relPath.'forum_interface.inc'); // topic_change_forum
 include_once($relPath.'maybe_mail.inc'); // maybe_mail_project_manager
 include_once($relPath.'../tools/project_manager/post_files.inc');
@@ -200,18 +200,7 @@ class ProjectTransition
         }
 
         if ($this->to_state == PROJ_DELETE) {
-            exec("rm -rf $project->dir");
-
-            project_drop_pages($projectid);
-
-            delete_project_wordcheck_events($projectid);
-
-            // Formerly, if the project was in the 'New' state, we would here
-            // delete it from the projects table and log a 'deletion' event.
-            // However, it's somewhat problematic to delete the entry from the
-            // 'projects' table. Instead, we now treat such cases like all
-            // other project deletions: we keep the entry in the projects table,
-            // and have the code below change its state to 'deleted'."
+            $project->delete();
         }
 
         // ----------------------------------------------------------------------
