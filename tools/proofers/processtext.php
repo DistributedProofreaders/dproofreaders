@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // array_get()
+include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
@@ -124,8 +125,11 @@ if ($tbutton == B_QUIT) {
     exit;
 }
 
-
-$ppage = get_requested_PPage($_POST);
+try {
+    $ppage = get_requested_PPage($_POST);
+} catch (ProjectException | ProjectPageException $exception) {
+    abort($exception->getMessage());
+}
 
 // $_SESSION key name for storing WordCheck corrections
 $page = $ppage->lpage->imagefile;
@@ -133,179 +137,183 @@ $wcTempCorrections = "WC_temp_corrections-$projectid-$page";
 
 // BUTTON CODE
 
-switch ($tbutton) {
-    case B_TEMPSAVE:
-        $ppage->saveAsInProgress($text_data, $pguser);
-        echo_proof_frame($ppage);
-        break;
+try {
+    switch ($tbutton) {
+        case B_TEMPSAVE:
+            $ppage->saveAsInProgress($text_data, $pguser);
+            echo_proof_frame($ppage);
+            break;
 
-    case B_SWITCH_LAYOUT:
-        $ppage->saveAsInProgress($text_data, $pguser);
-        switch_layout();
-        echo_proof_frame($ppage);
-        break;
+        case B_SWITCH_LAYOUT:
+            $ppage->saveAsInProgress($text_data, $pguser);
+            switch_layout();
+            echo_proof_frame($ppage);
+            break;
 
-    case B_REVERT_TO_ORIGINAL:
-        $ppage->saveAsInProgress($text_data, $pguser);
-        $ppage->revertToOriginal();
-        echo_proof_frame($ppage);
-        break;
+        case B_REVERT_TO_ORIGINAL:
+            $ppage->saveAsInProgress($text_data, $pguser);
+            $ppage->revertToOriginal();
+            echo_proof_frame($ppage);
+            break;
 
-    case B_REVERT_TO_LAST_TEMPSAVE:
-        $ppage->revertToSaved();
-        echo_proof_frame($ppage);
-        break;
+        case B_REVERT_TO_LAST_TEMPSAVE:
+            $ppage->revertToSaved();
+            echo_proof_frame($ppage);
+            break;
 
-    case B_SAVE_AND_DO_ANOTHER:
-        $ppage->attempt_to_save_as_done($text_data);
-        $url = $ppage->url_for_do_another_page();
-        metarefresh(1, $url, _("Save as 'Done' & Proofread Next Page"), _("Page Saved."));
-        break;
+        case B_SAVE_AND_DO_ANOTHER:
+            $ppage->attempt_to_save_as_done($text_data);
+            $url = $ppage->url_for_do_another_page();
+            metarefresh(1, $url, _("Save as 'Done' & Proofread Next Page"), _("Page Saved."));
+            break;
 
-    case B_SAVE_AND_QUIT:
-        $ppage->attempt_to_save_as_done($text_data);
-        leave_proofing_interface(_("Save as 'Done'"));
-        break;
+        case B_SAVE_AND_QUIT:
+            $ppage->attempt_to_save_as_done($text_data);
+            leave_proofing_interface(_("Save as 'Done'"));
+            break;
 
-    case B_RETURN_PAGE_TO_ROUND:
-        $ppage->returnToRound($pguser);
-        leave_proofing_interface(
-            _("Return to Round"));
-        break;
+        case B_RETURN_PAGE_TO_ROUND:
+            $ppage->returnToRound($pguser);
+            leave_proofing_interface(
+                _("Return to Round"));
+            break;
 
-    case B_REPORT_BAD_PAGE:
-        include('report_bad_page.php');
-        break;
+        case B_REPORT_BAD_PAGE:
+            include('report_bad_page.php');
+            break;
 
-    case B_RUN_SPELL_CHECK:
-        if (! is_dir($aspell_temp_dir)) {
-            mkdir($aspell_temp_dir);
-        }
-        // save what we have so far, just in case the spellchecker barfs
-        $ppage->saveAsInProgress($text_data, $pguser);
-        $aux_language = '';
-        $accepted_words = [];
-        $text_data = $_POST["text_data"];
+        case B_RUN_SPELL_CHECK:
+            if (! is_dir($aspell_temp_dir)) {
+                mkdir($aspell_temp_dir);
+            }
+            // save what we have so far, just in case the spellchecker barfs
+            $ppage->saveAsInProgress($text_data, $pguser);
+            $aux_language = '';
+            $accepted_words = [];
+            $text_data = $_POST["text_data"];
 
-        // to retain corrections across multiple language checks, we save the
-        // corrections in a page-specific session variable
-        // here we unset it before beginning, just in case
-        unset($_SESSION[$wcTempCorrections]);
+            // to retain corrections across multiple language checks, we save the
+            // corrections in a page-specific session variable
+            // here we unset it before beginning, just in case
+            unset($_SESSION[$wcTempCorrections]);
 
-        $is_changed = 0;
-        include('spellcheck.inc');
-        break;
+            $is_changed = 0;
+            include('spellcheck.inc');
+            break;
 
-    case 101:
-        // Return from spellchecker via "Submit Corrections" button.
-        include_once('spellcheck_text.inc');
-        [$correct_text, $corrections] = spellcheck_apply_corrections();
-        $accepted_words = explode(' ', $_POST["accepted_words"]);
-        $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+        case 101:
+            // Return from spellchecker via "Submit Corrections" button.
+            include_once('spellcheck_text.inc');
+            [$correct_text, $corrections] = spellcheck_apply_corrections();
+            $accepted_words = explode(' ', $_POST["accepted_words"]);
+            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
-        // the user is submitting corrections, so pull any temporary corrections
-        // they made long the way for saving in WordCheck (they've already been
-        // applied to the text itself)
-        if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
-            $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
-        }
-        unset($_SESSION[$wcTempCorrections]);
+            // the user is submitting corrections, so pull any temporary corrections
+            // they made long the way for saving in WordCheck (they've already been
+            // applied to the text itself)
+            if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
+                $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
+            }
+            unset($_SESSION[$wcTempCorrections]);
 
-        // for the record, PPage (or at least LPage) should provide
-        // functions for returning the round ID and the page number
-        // without the mess below
-        save_wordcheck_event(
-            $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
+            // for the record, PPage (or at least LPage) should provide
+            // functions for returning the round ID and the page number
+            // without the mess below
+            save_wordcheck_event(
+                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
 
-        $ppage->saveAsInProgress($correct_text, $pguser);
-        leave_spellcheck_mode($ppage);
-        break;
+            $ppage->saveAsInProgress($correct_text, $pguser);
+            leave_spellcheck_mode($ppage);
+            break;
 
-    case 102:
-        // Return from spellchecker via "Quit Spell Check" button.
-        include_once('spellcheck_text.inc');
-        $correct_text = spellcheck_quit();
-        $accepted_words = explode(' ', $_POST["accepted_words"]);
-        $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+        case 102:
+            // Return from spellchecker via "Quit Spell Check" button.
+            include_once('spellcheck_text.inc');
+            $correct_text = spellcheck_quit();
+            $accepted_words = explode(' ', $_POST["accepted_words"]);
+            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
-        // the user wants to quit, so clear out the temporary variable
-        // storing the corrections
-        unset($_SESSION[$wcTempCorrections]);
+            // the user wants to quit, so clear out the temporary variable
+            // storing the corrections
+            unset($_SESSION[$wcTempCorrections]);
 
-        save_wordcheck_event(
-            $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+            save_wordcheck_event(
+                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
 
-        $ppage->saveAsInProgress($correct_text, $pguser);
-        leave_spellcheck_mode($ppage);
-        break;
+            $ppage->saveAsInProgress($correct_text, $pguser);
+            leave_spellcheck_mode($ppage);
+            break;
 
-    case 103:
-        // Do Save as 'Done' & Proofread Next from the spellchecker interface.
-        // This works by
-        // 1. Quitting the current wordcheck
-        // 2. Saving the current page as done
-        // 3. Redirecting to the next available page
-        include_once('spellcheck_text.inc');
-        $correct_text = spellcheck_quit();
-        $accepted_words = explode(' ', $_POST["accepted_words"]);
-        $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+        case 103:
+            // Do Save as 'Done' & Proofread Next from the spellchecker interface.
+            // This works by
+            // 1. Quitting the current wordcheck
+            // 2. Saving the current page as done
+            // 3. Redirecting to the next available page
+            include_once('spellcheck_text.inc');
+            $correct_text = spellcheck_quit();
+            $accepted_words = explode(' ', $_POST["accepted_words"]);
+            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
-        // 1. Quit the wordcheck interface:
-        // Discard the session state holding current wordcheck corrections
-        // since we don't want to submit them and subsequent page loads will
-        // not need the state.
-        //
-        // NB: Within wordcheck, the markPageChanged() javascript function
-        // disables the Save as 'Done' & Proofread Next button if the user makes
-        // any corrections, so we should only get here if the user has no
-        // corrections to submit, so all we're discarding is wordcheck's
-        // unmodified input fields.
-        unset($_SESSION[$wcTempCorrections]);
+            // 1. Quit the wordcheck interface:
+            // Discard the session state holding current wordcheck corrections
+            // since we don't want to submit them and subsequent page loads will
+            // not need the state.
+            //
+            // NB: Within wordcheck, the markPageChanged() javascript function
+            // disables the Save as 'Done' & Proofread Next button if the user makes
+            // any corrections, so we should only get here if the user has no
+            // corrections to submit, so all we're discarding is wordcheck's
+            // unmodified input fields.
+            unset($_SESSION[$wcTempCorrections]);
 
-        save_wordcheck_event(
-            $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+            save_wordcheck_event(
+                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
 
-        // 2. Save the current page as done
-        $ppage->attempt_to_save_as_done($correct_text);
+            // 2. Save the current page as done
+            $ppage->attempt_to_save_as_done($correct_text);
 
-        // Redirect to the next available page
-        $url = $ppage->url_for_do_another_page();
-        // Note: Using Wordcheck in the standard interface changes the default
-        // target for links from 'proofframe' to 'textframe' which is why we
-        // have to do these gymnastics instead of using metarefresh().
-        $title = _("Save as 'Done' & Proofread Next Page");
-        $body = _("Page Saved.");
-        slim_header($title);
-        echo "<script><!--\n";
-        echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
-        echo "// --></script>\n";
-        echo $body;
-        break;
+            // Redirect to the next available page
+            $url = $ppage->url_for_do_another_page();
+            // Note: Using Wordcheck in the standard interface changes the default
+            // target for links from 'proofframe' to 'textframe' which is why we
+            // have to do these gymnastics instead of using metarefresh().
+            $title = _("Save as 'Done' & Proofread Next Page");
+            $body = _("Page Saved.");
+            slim_header($title);
+            echo "<script><!--\n";
+            echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
+            echo "// --></script>\n";
+            echo $body;
+            break;
 
-    case 104:
-        // User wants to run the page through spellcheck for an another language
-        // Apply current corrections to text (but don't save the progress)
-        // and rerun through the spellcheck
-        include_once('spellcheck_text.inc');
-        $aux_language = $_POST["aux_language"];
-        $accepted_words = explode(' ', $_POST["accepted_words"]);
-        $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
-        [$text_data, $corrections] = spellcheck_apply_corrections();
+        case 104:
+            // User wants to run the page through spellcheck for an another language
+            // Apply current corrections to text (but don't save the progress)
+            // and rerun through the spellcheck
+            include_once('spellcheck_text.inc');
+            $aux_language = $_POST["aux_language"];
+            $accepted_words = explode(' ', $_POST["accepted_words"]);
+            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+            [$text_data, $corrections] = spellcheck_apply_corrections();
 
-        // save the already-made corrections in a temporary session variable
-        // so we can later save or trash them based on their final decision
-        if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
-            $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
-        }
-        $_SESSION[$wcTempCorrections] = $corrections;
+            // save the already-made corrections in a temporary session variable
+            // so we can later save or trash them based on their final decision
+            if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
+                $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
+            }
+            $_SESSION[$wcTempCorrections] = $corrections;
 
-        $is_changed = $_POST['is_changed'];
-        include('spellcheck.inc');
-        break;
+            $is_changed = $_POST['is_changed'];
+            include('spellcheck.inc');
+            break;
 
 
-    default:
-        die("unexpected tbutton value: '$tbutton'");
+        default:
+            die("unexpected tbutton value: '$tbutton'");
+    }
+} catch (ProjectPageException $exception) {
+    abort($exception->getMessage());
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

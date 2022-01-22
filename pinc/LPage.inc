@@ -9,7 +9,6 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
-include_once($relPath.'abort.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
@@ -117,7 +116,7 @@ function get_available_page_array(
         }
     } else {
         // The empty/null (i.e., no restriction) case has already been dealt with.
-        die("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
+        throw new ValueError("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
 
     // Find page to be proofread.
@@ -187,26 +186,27 @@ function get_indicated_LPage(
     $page_state,
     $reverting_to_orig)
 // Returns an LPage, unless the parameters do not correctly identify a page,
-// in which case it aborts.
+// in which case it throws an exception.
 {
     // Make sure project is still in same state.
     $err = project_continuity_test($projectid, $proj_state, false);
     if ($err) {
-        abort($err);
+        throw new ProjectException($err);
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $sql = "
         SELECT state
         FROM $projectid
         WHERE image='$imagefile'
-    ") or die(DPDatabase::log_error());
+    ";
+    $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_row($res);
     if (!$row) {
         // This should only happen if they've been tweaking URLs.
         // Or if the page has actually been deleted.
         $err = _('No such page.');
-        abort($err);
+        throw new ProjectPageException($err);
     }
 
     [$current_page_state] = $row;
@@ -215,7 +215,7 @@ function get_indicated_LPage(
         $err = sprintf(
             _('Page %1$s has changed state from %2$s to %3$s, so your request is invalid.'),
             $imagefile, $page_state, $current_page_state);
-        abort($err);
+        throw new ProjectPageException($err);
     }
 
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
@@ -264,12 +264,12 @@ class LPage
             $desired_column_name = $this->round->text_column_name;
         }
 
-        $q = "
+        $sql = "
             SELECT $desired_column_name
             FROM {$this->projectid}
             WHERE image='{$this->imagefile}'
         ";
-        $res = mysqli_query(DPDatabase::get_connection(), $q);
+        $res = DPDatabase::query($sql);
         [$page_text] = mysqli_fetch_row($res);
 
         return $page_text;
@@ -424,7 +424,7 @@ class LPage
                 $err = sprintf(
                     _('You (%1$s) do not have the necessary access to page %2$s'),
                     $pguser, $this->imagefile);
-                abort($err);
+                throw new ProjectPageException($err);
             }
         }
     }
