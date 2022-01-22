@@ -28,11 +28,10 @@ if (isset($_GET['page_state'])) {
     // get_requested_PPage() expects a 'reverting' parameter.
     $_GET['reverting'] = '0';
 
-    $ppage = get_requested_PPage($_GET);
-
     try {
+        $ppage = get_requested_PPage($_GET);
         $ppage->lpage->resume_saved_page($pguser);
-    } catch (ProjectPageException $exception) {
+    } catch (Exception $exception) {
         abort($exception->getMessage());
     }
 } else {
@@ -85,12 +84,7 @@ if (isset($_GET['page_state'])) {
     }
 
     // give them a new page
-    try {
-        $lpage = get_available_page($projectid, $proj_state, $pguser, $err);
-    } catch (ProjectPageException $exception) {
-        abort($exception->getMessage());
-    }
-
+    $lpage = get_available_page($projectid, $proj_state, $pguser, $err);
     if (is_null($lpage)) {
         $round = get_Round_for_project_state($proj_state);
 
