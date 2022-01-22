@@ -8,6 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 
 require_login();
@@ -17,7 +18,11 @@ if (isset($ppage)) {
     // and $ppage was set before the include().
 } else {
     // This file was invoked as a top-level script.
-    $ppage = get_requested_PPage($_POST);
+    try {
+        $ppage = get_requested_PPage($_POST);
+    } catch (ProjectException | ProjectPageException $exception) {
+        abort($exception->getMessage());
+    }
 }
 
 $projectid = $ppage->projectid();
@@ -83,7 +88,11 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
 
     //Update the page the user was working on to reflect a bad page.
     //This may cause the whole project to be marked bad.
-    $project_is_bad = $ppage->markAsBad($pguser, $reason);
+    try {
+        $project_is_bad = $ppage->markAsBad($pguser, $reason);
+    } catch (ProjectPageException $exception) {
+        abort($exception->getMessage());
+    }
 
     // Redirect the user to either continue proofreading if project is still open
     // or present a link back to the activity hub
