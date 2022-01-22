@@ -121,11 +121,6 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     $pih->show_form();
 }
 
-function get_default_character_suites()
-{
-    global $default_project_char_suites;
-    return $default_project_char_suites;
-}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -133,7 +128,7 @@ class ProjectInfoHolder
 {
     public function set_from_nothing()
     {
-        global $pguser;
+        global $pguser, $default_project_char_suites;
 
         $this->nameofwork = '';
         $this->authorsname = '';
@@ -145,7 +140,7 @@ class ProjectInfoHolder
         $this->comment_format = 'markdown';
         $this->clearance = '';
         $this->postednum = '';
-        $this->charsuites = get_default_character_suites();
+        $this->charsuites = $default_project_char_suites;
         $this->genre = '';
         $this->difficulty_level = ($pguser == "BEGIN" ? "beginner" : "average");
         $this->special_code = '';
@@ -163,7 +158,7 @@ class ProjectInfoHolder
 
     public function set_from_marc_record()
     {
-        global $pguser;
+        global $pguser, $default_project_char_suites;
 
         $encoded_marc_array = array_get($_POST, "rec", "");
         if (!$encoded_marc_array) {
@@ -182,7 +177,7 @@ class ProjectInfoHolder
         $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
         $this->language = $marc_record->language;
-        $this->charsuites = get_default_character_suites();
+        $this->charsuites = $default_project_char_suites;
         $this->genre = $marc_record->literary_form;
 
         $this->checkedoutby = '';
