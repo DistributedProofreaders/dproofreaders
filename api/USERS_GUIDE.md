@@ -106,16 +106,16 @@ available endpoints and their parameters and return values.
 Search for all projects with genre `Other`:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects?genre=Other" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects?genre=Other" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
 
 Search for all projects with the word `Monster` in their title:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects?title=Monster" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects?title=Monster" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
 
@@ -124,31 +124,31 @@ curl -i -g -X GET "https://www.pgdp.org/api/v1/projects?title=Monster" \
 Load details about a specific project:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
 
 See all pages in a project:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
 
 Get the P1 text for a project page:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/001.png/pagerounds/P1" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/001.png/pagerounds/P1" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
 
 Get the good wordlist for a project:
 
 ```bash
-curl -i -g -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/wordlists/good" \
-    -H "accept: application/json" \
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/wordlists/good" \
+    -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
