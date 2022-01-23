@@ -7,6 +7,10 @@ include_once('ApiRouter.inc');
 include_once('exceptions.inc');
 include_once('v1.inc');
 
+// capture all output to ensure that any errors that are surfaced
+// don't interfere with our HTTP return code
+ob_start();
+
 // everything is a JSON response
 header("Content-Type: application/json");
 
@@ -133,6 +137,11 @@ function api_output_response($data, $response_code = 200)
     http_response_code($response_code);
     echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
         JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+
+    // output the output buffer we've been storing to ensure we could
+    // send the right HTTP response code
+    echo ob_get_clean();
+
     exit();
 }
 
