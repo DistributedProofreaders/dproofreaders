@@ -804,7 +804,7 @@ CREATE TABLE `users` (
   `u_profile` int(10) unsigned NOT NULL default '0',
   `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
-  `api_key` varchar(32) DEFAULT NULL,
+  `api_key` varchar(38) DEFAULT NULL,
   PRIMARY KEY  (`username`),
   UNIQUE KEY `api_key` (`api_key`),
   KEY `u_id` (`u_id`),
