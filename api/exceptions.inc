@@ -50,6 +50,19 @@ class RateLimitExceeded extends ApiException
     }
 }
 
+class InvalidValue extends ApiException
+{
+    public function __construct($message = "Request contained an invalid value for a parameter")
+    {
+        parent::__construct($message);
+    }
+
+    public function getStatusCode()
+    {
+        return 400;
+    }
+}
+
 //---------------------------------------------------------------------------
 // Exceptions that shouldn't happen unless someone is futzing with something
 // they shouldn't be, or there's an unexpected problem.
