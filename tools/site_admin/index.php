@@ -29,17 +29,19 @@ $sections = [
         "delete_pages.php" => _("Delete Pages"),
         "rename_pages.php" => _("Rename Pages"),
         "project_jump.php" => _("Jump Project to State"),
-        "../project_manager/clearance_check.php?username=" => _("Questionable Clearances"),
         "convert_project_table_utf8.php" => _("Convert Project Table to UTF-8"),
+        _("Data review") => [
+            "../project_manager/clearance_check.php?username=" => _("Questionable Clearances"),
+            "shared_postednums.php" => _("Detect duplicate postednum"),
+            "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
+        ],
     ],
     _("Site") => [
         "sitenews.php" => _("Manage Site News"),
         "manage_random_rules.php" => _("Manage Random Rules"),
         "manage_special_days.php" => _("Manage Special Days"),
-        "shared_postednums.php" => _("Detect duplicate postednum"),
         "manage_site_charsuites.php" => _("Manage Site Character Suites"),
         "manage_site_word_lists.php" => _("Manage Site Word Lists"),
-        "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
         "../../locale/translators/index.php" => _("Translation Center"),
     ],
 ];
@@ -52,7 +54,17 @@ foreach ($sections as $section => $pages) {
     echo "<h2>$section</h2>";
     echo "<ul>";
     foreach ($pages as $page => $label) {
-        echo "<li><a href='$page'>$label</a></li>";
+        if (is_array($label)) {
+            echo "<li><b>$page</b>";
+            echo "<ul>";
+            foreach ($label as $subpage => $sublabel) {
+                echo "<li><a href='$subpage'>$sublabel</a></li>";
+            }
+            echo "</ul>";
+            echo "</li>";
+        } else {
+            echo "<li><a href='$page'>$label</a></li>";
+        }
     }
     echo "</ul>";
 }
