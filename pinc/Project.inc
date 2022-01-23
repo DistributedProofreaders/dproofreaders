@@ -289,7 +289,7 @@ class Project
 
     public function __get($name)
     {
-        global $pguser, $projects_url, $projects_dir;
+        global $pguser, $projects_url, $projects_dir, $code_url;
 
         static $project_page_table_exists = null;
 
@@ -298,6 +298,8 @@ class Project
                 return "$projects_url/$this->projectid";
             case "dir":
                 return "$projects_dir/$this->projectid";
+            case "page_url":
+                return "$code_url/project.php?id={$this->projectid}";
             case "is_utf8":
                 return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
