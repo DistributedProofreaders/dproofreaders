@@ -175,7 +175,10 @@ function api_v1_project_wordlists($method, $data, $query_params)
         }
         $list_saver = "save_project_{$wordlist_type}_words";
         $list_saver($project->projectid, $words);
-        return [];
+
+        // return updated list
+        $list_loader = "load_project_{$wordlist_type}_words";
+        return $list_loader($project->projectid);
     }
 }
 
