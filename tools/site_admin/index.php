@@ -34,6 +34,7 @@ $sections = [
             "../project_manager/clearance_check.php?username=" => _("Questionable Clearances"),
             "shared_postednums.php" => _("Detect duplicate postednum"),
             "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
+            "projects_with_odd_values.php" => _("Show projects with 'odd' values"),
         ],
     ],
     _("Site") => [
