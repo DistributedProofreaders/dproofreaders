@@ -153,6 +153,23 @@ curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/word
     -H "X-API-KEY: $API_KEY"
 ```
 
+Update the project's good wordlist with an entirely new set:
+
+```bash
+curl -i -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/wordlists/good" \
+    -H "Content-Type: application/json" \
+    -H "X-API-KEY: $API_KEY" \
+    -d @data.json
+```
+
+Where `data.json` contains the new word list:
+```json
+[
+    "word1",
+    "word2"
+]
+```
+
 ### Project updates
 
 Update details about a specific project:
