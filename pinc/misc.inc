@@ -13,9 +13,12 @@ function array_get($arr, $key, $default)
     }
 }
 
-function get_changed_fields_for_objects($new, $old)
+function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
 // Return an array whose values are the names of the properties
 // whose values differ between the two objects $new and $old.
+// If $remove_non_public is true, non-public values are not considered in
+// the comparison and not returned.
+// https://www.php.net/manual/en/language.types.array.php#language.types.array.casting
 {
     $old_as_array = (array)$old;
     $new_as_array = (array)$new;
@@ -26,6 +29,9 @@ function get_changed_fields_for_objects($new, $old)
     $changed_fields = [];
     foreach ($all_keys as $key) {
         if (@$new_as_array[$key] != @$old_as_array[$key]) {
+            if ($remove_non_public && $key[0] == "\0") {
+                continue;
+            }
             $changed_fields[] = $key;
         }
     }
