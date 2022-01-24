@@ -4,8 +4,13 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsql.inc');
+include_once($relPath.'user_is.inc');
 
 require_login();
+
+if (!user_is_a_sitemanager()) {
+    die(_("You are not authorized to invoke this script."));
+}
 
 slim_header("Same postednum");
 
