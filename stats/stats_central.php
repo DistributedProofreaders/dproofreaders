@@ -74,12 +74,12 @@ function count_books_in_state($state, $clauses = "")
 }
 
 $table = new ThemedTable(
-    3,
+    2,
     _('General Site Statistics'),
     ['width' => 'auto']
 );
 
-$table->set_column_alignments('left', 'right', 'left');
+$table->set_column_alignments('left', 'right');
 
    //get total users active in the last 7 days
     $begin_time = time() - 604800; // in seconds
@@ -90,8 +90,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Proofreaders active in the last 7 days:"),
-        $totalusers,
-        ""
+        $totalusers
     );
 
     //get total books posted  in the last 7 days
@@ -99,8 +98,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books posted in the last 7 days:"),
-        $totalbooks,
-        ""
+        $totalbooks
     );
 
 
@@ -111,8 +109,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books waiting to be released for first round:"),
-        $totalfirstwaiting,
-        "&nbsp;<a href ='to_be_released.php?order=default'>$view_books</a>"
+        $totalfirstwaiting
     );
 
     //get total non-English books waiting to be released
@@ -120,8 +117,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Non-English Books waiting to be released for first round:"),
-        $totalnonwaiting,
-        ""
+        $totalnonwaiting
     );
 
     //get total books waiting to be post processed
@@ -129,8 +125,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books waiting for post processing:"),
-        $totalwaitingpost,
-        ""
+        $totalwaitingpost
     );
 
     //get total books being post processed
@@ -138,8 +133,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books being post processed:"),
-        $totalinpost,
-        "&nbsp;<a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."'>$view_books</a>"
+        $totalinpost
     );
 
     //get total books in verify
@@ -147,8 +141,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books waiting to be verified:"),
-        $totalverify,
-        "&nbsp;<a href ='PPV_avail.php'>$view_books</a>"
+        $totalverify
     );
 
     //get total books in verifying
@@ -156,8 +149,7 @@ $table->set_column_alignments('left', 'right', 'left');
 
     $table->row(
         _("Books being verified:"),
-        $totalverifying,
-        "&nbsp;<a href ='checkedout.php?state=".PROJ_POST_SECOND_CHECKED_OUT."'>$view_books</a>"
+        $totalverifying
     );
 
 $table->end();
