@@ -259,7 +259,7 @@ $table->row(
 
 $table->row(
   "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
-  "",
+  "<a href='misc_user_graphs.php'>" . _("User Graphs") . "</a>",
 );
 
 $table->end();
