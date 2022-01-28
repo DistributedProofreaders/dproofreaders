@@ -15,7 +15,7 @@ include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_roun
 
 function get_available_page_array(
     $project,
-    $proj_state,
+    $round,
     $pguser,
     $preceding_proofer_restriction,
     &$err
@@ -24,8 +24,6 @@ function get_available_page_array(
 // project restriction. If successful, it returns [ $imagename, $state ],
 // on failure it returns NULL and sets $err;
 {
-    $round = get_Round_for_project_state($proj_state);
-
     // Normally, pages are served in order of "page number"
     // (i.e., by the 'image' field)
     $order = 'image ASC';
@@ -156,14 +154,14 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
     if ($preceding_proofer_restriction == 'not_immediately_preceding') {
-        $page_array = get_available_page_array($project, $proj_state, $pguser, 'not_previously_proofed', $err);
+        $page_array = get_available_page_array($project, $round, $pguser, 'not_previously_proofed', $err);
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
     if (!$page_array) {
         $err = null;
-        $page_array = get_available_page_array($project, $proj_state, $pguser, $preceding_proofer_restriction, $err);
+        $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction, $err);
     }
     if ($err) {
         return null;
