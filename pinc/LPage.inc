@@ -17,12 +17,11 @@ function get_available_page_array(
     $project,
     $round,
     $pguser,
-    $preceding_proofer_restriction,
-    &$err
+    $preceding_proofer_restriction
 )
 // Returns the best page entry for the user given the specified preceding
 // project restriction. If successful, it returns [ $imagename, $state ],
-// on failure it returns NULL and sets $err;
+// on failure it returns NULL;
 {
     // Normally, pages are served in order of "page number"
     // (i.e., by the 'image' field)
@@ -121,7 +120,6 @@ function get_available_page_array(
     $result = DPDatabase::query($dbQuery);
     $npage = mysqli_fetch_assoc($result);
     if (!$npage) {
-        $err = _("No more files available for proofreading for this round of the project.");
         return null;
     }
 
@@ -149,21 +147,20 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
         return null;
     }
 
-    $page_array = null;
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
     if ($preceding_proofer_restriction == 'not_immediately_preceding') {
-        $page_array = get_available_page_array($project, $round, $pguser, 'not_previously_proofed', $err);
+        $page_array = get_available_page_array($project, $round, $pguser, 'not_previously_proofed');
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
     if (!$page_array) {
-        $err = null;
-        $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction, $err);
+        $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
     }
-    if ($err) {
+    if (!$page_array) {
+        $err = _("No more files available for proofreading for this round of the project.");
         return null;
     }
 
