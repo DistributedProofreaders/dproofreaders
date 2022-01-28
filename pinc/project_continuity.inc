@@ -3,14 +3,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 
-function project_continuity_test($projectid, $orig_state, $no_more_pages)
+function project_continuity_test($project, $orig_state, $no_more_pages)
 {
-    try {
-        $project = new Project($projectid);
-    } catch (NonexistentProjectException $exception) {
-        return $exception->getMessage();
-    }
-
     $curr_state = $project->state;
     if ($curr_state != $orig_state) {
         $orig_state_text = project_states_text($orig_state);

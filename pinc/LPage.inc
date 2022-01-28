@@ -15,7 +15,7 @@ include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_roun
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function get_available_page_array(
-    $projectid,
+    $project,
     $proj_state,
     $pguser,
     $preceding_proofer_restriction,
@@ -31,8 +31,6 @@ function get_available_page_array(
     // (i.e., by the 'image' field)
     $order = 'image ASC';
     // but this can be overridden below.
-
-    $project = new Project($projectid);
 
     $err = can_user_get_pages_in_project($pguser, $project, $round);
     if ($err) {
@@ -61,7 +59,7 @@ function get_available_page_array(
         $order = "
                 (
                     SELECT MIN({$round->mentee_round->time_column_name})
-                    FROM $projectid
+                    FROM $project->projectid
                     WHERE {$round->mentee_round->user_column_name}
                       = p.{$round->mentee_round->user_column_name}
                 ),
@@ -123,7 +121,7 @@ function get_available_page_array(
     // (It appears that a simultaneous query from someone else would return the same page.)
     $dbQuery = "
         SELECT image, state
-        FROM $projectid AS p
+        FROM $project->projectid AS p
         WHERE $restrictions
         ORDER BY $order
         LIMIT 1
@@ -143,8 +141,12 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 // in which case returns NULL and sets $err.
 {
     global $preceding_proofer_restriction;
+
+    // can throw NonexistentProjectException
+    $project = new Project($projectid);
+
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, true);
+    $err = project_continuity_test($project, $proj_state, true);
     if ($err) {
         return null;
     }
@@ -154,14 +156,14 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
     if ($preceding_proofer_restriction == 'not_immediately_preceding') {
-        $page_array = get_available_page_array($projectid, $proj_state, $pguser, 'not_previously_proofed', $err);
+        $page_array = get_available_page_array($project, $proj_state, $pguser, 'not_previously_proofed', $err);
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
     if (!$page_array) {
         $err = null;
-        $page_array = get_available_page_array($projectid, $proj_state, $pguser, $preceding_proofer_restriction, $err);
+        $page_array = get_available_page_array($project, $proj_state, $pguser, $preceding_proofer_restriction, $err);
     }
     if ($err) {
         return null;
@@ -189,7 +191,10 @@ function get_indicated_LPage(
 // in which case it throws an exception.
 {
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, false);
+    // can throw NonexistentProjectException
+    $project = new Project($projectid);
+
+    $err = project_continuity_test($project, $proj_state, false);
     if ($err) {
         throw new ProjectException($err);
     }
