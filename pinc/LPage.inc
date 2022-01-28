@@ -31,11 +31,6 @@ function get_available_page_array(
     $order = 'image ASC';
     // but this can be overridden below.
 
-    $err = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($err) {
-        return null;
-    }
-
     if ($project->difficulty == 'beginner' and $round->is_a_mentor_round()) {
         // For beginner projects in a mentor round,
         // we serve up pages in a different order,
@@ -146,6 +141,12 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 
     // Make sure project is still in same state.
     $err = project_continuity_test($project, $proj_state, true);
+    if ($err) {
+        return null;
+    }
+
+    $round = get_Round_for_project_state($proj_state);
+    $err = can_user_get_pages_in_project($pguser, $project, $round);
     if ($err) {
         return null;
     }
