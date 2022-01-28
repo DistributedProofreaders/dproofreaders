@@ -8,7 +8,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'project_continuity.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
@@ -224,6 +223,25 @@ function get_indicated_LPage(
     }
 
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
+}
+
+function project_continuity_test($project, $orig_state, $no_more_pages)
+{
+    $curr_state = $project->state;
+    if ($curr_state != $orig_state) {
+        $orig_state_text = project_states_text($orig_state);
+        $curr_state_text = project_states_text($curr_state);
+        $err = sprintf(
+            _("This project is no longer '%1\$s', it is now '%2\$s', so your request is no longer valid."),
+            $orig_state_text,
+            $curr_state_text
+        );
+
+        if ($no_more_pages) {
+            $err .= "\n" . _("The project has no more pages available for proofreading in that round.");
+        }
+        return $err;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
