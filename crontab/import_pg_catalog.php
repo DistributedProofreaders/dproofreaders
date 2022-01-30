@@ -122,7 +122,7 @@ foreach (scandir($local_catalog_dir) as $filename) {
     }
 
     if (! preg_match('/^pg(\d+)\.rdf$/', $filename, $matches)) {
-        echo "Skipping unrecognized PG RDF file: $filename\n";
+        echo "Skipping file not matching expected PG RDF format: $filename\n";
         continue;
     }
 
@@ -208,6 +208,11 @@ foreach (scandir($local_catalog_dir) as $filename) {
         }
 
         if ($mime_type == 'application/octet-stream') {
+            // If there is no subtype, continue instead of returning
+            // an empty display format
+            if (empty($sub_type)) {
+                continue;
+            }
             $display_format = $sub_type;
         } else {
             $display_format = @$display_mapping[$mime_type];
@@ -220,8 +225,6 @@ foreach (scandir($local_catalog_dir) as $filename) {
                 $display_format .= " ($sub_type)";
             }
         }
-        // echo "    $format -> $display_format\n";
-
         $display_formats[$display_format] = 1;
     }
 
@@ -234,7 +237,6 @@ foreach (scandir($local_catalog_dir) as $filename) {
     if ($trace && $n_rdf_files_processed % 1000 == 0) {
         echo ".";
     }
-    // if ($n_rdf_files_processed == 2) exit;
 }
 
 if ($trace) {
@@ -257,10 +259,12 @@ ksort($etexts); // sort numerically by $etext_number
 foreach ($etexts as $etext_number => $formats) {
     ksort($formats); // sort alphabetically by format string
     $formats_string = implode('; ', array_keys($formats));
-    // echo $etext_number, ": ", $formats_string, "\n";
-    $formats_string = mysqli_real_escape_string(DPDatabase::get_connection(), $formats_string);
-    mysqli_query(DPDatabase::get_connection(), "REPLACE INTO pg_books SET etext_number='$etext_number', formats='$formats_string'")
-        or die(DPDatabase::log_error());
+
+    $sql = sprintf("
+        REPLACE INTO pg_books
+        SET etext_number = %d, formats='%s'
+    ", $etext_number, DPDatabase::escape($formats_string));
+    DPDatabase::query($sql);
 }
 
 trace("Done");
