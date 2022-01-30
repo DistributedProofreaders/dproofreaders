@@ -13,12 +13,7 @@ include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_roun
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_available_page_array(
-    $project,
-    $round,
-    $pguser,
-    $preceding_proofer_restriction
-)
+function get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction)
 // Returns the best page entry for the user given the specified preceding
 // project restriction. If successful, it returns [ $imagename, $state ],
 // on failure it returns NULL;
