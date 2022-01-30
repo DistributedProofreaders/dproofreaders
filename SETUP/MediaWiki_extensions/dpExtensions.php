@@ -22,7 +22,7 @@ $relPath = '/var/www/htdocs/c/pinc/';
 $wgExtensionCredits['parserhook'][] = [
     'path' => __FILE__,
     'name' => 'DP Extensions',
-    'version' => '1.2',
+    'version' => '1.3',
     'author' => 'Distributed Proofreaders',
     'url' => '',
     'descriptionmsg' => '',
@@ -53,12 +53,12 @@ function getPgFormats($input, $argv)
         return sprintf($err, "invalid etext number");
     }
 
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+    $result = DPDatabase::query(sprintf("
         SELECT formats
         FROM pg_books
-        WHERE etext_number = '%s'
+        WHERE etext_number = '%d'
         LIMIT 1
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $etext)));
+    ", $etext));
 
     $row = mysqli_fetch_assoc($result);
     if (!$row) {
@@ -101,12 +101,12 @@ function showProjectInfo($input, $argv, $parser)
     $err = "<strong style='color: red;'>[Error: showProjectInfo: %s]</strong>";
     $pid = $argv['id'];
 
-    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
+    $result = DPDatabase::query(sprintf("
         SELECT *
         FROM projects
         WHERE projectid = '%s'
         LIMIT 1
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $pid)));
+    ", DPDatabase::escape($pid)));
 
     $project = mysqli_fetch_assoc($result);
     if (!$project) {
@@ -160,8 +160,7 @@ function showProjectInfo($input, $argv, $parser)
 
         $output .= "</table>";
     } else {
-        $intermediate = $parser->parse($input, $parser->mTitle, $parser->mOptions, false, false);
-        $output = $intermediate->getText();
+        $output = $input;
         foreach ($project as $field => $value) {
             $output = str_replace('%'.$field.'%', $value, $output);
         }

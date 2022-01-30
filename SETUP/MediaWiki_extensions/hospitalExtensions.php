@@ -22,7 +22,7 @@ $relPath = '/var/www/htdocs/c/pinc/';
 $wgExtensionCredits['parserhook'][] = [
     'path' => __FILE__,
     'name' => 'DP Hospital Extension',
-    'version' => '1.2',
+    'version' => '1.3',
     'author' => 'Distributed Proofreaders',
     'url' => '',
     'descriptionmsg' => '',
@@ -46,16 +46,13 @@ function listHospitalProjects($input, $argv)
 
     DPDatabase::connect();
 
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $result = DPDatabase::query("
         SELECT *
         FROM projects
         WHERE nameofwork LIKE '%needs fixing%'
             AND state != 'project_delete'
         ORDER BY nameofwork ASC
     ");
-    if (!$result) {
-        die(DPDatabase::log_error());
-    }
 
     $output = "";
     while ($project = mysqli_fetch_object($result)) {
