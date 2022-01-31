@@ -8,36 +8,20 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'project_continuity.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_available_page_array(
-    $projectid,
-    $proj_state,
-    $pguser,
-    $preceding_proofer_restriction,
-    &$err
-)
+function get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction)
 // Returns the best page entry for the user given the specified preceding
 // project restriction. If successful, it returns [ $imagename, $state ],
-// on failure it returns NULL and sets $err;
+// on failure it returns NULL;
 {
-    $round = get_Round_for_project_state($proj_state);
-
     // Normally, pages are served in order of "page number"
     // (i.e., by the 'image' field)
     $order = 'image ASC';
     // but this can be overridden below.
-
-    $project = new Project($projectid);
-
-    $err = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($err) {
-        return null;
-    }
 
     if ($project->difficulty == 'beginner' and $round->is_a_mentor_round()) {
         // For beginner projects in a mentor round,
@@ -61,7 +45,7 @@ function get_available_page_array(
         $order = "
                 (
                     SELECT MIN({$round->mentee_round->time_column_name})
-                    FROM $projectid
+                    FROM $project->projectid
                     WHERE {$round->mentee_round->user_column_name}
                       = p.{$round->mentee_round->user_column_name}
                 ),
@@ -123,7 +107,7 @@ function get_available_page_array(
     // (It appears that a simultaneous query from someone else would return the same page.)
     $dbQuery = "
         SELECT image, state
-        FROM $projectid AS p
+        FROM $project->projectid AS p
         WHERE $restrictions
         ORDER BY $order
         LIMIT 1
@@ -131,7 +115,6 @@ function get_available_page_array(
     $result = DPDatabase::query($dbQuery);
     $npage = mysqli_fetch_assoc($result);
     if (!$npage) {
-        $err = _("No more files available for proofreading for this round of the project.");
         return null;
     }
 
@@ -143,27 +126,36 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 // in which case returns NULL and sets $err.
 {
     global $preceding_proofer_restriction;
+
+    // can throw NonexistentProjectException
+    $project = new Project($projectid);
+
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, true);
+    $err = project_continuity_test($project, $proj_state, true);
     if ($err) {
         return null;
     }
 
-    $page_array = null;
+    $round = get_Round_for_project_state($proj_state);
+    $err = can_user_get_pages_in_project($pguser, $project, $round);
+    if ($err) {
+        return null;
+    }
+
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
     if ($preceding_proofer_restriction == 'not_immediately_preceding') {
-        $page_array = get_available_page_array($projectid, $proj_state, $pguser, 'not_previously_proofed', $err);
+        $page_array = get_available_page_array($project, $round, $pguser, 'not_previously_proofed');
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
     if (!$page_array) {
-        $err = null;
-        $page_array = get_available_page_array($projectid, $proj_state, $pguser, $preceding_proofer_restriction, $err);
+        $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
     }
-    if ($err) {
+    if (!$page_array) {
+        $err = _("No more files available for proofreading for this round of the project.");
         return null;
     }
 
@@ -189,7 +181,10 @@ function get_indicated_LPage(
 // in which case it throws an exception.
 {
     // Make sure project is still in same state.
-    $err = project_continuity_test($projectid, $proj_state, false);
+    // can throw NonexistentProjectException
+    $project = new Project($projectid);
+
+    $err = project_continuity_test($project, $proj_state, false);
     if ($err) {
         throw new ProjectException($err);
     }
@@ -219,6 +214,25 @@ function get_indicated_LPage(
     }
 
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
+}
+
+function project_continuity_test($project, $orig_state, $no_more_pages)
+{
+    $curr_state = $project->state;
+    if ($curr_state != $orig_state) {
+        $orig_state_text = project_states_text($orig_state);
+        $curr_state_text = project_states_text($curr_state);
+        $err = sprintf(
+            _("This project is no longer '%1\$s', it is now '%2\$s', so your request is no longer valid."),
+            $orig_state_text,
+            $curr_state_text
+        );
+
+        if ($no_more_pages) {
+            $err .= "\n" . _("The project has no more pages available for proofreading in that round.");
+        }
+        return $err;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
