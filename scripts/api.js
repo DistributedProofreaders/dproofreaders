@@ -5,8 +5,9 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
     let url = new URL(`${codeUrl}/api/index.php`);
     queryParams.url = apiUrl;
     url.search = new URLSearchParams(queryParams);
+    method = method.toUpperCase();
     let options = {
-        headers: {"X-API-KEY": "SESSION"},
+        headers: {"X-API-KEY": "SESSION", 'Accept': 'application/json'},
         method: method,
     };
     if(method !== "GET") {
