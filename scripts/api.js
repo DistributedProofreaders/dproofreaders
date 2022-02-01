@@ -8,6 +8,7 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
     method = method.toUpperCase();
     let options = {
         headers: {"X-API-KEY": "SESSION", 'Accept': 'application/json'},
+        credentials: "same-origin",
         method: method,
     };
     if(method !== "GET") {
