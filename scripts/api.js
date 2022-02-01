@@ -17,18 +17,22 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
     return new Promise(function(resolve, reject) {
         fetch(url, options)
             .then(function(response) {
-                if(response.ok) {
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    reject("Incorrect response type");
+                } else if(response.ok) {
                     resolve(response.json());
                 } else {
-                    response.json()
-                        .then(function(data) {
-                            let message = data.error;
-                            if(!message) {
-                                message = "Unknown error";
-                            }
-                            reject(message);
-                        });
+                    return response.json();
                 }
-            });
+            })
+            .then(function(data) {
+                let message = data.error;
+                if(!message) {
+                    message = "Unknown error";
+                }
+                reject(message);
+            })
+            .catch(reject);
     });
 }
