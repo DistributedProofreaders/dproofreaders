@@ -22,7 +22,11 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
                 } else {
                     response.json()
                         .then(function(data) {
-                            reject(data.error);
+                            let message = data.error;
+                            if(!message) {
+                                message = "Unknown error";
+                            }
+                            reject(message);
                         });
                 }
             });
