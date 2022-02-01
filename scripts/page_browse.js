@@ -338,7 +338,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                             roundSelector.add(new Option(round, round, selected, selected));
                         });
                         resolve();
-                    }, function(error) {
+                    })
+                    .catch(function(error) {
                         alert(error);
                         reject();
                     });
