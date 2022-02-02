@@ -24,15 +24,15 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
                 } else if(response.ok) {
                     resolve(response.json());
                 } else {
-                    return response.json();
+                    response.json()
+                        .then(function(data) {
+                            let message = data.error;
+                            if(!message) {
+                                message = "Unknown error";
+                            }
+                            reject(message);
+                        });
                 }
-            })
-            .then(function(data) {
-                let message = data.error;
-                if(!message) {
-                    message = "Unknown error";
-                }
-                reject(message);
             })
             .catch(reject);
     });
