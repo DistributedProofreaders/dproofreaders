@@ -5,13 +5,13 @@ function ajax(method, apiUrl, queryParams = {}, data = {}) {
     let url = new URL(`${codeUrl}/api/index.php`);
     queryParams.url = apiUrl;
     url.search = new URLSearchParams(queryParams);
-    method = method.toUpperCase();
+    let upperCaseMethod = method.toUpperCase();
     let options = {
         headers: {"X-API-KEY": "SESSION", 'Accept': 'application/json'},
         credentials: "same-origin",
-        method: method,
+        method: upperCaseMethod,
     };
-    if(method !== "GET") {
+    if(upperCaseMethod !== "GET") {
         // POST or PUT
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
