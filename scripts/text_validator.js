@@ -1,4 +1,4 @@
-/*global $ charMatch testChar */
+/*global $ validCharacterPattern charMatch */
 /* exported validateText */
 
 // charMatch (constructed in character_test.js) matches any unicode character
@@ -25,13 +25,14 @@ var validateText;
 
 $(function () {
     var textArea = document.getElementById("text_data");
+    let validCharRegex = new RegExp(validCharacterPattern, "u");
 
     // check each character, if bad mark or remove it
     function processText(text, clean) {
         var bad = false;
 
         function charReplacer(match) {
-            if(testChar(match)) {
+            if(validCharRegex.test(match)) {
                 return match;
             }
             if(clean) {

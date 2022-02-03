@@ -1,7 +1,8 @@
-/*global $ testChar */
+/*global $ validCharacterPattern */
 
 $(function () {
     var textArea = document.getElementById("text_data");
+    let validCharRegex = new RegExp(validCharacterPattern, "u");
 
     var above = {
         "=": "\u0304", // macron
@@ -54,7 +55,7 @@ $(function () {
         function maybeSubstitute() {
             // if replaceChar is good use it
             // this uses the local variables of the containing function
-            if(testChar(replaceChar)) {
+            if(validCharRegex.test(replaceChar)) {
                 // replace markup with character and move caret back 4 places
                 // and forward by length of replaceChar
                 let newCaret = char0Index + replaceChar.length;
