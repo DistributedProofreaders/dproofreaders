@@ -30,7 +30,6 @@ $valid_character_pattern = build_character_regex_filter($quiz->get_valid_codepoi
 
 $header_args = [
     "js_files" => [
-        "$code_url/scripts/character_test.js",
         "$code_url/tools/proofers/process_diacritcal_markup.js",
     ],
     "js_data" => "
