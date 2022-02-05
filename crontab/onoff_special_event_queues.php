@@ -107,7 +107,7 @@ foreach (['open', 'close'] as $which) {
         if (!$testing_this_script) {
             mysqli_query(DPDatabase::get_connection(), $update_query) or die(DPDatabase::log_error());
 
-            $n = mysqli_affected_rows(DPDatabase::get_connection());
+            $n = DPDatabase::affected_rows();
             echo "
                 $n queues $which'd.
             ";
