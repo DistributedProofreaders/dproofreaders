@@ -350,7 +350,7 @@ switch ($submit_button) {
                 echo $query;
                 if ($for_real) {
                     mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
-                    $n = mysqli_affected_rows(DPDatabase::get_connection());
+                    $n = DPDatabase::affected_rows();
                     echo "
                         $n rows affected.
                     ";

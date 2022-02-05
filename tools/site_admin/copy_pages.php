@@ -591,7 +591,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         echo html_safe($query) . "\n";
         if ($for_real) {
             DPDatabase::query($query);
-            $n = mysqli_affected_rows(DPDatabase::get_connection());
+            $n = DPDatabase::affected_rows();
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ($n != 1) {
                 die("unexpected number of rows inserted");
@@ -652,7 +652,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         echo "<code>" . html_safe($query) . "</code>";
         if ($for_real) {
             DPDatabase::query($query);
-            $n = mysqli_affected_rows(DPDatabase::get_connection());
+            $n = DPDatabase::affected_rows();
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
         }
     }

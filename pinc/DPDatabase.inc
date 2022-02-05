@@ -86,6 +86,11 @@ final class DPDatabase
         return $result;
     }
 
+    public static function affected_rows()
+    {
+        return  mysqli_affected_rows(self::$_connection);
+    }
+
     public static function log_error($backtrace_level = 0)
     {
         // Log the SQL error to the PHP error log and return a generic error
