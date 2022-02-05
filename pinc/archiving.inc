@@ -166,7 +166,7 @@ function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_
         FROM $table_name
         WHERE projectid='$projectid'
     ") or die(DPDatabase::log_error());
-    $n_copied = mysqli_affected_rows(DPDatabase::get_connection());
+    $n_copied = DPDatabase::affected_rows();
     echo sprintf("%4d rows copied", $n_copied);
 
     if ($n_copied == 0) {
@@ -179,7 +179,7 @@ function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_
         FROM $table_name
         WHERE projectid='$projectid'
     ") or die(DPDatabase::log_error());
-    $n_deleted = mysqli_affected_rows(DPDatabase::get_connection());
+    $n_deleted = DPDatabase::affected_rows();
     if ($n_deleted == $n_copied) {
         echo " and deleted";
     } else {
