@@ -613,8 +613,6 @@ class Project
 
     private function _get_PPer()
     {
-        global $site_supports_corrections_after_posting;
-
         // The logic to determine who is a PPer is a bit convoluted
         // as it depends on the postproofer column, the checkedoutby
         // column, and the state of the project.
@@ -624,9 +622,6 @@ class Project
             PROJ_POST_COMPLETE,
             PROJ_SUBMIT_PG_POSTED,
         ];
-        if ($site_supports_corrections_after_posting) {
-            $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
-        }
 
         $PPer = "";
         if (!empty($this->postproofer)) {

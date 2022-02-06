@@ -529,7 +529,7 @@ function show_project_listing(
                     $genre = _("HARD")." ".$genre;
                 }
                 $cell = html_safe($genre);
-            } elseif ($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer" || $col_id == "correctedby") {
+            } elseif ($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer") {
                 // Create email or PM links for usernames.
                 $user_name = $book[$col_id];
                 if ($show_email) {

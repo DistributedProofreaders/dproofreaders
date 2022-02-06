@@ -39,7 +39,6 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
 // url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
 {
     global $code_url;
-    global $site_supports_corrections_after_posting;
 
     // first get the number of projects
     $sql = "
@@ -163,15 +162,6 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
             echo get_pg_catalog_link_for_etext($postednum);
             if ($project['formats']) {
                 echo " [{$project['formats']}]";
-            }
-
-            if ($site_supports_corrections_after_posting) {
-                echo ", ";
-                if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
-                    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
-                } else {
-                    echo _("under review");
-                }
             }
             echo "<br>";
         }

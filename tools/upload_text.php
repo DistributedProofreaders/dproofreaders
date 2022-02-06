@@ -16,7 +16,7 @@ detect_too_large();
 require_login();
 
 $projectid = get_projectID_param($_REQUEST, 'project');
-$valid_stages = ['post_1', 're_post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'correct', 'smooth_avail', 'smooth_done'];
+$valid_stages = ['post_1', 're_post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'smooth_avail', 'smooth_done'];
 $stage = get_enumerated_param($_REQUEST, 'stage', null, $valid_stages, true);
 // $stage==smooth_avail controls sr, 2 cases:
 // days given: upload a file & make sr available first time or after finished for days from now.
@@ -105,20 +105,6 @@ if ($stage == 'post_1') {
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Post-Processing Verification Page");
-} elseif ($site_supports_corrections_after_posting && $stage == 'correct') {
-    $title = _("Upload corrected edition");
-    $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
-    $submit_label = _("Upload file");
-    $indicator = "_corrections";
-    $project_is_in_valid_state = PROJ_SUBMIT_PG_POSTED == $project->state;
-    $user_is_able_to_perform_action = true;
-    $new_state = PROJ_CORRECT_AVAILABLE;
-    $back_url = "$code_url/list_etexts.php?x=g";
-    $back_blurb = _("Gold List");
-    $pre_step_instructions = sprintf(
-        _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
-        "$code_url/project.php?id=$projectid&detail_level=3"
-    );
 } elseif ($stage == 'smooth_avail') {
     $title = _("Upload file for Smooth Reading");
     $intro_blurb = _("This page allows you to upload a fully post-processed file for Smooth Reading. Uploading another version will overwrite the previously uploaded file.");

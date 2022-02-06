@@ -364,7 +364,6 @@ CREATE TABLE `projects` (
   `projectid` varchar(22) NOT NULL default '',
   `special_code` varchar(20) NOT NULL default '',
   `checkedoutby` varchar(25) NOT NULL default '',
-  `correctedby` varchar(25) NOT NULL default '',
   `modifieddate` int(20) NOT NULL default '0',
   `t_last_edit` int(11) NOT NULL default '0',
   `t_last_change_comments` int(11) NOT NULL default '0',
