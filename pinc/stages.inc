@@ -15,38 +15,6 @@ include_once($relPath.'access_change_emails.inc'); // pp_access_change_email(), 
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-if ($site_supports_metadata) {
-    new Stage(
-        'CA',
-        _('Clearance Approvals'),
-        [],
-        'REQ-HUMAN',
-        '',
-        null, // access_change_callback
-        _('A qualified person must confirm that the work is in the public domain.'),
-        null,
-        "tools/site_admin/proj_approvals.php"
-    );
-}
-
-// -----------------------------------------------------------------------------
-
-if ($site_supports_metadata) {
-    new Stage(
-        'MD',
-        _('Metadata Collection'),
-        [],
-        'REQ-HUMAN',
-        '',
-        null, // access_change_callback
-        _('We collect various bits of metadata for each page in a project.'),
-        null,
-        "tools/proofers/md_available.php"
-    );
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 // $pi_tools_for_P and $pi_tools_for_F are handy helper variables that define
 // what proofreading tools are shown in the toolbox in the proofreading
 // interface for the proofreading (P) and the formatting (F) rounds. These are

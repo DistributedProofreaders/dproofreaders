@@ -34,7 +34,6 @@ output_header($title, NO_STATSBAR, $extra_args);
 
 $projectid = get_projectID_param($_REQUEST, 'project');
 $rel_source = array_get($_REQUEST, "rel_source", "");
-$loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project($projectid);
 
@@ -50,7 +49,7 @@ if (!$project->is_utf8) {
     exit();
 }
 
-if (!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal")) {
+if (!user_can_add_project_pages($projectid)) {
     // abort if a load_disabled user is trying to load normal pages into an empty project
     check_user_can_load_projects(true); // exit if they can't
 
@@ -103,21 +102,9 @@ if (substr($abs_source, -4) == ".zip") {
 }
 
 // Attempt to make everything all-readable.
-// (This will probably only succeed if we have just upacked
+// (This will probably only succeed if we have just unpacked
 // a zip file [above], but no harm in trying in all cases.)
 exec("chmod -R a+r " . escapeshellarg($source_project_dir));
-
-
-//if they are uploading tpnv files then put them in /tpnv
-if ($loading_tpnv) {
-    $dest_project_dir = "$projects_dir/$projectid/tpnv";
-    if (!file_exists($dest_project_dir)) {
-        mkdir("$dest_project_dir", 0777);
-        chmod("$dest_project_dir", 0777);
-    }
-} else {
-    $dest_project_dir = "$projects_dir/$projectid";
-}
 
 
 // Rather than performing commands from an arbitrary location,
@@ -138,69 +125,48 @@ if (!$r) {
     return;
 }
 
+$loader = new Loader($source_project_dir, $project->dir, $projectid);
+$loader->analyze();
 
+if (!@$_POST['confirmed']) {
+    $loader->display();
 
-if ($loading_tpnv) {
-    echo "<pre>\n";
-    echo "copying page-images from\n";
-    echo "    $source_project_dir\n";
-    echo "to\n";
-    echo "    $dest_project_dir\n";
-    // NOTE about file names: since here we are not doing any check over the
-    // file names, it is possible to find filenames with a space or other
-    // strange characters in the /tpnv directory.
-    system("cp *.png " . escapeshellarg($dest_project_dir));
-    system("cp *.jpg " . escapeshellarg($dest_project_dir));
-    echo "</pre>\n";
+    if ($loader->has_warnings()) {
+        echo "<p class='warning'>";
+        echo _("Some warnings issued, please check them before continuing.");
+        echo "</p>";
+    }
 
-    $sql = sprintf(
-        "UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '%s'",
-        DPDatabase::escape($projectid));
-    $result = DPDatabase::query($sql);
+    echo "<p>";
+    if ($loader->has_errors()) {
+        echo "<span class='error'>" .  _("Please fix errors and try again.") . "</span>";
+    } elseif ($loader->would_do_nothing()) {
+        echo _("Nothing to do.");
+    } else {
+        echo "<form id='execute' method='POST' action='add_files.php'>";
+        echo "<input type='hidden' name='confirmed' value='1'>";
+        echo "<input type='hidden' name='project' value='" . attr_safe($projectid) . "'>";
+        echo "<input type='hidden' name='rel_source' value='" . attr_safe($rel_source) . "'>";
+        echo "<input id='submit' type='submit' value='" . attr_safe(_('Proceed with load')) . "'>";
+        echo "</form>";
+    }
+    echo "</p>";
 } else {
-    $loader = new Loader($source_project_dir, $dest_project_dir, $projectid);
-    $loader->analyze();
-
-    if (!@$_POST['confirmed']) {
+    if ($loader->has_errors()) {
         $loader->display();
-
-        if ($loader->has_warnings()) {
-            echo "<p class='warning'>";
-            echo _("Some warnings issued, please check them before continuing.");
-            echo "</p>";
-        }
-
         echo "<p>";
-        if ($loader->has_errors()) {
-            echo "<span class='error'>" .  _("Please fix errors and try again.") . "</span>";
-        } elseif ($loader->would_do_nothing()) {
-            echo _("Nothing to do.");
-        } else {
-            echo "<form id='execute' method='POST' action='add_files.php'>";
-            echo "<input type='hidden' name='confirmed' value='1'>";
-            echo "<input type='hidden' name='project' value='" . attr_safe($projectid) . "'>";
-            echo "<input type='hidden' name='rel_source' value='" . attr_safe($rel_source) . "'>";
-            echo "<input id='submit' type='submit' value='" . attr_safe(_('Proceed with load')) . "'>";
-            echo "</form>";
-        }
+        echo _("Please fix errors and try again.");
+        echo "</p>";
+    } elseif ($loader->would_do_nothing()) {
+        $loader->display();
+        echo "<p>";
+        echo _("Nothing to do.");
         echo "</p>";
     } else {
-        if ($loader->has_errors()) {
-            $loader->display();
-            echo "<p>";
-            echo _("Please fix errors and try again.");
-            echo "</p>";
-        } elseif ($loader->would_do_nothing()) {
-            $loader->display();
-            echo "<p>";
-            echo _("Nothing to do.");
-            echo "</p>";
-        } else {
-            $loader->execute();
-            echo "<p>";
-            echo _("Done.");
-            echo "</p>";
-        }
+        $loader->execute();
+        echo "<p>";
+        echo _("Done.");
+        echo "</p>";
     }
 }
 

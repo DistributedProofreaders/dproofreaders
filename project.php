@@ -857,30 +857,13 @@ function do_early_uploads()
 
     $user_dir = str_replace(' ', '_', $pguser);
 
-    // Load TP&V (Title Page & Verso) images
-    if (user_can_add_project_pages($projectid, "tp&v")) {
-        echo "<br>\n";
-        echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
-        echo "<input type='hidden' name='project' value='$projectid'>\n";
-        echo "<input type='hidden' name='tpnv' value='1'>\n";
-        echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
-        echo "<br>\n";
-        $initial_rel_source = "Users/$user_dir/";
-        echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
-        echo "<br>\n";
-        echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
-        echo "<br>\n";
-        echo "</form>\n";
-        $add_reminder = true;
-    }
-
     // Load text+images from uploads area into project.
     // Can do this if it's a new project (as measured by the state it's in)
     // If the user is disabled from uploading new projects, they can only
     // do this if the project already has some pages loaded, but there is
     // no need to display a message reminding them that they can't, as
     // there will already be one instead of the clone project link, just above.
-    if (user_can_add_project_pages($projectid, "normal")) {
+    if (user_can_add_project_pages($projectid)) {
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";

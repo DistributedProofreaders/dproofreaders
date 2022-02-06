@@ -4,36 +4,21 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
 
 
-function user_can_add_project_pages($projectid, $page_type = "normal")
+function user_can_add_project_pages($projectid)
 {
-    global $site_supports_metadata;
-
     $project = new Project($projectid);
     $state = $project->state;
 
-    if ($page_type == "tp&v") { // TP&V = Title Page & Verso
-        if ($site_supports_metadata && $state == PROJ_NEW) {
-            return true;
-        } else {
-            return false;
-        }
-    } elseif ($page_type == "normal") {
-        // Load text+images from uploads area into project.
-        // Can do this if it's a new project (as measured by the state it's in)
-        // If the user is disabled from uploading new projects, they can only
-        // do this if the project already has some pages loaded.
-        if (
-            (($state == PROJ_NEW && ! $site_supports_metadata)
-              || ($site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED))
-              || $state == PROJ_P1_UNAVAILABLE)
-            && ($project->get_num_pages() > 0 || ! user_has_project_loads_disabled())
-            ) {
-            return true;
-        } else {
-            return false;
-        }
+    // Load text+images from uploads area into project.
+    // Can do this if it's a new project (as measured by the state it's in)
+    // If the user is disabled from uploading new projects, they can only
+    // do this if the project already has some pages loaded.
+    if (($state == PROJ_NEW || $state == PROJ_P1_UNAVAILABLE)
+        && ($project->get_num_pages() > 0 || ! user_has_project_loads_disabled())
+        ) {
+        return true;
     } else {
-        assert(false);
+        return false;
     }
 }
 
