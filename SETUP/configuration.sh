@@ -472,9 +472,6 @@ _METADATA=FALSE
 # This is a flag to allow the still-developing metadata functionality
 # to be active or not.
 
-_CORRECTIONS=FALSE
-# Similarly for the corrections-after-posting facility.
-
 _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
 # Setting this to TRUE means that all users can see the project_selector,
 # release_criterion, and comments columns on the Release Queue pages.

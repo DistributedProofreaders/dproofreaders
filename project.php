@@ -365,7 +365,6 @@ function do_project_info_table()
 {
     global $project, $code_url, $datetime_format, $time_format;
     global $user_is_logged_in;
-    global $site_supports_corrections_after_posting;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -457,18 +456,6 @@ function do_project_info_table()
             echo_row_a(_("PP Verifier"), $project->PPVer, true);
         }
 
-        if ($site_supports_corrections_after_posting) {
-            // included for completeness
-            if (!empty($project->checkedoutby) &&
-                $project->state == PROJ_CORRECT_CHECKED_OUT
-            ) {
-                $CorrectionsReviewer = $project->checkedoutby;
-            }
-            if (isset($CorrectionsReviewer)) {
-                echo_row_a(_("Corrections Reviewer"), $CorrectionsReviewer, true);
-            }
-        }
-
         echo_row_a(_("Credits line so far"), $project->credits_line, true);
     }
 
@@ -536,10 +523,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
 
     $state = $project->state;
-    if ($state == PROJ_SUBMIT_PG_POSTED
-      || ($site_supports_corrections_after_posting
-          && ($state == PROJ_CORRECT_AVAILABLE
-          || $state == PROJ_CORRECT_CHECKED_OUT))) {
+    if ($state == PROJ_SUBMIT_PG_POSTED) {
         $postednum = $project->postednum;
         echo_row_a(
             _("PG etext number"),
@@ -1425,7 +1409,7 @@ function do_extra_files()
 
 function do_post_files()
 {
-    global $project, $pguser, $site_supports_corrections_after_posting;
+    global $project, $pguser;
 
     if (!$project->dir_exists && !$project->pages_table_exists) {
         return;
@@ -1463,9 +1447,6 @@ function do_post_files()
             if ($project->PPVer_is_current_user || user_is_a_sitemanager()) {
                 echo_upload_backup($projectid, _("Upload a partially verified file as a backup"), "in_prog_2");
             }
-        } elseif ($site_supports_corrections_after_posting
-                && ($state == PROJ_CORRECT_AVAILABLE || $state == PROJ_CORRECT_CHECKED_OUT)) {
-            echo_download_zip(_("Download Zipped Text"), '_corrections');
         }
     } else {
         echo "<h2>";

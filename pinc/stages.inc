@@ -633,36 +633,6 @@ new Pool(
 
 // -----------------------------------------------------------------------------
 
-if ($site_supports_corrections_after_posting) {
-    new Pool(
-        'CR',
-        _('Corrections Review'),
-        ['F1' => 400],
-        'REQ-AUTO',
-        '',
-        null, // access_change_callback
-        _('Readers can submit corrections. We need to review them and possibly revise the text.'),
-        null,
-
-        PROJ_CORRECT_CHECKED_OUT,
-        PROJ_CORRECT_AVAILABLE,
-
-        _("Editor"),
-        'correctedby',
-
-        [
-            "<p>",
-            _("The books listed below have already been posted to Project Gutenberg, but a reader has found errors and submitted a corrected text."),
-            _("We need you to review the corrections to see if they're valid."),
-            _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
-            _("When you have finished your work on the book, send the book to Project Gutenberg to be posted."),
-            "</p>",
-        ]
-    );
-}
-
-// -----------------------------------------------------------------------------
-
 new Activity(
     'DU',
     _('Uploading to Project Gutenberg'),

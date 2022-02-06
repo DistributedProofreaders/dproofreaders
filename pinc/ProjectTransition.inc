@@ -980,22 +980,6 @@ new ProjectTransition(
     ]
 );
 
-if ($site_supports_corrections_after_posting) {
-    new ProjectTransition(
-    PROJ_CORRECT_AVAILABLE,
-    PROJ_CORRECT_CHECKED_OUT,
-    'user_can_work_in_stage CR',
-    [
-        'project_restriction' => null,
-        'action_name' => _("Check Out Book"),
-        'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
-        'detour' => null,
-        'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-        'collateral_actions' => null,
-    ]
-);
-}
-
 // PPer can grab a project back from the PP pool
 new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
@@ -1045,22 +1029,6 @@ new ProjectTransition(
         'collateral_actions' => null,
     ]
 );
-
-if ($site_supports_corrections_after_posting) {
-    new ProjectTransition(
-    PROJ_CORRECT_CHECKED_OUT,
-    PROJ_CORRECT_AVAILABLE,
-    'holder',
-    [
-        'project_restriction' => null,
-        'action_name' => _("Return to Available"),
-        'confirmation_question' => _("Are you sure you want to make this book available to others for reviewing corrections?"),
-        'detour' => null,
-        'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby=''",
-        'collateral_actions' => null,
-    ]
-);
-}
 
 // -----------------------------------------------------------------------------
 
@@ -1388,43 +1356,9 @@ new ProjectTransition(
     ]
 );
 
-if ($site_supports_corrections_after_posting) {
-    new ProjectTransition(
-    PROJ_CORRECT_CHECKED_OUT,
-    PROJ_SUBMIT_PG_POSTED,
-    'holder',
-    [
-        'project_restriction' => null,
-        'action_name' => _("Posted to Project Gutenberg"),
-        'confirmation_question' => null,
-        'detour' => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
-        'settings_template' => $pg_posted_settings_template,
-        'collateral_actions' => 'pg_posted_collateral',
-    ]
-);
-}
-
 function pg_posted_collateral($old_project, $project, $transition, $who)
 {
     notify_project_event_subscribers($project, 'posted');
-}
-
-// -----------------------------------------------------------------------------
-
-if ($site_supports_corrections_after_posting) {
-    new ProjectTransition(
-    PROJ_SUBMIT_PG_POSTED,
-    PROJ_CORRECT_AVAILABLE,
-    'user_can_work_in_stage PP', // not sure what it should really be
-    [
-        'project_restriction' => null,
-        'action_name' => _("Upload Corrections for Review"),
-        'confirmation_question' => null,
-        'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=correct",
-        'settings_template' => "modifieddate='<TIMESTAMP>', correctedby='<WHO>'",
-        'collateral_actions' => null,
-    ]
-);
 }
 
 // -----------------------------------------------------------------------------

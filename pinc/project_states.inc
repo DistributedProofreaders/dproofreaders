@@ -14,7 +14,6 @@ include_once($relPath.'site_vars.php');
   PROOF=Proofreading rounds
   POST=Post Processing
   SUBMIT_PG=submission stage for Project Gutenberg
-  CORRECT=Correcting Edition
 
   rounds:
   NEW
@@ -330,28 +329,6 @@ declare_project_state(
     'GOLD'
 );
 
-// CORRECT
-if ($site_supports_corrections_after_posting) {
-    declare_project_state(
-        "PROJ_CORRECT_AVAILABLE",
-        "proj_correct_available",
-        _("Verify Corrections"),
-        _("Verify Corrections"),
-        $posted_projects_forum_idx,
-        'NONE',
-        'GOLD'
-    );
-    declare_project_state(
-        "PROJ_CORRECT_CHECKED_OUT",
-        "proj_correct_checked_out",
-        _("Verifying Corrections"),
-        _("Verifying Corrections"),
-        $posted_projects_forum_idx,
-        'NONE',
-        'GOLD'
-    );
-}
-
 // for complete project
 declare_project_state(
     "PROJ_COMPLETE",
@@ -438,7 +415,6 @@ function get_project_status_descriptor($which)
         case 'proofed':
             $obj->state_selector = "(
                 state LIKE 'proj_submit%'
-                OR state LIKE 'proj_correct%'
                 OR state LIKE 'proj_post%'
             )";
             $obj->Xed_title = _('Proofread');
@@ -451,7 +427,6 @@ function get_project_status_descriptor($which)
         case 'PPd':
             $obj->state_selector = "(
                 state LIKE 'proj_submit%'
-                OR state LIKE 'proj_correct%'
                 OR state LIKE 'proj_post_second%'
             )";
             $obj->Xed_title = _('Post-Processed');
@@ -464,7 +439,6 @@ function get_project_status_descriptor($which)
         case 'posted':
             $obj->state_selector = "(
                 state LIKE 'proj_submit%'
-                OR state LIKE 'proj_correct%'
             )";
             $obj->Xed_title = _('Posted to PG');
             $obj->projects_Xed_title = _('Projects Posted');
