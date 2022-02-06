@@ -445,22 +445,6 @@ new ProjectTransition(
     ]
 );
 
-if ($site_supports_metadata) {
-    new ProjectTransition(
-        PROJ_NEW_FILE_UPLOADED,
-        PROJ_NEW_METADATA_FIRST,
-        'manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => null,
-            'settings_template' => '',
-            'collateral_actions' => null,
-        ]
-    );
-}
-
 // -----------------------------------------------------------------------------
 
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {

@@ -47,10 +47,6 @@ $sections = [
     ],
 ];
 
-if ($site_supports_metadata) {
-    $sections[_("Site")]["proj_approvals.php"] = _("Copyright approvals");
-}
-
 foreach ($sections as $section => $pages) {
     echo "<h2>$section</h2>";
     echo "<ul>";

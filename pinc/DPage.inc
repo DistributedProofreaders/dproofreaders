@@ -49,13 +49,7 @@ function project_allow_pages($projectid)
             state         VARCHAR(50) NOT NULL default '', INDEX(state),
             b_user        VARCHAR(25) NOT NULL default '',
             b_code        INT(1)      NOT NULL default '0',
-            orig_page_num VARCHAR(6)  NOT NULL default '',
-            metadata      SET(
-                'blank', 'missing', 'badscan', 'outofseq',
-                'acknowledge', 'dedication', 'ednotes', 'foreword', 'intro', 'loi', 'preface', 'prologue', 'toc', 'titlepage',
-                'abbreviation', 'division', 'epigraph', 'footnote', 'illustration', 'letter', 'list', 'math', 'poetry', 'sidenote', 'verse', 'table',
-                'appendix', 'afterword', 'biblio', 'colophon', 'endnote', 'epilogue', 'index'
-                ) NOT NULL default ''
+            orig_page_num VARCHAR(6)  NOT NULL default ''
         ) $engine
     ";
     DPDatabase::query($sql);
