@@ -2,8 +2,13 @@
 /* exported ajax */
 
 function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
-    let url = new URL(`${codeUrl}/api/index.php`);
-    url.search = new URLSearchParams(Object.assign({url: apiUrl}, queryParams));
+    let url = new URL("/api/index.php", codeUrl);
+    let searchParams = new URLSearchParams();
+    searchParams.append("url", apiUrl);
+    for (const key in queryParams) {
+        searchParams.append(key, queryParams[key]);
+    }
+    url.search = searchParams;
     let upperCaseMethod = method.toUpperCase();
     let options = {
         headers: {"X-API-KEY": "SESSION", 'Accept': 'application/json'},
