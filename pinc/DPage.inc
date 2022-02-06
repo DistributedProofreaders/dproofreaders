@@ -253,24 +253,8 @@ function Page_modifyText($projectid, $image, $page_text, $text_column, $user)
 
 function Page_checkout($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
-        [$round->page_avail_state],
-        null, null,
-        'checkout');
-
-    $timestamp = time();
-    $setters = join(", ", [
-        set_col_str("state", $round->page_out_state),
-        set_col_num($round->time_column_name, $timestamp),
-        set_col_str($round->user_column_name, $user),
-    ]);
-    _Page_UPDATE($projectid, $image, $setters);
-
     _log_page_event($projectid, $image, 'checkout', $user, $round);
-
     _project_adjust_n_available_pages($projectid, -1);
-
-    return $round->page_out_state;
 }
 
 // -----------------------------------------------------------------------------

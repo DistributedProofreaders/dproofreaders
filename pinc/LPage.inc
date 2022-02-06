@@ -103,22 +103,27 @@ function get_available_page_array($project, $round, $pguser, $preceding_proofer_
         throw new ValueError("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
 
-    // Find page to be proofread.
-    // (It appears that a simultaneous query from someone else would return the same page.)
-    $dbQuery = "
-        SELECT image, state
-        FROM $project->projectid AS p
+    // Change selected pages to be checked out to user at this time
+    $settings = sprintf("
+        state = '$round->page_out_state',
+        $round->time_column_name = UNIX_TIMESTAMP(),
+        $round->user_column_name = '%s'
+    ",
+        DPDatabase::escape($pguser),
+    );
+
+    // 'p' is referred to in the constructor for $order above
+    $sql = "
+        UPDATE $project->projectid as p
+        SET $settings
         WHERE $restrictions
         ORDER BY $order
         LIMIT 1
     ";
-    $result = DPDatabase::query($dbQuery);
-    $npage = mysqli_fetch_assoc($result);
-    if (!$npage) {
-        return null;
-    }
+    DPDatabase::query($sql);
 
-    return [$npage['image'], $npage['state']];
+    // return the number of rows checked out
+    return DPDatabase::affected_rows();
 }
 
 function get_available_page($projectid, $proj_state, $pguser, &$err)
@@ -146,22 +151,35 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     // first see if we can serve them a page they haven't at all seen before,
     // then fall back to not the immediately preceding page.
     if ($preceding_proofer_restriction == 'not_immediately_preceding') {
-        $page_array = get_available_page_array($project, $round, $pguser, 'not_previously_proofed');
+        $pages = get_available_page_array($project, $round, $pguser, 'not_previously_proofed');
     }
 
     // If that failed, try again with the global setting. This is also the
     // common case if $preceding_proofer_restriction != not_immediately_preceding
-    if (!$page_array) {
-        $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
+    if (0 == $pages) {
+        $pages = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
     }
-    if (!$page_array) {
+    if (0 == $pages) {
         $err = _("No more files available for proofreading for this round of the project.");
         return null;
     }
 
-    [$imagefile, $state] = $page_array;
+    // now get the page(s) we have checked out, newest first
+    $page_state = $round->page_out_state;
+    $dbQuery = sprintf("
+        SELECT image, $round->time_column_name AS time
+        FROM $projectid
+        WHERE $round->user_column_name = '%s' AND state = '$page_state'
+        ORDER BY time DESC
+        LIMIT 1
+    ",
+        DPDatabase::escape($pguser)
+    );
+    $result = DPDatabase::query($dbQuery);
+    $row = mysqli_fetch_assoc($result);
+    $imagefile = $row['image'];
 
-    $lpage = new LPage($projectid, $imagefile, $state, 0);
+    $lpage = new LPage($projectid, $imagefile, $page_state, 0);
 
     $lpage->checkout($pguser);
 
@@ -310,8 +328,7 @@ class LPage
 
     public function checkout($user)
     {
-        $this->page_state =
-            Page_checkout($this->projectid, $this->imagefile, $this->round, $user);
+        Page_checkout($this->projectid, $this->imagefile, $this->round, $user);
     }
 
     public function saveAsInProgress($page_text, $user)
