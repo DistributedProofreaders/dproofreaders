@@ -6,7 +6,7 @@ include_once($relPath.'graph_data.inc');
 
 require_login();
 
-$title = _("Miscellaneous User Statistics");
+$title = _("Miscellaneous User Graphs");
 $graphs = [
     ["barLineGraph", "average_hour_users_logging_on", average_hour_users_logging_on()],
     ["barLineGraph", "users_by_language", users_by_language()],
