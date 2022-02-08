@@ -47,11 +47,15 @@ function provide_escape_links()
     {
         $projectid = get_parameter_value(
             ['projectid', 'projectname', 'project']);
-        if (!is_null($projectid)) {
+        try {
+            validate_projectID($projectid);
+
             // This link won't work if the error is that the project doesn't exist.
             $link_url = "$code_url/project.php?id=$projectid";
             $link_text = _('Project Home');
             echo "<li><a href='$link_url' target='_top'>$link_text</a></li>\n";
+        } catch (InvalidProjectIDException $exception) {
+            // don't output anything as the project ID is not valid
         }
     }
 
@@ -103,7 +107,7 @@ function dump_request_info()
     $now = time();
     $date = date('Y-m-d H:i:s', $now);
     echo "time: $now ($date)\n";
-    echo "username: {$GLOBALS['pguser']}\n";
+    echo "username: " . html_safe($GLOBALS['pguser']) . "\n";
     echo "requested path: " . html_safe($_SERVER['PHP_SELF']) . "\n";
 
     // If this error occurred when they hit one of the submit buttons
@@ -111,36 +115,15 @@ function dump_request_info()
     // give them a last chance to save the page text.
 
     foreach (['_GET', '_POST'] as $array_name) {
-        echo "$array_name:\n";
         switch ($array_name) {
             case '_GET':  $array = $_GET; break;
             case '_POST': $array = $_POST; break;
-            default: assert(false);
+            default: $array = []; assert(false);
         }
-
-        // var_dump($array);
-
-        if (count($array) == 0) {
-            echo "    (empty)\n";
-            continue;
-        }
-        foreach ($array as $param_name => $param_value) {
-            echo "    $param_name = ";
-            if (is_string($param_value)) {
-                $htmlescaped_param_value = html_safe($param_value);
-
-                if (strpos($param_value, "\n")) {
-                    echo "'''\n";
-                    echo $htmlescaped_param_value, "\n";
-                    echo "'''\n";
-                } else {
-                    echo "'$htmlescaped_param_value'\n";
-                }
-            } else {
-                // might be an array.
-                // This will be ugly, but I don't care.
-                var_dump($param_value);
-            }
+        if ($array) {
+            echo "$array_name\n";
+            echo html_safe(json_encode($array, JSON_PRETTY_PRINT));
+            echo "\n\n";
         }
     }
 }
