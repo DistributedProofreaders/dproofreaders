@@ -68,7 +68,7 @@ function user_logging_on($past, $preceding)
     switch ($past) {
       case 'year':
           $min_timestamp = time() - 366 * $seconds_per_day;
-          $date_format = '%Y-%c-%d';
+          $date_format = '%Y-%m-%d';
           break;
 
       case 'day':
