@@ -20,7 +20,7 @@ function abort($error_message)
 
     echo "<hr>\n";
 
-    echo "<p class='error'>$error_message</p>\n";
+    echo "<p class='error'>" . html_safe($error_message) . "</p>\n";
     echo "<pre>\n";
     dump_request_info();
 
