@@ -8,6 +8,8 @@ include_once($relPath.'faq.inc');
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
+include_once("proof_image.inc");
+include_once("std_view.inc");
 
 // text_data should be set before we get here -- should take place in processtext.php
 
@@ -32,29 +34,29 @@ $word_check_messages = json_encode([
 ]);
 
 $user = User::load_current();
-$storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 
-$image_data = json_encode([
-    "imageUrl" => $ppage->url_for_image(),
-    "storageKey" => $storage_key,
-    "align" => "L",
-]);
+$js_files = [
+    "$code_url/tools/proofers/wordcheck.js",
+    "$code_url/scripts/character_test.js",
+    "$code_url/scripts/control_bar.js",
+    "$code_url/tools/proofers/proof_image.js",
+];
+
+if ($user->profile->i_type == 0) {
+    $js_files[] = "$code_url/scripts/splitControl.js";
+    $js_files[] = "proof_std.js";
+}
 
 $header_args = [
-    "js_files" => [
-        "$code_url/tools/proofers/wordcheck.js",
-        "$code_url/scripts/character_test.js",
-        "$code_url/scripts/control_bar.js",
-        "$code_url/tools/proofers/proof_image.js",
-    ],
-    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
-        get_control_bar_texts() . "
-        var imageData = $image_data;
+    "js_files" => $js_files,
+    "js_data" => get_page_js() .
+        get_control_bar_texts() . get_image_data($ppage) . get_std_view_data()
+        . "
         var validCharacterPattern = '$valid_character_pattern';
         var wordCheckMessages = $word_check_messages;
     ",
 
-    "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
+    "body_attributes" => 'style="margin: 0;" id="wordcheck_interface"  class="fix-full" onload="ldAll()"',
 ];
 
 if ($user->profile->i_type == 1) {
@@ -68,7 +70,7 @@ if ($user->profile->i_type == 1) {
     ibe_echo_block();
     echo '<div id="controlframe">';
 } else {
-    echo '<div>';
+    echo_std_view();
 }
 ?>
 <form name="spcorrects" action="processtext.php" method="POST">
@@ -218,10 +220,12 @@ if ($user->profile->i_type == 1) {
 </form>
 </div>
 <?php
-
+if ($user->profile->i_type != 1) {
+    echo "</div>";
+}
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_page_js($interface_type_init_value)
+function get_page_js()
 {
     global $charset;
 
@@ -230,7 +234,7 @@ function get_page_js($interface_type_init_value)
 
     return <<<PAGE_JS
                 function ldAll() {
-                    top.initializeStuff($interface_type_init_value);
+                    top.initializeStuff(2);
                 }
 
                 function toggleWCHeader() {

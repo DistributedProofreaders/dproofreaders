@@ -7,7 +7,6 @@ include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
-include_once('text_frame_std.inc');
 
 require_login();
 
@@ -34,7 +33,6 @@ define('B_RETURN_PAGE_TO_ROUND', 7);
 define('B_REVERT_TO_ORIGINAL', 8);
 define('B_REVERT_TO_LAST_TEMPSAVE', 9);
 define('B_RUN_SPELL_CHECK', 10);
-
 
 // set tbutton
 $tbutton = null; // default value, will result in error if not overridden below
@@ -223,7 +221,7 @@ try {
                 $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
 
             $ppage->saveAsInProgress($correct_text, $pguser);
-            leave_spellcheck_mode($ppage);
+            echo_proof_frame($ppage);
             break;
 
         case 102:
@@ -241,7 +239,7 @@ try {
                 $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
 
             $ppage->saveAsInProgress($correct_text, $pguser);
-            leave_spellcheck_mode($ppage);
+            echo_proof_frame($ppage);
             break;
 
         case 103:
@@ -275,16 +273,7 @@ try {
 
             // Redirect to the next available page
             $url = $ppage->url_for_do_another_page();
-            // Note: Using Wordcheck in the standard interface changes the default
-            // target for links from 'proofframe' to 'textframe' which is why we
-            // have to do these gymnastics instead of using metarefresh().
-            $title = _("Save as 'Done' & Proofread Next Page");
-            $body = _("Page Saved.");
-            slim_header($title);
-            echo "<script><!--\n";
-            echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
-            echo "// --></script>\n";
-            echo $body;
+            metarefresh(1, $url, _("Save as 'Done' & Proofread Next Page"), _("Page Saved."));
             break;
 
         case 104:
@@ -323,29 +312,6 @@ function switch_layout()
     $user = User::load_current();
     $user->profile->i_layout = $user->profile->i_layout == 1 ? 0 : 1;
     $user->profile->save();
-}
-
-function leave_spellcheck_mode($ppage)
-{
-    $user = User::load_current();
-
-    // The user has requested a return from spellcheck mode.
-    // The response that we send will replace the frame/document
-    // containing the spellcheck form.
-
-    if ($user->profile->i_type == 0) {
-        // standard interface:
-        // The spellcheck document (containing text only) is in 'textframe'.
-        // So the response we generate will go into 'textframe'.
-        // So generate just the (normal-mode) text frame of the std interface.
-        echo_text_frame_std($ppage);
-    } else {
-        // enhanced interface:
-        // The spellcheck document (containing image+text) is in 'proofframe'.
-        // So the response we generate will go into 'proofframe'.
-        // So generate the (normal-mode) image-and-text doc of the enh interface.
-        echo_proof_frame($ppage);
-    }
 }
 
 function leave_proofing_interface($title)

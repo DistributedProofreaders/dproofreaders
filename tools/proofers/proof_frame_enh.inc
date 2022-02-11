@@ -8,6 +8,7 @@ include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('preview.inc');
+include_once("proof_image.inc"); // get_image_data()
 
 function echo_proof_frame_enh($ppage)
 {
@@ -17,15 +18,6 @@ function echo_proof_frame_enh($ppage)
     $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
     $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
-
-    $user = User::load_current();
-    $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
-
-    $image_data = json_encode([
-        "imageUrl" => $ppage->url_for_image(),
-        "storageKey" => $storage_key,
-        "align" => "L",
-    ]);
 
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
@@ -40,13 +32,11 @@ function echo_proof_frame_enh($ppage)
             "$code_url/tools/proofers/proof_image.js",
         ],
         "js_data" => get_preview_js_vars() . get_preview_font_data_js() .
-        get_control_bar_texts() . "
-        var imageData = $image_data;
+        get_control_bar_texts() . get_image_data($ppage) . "
         function ldAll() {
             top.initializeStuff(1);
         }
         var validCharacterPattern = '$valid_character_pattern';
-        var standardInterface = false;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';
         ",

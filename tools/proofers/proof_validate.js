@@ -1,4 +1,4 @@
-/*global $ validateText standardInterface switchConfirm revertConfirm */
+/*global $ validateText switchConfirm revertConfirm */
 
 $(function () {
     // special handling for certain buttons
@@ -20,21 +20,8 @@ $(function () {
         }
     });
 
-    // word check -- for standard interface:
-    // Direct the (text-only) spellcheck doc to 'textframe'
-    // (rather than 'proofframe', the statically defined target).
-    $("#button10").click(function(event) {
-        if(!validateText()) {
-            event.preventDefault();
-            return;
-        }
-        if(standardInterface) {
-            document.getElementById('editform').target = 'textframe';
-        }
-    });
-
     // this applies to "Save as 'Done'", "Save as 'In Progress'"
-    // and "Save as 'Done' & Proofread Next Page"
+    // and "Save as 'Done' & Proofread Next Page" & "word check"
     $(".check_button").click(function(event) {
         if(!validateText()) {
             event.preventDefault();

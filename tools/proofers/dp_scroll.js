@@ -12,23 +12,12 @@ function focusText(noScroll = false) {
 }
 
 function initializeStuff(wFace) {
+    // now only sets inFace to indicate if in wordcheck (2) or not (0 or 1)
     frameRef = top.proofframe.document;
     isLded = 1;
     inProof = 1;
     inFace = wFace;
-    if(wFace == 1) {
-        // enhanced interface, non-spellcheck
-        docRef = top.proofframe.document;
-    } else if (wFace == 0) {
-        // standard interface, non-spellcheck
-        docRef = top.proofframe.textframe.document;
-    } else if (wFace == 2) {
-        // enhanced interface, spellcheck
-        docRef = top.proofframe.document;
-    } else if (wFace == 3) {
-        // standard interface, spellcheck
-        docRef = top.proofframe.textframe.document;
-    }
+    docRef = top.proofframe.document;
 }
 inProof = 0;
 isLded = 0;

@@ -146,6 +146,7 @@ function echo_button($button_id, $which_interface)
                 $label => attr_safe(_("WordCheck")),
                 'title' => attr_safe(_("Run WordCheck")),
                 'src' => "gfx/bt16.png",
+                'class' => "check_button",
             ];
             break;
         case SHOW_ALL_TEXT:
