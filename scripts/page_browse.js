@@ -1,4 +1,4 @@
-/*global $ proofIntData makeApiAjaxSettings splitControl makeImageWidget makeControlDiv */
+/*global $ proofIntData ajax splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
 // Construct the font-face, font-size and wrap controls
@@ -322,11 +322,6 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     // replace any previous content of topDiv
     topDiv.html(fixHead);
 
-    // show error if ajax fails
-    function showError(jqxhr) {
-        alert(jqxhr.responseJSON.error);
-    }
-
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
@@ -336,16 +331,16 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                 resolve();
             } else {
                 roundSelector = document.createElement("select");
-                $.ajax(makeApiAjaxSettings("v1/projects/pagerounds"))
-                    .done(function(rounds) {
+                ajax("GET", "v1/projects/pagerounds")
+                    .then(function(rounds) {
                         rounds.forEach(function(round) {
                             let selected = (currentRound === round);
                             roundSelector.add(new Option(round, round, selected, selected));
                         });
                         resolve();
                     })
-                    .fail(function(jqxhr) {
-                        showError(jqxhr);
+                    .catch(function(error) {
+                        alert(error);
                         reject();
                     });
             }
@@ -384,11 +379,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                     // by the shown (first) option
                     const round = roundSelector.value;
                     params.set("round_id", round);
-                    $.ajax(makeApiAjaxSettings("v1/projects/" + projectId + "/pages/" + imageFileName + "/pagerounds/" + round))
-                        .done(function(data) {
+                    ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`)
+                        .then(function(data) {
                             textWidget.setText(data.text);
-                        })
-                        .fail(showError);
+                        }, alert);
                 }
                 replaceUrl();
             }
@@ -558,14 +552,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             fixHead.append($("<p>").append($("<a>", {href: projectRef}).append(projectData.title)), resetButton);
         }
         // get pages
-        $.ajax(makeApiAjaxSettings(`v1/projects/${projectId}/pages`)).done(displayPages)
-            .fail(showError);
+        ajax("GET", `v1/projects/${projectId}/pages`)
+            .then(displayPages, alert);
     }
 
     getProjectData = function() {
-        $.ajax(makeApiAjaxSettings("v1/projects/" + projectId)).done(showProjectInfo)
-            .fail(function(jqxhr) {
-                showError(jqxhr);
+        ajax("GET", `v1/projects/${projectId}`)
+            .then(showProjectInfo, function(error) {
+                alert(error);
                 selectAProject();
             });
     };
