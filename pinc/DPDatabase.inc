@@ -101,7 +101,7 @@ final class DPDatabase
         $error = str_replace("\n", "\\n", mysqli_error(DPDatabase::get_connection()));
         error_log("DPDatabase.inc - log_error from $caller: $error");
         $return_string = _("An error occurred during a database query and has been logged.");
-        if($testing) {
+        if ($testing) {
             $return_string .= " " . $error;
         }
         return $return_string;
