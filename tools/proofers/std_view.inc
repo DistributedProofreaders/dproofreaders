@@ -23,5 +23,5 @@ function echo_std_view()
 {
     echo "<div id='container' style='height: 100%;'>\n";
     echo "<div id='image-view' class='page-interface'></div>\n";
-    echo "<div>";
+    echo "<div id='standard_interface_text'>";
 }
