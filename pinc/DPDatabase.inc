@@ -95,11 +95,16 @@ final class DPDatabase
     {
         // Log the SQL error to the PHP error log and return a generic error
         // for display to the user
+        global $testing;
         $backtrace = debug_backtrace();
         $caller = $backtrace[$backtrace_level]['file'] . ":" . $backtrace[$backtrace_level]['line'];
         $error = str_replace("\n", "\\n", mysqli_error(DPDatabase::get_connection()));
         error_log("DPDatabase.inc - log_error from $caller: $error");
-        return _("An error occurred during a database query and has been logged.");
+        $return_string = _("An error occurred during a database query and has been logged.");
+        if($testing) {
+            $return_string .= " " . $error;
+        }
+        return $return_string;
     }
 
     public static function get_default_db_charset()
