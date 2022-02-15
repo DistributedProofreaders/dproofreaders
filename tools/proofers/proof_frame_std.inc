@@ -49,21 +49,15 @@ function echo_proof_frame_std($ppage)
 
 function echo_text_area($ppage)
 {
-    ?>
-    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-    <div style = 'height: 100vh'>
-    <?php
+    echo "<form name='editform' id='editform' method='post' action='processtext.php'>";
+    echo "<div>";
     output_preview_div();
     echo "<div class='nodisp full-height' id='validator'>";
     render_validator();
-    echo "</div>"; ?>
-    <div id = 'proofdiv' class='center-align'>
-        <?php
-
-        $ppage->echo_proofing_textarea();
-
+    echo "</div>";
+    echo "<div id = 'proofdiv' class='center-align'>";
+    $ppage->echo_proofing_textarea();
     echo "<br>\n";
-
     $ppage->echo_hidden_fields();
 
     echo_button(SAVE_AS_IN_PROGRESS, 's');
@@ -93,10 +87,9 @@ function echo_text_area($ppage)
     echo _("View").": <a href=\"$comments_url\" title=\"". attr_safe(_("View Project Comments in New Window"))."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
 
     $image_url = $ppage->url_for_display_image(true);
-    echo "| <a href=\"$image_url\" title=\"". attr_safe(_("View Image in New Window"))."\" target=\"lg_image\">"._("Image")."</a> "; ?>
+    echo "| <a href=\"$image_url\" title=\"". attr_safe(_("View Image in New Window"))."\" target=\"lg_image\">"._("Image")."</a> ";
 
-      </div> <!-- proofdiv -->
-    </div>
-    </form>
-    <?php
+    echo "</div>"; // proofdiv
+    echo "</div>";
+    echo "</form>";
 }
