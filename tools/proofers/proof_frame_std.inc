@@ -42,6 +42,7 @@ function echo_proof_frame_std($ppage)
     slim_header(_("Proofing"), $header_args);
 
     echo_std_view();
+    echo "<div id='standard_interface_text'>";
     echo_text_area($ppage);
     echo "</div>\n";
     echo "</div>\n";

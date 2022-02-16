@@ -117,7 +117,7 @@ function output_preview_div()
     // draw the format preview and controls
     echo <<<END
         <div id='prevdiv' class='no_display'>
-            <div id='format_preview' class='flex_container'>
+            <div id='format_preview' class='flex_container' style='height:100vh'>
                 <div id="id_tp_outer" class='stretchbox text-pane'>
                     <div id="text_preview">
                     </div>

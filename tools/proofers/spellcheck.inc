@@ -71,6 +71,7 @@ if ($user->profile->i_type == 1) {
     echo '<div id="controlframe">';
 } else {
     echo_std_view();
+    echo "<div id='wordcheck_interface'>";
 }
 ?>
 <form name="spcorrects" action="processtext.php" method="POST">
