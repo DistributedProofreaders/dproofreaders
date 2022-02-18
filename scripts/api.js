@@ -2,7 +2,7 @@
 /* exported ajax */
 
 function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
-    let url = new URL("/api/index.php", codeUrl);
+    let url = new URL(codeUrl + "/api/index.php");
     let searchParams = new URLSearchParams();
     searchParams.append("url", apiUrl);
     for (const key in queryParams) {
