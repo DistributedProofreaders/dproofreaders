@@ -743,7 +743,7 @@ class Project
             ];
         }
 
-        if(!is_null($required_round_id) && ($required_round_id != $round->id)) {
+        if (!is_null($required_round_id) && ($required_round_id != $round->id)) {
             return [
                 $this->CBP_PROJECT_NOT_IN_REQUIRED_ROUND,
                 _('The project is not in the required round.'),

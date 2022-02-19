@@ -308,11 +308,11 @@ function api_v1_project_page_round($method, $data, $query_params)
     $round = $data[":roundid"];
     check_project_user($project, $round->id);
 
-    try{
+    try {
         $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $query_params["pagestate"], 0);
         $action = get_enumerated_param($query_params, "action", null, ["return", "save_temp", "save_done", "open", "revert"]);
 
-        switch($action) {
+        switch ($action) {
         case "return":
             $lpage->returnToRound($pguser);
             return [];
