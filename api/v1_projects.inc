@@ -4,7 +4,6 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
-include_once($relPath.'CharSuites.inc'); // get_valid_codepoints()
 include_once($relPath.'LPage.inc'); // get_available_page()
 include_once("exceptions.inc");
 
