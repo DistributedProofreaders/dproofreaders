@@ -502,6 +502,127 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/codepoints:
+    get:
+      tags:
+      - project
+      description: Returns a string representing valid codepoints for the project
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Codepoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/codepoints'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/rounds/{roundid}:
+    post:
+      tags:
+      - project
+      description: Checks out a page to the user
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: roundid
+        in: path
+        description: round ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: pagename and pagestate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checked_page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/rounds/{roundid}:
+    put:
+      tags:
+      - project
+      description: Operates on a page checked out to a user
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      - name: pagename
+        in: path
+        description: Name of page
+        required: true
+        schema:
+          type: string
+      - name: roundid
+        in: path
+        description: round ID
+        required: true
+        schema:
+          type: string
+      - name: pagestate
+        in: query
+        description: expected page state
+        required: true
+        schema:
+          type: string
+      - name: action
+        in: query
+        description: action to be performed
+        required: true
+        schema:
+          type: string
+          enum: [return, save_temp, save_done, open, revert]
+      requestBody:
+        description: json encoded string to store as page text
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        200:
+          description: pagetext, image_url, pagestate, 'can restore to last save'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page_data'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -657,6 +778,35 @@ components:
           items:
             $ref: '#/components/schemas/project_page_round_detail'
 
+    proof_page_data:
+      required:
+      - text
+      - image_url
+      - pagestate
+      - canRestore
+      type: object
+      properties:
+        text:
+          type: string
+        image_url:
+          type: string
+          format: url
+        pagestate:
+          type: string
+        canRestore:
+          type: boolean
+
+    checked_page:
+      required:
+      - pagename
+      - pagestate
+      type: object
+      properties:
+        pagename:
+          type: string
+        pagestate:
+          type: string
+
     project_page_round_detail:
       type: object
       required:
@@ -710,6 +860,14 @@ components:
             type: string
         enabled:
           type: boolean
+
+    codepoints:
+      required:
+      - codepoints
+      type: object
+      properties:
+        codepoints:
+          type: string
 
     image_source:
       required:

@@ -4,6 +4,8 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'CharSuites.inc'); // get_valid_codepoints()
+include_once($relPath.'LPage.inc'); // get_available_page()
 include_once("exceptions.inc");
 
 // DP API v1 -- Projects
@@ -225,9 +227,8 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 }
 
 //---------------------------------------------------------------------------
-// projects/:projectid/pages/:pagename/pagerounds/:pageroundid
-
-function api_v1_project_page_round($method, $data, $query_params)
+// GET projects/:projectid/pages/:pagename/pagerounds/:pageroundid
+function api_v1_project_page_pageround($method, $data, $query_params)
 {
     if ($data[":pageroundid"] == "OCR") {
         $text_column = "master_text";
@@ -269,6 +270,94 @@ function render_project_page_json($row)
         "text" => $row["text"],
         "state" => $row["state"],
     ];
+}
+
+// POST v1/projects/:projectid/rounds/:roundid
+// checkout a new page to proofread
+function api_v1_project_round($method, $data, $query_params)
+{
+    global $pguser;
+
+    $project = $data[":projectid"];
+    $round = $data[":roundid"];
+    check_project_user($project, $round->id);
+
+    try {
+        $lpage = get_available_page($project->projectid, $project->state, $pguser, $err);
+    } catch (Exception $exception) {
+        throw new BadRequest($exception->getMessage());
+    }
+
+    if (is_null($lpage)) {
+        throw new BadRequest($err);
+    }
+    return ["pagename" => $lpage->imagefile, "pagestate" => $lpage->page_state];
+}
+
+// PUT projects/:projectid/pages/:pagename/rounds/:roundid
+// the PUTs all can change the page text or page state.
+// they are idempotent in the sense that if the identical request is issued
+// again, either the the state and text will not be changed or the request will
+// be rejected because the page state has changed so there will be no change
+// to the server. Logging side-effects excluded.
+function api_v1_project_page_round($method, $data, $query_params)
+{
+    global $pguser;
+
+    $project = $data[":projectid"];
+    $round = $data[":roundid"];
+    check_project_user($project, $round->id);
+
+    try {
+        $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $query_params["pagestate"], 0);
+
+        // can throw InvalidArgumentException
+        $action = get_enumerated_param($query_params, "action", null, ["return", "save_temp", "save_done", "open", "revert"]);
+
+        switch ($action) {
+        case "return":
+            $lpage->returnToRound($pguser);
+            return [];
+            break;
+        case "save_temp":
+            $lpage->saveAsInProgress(api_get_request_body(), $pguser);
+            return render_page_data($lpage);
+            break;
+        case "save_done":
+            [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone(api_get_request_body(), $pguser);
+            return ["pageSaved" => $page_saved, "limitReached" => $limit_reached];
+        case "open":
+            $lpage->resume_saved_page($pguser);
+            return render_page_data($lpage);
+            break;
+        case "revert":
+            $lpage->saveAsInProgress(api_get_request_body(), $pguser);
+            $lpage->revertToOriginal();
+            return render_page_data($lpage);
+            break;
+        }
+    } catch (Exception $exception) {
+        throw new BadRequest($exception->getMessage());
+    }
+}
+
+function render_page_data($lpage)
+{
+    global $projects_url;
+    return [
+        "text" => $lpage->get_text(),
+        "imageUrl" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
+        "pagestate" => $lpage->page_state,
+        "canRestore" => $lpage->can_be_reverted_to_last_save(),
+    ];
+}
+
+function check_project_user($project, $round_id)
+{
+    [$code, $msg] = $project->can_be_proofed_by_current_user($round_id);
+    if ($code != $project->CBP_OKAY) {
+        throw new BadRequest($msg);
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -403,4 +492,11 @@ function api_v1_projects_imagesources($method, $data, $query_params)
     }
 
     return $return_data;
+}
+
+// GET, v1/projects/:projectid/codepoints
+function api_v1_project_codepoints($method, $data, $query_params)
+{
+    $project = $data[":projectid"];
+    return ["codepoints" => $project->get_valid_codepoints()];
 }
