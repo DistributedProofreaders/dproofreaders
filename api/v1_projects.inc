@@ -271,32 +271,32 @@ function render_project_page_json($row)
     ];
 }
 
-// POST v1/projects/:projectid/rounds/:roundid
+// POST v1/projects/:projectid/pages/checkout
 // checkout a new page to proofread
-function api_v1_project_round($method, $data, $query_params)
+function api_v1_project_checkout($method, $data, $query_params)
 {
     global $pguser;
 
     $project = $data[":projectid"];
-    $round = $data[":roundid"];
-    check_project_user($project, $round->id);
+    $required_roundid = $query_params["roundid"];
+    validate_user_can_work_in_project($project, $required_roundid);
 
     try {
         $lpage = get_available_page($project->projectid, $project->state, $pguser, $err);
-    } catch (Exception $exception) {
+    } catch (ProjectPageException $exception) {
         throw new BadRequest($exception->getMessage());
     }
 
     if (is_null($lpage)) {
         throw new BadRequest($err);
     }
-    return ["pagename" => $lpage->imagefile, "pagestate" => $lpage->page_state];
+    return ["pagename" => $lpage->imagefile, "page_state" => $lpage->page_state];
 }
 
 // PUT projects/:projectid/pages/:pagename/rounds/:roundid
 // the PUTs all can change the page text or page state.
 // they are idempotent in the sense that if the identical request is issued
-// again, either the the state and text will not be changed or the request will
+// again either the the state and text will not be changed or the request will
 // be rejected because the page state has changed so there will be no change
 // to the server. Logging side-effects excluded.
 function api_v1_project_page_round($method, $data, $query_params)
@@ -305,13 +305,12 @@ function api_v1_project_page_round($method, $data, $query_params)
 
     $project = $data[":projectid"];
     $round = $data[":roundid"];
-    check_project_user($project, $round->id);
-
+    validate_user_can_work_in_project($project, $round->id);
+    $request_body = api_get_request_body();
     try {
-        $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $query_params["pagestate"], 0);
-
-        // can throw InvalidArgumentException
-        $action = get_enumerated_param($query_params, "action", null, ["return", "save_temp", "save_done", "open", "revert"]);
+        $page_state = $request_body->page_state;
+        $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $page_state, 0);
+        $action = $request_body->action;
 
         switch ($action) {
         case "return":
@@ -319,23 +318,23 @@ function api_v1_project_page_round($method, $data, $query_params)
             return [];
             break;
         case "save_temp":
-            $lpage->saveAsInProgress(api_get_request_body(), $pguser);
+            $lpage->saveAsInProgress($request_body->text, $pguser);
             return render_page_data($lpage);
             break;
         case "save_done":
-            [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone(api_get_request_body(), $pguser);
+            [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone($request_body->text, $pguser);
             return ["pageSaved" => $page_saved, "limitReached" => $limit_reached];
         case "open":
             $lpage->resume_saved_page($pguser);
             return render_page_data($lpage);
             break;
         case "revert":
-            $lpage->saveAsInProgress(api_get_request_body(), $pguser);
+            $lpage->saveAsInProgress($request_body->text, $pguser);
             $lpage->revertToOriginal();
             return render_page_data($lpage);
             break;
         }
-    } catch (Exception $exception) {
+    } catch (ProjectException | ProjectPageException $exception) {
         throw new BadRequest($exception->getMessage());
     }
 }
@@ -345,13 +344,13 @@ function render_page_data($lpage)
     global $projects_url;
     return [
         "text" => $lpage->get_text(),
-        "imageUrl" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
-        "pagestate" => $lpage->page_state,
+        "image_url" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
+        "page_state" => $lpage->page_state,
         "canRestore" => $lpage->can_be_reverted_to_last_save(),
     ];
 }
 
-function check_project_user($project, $round_id)
+function validate_user_can_work_in_project($project, $round_id)
 {
     [$code, $msg] = $project->can_be_proofed_by_current_user($round_id);
     if ($code != $project->CBP_OKAY) {

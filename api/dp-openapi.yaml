@@ -530,7 +530,7 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
-  /projects/{projectid}/rounds/{roundid}:
+  /projects/{projectid}/pages/checkout:
     post:
       tags:
       - project
@@ -543,14 +543,14 @@ paths:
         schema:
           type: string
       - name: roundid
-        in: path
+        in: query
         description: round ID
         required: true
         schema:
           type: string
       responses:
         200:
-          description: pagename and pagestate
+          description: page_name and page_state
           content:
             application/json:
               schema:
@@ -588,28 +588,14 @@ paths:
         required: true
         schema:
           type: string
-      - name: pagestate
-        in: query
-        description: expected page state
-        required: true
-        schema:
-          type: string
-      - name: action
-        in: query
-        description: action to be performed
-        required: true
-        schema:
-          type: string
-          enum: [return, save_temp, save_done, open, revert]
       requestBody:
-        description: json encoded string to store as page text
         content:
           application/json:
             schema:
-              type: string
+              type: object
       responses:
         200:
-          description: pagetext, image_url, pagestate, 'can restore to last save'
+          description: pagetext, image_url, page_state, 'can restore to last save'
           content:
             application/json:
               schema:
@@ -782,7 +768,7 @@ components:
       required:
       - text
       - image_url
-      - pagestate
+      - page_state
       - canRestore
       type: object
       properties:
@@ -791,7 +777,7 @@ components:
         image_url:
           type: string
           format: url
-        pagestate:
+        page_state:
           type: string
         canRestore:
           type: boolean
@@ -799,12 +785,12 @@ components:
     checked_page:
       required:
       - pagename
-      - pagestate
+      - page_state
       type: object
       properties:
         pagename:
           type: string
-        pagestate:
+        page_state:
           type: string
 
     project_page_round_detail:

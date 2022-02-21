@@ -33,7 +33,7 @@ $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_pageround");
 $router->add_route("GET", "v1/projects/:projectid/codepoints", "api_v1_project_codepoints");
 
-$router->add_route("POST", "v1/projects/:projectid/rounds/:roundid", "api_v1_project_round");
+$router->add_route("POST", "v1/projects/:projectid/pages/checkout", "api_v1_project_checkout");
 $router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/rounds/:roundid", "api_v1_project_page_round");
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
