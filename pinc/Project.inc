@@ -162,6 +162,7 @@ class Project
             "genre",
             "image_source",
             "difficulty",
+            "comment_format",
         ];
 
         foreach ($required_fields as $field) {
@@ -228,6 +229,10 @@ class Project
                     $errors[] = sprintf(_("%s is not a valid special day."), $this->special_code);
                 }
             }
+        }
+
+        if ($this->comment_format && !in_array($this->comment_format, ["markdown", "html"])) {
+            $errors[] = sprintf(_("%s is not a valid comment format."), $this->comment_format);
         }
 
         // don't allow an empty PPer/PPVer if the project is checked out
