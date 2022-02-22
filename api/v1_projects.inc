@@ -229,36 +229,78 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 // GET projects/:projectid/pages/:pagename/pagerounds/:pageroundid
 function api_v1_project_page_pageround($method, $data, $query_params)
 {
-    if ($data[":pageroundid"] == "OCR") {
-        $text_column = "master_text";
-        $user_column = "NULL";
+    $project = $data[":projectid"];
+
+    if ($method == "GET") {
+        if ($data[":pageroundid"] == "OCR") {
+            $text_column = "master_text";
+            $user_column = "NULL";
+        } else {
+            $round = get_Round_for_round_id($data[":pageroundid"]);
+            $text_column = $round->text_column_name;
+            $user_column = $round->user_column_name;
+        }
+
+        $sql = sprintf("
+            SELECT
+                image,
+                %s AS text,
+                %s AS user,
+                state
+            FROM %s
+            WHERE image = '%s'
+        ", $text_column, $user_column, $project->projectid,
+            DPDatabase::escape($data[":pagename"])
+        );
+        $result = DPDatabase::query($sql);
+        $row = mysqli_fetch_assoc($result);
+        $row["image_url"] = $project->url . "/" . $row["image"];
+
+        // We can't show the username here unless the user has proofed the page
+        // in one round or they are an PF/SA. We need to abstract the conditional
+        // logic out of tools/project_manager/page_detail.inc
+        unset($row["user"]);
+
+        return render_project_page_json($row);
     } else {
-        $round = get_Round_for_round_id($data[":pageroundid"]);
-        $text_column = $round->text_column_name;
-        $user_column = $round->user_column_name;
+        // PUT
+        global $pguser;
+
+        if ($data[":pageroundid"] == "OCR") {
+            throw new BadRequest("It is not possible to work in round OCR");
+        } else {
+            validate_user_can_work_in_project($project, $data[":pageroundid"]);
+        }
+        try {
+            $request_body = api_get_request_body();
+            $old_page_state = $request_body->old_page_state;
+            $new_page_state = $request_body->new_page_state;
+            $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $old_page_state, 0);
+            switch ($new_page_state) {
+            case "available":
+                $lpage->returnToRound($pguser);
+                return [];
+                break;
+            case "done":
+                [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone($request_body->text, $pguser);
+                return ["pageSaved" => $page_saved, "limitReached" => $limit_reached];
+                break;
+            case "resume":
+                $lpage->resume_saved_page($pguser);
+                return render_page_data($lpage);
+                break;
+            case "temp":
+                $lpage->saveAsInProgress($request_body->text, $pguser);
+                if ($request_body->revert) {
+                    $lpage->revertToOriginal();
+                }
+                return render_page_data($lpage);
+                break;
+            }
+        } catch (Exception $exception) {
+            throw new BadRequest($exception->getMessage());
+        }
     }
-
-    $sql = sprintf("
-        SELECT
-            image,
-            %s AS text,
-            %s AS user,
-            state
-        FROM %s
-        WHERE image = '%s'
-    ", $text_column, $user_column, $data[":projectid"]->projectid,
-        DPDatabase::escape($data[":pagename"])
-    );
-    $result = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($result);
-    $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
-
-    // We can't show the username here unless the user has proofed the page
-    // in one round or they are an PF/SA. We need to abstract the conditional
-    // logic out of tools/project_manager/page_detail.inc
-    unset($row["user"]);
-
-    return render_project_page_json($row);
 }
 
 function render_project_page_json($row)
@@ -268,6 +310,17 @@ function render_project_page_json($row)
         "image_url" => $row["image_url"],
         "text" => $row["text"],
         "state" => $row["state"],
+    ];
+}
+
+function render_page_data($lpage)
+{
+    global $projects_url;
+    return [
+        "text" => $lpage->get_text(),
+        "image_url" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
+        "page_state" => $lpage->page_state,
+        "canRestore" => $lpage->can_be_reverted_to_last_save(),
     ];
 }
 
@@ -291,63 +344,6 @@ function api_v1_project_checkout($method, $data, $query_params)
         throw new BadRequest($err);
     }
     return ["pagename" => $lpage->imagefile, "page_state" => $lpage->page_state];
-}
-
-// PUT projects/:projectid/pages/:pagename/rounds/:roundid
-// the PUTs all can change the page text or page state.
-// they are idempotent in the sense that if the identical request is issued
-// again either the the state and text will not be changed or the request will
-// be rejected because the page state has changed so there will be no change
-// to the server. Logging side-effects excluded.
-function api_v1_project_page_round($method, $data, $query_params)
-{
-    global $pguser;
-
-    $project = $data[":projectid"];
-    $round = $data[":roundid"];
-    validate_user_can_work_in_project($project, $round->id);
-    $request_body = api_get_request_body();
-    try {
-        $page_state = $request_body->page_state;
-        $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $page_state, 0);
-        $action = $request_body->action;
-
-        switch ($action) {
-        case "return":
-            $lpage->returnToRound($pguser);
-            return [];
-            break;
-        case "save_temp":
-            $lpage->saveAsInProgress($request_body->text, $pguser);
-            return render_page_data($lpage);
-            break;
-        case "save_done":
-            [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone($request_body->text, $pguser);
-            return ["pageSaved" => $page_saved, "limitReached" => $limit_reached];
-        case "open":
-            $lpage->resume_saved_page($pguser);
-            return render_page_data($lpage);
-            break;
-        case "revert":
-            $lpage->saveAsInProgress($request_body->text, $pguser);
-            $lpage->revertToOriginal();
-            return render_page_data($lpage);
-            break;
-        }
-    } catch (ProjectException | ProjectPageException $exception) {
-        throw new BadRequest($exception->getMessage());
-    }
-}
-
-function render_page_data($lpage)
-{
-    global $projects_url;
-    return [
-        "text" => $lpage->get_text(),
-        "image_url" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
-        "page_state" => $lpage->page_state,
-        "canRestore" => $lpage->can_be_reverted_to_last_save(),
-    ];
 }
 
 function validate_user_can_work_in_project($project, $round_id)
