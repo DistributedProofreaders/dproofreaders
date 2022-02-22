@@ -1061,16 +1061,15 @@ function do_holds()
     echo "<th>", _("hold in Available"), "</th>\n";
     echo "</tr>\n";
 
-    global $Round_for_round_id_;
-    foreach ($Round_for_round_id_ as $round) {
+    $disabled = $project->can_be_managed_by_current_user ? '' : 'disabled';
+    foreach (array_chunk(Project::get_holdable_states(), 2) as $set => $states) {
+        [$round_id] = explode(".", $states[0]);
         echo "<tr>\n";
-        echo "<th>", $round->id, "</th>\n";
-        foreach (['project_waiting_state', 'project_available_state'] as $s) {
-            $state = $round->$s;
+        echo "<th>", $round_id, "</th>\n";
+        foreach ($states as $state) {
             $is_a_current_hold_state = in_array($state, $current_hold_states);
             $class = ($is_a_current_hold_state ? 'checkbox-cell-selected' : 'checkbox-cell');
             $checked = ($is_a_current_hold_state ? 'checked' : '');
-            $disabled = (!$project->can_be_managed_by_current_user ? 'disabled' : '');
 
             echo "<td class='$class'><input type='checkbox' name='$state' $checked $disabled></td>\n";
         }

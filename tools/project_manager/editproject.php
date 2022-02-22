@@ -167,6 +167,9 @@ class ProjectInfoHolder
             array_push($this->charsuites, $project_charsuite->name);
         }
 
+        // and the project's holds
+        $this->hold_states = $this->project->get_hold_states();
+
         // reset project values that should not be cloned
         $this->project->projectid = null;
         $this->project->postednum = '';
@@ -304,6 +307,10 @@ class ProjectInfoHolder
         }
 
         $this->original_marc_array_encd = @$_POST['rec'];
+        $this->hold_states = array_intersect(
+            $this->unserialize(@$_POST['hold_states']) ?? [],
+            Project::get_holdable_states(),
+        );
 
         return $errors;
     }
@@ -355,6 +362,11 @@ class ProjectInfoHolder
 
                 save_project_good_words($this->project->projectid, $good_words);
                 save_project_bad_words($this->project->projectid, $bad_words);
+            }
+
+            // handle any holds from the clone
+            if ($this->hold_states) {
+                $this->project->add_holds($this->hold_states);
             }
         }
 
@@ -415,6 +427,7 @@ class ProjectInfoHolder
         }
         if (!empty($this->clone_projectid)) {
             echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
+            echo "<input type='hidden' name='hold_states' value='" . $this->serialize($this->hold_states) . "'>";
         }
         echo "<input type='hidden' name='comment_format' value='{$this->project->comment_format}'>";
         echo "<input type='hidden' name='return' value='$return'>";
@@ -559,5 +572,19 @@ class ProjectInfoHolder
         $this->project->authorsname = preg_replace('/\s+/', ' ', trim($this->project->authorsname));
         $this->project->clearance = preg_replace('/\s+/', ' ', trim($this->project->clearance));
         $this->project->extra_credits = preg_replace('/\s+/', ' ', trim($this->project->extra_credits));
+    }
+
+    private function serialize($value)
+    {
+        return base64_encode(serialize($value));
+    }
+
+    private function unserialize($value)
+    {
+        if ($value) {
+            return unserialize(base64_decode($value));
+        } else {
+            return null;
+        }
     }
 }
