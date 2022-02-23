@@ -152,3 +152,36 @@ curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/word
     -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
+
+### Project holds
+
+Get a list of all holdable project states:
+```bash
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/holdstates" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY"
+```
+
+Get the current hold states for a project:
+```bash
+curl -i -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/holdstates" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY"
+```
+
+Set a project's hold states:
+```bash
+curl -i -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/holdstates" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY" \
+    -d @data.json
+```
+
+Where `data.json` contains a list of new hold states which will override all
+current holds for the project:
+```json
+[
+    "P1.proj_waiting",
+    "P1.proj_avail"
+]
+```
