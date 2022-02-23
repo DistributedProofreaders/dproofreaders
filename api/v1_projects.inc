@@ -183,6 +183,46 @@ function api_v1_project_wordlists($method, $data, $query_params)
 }
 
 //---------------------------------------------------------------------------
+// projects/:projectID/holdstates
+
+function api_v1_project_holdstates($method, $data, $query_params)
+{
+    $project = $data[":projectid"];
+
+    // handle GET and PUT requests
+    if ($method == "GET") {
+        // everyone can get hold states
+        return $project->get_hold_states();
+    } elseif ($method == "PUT") {
+        // can the user manage the project?
+        if (!$project->can_be_managed_by_current_user) {
+            throw new UnauthorizedError();
+        }
+
+        $desired_states = api_get_request_body();
+
+        // confirm that all of the desired states are valid
+        if (array_diff($desired_states, Project::get_holdable_states()) != []) {
+            throw new BadRequest("Invalid hold state specified.");
+        }
+
+        $current_holds = $project->get_hold_states();
+
+        $remove_holds = array_diff($current_holds, $desired_states);
+        if ($remove_holds) {
+            $project->remove_holds($remove_holds);
+        }
+
+        $add_holds = array_diff($desired_states, $current_holds);
+        if ($add_holds) {
+            $project->add_holds($add_holds);
+        }
+
+        return $project->get_hold_states();
+    }
+}
+
+//---------------------------------------------------------------------------
 // projects/:projectid/pages
 
 function api_v1_project_pages($method, $data, $query_params)
@@ -403,4 +443,12 @@ function api_v1_projects_imagesources($method, $data, $query_params)
     }
 
     return $return_data;
+}
+
+//---------------------------------------------------------------------------
+// projects/holdstates
+
+function api_v1_projects_holdstates($method, $data, $query_params)
+{
+    return Project::get_holdable_states();
 }
