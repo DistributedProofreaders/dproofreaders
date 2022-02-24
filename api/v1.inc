@@ -31,10 +31,13 @@ $router->add_route("GET", "v1/projects/imagesources", "api_v1_projects_imagesour
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_pageround");
-$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_pageround");
 $router->add_route("GET", "v1/projects/:projectid/codepoints", "api_v1_project_codepoints");
 
 $router->add_route("POST", "v1/projects/:projectid/pages/checkout", "api_v1_project_checkout");
+$router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pageoptions/:pageoption", "api_v1_project_page_option");
+$router->add_route("PATCH", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
+$router->add_route("DELETE", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");

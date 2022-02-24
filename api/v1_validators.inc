@@ -42,6 +42,14 @@ function validate_page_name($pagename, $data)
     return $pagename;
 }
 
+function validate_pageoptions($pageoption, $data)
+{
+    if (!in_array($pageoption, ["current", "original"])) {
+        throw new NotFoundError();
+    }
+    return $pageoption;
+}
+
 function validate_page_round($pageround, $data)
 {
     global $Round_for_round_id_;

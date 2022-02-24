@@ -229,78 +229,36 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 // GET projects/:projectid/pages/:pagename/pagerounds/:pageroundid
 function api_v1_project_page_pageround($method, $data, $query_params)
 {
-    $project = $data[":projectid"];
-
-    if ($method == "GET") {
-        if ($data[":pageroundid"] == "OCR") {
-            $text_column = "master_text";
-            $user_column = "NULL";
-        } else {
-            $round = get_Round_for_round_id($data[":pageroundid"]);
-            $text_column = $round->text_column_name;
-            $user_column = $round->user_column_name;
-        }
-
-        $sql = sprintf("
-            SELECT
-                image,
-                %s AS text,
-                %s AS user,
-                state
-            FROM %s
-            WHERE image = '%s'
-        ", $text_column, $user_column, $project->projectid,
-            DPDatabase::escape($data[":pagename"])
-        );
-        $result = DPDatabase::query($sql);
-        $row = mysqli_fetch_assoc($result);
-        $row["image_url"] = $project->url . "/" . $row["image"];
-
-        // We can't show the username here unless the user has proofed the page
-        // in one round or they are an PF/SA. We need to abstract the conditional
-        // logic out of tools/project_manager/page_detail.inc
-        unset($row["user"]);
-
-        return render_project_page_json($row);
+    if ($data[":pageroundid"] == "OCR") {
+        $text_column = "master_text";
+        $user_column = "NULL";
     } else {
-        // PUT
-        global $pguser;
-
-        if ($data[":pageroundid"] == "OCR") {
-            throw new BadRequest("It is not possible to work in round OCR");
-        } else {
-            validate_user_can_work_in_project($project, $data[":pageroundid"]);
-        }
-        try {
-            $request_body = api_get_request_body();
-            $old_page_state = $request_body->old_page_state;
-            $new_page_state = $request_body->new_page_state;
-            $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $old_page_state, 0);
-            switch ($new_page_state) {
-            case "available":
-                $lpage->returnToRound($pguser);
-                return [];
-                break;
-            case "done":
-                [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone($request_body->text, $pguser);
-                return ["pageSaved" => $page_saved, "limitReached" => $limit_reached];
-                break;
-            case "resume":
-                $lpage->resume_saved_page($pguser);
-                return render_page_data($lpage);
-                break;
-            case "temp":
-                $lpage->saveAsInProgress($request_body->text, $pguser);
-                if ($request_body->revert) {
-                    $lpage->revertToOriginal();
-                }
-                return render_page_data($lpage);
-                break;
-            }
-        } catch (Exception $exception) {
-            throw new BadRequest($exception->getMessage());
-        }
+        $round = get_Round_for_round_id($data[":pageroundid"]);
+        $text_column = $round->text_column_name;
+        $user_column = $round->user_column_name;
     }
+
+    $sql = sprintf("
+        SELECT
+            image,
+            %s AS text,
+            %s AS user,
+            state
+        FROM %s
+        WHERE image = '%s'
+    ", $text_column, $user_column, $data[":projectid"]->projectid,
+        DPDatabase::escape($data[":pagename"])
+    );
+    $result = DPDatabase::query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
+
+    // We can't show the username here unless the user has proofed the page
+    // in one round or they are an PF/SA. We need to abstract the conditional
+    // logic out of tools/project_manager/page_detail.inc
+    unset($row["user"]);
+
+    return render_project_page_json($row);
 }
 
 function render_project_page_json($row)
@@ -313,18 +271,7 @@ function render_project_page_json($row)
     ];
 }
 
-function render_page_data($lpage)
-{
-    global $projects_url;
-    return [
-        "text" => $lpage->get_text(),
-        "image_url" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
-        "page_state" => $lpage->page_state,
-        "canRestore" => $lpage->can_be_reverted_to_last_save(),
-    ];
-}
-
-// POST v1/projects/:projectid/pages/checkout
+// POST v1/projects/:projectid/rounds/:roundid
 // checkout a new page to proofread
 function api_v1_project_checkout($method, $data, $query_params)
 {
@@ -343,7 +290,94 @@ function api_v1_project_checkout($method, $data, $query_params)
     if (is_null($lpage)) {
         throw new BadRequest($err);
     }
-    return ["pagename" => $lpage->imagefile, "page_state" => $lpage->page_state];
+    return render_page_data($lpage);
+}
+
+// GET page text
+function api_v1_project_page_option($method, $data, $query_params)
+{
+    global $pguser;
+
+    $project = $data[":projectid"];
+    $required_roundid = $query_params["roundid"];
+    validate_user_can_work_in_project($project, $required_roundid);
+    $page_state = $query_params["page_state"];
+    try {
+        $projectid = $project->projectid;
+        $lpage = get_indicated_LPage($projectid, $project->state, $data[":pagename"], $page_state, 0);
+        if ($data[":pageoption"] == "original") {
+            $lpage->revertToOriginal();
+        }
+        $round = $lpage->round;
+        // check page is in state out or temp
+        _Page_require($projectid, $lpage->imagefile, [$round->page_out_state, $round->page_temp_state], $round->user_column_name, $pguser, "get page text for proofreading");
+        return ["text" => $lpage->get_text()];
+    } catch (ProjectPageException $exception) {
+        throw new BadRequest($exception->getMessage());
+    }
+}
+
+// patch page to resume
+// put page into temp or done with data
+// delete: return to round
+function api_v1_project_page($method, $data, $query_params)
+{
+    global $pguser;
+
+    $project = $data[":projectid"];
+    $request_body = api_get_request_body();
+    $old_page_state = $request_body->old_page_state;
+    try {
+        $lpage = get_indicated_LPage($project->projectid, $project->state, $data[":pagename"], $old_page_state, 0);
+    } catch (Exception $exception) {
+        throw new BadRequest($exception->getMessage());
+    }
+    switch ($method) {
+        case "PATCH":
+            // resume: saved -> temp, temp out unchanged, text unchanged
+            $lpage->resume_saved_page($pguser);
+            return render_page_data($lpage);
+            break;
+        case "PUT":
+            // change text and possibly state
+            $new_page_state = $request_body->new_page_state;
+            switch ($new_page_state) {
+            case "saved":
+                [$page_saved, $limit_reached] = $lpage->attemptSaveAsDone($request_body->text, $pguser);
+                if (!$page_saved) {
+                    throw new BadRequest(_("You have exceeded your daily page limit"));
+                }
+                return render_page_state($lpage);
+                break;
+            case "temp":
+                $lpage->saveAsInProgress($request_body->text, $pguser);
+                return render_page_state($lpage);
+                break;
+            }
+            break;
+        case "DELETE":
+            $lpage->returnToRound($pguser);
+            break;
+    }
+}
+
+function render_page_data($lpage)
+{
+    global $projects_url;
+    return [
+        "pagename" => $lpage->imagefile,
+        "image_url" => "$projects_url/{$lpage->projectid}/{$lpage->imagefile}",
+        "state" => $lpage->page_state,
+        "restorable" => $lpage->can_be_reverted_to_last_save(),
+    ];
+}
+
+function render_page_state($lpage)
+{
+    return [
+        "state" => $lpage->page_state,
+        "restorable" => $lpage->can_be_reverted_to_last_save(),
+    ];
 }
 
 function validate_user_can_work_in_project($project, $round_id)
