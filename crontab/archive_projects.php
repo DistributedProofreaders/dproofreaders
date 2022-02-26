@@ -19,15 +19,16 @@ if ($dry_run) {
     echo "This is a dry run.\n";
 }
 
-$result = mysqli_query(DPDatabase::get_connection(), "
+$sql = sprintf("
     SELECT *
     FROM projects
     WHERE
         modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * $DAYS_TO_RETAIN
         AND archived = '0'
-        AND state = '".PROJ_SUBMIT_PG_POSTED."'
+        AND state = '%s'
     ORDER BY modifieddate
-") or die(DPDatabase::log_error());
+", DPDatabase::escape(PROJ_SUBMIT_PG_POSTED));
+$result = DPDatabase::query($sql);
 
 echo "Archiving page-tables for ", mysqli_num_rows($result), " projects...\n";
 
