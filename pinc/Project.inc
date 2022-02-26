@@ -365,7 +365,7 @@ class Project
             $this->log_project_event(User::current_username(), 'edit', $details1);
             if ($PPer_checkout) {
                 // we fake the project transition...
-                $this->project->log_project_event(
+                $this->log_project_event(
                     User::current_username(),
                     'transition',
                     PROJ_POST_FIRST_CHECKED_OUT,
