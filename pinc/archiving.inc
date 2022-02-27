@@ -26,16 +26,26 @@ function archive_project($project, $dry_run)
     $mod_time_str = strftime('%Y-%m-%d %H:%M:%S', $project->modifieddate);
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
-    if (!does_project_page_table_exist($projectid)) {
+    if (!$project->pages_table_exists) {
         echo "    Table $projectid does not exist.\n";
     } elseif ($dry_run) {
         echo "    Move table $projectid to $archive_db_name.\n";
     } else {
+        validate_projectID($projectid);
         $sql = "
             ALTER TABLE $projectid
             RENAME AS $archive_db_name.$projectid
         ";
         DPDatabase::query($sql);
+    }
+
+    $smooth_dir = "$project->dir/smooth";
+    if (is_dir($smooth_dir)) {
+        if ($dry_run) {
+            echo "    Remove $smooth_dir directory.\n";
+        } else {
+            exec("rm -rf $smooth_dir");
+        }
     }
 
     $project_dir = $project->dir;
