@@ -12,6 +12,8 @@ final class DPDatabase
 {
     private static $_connection = false;
     private static $_db_name = null;
+    private static $_default_db_charset = null;
+    private static $_default_db_collation = null;
     public static $skip_encoding_check = false;
 
     public static function connect()
@@ -102,7 +104,7 @@ final class DPDatabase
         return _("An error occurred during a database query and has been logged.");
     }
 
-    public static function get_default_db_charset()
+    private static function get_db_defaults()
     {
         $result = self::query(sprintf("
             SELECT *
@@ -111,10 +113,25 @@ final class DPDatabase
         ", self::$_db_name));
 
         $row = mysqli_fetch_assoc($result);
-        $default_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
+        self::$_default_db_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
+        self::$_default_db_collation = $row['DEFAULT_COLLATION_NAME'];
         mysqli_free_result($result);
+    }
 
-        return $default_charset;
+    public static function get_default_db_charset()
+    {
+        if (!self::$_default_db_charset) {
+            self::get_db_defaults();
+        }
+        return self::$_default_db_charset;
+    }
+
+    public static function get_default_db_collation()
+    {
+        if (!self::$_default_db_collation) {
+            self::get_db_defaults();
+        }
+        return self::$_default_db_collation;
     }
 
     public static function is_table_utf8($table_name)

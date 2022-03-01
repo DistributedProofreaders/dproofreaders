@@ -617,9 +617,13 @@ class Project
         if ($this->is_utf8) {
             return false;
         }
+
+        // get the default database collation
+        $collation = DPDatabase::get_default_db_collation();
+
         validate_projectID($this->projectid);
         $sql = "
-            ALTER TABLE $this->projectid CONVERT TO CHARACTER SET utf8mb4;
+            ALTER TABLE $this->projectid CONVERT TO CHARACTER SET utf8mb4 COLLATE $collation;
         ";
         $result = DPDatabase::query($sql, false);
         if (!$result) {
