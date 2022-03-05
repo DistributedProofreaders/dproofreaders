@@ -172,7 +172,7 @@ class ProjectInfoHolder
 
         // reset project values that should not be cloned
         $this->project->projectid = null;
-        $this->project->postednum = '';
+        $this->project->postednum = null;
         $this->project->deletion_reason = '';
         $this->project->state = '';
     }
@@ -249,7 +249,7 @@ class ProjectInfoHolder
             "image_source",
             "scannercredit",  // deprecated but may exist for older projects
             "checkedoutby",
-            "postednum",
+            // postednum is handled below
             "image_preparer",
             "text_preparer",
             "extra_credits",
@@ -259,6 +259,15 @@ class ProjectInfoHolder
         foreach ($fields_to_set as $field) {
             if (isset($_POST[$field])) {
                 $this->project->$field = $_POST[$field];
+            }
+        }
+
+        // postednum needs to either be a valid number or null, not an empty string
+        if (isset($_POST["postednum"])) {
+            if ($_POST["postednum"] == "") {
+                $this->project->postednum = null;
+            } else {
+                $this->project->postednum = (int)$_POST["postednum"];
             }
         }
 
@@ -301,7 +310,7 @@ class ProjectInfoHolder
         $this->posted = @$_POST['posted'];
         if ($this->posted) {
             // We are in the process of marking this project as posted.
-            if ($this->project->postednum == '') {
+            if (!$this->project->postednum) {
                 $errors[] = _("PG etext number is required.");
             }
         }

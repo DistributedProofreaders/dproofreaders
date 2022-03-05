@@ -197,6 +197,14 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString("required", $errors[0]);
     }
 
+    public function test_validate_nameofwork_wrong_type()
+    {
+        $project = new Project($this->valid_project_data);
+        $project->nameofwork = [];
+        $errors = $project->validate();
+        $this->assertStringContainsString("should be of type", $errors[0]);
+    }
+
     public function test_validate_authorsname_missing()
     {
         $project = new Project($this->valid_project_data);

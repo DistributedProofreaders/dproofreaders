@@ -70,11 +70,11 @@ class Project
     // -------------------------------------------------------------------------
     // Load & Validate
 
-    private function _init_fields_to_defaults()
+    private function _get_field_defaults()
     {
-        // Initialize Project with core fields and default values.
-        // These alone aren't sufficient to validate() and persist the project.
-        $fields = [
+        // Return a list of default fields with their values. Note that the
+        // value types given here are enforced in validate() except for nulls.
+        return [
             "projectid" => null,
             "nameofwork" => "",
             "authorsname" => "",
@@ -85,10 +85,10 @@ class Project
             "comments" => "",
             "comment_format" => "markdown",
             "postproofer" => "",
-            "ppverifier" => "",
+            "ppverifier" => null,
             "postcomments" => "",
             "clearance" => "",
-            "postednum" => "",
+            "postednum" => null,
             "genre" => "",
             "difficulty" => "",
             "special_code" => "",
@@ -100,7 +100,13 @@ class Project
             "custom_chars" => "",
             "state" => "",
         ];
-        foreach ($fields as $key => $value) {
+    }
+
+    private function _init_fields_to_defaults()
+    {
+        // Initialize Project with core fields and default values.
+        // These alone aren't sufficient to validate() and persist the project.
+        foreach ($this->_get_field_defaults() as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -154,6 +160,13 @@ class Project
             }
         }
 
+        // validate types
+        foreach ($this->_get_field_defaults() as $field => $value) {
+            if ($value !== null && gettype($value) != gettype($this->$field)) {
+                $errors[] = "Field $field should be of type " . gettype($value);
+            }
+        }
+
         $required_fields = [
             "nameofwork",
             "authorsname",
@@ -166,7 +179,7 @@ class Project
         ];
 
         foreach ($required_fields as $field) {
-            if (preg_match('/^\s*$/', $this->$field)) {
+            if (!$this->$field || preg_match('/^\s*$/', $this->$field)) {
                 $errors[] = sprintf(_("%s is required."), $labels[$field]);
             }
         }
@@ -294,7 +307,7 @@ class Project
             throw new ProjectException("Saving a Project object from an array source is disallowed.");
         }
 
-        $postednum_str = ($this->postednum == "") ? "NULL" : sprintf("%d", $this->postednum);
+        $postednum_str = ($this->postednum == null) ? "NULL" : sprintf("%d", $this->postednum);
         $project_settings = "
             username       = '".DPDatabase::escape($this->username)."',
             nameofwork     = '".DPDatabase::escape(utf8_normalize($this->nameofwork))."',
