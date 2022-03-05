@@ -234,10 +234,7 @@ function image_source_list($image_source)
 {
     global $site_abbreviation;
 
-    $imso_array = [
-        // TRANSLATORS: %s is the site abbreviation
-        "_internal" => sprintf(_("%s Internal"), $site_abbreviation),
-    ];
+    $imso_array = [];
     foreach (load_image_sources() as $code => $source) {
         if (($source["is_active"] == 1 && can_user_see_image_source($source)) ||
             $code == $image_source) {

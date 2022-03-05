@@ -205,7 +205,7 @@ class Project
             $errors[] = sprintf(_("%s is not a valid genre."), $this->genre);
         }
 
-        if ($this->image_source && !in_array($this->image_source, array_keys(load_image_sources()))) {
+        if ($this->image_source && !in_array($this->image_source, array_extract_field(load_image_sources(), "code_name"))) {
             $errors[] = sprintf(_("%s is not a valid image source."), $this->image_source);
         }
 
@@ -1839,10 +1839,30 @@ function get_page_image_param($arr, $key, $allownull = false)
 
 function load_image_sources()
 {
+    global $site_abbreviation, $code_url;
+
     static $image_sources = [];
     if ($image_sources) {
         return $image_sources;
     }
+
+    // TRANSLATORS: %s is the site abbreviation
+    $internal_name = sprintf(_("%s Internal"), $site_abbreviation);
+
+    $image_sources = [
+        "_internal" => [
+            "code_name" => "_internal",
+            "display_name" => $internal_name,
+            "full_name" => $internal_name,
+            "info_page_visibility" => 3,
+            "is_active" => 1,
+            "url" => $code_url,
+            "ok_show_images" => -1,
+            "ok_keep_images" => -1,
+            "public_comment" => "",
+            "internal_comment" => "",
+        ],
+    ];
 
     $sql = "
         SELECT *
