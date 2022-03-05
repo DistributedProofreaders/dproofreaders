@@ -13,6 +13,20 @@ function array_get($arr, $key, $default)
     }
 }
 
+function array_extract_field($array, $field)
+// Given an array of arrays/objects, return the values of the desired field.
+{
+    $values = [];
+    foreach ($array as $entity) {
+        if (is_object($entity)) {
+            $values[] = $entity->$field;
+        } else {
+            $values[] = $entity[$field];
+        }
+    }
+    return $values;
+}
+
 function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
 // Return an array whose values are the names of the properties
 // whose values differ between the two objects $new and $old.
