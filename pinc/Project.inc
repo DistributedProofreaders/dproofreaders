@@ -98,7 +98,7 @@ class Project
             "extra_credits" => "",
             "deletion_reason" => "",
             "custom_chars" => "",
-            "state" => "",
+            "state" => null,
         ];
     }
 
@@ -307,7 +307,10 @@ class Project
             throw new ProjectException("Saving a Project object from an array source is disallowed.");
         }
 
+        // handle possibly-null fields
         $postednum_str = ($this->postednum == null) ? "NULL" : sprintf("%d", $this->postednum);
+        $ppverifier_str = ($this->ppverifier == null) ? "NULL" : "'" . DPDatabase::escape($this->ppverifier) . "'";
+
         $project_settings = "
             username       = '".DPDatabase::escape($this->username)."',
             nameofwork     = '".DPDatabase::escape(utf8_normalize($this->nameofwork))."',
@@ -321,7 +324,7 @@ class Project
             comment_format = '".DPDatabase::escape($this->comment_format)."',
             postcomments   = '".DPDatabase::escape(utf8_normalize($this->postcomments))."',
             postproofer    = '".DPDatabase::escape($this->postproofer)."',
-            ppverifier     = '".DPDatabase::escape($this->ppverifier)."',
+            ppverifier     = $ppverifier_str,
             image_source   = '".DPDatabase::escape($this->image_source)."',
             scannercredit  = '".DPDatabase::escape($this->scannercredit)."',
             checkedoutby   = '".DPDatabase::escape($this->checkedoutby)."',
