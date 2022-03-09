@@ -23,9 +23,15 @@ paths:
     get:
       tags:
       - project
-      description: Search for projects. If different parameters are included
-        they are ANDed together. To send multiple values of the same parameter
-        to OR together, append the name with [] (e.g. projectid[]).
+      description: Search for projects.
+        <br><br>
+        If different parameters are included they are ANDed together. To
+        send multiple values of the same parameter to OR together, append
+        the name with [] (e.g. projectid[]).
+        <br><br>
+        Results are paginated with a default page size of 20 and can be
+        controlled with the `page` and `per_page` query parameters. See
+        also the `X-Results-Total` and `Links` headers in the response.
       parameters:
       - name: projectid
         in: query
@@ -70,6 +76,16 @@ paths:
         in: query
         schema:
           type: string
+      - name: page
+        description: Page of results to return
+        in: query
+        schema:
+          type: integer
+      - name: per_page
+        description: Number of entries per page
+        in: query
+        schema:
+          type: integer
       responses:
         200:
           description: List of projects found in search
@@ -80,14 +96,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/project'
           headers:
-            Links:
-              schema:
-                type: string
-              description: Links for accessing paginated response
             X-Results-Total:
               schema:
                 type: integer
               description: Total number of projects matching query
+            Links:
+              schema:
+                type: string
+              description: Links for accessing paginated response in RFC-8288 format
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
