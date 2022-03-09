@@ -158,7 +158,7 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
         return;
     }
 
-    $total_pages = round($total_rows / $per_page);
+    $total_pages = ceil($total_rows / $per_page);
 
     // create the link base by parsing $query_params
     $params = [];
