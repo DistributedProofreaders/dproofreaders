@@ -76,14 +76,20 @@ HTTP status code with the JSON body:
 
 ## Pagination
 
-Some requests, like project searches, may return paginated results. Paginated
-responses will include the following HTTP headers to assist with navigating the
-result set:
+Some requests, like project searches, may return paginated results in the
+format of [RFC-8288](https://datatracker.ietf.org/doc/html/rfc8288) -- the same
+format used by GitHub APIs. The GitHub REST API docs include a great guide on
+[traversing with pagination](https://docs.github.com/en/rest/guides/traversing-with-pagination)
+using this format.
 
-* `X-Results-Total` - total number of entries available in the query set
-* `Link` - links to walk through the paginated results.
+Paginated responses will include the following HTTP headers:
 
-The `Link` format looks like (lines wrapped here for readability):
+* `X-Results-Total` - total number of entries available in the result set
+* `Link` - links to walk through the paginated results
+
+The `Link` header includes URLs labeled with metadata that can be used by
+clients to navigate the result set. The format looks like (lines wrapped here
+for readability):
 ```
 Link: <https://www.pgdp.org/api/v1/projects?per_page=20&page=1>; rel="first",
       <https://www.pgdp.org/api/v1/projects?per_page=20&page=2>; rel="next",
