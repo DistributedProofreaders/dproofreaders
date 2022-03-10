@@ -141,6 +141,13 @@ echo "<p>"
     . "</p>"
     . "\n";
 
+echo "<p>"
+    . sprintf(
+        _("Distributed Proofreaders regrets that we are unable to verify court-ordered or any official government-related service that requires confirmation of identity. Also, because our system cannot adequately record time spent participating, we are unable to verify hours worked for other community services that require tracking of time spent. For more information, please see <a href='%s'>this page</a>."),
+        "$wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work")
+    . "</p>"
+    . "\n";
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 echo "\n"
