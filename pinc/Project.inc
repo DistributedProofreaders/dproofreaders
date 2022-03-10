@@ -1877,6 +1877,7 @@ function load_image_sources()
             "info_page_visibility" => 3,
             "is_active" => 1,
             "url" => $code_url,
+            "credit" => "",
             "ok_show_images" => -1,
             "ok_keep_images" => -1,
             "public_comment" => "",
