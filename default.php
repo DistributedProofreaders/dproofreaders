@@ -145,6 +145,14 @@ echo "<p>"
     . "</p>"
     . "\n";
 
+echo "<p>"
+    . sprintf(
+        _("We are unable to provide certification for any purpose that would require Distributed Proofreaders to track the number of hours spent volunteering, or to provide verification of a user's identity beyond that provided by their email address, or to certify that the volunteer personally performed the work. For these reasons, we cannot provide certification for court-ordered community service, programs operated by federal, state, or municipal governments, etc. For more information, please see <a href='%s'>this page</a>."),
+        "$wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work"
+    )
+    . "</p>"
+    . "\n";
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 echo "\n"
