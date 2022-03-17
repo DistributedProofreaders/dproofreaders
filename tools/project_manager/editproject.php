@@ -499,7 +499,7 @@ class ProjectInfoHolder
             $this->row(_("PPer/PPVer"), 'DP_user_field', $this->project->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), $site_abbreviation));
         } else {
             $this->row(_("PPer/PPVer"), 'just_echo', $this->project->checkedoutby);
-            echo "<input type='hidden' name='checkedoutby' value='$this->checkedoutby'>";
+            echo "<input type='hidden' name='checkedoutby' value='$this->project->checkedoutby'>";
         }
         $this->row(_("Image Source"), 'image_source_list', $this->project->image_source);
         $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
