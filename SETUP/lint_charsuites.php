@@ -57,7 +57,7 @@ foreach (CharSuites::get_all() as $charsuite) {
     validate_hex_codes_lowercase($charsuite->codepoints, "uppercase hex values found in charsuite codepoints");
 
     // Validate pickersets only contain characters within the suite
-    foreach ($charsuite->pickerset->get_subsets() as $title => $picker_subset) {
+    foreach ($charsuite->pickerset->get_subsets() as  [$title, $long_title, $picker_subset]) {
         foreach ($picker_subset as $codepoints) {
             $string = implode("", convert_codepoint_ranges_to_characters($codepoints));
             $invalid_chars = get_invalid_characters($string, $charsuite->codepoints);

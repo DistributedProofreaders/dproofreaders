@@ -30,9 +30,9 @@ class CharacterSelector
                 $prefix = "$picker_set->name: ";
             }
 
-            foreach ($picker_set->get_subsets() as $code => $picker) {
+            foreach ($picker_set->get_subsets() as [$code, $title, $picker]) {
                 $safe_code = bin2hex($code);
-                $title = $prefix . $picker_set->get_title($code);
+                $title = $prefix . $title;
                 $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
                 $row_string .= "<div class='_$safe_code key-block'>\n";
                 foreach ($picker as $row) {

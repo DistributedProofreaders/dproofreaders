@@ -11,23 +11,15 @@ class PickerSet
 
     public function add_subset($name, $codepoints, $title = null)
     {
-        $this->subsets[$name] = $codepoints;
-
-        if ($title) {
-            $this->titles[$name] = $title;
-        } else {
-            $this->titles[$name] = $name;
+        if (!$title) {
+            $title = $name;
         }
+        $this->subsets[] = [$name, $title, $codepoints];
     }
 
     public function get_subsets()
     {
         return $this->subsets;
-    }
-
-    public function get_title($name)
-    {
-        return $this->titles[$name];
     }
 }
 

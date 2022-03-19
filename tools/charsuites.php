@@ -127,9 +127,8 @@ function output_pickerset($pickerset, $all_codepoints)
     echo "<p>" . _("The following groupings represent sets of characters available in the character picker within the proofreading interface for projects using this character suite. Each grouping is labeled by a one- to four-character string that is used for the grouping's menu within the character picker.") . "</p>";
     $set = $pickerset->get_subsets();
     $picker_characters = [];
-    foreach ($set as $menu => $coderows) {
+    foreach ($set as [$menu, $title, $coderows]) {
         $header = $menu;
-        $title = $pickerset->get_title($menu);
         if ($menu != $title) {
             $header .= " - $title";
         }
