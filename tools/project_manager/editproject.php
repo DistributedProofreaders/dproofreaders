@@ -172,6 +172,11 @@ class ProjectInfoHolder
 
         // reset project values that should not be cloned
         $this->project->projectid = null;
+        $this->project->archived = 0;
+        $this->project->topic_id = null;
+        $this->project->postproofer = '';
+        $this->project->ppverifier = null;
+        $this->project->postcomments = '';
         $this->project->postednum = null;
         $this->project->deletion_reason = '';
         $this->project->state = '';
