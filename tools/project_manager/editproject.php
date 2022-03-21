@@ -490,7 +490,7 @@ class ProjectInfoHolder
         if ($this->project->difficulty == "beginner" && !$can_set_difficulty_tofrom_beginner) {
             // allow PF to edit a BEGIN project, but without altering the difficulty
             $this->row(_("Difficulty"), 'just_echo', _("Beginner"));
-            echo "<input type='hidden' name='difficulty' value='$this->project->difficulty'>";
+            echo "<input type='hidden' name='difficulty' value='{$this->project->difficulty}'>";
         } else {
             $this->row(_("Difficulty"), 'difficulty_list', $this->project->difficulty);
         }
@@ -499,7 +499,7 @@ class ProjectInfoHolder
             $this->row(_("PPer/PPVer"), 'DP_user_field', $this->project->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), $site_abbreviation));
         } else {
             $this->row(_("PPer/PPVer"), 'just_echo', $this->project->checkedoutby);
-            echo "<input type='hidden' name='checkedoutby' value='$this->project->checkedoutby'>";
+            echo "<input type='hidden' name='checkedoutby' value='{$this->project->checkedoutby}'>";
         }
         $this->row(_("Image Source"), 'image_source_list', $this->project->image_source);
         $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
