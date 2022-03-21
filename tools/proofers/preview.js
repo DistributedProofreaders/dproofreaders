@@ -1,20 +1,17 @@
 /* exported makePreview analyse processExMath */
 /* global $ previewMessages XRegExp */
 
-// the formatting rules are applied as if proofers' notes were
+// The formatting rules are applied as if proofers' notes were
 // invisible so remove them first and save for later. But first check if they
 // are malformed, if so mark the problem and do nothing else.
 
-// then analyse the text without notes and make an array of issues.
-// the issues and the notes are then merged back into the text.
-// The text could have <, > and & characters which should be html encoded,
-// do this before merging since the issue markup will contain < and >.
-// Thus the tags in the text will also be encoded.
+// Then analyse the text without notes and make an array of issues.
+// html encode the notes.
+// The issues and the notes are then merged back into the text.
 
 // The last stage is to interpret any tags to show the styling.
-// To avoid styling notes change these characters to something else before
-// merging and then convert back to html codes afterwards.
-
+// The final text should not contain any invalid html which would cause the
+// browser to leave it out.
 
 var makePreview;
 var analyse;
@@ -341,7 +338,6 @@ $(function () {
             var tagLen;
             var start = 0;
             var tagStack = [];
-            var result;
             var stackTop;
             var preChar;
             var postChar;
@@ -351,11 +347,13 @@ $(function () {
                 return tagData.tag === tagString;
             }
 
-            // regex to match valid inline tags or a blank line
-            var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
+            // regex to match < and next up to 4 chars, or a blank line
+            const rePossTag = new RegExp("<.{0,4}|\\n\\n", "g");
+            const reGoodTag = new RegExp(`^<(/?)(${ILTags})>`);
 
-            while ((result = re.exec(txt)) !== null) {
-                if (result[0] === "\n\n") {
+            let possTagResult;
+            while ((possTagResult = rePossTag.exec(txt)) !== null) {
+                if (possTagResult[0] === "\n\n") {
                     while (tagStack.length !== 0) {
                         stackTop = tagStack.pop();
                         reportIssue(stackTop.start, stackTop.tagLen, "noEndTagInPara");
@@ -363,14 +361,27 @@ $(function () {
                     }
                     continue;
                 }
-                start = result.index;
-                tagLen = result[0].length;
+                const possibleTag = possTagResult[0];
+                if(possibleTag.match(/^<tb>/)) {
+                    continue;
+                }
+                const goodTagResult = possibleTag.match(reGoodTag);
+                start = possTagResult.index;
+                if(!goodTagResult) {
+                    reportIssue(start, 1, "unRecTag");
+                    // start next search after < in case another < follows
+                    rePossTag.lastIndex = start + 1;
+                    continue;
+                }
+                tagLen = goodTagResult[0].length;
                 end = start + tagLen;
-                tagString = result[2];
+                // start next search after goodTag
+                rePossTag.lastIndex = end;
+                tagString = goodTagResult[2];
                 preChar = txt.charAt(start - 1);
                 postChar = txt.charAt(end);
-                if (result[1] === '/') {    // end tag
-                // check for , ; or : before end tag except at end of text
+                if (goodTagResult[1] === '/') {    // end tag
+                    // check for , ; or : before end tag except at end of text
                     if (/[,;:]/.test(preChar) && (txt.length !== end)) {
                         reportIssue(start - 1, 1, "puncBEnd");
                     }
@@ -424,32 +435,6 @@ $(function () {
                 stackTop = tagStack.pop();
                 reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
                 badParse();
-            }
-        }
-
-        // check for an unrecognised tag
-        function unRecog() {
-            let reMaybeTag = /<(\/?)(\w{1,3})>/g;
-            let reGoodTag = new RegExp("^(?:" + ILTags + ")$");
-            let result;
-            // find all possible tags and check if valid
-            while((result = reMaybeTag.exec(txt)) !== null) {
-                let tagString = result[2];
-                let tagLen = result[0].length;
-
-                if(tagString === "tb") {
-                    if(result[1]) {
-                        // found </tb>
-                        reportIssue(result.index, tagLen, "unRecTag");
-                    }
-                    // ignore thought break
-                    continue;
-                }
-
-                if(!reGoodTag.test(tagString)) {
-                    reportIssue(result.index, tagLen, "unRecTag");
-                    continue;
-                }
             }
         }
 
@@ -775,7 +760,6 @@ $(function () {
             }
             parseOol();
             checkFootnotes();
-            unRecog();
             checkBlankLines();
             if(config.allowMathPreview) {
                 checkMath();
@@ -871,16 +855,20 @@ $(function () {
 
         // add style and optional colouring for marked-up text
         function showStyle() {
-            const sc1 = "<sc>";
-            const sc2 = "</sc>";
+            const sc1 = "┌sc┐";
+            const sc2 = "┌/sc┐";
             // a string of small capitals
             let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
+
+            function boxHtml(txt) {
+                return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;");
+            }
 
             function transformSC(match, p1) { // if all upper case transform to lower
                 let scString = p1;
                 // remove tags such as <i> within the string so that all
                 // uppercase string is correctly identified, (only 1 char)
-                scString = scString.replace(/<\/?.>/g, '');
+                scString = scString.replace(/┌\/?.┐/g, '');
                 if (scString === scString.toUpperCase()) { // found no lower-case
                     return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
                 } else {
@@ -902,7 +890,7 @@ $(function () {
                 var tagMark = "";
                 switch (viewMode) {
                 case "show_tags":
-                    tagMark = htmlEncode(match);
+                    tagMark = boxHtml(match);
                     break;
                 case "flat":
                     tagMark = tagMap[p2];
@@ -929,21 +917,24 @@ $(function () {
             if (viewMode !== "flat") {
                 txt = txt.replace(smallCapRegex, transformSC);
             }
-            // find inline tag
-            var reTag = new RegExp("<(\\/?)(" + ILTags + ")>", "g");
+            // find inline tags
+            var reTag = new RegExp("┌(\\/?)(" + ILTags + ")┐", "g");
             txt = txt.replace(reTag, spanStyle);
 
             // for out-of-line tags, tb, sub- and super-scripts
             let colorString = makeColourStyle('etc');
 
             function oolReplacer(match) {
-                return `<span${colorString}>${htmlEncode(match)}</span>`;
+                return `<span${colorString}>${boxHtml(match)}</span>`;
             }
 
             // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\/|<tb>/g, oolReplacer);
+                txt = txt.replace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, oolReplacer);
             }
+
+            // encode any unrecognised tags
+            txt = boxHtml(txt);
 
             // show sub- and super-scripts
             let tagText = (viewMode === "no_tags") ? "$1" : "$&";
@@ -1085,6 +1076,15 @@ $(function () {
             }
         }
 
+        // encode & to &amp; to avoid accidental entities like &copy;
+        // encode < > to box characters so we can distinguish any which are not
+        // part of legitimate tags from the span tags we insert: either signs
+        // or unrecognised tags and encode them in styling
+        function boxEncode(txt) {
+            return txt.replace(/&/g, "&amp;").replace(/</g, "┌")
+                .replace(/>/g, "┐");
+        }
+
         let analysis = analyse(txt, styler);
         let issArray = analysis.issues;
         let issues = 0;
@@ -1117,43 +1117,21 @@ $(function () {
 
         var tArray = analysis.text.split("");
 
-        // these are private use codes so shouldn't ever appear in actual text
-        const ampCode = "\uE000";
-        const ltCode = "\uE001";
-        const gtCode = "\uE002";
-
-        function cryptEncode(txt) {
-            return txt.replace(/&/g, ampCode)
-                .replace(/</g, ltCode)
-                .replace(/>/g, gtCode);
-        }
-
-        const reAmp = new RegExp(ampCode, "g");
-        const reLt = new RegExp(ltCode, "g");
-        const reGt = new RegExp(gtCode, "g");
-
-        function cryptHtmlEncode(s) {
-            return s.replace(reAmp, "&amp;")
-                .replace(reLt, "&lt;")
-                .replace(reGt, "&gt;");
-        }
-
         let noteArray;
         if(ok && wrapMode) {
             noteArray = [];
         } else {
             noteArray = analysis.noteArray;
-            //encode so that tags don't get processed by showStyle()
-            // and can be html encoded later
             noteArray.forEach(function(note) {
-                note.text = cryptEncode(note.text);
+                note.text = htmlEncode(note.text);
             });
         }
 
         if(!ok) {
             tArray = tArray.map(htmlEncode);
+        } else {
+            tArray = tArray.map(boxEncode);
         }
-        // otherwise tags will be encoded later in showStyle
 
         // merge issue arrays with notes so that if both start at same
         // index the issueStart appears after the note but the issueEnd
@@ -1182,8 +1160,6 @@ $(function () {
                 reWrap();
             }
         }
-        // re-encode notes for html
-        txt = cryptHtmlEncode(txt);
 
         return {
             ok: ok,

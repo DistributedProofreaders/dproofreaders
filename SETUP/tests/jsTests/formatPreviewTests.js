@@ -102,8 +102,8 @@ QUnit.module("Format preview test", function() {
     QUnit.test("unrecognised tag, u not enabled", function (assert) {
         text = "ab <u>cd</u>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 3, 3, "unRecTag", 0);
-        issueTest(assert, 1, 8, 4, "unRecTag", 0);
+        issueTest(assert, 0, 3, 1, "unRecTag", 0);
+        issueTest(assert, 1, 8, 1, "unRecTag", 0);
     });
 
     QUnit.test("u tag enabled", function (assert) {
