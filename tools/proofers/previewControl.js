@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
-/* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings */
+/* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings
+previewMessages */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -76,9 +77,13 @@ $( function() {
     var font_size;
     var preview;
 
+    function getMessage(index) {
+        return previewMessages[index];
+    }
+
     function writePreviewText() {
         // makePreview is defined in preview.js
-        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
+        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles, getMessage);
         prevWin.style.whiteSpace = (
             (preview.ok && wrapMode)
                 ? "normal"
@@ -228,7 +233,7 @@ $( function() {
     function testDraw() {
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
-        preview = makePreview(previewStrings.previewDemo, 'no_tags', false, tempStyle);
+        preview = makePreview(previewStrings.previewDemo, 'no_tags', false, tempStyle, getMessage);
         testDiv.innerHTML = preview.txtout;
     }
 

@@ -1,5 +1,5 @@
 /* exported makePreview analyse processExMath */
-/* global $ previewMessages XRegExp */
+/* global $ XRegExp */
 
 // The formatting rules are applied as if proofers' notes were
 // invisible so remove them first and save for later. But first check if they
@@ -810,14 +810,14 @@ $(function () {
     This function checks the text for formatting issues and adds the markup
     for colouring and issue highlighting.
     It can be used alone with a simple html interface for testing.
-    previewMessages are translated strings in header args.
+    getMessage is a function to get a translated message.
     previewControl.adjustMargin() is defined in previewControl.js
     txt is the text to analyse.
     viewMode determines if the inline tags are to be shown or hidden
     wrapMode whether to re-wrap the text.
     styler is an object containing colour and font options.
     */
-    makePreview = function (txt, viewMode, wrapMode, styler) {
+    makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         const ILTags = getILTags(styler);
         const endSpan = "</span>";
 
@@ -1110,7 +1110,7 @@ $(function () {
             } else {
                 errorString = makeErrStr("err");
             }
-            let message = previewMessages[issue.code].replace("%s", issue.subText);
+            let message = getMessage(issue.code).replace("%s", issue.subText);
             issueStarts.push({start: issue.start, text: errorString + message + endSpan});
             issueEnds.push({start: issue.start + issue.len, text: endSpan});
         });
