@@ -811,7 +811,6 @@ $(function () {
     for colouring and issue highlighting.
     It can be used alone with a simple html interface for testing.
     getMessage is a function to get a translated message.
-    previewControl.adjustMargin() is defined in previewControl.js
     txt is the text to analyse.
     viewMode determines if the inline tags are to be shown or hidden
     wrapMode whether to re-wrap the text.
@@ -841,10 +840,6 @@ $(function () {
                 str = ' style="' + str + '"';
             }
             return str;
-        }
-
-        function makeErrStr(st1) {
-            return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
         }
 
         function htmlEncode(s) {
@@ -1100,18 +1095,13 @@ $(function () {
         // ok true if no errors which would cause showstyle() or reWrap() to fail
         let ok = (issues === 0);
 
-        // make texts to be inserted to mark issues
         let issueStarts = [];
         let issueEnds = [];
-        let errorString;
         issArray.forEach(function(issue) {
-            if (issue.type === 0) {
-                errorString = makeErrStr("hlt");
-            } else {
-                errorString = makeErrStr("err");
-            }
+            let issueStyle = (issue.type === 0) ? "hlt" : "err";
+            let colorStyle = makeColourStyle(issueStyle);
             let message = getMessage(issue.code).replace("%s", issue.subText);
-            issueStarts.push({start: issue.start, text: errorString + message + endSpan});
+            issueStarts.push({start: issue.start, text: `<span${colorStyle}title='${message}'>`});
             issueEnds.push({start: issue.start + issue.len, text: endSpan});
         });
 

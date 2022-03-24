@@ -142,22 +142,3 @@
     margin-right: 1em;
     white-space: pre-wrap;
 }
-
-/* issue markings */
-.err span {
-    font: 1em Arial;
-    display: none;
-    padding: 4px;
-    margin-top: 1.2em;
-    margin-left: 0;
-    border-radius: 4px;
-    box-shadow: 5px 5px 8px #C0C0C0;
-}
-.err:hover span {
-    display: inline;
-    position: absolute;
-    z-index: 10;
-    color: #111;
-    border: 1px solid #DCA;
-    background: #fffAF0;
-}

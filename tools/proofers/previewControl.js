@@ -300,24 +300,6 @@ $( function() {
     }
 
     previewControl = {
-        // this is used inside the "hover" markup to move the hover box
-        // (by adjusting its margin) so it does not disappear
-        // off the edge of the screen
-        adjustMargin: function (el) {
-            var hov = el.firstElementChild;
-            var hovBox = hov.getBoundingClientRect();
-            var container = outerPrev.getBoundingClientRect();
-            if (hovBox.right >= container.right) {
-                hov.style.marginLeft = -hovBox.width + "px";
-            }
-            if (hovBox.left <= container.left) {
-                hov.style.marginLeft = "0";
-            }
-            if (hovBox.bottom + 17 >= container.bottom) { // 17 allows for scrollbar
-                hov.style.marginTop = "-2em";
-            }
-        },
-
         reSizeText: function (ratio) {
             font_size *= ratio;
             prevWin.style.fontSize = font_size.toFixed(1) + "px";
