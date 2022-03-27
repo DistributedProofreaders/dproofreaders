@@ -1,4 +1,4 @@
-/* global QUnit analyse processExMath findClose */
+/* global QUnit analyse processExMath findClose makePreview */
 
 QUnit.module("Format preview test", function() {
     let configuration = {
