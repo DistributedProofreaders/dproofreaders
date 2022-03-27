@@ -102,8 +102,8 @@ QUnit.module("Format preview test", function() {
     QUnit.test("unrecognised tag, u not enabled", function (assert) {
         text = "ab <u>cd</u>";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 3, 3, "unRecTag", 0);
-        issueTest(assert, 1, 8, 4, "unRecTag", 0);
+        issueTest(assert, 0, 3, 1, "unRecTag", 0);
+        issueTest(assert, 1, 8, 1, "unRecTag", 0);
     });
 
     QUnit.test("u tag enabled", function (assert) {
@@ -496,4 +496,44 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(procText, "xy]zaef");
     });
 
+    function getMessage(messageCode) {
+        return messageCode;
+    }
+
+    let previewStyles = {
+        t: {bg: "#fffcf4", fg: "#000000"},
+        i: {bg: "", fg: "#0000ff"},
+        b: {bg: "", fg: "#c55a1b"},
+        g: {bg: "", fg: "#8a2be2"},
+        sc: {bg: "", fg: "#009700"},
+        f: {bg: "", fg: "#ff0000"},
+        u: {bg: "", fg: ""},
+        etc: {bg: "#ffcaaf", fg: ""},
+        err: {bg: "#ff0000", fg: ""},
+        hlt: {bg: "#ceff09", fg: ""},
+        color: true, // colour the markup or not
+        allowUnderline: false,
+        defFontIndex: 0,
+        suppress: {},
+        initialViewMode: "no_tags",
+        allowMathPreview: false
+    };
+
+    QUnit.test("Check bad tag is converted to valid html", function (assert) {
+        let text = "<i&>";
+        let preview = makePreview(text, false, false, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 1);
+        assert.strictEqual(preview.txtout, "<span style=\"background-color:#ceff09;\"title='unRecTag'>&lt;</span>i&amp;&gt;");
+    });
+
+    QUnit.test("Check html entity is encoded", function (assert) {
+        let text = "&copy;";
+        let preview = makePreview(text, false, false, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "&amp;copy;");
+    });
 });
