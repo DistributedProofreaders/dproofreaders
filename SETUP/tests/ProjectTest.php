@@ -253,6 +253,14 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString("not a valid language", $errors[0]);
     }
 
+    public function test_validate_language_duplicate()
+    {
+        $project = new Project($this->valid_project_data);
+        $project->languages = ['English', 'English'];
+        $errors = $project->validate();
+        $this->assertStringContainsString("Languages must be unique.", $errors[0]);
+    }
+
     public function test_validate_genre_missing()
     {
         $project = new Project($this->valid_project_data);

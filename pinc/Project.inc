@@ -212,6 +212,10 @@ class Project
                     $errors[] = sprintf(_("%s is not a valid language."), $language);
                 }
             }
+
+            if (sizeof(array_unique($this->languages)) != sizeof($this->languages)) {
+                $errors[] = _("Languages must be unique.");
+            }
         }
 
         if ($this->genre && !in_array($this->genre, array_keys(load_genre_translation_array()))) {
