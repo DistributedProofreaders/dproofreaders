@@ -450,7 +450,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
-                . number_box('e1_unused_num', _("Unused files in images folder (Thumbs.db is not counted toward rating)"))
+                . number_box('e1_unused_num', _("Unused files in images folder (Thumbs.db and .DS_Store are not counted toward rating)"))
                 . number_box('e1_imagesize_num', sprintf(_("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed <a href='%s'>these described limits</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."), "$pp_faq_url#imagesizes"))
                 . number_box('e1_blemish_num', _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping"))
                 . number_box('e1_distort_num', _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi"))
@@ -465,8 +465,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e1_pre_num', _("Use of &lt;pre&gt; tags instead of their CSS equivalents"))
                 . number_box('e1_body_num', _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them"))
                 . number_box('e1_tabl_num', _("Use of tables for things that are not tables"))
-                . number_box('e1_css_num', sprintf(_("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a>)"), $PGLAF_upload_url))
-                . number_box('e1_xhtml_num', _("Used HTML version other than XHTML 1.0 Strict or 1.1"))
+                . number_box('e1_css_num', sprintf(_("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element and other CSS 3 REC status features permitted by <a href='%s'>PGLAF</a>)"), $PGLAF_upload_url))
+                . number_box('e1_xhtml_num', sprintf(_("Used HTML version other than that specified in the <a href='%s'>Post-Processing FAQ</a>"), "$pp_faq_url#What_HTML_version_should_you_use.3F"))
                 . number_box('e1_chapter_num', _("Failure to add &lt;div class=\"chapter\"&gt; or &lt;div class=\"section\"&gt; at chapter breaks to enable proper page breaks for e-readers"))
                 . number_box('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field below)"))
                 . "\n"
@@ -493,7 +493,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e2_tidy_num', _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)"))
-                . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 code permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), $PGLAF_upload_url))
+                . number_box('e2_csscheck_num', sprintf(_("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 REC status features permitted by <a href='%s'>PGLAF</a> (Please enter number of errors)"), $PGLAF_upload_url))
                 . number_box('e2_links_num', _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num', _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
                 . number_box('e2_cover_num', sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet <a href='%s'>current DP guidelines</a>.)"), "$pp_faq_url#covers"))
@@ -512,7 +512,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('s_code', _("Keep your code line lengths reasonable"))
                 . check_box('s_tables', _("Tables should display left, right, and center justification and top and bottom align appropriately"))
                 . check_box('s_th', _("Tables contain &lt;th&gt; elements for headings"))
-                . check_box('s_thumbs', _("Remove thumbs.db file from the images folder"))
+                . check_box('s_thumbs', _("Remove unwanted system/hidden OS files, e.g. Thumbs.db or .DS_Store, from the images folder"))
                 . check_box('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible"))
         )
         . tr_w_one_cell_centered("major_section", "<a href='$ppv_guidelines_url#mildly_recommended'>" . _("Mildly Recommended") . "</a>")
@@ -723,18 +723,18 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         . "\n"
         . "\n    HTML Version Only:"
         . report_error_counts([
-            'e1_unused_num' => "Unused files in images folder (Thumbs.db is not counted toward rating)",
+            'e1_unused_num' => "Unused files in images folder (Thumbs.db and .DS_Store are not counted toward rating)",
             'e1_imagesize_num' => "Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).",
             'e1_blemish_num' => "Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping",
             'e1_distort_num' => "Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi",
             'e1_alt_num' => "Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist",
-            'e1_px_num' => "Use of px sizing units for items other than images",
+            'e1_px_num' => "Use of px sizing units for items other than images and borders",
             'e1_title_num' => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)",
             'e1_pre_num' => "Use of &lt;pre&gt; tags instead of their CSS equivalents",
             'e1_body_num' => "Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them",
             'e1_tabl_num' => "Use of tables for things that are not tables",
-            'e1_css_num' => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)",
-            'e1_xhtml_num' => "Used HTML version other than XHTML 1.0 Strict or 1.1",
+            'e1_css_num' => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element and other CSS 3 REC features permitted by PGLAF)",
+            'e1_xhtml_num' => "Used HTML version other than that specified in the Post-Processing FAQ",
             'e1_chapter_num' => "Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders",
             'e1_xhtml_genhtml_num' => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field below)",
         ])
@@ -766,8 +766,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         . "\n"
         . "\n    HTML Version Only:"
         . report_error_counts([
-            'e2_tidy_num' => "The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)",
-            'e2_csscheck_num' => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)",
+            'e2_tidy_num' => "The W3C Markup Validation Service generates errors or warning messages",
+            'e2_csscheck_num' => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element and other CSS 3 REC status features permitted by PGLAF",
             'e2_links_num' => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
             'e2_file_num' => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
             'e2_cover_num' => "Cover image has not been included and/or has not been coded for e-reader use. (The cover should meet current DP guidelines.)",
@@ -785,7 +785,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
             's_code' => "Keep your code line lengths reasonable",
             's_tables' => "Tables should display left, right, and center justification and top and bottom align appropriately",
             's_th' => "Tables contain &lt;th&gt; elements for headings",
-            's_thumbs' => "Remove thumbs.db file from the images folder",
+            's_thumbs' => "Remove unwanted system/hidden OS files, e.g. Thumbs.db or .DS_Store, from the images folder",
             's_ereader' => "E-reader version, although without major flaws, should also look as good as possible",
         ])
         . "\n"
