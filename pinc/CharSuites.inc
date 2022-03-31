@@ -11,7 +11,21 @@ class PickerSet
 
     public function add_subset($name, $codepoints, $title = null)
     {
-        $this->subsets[$name] = $codepoints;
+        $char_title_rows = [];
+        foreach ($codepoints as $codepoint_row) {
+            $chars = convert_codepoint_ranges_to_characters($codepoint_row);
+            $char_title_row = [];
+            foreach ($chars as $char) {
+                if (null == $char) {
+                    $char_title = [null, null];
+                } else {
+                    $char_title = [$char, utf8_character_name($char)];
+                }
+                $char_title_row[] = $char_title;
+            }
+            $char_title_rows[] = $char_title_row;
+        }
+        $this->subsets[$name] = $char_title_rows;
 
         if ($title) {
             $this->titles[$name] = $title;

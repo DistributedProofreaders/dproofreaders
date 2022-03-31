@@ -35,8 +35,8 @@ class CharacterSelector
                 $title = $prefix . $picker_set->get_title($code);
                 $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
                 $row_string .= "<div class='_$safe_code key-block'>\n";
-                foreach ($picker as $row) {
-                    $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($row));
+                foreach ($picker as $row_chars) {
+                    $row_string .= $this->draw_row($row_chars);
                 }
                 $row_string .= "</div>\n";
             }
@@ -48,16 +48,16 @@ class CharacterSelector
         echo "<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
     }
 
-    public function draw_row($chars)
+    public function draw_row($row_chars)
     {
         $row = "<div class='table-row'>";
 
-        foreach ($chars as $character) {
+        foreach ($row_chars as [$character, $title]) {
             $row .= "<div class='table-cell'>";
             if (null == $character) {
                 $row .= "<button type='button' class='picker invisible'></button>";
             } else {
-                $title_string = attr_safe(utf8_character_name($character));
+                $title_string = attr_safe($title);
                 $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe($character) . "</button>";
             }
             $row .= "</div>";

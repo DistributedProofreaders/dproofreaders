@@ -140,7 +140,7 @@ function output_pickerset($pickerset, $all_codepoints)
         echo "<table class='basic'>";
         foreach ($coderows as $row) {
             echo "<tr>";
-            $characters = convert_codepoint_ranges_to_characters($row);
+            $characters = array_column($row, 0);
             $picker_characters = array_merge($picker_characters, $characters);
             output_characters_slice($characters);
             echo "</tr>";
