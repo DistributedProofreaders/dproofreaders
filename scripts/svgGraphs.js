@@ -119,6 +119,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         } else {
             yAxisGroup.attr("transform", `translate(${width - margin.right},0)`);
         }
+        yAxisGroup.call(g => g.selectAll(".tick line").clone()
+            .attr("x2", ((config.axisLeft ? 1 : -1) * (width - margin.right - left)))
+            .attr("stroke-opacity", 0.1));
 
         const x = d3.scaleUtc()
             .domain(d3.extent(data, d => d.date))
@@ -209,6 +212,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 .call(yAxis);
             const left = yAxisGroup.node().getBBox().width + 27;
             yAxisGroup.attr("transform", `translate(${left},0)`);
+            yAxisGroup.call(g => g.selectAll(".tick line").clone()
+                .attr("x2", width - barMargin.right - left)
+                .attr("stroke-opacity", 0.1));
 
             const xValues = data[0][1].x;
             const x = d3.scaleBand()
