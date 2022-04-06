@@ -591,6 +591,120 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /rounds/{roundid}:
+    get:
+      tags:
+      - project
+      description: Gets round information
+      parameters:
+      - name: roundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Round data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/round_data'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+
+
+  /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages:
+    post:
+      tags:
+      - project
+      description: Checks out a page for proofreading
+      parameters:
+      - name: proofroundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
+        required: true
+        schema:
+          type: string
+      - name: proofprojectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages/{proofpage}:
+    put:
+    tags:
+    - project
+    description: save the text and possibly change state
+    parameters:
+      - name: proofroundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
+        required: true
+        schema:
+          type: string
+      - name: proofprojectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      - name: proofpage
+        in: path
+        description: the name of the page, must be in temp state and owned by user
+        required: true
+        schema:
+          type: string
+      - name: new_page_state
+        in: body
+        description: new state: saved, temp or bad
+        required: true
+        schema:
+          type: string
+      - name: text
+        in: body
+        description: the page text
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -783,6 +897,31 @@ components:
           type: string
         state:
           type: string
+
+    proof_page:
+      type: object
+      properties:
+        pagename:
+          type: string
+        image_url:
+          type: string
+        text:
+          type: string
+
+    round_data:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: the translated description
+        formatting:
+          type: boolean
+          description: true if it is a formatting round
+        document:
+          type: string
+          description: url of the guidelines for the round
 
     charsuite:
       required:
