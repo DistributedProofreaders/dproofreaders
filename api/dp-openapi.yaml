@@ -591,6 +591,87 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/badnessreasons:
+    get:
+      tags:
+      - project
+      description: Gets a list of reasons to mark a page as bad
+      responses:
+        200:
+          description: List of reasons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/codepoints:
+    get:
+      tags:
+      - project
+      description: Gets valid codepoints for the project
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of codepoints
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pickersets:
+    get:
+      tags:
+      - project
+      description: Gets pickersets for the project
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: pickersets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pickersets'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /rounds/{roundid}:
     get:
       tags:
@@ -616,8 +697,6 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
           $ref: '#/components/responses/UnexpectedError'
-
-
 
   /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages:
     post:
@@ -655,10 +734,10 @@ paths:
 
   /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages/{proofpage}:
     put:
-    tags:
-    - project
-    description: save the text and possibly change state
-    parameters:
+      tags:
+      - project
+      description: save the text and/or possibly change state
+      parameters:
       - name: proofroundid
         in: path
         description: The round identifier (as defined by array_keys($Round_for_round_id_)
@@ -677,18 +756,53 @@ paths:
         required: true
         schema:
           type: string
-      - name: new_page_state
-        in: body
-        description: new state: saved, temp or bad
+      requestBody:
+        description: data for operation
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/page_save'
+                - $ref: '#/components/schemas/page_return'
+                - $ref: '#/components/schemas/page_mark_bad'
+      responses:
+        200:
+          description: operation success
+          content: {}
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/ownedpages/{ownedpage}:
+    put:
+      tags:
+      - project
+      description: make page available for proofreading, change state to temp if necessary
+      parameters:
+      - name: proofroundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
         required: true
         schema:
           type: string
-      - name: text
-        in: body
-        description: the page text
+      - name: proofprojectid
+        in: path
+        description: The project id
+        required: true
         schema:
           type: string
-
+      - name: ownedpage
+        in: path
+        description: the name of the page, must be in temp state of saved state and owned by user
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: Page data
@@ -696,6 +810,131 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages/{proofpage}/pageoptions/{pageoption}:
+    get:
+      tags:
+      - project
+      description: get page text from either current or previous round
+      parameters:
+      - name: proofroundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
+        required: true
+        schema:
+          type: string
+      - name: proofprojectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      - name: proofpage
+        in: path
+        description: the name of the page, must be in temp state and owned by user
+        required: true
+        schema:
+          type: string
+      - name: pageoption
+        in: path
+        description: current or original
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Page text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/page_text'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/wordcheck:
+    put:
+      tags:
+      - project
+      description: checks text for bad words
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: text to check
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/page_check'
+      responses:
+        200:
+          description: description of checked text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checked_text'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /proofrounds/{proofroundid}/proofprojects/{proofprojectid}/proofpages/{proofpage}/suggestions:
+    put:
+      tags:
+      - project
+      description: submit suggested words for the page
+      parameters:
+      - name: proofroundid
+        in: path
+        description: The round identifier (as defined by array_keys($Round_for_round_id_)
+        required: true
+        schema:
+          type: string
+      - name: proofprojectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      - name: proofpage
+        in: path
+        description: the name of the page, must be in temp state and owned by user
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: array of suggested words
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/suggestions'
+      responses:
+        200:
+          description: operation success
+          content: {}
         401:
           $ref: '#/components/responses/Unauthorized'
         404:
@@ -908,6 +1147,12 @@ components:
         text:
           type: string
 
+    page_text:
+      type: object
+      properties:
+        text:
+          type: string
+
     round_data:
       type: object
       properties:
@@ -922,6 +1167,90 @@ components:
         document:
           type: string
           description: url of the guidelines for the round
+
+    page_check:
+      description: check text using given languages and ad hoc good words
+      type: object
+      properties:
+        text:
+          type: string
+        auxlanguage:
+          type: string
+        adhocgoodwords:
+          type: array
+          items:
+            type: string
+
+    page_save:
+      type: object
+      properties:
+        new_page_state:
+          type: string
+          description: saved or temp
+        text:
+          type: string
+          description: text to save
+
+    page_return:
+      type: object
+      properties:
+        new_page_state:
+          type: string
+          description: avail
+
+    page_mark_bad:
+      type: object
+      properties:
+        new_page_state:
+          type: string
+          description: bad
+        reason:
+          type: integer
+          description: index into array of reasons
+
+    pickersets:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          subsets:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: array
+                    items:
+                      type: string
+
+    checked_text:
+      description: encoded checked text
+      type: object
+      properties:
+        mark_array:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+        languages:
+          type: array
+          items:
+            type: string
+
+    suggestions:
+      description: list of words
+      type: object
+      properties:
+        suggestions:
+          type: array
+          items:
+            type: string
 
     charsuite:
       required:
