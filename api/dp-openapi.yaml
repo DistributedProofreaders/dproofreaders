@@ -678,6 +678,170 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /rounds/{roundid}/projects/{projectid}/pages:
+    post:
+      tags:
+      - project
+      description: Checks out a page for proofreading
+      parameters:
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      - name: projectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /rounds/{roundid}/projects/{projectid}/pages/{pagename}:
+    get:
+      tags:
+      - project
+      description: get page text from either current or previous round
+      parameters:
+        - in: path
+          name: roundid
+          description: Round ID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: projectid
+          description: The project id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pagename
+          description: the name of the page, must be in temp state and owned by user
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: pageoption
+          description: current or original, default is current
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Page text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/page_text'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+      - project
+      description: save the text and/or possibly change state
+      parameters:
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      - name: projectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      - name: pagename
+        in: path
+        description: the name of the page, must be in temp state and owned by user
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: data for operation
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/page_save'
+                - $ref: '#/components/schemas/page_return'
+      responses:
+        200:
+          description: operation success
+          content: {}
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/InvalidCharacters'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+      - project
+      description: make page available for proofreading, change state to temp if necessary
+      parameters:
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      - name: projectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      - name: pagename
+        in: path
+        description: the name of the page, must be in temp state of saved state and owned by user
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -900,6 +1064,40 @@ components:
         state:
           type: string
 
+    proof_page:
+      type: object
+      properties:
+        pagename:
+          type: string
+        image_url:
+          type: string
+        text:
+          type: string
+
+    page_text:
+      type: object
+      properties:
+        text:
+          type: string
+
+    page_save:
+      type: object
+      properties:
+        new_page_state:
+          type: string
+          description: saved or temp
+          example: saved
+        text:
+          type: string
+          description: text to save
+
+    page_return:
+      type: object
+      properties:
+        new_page_state:
+          type: string
+          description: avail
+
     charsuite:
       required:
       - id
@@ -1053,6 +1251,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    InvalidCharacters:
+      description: Invalid characters found in text
+      content:
+         application/json:
+            schema:
+              type: object
+              properties:
+                mark_array:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      oneOf:
+                      - type: string
+                      - type: integer
+                error:
+                  type: string
+                  example: invalid characters
     RateLimitExceeded:
       description: Rate Limit Exceeded
       content:

@@ -125,8 +125,6 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 // Returns an LPage, unless no page is available,
 // in which case returns NULL and sets $err.
 {
-    global $preceding_proofer_restriction;
-
     // can throw NonexistentProjectException
     $project = new Project($projectid);
 
@@ -137,6 +135,26 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     }
 
     $round = get_Round_for_project_state($proj_state);
+
+    $page_array = get_available_proof_page($project, $round, $pguser, $err);
+    if (!$page_array) {
+        return null;
+    }
+    [$imagefile, $state] = $page_array;
+    $lpage = new LPage($project->projectid, $imagefile, $state, 0);
+
+    $lpage->checkout($pguser);
+
+    $err = null;
+    return $lpage;
+}
+
+function get_available_proof_page($project, $round, $pguser, &$err)
+// Returns an array [image, state] unless no page is available,
+// in which case returns NULL and sets $err.
+{
+    global $preceding_proofer_restriction;
+
     $err = can_user_get_pages_in_project($pguser, $project, $round);
     if ($err) {
         return null;
@@ -159,14 +177,7 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
         return null;
     }
 
-    [$imagefile, $state] = $page_array;
-
-    $lpage = new LPage($projectid, $imagefile, $state, 0);
-
-    $lpage->checkout($pguser);
-
-    $err = null;
-    return $lpage;
+    return $page_array;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
