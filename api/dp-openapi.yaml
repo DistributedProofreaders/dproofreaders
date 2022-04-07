@@ -774,6 +774,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         404:
           $ref: '#/components/responses/NotFound'
+        422:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
         429:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
