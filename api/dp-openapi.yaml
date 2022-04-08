@@ -775,11 +775,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
         422:
-          description: Page data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/proof_page'
+          $ref: '#/components/responses/InvalidCharacters'
         429:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
@@ -1411,6 +1407,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    InvalidCharacters:
+      description: Invalid characters found in text
+      content:
+         application/json:
+            schema:
+              type: object
+              properties:
+                mark_array:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      oneOf:
+                      - type: string
+                      - type: integer
+                response_code:
+                  type: integer
+                  example: 422
+                error:
+                  type: string
     RateLimitExceeded:
       description: Rate Limit Exceeded
       content:
