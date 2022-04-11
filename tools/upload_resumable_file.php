@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // handle a file upload request
 foreach ($_FILES as $file) {
     if ($file["error"] != UPLOAD_ERR_OK) {
-        report_error(get_upload_err_msg($file['error']));
+        report_error(get_upload_err_msg($file['error']), false);
         exit;
     }
 
@@ -92,16 +92,18 @@ if (($fp = fopen("$root_staging_dir/$hashed_filename", "c")) !== false) {
         }
         flock($fp, LOCK_UN); // release the lock
     } else {
-        report_error("Unable to lock");
+        report_error("Unable to lock $root_staging_dir/$hashed_filename");
     }
     fclose($fp);
 } else {
     report_error("Unable to create $root_staging_dir/$hashed_filename");
 }
 
-function report_error($error)
+function report_error($error, $log_error = true)
 {
-    error_log("upload_resumable_file.php - $error");
     http_response_code(500);
     echo $error;
+    if ($log_error) {
+        error_log("upload_resumable_file.php - $error");
+    }
 }
