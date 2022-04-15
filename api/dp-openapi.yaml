@@ -591,21 +591,18 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
-  /projects/badnessreasons:
+  /projects/badpagedata:
     get:
       tags:
       - project
-      description: Gets a list of reasons to mark a page as bad
+      description: Gets data for mark bad page
       responses:
         200:
-          description: List of reasons
+          description: Data
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: Missing Image
+                $ref: '#/components/schemas/bad_page_data'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -1234,10 +1231,16 @@ components:
           subsets:
             type: array
             items:
-              oneOf:
-                - type: string
-                  example: A-Z
-                - type: array
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ˆ
+                title:
+                  type: string
+                  example: Letters with acute, grave, and circumflex
+                rows:
+                  type: array
                   items:
                     type: array
                     items:
@@ -1269,6 +1272,22 @@ components:
           type: array
           items:
             type: string
+
+    bad_page_data:
+      type: object
+      properties:
+        advice:
+          type: string
+          description: html encoded text
+          example: Common Fixes ...
+        reasons:
+          type: array
+          description: reasons to mark page bad
+          items:
+            type: string
+            example: Missing Image
+        strings:
+          type: object
 
     charsuite:
       required:
@@ -1438,11 +1457,9 @@ components:
                       oneOf:
                       - type: string
                       - type: integer
-                response_code:
-                  type: integer
-                  example: 422
                 error:
                   type: string
+                  example: invalid characters
     RateLimitExceeded:
       description: Rate Limit Exceeded
       content:
