@@ -279,6 +279,9 @@ class ProjectInfoHolder
         // only SAs can change PM
         if (user_is_a_sitemanager()) {
             $this->project->username = @$_POST['username'];
+        } elseif (user_is_proj_facilitator()) {
+            // PFs can edit a project that isn't theirs but they can't
+            // change the PM, nor should it be set to themselves.
         } else {
             // When cloning a project, the PM should be the same as that of the
             // project being cloned, if the user isn't an SA
