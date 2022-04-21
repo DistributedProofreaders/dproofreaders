@@ -18,9 +18,9 @@ class BadRequest extends ApiException
 
 class UnauthorizedError extends ApiException
 {
-    public function __construct()
+    public function __construct($message = "Unauthorized")
     {
-        parent::__construct("Unauthorized");
+        parent::__construct($message);
     }
 
     public function getStatusCode()
