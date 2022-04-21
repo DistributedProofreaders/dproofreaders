@@ -142,6 +142,11 @@ function get_updatable_project_fields()
 
 function create_or_update_project($project)
 {
+    // can the user use this update API at all?
+    if (!user_is_PM()) {
+        throw new UnauthorizedError();
+    }
+
     // can the user manage the existing project?
     if ($project->projectid && !$project->can_be_managed_by_current_user) {
         throw new UnauthorizedError();
@@ -151,6 +156,9 @@ function create_or_update_project($project)
     if (!$project->projectid && user_has_project_loads_disabled()) {
         throw new UnauthorizedError();
     }
+
+    // save a copy of the original project object for permission checks
+    $orig_project = $project;
 
     // update all updatable fields
     $updates = (array)api_get_request_body();
@@ -181,6 +189,28 @@ function create_or_update_project($project)
             array_extract_field(CharSuites::get_all(), "name"));
         if ($invalid_charsuites) {
             throw new InvalidValue(sprintf("%s is/are not valid Character Suites.", join(", ", $invalid_charsuites)));
+        }
+    }
+
+    // enforce specific field authorization for non-SAs
+    if (!user_is_a_sitemanager()) {
+        // project creation
+        if (!$orig_project->projectid) {
+            if (User::current_username() != $project->username) {
+                throw new UnauthorizedError("You do not have permission to create projects for another PM");
+            }
+            if (User::current_username() != 'BEGIN' && $project->difficulty == "beginner") {
+                throw new UnauthorizedError("You do not have permission to set difficulty to 'beginner'");
+            }
+        }
+        // project updates
+        else {
+            if ($project->username != $orig_project->username) {
+                throw new UnauthorizedError("You do not have permission to change the PM");
+            }
+            if (User::current_username() != 'BEGIN' && $project->difficulty == "beginner" && $orig_project->difficulty != $project->difficulty) {
+                throw new UnauthorizedError("You do not have permission to set difficulty to 'beginner'");
+            }
         }
     }
 
