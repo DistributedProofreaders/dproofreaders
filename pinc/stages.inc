@@ -10,6 +10,7 @@ include_once($relPath.'Round.inc');
 include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
+include_once($relPath.'access_change_emails.inc'); // pp_access_change_email(), f1_access_change_email()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -77,7 +78,7 @@ new Round(
     ['P1' => 300, 'days since reg' => 21, 'quiz/p_basic' => 1, 'quiz/p_mod1' => 1],
     'REQ-AUTO',
     '',
-    null, // access_change_callback
+    "p2_access_change_email", // access_change_callback
     _("The page-texts have already been proofread, and now need to have the text WordChecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     $pi_tools_for_P,
@@ -159,7 +160,7 @@ new Round(
     ['P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1],
     'REQ-AUTO',
     '',
-    null, // access_change_callback
+    "f1_access_change_email", // access_change_callback
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     $pi_tools_for_F,
@@ -269,7 +270,7 @@ new Pool(
     ['F1' => 400],
     'REQ-AUTO',
     '',
-    null, // access_change_callback
+    "pp_access_change_email", // access_change_callback
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
     PROJ_POST_FIRST_CHECKED_OUT,
