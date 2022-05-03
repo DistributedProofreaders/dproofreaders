@@ -489,10 +489,15 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 
 function api_v1_projects_charsuites($method, $data, $query_params)
 {
-    if (isset($query_params["enabled"])) {
+    $enabled_filter = _get_enabled_filter($query_params);
+    if ($enabled_filter === null) {
+        $charsuites = CharSuites::get_all();
+    } elseif ($enabled_filter) {
         $charsuites = CharSuites::get_enabled();
     } else {
-        $charsuites = CharSuites::get_all();
+        $charsuites = array_udiff(CharSuites::get_all(), CharSuites::get_enabled(), function ($a, $b) {
+            return $a->name <=> $b->name;
+        });
     }
 
     $return_data = [];
@@ -516,9 +521,14 @@ function api_v1_projects_specialdays($method, $data, $query_params)
     $return_data = [];
 
     $special_days = load_special_days();
+    $enabled_filter = _get_enabled_filter($query_params);
     foreach ($special_days as $spec_code => $special_day) {
-        if (isset($query_params["enabled"]) && !($special_day["enable"] == 1)) {
-            continue;
+        if ($enabled_filter !== null) {
+            if ($enabled_filter && $special_day["enable"] != 1) {
+                continue;
+            } elseif (!$enabled_filter && $special_day["enable"] == 1) {
+                continue;
+            }
         }
         $return_data[] = [
             "id" => $special_day["spec_code"],
@@ -547,9 +557,14 @@ function api_v1_projects_imagesources($method, $data, $query_params)
 
     $image_sources = load_image_sources();
 
+    $enabled_filter = _get_enabled_filter($query_params);
     foreach ($image_sources as $id => $image_source) {
-        if (isset($query_params["enabled"]) && !($image_source["is_active"] == 1)) {
-            continue;
+        if ($enabled_filter !== null) {
+            if ($enabled_filter && $image_source["is_active"] != 1) {
+                continue;
+            } elseif (!$enabled_filter && $image_source["is_active"] == 1) {
+                continue;
+            }
         }
 
         if (!can_user_see_image_source($image_source)) {
@@ -575,4 +590,28 @@ function api_v1_projects_imagesources($method, $data, $query_params)
 function api_v1_projects_holdstates($method, $data, $query_params)
 {
     return Project::get_holdable_states();
+}
+
+//---------------------------------------------------------------------------
+// Utility functions
+
+// Check to see if the user requested an enabled filter. This returns one of
+// three possible states:
+//   null - no enabled flag was set
+//   true - enabled flag was set to "true" or an empty string (for ?enabled)
+//   false - enabled flag was set to "false"
+function _get_enabled_filter($query_params)
+{
+    if (!isset($query_params["enabled"])) {
+        return null;
+    } elseif ($query_params["enabled"] == "") {
+        // make '?enabled' work as if '?enabled=true'
+        return true;
+    } else {
+        $bool = filter_var($query_params["enabled"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($bool === null) {
+            throw new ValueError("Invalid value for 'enabled'");
+        }
+        return $bool;
+    }
 }
