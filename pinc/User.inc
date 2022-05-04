@@ -11,6 +11,14 @@ class NonuniqueUserException extends Exception
 {
 }
 
+class UserAccessException extends Exception
+{
+    public function __construct($message = "", $code = 77)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class User
 {
     private $table_row;

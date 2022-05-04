@@ -10,10 +10,11 @@ function validate_round($roundid, $data)
     global $Round_for_round_id_;
 
     if (!in_array($roundid, array_keys($Round_for_round_id_))) {
-        throw new NotFoundError("Invalid round");
+        throw new NotFoundError(_("Invalid round"), DP::INVALID_ROUND);
     }
     return $Round_for_round_id_[$roundid];
 }
+
 
 function validate_project($projectid, $data)
 {
@@ -21,7 +22,7 @@ function validate_project($projectid, $data)
     try {
         return new Project($projectid);
     } catch (NonexistentProjectException $exception) {
-        throw new NotFoundError("No such project ID");
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
 }
 
@@ -37,7 +38,7 @@ function validate_page_name($pagename, $data)
 {
     $pages = $data[":projectid"]->get_page_names_from_db();
     if (!in_array($pagename, $pages)) {
-        throw new NotFoundError("No such page in project");
+        throw new NotFoundError(_("There is no page $pagename in the project."), DP::NO_SUCH_PAGE);
     }
     return $pagename;
 }

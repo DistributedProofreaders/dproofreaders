@@ -14,13 +14,17 @@ class ApiException extends Exception
 
 class BadRequest extends ApiException
 {
+    public function __construct($message = "Bad Request", $code = 0)
+    {
+        parent::__construct($message, $code);
+    }
 }
 
 class UnauthorizedError extends ApiException
 {
-    public function __construct($message = "Unauthorized")
+    public function __construct($message = "Unauthorized", $code = 0)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -31,9 +35,9 @@ class UnauthorizedError extends ApiException
 
 class NotFoundError extends ApiException
 {
-    public function __construct($message = "Object not found")
+    public function __construct($message = "Object not found", $code = 0)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()

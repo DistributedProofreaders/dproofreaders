@@ -797,8 +797,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         404:
           $ref: '#/components/responses/NotFound'
-        422:
-          $ref: '#/components/responses/InvalidCharacters'
         429:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
@@ -833,6 +831,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/proof_page'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/validatetext:
+    post:
+      tags:
+      - project
+      description: test text for invalid characters
+      parameters:
+      - name: projectid
+        in: path
+        description: The project id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: flag and array of good and bad text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InvalidCharacters'
         401:
           $ref: '#/components/responses/Unauthorized'
         404:
@@ -1218,6 +1244,24 @@ components:
       items:
         type: string
 
+    InvalidCharacters:
+      description: Invalid characters found in text
+      content:
+         application/json:
+            schema:
+              type: object
+              properties:
+                mark_array:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      oneOf:
+                      - type: string
+                      - type: integer
+                good:
+                  type: boolean
+
     Error:
       required:
       - message
@@ -1251,24 +1295,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InvalidCharacters:
-      description: Invalid characters found in text
-      content:
-         application/json:
-            schema:
-              type: object
-              properties:
-                mark_array:
-                  type: array
-                  items:
-                    type: array
-                    items:
-                      oneOf:
-                      - type: string
-                      - type: integer
-                error:
-                  type: string
-                  example: invalid characters
     RateLimitExceeded:
       description: Rate Limit Exceeded
       content:

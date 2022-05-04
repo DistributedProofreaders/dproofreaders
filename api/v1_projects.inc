@@ -4,6 +4,8 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'LPage.inc'); // get_available_proof_page()
+include_once($relPath.'ProofPage.inc');
 include_once("exceptions.inc");
 
 // DP API v1 -- Projects
@@ -174,7 +176,7 @@ function create_or_update_project($project)
     $orig_project = $project;
 
     // update all updatable fields
-    $updates = (array)api_get_request_body();
+    $updates = api_get_request_body();
     try {
         foreach (get_updatable_project_fields() as $api_key => $project_key) {
             // allow partial record updates by only updating specified values
@@ -432,6 +434,10 @@ function api_v1_project_page_round($method, $data, $query_params)
         $user_column = $round->user_column_name;
     }
 
+    $project = $data[":projectid"];
+    $project->validate_project_page_table();
+    validate_projectID($project->projectid);
+
     $sql = sprintf("
         SELECT
             image,
@@ -440,12 +446,12 @@ function api_v1_project_page_round($method, $data, $query_params)
             state
         FROM %s
         WHERE image = '%s'
-    ", $text_column, $user_column, $data[":projectid"]->projectid,
+    ", $text_column, $user_column, $project->projectid,
         DPDatabase::escape($data[":pagename"])
     );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
-    $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
+    $row["image_url"] = $project->url . "/" . $row["image"];
 
     // We can't show the username here unless the user has proofed the page
     // in one round or they are an PF/SA. We need to abstract the conditional
@@ -643,5 +649,117 @@ function _get_enabled_filter($query_params)
             throw new ValueError("Invalid value for 'enabled'");
         }
         return $bool;
+    }
+}
+
+// checkout a new page to proofread
+function api_v1_project_checkout($method, $data, $query_params)
+{
+    global $pguser;
+
+    $round = $data[":roundid"];
+    $project = $data[":projectid"];
+    validate_for_proofing($round, $project);
+
+    try {
+        $page_array = get_available_proof_page($project, $round, $pguser);
+        [$pagename, $state] = $page_array;
+        // state will get set to temp
+        $proof_page = new ProofPage($project, $round, $pagename);
+        $proof_page->checkout();
+
+        return $proof_page->render_page_data();
+    } catch (ProjectPageException | UserAccessException $exception) {
+        throw new BadRequest($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_page($method, $data, $query_params)
+{
+    global $PAGE_BADNESS_REASONS;
+
+    $round = $data[":roundid"];
+    $project = $data[":projectid"];
+    validate_for_proofing($round, $project);
+
+    $pagename = $data[":pagename"];
+    $proof_page = new ProofPage($project, $round, $pagename);
+
+    if ($method == "POST") {
+        // page could be in temp or saved state
+        $proof_page->validate(true);
+        $proof_page->resume_saved_page();
+        return $proof_page->render_page_data();
+    }
+    // page should be in temp state only
+    $proof_page->validate(false);
+    if ($method == "GET") {
+        // text is copied from previous round on checkout
+        // so 'current' works even if never saved.
+        $page_option = get_enumerated_param($query_params, "pageoption", "current", ["current", "original"]);
+        return $proof_page->render_page_text($page_option);
+    }
+    // must be "PUT"
+    $request_data = api_get_request_body();
+    $new_page_state = $request_data["new_page_state"] ?? null;
+    switch ($new_page_state) {
+    case "saved":
+        $text = $request_data["text"] ?? "";
+        $page_saved = $proof_page->attempt_save_as_done($text);
+        if (!$page_saved) {
+            $local_message = _("You have exceeded your daily page limit, page saved as in progress");
+            throw new BadRequest($local_message, DP::DAILY_LIMIT_EXCEEDED);
+        }
+        break;
+    case "temp":
+        $text = $request_data["text"] ?? "";
+        $proof_page->save_as_in_progress($text);
+        break;
+    case "avail":
+        $proof_page->return_to_round();
+        break;
+    default:
+        // $new_page_state not valid
+        throw new BadRequest("invalid option for page state");
+        break;
+    }
+}
+
+function api_v1_project_validatetext($method, $data, $query_params)
+{
+    $project = $data[":projectid"];
+    $request_data = api_get_request_body();
+    $text = $request_data["text"] ?? "";
+    $text_checker = new TextChecker();
+    return $text_checker->analyse($text, $project);
+}
+
+function validate_for_proofing($round, $project)
+{
+    global $pguser;
+
+    try {
+        $round->user_can_access();
+    } catch (UserAccessException $exception) {
+        throw new UnauthorizedError($exception->getMessage(), $exception->getCode());
+    }
+    try {
+        $project->is_in_round();
+    } catch (ProjectNotInRoundException $exception) {
+        throw new BadRequest($exception->getMessage(), $exception->getCode());
+    }
+    $project_round = get_Round_for_project_state($project->state);
+    if ($project_round->id != $round->id) {
+        $local_message = sprintf(
+            _("This project is no longer in round '%1\$s', it is now in '%2\$s'."),
+            $round->id,
+            $project_round->id
+        );
+        throw new BadRequest($local_message, DP::PROJECT_NOT_IN_REQUIRED_ROUND);
+    }
+    try {
+        $project->is_available();
+    } catch (ProjectException $exception) {
+        throw new BadRequest($exception->getMessage(), $exception->getCode());
     }
 }

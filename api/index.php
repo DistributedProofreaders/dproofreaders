@@ -40,7 +40,9 @@ function api()
 
     $router = ApiRouter::get_router();
 
-    api_output_response($router->route($path, $query_params));
+    $response = $router->route($path, $query_params);
+    $response_code = $response["response_code"] ?? 200;
+    api_output_response($response, $response_code);
 }
 
 function api_authenticate()
@@ -129,7 +131,8 @@ function api_rate_limit($key)
 
 function api_get_request_body()
 {
-    $json = json_decode(file_get_contents('php://input'));
+    // return associative array rather than object
+    $json = json_decode(file_get_contents('php://input'), true);
     if ($json === null) {
         throw new InvalidValue("Content was not valid JSON");
     }
@@ -238,7 +241,7 @@ function production_exception_handler($exception)
         $response_code = 500;
     }
 
-    api_output_response(["error" => $exception->getMessage()], $response_code);
+    api_output_response(["error" => $exception->getMessage(), "code" => $exception->getCode()], $response_code);
 }
 
 function test_exception_handler($exception)

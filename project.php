@@ -192,13 +192,14 @@ function decide_blurbs()
 {
     global $project, $pguser;
 
-    [$code, $msg] = $project->can_be_proofed_by_current_user();
-    if ($code != $project->CBP_OKAY) {
-        if ($code == $project->CBP_PROJECT_NOT_IN_ROUND) {
-            // Rather than blurbs that say it's not in a round,
-            // just don't have any blurbs.
-            $msg = null;
-        }
+    try {
+        $project->can_be_proofed_by_current_user();
+    } catch (ProjectNotInRoundException $e) {
+        // Rather than blurbs that say it's not in a round,
+        // just don't have any blurbs.
+        return [null, null];
+    } catch (ProjectException | UserAccessException $exception) {
+        $msg = $exception->getMessage();
         return [$msg, $msg];
     }
 
@@ -216,8 +217,10 @@ function decide_blurbs()
         return [$blurb, $blurb];
     }
 
-    $blurb = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($blurb) {
+    try {
+        can_user_get_pages_in_project($pguser, $project, $round);
+    } catch (ProjectPageException | UserAccessException $exception) {
+        $blurb = $exception->getMessage();
         return [$blurb, $blurb];
     }
 

@@ -12,16 +12,47 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_events()
 include_once($relPath.'DPage.inc'); // project_allow_pages()
 
+class DP
+{
+    public const INVALID_ROUND = 1;
+    public const NO_SUCH_PROJECT_ID = 2;
+    public const USER_NOT_QUALIFIED_FOR_ROUND = 3;
+    public const PROJECT_NOT_IN_ROUND = 4;
+    public const PROJECT_NOT_AVAILABLE = 5;
+    public const RESERVED_FOR_NEW_PROOFREADERS = 6;
+    public const BEGINNERS_QUOTA_REACHED = 7;
+    public const PROJECT_NOT_IN_REQUIRED_ROUND = 8;
+    public const NO_MORE_PAGES = 9;
+    public const NO_SUCH_PAGE = 10;
+    public const WRONG_PAGE_STATE = 11;
+    public const WRONG_PAGE_OWNER = 12;
+    public const DAILY_LIMIT_EXCEEDED = 13;
+    public const BEGINNERS_PROJECT_QUOTA_REACHED = 14;
+    public const NO_ACCESS_TO_MENTORS_ONLY = 15;
+    public const PROJECT_REQUIRES_MAINTENANCE = 16;
+}
+
 class UTF8ConversionException extends Exception
 {
 }
 
 class ProjectException extends Exception
 {
+    public function __construct($message = "", $code = 99)
+    {
+        parent::__construct($message, $code);
+    }
 }
+
 class NonexistentProjectException extends ProjectException
 {
 }
+
+// used in project.php
+class ProjectNotInRoundException extends ProjectException
+{
+}
+
 class InvalidProjectIDException extends ProjectException
 {
 }
@@ -122,7 +153,7 @@ class Project
         $res = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($res);
         if (!$row) {
-            throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $projectid));
+            throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $projectid), DP::NO_SUCH_PROJECT_ID);
         }
         foreach ($row as $key => $value) {
             $this->$key = $value;
@@ -905,83 +936,43 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    // These should be treated as constants.
-    // (PHP doesn't appear to allow constants as class members.)
-    public $CBP_OKAY = 0;
-    public $CBP_PROJECT_NOT_IN_ROUND = 1;
-    public $CBP_PROJECT_NOT_AVAILABLE = 2;
-    public $CBP_REQUESTOR_NOT_LOGGED_IN = 3;
-    public $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
-    public $CBP_PROJECT_REQUIRES_MAINTENANCE = 5;
-
     public function can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
-    // Returns an array consisting of:
-    // -- one of the above codes, and
-    // -- a suggested error message.
+    // Can throw Localized exception
     {
-        global $code_url, $pguser;
+        global $pguser;
 
-        $state = $this->state;
-        $round = get_Round_for_project_state($state);
-
-        if (is_null($round)) {
-            // The project is not in any round.
-            return [
-                $this->CBP_PROJECT_NOT_IN_ROUND,
-                _('The project is not in a round.'),
-            ];
-        }
-
-        if (!$this->is_utf8) {
-            // Project has not been converted to UTF-8 yet
-            return [
-                $this->CBP_PROJECT_REQUIRES_MAINTENANCE,
-                _('The project requires maintenance.') . ' ' . _("Project table is not UTF-8."),
-            ];
-        }
-
-        if ($state != $round->project_available_state) {
-            // The project is in a round, but isn't available.
-            return [
-                $this->CBP_PROJECT_NOT_AVAILABLE,
-                _('Users are not allowed to work on the project in its current state.'),
-            ];
-        }
+        $this->is_in_round();
+        $this->is_available();
 
         if (is_null($pguser)) {
-            return [
-                $this->CBP_REQUESTOR_NOT_LOGGED_IN,
-                _('Registered users can work on the project, but you are not logged in.'),
-            ];
+            throw new UserAccessException(_('Registered users can work on the project, but you are not logged in.'));
         }
 
-        $uao = $round->user_access($pguser);
-        if (!$uao->can_access) {
-            // The project is available, but the current user isn't
-            // allowed to work in the round that the project is in.
-            return [
-                $this->CBP_USER_NOT_QUALIFIED_FOR_ROUND,
-                sprintf(
-                    // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)
-                    _('You have not yet been cleared to work on projects in %1$s (%2$s).'),
-                    $round->name,
-                    $round->id
-                )
-                . "<br>"
-                . sprintf(
-                    // TRANSLATORS: %2$s is the round ID (eg: P1)
-                    _('Please visit <a href="%1$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
-                    "$code_url/tools/proofers/round.php?round_id=$round->id",
-                    $round->id
-                ),
-            ];
+        $round = get_Round_for_project_state($this->state);
+        $round->user_can_access();
+    }
+
+    public function is_in_round()
+    {
+        if (is_null(get_Round_for_project_state($this->state))) {
+            // The project is not in any round.
+            throw new ProjectNotInRoundException(_("The project is not in a round"), DP::PROJECT_NOT_IN_ROUND);
+        }
+    }
+
+    public function is_available()
+    {
+        if (!$this->is_utf8) {
+            // Project has not been converted to UTF-8 yet
+            throw new ProjectException(_('The project requires maintenance. Project table is not UTF-8.'), DP::PROJECT_REQUIRES_MAINTENANCE);
         }
 
-        return [
-            $this->CBP_OKAY,
-            "You may work on this project.",
-        ];
+        $state = $this->state;
+        if ($state != get_Round_for_project_state($state)->project_available_state) {
+            // The project is in a round, but isn't available.
+            throw new ProjectException(_('Users are not allowed to work on the project in its current state.'), DP::PROJECT_NOT_AVAILABLE);
+        }
     }
 
     public function user_can_do_quick_check()
@@ -1029,9 +1020,7 @@ class Project
 
     public function get_num_pages_in_state($state = null, $counter_sql = "*")
     {
-        if (!$this->pages_table_exists) {
-            throw new NoProjectPageTable(_("Project page table does not exist."));
-        }
+        $this->validate_project_page_table();
 
         // if state is null, get all pages
         $where = $state ? sprintf("state = '%s'", DPDatabase::escape($state)) : "1";
@@ -1055,10 +1044,7 @@ class Project
 
     public function get_page_names_from_db()
     {
-        if (!$this->pages_table_exists) {
-            throw new NoProjectPageTable(_("Project page table does not exist."));
-        }
-
+        $this->validate_project_page_table();
         validate_projectID($this->projectid);
         $page_image_names = [];
         $sql = "
@@ -1072,6 +1058,13 @@ class Project
         }
 
         return $page_image_names;
+    }
+
+    public function validate_project_page_table()
+    {
+        if (!$this->pages_table_exists) {
+            throw new NoProjectPageTable(_("Project page table does not exist."));
+        }
     }
 
     public function get_page_names_from_dir()

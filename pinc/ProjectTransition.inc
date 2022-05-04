@@ -12,6 +12,7 @@ include_once($relPath.'User.inc');
 
 define('PT_AUTO', '[AUTO]');
 
+global $PROJECT_TRANSITIONS;
 $PROJECT_TRANSITIONS = [];
 
 class ProjectTransition

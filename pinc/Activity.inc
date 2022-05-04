@@ -6,6 +6,7 @@ include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
 include_once($relPath.'User.inc');
 
+global $ACCESS_CRITERIA;
 // $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
 
 $ACCESS_CRITERIA = [

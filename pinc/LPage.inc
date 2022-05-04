@@ -136,8 +136,10 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 
     $round = get_Round_for_project_state($proj_state);
 
-    $page_array = get_available_proof_page($project, $round, $pguser, $err);
-    if (!$page_array) {
+    try {
+        $page_array = get_available_proof_page($project, $round, $pguser);
+    } catch (ProjectPageException | UserAccessException $exception) {
+        $err = $exception->getMessage();
         return null;
     }
     [$imagefile, $state] = $page_array;
@@ -149,16 +151,13 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     return $lpage;
 }
 
-function get_available_proof_page($project, $round, $pguser, &$err)
+function get_available_proof_page($project, $round, $pguser)
 // Returns an array [image, state] unless no page is available,
-// in which case returns NULL and sets $err.
+// in which case throw an exception.
 {
     global $preceding_proofer_restriction;
 
-    $err = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($err) {
-        return null;
-    }
+    can_user_get_pages_in_project($pguser, $project, $round);
 
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,
@@ -173,8 +172,7 @@ function get_available_proof_page($project, $round, $pguser, &$err)
         $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
     }
     if (!$page_array) {
-        $err = _("No more files available for proofreading for this round of the project.");
-        return null;
+        throw new ProjectPageException(_("The project has no more pages available for proofreading in this round."), DP::NO_MORE_PAGES);
     }
 
     return $page_array;

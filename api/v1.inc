@@ -37,6 +37,12 @@ $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages"
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
 
+$router->add_route("POST", "v1/projects/:projectid/validatetext", "api_v1_project_validatetext");
+$router->add_route("POST", "v1/rounds/:roundid/projects/:projectid/pages", "api_v1_project_checkout");
+$router->add_route("GET", "v1/rounds/:roundid/projects/:projectid/pages/:pagename", "api_v1_project_page");
+$router->add_route("PUT", "v1/rounds/:roundid/projects/:projectid/pages/:pagename", "api_v1_project_page");
+$router->add_route("POST", "v1/rounds/:roundid/projects/:projectid/pages/:pagename", "api_v1_project_page");
+
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");
 $router->add_route("GET", "v1/stats/site/rounds/:roundid", "api_v1_stats_site_round");
