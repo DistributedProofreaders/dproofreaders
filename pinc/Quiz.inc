@@ -57,20 +57,23 @@ class Quiz
         }
     }
 
-    public function user_has_passed($username)
+    // Get an array of quiz pages and the date the user passed them. The date
+    // will be null if the user did not attempt or pass the page (because we
+    // don't store non-passed attempts, we can't distinguish notpassed from
+    // not attempted).
+    private function get_user_page_passes($username, $use_pass_requirements = true)
     {
         foreach (array_keys($this->pages) as $quiz_page_id) {
-            // false would be more logical than string "no",
-            // but you can't array_search on a boolean.
-            $pages_required_results[$quiz_page_id] = "no";
+            $pages_required_results[$quiz_page_id] = null;
         }
 
         $sql = sprintf("
-            SELECT *
+            SELECT quiz_page, date
             FROM quiz_passes
             WHERE username = '%s'
                 AND quiz_page IN (%s)
                 AND result = 'pass'
+            ORDER BY date
         ", DPDatabase::escape($username),
             surround_and_join(array_keys($this->pages), '"', '"', ","));
         $result = DPDatabase::query($sql);
@@ -78,17 +81,25 @@ class Quiz
         while ($attempt = mysqli_fetch_object($result)) {
             $pages_required_results[$attempt->quiz_page] = $attempt->date;
 
-            if (isset($this->pass_requirements['maximum_age'])) {
+            if ($use_pass_requirements && isset($this->pass_requirements['maximum_age'])) {
                 if ((time() - $attempt->date) > $this->pass_requirements['maximum_age']) {
-                    $pages_required_results[$quiz_page_id] = "no";
+                    $pages_required_results[$quiz_page_id] = null;
                 }
             }
         }
 
-        // At this point, if a user has passed the quiz, the $pages_required_results array should
-        // have only pagename => timestamp  rows. If any "no" values remain, the user has not passed
-        // all the pages required, or the result of that page is invalid (e.g. too old).
-        if (array_search("no", $pages_required_results) !== false) {
+        return $pages_required_results;
+    }
+
+    public function user_has_passed($username)
+    {
+        $pages_required_results = $this->get_user_page_passes($username);
+
+        // If a user has passed the quiz, the $pages_required_results array should
+        // have only pagename => timestamp rows. If any "null" values remain,
+        // the user has not passed all the pages required, or the result of that
+        // page is invalid (e.g. too old).
+        if (array_search(null, $pages_required_results) !== false) {
             return false;
         } else {
             return true;
@@ -163,6 +174,7 @@ class Quiz
             echo "</td></tr>";
         }
 
+        $pages_required_results = $this->get_user_page_passes($username, false);
         $page_number = 0;
         $pages = $this->pages;
         foreach ($pages as $quiz_page_id => $desc) {
@@ -177,12 +189,12 @@ class Quiz
             }
             echo "<a href='generic/main.php?quiz_page_id=$quiz_page_id'>" . _("Quiz Page") . "</a></td>";
             if (!empty($username)) {
-                $passed = user_has_passed_quiz_page($username, $quiz_page_id);
+                $passed = $pages_required_results[$quiz_page_id] != null;
                 $text = $passed ? _("Passed") : _("Not passed");
                 $class = $passed ? 'quiz-passed' : 'quiz-not-passed';
                 echo "<td class='$class'>$text</td>";
 
-                $date = get_last_attempt_date_for_quiz_page($username, $quiz_page_id);
+                $date = $pages_required_results[$quiz_page_id] ? $pages_required_results[$quiz_page_id] : 0;
                 $text = ($date != 0) ? strftime("%d-%b-%y", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
@@ -284,43 +296,4 @@ function record_quiz_attempt($username, $quiz_page_id, $result)
         );
         DPDatabase::query($sql);
     }
-}
-
-function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements = [])
-{
-    // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
-    // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
-    $sql = sprintf("
-        SELECT *
-        FROM quiz_passes
-        WHERE username = '%s' AND quiz_page = '%s'
-    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
-    $res = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($res);
-    if (!$row) {
-        return false;
-    }
-
-    if (isset($pass_requirements['minimum_age'])) {
-        if ((time() - $row["date"]) > $this->pass_requirements['maximum_age']) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
-{
-    $sql = sprintf("
-        SELECT *
-        FROM quiz_passes
-        WHERE username = '%s' AND quiz_page = '%s'
-    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
-    $res = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($res);
-    if (!$row) {
-        return false;
-    }
-
-    return $row["date"];
 }
