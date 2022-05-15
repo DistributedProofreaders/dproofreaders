@@ -250,6 +250,11 @@ function render_project_json($project)
         $return_array[$api_key] = $project->$project_key;
     }
 
+    // prevent clearance from being included for unauthorized users
+    if (!$project->clearance_line_can_be_seen_by_current_user()) {
+        unset($return_array["clearance"]);
+    }
+
     $charsuites = [];
     foreach ($project->get_charsuites(false) as $project_charsuite) {
         array_push($charsuites, $project_charsuite->name);
