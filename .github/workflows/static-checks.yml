@@ -11,7 +11,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: mbstring, iconv, intl, mysql, zip
-          tools: phpunit, composer
+          tools: composer
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
       - name: Configure mysql
@@ -26,11 +26,11 @@ jobs:
           php install_db.php
           cd ..
       - name: Install composer dependencies
-        run: composer install --no-dev
+        run: composer install
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt install aspell aspell-en
       - name: Run phpunit tests
-        run: cd SETUP/tests && phpunit
+        run: cd SETUP/tests && ../../vendor/bin/phpunit
   jsunit:
     runs-on: ubuntu-20.04
     steps:
@@ -79,7 +79,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: mbstring, iconv, intl, mysql, zip
-          tools: phpunit, composer
+          tools: composer
       - name: Setup Node
         uses: actions/setup-node@v2
         with:

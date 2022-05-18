@@ -47,7 +47,7 @@ check()
 
 echo ""
 echo "Making site-specific modifications..."
-find $code_dir -type f -name '*.template' |
+find $code_dir -type f -name '*.template' | grep -v vendor |
 while read p; do
     dir=`dirname $p`
     template=`basename $p`
