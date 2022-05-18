@@ -319,7 +319,7 @@ function qp_echo_error_html($message_id)
 
         $guidelines_url = get_faq_url($guidelines_doc) . "#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
-        $rule = RandomRule::load_from_anchor($guidelines_doc, $anchor);
+        $rule = RandomRule::load_from_anchor($guidelines_doc, $anchor, substr(get_desired_language(), 0, 2));
         if ($rule) {
             $guidelines_link = "<a $guidelines_attrs>$rule->subject</a>";
 
