@@ -18,10 +18,10 @@ The phpunit tests, as-coded, will work with phpunit 6.x, 7.x, 8.x, and 9.x.
 `phpunit.xml` contains configuration information like bootstrap
 requirements, so running the full suite is as simple as:
 ```bash
-phpunit
+../../vendor/bin/phpunit
 ```
 
 To run the page compare test only:
 ```bash
-phpunit PageCompareTest.php
+../../vendor/bin/phpunit PageCompareTest.php
 ```
