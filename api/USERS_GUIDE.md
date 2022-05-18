@@ -109,6 +109,10 @@ available endpoints and their parameters and return values.
 
 ### Project searches
 
+Use URL parameters to search for projects against the `v1/projects` endpoint.
+To send multiple values of the same parameter to OR together, append the name
+with `[]` (e.g. `projectid[]=`). Unique parameters are ANDed together.
+
 Search for all projects with genre `Other`:
 
 ```bash
@@ -117,10 +121,27 @@ curl -i -X GET "https://www.pgdp.org/api/v1/projects?genre=Other" \
     -H "X-API-KEY: $API_KEY"
 ```
 
+Search for all projects with genre `Science` or `Sports`:
+
+```bash
+curl -i -X GET "https://www.pgdp.org/api/v1/projects?genre[]=Science&genre[]=Sports" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY"
+```
+
 Search for all projects with the word `Monster` in their title:
 
 ```bash
 curl -i -X GET "https://www.pgdp.org/api/v1/projects?title=Monster" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY"
+```
+
+Search for all projects with genre `Science` or `Sports` and with `Monster`
+in their title, ie `(genre = Science OR genre = Sports) AND (title like %Monster%)`:
+
+```bash
+curl -i -X GET "https://www.pgdp.org/api/v1/projects?genre[]=Science&genre[]=Sports&title=Monster" \
     -H "Accept: application/json" \
     -H "X-API-KEY: $API_KEY"
 ```
