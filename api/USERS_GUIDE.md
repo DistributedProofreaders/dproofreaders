@@ -146,6 +146,17 @@ curl -i -X GET "https://www.pgdp.org/api/v1/projects?genre[]=Science&genre[]=Spo
     -H "X-API-KEY: $API_KEY"
 ```
 
+To limit which project fields are included, use the `field` parameter. Request
+multiple fields by appending `[]` to the parameter name and passing multiple
+of them.
+
+To return only the `projectid` and `title` fields:
+```bash
+curl -i -X GET "https://www.pgdp.org/api/v1/projects?field[]=projectid&field[]=title" \
+    -H "Accept: application/json" \
+    -H "X-API-KEY: $API_KEY"
+```
+
 ### Project details
 
 Get details about a specific project:

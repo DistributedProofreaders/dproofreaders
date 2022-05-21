@@ -111,10 +111,16 @@ function api_v1_projects($method, $data, $query_params)
 
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
+    // restrict to list of desired fields, if set
+    $return_fields = array_get($query_params, "field", null);
+    if ($return_fields && !is_array($return_fields)) {
+        $return_fields = [$return_fields];
+    }
+
     $output = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $project = new Project($row);
-        $output[] = render_project_json($project);
+        $output[] = render_project_json($project, $return_fields);
     }
 
     return $output;
@@ -245,7 +251,7 @@ function api_v1_project($method, $data, $query_params)
     }
 }
 
-function render_project_json($project)
+function render_project_json($project, $return_fields = null)
 {
     // We want to explicitly call out the parameters we want to return so
     // callers can know what to expect in this version of the API.
@@ -281,6 +287,13 @@ function render_project_json($project)
             "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
         ]
     );
+
+    // remove any fields that weren't requested
+    if ($return_fields) {
+        foreach (array_diff(array_keys($return_array), $return_fields) as $field) {
+            unset($return_array[$field]);
+        }
+    }
 
     return $return_array;
 }
