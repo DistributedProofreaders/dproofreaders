@@ -29,6 +29,13 @@ function api_v1_projects($method, $data, $query_params)
         "pages_total" => "n_pages",
     ];
 
+    // Allow SAs and PFs to search on clearance. We can't allow PMs to do so
+    // without opening up the ability for value-fishing as PMs can only see
+    // clearances for their own projects.
+    if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
+        $valid_fields["clearance"] = "clearance";
+    }
+
     // pull out the query parameters
     $query = [];
     foreach (array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field) {
@@ -42,7 +49,7 @@ function api_v1_projects($method, $data, $query_params)
         $values = array_map("DPDatabase::escape", $values);
         $column_name = $valid_fields[$field];
 
-        if (in_array($field, ["author", "title", "languages"])) {
+        if (in_array($field, ["author", "title", "languages", "clearance"])) {
             $likes_str = surround_and_join($values, "$column_name LIKE '%", "%'", ' OR ');
             $where .= " AND ($likes_str)";
         } else {
