@@ -195,7 +195,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
     // case of forbidding PMs to search for clearances that they can in fact
     // see in their individual projects, but we don't want to open up the
     // ability for them to value-fishing on clearances.
-    $can_search = is_null($project) && (user_is_a_sitemanager() || user_is_proj_facilitator());
+    $can_search = is_null($project) && (user_is_a_sitemanager() || user_is_proj_facilitator() || User::current_username() == 'pg-automation');
     if ($can_search || $can_render) {
         $fields["clearance"] = ["sql_name" => "clearance", "updatable" => true, "queryable" => true];
     }
