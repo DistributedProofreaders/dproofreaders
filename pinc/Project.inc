@@ -951,6 +951,7 @@ class Project
             $this->can_be_managed_by_current_user
             || $this->PPVer_is_current_user
             || ($this->PPer_is_current_user && user_has_DU_access())
+            || User::current_username() == 'pg-automation'
         );
     }
 
