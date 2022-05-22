@@ -18,7 +18,7 @@ function api_v1_projects($method, $data, $query_params)
         "projectid" => "projectid",
         "state" => "state",
         "title" => "nameofwork",
-        "author" => "authorname",
+        "author" => "authorsname",
         "languages" => "language",
         "genre" => "genre",
         "difficulty" => "difficulty",
