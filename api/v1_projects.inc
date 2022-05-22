@@ -39,7 +39,8 @@ function api_v1_projects($method, $data, $query_params)
     // Allow SAs and PFs to search on clearance. We can't allow PMs to do so
     // without opening up the ability for value-fishing as PMs can only see
     // clearances for their own projects.
-    if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
+    // Also allow pg-automation to see clearances
+    if (user_is_a_sitemanager() || user_is_proj_facilitator() || User::current_username() == 'pg-automation') {
         $valid_fields["clearance"] = "clearance";
     }
 
