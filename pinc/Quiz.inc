@@ -83,7 +83,7 @@ class Quiz
 
             if ($use_pass_requirements && isset($this->pass_requirements['maximum_age'])) {
                 if ((time() - $attempt->date) > $this->pass_requirements['maximum_age']) {
-                    $pages_required_results[$quiz_page_id] = null;
+                    $pages_required_results[$attempt->quiz_page] = null;
                 }
             }
         }
