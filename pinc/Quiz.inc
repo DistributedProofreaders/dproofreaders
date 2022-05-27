@@ -139,16 +139,12 @@ class Quiz
                 // all of the requirements to do so, point them in the right direction
                 if (!$uao->can_access && $uao->all_minima_satisfied) {
                     echo "<div class='callout'>";
-                    echo "<div class='calloutheader'>";
-                    echo _("You can now work in $stage_id!");
-                    echo "</div>";
-
                     echo "<p>";
-                    echo sprintf(_("You've satisfied all requirements to work in %s!"), $stage_id);
+                    echo sprintf(_("You've completed the quiz requirements to work in %s!"), $stage_id);
 
                     echo " ";
 
-                    echo sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a> to access this activity and get started."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
+                    echo sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a>."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
                     echo "</p>";
                     echo "</div>";
                     echo "<br>";

@@ -75,7 +75,7 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    ['P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1],
+    ['P1' => 300, 'days since reg' => 21, 'quiz/p_basic' => 1, 'quiz/p_mod1' => 1],
     'REQ-AUTO',
     '',
     null, // access_change_callback
@@ -116,7 +116,7 @@ new Round(
 new Round(
     'P3',
     _('Proofreading Round 3'),
-    ['P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_mod2' => 1],
+    ['P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_basic' => 1, 'quiz/p_mod1' => 1, 'quiz/p_mod2' => 1],
     'REQ-HUMAN',
     _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofread them to P3 standards, you'll be granted access."),
     null, // access_change_callback
