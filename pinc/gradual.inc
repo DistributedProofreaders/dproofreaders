@@ -279,10 +279,10 @@ function encourage_p1_to_p2($round)
     if ($uao->minima_table["P1"][3] && $uao->minima_table["days since reg"][3]) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo "You are just a few quizzes away from P2!";
+        echo "You are just a few quiz pages away from P2!";
         echo "</div>";
 
-        echo "<p>You are almost eligible to work in the P2 round! The only thing left is to pass the short <a href='$code_url/quiz/start.php?show_level=P_MOD'>moderate proofreading quizzes</a>. After you pass them you can <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and you'll be able to work on projects in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a>.</p>";
+        echo "<p>You are almost eligible to work in the P2 round! The only thing left is to have up-to-date quiz completions for the <a href='$code_url/quiz/start.php?show_level=P_BASIC'>Basic Proofreading Quiz</a> and the <a href='$code_url/quiz/start.php?show_level=P_MOD'>Moderate Proofreading Quiz, part 1</a>. After you pass them you can <a href='$code_url/tools/proofers/round.php?round_id=P2#Entrance_Requirements'>request access</a> and you'll be able to work on projects in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a>.</p>";
         echo "<p>Please consider working on P2 projects rather than projects here in P1. With the large influx of new users, having eligible users working in <a href='$code_url/tools/proofers/round.php?round_id=P2'>P2</a> helps significantly.</p>";
         echo "<p>Thank you!</p>";
         echo "</div>";
