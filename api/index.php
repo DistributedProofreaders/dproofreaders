@@ -140,7 +140,7 @@ function api_output_response($data, $response_code = 200)
 {
     http_response_code($response_code);
     echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
-        JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        JSON_UNESCAPED_SLASHES);
 
     // output the output buffer we've been storing to ensure we could
     // send the right HTTP response code

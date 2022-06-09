@@ -261,6 +261,11 @@ function render_project_json($project, $return_fields = null)
 
     foreach (get_updatable_project_fields() as $api_key => $project_key) {
         $return_array[$api_key] = $project->$project_key;
+
+        // force pg_ebook_number to an int
+        if ($api_key == "pg_ebook_number" && $return_array[$api_key] != null) {
+            $return_array[$api_key] = (int)$return_array[$api_key];
+        }
     }
 
     // prevent clearance from being included for unauthorized users
@@ -280,8 +285,8 @@ function render_project_json($project, $return_fields = null)
             "post_processor" => $project->PPer,
             "post_process_verifier" => $project->PPVer,
             "state" => $project->state,
-            "pages_available" => $project->n_available_pages,
-            "pages_total" => $project->n_pages,
+            "pages_available" => (int)$project->n_available_pages,
+            "pages_total" => (int)$project->n_pages,
             "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
             "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
             "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
@@ -383,7 +388,7 @@ function api_v1_project_pages($method, $data, $query_params)
         $return_data[] = [
             "image" => $image,
             "image_url" => "{$project->url}/$image",
-            "image_size" => $project->get_image_file_size($image),
+            "image_size" => (int)$project->get_image_file_size($image),
         ];
     }
     return $return_data;
