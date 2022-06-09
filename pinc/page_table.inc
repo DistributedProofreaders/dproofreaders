@@ -72,6 +72,10 @@ the lower-level database structure. The returned format looks like:
 */
 function fetch_page_table_data($project, $page_selector = null, $proofed_in_round = null)
 {
+    if (!$project->pages_table_exists) {
+        throw new NoProjectPageTable(_("Project page table does not exist."));
+    }
+
     $rounds_to_display = get_rounds_to_display($project);
 
     $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
@@ -156,13 +160,13 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
         $data = [
             "image" => $row['image'],
             "image_url" => "{$project->url}/{$row['image']}",
-            "image_size" => $project->get_image_file_size($row['image']),
+            "image_size" => (int)$project->get_image_file_size($row['image']),
             "state" => $row['state'],
         ];
 
         $pagerounds = [
             "OCR" => [
-                "page_size" => $row["length(master_text)"],
+                "page_size" => (int)$row["length(master_text)"],
             ],
         ];
 
@@ -177,10 +181,10 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
             }
 
             $pagerounds[$round->id] = [
-                "page_size" => $row["length($round->text_column_name)"],
+                "page_size" => (int)$row["length($round->text_column_name)"],
                 "is_diff" => $row[$round->textdiff_column_name] == 1,
                 "username" => $row[$round->user_column_name],
-                "user_page_tally" => $row["$rn.user_page_tally"],
+                "user_page_tally" => (int)$row["$rn.user_page_tally"],
                 "wordcheck_ran" => $wordcheck_ran,
                 "modified_timestamp" => $row[$round->time_column_name],
             ];

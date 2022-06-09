@@ -13,7 +13,7 @@ function api_v1_stats_site($method, $data, $query_params)
 
     $stats = [
         "server_time" => date(DATE_ATOM),
-        "registered_users" => $registered_users,
+        "registered_users" => (int)$registered_users,
     ];
 
     foreach ([1, 7, 30] as $days_back) {
@@ -24,7 +24,7 @@ function api_v1_stats_site($method, $data, $query_params)
         ", $days_back));
         [$num_users] = mysqli_fetch_row($res);
         $key = sprintf("active_users_%d_day", $days_back);
-        $stats[$key] = $num_users;
+        $stats[$key] = (int)$num_users;
     }
     return $stats;
 }
@@ -37,13 +37,13 @@ function render_round_stats($round_id)
     $stats = get_site_page_tally_summary($round_id);
     $tallyboard = new TallyBoard($round_id, 'U');
     return [
-        "today_goal" => $stats->curr_day_goal,
-        "today_actual" => $stats->curr_day_actual,
-        "yesterday_goal" => $stats->prev_day_goal,
-        "yesterday_actual" => $stats->prev_day_actual,
-        "month_goal" => $stats->curr_month_goal,
-        "month_actual" => $stats->curr_month_actual,
-        "positive_users" => $tallyboard->get_num_holders_with_positive_tally(),
+        "today_goal" => (int)$stats->curr_day_goal,
+        "today_actual" => (int)$stats->curr_day_actual,
+        "yesterday_goal" => (int)$stats->prev_day_goal,
+        "yesterday_actual" => (int)$stats->prev_day_actual,
+        "month_goal" => (int)$stats->curr_month_goal,
+        "month_actual" => (int)$stats->curr_month_actual,
+        "positive_users" => (int)$tallyboard->get_num_holders_with_positive_tally(),
     ];
 }
 
