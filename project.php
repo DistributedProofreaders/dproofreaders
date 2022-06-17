@@ -102,8 +102,7 @@ if (!$user_is_logged_in) {
 }
 
 if ($user_is_logged_in) {
-    upi_set_t_latest_home_visit(
-        $pguser, $project->projectid, $project->t_retrieved);
+    upi_set_t_latest_home_visit($pguser, $project->projectid, time());
 }
 
 if ($detail_level == 1) {

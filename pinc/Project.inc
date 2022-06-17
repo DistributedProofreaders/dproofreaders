@@ -124,7 +124,6 @@ class Project
         if (!$row) {
             throw new NonexistentProjectException(sprintf(_("There is no project with projectid '%s'"), $projectid));
         }
-        $row['t_retrieved'] = time();
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
