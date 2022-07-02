@@ -203,8 +203,6 @@ function login_forum_user($username, $password)
         $persist_login = true;
         $results = $auth->login($username, $password, $persist_login);
 
-        define('IN_PHPBB', false);
-
         $success = $results["status"] == LOGIN_SUCCESS;
         $reason = '';
         switch ($results["status"]) {
@@ -261,10 +259,9 @@ function logout_forum_user()
 
         include($phpbb_root_path . 'common.' . $phpEx);
 
-        $user->session_kill();
+        // Re-initialize phpBB session object in $user so we can kill it
         $user->session_begin();
-
-        define('IN_PHPBB', false);
+        $user->session_kill();
     }
 }
 
@@ -427,7 +424,7 @@ function get_forum_email_address($username)
 {
     $user_details = get_forum_user_details($username);
 
-    return $user_details["email"];
+    return $user_details["email"] ?? "";
 }
 
 function get_url_to_compose_message_to_user($username)
