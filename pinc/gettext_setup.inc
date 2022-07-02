@@ -41,8 +41,7 @@ function get_desired_language()
         $locale = $_COOKIE['language'];
     } elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         // Attempt to guess locale based on browser settings
-        $test_locale = \
-            get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $test_locale = get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE']);
         if ($test_locale) {
             $locale = $test_locale;
         }
