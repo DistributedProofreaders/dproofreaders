@@ -169,10 +169,10 @@ final class DPDatabase
     protected function __clone()
     {
     }
-    protected function __sleep()
+    public function __sleep()
     {
     }
-    protected function __wakeup()
+    public function __wakeup()
     {
     }
 }
