@@ -24,6 +24,7 @@ Ubuntu system package names.
 * mbstring - php-mbstring
 * memcached - php-memcached (to enable API rate limiting)
 * MySQL - php-mysql
+* xml - php-xml (used by packages installed with composer)
 * zip - php-zip
 
 ### Composer
