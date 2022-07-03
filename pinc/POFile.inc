@@ -113,11 +113,14 @@ class POFile
 
     public function create_from_template($pot_filename, $locale)
     {
-        exec("msginit --no-translator " .
-                     "--input='$pot_filename' " .
-                     "--output-file='$this->po_filename' " .
-                     "--locale=$locale",
-             $exec_out, $return_value);
+        $cmd = join(" ", [
+            "msginit",
+            "--no-translator",
+            "--input=" . escapeshellarg($pot_filename),
+            "--output-file=" . escapeshellarg($this->po_filename),
+            "--locale=" . escapeshellarg($locale),
+        ]);
+        exec($cmd, $exec_out, $return_value);
 
         if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
@@ -126,14 +129,16 @@ class POFile
 
     public function merge_from_template($template, $fuzzy = false)
     {
-        if ($fuzzy) {
-            $fuzzy_option = "";
-        } else {
-            $fuzzy_option = "-N";
-        }
-
-        exec("msgmerge --sort-by-file -U $fuzzy_option '$this->po_filename' '$template' 2>&1",
-            $exec_out, $return_value);
+        $cmd = join(" ", [
+            "msgmerge",
+            "--sort-by-file",
+            "-U ",
+            ($fuzzy ? "" : "-N"),
+            escapeshellarg($this->po_filename),
+            escapeshellarg($template),
+            "2>&1",
+        ]);
+        exec($cmd, $exec_out, $return_value);
 
         if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
@@ -144,8 +149,13 @@ class POFile
     {
         $compiled_filename = str_replace(".po", ".mo", $this->po_filename);
 
-        exec("msgfmt '$this->po_filename' -o '$compiled_filename' 2>&1",
-            $exec_out, $return_value);
+        $cmd = join(" ", [
+            "msgfmt",
+            escapeshellarg($this->po_filename),
+            "-o " . escapeshellarg($compiled_filename),
+            "2>&1",
+        ]);
+        exec($cmd, $exec_out, $return_value);
 
         if ($return_value != 0) {
             throw new Exception(implode("\n", $exec_out));
