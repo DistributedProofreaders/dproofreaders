@@ -44,7 +44,7 @@ function archive_project($project, $dry_run)
         if ($dry_run) {
             echo "    Remove $smooth_dir directory.\n";
         } else {
-            exec("rm -rf $smooth_dir");
+            exec("rm -rf " . escapeshellarg($smooth_dir));
         }
     }
 

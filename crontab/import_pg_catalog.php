@@ -95,7 +95,16 @@ if ($start_from_scratch) {
     }
 
     trace("Extracting files from $local_compressed_file to $local_catalog_dir...");
-    system("tar --extract --bzip2 --file=$local_compressed_file --strip-components=3 --directory=$local_catalog_dir --overwrite", $ret);
+    $cmd = join(" ", [
+        "tar",
+        "--extract",
+        "--bzip2",
+        "--file=" . escapeshellarg($local_compressed_file),
+        "--strip-components=3",
+        "--directory=" . escapeshellarg($local_catalog_dir),
+        "--overwrite",
+    ]);
+    system($cmd, $ret);
     // Each file in the tar archive describes one ebook in the PG collection,
     // and has a path of the form:
     //     cache/epub/NNN/pgNNN.rdf

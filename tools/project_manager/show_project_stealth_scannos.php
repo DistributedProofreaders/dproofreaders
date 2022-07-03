@@ -196,7 +196,13 @@ function _get_word_list($projectid)
     unset($all_page_text);
 
     // make external call to wdiff
-    exec("wdiff -3 $ocr_filename $latest_filename", $wdiff_output, $return_code);
+    $cmd = join(" ", [
+        "wdiff",
+        "-3",
+        escapeshellarg($ocr_filename),
+        escapeshellarg($latest_filename),
+    ]);
+    exec($cmd, $wdiff_output, $return_code);
 
     // check to see if wdiff wasn't found to execute
     if ($return_code == 127) {

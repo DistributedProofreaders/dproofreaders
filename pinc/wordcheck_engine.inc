@@ -259,7 +259,16 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 // run aspell using this language
 
                 // create the aspell command
-                $aspell_command = "cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset}";
+                $aspell_command = join(" ", [
+                    "cat",
+                    escapeshellarg($tmp_file_path),
+                    "|",
+                    $aspell_executable,
+                    "list",
+                    "--prefix=" . escapeshellarg($aspell_prefix),
+                    "-d " . escapeshellarg($dict_file),
+                    "--encoding " . escapeshellarg($charset),
+                ]);
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // build our list of possible misspellings
                 $misspellings[$langcode] = explode("\n",

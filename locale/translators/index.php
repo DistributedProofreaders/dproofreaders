@@ -142,7 +142,7 @@ elseif ($func == "newtranslation2") {
 elseif ($func == "delete") {
     $locale = validate_locale($_REQUEST['locale']);
     assert(is_dir("$dyn_locales_dir/$locale"));
-    exec("rm -r $dyn_locales_dir/$locale");
+    exec("rm -r " . escapeshellarg("$dyn_locales_dir/$locale"));
 
     echo "<p>" . sprintf(_("Locale %s deleted."), $locale) . "</p>";
 
@@ -173,9 +173,9 @@ elseif ($func == "xgettext") {
         die("Unable to change to requested directory.");
     }
 
-    $xgettext_arguments = [
+    $cmd = join(" ", [
         $xgettext_executable,
-        "--output-dir=$dyn_locales_dir/",
+        "--output-dir=" . escapeshellarg("$dyn_locales_dir/"),
         "--output=messages.pot",
         "--language=PHP",
         "--keyword=_",
@@ -185,8 +185,8 @@ elseif ($func == "xgettext") {
         "--sort-by-file",
         "`find -name '*.php' -o -name '*.inc'`",
         "2>&1",
-    ];
-    exec(implode(" ", $xgettext_arguments), $exec_out, $ret_var);
+    ]);
+    exec($cmd, $exec_out, $ret_var);
     if ($ret_var) {
         echo "<p class='center-align'>" . _("Strings <b>not</b> rebuilt!") . "<br>"
             . _("This is the <code>xgettext</code> output:") . "</p>";

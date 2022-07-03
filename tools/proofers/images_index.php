@@ -36,7 +36,15 @@ if (!is_null($zip_type)) {
     header("Content-Disposition: attachment; filename=\"$zipfile\"");
     header("Cache-Control: no-cache, must-revalidate");
     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-    passthru("cat $list_name |zip -@ -");
+    $cmd = join(" ", [
+        "cat",
+        escapeshellarg($list_name),
+        "|",
+        "zip",
+        "-@",
+        "-",
+    ]);
+    passthru($cmd);
     unlink($list_name);
     exit();
 } else {
