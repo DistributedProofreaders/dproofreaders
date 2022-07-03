@@ -241,7 +241,7 @@ function virus_check($file_path, $verbose)
     $av_test_result = [];
     $av_retval = 0;
 
-    $cmd = "$antivirus_executable -- " . escapeshellcmd($file_path);
+    $cmd = "$antivirus_executable -- " . escapeshellarg($file_path);
     exec($cmd, $av_test_result, $av_retval);
     // $av_retval == 0 is ok
     if ($av_retval == 1) {
