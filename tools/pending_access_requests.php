@@ -109,18 +109,17 @@ foreach ($activity_ids as $activity_id) {
         }
         $seconds = 60 * 60 * 24;
         $now = time();
-        $tformat = '%Y-%m-%d';
         while ([$username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site] = mysqli_fetch_row($res)) {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
-            $t_latest_request_f = strftime($tformat, $t_latest_request);
+            $t_latest_request_f = date('Y-m-d', $t_latest_request);
             $t_latest_request_d = round(($now - $t_latest_request) / $seconds);
             $t_latest_deny_f = '';
             $t_latest_deny_d = -1;
             if ($t_latest_deny != 0) {
-                $t_latest_deny_f = strftime($tformat, $t_latest_deny);
+                $t_latest_deny_f = date('Y-m-d', $t_latest_deny);
                 $t_latest_deny_d = round(($now - $t_latest_deny) / $seconds);
             }
-            $t_last_on_site_f = strftime($tformat, $t_last_on_site);
+            $t_last_on_site_f = date('Y-m-d', $t_last_on_site);
             $t_last_on_site_d = round(($now - $t_last_on_site) / $seconds);
 
             echo "<tr>";

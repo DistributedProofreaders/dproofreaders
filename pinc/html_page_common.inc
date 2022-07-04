@@ -166,7 +166,7 @@ function get_local_file_browser_cache_key($url)
         }
 
         if ($timestamp) {
-            $cache_fixer = "?" . strftime("%Y%m%d%H%M%S", $timestamp);
+            $cache_fixer = "?" . date("YmdHis", $timestamp);
         }
     }
 

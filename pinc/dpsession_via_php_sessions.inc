@@ -192,7 +192,7 @@ function do_session_query($query)
 
 function write_to_session_log($msg)
 {
-    $time = strftime('%Y-%m-%d %H:%M:%S');
+    $time = date('Y-m-d H:i:s');
     $f = fopen('/tmp/session_query_log', 'a');
     fwrite($f, "------\n$time\n$msg\n");
     fclose($f);

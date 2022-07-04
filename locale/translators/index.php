@@ -450,7 +450,7 @@ function do_upload($locale)
     }
 
     if (file_exists("messages.po")) {
-        $save = "messages_".strftime("%Y%m%d%H%M%S", filemtime("messages.po")).".po";
+        $save = "messages_".date("YmdHis", filemtime("messages.po")).".po";
     }
 
     assert(isset($_FILES['userfile']));
@@ -507,7 +507,7 @@ function do_merge($locale, $fuzzy)
 
     // Try to back up the existing translation
     assert(file_exists("messages.po"));
-    $save = "messages_".strftime("%Y%m%d%H%M%S", filemtime("messages.po")).".po";
+    $save = "messages_".date("YmdHis", filemtime("messages.po")).".po";
     if (!@copy("messages.po", $save)) {
         echo "<p>" . _("Could not save a copy of the previous file.")
             . " " . _("File was not updated.") . "</p>";

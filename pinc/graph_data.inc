@@ -563,7 +563,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         case 'curr_month':
             $start_timestamp = mktime(0, 0, 0, $curr_m, 1, $curr_y);
             $end_timestamp = mktime(0, 0, 0, $curr_m + 1, 1, $curr_y);
-            $year_month = strftime('%Y-%m', $start_timestamp);
+            $year_month = date('Y-m', $start_timestamp);
             $where_clause = "WHERE {year_month} = '$year_month'";
             $title_timeframe = strftime(_('%B %Y'), $now_timestamp);
             break;
@@ -571,7 +571,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         case 'prev_month':
             $start_timestamp = mktime(0, 0, 0, $curr_m - 1, 1, $curr_y);
             $end_timestamp = mktime(0, 0, 0, $curr_m, 1, $curr_y);
-            $year_month = strftime('%Y-%m', $start_timestamp);
+            $year_month = date('Y-m', $start_timestamp);
             $where_clause = "WHERE {year_month} = '$year_month'";
             $title_timeframe = strftime(_('%B %Y'), $start_timestamp);
             break;
@@ -619,7 +619,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
         // The accumulated 'actual' for today and subsequent days is bogus,
         // so delete it.
-        $date_today = strftime('%Y-%m-%d', $now_timestamp);
+        $date_today = date('Y-m-d', $now_timestamp);
         for ($i = 0; $i < count($datax); $i++) {
             if ($datax[$i] >= $date_today) {
                 unset($datay1[$i]);
@@ -677,7 +677,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
                 $earliest_timestamp = $result["timestamp"];
             }
 
-            $average_lookup[strftime("%Y-%m-%d", $result["timestamp"])] = $result["sma"];
+            $average_lookup[date("Y-m-d", $result["timestamp"])] = $result["sma"];
         }
         mysqli_free_result($res);
 
@@ -688,7 +688,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
         // loop through each day in the graph and pull in the SMA if it exists
         for ($dateTimestamp = $start_timestamp; $dateTimestamp <= $end_timestamp; $dateTimestamp += (60 * 60 * 24)) {
-            $day = strftime('%Y-%m-%d', $dateTimestamp);
+            $day = date('Y-m-d', $dateTimestamp);
             if (isset($average_lookup[$day])) {
                 $moving_average[] = $average_lookup[$day];
             } else {
@@ -717,7 +717,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
         // iterate through the days of the specified month
         for ($dateTimestamp = $start_timestamp; $dateTimestamp <= $end_timestamp; $dateTimestamp += (60 * 60 * 24)) {
-            $datax[] = strftime('%Y-%m-%d', $dateTimestamp);
+            $datax[] = date('Y-m-d', $dateTimestamp);
             $datay1[] = 0;
         }
     }

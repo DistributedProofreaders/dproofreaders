@@ -29,8 +29,6 @@ include_once($relPath.'special_colors.inc'); // load_special_days
 // for strftime:
 // TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
-// TRANSLATORS: This is a strftime-formatted string for the time
-$time_format = _("%X");
 
 error_reporting(E_ALL);
 
@@ -362,7 +360,7 @@ function do_blurb_box($blurb)
 
 function do_project_info_table()
 {
-    global $project, $code_url, $datetime_format, $time_format;
+    global $project, $code_url, $datetime_format;
     global $user_is_logged_in;
 
     $projectid = $project->projectid;
@@ -461,7 +459,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Current activity
 
-    $formatted_now = strftime($time_format, time());
+    $formatted_now = date("H:i:s");
     $ct = _("Current Time");
     $current_time_addition = "&nbsp;&nbsp;&nbsp;" . html_safe("($ct: $formatted_now)");
 
@@ -1126,7 +1124,7 @@ function do_history()
         echo(
             $event['timestamp'] == '?'
             ? '?'
-            : strftime('%Y-%m-%d %H:%M:%S', $event['timestamp'])
+            : date('Y-m-d H:i:s', $event['timestamp'])
         );
         echo "</td>\n";
 
@@ -1182,7 +1180,7 @@ function do_history()
             echo "<td>{$event['details1']}</td>\n";
             $spare_cols = 2;
             if (($event['details1'] == 'text available') || ($event['details1'] == 'deadline extended')) {
-                $deadline_f = strftime('%Y-%m-%d %H:%M:%S', $event['details2']);
+                $deadline_f = date('Y-m-d H:i:s', $event['details2']);
                 echo "<td>until $deadline_f</td>\n";
                 $spare_cols = 1;
             }

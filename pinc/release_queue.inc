@@ -1,8 +1,8 @@
 <?php
 // A place for shared functions dealing with release queues.
 
-$today_MMDD = strftime('%m%d', strtotime('today'));
-$tomorrow_MMDD = strftime('%m%d', strtotime('tomorrow'));
+$today_MMDD = date('md', strtotime('today'));
+$tomorrow_MMDD = date('md', strtotime('tomorrow'));
 
 function cook_project_selector($project_selector)
 // Expand certain sequences in $project_selector.

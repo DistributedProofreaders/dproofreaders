@@ -155,7 +155,7 @@ function output_project_label($nameofwork, $authorsname, $date = null)
     // TRANSLATORS: format is <title> by <author>.
     echo sprintf(_("%1\$s by %2\$s"), $nameofwork, $authorsname);
     if (!is_null($date)) {
-        $date = strftime("%Y-%m-%d %R %Z", $date);
+        $date = date("Y-m-d H:i T", $date);
         echo " ($date)";
     }
 }

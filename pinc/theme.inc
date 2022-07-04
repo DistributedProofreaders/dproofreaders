@@ -97,7 +97,7 @@ function output_footer($nameofpage, $show_statsbar = true)
 
     echo "<span id='buildtime'>";
     echo " &middot; ";
-    echo sprintf(_("Page built at %s in %0.3fs"), strftime("%Y-%m-%d %R %Z"), $totaltime);
+    echo sprintf(_("Page built at %s in %0.3fs"), date("Y-m-d H:i T"), $totaltime);
     echo "</span>";
 
     echo " &middot; ";
@@ -592,7 +592,7 @@ function show_tally_specific_stats($tally_name)
 
     // Put the whole thing in a div, just so we can put a box around it.
     echo "<div id='tally-stats'>\n";
-    echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
+    echo "<p id='server-time'>" . _("Server Time") . ": " . date("H:i") . "</p>\n";
 
     // Show the site statistics
 
@@ -792,7 +792,7 @@ function show_birthdays()
             AND date_created < %s
             AND u_privacy != %d
         ORDER BY date_created ASC
-    ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight, PRIVACY_ANONYMOUS);
+    ", date("m-d"), $oldest_activity, $timestamp_at_midnight, PRIVACY_ANONYMOUS);
 
     $result = mysqli_query(DPDatabase::get_connection(), $sql);
 

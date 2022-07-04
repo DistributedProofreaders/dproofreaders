@@ -113,7 +113,7 @@ function show_toggles_form($username, $user_settings)
 
         $access_log_entry = get_latest_access_change_entry($username, $setting_name);
         if ($access_log_entry) {
-            $changed = strftime('%Y-%m-%d %H:%M', $access_log_entry["timestamp"]);
+            $changed = date('Y-m-d H:i', $access_log_entry["timestamp"]);
         } else {
             $changed = "<i>" . _("unknown") . "</i>";
         }

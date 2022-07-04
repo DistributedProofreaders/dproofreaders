@@ -33,13 +33,13 @@ $output = "Checking " . mysqli_num_rows($result) . " projects...\n";
 $any_work_done = false;
 
 // Used for checking smoothread_deadline within the loop
-$curr_time = strftime('%Y-%m-%d %H', time());
+$curr_time = date('Y-m-d H');
 
 while ($row = mysqli_fetch_assoc($result)) {
     $project = new Project($row);
 
     // Check if the time is right, with precision of an hour
-    $deadline = strftime('%Y-%m-%d %H', $project->smoothread_deadline);
+    $deadline = date('Y-m-d H', $project->smoothread_deadline);
 
     if ($curr_time == $deadline) {
         $output .= "$project->nameofwork\n";
