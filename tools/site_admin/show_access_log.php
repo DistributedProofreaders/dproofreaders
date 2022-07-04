@@ -88,7 +88,7 @@ if (!$username && !$activity && $since == 'all') {
     $query_limit = "LIMIT 200";
 }
 
-$t_min_fmt = strftime('%Y-%m-%d %H:%M', $t_min);
+$t_min_fmt = date('Y-m-d H:i', $t_min);
 
 // TRANSLATORS: %s is a time in the format YYYY-MM-DD HH:MM
 echo "<p>" . sprintf(_("The following table shows entries in the access_log table that have occurred since %s"), $t_min_fmt) . "</p>";

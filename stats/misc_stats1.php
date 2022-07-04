@@ -17,8 +17,8 @@ $end = get_param_matching_regex($_GET, 'end', null, '/^\d{4}-\d{1,2}$/', true);
 // -----------------------------------
 
 $now_timestamp = time();
-$curr_year_month = strftime('%Y-%m', $now_timestamp);
-$curr_year = strftime('%Y', $now_timestamp);
+$curr_year_month = date('Y-m', $now_timestamp);
+$curr_year = date('Y', $now_timestamp);
 
 // -----------------------------------
 

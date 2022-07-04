@@ -15,7 +15,7 @@ if (!user_is_a_sitemanager()) {
 }
 
 $title = _("Resend Account Activation Email");
-output_header($title);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -66,7 +66,7 @@ if ($action == 'default') {
             echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
             echo "<td>" . html_safe($row['real_name']) . "</td>\n";
             echo "<td>" . html_safe($row['email']) . "</td>\n";
-            echo "<td>" . strftime("%B %e, %Y, %H:%M", $row['date_created']) . "</td>\n";
+            echo "<td>" . date("Y-m-d H:i", $row['date_created']) . "</td>\n";
             echo "</tr>\n";
         }
         echo "</table>\n";

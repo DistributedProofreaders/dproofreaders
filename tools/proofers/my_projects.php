@@ -167,7 +167,7 @@ if (mysqli_num_rows($res) == 0) {
 
         if (isset($colspecs['time'])) {
             echo "<td class='nowrap'>";
-            echo strftime('%Y-%m-%d %H:%M:%S', $row->max_timestamp);
+            echo date('Y-m-d H:i', $row->max_timestamp);
             echo "</td>\n";
         }
 

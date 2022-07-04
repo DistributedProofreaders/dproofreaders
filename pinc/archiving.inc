@@ -23,7 +23,7 @@ function archive_project($project, $dry_run)
 
     $projectid = $project->projectid;
 
-    $mod_time_str = strftime('%Y-%m-%d %H:%M:%S', $project->modifieddate);
+    $mod_time_str = date('Y-m-d H:i:s', $project->modifieddate);
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
     if (!$project->pages_table_exists) {

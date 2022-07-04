@@ -13,7 +13,7 @@ $projects_by_PPer = get_pp_projects_past_threshold();
 
 // if the script is run before the 14th of the month, send out the first email
 // otherwise send out the second one
-if (strftime("%d", time()) < 14) {
+if (date("d") < 14) {
     $which_message = "first";
 } else {
     $which_message = "second";

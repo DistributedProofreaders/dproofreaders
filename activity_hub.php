@@ -157,7 +157,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     // start the table
     echo "<h2 id='progress_snapshot'>" . _("Site Progress Snapshot") . "</h2>";
 
-    echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time. Current server-time is %s."), strftime("%H:%M")) . "</p>";
+    echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time. Current server-time is %s."), date("H:i")) . "</p>";
 
     if ($show_beginner_help) {
         echo "<p>" . _("The left side of the table lists each production stage an e-book will go through, and indicates your ability to work in that stage. The \"Projects\" section, in the center of the table, shows the total number of projects in each stage, how many of these are waiting to be made available for work, how many are currently active and available for volunteers to work on, and finally, the number of projects that have completed that stage today.") . "</p>";

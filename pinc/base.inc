@@ -68,7 +68,7 @@ function production_exception_handler($exception)
     if ($exception instanceof DBConnectionError && !$maintenance) {
         // We output the timestamp in the same format and timezone (UTC) as
         // the MySQL error log (sans microseconds) for easier correlation.
-        $error_message = gmstrftime("%FT%TZ") . " " .  $exception->getMessage();
+        $error_message = gmdate("Y-m-d") . "T" . gmdate("H:i:s") . "Z " .  $exception->getMessage();
 
         // Dump the error to the php error log
         error_log("base.inc - $error_message");

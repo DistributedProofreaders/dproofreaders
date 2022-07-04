@@ -31,7 +31,7 @@ foreach ($fixed_pages as $page => $frequency) {
     }
 
     $url = "$code_url/$page";
-    $lastmod = strftime("%Y-%m-%d", filemtime("$code_dir/$page"));
+    $lastmod = date("Y-m-d", filemtime("$code_dir/$page"));
     echo <<<URL
             <url>
                 <loc>$url</loc>
@@ -68,7 +68,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 
     $url = "$code_url/project.php?id=" . $row["projectid"];
-    $lastmod = strftime("%Y-%m-%d", $row["modifieddate"]);
+    $lastmod = date("Y-m-d", $row["modifieddate"]);
 
     echo <<<URL
             <url>

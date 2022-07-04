@@ -27,13 +27,13 @@ $res2 = dpsql_query("
 $values_list = '';
 
 // Ensure that the table is defined for at least the next 35 days.
-$desired_max_date = strftime('%Y-%m-%d', strtotime('+35 days'));
+$desired_max_date = date('Y-m-d', strtotime('+35 days'));
 
 // What I'd *like* to be able to write:
 // for ( $d = $current_max_date+1; $d <= today() + 35; $d++ )
 
 for ($i = 1; ; $i++) {
-    $date = strftime('%Y-%m-%d', strtotime("$current_max_date + $i day"));
+    $date = date('Y-m-d', strtotime("$current_max_date + $i day"));
     if ($date > $desired_max_date) {
         break;
     }

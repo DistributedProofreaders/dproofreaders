@@ -195,14 +195,11 @@ function createWordListTable($word_lists)
     echo "<th>" . _("Last modified") . "</th>";
     echo "</tr>";
 
-    // TRANSLATORS: This is a strftime-formatted string for the date with year and time
-    $datetime_format = _("%A, %B %e, %Y at %X");
-
     // loop through the word lists building rows as we go
     foreach ($word_lists as $word_list_file => $word_list_url) {
         $filename = basename($word_list_file);
         $word_count = count(explode("\n", file_get_contents($word_list_file))) - 1;
-        $modifiedString = strftime($datetime_format, filemtime($word_list_file));
+        $modifiedString = date('Y-m-d H:i', filemtime($word_list_file));
         echo "<tr>";
         echo "<td><a href=\"$word_list_url\">$filename</a></td>";
         echo "<td>$word_count</td>";

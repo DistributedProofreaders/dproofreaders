@@ -393,7 +393,7 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
 
     $pages_per_day = [];
     foreach ($deltas as $timestamp => $tally_delta) {
-        $date = strftime("%Y-%m-%d", $timestamp - $SECONDS_TO_YESTERDAY);
+        $date = date("Y-m-d", $timestamp - $SECONDS_TO_YESTERDAY);
         $pages_per_day[$date] = $tally_delta;
     }
 
