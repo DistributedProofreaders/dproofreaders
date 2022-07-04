@@ -16,7 +16,8 @@ The following lists supported versions for the four primary middleware
 components.
 
 ### PHP
-PHP version 7.4 is the minimum supported version. PHP 8.0 has not been tested.
+PHP version 7.4 is the minimum supported version. Limited testing has been done
+on PHP 8.0 and 8.1.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
