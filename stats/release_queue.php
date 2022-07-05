@@ -24,7 +24,7 @@ $name = @$_GET['name'];
 if (is_null($round_id)) {
     $title = _("Release Queues");
     output_header($title, NO_STATSBAR);
-    echo "<h1>$title</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     echo _("Each round has its own set of release queues."), "\n";
     echo _("Please select the round that you're interested in:"), "\n";
@@ -41,7 +41,7 @@ $round = get_Round_for_round_id($round_id);
 if (!isset($name)) {
     $title = sprintf(_("Release Queues for Round '%s'"), $round_id);
     output_header($title, NO_STATSBAR);
-    echo "<h1>$title</h1>\n";
+    echo "<h1>" . html_safe($title) . "</h1>\n";
 
     $errors = [];
     echo "<table class='themed theme_striped'>\n";
@@ -127,12 +127,10 @@ if (!isset($name)) {
     $cooked_project_selector = cook_project_selector($qd->project_selector);
     $comment = $qd->comment;
 
-    //// TRANSLATORS: %s is the name of this release queue.
-    $title = sprintf(_("\"%s\" Release Queue"), html_safe($name));
-    $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
-    // Suppress stats since this page is very wide
+    // TRANSLATORS: %s is the name of this release queue.
+    $title = sprintf(_("\"%s\" Release Queue"), $name);
     output_header($title, NO_STATSBAR);
-    echo "<h1>$title</h1>";
+    echo "<h1>" . html_safe($title) . "</h1>";
 
     // Add Back to to Release Queues link
     echo "<p><a href='".$code_url."/stats/release_queue.php?round_id=$round_id'>"._("Back to Release Queues")."</a></p>\n";
