@@ -11,9 +11,6 @@ include_once("./word_freq_table.inc"); // echo_cutoff_text(), printTableFrequenc
 
 require_login();
 
-// TRANSLATORS: This is a strftime-formatted string for the date with year and time
-$datetime_format = _("%A, %B %e, %Y at %X");
-
 $watch = new Stopwatch();
 $watch->start();
 
@@ -121,7 +118,7 @@ if ($timeCutoff == -1) {
 } elseif ($timeCutoff == 0) {
     $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
 } else {
-    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."), strftime($datetime_format, $timeCutoff));
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."), icu_date_template("long+time", $timeCutoff));
 }
 
 echo "<p>" . $time_cutoff_text . "</p>";

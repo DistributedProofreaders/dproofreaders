@@ -44,7 +44,7 @@ if (mysqli_num_rows($result) == 0) {
     echo "<p>" . sprintf(_("No recent news items for %s"), $news_subject) . "</p>";
 } else {
     while ($news_item = mysqli_fetch_array($result)) {
-        $date_posted = strftime(_("%A, %B %e, %Y"), $news_item['date_posted']);
+        $date_posted = icu_date_template("long", $news_item['date_posted']);
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr class='center-align' style='width: 75%'><br>";
     }
 }

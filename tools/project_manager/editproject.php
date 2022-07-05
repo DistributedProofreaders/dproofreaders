@@ -557,8 +557,7 @@ class ProjectInfoHolder
         $a = _("The Guidelines give detailed instructions for working in this round.");
         $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
-        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
-        $now = strftime(_("%A, %B %e, %Y at %X"));
+        $now = icu_date_template("long+time");
 
         echo "<h2 id='preview'>", _("Preview Project"), "</h2>";
         echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";

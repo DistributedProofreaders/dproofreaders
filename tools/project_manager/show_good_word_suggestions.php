@@ -10,8 +10,6 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-$datetime_format = "%A, %B %e, %Y %X";
-
 set_time_limit(0); // no time limit
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');
@@ -24,7 +22,7 @@ enforce_edit_authorization($projectid);
 if ($timeCutoff == 0) {
     $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
 } else {
-    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."), strftime($datetime_format, $timeCutoff));
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."), icu_date_template("long+time", $timeCutoff));
 }
 
 

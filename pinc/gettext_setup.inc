@@ -76,13 +76,11 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
     }
 }
 
-// Configure gettext for a specific user, useful for sending emails. $user
-// can be a User object or a username. If $user is NULL, the current user's
-// locale is configured.
-function configure_gettext_for_user($user = null)
+// Get the language (locale) for the specified user.
+// $user can be a User object or a username.
+// If $user is NULL, the current user's locale is returned.
+function get_user_language($user = null)
 {
-    global $charset, $dyn_locales_dir, $system_locales_dir;
-
     if (!$user) {
         $locale = get_desired_language();
     } else {
@@ -91,6 +89,15 @@ function configure_gettext_for_user($user = null)
         }
         $locale = get_valid_locale_for_translation($user->u_intlang);
     }
+    return $locale;
+}
+
+// Configure gettext for a specific user, useful for sending emails.
+function configure_gettext_for_user($user = null)
+{
+    global $charset, $dyn_locales_dir, $system_locales_dir;
+
+    $locale = get_user_language($user);
     configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_dir);
 }
 
@@ -125,4 +132,35 @@ if (!function_exists('pgettext')) {
             return $translation;
         }
     }
+}
+
+// Return a localized date/time string for a date where $pattern is in ICU
+// format (https://unicode-org.github.io/icu/userguide/format_parse/datetime/).
+function icu_date($pattern, $timestamp = null, $user = null)
+{
+    $locale = get_user_language($user);
+    if (!$timestamp) {
+        $timestamp = time();
+    }
+
+    $idf = new IntlDateFormatter($locale, null, null);
+    $idf->setPattern($pattern);
+    return $idf->format($timestamp);
+}
+
+// Return a localized date from a predefined template
+function icu_date_template($template, $timestamp = null, $user = null)
+{
+    $templates = [
+        // TRANSLATORS: ICU-formatted date in long form
+        "long" => _("EEEE, MMMM d, y"),
+        // TRANSLATORS: ICU-formatted date in long form with time
+        "long+time" => _("EEEE, MMMM d, y 'at' HH:mm"),
+        // TRANSLATORS: ICU-formatted date in medium form
+        "medium" => _("EEE, MMM d, y"),
+        // TRANSLATORS: ICU-formatted date in short form
+        "short" => _("MMM d, y"),
+    ];
+
+    return icu_date($templates[$template], $timestamp, $user);
 }
