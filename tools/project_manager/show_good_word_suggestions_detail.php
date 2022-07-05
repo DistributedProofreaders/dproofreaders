@@ -17,9 +17,6 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-// TRANSLATORS: This is a strftime-formatted string for the date with year and time
-$datetime_format = _("%A, %B %e, %Y at %X");
-
 $watch = new Stopwatch();
 $watch->start();
 
@@ -98,7 +95,7 @@ foreach ($word_suggestions as $suggestion) {
         continue;
     }
 
-    echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format, $time) . "<br>";
+    echo "<p><b>" . _("Date") . "</b>: " . icu_date_template("long+time", $time) . "<br>";
     echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
     echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
     echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";

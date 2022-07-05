@@ -35,7 +35,7 @@ foreach ($special_days as $row) {
     if ($month != $current_month) {
         $current_month = $month;
         echo "<tr class='month'><td colspan='5'><h2>";
-        echo strftime("%B", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
+        echo icu_date("MMMM", mktime(0, 0, 0, $row['open_month'], 10)) . "</h2></td></tr>\n";
         output_column_headers();
     }
 

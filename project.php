@@ -26,10 +26,6 @@ include_once($relPath.'special_colors.inc'); // load_special_days
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
-// for strftime:
-// TRANSLATORS: This is a strftime-formatted string for the date with year and time
-$datetime_format = _("%A, %B %e, %Y at %X");
-
 error_reporting(E_ALL);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -194,7 +190,7 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $pguser, $datetime_format;
+    global $project, $pguser;
 
     [$code, $msg] = $project->can_be_proofed_by_current_user();
     if ($code != $project->CBP_OKAY) {
@@ -269,7 +265,7 @@ function decide_blurbs()
 
         // When were the project comments last modified?
         $comments_timestamp = $project->t_last_change_comments;
-        $comments_time_str = strftime($datetime_format, $comments_timestamp);
+        $comments_time_str = icu_date_template("long+time", $comments_timestamp);
         $comments_last_modified_blurb = _("Project Comments last modified:") . " " . $comments_time_str;
 
         // Other possible components of blurbs:
@@ -360,7 +356,7 @@ function do_blurb_box($blurb)
 
 function do_project_info_table()
 {
-    global $project, $code_url, $datetime_format;
+    global $project, $code_url;
     global $user_is_logged_in;
 
     $projectid = $project->projectid;
@@ -381,8 +377,7 @@ function do_project_info_table()
         $extra = $round->description;
         $right = "$right ($extra)";
     } elseif ($available_for_SR) {
-        $sr_deadline_str = strftime(
-            $datetime_format, $project->smoothread_deadline);
+        $sr_deadline_str = icu_date_template("long+time", $project->smoothread_deadline);
         $sr_sentence = sprintf(
             _('This project has been made available for Smooth Reading until %s server time.'),
             "<b>$sr_deadline_str</b>"
@@ -459,24 +454,24 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Current activity
 
-    $formatted_now = date("H:i:s");
+    $formatted_now = date("H:i");
     $ct = _("Current Time");
     $current_time_addition = "&nbsp;&nbsp;&nbsp;" . html_safe("($ct: $formatted_now)");
 
     echo_row_a(
         _("Last Edit of Project Info"),
-        strftime($datetime_format, $project->t_last_edit)
+        icu_date_template("long+time", $project->t_last_edit)
         . $current_time_addition);
 
     echo_row_a(
         _("Last State Change"),
-        strftime($datetime_format, $project->modifieddate),
+        icu_date_template("long+time", $project->modifieddate),
         true);
 
     if ($round) {
         $last_proofread_time = $project->get_last_proofread_time($round);
         if ($last_proofread_time) {
-            $lastproofed = strftime($datetime_format, $last_proofread_time);
+            $lastproofed = icu_date_template("long+time", $last_proofread_time);
         } else {
             $lastproofed = _("Project has not been proofread in this round.");
         }
@@ -497,7 +492,7 @@ function do_project_info_table()
             $f = get_project_word_file($projectid, $gb);
             if ($f->size > 0) {
                 $links .= new_window_link($f->abs_url, $label);
-                $links .= " - " . _("Last modified") . ": " . strftime($datetime_format, $f->mod_time);
+                $links .= " - " . _("Last modified") . ": " . icu_date_template("long+time", $f->mod_time);
             } else {
                 $links .= $label . " " . _("(empty)");
             }
@@ -535,7 +530,7 @@ function do_project_info_table()
     $topic_id = $project->topic_id;
     if (!empty($topic_id)) {
         $last_post_date = get_last_post_time_in_topic($topic_id);
-        $last_post_date = strftime($datetime_format, $last_post_date);
+        $last_post_date = icu_date_template("long+time", $last_post_date);
         echo_row_a(_("Last Forum Post"), $last_post_date, true);
     }
 
@@ -650,7 +645,7 @@ function do_project_info_table()
                 );
             $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
-            $time_str = strftime($datetime_format, $project->t_last_change_comments);
+            $time_str = icu_date_template("long+time", $project->t_last_change_comments);
             $c = "(" . _("Last modified") . ": " . $time_str . ")";
 
             $comments_blurb = "$a<br>$b<br>$c";
@@ -778,8 +773,8 @@ function recentlyproofed($wlist)
             }
             echo "<td class='center-align'>";
             echo "<a href=\"$eURL\">";
-            // TRANSLATORS: This is an strftime-formatted string
-            echo strftime(_("%b %d"), $timestamp) . ": " . $imagefile;
+            // TRANSLATORS: This is an ICU-formatted string
+            echo icu_date(_("MMM dd"), $timestamp) . ": " . $imagefile;
             echo "</a>$wordcheck_status";
             echo "</td>";
             $colnum++;
@@ -1607,10 +1602,8 @@ function echo_download_zip($link_text, $discriminator)
 
 function echo_last_modified($last_modified)
 {
-    global $datetime_format;
-
     if (isset($last_modified)) {
-        echo " (", strftime($datetime_format, $last_modified), ")";
+        echo " (", icu_date_template("long+time", $last_modified), ")";
     }
 }
 
@@ -1645,7 +1638,7 @@ function do_postcomments()
 
 function do_smooth_reading()
 {
-    global $project, $code_url, $pguser, $datetime_format;
+    global $project, $code_url, $pguser;
 
     if ($project->state != PROJ_POST_FIRST_CHECKED_OUT) {
         return;
@@ -1677,8 +1670,7 @@ function do_smooth_reading()
     } else {
         // Project has been made available for SR
         if ($project->is_available_for_smoothreading()) {
-            $sr_deadline_str = strftime(
-                $datetime_format, $project->smoothread_deadline);
+            $sr_deadline_str = icu_date_template("long+time", $project->smoothread_deadline);
             $sr_sentence = sprintf(
                 _('This project has been made available for Smooth Reading until %s server time.'),
                 "<b>$sr_deadline_str</b>"

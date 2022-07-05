@@ -129,8 +129,7 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
         $title = $project['nameofwork'];
         $language = $project['language'];
         $pagecount = $project['n_pages'];
-        // TRANSLATORS: this is a strftime-formatted string
-        $moddate = strftime(_("%A, %B %e, %Y"), $project['modifieddate']);
+        $moddate = icu_date_template("long", $project['modifieddate']);
         $postednum = $project['postednum'];
 
 

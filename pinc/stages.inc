@@ -330,9 +330,6 @@ function can_user_get_pages_in_project($username, $project, $round)
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
-        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
-        $datetime_format = _("%A, %B %e, %Y at %X");
-
         $t_release = $project->modifieddate;
         $t_generally_available =
             $t_release + $n_days_of_reserve * 24 * 60 * 60;
@@ -374,7 +371,7 @@ function can_user_get_pages_in_project($username, $project, $round)
                         . "<br>" .
                         sprintf(
                             _('It will become generally available %s.'),
-                            strftime($datetime_format, $t_generally_available)
+                            icu_date_template("long+time", $t_generally_available)
                         )
                     ;
                 }

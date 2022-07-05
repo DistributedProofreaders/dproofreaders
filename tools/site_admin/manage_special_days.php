@@ -166,7 +166,7 @@ class SpecialDay
             output_table_headers();
         } elseif ($this->open_month != $current_month) {
             echo "<tr class='month'><td colspan='9'><h2>";
-            echo strftime("%B", mktime(0, 0, 0, $this->open_month, 10));
+            echo icu_date("MMMM", mktime(0, 0, 0, $this->open_month, 10));
             echo "</h2></td></tr>";
             output_table_headers();
         }

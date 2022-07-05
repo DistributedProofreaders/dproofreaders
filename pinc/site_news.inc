@@ -107,8 +107,7 @@ function show_news_for_page($news_page_id)
         if (is_null($date_changed)) {
             // This probably shouldn't happen.
         } else {
-            // TRANSLATORS: this is a strftime-formatted string
-            $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
+            $formatted_date = icu_date_template("long", $date_changed);
             echo sprintf(_("last changed %s"), $formatted_date);
         }
         echo "</small>";

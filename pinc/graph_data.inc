@@ -565,7 +565,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
             $end_timestamp = mktime(0, 0, 0, $curr_m + 1, 1, $curr_y);
             $year_month = date('Y-m', $start_timestamp);
             $where_clause = "WHERE {year_month} = '$year_month'";
-            $title_timeframe = strftime(_('%B %Y'), $now_timestamp);
+            $title_timeframe = icu_date('MMM y', $now_timestamp);
             break;
 
         case 'prev_month':
@@ -573,7 +573,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
             $end_timestamp = mktime(0, 0, 0, $curr_m, 1, $curr_y);
             $year_month = date('Y-m', $start_timestamp);
             $where_clause = "WHERE {year_month} = '$year_month'";
-            $title_timeframe = strftime(_('%B %Y'), $start_timestamp);
+            $title_timeframe = icu_date('MMM y', $start_timestamp);
             break;
 
         case 'all_time':

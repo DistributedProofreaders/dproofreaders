@@ -159,8 +159,7 @@ class TimeColumn extends Column
                 echo sprintf("%.1f", (time() - $data) / 86400);
                 break;
             default: // case 'date':
-                // TRANSLATORS: This is a strftime-formatted string for the date with year
-                echo "<span class='nowrap'>" . strftime(_("%b %e, %Y"), $data) . "</span>";
+                echo "<span class='nowrap'>" . icu_date_template("short", $data) . "</span>";
                 break;
             }
         }

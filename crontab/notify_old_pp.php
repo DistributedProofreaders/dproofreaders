@@ -41,8 +41,8 @@ function send_pp_reminders($PPer, $projects, $which_message)
         $nameofwork = $project["nameofwork"];
         $authorsname = $project["authorsname"];
         $projectid = $project["projectid"];
-        $modifieddate = strftime("%e %B %Y", $project["modifieddate"]);
-        $lastvisitdate = strftime("%e %B %Y", $project["lastvisitdate"]);
+        $modifieddate = icu_date_template("short", $project["modifieddate"], $user);
+        $lastvisitdate = icu_date_template("short", $project["lastvisitdate"], $user);
 
         // TRANSLATORS: %1$s is a project title, %2$s is the author, %3%s is the projectid
         $work_details = sprintf(_('%1$s by %2$s (%3$s)'), $nameofwork, $authorsname, $projectid);

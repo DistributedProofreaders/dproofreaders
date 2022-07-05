@@ -173,11 +173,11 @@ Server MPM:     Prefork
 
 <p>Although there should not be any, if there are spaces at the beginning or the end of a line, keep them.</p>
 
-<h4>strftime&mdash;time and dates</h4>
+<h4>ICU-formatted times and dates</h4>
 
-<p>Strings passed to PHP's <b>strftime</b> function contain, or consist entirely of "tags" prefixed by %, followed by a letter (%A, %B, etc.). When viewed on the website by the end-user, these tags are replaced with already translated time-related terms (day names, month names, etc.)&mdash;you don't need to translate them yourself! For example, %B expands to month name (e.g. August), and %Y expands to display the full year (e.g. 2004).</p>
+<p>PHP code can localize dates and times using <a href='https://unicode-org.github.io/icu/userguide/format_parse/datetime/'>ICU-formatted strings.</a></p>
 
-<p>It might be neccesary to reorganise the tags so that they form a date which is more natural for your language. For examples, "%A, %B %e, %Y" becomes "Friday, August 13 2004" while "%A, %e. %B %Y." becomes "Friday, 13. August 2004.". For a full list of all tags and a more detailed explanation, you can see <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> in PHP's manual.</p>
+<p>It might be necessary to reorganize the tags so that they form a date which is more natural for your language. For examples, <kbd>EEEE, MMMM d y</kbd> becomes "Friday, August 6 2004" while <kbd>EEEE, d. MMMM y.</kbd> becomes "Friday, 6. August 2004.".</p>
 
 <h4>sprintf</h4>
 
@@ -185,7 +185,7 @@ Server MPM:     Prefork
 
 <p>Some sprintf-formatted strings have more than one substitution variable. For example: "&lt;a href='%1$s'&gt;%2$s&lt;/a&gt;". Treat the %1$s and similar strings as placeholders and keep them intact. If necessary, you can change the order of the placeholders in the string to better suit the destination language.</p>
 
-<p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%). If the string is not a strftime or sprintf string (ie: it doesn't have any formatting characters or placeholders already) a single % should be used as needed.</p>
+<p>If you need to insert a % sign in a sprintf string for a translation, use two in a row (%%). If the string is not a sprintf string (ie: it doesn't have any formatting characters or placeholders already) a single % should be used as needed.</p>
 
 <h4>Quotes</h4>
 <p>If the original string has quotes (eg: ' or ") in HTML attributes, use the same quotes in the translated string. If the quotes are part of a paragraph, you are welcome to use the language's quote characters in their place.</p>

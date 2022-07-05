@@ -45,8 +45,7 @@ if (isset($news_page_id)) {
     echo "<h1>$title</h1>";
 
     $date_changed = get_news_page_last_modified_date($news_page_id);
-    // TRANSLATORS: this is a strftime-formatted string
-    $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
+    $last_modified = icu_date_template("long", $date_changed);
     echo "<p>" . _("Last modified") . ": ".$last_modified . "</p>";
 
     show_item_editor($news_page_id, $action, $item_id);
@@ -67,8 +66,7 @@ if (isset($news_page_id)) {
 
         $date_changed = get_news_page_last_modified_date($news_page_id);
         if (!is_null($date_changed)) {
-            // TRANSLATORS: this is a strftime-formatted string
-            $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
+            $last_modified = icu_date_template("long", $date_changed);
             echo "<br>". _("Last modified").": ".$last_modified;
         }
         echo "<br><br>";
@@ -375,7 +373,7 @@ function show_all_news_items_for_page($news_page_id)
             echo "<tr>";
             echo "<td class='commands'>";
             echo "<p><b>" . _("Posted") . ":</b><br>";
-            echo strftime(_("%B %e, %Y"), $news_item['date_posted']) . "</b>";
+            echo icu_date_template("medium", $news_item['date_posted']) . "</b>";
             if ($news_item['locale']) {
                 echo "<br><b>" . _("Locale") . ":</b><br>" . $news_item['locale'];
             }

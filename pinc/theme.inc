@@ -609,7 +609,7 @@ function show_tally_specific_stats($tally_name)
     echo "</tr>";
     show_tally_vs_goal(_("Today"), $site_stats->curr_day_goal, $site_stats->curr_day_actual);
     show_tally_vs_goal(_("Yesterday"), $site_stats->prev_day_goal, $site_stats->prev_day_actual);
-    show_tally_vs_goal(strftime("%B"), $site_stats->curr_month_goal, $site_stats->curr_month_actual);
+    show_tally_vs_goal(icu_date("MMMM"), $site_stats->curr_month_goal, $site_stats->curr_month_actual);
     echo "</table>";
 
     // Number of users
@@ -838,8 +838,7 @@ function show_completed_projects($terse = false)
         $begindate = mktime(0, 0, 0, $thismonth - $months_ago, 1, $thisyear);
         $enddate = mktime(0, 0, 0, $thismonth - $months_ago + 1, 1, $thisyear);
 
-        // TRANSLATORS: This is an strftime-formatted string
-        $displaydate = strftime(_("%b %Y"), $begindate);
+        $displaydate = icu_date("MMM y", $begindate);
 
         $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*) as totalprojects
@@ -853,8 +852,7 @@ function show_completed_projects($terse = false)
 
         if ($terse) {
             // TRANSLATORS: string is in the format: $totalprojects in $date
-            // where $date is an already-translated strftime()-formatted string
-            // with the month and year
+            // where $date is a localized string with the month and year
             echo sprintf(_('%1$d in %2$s'), $totalprojects, $displaydate) . "&nbsp;&mdash;&nbsp;";
         } else {
             echo "<tr>";

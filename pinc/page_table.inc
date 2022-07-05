@@ -597,8 +597,7 @@ function echo_cells_for_round($round, $diff_round_num, // <- These are the only 
     if ($R_time == 0) {
         $R_time_str = '';
     } else {
-        // TRANSLATORS: This is an strftime-formatted string
-        $R_time_str = strftime(_("%Y %b %e %H:%M"), $R_time);
+        $R_time_str = date("Y-m-d H:i", $R_time);
     }
     echo "<td>$R_time_str</td>\n";
 
