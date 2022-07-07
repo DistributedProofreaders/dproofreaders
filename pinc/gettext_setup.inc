@@ -156,8 +156,6 @@ function icu_date_template($template, $timestamp = null, $user = null)
         "long" => _("EEEE, MMMM d, y"),
         // TRANSLATORS: ICU-formatted date in long form with time
         "long+time" => _("EEEE, MMMM d, y 'at' HH:mm"),
-        // TRANSLATORS: ICU-formatted date in medium form
-        "medium" => _("EEE, MMM d, y"),
         // TRANSLATORS: ICU-formatted date in short form
         "short" => _("MMM d, y"),
     ];
