@@ -373,7 +373,7 @@ function show_all_news_items_for_page($news_page_id)
             echo "<tr>";
             echo "<td class='commands'>";
             echo "<p><b>" . _("Posted") . ":</b><br>";
-            echo icu_date_template("medium", $news_item['date_posted']) . "</b>";
+            echo icu_date_template("short", $news_item['date_posted']) . "</b>";
             if ($news_item['locale']) {
                 echo "<br><b>" . _("Locale") . ":</b><br>" . $news_item['locale'];
             }
