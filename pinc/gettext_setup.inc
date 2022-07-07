@@ -142,7 +142,7 @@ function icu_date($pattern, $timestamp = null, $user = null)
         $timestamp = time();
     }
 
-    $idf = new IntlDateFormatter($locale, null, null);
+    $idf = new IntlDateFormatter($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE);
     $idf->setPattern($pattern);
     return $idf->format($timestamp);
 }
