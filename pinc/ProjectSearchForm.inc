@@ -107,6 +107,11 @@ class ProjectSearchWidget
 
             $contribution = $this->sql_from_multi($values, $column_name, $comparator);
         } else {
+            // if $value is an array, someone is mucking with URL
+            if (is_array($value)) {
+                return null;
+            }
+
             $value = DPDatabase::escape($value);
             if ($comparator == '=') {
                 $contribution = "$column_name = '$value'";
@@ -120,6 +125,13 @@ class ProjectSearchWidget
 
     public function sql_from_multi($values, $column_name, $comparator)
     {
+        // if any $value is an array, someone is mucking with the URL
+        foreach ($values as $value) {
+            if (is_array($value)) {
+                return null;
+            }
+        }
+
         $values = array_map("DPDatabase::escape", $values);
         $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
         if ($comparator == '=') {
@@ -137,6 +149,13 @@ class SpecialDayWidget extends ProjectSearchWidget
 {
     public function sql_from_multi($values, $column_name, $comparator)
     {
+        // if any $value is an array, someone is mucking with the URL
+        foreach ($values as $value) {
+            if (is_array($value)) {
+                return null;
+            }
+        }
+
         $values = array_map("DPDatabase::escape", $values);
         $contributions = [];
         foreach ($values as $value) {

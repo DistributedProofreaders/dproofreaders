@@ -303,7 +303,7 @@ class LanguageSearchElement extends ProjectSearchElement
     public function construct_sql($values)
     {
         // some languages have regex special chars which need escaping
-        $values = array_map('quotemeta', $values);
+        $values = array_map('preg_quote', $values);
         $langstring = DPDatabase::escape(implode("|", $values));
         // for primary language match strings starting with it
         // for primary only match end also

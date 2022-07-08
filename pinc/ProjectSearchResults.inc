@@ -212,7 +212,7 @@ class GenreColumn extends Column
             "hard" => _("HARD"),
         ];
         $genre = $project->trans_genre;
-        $prefix = $diff_prefix[$project->difficulty];
+        $prefix = $diff_prefix[$project->difficulty] ?? "";
         if ($prefix != "") {
             $genre = $prefix." ".$genre;
         }
