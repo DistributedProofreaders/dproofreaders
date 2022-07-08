@@ -130,37 +130,20 @@ function mysql_session_select($sid)
 function mysql_session_write($sid, $value)
 {
     $expiration = time() + ini_get("session.cookie_lifetime");
-    $result = do_session_query(sprintf(
-        "SELECT COUNT(*) FROM sessions WHERE sid = '%s'",
-        DPDatabase::escape($sid)
-    ));
-    [$SessionExists] = mysqli_fetch_row($result);
-    // The table has a uniqueness constraint on 'sid',
-    // so $SessionExists must be 0 or 1.
 
-
-    if ($SessionExists == 0) {
-        $query = sprintf("
-            INSERT INTO sessions
-                (sid, expiration, value)
-            VALUES
-                ('%s', %d, '%s')",
-            DPDatabase::escape($sid),
-            $expiration,
-            DPDatabase::escape($value));
-    } else {
-        $query = sprintf("
-            UPDATE sessions
-            SET
-                expiration = %d,
-                value = '%s'
-            WHERE sid = '%s' AND expiration > %d",
-            $expiration,
-            DPDatabase::escape($value),
-            DPDatabase::escape($sid),
-            time())
-            ;
-    }
+    $query = sprintf("
+        INSERT INTO sessions
+            (sid, expiration, value)
+        VALUES
+            ('%s', %d, '%s')
+        ON DUPLICATE KEY UPDATE
+            expiration = %d,
+            value = '%s'",
+        substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
+        $expiration,
+        DPDatabase::escape($value),
+        $expiration,
+        DPDatabase::escape($value));
     $result = do_session_query($query);
     return $result;
 }
