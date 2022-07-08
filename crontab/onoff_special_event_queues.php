@@ -84,7 +84,7 @@ foreach (['open', 'close'] as $which) {
     ";
     echo $specials_query, "\n";
 
-    $res = mysqli_query(DPDatabase::get_connection(), $specials_query) or die(DPDatabase::log_error());
+    $res = DPDatabase::query($specials_query);
     $n = mysqli_num_rows($res);
     echo "
         Found $n special events which '$which' now.
@@ -95,6 +95,7 @@ foreach (['open', 'close'] as $which) {
             Looking for queues that deal with special event '$spec_code'...
         ";
         $w = '[[:space:]]*';
+        $spec_code = preg_quote(DPDatabase::escape($spec_code));
         $selector_pattern = "{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']";
         $update_query = "
             UPDATE queue_defns
@@ -105,7 +106,7 @@ foreach (['open', 'close'] as $which) {
         echo $update_query, "\n";
 
         if (!$testing_this_script) {
-            mysqli_query(DPDatabase::get_connection(), $update_query) or die(DPDatabase::log_error());
+            DPDatabase::query($update_query);
 
             $n = DPDatabase::affected_rows();
             echo "
