@@ -176,7 +176,7 @@ class POFileIterator implements Iterator
         $this->po_filename = $po_filename;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         if ($this->file_handle) {
             fseek($this->file_handle, 0);
@@ -187,17 +187,17 @@ class POFileIterator implements Iterator
         $this->next();
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->current_block;
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->block_count;
     }
 
-    public function next()
+    public function next(): void
     {
         if (!$this->file_handle) {
             return;
@@ -224,7 +224,7 @@ class POFileIterator implements Iterator
         $this->file_handle = null;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return ($this->current_block != null);
     }
