@@ -355,6 +355,9 @@ function html_safe($string, $flags = ENT_QUOTES)
     if (!@$charset) {
         $charset = ini_get("default_charset");
     }
+    if ($string === null) {
+        return "";
+    }
     return htmlspecialchars($string, $flags, $charset);
 }
 
@@ -391,6 +394,9 @@ function attr_safe($string)
 //      Nom de l&#39;&amp;oelig;uvre
 {
     global $charset;
+    if ($string === null) {
+        return "";
+    }
     return htmlspecialchars($string, ENT_QUOTES, $charset,
                             false /* $double_encode */);
 }
@@ -497,6 +503,9 @@ function normalize_whitespace($str)
 function xmlencode($string)
 {
     global $charset;
+    if ($string === null) {
+        return "";
+    }
     return htmlspecialchars($string, ENT_COMPAT, $charset);
 }
 

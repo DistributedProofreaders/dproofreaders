@@ -13,7 +13,7 @@ if (!(user_is_a_sitemanager())) {
 $action = array_get($_POST, "action", null);
 $document = get_enumerated_param($_POST, "document", null, array_keys(RandomRule::$document_values), true);
 $url = array_get($_POST, "url", null);
-$langcode = strtolower(array_get($_POST, "langcode", null));
+$langcode = strtolower(array_get($_POST, "langcode", ""));
 
 $title = _("Manage Random Rules");
 

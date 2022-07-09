@@ -393,11 +393,11 @@ class SpecialDay
 
 function make_link($url, $label)
 {
-    $start = substr($url, 0, 3);
-    $label = html_safe($label);
-    if ($url == '') {
+    if (!$url) {
         return '';
     }
+    $start = substr($url, 0, 3);
+    $label = html_safe($label);
     if ($start != 'htt') {
         $url = "http://" . $url;
     }
