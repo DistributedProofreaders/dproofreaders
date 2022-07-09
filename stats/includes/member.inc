@@ -310,12 +310,6 @@ function showForumProfile($username)
             "_new",
         ],
         [
-            "Google+",
-            @$bb_user["googleplus"],
-            "https://plus.google.com/" . (preg_match('/^\d{20,}$/', trim(@$bb_user["googleplus"])) ? "" : "+") . @$bb_user["googleplus"],
-            "_new",
-        ],
-        [
             "Skype",
             @$bb_user["skype"],
             "skype:" . @$bb_user["skype"] . "?userinfo",
