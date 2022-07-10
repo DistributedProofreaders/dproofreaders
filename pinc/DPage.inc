@@ -644,7 +644,7 @@ function get_normalize_page_text_changes($text, $projectid)
         $invalid_char_names = [];
         foreach (array_keys($invalid_chars) as $char) {
             // in case its a combined character
-            $codepoints = UTF8::split($char);
+            $codepoints = UTF8::str_split($char);
             $base_codepoint = $codepoints[0];
             // if not defined or is a control character or soft hyphen
             if (!IntlChar::isdefined($base_codepoint) || IntlChar::iscntrl($base_codepoint) || ($base_codepoint === "\x{ad}")) {

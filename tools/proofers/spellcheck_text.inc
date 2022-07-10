@@ -68,7 +68,7 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
                    "</style>";
     $returnString .= "<pre class='proofingfont'>\n";
 
-    $puncArray = UTF8::split($puncCharacters);
+    $puncArray = UTF8::str_split($puncCharacters);
 
     // initialize the wordCount and the numBadWords
     $numBadWords = 0;

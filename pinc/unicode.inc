@@ -48,7 +48,7 @@ function utf8_string_scripts($string)
     // Fall back to character by character to make sure we have everything.
     // Most cases will skip this.
     if ($string) {
-        foreach (UTF8::split($string) as $char) {
+        foreach (UTF8::str_split($string) as $char) {
             $scripts[] = utf8_char_script($char);
         }
     }
@@ -67,8 +67,8 @@ function get_nonnormalized_codepoints($codepoints)
     foreach ($characters as $character) {
         $norm_character = utf8_normalize($character);
         if ($character != $norm_character) {
-            $norm_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::split($norm_character)));
-            $orig_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::split($character)));
+            $norm_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($norm_character)));
+            $orig_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($character)));
             $nonnorm_codepoints[$orig_codepoint] = $norm_codepoint;
         }
     }
@@ -79,7 +79,7 @@ function get_nonnormalized_codepoints($codepoints)
 function utf8_character_name($characters)
 {
     $title_pieces = [];
-    foreach (UTF8::split($characters) as $char) {
+    foreach (UTF8::str_split($characters) as $char) {
         $title_pieces[] = IntlChar::charName($char);
     }
     return implode(" + ", $title_pieces);
