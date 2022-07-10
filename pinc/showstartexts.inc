@@ -26,7 +26,7 @@ function showstartexts($etext_limit, $type)
         $description = _("These books have been processed through our site and posted to the Project Gutenberg archive.");
     }
 
-    $total = mysqli_num_rows(mysqli_query(DPDatabase::get_connection(), "SELECT projectid FROM projects WHERE $state"));
+    $total = mysqli_num_rows(DPDatabase::query("SELECT projectid FROM projects WHERE $state"));
 
     echo "<div class='star-text-summary'>";
 

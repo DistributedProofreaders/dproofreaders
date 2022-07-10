@@ -56,7 +56,7 @@ $where_username = "";
 if ($username) {
     $where_username = sprintf("
         AND subject_username = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+    ", DPDatabase::escape($username));
 }
 
 $where_action = "";
@@ -70,7 +70,7 @@ $where_activity = "";
 if ($activity) {
     $where_activity = sprintf("
         AND activity = '%s'
-    ", mysqli_real_escape_string(DPDatabase::get_connection(), $activity));
+    ", DPDatabase::escape($activity));
 }
 
 $now = getdate();
@@ -118,7 +118,7 @@ function _get_activity_choices()
         FROM access_log
         ORDER BY activity
     ";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    $result = DPDatabase::query($sql);
 
     $activities = [''];
     while ($row = mysqli_fetch_row($result)) {

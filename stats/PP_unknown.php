@@ -18,7 +18,7 @@ echo sprintf(_("We don't know for sure who PPd these books; if you do know, or i
 
 //get projects that have been PPd but we don't know by whom
 $psd = get_project_status_descriptor('PPd');
-$result = mysqli_query(DPDatabase::get_connection(), "
+$result = DPDatabase::query("
     SELECT nameofwork, authorsname, username, projectid,
            from_unixtime(modifieddate) as 'LMDate'
     FROM projects

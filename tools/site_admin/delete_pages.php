@@ -108,11 +108,12 @@ function do_stuff($projectid, $from_image_, $just_checking)
 
     echo "    projectid: $projectid\n";
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
-            SELECT nameofwork
-            FROM projects
-            WHERE projectid='$projectid'
-        ") or die(DPDatabase::log_error());
+    $sql = sprintf("
+        SELECT nameofwork
+        FROM projects
+        WHERE projectid='%s'
+        ", DPDatabase::escape($projectid));
+    $res = DPDatabase::query($sql);
 
     $n_projects = mysqli_num_rows($res);
     if ($n_projects == 0) {
@@ -127,11 +128,12 @@ function do_stuff($projectid, $from_image_, $just_checking)
 
     // ------------
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
-            SELECT image, fileid
-            FROM $projectid
-            ORDER BY image
-        ") or die(DPDatabase::log_error());
+    validate_projectID($projectid);
+    $res = DPDatabase::query("
+        SELECT image, fileid
+        FROM $projectid
+        ORDER BY image
+    ");
 
     $n_pages = mysqli_num_rows($res);
 

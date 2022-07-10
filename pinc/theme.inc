@@ -135,7 +135,7 @@ function html_logobar()
 
     if (0) {
         // show number of projects posted to PG
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $result = DPDatabase::query("
             SELECT COUNT(*) as numproj
             FROM projects
             WHERE $psd->state_selector
@@ -152,7 +152,7 @@ function html_logobar()
         // show number of books posted to PG
         // (takes into account that some books are processed as several projects)
 
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $result = DPDatabase::query("
             SELECT COUNT(distinct postednum) as numproj
             FROM projects
             WHERE $psd->state_selector
@@ -614,7 +614,7 @@ function show_tally_specific_stats($tally_name)
 
     // Number of users
     echo "<p>\n";
-    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM users");
+    $res = DPDatabase::query("SELECT COUNT(*) FROM users");
     [$num_users] = mysqli_fetch_row($res);
     echo sprintf(_('%s users'), number_format($num_users)), "<br>\n";
 
@@ -795,7 +795,7 @@ function show_birthdays()
         ORDER BY date_created ASC
     ", date("m-d"), $oldest_activity, $timestamp_at_midnight, PRIVACY_ANONYMOUS);
 
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    $result = DPDatabase::query($sql);
 
     if (mysqli_num_rows($result) == 0) {
         return;
@@ -841,7 +841,7 @@ function show_completed_projects($terse = false)
 
         $displaydate = icu_date("MMM y", $begindate);
 
-        $result = mysqli_query(DPDatabase::get_connection(), "
+        $result = DPDatabase::query("
             SELECT COUNT(*) as totalprojects
             FROM projects
             WHERE modifieddate >= $begindate

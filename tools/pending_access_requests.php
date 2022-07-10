@@ -1,7 +1,6 @@
 <?php
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 
@@ -24,11 +23,11 @@ foreach ($Activity_for_id_ as $activity) {
 }
 
 // Look for unexpected activity_ids
-$res = mysqli_query(DPDatabase::get_connection(), "
+$res = DPDatabase::query("
     SELECT DISTINCT REPLACE(setting,'.access', '')
     FROM usersettings
     WHERE setting LIKE '%.access' AND value='requested'
-") or die(DPDatabase::log_error());
+");
 while ([$activity_id] = mysqli_fetch_row($res)) {
     if (!in_array($activity_id, $activity_ids)) {
         $activity_ids[] = $activity_id;
@@ -37,7 +36,7 @@ while ([$activity_id] = mysqli_fetch_row($res)) {
 
 // ----------------------------------
 
-mysqli_query(DPDatabase::get_connection(), "
+DPDatabase::query("
     CREATE TEMPORARY TABLE access_log_summary
     SELECT 
         activity,
@@ -46,7 +45,7 @@ mysqli_query(DPDatabase::get_connection(), "
         MAX( timestamp * (action='deny_request_for') ) AS t_latest_deny
     FROM access_log
     GROUP BY activity, subject_username
-") or die(DPDatabase::log_error());
+");
 
 foreach ($activity_ids as $activity_id) {
     echo "<h3>";
@@ -55,7 +54,7 @@ foreach ($activity_ids as $activity_id) {
 
     $access_name = "$activity_id.access";
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT
             usersettings.username,
             users.u_id,
@@ -71,7 +70,7 @@ foreach ($activity_ids as $activity_id) {
             )
         WHERE setting = '$access_name' AND value='requested'
         ORDER BY username
-    ") or die(DPDatabase::log_error());
+    ");
 
     if (mysqli_num_rows($res) == 0) {
         $word = pgettext("no user", "none");

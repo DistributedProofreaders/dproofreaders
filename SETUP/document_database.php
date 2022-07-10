@@ -230,7 +230,7 @@ function update_file_for_table(string $table_name, string $file_path, string $di
  */
 function query_columns_for_table(string $table_name): array
 {
-    $result = mysqli_query(DPDatabase::get_connection(), "DESCRIBE $table_name");
+    $result = DPDatabase::query("DESCRIBE $table_name");
 
     if (!$result) {
         echo "Failed to fetch column information for table '$table_name'.\n";
@@ -270,7 +270,7 @@ function prepare_project_template_table()
 
     // attempt to delete an existing table but continue of it doesn't exist
     $sql = "DROP TABLE $PROJECT_TEMPLATE_TABLE";
-    $result = mysqli_query(DPDatabase::get_connection(), $sql);
+    $result = DPDatabase::query($sql);
 
     // now create a new one
     project_allow_pages($PROJECT_TEMPLATE_TABLE);

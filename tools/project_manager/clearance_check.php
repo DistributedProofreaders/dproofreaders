@@ -116,7 +116,7 @@ function get_table_query_resource($username, $view_mode)
     if ($username) {
         $sql .= sprintf("
             AND username = '%s'
-        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+        ", DPDatabase::escape($username));
     }
 
     if ($view_mode == 'suspect') {
@@ -131,5 +131,5 @@ function get_table_query_resource($username, $view_mode)
 
     $sql .= "ORDER BY username, " .  sql_collater_for_project_state("state");
 
-    return dpsql_query($sql);
+    return DPDatabase::query($sql);
 }

@@ -86,5 +86,5 @@ function _run_pp_threshold_query_result($state, $columns, $user, $ordering_crite
             $user_selector
         $order_by_clause
     ";
-    return mysqli_query(DPDatabase::get_connection(), $sql);
+    return DPDatabase::query($sql);
 }

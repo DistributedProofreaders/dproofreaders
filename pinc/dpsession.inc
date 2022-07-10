@@ -91,9 +91,10 @@ function _update_user_activity_time($update_login_time_too)
         $additional_where = "";
     }
 
-    mysqli_query(DPDatabase::get_connection(), "
+    $sql = sprintf("
         UPDATE users
         SET $settings
-        WHERE username='$pguser' $additional_where
-    ") or die(DPDatabase::log_error());
+        WHERE username='%s' $additional_where
+    ", DPDatabase::escape($pguser));
+    DPDatabase::query($sql);
 }

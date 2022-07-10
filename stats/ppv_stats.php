@@ -17,8 +17,8 @@ echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
-    SELECT checkedoutby as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("PPVer")) . "',
-        count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Projects PPVd")) . "'
+    SELECT checkedoutby as '" . DPDatabase::escape(_("PPVer")) . "',
+        count(*) as '" . DPDatabase::escape(_("Projects PPVd")) . "'
     FROM  `projects`
     WHERE 1  AND checkedoutby != postproofer AND $psd->state_selector
         and checkedoutby != ''

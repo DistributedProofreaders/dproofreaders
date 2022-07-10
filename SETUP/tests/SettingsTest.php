@@ -12,7 +12,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
     {
         // Attempt to load our test user, if it exists don't create it
         $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         if (!$row) {
             $sql = "
@@ -22,7 +22,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
                     username = '$this->TEST_USERNAME',
                     email = '$this->TEST_USERNAME@localhost'
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            $result = DPDatabase::query($sql);
             if (!$result) {
                 throw new Exception("Unable to create test user");
             }
@@ -35,7 +35,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             INSERT INTO usersettings
             SET username='%s', setting = '%ssetting', value = 'blah'
         ", $this->TEST_USERNAME, $this->PREFIX);
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
         if (!$result) {
             throw new Exception("Unable to create test usersetting");
         }
@@ -47,13 +47,13 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             DELETE FROM usersettings
             WHERE username='%s' AND setting like '%s%%'
         ", $this->TEST_USERNAME, $this->PREFIX);
-        mysqli_query(DPDatabase::get_connection(), $sql);
+        DPDatabase::query($sql);
 
         $sql = "
             DELETE FROM users
             WHERE id = '$this->TEST_USERNAME'
         ";
-        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result = DPDatabase::query($sql);
     }
 
     public function testExisting()

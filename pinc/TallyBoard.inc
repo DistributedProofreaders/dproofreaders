@@ -33,11 +33,11 @@ function get_all_current_tallyboards()
 // boards on which there is some tally explicitly recorded.
 {
     $tallyboards = [];
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT DISTINCT tally_name, holder_type
         FROM current_tallies
         ORDER BY holder_type, tally_name
-    ") or die(DPDatabase::log_error());
+    ");
     while ([$tally_name, $holder_type] = mysqli_fetch_row($res)) {
         $tallyboards[] = new TallyBoard($tally_name, $holder_type);
     }
@@ -93,13 +93,13 @@ class TallyBoard
     //    (It could be just a column-name, but don't rely on that.
     //    In particular, don't assume that this will work:
     //
-    //        $res = mysqli_query(DPDatabase::get_connection(), "SELECT ... $expr_for_tally FROM ...");
+    //        $res = DPDatabase::query("SELECT ... $expr_for_tally FROM ...");
     //        $row = mysqli_fetch_assoc($res);
     //        ... $row[$expr_for_tally] ...
     //
     //    Instead, if you want to use mysqli_fetch_assoc, this should work:
     //
-    //        $res = mysqli_query(DPDatabase::get_connection(), "SELECT ... $expr_for_tally AS foo FROM ...");
+    //        $res = DPDatabase::query("SELECT ... $expr_for_tally AS foo FROM ...");
     //        $row = mysqli_fetch_assoc($res);
     //        ... $row['foo'] ...
     {

@@ -28,7 +28,7 @@ echo "<p>
 </p>
 ";
 
-$res = dpsql_query("
+$res = DPDatabase::query("
     SELECT postednum, COUNT(*) as c
     FROM projects
     GROUP BY postednum
@@ -43,7 +43,7 @@ while ([$postednum, $count] = mysqli_fetch_row($res)) {
     echo "<br>$postednum:\n";
 
     {
-        $res2 = dpsql_query("
+        $res2 = DPDatabase::query("
             SELECT nameofwork
             FROM projects
             WHERE postednum=$postednum

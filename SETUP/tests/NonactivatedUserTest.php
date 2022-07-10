@@ -28,7 +28,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
                 DELETE FROM non_activated_users
                 WHERE username = '$username'
             ";
-            $result = mysqli_query(DPDatabase::get_connection(), $sql);
+            $result = DPDatabase::query($sql);
         }
     }
 

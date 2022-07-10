@@ -79,7 +79,7 @@ if (isset($_POST) && count($_POST) > 0) {
         if (count($delete_authors) != 0) {
           $clause = '(author_id=' . join(' OR author_id=', $delete_authors) . ')';
           $query = "SELECT author_id, last_modified FROM authors WHERE $clause";
-          $result = mysqli_query(DPDatabase::get_connection(), $query);
+          $result = DPDatabase::query($query);
           $authors_lastmodified = array();
           while ($row = mysqli_fetch_row($result))
             $authors_lastmodified[$row[0]] = $row[1];
@@ -88,7 +88,7 @@ if (isset($_POST) && count($_POST) > 0) {
         if (count($delete_bios) != 0) {
           $clause = '(bio_id=' . join(' OR bio_id=', $delete_bios) . ')';
           $query = "SELECT bio_id, last_modified FROM biographies WHERE $clause";
-          $result = mysqli_query(DPDatabase::get_connection(), $query);
+          $result = DPDatabase::query($query);
           $bios_lastmodified = array();
           while ($row = mysqli_fetch_row($result))
             $bios_lastmodified[$row[0]] = $row[1];

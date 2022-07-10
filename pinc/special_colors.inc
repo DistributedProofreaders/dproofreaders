@@ -138,7 +138,7 @@ function echo_special_legend($projects_where_clause)
 
     $legend_text = _("Legend for Special Day Colors");
 
-    $currspecs_result = mysqli_query(DPDatabase::get_connection(), "
+    $currspecs_result = DPDatabase::query("
             SELECT distinct special_code as spec FROM projects
             WHERE $projects_where_clause
         ");

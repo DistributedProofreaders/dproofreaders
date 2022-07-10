@@ -96,8 +96,6 @@ function maybe_create_temporary_genre_translation_table()
 {
     $genres = load_genre_translation_array();
 
-    $db_link = DPDatabase::get_connection();
-
     $sql = "
     CREATE TEMPORARY TABLE genre_translations
     (
@@ -108,20 +106,20 @@ function maybe_create_temporary_genre_translation_table()
     ";
 
     try {
-        $result = mysqli_query($db_link, $sql);
-    } catch (mysqli_sql_exception $e) {
-        // in case we throw exceptions in the future
-        $result = false;
-    }
-
-    // if the create table succeeded, populate the table
-    // if it didn't, we assume the table is already created
-    if ($result) {
+        // if the create table succeeded, populate the table
+        DPDatabase::query($sql);
         foreach ($genres as $key => $value) {
-            $key = mysqli_real_escape_string($db_link, $key);
-            $value = mysqli_real_escape_string($db_link, $value);
-            $sql = "INSERT INTO genre_translations SET genre = '$key', trans_genre = '$value'";
-            mysqli_query($db_link, $sql);
+            $sql = sprintf("
+                INSERT INTO genre_translations
+                SET
+                    genre = '%s',
+                    trans_genre = '%s'
+                ",
+                DPDatabase::escape($key),
+                DPDatabase::escape($value));
+            DPDatabase::query($sql);
         }
+    } catch (DBQueryError $error) {
+        // if it didn't, we assume the table is already created
     }
 }

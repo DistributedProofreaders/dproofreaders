@@ -24,11 +24,7 @@ function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RA
 
 function dpsql_query($query)
 {
-    $result = mysqli_query(DPDatabase::get_connection(), $query);
-    if (!$result) {
-        echo DPDatabase::log_error();
-    }
-    return $result;
+    return DPDatabase::query($query);
 }
 
 function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)

@@ -16,12 +16,8 @@ if (!DPDatabase::get_connection()) {
     die("Unable to connect to database");
 }
 
-mysqli_query(DPDatabase::get_connection(), "
-    CREATE DATABASE IF NOT EXISTS $db_name
-") or die(mysqli_error(DPDatabase::get_connection()));
-mysqli_query(DPDatabase::get_connection(), "
-    USE $db_name
-") or die(mysqli_error(DPDatabase::get_connection()));
+DPDatabase::query("CREATE DATABASE IF NOT EXISTS $db_name");
+DPDatabase::query("USE $db_name");
 
 // Declare all variables
 $db_schema = "db_schema.sql";
@@ -38,16 +34,20 @@ while ($lines = array_shift($db_schema)) {
 }
 
 // Remove all line breaks
-$sql_create_tables = str_replace("\r\n", "", $sql_create_tables);
+$sql_create_tables = str_replace("\n", "", $sql_create_tables);
 
 // Explode the string into sub-strings for each table
 $array = explode(';', $sql_create_tables);
 
 // Loop through the array/substrings and add them to the database
 while ($lines = array_shift($array)) {
-    $result = mysqli_query(DPDatabase::get_connection(), "$lines");
-    echo mysqli_error(DPDatabase::get_connection()) . "\n";
+    // skip empty stanzas
+    if (!trim($lines)) {
+        continue;
+    }
+
+    echo "Running stanza: " . substr(trim($lines), 0, 50) . " ...\n";
+    DPDatabase::query($lines);
 }
 
-echo "Tables have been created.";
-?> 
+echo "Tables have been created.\n";

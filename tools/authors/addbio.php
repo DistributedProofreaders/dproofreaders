@@ -70,8 +70,6 @@ if (isset($_GET['author_id'])) {
             // failure!
             output_header(_('An error occurred'));
             echo _('It was not possible to save the biography.');
-            echo "<br>";
-            echo DPDatabase::log_error();
         }
         exit;
     } else {

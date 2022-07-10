@@ -38,10 +38,7 @@ function select_from_teams($where_body, $other_clauses = '')
         WHERE $where_body
         $other_clauses
     ";
-    $res = mysqli_query(DPDatabase::get_connection(), $q);
-    if (!$res) {
-        die(DPDatabase::log_error());
-    }
+    $res = DPDatabase::query($q);
     return $res;
 }
 
@@ -206,7 +203,7 @@ function showTeamProfile($curTeam, $preview = false)
 
 function team_get_member_count_rank($team_id)
 {
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $result = DPDatabase::query("
         SELECT id
         FROM user_teams
         ORDER BY member_count DESC
@@ -305,7 +302,7 @@ function showTeamMbrs($curTeam, $tally_name)
     $req_team_id = get_integer_param($_GET, 'tid', null, 0, null);
 
     $subtitle = null;
-    $latestMbr = mysqli_query(DPDatabase::get_connection(), "SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
+    $latestMbr = DPDatabase::query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
     $row = mysqli_fetch_assoc($latestMbr);
     if ($row) {
         if ($row["Privacy"] == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) {
@@ -573,7 +570,7 @@ function uploadImages($preview, $tid, $type)
             $upload_avatar_dir = "$team_avatars_dir/$avatarID";
             move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
             if ($preview != 1) {
-                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(DPDatabase::log_error());
+                DPDatabase::query("UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid");
             }
             $teamimages['avatar'] = $avatarID;
         } else {
@@ -592,7 +589,7 @@ function uploadImages($preview, $tid, $type)
             $upload_icon_dir = "$team_icons_dir/$iconID";
             move_uploaded_file($_FILES['teamicon']['tmp_name'], $upload_icon_dir);
             if ($preview != 1) {
-                mysqli_query(DPDatabase::get_connection(), "UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
+                DPDatabase::query("UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
             }
             $teamimages['icon'] = $iconID;
         } else {
@@ -620,7 +617,7 @@ function deleteImages()
     ];
 
     // Delete unused avatars
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT id,avatar FROM user_teams");
+    $result = DPDatabase::query("SELECT id,avatar FROM user_teams");
     while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $activeAvatars[$id] = $row['avatar'];
@@ -635,7 +632,7 @@ function deleteImages()
     }
 
     //Delete unused icons
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT id,icon FROM user_teams");
+    $result = DPDatabase::query("SELECT id,icon FROM user_teams");
     while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $activeIcons[$id] = $row['icon'];
