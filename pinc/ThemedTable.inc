@@ -35,7 +35,7 @@ class ThemedTable
         }
 
         echo "\n";
-        echo "<table class='$class' style='border-width: ${border}px; ${width}'>";
+        echo "<table class='$class' style='border-width: {$border}px; {$width}'>";
 
         {
             $possible_subtitle =

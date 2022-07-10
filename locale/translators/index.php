@@ -53,7 +53,7 @@ if ($func == "download" || $func == "view") {
 
         if ($func == "download") {
             $output_fname =
-                ($locale == 'template') ? "messages.pot" : "${locale}_messages.po";
+                ($locale == 'template') ? "messages.pot" : "{$locale}_messages.po";
             header("Content-Disposition: attachment; filename=\"$output_fname\"");
             header("Content-Length: ".filesize($filename));
         }

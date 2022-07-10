@@ -353,7 +353,7 @@ class OptionsColumn extends Column
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
                 $project->state == PROJ_POST_COMPLETE) {
-                $actions[] = "<a href=\"$project->url/${projectid}_second.zip\">" . _("Download") . "</a>";
+                $actions[] = "<a href=\"$project->url/{$projectid}_second.zip\">" . _("Download") . "</a>";
             }
         }
         if ($actions) {
