@@ -941,7 +941,7 @@ function _show_text_input_field($field_type, $field_name, $current_value, $extra
     } else {
         $min_attr = "";
     }
-    echo "<input type='$field_type' style='width: ${size}' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
+    echo "<input type='$field_type' style='width: {$size}' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
 }
 
 function _show_textfield($field_name, $current_value, $extras)

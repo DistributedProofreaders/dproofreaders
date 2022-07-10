@@ -309,7 +309,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     validate_projectID($projectid);
     $sql = sprintf("
         SELECT COUNT(*)
-        FROM ${projectid}
+        FROM {$projectid}
         WHERE {$work_round->user_column_name} = '%s' AND
               {$work_round->time_column_name} > %d
         ", DPDatabase::escape($username),

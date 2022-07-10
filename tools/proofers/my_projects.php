@@ -509,7 +509,7 @@ function show_page_menu($all_view_modes, $round_view, $username, $key)
         if ($round_view == $setting) {
             echo "<li class='current-tab'><a>$label</a></li>";
         } else {
-            echo "<li><a href='?${qs_username}${key}=$setting#$key'>$label</a></li>";
+            echo "<li><a href='?{$qs_username}{$key}=$setting#$key'>$label</a></li>";
         }
     }
 

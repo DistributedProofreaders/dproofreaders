@@ -1099,10 +1099,10 @@ function show_form($action, $cdrp, $form_content, $submit_label)
     // Display a div with a form containing action and cdrp hidden inputs; some content,
     // which can be abritrary HTML/other inputs; and finally a labeled submit button
     echo "<div id='$action' style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form id='${action}_form' style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
+    echo "<form id='{$action}_form' style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='action' value='" . attr_safe($action) . "'>\n";
     echo "<input type='hidden' name='cdrp' value='" . attr_safe($cdrp) . "'>\n";
-    echo "$form_content&nbsp;<input id='${action}_submit' type='submit' value='$submit_label'>\n";
+    echo "$form_content&nbsp;<input id='{$action}_submit' type='submit' value='$submit_label'>\n";
     echo "</form>\n";
     echo "</div>\n";
 }

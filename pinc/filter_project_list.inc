@@ -377,12 +377,12 @@ function save_raw_data($pguser, $data_name, $data)
 
 function get_saved_data($pguser, $filter_type)
 {
-    return unserialize(get_raw_saved_data($pguser, "${filter_type}_data"));
+    return unserialize(get_raw_saved_data($pguser, "{$filter_type}_data"));
 }
 
 function get_project_filter_display($pguser, $filter_type)
 {
-    return get_raw_saved_data($pguser, "${filter_type}_display");
+    return get_raw_saved_data($pguser, "{$filter_type}_display");
 }
 
 function get_raw_saved_data($pguser, $data_name)

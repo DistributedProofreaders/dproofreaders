@@ -196,12 +196,12 @@ function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checke
     echo "<tr><td></td><td>\n";
     echo "<fieldset>\n";
     echo "<legend>$prompt</legend>\n";
-    echo "<input type='radio' name='$input_name' id='${input_name}-1' value='1' $checked1>\n";
-    echo "<label for='${input_name}-1'>" . _("Yes") . "</label>\n";
+    echo "<input type='radio' name='$input_name' id='{$input_name}-1' value='1' $checked1>\n";
+    echo "<label for='{$input_name}-1'>" . _("Yes") . "</label>\n";
     echo "&nbsp;&nbsp;&nbsp;&nbsp; ";
 
-    echo "<input type='radio' name='$input_name' id='${input_name}-2' value='0' $checked2>\n";
-    echo "<label for='${input_name}-2'>" . _("No") . "</label>\n";
+    echo "<input type='radio' name='$input_name' id='{$input_name}-2' value='0' $checked2>\n";
+    echo "<label for='{$input_name}-2'>" . _("No") . "</label>\n";
     echo "</fieldset>\n";
     echo "</td></tr>\n";
 }

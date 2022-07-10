@@ -13,9 +13,9 @@ $limit = 20; // Number of rows we query from the table, number of items in RSS f
 // Determine if we should display a 0.91 compliant RSS feed or our own feed
 $intlang = get_desired_language();
 if (isset($_GET['type'])) {
-    $xmlfile = "$xmlfeeds_dir/${content}_rss.$intlang.xml";
+    $xmlfile = "$xmlfeeds_dir/{$content}_rss.$intlang.xml";
 } else {
-    $xmlfile = "$xmlfeeds_dir/${content}.$intlang.xml";
+    $xmlfile = "$xmlfeeds_dir/{$content}.$intlang.xml";
 }
 
 // If the file does not exist or is stale, let's (re)create it

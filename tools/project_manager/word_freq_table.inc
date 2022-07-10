@@ -205,7 +205,7 @@ function printTableFrequencies($initialFreq, $cutoffOptions, $wordCount, $instan
         if (!$printedTbody) {
 
             // hide any span sections past our initialFreq
-            echo "<tbody id='${freqCutoff}_${instance}'";
+            echo "<tbody id='{$freqCutoff}_{$instance}'";
             if ($freqCutoff < $initialFreq) {
                 echo " style='display: none;'";
             }
