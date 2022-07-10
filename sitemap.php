@@ -56,7 +56,7 @@ $sql = "
     FROM projects
     ORDER BY $order_by
 ";
-$result = mysqli_query(DPDatabase::get_connection(), $sql);
+$result = DPDatabase::query($sql);
 while ($row = mysqli_fetch_assoc($result)) {
     if ($url_count >= $MAX_URLS) {
         break;

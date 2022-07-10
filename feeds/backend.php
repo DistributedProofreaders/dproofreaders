@@ -75,7 +75,7 @@ if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         }
 
         $data = '';
-        $result = mysqli_query(DPDatabase::get_connection(), $query);
+        $result = DPDatabase::query($query);
         while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r", ($row['modifieddate']));
             if (isset($_GET['type'])) {

@@ -42,7 +42,7 @@ if ($action == 'default') {
     echo "</form>";
     echo "<br>";
 } elseif ($action == 'list_all') {
-    $result = mysqli_query(DPDatabase::get_connection(), "
+    $result = DPDatabase::query("
         SELECT *
         FROM non_activated_users
         ORDER BY $order_by

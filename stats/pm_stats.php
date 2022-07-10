@@ -18,7 +18,7 @@ dpsql_dump_themed_query("
     SELECT
         count(distinct username) as '"
             // TRANSLATORS: PMs = project managers
-            . mysqli_real_escape_string(DPDatabase::get_connection(), _("Different PMs")) . "'
+            . DPDatabase::escape(_("Different PMs")) . "'
     FROM projects
 ", 0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
 
@@ -30,8 +30,8 @@ echo "<h3>" . _("Number of Projects Created") . "</h3>\n";
 $psd = get_project_status_descriptor('created');
 dpsql_dump_themed_query("
     SELECT
-        username as '" . mysqli_real_escape_string(DPDatabase::get_connection(), pgettext("project manager", "PM")) . "',
-        count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Projects Created")) . "'
+        username as '" . DPDatabase::escape(pgettext("project manager", "PM")) . "',
+        count(*) as '" . DPDatabase::escape(_("Projects Created")) . "'
     FROM projects
     WHERE $psd->state_selector
     GROUP BY username
@@ -45,8 +45,8 @@ echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
     SELECT
-        username as '" . mysqli_real_escape_string(DPDatabase::get_connection(), pgettext("project manager", "PM")) . "',
-        count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Projects Posted to PG")) . "'
+        username as '" . DPDatabase::escape(pgettext("project manager", "PM")) . "',
+        count(*) as '" . DPDatabase::escape(_("Projects Posted to PG")) . "'
     FROM projects
     WHERE $psd->state_selector
     GROUP BY username

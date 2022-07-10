@@ -36,7 +36,7 @@ $team_id = $curTeam['id'];
 
 //Team info portion of $data
 
-$result = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(id) AS totalTeams FROM user_teams");
+$result = DPDatabase::query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 $row = mysqli_fetch_assoc($result);
 $totalTeams = $row["totalTeams"];
 

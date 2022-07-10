@@ -83,7 +83,7 @@ $table->set_column_alignments('left', 'right');
 
    //get total users active in the last 7 days
     $begin_time = time() - 604800; // in seconds
-    $users = mysqli_query(DPDatabase::get_connection(), "SELECT count(*) AS numusers FROM users
+    $users = DPDatabase::query("SELECT count(*) AS numusers FROM users
                           WHERE t_last_activity > $begin_time");
     $row = mysqli_fetch_assoc($users);
     $totalusers = $row["numusers"];

@@ -18,8 +18,7 @@ $sql = "
     FROM project_state_stats
     WHERE date = '$date_string'
 ";
-$res = mysqli_query(DPDatabase::get_connection(), $sql)
-    or die(DPDatabase::log_error());
+$res = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($res);
 if ($row["count"]) {
     echo "Already run once for today ($date_string), exiting.\n";
@@ -49,7 +48,7 @@ $sql = "
     GROUP BY state
     ORDER BY state
 ";
-$result = mysqli_query(DPDatabase::get_connection(), $sql);
+$result = DPDatabase::query($sql);
 
 while ([$state, $num_projects, $num_pages] = mysqli_fetch_row($result)) {
     $num_projects_in_state_[$state] = $num_projects;
@@ -77,7 +76,6 @@ foreach (array_keys($num_projects_in_state_) as $state) {
     if ($testing_this_script) {
         echo "$insert_query\n";
     } else {
-        mysqli_query(DPDatabase::get_connection(), $insert_query)
-            or die(DPDatabase::log_error());
+        DPDatabase::query($insert_query);
     }
 }

@@ -1,14 +1,13 @@
 <?php
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc');
 
 require_localhost_request();
 
-$res = dpsql_query("
+$res = DPDatabase::query("
     SELECT MAX(date) FROM site_tally_goals
-") or die("Aborting");
+");
 [$current_max_date] = mysqli_fetch_row($res);
 
 if (is_null($current_max_date)) {
@@ -18,11 +17,12 @@ if (is_null($current_max_date)) {
     exit;
 }
 
-$res2 = dpsql_query("
+$sql = sprintf("
     SELECT tally_name, goal
     FROM site_tally_goals
-    WHERE date='$current_max_date'
-") or die("Aborting");
+    WHERE date='%s'
+", DPDatabase::escape($current_max_date));
+$res2 = DPDatabase::query($sql);
 
 $values_list = '';
 
@@ -53,8 +53,8 @@ if (empty($values_list)) {
     return;
 }
 
-dpsql_query("
+DPDatabase::query("
     INSERT INTO site_tally_goals
     VALUES
     $values_list
-") or die("Aborting");
+");

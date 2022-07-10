@@ -147,7 +147,7 @@ function _test_project_for_large_page_images($projectid)
     $project = new Project($projectid);
     if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result_res = DPDatabase::query($sql);
 
         $details = "<table class='basic striped'>";
         $details .= "<tr>";
@@ -211,7 +211,7 @@ function _test_project_for_corrupt_pngs($projectid)
         $details = "";
     } elseif ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result_res = DPDatabase::query($sql);
 
         $details = "<table class='basic striped'>";
         $details .= "<tr>";
@@ -278,7 +278,7 @@ function _test_project_for_illo_images($projectid)
     $project = new Project($projectid);
     if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result_res = DPDatabase::query($sql);
 
         $page_image_names = [];
         while ([$image] = mysqli_fetch_row($result_res)) {
@@ -627,7 +627,7 @@ function _test_project_has_all_page_images($projectid)
 
     if ($project->pages_table_exists) {
         $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = mysqli_query(DPDatabase::get_connection(), $sql);
+        $result_res = DPDatabase::query($sql);
 
         $details = "<p>" . _("The following page images do not exist on the server.") . "</p>";
         $details .= "<ul>";

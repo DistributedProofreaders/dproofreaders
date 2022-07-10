@@ -44,7 +44,7 @@ if ($display_list) {
     echo "<td>" . _("Project Languages:") . "</td>";
     echo "<td><select name='language'>";
     // load all project languages
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT language, count(language)
         FROM projects
         GROUP BY language
@@ -147,7 +147,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             }
 
             // loop through all projects that use $language
-            $res = mysqli_query(DPDatabase::get_connection(), "
+            $res = DPDatabase::query("
                 SELECT projectid
                 FROM projects
                 WHERE $where_clause

@@ -306,7 +306,7 @@ function echo_general_tab($user)
         [1 => _("Yes"), 0 => _("No")]
     );
     $theme_options = [];
-    $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM themes");
+    $result = DPDatabase::query("SELECT * FROM themes");
     while ($row = mysqli_fetch_array($result)) {
         $option_value = $row['unixname'];
         $option_label = $row['name'];
@@ -397,8 +397,7 @@ function save_general_tab($user)
         SET $update_string
         WHERE u_id = $user->u_id
     ";
-    mysqli_query(DPDatabase::get_connection(), $users_query) or
-        print(DPDatabase::log_error());
+    DPDatabase::query($users_query);
 
     // Opt-out of credits when Content-Providing (deprecated), Image Preparing,
     // Text Preparing, Project-Managing and/or Post-Processing.
@@ -753,8 +752,7 @@ function save_pm_tab($user)
         SET $update_string
         WHERE u_id = $user->u_id
     ";
-    mysqli_query(DPDatabase::get_connection(), $users_query) or
-        print(DPDatabase::log_error());
+    DPDatabase::query($users_query);
 
     // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads

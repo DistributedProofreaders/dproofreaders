@@ -5,7 +5,6 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
@@ -95,7 +94,7 @@ if ($round->is_a_mentor_round()) {
 if ($pagesproofed > 20) {
     // Link to queues.
     echo "<h2>", _('Release Queues'), "</h2>";
-    $res = dpsql_query("
+    $res = DPDatabase::query("
         SELECT COUNT(*)
         FROM queue_defns
         WHERE round_id='{$round->id}'

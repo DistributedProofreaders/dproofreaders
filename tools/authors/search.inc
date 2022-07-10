@@ -115,7 +115,7 @@ function prepare_search()
 function sql_like_encode($str)
 {
     // escape quotes -- note: does not encode % and _ !
-    $str = mysqli_real_escape_string(DPDatabase::get_connection(), $str);
+    $str = DPDatabase::escape($str);
     // % to \%
     // _ to \_
     $str = preg_replace('/%|_/', '\\\$1', $str);

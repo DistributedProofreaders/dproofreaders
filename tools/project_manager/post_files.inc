@@ -261,15 +261,11 @@ function page_info_query($projectid, $limit_round_id, $which_text)
         }
     }
 
-    $res = mysqli_query(DPDatabase::get_connection(), "
+    $res = DPDatabase::query("
         SELECT $text_column_expr, image $user_fields
         FROM $projectid
         ORDER BY image
     ");
-    if ($res === false) {
-        echo DPDatabase::log_error();
-        return false;
-    }
 
     return $res;
 }

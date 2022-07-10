@@ -301,7 +301,7 @@ function can_user_get_pages_in_project($username, $project, $round)
                 // Then we reduced it to 6 for English beginner projects.)
                 $max_n_pages_per_project = ($project->language == 'English' ? 6 : 11);
 
-                $result = mysqli_query(DPDatabase::get_connection(), "
+                $result = DPDatabase::query("
                     SELECT COUNT(*) as pagesdone
                     FROM {$project->projectid}
                     WHERE {$round->user_column_name} = '$username'

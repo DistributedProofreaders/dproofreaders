@@ -32,13 +32,14 @@ if ($num == 0) {
         . sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
-$result = mysqli_query(DPDatabase::get_connection(), sprintf("
+$sql = sprintf("
     SELECT * FROM news_items 
     WHERE (news_page_id = '%s' OR news_page_id = 'GLOBAL') AND 
         status = 'recent'
     ORDER BY id DESC
     $limit_clause
-", mysqli_real_escape_string(DPDatabase::get_connection(), $news_page_id)));
+", DPDatabase::escape($news_page_id));
+$result = DPDatabase::query($sql);
 
 if (mysqli_num_rows($result) == 0) {
     echo "<p>" . sprintf(_("No recent news items for %s"), $news_subject) . "</p>";

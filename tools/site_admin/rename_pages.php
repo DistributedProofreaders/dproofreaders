@@ -42,11 +42,11 @@ echo "projectid: $projectid\n";
 echo "title    : " . html_safe($title) . "\n";
 echo "</pre>\n";
 
-$res = mysqli_query(DPDatabase::get_connection(), "
+$res = DPDatabase::query("
     SELECT fileid, image
     FROM $projectid
     ORDER BY image
-") or die(DPDatabase::log_error());
+");
 
 $current_image_for_fileid_ = [];
 while ([$fileid, $image] = mysqli_fetch_row($res)) {
@@ -349,7 +349,7 @@ switch ($submit_button) {
                 ";
                 echo $query;
                 if ($for_real) {
-                    mysqli_query(DPDatabase::get_connection(), $query) or die(DPDatabase::log_error());
+                    DPDatabase::query($query);
                     $n = DPDatabase::affected_rows();
                     echo "
                         $n rows affected.

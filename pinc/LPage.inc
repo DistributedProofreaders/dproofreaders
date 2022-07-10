@@ -297,7 +297,7 @@ class LPage
 
     public function get_username_for_round($round)
     {
-        $res = mysqli_query(DPDatabase::get_connection(), "
+        $res = DPDatabase::query("
             SELECT {$round->user_column_name}
             FROM {$this->projectid}
             WHERE image = '{$this->imagefile}'
@@ -427,7 +427,7 @@ class LPage
             // For now, just confirm that the user is entitled to resume
             // this page. (In the DONE case, Page_reopen performs this check.)
 
-            $res = mysqli_query(DPDatabase::get_connection(), "
+            $res = DPDatabase::query("
                 SELECT {$this->round->user_column_name}
                 FROM $this->projectid
                 WHERE image='$this->imagefile'
