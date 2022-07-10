@@ -8,7 +8,7 @@
         "ezyang/htmlpurifier" : "v4.*",
         "erusev/parsedown": "1.8.0-beta-7",
         "erusev/parsedown-extra": "0.8.0",
-        "voku/portable-utf8": "^5.4"
+        "voku/portable-utf8": "^6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
