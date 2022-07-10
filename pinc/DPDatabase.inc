@@ -21,15 +21,18 @@ final class DPDatabase
         include('udb_user.php');
         self::$_db_name = $db_name;
 
-        // Ignore warnings from mysqli_connect() so we can handle them
-        // gracefully elsewhere.
-        self::$_connection = @mysqli_connect($db_server, $db_user, $db_password);
+        // Throw exceptions for DB call failures (PHP 8.1 default values)
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-        if (!self::$_connection) {
+        try {
+            self::$_connection = mysqli_connect($db_server, $db_user, $db_password);
+        } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to connect to database");
         }
 
-        if (!mysqli_select_db(self::$_connection, $db_name)) {
+        try {
+            mysqli_select_db(self::$_connection, $db_name);
+        } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to locate database.");
         }
 
@@ -39,7 +42,9 @@ final class DPDatabase
         // We disable it here at the session level rather than in my.cnf
         // to not impact other database users (forum, wiki, etc).
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
-        if (!mysqli_query(self::$_connection, $sql)) {
+        try {
+            mysqli_query(self::$_connection, $sql);
+        } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to set sql_mode");
         }
 
@@ -77,8 +82,9 @@ final class DPDatabase
 
     public static function query($sql, $throw_on_failure = true)
     {
-        $result = mysqli_query(self::$_connection, $sql);
-        if (!$result) {
+        try {
+            $result = mysqli_query(self::$_connection, $sql);
+        } catch (mysqli_sql_exception $e) {
             // include this function's caller in the backtrace
             $error = self::log_error(1);
             if ($throw_on_failure) {
@@ -90,7 +96,7 @@ final class DPDatabase
 
     public static function affected_rows()
     {
-        return  mysqli_affected_rows(self::$_connection);
+        return mysqli_affected_rows(self::$_connection);
     }
 
     public static function log_error($backtrace_level = 0)
