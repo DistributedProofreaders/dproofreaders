@@ -39,11 +39,11 @@ function run_less {
     css_file="${less_file%.*}.css"
     if [ $CHECK -eq 0 ]; then
         echo "Generating $css_file"
-        eval "$LESSC_PATH/lessc $less_file $css_file"
+        $LESSC_PATH/lessc $less_file $css_file
     else
         echo "Validating $css_file"
         new_css_file="${css_file}.new"
-        eval "$LESSC_PATH/lessc $less_file $new_css_file"
+        $LESSC_PATH/lessc $less_file $new_css_file
         diff -q $css_file $new_css_file > /dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "ERROR: $css_file doesn't match generated less file"
