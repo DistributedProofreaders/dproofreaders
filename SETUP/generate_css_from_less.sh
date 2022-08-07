@@ -21,8 +21,7 @@ else
     exit 1
 fi
 
-# Ensure npm-installed lessc is on the path
-PATH=$PATH:$STYLE_DIR/../node_modules/.bin
+LESSC_PATH=$STYLE_DIR/../node_modules/.bin
 
 # Array of .less files that should not turn into a .css file
 NON_CSS_LESS_FILES=("layout.less" "global.less" "page_interfaces.less")
@@ -40,11 +39,11 @@ function run_less {
     css_file="${less_file%.*}.css"
     if [ $CHECK -eq 0 ]; then
         echo "Generating $css_file"
-        lessc $less_file $css_file
+        $LESSC_PATH/lessc $less_file $css_file
     else
         echo "Validating $css_file"
         new_css_file="${css_file}.new"
-        lessc $less_file $new_css_file
+        $LESSC_PATH/lessc $less_file $new_css_file
         diff -q $css_file $new_css_file > /dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "ERROR: $css_file doesn't match generated less file"
