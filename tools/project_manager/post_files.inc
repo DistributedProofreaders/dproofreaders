@@ -9,8 +9,6 @@ include_once($relPath.'wordcheck_engine.inc');
 function generate_post_files($project, $limit_round_id, $which_text, $include_proofers, $base_extra)
 // Generate the files needed for post-processing.
 {
-    $pathbase = $project->dir . "/" . $project->projectid . $base_extra;
-
     if (!$project->pages_table_exists) {
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
     }
@@ -18,6 +16,8 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
     if (!$project->dir_exists) {
         throw new Exception(_("Project directory not found, it may have been deleted or archived."));
     }
+
+    $pathbase = $project->dir . "/" . $project->projectid . $base_extra;
 
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
@@ -63,10 +63,6 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
     }
 
-    if (!$project->dir_exists) {
-        throw new Exception(_("Project directory not found, it may have been deleted or archived."));
-    }
-
     $filename = $project->projectid;
     if ('[OCR]' == $limit_round_id) {
         $filename .= '_OCR';
@@ -90,8 +86,8 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     // zip it all up
 
     // first find a unique place to operate in:
-    $dirname = "/tmp/".uniqid("post_files");
-    mkdir($dirname, 0777);      // and make the directory
+    $dirname = sys_get_temp_dir() . "/" . uniqid("post_files");
+    mkdir($dirname, 0777);
 
     $textfile_path = "{$dirname}/{$filename}.txt";
     $zip_path = "{$dirname}/{$filename}.zip";
