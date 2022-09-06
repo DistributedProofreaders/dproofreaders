@@ -7,6 +7,19 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R202209
+Scripts supporting this upgrade are in `SETUP/upgrade/18`
+
+* Several DP API updates (cpeel)
+  * Create & edit projects
+  * Add & remove project holds
+  * Properly return numeric values as strings for string fields
+* New `Math symbols` character suite (bunny-crunch, okrick, srjfoo, windymilla)
+* Format Preview updates (70ray)
+* Upgrade node dependencies (chrismiceli)
+* Upgrade composer dependencies, including portable-utf8 (cpeel)
+* Removed the incomplete Metadata & Correction features (cpeel)
+
 ## R202202
 Scripts supporting this upgrade are in `SETUP/upgrade/17`
 
