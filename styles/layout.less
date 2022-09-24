@@ -708,6 +708,19 @@ table.filter {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Flex row & entity -- useful when needing a dynamic list of things */
+
+div.flex_row {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0.25em;
+    div.entry {
+        padding: 0 0.25em;
+    }
+}
+
+
+/* ------------------------------------------------------------------------ */
 /* Random Rules */
 /* Because the guidelines are in the wiki, we have to jump through
    some hoops to get any tables used there to be displayed properly
