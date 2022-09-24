@@ -151,23 +151,27 @@ class DifficultyElement extends ProjectFilterElement
 {
     public function echo_active_html_control()
     {
-        echo "<p><b>$this->label:</b> ";
-        echo "<label for='diff-all'>" . pgettext("all difficulties", "All") . "</label><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
+        echo "<div class='flex_row'>";
+        echo "<div class='entry'><b>$this->label:</b></div>";
+        echo "<div class='entry'><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
         $difficulty = array_get($this->data, "difficulty", []);
         if (!count($difficulty)) {
             echo " checked";
         }
-        echo ">\n";
+        echo "> <label for='diff-all'>" . pgettext("all difficulties", "All") . "</label>\n";
+        echo "</div>\n";
         foreach (get_project_difficulties() as $value => $option) {
             $escaped_option = html_safe($option);
-            echo "&nbsp;<label for='$value'>$escaped_option</label><input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
+            echo "<div class='entry'>";
+            echo "<input type='checkbox' name='difficulty[]' class='diff-opt' id='$value' value='$value'";
             if (is_array($difficulty) && in_array($value, $difficulty)) {
                 echo " checked";
                 $this->selected_options[] = $option;
             }
-            echo ">\n";
+            echo "> <label for='$value'>$escaped_option</label>\n";
+            echo "</div>";
         }
-        echo "</p>\n";
+        echo "</div>\n";
     }
 }
 
@@ -241,10 +245,7 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
     $difficulty_element->echo_html_control();
 
-    echo "<input type='submit' name='reset' value='", attr_safe(_("Remove Filter")), "'>";
-    echo "&nbsp;<input type='submit' name='apply' value='", attr_safe(_("Apply Selections")), "'>";
-    echo "</fieldset>";
-    echo "</form>\n";
+    echo "<input type='submit' name='apply' value='", attr_safe(_("Apply Selections")), "'>";
 
     // construct the summary display
     $display_lines = [];
@@ -256,17 +257,16 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
     // save a single line version to use in activity hub
     save_display($username, $filter_type, implode(" | ", $display_lines));
 
-    echo "<p>", _("Current filter:"), " <b>";
-
-    // show multi-line version on this page
+    // and show it here in the same form
     if (!empty($display_lines)) {
-        foreach ($display_lines as $line) {
-            echo "<br>$line";
-        }
-    } else {
-        echo _("No filter, all books shown.");
+        echo "<fieldset style='margin-top: 1em'><legend>" . _("Current filter:") . "</legend>\n";
+        echo html_safe(implode(" | ", $display_lines));
+        echo "<br><input type='submit' name='reset' value='", attr_safe(_("Remove Filter")), "'>";
+        echo "</fieldset>\n";
     }
-    echo "</b></p>\n";
+
+    echo "</fieldset>";
+    echo "</form>\n";
 }
 
 // ----- classes & functions for getting sql and display data

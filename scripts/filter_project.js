@@ -7,7 +7,7 @@ $(function () {
     var diffOpt = $(".diff-opt");
 
     function showMatcher() {
-        langMatch.css("visibility", (0 === langSelector.prop("selectedIndex") ? "hidden" : "visible"));
+        langMatch.css("display", (0 === langSelector.prop("selectedIndex") ? "none" : "block"));
     }
 
     langSelector.change(function () {
