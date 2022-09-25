@@ -37,7 +37,7 @@ class ProjectFilterElement
     protected function echo_active_html_control()
     {
         echo "<td>";
-        echo "<b>$this->label:</b><br>";
+        echo "<b> " . html_safe("$this->label:") . "</b><br>";
         $this->echo_selector();
         echo "</td>\n";
     }
@@ -128,7 +128,7 @@ class LanguageElement extends ProjectFilterElement
     protected function echo_active_html_control()
     {
         echo "<td>";
-        echo "<b>$this->label:</b><br>";
+        echo "<b>" . html_safe("$this->label:") . "</b><br>";
         $this->echo_selector();
         echo "<br>";
 
@@ -152,13 +152,13 @@ class DifficultyElement extends ProjectFilterElement
     public function echo_active_html_control()
     {
         echo "<div class='flex_row'>";
-        echo "<div class='entry'><b>$this->label:</b></div>";
+        echo "<div class='entry'><b>" . html_safe("$this->label:") . "</b></div>";
         echo "<div class='entry'><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
         $difficulty = array_get($this->data, "difficulty", []);
         if (!count($difficulty)) {
             echo " checked";
         }
-        echo "> <label for='diff-all'>" . pgettext("all difficulties", "All") . "</label>\n";
+        echo "> <label for='diff-all'>" . html_safe(pgettext("all difficulties", "All")) . "</label>\n";
         echo "</div>\n";
         foreach (get_project_difficulties() as $value => $option) {
             $escaped_option = html_safe($option);
