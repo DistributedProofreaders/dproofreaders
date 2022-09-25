@@ -226,7 +226,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
                    $just_checking)
 {
     if (is_null($projectid_)) {
-        die("Error: no projectid data supplied");
+        error_and_die("No projectid data supplied to do_stuff()");
     }
 
     $project_obj = [
@@ -234,11 +234,19 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         "to" => new Project($projectid_["to"]),
     ];
 
+    if ($projectid_['from'] == $projectid_['to']) {
+        error_and_die("You can't copy a project into itself.");
+    }
+
     foreach (['from', 'to'] as $which) {
         $project = $project_obj[$which];
 
+        if (!$project->check_pages_table_exists($message)) {
+            error_and_die("Project {$project->projectid}: $message");
+        }
+
         if (!$project->is_utf8) {
-            die("Project table {$project->projectid} is not UTF-8.");
+            error_and_die("Project table {$project->projectid} is not UTF-8.");
         }
 
         $sql = "DESCRIBE {$project->projectid}";
@@ -288,7 +296,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         echo "<tr><th>" . _("No. of pages") . ":</th><td>" . $n_pages . "</td></tr>\n";
 
         if ($which == 'from' && $n_pages == 0) {
-            die("project has no page data to extract");
+            error_and_die("Project {$project->projectid} has no page data to extract");
         }
 
         $all_image_values = [];
@@ -341,15 +349,15 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             $hi_i = array_search($hi, $all_image_values);
 
             if ($lo_i === false) {
-                die("project does not have a page with image='$lo'");
+                error_and_die("Project {$project->projectid} does not have a page with image='$lo'");
             }
 
             if ($hi_i === false) {
-                die("project does not have a page with image='$hi'");
+                error_and_die("Project {$project->projectid} does not have a page with image='$hi'");
             }
 
             if ($lo_i > $hi_i) {
-                die("low end of range ($lo) is greater than high end ($hi)");
+                error_and_die("Low end of range ($lo) is greater than high end ($hi)");
             }
 
             $n_pages_to_copy = 1 + $hi_i - $lo_i;
@@ -359,10 +367,6 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             echo " " . sprintf(_("(%d pages)"), $n_pages_to_copy);
             echo "</p>\n";
         }
-    }
-
-    if ($projectid_['from'] == $projectid_['to']) {
-        die("You can't copy a project into itself.");
     }
 
     $charsuites_not_in_to = array_udiff(
@@ -411,7 +415,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             $c_dst_start_b = 1 + intval($max_dst_base);
         }
     } else {
-        die("bad page_name_handling");
+        error_and_die("Bad \$page_name_handling");
     }
 
     // The c_ prefix means that it only pertains to *copied* pages.
@@ -454,7 +458,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             echo html_safe("    $clashing_image_value\n");
         }
         echo "</pre>\n";
-        die(_("Aborting due to page name collisions!"));
+        error_and_die(_("Aborting due to page name collisions!"));
     }
 
     $clashing_fileid_values = array_intersect($c_dst_fileid_, $all_fileid_values_['to']);
@@ -468,7 +472,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             echo html_safe("    $clashing_fileid_value\n");
         }
         echo "</pre>\n";
-        die(_("Aborting due to page name collisions!"));
+        error_and_die(_("Aborting due to page name collisions!"));
     }
 
     echo "<p>";
@@ -530,7 +534,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
     echo "<p>" . _("Changing into projects directory:");
     echo " (<code>cd " . html_safe($projects_dir) . "</code>)" . "</p>\n";
     if (! chdir($projects_dir)) {
-        die("Unable to 'cd " . html_safe($projects_dir) . "'");
+        error_and_die("Unable to 'cd " . html_safe($projects_dir) . "'");
     }
 
     $items_array = [];
@@ -594,7 +598,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             $n = DPDatabase::affected_rows();
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ($n != 1) {
-                die("unexpected number of rows inserted");
+                error_and_die("unexpected number of rows inserted");
             }
         }
 
@@ -674,4 +678,10 @@ function str_max(& $arr)
         }
     }
     return $s;
+}
+
+function error_and_die($message)
+{
+    echo "<p class='error'>" . html_safe($message) . "</p>";
+    exit();
 }
