@@ -263,6 +263,24 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
     foreach (['from', 'to'] as $which) {
         $project = $project_obj[$which];
 
+        $sql = "
+            SELECT image, fileid
+            FROM {$project->projectid}
+            ORDER BY image";
+        $res = DPDatabase::query($sql);
+
+        $n_pages = mysqli_num_rows($res);
+
+        $all_image_values = [];
+        $all_fileid_values = [];
+        while ([$image, $fileid] = mysqli_fetch_row($res)) {
+            $all_image_values[] = $image;
+            $all_fileid_values[] = $fileid;
+        }
+
+        $all_image_values_[$which] = $all_image_values;
+        $all_fileid_values_[$which] = $all_fileid_values;
+
         // clever use of $which above means we need label uses translated
         // separately, which is convenient, since 'to/from' could be mistaken
         // as indicating a range.
@@ -276,38 +294,18 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         }
         echo "</h3>";
 
+        if ($which == 'from' && $n_pages == 0) {
+            error_and_die("Project {$project->projectid} has no page data to extract");
+        }
+
         echo "<table class='copy'>";
 
         echo "<tr><th>" . _("Project ID") . ":</th><td>" . $project->projectid . "</td></tr>\n";
 
         echo "<tr><th>" . _("Title") . ":</th><td>" . html_safe($project->nameofwork) . "</td></tr>\n";
 
-        // ----------------------
-
-        $sql = "
-            SELECT image, fileid
-            FROM {$project->projectid}
-            ORDER BY image";
-        $res = DPDatabase::query($sql);
-
-        $n_pages = mysqli_num_rows($res);
-
         // TRANSLATORS: abbreviated form of "number of pages"
         echo "<tr><th>" . _("No. of pages") . ":</th><td>" . $n_pages . "</td></tr>\n";
-
-        if ($which == 'from' && $n_pages == 0) {
-            error_and_die("Project {$project->projectid} has no page data to extract");
-        }
-
-        $all_image_values = [];
-        $all_fileid_values = [];
-        while ([$image, $fileid] = mysqli_fetch_row($res)) {
-            $all_image_values[] = $image;
-            $all_fileid_values[] = $fileid;
-        }
-
-        $all_image_values_[$which] = $all_image_values;
-        $all_fileid_values_[$which] = $all_fileid_values;
 
         // ----------------------
 
