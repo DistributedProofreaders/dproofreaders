@@ -53,7 +53,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             DELETE FROM users
             WHERE id = '$this->TEST_USERNAME'
         ";
-        $result = DPDatabase::query($sql);
+        DPDatabase::query($sql);
     }
 
     public function testExisting()
