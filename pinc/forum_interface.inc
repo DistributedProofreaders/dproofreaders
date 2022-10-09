@@ -185,6 +185,9 @@ function login_forum_user($username, $password)
 
         include($phpbb_root_path . 'common.' . $phpEx);
 
+        // set mysqli logging to pre-PHP 8.1 defaults
+        mysqli_report(MYSQLI_REPORT_OFF);
+
         $user->session_begin();
         $auth->acl($user->data);
 
@@ -223,6 +226,9 @@ function login_forum_user($username, $password)
                 break;
         }
 
+        // reset mysqli logging
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
         return [$success, $reason];
     }
 }
@@ -259,9 +265,15 @@ function logout_forum_user()
 
         include($phpbb_root_path . 'common.' . $phpEx);
 
+        // set mysqli logging to pre-PHP 8.1 defaults
+        mysqli_report(MYSQLI_REPORT_OFF);
+
         // Re-initialize phpBB session object in $user so we can kill it
         $user->session_begin();
         $user->session_kill();
+
+        // reset mysqli logging
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     }
 }
 
