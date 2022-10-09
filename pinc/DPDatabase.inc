@@ -22,6 +22,8 @@ final class DPDatabase
         self::$_db_name = $db_name;
 
         // Throw exceptions for DB call failures (PHP 8.1 default values)
+        // See forum_interface.inc for some special-cases when dealing with
+        // phpBB for login / logout.
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         try {
