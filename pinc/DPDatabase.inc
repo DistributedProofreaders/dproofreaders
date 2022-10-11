@@ -82,13 +82,17 @@ final class DPDatabase
         return mysqli_real_escape_string(self::$_connection, $value);
     }
 
-    public static function query($sql, $throw_on_failure = true)
+    public static function query($sql, $throw_on_failure = true, $log_on_failure = true)
     {
         try {
             $result = mysqli_query(self::$_connection, $sql);
         } catch (mysqli_sql_exception $e) {
-            // include this function's caller in the backtrace
-            $error = self::log_error(1);
+            if ($log_on_failure) {
+                // include this function's caller in the backtrace
+                $error = self::log_error(1);
+            } else {
+                $error = _("An error occurred during a database query.");
+            }
             if ($throw_on_failure) {
                 throw new DBQueryError($error);
             }
