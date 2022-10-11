@@ -107,7 +107,7 @@ function maybe_create_temporary_genre_translation_table()
 
     try {
         // if the create table succeeded, populate the table
-        DPDatabase::query($sql);
+        DPDatabase::query($sql, true, false);
         foreach ($genres as $key => $value) {
             $sql = sprintf("
                 INSERT INTO genre_translations
