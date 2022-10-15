@@ -1,7 +1,7 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'misc.inc'); // xmlencode()
 
 require_login();
 
@@ -67,8 +67,8 @@ function create_birth_or_death_data($bd, $sql_row)
               '" month="' . $sql_row[$bd . 'month'] .
                 '" day="' . $sql_row[$bd . 'day'];
     if ($sql_row[$bd . 'comments'] != '') {
-        $res .= '" comments="' . html_safe($sql_row[$bd . 'comments']);
+        $res .= '" comments="' . xmlencode($sql_row[$bd . 'comments']);
     }
-    $res .= "\">\n";
+    $res .= "\" />\n";
     return $res;
 }

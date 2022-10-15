@@ -12,11 +12,13 @@ $months = [_('Unknown'),
 // and a link to the xml data will be provided.
 function echo_author($last_name, $other_names, $born, $dead, $author_id)
 {
+    global $code_url;
+
     $name = $last_name . ($other_names != '' ? ", $other_names" : '');
 
     echo "<h2>" . html_safe($name);
     if ($author_id) {
-        echo " <a href='{$GLOBALS['code_url']}/tools/authors/authorxml.php?author_id=$author_id'><img src='{$GLOBALS['code_url']}/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>\n";
+        echo " <a href='$code_url/tools/authors/authorxml.php?author_id=$author_id'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>\n";
     }
     echo "</h2>";
 
@@ -30,16 +32,13 @@ function echo_author($last_name, $other_names, $born, $dead, $author_id)
         $sql = sprintf("SELECT bio_id FROM biographies WHERE author_id = %d;", $author_id);
         $result = DPDatabase::query($sql);
         $numrow = mysqli_num_rows($result);
-        $row = mysqli_fetch_assoc($result);
-        $bio_id = $row["bio_id"];
-        if ($numrow == 1) {
-            echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'), $bio_id) . "</a></td></tr>\n";
-        } elseif ($numrow > 1) {
-            echo "<tr><th rowspan=\"$numrow\" class=\"top-align\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
+        if ($numrow > 0) {
+            echo "<tr><th class=\"top-align\">" . _('Biographies') . "</th><td>";
             while ($row = mysqli_fetch_assoc($result)) {
                 $bio_id = $row["bio_id"];
-                echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a></td></tr>\n";
+                echo "<a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a><br>\n";
             }
+            echo "</td></tr>\n";
         }
     }
     echo "</table>\n";
