@@ -297,18 +297,18 @@ function _test_project_for_small_images($projectid)
                 continue;
             }
 
-            $status = "";
+            $image_status = "";
             $size = getimagesize($file_info->abs_path);
             if ($size == false) {
-                $status = _("Unable to determine page image size");
+                $image_status = _("Unable to determine page image size");
             } elseif ($size[0] < 1000 || $size[1] < 1000) {
-                $status = sprintf(_("Page image size of %dx%d may be too small"), $size[0], $size[1]);
+                $image_status = sprintf(_("Page image size of %dx%d may be too small"), $size[0], $size[1]);
             }
 
-            if (!empty($status)) {
+            if (!empty($image_status)) {
                 $details .= "<tr>";
                 $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
-                $details .= "<td>" . $status . "</td>";
+                $details .= "<td>" . $image_status . "</td>";
                 $details .= "</tr>";
                 $error_images = true;
             }
@@ -319,7 +319,7 @@ function _test_project_for_small_images($projectid)
         $details .= "</table>";
 
         if ($error_images) {
-            $status = _("Error");
+            $status = _("Warning");
             $summary = _("Some page images may be too small.");
         } else {
             $status = _("Success");
