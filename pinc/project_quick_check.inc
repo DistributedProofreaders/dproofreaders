@@ -125,6 +125,7 @@ $test_functions = [
     "_test_project_has_all_page_images",
     "_test_project_for_bad_bytes",
     "_test_project_for_corrupt_pngs",
+    "_test_project_for_small_images",
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
     "_test_project_for_word_lists",
@@ -256,6 +257,74 @@ function _test_project_for_corrupt_pngs($projectid)
         } else {
             $status = _("Error");
             $summary = _("Some pages images have corrupt PNGs.");
+        }
+    } else {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+        $details = "";
+    }
+
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+}
+
+function _test_project_for_small_images($projectid)
+{
+    global $projects_dir;
+    global $projects_url;
+
+    $test_name = _("Small page images");
+    $test_desc = _("This test checks to see if any page image is possibly too small.");
+
+    $project = new Project($projectid);
+
+    if ($project->pages_table_exists) {
+        $sql = "SELECT image FROM $projectid ORDER BY image";
+        $result_res = DPDatabase::query($sql);
+
+        $details = "<table class='basic striped'>";
+        $details .= "<tr>";
+        $details .= "<th>" . _("Image") . "</th>";
+        $details .= "<th>" . _("Status") . "</th>";
+        $details .= "</tr>";
+
+        $error_images = false;
+        while ([$image] = mysqli_fetch_row($result_res)) {
+            // the the file's info
+            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
+
+            // if the file doesn't exist, skip it -- we're not testing for that
+            if (!$file_info->exists) {
+                continue;
+            }
+
+            $status = "";
+            $size = getimagesize($file_info->abs_path);
+            if ($size == false) {
+                $status = _("Unable to determine page image size");
+            } elseif ($size[0] < 1000 || $size[1] < 1000) {
+                $status = sprintf(_("Page image size of %dx%d may be too small"), $size[0], $size[1]);
+            }
+
+            if (!empty($status)) {
+                $details .= "<tr>";
+                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
+                $details .= "<td>" . $status . "</td>";
+                $details .= "</tr>";
+                $error_images = true;
+            }
+        }
+
+        mysqli_free_result($result_res);
+
+        $details .= "</table>";
+
+        if ($error_images) {
+            $status = _("Error");
+            $summary = _("Some page images may be too small.");
+        } else {
+            $status = _("Success");
+            $summary = _("No small images.");
+            $details = "";
         }
     } else {
         $status = _("Skipped");
