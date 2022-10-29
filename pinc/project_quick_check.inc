@@ -259,20 +259,14 @@ function _test_project_for_corrupt_pngs($projectid)
 function _test_project_for_small_images($projectid)
 {
     $test_name = _("Small page images");
-    $test_desc = _("This test checks to see if any page image is possibly too small.");
+    $test_desc = _("This test checks to see if any page images are possibly too small.");
+    $details = "";
 
     $project = new Project($projectid);
 
     if ($project->pages_table_exists) {
         $images = $project->get_page_names_from_db();
 
-        $details = "<table class='basic striped'>";
-        $details .= "<tr>";
-        $details .= "<th>" . _("Image") . "</th>";
-        $details .= "<th>" . _("Status") . "</th>";
-        $details .= "</tr>";
-
-        $error_images = false;
         foreach ($images as $image) {
             // the the file's info
             $file_info = get_file_info_object($image, $project->dir, $project->url);
@@ -282,37 +276,26 @@ function _test_project_for_small_images($projectid)
                 continue;
             }
 
-            $image_status = "";
             $size = getimagesize($file_info->abs_path);
             if ($size == false) {
-                $image_status = _("Unable to determine page image size");
+                $details = _("Unable to determine the page image size for some pages.");
+                break;
             } elseif ($size[0] < 1000 || $size[1] < 1000) {
-                $image_status = sprintf(_("Page image size of %dx%d may be too small"), $size[0], $size[1]);
-            }
-
-            if (!empty($image_status)) {
-                $details .= "<tr>";
-                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
-                $details .= "<td>" . $image_status . "</td>";
-                $details .= "</tr>";
-                $error_images = true;
+                $details = _("Some page images have a short width of less than 1000 pixels and may be too small.");
+                break;
             }
         }
 
-        $details .= "</table>";
-
-        if ($error_images) {
+        if (!empty($details)) {
             $status = _("Warning");
             $summary = _("Some page images may be too small.");
         } else {
             $status = _("Success");
             $summary = _("No small images.");
-            $details = "";
         }
     } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");
-        $details = "";
     }
 
     return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
