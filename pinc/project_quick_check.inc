@@ -125,6 +125,7 @@ $test_functions = [
     "_test_project_has_all_page_images",
     "_test_project_for_bad_bytes",
     "_test_project_for_corrupt_pngs",
+    "_test_project_for_small_images",
     "_test_project_for_large_page_images",
     "_test_project_for_illo_images",
     "_test_project_for_word_lists",
@@ -137,8 +138,6 @@ $test_functions = [
 
 function _test_project_for_large_page_images($projectid)
 {
-    global $projects_dir;
-    global $projects_url;
     global $page_image_size_limit;
 
     $test_name = _("Large Page Image Files");
@@ -146,8 +145,7 @@ function _test_project_for_large_page_images($projectid)
 
     $project = new Project($projectid);
     if ($project->pages_table_exists) {
-        $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = DPDatabase::query($sql);
+        $images = $project->get_page_names_from_db();
 
         $details = "<table class='basic striped'>";
         $details .= "<tr>";
@@ -156,9 +154,9 @@ function _test_project_for_large_page_images($projectid)
         $details .= "</tr>";
 
         $num_large_images = 0;
-        while ([$image] = mysqli_fetch_row($result_res)) {
+        foreach ($images as $image) {
             // the the file's info
-            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
+            $file_info = get_file_info_object($image, $project->dir, $project->url);
 
             // check to see if the file is > size limit
             $error = get_image_size_error($file_info->size);
@@ -171,8 +169,6 @@ function _test_project_for_large_page_images($projectid)
                 $num_large_images++;
             }
         }
-
-        mysqli_free_result($result_res);
 
         $details .= "</table>";
 
@@ -195,9 +191,6 @@ function _test_project_for_large_page_images($projectid)
 
 function _test_project_for_corrupt_pngs($projectid)
 {
-    global $projects_dir;
-    global $projects_url;
-
     $test_name = _("Corrupt page PNGs");
     $test_desc = _("This test checks to see if any page PNGs are corrupt or have internal errors.");
 
@@ -210,8 +203,7 @@ function _test_project_for_corrupt_pngs($projectid)
         $summary = _("pngcheck program not available on this system.");
         $details = "";
     } elseif ($project->pages_table_exists) {
-        $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = DPDatabase::query($sql);
+        $images = $project->get_page_names_from_db();
 
         $details = "<table class='basic striped'>";
         $details .= "<tr>";
@@ -220,9 +212,9 @@ function _test_project_for_corrupt_pngs($projectid)
         $details .= "</tr>";
 
         $error_pngs = 0;
-        while ([$image] = mysqli_fetch_row($result_res)) {
+        foreach ($images as $image) {
             // the the file's info
-            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
+            $file_info = get_file_info_object($image, $project->dir, $project->url);
 
             // if the file doesn't exist, skip it -- we're not testing for that
             if (!$file_info->exists) {
@@ -245,8 +237,6 @@ function _test_project_for_corrupt_pngs($projectid)
             }
         }
 
-        mysqli_free_result($result_res);
-
         $details .= "</table>";
 
         if ($error_pngs == 0) {
@@ -266,10 +256,53 @@ function _test_project_for_corrupt_pngs($projectid)
     return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
 }
 
+function _test_project_for_small_images($projectid)
+{
+    $test_name = _("Small page images");
+    $test_desc = _("This test checks to see if any page images are possibly too small.");
+    $details = "";
+
+    $project = new Project($projectid);
+
+    if ($project->pages_table_exists) {
+        $images = $project->get_page_names_from_db();
+
+        foreach ($images as $image) {
+            // the the file's info
+            $file_info = get_file_info_object($image, $project->dir, $project->url);
+
+            // if the file doesn't exist, skip it -- we're not testing for that
+            if (!$file_info->exists) {
+                continue;
+            }
+
+            $size = getimagesize($file_info->abs_path);
+            if ($size == false) {
+                $details = _("Unable to determine the page image size for some pages.");
+                break;
+            } elseif ($size[0] < 1000 || $size[1] < 1000) {
+                $details = _("Some images may be too small: the shortest dimension of some page images is less than 1000 pixels.");
+                break;
+            }
+        }
+
+        if (!empty($details)) {
+            $status = _("Warning");
+            $summary = _("Some page images may be too small.");
+        } else {
+            $status = _("Success");
+            $summary = _("No small images.");
+        }
+    } else {
+        $status = _("Skipped");
+        $summary = _("Page table does not exist.");
+    }
+
+    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+}
+
 function _test_project_for_illo_images($projectid)
 {
-    global $projects_dir;
-    global $projects_url;
     global $code_url;
 
     $test_name = _("Illustration Image Files");
@@ -277,16 +310,9 @@ function _test_project_for_illo_images($projectid)
 
     $project = new Project($projectid);
     if ($project->pages_table_exists) {
-        $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = DPDatabase::query($sql);
+        $page_image_names = $project->get_page_names_from_db();
 
-        $page_image_names = [];
-        while ([$image] = mysqli_fetch_row($result_res)) {
-            $page_image_names[] = $image;
-        }
-        mysqli_free_result($result_res);
-
-        chdir("$projects_dir/$projectid");
+        chdir($project->dir);
         $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
         // That returns a sorted list of the .png files
         // followed by a sorted list of the .jpg files,
@@ -617,25 +643,21 @@ function _test_project_for_valid_clearance($projectid)
 
 function _test_project_has_all_page_images($projectid)
 {
-    global $projects_dir;
-    global $projects_url;
-
     $test_name = _("Page images exist");
     $test_desc = _("This test validates that all page images exist on the server.");
 
     $project = new Project($projectid);
 
     if ($project->pages_table_exists) {
-        $sql = "SELECT image FROM $projectid ORDER BY image";
-        $result_res = DPDatabase::query($sql);
+        $images = $project->get_page_names_from_db();
 
         $details = "<p>" . _("The following page images do not exist on the server.") . "</p>";
         $details .= "<ul>";
         $error_images = 0;
         $image_count = 0;
-        while ([$image] = mysqli_fetch_row($result_res)) {
+        foreach ($images as $image) {
             // the the file's info
-            $file_info = get_file_info_object($image, "$projects_dir/$projectid", "$projects_url/$projectid");
+            $file_info = get_file_info_object($image, $project->dir, $project->url);
 
             if (!$file_info->exists) {
                 $details .= "<li>$image</li>";
@@ -644,8 +666,6 @@ function _test_project_has_all_page_images($projectid)
             $image_count += 1;
         }
         $details .= "</ul>";
-
-        mysqli_free_result($result_res);
 
         if ($image_count == 0) {
             $status = _("Error");
