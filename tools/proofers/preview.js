@@ -856,7 +856,8 @@ $(function () {
             let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
 
             function boxHtml(txt) {
-                return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;");
+                return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;")
+                    .replace(/▙/g, "&amp;");
             }
 
             function transformSC(match, p1) { // if all upper case transform to lower
@@ -1071,13 +1072,19 @@ $(function () {
             }
         }
 
-        // encode & to &amp; to avoid accidental entities like &copy;
-        // encode < > to box characters so we can distinguish any which are not
-        // part of legitimate tags from the span tags we insert: either signs
-        // or unrecognised tags and encode them in styling
+        // Show style is done after merging text and proofers notes.
+        // To distinguish the < and > characters in text from those in the notes
+        // (so we don't style the notes)
+        // html encode the notes but in text encode < > to box characters.
+        // We must also encode ampersand to avoid accidental entities like &copy; and
+        // must do it before introducing html entities for < and > (&lt; &gt;),
+        // but we can't html encode it now because if & occurs in all upper case
+        // small caps markup which we have to convert to lower case because of
+        // dp convention it would make it appear as not all upper case.
+        // So encode & to a box character ▙ and convert to &amp; later.
         function boxEncode(txt) {
-            return txt.replace(/&/g, "&amp;").replace(/</g, "┌")
-                .replace(/>/g, "┐");
+            return txt.replace(/</g, "┌").replace(/>/g, "┐")
+                .replace(/&/g, "▙");
         }
 
         let analysis = analyse(txt, styler);
@@ -1109,6 +1116,7 @@ $(function () {
 
         let noteArray;
         if(ok && wrapMode) {
+            // leave out proofers' notes
             noteArray = [];
         } else {
             noteArray = analysis.noteArray;
