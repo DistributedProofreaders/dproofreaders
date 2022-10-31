@@ -536,4 +536,31 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.possIss, 0);
         assert.strictEqual(preview.txtout, "&amp;copy;");
     });
+
+    QUnit.test("Small cap markup with mixed case", function (assert) {
+        let text = "<sc>Ab</sc>";
+        let preview = makePreview(text, false, false, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\">Ab</span>");
+    });
+
+    QUnit.test("Small cap markup with all upper case", function (assert) {
+        let text = "<sc>AB</sc>";
+        let preview = makePreview(text, false, false, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\"><span class=\"tt\">AB</span></span>");
+    });
+
+    QUnit.test("Small cap markup with all upper case with &", function (assert) {
+        let text = "<sc>A&B</sc>";
+        let preview = makePreview(text, false, false, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\"><span class=\"tt\">A&amp;B</span></span>");
+    });
 });
