@@ -281,7 +281,7 @@ function _test_project_for_small_images($projectid)
                 $details = _("Unable to determine the page image size for some pages.");
                 break;
             } elseif ($size[0] < 1000 || $size[1] < 1000) {
-                $details = _("Some page images have a short width of less than 1000 pixels and may be too small.");
+                $details = _("Some images may be too small: the shortest dimension of some page images is less than 1000 pixels.");
                 break;
             }
         }
