@@ -191,6 +191,8 @@ function _test_project_for_large_page_images($projectid)
 
 function _test_project_for_corrupt_pngs($projectid)
 {
+    global $page_image_size_limit;
+
     $test_name = _("Corrupt page PNGs");
     $test_desc = _("This test checks to see if any page PNGs are corrupt or have internal errors.");
 
@@ -280,8 +282,8 @@ function _test_project_for_small_images($projectid)
             if ($size == false) {
                 $details = _("Unable to determine the page image size for some pages.");
                 break;
-            } elseif ($size[0] < 1000 || $size[1] < 1000) {
-                $details = _("Some images may be too small: the shortest dimension of some page images is less than 1000 pixels.");
+            } elseif (isset(get_image_size_small_error($size))) {
+                $details = _("Some images may be too small: the shortest dimension of some page images is less than $page_image_minimum_size pixels.");
                 break;
             }
         }
