@@ -1,7 +1,7 @@
 <?php
 
 $page_image_size_limit = 100; // kb
-$page_image_minimum_size = 1000; // pixels
+$page_image_minimum_dimension = 5000; // pixels
 
 function get_image_size_error($image_size)
 {
@@ -14,13 +14,13 @@ function get_image_size_error($image_size)
     return $result;
 }
 
-function get_image_size_small_error($image_dimensions)
+function get_image_small_dimension_error($width, $height)
 {
-    global $page_image_minimum_size;
+    global $page_image_minimum_dimension;
     $result = null;
 
-    if ($image_dimensions[0] < $page_image_minimum_size || $image_dimensions[1] < $page_image_minimum_size) {
-        $result = _("The image may be too small: the shortest dimension of the images is less than $page_image_minimum_size pixels.");
+    if ($width < $page_image_minimum_dimension || $height < $page_image_minimum_dimension) {
+        $result = sprintf(_("The image may be too small: the shortest dimension of the images is less than %d pixels."), $page_image_minimum_dimension);
     }
     return $result;
 }
