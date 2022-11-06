@@ -363,6 +363,15 @@ class Loader
                     $this->n_warnings += 1;
                     array_push($warning_msgs, $warning_msg);
                 }
+
+                $size = getimagesize($image_filename);
+                if ($size !== false) {
+                    $warning_msg = get_image_small_dimension_error($size[0], $size[1]);
+                    if (isset($warning_msg)) {
+                        $this->n_warnings += 1;
+                        array_push($warning_msgs, $warning_msg);
+                    }
+                }
             }
 
             if ($row['text']['action'] == 'error' ||
