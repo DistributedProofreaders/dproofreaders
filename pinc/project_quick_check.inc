@@ -191,8 +191,6 @@ function _test_project_for_large_page_images($projectid)
 
 function _test_project_for_corrupt_pngs($projectid)
 {
-    global $page_image_size_limit;
-
     $test_name = _("Corrupt page PNGs");
     $test_desc = _("This test checks to see if any page PNGs are corrupt or have internal errors.");
 
