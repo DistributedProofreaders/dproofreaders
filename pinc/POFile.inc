@@ -187,7 +187,7 @@ class POFileIterator implements Iterator
         $this->next();
     }
 
-    public function current(): mixed
+    public function current(): string
     {
         return $this->current_block;
     }
