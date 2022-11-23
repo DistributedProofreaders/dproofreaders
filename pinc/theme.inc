@@ -935,13 +935,13 @@ function show_donation_stuff()
         _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
         $DPF_home_url
     );
-    echo "<br>";
+    echo "</p>\n";
+
     echo "<div class='center-align' style='padding-top: 3px;'>";
     echo "<button type='button' onclick='window.open(\"$DPF_donor_url\");' class='button bold' style='font-size: 1em; box-shadow: 2px 2px;'>";
     echo _("Donate");
     echo "</button>";
     echo "</div>";
-    echo "</p>\n";
 
     echo "</div>\n";
     echo "<hr class='divider'>\n";
