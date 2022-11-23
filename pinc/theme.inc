@@ -957,6 +957,11 @@ function show_social_media_links()
             "class" => "fab fa-wordpress fa-2x",
             "url" => "https://blog.pgdp.net",
         ],
+        "Mastodon" => [
+            "class" => "fab fa-mastodon fa-2x",
+            "url" => "https://universeodon.com/@DProofreaders",
+            "rel" => "me",
+        ],
         "Twitter" => [
             "class" => "fab fa-twitter fa-2x",
             "url" => "https://twitter.com/DProofreaders",
@@ -976,7 +981,8 @@ function show_social_media_links()
     foreach ($social_links as $name => $data) {
         $class = $data["class"];
         $url = $data["url"];
-        $links[] = "<a style='text-decoration: none;' href='$url' aria-label='$name'>" .
+        $rel = $data["rel"] ?? "";
+        $links[] = "<a style='text-decoration: none;' href='$url' rel='$rel' aria-label='$name'>" .
             "<i aria-hidden='true' class='$class' title='$name'></i>" .
             "</a>";
     }
