@@ -33,6 +33,7 @@ if (!$testing) {
                   "sameAs": [
                     "https://www.pgdp.net/c",
                     "https://blog.pgdp.net/",
+                    "https://universeodon.com/@DProofreaders",
                     "https://twitter.com/DProofreaders",
                     "https://www.linkedin.com/groups/832347/",
                     "https://www.facebook.com/distributed.proofreaders/"
