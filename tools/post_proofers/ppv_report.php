@@ -20,7 +20,7 @@ require_login();
 
 $page_title = _('Post-Processing Verification Reporting');
 
-output_header($page_title);
+output_header($page_title, NO_STATSBAR);
 
 echo "\n<h1>$page_title</h1>\n";
 
@@ -186,14 +186,23 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         }
     }
 
-    function some_sig_combo($some_id, $some_label, $sig_id, $sig_label, $final_label)
+    // Checkboxes to record level of complexity for a feature; Basic, Average, Complex
+    function feature_level_combo($feature_type)
     {
         global $action;
+        $feature_label_map = get_feature_labels(true);
+
         $problem = "";
+        $basic_id = "bsc_" . $feature_type;
+        $average_id = "avg_" . $feature_type;
+        $complex_id = "cpx_" . $feature_type;
+        $final_label = $feature_label_map[$feature_type];
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-            if (isset($_POST[$some_id]) && isset($_POST[$sig_id])) {
-                $problem = _("You selected both \"Some\" and \"Significant Amount\".");
-            }
+            $numsel = 0;
+            if (isset($_POST[$basic_id])) $numsel++;
+            if (isset($_POST[$average_id])) $numsel++;
+            if (isset($_POST[$complex_id])) $numsel++;
+            if ($numsel > 1) $problem = _('You may only select one of "Basic", "Average" or "Complex".');
         }
 
         global $i6;
@@ -201,45 +210,25 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             . maybe_report_form_problem($problem)
             . "\n$i6"
             . "<p class='inline_input hanging_indent'>"
-            . _checkbox($some_id, $some_label)
+            . _checkbox($basic_id, _("Basic"))
             . "&nbsp;&nbsp;"
-            . _checkbox($sig_id, $sig_label)
+            . _checkbox($average_id, _("Average"))
+            . "&nbsp;&nbsp;"
+            . _checkbox($complex_id, _("Complex"))
             . " &mdash; "
             . $final_label
             . "</p>";
     }
 
-    function some_num_combo($some_id, $some_label, $num_id)
+    // Checkbox to record hard feature, which always counts as Complex
+    // Optional argument to provide hyperlink to further information
+    function hard_check_box($feature_type, $info_url = "")
     {
-        global $action;
-        $problem = "";
-        if ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-            if (isset($_POST[$some_id])) {
-                // checked the 'Some' box
-                if (!isset($_POST[$num_id])) {
-                    $problem = _("You didn't specify how many.");
-                } elseif (!is_decimal_digits($_POST[$num_id])) {
-                    $problem = _("You must enter a valid number.");
-                } elseif ($_POST[$num_id] == 0) {
-                    $problem = _("You must enter a number greater than 0.");
-                }
-            } else {
-                // didn't check the 'Some' box
-                if (!empty($_POST[$num_id])) {
-                    $problem = _("You gave a number but didn't check the box.");
-                }
-            }
-        }
+        $feature_label_map = get_feature_labels(true);
 
-        global $i6;
-        return ""
-            . maybe_report_form_problem($problem)
-            . "\n$i6"
-            . "<p class='inline_input hanging_indent'>"
-            . _checkbox($some_id, $some_label)
-            . ": "
-            . _textbox($num_id, _("(Number of)"), ['use_a_label_element' => true, 'put_label_on_left' => true])
-            . "</p>";
+        $label = $feature_label_map[$feature_type];
+        if (!empty($info_url)) $label = "<a href='$info_url'>$label</a>";
+        return check_box("hrd_".$feature_type, $label);
     }
 
     function check_box($id, $label, $checked_in_blank_form = false)
@@ -358,6 +347,26 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return ctype_digit($s) && strlen($s) > 0; // the strlen check is necessary before PHP 5.1.0.
     }
 
+    function get_feature_labels($translate)
+    {
+        return [
+            "poetry"    => $translate ? _("Poetry") : "Poetry",
+            "block"     => $translate ? _("Blockquotes") : "Blockquotes",
+            "foot"      => $translate ? _("Footnotes") : "Footnotes",
+            "side"      => $translate ? _("Sidenotes") : "Sidenotes",
+            "ads"       => $translate ? _("Ads") : "Ads",
+            "tables"    => $translate ? _("Tables") : "Tables",
+            "drama"     => $translate ? _("Drama") : "Drama",
+            "index"     => $translate ? _("Index") : "Index",
+            "illos"     => $translate ? _("Illustrations") : "Illustrations",
+            "multilang" => $translate ? _("Multiple Languages") : "Multiple Languages",
+            "spell"     => $translate ? _("Extensive Spellcheck/Gutcheck") : "Extensive Spellcheck/Gutcheck",
+            "englifh"   => $translate ? _("Difficult typography, e.g. long ess, Fraktur, etc.") : "Difficult typography, e.g. long ess, Fraktur, etc.",
+            "music"     => $translate ? _("Musical Notation and Files") : "Musical Notation and Files",
+            "math"      => $translate ? _("Extensive mathematical/chemical notation") : "Extensive mathematical/chemical notation",
+        ];
+    }
+
     // ---------------------------------
 
     $ppv_guidelines_url = get_faq_url("ppv.php");
@@ -412,21 +421,20 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         . tr_w_two_cells(
             _("Present in the text"),
             ""
-                . some_sig_combo('some_poetry', _("Some"), 'sig_poetry', _("Significant Amount"), _("Poetry (other than straight poetry)"))
-                . some_sig_combo('some_block', _("Some"), 'sig_block', _("Significant Amount"), _("Blockquotes"))
-                . some_sig_combo('some_foot', _("Some"), 'sig_foot', _("Significant Amount"), _("Footnotes"))
-                . some_sig_combo('some_side', _("Some"), 'sig_side', _("Significant Amount"), _("Sidenotes"))
-                . some_sig_combo('some_ads', _("Some"), 'sig_ads', _("Significant Amount"), _("Advertisements"))
-                . some_sig_combo('some_tables', _("Some"), 'sig_tables', _("Significant Amount"), _("Tables"))
-                . some_sig_combo('some_drama', _("Some"), 'sig_drama', _("Significant Amount"), _("Drama"))
-                . some_sig_combo('some_index', _("Small"), 'sig_index', _("Significant Size"), _("Index"))
-                . some_num_combo('some_illos', _("Illustrations (other than minor decorations or logos)"), 'num_illos')
-                . check_box('sig_illos', _("Illustrations requiring advanced preparation and/or difficult placement"))
-                . check_box('sig_multilang', "<a href='$ppv_guidelines_url#mult'>" . _("Multiple Languages") . "</a>")
-                . check_box('sig_spell', _("Extensive Spellcheck/Gutcheck"))
-                . check_box('sig_englifh', _("Difficult typography, e.g. long ess, Fraktur, etc."))
-                . check_box('sig_music', _("Musical Notation and Files"))
-                . check_box('sig_math', _("Extensive mathematical/chemical notation"))
+                . feature_level_combo('poetry')
+                . feature_level_combo('block')
+                . feature_level_combo('foot')
+                . feature_level_combo('side')
+                . feature_level_combo('ads')
+                . feature_level_combo('tables')
+                . feature_level_combo('drama')
+                . feature_level_combo('index')
+                . feature_level_combo('illos')
+                . hard_check_box('multilang', "$ppv_guidelines_url#mult")
+                . hard_check_box('spell')
+                . hard_check_box('englifh')
+                . hard_check_box('music')
+                . hard_check_box('math')
         )
         . tr_w_one_cell_centered("major_section", "<a href='$ppv_guidelines_url#errors'>" . _("ERRORS") . "</a>")
         . tr_w_one_cell_centered("major_section", _("Level 1 (Minor Errors)"))
@@ -461,7 +469,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e1_px_num', _("Use of px sizing units for items other than images and borders"))
-                . number_box('e1_title_num', _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)"))
+                . number_box('e1_title_num', _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;Alice's Adventures in Wonderland | Project Gutenberg&lt;/title&gt;)"))
                 . number_box('e1_pre_num', _("Use of &lt;pre&gt; tags instead of their CSS equivalents"))
                 . number_box('e1_body_num', _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them"))
                 . number_box('e1_tabl_num', _("Use of tables for things that are not tables"))
@@ -506,7 +514,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Occurrence"),
             ""
                 . check_box('s_multi', _("Enclose entire multi-part headings within the related heading tag"))
-                . check_box('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though"))
+                . check_box('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br/&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though"))
                 . check_box('s_list', _("List Tags should be used for lists (e.g., a normal index)"))
                 . check_box('s_text', _("Include all text as text, not just as images"))
                 . check_box('s_code', _("Keep your code line lengths reasonable"))
@@ -521,7 +529,6 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Occurrence"),
             ""
                 . check_box('m_semantic', _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them"))
-                . check_box('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)"))
                 . check_box('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)"))
         )
         . tr_w_one_cell_centered("major_section", _("General Comments"))
@@ -570,44 +577,32 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
 
     $project_size = $_POST["kb_size"];
 
-    $project_significant_counter = 0;
+    $project_basic_counter = 0;
     $project_average_counter = 0;
+    $project_complex_counter = 0;
     $level_1_errors = 0;
     $level_2_errors = 0;
     $pp_evaluation = "";
+    $feature_label_map = get_feature_labels(false);
     $pping_complexity = "\n"
         . "\nPPing Complexity:"
         . "\n"
         . "\n    Text File Size: $project_size KB";
-    $mapped_array = [
-        "sig_poetry" => "Significant Amount of Poetry", "some_poetry" => "Some Poetry",
-        "sig_block" => "Significant Amount of Blockquotes", "some_block" => "Some Blockquotes",
-        "sig_foot" => "Significant Amount of Footnotes", "some_foot" => "Some Footnotes",
-        "sig_side" => "Significant Amount of Sidenotes", "some_side" => "Some Sidenotes",
-        "sig_ads" => "Significant Amount of Ads", "some_ads" => "Some Ads",
-        "sig_tables" => "Significant Amount of Tables", "some_tables" => "Some Tables",
-        "sig_drama" => "Significant Amount of Drama", "some_drama" => "Some Drama",
-        "sig_index" => "Significant Size of Index", "some_index" => "Small Index",
-        "sig_illos" => "Illustrations requiring advanced preparation and/or difficult placement",
-        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck",
-        "sig_englifh" => "Difficult typography, e.g. long ess, Fraktur, etc.",
-        "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation",
-    ];
 
     foreach ($_POST as $key => $value) {
-        if (startswith($key, "sig_") && isset($mapped_array[$key])) {
-            $project_significant_counter++;
-            $pping_complexity .= "\n    " . $mapped_array[$key];
-        } elseif (startswith($key, "some_") && isset($mapped_array[$key])) {
+        $feature_type = substr($key, 4);
+        if (startswith($key, "bsc_") && isset($feature_label_map[$feature_type])) {
+            $project_basic_counter++;
+            $pping_complexity .= "\n    " . "Basic " . $feature_label_map[$feature_type];
+        } elseif (startswith($key, "avg_") && isset($feature_label_map[$feature_type])) {
             $project_average_counter++;
-            $pping_complexity .= "\n    " . $mapped_array[$key];
-        } elseif ($key === "some_illos") {
-            if ($_POST["num_illos"] >= 20) {
-                $project_significant_counter++;
-            } elseif ($_POST["num_illos"] > 5) {
-                $project_average_counter++;
-            }
-            $pping_complexity .= "\n    " . $_POST["num_illos"] . " Illustrations (other than minor decorations or logos)";
+            $pping_complexity .= "\n    " . "Average " . $feature_label_map[$feature_type];
+        } elseif (startswith($key, "cpx_") && isset($feature_label_map[$feature_type])) {
+            $project_complex_counter++;
+            $pping_complexity .= "\n    " . "Complex " . $feature_label_map[$feature_type];
+        } elseif (startswith($key, "hrd_") && isset($feature_label_map[$feature_type])) {
+            $project_complex_counter++;
+            $pping_complexity .= "\n    " . $feature_label_map[$feature_type];
         } elseif (startswith($key, "e1_") && !empty($value)) {
             $level_1_errors += $value;
         } elseif (startswith($key, "e2_") && !empty($value)) {
@@ -615,9 +610,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         }
     }
 
-    if ($project_significant_counter >= 4) {
+    if ($project_complex_counter >= 3) {
         $pp_difficulty_level = "Difficult";
-    } elseif ($project_significant_counter > 0 || $project_average_counter >= 3) {
+    } elseif ($project_complex_counter > 0 || $project_average_counter >= 3) {
         $pp_difficulty_level = "Average";
     } else {
         $pp_difficulty_level = "Easy";
@@ -630,41 +625,41 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
             return 1;
         }
 
-        return floor($project_size / $size_per);
+        return round($project_size / $size_per);
     }
 
     if ($level_2_errors == 0) {
         if ($pp_difficulty_level == "Easy") {
             if (number_of_errors_allowed(300) >= $level_1_errors) {
                 $pp_evaluation = "Excellent";
-            } elseif (number_of_errors_allowed(150) >= $level_1_errors) {
+            } elseif (number_of_errors_allowed(120) >= $level_1_errors) {
                 $pp_evaluation = "Very Good";
             }
         } elseif ($pp_difficulty_level == "Average") {
             if (number_of_errors_allowed(200) >= $level_1_errors) {
                 $pp_evaluation = "Excellent";
-            } elseif (number_of_errors_allowed(100) >= $level_1_errors) {
+            } elseif (number_of_errors_allowed(80) >= $level_1_errors) {
                 $pp_evaluation = "Very Good";
             }
         } elseif ($pp_difficulty_level == "Difficult") {
             if (number_of_errors_allowed(100) >= $level_1_errors) {
                 $pp_evaluation = "Excellent";
-            } elseif (number_of_errors_allowed(50) >= $level_1_errors) {
+            } elseif (number_of_errors_allowed(40) >= $level_1_errors) {
                 $pp_evaluation = "Very Good";
             }
         }
     }
     if ($level_2_errors <= 5 && empty($pp_evaluation)) {
         if ($pp_difficulty_level == "Easy") {
-            if ((number_of_errors_allowed(150) * 6) >= $level_1_errors) {
+            if ((number_of_errors_allowed(120) * 6) >= $level_1_errors) {
                 $pp_evaluation = "Good";
             }
         } elseif ($pp_difficulty_level == "Average") {
-            if ((number_of_errors_allowed(100) * 6) >= $level_1_errors) {
+            if ((number_of_errors_allowed(80) * 6) >= $level_1_errors) {
                 $pp_evaluation = "Good";
             }
         } elseif ($pp_difficulty_level == "Difficult") {
-            if ((number_of_errors_allowed(50) * 6) >= $level_1_errors) {
+            if ((number_of_errors_allowed(40) * 6) >= $level_1_errors) {
                 $pp_evaluation = "Good";
             }
         }
@@ -729,7 +724,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
             'e1_distort_num' => "Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi",
             'e1_alt_num' => "Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist",
             'e1_px_num' => "Use of px sizing units for items other than images and borders",
-            'e1_title_num' => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)",
+            'e1_title_num' => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;Alice's Adventures in Wonderland | Project Gutenberg&lt;/title&gt;)",
             'e1_pre_num' => "Use of &lt;pre&gt; tags instead of their CSS equivalents",
             'e1_body_num' => "Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them",
             'e1_tabl_num' => "Use of tables for things that are not tables",
@@ -779,7 +774,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         . "\nStrongly Recommended (These don't count as errors but should be corrected):"
         . report_recommendations([
             's_multi' => "Enclose entire multi-part headings within the related heading tag",
-            's_empty' => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
+            's_empty' => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br/&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
             's_list' => "List Tags should be used for lists (e.g., a normal index)",
             's_text' => "Include all text as text, not just as images",
             's_code' => "Keep your code line lengths reasonable",
@@ -792,7 +787,6 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         . "\nMildly Recommended (These don't count as errors):"
         . report_recommendations([
             'm_semantic' => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
-            'm_space' => "Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)",
             'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
         ])
 
