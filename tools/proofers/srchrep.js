@@ -27,7 +27,7 @@ var srchrep = (function() {
             replacetext = replacetext.replace(/\$/g, '$$$$');
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(
-            new RegExp(search,'gu'),
+            new RegExp(search,'gum'),
             replacetext);
         setUndoButtonDisabled(false);
     }
