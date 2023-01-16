@@ -199,10 +199,18 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         $final_label = $feature_label_map[$feature_type];
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
             $numsel = 0;
-            if (isset($_POST[$basic_id])) $numsel++;
-            if (isset($_POST[$average_id])) $numsel++;
-            if (isset($_POST[$complex_id])) $numsel++;
-            if ($numsel > 1) $problem = _('You may only select one of "Basic", "Average" or "Complex".');
+            if (isset($_POST[$basic_id])) {
+                $numsel++;
+            }
+            if (isset($_POST[$average_id])) {
+                $numsel++;
+            }
+            if (isset($_POST[$complex_id])) {
+                $numsel++;
+            }
+            if ($numsel > 1) {
+                $problem = _('You may only select one of "Basic", "Average" or "Complex".');
+            }
         }
 
         global $i6;
@@ -227,7 +235,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         $feature_label_map = get_feature_labels(true);
 
         $label = $feature_label_map[$feature_type];
-        if (!empty($info_url)) $label = "<a href='$info_url'>$label</a>";
+        if (!empty($info_url)) {
+            $label = "<a href='$info_url'>$label</a>";
+        }
         return check_box("hrd_".$feature_type, $label);
     }
 
@@ -350,20 +360,20 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     function get_feature_labels($translate)
     {
         return [
-            "poetry"    => $translate ? _("Poetry") : "Poetry",
-            "block"     => $translate ? _("Blockquotes") : "Blockquotes",
-            "foot"      => $translate ? _("Footnotes") : "Footnotes",
-            "side"      => $translate ? _("Sidenotes") : "Sidenotes",
-            "ads"       => $translate ? _("Ads") : "Ads",
-            "tables"    => $translate ? _("Tables") : "Tables",
-            "drama"     => $translate ? _("Drama") : "Drama",
-            "index"     => $translate ? _("Index") : "Index",
-            "illos"     => $translate ? _("Illustrations") : "Illustrations",
+            "poetry" => $translate ? _("Poetry") : "Poetry",
+            "block" => $translate ? _("Blockquotes") : "Blockquotes",
+            "foot" => $translate ? _("Footnotes") : "Footnotes",
+            "side" => $translate ? _("Sidenotes") : "Sidenotes",
+            "ads" => $translate ? _("Ads") : "Ads",
+            "tables" => $translate ? _("Tables") : "Tables",
+            "drama" => $translate ? _("Drama") : "Drama",
+            "index" => $translate ? _("Index") : "Index",
+            "illos" => $translate ? _("Illustrations") : "Illustrations",
             "multilang" => $translate ? _("Multiple Languages") : "Multiple Languages",
-            "spell"     => $translate ? _("Extensive Spellcheck/Gutcheck") : "Extensive Spellcheck/Gutcheck",
-            "englifh"   => $translate ? _("Difficult typography, e.g. long ess, Fraktur, etc.") : "Difficult typography, e.g. long ess, Fraktur, etc.",
-            "music"     => $translate ? _("Musical Notation and Files") : "Musical Notation and Files",
-            "math"      => $translate ? _("Extensive mathematical/chemical notation") : "Extensive mathematical/chemical notation",
+            "spell" => $translate ? _("Extensive Spellcheck/Gutcheck") : "Extensive Spellcheck/Gutcheck",
+            "englifh" => $translate ? _("Difficult typography, e.g. long ess, Fraktur, etc.") : "Difficult typography, e.g. long ess, Fraktur, etc.",
+            "music" => $translate ? _("Musical Notation and Files") : "Musical Notation and Files",
+            "math" => $translate ? _("Extensive mathematical/chemical notation") : "Extensive mathematical/chemical notation",
         ];
     }
 
