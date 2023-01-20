@@ -681,26 +681,6 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
         ];
 
         foreach ($from_states as $from_state) {
-            if ($rn > 1) {
-                // Transition to go back 1 round.
-
-                $prev_round = get_Round_for_round_number($rn - 1);
-
-                new ProjectTransition(
-                    $from_state,
-                    $prev_round->project_waiting_state,
-                    'site_manager',
-                    [
-                        'project_restriction' => null,
-                        'action_name' => sprintf(_('Send back to %s'), $prev_round->id),
-                        'confirmation_question' => '[default]',
-                        'detour' => null,
-                        'settings_template' => "", // don't set modifieddate
-                        'collateral_actions' => null,
-                    ]
-                );
-            }
-
             if ($rn < MAX_NUM_PAGE_EDITING_ROUNDS) {
                 $next_round = get_Round_for_round_number($rn + 1);
 
