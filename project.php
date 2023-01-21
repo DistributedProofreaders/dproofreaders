@@ -1911,7 +1911,8 @@ function do_change_state()
     }
 
     // print out a message if PM has project loads disabled,
-    // as they can't move a project out of the unavailable state
+    // as they can't move a project out of the new project
+    // or unavailable state
     if ($project->can_be_managed_by_current_user) {
         check_user_can_load_projects(false);
     }

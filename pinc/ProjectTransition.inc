@@ -434,7 +434,7 @@ function get_transition($from_state, $to_state)
 new ProjectTransition(
     PROJ_NEW,
     PROJ_P1_UNAVAILABLE,
-    'manager',
+    'unrestricted_manager',
     [
         'project_restriction' => null,
         'action_name' => '[default]',
