@@ -706,42 +706,75 @@ $(function () {
             }
         }
 
-        // check that math delimiters \[ \], \( \) are correctly matched
+        // check that math delimiters \[ \], \( \) are matched
+        // allow inline math inside display math (in text{})
         function checkMath() {
-            let mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+            var tagStack = [];  // holds start tag [ or (
+            var stackTop;
+            const mathRe = /\\\[|\\\]|\\\(|\\\)/g;
             let result;
-            let tag, openTag = false;
-            let openStart = 0;
+            let tag;
+            let start;
             while((result = mathRe.exec(txt)) !== null) {
+                start = result.index;
                 tag = result[0].charAt(1);
-                // if no open tag and ( or [ set open else error
-                if (!openTag) {
+                if (tagStack.length === 0) {
+                    // no tags on stack
                     if ((tag === '(') || (tag === '[')) {
-                        openTag = tag;
-                        openStart = result.index;
+                        tagStack.push({tag: tag, start: start});
                     } else {
-                        reportIssue(result.index, 2, "noStartTag");
+                        reportIssue(start, 2, "noStartTag");
                     }
                 } else {
-                    if (((openTag === '(') && (tag === ')')) || ((openTag === '[') && (tag === ']'))) {
-                        // correctly matched
-                        openTag = false;
-                    } else if (((openTag === '(') && (tag === ']')) || ((openTag === '[') && (tag === ')'))) {
-                        // mismatched
-                        openTag = false;
-                        reportIssue(openStart, 2, "misMatchTag");
-                        reportIssue(result.index, 2, "misMatchTag");
+                    // there are tags in the stack
+                    stackTop = tagStack[tagStack.length - 1];
+                    if(stackTop.tag === '[') {
+                        // ] or ( ok, [ or ) error
+                        switch(tag) {
+                        case ']':
+                            tagStack.pop();
+                            break;
+                        case '(':
+                            tagStack.push({tag: tag, start: start});
+                            break;
+                        case '[':
+                            // report error for stack tag push the new one
+                            tagStack.pop();
+                            tagStack.push({tag: tag, start: start});
+                            reportIssue(stackTop.start, 2, "noEndTag");
+                            break;
+                        case ')':
+                            tagStack.pop();
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag");
+                            break;
+                        }
                     } else {
-                        // a start tag of either sort follows a start tag
-                        reportIssue(openStart, 2, "noEndTag");
-                        openTag = tag;
-                        openStart = result.index;
+                        // stacktop is (, ) ok else error
+                        switch(tag) {
+                        case ')':
+                            tagStack.pop();
+                            break;
+                        case '(':
+                        case '[':
+                            // report error for stack tag push the new one
+                            tagStack.pop();
+                            tagStack.push({tag: tag, start: start});
+                            reportIssue(stackTop.start, 2, "noEndTag");
+                            break;
+                        case ']':
+                            tagStack.pop();
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag");
+                            break;
+                        }
                     }
                 }
             }
-            // if there is a tag open mark it as an error
-            if (openTag) {
-                reportIssue(openStart, 2, "noEndTag");
+            // if there are any tags on the stack mark them as errors
+            while (tagStack.length !== 0) {
+                stackTop = tagStack.pop();
+                reportIssue(stackTop.start, 2, "noEndTag");
             }
         }
 
