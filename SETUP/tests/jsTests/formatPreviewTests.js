@@ -467,6 +467,12 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 1, 8, 2, "misMatchTag", 1);
     });
 
+    QUnit.test("inline math inside display math", function (assert) {
+        text = "\\[e=mc^2 \\text{abc \\(x=y\\)}\\]";
+        issArray = analyse(text, mathConfig).issues;
+        noIssueTest(assert);
+    });
+
     QUnit.test("missing maths end tag", function (assert) {
         text = "\\[e=mc^2\\(";
         issArray = analyse(text, mathConfig).issues;
