@@ -64,6 +64,79 @@ function removeTrail(txt) {
     return txt;
 }
 
+const blockType = {
+    PARA: 0,
+    SECHEAD: 1,
+    SUBHEAD: 2,
+    HEAD: 3,
+    CONTINUATION: 4,
+};
+
+// split bText into blocks surrounded by blank lines
+// and process them by function procBlock
+function blockSplit(bText, procBlock) {
+    // find the number of blank lines preceding the block
+    // at beginning of page assume just past a single \n and thus in a paragraph
+    let prevEnd = -1;
+    // start is first non \n character
+    let beginRegex = /./g;
+    // end of block is \n\n or \n$ or $
+    let endRegex = /\n\n|\n*$/g;
+    // blockstate determines mode: 0=paragraph, 1=heading
+    // 4 blank lines changes to heading mode
+    // 2 blank lines changes to paragraph mode
+    // 1 blank line stay in same mode
+    // 0 blank lines only occurs at start of page; continuation paragraph
+    let blockState = 0; // initially in paragraph mode
+
+    for(;;) {
+        let result = beginRegex.exec(bText);
+        if(null === result) {
+            return;
+        }
+        let block = {};
+        block.start = result.index;
+        endRegex.lastIndex = result.index;
+        result = endRegex.exec(bText);
+        block.end = result.index;
+        beginRegex.lastIndex = result.index;
+        // preceding blank lines are # of characters (\n) between this block
+        // and the preceding one -1
+        let precedingBlanks = block.start - prevEnd - 1;
+        prevEnd = block.end;
+
+        // decide type of block from preceding blank lines
+        switch(precedingBlanks) {
+        case 4:
+            // heading
+            blockState = 1; // heading or sub-heading
+            block.type = blockType.HEAD;
+            break;
+        case 2:
+            // Section or paragraph
+            blockState = 0;
+            // check for single line block - section heading
+            if(bText.slice(block.start, block.end).indexOf("\n") < 0) {
+                block.type = blockType.SECHEAD;
+            } else {
+                block.type = blockType.PARA;
+            }
+            break;
+        case 1:
+            if(blockState === 1) {
+                block.type = blockType.SUBHEAD;
+            } else {
+                block.type = blockType.PARA;
+            }
+            break;
+        default:
+            // 0 at start of page
+            block.type = blockType.CONTINUATION;
+            break;
+        }
+        procBlock(block);
+    }
+}
 
 $(function () {
     analyse = function (txt, config) {
@@ -107,7 +180,9 @@ $(function () {
             dupNote: 0,
             continueFirst: 0,
             emptyTag: 1,
-            multipleAnchors: 0
+            multipleAnchors: 0,
+            noBoldSub: 1,
+            noBoldSec: 1,
         };
 
         var issArray = []; // stores issues for markup-insertion later
@@ -471,44 +546,33 @@ $(function () {
             }
         }
 
-        // there should not be an entire bold single line after 2 or 4 blank lines
+        // heading should not be entirely bold
         function boldHeading() {
-            var headLine;
-            var re = /((?:^|\n)\n\n)(.+)\n\n/g; // the whole line
-            // match a tag or any non-space char
-            var re1 = new RegExp("<\\/?(?:" + ILTags + ")>|\\S", "g");
-            var boldEnd = /<\/b>/g;
 
-            function boldLine() {   // false if any non-bold char found
-                var result1;
-                re1.lastIndex = 0;  // else will be left from previous use
-                while ((result1 = re1.exec(headLine)) !== null) {
-                    if (result1[0].length === 1) {   // a non-bold char
-                        return false;
-                    }
-                    if (result1[0] === "<b>") { // advance to </b>
-                        boldEnd.lastIndex = re1.lastIndex;
-                        if (null === boldEnd.exec(headLine)) { // shouldn't happen
-                            return false;
-                        }
-                        re1.lastIndex = boldEnd.lastIndex;
-                    }
-                // must be another tag - continue
-                }
-                return true;
-            }
-
-            var result;
-            var start;
-            // first find the heading lines
-            while ((result = re.exec(txt)) !== null) {
-                headLine = result[2];
-                re.lastIndex -= 2;  // so can find another straight after
-                if (boldLine()) {
-                    start = result.index + result[1].length;
-                    reportIssue(start, 3, "noBold");
+            function checkHead(type, text, block) {
+                // test for all bold
+                if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - 4))) {
+                    reportIssue(block.start, 3, type);
                 }
             }
+
+            function testBlock(block) {
+                switch(block.type) {
+                case blockType.HEAD:
+                    checkHead("noBold", txt, block);
+                    break;
+                case blockType.SECHEAD:
+                    checkHead("noBoldSec", txt, block);
+                    break;
+                case blockType.SUBHEAD:
+                    checkHead("noBoldSub", txt, block);
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            blockSplit(txt, testBlock);
         }
 
         // check that footnote anchors and footnotes correspond
@@ -989,120 +1053,84 @@ $(function () {
         }
 
         // attempt to make an approximate representation of formatted text
-        // use numbers of blank lines to mark headings and
-        // sub-headings, re-wrap except for no-wrap markup
+        // use data from blockSplit to mark headings
+        // re-wrap except for no-wrap markup
         function reWrap() {
-            var blankLines = 0; // counts the number of blank lines which we have passed
-            var index = 0;  // counts lines
-            var subHeading = false;
-            var txtLines = [];
-            var lines;
-            var inNoWrap = false;
-            var newPage = true; // use no indent if no blank line before text at start of page
-            var inDiv = false;  // so can put in </div> if find blank line or at end
+            let txtOut = "";
+            let indent = 0;
+            let noWrap = false;
 
-            // could be more trailing spaces after notes removed
-            txt = removeTrail(txt);
-            // split the text into an array of lines
-            txtLines = txt.split('\n');
-            txt = "";
-            lines = txtLines.length;
+            function reWrapBlock(block) {
 
-            function processLine() {
-                var textLine = txtLines[index];
-                // trailing space will have been removed earlier
-                if (textLine === "") {
-                    newPage = false;
-                    if (inNoWrap) {
-                        txt += "\n";
-                        return;
+                function procLines(txtLines) {
+                    // inBlock determines when to output the <div>
+                    // examine lines and output <div> before the first line
+                    // which is normal text (not out-of-line markup)
+                    let inBlock = false;
+
+                    txtLines.forEach(function (line) {
+                        if (line === "/#") {
+                            indent += 1;
+                        } else if (line === "#/") {
+                            indent -= 1;
+                        } else if (line === "/*") {
+                            noWrap = true;
+                        } else if (line === "*/") {
+                            noWrap = false;
+                        } else {
+                            // text
+                            if (!inBlock) {
+                                inBlock = true;
+                                let blockStyle = `margin-bottom: 0.4em; margin-left: ${indent}em;`;
+                                if (noWrap) {
+                                    blockStyle += " white-space: pre-wrap;";
+                                } else if (block.type != blockType.CONTINUATION) {
+                                    // indent first-line except if continuing at top of page
+                                    blockStyle += " text-indent: 1em;";
+                                }
+                                txtOut += `<div style="${blockStyle}">`;
+                            }
+                            txtOut += line + "\n";
+                        }
+                    });
+                    if (inBlock) {
+                        txtOut += "</div>";
                     }
-                    if ((blankLines === 0) && (inDiv)) {
-                        txt += "</div>";
-                        inDiv = false;
-                    }
-                    blankLines += 1;
-                    return;
                 }
 
-                if (textLine === "<tb>") {    // thought break
-                    txt += '<div class="tb"></div>';
-                    blankLines = 0; // so the following one makes it 1, giving a paragraph
+                let textBlock = txt.slice(block.start, block.end);
+                // HEAD or SECHEAD have top priority
+                switch(block.type) {
+                case blockType.HEAD:
+                    txtOut += '<div class="head2">' + textBlock + '</div>\n';
                     return;
-                }
-                if (textLine === "/#") {
-                    txt += '<div class="bq">\n';
+                case blockType.SECHEAD:
+                    txtOut += '<div class="head4">' + textBlock + '</div>\n';
                     return;
-                }
-                if (textLine === "#/") {
-                    txt += "</div>"; // to end the bq
-                    return;
-                }
-                if (textLine === "/*") {
-                    newPage = false;
-                    txt += '<div class="nw">';
-                    blankLines = 0;
-                    subHeading = false;
-                    inNoWrap = true;
-                    return;
-                }
-                if (textLine === "*/") {
-                    txt += "</div>"; // to end the nw
-                    inNoWrap = false;
-                    blankLines = 0;  // start over with count
-                    return;
-                }
-                // ordinary text
-                switch (blankLines) {
-                case 4: // heading
-                    txt += '<div class="head2">' + textLine + '\n';
-                    inDiv = true;
-                    subHeading = true;    // next thing
-                    break;
-                    // 2 blank lines can introduce a paragraph after heading or subheading,
-                    // or a section heading or a section without a heading.
-                    // if it's the last line (when it could be "The End") or the following line is blank
-                    // treat is as a section heading,
-                    // otherwise a paragraph
-                case 2:
-                    if ((lines === (index + 1)) || (txtLines[index + 1] === "")) {
-                        txt += '<div class="head4">' + textLine + '\n';
-                    } else {
-                        txt += '<div class="para">' + textLine + '\n';
-                    }
-                    inDiv = true;
-                    subHeading = false;
-                    break;
-                case 1:
-                    if (subHeading) {
-                        txt += '<div class="head3">';
-                    } else {
-                        txt += '<div class="para">';
-                    }
-                    txt += (textLine + "\n");
-                    inDiv = true;
-                    break;
-                case 0:     // in middle of para or at start of page
-                    if (newPage && !inNoWrap) {  // at page start
-                        txt += '<div class="mid_para">';  // no indent
-                        inDiv = true;
-                    }
-                    newPage = false;
-                    txt += (textLine + "\n");
-                    break;
                 default:
                     break;
                 }
-                blankLines = 0;
+                // then nowrap or blockquote even if in SUBHEAD
+                var txtLines = [];
+                // split the block into an array of lines
+                txtLines = textBlock.split('\n');
+                let firstLine = txtLines[0];
+                if ((firstLine === "/*") || (firstLine === "/#")) {
+                    procLines(txtLines);
+                } else if (block.type === blockType.SUBHEAD) {
+                    txtOut += '<div class="head3">' + textBlock + '</div>\n';
+                } else if (firstLine === "&lt;tb&gt;") {    // thought break
+                    txtOut += '<div class="tb"></div>\n';
+                } else {
+                    procLines(txtLines);
+                }
             }
 
-            while (index < lines) {
-                processLine();
-                index += 1;
-            }
-            if (inDiv) {   // after end
-                txt += "</div>";
-            }
+            // could be more trailing spaces after notes removed
+            // remove so we can rely on lines being === "/*" etc.
+            txt = removeTrail(txt);
+            blockSplit(txt, reWrapBlock);
+            txt = txtOut;
         }
 
         // Show style is done after merging text and proofers notes.

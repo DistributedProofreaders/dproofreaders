@@ -43,6 +43,8 @@ function get_preview_messages()
         "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
         "emptyTag" => _("Empty tag"),
         "multipleAnchors" => _("Multiple anchors for same footnote"),
+        "noBoldSub" => _("Sub-heading should not be entirely bold"),
+        "noBoldSec" => _("Section heading should not be entirely bold"),
     ];
 }
 

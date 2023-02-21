@@ -257,10 +257,28 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 8, 1, "spaceBeforeEnd", 1);
     });
 
-    QUnit.test("entirely bold heading", function (assert) {
+    QUnit.test("entirely bold heading with two lines", function (assert) {
+        text = "ab\n\n\n\n\n<b>c\nd</b>\n\nef";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 7, 3, "noBold", 1);
+    });
+
+    QUnit.test("entirely bold sub-heading", function (assert) {
+        text = "ab\n\n\n\n\nc\nd\n\n<b>c\nd</b>\n\nef";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 12, 3, "noBoldSub", 1);
+    });
+
+    QUnit.test("entirely bold section heading", function (assert) {
         text = "ab\n\n\n<b>cd</b>\n\nef";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 5, 3, "noBold", 1);
+        issueTest(assert, 0, 5, 3, "noBoldSec", 1);
+    });
+
+    QUnit.test("entirely bold section heading at end", function (assert) {
+        text = "ab\n\n\n<b>THE END</b>";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 5, 3, "noBoldSec", 1);
     });
 
     QUnit.test("small cap text with no capitals", function (assert) {

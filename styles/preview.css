@@ -107,13 +107,6 @@
     font-weight: bold;
     text-align: center;
 }
-.para {
-    text-indent: 1em;
-    margin-bottom: 0.4em;
-}
-.mid_para {
-    margin-bottom: 0.4em;
-}
 
 /* thought break */
 .tb {
@@ -124,21 +117,4 @@
     margin-right: 15%;
     border-style: inset;
     border-width: 1px;
-}
-
-/* block quote */
-.bq {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-/* no wrap */
-.nw {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: 1em;
-    margin-right: 1em;
-    white-space: pre-wrap;
 }
