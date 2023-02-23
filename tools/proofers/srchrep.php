@@ -17,7 +17,7 @@ slim_header(_("Search/Replace"), [
 <tr><td class="right-align">
 <?php echo _("Search"); ?>:
 </td><td>
-<input type="text" name="search" id='search'>
+<input type="text" name="search" id='search' autofocus>
 </td></tr>
 <tr><td class="right-align">
 <?php echo _("Replace"); ?>:
