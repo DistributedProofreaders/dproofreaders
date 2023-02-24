@@ -7,6 +7,15 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R202303
+No scripts are required for this upgrade.
+
+* Support PHP 8.x (cpeel, srjfoo)
+* Format Preview updates (70ray)
+* Check for small images on project load and in Project Quick Check (chrismiceli)
+* Revision of PPV form and calculation algorithm (windymilla)
+* Small adjustments to manual project transition edgecases (srjfoo)
+
 ## R202209
 Scripts supporting this upgrade are in `SETUP/upgrade/18`
 

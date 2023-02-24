@@ -121,5 +121,8 @@ Run the scripts in the following directories in order
 
 * c/SETUP/upgrade/18/
 
+### Upgrading from release R202209
+No upgrade scripts are required for this release.
+
 ## Install the modified `dp.cron`
 Install the modified `dp.cron`.
