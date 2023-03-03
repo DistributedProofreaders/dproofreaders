@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText, submitJustOnce */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
@@ -230,3 +230,17 @@ function transformText(transformType) {
     txtArea.focus();
 }
 
+// Avoid submitting twice if user double-clicks button
+// Usage: onClick="return submitJustOnce(this);"
+//
+// Uses a data attribute to store when button has been clicked for the first time
+// Returns true on first click to continue submission
+// If attribute is already set (second click), return false to avoid re-submitting
+function submitJustOnce(btn) {
+    if (btn.dataset.alreadysubmitted) {
+        return false;
+    } else {
+        btn.dataset.alreadysubmitted = true;
+        return true;
+    }
+}

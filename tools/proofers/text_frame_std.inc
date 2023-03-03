@@ -23,6 +23,7 @@ function echo_text_frame_std($ppage)
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
+            "$code_url/tools/proofers/dp_proof.js",
         ],
         "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
         function ldAll() {

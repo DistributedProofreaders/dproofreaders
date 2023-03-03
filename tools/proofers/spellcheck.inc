@@ -46,6 +46,7 @@ $header_args = [
         "$code_url/scripts/character_test.js",
         "$code_url/scripts/control_bar.js",
         "$code_url/tools/proofers/proof_image.js",
+        "$code_url/tools/proofers/dp_proof.js",
     ],
     "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
         get_control_bar_texts() . "
@@ -206,6 +207,7 @@ if ($user->profile->i_type == 1) {
             id="spsaveandnext"
             value="<?php echo attr_safe(_("Save as 'Done' & Proofread Next Page")); ?>"
             title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
+            onClick="return submitJustOnce(this);",
 <?php
     if ($is_changed) {
         echo "            disabled\n";
