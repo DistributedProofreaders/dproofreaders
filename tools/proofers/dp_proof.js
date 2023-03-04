@@ -237,10 +237,10 @@ function transformText(transformType) {
 // Returns true on first click to continue submission
 // If attribute is already set (second click), return false to avoid re-submitting
 function submitJustOnce(btn) {
-    if (btn.dataset.alreadysubmitted) {
+    if (btn.dataset.alreadysubmitted === 'true') {
         return false;
     } else {
-        btn.dataset.alreadysubmitted = true;
+        btn.dataset.alreadysubmitted = 'true';
         return true;
     }
 }

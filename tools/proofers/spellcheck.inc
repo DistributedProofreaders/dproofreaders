@@ -207,7 +207,7 @@ if ($user->profile->i_type == 1) {
             id="spsaveandnext"
             value="<?php echo attr_safe(_("Save as 'Done' & Proofread Next Page")); ?>"
             title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
-            onClick="return submitJustOnce(this);",
+            onClick="return submitJustOnce(this);"
 <?php
     if ($is_changed) {
         echo "            disabled\n";
