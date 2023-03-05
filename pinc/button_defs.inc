@@ -148,7 +148,7 @@ function echo_button($button_id, $which_interface)
                 'name' => "button10",
                 $label => attr_safe(_("WordCheck")),
                 'title' => attr_safe(_("Run WordCheck")),
-                'onClick' => "return submitJustOnce(this);",
+                //                'onClick' => "return submitJustOnce(this);",
                 'src' => "gfx/bt16.png",
             ];
             break;

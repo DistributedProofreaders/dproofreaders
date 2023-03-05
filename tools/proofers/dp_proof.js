@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText, submitJustOnce */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText, submitJustOnce, submitForm */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
@@ -243,4 +243,9 @@ function submitJustOnce(btn) {
         btn.dataset.alreadysubmitted = 'true';
         return true;
     }
+}
+
+function submitForm() {
+    document.querySelector('input').disabled = true;
+    return true;
 }
