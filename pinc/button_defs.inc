@@ -113,7 +113,6 @@ function echo_button($button_id, $which_interface)
                 'name' => "button2",
                 $label => attr_safe(_("Save as 'Done' & Proofread Next Page")),
                 'title' => attr_safe(_("Save as 'Done' & Proofread Next Page")),
-                'onClick' => "return submitJustOnce(this);",
                 'src' => "gfx/bt2.png",
                 'class' => "check_button",
             ];
@@ -125,7 +124,6 @@ function echo_button($button_id, $which_interface)
                 'name' => "button5",
                 $label => attr_safe(_("Save as 'Done'")),
                 'title' => attr_safe(_("Save as 'Done'")),
-                'onClick' => "return submitJustOnce(this);",
                 'src' => "gfx/bt13.png",
                 'class' => "check_button",
             ];
@@ -137,7 +135,6 @@ function echo_button($button_id, $which_interface)
                 'name' => "button1",
                 $label => attr_safe(_("Save as 'In Progress'")),
                 'title' => attr_safe(_("Save as 'In Progress'")),
-                'onClick' => "return submitJustOnce(this);",
                 'src' => "gfx/bt3.png",
                 'class' => "check_button",
             ];
@@ -148,7 +145,6 @@ function echo_button($button_id, $which_interface)
                 'name' => "button10",
                 $label => attr_safe(_("WordCheck")),
                 'title' => attr_safe(_("Run WordCheck")),
-                //                'onClick' => "return submitJustOnce(this);",
                 'src' => "gfx/bt16.png",
             ];
             break;

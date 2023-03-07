@@ -72,7 +72,7 @@ if ($user->profile->i_type == 1) {
     echo '<div>';
 }
 ?>
-<form name="spcorrects" action="processtext.php" method="POST">
+<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return submitForm(this)">
 <?php
     // change all EOL characters to [lf]
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);
@@ -207,7 +207,6 @@ if ($user->profile->i_type == 1) {
             id="spsaveandnext"
             value="<?php echo attr_safe(_("Save as 'Done' & Proofread Next Page")); ?>"
             title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
-            onClick="return submitJustOnce(this);"
 <?php
     if ($is_changed) {
         echo "            disabled\n";
