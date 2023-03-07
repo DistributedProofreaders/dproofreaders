@@ -38,26 +38,30 @@ if (!$project->pages_table_exists) {
 if ($L_round_num == 0) {
     $L_text_column_name = 'master_text';
     $L_user_column_name = "'none'";  // string literal, not column name
-    $L_label = _('OCR');
+    $L_round_name = _('OCR');
+    $L_round_id = 'OCR';
     $L_format = false;
 } else {
     $L_round = get_Round_for_round_number($L_round_num);
     $L_text_column_name = $L_round->text_column_name;
     $L_user_column_name = $L_round->user_column_name;
-    $L_label = $L_round->id;
+    $L_round_name = $L_round->id;
+    $L_round_id = $L_round->id;
     $L_format = is_formatting_round($L_round);
 }
 
 if ($R_round_num == 0) {
     $R_text_column_name = 'master_text';
     $R_user_column_name = "'none'";  // string literal, not column name
-    $R_label = _('OCR');
+    $R_round_name = _('OCR');
+    $R_round_id = 'OCR';
     $R_format = false;
 } else {
     $R_round = get_Round_for_round_number($R_round_num);
     $R_text_column_name = $R_round->text_column_name;
     $R_user_column_name = $R_round->user_column_name;
-    $R_label = $R_round->id;
+    $R_round_name = $R_round->id;
+    $R_round_id = $R_round->id;
     $R_format = is_formatting_round($R_round);
 }
 
@@ -65,6 +69,12 @@ if (!$format) { // no parameter passed
     // default to remove format if only one of the rounds is formatting
     $format = ($L_format xor $R_format) ? "remove" : "keep";
 }
+
+// Create a label for the two columns with a link to the page text in the
+// Image Viewer. $projectid & $image have been validated above and
+// L/R_round_name are known round names or 'OCR', so no need to escape them.
+$L_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$L_round_id", $L_round_name);
+$R_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$R_round_id", $R_round_name);
 
 validate_projectID($projectid);
 $query = sprintf("
