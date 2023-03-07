@@ -37,7 +37,7 @@ function echo_text_frame_std($ppage)
         "body_attributes" => "id='standard_interface_text' onload='ldAll()'",
     ];
     slim_header(_("Text Frame"), $header_args); ?>
-    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe" 'onsubmit'="return submitForm()">
+    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe" onsubmit="return submitForm(this)">
     <div style = 'height: 100vh'>
     <?php
     output_preview_div();

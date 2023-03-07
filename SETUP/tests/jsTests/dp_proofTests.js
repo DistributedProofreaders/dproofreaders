@@ -1,4 +1,4 @@
-/* global QUnit surroundSelection */
+/* global QUnit surroundSelection submitForm */
 
 QUnit.module("dp_proof tests", function(hooks) {
     let setTestText = (text, start, end) => {
@@ -19,6 +19,33 @@ QUnit.module("dp_proof tests", function(hooks) {
     hooks.afterEach(function() {
         delete window.docRef;
         delete window.inFace;
+    });
+
+    QUnit.test("submitForm prevents double submit", function (assert) {
+        const done = assert.async();
+        const form = document.createElement('form');
+        const submitButton = document.createElement('input');
+        let submitCount = 0;
+        submitButton.type = 'submit';
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            submitForm(event.target);
+            submitCount++;
+            return false;
+        });
+        form.appendChild(submitButton);
+        document.body.appendChild(form);
+        assert.false(submitButton.disabled, "button should be disabled");
+        submitButton.click();
+        setTimeout(() => {
+            // simulate event loop for clicks
+            submitButton.click(); // click second time
+            setTimeout(() => {
+                assert.true(submitButton.disabled, "button should be disabled");
+                assert.strictEqual(submitCount, 1, "Form should've been submitted only once");
+                done();
+            }, 0);
+        }, 0);
     });
 
     QUnit.test("surroundSelection surrounds selection", function (assert) {
