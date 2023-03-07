@@ -35,7 +35,7 @@ QUnit.module("dp_proof tests", function(hooks) {
         });
         form.appendChild(submitButton);
         document.body.appendChild(form);
-        assert.false(submitButton.disabled, "button should be disabled");
+        assert.false(submitButton.disabled, "button should be enabled");
         submitButton.click();
         setTimeout(() => {
             // simulate event loop for clicks
