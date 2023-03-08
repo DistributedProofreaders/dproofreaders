@@ -46,7 +46,6 @@ $header_args = [
         "$code_url/scripts/character_test.js",
         "$code_url/scripts/control_bar.js",
         "$code_url/tools/proofers/proof_image.js",
-        "$code_url/tools/proofers/dp_proof.js",
     ],
     "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
         get_control_bar_texts() . "
@@ -72,7 +71,7 @@ if ($user->profile->i_type == 1) {
     echo '<div>';
 }
 ?>
-<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return submitForm(this)">
+<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return top.submitForm(this)">
 <?php
     // change all EOL characters to [lf]
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);
