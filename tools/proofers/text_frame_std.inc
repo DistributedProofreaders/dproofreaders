@@ -23,7 +23,6 @@ function echo_text_frame_std($ppage)
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
-            "$code_url/tools/proofers/dp_proof.js",
         ],
         "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
         function ldAll() {
@@ -37,7 +36,7 @@ function echo_text_frame_std($ppage)
         "body_attributes" => "id='standard_interface_text' onload='ldAll()'",
     ];
     slim_header(_("Text Frame"), $header_args); ?>
-    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe" onsubmit="return submitForm(this)">
+    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe" onsubmit="return top.submitForm(this)">
     <div style = 'height: 100vh'>
     <?php
     output_preview_div();

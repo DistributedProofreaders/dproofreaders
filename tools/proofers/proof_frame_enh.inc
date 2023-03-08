@@ -38,7 +38,6 @@ function echo_proof_frame_enh($ppage)
             "$code_url/tools/proofers/process_diacritcal_markup.js",
             "$code_url/scripts/control_bar.js",
             "$code_url/tools/proofers/proof_image.js",
-            "$code_url/tools/proofers/dp_proof.js",
         ],
         "js_data" => get_preview_js_vars() . get_preview_font_data_js() .
         get_control_bar_texts() . "
@@ -65,7 +64,7 @@ function echo_proof_frame_enh($ppage)
     render_validator();
     echo "</div>"; ?>
         <div id='proofdiv'>
-            <form name="editform" id="editform" method="POST" action="processtext.php" onsubmit="return submitForm(this)">
+            <form name="editform" id="editform" method="POST" action="processtext.php" onsubmit="return top.submitForm(this)">
                 <?php $ppage->echo_hidden_fields(); ?>
                 <table id="tbtext">
                     <tr>
