@@ -257,10 +257,11 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 8, 1, "spaceBeforeEnd", 1);
     });
 
-    QUnit.test("entirely bold heading", function (assert) {
-        text = "ab\n\n\n<b>cd</b>\n\nef";
+    QUnit.test("entirely bold multi-line heading", function (assert) {
+        // 4 blank lines preceding
+        text = "ab\n\n\n\n\n<b>cd\ngh</b>\n\nef";
         issArray = analyse(text, configuration).issues;
-        issueTest(assert, 0, 5, 3, "noBold", 1);
+        issueTest(assert, 0, 7, 3, "noBold", 1);
     });
 
     QUnit.test("small cap text with no capitals", function (assert) {
