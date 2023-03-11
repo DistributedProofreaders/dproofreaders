@@ -71,7 +71,7 @@ if ($user->profile->i_type == 1) {
     echo '<div>';
 }
 ?>
-<form name="spcorrects" action="processtext.php" method="POST">
+<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return top.submitForm(this)">
 <?php
     // change all EOL characters to [lf]
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);

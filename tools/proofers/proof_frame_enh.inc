@@ -64,7 +64,7 @@ function echo_proof_frame_enh($ppage)
     render_validator();
     echo "</div>"; ?>
         <div id='proofdiv'>
-            <form name="editform" id="editform" method="POST" action="processtext.php">
+            <form name="editform" id="editform" method="POST" action="processtext.php" onsubmit="return top.submitForm(this)">
                 <?php $ppage->echo_hidden_fields(); ?>
                 <table id="tbtext">
                     <tr>

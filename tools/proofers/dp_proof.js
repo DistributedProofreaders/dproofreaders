@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, no-undef, camelcase */
-/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText */
+/* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText, submitForm */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
 
@@ -230,3 +230,19 @@ function transformText(transformType) {
     txtArea.focus();
 }
 
+// Avoid submitting twice if user double-clicks button
+function submitForm(form) {
+    setTimeout(() => {
+        // disable after form submits (setTimeout) since disabled form values aren't sent and we
+        // need the submit button to submit to determine which submit button was clicked
+        // standard interface buttons have type 'submit'
+        form.querySelectorAll('input[type=submit]').forEach(inputSubmit => {
+            inputSubmit.disabled = true;
+        });
+        // enhanced interface buttons have type 'image'
+        form.querySelectorAll('input[type=image]').forEach(inputSubmit => {
+            inputSubmit.disabled = true;
+        });
+    }, 0);
+    return true;
+}
