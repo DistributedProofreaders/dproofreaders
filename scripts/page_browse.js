@@ -152,9 +152,10 @@ var viewSplitter = function(container, storageKey) {
 
     const mainSplit = splitControl(container, {splitVertical: splitVertical});
 
-    const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit});
+    const imageButtonSize = 26;
+    const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit, height: imageButtonSize, width: imageButtonSize});
     const vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
-    const hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit});
+    const hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit, height: imageButtonSize, width: imageButtonSize});
     const hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
 
     let splitKey;
@@ -444,8 +445,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
                                 textWidget = makeTextWidget(textDiv);
                             }
                             theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
-                            theSplitter.fireSetSplitDir();
                             fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
+                            theSplitter.fireSetSplitDir();
                             break;
                         }
                         }
