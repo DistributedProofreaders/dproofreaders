@@ -1,5 +1,5 @@
 /* global $ splitControl */
-$(function () {
+window.addEventListener("load", () => {
 
     function appendControlButton(controlDiv, theSplit, splitVert) {
         let vSwitchButton = $("<input>", {type: 'button', value: 'Switch to Vertical Split'});
