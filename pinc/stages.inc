@@ -362,7 +362,7 @@ function can_user_get_pages_in_project($username, $project, $round)
                         _('This project is currently reserved for proofreaders who joined less than %1$d days ago or have done less than %2$s P1 pages. It will become generally available %3$s.'),
                         $days_on_site_threshold,
                         $page_tally_threshold,
-                        strftime($datetime_format, $t_generally_available)
+                        icu_date_template("long+time", $t_generally_available)
                     );
                     throw new UserAccessException($local_message, DP::RESERVED_FOR_NEW_PROOFREADERS);
                 }
