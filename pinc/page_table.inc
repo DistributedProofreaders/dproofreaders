@@ -7,6 +7,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
 include_once($relPath.'misc.inc'); // surround_and_join, attr_safe
 include_once($relPath.'links.inc'); // private_message_link
+include_once($relPath.'proof_link.inc'); // url_for_given_page
 
 // Given a project, return the rounds that contain useful data
 function get_rounds_to_display($project)
@@ -397,8 +398,7 @@ function echo_page_table(
             if (!$page_is_in_bad_state
                 && $page_res["pagerounds"][$project_round->id]["username"] == $pguser
                 && $page_state != $project_round->page_avail_state) {
-                $url = url_for_pi_do_particular_page(
-                    $projectid, $state, $imagename, $page_state, true);
+                $url = url_for_given_page($projectid, $round, $imagename);
                 echo "<td><a href='$url'>"._("Edit")."</a></td>\n";
             } else {
                 echo "<td></td>";

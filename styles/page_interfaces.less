@@ -25,6 +25,25 @@
 @page-interface-visited-color: #990099;
 @page-interface-active-color: #ff0000;
 
+.column-flex {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fixed-box {
+    flex:0 0 auto;
+}
+
+.stretch-box {
+    flex: 1 1 100%;
+    min-height: 10px;
+}
+
+#proof_interface {
+    .page-interface;
+}
+
 .page-interface {
     background-color: @page-interface-background;
     color: @page-interface-text;
@@ -37,20 +56,43 @@
     a:active {
         color: @page-interface-active-color;
     }
-
     .text-pane {
         background-color: @text-pane-background;
         color: @text-pane-text;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: .25em;
+        resize: none;
+        border: 0;
+        margin: 0;
+        display: block;
     }
 
     .control-pane {
         background-color: @control-pane-background;
         color: @control-pane-text;
+        overflow: auto;
 
         input, select, button {
+            margin: 1px 0.2em;
             background-color: @text-pane-background;
             color: @text-pane-text;
             .solid-border;
+        }
+
+        a, span {
+            margin: 0 0.4em;
+        }
+
+        img {
+            display: block;
+        }
+
+        .img-button {
+            border: 0;
+            box-shadow: none;
+            vertical-align: middle;
+            padding: 0;
         }
 
         input[type=submit]:disabled, input[type=button]:disabled, button:disabled {
@@ -69,6 +111,12 @@
         .menu {
             background-color: @control-pane-menu;
         }
+    }
+    .top-pane {
+        border-bottom: thin solid gray;
+    }
+    .bot-pane {
+        border-top: thin solid gray;
     }
 }
 
@@ -169,6 +217,48 @@
 
 /* ------------------------------------------------------------------------ */
 /* WordCheck Interface */
+
+div.wordcheck {
+    background-color: @text-pane-background;
+    color: @text-pane-text;
+    overflow: auto;
+    height: 100%
+}
+
+#wordcheck {
+    pre {
+        margin: 0;
+        padding: 0.5em;
+    }
+
+    button {
+        background-color: @text-pane-background;
+        border: none;
+    }
+
+    span.aw {
+        background-color: white;
+        color: black;
+    }
+
+    span.punc {
+        background-color: yellow;
+        color: black;
+    }
+
+    input.badBox {
+        border: 2px solid red;
+    }
+
+    input {
+        background-color: white;
+        color: black;
+        padding: 3px;
+        .solid-border;
+        font-size: inherit;
+        font-family: inherit;
+    }
+}
 
 #wordcheck_interface {
     .center-align;
@@ -294,10 +384,9 @@
 
     .selector_button {
         .page-interface .control-pane .menu;
-        margin-top: 1px;
+        margin: 1px 2px 0 0;
         font-size: 1em;
         padding: 0.1em 0.15em 0 0.15em;
-        margin-right: 2px;
         min-width: 1em;
     }
 
@@ -320,7 +409,7 @@
     }
 
     .show {
-        display: table;
+        display: block;
     }
 
     .table-row {
@@ -349,7 +438,7 @@
 
     .picker {
         font-size: 1em;
-        margin-top: 1px;
+        margin: 1px 0 0 0;
         padding: 0 1px 0 0;
     }
 
@@ -377,7 +466,7 @@
         margin-left: 2px;
         margin-right: 0.5em;
         text-align: right;
-        width: 100%;
+        flex-grow: 1;
 
         a:link {
             color: @page-interface-link-color;
@@ -437,7 +526,7 @@
         input[type=number] {
             width: 5em;
         }
-        a {
+        a, span {
             margin-right: 0.4em;
             margin-left: 0.4em;
         }

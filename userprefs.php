@@ -474,7 +474,7 @@ function echo_proofreading_tab($user)
         _('Interface Type'), 'i_type', 'facetype',
         $user->profile->i_type,
         'radio_group',
-        [0 => _("Standard"), 1 => _("Enhanced")]
+        [0 => _("Standard"), 1 => _("Enhanced"), 2 => _("Unified")]
     );
     show_preference(
         _('Show Toolbar'), 'i_toolbar', 'toolbar',

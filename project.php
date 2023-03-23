@@ -23,6 +23,7 @@ include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_i
 include_once($relPath.'faq.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 include_once($relPath.'special_colors.inc'); // load_special_days
+include_once($relPath.'proof_link.inc'); // url_for_given_page
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -98,6 +99,9 @@ if (!$user_is_logged_in) {
 if ($user_is_logged_in) {
     upi_set_t_latest_home_visit($pguser, $project->projectid, time());
 }
+
+$user = User::load_current();
+$interface_type = $user->profile->i_type;
 
 if ($detail_level == 1) {
     do_expected_state();
@@ -190,7 +194,7 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $pguser;
+    global $project, $pguser, $interface_type;
 
     try {
         $project->can_be_proofed_by_current_user();
@@ -259,8 +263,12 @@ function decide_blurbs()
 
     {
         // If there's any proofreading to be done, this is the link to use.
-        $url = url_for_pi_do_whichever_page($projectid, $state, true);
-
+        if (2 == $interface_type) {
+            // unified
+            $url = url_for_any_page($projectid, $round);
+        } else {
+            $url = url_for_pi_do_whichever_page($projectid, $state, true);
+        }
         // If the "Start Proofreading" text is ever changed, be sure and grep
         // through the codebase for any other instances and change them too.
         $label = _("Start Proofreading");
@@ -705,7 +713,7 @@ function echo_row_c($content)
 
 function recentlyproofed($wlist)
 {
-    global $project, $pguser;
+    global $project, $pguser, $interface_type;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -764,8 +772,6 @@ function recentlyproofed($wlist)
             $imagefile = $row["image"];
             $timestamp = $row[$round->time_column_name];
             $pagestate = $row["state"];
-            $eURL = url_for_pi_do_particular_page(
-                $projectid, $state, $imagefile, $pagestate, true);
 
             if ($row["wordcheck_status"] == null) {
                 $wordcheck_status = '';
@@ -775,7 +781,13 @@ function recentlyproofed($wlist)
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
             echo "<td class='center-align'>";
-            echo "<a href=\"$eURL\">";
+            if (2 == $interface_type) {
+                // unified
+                $eURL = url_for_given_page($projectid, $round, $imagefile);
+            } else {
+                $eURL = url_for_pi_do_particular_page($projectid, $state, $imagefile, $pagestate, true);
+            }
+            echo "<a href='$eURL'>";
             // TRANSLATORS: This is an ICU-formatted string
             echo icu_date(_("MMM dd"), $timestamp) . ": " . $imagefile;
             echo "</a>$wordcheck_status";

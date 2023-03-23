@@ -159,6 +159,91 @@
 /* Text pane */
 /* Control panes */
 /* Links */
+.column-flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fixed-box {
+  flex: 0 0 auto;
+}
+.stretch-box {
+  flex: 1 1 100%;
+  min-height: 10px;
+}
+#proof_interface {
+  background-color: #CDCDC1;
+  color: black;
+}
+#proof_interface a:link {
+  color: #0000ff;
+}
+#proof_interface a:visited {
+  color: #990099;
+}
+#proof_interface a:active {
+  color: #ff0000;
+}
+#proof_interface .text-pane {
+  background-color: #FFF8DC;
+  color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
+}
+#proof_interface .control-pane {
+  background-color: #CDC0B0;
+  color: black;
+  overflow: auto;
+}
+#proof_interface .control-pane input,
+#proof_interface .control-pane select,
+#proof_interface .control-pane button {
+  margin: 1px 0.2em;
+  background-color: #FFF8DC;
+  color: black;
+  border: thin solid #000000;
+}
+#proof_interface .control-pane a,
+#proof_interface .control-pane span {
+  margin: 0 0.4em;
+}
+#proof_interface .control-pane img {
+  display: block;
+}
+#proof_interface .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
+}
+#proof_interface .control-pane input[type=submit]:disabled,
+#proof_interface .control-pane input[type=button]:disabled,
+#proof_interface .control-pane button:disabled {
+  background-color: #b3ae9a;
+}
+#proof_interface .control-pane button,
+#proof_interface .control-pane input[type=submit],
+#proof_interface .control-pane input[type=button] {
+  box-shadow: 1px 1px grey;
+  border-radius: 3px;
+}
+#proof_interface .control-pane input[type=image] {
+  border: none;
+}
+#proof_interface .control-pane .menu {
+  background-color: Bisque;
+}
+#proof_interface .top-pane {
+  border-bottom: thin solid gray;
+}
+#proof_interface .bot-pane {
+  border-top: thin solid gray;
+}
 .page-interface {
   background-color: #CDCDC1;
   color: black;
@@ -175,17 +260,39 @@
 .page-interface .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 .page-interface .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 .page-interface .control-pane input,
 .page-interface .control-pane select,
 .page-interface .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+.page-interface .control-pane a,
+.page-interface .control-pane span {
+  margin: 0 0.4em;
+}
+.page-interface .control-pane img {
+  display: block;
+}
+.page-interface .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 .page-interface .control-pane input[type=submit]:disabled,
 .page-interface .control-pane input[type=button]:disabled,
@@ -203,6 +310,12 @@
 }
 .page-interface .control-pane .menu {
   background-color: Bisque;
+}
+.page-interface .top-pane {
+  border-bottom: thin solid gray;
+}
+.page-interface .bot-pane {
+  border-top: thin solid gray;
 }
 /* ------------------------------------------------------------------------ */
 /* Standard Editing Interface */
@@ -224,17 +337,39 @@
 #standard_interface_image .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #standard_interface_image .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #standard_interface_image .control-pane input,
 #standard_interface_image .control-pane select,
 #standard_interface_image .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#standard_interface_image .control-pane a,
+#standard_interface_image .control-pane span {
+  margin: 0 0.4em;
+}
+#standard_interface_image .control-pane img {
+  display: block;
+}
+#standard_interface_image .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #standard_interface_image .control-pane input[type=submit]:disabled,
 #standard_interface_image .control-pane input[type=button]:disabled,
@@ -252,6 +387,12 @@
 }
 #standard_interface_image .control-pane .menu {
   background-color: Bisque;
+}
+#standard_interface_image .top-pane {
+  border-bottom: thin solid gray;
+}
+#standard_interface_image .bot-pane {
+  border-top: thin solid gray;
 }
 #standard_interface_image #imagedisplay {
   text-align: center;
@@ -312,17 +453,39 @@
 #enhanced_interface .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #enhanced_interface .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #enhanced_interface .control-pane input,
 #enhanced_interface .control-pane select,
 #enhanced_interface .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#enhanced_interface .control-pane a,
+#enhanced_interface .control-pane span {
+  margin: 0 0.4em;
+}
+#enhanced_interface .control-pane img {
+  display: block;
+}
+#enhanced_interface .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #enhanced_interface .control-pane input[type=submit]:disabled,
 #enhanced_interface .control-pane input[type=button]:disabled,
@@ -341,6 +504,12 @@
 #enhanced_interface .control-pane .menu {
   background-color: Bisque;
 }
+#enhanced_interface .top-pane {
+  border-bottom: thin solid gray;
+}
+#enhanced_interface .bot-pane {
+  border-top: thin solid gray;
+}
 #enhanced_interface #tbtext {
   margin-left: auto;
   margin-right: auto;
@@ -354,13 +523,28 @@
   border: thin solid #000000;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #enhanced_interface #tdtop input,
 #enhanced_interface #tdtop select,
 #enhanced_interface #tdtop button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#enhanced_interface #tdtop a,
+#enhanced_interface #tdtop span {
+  margin: 0 0.4em;
+}
+#enhanced_interface #tdtop img {
+  display: block;
+}
+#enhanced_interface #tdtop .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #enhanced_interface #tdtop input[type=submit]:disabled,
 #enhanced_interface #tdtop input[type=button]:disabled,
@@ -401,17 +585,39 @@
 #enhanced_interface #tdtext .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #enhanced_interface #tdtext .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #enhanced_interface #tdtext .control-pane input,
 #enhanced_interface #tdtext .control-pane select,
 #enhanced_interface #tdtext .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#enhanced_interface #tdtext .control-pane a,
+#enhanced_interface #tdtext .control-pane span {
+  margin: 0 0.4em;
+}
+#enhanced_interface #tdtext .control-pane img {
+  display: block;
+}
+#enhanced_interface #tdtext .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #enhanced_interface #tdtext .control-pane input[type=submit]:disabled,
 #enhanced_interface #tdtext .control-pane input[type=button]:disabled,
@@ -430,6 +636,12 @@
 #enhanced_interface #tdtext .control-pane .menu {
   background-color: Bisque;
 }
+#enhanced_interface #tdtext .top-pane {
+  border-bottom: thin solid gray;
+}
+#enhanced_interface #tdtext .bot-pane {
+  border-top: thin solid gray;
+}
 #enhanced_interface #tdbottom {
   background-color: #EEDFCC;
 }
@@ -442,12 +654,52 @@
   outline: none;
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #enhanced_interface .dropsmall {
   font-size: 75%;
 }
 /* ------------------------------------------------------------------------ */
 /* WordCheck Interface */
+div.wordcheck {
+  background-color: #FFF8DC;
+  color: black;
+  overflow: auto;
+  height: 100%;
+}
+#wordcheck pre {
+  margin: 0;
+  padding: 0.5em;
+}
+#wordcheck button {
+  background-color: #FFF8DC;
+  border: none;
+}
+#wordcheck span.aw {
+  background-color: white;
+  color: black;
+}
+#wordcheck span.punc {
+  background-color: yellow;
+  color: black;
+}
+#wordcheck input.badBox {
+  border: 2px solid red;
+}
+#wordcheck input {
+  background-color: white;
+  color: black;
+  padding: 3px;
+  border: thin solid #000000;
+  font-size: inherit;
+  font-family: inherit;
+}
 #wordcheck_interface {
   text-align: center;
   overflow: auto;
@@ -466,17 +718,39 @@
 #wordcheck_interface .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #wordcheck_interface .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #wordcheck_interface .control-pane input,
 #wordcheck_interface .control-pane select,
 #wordcheck_interface .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#wordcheck_interface .control-pane a,
+#wordcheck_interface .control-pane span {
+  margin: 0 0.4em;
+}
+#wordcheck_interface .control-pane img {
+  display: block;
+}
+#wordcheck_interface .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #wordcheck_interface .control-pane input[type=submit]:disabled,
 #wordcheck_interface .control-pane input[type=button]:disabled,
@@ -495,6 +769,12 @@
 #wordcheck_interface .control-pane .menu {
   background-color: Bisque;
 }
+#wordcheck_interface .top-pane {
+  border-bottom: thin solid gray;
+}
+#wordcheck_interface .bot-pane {
+  border-top: thin solid gray;
+}
 #wordcheck_interface #tbtext {
   margin-left: auto;
   margin-right: auto;
@@ -506,13 +786,28 @@
   border: thin solid #000000;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #wordcheck_interface #tdtop input,
 #wordcheck_interface #tdtop select,
 #wordcheck_interface #tdtop button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#wordcheck_interface #tdtop a,
+#wordcheck_interface #tdtop span {
+  margin: 0 0.4em;
+}
+#wordcheck_interface #tdtop img {
+  display: block;
+}
+#wordcheck_interface #tdtop .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #wordcheck_interface #tdtop input[type=submit]:disabled,
 #wordcheck_interface #tdtop input[type=button]:disabled,
@@ -538,6 +833,13 @@
   border: thin solid #000000;
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #wordcheck_interface #tdtext .proofingfont input {
   background-color: white;
@@ -593,17 +895,39 @@
 #format_preview .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #format_preview .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #format_preview .control-pane input,
 #format_preview .control-pane select,
 #format_preview .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#format_preview .control-pane a,
+#format_preview .control-pane span {
+  margin: 0 0.4em;
+}
+#format_preview .control-pane img {
+  display: block;
+}
+#format_preview .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #format_preview .control-pane input[type=submit]:disabled,
 #format_preview .control-pane input[type=button]:disabled,
@@ -622,18 +946,39 @@
 #format_preview .control-pane .menu {
   background-color: Bisque;
 }
+#format_preview .top-pane {
+  border-bottom: thin solid gray;
+}
+#format_preview .bot-pane {
+  border-top: thin solid gray;
+}
 .ilb {
   border: thin solid #404040;
   border-radius: 2px;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 .ilb input,
 .ilb select,
 .ilb button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+.ilb a,
+.ilb span {
+  margin: 0 0.4em;
+}
+.ilb img {
+  display: block;
+}
+.ilb .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 .ilb input[type=submit]:disabled,
 .ilb input[type=button]:disabled,
@@ -664,13 +1009,28 @@
   padding: 2px;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 .fixedbox input,
 .fixedbox select,
 .fixedbox button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+.fixedbox a,
+.fixedbox span {
+  margin: 0 0.4em;
+}
+.fixedbox img {
+  display: block;
+}
+.fixedbox .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 .fixedbox input[type=submit]:disabled,
 .fixedbox input[type=button]:disabled,
@@ -695,6 +1055,13 @@
   overflow: auto;
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 .ws-pre {
   white-space: pre;
@@ -712,13 +1079,28 @@
   margin: 0;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 .control-frame input,
 .control-frame select,
 .control-frame button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+.control-frame a,
+.control-frame span {
+  margin: 0 0.4em;
+}
+.control-frame img {
+  display: block;
+}
+.control-frame .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 .control-frame input[type=submit]:disabled,
 .control-frame input[type=button]:disabled,
@@ -744,14 +1126,29 @@
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
   /* adjust so tools do not jump around with different character pickers */
 }
 #toolbox input,
 #toolbox select,
 #toolbox button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#toolbox a,
+#toolbox span {
+  margin: 0 0.4em;
+}
+#toolbox img {
+  display: block;
+}
+#toolbox .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #toolbox input[type=submit]:disabled,
 #toolbox input[type=button]:disabled,
@@ -772,10 +1169,9 @@
 }
 #toolbox .selector_button {
   background-color: Bisque;
-  margin-top: 1px;
+  margin: 1px 2px 0 0;
   font-size: 1em;
   padding: 0.1em 0.15em 0 0.15em;
-  margin-right: 2px;
   min-width: 1em;
 }
 #toolbox .selected-tab {
@@ -794,7 +1190,7 @@
   display: none;
 }
 #toolbox .show {
-  display: table;
+  display: block;
 }
 #toolbox .table-row {
   display: table-row;
@@ -818,7 +1214,7 @@
 }
 #toolbox .picker {
   font-size: 1em;
-  margin-top: 1px;
+  margin: 1px 0 0 0;
   padding: 0 1px 0 0;
 }
 #toolbox #hide-picker {
@@ -840,7 +1236,7 @@
   margin-left: 2px;
   margin-right: 0.5em;
   text-align: right;
-  width: 100%;
+  flex-grow: 1;
 }
 #toolbox #tools a:link {
   color: #0000ff;
@@ -879,17 +1275,39 @@
 #page-browser .text-pane {
   background-color: #FFF8DC;
   color: black;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.25em;
+  resize: none;
+  border: 0;
+  margin: 0;
+  display: block;
 }
 #page-browser .control-pane {
   background-color: #CDC0B0;
   color: black;
+  overflow: auto;
 }
 #page-browser .control-pane input,
 #page-browser .control-pane select,
 #page-browser .control-pane button {
+  margin: 1px 0.2em;
   background-color: #FFF8DC;
   color: black;
   border: thin solid #000000;
+}
+#page-browser .control-pane a,
+#page-browser .control-pane span {
+  margin: 0 0.4em;
+}
+#page-browser .control-pane img {
+  display: block;
+}
+#page-browser .control-pane .img-button {
+  border: 0;
+  box-shadow: none;
+  vertical-align: middle;
+  padding: 0;
 }
 #page-browser .control-pane input[type=submit]:disabled,
 #page-browser .control-pane input[type=button]:disabled,
@@ -907,6 +1325,12 @@
 }
 #page-browser .control-pane .menu {
   background-color: Bisque;
+}
+#page-browser .top-pane {
+  border-bottom: thin solid gray;
+}
+#page-browser .bot-pane {
+  border-top: thin solid gray;
 }
 #page-browser .control-pane {
   padding: 0 1em;
@@ -939,7 +1363,8 @@
 #page-browser .control-pane input[type=number] {
   width: 5em;
 }
-#page-browser .control-pane a {
+#page-browser .control-pane a,
+#page-browser .control-pane span {
   margin-right: 0.4em;
   margin-left: 0.4em;
 }
