@@ -244,6 +244,15 @@ function show_projects_for_pool($pool, $checkedout_or_available)
         $pool->foo_field_name => ['Person', $pool->foo_Header],
     ];
 
+    // PPV pool allows filter by PP not PM
+    $filter_custom_display_fields = [];
+    if ($pool->id == 'PPV') {
+        $filter_custom_display_fields = [
+            "checkedoutby" => true,
+            "username" => false,
+        ];
+    }
+
     $ch_or_av = substr($checkedout_or_available, 0, 2);
     $ext_sort_param_name = "order_{$checkedout_or_available}";
     $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
@@ -300,7 +309,7 @@ function show_projects_for_pool($pool, $checkedout_or_available)
         $available_filtertype_stem = "{$pool->id}_av";
 
         $initial_project_selector = "state = '{$pool->project_available_state}'";
-        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector);
+        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         $optional_select_clause = "";
