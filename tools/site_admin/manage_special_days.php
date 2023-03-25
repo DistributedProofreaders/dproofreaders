@@ -33,14 +33,19 @@ if ($action == 'update_oneshot') {
 
         $spec_code = trim($_POST['spec_code']);
 
-        $source = new SpecialDay($spec_code);
-
-        if (!isset($_POST['editing']) && !$source->new_source) {
-            $errmsgs .= _('A Special Day with this ID already exists. Please choose a different ID for this event.') . "<br>";
-        }
-
         if (strlen($spec_code) < 1) {
             $errmsgs .= _("A value for Special Day ID is required. Please enter one.") . "<br>";
+        } elseif (preg_match("/[^A-Za-z0-9. -]/", $spec_code) === 1) {
+            $errmsgs .= _('The code must contain only alphanumeric characters . - or space.') . "<br>";
+        } elseif (startswith($spec_code, "Otherday")) {
+            $errmsgs .= _('The ID cannot start with "Otherday".') . "<br>";
+        } elseif (startswith($spec_code, "Birthday")) {
+            $errmsgs .= _('The ID cannot start with "Birthday".') . "<br>";
+        }
+
+        $source = new SpecialDay($spec_code);
+        if (!isset($_POST['editing']) && !$source->new_source) {
+            $errmsgs .= _('A Special Day with this ID already exists. Please choose a different ID for this event.') . "<br>";
         }
 
         // validate the numeric fields
