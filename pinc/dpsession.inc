@@ -18,11 +18,20 @@
 //     End a session. (The user has logged out.)
 //
 // Page-info...
-// dpsession_page_set($info)
-// dpsession_page_end()
-// dpsession_page_is_set()
-// dpsession_page_get()
+//     dpsession_page_set($info)
+//     dpsession_page_end()
+//     dpsession_page_is_set()
+//     dpsession_page_get()
+//
+// This API is an abstraction around two implementations:
+// * Sessions
+// * Cookies
+//
+// The implementations are controlled by conditionally including one of two
+// PHP files that implement the desired API functions with names that end
+// in an underscore, eg: dpsession_begin_().
 
+global $pguser;
 $pguser = null;
 
 include_once($relPath.'site_vars.php');
@@ -70,6 +79,39 @@ function dpsession_resume()
 
     return $user_is_logged_in;
 }
+
+function dpsession_end()
+{
+    dpsession_end_();
+}
+
+// -----------------------------------------------------------------------------
+
+// The 'debouncer' cookie...
+
+function dpsession_page_set($info)
+{
+    dpsession_page_set_($info);
+}
+
+function dpsession_page_end()
+{
+    dpsession_page_end_();
+}
+
+function dpsession_page_is_set()
+{
+    return dpsession_page_is_set_();
+}
+
+function dpsession_page_get()
+{
+    return dpsession_page_get_();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Helper functions that aren't part of the dpsession API.
 
 function _update_user_activity_time($update_login_time_too)
 {

@@ -48,7 +48,7 @@ function dpsession_resume_()
     }
 }
 
-function dpsession_end()
+function dpsession_end_()
 {
     session_unset();
     session_destroy();
@@ -58,22 +58,22 @@ function dpsession_end()
 
 // The 'debouncer' variable
 
-function dpsession_page_set($info)
+function dpsession_page_set_($info)
 {
     $_SESSION['debouncer'] = $info;
 }
 
-function dpsession_page_end()
+function dpsession_page_end_()
 {
     $_SESSION['debouncer'] = null;
 }
 
-function dpsession_page_is_set()
+function dpsession_page_is_set_()
 {
     return isset($_SESSION['debouncer']);
 }
 
-function dpsession_page_get()
+function dpsession_page_get_()
 {
     return $_SESSION['debouncer'];
 }

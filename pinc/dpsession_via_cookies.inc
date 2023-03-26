@@ -37,7 +37,7 @@ function dpsession_resume_()
     return true;
 }
 
-function dpsession_end()
+function dpsession_end_()
 {
     user_cookie_disable();
 }
@@ -46,22 +46,22 @@ function dpsession_end()
 
 // The 'debouncer' cookie...
 
-function dpsession_page_set($info)
+function dpsession_page_set_($info)
 {
     local_send_cookie("debouncer", $info);
 }
 
-function dpsession_page_end()
+function dpsession_page_end_()
 {
     local_send_cookie("debouncer", "");
 }
 
-function dpsession_page_is_set()
+function dpsession_page_is_set_()
 {
     return isset($_COOKIE['debouncer']);
 }
 
-function dpsession_page_get()
+function dpsession_page_get_()
 {
     return $_COOKIE['debouncer'];
 }
