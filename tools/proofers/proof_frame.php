@@ -73,6 +73,7 @@ if (isset($_GET['page_state'])) {
     if (dpsession_page_is_set()) {
         $npage = getDebounceInfo();
         if (!($npage['pageTime'] <= (time() - 3)) && $npage['project'] == $projectid) {
+            error_log("proof_frame.php - Debouncing request for $pguser on $projectid");
             // It probably doesn't matter what we say here.
             // 1) Indications are that users will never see this.
             // 2) The important thing is that we neither assign the user a
