@@ -54,20 +54,25 @@ function upi_set_t_latest_page_event($username, $projectid, $timestamp)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$subscribable_project_events = [
-    'round_available' => _("Project becomes available in a round"),
-    'round_complete' => _("Project finishes a round"),
-    'pp_enter' => _("Project enters Post-Processing stage"),
-    'sr_available' => _("Project becomes available for Smooth Reading"),
-    'sr_reported' => _("User has uploaded a Smooth Reading report"),
-    'sr_complete' => _("Project finishes Smooth Reading"),
-    'ppv_enter' => _("Project enters Post-Processing Verification stage"),
-    'posted' => _("Project posted to Project Gutenberg"),
-];
+
+function get_subscribable_project_events()
+{
+    $subscribable_project_events = [
+        'round_available' => _("Project becomes available in a round"),
+        'round_complete' => _("Project finishes a round"),
+        'pp_enter' => _("Project enters Post-Processing stage"),
+        'sr_available' => _("Project becomes available for Smooth Reading"),
+        'sr_reported' => _("User has uploaded a Smooth Reading report"),
+        'sr_complete' => _("Project finishes Smooth Reading"),
+        'ppv_enter' => _("Project enters Post-Processing Verification stage"),
+        'posted' => _("Project posted to Project Gutenberg"),
+    ];
+    return $subscribable_project_events;
+}
 
 function get_label_for_event($event)
 {
-    global $subscribable_project_events;
+    $subscribable_project_events = get_subscribable_project_events();
     $label = @$subscribable_project_events[$event];
     if (is_null($label)) {
         die("Unknown event: '$event'");
@@ -152,65 +157,8 @@ function can_user_subscribe_to_project_event($username, $projectid, $event)
 
 function notify_project_event_subscribers($project, $event, $extras = [])
 {
-    $event_label = get_label_for_event($event);
-
     $projectid = $project->projectid;
     $title = $project->nameofwork;
-
-    $msg_subject = "$event_label: \"$title\"";
-
-    $msg_body = $project->email_introduction();
-
-    switch ($event) {
-        case 'posted':
-            $pg_url = get_pg_catalog_url_for_etext($project->postednum);
-            $msg_body .=
-                _("This project has been sent to Project Gutenberg and will soon be available for reading.")
-                . " "
-                . _("Usually, the files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so.")
-                . " "
-                . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url)
-                . "\n";
-            break;
-
-        case 'round_available':
-            $msg_body .=
-                sprintf(_("This project has become available for work in %s."), $extras['round']->id);
-            break;
-
-        case 'round_complete':
-            $msg_body .=
-                sprintf(_("This project has completed work in %s."), $extras['round']->id);
-            break;
-
-        case 'pp_enter':
-            $msg_body .=
-                _("This project has entered post-processing.");
-            break;
-
-        case 'sr_available':
-            $msg_body .=
-                _("This project has become available for Smooth Reading.");
-            break;
-
-        case 'sr_reported':
-            $msg_body .=
-                _("A new Smooth Reading report has been uploaded.");
-            break;
-
-        case 'sr_complete':
-            $msg_body .=
-                _("This project has finished Smooth Reading.");
-            break;
-
-        case 'ppv_enter':
-            $msg_body .=
-                _("This project has entered post-processing verification.");
-            break;
-
-        default:
-            assert(0);
-    }
 
     $sql1 = sprintf("
         SELECT username
@@ -221,7 +169,64 @@ function notify_project_event_subscribers($project, $event, $extras = [])
     );
     $res1 = DPDatabase::query($sql1);
     $n_subscribers = mysqli_num_rows($res1);
+
+    // Loop contains everything that needs localizing,
+    // so it can be localized for each recipient
     while ([$username] = mysqli_fetch_row($res1)) {
+        configure_gettext_for_user($username);
+        $event_label = get_label_for_event($event);
+        $msg_subject = "$event_label: \"$title\"";
+        $msg_body = $project->email_introduction();
+        switch ($event) {
+            case 'posted':
+                $pg_url = get_pg_catalog_url_for_etext($project->postednum);
+                $msg_body .=
+                    _("This project has been sent to Project Gutenberg and will soon be available for reading.")
+                    . " "
+                    . _("Usually, the files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so.")
+                    . " "
+                    . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url)
+                    . "\n";
+                break;
+
+            case 'round_available':
+                $msg_body .=
+                    sprintf(_("This project has become available for work in %s."), $extras['round']->id);
+                break;
+
+            case 'round_complete':
+                $msg_body .=
+                    sprintf(_("This project has completed work in %s."), $extras['round']->id);
+                break;
+
+            case 'pp_enter':
+                $msg_body .=
+                    _("This project has entered post-processing.");
+                break;
+
+            case 'sr_available':
+                $msg_body .=
+                    _("This project has become available for Smooth Reading.");
+                break;
+
+            case 'sr_reported':
+                $msg_body .=
+                    _("A new Smooth Reading report has been uploaded.");
+                break;
+
+            case 'sr_complete':
+                $msg_body .=
+                    _("This project has finished Smooth Reading.");
+                break;
+
+            case 'ppv_enter':
+                $msg_body .=
+                    _("This project has entered post-processing verification.");
+                break;
+
+            default:
+                assert(0);
+        }
         $email = get_forum_email_address($username);
         maybe_mail(
             $email,
@@ -229,6 +234,7 @@ function notify_project_event_subscribers($project, $event, $extras = [])
             sprintf(_("Hello %s,"), $username) . "\n" . $msg_body
         );
     }
+    configure_gettext_for_user();
 
     if ($event == 'posted') {
         // Take the number of users subscribed to the event
@@ -247,10 +253,10 @@ function notify_project_event_subscribers($project, $event, $extras = [])
 // -----------------------------------------------------------------------------
 
 function get_n_users_subscribed_to_events_for_project($projectid)
-// Return an array: keys are the same as $subscribable_project_events,
+// Return an array: keys are the same as array returned by get_subscribable_project_events(),
 // each value is the number of subscriptions to that event for the given project.
 {
-    global $subscribable_project_events;
+    $subscribable_project_events = get_subscribable_project_events();
     $items = [];
     foreach ($subscribable_project_events as $event => $label) {
         $items[] = "SUM(iste_$event) AS $event";
