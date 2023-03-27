@@ -622,7 +622,7 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         // for each subscribable event
         //   for each user subscribed to "from" project
         //      subscribe user to "to" project
-        global $subscribable_project_events;
+        $subscribable_project_events = get_subscribable_project_events();
         $count = 0;
         foreach ($subscribable_project_events as $event => $label) {
             $query = sprintf("
