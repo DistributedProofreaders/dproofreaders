@@ -966,7 +966,7 @@ function do_waiting_queues()
 
 function do_event_subscriptions()
 {
-    global $project, $code_url, $subscribable_project_events, $pguser;
+    global $project, $code_url, $pguser;
 
     $projectid = $project->projectid;
 
@@ -998,6 +998,7 @@ function do_event_subscriptions()
     echo "<th>", _("Subscribed?"), "</th>";
     echo "<th>", _("Users Subscribed"), "</th>";
     echo "</tr>\n";
+    $subscribable_project_events = get_subscribable_project_events();
     foreach ($subscribable_project_events as $event => $label) {
         if (!can_user_subscribe_to_project_event($pguser, $projectid, $event)) {
             continue;

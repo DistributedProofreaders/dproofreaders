@@ -11,6 +11,7 @@ $projectid = get_projectID_param($_POST, 'projectid');
 
 $subs = [];
 $unsubs = [];
+$subscribable_project_events = get_subscribable_project_events();
 foreach ($subscribable_project_events as $event => $label) {
     if (!can_user_subscribe_to_project_event($pguser, $projectid, $event)) {
         continue;
