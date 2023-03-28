@@ -33,14 +33,10 @@ if ($action == 'update_oneshot') {
 
         $spec_code = trim($_POST['spec_code']);
 
-        if (strlen($spec_code) < 1) {
-            $errmsgs .= _("A value for Special Day ID is required. Please enter one.") . "<br>";
-        } elseif (preg_match("/[^A-Za-z0-9. -]/", $spec_code) === 1) {
-            $errmsgs .= _('The code must contain only alphanumeric characters . - or space.') . "<br>";
-        } elseif (startswith($spec_code, "Otherday")) {
-            $errmsgs .= _('The ID cannot start with "Otherday".') . "<br>";
-        } elseif (startswith($spec_code, "Birthday")) {
-            $errmsgs .= _('The ID cannot start with "Birthday".') . "<br>";
+        if ((strlen($spec_code) < 1) || (preg_match("/[^A-Za-z0-9. -]/", $spec_code) === 1)) {
+            $errmsgs .= _("Please enter a Special Day Code. Allowable characters are alphanumeric characters and the period, hyphen or space.") . "<br>";
+        } elseif ((startswithnocase($spec_code, "Otherday")) || (startswithnocase($spec_code, "Birthday"))) {
+            $errmsgs .= _('The ID cannot start with "Otherday" or "Birthday".') . "<br>";
         }
 
         $source = new SpecialDay($spec_code);
