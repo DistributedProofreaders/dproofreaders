@@ -7,6 +7,12 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R......
+
+**This is the last release to include support for the original DP session
+management with cookies. Future releases will only support PHP sessions
+(the default since before 2004).**
+
 ## R202303
 No scripts are required for this upgrade.
 
