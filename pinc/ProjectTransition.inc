@@ -857,6 +857,24 @@ function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
     notify_project_event_subscribers($project, 'pp_enter');
 }
 
+// From either PP Checked out or PP Unavailable to PP Available
+function to_PP_available_collateral($old_project, $project, $transition, $who)
+{
+    // Always notify the PM
+    configure_gettext_for_user($project->username);
+    if ($transition->from_state == PROJ_POST_FIRST_CHECKED_OUT) {
+        $body_blurb_messages[] = _("This project has been returned to available for someone else to do the post-processing.");
+    } else {
+        $body_blurb_messages[] = _("This project has been made available, from unavailable, for someone else to do the post-processing.");
+    }
+    $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
+    $body_blurb = implode("\n\n", $body_blurb_messages);
+    maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+    configure_gettext_for_user();
+
+    notify_project_event_subscribers($project, 'pp_enter');
+}
+
 function round_to_PP_out_collateral($old_project, $project, $transition, $who)
 {
     global $site_abbreviation;
@@ -944,7 +962,7 @@ new ProjectTransition(
     ]
 );
 
-// PPer can grab a project back from the PP pool
+// PPer can grab a project back from the PPV pool
 new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     PROJ_POST_FIRST_CHECKED_OUT,
@@ -975,7 +993,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions' => null,
+        'collateral_actions' => 'to_PP_available_collateral',
         'disabled_during_SR' => true,
     ]
 );
@@ -990,7 +1008,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_2",
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions' => null,
+        'collateral_actions' => 'to_PPV_available_collateral',
     ]
 );
 
@@ -1010,7 +1028,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions' => 'PP_to_PPV_collateral',
+        'collateral_actions' => 'to_PPV_available_collateral',
         'disabled_during_SR' => true,
     ]
 );
@@ -1025,12 +1043,12 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions' => 'PP_to_PPV_collateral',
+        'collateral_actions' => 'to_PPV_available_collateral',
         'disabled_during_SR' => true,
     ]
 );
 
-function PP_to_PPV_collateral($old_project, $project, $transition, $who)
+function to_PPV_available_collateral($old_project, $project, $transition, $who)
 {
     notify_project_event_subscribers($project, 'ppv_enter');
 }
@@ -1150,6 +1168,11 @@ new ProjectTransition(
 
 // From PROJ_POST_FIRST_UNAVAILABLE:
 
+$pp_unavail_to_avail_confirm_question = sprintf(
+   _("This will clear the reserved PPer if there is one.") . " " .
+   _("Are you sure you want to change the state of this project to %s?"),
+   project_states_text(PROJ_POST_FIRST_AVAILABLE));
+
 new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     PROJ_POST_FIRST_AVAILABLE,
@@ -1159,10 +1182,10 @@ new ProjectTransition(
     [
         'project_restriction' => null,
         'action_name' => _('Make Project Available for Post-Processing'),
-        'confirmation_question' => '[default]',
+        'confirmation_question' => $pp_unavail_to_avail_confirm_question,
         'detour' => null,
-        'settings_template' => '',
-        'collateral_actions' => null,
+        'settings_template' => "checkedoutby=''",   // Clear reserved PPer
+        'collateral_actions' => 'to_PP_available_collateral',
     ]
 );
 
