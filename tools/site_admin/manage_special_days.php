@@ -33,15 +33,19 @@ if ($action == 'update_oneshot') {
 
         $spec_code = trim($_POST['spec_code']);
 
-        if ((strlen($spec_code) < 1) || (preg_match("/[^A-Za-z0-9. -]/", $spec_code) === 1)) {
-            $errmsgs .= _("Please enter a Special Day Code. Allowable characters are alphanumeric characters and the period, hyphen or space.") . "<br>";
-        } elseif ((startswithnocase($spec_code, "Otherday")) || (startswithnocase($spec_code, "Birthday"))) {
-            $errmsgs .= _('The ID cannot start with "Otherday" or "Birthday".') . "<br>";
-        }
-
         $source = new SpecialDay($spec_code);
-        if (!isset($_POST['editing']) && !$source->new_source) {
-            $errmsgs .= _('A Special Day with this ID already exists. Please choose a different ID for this event.') . "<br>";
+
+        if (!isset($_POST['editing'])) {
+            // we are creating a new special day
+            if (!$source->new_source) {
+                $errmsgs .= _('A Special Day with this ID already exists. Please choose a different ID for this event.') . "<br>";
+            } else {
+                if ((strlen($spec_code) < 1) || (preg_match("/[^A-Za-z0-9. -]/", $spec_code) === 1)) {
+                    $errmsgs .= _("Please enter a Special Day Code. Allowable characters are alphanumeric characters and the period, hyphen or space.") . "<br>";
+                } elseif ((startswithnocase($spec_code, "Otherday")) || (startswithnocase($spec_code, "Birthday"))) {
+                    $errmsgs .= _('The ID cannot start with "Otherday" or "Birthday".') . "<br>";
+                }
+            }
         }
 
         // validate the numeric fields
