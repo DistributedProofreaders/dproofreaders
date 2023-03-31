@@ -541,7 +541,7 @@ function startswith($subject, $prefix)
 }
 
 function startswithnocase($subject, $prefix)
-// Return TRUE iff $subject starts with $prefix.
+// Return TRUE iff $subject starts with $prefix ignoring case.
 {
     return (strncasecmp($subject, $prefix, strlen($prefix)) == 0);
 }
