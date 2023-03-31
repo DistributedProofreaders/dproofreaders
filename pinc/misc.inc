@@ -540,6 +540,12 @@ function startswith($subject, $prefix)
     return (strncmp($subject, $prefix, strlen($prefix)) == 0);
 }
 
+function startswithnocase($subject, $prefix)
+// Return TRUE iff $subject starts with $prefix ignoring case.
+{
+    return (strncasecmp($subject, $prefix, strlen($prefix)) == 0);
+}
+
 function endswith($subject, $suffix)
 // Return TRUE iff $subject ends with $suffix.
 {
