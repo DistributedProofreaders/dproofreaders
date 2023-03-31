@@ -31,9 +31,9 @@ class UnauthorizedError extends ApiException
 
 class NotFoundError extends ApiException
 {
-    public function __construct($message = "Object not found")
+    public function __construct($message = "Object not found", $code = 0)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()

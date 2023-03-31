@@ -21,7 +21,7 @@ function validate_project($projectid, $data)
     try {
         return new Project($projectid);
     } catch (NonexistentProjectException $exception) {
-        throw new NotFoundError("No such project ID");
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
 }
 

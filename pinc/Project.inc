@@ -18,9 +18,17 @@ class UTF8ConversionException extends Exception
 
 class ProjectException extends Exception
 {
+    public function __construct($message, $code = 100)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NonexistentProjectException extends ProjectException
 {
+    public function __construct($message)
+    {
+        parent::__construct($message, 101);
+    }
 }
 class InvalidProjectIDException extends ProjectException
 {
