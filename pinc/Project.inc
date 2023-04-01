@@ -18,6 +18,7 @@ class UTF8ConversionException extends Exception
 
 class ProjectException extends Exception
 {
+    // all project errors extend from here and in range 100-199
     public function __construct($message, $code = 100)
     {
         parent::__construct($message, $code);
