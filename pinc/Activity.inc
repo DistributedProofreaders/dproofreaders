@@ -8,6 +8,7 @@ include_once($relPath.'User.inc');
 
 // $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
 
+global $ACCESS_CRITERIA;
 $ACCESS_CRITERIA = [
     'days since reg' => _('Days since registration'),
     'quiz/p_basic' => sprintf(_('Up-to-date completion of the <a href="%1$s">Basic Proofreading Quiz</a>'), "$code_url/quiz/start.php?show_level=P_BASIC"),

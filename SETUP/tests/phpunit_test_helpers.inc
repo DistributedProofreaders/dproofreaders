@@ -1,34 +1,47 @@
 <?php
 
-function create_test_user($username)
+function create_test_user($username, $age = 0)
 {
-    // Attempt to load our test user, if it exists don't create it
+    // create a user who joined $age days ago
+    // Attempt to load our test user, replace if it exists
     $sql = sprintf("
-        SELECT username
-        FROM users
-        WHERE username = '%s'
-    ", DPDatabase::escape($username));
+        REPLACE INTO users
+        SET id = '%1\$s',
+            real_name = '%1\$s',
+            username = '%1\$s',
+            email = '%1\$s@localhost',
+            date_created = %2\$d
+    ", DPDatabase::escape($username), time() - ($age * 86400));
     $result = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($result);
-    if (!$row) {
-        $sql = sprintf("
-            INSERT INTO users
-            SET id = '%1\$s',
-                real_name = '%1\$s',
-                username = '%1\$s',
-                email = '%1\$s@localhost'
-        ", DPDatabase::escape($username));
-        $result = DPDatabase::query($sql);
-        if (!$result) {
-            throw new Exception(sprintf("Unable to create test user %s", $username));
-        }
-    } else {
-        mysqli_free_result($result);
+    if (!$result) {
+        throw new Exception(sprintf("Unable to create test user %s", $username));
     }
 }
 
 function delete_test_user($username)
 {
+    // Delete test user's page events
+    $sql = sprintf("
+        DELETE FROM page_events
+        WHERE username  = '%s'
+    ", DPDatabase::escape($username));
+    DPDatabase::query($sql);
+
+    // Delete from user_project_info
+    $sql = sprintf("
+        DELETE FROM user_project_info
+        WHERE username  = '%s'
+    ", DPDatabase::escape($username));
+    DPDatabase::query($sql);
+
+    // Delete Tally
+    $user = new User($username);
+    $sql = sprintf("
+        DELETE FROM current_tallies
+        WHERE holder_id = %d
+    ", $user->u_id);
+    DPDatabase::query($sql);
+
     // remove the test user
     $sql = sprintf("
         DELETE FROM users
@@ -127,6 +140,13 @@ function delete_test_project_remains($project)
     // projects table
     $sql = sprintf("
         DELETE FROM projects
+        WHERE projectid  = '%s'
+    ", DPDatabase::escape($projectid));
+    DPDatabase::query($sql);
+
+    // charsuites table
+    $sql = sprintf("
+        DELETE FROM project_charsuites
         WHERE projectid  = '%s'
     ", DPDatabase::escape($projectid));
     DPDatabase::query($sql);
