@@ -2,29 +2,19 @@
 
 function create_test_user($username, $age = 0)
 {
-    // Attempt to load our test user, if it exists don't create it
+    // create a user who joined $age days ago
+    // Attempt to load our test user, replace if it exists
     $sql = sprintf("
-        SELECT username
-        FROM users
-        WHERE username = '%s'
-    ", DPDatabase::escape($username));
+        REPLACE INTO users
+        SET id = '%1\$s',
+            real_name = '%1\$s',
+            username = '%1\$s',
+            email = '%1\$s@localhost',
+            date_created = %2\$d
+    ", DPDatabase::escape($username), time() - ($age * 86400));
     $result = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($result);
-    if (!$row) {
-        $sql = sprintf("
-            INSERT INTO users
-            SET id = '%1\$s',
-                real_name = '%1\$s',
-                username = '%1\$s',
-                email = '%1\$s@localhost',
-                date_created = %2\$d
-        ", DPDatabase::escape($username), time() - ($age * 86400));
-        $result = DPDatabase::query($sql);
-        if (!$result) {
-            throw new Exception(sprintf("Unable to create test user %s", $username));
-        }
-    } else {
-        mysqli_free_result($result);
+    if (!$result) {
+        throw new Exception(sprintf("Unable to create test user %s", $username));
     }
 }
 
