@@ -12,7 +12,6 @@ include_once($relPath.'User.inc');
 
 define('PT_AUTO', '[AUTO]');
 
-// this declaration is needed to enable phpunit to work correctly
 global $PROJECT_TRANSITIONS;
 $PROJECT_TRANSITIONS = [];
 

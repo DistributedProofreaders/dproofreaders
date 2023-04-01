@@ -38,8 +38,8 @@ function delete_test_user($username)
     $user = new User($username);
     $sql = sprintf("
         DELETE FROM current_tallies
-        WHERE holder_id  = '%s'
-    ", DPDatabase::escape($user->u_id));
+        WHERE holder_id  = '%d'
+    ", $user->u_id);
     DPDatabase::query($sql);
 
     // remove the test user
