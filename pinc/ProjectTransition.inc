@@ -1260,31 +1260,53 @@ new ProjectTransition(
 // Transitions to PROJ_SUBMIT_PG_POSTED:
 
 /*
-    pseudo-code:
+    The following table describes the required values for checkedoutby,
+    postproofer  and ppverifier after the transition to the named state.
+    The states are listed in their normal order, though projects may
+
+    Columns 2, 3 and 4 correspond to values set in fields in the
+    "projects" database table:
+    cob - checkedoutby
+    pp  - postproofer
+    ppv - ppverifier
+
+    a is the PPer
+    b is the PPVer, not the same user as the PPer
+
+        cob pp  ppv    state                         description
+
+    1.  -   -   NULL   proj_post_first_available,    available for PP
+    2.  a   -   NULL   proj_post_first_checked_out,  checked out for PP
+    3.  a   a   NULL   proj_post_second_available,   available for PPV
+    4.  b   a   NULL   proj_post_second_checked_out, checked out for PPV
+    5.  a   -   b      proj_post_first_checked_out,  returned to PP by PPV
+    6.  a   a   NULL   proj_submit_pgposted,         posted to PG, PPer has DU
+    7.  b   a   b      proj_submit_pgposted,         posted to PG, project was PPV'd
+
+
+    pseudo-code for transitions to PROJ_SUBMIT_PG_POSTED:
     IF postproofer == '' THEN
-        # No postproofer has been recorded, so the project never reached PPV.
-        # So whoever has it checked out must be cleared to post directly,
-        # and must have been the PPer.
+        # No postproofer has been recorded, so the project has been DUed
+        # by the PPer who has it checked out (not the PPVer).
         postproofer=checkedoutby
+    ENDIF
+    IF postproofer != checkedoutby THEN
+        # checkedoutby must be the PPVer...
+        # (This assumes a project is only posted once!
+        # otherwise, maybe also test that ppverifier is null?)
+        ppverifier=checkedoutby
     ELSE
-        # A postproofer has been recorded, so the project did reach PPV.
-        IF postproofer != checkedoutby THEN
-            # checkedoutby must be PPVer...
-            # (This assumes a project is only posted once!
-            # otherwise, maybe also test that ppverifier is null?)
-            ppverifier=checkedoutby
-        ENDIF
+        # PPer has it checked out, and has therefore DUed the project
+        # so the PPVer did not complete PPV - remove their name
+        ppverifier=NULL
     ENDIF
 
-    i.e.:
-        postproofer = IF( postproofer = '', checkedoutby, postproofer )
-        ppverifier = IF( postproofer != '' AND postproofer != checkedoutby, checkedoutby, ppverifier )
 */
 
 $pg_posted_settings_template =
     "modifieddate='<TIMESTAMP>',
     postproofer = IF( postproofer = '', checkedoutby, postproofer ),
-    ppverifier = IF( postproofer != '' AND postproofer != checkedoutby, checkedoutby, ppverifier )";
+    ppverifier = IF( postproofer != checkedoutby, checkedoutby, NULL )";
 
 
 new ProjectTransition(
