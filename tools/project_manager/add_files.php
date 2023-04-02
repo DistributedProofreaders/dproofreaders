@@ -19,12 +19,14 @@ $extra_args = [
         }
     ',
     'js_data' => '
-        $(document).ready(function () {
-            $("#execute").submit(function (e) {
-                // disable the submit button
-                $("#submit").attr("disabled", true);
-                return true;
-            });
+        window.addEventListener("DOMContentLoaded", function() {
+            if (document.getElementById("execute")) {
+                document.getElementById("execute").addEventListener("submit", function (e) {
+                    // disable the submit button
+                    document.getElementById("submit").disabled = true;
+                    return true;
+                });
+            }
         });
     ',
 ];

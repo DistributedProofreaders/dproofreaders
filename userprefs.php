@@ -136,8 +136,7 @@ $theme_extra_args["js_data"] =
             if(font_index == 0) {
                 font_family = '';
             } else if(font_index == 1) {
-                input_accessor = 'input[name=\"' + layout + '_fntf_other\"]'
-                font_family = $(input_accessor).val().trim();
+                font_family = document.querySelector('input[name=\"' + layout + '_fntf_other\"]').value.trim();
             } else {
                 font_family = font_face_mapping[font_index]
             }
@@ -146,42 +145,35 @@ $theme_extra_args["js_data"] =
             } else {
                 font_family = font_face_fallback;
             }
-            $('#' + layout + '_font_sample').css(\"font-family\", font_family);
+            document.getElementById(layout + '_font_sample').style.fontFamily = font_family;
         }
         if(size_index != null) {
             var font_size = 'unset';
             if(size_index != 0) {
                 font_size = font_size_mapping[size_index];
             }
-            $('#' + layout + '_font_sample').css(\"font-size\", font_size);
+            document.getElementById(layout + '_font_sample').style.fontSize = font_size;
         }
     }
 
     // add listeners to the font controls when the page is ready to update the
     // font_sample when they change.
-    $(function() {
-        $('input[name=\"v_fntf\"]').change(function() {
-            do_font_sample_update(this.value, null, 'v');
-        });
-        $('input[name=\"v_fntf_other\"]').on('input', function() {
-            $('input[name=\"v_fntf\"]').filter('[value=1]').prop('checked', true);
-            var value = $('input[name=\"v_fntf\"]:checked').val();
-            do_font_sample_update(value, null, 'v');
-        });
-        $('input[name=\"h_fntf\"]').change(function() {
-            do_font_sample_update(this.value, null, 'h');
-        });
-        $('input[name=\"h_fntf_other\"]').on('input', function() {
-            $('input[name=\"h_fntf\"]').filter('[value=1]').prop('checked', true);
-            var value = $('input[name=\"h_fntf\"]:checked').val();
-            do_font_sample_update(value, null, 'h');
-        });
-        $('#v_fnts').change(function() {
-            do_font_sample_update(null, this.value, 'v');
-        });
-        $('#h_fnts').change(function() {
-            do_font_sample_update(null, this.value, 'h');
-        });
+    window.addEventListener('DOMContentLoaded', () => {
+        for (const orientation of ['v', 'h']) {
+            document.querySelectorAll('input[name=\"' + orientation + '_fntf\"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    do_font_sample_update(this.value, null, orientation);
+                });
+            });
+            document.querySelector('input[name=\"' + orientation + '_fntf_other\"]').addEventListener('input', function() {
+                const otherRadio = document.querySelector('input[name=\"' + orientation + '_fntf\"][value=\"1\"]')
+                otherRadio.checked = true;
+                do_font_sample_update(otherRadio.value, null, orientation);
+            });
+            document.getElementById(orientation + '_fnts').addEventListener('change', function() {
+                do_font_sample_update(null, this.value, orientation);
+            });
+        }
     });
 
     var font_face_mapping = " . json_encode(get_available_proofreading_font_faces()) . ";

@@ -18,7 +18,7 @@ function build_svg_graph_inits($graphs)
     foreach ($graphs as [$type, $id, $config]) {
         $js_data[] = "$type('$id', " . json_encode($config) . ");";
     }
-    return "$(function(){" . join($js_data) . "});";
+    return "window.addEventListener('DOMContentLoaded', function(){" . join($js_data) . "});";
 }
 
 function cumulative_total_proj_summary_graph()

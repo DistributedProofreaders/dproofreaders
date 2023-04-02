@@ -1,6 +1,6 @@
-/*global $ validCharacterPattern */
+/*global validCharacterPattern */
 
-$(function () {
+window.addEventListener('DOMContentLoaded', function() {
     var textArea = document.getElementById("text_data");
     let validCharRegex = new RegExp(validCharacterPattern, "u");
 
@@ -40,7 +40,7 @@ $(function () {
         "OE": "\u0152",
     };
 
-    $(textArea).on("input", function() {
+    textArea.addEventListener("input", function() {
         // Detect if the user has input one of the diacritical markups [..]
         // and convert it to a Unicode codepoint. If the codepoint is not
         // valid for the project, leave it as the markup. This also converts

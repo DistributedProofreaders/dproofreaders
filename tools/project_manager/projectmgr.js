@@ -1,11 +1,12 @@
-/*global $ moment serverTimezone*/
-$(function () {
+/*global moment serverTimezone*/
+
+window.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
-    var timeSpan = $("#server-time");
+    var timeSpan = document.getElementById("server-time");
 
     function showTime() {
-        timeSpan.text(moment.tz(serverTimezone).format("ddd HH:mm"));
+        timeSpan.textContent = moment.tz(serverTimezone).format("ddd HH:mm");
     }
 
     setInterval(showTime, 60000);

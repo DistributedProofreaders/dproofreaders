@@ -1,6 +1,6 @@
-/*global $ splitControl pageBrowse showWordContext proofIntData */
+/*global splitControl pageBrowse showWordContext proofIntData */
 
-$(function () {
+window.addEventListener("DOMContentLoaded", function() {
     let storageKeyLayout = showWordContext.storageKey + "-layout";
     let layout;
     try {
@@ -8,7 +8,7 @@ $(function () {
     } catch(error) {
         layout = null;
     }
-    if(!$.isPlainObject(layout)) {
+    if(!layout || !layout.splitDirection || !layout.splitPercent) {
         layout = {splitPercent: 30, splitDirection: "horizontal"};
     }
     let splitVertical = (layout.splitDirection === "vertical");
@@ -19,7 +19,7 @@ $(function () {
 
     // this is a function to get a function to show a file
     let getShowCurrentImageFile = null;
-    let switchLink = $("#h_v_switch");
+    let switchLink = document.getElementById("h_v_switch");
 
     let mainSplit = splitControl("#show_word_context_container", {
         splitVertical: splitVertical,
@@ -28,12 +28,12 @@ $(function () {
     mainSplit.reLayout();
 
     function setSplitLink() {
-        switchLink.text(splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical);
+        switchLink.textContent = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
     setSplitLink();
 
-    switchLink.click(function () {
+    switchLink.addEventListener("click", function () {
         splitVertical = !splitVertical;
         mainSplit.setSplit(splitVertical);
         setSplitLink();
@@ -51,7 +51,7 @@ $(function () {
     params.set("project", showWordContext.projectid);
     params.set("simpleHeader", "true");
 
-    $(".page-select").click( function () {
+    document.querySelector(".page-select").addEventListener("click", function () {
         let imageFile = this.dataset.value;
         let ShowCurrentImageFile;
         // getShowCurrentImageFile will be null the first time
