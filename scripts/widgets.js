@@ -105,17 +105,17 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
     let textSplitData;
     if(splitter) {
         const leftDiv = $("<div>");
-        const rightDiv = $("<div>").append(textArea);
+        const rightDiv = $("<div>");
 
-        const topTextDiv = $("<div>", {class: "display-flex"});
+        const topTextDiv = $("<div>", {class: "display-flex"}).append(textArea);
         const bottomTextDiv = $("<div>");
 
-        topTextDiv.append(leftDiv, rightDiv);
-        content.append(topTextDiv, bottomTextDiv);
+        rightDiv.append(topTextDiv, bottomTextDiv);
+        content.append(leftDiv, rightDiv);
 
-        leftSplitter = splitControl(topTextDiv, {splitVertical: true});
+        subSplitter = splitControl(content, {splitVertical: true, reDraw: reLayout});
+        leftSplitter = splitControl(rightDiv, {splitVertical: false, reDraw: subSplitter.reSize});
 
-        subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
