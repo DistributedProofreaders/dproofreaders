@@ -1,4 +1,4 @@
-/* global $ proofText */
+/* global proofText */
 /* exported validateView */
 
 function validateView(data, textDiv, replaceText, fixHead) {
@@ -7,40 +7,24 @@ function validateView(data, textDiv, replaceText, fixHead) {
         const GOOD_TEXT = 0;
         const BAD_TEXT = 1;
 
-        function htmlSafe(str) {
-            // Return a version of str that is safe to send as element-content
-            // in an HTML document.
-            // That is, make the following replacements:
-            //    &  ->  &amp;
-            //    <  ->  &lt;
-            //    >  ->  &gt;
-            // This should be equivalent to PHP's
-            //     htmlspecialchars($str,ENT_NOQUOTES)
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-        }
-
-        let valDiv = $("<pre>", {class: 'validator'});
-        textDiv.append(valDiv);
+        let valDiv = document.createElement("pre");
+        const validateControlSpan = document.createElement("span");
 
         function leaveValidatView() {
-            $(".validator").remove();
+            valDiv.remove();
+            validateControlSpan.remove();
             resolve();
         }
 
         const quitValidButton = document.createElement("input");
         quitValidButton.type = 'button';
         quitValidButton.value = proofText.quitText;
+        quitValidButton.addEventListener("click", leaveValidatView);
 
-        quitValidButton.addEventListener("click", function() {
-            leaveValidatView();
-        });
-
-        const removeInvalidButton = $("<input>", {type: 'button', value: proofText.removeChars});
-
-        removeInvalidButton.click( function () {
+        const removeInvalidButton = document.createElement("input");
+        removeInvalidButton.type = 'button';
+        removeInvalidButton.value = proofText.removeChars;
+        removeInvalidButton.addEventListener("click", function() {
             let goodText = "";
             markArray.forEach(function([textPiece, type]) {
                 if(type == GOOD_TEXT) {
@@ -51,18 +35,21 @@ function validateView(data, textDiv, replaceText, fixHead) {
             leaveValidatView();
         });
 
-        const validateControlSpan = $("<span>", {class: 'validator'});
-        validateControlSpan.append(proofText.invalidChars, quitValidButton, removeInvalidButton);
+        validateControlSpan.innerHTML = proofText.invalidChars;
+        validateControlSpan.append(quitValidButton, removeInvalidButton);
         fixHead.append(validateControlSpan);
 
-        let markedText = "";
         markArray.forEach(function([textPiece, type]) {
+            let textElement;
             if(type == GOOD_TEXT) {
-                markedText += htmlSafe(textPiece);
+                textElement = textPiece;
             } else if(type == BAD_TEXT) {
-                markedText += "<span class='bad-char'>" + textPiece + "</span>";
+                textElement = document.createElement("span");
+                textElement.classList.add('bad-char');
+                textElement.append(textPiece);
             }
+            valDiv.append(textElement);
         });
-        valDiv.html(markedText);
+        textDiv.append(valDiv);
     });
 }
