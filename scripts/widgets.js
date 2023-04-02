@@ -104,9 +104,16 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
     let splitterKey;
     let textSplitData;
     if(splitter) {
-        const topTextDiv = $("<div>", {class: "display-flex"}).append(textArea);
+        const leftDiv = $("<div>");
+        const rightDiv = $("<div>").append(textArea);
+
+        const topTextDiv = $("<div>", {class: "display-flex"});
         const bottomTextDiv = $("<div>");
+
+        topTextDiv.append(leftDiv, rightDiv);
         content.append(topTextDiv, bottomTextDiv);
+
+        leftSplitter = splitControl(topTextDiv, {splitVertical: true});
 
         subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
         subSplitter.dragEnd.add(function (percent) {
