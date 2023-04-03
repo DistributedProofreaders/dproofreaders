@@ -94,31 +94,40 @@ var maketextControl = function(textArea) {
     };
 };
 
-function makeTextWidget(container, splitter = false, reLayout = null) {
+function makeTextWidget(container, splitter = false, reLayout = null, leftSplit = true) {
     const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
     const textControl = maketextControl(textArea);
     const content = $("<div>");
     const controlDiv = makeControlDiv(container, content, textControl.controls, reLayout);
     let subSplitter;
+    let leftSplitter;
     let splitterKey;
+    let leftSplitKey;
     let textSplitData;
+    let leftSplitData;
     if(splitter) {
-        const leftDiv = $("<div>");
-        const rightDiv = $("<div>", {class: "display-flex"}).append(textArea);
-
         const topTextDiv = $("<div>", {class: "display-flex"});
         const bottomTextDiv = $("<div>");
-
-        topTextDiv.append(leftDiv, rightDiv);
         content.append(topTextDiv, bottomTextDiv);
-
         subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
-        leftSplitter = splitControl(topTextDiv, {splitVertical: true, reDraw: subSplitter.reSize});
         subSplitter.dragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
+        if(leftSplit) {
+            const leftDiv = $("<div>");
+            const rightDiv = $("<div>", {class: "display-flex"}).append(textArea);
+            topTextDiv.append(leftDiv, rightDiv);
+            leftSplitter = splitControl(topTextDiv, {splitVertical: true, reDraw: subSplitter.reSize});
+            leftSplitter.dragEnd.add(function (percent) {
+                leftSplitData.splitPercent = percent;
+                localStorage.setItem(leftSplitKey, JSON.stringify(leftSplitData));
+            });
+        } else {
+            topTextDiv.append(textArea);
+        }
+
     } else {
         content.addClass("display-flex").append(textArea);
     }
@@ -132,8 +141,15 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
                     textSplitData = {splitPercent: 100};
                 }
                 subSplitter.setSplitPercent(textSplitData.splitPercent);
+                if(leftSplit) {
+                    leftSplitKey = textWidgetKey + "-leftsplit";
+                    leftSplitData = JSON.parse(localStorage.getItem(leftSplitKey));
+                    if(!leftSplitData) {
+                        leftSplitData = {splitPercent: 10};
+                    }
+                    leftSplitter.setSplitPercent(leftSplitData.splitPercent);
+                }
             }
-
             textControl.setup(textWidgetKey);
             controlDiv.setupControls(textWidgetKey);
         },
