@@ -14,6 +14,8 @@ include_once($relPath."misc.inc"); // array_get()
 // support was removed to handle the possible future case where other
 // version conditionals are needed.
 
+define('PHPBB_VERSION', '3');
+
 /*
 Important notes about using phpBB code within DP
 ------------------------------------------------
@@ -44,7 +46,8 @@ assert(PHPBB_VERSION == 3, "Only phpBB version 3 is supported");
 */
 function phpbb_table($table)
 {
-    return PHPBB_TABLE_PREFIX . "_" . $table;
+    global $forums_phpbb_table_prefix;
+    return $forums_phpbb_table_prefix . "_" . $table;
 }
 
 function phpbb_lang($locale = false)
@@ -106,7 +109,6 @@ function create_forum_user($username, $password, $email, $password_is_digested =
 // Note: Use a strict comparison operator (=== or !==) against TRUE
 // to evaluate the pass/fail status of this function.
 {
-    global $forums_dir;
     if (PHPBB_VERSION == 3) {
         // Use the phpBB3 API to create the user, but do so via phpbb3.inc
         // as to not mix the DP and phpBB3 codespace.
@@ -151,9 +153,9 @@ function login_forum_user($username, $password)
 //         'too_many_attempts'
 //         'unknown'
 {
-    global $forums_dir;
+    global $forums_phpbb_dir;
 
-    if (!is_dir($forums_dir)) {
+    if (!is_dir($forums_phpbb_dir)) {
         return false;
     }
 
@@ -168,7 +170,7 @@ function login_forum_user($username, $password)
 
     if (PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_dir."/";
+        $phpbb_root_path = $forums_phpbb_dir."/";
         $phpEx = "php";
 
         // these globals are pulled from
@@ -181,7 +183,7 @@ function login_forum_user($username, $password)
         global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_dir);
+        define('ROOT_PATH', $forums_phpbb_dir);
 
         include($phpbb_root_path . 'common.' . $phpEx);
 
@@ -236,10 +238,10 @@ function login_forum_user($username, $password)
 function logout_forum_user()
 // Log out the currently-authenticated user from the forum.
 {
-    global $forums_dir;
+    global $forums_phpbb_dir;
     global $pguser;
 
-    if (!is_dir($forums_dir)) {
+    if (!is_dir($forums_phpbb_dir)) {
         return;
     }
 
@@ -248,7 +250,7 @@ function logout_forum_user()
 
     if (PHPBB_VERSION == 3) {
         global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_dir."/";
+        $phpbb_root_path = $forums_phpbb_dir."/";
         $phpEx = "php";
 
         // these globals are pulled from
@@ -261,7 +263,7 @@ function logout_forum_user()
         global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_dir);
+        define('ROOT_PATH', $forums_phpbb_dir);
 
         include($phpbb_root_path . 'common.' . $phpEx);
 
@@ -279,10 +281,8 @@ function logout_forum_user()
 
 function get_reset_password_url()
 {
-    global $forums_url;
-
     if (PHPBB_VERSION == 3) {
-        return "$forums_url/ucp.php?mode=sendpassword";
+        return get_url_for_forum() . "/ucp.php?mode=sendpassword";
     }
 }
 
@@ -442,60 +442,49 @@ function get_forum_email_address($username)
 function get_url_for_forum()
 // Return a URL to the base of the forum
 {
-    global $forums_url;
-    return $forums_url;
+    global $forums_phpbb_url;
+    return $forums_phpbb_url;
 }
 
 function get_url_for_forum_user_login()
 // Return a URL that a user can use to manually log in to the forums.
 {
-    global $forums_url;
-    return "$forums_url/ucp.php?mode=login";
+    return get_url_for_forum() . "/ucp.php?mode=login";
 }
 
 function get_url_to_compose_message_to_user($username)
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.
 {
-    global $forums_url;
-
     $userid = get_forum_user_id($username);
 
     if (PHPBB_VERSION == 3) {
-        return "$forums_url/ucp.php?i=pm&mode=compose&u=$userid";
+        return get_url_for_forum() . "/ucp.php?i=pm&mode=compose&u=$userid";
     }
 }
 
 function get_url_to_view_forum($forum_id)
 // Given a forum id, return a URL that can be used to view the forum.
 {
-    global $forums_url;
-
-    return "$forums_url/viewforum.php?f=$forum_id";
+    return get_url_for_forum() . "/viewforum.php?f=$forum_id";
 }
 
 function get_url_to_view_topic($topic_id)
 // Given a topic id, return a URL that can be used to view the topic.
 {
-    global $forums_url;
-
-    return "$forums_url/viewtopic.php?t=$topic_id";
+    return get_url_for_forum() . "/viewtopic.php?t=$topic_id";
 }
 
 function get_url_to_view_post($post_id)
 // Given a post id, return a URL that can be used to view the post.
 {
-    global $forums_url;
-
-    return "$forums_url/viewtopic.php?p=$post_id#$post_id";
+    return get_url_for_forum() . "/viewtopic.php?p=$post_id#$post_id";
 }
 
 function get_url_for_user_avatar($username)
 // Given a forum username, return a URL that can be used to load the user's
 // avatar. If no avatar is defined, this function returns NULL.
 {
-    global $forums_url;
-
     $user_details = get_forum_user_details($username);
 
     if (empty($user_details["avatar"])) {
@@ -505,7 +494,7 @@ function get_url_for_user_avatar($username)
     if (PHPBB_VERSION == 3) {
         switch ($user_details["avatar_type"]) {
             case "avatar.driver.upload":
-                $url = "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+                $url = get_url_for_forum() . "/download/file.php?avatar=" . $user_details["avatar"];
                 break;
             case "avatar.driver.remote":
                 $url = $user_details["avatar"];
@@ -525,30 +514,24 @@ function get_url_for_user_avatar($username)
 function get_url_to_edit_profile()
 // Return a URL that can be used to edit the current user's profile.
 {
-    global $forums_url;
-
     if (PHPBB_VERSION == 3) {
-        return "$forums_url/ucp.php";
+        return get_url_for_forum() . "/ucp.php";
     }
 }
 
 function get_url_to_view_profile($user_id)
 // Return a URL that can be used to view a given user's profile.
 {
-    global $forums_url;
-
     if (PHPBB_VERSION == 3) {
-        return "$forums_url/memberlist.php?mode=viewprofile&u=$user_id";
+        return get_url_for_forum() . "/memberlist.php?mode=viewprofile&u=$user_id";
     }
 }
 
 function get_url_for_inbox()
 // Return the URL for accessing the current user's inbox.
 {
-    global $forums_url;
-
     if (PHPBB_VERSION == 3) {
-        return "$forums_url/ucp.php?i=pm&folder=inbox";
+        return get_url_for_forum() . "/ucp.php?i=pm&folder=inbox";
     }
 }
 
@@ -639,7 +622,7 @@ function get_topic_details($topic_id)
 //     forum_id         - the id of the forum the topic is in
 //     creator_username - the username of the topic creator
 {
-    global $forums_dir;
+    global $forums_phpbb_dir;
 
     $phpbb_topics = phpbb_table("topics");
     $phpbb_forums = phpbb_table("forums");
@@ -648,7 +631,7 @@ function get_topic_details($topic_id)
     // The database column used to get the total number of posts in a topic
     // changed between 3.0 and 3.1. We try to determine this automatically
     // by checking for a directory that only exists in 3.1 and later.
-    if (PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb")) {
+    if (PHPBB_VERSION == 3 && is_dir("$forums_phpbb_dir/phpbb")) {
         // 3.1 and later
         // topic_posts_approved includes the initial post in addition
         // to the replies so we need to subtract 1 to get the number of
@@ -739,9 +722,9 @@ function call_phpbb_function($func_name, $args)
         echo "call_phpbb_function( $func_name, ", print_r($args, true), ")<br>\n";
     }
 
-    global $forums_dir;
-    if (!is_dir($forums_dir)) {
-        echo "Warning: unable to call '$func_name' because \$forums_dir ($forums_dir) does not exist.\n";
+    global $forums_phpbb_dir;
+    if (!is_dir($forums_phpbb_dir)) {
+        echo "Warning: unable to call '$func_name' because \$forums_phpbb_dir ($forums_phpbb_dir) does not exist.\n";
         return;
     }
 

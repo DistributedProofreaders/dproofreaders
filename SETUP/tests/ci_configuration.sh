@@ -14,10 +14,10 @@ _CODE_URL='http://localhost'
 _DYN_DIR=$HOME
 _DYN_URL='http://localhost'
 
-_PHPBB_VERSION=3
+_FORUM_TYPE=phpbb3
 _PHPBB_TABLE_PREFIX=phpbb3.phpbb
-_FORUMS_DIR=$HOME/phpBB3
-_FORUMS_URL='http://localhost/phpBB3'
+_PHPBB_DIR=$HOME/phpBB3
+_PHPBB_URL='http://localhost/phpBB3'
 
 _DEFAULT_CHAR_SUITES='[ "basic-latin" ]'
 
