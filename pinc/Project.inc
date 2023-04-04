@@ -33,6 +33,17 @@ class NonexistentProjectException extends ProjectException
 }
 class InvalidProjectIDException extends ProjectException
 {
+    public function __construct($message)
+    {
+        parent::__construct($message, 102);
+    }
+}
+class InvalidRoundException extends ProjectException
+{
+    public function __construct($message)
+    {
+        parent::__construct($message, 103);
+    }
 }
 class InvalidPageException extends ProjectException
 {

@@ -9,10 +9,14 @@ function validate_round($roundid, $data)
 {
     global $Round_for_round_id_;
 
-    if (!in_array($roundid, array_keys($Round_for_round_id_))) {
-        throw new NotFoundError("Invalid round");
+    try {
+        if (!in_array($roundid, array_keys($Round_for_round_id_))) {
+            throw new InvalidRoundException("Invalid round");
+        }
+        return $Round_for_round_id_[$roundid];
+    } catch (InvalidRoundException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
-    return $Round_for_round_id_[$roundid];
 }
 
 function validate_project($projectid, $data)

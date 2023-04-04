@@ -18,6 +18,17 @@ class ApiTest extends PHPUnit\Framework\TestCase
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, $query_params);
     }
+
+    public function test_get_invalid_round_stats()
+    {
+        $this->expectExceptionCode(103);
+
+        $path = "v1/stats/site/rounds/P4";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $router->route($path, $query_params);
+    }
 }
 
 // this mocks the function in index.php
