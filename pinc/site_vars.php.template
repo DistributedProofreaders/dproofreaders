@@ -45,10 +45,10 @@ $wikihiero_url = '<<WIKIHIERO_URL>>';
 
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
-defined('PHPBB_VERSION') or define('PHPBB_VERSION', '<<PHPBB_VERSION>>');
-defined('PHPBB_TABLE_PREFIX') or define('PHPBB_TABLE_PREFIX', '<<PHPBB_TABLE_PREFIX>>');
-$forums_dir = '<<FORUMS_DIR>>';
-$forums_url = '<<FORUMS_URL>>';
+$forum_type = '<<FORUM_TYPE>>';
+$forums_phpbb_table_prefix = '<<PHPBB_TABLE_PREFIX>>';
+$forums_phpbb_dir = '<<PHPBB_DIR>>';
+$forums_phpbb_url = '<<PHPBB_URL>>';
 
 
 $general_forum_idx                = '<<FORUMS_GENERAL_IDX>>';

@@ -24,12 +24,12 @@ $this_is_top_level_cli_invocation = (
 if ($this_is_top_level_cli_invocation) {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
-    include_once($relPath.'site_vars.php'); // $forums_dir, $charset
+    include_once($relPath.'site_vars.php'); // $forums_phpbb_dir, $charset
 }
 
 // PHPBB includes (from the standard installation)
 define('IN_PHPBB', true);
-$phpbb_root_path = $forums_dir.'/';
+$phpbb_root_path = $forums_phpbb_dir.'/';
 $phpEx = 'php';
 include_once($phpbb_root_path . 'common.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
@@ -60,12 +60,12 @@ function phpbb3_create_user(
     $email,
     $lang
 ) {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+    global $forums_phpbb_table_prefix;
 
     // get the group_id for the REGISTERED user group
     global $db;
     $sql = "SELECT group_id
-            FROM {$phpbb_table_prefix}_groups
+            FROM {$forums_phpbb_table_prefix}_groups
             WHERE group_name = 'REGISTERED'
     ";
     $result = $db->sql_query($sql);
@@ -96,8 +96,6 @@ function phpbb3_create_topic(
     $poster_is_real,
     $make_poster_watch_topic
 ) {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     $post_result = _insert_post(
         $forum_id,
         0, // causes a new topic to be created
@@ -135,13 +133,13 @@ function phpbb3_add_post(
     $poster_name,
     $poster_is_real
 ) {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+    global $forums_phpbb_table_prefix;
 
     // Which forum is the topic in?
     global $db;
     $sql = "
         SELECT forum_id
-        FROM {$phpbb_table_prefix}_topics
+        FROM {$forums_phpbb_table_prefix}_topics
         WHERE topic_id = $topic_id
     ";
     $result = $db->sql_query($sql);
@@ -178,12 +176,11 @@ function _insert_post(
 // -- we override $user_ip;
 // -- we disable smilies
 {
-    global $charset;
+    global $charset, $forums_phpbb_table_prefix;
 
     // see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
 
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     if ($poster_is_real) {
         $username = $poster_name;
@@ -193,7 +190,7 @@ function _insert_post(
     }
     $sql = "
         SELECT *
-        FROM {$phpbb_table_prefix}_users
+        FROM {$forums_phpbb_table_prefix}_users
         WHERE username='$username'
     ";
     $result = $db->sql_query($sql);
