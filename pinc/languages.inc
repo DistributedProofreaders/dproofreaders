@@ -315,24 +315,6 @@ function massage_browser_lang_code_to_locale($browser_lang_code)
     return $browser_lang_code;
 }
 
-// This function returns forum of a particular language. If there is no such
-// forum, it might return a team thread or whatever is appropriate (or nothing,
-// of course).
-function lang_forum($langcode = false)
-{
-    global $lang_forum_data;
-
-    if ($langcode === false) {
-        $langcode = get_desired_language();
-    }
-
-    if (isset($lang_forum_data[$langcode])) {
-        return $lang_forum_data[$langcode];
-    } else {
-        return false;
-    }
-}
-
 function lang_html_header($langcode = false)
 {
     if (!$langcode) {

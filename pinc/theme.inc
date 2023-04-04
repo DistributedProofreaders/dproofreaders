@@ -302,9 +302,6 @@ function html_navbar()
         $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
 
         $links[] = ['text' => _("Forums"), 'url' => $forums_url];
-        if (lang_forum()) {
-            $links[] = ['text' => _("Your language forums"), 'url' => $forums_url."/".lang_forum()];
-        }
 
         if (!empty($blog_url)) {
             $links[] = ['text' => _("Blog"), 'url' => $blog_url];
