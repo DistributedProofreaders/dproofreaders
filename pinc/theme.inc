@@ -199,7 +199,7 @@ function html_navbar()
 // Display the horizontal bar containing links to various important points
 // within the site (and the login form if the user is not logged in).
 {
-    global $code_url, $site_abbreviation, $forums_url, $blog_url, $wiki_url;
+    global $code_url, $site_abbreviation, $blog_url, $wiki_url;
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
@@ -212,7 +212,9 @@ function html_navbar()
         if (!empty($blog_url)) {
             $links[] = ['text' => _("Blog"), 'url' => $blog_url];
         }
-        $links[] = ['text' => _("Forums"), 'url' => $forums_url];
+        if (get_url_for_forum()) {
+            $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
+        }
         echo "<span id='navbar-left'>";
         echo headerbar_text_array($links);
         echo "</span>\n";
@@ -301,7 +303,9 @@ function html_navbar()
         }
         $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
 
-        $links[] = ['text' => _("Forums"), 'url' => $forums_url];
+        if (get_url_for_forum()) {
+            $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
+        }
 
         if (!empty($blog_url)) {
             $links[] = ['text' => _("Blog"), 'url' => $blog_url];

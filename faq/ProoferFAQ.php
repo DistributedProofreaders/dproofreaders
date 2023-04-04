@@ -125,7 +125,7 @@ different pages.  This will significantly speed up the proofreading process.
     we can probably do it (with your help).
     Contact us at <a href="mailto:<?php echo $general_help_email_addr; ?>">DP Help</a>.
     or see the
-    <a href="<?php echo $forums_url; ?>/viewforum.php?f=9">
+    <a href="<?php echo get_url_to_view_forum(9); ?>">
     "Content Providers" Forum</a>. </p>
 
 <h3><a name="4">4. How can I help? </a></h3>

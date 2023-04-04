@@ -1,11 +1,12 @@
 <?php
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
+include_once($relPath."forum_interface.inc");
 
 define('SIX_MONTHS_IN_SECONDS', 15778463);
 
 // URLs for Quiz links
-$default_feedbackurl = "$forums_url/viewtopic.php?t=55121";
+$default_feedbackurl = get_url_to_view_topic(55121);
 $old_texts_url = "$wiki_url/Proofing_old_texts";
 $Greek_translit_url = "$wiki_url/Transliterating_Greek";
 $ae_oe_ligatures_url = "$wiki_url/Ae_and_oe_ligatures";
@@ -197,7 +198,7 @@ new QuizLevel(
             _("Formatting Quiz"),
             _("Formatting Quiz"),
             _("This quiz covers the corrections you should make in the formatting rounds&mdash;<b>not</b> the proofreading rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),
-            "$forums_url/viewtopic.php?t=47863",
+            get_url_to_view_topic(47863),
             [
                 'formatting1' => _('Italics, bold, and small caps'),
                 'formatting2' => _('Section headings, hyphens and em-dashes'),
