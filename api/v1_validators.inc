@@ -39,11 +39,15 @@ function validate_wordlist($wordlist, $data)
 
 function validate_page_name($pagename, $data)
 {
-    $pages = $data[":projectid"]->get_page_names_from_db();
-    if (!in_array($pagename, $pages)) {
-        throw new NotFoundError("No such page in project");
+    try {
+        $pages = $data[":projectid"]->get_page_names_from_db();
+        if (!in_array($pagename, $pages)) {
+            throw new NonexistentPageException("No such page in project");
+        }
+        return $pagename;
+    } catch (NonexistentPageException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
-    return $pagename;
 }
 
 function validate_page_round($pageround, $data)
