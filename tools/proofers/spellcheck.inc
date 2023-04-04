@@ -42,6 +42,7 @@ $image_data = json_encode([
 
 $header_args = [
     "js_files" => [
+        "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
         "$code_url/tools/proofers/wordcheck.js",
         "$code_url/scripts/character_test.js",
         "$code_url/scripts/control_bar.js",
