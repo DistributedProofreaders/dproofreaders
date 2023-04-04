@@ -439,6 +439,20 @@ function get_forum_email_address($username)
     return $user_details["email"] ?? "";
 }
 
+function get_url_for_forum()
+// Return a URL to the base of the forum
+{
+    global $forums_url;
+    return $forums_url;
+}
+
+function get_url_for_forum_user_login()
+// Return a URL that a user can use to manually log in to the forums.
+{
+    global $forums_url;
+    return "$forums_url/ucp.php?mode=login";
+}
+
 function get_url_to_compose_message_to_user($username)
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.

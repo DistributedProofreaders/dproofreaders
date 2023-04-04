@@ -32,11 +32,6 @@ function make_output()
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['quiz_name']) . "\"),\n";
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['short_quiz_name']) . "\"),\n";
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['description']) . "\"),\n";
-
-    global $forums_url;
-    if ($_SESSION['quiz_data']['thread'] != '') {
-        $_SESSION['quiz_data']['thread'] = str_replace($forums_url, '$forums_url', $_SESSION['quiz_data']['thread']);
-    }
     $out .= ' "' . ssqs($_SESSION['quiz_data']['thread']) . "\",\n";
 
     $out .= " array(\n";

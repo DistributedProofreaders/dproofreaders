@@ -99,11 +99,9 @@ function welcome_see_beginner_forum($pagesproofed, $page_id)
 
 function thoughts_re_mentor_feedback($pagesproofed)
 {
-    global $forums_url;
-
     if ($pagesproofed >= 15 && $pagesproofed < 200) {
         echo "<p>";
-        echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), "$forums_url/viewtopic.php?t=6651");
+        echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), get_url_to_view_topic(6651));
         echo "</p>";
     }
 }

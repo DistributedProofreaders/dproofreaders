@@ -50,7 +50,7 @@ function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 
 function maybe_welcome_mail($email, $real_name, $username)
 {
-    global $code_url, $site_url, $forums_url;
+    global $code_url, $site_url;
     global $site_name, $site_abbreviation, $ELR_round;
     global $general_help_email_addr;
 
@@ -63,6 +63,7 @@ function maybe_welcome_mail($email, $real_name, $username)
     // not so much that it would be horrible for non-DP sites to use it without
     // customizing it.
     $dp_wiki_url = "https://www.pgdp.net/wiki";
+    $forums_url = get_url_for_forum();
 
     // only include the feedback paragraph if we are running at pgdp.*
     if (stripos($code_url, '//www.pgdp.') !== false) {
