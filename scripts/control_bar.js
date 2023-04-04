@@ -89,12 +89,12 @@ var makeImageControl = function(content) {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
+        setImageStyle();
     }
 
     function setDrawSave() {
         setZoom();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
-        setImageStyle();
     }
 
     percentInput.change(function() {
