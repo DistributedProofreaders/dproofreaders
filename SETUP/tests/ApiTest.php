@@ -146,6 +146,30 @@ class ApiTest extends PHPUnit\Framework\TestCase
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, $query_params);
     }
+
+    public function test_create_project_unauthorised()
+    {
+        $this->expectExceptionCode(3);
+
+        $path = "v1/projects";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $router->route($path, $query_params);
+    }
+
+    public function test_create_project_no_data()
+    {
+        global $pguser;
+        $this->expectExceptionCode(100);
+
+        $pguser = $this->TEST_USERNAME_PM;
+        $path = "v1/projects";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $router->route($path, $query_params);
+    }
 }
 
 // this mocks the function in index.php

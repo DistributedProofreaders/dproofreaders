@@ -330,7 +330,7 @@ class Project
         }
 
         if ($errors and $throw_on_error) {
-            throw new ValueError(join("\n", $errors));
+            throw new ProjectException(join("\n", $errors));
         }
 
         return $errors;

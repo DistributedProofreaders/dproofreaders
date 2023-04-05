@@ -184,8 +184,8 @@ function create_or_update_project($project)
         }
 
         $project->validate(true);
-    } catch (ValueError $error) {
-        throw new InvalidValue($error->getMessage());
+    } catch (ProjectException $exception) {
+        throw new InvalidValue($exception->getMessage(), $exception->getCode());
     }
 
     // validate charsuites
