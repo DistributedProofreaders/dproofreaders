@@ -54,10 +54,14 @@ function validate_page_round($pageround, $data)
 {
     global $Round_for_round_id_;
 
-    $pagerounds = array_merge(["OCR"], array_keys($Round_for_round_id_));
+    try {
+        $pagerounds = array_merge(["OCR"], array_keys($Round_for_round_id_));
 
-    if (!in_array($pageround, $pagerounds)) {
-        throw new NotFoundError("Invalid page round");
+        if (!in_array($pageround, $pagerounds)) {
+            throw new InvalidPageRoundException("Invalid page round");
+        }
+        return $pageround;
+    } catch (InvalidPageRoundException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
-    return $pageround;
 }

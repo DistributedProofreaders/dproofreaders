@@ -79,6 +79,23 @@ class ApiTest extends PHPUnit\Framework\TestCase
         return $project;
     }
 
+    protected function add_page($project, $base)
+    {
+        $source_project_dir = sys_get_temp_dir();
+        $txt_file_name = "$base.txt";
+        $txt_file_path = "$source_project_dir/$txt_file_name";
+        $fp = fopen($txt_file_path, 'w');
+        fwrite($fp, $this->TEST_TEXT);
+        fclose($fp);
+
+        $image_file_name = "$base.png";
+        $img_file_path = "{$project->dir}/$image_file_name";
+        $fp = fopen($img_file_path, 'w');
+        fwrite($fp, str_repeat("This is a test image file", 10));
+        fclose($fp);
+
+        project_add_page($project->projectid, $base, $image_file_name, $txt_file_path, $this->TEST_USERNAME_PM, time());
+    }
     // ----------------------------------------------------
     // tests
 
@@ -111,6 +128,19 @@ class ApiTest extends PHPUnit\Framework\TestCase
 
         $project = $this->_create_project();
         $path = "v1/projects/$project->projectid/pages/999.png/pagerounds/P1";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $router->route($path, $query_params);
+    }
+
+    public function test_get_invalid_pageround_data()
+    {
+        $this->expectExceptionCode(105);
+
+        $project = $this->_create_project();
+        $this->add_page($project, "001");
+        $path = "v1/projects/$project->projectid/pages/001.png/pagerounds/P0";
         $query_params = "";
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
