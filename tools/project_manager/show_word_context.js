@@ -51,17 +51,19 @@ window.addEventListener("DOMContentLoaded", function() {
     params.set("project", showWordContext.projectid);
     params.set("simpleHeader", "true");
 
-    document.querySelector(".page-select").addEventListener("click", function () {
-        let imageFile = this.dataset.value;
-        let ShowCurrentImageFile;
-        // getShowCurrentImageFile will be null the first time
-        if(getShowCurrentImageFile && (ShowCurrentImageFile = getShowCurrentImageFile())) {
-            // ShowCurrentImageFile could be null if ajax failed or slow
-            ShowCurrentImageFile(imageFile);
-        } else {
-            params.set("imagefile", imageFile);
-            // give a no-action function for replace params
-            getShowCurrentImageFile = pageBrowse(params, showWordContext.storageKey, function () {});
-        }
+    document.querySelectorAll(".page-select").forEach(pageSelect => {
+        pageSelect.addEventListener("click", function () {
+            let imageFile = this.dataset.value;
+            let ShowCurrentImageFile;
+            // getShowCurrentImageFile will be null the first time
+            if(getShowCurrentImageFile && (ShowCurrentImageFile = getShowCurrentImageFile())) {
+                // ShowCurrentImageFile could be null if ajax failed or slow
+                ShowCurrentImageFile(imageFile);
+            } else {
+                params.set("imagefile", imageFile);
+                // give a no-action function for replace params
+                getShowCurrentImageFile = pageBrowse(params, showWordContext.storageKey, function () {});
+            }
+        });
     });
 });
