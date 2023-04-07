@@ -220,7 +220,7 @@ function convert_codepoint_ranges_to_characters($codepoints)
             // we have a character range
             [$start, $end] = explode('-', $codepoint);
             $return_array = array_merge($return_array,
-                UTF8::range(UTF8::hex_to_chr($start), UTF8::hex_to_chr($end)));
+                UTF8::range(UTF8::hex_to_int($start), UTF8::hex_to_int($end)));
         } else {
             // a single character or a combined character
             $return_array[] = utf8_combined_chr($codepoint);
