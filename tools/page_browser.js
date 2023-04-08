@@ -1,6 +1,6 @@
-/*global $ pageBrowse mentorMode */
+/*global pageBrowse mentorMode */
 
-$(function () {
+window.addEventListener("DOMContentLoaded", function() {
     let url = new URL(window.location.href);
 
     function replaceUrl() {

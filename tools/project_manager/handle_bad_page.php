@@ -78,6 +78,7 @@ if (!$resolution) {
     $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
     $header_args = [
         "js_files" => [
+            "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/project_manager/handle_bad_page.js",

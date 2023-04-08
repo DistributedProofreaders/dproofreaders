@@ -46,8 +46,8 @@ QUnit.test("Referrer details visible if other selected", function(assert) {
     assert.notOk(
         $('#referrer_details').is(':visible'),
         'Referrer details should be hidden after form init.');
-    $('select[name=referrer]').val('other')
-        .trigger('change');
+    document.querySelector('select[name=referrer]').value = 'other';
+    document.querySelector('select[name=referrer]').dispatchEvent(new Event('change'));
     assert.ok(
         $('#referrer_details').is(':visible'),
         'Referrer details should be visible after other selection.');

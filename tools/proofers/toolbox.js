@@ -1,27 +1,27 @@
-/*global $ */
+/*global */
 /* exported openToolboxPopup */
 
 var openedToolboxPopups = [];
 
-$(function () {
+window.addEventListener('DOMContentLoaded', function() {
     "use strict";
 
     function showPicker() {
-        $("#char-picker").show();
-        $("#show-picker").hide();
+        document.getElementById("char-picker").style.display = 'inherit';
+        document.getElementById("show-picker").classList.add("nodisp");
     }
 
     function hidePicker() {
-        $("#char-picker").hide();
-        $("#show-picker").show();
+        document.getElementById("char-picker").style.display = 'none';
+        document.getElementById("show-picker").classList.remove("nodisp");
     }
 
-    $("#hide-picker").click(function () {
+    document.getElementById("hide-picker").addEventListener("click", function () {
         hidePicker();
         localStorage.setItem("picker_data", "hide");
     });
 
-    $("#show-picker").click(function () {
+    document.getElementById("show-picker").addEventListener("click", function () {
         showPicker();
         localStorage.setItem("picker_data", "show");
     });
@@ -31,7 +31,7 @@ $(function () {
         hidePicker();
     }
 
-    $(window).on("beforeunload", function () {
+    this.window.addEventListener("beforeunload", function () {
         openedToolboxPopups.forEach(function (openedToolboxPopup) {
             openedToolboxPopup.close();
         });

@@ -64,7 +64,7 @@ echo "<form method='GET' id='wordInstancesForm'>";
 echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<input type='hidden' name='word' value='$encWord'>";
 echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
-echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='$(\"#wordInstancesForm\").submit()'>";
+echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;' onchange='document.getElementById(\"wordInstancesForm\").submit()'>";
 foreach (range(10, MAX_WORD_INSTANCES, 10) as $option) {
     echo "<option value='$option'" . ($option == $wordInstances ? " selected" : "") . ">$option</option>";
 }

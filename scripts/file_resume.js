@@ -1,5 +1,5 @@
-/*global $ Resumable uploadTarget uploadMessages maxResumeSize maxNormSize */
-$(function() {
+/*global Resumable uploadTarget uploadMessages maxResumeSize maxNormSize */
+window.addEventListener("DOMContentLoaded", function() {
 
     // This function has a server-side pair in pinc/upload_file.inc:is_valid_filename()
     // which should be updated if the below logic changes.
@@ -33,22 +33,22 @@ $(function() {
     });
 
     function showProgress(text) {
-        $("#upload_progress").html(text);
+        document.getElementById("upload_progress").innerHTML = text;
     }
 
     if(resumable.support) {
-        resumable.assignBrowse($("#resumable_browse"));
-        resumable.assignDrop($("#upload_form"));
+        resumable.assignBrowse(document.getElementById("resumable_browse"));
+        resumable.assignDrop(document.getElementById("upload_form"));
 
         // Show the resumable div
-        $("#resumable_uploader").show();
+        this.document.getElementById("resumable_uploader").style.display = "";
         // Hide the old uploader
-        $("#old_uploader").hide();
+        document.getElementById("old_uploader").style.display = "none";
     }
 
     // Before we start the upload, prevent the user from hitting upload again.
-    $("#old_submit").click(function(ev) {
-        let file = $("#old_browse")[0].files[0];
+    document.getElementById("old_submit").addEventListener("click", function(ev) {
+        let file = document.getElementById("old_browse").files[0];
         if(file.size >= maxNormSize) {
             alert(uploadMessages.fileTooBig);
             ev.preventDefault();
@@ -56,18 +56,18 @@ $(function() {
         }
         if(validate(file.name)) {
             // won't work if we disable browse button so hide it
-            $("#old_browse").hide();
-            $("#old_submit").prop( "disabled", true);
+            document.getElementById("old_browse").style.display = "none";
+            document.getElementById("old_browse").disabled = true;
             showProgress(uploadMessages.working);
         } else {
             ev.preventDefault();
         }
     });
 
-    $("#resumable_submit").click(function() {
+    document.getElementById("resumable_submit").addEventListener("click", function() {
         // in this case we can prevent the user from selecting another file
-        $("#resumable_browse").prop( "disabled", true);
-        $("#resumable_submit").prop( "disabled", true);
+        document.getElementById("resumable_browse").disabled = true;
+        document.getElementById("resumable_submit").disabled = true;
         if(resumable.files.length) {
             // a file has been selected
             resumable.upload();
@@ -80,7 +80,7 @@ $(function() {
     resumable.on('fileAdded', function(file) {
         let filename = file.fileName;
         if(validate(filename)) {
-            $("#resumable_selected_file").text(filename);
+            document.getElementById("resumable_selected_file").textContent = filename;
         } else {
             // if the validation failed, remove it from the list
             resumable.removeFile(file);
@@ -90,17 +90,17 @@ $(function() {
     // After a file has been successfully uploaded, we update the form
     // and submit it for final validation (AV scan, etc).
     resumable.on('fileSuccess', function(file) {
-        $('input[name="resumable_filename"]').val(file.fileName);
-        $('input[name="resumable_identifier"]').val(file.uniqueIdentifier);
-        $('input[name="mode"]').val("resumable");
+        document.querySelector('input[name="resumable_filename"]').value = file.fileName;
+        document.querySelector('input[name="resumable_identifier"]').value = file.uniqueIdentifier;
+        document.querySelector('input[name="mode"]').value = "resumable";
         showProgress(uploadMessages.finalizingUpload);
-        $("#upload_form").submit();
+        document.getElementById("upload_form").submit();
     });
 
     // If an error occurred, re-enable the upload form and show a message
     resumable.on('fileError', function(file, message) {
-        $("#resumable_browse").show();
-        $("#resumable_submit").show();
+        document.getElementById("resumable_browse").style.display = '';
+        document.getElementById("resumable_submit").style.display = '';
         showProgress(uploadMessages.uploadFailed + "<br>" + message);
     });
 

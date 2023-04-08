@@ -1,25 +1,29 @@
-/*global $*/
-$(function () {
+/* global */
+window.addEventListener('DOMContentLoaded', function() {
     "use strict";
-    var langSelector = $("#language");
-    var langMatch = $("#lang-match");
-    var diffAll = $("#diff-all");
-    var diffOpt = $(".diff-opt");
+    var langSelector = document.getElementById("language");
+    var langMatch = document.getElementById("lang-match");
+    var diffAll = document.getElementById("diff-all");
+    var diffOpt = document.querySelectorAll(".diff-opt");
 
     function showMatcher() {
-        langMatch.css("display", (0 === langSelector.prop("selectedIndex") ? "none" : "block"));
+        langMatch.style.display = 0 === langSelector.selectedIndex ? "none" : "block";
     }
 
-    langSelector.change(function () {
+    langSelector.addEventListener("change", function () {
         showMatcher();
     });
 
-    diffAll.change(function () {
-        diffOpt.prop("checked", false);
+    diffAll.addEventListener("change", function () {
+        diffOpt.forEach(diffOption => {
+            diffOption.checked = false;
+        });
     });
 
-    diffOpt.change(function () {
-        diffAll.prop("checked", false);
+    diffOpt.forEach(diffOption => {
+        diffOption.addEventListener("change", function() {
+            diffAll.checked = false;
+        });
     });
 
     showMatcher();

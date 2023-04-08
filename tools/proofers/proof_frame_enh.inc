@@ -30,6 +30,7 @@ function echo_proof_frame_enh($ppage)
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
+            "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/scripts/character_test.js",

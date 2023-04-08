@@ -1,6 +1,6 @@
 /*global $ makeImageWidget imageData */
 
-$(function () {
+window.addEventListener('DOMContentLoaded', function() {
     let imageDiv = $("#image-view");
 
     let imageWidget = makeImageWidget(imageDiv, imageData.align);

@@ -1,4 +1,4 @@
-/*global $ validCharacterPattern charMatch */
+/*global validCharacterPattern charMatch */
 /* exported validateText */
 
 // charMatch (constructed in character_test.js) matches any unicode character
@@ -23,7 +23,7 @@ function htmlSafe(str) {
 
 var validateText;
 
-$(function () {
+window.addEventListener("DOMContentLoaded", function() {
     var textArea = document.getElementById("text_data");
     let validCharRegex = new RegExp(validCharacterPattern, "u");
 
@@ -58,23 +58,24 @@ $(function () {
         if(procResult.valid) {
             return true;
         }
-        $("#validator").show();
-        $("#proofdiv").hide();
-        $("#check-text").html(procResult.processedText);
+        document.getElementById("validator").classList.remove("nodisp");
+        document.getElementById("proofdiv").classList.add("nodisp");
+
+        document.getElementById("check-text").innerHTML = procResult.processedText;
         return false;
     }
 
     validateText = _validateText;
 
-    $("#cc-quit").click(function () {
-        $("#validator").hide();
-        $("#proofdiv").show();
+    document.getElementById("cc-quit").addEventListener("click", function () {
+        document.getElementById("validator").classList.add("nodisp");
+        document.getElementById("proofdiv").classList.remove("nodisp");
     });
 
-    $("#cc-remove").click(function () {
+    document.getElementById("cc-remove").addEventListener("click", function () {
         // textArea has already been normalised
         textArea.value = processText(textArea.value, true).processedText;
-        $("#validator").hide();
-        $("#proofdiv").show();
+        document.getElementById("validator").classList.add("nodisp");
+        document.getElementById("proofdiv").classList.remove("nodisp");
     });
 });

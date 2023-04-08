@@ -1,5 +1,5 @@
 /* exported acceptWord evaluateWordChange markBox confirmExit */
-/* global $ testText wordCheckMessages */
+/* global testText wordCheckMessages */
 
 // the number of edit boxes with bad characters
 var badBoxes = 0;
@@ -8,7 +8,7 @@ function isWordChanged(wordID) {
     var input = document.getElementById("input_" + wordID);
     let wordText = input.value;
     let isBad = !testText(wordText);
-    let wasBad = $(input).data().bad; // undefined will give false
+    let wasBad = input.dataset.bad === "true"; // undefined will give false
     if(!wasBad && isBad) {
         badBoxes += 1;
         let spCorrect = document.getElementById("spcorrect");
@@ -28,7 +28,11 @@ function isWordChanged(wordID) {
             spRerun.title = wordCheckMessages.rerun;
         }
     }
-    $(input).data("bad", isBad);
+    if (isBad) {
+        input.dataset.bad = "true";
+    } else {
+        delete input.dataset.bad;
+    }
     input.style.border = isBad ? '2px solid red' : '';
     return !(input && (wordText == input.defaultValue));
 }

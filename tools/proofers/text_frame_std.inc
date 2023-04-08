@@ -17,6 +17,7 @@ function echo_text_frame_std($ppage)
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
+            "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
             "$code_url/tools/proofers/preview.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/scripts/character_test.js",

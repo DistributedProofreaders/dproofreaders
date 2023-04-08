@@ -1,5 +1,5 @@
 /* exported makePreview analyse processExMath */
-/* global $ XRegExp */
+/* global XRegExp */
 
 // The formatting rules are applied as if proofers' notes were
 // invisible so remove them first and save for later. But first check if they
@@ -138,7 +138,7 @@ function blockSplit(bText, procBlock) {
     }
 }
 
-$(function () {
+window.addEventListener('DOMContentLoaded', function() {
     analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
