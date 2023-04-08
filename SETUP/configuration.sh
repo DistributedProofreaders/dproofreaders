@@ -75,31 +75,19 @@ _DYN_URL=$base_url/d
 # This directory houses two classes of DP-related files that must be
 # readable and writable by the web server.
 #
-# Optional user-supplied files:
-#     $_DYN_DIR/code_images/ stores files used by the DP code. They are
-#     optional and if not present will fall back to using text instead.
-#     Some images are assumed to have text in them and need to have
-#     different images for each language the site is translated into.
-#     These are indicated with <locale> below. Note the default locale
-#     of the code is en_US.
+# Optional user-supplied files that are only read by the code:
 #
-#     The images can be of type png, jpg, or gif and are selected in that
-#     order using those extensions.
-#
-# --- $_DYN_DIR/code_images/stage_icons/$stage_id.jpg
-#         A small image to use as an icon for a given stage.
-#         (Currently only used on the activity hub.)
-#         $stage can be the id of any stage (i.e., round or pool).
-#         
-# --- $_DYN_DIR/code_images/page_header/<locale>/$stage_id.jpg
-#         An image to show at the top of a given site-page.
-#
-# --- $_DYN_DIR/code_images/news_header/<locale>/$page.jpg
-#         An image to show at the top of the "news" section of a given
-#         site-page. $page can be FRONT, HUB, FAQ, STATS, or a stage-id.
+# --- $_DYN_DIR/code_images/page_header/$stage_id.<ext>
+#     $_DYN_DIR/code_images/page_header/<locale>/$stage_id.<ext>
+#         Images to show on stage pages. If the images don't exist nothing
+#         is shown. Images with text can be localized by placing them in
+#         locale-specific subdirectories. If a locale-free version is
+#         found, that version is used before a locale-specific version.
+#         The images can be of type png, jpg, or gif and are selected in
+#         that order using those extensions.
 #
 #
-# Files created by the code:
+# Files created and managed by the code:
 #
 # --- $_DYN_DIR/download_tmp/*_images.zip
 #         Image zips, temporarily available for download.
@@ -113,9 +101,6 @@ _DYN_URL=$base_url/d
 #
 # --- $_DYN_DIR/stats/automodify_logs/*.txt
 #         Logs of runs of automodify.php
-#
-# --- $_DYN_DIR/stats/faq_data.inc
-#         Generated PHP code that defines the $faq_data array.
 #
 # --- $_DYN_DIR/teams/avatar/*
 # --- $_DYN_DIR/teams/icon/*
@@ -318,7 +303,7 @@ _PUBLIC_PAGE_DETAILS=FALSE
 
 # ----------------------------------------------------------------------
 
-# In the proofreading interface, the Spell-Checking functionality relies on
+# In the proofreading interface, the WordCheck functionality relies on
 # a local installation of 'aspell'...
 
 _ASPELL_EXECUTABLE=/usr/local/bin/aspell
@@ -467,10 +452,6 @@ _MAINTENANCE_MESSAGE=
 # site is in maintenance mode. It can contain HTML (such as links to a blog
 # or some other site giving status on the maintenance) but must not contain
 # single quotes (').
-
-_METADATA=FALSE
-# This is a flag to allow the still-developing metadata functionality
-# to be active or not.
 
 _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
 # Setting this to TRUE means that all users can see the project_selector,
