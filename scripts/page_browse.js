@@ -540,21 +540,22 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             .append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
     }
 
-    function showProjectInfo(projectData) {
-        if(!simpleHeader) {
-            fixHead.empty();
-            // show project name and button to select another
-            const resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
-            resetButton.click(function () {
-                selectAProject();
-            });
-            const projectRef = new URL(proofIntData.projectFile);
-            projectRef.searchParams.append("id", projectId);
-            fixHead.append($("<p>").append($("<a>", {href: projectRef}).append(projectData.title)), resetButton);
-        }
-        // get pages
+    function getPages() {
         ajax("GET", `v1/projects/${projectId}/pages`)
             .then(displayPages, alert);
+    }
+
+    function showProjectInfo(projectData) {
+        fixHead.empty();
+        // show project name and button to select another
+        const resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
+        resetButton.click(function () {
+            selectAProject();
+        });
+        const projectRef = new URL(proofIntData.projectFile);
+        projectRef.searchParams.append("id", projectId);
+        fixHead.append($("<p>").append($("<a>", {href: projectRef}).append(projectData.title)), resetButton);
+        getPages();
     }
 
     getProjectData = function() {
@@ -566,7 +567,11 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     };
 
     if(projectId) {
-        getProjectData();
+        if(!simpleHeader) {
+            getProjectData();
+        } else {
+            getPages();
+        }
     } else {
         selectAProject();
     }
