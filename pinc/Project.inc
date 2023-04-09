@@ -26,50 +26,66 @@ class ProjectException extends Exception
 }
 class NonexistentProjectException extends ProjectException
 {
-    public function __construct($message)
+    public function __construct($message, $code = 101)
     {
-        parent::__construct($message, 101);
+        parent::__construct($message, $code);
     }
 }
 class InvalidProjectIDException extends ProjectException
 {
-    public function __construct($message)
+    public function __construct($message, $code = 102)
     {
-        parent::__construct($message, 102);
+        parent::__construct($message, $code);
     }
 }
 class InvalidRoundException extends ProjectException
 {
-    public function __construct($message)
+    public function __construct($message, $code = 103)
     {
-        parent::__construct($message, 103);
+        parent::__construct($message, $code);
     }
 }
 class NonexistentPageException extends ProjectException
 {
-    public function __construct($message)
+    public function __construct($message, $code = 104)
     {
-        parent::__construct($message, 104);
+        parent::__construct($message, $code);
     }
 }
 class InvalidPageRoundException extends ProjectException
 {
-    public function __construct($message)
+    public function __construct($message, $code = 105)
     {
-        parent::__construct($message, 105);
+        parent::__construct($message, $code);
     }
 }
 class InvalidPageException extends ProjectException
 {
+    public function __construct($message, $code = 106)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NoProjectPageTable extends ProjectException
 {
+    public function __construct($message, $code = 107)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NoProjectDirectory extends ProjectException
 {
+    public function __construct($message, $code = 108)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class ProjectPageException extends ProjectException
 {
+    public function __construct($message, $code = 109)
+    {
+        parent::__construct($message, $code);
+    }
 }
 
 class Project
