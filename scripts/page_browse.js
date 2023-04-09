@@ -301,10 +301,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     return controls;
 }
 
-function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
-    // showCurrentImageFile will be set to a function so that subsequent pages
-    // can be shown without redrawing the whole page
-    let showCurrentImageFile = null;
+function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowFile = function () {}) {
     // parameters will be null if not defined
     let projectId = params.get("project");
     let displayMode = params.get("mode");
@@ -491,7 +488,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             return;
         }
 
-        showCurrentImageFile = function(currentImageFileName) {
+        function showCurrentImageFile(currentImageFileName) {
             if(currentImageFileName) {
                 // does filename exist in the project?
                 const currentPage = pages.find( function(page) {
@@ -508,8 +505,11 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
             } else {
                 initialPageSelect();
             }
-        };
+        }
         showCurrentImageFile(params.get("imagefile"));
+        // showCurrentImageFile can be used to show subsequent images
+        // without redrawing the whole page
+        setShowFile(showCurrentImageFile);
     } // end of displayPages
 
     function selectAProject() {
@@ -575,10 +575,4 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false) {
     } else {
         selectAProject();
     }
-
-    // showCurrentImageFile will be null when we first get here
-    // return a function to get its current value
-    return function () {
-        return showCurrentImageFile;
-    };
 }
