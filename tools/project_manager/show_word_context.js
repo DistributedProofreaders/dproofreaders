@@ -17,8 +17,6 @@ window.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
     }
 
-    // this is a function to get a function to show a file
-    let getShowCurrentImageFile = null;
     let switchLink = document.getElementById("h_v_switch");
 
     let mainSplit = splitControl("#show_word_context_container", {
@@ -51,19 +49,23 @@ window.addEventListener("DOMContentLoaded", function() {
     params.set("project", showWordContext.projectid);
     params.set("simpleHeader", "true");
 
+    let ShowImageFile = null;
+    function setShowImageFile(showFile) {
+        ShowImageFile = showFile;
+    }
+
+    function showImage(imageFile) {
+        if (!ShowImageFile) {
+            params.set("imagefile", imageFile);
+            pageBrowse(params, showWordContext.storageKey, function () {}, false, setShowImageFile);
+        } else {
+            ShowImageFile(imageFile);
+        }
+    }
+
     document.querySelectorAll(".page-select").forEach(pageSelect => {
         pageSelect.addEventListener("click", function () {
-            let imageFile = this.dataset.value;
-            let ShowCurrentImageFile;
-            // getShowCurrentImageFile will be null the first time
-            if(getShowCurrentImageFile && (ShowCurrentImageFile = getShowCurrentImageFile())) {
-                // ShowCurrentImageFile could be null if ajax failed or slow
-                ShowCurrentImageFile(imageFile);
-            } else {
-                params.set("imagefile", imageFile);
-                // give a no-action function for replace params
-                getShowCurrentImageFile = pageBrowse(params, showWordContext.storageKey, function () {});
-            }
+            showImage(this.dataset.value);
         });
     });
 });
