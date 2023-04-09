@@ -1261,14 +1261,18 @@ new ProjectTransition(
 
 /*
     The following table describes the required values for checkedoutby,
-    postproofer  and ppverifier after the transition to the named state.
-    The states are listed in their normal order, though projects may
+    postproofer and ppverifier after the transition to the named state.
+    The states are listed in their normal order, though projects that have
+    not yet reached "posted" may step back to the previous row,
+    e.g. 2-->1 or 5-->4. Note that the step from 4 to 5 is equivalent to
+    jumping from 4 to 2 but preserving the PPVer's name so that the
+    PPer can later move the project from 5 back to 4 for another PPV check.
 
     Columns 2, 3 and 4 correspond to values set in fields in the
     "projects" database table:
-    cob - checkedoutby
-    pp  - postproofer
-    ppv - ppverifier
+        cob - checkedoutby
+        pp  - postproofer
+        ppv - ppverifier
 
     a is the PPer
     b is the PPVer, not the same user as the PPer
