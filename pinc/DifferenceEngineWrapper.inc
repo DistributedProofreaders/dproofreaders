@@ -25,12 +25,20 @@ include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");
 include_once($relPath."3rdparty/mediawiki/WordLevelDiff.php");
 include_once($relPath."3rdparty/mediawiki/DiffEngine.php");
 include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
-include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
 
-class DifferenceEngineWrapper
+abstract class DifferenceEngineWrapper
 {
     private $oldText;
     private $newText;
+    private $formatter;
+
+    protected function __construct(DiffFormatter $formatter = null)
+    {
+        if ($formatter === null) {
+            $formatter = new DiffFormatter();
+        }
+        $this->formatter = $formatter;
+    }
 
     public function setText($oldText, $newText)
     {
@@ -38,7 +46,7 @@ class DifferenceEngineWrapper
         $this->newText = $newText;
     }
 
-    public function showDiff($oldTitle, $newTitle)
+    public function getDiff($oldTitle, $newTitle)
     {
         $otext = $this->oldText;
         $ntext = $this->newText;
@@ -48,7 +56,7 @@ class DifferenceEngineWrapper
         $difftext = $this->localiseLineNumbers($difftext);
 
         // from DifferenceEngine::getDiff()
-        echo $this->addHeader($difftext, $oldTitle, $newTitle);
+        return $this->addHeader($difftext, $oldTitle, $newTitle);
     }
 
     private function generateTextDiffBody($otext, $ntext)
@@ -65,54 +73,15 @@ class DifferenceEngineWrapper
         $ota = explode("\n", $wgContLang->segmentForDiff($otext));
         $nta = explode("\n", $wgContLang->segmentForDiff($ntext));
         $diffs = new Diff($ota, $nta);
-        $formatter = new TableDiffFormatter();
-        $difftext = $wgContLang->unsegmentForDiff($formatter->format($diffs));
+        $difftext = $wgContLang->unsegmentForDiff($this->formatter->format($diffs));
 
         return $difftext;
     }
 
-    private function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
+    // Default implementation adds nothing
+    protected function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
     {
-        // lifted from DifferenceEngine::addHeader()
-        // but without any of the $userLang bits
-
-        $tableClass = 'diff';
-        $header = "<table class='$tableClass'>";
-
-        if (!$diff && !$otitle) {
-            $header .= "
-            <tr class='diff-title'>
-            <td class='diff-ntitle'>{$ntitle}</td>
-            </tr>";
-            $multiColspan = 1;
-        } else {
-            if ($diff) { // Safari/Chrome show broken output if cols not used
-                $header .= "
-                <col class='diff-marker' />
-                <col class='diff-content' />
-                <col class='diff-marker' />
-                <col class='diff-content' />";
-                $colspan = 2;
-                $multiColspan = 4;
-            } else {
-                $colspan = 1;
-                $multiColspan = 2;
-            }
-            $header .= "
-            <tr class='diff-title'>
-            <td colspan='$colspan' class='diff-otitle'>{$otitle}</td>
-            <td colspan='$colspan' class='diff-ntitle'>{$ntitle}</td>
-            </tr>";
-        }
-
-        if ($multi != '') {
-            $header .= "<tr><td colspan='{$multiColspan}' class='diff-multi'>{$multi}</td></tr>";
-        }
-        if ($notice != '') {
-            $header .= "<tr><td colspan='{$multiColspan}' class='diff-notice'>{$notice}</td></tr>";
-        }
-
-        return $header . $diff . "</table>";
+        return $diff;
     }
 
     private function localiseLineNumbers($text)
@@ -167,32 +136,4 @@ if (!function_exists("wfDebug")) {
     {
         // don't log any debug messages
     }
-}
-
-// Override default css for DP customizations
-function get_DifferenceEngine_css_data()
-{
-    [, $font_size, $font_family] = get_user_proofreading_font();
-    if ($font_size != '') {
-        $font_size = "font-size: $font_size;";
-    }
-
-    return "
-.diff-otitle,
-.diff-ntitle {
-    font-weight: bold;
-}
-.diff-marker,
-.diff-addedline,
-.diff-deletedline,
-.diff-context {
-    font-family: $font_family;
-    $font_size
-}
-/* Adjust padding to prevent descenders from being chopped off. Task 1936 */
-.diff-deletedline .diffchange,
-.diff-addedline .diffchange {
-    padding: 0.1em 0;
-}
-";
 }
