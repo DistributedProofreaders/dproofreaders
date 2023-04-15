@@ -3,7 +3,7 @@ $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'slim_header.inc');
 
@@ -151,26 +151,26 @@ function notify_user($user, $actions)
         [$activity_id] = array_keys($actions);
         $subject = "$site_abbreviation: You have been granted access to $activity_id!";
         $message = "Hello $user->username,\n\n" .
-                   "Congratulations, you have been granted access to $activity_id projects!\n" .
-                   "You can access this stage by following the link to it at the Activity Hub.\n";
+                   "Congratulations, you have been granted access to $activity_id projects!\n\n" .
+                   "You can access this stage by following the link to it at the Activity Hub.\n\n";
         $message .= sprintf(_("Thank you for volunteering with %s!"), $site_name);
         // XXX: Note that this wording works when the activity is a stage (round or pool),
         // but not otherwise.
-        maybe_mail($user->email, $subject, $message);
+        send_mail($user->email, $subject, $message);
         return "congratulated user.";
     } else {
         $subject = "$site_abbreviation: Your access has been modified";
         $message = "Hello $user->username,\n\n" .
-                    "The following modifications have been made to the stages in which you can work:\n";
+                    "The following modifications have been made to the stages in which you can work:\n\n";
         foreach ($actions as $activity_id => $action_type) {
             $message .= "* $activity_id: ";
             $message .=
                 ($action_type == 'deny_request_for' ? 'Your request for access has not been approved. Please try again in a few weeks.' :
                 ($action_type == 'grant' ? 'Access granted.' :
-                'Access revoked.'));
+                'Access revoked.')) . "\n";
         }
         $message .= "\n";
-        maybe_mail($user->email, $subject, $message);
+        send_mail($user->email, $subject, $message);
         return "notified user.";
     }
 }

@@ -112,7 +112,7 @@ if ($action == 'default') {
     $user->email = $email;
     $user->save();
 
-    maybe_activate_mail($email, $user->real_name, $user->id, $username, $user->u_intlang);
+    send_activate_mail($email, $user->real_name, $user->id, $username, $user->u_intlang);
 } else {
     echo 'Unknown action.';
 }

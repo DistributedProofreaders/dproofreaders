@@ -4,7 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'DPage.inc'); // Pages_prepForRound
 include_once($relPath.'forum_interface.inc'); // topic_change_forum
-include_once($relPath.'maybe_mail.inc'); // maybe_mail_project_manager
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
 include_once($relPath.'user_project_info.inc');
@@ -738,12 +738,12 @@ function round_release_collateral($old_project, $project, $transition, $who)
     configure_gettext_for_user($project->username);
 
     if ($who == PT_AUTO) {
-        maybe_mail_project_manager(
+        send_mail_project_manager(
             $project,
             sprintf(_("This project has just become available for work in round %s."), $round->id),
             _("Proofreading Started"));
     } else {
-        maybe_mail_project_manager(
+        send_mail_project_manager(
             $project,
             sprintf(_('This project has been manually released by %1$s and has just become available in %2$s.'), $who, $round->name),
             _("Proofreading Started (Manual Release)"));
@@ -776,7 +776,7 @@ function bad_project_collateral($old_project, $project, $transition, $who)
     $body_blurb_messages[] = _("This project has been shut down. This is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.");
     $body_blurb_messages[] = _("Please visit the Project Manager page to view a list of your bad projects and make any necessary changes. You will then be able to put the project back up on the site.");
     $body_blurb = implode("\n\n", $body_blurb_messages);
-    maybe_mail_project_manager($project, $body_blurb, _("Bad Project"));
+    send_mail_project_manager($project, $body_blurb, _("Bad Project"));
     configure_gettext_for_user();
 }
 
@@ -828,7 +828,7 @@ function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
     $body_blurb_messages[] = _("This project has completed all rounds and has been made available for someone else to do the post-processing.");
     $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
     $body_blurb = implode("\n\n", $body_blurb_messages);
-    maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+    send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
     configure_gettext_for_user();
 
     // Was it reserved for someone to PP? If so, tell them they
@@ -849,7 +849,7 @@ function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
              "If you believe you are receiving this message in error, please contact\n" .
              "a site manager by emailing $site_manager_email_addr.\n";
 
-        maybe_mail(
+        send_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book sent to PP pool",
             $body_blurb);
@@ -870,7 +870,7 @@ function to_PP_available_collateral($old_project, $project, $transition, $who)
     }
     $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
     $body_blurb = implode("\n\n", $body_blurb_messages);
-    maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+    send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
     configure_gettext_for_user();
 
     notify_project_event_subscribers($project, 'pp_enter');
@@ -891,7 +891,7 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
 
         configure_gettext_for_user($project->username);
         $body_blurb = _("This project has completed all rounds and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.");
-        maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+        send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
         configure_gettext_for_user();
     } else {
         // No, PPer != PM, send each a message.
@@ -905,7 +905,7 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
             $PPer_username);
         $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
-        maybe_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+        send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
         configure_gettext_for_user();
 
         // -------------
@@ -921,7 +921,7 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
             "is now ready for you to work on, and should shortly appear in your list\n".
             "of checked out projects.\n";
 
-        maybe_mail(
+        send_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book available for Post-Processing",
             $body_blurb);
@@ -1086,7 +1086,7 @@ function return_to_PP_collateral($old_project, $project, $transition, $who)
     $subject = "$site_abbreviation: " . _("Return to Post-Processor");
     configure_gettext_for_user();
 
-    maybe_mail($PPer_email_addr, $subject, $body_blurb);
+    send_mail($PPer_email_addr, $subject, $body_blurb);
 }
 
 new ProjectTransition(
@@ -1130,7 +1130,7 @@ function return_from_PP_to_PPV_collateral($old_project, $project, $transition, $
     $subject = "$site_abbreviation: " . _("Return to Post Processing Verifier");
     configure_gettext_for_user();
 
-    maybe_mail($PPVer_email_addr, $subject, $body_blurb);
+    send_mail($PPVer_email_addr, $subject, $body_blurb);
 }
 
 // -----------------------------------------------------------------------------

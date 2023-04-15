@@ -11,6 +11,7 @@ include_once($relPath.'CharSuites.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_events()
 include_once($relPath.'DPage.inc'); // project_allow_pages()
+include_once($relPath.'send_mail.inc');
 
 class UTF8ConversionException extends Exception
 {
@@ -1266,8 +1267,8 @@ class Project
             // Should really be localized according to the preferences of the *recipient*.
             _("This message is regarding the following project:"),
             "",
-            "\"$title\"",
-            "    $code_url/project.php?id=$projectid",
+            mdmail_append_linebreak("\"$title\""),
+            mdmail_indent_line("$code_url/project.php?id=$projectid"),
             "",
         ]);
     }
@@ -1404,7 +1405,7 @@ class Project
     public function send_hold_state_notification($state)
     {
         configure_gettext_for_user($this->username);
-        maybe_mail_project_manager(
+        send_mail_project_manager(
             $this,
             sprintf(_("This project is unable to transition out of %s because it is held. Please review the project and remove the hold. You will receive this notification only once unless you remove and re-add the hold or another page is proofread."), $state),
             _("Project Held"));

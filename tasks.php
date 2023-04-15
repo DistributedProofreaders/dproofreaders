@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), array_get()
 include_once($relPath.'SettingsClass.inc');
@@ -538,7 +538,7 @@ function create_task_from_form_submission($formsub)
     // to send out.
     if ($newt_assignee != 0) {
         global $tasks_url, $code_url;
-        maybe_mail(
+        send_mail(
             $task_assignee_user->email,
             "$site_abbreviation Task Center: Task #$task_id has been assigned to you",
             $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'."
@@ -1525,7 +1525,7 @@ function NotificationMail($tid, $message, $new_task = false)
     foreach ($users_to_notify as $username) {
         if ($username != $pguser) {
             $user = new User($username);
-            maybe_mail($user->email, $subject, $body);
+            send_mail($user->email, $subject, $body);
         }
     }
 }

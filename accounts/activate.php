@@ -129,7 +129,7 @@ $refString = sprintf("
 DPDatabase::query($refString);
 
 // Send them an introduction e-mail
-maybe_welcome_mail($user->email, $user->real_name, $user->username);
+send_welcome_mail($user->email, $user->real_name, $user->username);
 
 echo "<p>";
 printf(_("User %s activated successfully."), $user->username);

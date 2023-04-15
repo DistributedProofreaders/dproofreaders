@@ -1,6 +1,6 @@
 <?php
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address()
 
 /*
@@ -176,7 +176,7 @@ function notify_project_event_subscribers($project, $event, $extras = [])
         configure_gettext_for_user($username);
         $event_label = get_label_for_event($event);
         $msg_subject = "$event_label: \"$title\"";
-        $msg_body = $project->email_introduction();
+        $msg_body = $project->email_introduction() . "\n";
         switch ($event) {
             case 'posted':
                 $pg_url = get_pg_catalog_url_for_etext($project->postednum);
@@ -228,10 +228,10 @@ function notify_project_event_subscribers($project, $event, $extras = [])
                 assert(0);
         }
         $email = get_forum_email_address($username);
-        maybe_mail(
+        send_mail(
             $email,
             $msg_subject,
-            sprintf(_("Hello %s,"), $username) . "\n" . $msg_body
+            sprintf(_("Hello %s,"), $username) . "\n\n" . $msg_body
         );
     }
     configure_gettext_for_user();

@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc');
 
 // Two mails are sent out to new users. First an activation mail where they
@@ -12,7 +12,7 @@ include_once($relPath.'forum_interface.inc');
 // This is because this function may be called by a site admin to send
 // a mail to a completely different user (e.g. a Polish user shouldn't
 // get a Spanish mail because one of the site admins is Spanish).
-function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
+function send_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 {
     global $code_url, $site_name;
 
@@ -45,10 +45,10 @@ function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 
         EOMAIL;
 
-    maybe_mail($email, $activate, $body);
+    send_mail($email, $activate, $body);
 }
 
-function maybe_welcome_mail($email, $real_name, $username)
+function send_welcome_mail($email, $real_name, $username)
 {
     global $code_url, $site_url;
     global $site_name, $site_abbreviation, $ELR_round;
@@ -100,8 +100,7 @@ function maybe_welcome_mail($email, $real_name, $username)
         and our Mission Statement at
         $dp_wiki_url/DP_Official_Documentation:General/Distributed_Proofreaders_Mission_Statement
 
-        Computer Requirements
-        ---------------------
+        #### Computer Requirements
 
         If you experience any problems when using the site, please make sure that
         your computer's time and date are correct and that your browser settings
@@ -112,8 +111,7 @@ function maybe_welcome_mail($email, $real_name, $username)
         - popup windows allowed
 
 
-        Start Proofreading
-        ------------------
+        #### Start Proofreading
 
         1. Log in at $site_url
 
@@ -129,8 +127,7 @@ function maybe_welcome_mail($email, $real_name, $username)
 
         $feedback_paragraph
 
-        Start Smooth Reading
-        --------------------
+        #### Start Smooth Reading
 
         Smooth Reading involves reading a book that is almost ready for posting
         to Project Gutenberg and reporting anything that disrupts the sense or
@@ -141,15 +138,13 @@ function maybe_welcome_mail($email, $real_name, $username)
         $dp_wiki_url/DP_Official_Documentation:Smooth_Reading/Smooth_Reading_FAQ
 
 
-        Questions
-        ---------
+        #### Questions
 
         For general questions about $site_name, please send an email to
         $general_help_email_addr or ask in our forums at $forums_url
 
 
-        General Overview
-        ----------------
+        #### General Overview
 
         For a general overview of $site_name and other resource material,
         including a list of other ways you can help at $site_name,
@@ -160,8 +155,7 @@ function maybe_welcome_mail($email, $real_name, $username)
         $dp_wiki_url/DP_Official_Documentation:General#Information_For_New_and_Returning_Volunteers
 
 
-        Certification of Volunteer Work
-        -------------------------------
+        #### Certification of Volunteer Work
 
         $site_name tracks only the number of pages proofread. We
         do not track the amount of time our volunteers spend working on those
@@ -182,5 +176,5 @@ function maybe_welcome_mail($email, $real_name, $username)
 
         EOMAIL;
 
-    maybe_mail($email, $welcome, $body);
+    send_mail($email, $welcome, $body);
 }
