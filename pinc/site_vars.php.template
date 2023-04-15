@@ -109,6 +109,7 @@ $api_rate_limit_seconds_in_window = <<API_RATE_LIMIT_SECONDS_IN_WINDOW>>;
 
 // -----------------------------------------------------------------------------
 
+$phpmailer_smtp_config = <<PHPMAILER_SMTP_CONFIG>>;
 $no_reply_email_addr = '<<NO_REPLY_EMAIL_ADDR>>';
 $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
 $site_manager_email_addr = $general_help_email_addr;

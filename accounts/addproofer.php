@@ -81,7 +81,7 @@ if (count($_POST)) {
             echo "<h1>$title</h1>";
 
             // Send them an activation e-mail
-            maybe_activate_mail($email, $real_name, $register->id, $username, $intlang);
+            send_activate_mail($email, $real_name, $register->id, $username, $intlang);
 
             echo "<p>";
             echo sprintf(

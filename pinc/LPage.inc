@@ -8,7 +8,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -386,7 +386,7 @@ class LPage
         $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
         $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
-        maybe_mail_project_manager($project, $body_blurb, _("Bad Page Report"));
+        send_mail_project_manager($project, $body_blurb, _("Bad Page Report"));
         configure_gettext_for_user();
 
         // Now determine whether the project as a whole should be marked bad.

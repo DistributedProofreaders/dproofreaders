@@ -368,6 +368,10 @@ _API_RATE_LIMIT_SECONDS_IN_WINDOW=3600
 # Communication/Discussion
 # ------------------------
 
+# SMTP configuration for PHPMailer. Keys are attribute names to the PHPMailer
+# object and the values are their setting
+_PHPMAILER_SMTP_CONFIG='["Host" => "localhost", "Port" => 25]'
+
 _NO_REPLY_EMAIL_ADDR=no-reply@example.org
 # Email address to use on outgoing emails when no response is expected.
 

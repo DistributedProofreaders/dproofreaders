@@ -2,7 +2,7 @@
 $relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'User.inc');
@@ -781,7 +781,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         ])
 
         . "\n"
-        . "\nStrongly Recommended (These don't count as errors but should be corrected):"
+        . "\nStrongly Recommended (These don't count as errors but should be corrected):\n"
         . report_recommendations([
             's_multi' => "Enclose entire multi-part headings within the related heading tag",
             's_empty' => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br/&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
@@ -794,7 +794,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
             's_ereader' => "E-reader version, although without major flaws, should also look as good as possible",
         ])
         . "\n"
-        . "\nMildly Recommended (These don't count as errors):"
+        . "\nMildly Recommended (These don't count as errors):\n"
         . report_recommendations([
             'm_semantic' => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
             'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
@@ -831,7 +831,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     $pper = new User($project->postproofer);
     $ppver = User::load_current();
 
-    $reportcard = $_POST["reportcard"];
+    $reportcard = ppv_report_wrap($_POST["reportcard"]);
 
     // The Spanish PPer shouldn't get a French email because that's the PPVer's
     // language, so temporarily change the current locale.
@@ -843,7 +843,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
 
     Thank you for your Post-Processing work on \"%3\$s\".
     A copy of the PPV Summary is below. If you have any questions about it, please contact your PPVer.");
+
     $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, $site_name);
+    $ppbit = ppv_report_wrap($ppbit);
 
     configure_gettext_for_user($ppver);
     $ppvbita = _("Hello %1\$s,
@@ -856,28 +858,40 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     please email %3\$s.");
 
     $ppvbit = sprintf($ppvbita, $pguser, $nameofwork, $general_help_email_addr, $site_name);
+    $ppvbit = ppv_report_wrap($ppvbit);
+
     if (isset($_POST['cc_pp'])) {
         $to = $pper->email;
         $subject = "$site_abbreviation PP: $nameofwork";
         $message = $ppbit . $reportcard;
-        maybe_mail($to, $subject, $message);
+        send_mail($to, $subject, $message);
     }
 
     if (isset($_POST['cc_ppv'])) {
         $to = $ppver->email;
         $subject = "$site_abbreviation PPV: $nameofwork";
         $message = $ppvbit . $reportcard;
-        maybe_mail($to, $subject, $message);
+        send_mail($to, $subject, $message);
     }
 
     $to = $ppv_reporting_email_addr;
     $subject = "PPV Summary - $project->postproofer ($_POST[pp_evaluation])";
     $message = $reportcard;
-    maybe_mail($to, $subject, $message, ["From: $pguser <$ppver->email>"]);
+    send_mail($to, $subject, $message, "$pguser <$ppver->email>");
     printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
     exit();
 } else {
     assert(false);
+}
+
+// Wrap a string to about 72 characters wide so it's
+// suitable for displaying in <pre>-formatted HTML email.
+function ppv_report_wrap($string)
+{
+    $string = wordwrap($string, 72);
+    $string = str_replace("\n    ", "\n", $string); // Remove 4 blank spaces if they are there
+    $string = str_replace("\n", "\n    ", $string); // Add 4 blank spaces to mean <pre> when rendered
+    return $string;
 }
 
 function report_error_counts($errors)
@@ -915,16 +929,8 @@ function report_comments($base_indent, $id, $label)
         return "";
     }
 
-    $text_indent = $base_indent . "    ";
-
-    $comments = wordwrap($comments, 78 - strlen($text_indent));
-    $comments = str_replace("\n", "\n$text_indent", $comments);
-    // This indents all the lines,
-    // both the ones (if any) that were introduced by wordwrap,
-    // and the ones (if any) that were in $comments already.
-
     return "\n"
-        . (empty($label) ? "" : "\n$base_indent$label:")
-        . "\n$text_indent$comments"
+        . (empty($label) ? "" : "\n$base_indent$label:\n")
+        . "\n$comments"
     ;
 }

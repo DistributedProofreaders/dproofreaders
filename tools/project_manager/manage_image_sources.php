@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'SettingsClass.inc');
@@ -464,7 +464,7 @@ class ImageSource
                 "approved by $pguser. You can select it, and apply it to projects, from\n".
                 "your project manager's page.\n";
 
-            maybe_mail($user->email, $subject, $body);
+            send_mail($user->email, $subject, $body);
         }
     }
 
@@ -552,7 +552,7 @@ class ImageSource
         "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
         "\n";
 
-        maybe_mail($image_sources_manager_addr, $subject, $body);
+        send_mail($image_sources_manager_addr, $subject, $body);
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'send_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'User.inc');
@@ -67,7 +67,7 @@ if ($uao->can_access) {
                     $stage_id
                 );
 
-                maybe_mail($email_addr, $title, $body);
+                send_mail($email_addr, $title, $body);
 
                 $user->request_access($stage_id);
                 echo _('Your request has been submitted and logged.');
