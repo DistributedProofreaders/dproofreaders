@@ -1023,10 +1023,13 @@ components:
     Error:
       required:
       - message
+      - code
       type: object
       properties:
         message:
           type: string
+        code:
+          type: integer
 
   responses:
     NotFound:

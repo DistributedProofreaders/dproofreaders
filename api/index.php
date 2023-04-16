@@ -238,7 +238,7 @@ function production_exception_handler($exception)
         $response_code = 500;
     }
 
-    api_output_response(["error" => $exception->getMessage()], $response_code);
+    api_output_response(["error" => $exception->getMessage(), "code" => $exception->getCode()], $response_code);
 }
 
 function test_exception_handler($exception)

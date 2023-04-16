@@ -18,24 +18,74 @@ class UTF8ConversionException extends Exception
 
 class ProjectException extends Exception
 {
+    // all project errors extend from here and in range 100-199
+    public function __construct($message, $code = 100)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NonexistentProjectException extends ProjectException
 {
+    public function __construct($message, $code = 101)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class InvalidProjectIDException extends ProjectException
 {
+    public function __construct($message, $code = 102)
+    {
+        parent::__construct($message, $code);
+    }
+}
+class InvalidRoundException extends ProjectException
+{
+    public function __construct($message, $code = 103)
+    {
+        parent::__construct($message, $code);
+    }
+}
+class NonexistentPageException extends ProjectException
+{
+    public function __construct($message, $code = 104)
+    {
+        parent::__construct($message, $code);
+    }
+}
+class InvalidPageRoundException extends ProjectException
+{
+    public function __construct($message, $code = 105)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class InvalidPageException extends ProjectException
 {
+    public function __construct($message, $code = 106)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NoProjectPageTable extends ProjectException
 {
+    public function __construct($message, $code = 107)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class NoProjectDirectory extends ProjectException
 {
+    public function __construct($message, $code = 108)
+    {
+        parent::__construct($message, $code);
+    }
 }
 class ProjectPageException extends ProjectException
 {
+    public function __construct($message, $code = 109)
+    {
+        parent::__construct($message, $code);
+    }
 }
 
 class Project
@@ -296,7 +346,7 @@ class Project
         }
 
         if ($errors and $throw_on_error) {
-            throw new ValueError(join("\n", $errors));
+            throw new ProjectException(join("\n", $errors));
         }
 
         return $errors;

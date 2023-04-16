@@ -185,7 +185,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     {
         // defaults are not sufficient for validation; test exception raised
         $project = new Project();
-        $this->expectException(ValueError::class);
+        $this->expectException(ProjectException::class);
         $project->validate(true);
     }
 

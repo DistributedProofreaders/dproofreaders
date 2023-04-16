@@ -1,8 +1,14 @@
 <?php
 
 // Base exception that all API exceptions should derive from
+// These exception codes range from 1 to 99
 class ApiException extends Exception
 {
+    public function __construct($message = "API exception", $code = 1)
+    {
+        parent::__construct($message, $code);
+    }
+
     public function getStatusCode()
     {
         return 400;
@@ -14,13 +20,17 @@ class ApiException extends Exception
 
 class BadRequest extends ApiException
 {
+    public function __construct($message = "Bad request", $code = 2)
+    {
+        parent::__construct($message, $code);
+    }
 }
 
 class UnauthorizedError extends ApiException
 {
-    public function __construct($message = "Unauthorized")
+    public function __construct($message = "Unauthorized", $code = 3)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -31,9 +41,9 @@ class UnauthorizedError extends ApiException
 
 class NotFoundError extends ApiException
 {
-    public function __construct($message = "Object not found")
+    public function __construct($message = "Object not found", $code = 4)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -44,6 +54,11 @@ class NotFoundError extends ApiException
 
 class RateLimitExceeded extends ApiException
 {
+    public function __construct($message = "Rate limit exceeded", $code = 5)
+    {
+        parent::__construct($message, $code);
+    }
+
     public function getStatusCode()
     {
         return 429;
@@ -52,9 +67,9 @@ class RateLimitExceeded extends ApiException
 
 class InvalidValue extends ApiException
 {
-    public function __construct($message = "Request contained an invalid value for a parameter")
+    public function __construct($message = "Request contained an invalid value for a parameter", $code = 6)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -69,13 +84,17 @@ class InvalidValue extends ApiException
 
 class UnexpectedError extends ApiException
 {
+    public function __construct($message = "Unexpected error", $code = 7)
+    {
+        parent::__construct($message, $code);
+    }
 }
 
 class InvalidAPI extends ApiException
 {
-    public function __construct()
+    public function __construct($message = "Invalid API path", $code = 8)
     {
-        parent::__construct("Invalid API path");
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -86,9 +105,9 @@ class InvalidAPI extends ApiException
 
 class MethodNotAllowed extends ApiException
 {
-    public function __construct()
+    public function __construct($message = "API endpoint doesn't support this method", $code = 9)
     {
-        parent::__construct("API endpoint doesn't support this method");
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
@@ -99,17 +118,17 @@ class MethodNotAllowed extends ApiException
 
 class NotImplementedError extends ApiException
 {
-    public function __construct()
+    public function __construct($message = "API not implemented", $code = 10)
     {
-        parent::__construct("API not implemented");
+        parent::__construct($message, $code);
     }
 }
 
 class ServerError extends ApiException
 {
-    public function __construct()
+    public function __construct($message = "An unhandled error happened on the server", $code = 11)
     {
-        parent::__construct("An unhandled error happened on the server");
+        parent::__construct($message, $code);
     }
 
     public function getStatusCode()
