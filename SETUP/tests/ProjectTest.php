@@ -13,9 +13,11 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         "language" => "English",
         "genre" => "Other",
         "difficulty" => "average",
+        "clearance" => "123abc",
         // username and image_source are set in setUp() after creation
     ];
     private $created_projectids = [];
+    private $TEST_TEXT = "This is a test file";
 
     protected function setUp(): void
     {
@@ -50,9 +52,8 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     }
 
     //------------------------------------------------------------------------
-    // Project object save and delete
 
-    // helper function to create a project
+    // helper functions to create a project
     protected function _create_project()
     {
         $project = new Project();
@@ -64,6 +65,53 @@ class ProjectTest extends PHPUnit\Framework\TestCase
 
         return $project;
     }
+
+    protected function _create_project_with_page($npage = 1)
+    {
+        $project = $this->_create_project();
+        $project->add_charsuite("basic-latin");
+
+        $this->add_page($project, "001");
+        if ($npage > 1) {
+            $this->add_page($project, "002");
+        }
+        return $project;
+    }
+
+    protected function make_project_available($projectid)
+    {
+        project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
+        project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM);
+        project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO);
+    }
+
+    protected function advance_to_round2($projectid)
+    {
+        project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
+        project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
+        project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
+    }
+
+    protected function add_page($project, $base)
+    {
+        $source_project_dir = sys_get_temp_dir();
+        $txt_file_name = "$base.txt";
+        $txt_file_path = "$source_project_dir/$txt_file_name";
+        $fp = fopen($txt_file_path, 'w');
+        fwrite($fp, $this->TEST_TEXT);
+        fclose($fp);
+
+        $image_file_name = "$base.png";
+        $img_file_path = "{$project->dir}/$image_file_name";
+        $fp = fopen($img_file_path, 'w');
+        fwrite($fp, str_repeat("This is a test image file", 10));
+        fclose($fp);
+
+        project_add_page($project->projectid, $base, $image_file_name, $txt_file_path, $this->TEST_USERNAME_PM, time());
+    }
+
+    // tests
+    // Project object save and delete
 
     public function test_save_create()
     {
@@ -435,5 +483,68 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->expectException(InvalidPageException::class);
         $params = [];
         $image = get_page_image_param($params, "image");
+    }
+
+    // tests for can_be_proofed_by_current_user()
+
+    public function test_can_be_proofed_not_in_round()
+    {
+        global $pguser;
+
+        $this->expectExceptionCode(110);
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_project_with_page();
+        $project->can_be_proofed_by_current_user();
+    }
+
+    public function test_can_be_proofed_not_available()
+    {
+        global $pguser;
+
+        $this->expectExceptionCode(112);
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_project_with_page();
+        project_transition($project->projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
+        $project = new Project($project->projectid);
+        $project->can_be_proofed_by_current_user();
+    }
+
+    public function test_can_be_proofed_available()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_project_with_page();
+        $this->make_project_available($project->projectid);
+        $project = new Project($project->projectid);
+        $project->can_be_proofed_by_current_user();
+        $this->assertTrue(true);
+    }
+
+    public function test_can_be_proofed_user_not_logged_in()
+    {
+        global $pguser;
+        $pguser = null;
+
+        $this->expectExceptionCode(301);
+        $project = $this->_create_project_with_page();
+        $this->make_project_available($project->projectid);
+        $project = new Project($project->projectid);
+        $project->can_be_proofed_by_current_user();
+    }
+
+    public function test_can_be_proofed_user_not_qualified()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $userSettings = & Settings::get_Settings($pguser);
+        $userSettings->set_value("P2.access", "no");
+
+        $this->expectExceptionCode(302);
+        $project = $this->_create_project_with_page();
+        $this->make_project_available($project->projectid);
+        $this->advance_to_round2($project->projectid);
+        $project = new Project($project->projectid);
+        $project->can_be_proofed_by_current_user();
     }
 }

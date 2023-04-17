@@ -215,7 +215,7 @@ class Round extends Stage
                 $this->id,
                 "$code_url/tools/proofers/round.php?round_id=$this->id",
             );
-            throw new UserAccessException($message);
+            throw new UserNotQualifiedForRoundException($message);
         }
     }
 }
