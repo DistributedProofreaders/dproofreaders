@@ -349,7 +349,7 @@ function echo_page_table(
 
         // Master Text
         $master_text_length = $page_res["pagerounds"]["OCR"]["page_size"];
-        echo "<td style='text-align: right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0'>$master_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right'><a href='$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$imagename&amp;round_id=OCR&amp;mode=text'>$master_text_length&nbsp;b</a></td>\n";
 
         // --------------------------------------------
 
@@ -632,7 +632,7 @@ function echo_cells_for_round($round, $diff_round_num, // <- These are the only 
     if ($R_text_length == 0) {
         echo "<td $cell_class_attr> </td>\n";
     } else {
-        echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$imagename&amp;round_id={$round->id}&amp;mode=text'>$R_text_length&nbsp;b</a></td>\n";
     }
 }
 
