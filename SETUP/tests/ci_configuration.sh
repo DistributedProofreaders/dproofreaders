@@ -58,6 +58,7 @@ _ASPELL_TEMP_DIR=/tmp
 _WIKIHIERO_DIR=
 _WIKIHIERO_URL=
 
+_PHPMAILER_SMTP_CONFIG='["Host" => "localhost", "Port" => 25]'
 _NO_REPLY_EMAIL_ADDR=no-reply@pgdp.org
 _GENERAL_HELP_EMAIL_ADDR=dphelp@pgdp.net
 _DB_REQUESTS_EMAIL_ADDR=db-req@pgdp.org
