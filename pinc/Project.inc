@@ -88,6 +88,30 @@ class ProjectPageException extends ProjectException
     }
 }
 
+class ProjectNotInRoundException extends ProjectException
+{
+    public function __construct($message, $code = 110)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectRequiresMaintenanceException extends ProjectException
+{
+    public function __construct($message, $code = 111)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNotAvailableException extends ProjectException
+{
+    public function __construct($message, $code = 112)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class Project
 {
     use CharSuiteSet;
@@ -955,83 +979,38 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    // These should be treated as constants.
-    // (PHP doesn't appear to allow constants as class members.)
-    public $CBP_OKAY = 0;
-    public $CBP_PROJECT_NOT_IN_ROUND = 1;
-    public $CBP_PROJECT_NOT_AVAILABLE = 2;
-    public $CBP_REQUESTOR_NOT_LOGGED_IN = 3;
-    public $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
-    public $CBP_PROJECT_REQUIRES_MAINTENANCE = 5;
-
     public function can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
-    // Returns an array consisting of:
-    // -- one of the above codes, and
-    // -- a suggested error message.
+    // Can throw Exceptions
     {
-        global $code_url, $pguser;
+        global $pguser;
 
-        $state = $this->state;
-        $round = get_Round_for_project_state($state);
-
-        if (is_null($round)) {
-            // The project is not in any round.
-            return [
-                $this->CBP_PROJECT_NOT_IN_ROUND,
-                _('The project is not in a round.'),
-            ];
-        }
-
-        if (!$this->is_utf8) {
-            // Project has not been converted to UTF-8 yet
-            return [
-                $this->CBP_PROJECT_REQUIRES_MAINTENANCE,
-                _('The project requires maintenance.') . ' ' . _("Project table is not UTF-8."),
-            ];
-        }
-
-        if ($state != $round->project_available_state) {
-            // The project is in a round, but isn't available.
-            return [
-                $this->CBP_PROJECT_NOT_AVAILABLE,
-                _('Users are not allowed to work on the project in its current state.'),
-            ];
-        }
+        $project_round = $this->get_project_available_round();
 
         if (is_null($pguser)) {
-            return [
-                $this->CBP_REQUESTOR_NOT_LOGGED_IN,
-                _('Registered users can work on the project, but you are not logged in.'),
-            ];
+            throw new UserNotLoggedInException(_('Registered users can work on the project, but you are not logged in.'));
         }
 
-        $uao = $round->user_access($pguser);
-        if (!$uao->can_access) {
-            // The project is available, but the current user isn't
-            // allowed to work in the round that the project is in.
-            return [
-                $this->CBP_USER_NOT_QUALIFIED_FOR_ROUND,
-                sprintf(
-                    // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)
-                    _('You have not yet been cleared to work on projects in %1$s (%2$s).'),
-                    $round->name,
-                    $round->id
-                )
-                . "<br>"
-                . sprintf(
-                    // TRANSLATORS: %2$s is the round ID (eg: P1)
-                    _('Please visit <a href="%1$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
-                    "$code_url/tools/proofers/round.php?round_id=$round->id",
-                    $round->id
-                ),
-            ];
-        }
+        $project_round->user_can_access();
+    }
 
-        return [
-            $this->CBP_OKAY,
-            "You may work on this project.",
-        ];
+    public function get_project_available_round()
+    {
+        $state = $this->state;
+        $project_round = get_Round_for_project_state($state);
+        if (is_null($project_round)) {
+            // The project is not in any round.
+            throw new ProjectNotInRoundException(_("The project is not in a round"));
+        }
+        if (!$this->is_utf8) {
+            // Project has not been converted to UTF-8 yet
+            throw new ProjectRequiresMaintenanceException(_('The project requires maintenance. Project table is not UTF-8.'));
+        }
+        if ($state != $project_round->project_available_state) {
+            // The project is in a round, but isn't available.
+            throw new ProjectNotAvailableException(_('Users are not allowed to work on the project in its current state.'));
+        }
+        return $project_round;
     }
 
     public function user_can_do_quick_check()

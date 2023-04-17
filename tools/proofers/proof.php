@@ -35,9 +35,10 @@ if (!$expected_state) {
 }
 
 // Check that the project is in a proofable state
-[$code, $msg] = $project->can_be_proofed_by_current_user();
-if ($code != $project->CBP_OKAY) {
-    abort($msg);
+try {
+    $project->can_be_proofed_by_current_user();
+} catch (UserAccessException | ProjectException $exception) {
+    abort($exception->getMessage());
 }
 
 //load the master frameset
