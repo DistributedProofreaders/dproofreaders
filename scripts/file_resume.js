@@ -37,8 +37,8 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     if(resumable.support) {
-        resumable.assignBrowse(document.getElementById("resumable_browse"));
-        resumable.assignDrop(document.getElementById("upload_form"));
+        resumable.assignBrowse([document.getElementById("resumable_browse")]);
+        resumable.assignDrop([document.getElementById("upload_form")]);
 
         // Show the resumable div
         this.document.getElementById("resumable_uploader").style.display = "";
