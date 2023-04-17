@@ -434,8 +434,7 @@ function _test_project_for_bad_bytes($projectid)
         <p><small>" . sprintf(_("For more detail about this table, see %s"), "<a href='bad_bytes_explainer.php'>here</a>") . "</small></p>
         <table class='basic striped'>
         <tr>
-            <th>" . _("Image") . "</th>
-            <th>" . _("Text") . "</th>
+            <th>" . _("Page") . "</th>
             <th>" . _("#") . "</th>
             <th>" . _("Raw") . "</th>
             <th>" . _("Bytes") . "</th>
@@ -450,6 +449,12 @@ function _test_project_for_bad_bytes($projectid)
 
     while ([$text, $imagename, $proofers] = page_info_fetch($pages_res)) {
         $round_num = get_round_num_from_proofers($proofers);
+        if ($round_num == 0) {
+            $round_name = 'OCR';
+        } else {
+            $round = get_Round_for_round_number($round_num);
+            $round_name = $round->id;
+        }
 
         // note that this can change $text
         $occurrences = find_bad_byte_sequences_in_text($text);
@@ -466,17 +471,9 @@ function _test_project_for_bad_bytes($projectid)
 
         // write image and round columns
         $rowspan = $number_bad_chars;
-        $img_url = "$code_url/tools/page_browser.php?project=$projectid&imagefile=$imagename";
-        $text_url = "$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num";
+        $page_browser_url = "$code_url/tools/page_browser.php?project=$projectid&imagefile=$imagename&amp;round_id=$round_name&mode=imageText";
         $details_for_this_page = "<tr>\n";
-        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$img_url'>$imagename</a></td>\n";
-        if ($round_num == 0) {
-            $round_name = 'OCR';
-        } else {
-            $round = get_Round_for_round_number($round_num);
-            $round_name = $round->id;
-        }
-        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$text_url'>" . html_safe($round_name) . "</a></td>\n";
+        $details_for_this_page .= "<td class='top-align' rowspan='$rowspan'><a href='$page_browser_url'>$imagename - " . html_safe($round_name) . "</a></td>\n";
 
         // on the first row <tr> is already written out with image and round
         // columns so only write it on subsequent rows

@@ -50,7 +50,6 @@ if (!$resolution) {
     $b_Code = $page['b_code'];
 
     $round = get_Round_for_page_state($state);
-    $current_round_num = $round->round_number;
 
     // It's a bit messy to have this here,
     // since it reiterates stuff that appears in other files,
@@ -65,6 +64,9 @@ if (!$resolution) {
     }
     if ($prev_round_num == 0) {
         $prevtext_column = 'master_text';
+        $prev_round_id = "OCR";
+    } else {
+        $prev_round_id = get_Round_for_round_number($prev_round_num)->id;
     }
 
     // Is it a bad page report, or are we merely fixing an ordinary page
@@ -101,11 +103,13 @@ if (!$resolution) {
     echo "<b>" . _("Page") . ":</b> $image<br>";
     echo "<b>" . _("Page state") . ":</b> $state<br>";
     echo "<b>" . _("View") . "</b>: ";
-    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" .
+    $page_browser_url = "../page_browser.php?project=$projectid&imagefile=$image&round_id=$prev_round_id";
+    echo "<a href='$page_browser_url&amp;mode=text' target='_new'>" .
         // TRANSLATORS: %s is a round_id
         sprintf(_("%s Text"), get_round_name($prev_round_num)) . "</a>";
     echo " | ";
-    echo "<a href='../page_browser.php?project=$projectid&imagefile=$image' target='_new'>" . _("Image") . "</a>";
+    echo "<a href='$page_browser_url&amp;mode=image' target='_new'>" .
+        _("Image") . "</a>";
     echo "</p>";
 
     $show_resolution_form = true;
