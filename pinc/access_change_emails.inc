@@ -1,5 +1,5 @@
 <?php
-include_once($relPath."maybe_mail.inc");
+include_once($relPath."send_mail.inc");
 
 function pp_access_change_email($user, $access_change)
 {
@@ -50,7 +50,7 @@ function pp_access_change_email($user, $access_change)
 
     $headers = ["Reply-To: $db_requests_email_addr"];
 
-    $mail_accepted = maybe_mail($email, $subject, $message_string, $headers);
+    $mail_accepted = send_mail($email, $subject, $message_string, null, $db_requests_email_addr);
 
     // restore gettext to current user's locale
     configure_gettext_for_user();
@@ -141,7 +141,7 @@ function p2_access_change_email($user, $access_change)
     $email = $user->email;
     $message_string = implode("\n\n", $message);
 
-    $mail_accepted = maybe_mail($email, $subject, $message_string);
+    $mail_accepted = send_mail($email, $subject, $message_string);
 
     // restore gettext to current user's locale
     configure_gettext_for_user();
@@ -224,7 +224,7 @@ function f1_access_change_email($user, $access_change)
     $email = $user->email;
     $message_string = implode("\n\n", $message);
 
-    $mail_accepted = maybe_mail($email, $subject, $message_string);
+    $mail_accepted = send_mail($email, $subject, $message_string);
 
     // restore gettext to current user's locale
     configure_gettext_for_user();
