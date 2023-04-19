@@ -4,6 +4,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
 {
     private $TEST_USERNAME_PM = "ProjectTestPM_php";
     private $TEST_USERNAME = "ProjectTest_php";
+    private $TEST_OLDUSERNAME = "ProjectTest_old_php";
     private $TEST_IMAGESOURCE = "PrjTest";
     private $valid_projectID = "projectID45c225f598e32";
     private $valid_page_image = "001.png";
@@ -29,6 +30,9 @@ class ProjectTest extends PHPUnit\Framework\TestCase
 
         create_test_user($this->TEST_USERNAME);
 
+        // create an old user (new users $days_on_site_threshold = 21)
+        create_test_user($this->TEST_OLDUSERNAME, 22);
+
         create_test_image_source($this->TEST_IMAGESOURCE);
 
         $this->valid_project_data["username"] = $this->TEST_USERNAME_PM;
@@ -43,6 +47,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
 
         delete_test_user($this->TEST_USERNAME_PM);
         delete_test_user($this->TEST_USERNAME);
+        delete_test_user($this->TEST_OLDUSERNAME);
         delete_test_image_source($this->TEST_IMAGESOURCE);
 
         foreach ($this->created_projectids as $projectid) {
@@ -78,11 +83,14 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         return $project;
     }
 
-    protected function make_project_available($projectid)
+    protected function _create_available_project($npage = 1)
     {
+        $project = $this->_create_project_with_page($npage);
+        $projectid = $project->projectid;
         project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
         project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM);
         project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO);
+        return $project;
     }
 
     protected function advance_to_round2($projectid)
@@ -514,8 +522,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         global $pguser;
 
         $pguser = $this->TEST_USERNAME;
-        $project = $this->_create_project_with_page();
-        $this->make_project_available($project->projectid);
+        $project = $this->_create_available_project();
         $project = new Project($project->projectid);
         $project->can_be_proofed_by_current_user();
         $this->assertTrue(true);
@@ -527,8 +534,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $pguser = null;
 
         $this->expectExceptionCode(301);
-        $project = $this->_create_project_with_page();
-        $this->make_project_available($project->projectid);
+        $project = $this->_create_available_project();
         $project = new Project($project->projectid);
         $project->can_be_proofed_by_current_user();
     }
@@ -537,14 +543,66 @@ class ProjectTest extends PHPUnit\Framework\TestCase
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
-        $userSettings = & Settings::get_Settings($pguser);
-        $userSettings->set_value("P2.access", "no");
-
+        $user = new User($pguser);
+        $user->deny_access("P2", $pguser);
         $this->expectExceptionCode(302);
-        $project = $this->_create_project_with_page();
-        $this->make_project_available($project->projectid);
+        $project = $this->_create_available_project();
         $this->advance_to_round2($project->projectid);
         $project = new Project($project->projectid);
         $project->can_be_proofed_by_current_user();
+    }
+
+    // tests for can_user_get_pages_in_project()
+
+    public function test_can_user_get_pages_reserved_for_new_proofreaders()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+        $round = get_Round_for_round_id("P1");
+
+        // user done no pages and few days on site
+        can_user_get_pages_in_project($pguser, $project, $round);
+
+        // user done many pages
+        // $page_tally_threshold 500 for new projects in reserve time
+        page_tallies_add("P1", $pguser, 501);
+        can_user_get_pages_in_project($pguser, $project, $round);
+
+        // few pages, many days on site
+        $pguser = $this->TEST_OLDUSERNAME;
+        can_user_get_pages_in_project($pguser, $project, $round);
+
+        // many pages, many days on site
+        page_tallies_add("P1", $pguser, 501);
+        $this->expectExceptionCode(306);
+        can_user_get_pages_in_project($pguser, $project, $round);
+    }
+
+    public function test_beginner_project_checkout()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $this->valid_project_data["difficulty"] = "beginner";
+        $project = $this->_create_available_project();
+        // beginners limit is 40 in user_is.inc
+        page_tallies_add("P1", $pguser, 50);
+        $round = get_Round_for_round_id("P1");
+        $this->expectExceptionCode(303);
+        can_user_get_pages_in_project($pguser, $project, $round);
+    }
+
+    public function test_beginner_mentor_project_checkout()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $this->valid_project_data["difficulty"] = "beginner";
+        $project = $this->_create_available_project();
+        $this->advance_to_round2($project->projectid);
+        $user = new User($pguser);
+        $user->grant_access("P2", $pguser);
+        $round = get_Round_for_round_id("P2");
+        $this->expectExceptionCode(305);
+        can_user_get_pages_in_project($pguser, $project, $round);
     }
 }
