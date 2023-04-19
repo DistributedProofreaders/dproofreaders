@@ -1,7 +1,7 @@
 <?php
 $relPath = './pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
+include_once($relPath.'stages.inc'); // can_user_get_pages_in_project()
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
 include_once($relPath.'project_states.inc');
@@ -217,8 +217,10 @@ function decide_blurbs()
         return [$blurb, $blurb];
     }
 
-    $blurb = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($blurb) {
+    try {
+        can_user_get_pages_in_project($pguser, $project, $round);
+    } catch (UserAccessException $exception) {
+        $blurb = $exception->getMessage();
         return [$blurb, $blurb];
     }
 
