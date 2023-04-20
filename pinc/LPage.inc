@@ -151,7 +151,7 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     return $lpage;
 }
 
-function get_available_proof_page($project, $round, $pguser)
+function get_available_proof_page_array($project, $round, $pguser)
 // Returns an array [image, state] unless no page is available,
 // in which case throw an exception.
 {
