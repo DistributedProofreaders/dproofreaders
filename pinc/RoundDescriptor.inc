@@ -202,7 +202,7 @@ class Round extends Stage
 
     // -----------
 
-    public function user_can_access()
+    public function validate_user_can_access()
     {
         global $code_url, $pguser;
 
