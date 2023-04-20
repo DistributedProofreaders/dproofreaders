@@ -493,7 +493,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $image = get_page_image_param($params, "image");
     }
 
-    // tests for can_be_proofed_by_current_user()
+    // tests for validate_can_be_proofed_by_current_user()
 
     public function test_can_be_proofed_not_in_round()
     {
@@ -502,7 +502,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->expectExceptionCode(110);
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_project_with_page();
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
     }
 
     public function test_can_be_proofed_not_available()
@@ -514,7 +514,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $project = $this->_create_project_with_page();
         project_transition($project->projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
         $project = new Project($project->projectid);
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
     }
 
     public function test_can_be_proofed_available()
@@ -524,7 +524,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_available_project();
         $project = new Project($project->projectid);
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
         $this->assertTrue(true);
     }
 
@@ -536,7 +536,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $this->expectExceptionCode(301);
         $project = $this->_create_available_project();
         $project = new Project($project->projectid);
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
     }
 
     public function test_can_be_proofed_user_not_qualified()
@@ -549,7 +549,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $project = $this->_create_available_project();
         $this->advance_to_round2($project->projectid);
         $project = new Project($project->projectid);
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
     }
 
     // tests for can_user_get_pages_in_project()

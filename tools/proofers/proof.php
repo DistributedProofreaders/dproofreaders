@@ -36,7 +36,7 @@ if (!$expected_state) {
 
 // Check that the project is in a proofable state
 try {
-    $project->can_be_proofed_by_current_user();
+    $project->validate_can_be_proofed_by_current_user();
 } catch (UserAccessException | ProjectException $exception) {
     abort($exception->getMessage());
 }

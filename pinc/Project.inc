@@ -987,7 +987,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function can_be_proofed_by_current_user()
+    public function validate_can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
     // Can throw Exceptions
     {

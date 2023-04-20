@@ -193,7 +193,7 @@ function decide_blurbs()
     global $project, $pguser;
 
     try {
-        $project->can_be_proofed_by_current_user();
+        $project->validate_can_be_proofed_by_current_user();
     } catch (ProjectNotInRoundException $exception) {
         // Rather than blurbs that say it's not in a round,
         // just don't have any blurbs.
