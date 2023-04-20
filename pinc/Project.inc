@@ -112,6 +112,14 @@ class ProjectNotAvailableException extends ProjectException
     }
 }
 
+class ProjectNoMorePagesException extends ProjectException
+{
+    public function __construct($message, $code = 113)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class Project
 {
     use CharSuiteSet;
