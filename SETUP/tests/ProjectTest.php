@@ -552,7 +552,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $project->validate_can_be_proofed_by_current_user();
     }
 
-    // tests for can_user_get_pages_in_project()
+    // tests for validate_user_can_get_pages_in_project()
 
     public function test_can_user_get_pages_reserved_for_new_proofreaders()
     {
@@ -562,21 +562,21 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $round = get_Round_for_round_id("P1");
 
         // user done no pages and few days on site
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
 
         // user done many pages
         // $page_tally_threshold 500 for new projects in reserve time
         page_tallies_add("P1", $pguser, 501);
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
 
         // few pages, many days on site
         $pguser = $this->TEST_OLDUSERNAME;
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
 
         // many pages, many days on site
         page_tallies_add("P1", $pguser, 501);
         $this->expectExceptionCode(306);
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
     }
 
     public function test_beginner_project_checkout()
@@ -589,7 +589,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         page_tallies_add("P1", $pguser, 50);
         $round = get_Round_for_round_id("P1");
         $this->expectExceptionCode(303);
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
     }
 
     public function test_beginner_mentor_project_checkout()
@@ -603,7 +603,7 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $user->grant_access("P2", $pguser);
         $round = get_Round_for_round_id("P2");
         $this->expectExceptionCode(305);
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
     }
 
     public function test_project_checkout_no_more_pages()

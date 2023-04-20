@@ -264,7 +264,7 @@ $ELR_round = get_Round_for_round_number(1);
 
 // -----------------------------------------------------------------------------
 
-function can_user_get_pages_in_project($username, $project, $round)
+function validate_user_can_get_pages_in_project($username, $project, $round)
 // Check if the given user is allowed to get a new page
 // of the given project in the given round
 // (via "Start Proofreading" or "Save and Do Another"),

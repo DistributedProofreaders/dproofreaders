@@ -1,7 +1,7 @@
 <?php
 $relPath = './pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc'); // can_user_get_pages_in_project()
+include_once($relPath.'stages.inc'); // validate_user_can_get_pages_in_project()
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
 include_once($relPath.'project_states.inc');
@@ -218,14 +218,14 @@ function decide_blurbs()
     }
 
     try {
-        can_user_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
     } catch (UserAccessException $exception) {
         $blurb = $exception->getMessage();
         return [$blurb, $blurb];
     }
 
     // Check whether the user is blocked by a daily page limit.
-    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // Arguably, you'd expect this to be determined in validate_user_can_get_pages_in_project(),
     // but we also want to produce a warning (when the project is covered by a DPL)
     // even when the user *isn't* blocked, which you can't really expect of that function.
     //
