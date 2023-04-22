@@ -838,10 +838,10 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     configure_gettext_for_user($pper);
     $ppbita = _("Hello %1\$s,
 
-    This is a message that your Post-Processing Verifier, %2\$s,
-    requested you receive from the %4\$s site.
+    This is a message that your Post-Processing Verifier, %2\$s, requested you receive from the %4\$s site.
 
     Thank you for your Post-Processing work on \"%3\$s\".
+    
     A copy of the PPV Summary is below. If you have any questions about it, please contact your PPVer.");
 
     $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, $site_name);
@@ -850,12 +850,11 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     configure_gettext_for_user($ppver);
     $ppvbita = _("Hello %1\$s,
 
-    This is a message that you requested you receive from the %4\$s
-    site.
+    This is a message that you requested you receive from the %4\$s site.
 
     Thank you for your Post-Processing Verification work on \"%2\$s\".
-    A copy of the summary you submitted is below. If you see an important error,
-    please email %3\$s.");
+    
+    A copy of the summary you submitted is below. If you see an important error, please email %3\$s.");
 
     $ppvbit = sprintf($ppvbita, $pguser, $nameofwork, $general_help_email_addr, $site_name);
     $ppvbit = ppv_report_wrap($ppvbit);
