@@ -19,25 +19,18 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
     $from = $from ?? $auto_email_addr;
     $reply_to = $reply_to ?? $auto_email_addr;
 
-    // Append a standard footer to all emails sent out by the system.
     if (!endswith($message, "\n")) {
         $message .= "\n";
     }
 
-    $message .= implode("\n", [
-        "",
-        mdmail_horizontal_rule(),
-        mdmail_append_linebreak($site_name),
-        $site_url,
-        "",
-        // We intentionally don't translate this message because we don't know
-        // what the recipient's language is at this point.
-        "This is an automated message.",
-    ]);
+    // Append a standard footer to all emails sent out by the system.
+    [$text_footer, $html_footer] = get_standard_email_footers();
+
+    $text_message = $message . $text_footer;
 
     $Parsedown = new ParsedownExtra();
     $Parsedown->setSafeMode(true);
-    $html_message = $Parsedown->text($message);
+    $html_message = $Parsedown->text($message) . $html_footer;
 
     if ($testing) {
         echo "\n<hr style='border-style:double;'>\n";
@@ -49,7 +42,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         echo html_safe("Reply-To: $reply_to\n");
         echo "</pre>";
         echo "<pre style='white-space: pre-wrap'>";
-        echo html_safe("$message\n");
+        echo html_safe("$text_message\n");
         echo "</pre>\n";
         echo "<hr style='border-style:dashed;'>\n";
         echo "$html_message\n"   ;
@@ -78,7 +71,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $html_message;
-        $mail->AltBody = $message;
+        $mail->AltBody = $text_message;
 
         $mail->send();
     } catch (Exception $e) {
@@ -112,6 +105,30 @@ function send_mail_project_manager($project, $info, $prefix)
     return send_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
+// Return text and HTML versions of standard email footer
+// We intentionally don't translate anything because we don't know
+// what the recipient's language is at this point.
+function get_standard_email_footers()
+{
+    global $site_url, $site_name;
+
+    $automated_message = "This is an automated message.";
+    $text_footer = implode("\n", [
+        "",
+        str_repeat("-", strlen($site_name)), // make <hr> from hyphens
+        $site_name,
+        $site_url,
+        "",
+        $automated_message,
+    ]);
+    $html_footer = implode("\n", [
+        "<hr style='width:12em; margin-left:0; margin-top:2em;'>",
+        "<a href='$site_url'>$site_name</a><br>",
+        "<small>$automated_message</small>",
+    ]);
+    return [$text_footer, $html_footer];
+}
+
 // Split a string of form "user@example.com" or "Example User <user@example.com>"
 // into the name and the email address.
 // Name will be null if not specified.
@@ -120,9 +137,12 @@ function get_name_address($string)
     $string = rtrim($string, '>');
     $results = explode(' <', $string);
     if (sizeof($results) === 1) {
-        array_unshift($results, null);
+        $name = null;
+        $address = $results[0];
+    } else {
+        [$name, $address] = $results;
     }
-    return $results;
+    return [$name, $address];
 }
 
 // Add linebreak to end of line for a Markdown email
