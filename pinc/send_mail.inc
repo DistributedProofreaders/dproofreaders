@@ -48,7 +48,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         echo "$html_message\n"   ;
         echo "<hr style='border-style:double;'>\n";
         // Comment out line below to allow sending of emails when testing
-        // return true;
+        return true;
     }
 
     $success = true;
