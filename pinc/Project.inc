@@ -999,7 +999,7 @@ class Project
             throw new UserNotLoggedInException(_('Registered users can work on the project, but you are not logged in.'));
         }
 
-        $project_round->validate_user_can_access();
+        $project_round->validate_user_can_access($pguser);
     }
 
     public function get_project_available_round()

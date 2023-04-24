@@ -137,12 +137,11 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     $round = get_Round_for_project_state($proj_state);
 
     try {
-        $page_array = get_available_proof_page_array($project, $round, $pguser);
+        [$imagefile, $state] = get_available_proof_page_array($project, $round, $pguser);
     } catch (ProjectException | UserAccessException $exception) {
         $err = $exception->getMessage();
         return null;
     }
-    [$imagefile, $state] = $page_array;
     $lpage = new LPage($project->projectid, $imagefile, $state, 0);
 
     $lpage->checkout($pguser);

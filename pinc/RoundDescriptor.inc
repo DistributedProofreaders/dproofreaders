@@ -202,11 +202,11 @@ class Round extends Stage
 
     // -----------
 
-    public function validate_user_can_access()
+    public function validate_user_can_access($user)
     {
-        global $code_url, $pguser;
+        global $code_url;
 
-        $uao = $this->user_access($pguser);
+        $uao = $this->user_access($user);
         if (!$uao->can_access) {
             $message = sprintf(
                 // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)

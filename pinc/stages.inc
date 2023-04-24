@@ -283,7 +283,8 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
     if ($project->difficulty == 'beginner') {
         if ($round->is_a_mentee_round()) {
             if (!user_can_work_on_beginner_pages_in_round($round)) {
-                throw new BeginnersQuotaReachedException(_("You have reached your quota of pages from 'Beginners Only' projects in this round. Perhaps you could try working on an EASY project."));
+                throw new BeginnersQuotaReachedException(_("You have reached your quota of pages from 'Beginners Only' projects in this round.
+                    Perhaps you could try working on an EASY project."));
             }
 
             if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
@@ -304,12 +305,12 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
                 ");
                 $row = mysqli_fetch_assoc($result);
                 if ($row["pagesdone"] >= $max_n_pages_per_project) {
-                    throw new BeginnersProjectQuotaReachedException(_("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one. Or you could try working on an EASY project."));
+                    throw new BeginnersProjectQuotaReachedException(_("You have reached your quota of pages from this 'Beginners Only' project,
+                        but you're welcome to work on a different one. Or you could try working on an EASY project."));
                 }
             }
         } elseif ($round->is_a_mentor_round()) {
             if (!user_can_work_on_beginner_pages_in_round($round)) {
-                $message = _("You do not have access to difficulty='beginner' (Mentors Only) projects in this round.");
                 throw new NoAccessToMentorsOnlyException(_("You do not have access to difficulty='beginner' (Mentors Only) projects in this round."));
             }
         } else {

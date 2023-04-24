@@ -1,7 +1,7 @@
 <?php
 $relPath = './pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc'); // validate_user_can_get_pages_in_project()
+include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
 include_once($relPath.'project_states.inc');
