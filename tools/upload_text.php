@@ -331,14 +331,16 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
                 }
                 unlink($zip);
             }
-            // if there are htm or html files, zip them with images directory
+            // if there are htm or html files, zip them with extra directories
             $files_to_zip = glob("$smooth_dir/*.{htm,html}", GLOB_BRACE);
             if ($files_to_zip) {
                 // make the zip file with the original name but -html.zip.
                 $path_to_zip = $smooth_dir . "/" . pathinfo($original_name, PATHINFO_FILENAME) . "-html.zip";
-                $images_dir = "$smooth_dir/images";
-                if (file_exists($images_dir)) {
-                    $files_to_zip[] = $images_dir;
+                foreach (["images", "music"] as $sub_dir) {
+                    $extra_dir = "$smooth_dir/$sub_dir";
+                    if (file_exists($extra_dir)) {
+                        $files_to_zip[] = $extra_dir;
+                    }
                 }
                 if (!create_zip_from($files_to_zip, $path_to_zip)) {
                     throw new FileUploadException("Could not create zip file");
