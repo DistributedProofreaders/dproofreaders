@@ -1401,6 +1401,7 @@ function do_post_files()
         echo "<ul>";
 
         echo_download_zip(_("Download Zipped Images"), 'images');
+        echo_download_zip(_("Download Zipped Music Files"), '_music');
 
         if ($state == PROJ_POST_FIRST_AVAILABLE || $state == PROJ_POST_FIRST_CHECKED_OUT) {
             echo_download_zip(_("Download Zipped Text"), '');
@@ -1575,6 +1576,10 @@ function echo_download_zip($link_text, $discriminator)
         $p = "$projectid$discriminator.zip";
 
         if (!file_exists("$project->dir/$p")) {
+            if ($discriminator == '_music') {
+                // don't show any link
+                return;
+            }
             // The file doesn't exist yet, so there's no point providing a link to it.
             echo "<li>";
             echo $link_text;
