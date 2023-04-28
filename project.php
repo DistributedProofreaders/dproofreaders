@@ -190,7 +190,11 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $pguser;
+    global $project, $pguser, $code_url;
+
+    $projectid = $project->projectid;
+    $state = $project->state;
+    $round = get_Round_for_project_state($state);
 
     try {
         $project->validate_can_be_proofed_by_current_user();
@@ -198,14 +202,18 @@ function decide_blurbs()
         // Rather than blurbs that say it's not in a round,
         // just don't have any blurbs.
         return [null, null];
+    } catch (UserNotQualifiedForRoundException $exception) {
+        $msg = $exception->getMessage() . "<br>" . sprintf(
+            // TRANSLATORS: %2$s is the round ID (eg: P1)
+            _('Please visit <a href="%1$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
+            "$code_url/tools/proofers/round.php?round_id=$round->id",
+            $round->id,
+        );
+        return [$msg, $msg];
     } catch (ProjectException | UserAccessException $exception) {
         $msg = $exception->getMessage();
         return [$msg, $msg];
     }
-
-    $projectid = $project->projectid;
-    $state = $project->state;
-    $round = get_Round_for_project_state($state);
 
     $num_pages_available = $project->get_num_pages_in_state($round->page_avail_state);
 

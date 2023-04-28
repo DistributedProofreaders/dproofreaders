@@ -210,10 +210,9 @@ class Round extends Stage
         if (!$uao->can_access) {
             $message = sprintf(
                 // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)
-                _('You have not yet been cleared to work on projects in %1$s (%2$s). Please visit <a href="%3$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
+                _('You have not yet been cleared to work on projects in %1$s (%2$s).'),
                 $this->name,
                 $this->id,
-                "$code_url/tools/proofers/round.php?round_id=$this->id",
             );
             throw new UserNotQualifiedForRoundException($message);
         }
