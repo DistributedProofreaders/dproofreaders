@@ -16,7 +16,7 @@ if (empty($stage_id)) {
 
 $stage = get_Stage_for_id($stage_id);
 
-$title = sprintf(_('Requesting access to "%s"'), $stage->name);
+$title = sprintf(_('Requesting access to "%s"'), $stage_id);
 slim_header($title);
 
 echo "<h2>$title</h2>\n";
@@ -61,13 +61,22 @@ if ($uao->can_access) {
                 $user->grant_access($stage_id, 'AUTO-GRANTED');
                 echo _('Access has been granted!');
             } elseif ($stage->after_satisfying_minima == 'REQ-HUMAN') {
+                $subject = sprintf(
+                    _("Requesting Access to P3--'%1\$s'"),
+                    $pguser
+                );
                 $body = sprintf(
-                    _("User '%1\$s' has requested access to stage '%2\$s'"),
+                    _("User '%1\$s' has requested access to '%2\$s'"),
                     $pguser,
                     $stage_id
                 );
+                $body .= "\n\n";
+                $body .= sprintf(
+                    _("[Pending Access Requests Page](%1\$s)"),
+                    "$code_url/tools/pending_access_requests.php"
+                );
 
-                send_mail($email_addr, $title, $body);
+                send_mail($email_addr, $subject, $body);
 
                 $user->request_access($stage_id);
                 echo _('Your request has been submitted and logged.');
