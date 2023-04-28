@@ -62,7 +62,8 @@ if ($uao->can_access) {
                 echo _('Access has been granted!');
             } elseif ($stage->after_satisfying_minima == 'REQ-HUMAN') {
                 $subject = sprintf(
-                    _("Requesting Access to P3--'%1\$s'"),
+                    _("Requesting Access to %1\$s--'%2\$s'"),
+                    $stage_id,
                     $pguser
                 );
                 $body = sprintf(
