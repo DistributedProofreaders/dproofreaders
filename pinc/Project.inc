@@ -1066,9 +1066,7 @@ class Project
 
     public function get_num_pages_in_state($state = null, $counter_sql = "*")
     {
-        if (!$this->pages_table_exists) {
-            throw new NoProjectPageTable(_("Project page table does not exist."));
-        }
+        $this->validate_project_page_table_exists();
 
         // if state is null, get all pages
         $where = $state ? sprintf("state = '%s'", DPDatabase::escape($state)) : "1";
@@ -1092,10 +1090,7 @@ class Project
 
     public function get_page_names_from_db()
     {
-        if (!$this->pages_table_exists) {
-            throw new NoProjectPageTable(_("Project page table does not exist."));
-        }
-
+        $this->validate_project_page_table_exists();
         validate_projectID($this->projectid);
         $page_image_names = [];
         $sql = "
@@ -1109,6 +1104,13 @@ class Project
         }
 
         return $page_image_names;
+    }
+
+    public function validate_project_page_table_exists()
+    {
+        if (!$this->pages_table_exists) {
+            throw new NoProjectPageTable(_("Project page table does not exist."));
+        }
     }
 
     public function get_page_names_from_dir()
