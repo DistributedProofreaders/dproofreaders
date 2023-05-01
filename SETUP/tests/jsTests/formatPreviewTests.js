@@ -264,6 +264,13 @@ QUnit.module("Format preview test", function() {
         issueTest(assert, 0, 7, 3, "noBold", 1);
     });
 
+    QUnit.test("entirely bold paragraph", function (assert) {
+        // 2 blank lines preceding
+        text = "ab\n\n\n<b>cd\ngh</b>\n\nef";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 8, 1, "boldPara", 0);
+    });
+
     QUnit.test("small cap text with no capitals", function (assert) {
         text = "<sc>abcd</sc>";
         issArray = analyse(text, configuration).issues;
