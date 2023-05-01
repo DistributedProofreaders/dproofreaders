@@ -125,6 +125,7 @@ class Project
     use CharSuiteSet;
 
     private $_create_source = null;
+    private $project_page_table_exists = null;
 
     public function __construct($arg = null)
     {
@@ -556,8 +557,6 @@ class Project
     {
         global $pguser, $projects_url, $projects_dir, $code_url;
 
-        static $project_page_table_exists = null;
-
         switch ($name) {
             case "url":
                 return "$projects_url/$this->projectid";
@@ -570,10 +569,10 @@ class Project
             case "dir_exists":
                 return is_dir($this->dir);
             case "pages_table_exists":
-                if ($project_page_table_exists === null) {
-                    $project_page_table_exists = does_project_page_table_exist($this->projectid);
+                if ($this->project_page_table_exists === null) {
+                    $this->project_page_table_exists = does_project_page_table_exist($this->projectid);
                 }
-                return $project_page_table_exists;
+                return $this->project_page_table_exists;
             case "credits_line":
                 return $this->_get_credits_line();
             case "languages":
@@ -1066,7 +1065,7 @@ class Project
 
     public function get_num_pages_in_state($state = null, $counter_sql = "*")
     {
-        $this->validate_project_page_table_exists();
+        $this->validate_page_table_exists();
 
         // if state is null, get all pages
         $where = $state ? sprintf("state = '%s'", DPDatabase::escape($state)) : "1";
@@ -1090,7 +1089,7 @@ class Project
 
     public function get_page_names_from_db()
     {
-        $this->validate_project_page_table_exists();
+        $this->validate_page_table_exists();
         validate_projectID($this->projectid);
         $page_image_names = [];
         $sql = "
@@ -1106,7 +1105,7 @@ class Project
         return $page_image_names;
     }
 
-    public function validate_project_page_table_exists()
+    public function validate_page_table_exists()
     {
         if (!$this->pages_table_exists) {
             throw new NoProjectPageTable(_("Project page table does not exist."));

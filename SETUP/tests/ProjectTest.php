@@ -493,6 +493,18 @@ class ProjectTest extends PHPUnit\Framework\TestCase
         $image = get_page_image_param($params, "image");
     }
 
+    // test for test_validate_page_table_exists()
+
+    public function test_validate_page_table_exists()
+    {
+        $this->expectExceptionCode(107);
+        $project = $this->_create_project();
+        $project->delete();
+        // update cached components
+        $project = new Project($project->projectid);
+        $project->validate_page_table_exists();
+    }
+
     // tests for validate_can_be_proofed_by_current_user()
 
     public function test_can_be_proofed_not_in_round()
