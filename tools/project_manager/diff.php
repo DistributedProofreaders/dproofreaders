@@ -175,11 +175,8 @@ echo "</p>\n";
 $diffurl = "$code_url/tools/project_manager/diff.php?project=$projectid&image=$image&L_round_num=$L_round_num&R_round_num=$R_round_num";
 
 $diffEngine = $bb_diffs ? new DifferenceEngineWrapperBBHTML($diffurl) : new DifferenceEngineWrapperTable();
-
 $diffEngine->setText($L_text, $R_text);
-$difftext = $diffEngine->getDiff($L_label, $R_label);
-
-echo $difftext;
+echo $diffEngine->getDiff($L_label, $R_label);
 
 // don't print out the navigation bit again if there is no difference
 // at the top of the page it's buttons, then project page

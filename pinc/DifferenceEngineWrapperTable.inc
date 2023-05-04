@@ -1,6 +1,7 @@
 <?php
 // This file inherits from DifferenceEngineWrapper to facilitate
 // formatting diffs in an HTML table.
+include_once($relPath."prefs_options.inc"); // get_user_proofreading_font()
 include_once($relPath."DifferenceEngineWrapper.inc");
 include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
 
