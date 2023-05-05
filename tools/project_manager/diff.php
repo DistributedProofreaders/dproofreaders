@@ -6,7 +6,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe()
-include_once($relPath."DifferenceEngineWrapper.inc");
+include_once($relPath."DifferenceEngineWrapperTable.inc");
+include_once($relPath."DifferenceEngineWrapperBB.inc");
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
@@ -17,6 +18,8 @@ $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDI
 $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $format = get_enumerated_param($_GET, "format", null, ["keep", "remove"], true);
 $only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';
+$bb_diffs = (@$_GET['bb_diffs'] === 'on' and user_can_mentor_in_any_round());
+
 
 $project = new Project($projectid);
 $state = $project->state;
@@ -110,14 +113,20 @@ $image_url = "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=
 $image_link = sprintf($link_text, new_window_link($image_url, $image));
 $extra_args = [
     "css_data" => get_DifferenceEngine_css_data(),
+    "js_data" => "
+        function copyToClip(textstring) {
+            navigator.clipboard.writeText(textstring).catch(function () {alert('Unable to copy!');});
+        }
+    ",
 ];
+
 output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 
 echo "<h1>" . html_safe($project_title) . "</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
 do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
-              $L_text_column_name, $R_text_column_name, $only_nonempty_diffs);
+              $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs);
 echo $navigation_text;
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
@@ -127,6 +136,7 @@ echo "\n<p><a href='$url'>$label</a>\n";
 
 if ($L_format || $R_format) {
     // show option to change compare method
+    $format_save = array_get($_GET, "format", $format);
     if ($format == "remove") {
         $format_label = _("Compare with formatting");
         $_GET["format"] = "keep";
@@ -135,17 +145,38 @@ if ($L_format || $R_format) {
         $_GET["format"] = "remove";
     }
     $format_url = "?" . attr_safe(http_build_query($_GET));
+    $format_label = html_safe($format_label);
     echo "| <a href='$format_url'>$format_label</a>\n";
+    // Restore $_GET in case needed below
+    $_GET["format"] = $format_save;
+}
+
+if (user_can_mentor_in_any_round()) {
+    // show option to change diff style
+    $bb_diffs_save = array_get($_GET, "bb_diffs", "off");
+    if ($bb_diffs) {
+        $bb_diffs_label = _("Show table-style diff");
+        $_GET["bb_diffs"] = "off";
+    } else {
+        $bb_diffs_label = _("Show BBCode-style diff");
+        $_GET["bb_diffs"] = "on";
+    }
+    $bb_diffs_url = "?" . attr_safe(http_build_query($_GET));
+    $bb_diffs_label = html_safe($bb_diffs_label);
+    echo "| <a href='$bb_diffs_url'>$bb_diffs_label</a>\n";
+    // Restore $_GET in case needed below
+    $_GET["bb_diffs"] = $bb_diffs_save;
 }
 
 echo "</p>\n";
 
 // ---------------------------------------------------------
 
-$diffEngine = new DifferenceEngineWrapper();
+$diffurl = "$code_url/tools/project_manager/diff.php?project=$projectid&image=$image&L_round_num=$L_round_num&R_round_num=$R_round_num";
 
+$diffEngine = $bb_diffs ? new DifferenceEngineWrapperBBHTML($diffurl) : new DifferenceEngineWrapperTable();
 $diffEngine->setText($L_text, $R_text);
-$diffEngine->showDiff($L_label, $R_label);
+echo $diffEngine->getDiff($L_label, $R_label);
 
 // don't print out the navigation bit again if there is no difference
 // at the top of the page it's buttons, then project page
@@ -158,7 +189,7 @@ if ($L_text != $R_text) {
 // build up the text for the navigation bit, so we can repeat it
 // again at the bottom of the page
 function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
-                       $L_text_column_name, $R_text_column_name, $only_nonempty_diffs)
+                       $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs)
 {
     global $navigation_text;
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
@@ -169,6 +200,9 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_c
     $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
     $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
     $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
+    if ($bb_diffs) {
+        $navigation_text .= "\n<input type='hidden' name='bb_diffs' value='on'>";
+    }
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
     validate_projectID($projectid);
