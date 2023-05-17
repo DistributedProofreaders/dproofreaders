@@ -35,7 +35,13 @@ function output_credit_details($credit_details)
     echo "<ul>";
     foreach ($credit_details as $detail) {
         echo "<li>";
-        echo "<b><a href='" . $detail["url"] . "'>" . html_safe($detail["name"]) . "</a></b><br>";
+        echo "<b>";
+        if ($detail["url"]) {
+            echo "<a href='" . $detail["url"] . "'>" . html_safe($detail["name"]) . "</a>";
+        } else {
+            echo html_safe($detail["name"]);
+        }
+        echo "</b><br>";
         if (isset($detail["license_url"])) {
             echo _("License") . ": <a href='" . $detail["license_url"] . "'>" . html_safe($detail["license"]) . "</a>";
         } else {
@@ -77,7 +83,7 @@ function load_composer_credit_details()
     foreach ($packages->packages as $index => $package) {
         $credit_details[$package->name] = [
             "name" => $package->name,
-            "url" => $package->homepage,
+            "url" => $package->homepage ?? null,
             "license" => join(", ", $package->license),
         ];
     }
