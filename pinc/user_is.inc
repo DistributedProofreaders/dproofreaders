@@ -126,7 +126,7 @@ function user_has_project_loads_disabled()
 function that_user_is_over_PP_checked_out_limit($username)
 {
     $userSettings = & Settings::get_settings($username);
-    $limit = $userSettings->get_value("PP_checked_out_limit", 'none');
+    $limit = $userSettings->get_value("pp_limit_value", 'none');
     if (! is_numeric($limit)) {
         return false;
     }
