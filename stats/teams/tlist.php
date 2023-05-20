@@ -21,7 +21,7 @@ if ($tname) {
         $where_body = sprintf("teamname = '%s'", DPDatabase::escape($tname));
     } else {
         $where_body = sprintf("teamname LIKE '%%%s%%'",
-            addcslashes(DPDatabase::escape($tname), "%_"));
+            DPDatabase::escape_like_wildcards(DPDatabase::escape($tname)));
     }
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
