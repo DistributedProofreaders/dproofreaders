@@ -14,7 +14,7 @@ previewStrings are translated strings in header args
 */
 var previewControl;
 
-$( function() {
+window.addEventListener("DOMContentLoaded", () => {
     "use strict";
     var supp_set = ['charBeforeStart', 'sideNoteBlank'];
     // this is a wrapper round text_preview which enables the padding
@@ -35,7 +35,7 @@ $( function() {
     var proofFrameSet = top.document.getElementById("proof_frames");
 
     let colorTable = $("#color_table");
-    let $fontSelector = $("#id_font_sel");
+    let fontSelector = document.getElementById("id_font_sel");
 
     var suppCheckBox = [];
 
@@ -152,7 +152,7 @@ $( function() {
     }
 
     function setSelectedFont() {
-        let fontIndex = $fontSelector.val();
+        let fontIndex = fontSelector.value;
         prevWin.style.fontFamily = fontFamilies[fontIndex];
         previewStyles.defFontIndex = fontIndex;
         saveStyle();
@@ -163,14 +163,14 @@ $( function() {
             let fontStyle = fontStyles[index];
             let selected = (index === previewStyles.defFontIndex);
             let option = new Option(fontStyle, index, selected, selected);
-            $fontSelector[0].add(option, null);
+            fontSelector.add(option, null);
         });
         // use value from selector incase the user defined option has been
         // removed and value has changed from 1 to 0
         setSelectedFont();
     }
 
-    $fontSelector.change( function() {
+    fontSelector.addEventListener("change", function() {
         setSelectedFont();
     });
 
@@ -179,16 +179,23 @@ $( function() {
         outerPrev.style.backgroundColor = previewStyles.t.bg;
         outerPrev.style.color = previewStyles.t.fg;
         viewMode = previewStyles.initialViewMode;
-        $("#" + viewMode).prop("checked", true);
+        document.getElementById(viewMode).checked = true;
         // check if MathJax already loaded. Will break if load more than once
         if(previewStyles.allowMathPreview && (typeof(MathJax) === 'undefined')) {
-            // allow caching which getScript() by default does not
-            return $.ajax({
-                dataType: "script",
-                cache: true,
-                url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js",
-            });
+            const maxjaxScriptElement = document.createElement('script');
+            maxjaxScriptElement.type= "text/javascript";
+            maxjaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+            const scriptLoadPromise = new Promise(function(resolve) {
+                maxjaxScriptElement.onload = function () {
+                    resolve();
+                }
+                document.body.appendChild(maxjaxScriptElement);
+            })
+
+            return scriptLoadPromise;
         }
+
+        return Promise.resolve();
     }
 
     initStyle();
@@ -219,12 +226,14 @@ $( function() {
     }
 
     // select the view mode
-    $("[name='viewSel']").click(function () {
-        viewMode = this.id;
-        writePreviewText();
+    document.querySelectorAll("[name='viewSel']").forEach(function(viewSel) {
+        viewSel.addEventListener("click", function () {
+            viewMode = this.id;
+            writePreviewText();
+        });
     });
 
-    $("#re_wrap").change(function () {
+    document.getElementById("re_wrap").addEventListener("change", function () {
         wrapMode = this.checked;
         writePreviewText();
     });
@@ -342,7 +351,7 @@ $( function() {
             supp_set.forEach(function (msg, i) {
                 suppCheckBox[i].checked = tempStyle.suppress[msg];
             });
-            $("#id_init_mode").val(tempStyle.initialViewMode);
+            document.getElementById("id_init_mode").value = tempStyle.initialViewMode;
         },
 
         enableColor: function (en) {
@@ -357,11 +366,11 @@ $( function() {
             });
             tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
             tempStyle.allowMathPreview = allowMathPreviewCheckbox.checked;
-            tempStyle.initialViewMode = $("#id_init_mode").val();
+            tempStyle.initialViewMode = document.getElementById("id_init_mode").value;
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
             // if loading MathJax, wait for it to finish
-            $.when(initView()).done(function() {
+            initView().then(function () {
                 writePreviewText();
                 hideConfig();
             });

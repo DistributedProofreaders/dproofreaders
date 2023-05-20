@@ -35,7 +35,7 @@ $(function () {
     function appendIndicator(controlDiv, theSplit) {
         let indicator = $("<input>", {readonly: 'true'});
         $(controlDiv).append(indicator);
-        theSplit.dragEnd.add(function (percent) {
+        theSplit.dragEnd.push(function (percent) {
             indicator.val(percent);
         });
     }

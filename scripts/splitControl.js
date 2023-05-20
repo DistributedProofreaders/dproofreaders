@@ -10,8 +10,8 @@
  * {
  *   splitVertical: (true) true or false,
  *   splitPercent: (50), percentage of contaner occupied by pane1,
- *   reDraw - jQuery callback which should be fired when the container size changes.
- *       by default this is fired by $(window).resize()
+ *   reDraw - callback which should be fired when the container size changes.
+ *       by default this is fired by window resize
  *       for a subsidiary splitter use reSize returned by the parent splitter
  *   dragBarSize: (6), the width/height of the splitterbar in pixels,
  *   dragBarColor: ("darkgray"),
@@ -21,18 +21,20 @@
  * setSplit(splitVertical): a function to change the splitDirection
  * reLayout(): a function to re-draw the panes, this should be called after
  *     drawing any divs surrounding the container.
- * reSize: this jquery callback is fired after relayout has been called
+ * reSize: this callback is fired after relayout has been called
  *     and after moving the dragbar. It can be used as the reDraw parameter for
  *     subsidiary splitControls.
- * dragEnd: this jquery callback is fired at the end of a drag resize with
+ * dragEnd: this callback is fired at the end of a drag resize with
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
 var splitControl = function(container, config) {
 
-    let windowResize = $.Callbacks();
-    $(window).resize(function () {
-        windowResize.fire();
+    let windowResize = [];
+    window.addEventListener("resize", function () {
+        windowResize.forEach(function (windowResizeCallback) {
+            windowResizeCallback();
+        });
     });
 
     let theConfig = {reDraw: windowResize, splitVertical: true, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
@@ -58,8 +60,8 @@ var splitControl = function(container, config) {
     let height;
     let width;
 
-    let reSize = $.Callbacks();
-    let dragEnd = $.Callbacks();
+    let reSize = [];
+    let dragEnd = [];
 
     function moveSplit() {
         if (splitPos < minPos) {
@@ -69,7 +71,9 @@ var splitControl = function(container, config) {
             splitPos = maxPos;
         }
         pane1.css({flex: `0 0 ${splitPos - base}px`});
-        reSize.fire();
+        reSize.forEach(function (reSizeCallback) {
+            reSizeCallback();
+        });
     }
 
     function reLayout() {
@@ -119,22 +123,25 @@ var splitControl = function(container, config) {
         pane1.css("pointerEvents", "auto");
         if(range > 0) {
             splitRatio = (splitPos - base) / range;
-            dragEnd.fire((splitRatio * 100).toFixed(0));
+            dragEnd.forEach(function (dragEndCallback) {
+                dragEndCallback((splitRatio * 100).toFixed(0));
+            });
         }
     }
 
     function dragMouseUp() {
-        $(document).unbind("mousemove mouseup");
-        $("body").css("cursor", "default");
+        document.removeEventListener("mousemove", dragMove);
+        document.removeEventListener("mouseup", dragMouseUp);
+        document.body.style.cursor = "default";
         dragMoveEnd();
     }
 
     function dragMouseDown(event) {
         // prevent cursor flicker by persisting cursor style while dragging
-        $("body").css("cursor", dragBar.css("cursor"));
+        document.body.style.cursor = dragBar.css("cursor");
         dragStart(event);
-        $(document).on("mousemove", dragMove)
-            .on("mouseup", dragMouseUp);
+        document.addEventListener("mousemove", dragMove);
+        document.addEventListener("mouseup", dragMouseUp);
     }
 
     function dragTouchMove(event) {
@@ -142,19 +149,20 @@ var splitControl = function(container, config) {
     }
 
     function dragTouchEnd() {
-        $(document).unbind("touchmove touchend");
+        document.removeEventListener("touchmove", dragTouchMove);
+        document.removeEventListener("touchend", dragTouchEnd);
         dragMoveEnd();
     }
 
     function dragTouchStart(event) {
         dragStart(event);
-        $(document).on("touchmove", dragTouchMove)
-            .on("touchend", dragTouchEnd);
+        document.addEventListener("touchmove", dragTouchMove);
+        document.addEventListener("touchend", dragTouchEnd);
     }
 
     dragBar.on("mousedown", dragMouseDown);
     dragBar.on("touchstart", dragTouchStart);
-    theConfig.reDraw.add(reLayout);
+    theConfig.reDraw.push(reLayout);
 
     return {
         setSplit: function (splitVertical) {
