@@ -84,7 +84,7 @@ final class DPDatabase
 
     public static function escape_like_wildcards($value)
     {
-        return addcslashes($value, "%_[]^-");
+        return addcslashes($value, "%_");
     }
 
     public static function query($sql, $throw_on_failure = true, $log_on_failure = true)
