@@ -120,11 +120,12 @@ function get_standard_email_footers()
         $site_url,
         "",
         $automated_message,
+        "",
     ]);
     $html_footer = implode("\n", [
         "<hr style='width:12em; margin-left:0; margin-top:2em;'>",
         "<a href='$site_url'>$site_name</a><br>",
-        "<small>$automated_message</small>",
+        "<small>$automated_message</small><br>",
     ]);
     return [$text_footer, $html_footer];
 }
