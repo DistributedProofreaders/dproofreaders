@@ -186,7 +186,7 @@ var viewSplitter = function(container, storageKey) {
     function fireSetSplitDir() {
         setSplitDirCallback.forEach(function (setSplitDirCallbackFunction) {
             setSplitDirCallbackFunction(storageKey + "-" + layout.splitDirection);
-        })
+        });
     }
 
     function changeSplit(splitVert) {
