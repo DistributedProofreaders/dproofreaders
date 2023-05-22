@@ -116,7 +116,7 @@ class ProjectSearchWidget
             if ($comparator == '=') {
                 $contribution = "$column_name = '$value'";
             } elseif ($comparator == 'LIKE') {
-                $value = normalize_whitespace($value);
+                $value = DPDatabase::escape_like_wildcards(normalize_whitespace($value));
                 $contribution = "$column_name LIKE '%$value%'";
             }
         }
@@ -138,6 +138,7 @@ class ProjectSearchWidget
             $values_list = surround_and_join($values, "'", "'", ",");
             $contribution = "$column_name$inv IN ($values_list)";
         } elseif ($comparator == 'LIKE') {
+            $values = array_map("DPDatabase::escape_like_wildcards", $values);
             $likes_str = surround_and_join($values, "$column_name LIKE '%", "%'", ' OR ');
             $contribution = "$inv($likes_str)";
         }

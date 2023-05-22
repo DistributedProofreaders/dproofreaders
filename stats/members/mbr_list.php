@@ -24,7 +24,7 @@ if ($uname) {
         $where_clause = sprintf("WHERE username = '%s'", DPDatabase::escape($uname));
     } else {
         $where_clause = sprintf("WHERE username LIKE '%%%s%%'",
-            addcslashes(DPDatabase::escape($uname), "%_"));
+            DPDatabase::escape_like_wildcards(DPDatabase::escape($uname)));
     }
 
     // Not using sprintf() here because of the wildcard where_clause above.
