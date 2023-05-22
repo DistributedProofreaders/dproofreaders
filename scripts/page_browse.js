@@ -169,7 +169,7 @@ var viewSplitter = function(container, storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
         let directionData = JSON.parse(localStorage.getItem(splitKey));
-        if(!directionData || 
+        if(!directionData ||
            (typeof directionData.splitPercent !== 'number' &&
             typeof directionData.splitPercent !== 'string')) {
             directionData = {splitPercent: 50};
