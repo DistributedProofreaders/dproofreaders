@@ -7,18 +7,24 @@ window.addEventListener('DOMContentLoaded', function() {
     var diffOpt = document.querySelectorAll(".diff-opt");
 
     function showMatcher() {
-        langMatch.style.display = 0 === langSelector.selectedIndex ? "none" : "block";
+        if (langMatch) {
+            langMatch.style.display = 0 === langSelector.selectedIndex ? "none" : "block";
+        }
     }
 
-    langSelector.addEventListener("change", function () {
-        showMatcher();
-    });
-
-    diffAll.addEventListener("change", function () {
-        diffOpt.forEach(diffOption => {
-            diffOption.checked = false;
+    if (langSelector) {
+        langSelector.addEventListener("change", function () {
+            showMatcher();
         });
-    });
+    }
+
+    if (diffAll) {
+        diffAll.addEventListener("change", function () {
+            diffOpt.forEach(diffOption => {
+                diffOption.checked = false;
+            });
+        });
+    }
 
     diffOpt.forEach(diffOption => {
         diffOption.addEventListener("change", function() {

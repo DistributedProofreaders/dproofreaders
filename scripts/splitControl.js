@@ -12,7 +12,7 @@
  *   splitPercent: (50), percentage of contaner occupied by pane1,
  *   reDraw - callback which should be fired when the container size changes.
  *       by default this is fired by window resize
- *       for a subsidiary splitter use reSize returned by the parent splitter
+ *       for a subsidiary splitter use onResize returned by the parent splitter
  *   dragBarSize: (6), the width/height of the splitterbar in pixels,
  *   dragBarColor: ("darkgray"),
  * }
@@ -21,16 +21,16 @@
  * setSplit(splitVertical): a function to change the splitDirection
  * reLayout(): a function to re-draw the panes, this should be called after
  *     drawing any divs surrounding the container.
- * reSize: this callback is fired after relayout has been called
+ * onResize: this callback is fired after relayout has been called
  *     and after moving the dragbar. It can be used as the reDraw parameter for
  *     subsidiary splitControls.
- * dragEnd: this callback is fired at the end of a drag resize with
+ * onDragEnd: this callback is fired at the end of a drag resize with
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
 var splitControl = function(container, config) {
 
-    let windowResize = [];
+    let windowResize = new Set();
     window.addEventListener("resize", function () {
         windowResize.forEach(function (windowResizeCallback) {
             windowResizeCallback();
@@ -60,8 +60,8 @@ var splitControl = function(container, config) {
     let height;
     let width;
 
-    let reSize = [];
-    let dragEnd = [];
+    let onResize = new Set();
+    let onDragEnd = new Set();
 
     function moveSplit() {
         if (splitPos < minPos) {
@@ -71,7 +71,7 @@ var splitControl = function(container, config) {
             splitPos = maxPos;
         }
         pane1.css({flex: `0 0 ${splitPos - base}px`});
-        reSize.forEach(function (reSizeCallback) {
+        onResize.forEach(function (reSizeCallback) {
             reSizeCallback();
         });
     }
@@ -123,7 +123,7 @@ var splitControl = function(container, config) {
         pane1.css("pointerEvents", "auto");
         if(range > 0) {
             splitRatio = (splitPos - base) / range;
-            dragEnd.forEach(function (dragEndCallback) {
+            onDragEnd.forEach(function (dragEndCallback) {
                 dragEndCallback((splitRatio * 100).toFixed(0));
             });
         }
@@ -162,7 +162,7 @@ var splitControl = function(container, config) {
 
     dragBar.on("mousedown", dragMouseDown);
     dragBar.on("touchstart", dragTouchStart);
-    theConfig.reDraw.push(reLayout);
+    theConfig.reDraw.add(reLayout);
 
     return {
         setSplit: function (splitVertical) {
@@ -174,7 +174,7 @@ var splitControl = function(container, config) {
             reLayout();
         },
         reLayout: reLayout,
-        reSize: reSize,
-        dragEnd: dragEnd,
+        onResize: onResize,
+        onDragEnd: onDragEnd,
     };
 };

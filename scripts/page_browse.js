@@ -112,7 +112,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
         content.append(topTextDiv, bottomTextDiv);
 
         subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
-        subSplitter.dragEnd.push(function (percent) {
+        subSplitter.onDragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
@@ -125,7 +125,9 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
             if(splitter) {
                 splitterKey = textWidgetKey + "-split";
                 textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-                if(!textSplitData || typeof textSplitData.splitPercent !== 'number') {
+                if(!textSplitData ||
+                   (typeof textSplitData.splitPercent !== 'number' &&
+                    typeof textSplitData.splitPercent !== 'string')) {
                     textSplitData = {splitPercent: 100};
                 }
                 subSplitter.setSplitPercent(textSplitData.splitPercent);
@@ -167,7 +169,9 @@ var viewSplitter = function(container, storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
         let directionData = JSON.parse(localStorage.getItem(splitKey));
-        if(!directionData || typeof directionData.splitPercent !== 'number') {
+        if(!directionData || 
+           (typeof directionData.splitPercent !== 'number' &&
+            typeof directionData.splitPercent !== 'string')) {
             directionData = {splitPercent: 50};
         }
         mainSplit.setSplitPercent(directionData.splitPercent);
@@ -207,7 +211,7 @@ var viewSplitter = function(container, storageKey) {
 
     setSplitControls(splitVertical);
 
-    mainSplit.dragEnd.push(function (percent) {
+    mainSplit.onDragEnd.add(function (percent) {
         localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
     });
 
@@ -442,7 +446,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             const theSplitter = viewSplitter(stretchDiv, storageKey);
                             if(mentorMode) {
                                 // make a text widget with splitter
-                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
+                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.onResize);
                             } else {
                                 textWidget = makeTextWidget(textDiv);
                             }

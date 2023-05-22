@@ -182,14 +182,14 @@ window.addEventListener("DOMContentLoaded", () => {
         document.getElementById(viewMode).checked = true;
         // check if MathJax already loaded. Will break if load more than once
         if(previewStyles.allowMathPreview && (typeof(MathJax) === 'undefined')) {
-            const maxjaxScriptElement = document.createElement('script');
-            maxjaxScriptElement.type = "text/javascript";
-            maxjaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+            const mathJaxScriptElement = document.createElement('script');
+            mathJaxScriptElement.type = "text/javascript";
+            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
             const scriptLoadPromise = new Promise(function(resolve) {
-                maxjaxScriptElement.onload = function () {
+                mathJaxScriptElement.onload = function () {
                     resolve();
                 };
-                document.body.appendChild(maxjaxScriptElement);
+                document.body.appendChild(mathJaxScriptElement);
             });
 
             return scriptLoadPromise;
