@@ -540,15 +540,16 @@ window.addEventListener('DOMContentLoaded', function() {
         }
 
         function testBoldBlock(block) {
-            if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - 4))) {
+            if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - "</b>".length))) {
                 // heading: issue, paragraph: possible issue
                 if((block.type == blockType.HEAD) || (block.type == blockType.SUBHEAD)) {
                     reportIssue(block.start, 3, "noBold");
                 } else {
                     // highlight after tags to avoid interleaved spans with style markup
-                    let markPoint = block.start + 3;
+                    let markPoint = block.start + "<b>".length;
+                    // if there is another start tag here advance past it.
                     while(txt.charAt(markPoint) == '<') {
-                        markPoint = txt.indexOf('>', markPoint + 2) + 1;
+                        markPoint = txt.indexOf('>', markPoint) + 1;
                     }
                     reportIssue(markPoint, 1, "boldPara");
                 }
