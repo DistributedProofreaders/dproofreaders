@@ -43,6 +43,7 @@ function get_preview_messages()
         "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
         "emptyTag" => _("Empty tag"),
         "multipleAnchors" => _("Multiple anchors for same footnote"),
+        "boldPara" => _("Entirely bold paragraph or section heading"),
     ];
 }
 

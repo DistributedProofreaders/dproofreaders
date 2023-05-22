@@ -66,7 +66,6 @@ function removeTrail(txt) {
 
 const blockType = {
     PARA: 0,
-    SECHEAD: 1,
     SUBHEAD: 2,
     HEAD: 3,
     CONTINUATION: 4,
@@ -115,12 +114,7 @@ function blockSplit(bText, procBlock) {
         case 2:
             // Section or paragraph
             blockState = 0;
-            // check for single line block - section heading
-            if(bText.slice(block.start, block.end).indexOf("\n") < 0) {
-                block.type = blockType.SECHEAD;
-            } else {
-                block.type = blockType.PARA;
-            }
+            block.type = blockType.PARA;
             break;
         case 1:
             if(blockState === 1) {
@@ -180,12 +174,13 @@ window.addEventListener('DOMContentLoaded', function() {
             dupNote: 0,
             continueFirst: 0,
             emptyTag: 1,
-            multipleAnchors: 0
+            multipleAnchors: 0,
+            boldPara: 0,
         };
 
         var issArray = []; // stores issues for markup-insertion later
 
-        // this records issues which could prevent checkSC and boldHeading from
+        // this records issues which could prevent checkSC and testBoldBlock from
         // working. Not all definite issues mean bad parse
         let parseOK = true;
         function badParse() {
@@ -544,29 +539,21 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // heading should not be entirely bold
-        function boldHeading() {
-
-            function checkHead(type, text, block) {
-                // test for all bold
-                if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - 4))) {
-                    reportIssue(block.start, 3, type);
+        function testBoldBlock(block) {
+            if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - "</b>".length))) {
+                // heading: issue, paragraph: possible issue
+                if((block.type == blockType.HEAD) || (block.type == blockType.SUBHEAD)) {
+                    reportIssue(block.start, 3, "noBold");
+                } else {
+                    // highlight after tags to avoid interleaved spans with style markup
+                    let markPoint = block.start + "<b>".length;
+                    // if there is another start tag here advance past it.
+                    while(txt.charAt(markPoint) == '<') {
+                        markPoint = txt.indexOf('>', markPoint) + 1;
+                    }
+                    reportIssue(markPoint, 1, "boldPara");
                 }
             }
-
-            function testBlock(block) {
-                switch(block.type) {
-                case blockType.HEAD:
-                case blockType.SECHEAD:
-                case blockType.SUBHEAD:
-                    checkHead("noBold", txt, block);
-                    break;
-                default:
-                    break;
-                }
-            }
-
-            blockSplit(txt, testBlock);
         }
 
         // check that footnote anchors and footnotes correspond
@@ -847,7 +834,7 @@ window.addEventListener('DOMContentLoaded', function() {
             checkBlankNumber();
             if (parseOK) {
             // only do this if inline parse succeeded and blank lines ok
-                boldHeading();
+                blockSplit(txt, testBoldBlock);
             }
             parseOol();
             checkFootnotes();
@@ -1093,16 +1080,10 @@ window.addEventListener('DOMContentLoaded', function() {
                 }
 
                 let textBlock = txt.slice(block.start, block.end);
-                // HEAD or SECHEAD have top priority
-                switch(block.type) {
-                case blockType.HEAD:
+                // HEAD has top priority
+                if(block.type == blockType.HEAD) {
                     txtOut += '<div class="head2">' + textBlock + '</div>\n';
                     return;
-                case blockType.SECHEAD:
-                    txtOut += '<div class="head4">' + textBlock + '</div>\n';
-                    return;
-                default:
-                    break;
                 }
                 // then nowrap or blockquote even if in SUBHEAD
                 var txtLines = [];
