@@ -71,7 +71,8 @@ var maketextControl = function(textArea) {
             textData = JSON.parse(localStorage.getItem(textKey));
             if(!textData ||
                 typeof textData.textWrap !== "string" ||
-                typeof textData.fontFaceIndex !== "number" ||
+                (typeof textData.fontFaceIndex !== "number" &&
+                typeof textData.fontFaceIndex !== "string") ||
                 typeof textData.fontSize !== "string") {
                 textData = {
                     textWrap: "N",
