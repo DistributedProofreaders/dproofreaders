@@ -95,10 +95,13 @@ if (!$user_is_logged_in) {
     return;
 }
 
-// We only want to update the latest home visit if the user is a PPer or PPVer
-// for this project.
-if ($user_is_logged_in && ($project->PPer_is_current_user or $project->PPVer_is_current_user)) {
-    upi_set_t_latest_home_visit($pguser, $project->projectid, time());
+if ($user_is_logged_in) {
+    upi_set_t_latest_home_visit(
+        $pguser,
+        $project->projectid,
+        time(),
+        $project->PPer_is_current_user or $project->PPVer_is_current_user
+    );
 }
 
 if ($detail_level == 1) {

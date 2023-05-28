@@ -10,8 +10,9 @@ subscriptions in addition to two timestamp fields that the site uses in
 various places:
 
 * t_latest_home_visit - timestamp of the last page visit (see project.php).
-                        As of 2023-06 we only update this for PP/PPVers as
-                        this is only used for PP/PPV notifications
+                        As of 2023-06 we only update this for users who have
+                        otherwise interacted with the project, except for
+                        PP/PPVers as it is used for PP/PPV notifications
                         (see post_processing.inc).
 * t_latest_page_event - timestamp of the last page saved in the project
                         (see DPage.inc). Originally this recorded the last
@@ -20,21 +21,32 @@ various places:
                         database updated to reflect that.
 */
 
-function upi_set_t_latest_home_visit($username, $projectid, $timestamp)
+function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_row = false)
 {
-    $sql = sprintf("
-        INSERT INTO user_project_info
-        SET
-            username            = '%s',
-            projectid           = '%s',
-            t_latest_home_visit = %d
-        ON DUPLICATE KEY UPDATE
-            t_latest_home_visit = %d",
-        DPDatabase::escape($username),
-        DPDatabase::escape($projectid),
-        $timestamp,
-        $timestamp
-    );
+    if ($ensure_row) {
+        $sql = sprintf("
+            INSERT INTO user_project_info
+            SET
+                username            = '%s',
+                projectid           = '%s',
+                t_latest_home_visit = %d
+            ON DUPLICATE KEY UPDATE
+                t_latest_home_visit = %d",
+            DPDatabase::escape($username),
+            DPDatabase::escape($projectid),
+            $timestamp,
+            $timestamp
+        );
+    } else {
+        $sql = sprintf("
+            UPDATE user_project_info
+            SET t_latest_home_visit = %d
+            WHERE username = '%s' AND projectid = '%s'",
+            $timestamp,
+            DPDatabase::escape($username),
+            DPDatabase::escape($projectid)
+        );
+    }
     DPDatabase::query($sql);
 }
 
