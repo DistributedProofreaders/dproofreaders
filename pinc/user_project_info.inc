@@ -9,7 +9,10 @@ to the (username, projectid) tuple. This includes things like project
 subscriptions in addition to two timestamp fields that the site uses in
 various places:
 
-* t_latest_home_visit - timestamp of the last page visit (see project.php)
+* t_latest_home_visit - timestamp of the last page visit (see project.php).
+                        As of 2023-06 we only update this for PP/PPVers as
+                        this is only used for PP/PPV notifications
+                        (see post_processing.inc).
 * t_latest_page_event - timestamp of the last page saved in the project
                         (see DPage.inc). Originally this recorded the last
                         proofer-initiated page event and was later changed
