@@ -562,8 +562,15 @@ function show_project_listing(
                     $num_done = 0;
                 }
                 $cell = $num_done;
-            } elseif ($col_id == "days_avail" || $col_id == "days_left" || $col_id == "days_since_visit") {
+            } elseif ($col_id == "days_avail" || $col_id == "days_left") {
                 $cell = sprintf("%.1f", $book[$col_id]);
+            } elseif ($col_id == "days_since_visit") {
+                // days_since_visit could be null if the page was never visited
+                if ($book[$col_id] == null) {
+                    $cell = _("Never");
+                } else {
+                    $cell = sprintf("%.1f", $book[$col_id]);
+                }
             } else {
                 $cell = html_safe($book[$col_id]);
             }
