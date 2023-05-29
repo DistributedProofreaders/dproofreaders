@@ -55,6 +55,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
     $mail = new PHPMailer(true);
     try {
         // Server settings
+        $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
         foreach ($phpmailer_smtp_config as $key => $value) {
             $mail->$key = $value;
