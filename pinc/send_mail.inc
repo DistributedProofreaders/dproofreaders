@@ -16,8 +16,16 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
 {
     global $testing, $phpmailer_smtp_config, $auto_email_addr, $site_name, $site_url;
 
-    $from = $from ?? $auto_email_addr;
-    $reply_to = $reply_to ?? $auto_email_addr;
+    // If From & Reply-To given, use them
+    // If only From given, use it, and don't include Reply-To at all
+    // If only Reply-To given, use it, and use default email address for From
+    // If neither given, use default email address for From and Reply-To
+    if (is_null($from)) {
+        $from = $auto_email_addr;
+        if (is_null($reply_to)) {
+            $reply_to = $auto_email_addr;
+        }
+    }
 
     if (!endswith($message, "\n")) {
         $message .= "\n";
@@ -39,7 +47,9 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         echo html_safe("To: $to\n");
         echo html_safe("Subject: $subject\n");
         echo html_safe("From: $from\n");
-        echo html_safe("Reply-To: $reply_to\n");
+        if (!is_null($reply_to)) {
+            echo html_safe("Reply-To: $reply_to\n");
+        }
         echo "</pre>";
         echo "<pre style='white-space: pre-wrap'>";
         echo html_safe("$text_message\n");
@@ -64,8 +74,10 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         // Recipients
         [$name, $address] = get_name_address($from);
         $mail->setFrom($address, $name);
-        [$name, $address] = get_name_address($reply_to);
-        $mail->addReplyTo($address, $name);
+        if (!is_null($reply_to)) {
+            [$name, $address] = get_name_address($reply_to);
+            $mail->addReplyTo($address, $name);
+        }
         $mail->addAddress($to);
 
         // Content
