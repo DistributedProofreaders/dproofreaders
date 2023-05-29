@@ -151,7 +151,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
 var viewSplitter = function(container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-    if(!layout || layout.splitDirection !== "horizontal" || layout.splitDirection !== "vertical") {
+    if(!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
         layout = {splitDirection: "horizontal"};
     }
     const splitVertical = (layout.splitDirection === "vertical");
