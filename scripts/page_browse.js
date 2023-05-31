@@ -25,7 +25,7 @@ var maketextControl = function(textArea) {
         fontFaceSelector.add(new Option(fontFaces[index], index));
     });
 
-    $(fontFaceSelector).change(function () {
+    fontFaceSelector.addEventListener("change", function () {
         const fontFaceIndex = this.value;
         setFontFace(fontFaceIndex);
         textData.fontFaceIndex = fontFaceIndex;
@@ -42,7 +42,7 @@ var maketextControl = function(textArea) {
         fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
 
-    $(fontSizeSelector).change(function () {
+    fontSizeSelector.addEventListener("change", function () {
         const fontSize = fontSizeSelector.value;
         setFontSize(fontSize);
         textData.fontSize = fontSize;
@@ -69,7 +69,11 @@ var maketextControl = function(textArea) {
         setup: function(storageKey) {
             textKey = storageKey + "-text";
             textData = JSON.parse(localStorage.getItem(textKey));
-            if(!$.isPlainObject(textData)) {
+            if(!textData ||
+                typeof textData.textWrap !== "string" ||
+                (typeof textData.fontFaceIndex !== "number" &&
+                typeof textData.fontFaceIndex !== "string") ||
+                typeof textData.fontSize !== "string") {
                 textData = {
                     textWrap: "N",
                     fontFaceIndex: 0,
@@ -109,7 +113,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
         content.append(topTextDiv, bottomTextDiv);
 
         subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
-        subSplitter.dragEnd.add(function (percent) {
+        subSplitter.onDragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
         });
@@ -122,7 +126,9 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
             if(splitter) {
                 splitterKey = textWidgetKey + "-split";
                 textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-                if(!$.isPlainObject(textSplitData)) {
+                if(!textSplitData ||
+                   (typeof textSplitData.splitPercent !== 'number' &&
+                    typeof textSplitData.splitPercent !== 'string')) {
                     textSplitData = {splitPercent: 100};
                 }
                 subSplitter.setSplitPercent(textSplitData.splitPercent);
@@ -145,7 +151,7 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
 var viewSplitter = function(container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-    if(!$.isPlainObject(layout)) {
+    if(!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
         layout = {splitDirection: "horizontal"};
     }
     const splitVertical = (layout.splitDirection === "vertical");
@@ -159,12 +165,14 @@ var viewSplitter = function(container, storageKey) {
     const hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
 
     let splitKey;
-    const setSplitDirCallback = $.Callbacks();
-    setSplitDirCallback.add(function(storageKey) {
+    const setSplitDirCallback = [];
+    setSplitDirCallback.push(function(storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
         let directionData = JSON.parse(localStorage.getItem(splitKey));
-        if(!$.isPlainObject(directionData)) {
+        if(!directionData ||
+           (typeof directionData.splitPercent !== 'number' &&
+            typeof directionData.splitPercent !== 'string')) {
             directionData = {splitPercent: 50};
         }
         mainSplit.setSplitPercent(directionData.splitPercent);
@@ -181,7 +189,9 @@ var viewSplitter = function(container, storageKey) {
     }
 
     function fireSetSplitDir() {
-        setSplitDirCallback.fire(storageKey + "-" + layout.splitDirection);
+        setSplitDirCallback.forEach(function (setSplitDirCallbackFunction) {
+            setSplitDirCallbackFunction(storageKey + "-" + layout.splitDirection);
+        });
     }
 
     function changeSplit(splitVert) {
@@ -202,7 +212,7 @@ var viewSplitter = function(container, storageKey) {
 
     setSplitControls(splitVertical);
 
-    mainSplit.dragEnd.add(function (percent) {
+    mainSplit.onDragEnd.add(function (percent) {
         localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
     });
 
@@ -229,7 +239,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
             pageSelector.add(new Option(page.image, index, false, false));
         });
 
-        $(pageSelector).change( function() {
+        pageSelector.addEventListener("change", function() {
             changePage(pages[pageSelector.value]);
         });
 
@@ -263,7 +273,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
         changePage(pages[pageSelector.value]);
     }
 
-    $(pageSelector).change(pageChange);
+    pageSelector.addEventListener("change", pageChange);
 
     prevButton.click(function () {
         pageSelector.selectedIndex -= 1;
@@ -275,9 +285,9 @@ function makePageControl(pages, selectedImageFileName, changePage) {
         pageChange();
     });
 
-    $(document).keydown(function(event) {
+    document.addEventListener("keydown", function(event) {
         if(event.altKey === true) {
-            if(event.which === 38) {
+            if(event.key === "Up" || event.key === "ArrowUp") {
                 // up arrow
                 // prevent another simultaneous action if a control has focus
                 event.preventDefault();
@@ -285,7 +295,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
                     pageSelector.selectedIndex -= 1;
                     pageChange();
                 }
-            } else if(event.which === 40) {
+            } else if(event.key === "Down" || event.key === "ArrowDown") {
                 // down arrow
                 event.preventDefault();
                 if(nextEnabled()) {
@@ -437,11 +447,11 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             const theSplitter = viewSplitter(stretchDiv, storageKey);
                             if(mentorMode) {
                                 // make a text widget with splitter
-                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.reSize);
+                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.onResize);
                             } else {
                                 textWidget = makeTextWidget(textDiv);
                             }
-                            theSplitter.setSplitDirCallback.add(imageWidget.setup, textWidget.setup);
+                            theSplitter.setSplitDirCallback.push(imageWidget.setup, textWidget.setup);
                             fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
                             theSplitter.fireSetSplitDir();
                             break;

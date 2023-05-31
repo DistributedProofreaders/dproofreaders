@@ -26,11 +26,12 @@ var makeImageControl = function(content) {
     }
 
     function mouseup() {
-        $(document).unbind("mousemove mouseup");
+        document.removeEventListener("mousemove", mousemove);
+        document.removeEventListener("mouseup", mouseup);
         image.style.cursor = imageCursor;
     }
 
-    $(image).mousedown( function(event) {
+    image.addEventListener("mousedown", function(event) {
         event.preventDefault();
 
         // so image can be moved with arrow keys
@@ -38,8 +39,8 @@ var makeImageControl = function(content) {
         image.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft();
         scrollDiffY = event.pageY + content.scrollTop();
-        $(document).on("mousemove", mousemove)
-            .on("mouseup", mouseup);
+        document.addEventListener("mousemove", mousemove);
+        document.addEventListener("mouseup", mouseup);
     });
 
     let imageKey;
@@ -173,7 +174,7 @@ var makeImageControl = function(content) {
         setup: function(storageKey) {
             imageKey = storageKey + "-image";
             let imageData = JSON.parse(localStorage.getItem(imageKey));
-            if(!$.isPlainObject(imageData)) {
+            if (!imageData || typeof imageData.zoom !== 'number') {
                 imageData = {zoom: defaultPercent};
             }
             percent = imageData.zoom;
@@ -339,7 +340,9 @@ function makeControlDiv(container, content, controls, onChange) {
             break;
         }
         if(onChange) {
-            onChange.fire();
+            onChange.forEach(function (onChangeCallback) {
+                onChangeCallback();
+            });
         }
     }
 
@@ -427,7 +430,7 @@ function makeControlDiv(container, content, controls, onChange) {
         setupControls: function (storageKey) {
             barKey = storageKey + "-bar";
             let barData = JSON.parse(localStorage.getItem(barKey));
-            if(!$.isPlainObject(barData)) {
+            if (!barData || typeof barData.location !== 'string') {
                 barData = {location: "NM"};
             }
             // location is two letters:

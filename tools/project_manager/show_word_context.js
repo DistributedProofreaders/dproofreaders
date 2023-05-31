@@ -39,7 +39,7 @@ window.addEventListener("DOMContentLoaded", function() {
         saveLayout();
     });
 
-    mainSplit.dragEnd.add(function (percent) {
+    mainSplit.onDragEnd.add(function (percent) {
         layout.splitPercent = percent;
         saveLayout();
     });
