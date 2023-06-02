@@ -890,8 +890,7 @@ window.addEventListener('DOMContentLoaded', function() {
     It can be used alone with a simple html interface for testing.
     getMessage is a function to get a translated message.
     txt is the text to analyse.
-    viewMode determines if the inline tags are to be shown or hidden
-    wrapMode whether to re-wrap the text.
+    viewMode determines if the inline tags are to be shown or hidden.
     styler is an object containing colour and font options.
     */
     makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
@@ -1003,7 +1002,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 
             // out of line tags and <tb>
-            if (!wrapMode && styler.color) {    // not re-wrap and colouring
+            if (styler.color) {
                 txt = txt.replace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, oolReplacer);
             }
 
@@ -1033,81 +1032,6 @@ window.addEventListener('DOMContentLoaded', function() {
             txt = processExMath(txt, showSubSuper, styler.allowMathPreview);
         }
 
-        // attempt to make an approximate representation of formatted text
-        // use data from blockSplit to mark headings
-        // re-wrap except for no-wrap markup
-        function reWrap() {
-            let txtOut = "";
-            let indent = 0;
-            let noWrap = false;
-
-            function reWrapBlock(block) {
-
-                function procLines(txtLines) {
-                    // inBlock determines when to output the <div>
-                    // examine lines and output <div> before the first line
-                    // which is normal text (not out-of-line markup)
-                    let inBlock = false;
-
-                    txtLines.forEach(function (line) {
-                        if (line === "/#") {
-                            indent += 1;
-                        } else if (line === "#/") {
-                            indent -= 1;
-                        } else if (line === "/*") {
-                            noWrap = true;
-                        } else if (line === "*/") {
-                            noWrap = false;
-                        } else {
-                            // text
-                            if (!inBlock) {
-                                inBlock = true;
-                                let blockStyle = `margin-bottom: 0.4em; margin-left: ${indent}em;`;
-                                if (noWrap) {
-                                    blockStyle += " white-space: pre-wrap;";
-                                } else if (block.type != blockType.CONTINUATION) {
-                                    // indent first-line except if continuing at top of page
-                                    blockStyle += " text-indent: 1em;";
-                                }
-                                txtOut += `<div style="${blockStyle}">`;
-                            }
-                            txtOut += line + "\n";
-                        }
-                    });
-                    if (inBlock) {
-                        txtOut += "</div>";
-                    }
-                }
-
-                let textBlock = txt.slice(block.start, block.end);
-                // HEAD has top priority
-                if(block.type == blockType.HEAD) {
-                    txtOut += '<div class="head2">' + textBlock + '</div>\n';
-                    return;
-                }
-                // then nowrap or blockquote even if in SUBHEAD
-                var txtLines = [];
-                // split the block into an array of lines
-                txtLines = textBlock.split('\n');
-                let firstLine = txtLines[0];
-                if ((firstLine === "/*") || (firstLine === "/#")) {
-                    procLines(txtLines);
-                } else if (block.type === blockType.SUBHEAD) {
-                    txtOut += '<div class="head3">' + textBlock + '</div>\n';
-                } else if (firstLine === "<tb>") {    // thought break
-                    txtOut += '<div class="tb"></div>\n';
-                } else {
-                    procLines(txtLines);
-                }
-            }
-
-            // could be more trailing spaces after notes removed
-            // remove so we can rely on lines being === "/*" etc.
-            txt = removeTrail(txt);
-            blockSplit(txt, reWrapBlock);
-            txt = txtOut;
-        }
-
         // Show style is done after merging text and proofers notes.
         // To distinguish the < and > characters in text from those in the notes
         // (so we don't style the notes)
@@ -1135,7 +1059,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // ok true if no errors which would cause showstyle() or reWrap() to fail
+        // ok true if no errors which would cause showstyle() to fail
         let ok = (issues === 0);
 
         let issueStarts = [];
@@ -1151,15 +1075,10 @@ window.addEventListener('DOMContentLoaded', function() {
         var tArray = analysis.text.split("");
 
         let noteArray;
-        if(ok && wrapMode) {
-            // leave out proofers' notes
-            noteArray = [];
-        } else {
-            noteArray = analysis.noteArray;
-            noteArray.forEach(function(note) {
-                note.text = htmlEncode(note.text);
-            });
-        }
+        noteArray = analysis.noteArray;
+        noteArray.forEach(function(note) {
+            note.text = htmlEncode(note.text);
+        });
 
         if(!ok) {
             tArray = tArray.map(htmlEncode);
@@ -1190,9 +1109,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
         if (ok) {
             showStyle();
-            if (wrapMode) {
-                reWrap();
-            }
         }
 
         return {
