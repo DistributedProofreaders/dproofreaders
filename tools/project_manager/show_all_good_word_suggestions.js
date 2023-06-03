@@ -5,5 +5,6 @@ window.addEventListener('DOMContentLoaded', function() {
         splitVertical: true,
         splitPercent: 40,
     });
+    window.addEventListener("resize", mainSplit.reLayout);
     mainSplit.reLayout();
 });

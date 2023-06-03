@@ -4,15 +4,12 @@
 /*
  * Create a splitter between two <div>s within a container.
  * Arguments for splitControl:
- * container - ID of a <div> which contains two <div>s (herein referred
+ * container - a <div> which contains two <div>s (herein referred
  * to as pane1 and pane2). The splitter will be created between these.
  * config - optional object that controls the div: (defaults in brackets)
  * {
  *   splitVertical: (true) true or false,
  *   splitPercent: (50), percentage of contaner occupied by pane1,
- *   reDraw - callback which should be fired when the container size changes.
- *       by default this is fired by window resize
- *       for a subsidiary splitter use onResize returned by the parent splitter
  *   dragBarSize: (6), the width/height of the splitterbar in pixels,
  *   dragBarColor: ("darkgray"),
  * }
@@ -20,24 +17,19 @@
  * Returns:
  * setSplit(splitVertical): a function to change the splitDirection
  * reLayout(): a function to re-draw the panes, this should be called after
- *     drawing any divs surrounding the container.
- * onResize: this callback is fired after relayout has been called
- *     and after moving the dragbar. It can be used as the reDraw parameter for
- *     subsidiary splitControls.
- * onDragEnd: this callback is fired at the end of a drag resize with
+ *     drawing any divs surrounding the container. If this splitter is
+*      inside another splitter it should be called by onResize of the
+ *     parent splitter. If this is the top level splitter it should be
+ *     called when the window is resized.
+ * onResize: a set of functions which are called when relayout has been called
+ *     and after moving the dragbar. It can be used to reLayout subsidiary
+ *     splitControls.
+ * onDragEnd: a set of functions which are called at the end of a drag resize with
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
 var splitControl = function(container, config) {
-
-    let windowResize = new Set();
-    window.addEventListener("resize", function () {
-        windowResize.forEach(function (windowResizeCallback) {
-            windowResizeCallback();
-        });
-    });
-
-    let theConfig = {reDraw: windowResize, splitVertical: true, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
+    let theConfig = {splitVertical: true, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
     for(let key in config) {
         theConfig[key] = config[key];
     }
@@ -162,7 +154,6 @@ var splitControl = function(container, config) {
 
     dragBar.on("mousedown", dragMouseDown);
     dragBar.on("touchstart", dragTouchStart);
-    theConfig.reDraw.add(reLayout);
 
     return {
         setSplit: function (splitVertical) {

@@ -23,6 +23,7 @@ window.addEventListener("DOMContentLoaded", function() {
         splitVertical: splitVertical,
         splitPercent: layout.splitPercent
     });
+    window.addEventListener("resize", mainSplit.reLayout);
     mainSplit.reLayout();
 
     function setSplitLink() {
