@@ -98,12 +98,12 @@ var maketextControl = function(textArea) {
     };
 };
 
-function makeTextWidget(container, splitter = false, reLayout = null) {
+function makeTextWidget(container, splitter = false, onResize = null) {
     const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
     const textControl = maketextControl(textArea);
     const content = $("<div>");
-    const controlDiv = makeControlDiv(container, content, textControl.controls, reLayout);
+    const controlDiv = makeControlDiv(container, content, textControl.controls, onResize);
     let subSplitter;
     let splitterKey;
     let textSplitData;
@@ -113,8 +113,8 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
         content.append(topTextDiv, bottomTextDiv);
 
         subSplitter = splitControl(content, {splitVertical: false});
-        if(reLayout) {
-            reLayout.add(subSplitter.reLayout);
+        if(onResize) {
+            onResize.add(subSplitter.reLayout);
         }
 
         subSplitter.onDragEnd.add(function (percent) {
