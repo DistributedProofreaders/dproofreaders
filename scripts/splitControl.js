@@ -15,7 +15,7 @@
  * }
  *
  * Returns:
- * setSplit(splitVertical): a function to change the splitDirection
+ * setSplit(vertical): a function to change the splitDirection.
  * reLayout(): a function to re-draw the panes, this should be called after
  *     drawing any divs surrounding the container. If this splitter is
 *      inside another splitter it should be called by onResize of the
@@ -28,12 +28,8 @@
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
-var splitControl = function(container, config) {
-    let theConfig = {splitVertical: true, splitPercent: 50, dragBarSize: 6, dragBarColor: "darkgray"};
-    for(let key in config) {
-        theConfig[key] = config[key];
-    }
-    let splitRatio = theConfig.splitPercent / 100;
+var splitControl = function(container, {splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray"} = {}) {
+    let splitRatio = splitPercent / 100;
     // base, splitPos, range, minPos, maxPos units in principal direction
     let base;
     let splitPos;
@@ -45,7 +41,7 @@ var splitControl = function(container, config) {
     let pane1 = $(children[0]).css({overflow: 'auto'});
     let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
 
-    let dragBar = $("<div>").css({"background-color": theConfig.dragBarColor, flex: `0 0 ${theConfig.dragBarSize}px`});
+    let dragBar = $("<div>").css({"background-color": dragBarColor, flex: `0 0 ${dragBarSize}px`});
     pane1.after(dragBar);
 
     // coordinates of the container
@@ -75,7 +71,7 @@ var splitControl = function(container, config) {
         let containerOffset = container.offset();
         let divTop = containerOffset.top;
         let divLeft = containerOffset.left;
-        if (theConfig.splitVertical) {
+        if (splitVertical) {
             container.css({flexDirection: 'row'});
             range = width;
             base = divLeft;
@@ -86,7 +82,7 @@ var splitControl = function(container, config) {
             base = divTop;
             dragBar.css("cursor", "ns-resize");
         }
-        range -= theConfig.dragBarSize;
+        range -= dragBarSize;
         minPos = base;
         if(range < 0) {
             range = 0;
@@ -105,7 +101,7 @@ var splitControl = function(container, config) {
     }
 
     function dragMove(event) {
-        splitPos = (theConfig.splitVertical) ? event.pageX : event.pageY;
+        splitPos = (splitVertical) ? event.pageX : event.pageY;
         moveSplit();
     }
 
@@ -156,8 +152,8 @@ var splitControl = function(container, config) {
     dragBar.on("touchstart", dragTouchStart);
 
     return {
-        setSplit: function (splitVertical) {
-            theConfig.splitVertical = splitVertical;
+        setSplit: function (vertical) {
+            splitVertical = vertical;
             reLayout();
         },
         setSplitPercent: function (percent) {
