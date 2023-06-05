@@ -58,6 +58,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         }
         $project->save();
         $this->created_projectids[] = $project->projectid;
+        $project->add_charsuite("basic-latin");
 
         return $project;
     }

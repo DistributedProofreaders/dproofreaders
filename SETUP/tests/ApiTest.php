@@ -80,6 +80,21 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
+    public function test_get_valid_pageround_data()
+    {
+        $project = $this->_create_project();
+        $this->add_page($project, "001");
+        $path = "v1/projects/$project->projectid/pages/001.png/pagerounds/OCR";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $result = $router->route($path, $query_params);
+        $this->assertEquals("001.png", $result["pagename"]);
+        $this->assertEquals("{$project->url}/001.png", $result["image_url"]);
+        $this->assertEquals($this->TEST_TEXT, $result["text"]);
+        $this->assertEquals("P1.page_avail", $result["state"]);
+    }
+
     public function test_create_project_unauthorised()
     {
         $this->expectExceptionCode(3);
