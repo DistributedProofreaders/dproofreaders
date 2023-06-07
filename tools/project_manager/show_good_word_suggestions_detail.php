@@ -39,7 +39,7 @@ $header_args = [
         "$code_url/scripts/splitControl.js",
         "$code_url/scripts/control_bar.js",
         "$code_url/scripts/page_browse.js",
-        "./show_word_context.js",
+        "$code_url/tools/project_manager/show_word_context.js",
     ],
     "js_data" => get_proofreading_interface_data_js() .
         get_control_bar_texts() . "
