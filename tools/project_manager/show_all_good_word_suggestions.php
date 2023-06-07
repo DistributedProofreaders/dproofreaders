@@ -62,7 +62,7 @@ $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions);
 $header_args = [
     "js_files" => [
         "$code_url/scripts/splitControl.js",
-        "./show_all_good_word_suggestions.js",
+        "$code_url/tools/project_manager/show_all_good_word_suggestions.js",
     ],
     "js_data" => get_cutoff_script($cutoffOptions, $instances),
 
