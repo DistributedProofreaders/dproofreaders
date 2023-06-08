@@ -84,7 +84,11 @@ window.addEventListener("DOMContentLoaded", () => {
     function writePreviewText() {
         // makePreview is defined in preview.js
         preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles, getMessage);
-        prevWin.style.whiteSpace = "pre";
+        prevWin.style.whiteSpace = (
+            (preview.ok && wrapMode)
+                ? "normal"
+                : "pre"
+        );
         prevWin.innerHTML = preview.txtout;
         if (preview.ok && previewStyles.allowMathPreview) {
             try {
@@ -227,6 +231,11 @@ window.addEventListener("DOMContentLoaded", () => {
             viewMode = this.id;
             writePreviewText();
         });
+    });
+
+    document.getElementById("re_wrap").addEventListener("change", function () {
+        wrapMode = this.checked;
+        writePreviewText();
     });
 
     // functions for setting up the configuration screen

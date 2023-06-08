@@ -128,7 +128,7 @@ function blockSplit(bText, procBlock) {
             block.type = blockType.CONTINUATION;
             break;
         }
-        procBlock(block);
+        procBlock(bText, block);
     }
 }
 
@@ -539,8 +539,8 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        function testBoldBlock(block) {
-            if((txt.indexOf("<b>", block.start) === block.start) && (txt.indexOf("</b>", block.start) === (block.end - "</b>".length))) {
+        function testBoldBlock(btext, block) {
+            if((btext.indexOf("<b>", block.start) === block.start) && (btext.indexOf("</b>", block.start) === (block.end - "</b>".length))) {
                 // heading: issue, paragraph: possible issue
                 if((block.type == blockType.HEAD) || (block.type == blockType.SUBHEAD)) {
                     reportIssue(block.start, 3, "noBold");
@@ -548,8 +548,8 @@ window.addEventListener('DOMContentLoaded', function() {
                     // highlight after tags to avoid interleaved spans with style markup
                     let markPoint = block.start + "<b>".length;
                     // if there is another start tag here advance past it.
-                    while(txt.charAt(markPoint) == '<') {
-                        markPoint = txt.indexOf('>', markPoint) + 1;
+                    while(btext.charAt(markPoint) == '<') {
+                        markPoint = btext.indexOf('>', markPoint) + 1;
                     }
                     reportIssue(markPoint, 1, "boldPara");
                 }
@@ -890,7 +890,8 @@ window.addEventListener('DOMContentLoaded', function() {
     It can be used alone with a simple html interface for testing.
     getMessage is a function to get a translated message.
     txt is the text to analyse.
-    viewMode determines if the inline tags are to be shown or hidden.
+    viewMode determines if the inline tags are to be shown or hidden
+    wrapMode whether to re-wrap the text.
     styler is an object containing colour and font options.
     */
     makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
@@ -1002,7 +1003,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 
             // out of line tags and <tb>
-            if (styler.color) {
+            if (!wrapMode && styler.color) {    // not re-wrap and colouring
                 txt = txt.replace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, oolReplacer);
             }
 
@@ -1032,6 +1033,55 @@ window.addEventListener('DOMContentLoaded', function() {
             txt = processExMath(txt, showSubSuper, styler.allowMathPreview);
         }
 
+        // attempt to make an approximate representation of formatted text
+//        // use data from blockSplit to mark headings
+        // re-wrap except for no-wrap markup
+        function reWrap() {
+            let txtOut = "";
+
+            function reWrapBlock(btext, block) {
+                let blockStyle = "margin-bottom: 0.4em;";
+                if(block.type != blockType.CONTINUATION) {
+                    // indent first-line except if continuing at top of page
+                    blockStyle += " text-indent: 1em;";
+                }
+                txtOut += `<div style="${blockStyle}">`;
+                txtOut += btext.slice(block.start, block.end);
+                txtOut += "</div>";
+            }
+
+            function addBlock(noWrap, start, end) {
+                if(end > start) {
+                    console.log(noWrap, start, end);
+
+                    let blockStyle = "margin-bottom: 0.4em;";
+                    if (noWrap) {
+                        blockStyle += " white-space: pre-wrap;";
+                        txtOut += `<div style="${blockStyle}">`;
+                        txtOut += txt.slice(start, end);
+                        txtOut += "</div>";
+                    } else {
+                        // cut into sections separated by blank lines
+                        blockSplit(txt.slice(start, end), reWrapBlock);
+
+                    }
+                }
+            }
+
+            // cut into sections of no-wrap and not
+            let index = 0;
+            let startNW;
+            while((startNW = txt.indexOf("/*", index)) >= 0) {
+                addBlock(false, index, startNW);
+                let endNW = txt.indexOf("*/", startNW + 2);
+                addBlock(true, startNW + 2, endNW);
+                index = endNW + 2;
+            }
+            // no more NW
+            addBlock(false, index, txt.length);
+            txt = txtOut;
+        }
+
         // Show style is done after merging text and proofers notes.
         // To distinguish the < and > characters in text from those in the notes
         // (so we don't style the notes)
@@ -1059,7 +1109,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // ok true if no errors which would cause showstyle() to fail
+        // ok true if no errors which would cause showstyle() or reWrap() to fail
         let ok = (issues === 0);
 
         let issueStarts = [];
@@ -1075,10 +1125,15 @@ window.addEventListener('DOMContentLoaded', function() {
         var tArray = analysis.text.split("");
 
         let noteArray;
-        noteArray = analysis.noteArray;
-        noteArray.forEach(function(note) {
-            note.text = htmlEncode(note.text);
-        });
+        if(ok && wrapMode) {
+            // leave out proofers' notes
+            noteArray = [];
+        } else {
+            noteArray = analysis.noteArray;
+            noteArray.forEach(function(note) {
+                note.text = htmlEncode(note.text);
+            });
+        }
 
         if(!ok) {
             tArray = tArray.map(htmlEncode);
@@ -1109,6 +1164,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
         if (ok) {
             showStyle();
+            if (wrapMode) {
+                reWrap();
+            }
         }
 
         return {
