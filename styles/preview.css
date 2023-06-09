@@ -82,3 +82,29 @@
     vertical-align: super;
     font-size: smaller;
 }
+/* re-wrap styles */
+/* thought break */
+.tb {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-style: inset;
+    border-width: 1px;
+}
+/* chapter */
+.head1 {
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    font-weight: bold;
+    text-align: center;
+}
+/* sub heading */
+.head2 {
+    font-size: 1.17em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    text-align: center;
+}

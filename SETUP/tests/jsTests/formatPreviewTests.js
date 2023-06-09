@@ -577,4 +577,31 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.possIss, 0);
         assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\"><span class=\"tt\">A&amp;B</span></span>");
     });
+
+    QUnit.test("Rewrap continuation paragraph", function (assert) {
+        let text = "abcd";
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em;\">abcd\n</div>");
+    });
+
+    QUnit.test("Rewrap new paragraph", function (assert) {
+        let text = "\nabcd";
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; text-indent: 1em;\">abcd\n</div>");
+    });
+
+    QUnit.test("Rewrap no-wrap block", function (assert) {
+        let text = "/*\nabc\n\ndef\n*/";
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">abc\n\ndef\n</div>");
+    });
 });
