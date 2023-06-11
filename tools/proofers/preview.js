@@ -152,6 +152,8 @@ window.addEventListener('DOMContentLoaded', function() {
             charAfter: 1,
             OolPrev: 1,
             OolNext: 1,
+            BQStart: 1,
+            BQEnd: 1,
             blankLines124: 1,
             puncAfterStart: 0,
             spaceAfterStart: 1,
@@ -526,6 +528,18 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        function blankInBQ() {
+            let result;
+            let re = /\/#\n\n/g;
+            while ((result = re.exec(txt)) !== null) {
+                reportIssue(result.index, 2, "BQStart");
+            }
+            re = /\n\n#\//g;
+            while ((result = re.exec(txt)) !== null) {
+                reportIssue(result.index + 2, 2, "BQEnd");
+            }
+        }
+
         function checkBlankNumber() { // only 1, 2 or 4 blank lines should appear
             var result;
             var end;
@@ -837,6 +851,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 blockSplit(txt, testBoldBlock);
             }
             parseOol();
+            blankInBQ();
             checkFootnotes();
             checkBlankLines();
             if(config.allowMathPreview) {

@@ -19,6 +19,8 @@ function get_preview_messages()
         "charAfter" => _("No characters should follow %s"),
         "OolPrev" => _("Out-of-line start tag should not be preceded by normal text"),
         "OolNext" => _("Out-of-line end tag should not be followed by normal text"),
+        "BQStart" => _("Block quote start tag should not be followed by a blank line"),
+        "BQEnd" => _("Block quote end tag should not be preceded by a blank line"),
         "blankLines124" => _("Only 1, 2 or 4 blank lines should be used"),
         "puncAfterStart" => _("Punctuation after start tag"),
         "spaceAfterStart" => _("Space after start tag"),
