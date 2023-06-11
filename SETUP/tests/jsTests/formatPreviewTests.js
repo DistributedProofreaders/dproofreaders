@@ -510,6 +510,18 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(procText, "xy]zaef");
     });
 
+    QUnit.test("Check blank line after block quote start", function (assert) {
+        let text = "/#\n\nabcd\n#/";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 0, 2, "BQStart", 1);
+    });
+
+    QUnit.test("Check blank line before block quote end", function (assert) {
+        let text = "/#\nabcd\n\n#/";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 9, 2, "BQEnd", 1);
+    });
+
     function getMessage(messageCode) {
         return messageCode;
     }
