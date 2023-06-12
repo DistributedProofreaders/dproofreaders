@@ -613,4 +613,13 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.possIss, 0);
         assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">FIG CULTURE.\n</div>");
     });
+
+    QUnit.test("Rewrap no-wrap block with one blank line", function (assert) {
+        let text = "/*\nabc\n\ndef\n*/";
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">abc\n\ndef\n</div>");
+    });
 });
