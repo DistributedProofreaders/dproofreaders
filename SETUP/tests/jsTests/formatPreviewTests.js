@@ -596,12 +596,12 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; text-indent: 1em;\">abcd\n</div>");
     });
 
-    QUnit.test("Rewrap no-wrap block", function (assert) {
-        let text = "/*\nabc\n\ndef\n*/";
+    QUnit.test("Rewrap no-wrap block with 4 blank lines", function (assert) {
+        let text = "/*\n\n\n\n\nEDIBLE FIGS\n*/";
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">abc\n\ndef\n</div>");
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">\n\n\n\nEDIBLE FIGS\n</div>");
     });
 });
