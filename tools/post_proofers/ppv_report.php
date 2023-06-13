@@ -78,8 +78,8 @@ $difficulty_level = $project->difficulty;
 $pages = $project->n_pages;
 $subdate = date('jS \o\f F, Y');
 
-// number of books post-processed by this PPer (including this one).
-$psd = get_project_status_descriptor('PPd');
+// number of already-posted books post-processed by this PPer.
+$psd = get_project_status_descriptor('posted');
 $sql = sprintf("
     SELECT COUNT(*) AS num_post_processed
     FROM projects
@@ -415,7 +415,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Post-Processed by"),
             $project->postproofer
                 . "<br>"
-                . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
+                . sprintf(_("Number of posted books post-processed by %1\$s: %2\$d"),
                     $project->postproofer, $number_post_processed)
         )
         . tr_w_two_cells(
@@ -683,7 +683,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         . "\n"
         . "\nPPV Summary for $project->postproofer"
         . "\n"
-        . "\n    Number of books post-processed by $project->postproofer (including this one): $number_post_processed"
+        . "\n    Number of posted books post-processed by $project->postproofer: $number_post_processed"
         . "\n"
         . "\n"
         . "\nProject Information"
