@@ -579,7 +579,8 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("Rewrap continuation paragraph", function (assert) {
-        let text = "abcd";
+        let text =
+`abcd`;
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
@@ -588,7 +589,9 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("Rewrap new paragraph", function (assert) {
-        let text = "\nabcd";
+        let text =
+`
+abcd`;
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
@@ -597,7 +600,14 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("Rewrap no-wrap block with 4 blank lines", function (assert) {
-        let text = "/*\n\n\n\n\nEDIBLE FIGS\n*/";
+        let text =
+`/*
+
+
+
+
+EDIBLE FIGS
+*/`;
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
@@ -606,20 +616,99 @@ QUnit.module("Format preview test", function() {
     });
 
     QUnit.test("Rewrap no-wrap block preceeded by 4 blank lines", function (assert) {
-        let text = "\n\n\n\n/*\nFIG CULTURE.\n*/";
+        let text =
+`
+
+
+
+/*
+FIG CULTURE.
+
+abc
+*/`;
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">FIG CULTURE.\n</div>");
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">FIG CULTURE.\n\nabc\n</div>");
     });
 
-    QUnit.test("Rewrap no-wrap block with one blank line", function (assert) {
-        let text = "/*\nabc\n\ndef\n*/";
+    QUnit.test("Rewrap continuation block quote", function (assert) {
+        let text =
+`/#
+abc
+#/`;
         let preview = makePreview(text, false, true, previewStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">abc\n\ndef\n</div>");
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em;\">abc\n</div>");
+    });
+
+    QUnit.test("Rewrap continuation block quote with new paragraph", function (assert) {
+        let text =
+`/#
+
+abc
+#/`;
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;\">abc\n</div>");
+    });
+
+    QUnit.test("Rewrap new block quote with paragraph", function (assert) {
+        let text =
+`
+/#
+abc
+#/`;
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;\">abc\n</div>");
+    });
+
+    QUnit.test("Rewrap no-wrap in block quote with no blank line before no-wrap", function (assert) {
+        let text =
+`
+/#
+/*
+bqnw
+*/
+
+bq
+#/`;
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout,
+            `<div style="margin-bottom: 0.4em; margin-left: 1em; white-space: pre;">bqnw
+</div><div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">bq
+</div>`);
+    });
+
+    QUnit.test("Rewrap no-wrap in block quote with a blank line before no-wrap", function (assert) {
+        let text =
+`
+/#
+
+/*
+bqnw
+*/
+
+bq
+#/`;
+        let preview = makePreview(text, false, true, previewStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout,
+            `<div style="margin-bottom: 0.4em; margin-left: 1em; white-space: pre;">bqnw
+</div><div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">bq
+</div>`);
     });
 });

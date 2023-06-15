@@ -1030,15 +1030,15 @@ window.addEventListener('DOMContentLoaded', function() {
 
             let txtOut = "";
             let line;
-            // if inBlock is true and see a blankline, output </div>, set inBlock false, set blanks=1
-            // if inBlock is false and see a blankline, increment blanks
+            // if see a blank line then increment blanks
+            // if inBlock is true output </div>, set inBlock false
             // if inBlock is false and see a plain text, set inBlock true, output <div ... > then the line
-            // Initially blanks = 0 and inBlock is false
+            // Initially blanks = 0, inBlock is false, CONT is true
             // so at start of page, if blank line then blanks -> 1, if plain text then output para with no indent
             let blanks = 0;
             let inBlock = false;
             let indent = 0;
-            let blockType = PARA;
+            let blockType = CONT;
             // if block quote in subheading use paragraph style
             let blockQuote = false;
 
@@ -1052,78 +1052,80 @@ window.addEventListener('DOMContentLoaded', function() {
                 } else if("" === line) {
                     if(inBlock) {
                         txtOut += "</div>";
-                        blanks = 1;
                         inBlock = false;
-                    } else {
-                        blanks += 1;
                     }
-                } else if ("/#" === line) {
-                    blockQuote = true;
-                    indent += 1;
-                } else if ("#/" === line) {
-                    blockQuote = false;
-                    indent -= 1;
-                } else if("/*" === line) {
-                    // no wrap
-                    txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; white-space: pre;">`;
-                    for(;;) {
-                        line = getNextLine();
-                        // only plain text, blank lines or */ can occur
-                        if(line === "*/") {
-                            txtOut += "</div>";
-                            inBlock = false;
-                            blanks = 0;
-                            break;
-                        } else {
-                            txtOut += line + "\n";
-                        }
-                    }
-                } else if("&lt;tb&gt;" === line) {
-                    txtOut += '<div class="tb"></div>';
-                    inBlock = false;
-                    blanks = 0;
+                    blanks += 1;
                 } else {
-                    // text line
-                    if(!inBlock) {
-                        inBlock = true;
-                        switch(blanks) {
-                        case 4:
-                            blockType = HEAD1;
-                            break;
-                        case 2:
+                    // not blank, decide blockType from preceding blanks
+                    switch(blanks) {
+                    case 4:
+                        blockType = HEAD1;
+                        break;
+                    case 2:
+                        blockType = PARA;
+                        break;
+                    case 1:
+                        // 1 blank line
+                        if(blockType === CONT) {
+                            // happens if /# at start of page, then blank
                             blockType = PARA;
-                            break;
-                        case 0:
-                            // start of page or ] after no-wrap
-                            blockType = CONT;
-                            break;
-                        default:
-                            // retain blockType if 1 blank
-                            break;
-                        }
-                        switch(blockType) {
-                        case HEAD1:
-                            txtOut += '<div class="head1">';
-                            // sub heading next if one blank line
+                        } else if(blockType === HEAD1) {
+                            // sub heading next
                             blockType = HEAD2;
-                            break;
-                        case HEAD2:
-                            if(blockQuote) {
-                                txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">';
-                            } else {
-                                txtOut += '<div class="head2">';
-                            }
-                            break;
-                        case PARA:
-                            txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; text-indent: 1em;">`;
-                            break;
-                        case CONT:
-                            txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em;">`;
-                            blockType = PARA;
-                            break;
                         }
+                        // else retain blockType
+                        break;
+                    default:
+                        // 0, do nothing
+                        break;
                     }
-                    txtOut += line + "\n";
+                    blanks = 0;
+                    if ("/#" === line) {
+                        blockQuote = true;
+                        indent += 1;
+                    } else if ("#/" === line) {
+                        blockQuote = false;
+                        indent -= 1;
+                    } else if("/*" === line) {
+                        // no wrap
+                        txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; white-space: pre;">`;
+                        for(;;) {
+                            line = getNextLine();
+                            // only plain text, blank lines or */ can occur
+                            if(line === "*/") {
+                                txtOut += "</div>";
+                                inBlock = false;
+                                blanks = 0;
+                                break;
+                            } else {
+                                txtOut += line + "\n";
+                            }
+                        }
+                    } else {
+                        // text line
+                        if(!inBlock) {
+                            inBlock = true;
+                            switch(blockType) {
+                            case HEAD1:
+                                txtOut += '<div class="head1">';
+                                break;
+                            case HEAD2:
+                                if(blockQuote) {
+                                    txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">';
+                                } else {
+                                    txtOut += '<div class="head2">';
+                                }
+                                break;
+                            case PARA:
+                                txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; text-indent: 1em;">`;
+                                break;
+                            case CONT:
+                                txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em;">`;
+                                break;
+                            }
+                        }
+                        txtOut += line + "\n";
+                    }
                 }
             }
             txt = txtOut;
