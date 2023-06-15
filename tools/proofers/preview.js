@@ -1109,7 +1109,7 @@ window.addEventListener('DOMContentLoaded', function() {
                             break;
                         case HEAD2:
                             if(blockQuote) {
-                                txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em;">';
+                                txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">';
                             } else {
                                 txtOut += '<div class="head2">';
                             }
