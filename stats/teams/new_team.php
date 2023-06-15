@@ -12,9 +12,9 @@ $user = User::load_current();
 
 $theme_extra_args = ["js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_")];
 
-$teamname = stripAllString(trim(array_get($_POST, "teamname", "")));
+$teamname = trim(array_get($_POST, "teamname", ""));
 $text_data = stripAllString(array_get($_POST, "text_data", ""));
-$teamwebpage = stripAllString(array_get($_POST, "teamwebpage", ""));
+$teamwebpage = array_get($_POST, "teamwebpage", "");
 $tavatar = array_get($_POST, "tavatar", "");
 $ticon = array_get($_POST, "ticon", "");
 
