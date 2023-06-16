@@ -1030,6 +1030,15 @@ window.addEventListener('DOMContentLoaded', function() {
 
             let txtOut = "";
             let line;
+
+            function processTB() {
+                if ("&lt;tb&gt;" === line) {
+                    txtOut += '<div class="tb"></div>';
+                    return true;
+                }
+                return false;
+            }
+
             // if see a blank line then increment blanks
             // if inBlock is true output </div>, set inBlock false
             // if inBlock is false and see a plain text, set inBlock true, output <div ... > then the line
@@ -1091,8 +1100,10 @@ window.addEventListener('DOMContentLoaded', function() {
                         txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; white-space: pre;">`;
                         for(;;) {
                             line = getNextLine();
-                            // only plain text, blank lines or */ can occur
-                            if(line === "*/") {
+                            if(processTB()) {
+                                continue;
+                            }
+                            if (line === "*/") {
                                 txtOut += "</div>";
                                 inBlock = false;
                                 blanks = 0;
@@ -1101,6 +1112,8 @@ window.addEventListener('DOMContentLoaded', function() {
                                 txtOut += line + "\n";
                             }
                         }
+                    } else if(processTB()) {
+                        continue;
                     } else {
                         // text line
                         if(!inBlock) {
