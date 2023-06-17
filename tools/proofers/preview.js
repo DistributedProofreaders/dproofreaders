@@ -1010,8 +1010,17 @@ window.addEventListener('DOMContentLoaded', function() {
             txt = processExMath(txt, showSubSuper, styler.allowMathPreview);
         }
 
-        // attempt to make an approximate representation of formatted text
-        // re-wrap except for no-wrap markup
+        // Attempt to make an approximate representation of formatted text.
+        // Remove proofers' notes.
+        // Treat illustration, footnote, sidenote like ordinary text.
+        // Re-wrap except for no-wrap markup.
+        // First-line indent paragraphs except for continuation at start of page.
+        // Extra indent for each block-quote markup.
+        // Centre and embolden headings and sub-headings, except for a
+        // sub-heading in block-quote or no-wrap. (subsequent sub-headings will
+        // be centred).
+        // Mark thought breaks by a horizontal line.
+
         function reWrap() {
             const lines = txt.split('\n');
             let lineIndex = 0;
@@ -1039,16 +1048,15 @@ window.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
 
-            // if see a blank line then increment blanks
-            // if inBlock is true output </div>, set inBlock false
-            // if inBlock is false and see a plain text, set inBlock true, output <div ... > then the line
-            // Initially blanks = 0, inBlock is false, CONT is true
-            // so at start of page, if blank line then blanks -> 1, if plain text then output para with no indent
+            // Count the number of consecutive blank lines, then at a non-blank line
+            // set the blockType according to number of blanks and reset blank counter.
+            // At start of each text block output <div> with appropriate style.
+            // Output </div> at next blank line or end of text.
+
             let blanks = 0;
             let inBlock = false;
             let indent = 0;
             let blockType = CONT;
-            // if block quote in subheading use paragraph style
             let blockQuote = false;
 
             function terminate() {
@@ -1067,7 +1075,6 @@ window.addEventListener('DOMContentLoaded', function() {
                 } else if("" === line) {
                     terminate();
                 } else {
-                    // not blank, decide blockType from preceding blanks
                     switch(blanks) {
                     case 4:
                         blockType = HEAD1;
@@ -1076,9 +1083,7 @@ window.addEventListener('DOMContentLoaded', function() {
                         blockType = PARA;
                         break;
                     case 1:
-                        // 1 blank line
                         if(blockType === CONT) {
-                            // happens if /# at start of page, then blank
                             blockType = PARA;
                         } else if(blockType === HEAD1) {
                             // sub heading next
@@ -1107,8 +1112,6 @@ window.addEventListener('DOMContentLoaded', function() {
                             }
                             if (line === "*/") {
                                 txtOut += "</div>";
-                                inBlock = false;
-                                blanks = 0;
                                 break;
                             } else {
                                 txtOut += line + "\n";
@@ -1126,6 +1129,7 @@ window.addEventListener('DOMContentLoaded', function() {
                                 break;
                             case HEAD2:
                                 if(blockQuote) {
+                                    // use paragraph style
                                     txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">';
                                 } else {
                                     txtOut += '<div class="head2">';
