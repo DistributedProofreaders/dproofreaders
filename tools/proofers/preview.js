@@ -1051,19 +1051,21 @@ window.addEventListener('DOMContentLoaded', function() {
             // if block quote in subheading use paragraph style
             let blockQuote = false;
 
+            function terminate() {
+                if(inBlock) {
+                    txtOut += "</div>";
+                    inBlock = false;
+                }
+                blanks += 1;
+            }
+
             for(;;) {
                 line = getNextLine();
                 if(null === line) {
-                    if(inBlock) {
-                        txtOut += "</div>";
-                    }
+                    terminate();
                     break;
                 } else if("" === line) {
-                    if(inBlock) {
-                        txtOut += "</div>";
-                        inBlock = false;
-                    }
-                    blanks += 1;
+                    terminate();
                 } else {
                     // not blank, decide blockType from preceding blanks
                     switch(blanks) {
