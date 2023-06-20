@@ -305,6 +305,11 @@ class ProjectInfoHolder
         if (startswith($this->project->special_code, "Otherday") ||
             startswith($this->project->special_code, "Birthday")) {
             $this->project->special_code .= " {$_POST['bdaymonth']}{$_POST['bdayday']}";
+        } elseif (empty($this->project->special_code) &&
+                  !empty("{$_POST['bdaymonth']}{$_POST['bdayday']}")) {
+            // month/year specified but no special code, so set to Birthday
+            $this->project->special_code = "Birthday {$_POST['bdaymonth']}{$_POST['bdayday']}";
+            $errors[] = _("Special Day code set to 'Birthday'. Check before saving.");
         }
 
         // validate fields managed by the Project class
