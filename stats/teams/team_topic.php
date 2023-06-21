@@ -24,7 +24,7 @@ $row = mysqli_fetch_array($team_result);
 // If no row was returned, there is no team matching that ID,
 // this can only happen due to URL hacking so just throw an error.
 if (!$row) {
-    throw new ValueError("No team with ID $team_id");
+    throw new InvalidArgumentException("No team with ID $team_id");
 }
 
 $topic_id = $row['topic_id'];
