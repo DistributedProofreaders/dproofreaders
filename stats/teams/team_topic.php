@@ -13,9 +13,19 @@ $team_id = get_integer_param($_GET, 'team', null, 0, null);
 
 // Get info about team
 
-$team_result = DPDatabase::query("SELECT teamname,team_info, webpage, createdby, owner, topic_id FROM user_teams WHERE id=$team_id");
+$sql = sprintf("
+    SELECT teamname, team_info, webpage, createdby, owner, topic_id
+    FROM user_teams
+    WHERE id=%d", $team_id);
+$team_result = DPDatabase::query($sql);
 
 $row = mysqli_fetch_array($team_result);
+
+// If no row was returned, there is no team matching that ID,
+// this can only happen due to URL hacking so just throw an error.
+if (!$row) {
+    throw new ValueError("No team with ID $team_id");
+}
 
 $topic_id = $row['topic_id'];
 
