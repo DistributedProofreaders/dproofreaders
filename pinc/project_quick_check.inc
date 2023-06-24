@@ -1,7 +1,7 @@
 <?php
 include_once('RoundDescriptor.inc'); // get_Round_for_round_number()
 include_once('wordcheck_engine.inc'); // get_file_info_object()
-include_once('links.inc'); // new_window_link()
+include_once('links.inc');
 include_once('slim_header.inc'); // slim_header()
 include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
@@ -38,7 +38,7 @@ function gate_on_pqc($projectid)
         echo "</p>";
 
         echo "<p>";
-        echo sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid'");
+        echo return_to_project_page_link($projectid);
         echo "</p>";
 
         echo "<h2>" . _("Project Quick Check Summary") . "</h2>";

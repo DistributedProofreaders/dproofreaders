@@ -7,6 +7,7 @@ include_once($relPath.'abort.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'links.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 
@@ -98,8 +99,7 @@ if (isset($_GET['page_state'])) {
         // the project page.
         $project = new Project($projectid);
         if ($project->can_be_managed_by_user($pguser)) {
-            $body = $err . "<br> " . sprintf(_("Return to the <a %s>project page</a>."),
-                "href='$code_url/project.php?id=$projectid' target='_top'");
+            $body = $err . "<br> " . return_to_project_page_link($projectid);
         } else {
             $body = $err . "<br> " . sprintf(_("Return to the <a %s>project listing page</a>."),
                 "href='round.php?round_id={$round->id}' target='_top'");

@@ -6,6 +6,7 @@ $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
+include_once($relPath.'links.inc');
 
 require_login();
 
@@ -89,4 +90,4 @@ foreach ($headers as $w => $header) {
     }
 }
 
-echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#holds'") . "</p>";
+echo "<p>" . return_to_project_page_link($projectid, "#holds") . "</p>";

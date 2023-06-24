@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 include_once($relPath.'project_states.inc'); // PROJ_NEW, PROJ_P1_UNAVAILABLE
+include_once($relPath.'links.inc');
 
 require_login();
 
@@ -55,7 +56,7 @@ if (!is_null($zip_type)) {
     echo "
         <h1>" . html_safe($project->nameofwork) . "</h1>
         <p>$projectid</p>
-        <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
+        <p>" . return_to_project_page_link($projectid) . "</p>
         <h2>$image_index_str</h2>
     ";
 

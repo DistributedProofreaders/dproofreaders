@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');  // get_projectID_param()
+include_once($relPath.'links.inc');
 
 require_login();
 
@@ -50,4 +51,4 @@ function _html_ul($header, $items)
     echo "</ul>\n";
 }
 
-echo "<p>" . sprintf(_("Return to the <a %s>project page</a>"), "href='$code_url/project.php?id=$projectid#event_subscriptions'") . "</p>";
+echo "<p>" . return_to_project_page_link($projectid, "#event_subscriptions") . "</p>";

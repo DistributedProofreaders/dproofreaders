@@ -11,6 +11,7 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // html_safe(), extract_zip_to(), return_bytes(), remove_common_basedir_from_zip()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file, zip_check()
+include_once($relPath.'links.inc');
 
 detect_too_large();
 require_login();
@@ -153,7 +154,7 @@ $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
 $return_anchor = "<a href='$back_url'>$back_blurb</a>";
 // TRANSLATORS: %s is an already-translated page name, eg: Project Page
 $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
-$return_to_project_link = "<a href='$code_url/project.php?id=$projectid'>" . _("Return to the Project Page") . "</a>\n";
+$return_to_project_link = return_to_project_page_link($projectid). "\n";
 
 if (!isset($action)) {
     // Present the upload page.

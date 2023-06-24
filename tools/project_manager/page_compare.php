@@ -3,6 +3,7 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
@@ -46,10 +47,7 @@ class Comparator
         echo "<h2>" . html_safe($sub_title) . "</h2>\n";
 
         $state = $this->project->state;
-        $project_url = "$code_url/project.php?id=$this->projectid&amp;expected_state=$state";
-
-        $label = _("Return to Project Page");
-        echo "<p><a href='$project_url'>$label</a></p>\n";
+        echo "<p>" . return_to_project_page_link($this->projectid, "&expected_state=$state") . "</p>\n";
 
         if (!$this->project->check_pages_table_exists($warn_message)) {
             echo "<p class='warning'>$warn_message</p>\n";

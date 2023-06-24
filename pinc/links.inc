@@ -78,3 +78,46 @@ function private_message_link($proofer_username, $target = "_blank")
 
     return $a;
 }
+
+// -----------------------------------------------------------------------------
+
+function return_to_project_page_link($projectid, $url_suffix = "")
+// Returns a string containing a snippet of HTML to return to a project page.
+// Optional second argument could be page anchor, e.g "#holds"
+// or additional URL parameter, e.g. "&detail_level=4"
+{
+    global $code_url;
+
+    $url_suffix = html_safe($url_suffix);
+    return sprintf(
+             _("Return to the <a %s>project page</a>"),
+             "href='$code_url/project.php?id=$projectid$url_suffix' target='_top'"
+           );
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_round_page_link($round_id)
+// Returns a string containing a snippet of HTML to return to a round page.
+{
+    global $code_url;
+
+    return sprintf(
+             _("Return to <a %s>round %s</a>"),
+             "href='$code_url/tools/proofers/round.php?round_id=$round_id' target='_top'",
+             $round_id
+           );
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_activity_hub_link()
+// Returns a string containing a snippet of HTML to return to the Activity Hub.
+{
+    global $code_url;
+
+    return sprintf(
+             _("Return to the <a %s>Activity Hub</a>"),
+             "href='$code_url/activity_hub.php' target='_top'"
+           );
+}

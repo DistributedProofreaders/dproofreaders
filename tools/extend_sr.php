@@ -6,6 +6,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'links.inc');
 
 class ActionException extends Exception
 {
@@ -19,7 +20,8 @@ $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
 
 $title = _("Extend the Smooth Reading deadline");
 $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-$back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
+$suffix = "&amp;expected_state=$new_state#smooth_start";
+$back_url = "$code_url/project.php?id=$projectid$suffix";
 
 try {
     // validate the user has the ability to do this action
@@ -46,5 +48,5 @@ try {
     echo "<h1>$title</h1>";
     echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
     echo "<p class='error'>", $e->getMessage(), "</p>\n";
-    echo "<a href='$back_url'>", _("Return to the Project Page"), "</a>";
+    echo return_to_project_page_link($projectid, "$suffix");
 }

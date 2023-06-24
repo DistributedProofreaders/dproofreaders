@@ -129,10 +129,7 @@ do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_nam
               $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs);
 echo $navigation_text;
 
-$url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
-$label = _("Go to Project Page");
-
-echo "\n<p><a href='$url'>$label</a>\n";
+echo "\n<p>" . return_to_project_page_link($projectid, "&expected_state=$state") . "\n";
 
 if ($L_format || $R_format) {
     // show option to change compare method
@@ -182,7 +179,7 @@ echo $diffEngine->getDiff($L_label, $R_label);
 // at the top of the page it's buttons, then project page
 // we reverse the order here for symmetry :)
 if ($L_text != $R_text) {
-    echo "\n<p><a href='$url'>$label</a></p>\n";
+    echo "\n<p>" . return_to_project_page_link($projectid, "&expected_state=$state") . "\n";
     echo $navigation_text;
 }
 
