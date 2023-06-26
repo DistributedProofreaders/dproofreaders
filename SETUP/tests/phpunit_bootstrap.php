@@ -8,3 +8,4 @@ include_once($relPath.'TableDocumentation.inc');
 include_once($relPath.'../api/v1.inc');
 
 include_once("phpunit_test_helpers.inc");
+include_once("ProjectUtils.inc");
