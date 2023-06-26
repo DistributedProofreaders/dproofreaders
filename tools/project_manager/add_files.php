@@ -634,7 +634,7 @@ class Loader
         echo _("Please review the information, and use the link at the bottom of the page to proceed with the load.");
         echo "<br>\n";
         $project_url = project_page_link_url($projectid, ["detail_level=4"]);
-        echo _("If there's a problem, return to the  <a href='$project_url'>project page</a> without loading the files.");
+        echo sprintf(_("If there's a problem, return to the <a %s>project page</a> without loading the files."), "href='$project_url'");
         echo "</p>\n";
 
         // --------------
