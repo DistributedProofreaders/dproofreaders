@@ -51,4 +51,4 @@ function _html_ul($header, $items)
     echo "</ul>\n";
 }
 
-echo "<p>" . return_to_project_page_link($projectid, "#event_subscriptions") . "</p>";
+echo "<p>" . return_to_project_page_link($projectid, null, "event_subscriptions") . "</p>";

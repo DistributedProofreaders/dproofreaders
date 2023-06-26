@@ -47,7 +47,7 @@ class Comparator
         echo "<h2>" . html_safe($sub_title) . "</h2>\n";
 
         $state = $this->project->state;
-        echo "<p>" . return_to_project_page_link($this->projectid, "&expected_state=$state") . "</p>\n";
+        echo "<p>" . return_to_project_page_link($this->projectid, ["expected_state=$state"]) . "</p>\n";
 
         if (!$this->project->check_pages_table_exists($warn_message)) {
             echo "<p class='warning'>$warn_message</p>\n";

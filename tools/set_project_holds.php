@@ -90,4 +90,4 @@ foreach ($headers as $w => $header) {
     }
 }
 
-echo "<p>" . return_to_project_page_link($projectid, "#holds") . "</p>";
+echo "<p>" . return_to_project_page_link($projectid, null, "holds") . "</p>";

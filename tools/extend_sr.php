@@ -20,8 +20,9 @@ $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
 
 $title = _("Extend the Smooth Reading deadline");
 $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-$suffix = "&amp;expected_state=$new_state#smooth_start";
-$back_url = "$code_url/project.php?id=$projectid$suffix";
+$query_param = ["expected_state=$new_state"];
+$anchor_link = "smooth_start";
+$back_url = project_page_link_url($projectid, $query_param, $anchor_link);
 
 try {
     // validate the user has the ability to do this action
@@ -48,5 +49,5 @@ try {
     echo "<h1>$title</h1>";
     echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
     echo "<p class='error'>", $e->getMessage(), "</p>\n";
-    echo return_to_project_page_link($projectid, "$suffix");
+    echo return_to_project_page_link($projectid, $query_param, $anchor_link);
 }

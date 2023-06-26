@@ -81,17 +81,36 @@ function private_message_link($proofer_username, $target = "_blank")
 
 // -----------------------------------------------------------------------------
 
-function return_to_project_page_link($projectid, $url_suffix = "")
-// Returns a string containing a snippet of HTML to return to a project page.
-// Optional second argument could be page anchor, e.g "#holds"
-// or additional URL parameter, e.g. "&detail_level=4"
+function project_page_link_url($project_id, $query_param_array = null, $anchor_link = "")
+// Returns HTML-safe URL for the given project page.
+// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
+// Optional third argument is page anchor (without #), e.g "holds"
+// NOTE: query_params and anchor_link should be urlencoded if necessary
 {
     global $code_url;
 
-    $url_suffix = html_safe($url_suffix);
+    $url = "$code_url/project.php?id=$project_id";
+    if (!empty($query_param_array)) {
+        $url .= "&" . implode("&", $query_param_array);
+    }
+    if (!empty($anchor_link)) {
+        $url .= "#" . $anchor_link;
+    }
+    return html_safe($url);
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_project_page_link($project_id, $query_param_array = null, $anchor_link = "")
+// Returns a string containing an HTML link to return to a project page.
+// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
+// Optional third argument is page anchor (without #), e.g "holds"
+// NOTE: query_params and anchor_link should be urlencoded if necessary
+{
+    $url = project_page_link_url($project_id, $query_param_array, $anchor_link);
     return sprintf(
              _("Return to the <a %s>project page</a>"),
-             "href='$code_url/project.php?id=$projectid$url_suffix' target='_top'"
+             "href='$url' target='_top'"
            );
 }
 

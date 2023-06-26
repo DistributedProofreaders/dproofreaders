@@ -70,8 +70,8 @@ if ($stage == 'post_1') {
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
-    $back_blurb = _("Project Page");
+    $back_url = project_page_link_url($projectid, ["expected_state=$new_state"]);
+    $back_blurb = _("project page");
     $comment_title = _("Comments:");
 } elseif ($stage == 'return_1') {
     $title = _("Return project to the post-processing pool");
@@ -92,8 +92,8 @@ if ($stage == 'post_1') {
     $project_is_in_valid_state = PROJ_POST_SECOND_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPVer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_SECOND_CHECKED_OUT;
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
-    $back_blurb = _("Project Page");
+    $back_url = project_page_link_url($projectid, ["expected_state=$new_state"]);
+    $back_blurb = _("project page");
     $comment_title = _("Comments:");
 } elseif ($stage == 'return_2') {
     $title = _("Return project to the post-processing verification pool");
@@ -114,8 +114,8 @@ if ($stage == 'post_1') {
     $project_is_in_valid_state = PROJ_POST_FIRST_CHECKED_OUT == $project->state;
     $user_is_able_to_perform_action = $project->PPer_is_current_user || user_is_a_sitemanager();
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state#smooth_start";
-    $back_blurb = _("Project Page");
+    $back_url = project_page_link_url($projectid, ["expected_state=$new_state"], "smooth_start");
+    $back_blurb = _("project page");
     $comment_title = _("Leave instructions for smooth readers:");
 } elseif ($stage == 'smooth_done') {
     $title = _("Upload a Smooth Read report");
@@ -130,8 +130,8 @@ if ($stage == 'post_1') {
     }
     $user_is_able_to_perform_action = true;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
-    $back_blurb = _("Project Page");
+    $back_url = project_page_link_url($projectid, ["expected_state=$new_state"]);
+    $back_blurb = _("project page");
     $comment_title = null;
 } elseif (!$stage) {
     // this may be due to a timeout when uploading big files.
@@ -154,7 +154,6 @@ $returning_to_pool = ('return_1' == $stage || 'return_2' == $stage);
 $return_anchor = "<a href='$back_url'>$back_blurb</a>";
 // TRANSLATORS: %s is an already-translated page name, eg: Project Page
 $return_message = "<p>". sprintf(_("Return to the %s"), $return_anchor). "</p>";
-$return_to_project_link = return_to_project_page_link($projectid). "\n";
 
 if (!isset($action)) {
     // Present the upload page.
@@ -199,7 +198,7 @@ if (!isset($action)) {
             echo "<p class='error'>$message</p>";
         }
     }
-    echo $return_to_project_link;
+    echo return_to_project_page_link($projectid) . "\n";
 } else {
     // Handle a submission from the upload page.
 
@@ -282,7 +281,7 @@ if (!isset($action)) {
         echo $return_message;
     } catch (FileUploadException $e) {
         echo "<p class='error'>", $e->getMessage(), "</p>\n";
-        echo $return_to_project_link;
+        echo return_to_project_page_link($projectid) . "\n";
     }
 }
 
