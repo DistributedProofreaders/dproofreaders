@@ -543,7 +543,6 @@ CREATE TABLE `tasks` (
   `task_priority` tinyint(3) unsigned NOT NULL default '3',
   `task_os` tinyint(3) unsigned NOT NULL default '0',
   `task_browser` tinyint(3) unsigned NOT NULL default '0',
-  `task_version` tinyint(3) unsigned NOT NULL default '0',
   `task_details` mediumtext NOT NULL,
   `date_opened` int(11) NOT NULL default '0',
   `opened_by` mediumint(9) NOT NULL default '0',
