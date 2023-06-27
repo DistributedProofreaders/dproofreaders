@@ -268,13 +268,6 @@ $browser_array = [
     99 => "Other",
 ];
 asort($browser_array);
-$versions_array = [
-    1 => "pgdp.net (Live)",
-    4 => "dp.rastko.net (Live)",
-    5 => "pgdpcanada.net (Live)",
-    2 => "pgdp.org (Test Server)",
-    3 => "CVS",
-];
 $tasks_close_array = [
     1 => "Not a Bug",
     2 => "Won't Fix",
@@ -433,7 +426,6 @@ function SearchParams_get_url_query_string()
 function make_default_task_object()
 {
     $task = new stdClass();
-    $task->task_version = 1;
     $task->task_severity = 4;
     $task->task_priority = 3;
     $task->task_type = 1;
@@ -460,7 +452,6 @@ function create_task_from_form_submission($formsub)
     global $priority_array;
     global $os_array;
     global $browser_array;
-    global $versions_array;
     global $now_sse;
     global $requester_u_id;
     global $site_abbreviation;
@@ -482,7 +473,6 @@ function create_task_from_form_submission($formsub)
     $newt_priority = (int) get_enumerated_param($formsub, 'task_priority', null, array_keys($priority_array));
     $newt_os = (int) get_enumerated_param($formsub, 'task_os', null, array_keys($os_array));
     $newt_browser = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
-    $newt_version = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
 
     // Validate the assignee, skipping the case where it is 0 (Unassigned).
     if ($newt_assignee != 0) {
@@ -501,7 +491,6 @@ function create_task_from_form_submission($formsub)
             task_priority    = %d,
             task_os          = %d,
             task_browser     = %d,
-            task_version     = %d,
             task_details     = '%s',
             date_opened      = %d,
             opened_by        = %d,
@@ -518,7 +507,6 @@ function create_task_from_form_submission($formsub)
         $newt_priority,
         $newt_os,
         $newt_browser,
-        $newt_version,
         DPDatabase::escape($task_details),
         $now_sse,
         $requester_u_id,
@@ -707,7 +695,6 @@ function handle_action_on_a_specified_task()
             global $priority_array;
             global $os_array;
             global $browser_array;
-            global $versions_array;
             global $percent_complete_array;
 
             $edit_type = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
@@ -718,7 +705,6 @@ function handle_action_on_a_specified_task()
             $edit_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
             $edit_os = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
             $edit_browser = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
-            $edit_version = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
             $edit_percent = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
 
             $sql = sprintf("
@@ -733,7 +719,6 @@ function handle_action_on_a_specified_task()
                     task_priority    = %d,
                     task_os          = %d,
                     task_browser     = %d,
-                    task_version     = %d,
                     task_details     = '%s',
                     date_edited      = %d,
                     edited_by        = %d,
@@ -749,7 +734,6 @@ function handle_action_on_a_specified_task()
                 $edit_priority,
                 $edit_os,
                 $edit_browser,
-                $edit_version,
                 DPDatabase::escape($task_details),
                 $now_sse,
                 $requester_u_id,
@@ -1164,7 +1148,7 @@ function select_and_list_tasks($sql_condition)
 function TaskForm($task)
 {
     global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $os_array, $browser_array, $versions_array, $percent_complete_array;
+    global $os_array, $browser_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
 
@@ -1203,7 +1187,6 @@ function TaskForm($task)
     property_echo_select_tr('task_category', $task->task_category, $categories_array);
     property_echo_select_tr('task_os', $task->task_os, $os_array);
     property_echo_select_tr('task_browser', $task->task_browser, $browser_array);
-    property_echo_select_tr('task_version', $task->task_version, $versions_array);
     echo "</table>";
 
     echo "<table class='task-detail-block'>\n";
@@ -1317,7 +1300,6 @@ function TaskDetails($tid, $action)
     property_echo_value_tr('additional_os', $task, false);
     property_echo_value_tr('task_browser', $task);
     property_echo_value_tr('additional_browser', $task, false);
-    property_echo_value_tr('task_version', $task);
     property_echo_value_tr('votes', $task, false);
     echo "</table>";
 
@@ -1692,7 +1674,6 @@ function property_get_label($property_id, $for_list_of_tasks)
         case 'task_status': return _('Status');
         case 'task_summary': return _('Summary');
         case 'task_type': return _('Task Type');
-        case 'task_version': return _('Reported Version');
         case 'votes': return _('Votes');
         case 'additional_os': return '';
         case 'additional_browser': return '';
@@ -1717,7 +1698,6 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_array;
     global $tasks_close_array;
     global $tasks_status_array;
-    global $versions_array;
 
     $raw_value = array_get($task_a, $property_id, null);
     switch ($property_id) {
@@ -1733,7 +1713,6 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
         case 'task_severity': return $severity_array[$raw_value];
         case 'task_status': return $tasks_status_array[$raw_value];
         case 'task_type': return $tasks_array[$raw_value];
-        case 'task_version': return $versions_array[$raw_value];
 
         // The raw value is an integer denoting seconds-since-epoch.
         case 'date_edited': return date("d-M-Y", $raw_value);
