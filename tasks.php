@@ -1108,13 +1108,16 @@ function select_and_list_tasks($sql_condition)
         $orderby_for_link = $property_id;
 
         // But sorted in which direction?
+        $caret = "";    // arrow to show sort direction on relevant column
         if ($property_id == $curr_sort_col) {
             // This column is the one that the current listing is sorted on.
             // A header-click will just reverse the direction of the sort.
             if ($curr_sort_dir == "asc") {
                 $direction_for_link = "desc";
+                $caret = "&nbsp;&#9650;";
             } else {
                 $direction_for_link = "asc";
+                $caret = "&nbsp;&#9660;";
             }
         } else {
             // This column is not the current sort-column.
@@ -1125,7 +1128,7 @@ function select_and_list_tasks($sql_condition)
 
         $url = "$tasks_url?{$t}orderby=$orderby_for_link&direction=$direction_for_link";
         $label = property_get_label($property_id, true);
-        echo "<th$attrs><a href='$url'>$label</a></th>\n";
+        echo "<th$attrs><a href='$url'>$label$caret</a></th>\n";
     }
     echo "</tr>\n";
 
