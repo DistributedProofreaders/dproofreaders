@@ -42,6 +42,7 @@ $(function () {
 
     let initialSplitVertical = false;
     let mainSplit = splitControl("#container", {splitVertical: initialSplitVertical});
+    window.addEventListener("resize", mainSplit.reLayout);
     appendControlButton("#control-div", mainSplit, initialSplitVertical);
     appendIndicator("#control-div", mainSplit);
     mainSplit.reLayout();

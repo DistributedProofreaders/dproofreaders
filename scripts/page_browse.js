@@ -98,12 +98,12 @@ var maketextControl = function(textArea) {
     };
 };
 
-function makeTextWidget(container, splitter = false, reLayout = null) {
+function makeTextWidget(container, splitter = false, onResize = null) {
     const textArea = $("<textarea>", {class: "text-pane"});
     textArea.prop("readonly", !splitter);
     const textControl = maketextControl(textArea);
     const content = $("<div>");
-    const controlDiv = makeControlDiv(container, content, textControl.controls, reLayout);
+    const controlDiv = makeControlDiv(container, content, textControl.controls, onResize);
     let subSplitter;
     let splitterKey;
     let textSplitData;
@@ -112,7 +112,11 @@ function makeTextWidget(container, splitter = false, reLayout = null) {
         const bottomTextDiv = $("<div>");
         content.append(topTextDiv, bottomTextDiv);
 
-        subSplitter = splitControl(content, {splitVertical: false, reDraw: reLayout});
+        subSplitter = splitControl(content, {splitVertical: false});
+        if(onResize) {
+            onResize.add(subSplitter.reLayout);
+        }
+
         subSplitter.onDragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
             localStorage.setItem(splitterKey, JSON.stringify(textSplitData));
@@ -157,6 +161,7 @@ var viewSplitter = function(container, storageKey) {
     const splitVertical = (layout.splitDirection === "vertical");
 
     const mainSplit = splitControl(container, {splitVertical: splitVertical});
+    window.addEventListener("resize", mainSplit.reLayout);
 
     const imageButtonSize = 26;
     const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit, height: imageButtonSize, width: imageButtonSize});
