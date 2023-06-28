@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'links.inc');
 include_once($relPath.'User.inc');
 
 require_login();
@@ -92,9 +93,4 @@ if ($uao->can_access) {
 }
 echo "</p>\n";
 
-echo "<p>";
-printf(
-    _("Back to <a href='%s'>Activity Hub</a>"),
-    "$code_url/activity_hub.php"
-);
-echo "</p>\n";
+echo "<p>" . return_to_activity_hub_link() . "</p>\n";

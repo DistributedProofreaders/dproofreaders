@@ -6,7 +6,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'misc.inc'); // html_safe()
-include_once($relPath.'links.inc'); // private_message_link()
+include_once($relPath.'links.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
@@ -311,23 +311,13 @@ class PPage
 
         echo "<ul>\n"
             .   "<li>"
-            .     sprintf(
-                    _("Return to the <a %s>project page</a>"),
-                    "href='$code_url/project.php?id=$projectid' target='_top'"
-                  )
+            .     return_to_project_page_link($projectid)
             .   "</li>\n"
             .   "<li>"
-            .     sprintf(
-                    _("Return to <a %s>round %s</a>"),
-                    "href='round.php?round_id={$round->id}' target='_top'",
-                    $round->id
-                  )
+            .     return_to_round_page_link($round->id)
             .   "</li>\n"
             .   "<li>"
-            .     sprintf(
-                    _("Return to the <a %s>Activity Hub</a>."),
-                    "href='$code_url/activity_hub.php' target='_top'"
-                  )
+            .     return_to_activity_hub_link()
             .   "</li>\n"
             . "</ul>\n"
             ;

@@ -10,6 +10,7 @@ include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
 include_once($relPath.'misc.inc');  // array_get() startswith() attr_safe()
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
+include_once($relPath.'links.inc');
 
 header_remove("Expires");
 header_remove("Cache-Control");
@@ -877,7 +878,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     $subject = "PPV Summary - $project->postproofer ($_POST[pp_evaluation])";
     $message = $reportcard;
     send_mail($to, $subject, $message, "$pguser <$ppver->email>");
-    printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
+    echo return_to_project_page_link($projectid);
     exit();
 } else {
     assert(false);

@@ -54,10 +54,7 @@ output_header("$page_details_str: $title", NO_STATSBAR);
 echo "<h1>" . html_safe($title) . "</h1>\n";
 echo "<h2>$page_details_str</h2>\n";
 
-$url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
-$label = _("Return to Project Page");
-
-echo "<p><a href='$url'>$label</a></p>\n";
+echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
 if ($project->check_pages_table_exists($warn_message)) {
     echo_detail_legend();

@@ -78,3 +78,65 @@ function private_message_link($proofer_username, $target = "_blank")
 
     return $a;
 }
+
+// -----------------------------------------------------------------------------
+
+function project_page_link_url($projectid, $query_param_array = null, $anchor_link = "")
+// Returns HTML-safe URL for the given project page.
+// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
+// Optional third argument is page anchor (without #), e.g "holds"
+// NOTE: query_params and anchor_link should be urlencoded if necessary
+{
+    global $code_url;
+
+    $url = "$code_url/project.php?id=$projectid";
+    if (!empty($query_param_array)) {
+        $url .= "&" . implode("&", $query_param_array);
+    }
+    if (!empty($anchor_link)) {
+        $url .= "#" . $anchor_link;
+    }
+    return html_safe($url);
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_project_page_link($projectid, $query_param_array = null, $anchor_link = "")
+// Returns a string containing an HTML link to return to a project page.
+// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
+// Optional third argument is page anchor (without #), e.g "holds"
+// NOTE: query_params and anchor_link should be urlencoded if necessary
+{
+    $url = project_page_link_url($projectid, $query_param_array, $anchor_link);
+    return sprintf(
+             _("Return to the <a %s>project page</a>"),
+             "href='$url' target='_top'"
+           );
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_round_page_link($round_id)
+// Returns a string containing a snippet of HTML to return to a round page.
+{
+    global $code_url;
+
+    return sprintf(
+             _("Return to <a %s>round %s</a>"),
+             "href='$code_url/tools/proofers/round.php?round_id=$round_id' target='_top'",
+             $round_id
+           );
+}
+
+// -----------------------------------------------------------------------------
+
+function return_to_activity_hub_link()
+// Returns a string containing a snippet of HTML to return to the Activity Hub.
+{
+    global $code_url;
+
+    return sprintf(
+             _("Return to the <a %s>Activity Hub</a>"),
+             "href='$code_url/activity_hub.php' target='_top'"
+           );
+}

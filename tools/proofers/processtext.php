@@ -355,11 +355,13 @@ function leave_proofing_interface($title)
 
     slim_header($title);
 
-    $url = "$code_url/project.php?id=$projectid&expected_state=$proj_state";
-
-    $text = _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
-    echo sprintf($text, $url);
+    // HTML requires HTML-safe version, whereas script doesn't want escaped ampersands
+    $query_param = "expected_state=$proj_state";
+    $safe_url = project_page_link_url($projectid, [$query_param]);
+    $raw_url = "$code_url/project.php?id=$projectid&$query_param";
+    $text = _("You will be returned to the <a href='%s' target='_top'>project page</a> in one second.");
+    echo sprintf($text, $safe_url);
     echo "<script><!--\n";
-    echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
+    echo "setTimeout(\"top.location.href='$raw_url';\", 1000);\n";
     echo "// --></script>\n";
 }

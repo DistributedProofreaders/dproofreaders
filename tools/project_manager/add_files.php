@@ -7,6 +7,7 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'links.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'image_check.inc');
 
@@ -71,7 +72,7 @@ if ($rel_source == '') {
         echo sprintf(_("Source directory '%s' is not acceptable."), html_safe($rel_source));
         echo "</p>";
         echo "<hr>\n";
-        echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
+        echo return_to_project_page_link($projectid) . "\n";
         return;
     }
 }
@@ -123,7 +124,7 @@ if (!$r) {
     echo sprintf(_("Directory '%s' does not exist, or is inaccessible."), html_safe($source_project_dir));
     echo "</p>";
     echo "<hr>\n";
-    echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
+    echo return_to_project_page_link($projectid) . "\n";
     return;
 }
 
@@ -173,7 +174,7 @@ if (!@$_POST['confirmed']) {
 }
 
 echo "<hr>\n";
-echo "Return to <a href='$code_url/project.php?id=$projectid&detail_level=4'>Project Page</a>.\n";
+echo return_to_project_page_link($projectid, ["detail_level=4"]) . "\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -632,7 +633,8 @@ class Loader
         echo "<br>\n";
         echo _("Please review the information, and use the link at the bottom of the page to proceed with the load.");
         echo "<br>\n";
-        echo _("If there's a problem, return to the  <a href='$code_url/project.php?id=$projectid&detail_level=4'>Project Page</a> without loading the files.");
+        $project_url = project_page_link_url($projectid, ["detail_level=4"]);
+        echo sprintf(_("If there's a problem, return to the <a %s>project page</a> without loading the files."), "href='$project_url'");
         echo "</p>\n";
 
         // --------------

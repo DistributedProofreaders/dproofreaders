@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 
 require_login();
@@ -39,7 +40,7 @@ switch ($action) {
 
     case 'dojump':
         do_stuff($projectid, $new_state, false);
-        echo "\n\n<a href='$code_url/project.php?id={$projectid}'>" . _("Project Home") . "</a>\n";
+        echo "\n\n" . return_to_project_page_link($projectid) . "\n";
         break;
 }
 

@@ -39,8 +39,6 @@ function provide_escape_links()
 {
     global $code_url;
 
-    echo "<p>\n";
-    echo _('Go to...'), "\n";
     echo "<ul>\n";
 
     // link to project home
@@ -51,9 +49,7 @@ function provide_escape_links()
             validate_projectID($projectid);
 
             // This link won't work if the error is that the project doesn't exist.
-            $link_url = "$code_url/project.php?id=$projectid";
-            $link_text = _('Project Home');
-            echo "<li><a href='$link_url' target='_top'>$link_text</a></li>\n";
+            echo "<li>" . return_to_project_page_link($projectid) . "</li>\n";
         } catch (InvalidProjectIDException $exception) {
             // don't output anything as the project ID is not valid
         }
@@ -68,20 +64,15 @@ function provide_escape_links()
                 get_parameter_value(['pagestate', 'page_state']));
         }
         if (!is_null($round)) {
-            $link_url = "$code_url/tools/proofers/round.php?round_id={$round->id}";
-            $link_text = $round->name;
-            echo "<li><a href='$link_url' target='_top'>$link_text</a></li>\n";
+            echo "<li>" . return_to_round_page_link($round->id) . "</li>\n";
         }
     }
 
     // link to activity hub
     {
-        $link_url = "$code_url/activity_hub.php";
-        $link_text = _('Activity Hub');
-        echo "<li><a href='$link_url' target='_top'>$link_text</a></li>\n";
+        echo "<li>" . return_to_activity_hub_link() . "</li>\n";
     }
     echo "</ul>\n";
-    echo "</p>\n";
 }
 
 function get_parameter_value($possible_names)
