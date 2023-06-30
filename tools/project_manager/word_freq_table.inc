@@ -265,10 +265,18 @@ function prep_numeric_keys_for_multisort(&$assocArray)
 
 function echo_page_header($title, $projectid)
 {
+    global $code_url;
+
     echo "<h1>$title</h1>";
 
     $project_text = sprintf(_("Project: %s"), html_safe(get_project_name($projectid)));
     echo "<h2>$project_text</h2>\n";
+    echo "<p>"
+      . "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid'>"
+      . _("Edit project word lists")
+      . "</a> | "
+      . return_to_project_page_link($projectid)
+      . "</p>\n";
 }
 
 function get_project_name($projectid)
