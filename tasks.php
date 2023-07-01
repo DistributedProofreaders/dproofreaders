@@ -1160,6 +1160,9 @@ function TaskForm($task)
         $tasks_status_array = [1 => "New"];
     }
 
+    // Don't want to permit setting status to 'Closed' when creating/editing a task
+    unset($tasks_status_array[14]);
+
     $task_summary_enc = attr_safe($task->task_summary);
     $task_details_enc = html_safe($task->task_details);
 
