@@ -425,18 +425,27 @@ function SearchParams_get_url_query_string()
 
 function make_default_task_object()
 {
+    global $tasks_array;
+    global $categories_array;
+    global $tasks_status_array;
+    global $severity_array;
+    global $priority_array;
+    global $os_array;
+    global $browser_array;
+    global $percent_complete_array;
+
     $task = new stdClass();
-    $task->task_severity = 4;
-    $task->task_priority = 3;
-    $task->task_type = 1;
-    $task->task_category = 1;
-    $task->task_status = 1;
-    $task->task_os = 0;
-    $task->task_browser = 0;
+    $task->task_severity = get_property_key("Normal", $severity_array);
+    $task->task_priority = get_property_key("Medium", $priority_array);
+    $task->task_type = get_property_key("Bug Report", $tasks_array);
+    $task->task_category = get_property_key("None", $categories_array);
+    $task->task_status = get_property_key("New", $tasks_status_array);
+    $task->task_os = get_property_key("All", $os_array);
+    $task->task_browser = get_property_key("All", $browser_array);
     $task->task_assignee = 0;
     $task->task_summary = "";
     $task->task_details = "";
-    $task->percent_complete = 0;
+    $task->percent_complete = get_property_key("0%", $percent_complete_array);
     $task->opened_by = "";
     $task->task_id = "";
     return $task;
@@ -620,6 +629,7 @@ function handle_action_on_a_specified_task()
     global $pguser, $requester_u_id;
     global $now_sse;
     global $action, $tasks_url;
+    global $tasks_status_array;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) {
@@ -664,13 +674,14 @@ function handle_action_on_a_specified_task()
         $sql = sprintf("
             UPDATE tasks
             SET
-                task_status = 15,
+                task_status = %d,
                 edited_by = %d,
                 date_edited = %d,
                 date_closed = 0,
                 closed_by = 0,
                 closed_reason = 0
             WHERE task_id = %d",
+            get_property_key("Reopened", $tasks_status_array),
             $requester_u_id,
             $now_sse,
             $task_id
@@ -752,8 +763,8 @@ function handle_action_on_a_specified_task()
             $sql = sprintf("
                 UPDATE tasks
                 SET
-                    percent_complete = 100,
-                    task_status = 14,
+                    percent_complete = %d,
+                    task_status = %d,
                     date_closed = %d,
                     closed_by = %d,
                     closed_reason = %d,
@@ -761,6 +772,8 @@ function handle_action_on_a_specified_task()
                     edited_by = %d
                 WHERE task_id = %d
             ",
+                get_property_key("100%", $percent_complete_array),
+                get_property_key("Closed", $tasks_status_array),
                 $now_sse,
                 $requester_u_id,
                 $tc_reason,
@@ -1157,11 +1170,11 @@ function TaskForm($task)
 
     // Non-managers can only set the task status to New.
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
-        $tasks_status_array = [1 => "New"];
+        $tasks_status_array = [get_property_key("New", $tasks_status_array) => "New"];
     }
 
-    // Don't want to permit setting status to 'Closed' when creating/editing a task
-    unset($tasks_status_array[14]);
+    // Don't want to permit setting status to "Closed" when creating/editing a task
+    unset($tasks_status_array[get_property_key("Closed", $tasks_status_array)]);
 
     $task_summary_enc = attr_safe($task->task_summary);
     $task_details_enc = html_safe($task->task_details);
@@ -1903,4 +1916,13 @@ function get_username_for_uid($u_id)
 function title_string_for_task($pre_task)
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
+}
+
+// Get key corresponding to a task properties string
+// Input string must be a valid property value
+function get_property_key($value, $array)
+{
+    $key = array_search($value, $array);
+    assert($key !== false);
+    return $key;
 }
