@@ -137,8 +137,10 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     }
 
     $round = get_Round_for_project_state($proj_state);
-    $err = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($err) {
+    try {
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    } catch (UserAccessException $exception) {
+        $err = $exception->getMessage();
         return null;
     }
 

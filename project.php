@@ -228,13 +228,15 @@ function decide_blurbs()
         return [$blurb, $blurb];
     }
 
-    $blurb = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($blurb) {
+    try {
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    } catch (UserAccessException $exception) {
+        $blurb = $exception->getMessage();
         return [$blurb, $blurb];
     }
 
     // Check whether the user is blocked by a daily page limit.
-    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // Arguably, you'd expect this to be determined in validate_user_can_get_pages_in_project(),
     // but we also want to produce a warning (when the project is covered by a DPL)
     // even when the user *isn't* blocked, which you can't really expect of that function.
     //

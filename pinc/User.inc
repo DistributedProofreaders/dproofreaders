@@ -36,6 +36,38 @@ class UserNotQualifiedForRoundException extends UserAccessException
     }
 }
 
+class BeginnersQuotaReachedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 303)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class BeginnersProjectQuotaReachedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 304)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class NoAccessToMentorsOnlyException extends UserAccessException
+{
+    public function __construct($message = "", $code = 305)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ReservedForNewProofreadersException extends UserAccessException
+{
+    public function __construct($message = "", $code = 306)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class User
 {
     private $table_row;
