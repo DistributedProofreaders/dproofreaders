@@ -152,21 +152,9 @@ asort($categories_array);
 $tasks_status_array = [
     1 => "New",
     2 => "Accepted",
-    3 => "Duplicate",
-    4 => "Fixed",
-    5 => "Invalid",
-    6 => "Later",
-    7 => "None",
-    8 => "Out of Date",
-    9 => "Postponed",
-    10 => "Rejected",
-    11 => "Remind",
-    12 => "Won't Fix",
-    13 => "Works for Me",
     14 => "Closed",
     15 => "Reopened",
     16 => "Researching",
-    17 => "Implemented",
     18 => "In Progress",
 ];
 asort($tasks_status_array);
@@ -1173,8 +1161,9 @@ function TaskForm($task)
         $tasks_status_array = [get_property_key("New", $tasks_status_array) => "New"];
     }
 
-    // Don't want to permit setting status to "Closed" when creating/editing a task
+    // Don't want to permit setting status to "Closed" or "Reopened" when creating/editing a task
     unset($tasks_status_array[get_property_key("Closed", $tasks_status_array)]);
+    unset($tasks_status_array[get_property_key("Reopened", $tasks_status_array)]);
 
     $task_summary_enc = attr_safe($task->task_summary);
     $task_details_enc = html_safe($task->task_details);
