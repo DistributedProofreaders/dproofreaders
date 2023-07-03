@@ -405,7 +405,7 @@ class User
 
 global $valid_username_chars_statement_for_reg_form;
 global $valid_username_chars_statement_for_elsewhere;
-$valid_username_chars_statement_for_reg_form = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
+$valid_username_chars_statement_for_reg_form = _("(Valid characters are: a-z A-Z 0-9 - . space)");
 $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
 
 function check_username($username, $registering = false)
@@ -427,11 +427,12 @@ function check_username($username, $registering = false)
         return $error;
     }
 
-    // For new registrations, we disallow underscore (because it confuses the wiki software).
+    // For new registrations, we disallow underscore (because it confuses the wiki software)
+    // and @s to prevent people from using their emails as usernames.
     // Elsewhere, we still have to allow underscore in usernames, for pre-existing users.
     if ($registering) {
         global $valid_username_chars_statement_for_reg_form;
-        $bad_char_regex = "/[^-a-zA-Z0-9@. ]/";
+        $bad_char_regex = "/[^-a-zA-Z0-9. ]/";
         $valid_username_chars_statement = $valid_username_chars_statement_for_reg_form;
     } else {
         global $valid_username_chars_statement_for_elsewhere;
