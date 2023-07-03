@@ -124,4 +124,43 @@ class UserTest extends PHPUnit\Framework\TestCase
         $user = new User();
         $user->save();
     }
+
+
+    // Username validation tests
+
+    public function testValidRegUsername()
+    {
+        $error = check_username("oneONE1- .", true);
+        $this->assertEquals("", $error);
+    }
+
+    public function testValidNonRegUsername()
+    {
+        $error = check_username("oneONE1- .@_");
+        $this->assertEquals("", $error);
+    }
+
+    public function testInvalidUsernameTrailingSpace()
+    {
+        $error = check_username("one two ");
+        $this->assertStringContainsString("leading or trailing whitespace", $error);
+    }
+
+    public function testInvalidUsernameAdjacentSpace()
+    {
+        $error = check_username("one  two");
+        $this->assertStringContainsString("contains adjacent space characters", $error);
+    }
+
+    public function testInvalidRegUsernameUnderscore()
+    {
+        $error = check_username("one_two", true);
+        $this->assertStringContainsString("contains invalid characters", $error);
+    }
+
+    public function testInvalidRegUsernameAt()
+    {
+        $error = check_username("one@two", true);
+        $this->assertStringContainsString("contains invalid characters", $error);
+    }
 }
