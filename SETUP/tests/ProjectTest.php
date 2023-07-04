@@ -433,4 +433,58 @@ class ProjectTest extends ProjectUtils
         $project = new Project($project->projectid);
         $project->validate_can_be_proofed_by_current_user();
     }
+
+    // tests for validate_user_can_get_pages_in_project()
+
+    public function test_can_user_get_pages_reserved_for_new_proofreaders()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+        $round = get_Round_for_round_id("P1");
+
+        // user done no pages and few days on site
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+
+        // user done many pages
+        // $page_tally_threshold 500 for new projects in reserve time
+        page_tallies_add("P1", $pguser, 501);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+
+        // few pages, many days on site
+        $pguser = $this->TEST_OLDUSERNAME;
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+
+        // many pages, many days on site
+        page_tallies_add("P1", $pguser, 501);
+        $this->expectExceptionCode(306);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    }
+
+    public function test_beginner_project_checkout()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $this->valid_project_data["difficulty"] = "beginner";
+        $project = $this->_create_available_project();
+        // beginners limit is 40 in user_is.inc
+        page_tallies_add("P1", $pguser, 50);
+        $round = get_Round_for_round_id("P1");
+        $this->expectExceptionCode(303);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    }
+
+    public function test_beginner_mentor_project_checkout()
+    {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+        $this->valid_project_data["difficulty"] = "beginner";
+        $project = $this->_create_available_project();
+        $this->advance_to_round2($project->projectid);
+        $user = new User($pguser);
+        $user->grant_access("P2", $pguser);
+        $round = get_Round_for_round_id("P2");
+        $this->expectExceptionCode(305);
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    }
 }

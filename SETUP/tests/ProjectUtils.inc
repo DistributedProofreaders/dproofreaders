@@ -4,6 +4,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
 {
     protected $TEST_USERNAME_PM = "ProjectTestPM_php";
     protected $TEST_USERNAME = "ProjectTest_php";
+    protected $TEST_OLDUSERNAME = "ProjectTest_old_php";
     protected $TEST_IMAGESOURCE = "PrjTest";
     protected $valid_projectID = "projectID45c225f598e32";
     protected $valid_page_image = "001.png";
@@ -29,6 +30,9 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
 
         create_test_user($this->TEST_USERNAME);
 
+        // create an old user (new users $days_on_site_threshold = 21)
+        create_test_user($this->TEST_OLDUSERNAME, 22);
+
         create_test_image_source($this->TEST_IMAGESOURCE);
 
         $this->valid_project_data["username"] = $this->TEST_USERNAME_PM;
@@ -43,6 +47,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
 
         delete_test_user($this->TEST_USERNAME_PM);
         delete_test_user($this->TEST_USERNAME);
+        delete_test_user($this->TEST_OLDUSERNAME);
         delete_test_image_source($this->TEST_IMAGESOURCE);
 
         foreach ($this->created_projectids as $projectid) {
