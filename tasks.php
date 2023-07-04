@@ -1911,7 +1911,8 @@ function title_string_for_task($pre_task)
 // Input string must be a valid property value
 function get_property_key($value, $array)
 {
-    $key = array_search($value, $array);
-    assert($key !== false);
+    if (($key = array_search($value, $array)) === false) {
+        throw new ValueError("Bad task property value: $value");
+    }
     return $key;
 }
