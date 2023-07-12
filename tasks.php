@@ -617,7 +617,18 @@ function handle_action_on_a_specified_task()
     global $pguser, $requester_u_id;
     global $now_sse;
     global $action, $tasks_url;
+
+    // data array
     global $tasks_status_array;
+    global $tasks_array;
+    global $categories_array;
+    global $task_assignees_array;
+    global $severity_array;
+    global $priority_array;
+    global $os_array;
+    global $browser_array;
+    global $percent_complete_array;
+    global $tasks_close_array;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) {
@@ -686,16 +697,6 @@ function handle_action_on_a_specified_task()
             // Update a pre-existing task.
             NotificationMail($task_id, "$pguser edited this task.");
 
-            global $tasks_array;
-            global $categories_array;
-            global $tasks_status_array;
-            global $task_assignees_array;
-            global $severity_array;
-            global $priority_array;
-            global $os_array;
-            global $browser_array;
-            global $percent_complete_array;
-
             $edit_type = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $edit_status = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -743,7 +744,6 @@ function handle_action_on_a_specified_task()
             metarefresh(0, "$tasks_url?task_id=$task_id");
         }
     } elseif ($action == 'close') {
-        global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
@@ -824,7 +824,6 @@ function handle_action_on_a_specified_task()
         $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'remove', $related_posting_topic);
     } elseif ($action == 'add_metoo') {
-        global $os_array, $browser_array;
         $vote_os = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
         $vote_browser = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
 
