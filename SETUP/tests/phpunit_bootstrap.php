@@ -1,5 +1,5 @@
 <?php
-global $relPath;
+global $relPath, $forum_type;
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');

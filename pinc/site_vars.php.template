@@ -49,7 +49,8 @@ $forum_type = '<<FORUM_TYPE>>';
 $forums_phpbb_table_prefix = '<<PHPBB_TABLE_PREFIX>>';
 $forums_phpbb_dir = '<<PHPBB_DIR>>';
 $forums_phpbb_url = '<<PHPBB_URL>>';
-
+$forums_json_users = '<<JSON_USERS>>';
+$forums_json_posts = '<<JSON_POSTS>>';
 
 $general_forum_idx                = '<<FORUMS_GENERAL_IDX>>';
 $beginners_site_forum_idx         = '<<FORUMS_BEGIN_SITE_IDX>>';
