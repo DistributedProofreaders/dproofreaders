@@ -188,11 +188,11 @@ function _insert_post(
     } else {
         $username = "Anonymous";
     }
-    $sql = "
+    $sql = sprintf("
         SELECT *
         FROM {$forums_phpbb_table_prefix}_users
-        WHERE username='$username'
-    ";
+        WHERE username='%s'
+    ", $db->sql_escape($username));
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     if (!$row) {
