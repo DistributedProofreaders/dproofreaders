@@ -493,7 +493,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
             'confirmation_question' => null,
             'detour' => null,
             'settings_template' => '',
-            'collateral_actions' => null,
+            'collateral_actions' => 'to_unavailable_collateral',
         ]
     );
 
@@ -521,7 +521,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
             'confirmation_question' => null,
             'detour' => null,
             'settings_template' => '',
-            'collateral_actions' => null,
+            'collateral_actions' => 'to_unavailable_collateral',
         ]
     );
 
@@ -553,7 +553,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
             'confirmation_question' => '[default]',
             'detour' => null,
             'settings_template' => '',
-            'collateral_actions' => null,
+            'collateral_actions' => 'to_unavailable_collateral',
         ]
     );
 
@@ -1148,7 +1148,7 @@ new ProjectTransition(
         'confirmation_question' => '[default]',
         'detour' => null,
         'settings_template' => '',
-        'collateral_actions' => null,
+        'collateral_actions' => 'to_unavailable_collateral',
     ]
 );
 
@@ -1162,7 +1162,7 @@ new ProjectTransition(
         'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
         'detour' => null,
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0'",
-        'collateral_actions' => null,
+        'collateral_actions' => 'to_unavailable_collateral',
         'disabled_during_SR' => true,
     ]
 );
@@ -1205,6 +1205,22 @@ new ProjectTransition(
         'collateral_actions' => null,
     ]
 );
+
+// From either PP Checked out or PP Available to PP Unavailable
+// Or to Unavailable in a round
+function to_unavailable_collateral($old_project, $project, $transition, $who)
+{
+    // Always notify the PM
+    configure_gettext_for_user($project->username);
+    $body_blurb_messages[] = sprintf(_('This project has been moved from %1$s to %2$s by %3$s.'),
+            project_states_text($transition->from_state),
+            project_states_text($transition->to_state),
+            $who);
+    $body_blurb_messages[] = _("You will be notified when it is made available again.");
+    $body_blurb = implode("\n\n", $body_blurb_messages);
+    send_mail_project_manager($project, $body_blurb, project_states_text($transition->to_state));
+    configure_gettext_for_user();
+}
 
 // -----------------------------------------------------------------------------
 // Transitions to PROJ_POST_COMPLETE:
