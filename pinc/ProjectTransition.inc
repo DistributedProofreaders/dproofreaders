@@ -930,6 +930,21 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
     notify_project_event_subscribers($project, 'pp_enter');
 }
 
+// From PP Available to PP Checked out
+function available_to_PP_out_collateral($old_project, $project, $transition, $who)
+{
+    // Always notify the PM
+    configure_gettext_for_user($project->username);
+    $PPer_username = $project->checkedoutby;
+    $body_blurb_messages[] = sprintf(
+        _("This project has been checked out to %s for post-processing."),
+        $PPer_username);
+    $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
+    $body_blurb = implode("\n\n", $body_blurb_messages);
+    send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
+    configure_gettext_for_user();
+}
+
 // -----------------------------------------------------------------------------
 // X_AVAILABLE -> X_CHECKED_OUT
 // Anyone who can work in stage X can check out the project.
@@ -945,7 +960,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour' => null,
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-        'collateral_actions' => null,
+        'collateral_actions' => 'available_to_PP_out_collateral',
     ]
 );
 
