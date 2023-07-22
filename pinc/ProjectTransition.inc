@@ -930,8 +930,8 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
     notify_project_event_subscribers($project, 'pp_enter');
 }
 
-// From PP Available to PP Checked out
-function available_to_PP_out_collateral($old_project, $project, $transition, $who)
+// From PP Un/Available to PP Checked out
+function PP_to_PP_out_collateral($old_project, $project, $transition, $who)
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -960,7 +960,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour' => null,
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-        'collateral_actions' => 'available_to_PP_out_collateral',
+        'collateral_actions' => 'PP_to_PP_out_collateral',
     ]
 );
 
@@ -1217,7 +1217,7 @@ new ProjectTransition(
         'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
         'detour' => null,
         'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-        'collateral_actions' => null,
+        'collateral_actions' => 'PP_to_PP_out_collateral',
     ]
 );
 
