@@ -548,7 +548,7 @@ function do_project_info_table()
             if ($topic_id == "") {
                 $blurb = html_safe(_("Start a discussion about this project"));
                 $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-                echo_row_a(_("Forum"), "<a href='$url'>$blurb</a>");
+                echo_row_a(_("Forum"), "<a href='$url' onclick='this.outerHTML=\"$blurb\";'>$blurb</a>");
             } else {
                 $details = get_topic_details($topic_id);
                 if ($details) {
