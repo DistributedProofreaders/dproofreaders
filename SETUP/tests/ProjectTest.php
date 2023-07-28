@@ -487,4 +487,20 @@ class ProjectTest extends ProjectUtils
         $this->expectExceptionCode(305);
         validate_user_can_get_pages_in_project($pguser, $project, $round);
     }
+
+    public function test_project_checkout_no_more_pages()
+    {
+        global $pguser;
+        $project = $this->_create_available_project();
+        $pguser = $this->TEST_USERNAME;
+        $round = get_Round_for_round_id("P1");
+        [$imagefile, $state] = get_available_proof_page_array($project, $round, $pguser);
+        $lpage = new LPage($project->projectid, $imagefile, $state, 0);
+        $lpage->checkout($pguser);
+        $this->assertEquals("P1.page_out", $lpage->page_state);
+
+        // try to get another page
+        $this->expectExceptionCode(113);
+        get_available_proof_page_array($project, $round, $pguser);
+    }
 }
