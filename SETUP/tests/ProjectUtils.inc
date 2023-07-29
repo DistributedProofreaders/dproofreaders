@@ -93,7 +93,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $project->add_charsuite("basic-latin");
 
         $page = 1;
-        while($page <= $npage) {
+        while ($page <= $npage) {
             $page_base = sprintf("%03d", $page);
             $page += 1;
             $this->add_page($project, $page_base);
