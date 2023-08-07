@@ -27,6 +27,10 @@ if (!$project->can_be_managed_by_current_user) {
     die(_("You are not authorized to manage this project."));
 }
 
+if (!in_array($image, $project->get_page_names_from_db())) {
+    die(_("That is not a valid image for the project."));
+}
+
 // prevent changes to the project table if it isn't UTF-8
 if (!$project->is_utf8) {
     die(_("Project table is not UTF-8."));
