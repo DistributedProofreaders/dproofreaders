@@ -154,11 +154,9 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
     return {
         setSplit: function (vertical) {
             splitVertical = vertical;
-            reLayout();
         },
         setSplitPercent: function (percent) {
             splitRatio = percent / 100;
-            reLayout();
         },
         reLayout: reLayout,
         onResize: onResize,

@@ -17,6 +17,7 @@ $(function () {
 
         function changeSplit(splitVertical) {
             theSplit.setSplit(splitVertical);
+            theSplit.reLayout();
             setSplitControls(splitVertical);
         }
 
