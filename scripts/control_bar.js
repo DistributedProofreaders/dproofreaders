@@ -339,11 +339,6 @@ function makeControlDiv(container, content, controls, onChange) {
             fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
             break;
         }
-        if(onChange) {
-            onChange.forEach(function (onChangeCallback) {
-                onChangeCallback();
-            });
-        }
     }
 
     function setBegMidEnd() {
@@ -371,6 +366,11 @@ function makeControlDiv(container, content, controls, onChange) {
         compassPoint = newP;
         saveLocation();
         setCompassPoint();
+        if(onChange) {
+            onChange.forEach(function (onChangeCallback) {
+                onChangeCallback();
+            });
+        }
         menu.hide();
     }
 
