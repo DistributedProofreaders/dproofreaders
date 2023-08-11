@@ -190,7 +190,7 @@ var makeImageControl = function(content) {
     };
 };
 
-function makeControlDiv(container, content, controls, onChange) {
+function makeControlDiv(container, content, controls, onChange = null) {
     let barKey;
     let compassPoint;
     let begMidEnd;
