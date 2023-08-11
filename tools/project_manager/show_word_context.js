@@ -35,6 +35,7 @@ window.addEventListener("DOMContentLoaded", function() {
     switchLink.addEventListener("click", function () {
         splitVertical = !splitVertical;
         mainSplit.setSplit(splitVertical);
+        mainSplit.reLayout();
         setSplitLink();
         layout.splitDirection = splitVertical ? "vertical" : "horizontal";
         saveLayout();
