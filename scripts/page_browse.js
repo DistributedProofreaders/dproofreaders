@@ -1,8 +1,10 @@
 /*global $ proofIntData ajax splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
-// Construct the font-face, font-size and wrap controls
-var maketextControl = function(textArea) {
+function makeTextWidget(container, splitter = false, onResize = null) {
+    const textArea = $("<textarea>", {class: "text-pane"});
+    textArea.prop("readonly", !splitter);
+
     let textKey;
     let textData;
 
@@ -64,46 +66,9 @@ var maketextControl = function(textArea) {
 
     const wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
 
-    return {
-        controls: [fontFaceSelector, fontSizeSelector, wrapControl],
-        setup: function(storageKey) {
-            textKey = storageKey + "-text";
-            textData = JSON.parse(localStorage.getItem(textKey));
-            if(!textData ||
-                typeof textData.textWrap !== "string" ||
-                (typeof textData.fontFaceIndex !== "number" &&
-                typeof textData.fontFaceIndex !== "string") ||
-                typeof textData.fontSize !== "string") {
-                textData = {
-                    textWrap: "N",
-                    fontFaceIndex: 0,
-                    fontSize: ""
-                };
-            }
-            // find the corresponding selector option and select it
-            fontFaceSelector.querySelector(`[value="${textData.fontFaceIndex}"]`).selected = true;
-            // use value from selector incase the user defined option has been
-            // removed and value has changed from 1 to 0
-            setFontFace(fontFaceSelector.value);
-
-            const currentFontSize = textData.fontSize;
-            fontSizeSelector.querySelector(`[value="${currentFontSize}"]`).selected = true;
-            setFontSize(currentFontSize);
-
-            // stored value is "W" or "N", if not set textWrap will be false
-            const textWrap = ("W" === textData.textWrap);
-            wrapCheck.prop("checked", textWrap);
-            setWrap(textWrap);
-        },
-    };
-};
-
-function makeTextWidget(container, splitter = false, onResize = null) {
-    const textArea = $("<textarea>", {class: "text-pane"});
-    textArea.prop("readonly", !splitter);
-    const textControl = maketextControl(textArea);
     const content = $("<div>");
-    const controlDiv = makeControlDiv(container, content, textControl.controls, onResize);
+    const controls = [fontFaceSelector, fontSizeSelector, wrapControl];
+    const controlDiv = makeControlDiv(container, content, controls, onResize);
     let subSplitter;
     let splitterKey;
     let textSplitData;
@@ -137,8 +102,35 @@ function makeTextWidget(container, splitter = false, onResize = null) {
                 }
                 subSplitter.setSplitPercent(textSplitData.splitPercent);
             }
+            textKey = textWidgetKey + "-text";
+            textData = JSON.parse(localStorage.getItem(textKey));
+            if(!textData ||
+                typeof textData.textWrap !== "string" ||
+                (typeof textData.fontFaceIndex !== "number" &&
+                typeof textData.fontFaceIndex !== "string") ||
+                typeof textData.fontSize !== "string") {
+                textData = {
+                    textWrap: "N",
+                    fontFaceIndex: 0,
+                    fontSize: ""
+                };
+            }
+            // find the corresponding selector option and select it
+            fontFaceSelector.querySelector(`[value="${textData.fontFaceIndex}"]`).selected = true;
+            // use value from selector incase the user defined option has been
+            // removed and value has changed from 1 to 0
+            setFontFace(fontFaceSelector.value);
 
-            textControl.setup(textWidgetKey);
+            const currentFontSize = textData.fontSize;
+            fontSizeSelector.querySelector(`[value="${currentFontSize}"]`).selected = true;
+            setFontSize(currentFontSize);
+
+            // stored value is "W" or "N", if not set textWrap will be false
+            const textWrap = ("W" === textData.textWrap);
+            wrapCheck.prop("checked", textWrap);
+            setWrap(textWrap);
+
+
             controlDiv.setupControls(textWidgetKey);
         },
 
