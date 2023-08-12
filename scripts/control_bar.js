@@ -261,7 +261,8 @@ function makeImageWidget(container, align = "C") {
         C: "center",
         R: "right"
     };
-    const content = $("<div>").css("text-align", alignment[align]);
+    const content = document.createElement("div");
+    content.style.textAlign = alignment[align];
 
     const imageCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
@@ -281,8 +282,8 @@ function makeImageWidget(container, align = "C") {
     let scrollDiffX = 0;
     let scrollDiffY = 0;
     function mousemove(event) {
-        content.scrollTop(scrollDiffY - event.pageY);
-        content.scrollLeft(scrollDiffX - event.pageX);
+        content.scrollTop = scrollDiffY - event.pageY;
+        content.scrollLeft = scrollDiffX - event.pageX;
     }
 
     function mouseup() {
@@ -295,10 +296,10 @@ function makeImageWidget(container, align = "C") {
         event.preventDefault();
 
         // so image can be moved with arrow keys
-        content[0].focus();
+        content.focus();
         image.style.cursor = "grabbing";
-        scrollDiffX = event.pageX + content.scrollLeft();
-        scrollDiffY = event.pageY + content.scrollTop();
+        scrollDiffX = event.pageX + content.scrollLeft;
+        scrollDiffY = event.pageY + content.scrollTop;
         document.addEventListener("mousemove", mousemove);
         document.addEventListener("mouseup", mouseup);
     });
@@ -367,7 +368,7 @@ function makeImageWidget(container, align = "C") {
     });
 
     const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        const contentWidth = `${content.width()}px`;
+        const contentWidth = getComputedStyle(content).width;
         if(sine == 0) {
             image.style.width = contentWidth;
         } else {
@@ -380,7 +381,7 @@ function makeImageWidget(container, align = "C") {
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
     const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        const contentHeight = `${content.height()}px`;
+        const contentHeight = getComputedStyle(content).height;
         if(sine == 0) {
             image.style.height = contentHeight;
             image.style.width = "auto";
@@ -430,7 +431,7 @@ function makeImageWidget(container, align = "C") {
         clockRotateInput,
         counterclockRotateInput,
     ];
-    const controlDiv = makeControlDiv(container, content, controls);
+    const controlDiv = makeControlDiv(container, $(content), controls);
 
     return {
         setup: function (storageKey) {
@@ -452,9 +453,8 @@ function makeImageWidget(container, align = "C") {
             image.src = src;
             setImageStyle();
             // reset scroll to top left
-            content
-                .scrollTop(0)
-                .scrollLeft(0);
+            content.scrollTop = 0;
+            content.scrollLeft = 0;
         }
     };
 }
