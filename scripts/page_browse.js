@@ -2,8 +2,9 @@
 /* exported pageBrowse */
 
 function makeTextWidget(container, splitter = false, onResize = null) {
-    const textArea = $("<textarea>", {class: "text-pane"});
-    textArea.prop("readonly", !splitter);
+    const textArea = document.createElement("textarea");
+    textArea.classList.add("text-pane");
+    textArea.readOnly = !splitter;
 
     let textKey;
     let textData;
@@ -18,7 +19,7 @@ function makeTextWidget(container, splitter = false, onResize = null) {
     fontSizeSelector.title = proofIntData.strings.changeFontSize;
 
     function setFontFace(fontFaceIndex) {
-        textArea.css("font-family", proofIntData.font.faceFamilies[fontFaceIndex]);
+        textArea.style.fontFamily = proofIntData.font.faceFamilies[fontFaceIndex];
     }
 
     // set up the font selector
@@ -36,7 +37,7 @@ function makeTextWidget(container, splitter = false, onResize = null) {
 
     function setFontSize(fontSize) {
         const fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
-        textArea.css("font-size", fontSizeCss);
+        textArea.style.fontSize = fontSizeCss;
     }
 
     proofIntData.font.sizes.forEach(function(fontSize) {
@@ -52,7 +53,7 @@ function makeTextWidget(container, splitter = false, onResize = null) {
     });
 
     function setWrap(textWrap) {
-        textArea.attr('wrap', textWrap ? 'soft' : 'off');
+        textArea.wrap = textWrap ? 'soft' : 'off';
     }
 
     const wrapCheck = $("<input>", {type: 'checkbox'});
@@ -130,14 +131,13 @@ function makeTextWidget(container, splitter = false, onResize = null) {
             wrapCheck.prop("checked", textWrap);
             setWrap(textWrap);
 
-
             controlDiv.setupControls(textWidgetKey);
         },
 
         setText: function (text) {
-            textArea.val(text)
-                .scrollTop(0)
-                .scrollLeft(0);
+            textArea.value = text;
+            textArea.scrollTop = 0;
+            textArea.scrollLeft = 0;
         }
     };
 }
