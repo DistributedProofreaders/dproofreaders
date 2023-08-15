@@ -1,7 +1,7 @@
 /*global $ texts */
 /* exported makeImageWidget */
 
-function makeControlDiv(container, content, controls, onChange = null) {
+function makeControlDiv(container, content, controls) {
     let barKey;
     let compassPoint;
     let begMidEnd;
@@ -173,15 +173,14 @@ function makeControlDiv(container, content, controls, onChange = null) {
         menu.hide();
     });
 
+    let onChange = new Set();
     function newPoint(newP) {
         compassPoint = newP;
         saveLocation();
         setCompassPoint();
-        if(onChange) {
-            onChange.forEach(function (onChangeCallback) {
-                onChangeCallback();
-            });
-        }
+        onChange.forEach(function (onChangeCallback) {
+            onChangeCallback();
+        });
         menu.hide();
     }
 
@@ -252,6 +251,7 @@ function makeControlDiv(container, content, controls, onChange = null) {
             setCompassPoint();
             setBegMidEnd();
         },
+        onChange: onChange,
     };
 }
 
