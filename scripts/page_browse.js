@@ -1,7 +1,7 @@
 /*global $ proofIntData ajax splitControl makeImageWidget makeControlDiv */
 /* exported pageBrowse */
 
-function makeTextWidget(container, splitter = false, onResize = null) {
+function makeTextWidget(container, splitter = false) {
     const textArea = document.createElement("textarea");
     textArea.classList.add("text-pane");
     textArea.readOnly = !splitter;
@@ -69,7 +69,7 @@ function makeTextWidget(container, splitter = false, onResize = null) {
 
     const content = $("<div>");
     const controls = [fontFaceSelector, fontSizeSelector, wrapControl];
-    const controlDiv = makeControlDiv(container, content, controls, onResize);
+    const controlDiv = makeControlDiv(container, content, controls);
     let subSplitter;
     let splitterKey;
     let textSplitData;
@@ -79,9 +79,7 @@ function makeTextWidget(container, splitter = false, onResize = null) {
         content.append(topTextDiv, bottomTextDiv);
 
         subSplitter = splitControl(content, {splitVertical: false});
-        if(onResize) {
-            onResize.add(subSplitter.reLayout);
-        }
+        controlDiv.onChange.add(subSplitter.reLayout);
 
         subSplitter.onDragEnd.add(function (percent) {
             textSplitData.splitPercent = percent;
@@ -138,7 +136,13 @@ function makeTextWidget(container, splitter = false, onResize = null) {
             textArea.value = text;
             textArea.scrollTop = 0;
             textArea.scrollLeft = 0;
-        }
+        },
+
+        reLayout: function () {
+            if(splitter) {
+                subSplitter.reLayout();
+            }
+        },
     };
 }
 
@@ -445,7 +449,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             const theSplitter = viewSplitter(stretchDiv, storageKey);
                             if(mentorMode) {
                                 // make a text widget with splitter
-                                textWidget = makeTextWidget(textDiv, true, theSplitter.mainSplit.onResize);
+                                textWidget = makeTextWidget(textDiv, true);
+                                theSplitter.mainSplit.onResize.add(textWidget.reLayout);
                             } else {
                                 textWidget = makeTextWidget(textDiv);
                             }
