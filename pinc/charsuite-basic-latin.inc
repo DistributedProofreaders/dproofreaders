@@ -51,6 +51,7 @@ $pickerset->add_subset("ˆ", [
         'U+00f4', 'U+00fb',
     ],
 ], _("Letters with acute, grave, and circumflex"));
+
 $pickerset->add_subset("~", [
     [
         'U+00c3', 'U+1ebc', 'U+0128', 'U+00d1', 'U+00d5', 'U+0168', 'U+00c4',
@@ -63,6 +64,7 @@ $pickerset->add_subset("~", [
         'U+00f0', 'U+00f8', 'U+0153', 'U+00df', 'U+00fe',
     ],
 ], _("Letters with tilde and diaeresis; miscellaneous"));
+
 $pickerset->add_subset("!", [
     [
         'U+0021', 'U+003f', 'U+002e', 'U+002c', 'U+003a', 'U+003b', 'U+0028-U+0029',
@@ -73,25 +75,27 @@ $pickerset->add_subset("!", [
         'U+00bb', 'U+2039', 'U+203a', 'U+007b', 'U+007d', 'U+002f', 'U+002d',
     ],
 ], _("Punctuation"));
+
 $pickerset->add_subset(UTF8::hex_to_chr("U+00b6"), [
     [
-        'U+00b6', 'U+00b7', 'U+00aa', 'U+00ba', 'U+007c', 'U+00a6', 'U+0024',
-        'U+00a2-U+00a5', 'U+0192',
+        'U+00b6', 'U+00b7', 'U+0024', 'U+00a2-U+00a5', 'U+0192',
     ],
     [
-        'U+00a7', 'U+00a9', 'U+00ae', null, 'U+005f', 'U+00b4', 'U+0060',
-        'U+005e', 'U+007e', 'U+00af', 'U+00a8', 'U+00b8',
+        'U+007c', 'U+00a6', 'U+00a7', 'U+00a9', 'U+00ae', 'U+005f',
+        'U+005e', 'U+007e',
     ],
 ], _("Symbols and Currency"));
+
 $pickerset->add_subset("1", [
     [
-        'U+0030-U+0039', 'U+0023', 'U+0025', 'U+00b0',
+        'U+0030-U+0039',
     ],
     [
-        'U+00b9', 'U+00b2-U+00b3', 'U+00bc-U+00be', 'U+002b', 'U+002d', 'U+003d',
+        'U+0023', 'U+0025', 'U+00b0', 'U+002b', 'U+002d', 'U+003d',
         'U+00d7', 'U+00f7', 'U+00b1', 'U+00ac',
     ],
 ], _("Numbers and Math"));
+
 $charsuite->pickerset = $pickerset;
 
 CharSuites::add($charsuite);
