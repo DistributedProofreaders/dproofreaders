@@ -11,15 +11,21 @@ $charsuite->codepoints = [
     // without the soft hyphen
     'U+00a1-U+00ac',
     'U+00ae-U+00ff',
-    // codepoints that map to Windows-1252
+    // codepoints that map to Windows-1252 + extras
+    'U+0128', // [~I] (not in Windows-1252)
+    'U+0129', // [~i] (not in Windows-1252)
     'U+0152', // OE ligature
     'U+0153', // oe ligature
     'U+0160', // [vS]
     'U+0161', // [vs]
+    'U+0168', // [~U] (not in Windows-1252)
+    'U+0169', // [~u] (not in Windows-1252)
     'U+017d', // [vZ]
     'U+017e', // [vz]
     'U+0178', // [:Y]
     'U+0192', // latin small letter f with hook florin
+    'U+1ebc', // [~E] (not in Windows-1252)
+    'U+1ebd', // [~e] (not in Windows-1252)
     'U+2039', // open single guillemet
     'U+203a', // close single guillemet
 ];
@@ -47,14 +53,14 @@ $pickerset->add_subset("ˆ", [
 ], _("Letters with acute, grave, and circumflex"));
 $pickerset->add_subset("~", [
     [
-        'U+00c3', 'U+00d1', 'U+00d5', 'U+00c4', 'U+00cb', 'U+00cf', 'U+00d6',
-        'U+00dc', 'U+0178', 'U+00c5-U+00c7', 'U+00d0', 'U+00d8', 'U+0152',
-        null, 'U+00de',
+        'U+00c3', 'U+1ebc', 'U+0128', 'U+00d1', 'U+00d5', 'U+0168', 'U+00c4',
+        'U+00cb', 'U+00cf', 'U+00d6', 'U+00dc', 'U+0178', 'U+00c5-U+00c7',
+        'U+00d0', 'U+00d8', 'U+0152', null, 'U+00de',
     ],
     [
-        'U+00e3', 'U+00f1', 'U+00f5', 'U+00e4', 'U+00eb', 'U+00ef', 'U+00f6',
-        'U+00fc', 'U+00ff', 'U+00e5-U+00e7', 'U+00f0', 'U+00f8', 'U+0153',
-        'U+00df', 'U+00fe',
+        'U+00e3', 'U+1ebd', 'U+0129', 'U+00f1', 'U+00f5', 'U+0169', 'U+00e4',
+        'U+00eb', 'U+00ef', 'U+00f6', 'U+00fc', 'U+00ff', 'U+00e5-U+00e7',
+        'U+00f0', 'U+00f8', 'U+0153', 'U+00df', 'U+00fe',
     ],
 ], _("Letters with tilde and diaeresis; miscellaneous"));
 $pickerset->add_subset("!", [
