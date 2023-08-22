@@ -10,8 +10,6 @@ include_once($relPath.'misc.inc'); // startswith
 
 use voku\helper\UTF8;
 
-error_reporting(-1);
-
 $_character_data = [
 
     // basic latin

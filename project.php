@@ -26,8 +26,6 @@ include_once($relPath.'special_colors.inc'); // load_special_days
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
-error_reporting(E_ALL);
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Usually, the user arrives here by clicking on the title of a project

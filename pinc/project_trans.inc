@@ -13,8 +13,6 @@ function project_transition($projectid, $new_state, $who, $extras = [])
 {
     global $testing;
 
-    // error_reporting(E_ALL);
-
     $project = new Project($projectid);
 
     $current_state = $project->state;
