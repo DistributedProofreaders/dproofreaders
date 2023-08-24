@@ -12,22 +12,22 @@ $charsuite->codepoints = [
     'U+00a1-U+00ac',
     'U+00ae-U+00ff',
     // codepoints that map to Windows-1252 + extras
-    'U+0128', // [~I] (not in Windows-1252)
-    'U+0129', // [~i] (not in Windows-1252)
-    'U+0152', // OE ligature
-    'U+0153', // oe ligature
-    'U+0160', // [vS]
-    'U+0161', // [vs]
-    'U+0168', // [~U] (not in Windows-1252)
-    'U+0169', // [~u] (not in Windows-1252)
-    'U+017d', // [vZ]
-    'U+017e', // [vz]
-    'U+0178', // [:Y]
-    'U+0192', // latin small letter f with hook florin
-    'U+1ebc', // [~E] (not in Windows-1252)
-    'U+1ebd', // [~e] (not in Windows-1252)
-    'U+2039', // open single guillemet
-    'U+203a', // close single guillemet
+    'U+0128', // Ĩ - I with tilde (not in Windows-1252)
+    'U+0129', // ĩ - i with tilde (not in Windows-1252)
+    'U+0152', // Œ - OE ligature
+    'U+0153', // œ - oe ligature
+    'U+0160', // Š - S with caron
+    'U+0161', // š - s with caron
+    'U+0168', // Ũ - U with tilde (not in Windows-1252)
+    'U+0169', // Ũ - u with tilde (not in Windows-1252)
+    'U+0178', // Ÿ - Y with diaeresis
+    'U+017d', // Ž - Z with caron
+    'U+017e', // ž - z with caron
+    'U+0192', // ƒ - latin small letter f with hook florin
+    'U+1ebc', // Ẽ - E with tilde (not in Windows-1252)
+    'U+1ebd', // ẽ - e with tilde (not in Windows-1252)
+    'U+2039', // ‹ - single left-pointing guillemet
+    'U+203a', // › - single right-pointing guillemet
 ];
 $charsuite->reference_urls = [
     "https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)",
