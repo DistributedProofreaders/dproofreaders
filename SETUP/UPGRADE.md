@@ -6,11 +6,7 @@ release.
 
 ## Back up your data
 Before doing an upgrade, back up your data. The most important data
-is the one in your database. You can dump that data from within the
-existing installation with:
-```bash
-c/SETUP/dump_db_schema > somewhere/pre_upgrade_db_schema
-```
+is the one in your database.
 
 You should also back up your `projects/` directory.
 
