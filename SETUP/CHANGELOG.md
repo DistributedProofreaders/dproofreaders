@@ -7,11 +7,25 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R......
+## R202309
+Scripts supporting this upgrade are in `SETUP/upgrade/19`
 
 **This is the last release to include support for the original DP session
 management with cookies. Future releases will only support PHP sessions
 (the default since before 2004).**
+
+* Emails are now sent with PHPMailer enabling HTML emails (windymilla)
+  * Configure with `_PHPMAILER_SMTP_CONFIG` in `configuration.sh`
+* Updates to the forum abstraction code (cpeel)
+  * _The following variables in `configuration.sh` have changed._
+    * `_FORUMS_DIR` is now `_PHPBB_DIR`
+    * `_FORUMS_URL` is now `_PHPBB_URL`
+* API responses now include error numbers (70ray)
+* Some accented vowels added to Basic Latin character suite (srjfoo)
+* Event notifications are now sent in receiver's language (windymilla)
+* Numerous improvements for PP and PPV (windymilla)
+* Reduce jQuery dependency (chrismiceli)
+* Numerous bugfixes and improvements (windymilla, 70ray)
 
 ## R202303
 No scripts are required for this upgrade.
