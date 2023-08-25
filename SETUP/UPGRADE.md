@@ -102,6 +102,7 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/16/
 * c/SETUP/upgrade/17/
 * c/SETUP/upgrade/18/
+* c/SETUP/upgrade/19/
 
 ### Upgrading from release R202102
 Run the scripts in the following directories in order
@@ -109,20 +110,25 @@ Run the scripts in the following directories in order
 * c/SETUP/upgrade/16/
 * c/SETUP/upgrade/17/
 * c/SETUP/upgrade/18/
+* c/SETUP/upgrade/19/
 
 ### Upgrading from release R202109
 Run the scripts in the following directories in order
 
 * c/SETUP/upgrade/17/
 * c/SETUP/upgrade/18/
+* c/SETUP/upgrade/19/
 
 ### Upgrading from release R202202
 Run the scripts in the following directories in order
 
 * c/SETUP/upgrade/18/
+* c/SETUP/upgrade/19/
 
-### Upgrading from release R202209
-No upgrade scripts are required for this release.
+### Upgrading from release R202209 or R202303
+Run the scripts in the following directories in order
+
+* c/SETUP/upgrade/19/
 
 ## Install the modified `dp.cron`
 Install the modified `dp.cron`.
