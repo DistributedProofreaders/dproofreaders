@@ -18,6 +18,7 @@ if (!DPDatabase::get_connection()) {
 
 DPDatabase::query("CREATE DATABASE IF NOT EXISTS $db_name");
 DPDatabase::query("USE $db_name");
+DPDatabase::query("SET FOREIGN_KEY_CHECKS=0");
 
 // Declare all variables
 $db_schema = "db_schema.sql";
@@ -49,5 +50,7 @@ while ($lines = array_shift($array)) {
     echo "Running stanza: " . substr(trim($lines), 0, 50) . " ...\n";
     DPDatabase::query($lines);
 }
+
+DPDatabase::query("SET FOREIGN_KEY_CHECKS=1");
 
 echo "Tables have been created.\n";

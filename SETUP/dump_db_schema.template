@@ -96,6 +96,12 @@ get_table_names()
 tables=`get_table_names`
 
 if true; then
+    # The order tables are dumped is not consistent and it's possible to have
+    # tables with foreign keys before the foreign key tables are created.
+    # To make sure the dump is loadable, we have to temporarily disable
+    # foreign key checks for this session.
+    echo "SET FOREIGN_KEY_CHECKS=0;"
+
     mysqldump --user=$db_user --password="$db_password" \
         --no-data --quote-names --add-drop-table=FALSE --force \
         $db_name $tables |
@@ -119,5 +125,7 @@ if true; then
     # Skip MySQL command sequences as they may be version-specific
     # (and generate a lot of noise in the diffs).
     grep -v '/*!'
+
+    # Re-enable foreign key checks
+    echo "SET FOREIGN_KEY_CHECKS=1;"
 fi
-# vim: sw=4 ts=4 expandtab ai
