@@ -62,6 +62,7 @@ echo "
 
     # String values
     _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
+    _PHPMAILER_SMTP_CONFIG='[]'
 
     # For update_phpbb_posts_text.php
     _FORUMS_PROJECT_WAITING_IDX=99
