@@ -34,8 +34,8 @@ $wgExtensionFunctions[] = "wfProjectInfo";
 
 function wfPgFormats()
 {
-    global $wgParser;
-    $wgParser->setHook("pg_formats", "getPgFormats");
+    $parser = \MediaWiki\MediaWikiServices::getInstance()->getParser();
+    $parser->setHook("pg_formats", "getPgFormats");
 }
 
 function getPgFormats($input, $argv)
@@ -85,8 +85,8 @@ function getPgFormats($input, $argv)
 
 function wfProjectInfo()
 {
-    global $wgParser;
-    $wgParser->setHook("projectinfo", "showProjectInfo");
+    $parser = \MediaWiki\MediaWikiServices::getInstance()->getParser();
+    $parser->setHook("projectinfo", "showProjectInfo");
 }
 
 function showProjectInfo($input, $argv, $parser)

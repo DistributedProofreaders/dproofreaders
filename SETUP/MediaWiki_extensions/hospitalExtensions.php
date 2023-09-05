@@ -33,8 +33,8 @@ $wgExtensionFunctions[] = "wfHospitalInfo";
 
 function wfHospitalInfo()
 {
-    global $wgParser;
-    $wgParser->setHook("hospital_info", "listHospitalProjects");
+    $parser = \MediaWiki\MediaWikiServices::getInstance()->getParser();
+    $parser->setHook("hospital_info", "listHospitalProjects");
 }
 
 function listHospitalProjects($input, $argv)
