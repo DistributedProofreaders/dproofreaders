@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 
-function project_transition($projectid, $new_state, $who, $extras = [])
+function project_transition($projectid, $new_state, $who, $extras = [], $quiet = false)
 // Move the given project to the given state,
 // and perform any attendant processing.
 // If there are any problems, return a string containing an error message.
@@ -11,14 +11,14 @@ function project_transition($projectid, $new_state, $who, $extras = [])
 //
 // This function produces no output except for debugging messages.
 {
-    global $testing;
+    $verbose = $quiet ? false : $GLOBALS["testing"];
 
     $project = new Project($projectid);
 
     $current_state = $project->state;
 
     $transition_str = "$projectid: $current_state -> $new_state";
-    if ($testing) {
+    if ($verbose) {
         $indent = '    ';
         if (false) {
             // The trace output will be going into a <pre> element,
@@ -38,7 +38,7 @@ function project_transition($projectid, $new_state, $who, $extras = [])
     if ($new_state == $current_state) {
         // The transition succeeds trivially.
         // No attendant processing.
-        if ($testing) {
+        if ($verbose) {
             $sentence = _("Transition succeeded trivially - states are the same.");
             echo "$indent$transition_str: $sentence$eol";
         }
@@ -57,10 +57,10 @@ function project_transition($projectid, $new_state, $who, $extras = [])
 
     // -------------------------------------------------------------------------
 
-    $error = $transition->do_state_change($project, $who, $extras);
+    $error = $transition->do_state_change($project, $who, $extras, $quiet);
     if ($error == '') {
         // success
-        if ($testing) {
+        if ($verbose) {
             $sentence = _("Transition succeeded.");
             echo "$indent$transition_str: $sentence$eol";
         }

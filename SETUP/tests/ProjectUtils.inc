@@ -74,17 +74,17 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
     {
         $project = $this->_create_project_with_pages($npage);
         $projectid = $project->projectid;
-        project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
-        project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM);
-        project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO);
+        project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM, [], true);
+        project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM, [], true);
+        project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO, [], true);
         return new Project($projectid);
     }
 
     protected function advance_to_round2($projectid)
     {
-        project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
-        project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
-        project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
+        project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO, [], true);
+        project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO, [], true);
+        project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO, [], true);
     }
 
     protected function _create_project_with_pages($npage = 1)

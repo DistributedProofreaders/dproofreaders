@@ -163,7 +163,7 @@ class ProjectTransition
 
     // ---------------------------------------------------------------
 
-    public function do_state_change($project, $who, $extras)
+    public function do_state_change($project, $who, $extras, $quiet = false)
     // Apply the transition to the given project,
     // and perform any attendant processing.
     // If there are any problems, return a string containing an error message.
@@ -176,7 +176,7 @@ class ProjectTransition
     // It should perhaps also be the only place that modifies these columns:
     //     modifieddate checkedoutby postproofer postcomments
     {
-        global $testing;
+        $verbose = $quiet ? false : $GLOBALS["testing"];
 
         // make sure this transition is valid
         assert($this->is_valid_for($project, $who));
@@ -252,7 +252,7 @@ class ProjectTransition
         }
         // finished expanding the template, so we can go ahead and update the table
 
-        if ($testing) {
+        if ($verbose) {
             echo "    settings: $settings<br>\n";
         }
 
@@ -314,7 +314,7 @@ class ProjectTransition
                 get_forum_id_for_project_state($this->to_state));
         }
 
-        if ($this->collateral_actions) {
+        if ($this->collateral_actions && !$quiet) {
             // Because of the "UPDATE projects" command, $project is now out of date.
             // *** but maybe not, see above "$project = new Project($projectid);"
             // So get an up-to-date version of the project info (in
