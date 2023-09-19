@@ -123,8 +123,6 @@ $translation_coordinator_email_addr = '<<TRANSLATION_COORDINATOR_EMAIL_ADDR>>';
 // -----------------------------------------------------------------------------
 
 $testing = <<TESTING>>;
-$use_php_sessions = <<USE_PHP_SESSIONS>>;
-$cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
 $use_secure_cookies = <<USE_SECURE_COOKIES>>;
 
 $auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;

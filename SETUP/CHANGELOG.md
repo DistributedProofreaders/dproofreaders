@@ -7,6 +7,11 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R......
+
+* Session management by cookie has been removed in lieu of PHP-based sessions
+  which have been the DP code default since before 2004 (cpeel)
+
 ## R202309
 Scripts supporting this upgrade are in `SETUP/upgrade/19`
 
