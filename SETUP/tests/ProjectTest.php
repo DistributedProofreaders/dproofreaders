@@ -396,7 +396,7 @@ class ProjectTest extends ProjectUtils
         $this->expectExceptionCode(112);
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_project_with_pages();
-        project_transition($project->projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM, [], true);
+        project_transition($project->projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
         $project = new Project($project->projectid);
         $project->validate_can_be_proofed_by_current_user();
     }
