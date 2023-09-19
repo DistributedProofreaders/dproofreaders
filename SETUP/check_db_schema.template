@@ -48,7 +48,6 @@ echo "
 
     # Need to set booleans/integers, otherwise site_vars.php will raise syntax errors.
     _TESTING=TRUE
-    _USE_PHP_SESSIONS=TRUE
     _USE_SECURE_COOKIES=TRUE
     _MAINTENANCE=FALSE
     _AUTO_POST_TO_PROJECT_TOPIC=FALSE

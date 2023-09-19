@@ -427,16 +427,9 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 # Miscellaneous
 # -------------
 
-_USE_PHP_SESSIONS=TRUE
-# If set to TRUE, PHP sessions are used to track user preferences, etc;
-# if FALSE, the original DP cookie system is used.
-
 _USE_SECURE_COOKIES=FALSE
 # If set to TRUE, browsers are instructed to only send the cookie over secure
 # connections. Your _CODE_URL *must* be using https:// for this to work!
-
-_COOKIE_ENCRYPTION_KEY=A_LONG_STRING_OF_GIBBERISH
-# You only need to define this if $_USE_PHP_SESSIONS is FALSE.
 
 _TESTING=FALSE
 # So far, the effects of setting this to TRUE are:

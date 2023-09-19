@@ -89,8 +89,7 @@ examples on enabling page compression and caching.
 
 Consider the following settings in `php.ini`:
 * `session.gc_probability = 1` (or something other than zero)
-  Needed to trigger garbage collection in 'sessions' table
-  if `_USE_PHP_SESSIONS=TRUE` in your DP config file.
+  Needed to trigger garbage collection in 'sessions' table.
 
 ### Install MySQL
 In the examples in this document, we will assume that the MySQL server
