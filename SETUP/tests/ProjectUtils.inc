@@ -70,21 +70,28 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         return $project;
     }
 
+    protected function quiet_project_transition($projectid, $new_state, $who, $extras = [])
+    {
+        ob_start();
+        project_transition($projectid, $new_state, $who, $extras);
+        ob_end_clean();
+    }
+
     protected function _create_available_project($npage = 1)
     {
         $project = $this->_create_project_with_pages($npage);
         $projectid = $project->projectid;
-        project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
-        project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM);
-        project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P1_UNAVAILABLE, $this->TEST_USERNAME_PM);
+        $this->quiet_project_transition($projectid, PROJ_P1_WAITING_FOR_RELEASE, $this->TEST_USERNAME_PM);
+        $this->quiet_project_transition($projectid, PROJ_P1_AVAILABLE, PT_AUTO);
         return new Project($projectid);
     }
 
     protected function advance_to_round2($projectid)
     {
-        project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
-        project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
-        project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
     }
 
     protected function _create_project_with_pages($npage = 1)
