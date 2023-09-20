@@ -10,25 +10,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        // Attempt to load our test user, if it exists don't create it
-        $sql = "SELECT username FROM users WHERE username = '$this->TEST_USERNAME'";
-        $result = DPDatabase::query($sql);
-        $row = mysqli_fetch_assoc($result);
-        if (!$row) {
-            $sql = "
-                INSERT INTO users
-                SET id = '$this->TEST_USERNAME',
-                    real_name = '$this->TEST_USERNAME',
-                    username = '$this->TEST_USERNAME',
-                    email = '$this->TEST_USERNAME@localhost'
-            ";
-            $result = DPDatabase::query($sql);
-            if (!$result) {
-                throw new Exception("Unable to create test user");
-            }
-        } else {
-            mysqli_free_result($result);
-        }
+        create_test_user($this->TEST_USERNAME);
 
         // Now create the usersettings record
         $sql = sprintf("
@@ -49,11 +31,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         ", $this->TEST_USERNAME, $this->PREFIX);
         DPDatabase::query($sql);
 
-        $sql = "
-            DELETE FROM users
-            WHERE id = '$this->TEST_USERNAME'
-        ";
-        DPDatabase::query($sql);
+        delete_test_user($this->TEST_USERNAME);
     }
 
     public function testExisting()

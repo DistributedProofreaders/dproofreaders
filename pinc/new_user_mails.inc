@@ -12,7 +12,7 @@ include_once($relPath.'forum_interface.inc');
 // This is because this function may be called by a site admin to send
 // a mail to a completely different user (e.g. a Polish user shouldn't
 // get a Spanish mail because one of the site admins is Spanish).
-function send_activate_mail($email, $real_name, $ID, $username, $u_intlang)
+function send_activate_mail($email, $real_name, $reg_token, $username, $u_intlang)
 {
     global $code_url, $site_name;
 
@@ -27,7 +27,7 @@ function send_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 
         To complete your registration, please visit this URL:
 
-        $code_url/accounts/activate.php?id=$ID
+        $code_url/accounts/activate.php?reg_token=$reg_token
 
         We require this confirmation step to prevent someone from registering
         an account in your name without your knowledge. If you do not follow

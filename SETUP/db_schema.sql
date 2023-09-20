@@ -801,7 +801,7 @@ CREATE TABLE `user_teams_membership` (
 #
 
 CREATE TABLE `users` (
-  `id` varchar(50) NOT NULL default '',
+  `reg_token` varchar(50) NOT NULL default '',
   `real_name` varchar(100) NOT NULL default '',
   `username` varchar(25) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
