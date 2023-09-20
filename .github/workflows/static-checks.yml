@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
@@ -35,9 +35,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Install NPM packages (for tests)
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
@@ -56,7 +56,7 @@ jobs:
           extensions: mbstring, iconv, intl, mysql, zip
           tools: composer
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Lint PHP code
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
@@ -81,7 +81,7 @@ jobs:
           extensions: mbstring, iconv, intl, mysql, zip
           tools: composer
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Install composer dependencies (for UTF8)
