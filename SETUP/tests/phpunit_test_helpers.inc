@@ -6,7 +6,7 @@ function create_test_user($username, $age = 0)
     // Attempt to load our test user, replace if it exists
     $sql = sprintf("
         REPLACE INTO users
-        SET id = '%1\$s',
+        SET reg_token = '%1\$s',
             real_name = '%1\$s',
             username = '%1\$s',
             email = '%1\$s@localhost',
@@ -45,7 +45,7 @@ function delete_test_user($username)
     // remove the test user
     $sql = sprintf("
         DELETE FROM users
-        WHERE id = '%s'
+        WHERE username = '%s'
     ", DPDatabase::escape($username));
     $result = DPDatabase::query($sql);
     if (!$result) {

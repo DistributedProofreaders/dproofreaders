@@ -18,14 +18,14 @@ class User
 
     // List of fields that when set for a user should never change
     private $immutable_fields = [
-        "id",
+        "reg_token",
         "username",
         "u_id",
     ];
 
     // Fields are assumed to be integers unless included here
     private $string_fields = [
-        "id",
+        "reg_token",
         "real_name",
         "username",
         "email",
@@ -319,12 +319,12 @@ class User
         return $user;
     }
 
-    // Load a User record by registration token (ie: the 'id' column)
-    // e.g. $user = User::load_from_registration_token($id);
-    public static function load_from_registration_token($id)
+    // Load a User record by registration token
+    // e.g. $user = User::load_from_registration_token($reg_token);
+    public static function load_from_registration_token($reg_token)
     {
         $user = new User();
-        $user->load('id', $id);
+        $user->load('reg_token', $reg_token);
         return $user;
     }
 

@@ -8,7 +8,9 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'User.inc');
 
-$ID = array_get($_GET, "id", "");
+// The current param value is "reg_token" but the prior value was "id"
+// so we support both here.
+$reg_token = array_get($_GET, "reg_token", array_get($_GET, "id", ""));
 
 // If the user is already logged in, redirect them to the Activity Hub.
 if (User::current_username()) {
@@ -16,11 +18,11 @@ if (User::current_username()) {
 }
 
 try {
-    $user = NonactivatedUser::load_from_id($ID);
+    $user = NonactivatedUser::load_from_id($reg_token);
 } catch (NonexistentNonactivatedUserException $exception) {
     // See if the user is already activated.
     try {
-        $user_test = User::load_from_registration_token($ID);
+        $user_test = User::load_from_registration_token($reg_token);
         $existing_user = $user_test->username;
     } catch (Exception $exception) {
         $existing_user = null;
@@ -51,7 +53,7 @@ if (!isset($user->id)) {
     } else {
         echo "<p>";
         echo sprintf(
-            _("There is no account with the id '%s' waiting to be activated."), html_safe($ID)
+            _("There is no account with activation code '%s' waiting to be activated."), html_safe($reg_token)
         );
         echo "</p>";
 
@@ -79,7 +81,7 @@ if ($create_user_status !== true) {
     echo "\n";
     echo "<!-- Forum error: $create_user_status -->";
     echo "\n";
-    error_log("activate.php - Error activating $ID: $create_user_status");
+    error_log("activate.php - Error activating $reg_token: $create_user_status");
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
@@ -87,18 +89,18 @@ if ($create_user_status !== true) {
     echo "\n";
     echo sprintf(
         _("Please include the account activation code %s in your email for assistance."),
-        $ID);
+        $reg_token);
     echo "</p>\n";
     exit;
 }
 
 // Insert into 'real' table -- users
 $query = sprintf("
-    INSERT INTO users (id, real_name, username, email, date_created,
+    INSERT INTO users (reg_token, real_name, username, email, date_created,
                        email_updates, referrer, referrer_details, http_referrer, u_neigh, u_intlang)
     VALUES ('%s', '%s', '%s', '%s', $user->date_created,
             $user->email_updates, '%s', '%s', '%s', 10, '%s')
-    ", DPDatabase::escape($ID),
+    ", DPDatabase::escape($reg_token),
         DPDatabase::escape($user->real_name),
         DPDatabase::escape($user->username),
         DPDatabase::escape($user->email),
@@ -121,10 +123,8 @@ $profile->save();
 
 // add ref to profile
 $refString = sprintf("
-    UPDATE users SET u_profile=%d WHERE id='%s' AND username='%s'
-    ", DPDatabase::escape($profile->id),
-        DPDatabase::escape($ID),
-        DPDatabase::escape($user->username)
+    UPDATE users SET u_profile=%d WHERE u_id=%d
+    ", DPDatabase::escape($profile->id), $u_id
 );
 DPDatabase::query($refString);
 
