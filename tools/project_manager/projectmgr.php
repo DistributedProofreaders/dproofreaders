@@ -16,16 +16,8 @@ include_once('projectmgr.inc'); // echo_manager_links();
 require_login();
 
 $user = User::load_current();
-switch ($user->i_pmdefault) {
-    case 0:
-        $default_view = "user_all";
-        break;
-    case 1:
-        $default_view = "user_active";
-        break;
-    default:
-        $default_view = "blank";
-}
+$user_settings = Settings::get_Settings($user->username);
+$default_view = $user_settings->get_value("pm_view", "user_all");
 
 try {
     $show_view = get_enumerated_param($_GET, 'show', $default_view,

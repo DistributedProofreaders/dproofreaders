@@ -691,15 +691,19 @@ function echo_pm_tab($user)
 {
     global $userSettings;
 
-    $i_pm = [_("All Projects"), _("Active Projects"), _("Basic Page")];
+    $pm_view_options = [
+        "user_all" => _("All Projects"),
+        "user_active" => _("Active Projects"),
+        "blank" => _("Basic Page"),
+    ];
 
     echo "<tr>\n";
     show_preference(
         // TRANSLATORS: PM = project manager
-        _('Default PM Page'), 'i_pmdefault', 'pmdefault',
-        $user->i_pmdefault,
+        _('Default PM Page'), 'pm_view', 'pmdefault',
+        $userSettings->get_value('pm_view', "user_all"),
         'dropdown',
-        $i_pm
+        $pm_view_options
     );
     echo "</tr>\n";
 
@@ -732,19 +736,9 @@ function save_pm_tab($user)
 {
     global $userSettings;
 
-    // set users values
-    $input_string_fields = [];
-    //  i_pmdefault is "Default PM Page"
-    $input_numeric_fields = ["i_pmdefault"];
+    // persist the default view for the PM's page
 
-    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
-
-    $users_query = "
-        UPDATE users
-        SET $update_string
-        WHERE u_id = $user->u_id
-    ";
-    DPDatabase::query($users_query);
+    $userSettings->set_value('pm_view', $_POST["pm_view"]);
 
     // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads
