@@ -131,42 +131,16 @@ function html_logobar()
 
     echo "<div id='titles-preserved'><p>\n";
 
-    $psd = get_project_status_descriptor('posted');
-
-    if (0) {
-        // show number of projects posted to PG
-        $result = DPDatabase::query("
-            SELECT COUNT(*) as numproj
-            FROM projects
-            WHERE $psd->state_selector
-        ");
-        $row = mysqli_fetch_assoc($result);
-        echo "<span id='x-preserved'>";
-        echo sprintf(
-            _('%s projects completed!'),
-            number_format($row["numproj"]));
-        echo "</span>\n";
-    }
-
-    if (1) {
-        // show number of books posted to PG
-        // (takes into account that some books are processed as several projects)
-
-        $result = DPDatabase::query("
-            SELECT COUNT(distinct postednum) as numproj
-            FROM projects
-            WHERE $psd->state_selector
-        ");
-        $row = mysqli_fetch_assoc($result);
-        echo "<span id='x-preserved'>";
-        echo sprintf(
-            _('%s titles preserved for the world!'),
-            number_format($row["numproj"]));
-        echo "</span>\n";
-        echo "<span id='month-preserved-summary'>";
-        show_completed_projects(true);
-        echo "</span>";
-    }
+    // show number of books posted to PG
+    // (takes into account that some books are processed as several projects)
+    echo "<span id='x-preserved'>";
+    echo sprintf(
+        _('%s titles preserved for the world!'),
+        number_format(total_completed_projects()));
+    echo "</span>\n";
+    echo "<span id='month-preserved-summary'>";
+    show_completed_projects(true);
+    echo "</span>";
 
     echo "</p></div>\n";
     echo "</div>\n";
@@ -873,6 +847,22 @@ function show_completed_projects($terse = false)
     } else {
         echo "</table>\n";
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function total_completed_projects()
+// return number of books posted to PG
+// (takes into account that some books are processed as several projects)
+{
+    $psd = get_project_status_descriptor('posted');
+    $result = DPDatabase::query("
+        SELECT COUNT(distinct postednum) as numproj
+        FROM projects
+        WHERE $psd->state_selector
+    ");
+    $row = mysqli_fetch_assoc($result);
+    return $row["numproj"];
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
