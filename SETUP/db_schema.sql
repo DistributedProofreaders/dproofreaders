@@ -814,7 +814,6 @@ CREATE TABLE `users` (
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_neigh` tinyint(4) NOT NULL default '0',
   `u_align` tinyint(1) NOT NULL default '0',
-  `i_prefs` tinyint(1) default '0',
   `i_theme` varchar(100) NOT NULL default 'project_gutenberg',
   `u_id` int(10) unsigned NOT NULL auto_increment,
   `u_profile` int(10) unsigned NOT NULL default '0',

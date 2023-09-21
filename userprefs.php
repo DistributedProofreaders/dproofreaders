@@ -382,7 +382,6 @@ function save_general_tab($user)
     $input_numeric_fields = ["u_align", "u_neigh", "u_privacy"];
 
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
-    $update_string .= ", i_prefs=1";
 
     $users_query = "
         UPDATE users
