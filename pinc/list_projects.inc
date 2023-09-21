@@ -102,7 +102,7 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
         $MAXPAGES = 5;
         $curpage = floor($offset / $per_page);
         $firstpage = max(0, $curpage - $MAXPAGES);
-        $lastpage = min($curpage + $MAXPAGES, $num_found_rows / $per_page);
+        $lastpage = min($curpage + $MAXPAGES, ($num_found_rows - 1) / $per_page);
         for ($i = $firstpage; $i <= $lastpage; $i++) {
             $url = $url_base . "per_page=$per_page&amp;offset=" . ($i * $per_page);
             if ($i == $curpage) {
@@ -113,7 +113,7 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
         }
 
         // Display 'next' link if we're not on the last page
-        if ($offset + $per_page < $num_found_rows) {
+        if ($offset + $per_page + 1 < $num_found_rows) {
             $t = _('Next');
             $next_offset = min($num_found_rows - 1, $offset + $per_page);
             $url = $url_base . "per_page=$per_page&amp;offset=$next_offset";
