@@ -1,16 +1,13 @@
 /* global process require */
-const {Builder, By, until} = require('selenium-webdriver');
+const {Builder, Browser, By, until} = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
 (async function example() {
     var options = new firefox.Options();
     options.addArguments("-headless");
     let driver = new Builder()
-        .forBrowser('firefox')
+        .forBrowser(Browser.FIREFOX)
         .setFirefoxOptions(options)
-        .setFirefoxService(
-            new firefox.ServiceBuilder(
-                `./node_modules/geckodriver/geckodriver${process.platform === 'win32' ? '.exe' : ''}`))
         .build();
     let succeeded = false;
     try {
@@ -21,6 +18,8 @@ const firefox = require('selenium-webdriver/firefox');
         var failed = parseInt(await (await driver.findElement(By.className('failed'))).getText(), 10);
         console.log(`${passed} assertions of ${total} passed, ${failed} failed.`);
         succeeded = passed === total && failed === 0;
+    } catch (e) {
+        console.error(e);
     } finally {
         await driver.quit();
     }
