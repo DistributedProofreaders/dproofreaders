@@ -24,7 +24,6 @@ use voku\helper\UTF8;
 function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $accepted_words)
 {
     global $puncCharacters;
-    global $code_url;
 
     // variable holding final string
     $returnString = "";
@@ -50,6 +49,10 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     [$badWordHash, $languages, $messages] =
         get_bad_word_levels_for_project_text($orig_text, $projectid, $aux_language, $accepted_words);
 
+    [$uncommonScriptWords, $uncommonScripts] =
+        get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($orig_text)));
+    $uncommonScriptMap = array_flip($uncommonScripts);
+
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
     [$font_style, $font_size, $font_family] = get_user_proofreading_font();
@@ -62,7 +65,10 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     $returnString .= "<style>" .
                    "  pre { line-height: 2.7; }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
-                   "  .hl { background-color: yellow; color: black; }" .
+                   "  .hl-punc { background-color: yellow; color: black; }" .
+                   "  .hl-script-0 { background-color: lightgreen; color: black; }" .
+                   "  .hl-script-1 { background-color: aqua; color: black; }" .
+                   "  .hl-script-2 { background-color: mistyrose; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
@@ -70,9 +76,6 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
 
     $puncArray = UTF8::str_split($puncCharacters);
 
-    // initialize the wordCount and the numBadWords
-    $numBadWords = 0;
-    $wordCount = [];
     $badWords = array_keys($badWordHash);
     // we need to force PHP to treat bad words that are numbers
     // as strings (and compare them as such), otherwise things like
@@ -106,7 +109,10 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
 
         // find the index for each word before we futz with the line
         foreach (get_all_words_in_text($origLine, true) as $lineIndex => $word) {
-            if ($word != "" && (in_array($word, $badWords) || in_array($word, $accepted_words))) {
+            if ($word != "" && (
+                in_array($word, $badWords) || in_array($word, $accepted_words) ||
+                in_array($word, $uncommonScriptWords)
+            )) {
                 // erase any punctuation-markers covered by this word
                 for ($li = $lineIndex; $li < $lineIndex + UTF8::strlen($word); $li++) {
                     unset($indexArray[$li]);
@@ -116,7 +122,8 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
             }
         }
 
-        // now do the search/replace
+        // now do the search/replace from right-to-left so our line index
+        // remains valid while the length of the string grows
         krsort($indexArray);
         foreach ($indexArray as $lineIndex => $word) {
             if ($word == "") {
@@ -125,54 +132,26 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
 
             $wordLen = UTF8::strlen($word);
 
-            // see if we are punctuation
-            if (in_array($word, $puncArray)) {
-                $newLine = UTF8::substr_replace($newLine, _wrapPunc($word), $lineIndex, $wordLen);
-            } elseif (in_array($word, $accepted_words)) {
-                // see if we're an AW word
-                $newLine = UTF8::substr_replace($newLine, _wrapAW($word), $lineIndex, $wordLen);
-            } else {
-                // not punctuation, handle word
+            $replaceString = null;
 
-                // sanitize the words for the AW javascript
-                $jsSanitizedWord = bin2hex($word);
-                @$wordCount[$word]++;
-                $wordID = "{$jsSanitizedWord}_{$wordCount[$word]}";
-                $numBadWords++;
-                $wordSafe = attr_safe($word);
+            // Process the words in the most to least important if the word
+            // at the index is found in multiple arrays
+            if (in_array($word, $accepted_words)) {
+                // an accepted word (AW)
+                $replaceString = _wrapAW($word);
+            } elseif (in_array($word, $badWords)) {
+                // a bad word
+                [$replaceString, $numBadWords] = _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, @$badWordHash[$word]);
+            } elseif (in_array($word, $puncArray)) {
+                // punctuation
+                $replaceString = _wrapPunc($word);
+            } elseif (in_array($word, $uncommonScriptWords)) {
+                // word with one or more characters in an "uncommon" script
+                $replaceString = _wrapScriptWord($word, $uncommonScriptMap);
+            }
 
-                // set the size of the edit box
-                // note: in some browsers the edit box is not wide enough
-                // for longer words, hence the scaling mechanism
-                $textBoxLen = $wordLen + max(1 + round($wordLen / 5), 2);
-
-                // reset the string that will hold the edit box
-                $replaceString = "";
-
-                // if the AW button is wanted, add the initial span
-                if (@$badWordHash[$word] == WC_WORLD) {
-                    $replaceString .= "<span id='$wordID'>";
-                    $onChange = " onBlur=\"markBox('$wordID');\"";
-                    $onChange .= " oninput=\"disableAW('$wordID');\"";
-                } else {
-                    $onChange = " onBlur=\"markBox('$wordID');\"";
-                    $onChange .= " oninput=\"evaluateWordChange('$wordID');\"";
-                }
-
-                // create the edit box
-                $replaceString .=
-                    "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
-                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='proofingfont'$onChange>";
-
-                // if the AW button is wanted, add the closing span and the button
-                if (@$badWordHash[$word] == WC_WORLD) {
-                    $replaceString .=
-                        "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
-                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . attr_safe(_("Unflag All &amp; Suggest Word")) . "' class='aw'></a>" .
-                        "</span>";
-                }
-
-                $newLine = UTF8::substr_replace($newLine, $replaceString, $lineIndex, UTF8::strlen($word));
+            if ($replaceString !== null) {
+                $newLine = UTF8::substr_replace($newLine, $replaceString, $lineIndex, $wordLen);
             }
         }
 
@@ -183,19 +162,100 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     $returnString .= "</pre>";
     $returnString .= "<input id='sptotal' type='hidden' name='sptotal' value='$numBadWords'>";
 
-    return [$returnString, $languages, $messages];
+    $highlightsUsed = [];
+    $highlightsUsed["hl-punc"] = _("punctuation");
+    foreach ($uncommonScriptMap as $script => $index) {
+        $highlightClass = "hl-script-$index";
+        $highlightsUsed[$highlightClass] = _wrapHighlight(sprintf(_("Unicode script: %s"), $script), $highlightClass);
+    }
+
+    return [$returnString, $languages, $messages, $highlightsUsed];
+}
+
+// adds HTML code to highlight text
+function _wrapHighlight($word, $highlightClass)
+{
+    return "<span class='$highlightClass'>$word</span>";
 }
 
 // adds HTML code to punctuation to highlight it
 function _wrapPunc($word)
 {
-    return "<span class='hl'>$word</span>";
+    return _wrapHighlight($word, "hl-punc");
+}
+
+// adds HTML code to highlight words in multiple scripts
+function _wrapScriptWord($word, $scriptMap)
+{
+    global $common_unicode_scripts;
+
+    $returnString = "";
+    foreach (split_multiscript_string($word) as $chunk) {
+        $chunkScript = utf8_char_script(UTF8::str_split($chunk)[0]);
+        if (in_array($chunkScript, $common_unicode_scripts)) {
+            $returnString .= $chunk;
+        } else {
+            $highlightClass = "hl-script-" . $scriptMap[$chunkScript];
+            $returnString .= _wrapHighlight($chunk, $highlightClass);
+        }
+    }
+    return $returnString;
 }
 
 // adds HTML code to an accepted word to highlight it
 function _wrapAW($word)
 {
     return "<span class='aw'>$word</span>";
+}
+
+// adds HTML code to manage a bad word
+function _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, $badWordType)
+{
+    global $code_url;
+
+    static $wordCount = [];
+    static $numBadWords = 0;
+
+    $numBadWords++;
+
+    // sanitize the words for the AW javascript
+    $jsSanitizedWord = bin2hex($word);
+    @$wordCount[$word]++;
+    $wordID = "{$jsSanitizedWord}_{$wordCount[$word]}";
+    $wordSafe = attr_safe($word);
+
+    // set the size of the edit box
+    // note: in some browsers the edit box is not wide enough
+    // for longer words, hence the scaling mechanism
+    $textBoxLen = $wordLen + max(1 + round($wordLen / 5), 2);
+
+    // reset the string that will hold the edit box
+    $replaceString = "";
+
+    // if the AW button is wanted, add the initial span
+    if ($badWordType == WC_WORLD) {
+        $replaceString .= "<span id='$wordID'>";
+        $onChange = " onBlur=\"markBox('$wordID');\"";
+        $onChange .= " oninput=\"disableAW('$wordID');\"";
+    } else {
+        $onChange = " onBlur=\"markBox('$wordID');\"";
+        $onChange .= " oninput=\"evaluateWordChange('$wordID');\"";
+    }
+
+    // create the edit box
+    $replaceString .=
+        "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
+        "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='proofingfont'$onChange>";
+
+    // if the AW button is wanted, add the closing span and the button
+    if ($badWordType == WC_WORLD) {
+        $replaceString .=
+            "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
+            "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . attr_safe(_("Unflag All &amp; Suggest Word")) . "' class='aw'></a>" .
+            "</span>";
+    }
+
+    return [$replaceString, $numBadWords];
 }
 
 // --------------------------------------------

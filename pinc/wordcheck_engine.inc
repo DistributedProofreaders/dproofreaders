@@ -24,9 +24,13 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
 // analyzing the pattern in order to speed up the time taken for matching,
 // but the effect seems pretty close to negligible.)
 
-// string of punctuation characters
-// this is only used for punctuation highlighting
+
+// The following two variables control text highlighting in the interface.
+// String of punctuation characters
 $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
+
+// Unicode scripts that are "common" and shouldn't be highlighted
+$common_unicode_scripts = ["Latin", "Common", "Inherited"];
 
 // -----------------------------------------------------------------------------
 
@@ -161,9 +165,6 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
 
         $acc->add_bad_words(
             get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
-
-        $acc->add_bad_words(
-            get_bad_words_with_multi_scripts($input_words_w_freq), WC_SITE);
     }
 
     // The project
@@ -422,29 +423,6 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
     // placeholder for future patterns
 
     return $badWords;
-}
-
-// Return a list of "bad" words where characters within a word are not all
-// of the same Unicode script type. For instance, this detects words that
-// contain a mix of Latin and Cyrillic characters.
-// Arguments:
-//   input_words_w_freq - an array whose keys are the distinct words of the input text
-//
-// Returns:
-//       -- an array of bad words
-//
-function get_bad_words_with_multi_scripts($input_words_w_freq)
-{
-    $bad_words = [];
-
-    foreach ($input_words_w_freq as $word => $freq) {
-        $scripts = utf8_string_scripts($word);
-        if (count(array_diff($scripts, ["Common", "Inherited"])) > 1) {
-            $bad_words[] = $word;
-        }
-    }
-
-    return $bad_words;
 }
 
 // -----------------------------------------------------------------------------
@@ -1122,13 +1100,46 @@ function rtrim_walk(&$item)
     $item = rtrim($item);
 }
 
+// Filter words to only those of a specific script + Inherited
 function filter_words_to_script($words, $script)
 {
     $script_words = [];
     foreach ($words as $word) {
-        if (in_array($script, utf8_string_scripts($word))) {
+        if (array_diff(utf8_string_scripts($word), [$script, "Inherited"]) === []) {
             $script_words[] = $word;
         }
     }
     return $script_words;
+}
+
+// Return a list of words where characters within a word contain "uncommon"
+// Unicode scripts.
+// Arguments:
+//   words - an array of words
+//
+// Returns:
+//       -- the array: [words[], found_scripts[]]
+//
+function get_words_with_uncommon_scripts($words)
+{
+    global $common_unicode_scripts;
+
+    $found_words = [];
+    $found_scripts = [];
+
+    foreach ($words as $word) {
+        $scripts = array_diff(utf8_string_scripts($word), $common_unicode_scripts);
+        if (count($scripts) > 0) {
+            $found_words[] = $word;
+            foreach ($scripts as $script) {
+                $found_scripts[$script] = 1;
+            }
+        }
+    }
+
+    // alpha sort the scripts so they are consistent within the set detected
+    $found_scripts = array_keys($found_scripts);
+    sort($found_scripts);
+
+    return [$found_words, $found_scripts];
 }
