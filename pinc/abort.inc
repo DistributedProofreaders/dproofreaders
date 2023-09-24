@@ -2,6 +2,7 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc'); // html_safe()
 include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'links.inc');
 
 function abort($error_message)
 {
