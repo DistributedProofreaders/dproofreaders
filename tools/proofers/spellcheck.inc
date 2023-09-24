@@ -84,7 +84,7 @@ if ($user->profile->i_type == 1) {
     echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
-    [$page_contents, $languages, $messages] =
+    [$page_contents, $languages, $messages, $highlights] =
         spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words);
 
     // start the div containing the link to show/hide the WordCheck header
@@ -165,6 +165,17 @@ if ($user->profile->i_type == 1) {
         "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">"
     );
     echo "</p>";
+
+    // text highlight legend
+    if ($highlights) {
+        echo "<p>";
+        echo _("The following highlights have been used:") . "<br>";
+        foreach ($highlights as $hl_class => $message) {
+            echo "<span class='$hl_class'>$message</span><br>";
+        }
+        echo "</p>";
+    }
+
     echo "</div>";
     // here ends the div for the WordCheck header
 

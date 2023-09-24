@@ -102,14 +102,6 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words[0], "a1l");
     }
 
-    public function testGetBadWordsWithMultiScripts()
-    {
-        $words = get_distinct_words_in_text($this->TEXT1);
-        $bad_words = get_bad_words_with_multi_scripts($words);
-        $this->assertEquals(count($bad_words), 1);
-        $this->assertEquals($bad_words[0], "Γreat");
-    }
-
     public function testGetBadWordsForTextNoWordLists()
     {
         $languages = ["English"];
@@ -118,11 +110,10 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             get_bad_words_for_text($this->TEXT1, $languages);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 4);
+        $this->assertEquals(count($bad_words), 3);
         $this->assertEquals($bad_words["Snelling"], WC_WORLD);
         $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
-        $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
 
     public function testGetBadWordsForTextSiteWordList()
@@ -138,10 +129,9 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 3);
+        $this->assertEquals(count($bad_words), 2);
         $this->assertEquals($bad_words["disembarked"], WC_SITE);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
-        $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
 
     public function testGetBadWordsForTextProjectWordList()
@@ -157,11 +147,10 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 4);
+        $this->assertEquals(count($bad_words), 3);
         $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["disembarked"], WC_PROJECT);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
-        $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
 
     public function testGetBadWordsForTextSiteAndProjectWordList()
@@ -178,12 +167,11 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 5);
+        $this->assertEquals(count($bad_words), 4);
         $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["disembarked"], WC_SITE);
         $this->assertEquals($bad_words["opposite"], WC_PROJECT);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
-        $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
 
     public function testGetBadWordsForTextAdhocWordList()
@@ -198,10 +186,9 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
-        $this->assertEquals(count($bad_words), 3);
+        $this->assertEquals(count($bad_words), 2);
         $this->assertEquals($bad_words["b[oe]uf"], WC_WORLD);
         $this->assertEquals($bad_words["a1l"], WC_SITE);
-        $this->assertEquals($bad_words["Γreat"], WC_SITE);
     }
 
     public function testWordListNormalization()
@@ -222,5 +209,31 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         ];
 
         $this->assertEquals($norm_words, $expected_words);
+    }
+
+    public function testGetWordsWithUncommonScripts()
+    {
+        $words = [
+            "one",
+            "o'neill",
+            "Ṅice",
+            "Диф",
+            "Жblarg",
+            "Δπ",
+        ];
+        [$uncommon_words, $scripts] = get_words_with_uncommon_scripts($words);
+
+        $expected_words = [
+            "Диф",
+            "Жblarg",
+            "Δπ",
+        ];
+        $expected_scripts = [
+            "Cyrillic",
+            "Greek",
+        ];
+
+        $this->assertEquals($expected_words, $uncommon_words);
+        $this->assertEquals($expected_scripts, $scripts);
     }
 }

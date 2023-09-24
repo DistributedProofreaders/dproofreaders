@@ -85,6 +85,34 @@ function utf8_character_name($characters)
     return implode(" + ", $title_pieces);
 }
 
+// Split a string into chunks on Unicode script boundaries
+// Inherited characters are included in the chunk with the base character
+function split_multiscript_string($string)
+{
+    $chunks = [];
+    $chunk = null;
+    $chunk_script = null;
+
+    foreach (UTF8::str_split($string) as $char) {
+        $script = utf8_char_script($char);
+        if ($chunk === null) {
+            $chunk = $char;
+            $chunk_script = $script;
+        } elseif ($script == $chunk_script || $script == "Inherited") {
+            $chunk .= $char;
+        } else {
+            $chunks[] = $chunk;
+            $chunk_script = $script;
+            $chunk = $char;
+        }
+    }
+    if ($chunk) {
+        $chunks[] = $chunk;
+    }
+
+    return $chunks;
+}
+
 function split_graphemes($string)
 {
     $next = 0;

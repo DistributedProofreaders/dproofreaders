@@ -186,4 +186,23 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
         $scripts = utf8_string_scripts($string);
         $this->assertEquals(['Latin', 'Common'], $scripts);
     }
+
+    public function testSplitMultiscriptString()
+    {
+        $string = "abcd";
+        $chunks = split_multiscript_string($string);
+        $this->assertEquals(["abcd"], $chunks);
+
+        $string = "a   ";
+        $chunks = split_multiscript_string($string);
+        $this->assertEquals(["a", "   "], $chunks);
+
+        $string = "aaaЖ";
+        $chunks = split_multiscript_string($string);
+        $this->assertEquals(["aaa", "Ж"], $chunks);
+
+        $string = "aN̅c";
+        $chunks = split_multiscript_string($string);
+        $this->assertEquals(["aN̅c"], $chunks);
+    }
 }
