@@ -16,6 +16,7 @@ if ($x == "g") {
     $type = "gold";
     $title = _("Completed Gold E-Texts");
     $state = SQL_CONDITION_GOLD;
+    $group_clause = "GROUP BY postednum";
     $info = [
         _("Below is the list of Gold e-texts that have been produced on this site. Gold e-texts are books that have passed through all phases of proofreading, formatting, and post-processing. They have been submitted to Project Gutenberg and are now available for your enjoyment and download."),
         _("These e-texts are the product of hundreds of hours of labor donated by all of our volunteers. The list is sorted with the most recently submitted e-texts at the top. You can sort them based upon your own preferences by clicking below. Enjoy!!"),
@@ -25,6 +26,7 @@ if ($x == "g") {
     $type = "silver";
     $title = _("In Progress Silver E-Texts");
     $state = SQL_CONDITION_SILVER;
+    $group_clause = "";
     $info = [
         _("Below is the list of Silver e-texts that have almost completed processing on our site. Silver e-texts are books that have passed through all phases of proofreading and formatting and are now in the post-processing phase. Post-processing is the final assembly stage in which one volunteer performs a series of checks for consistency and correctness before the e-book is submitted to Project Gutenberg for your enjoyment and download."),
         _("These e-texts are the product of hundreds of hours of labor donated by our volunteers, and are in one of our post-processing states. The list is sorted by date, with the most recent to have changed state sorted to the top. You can re-sort them based on your own preferences. Enjoy!!"),
@@ -34,6 +36,7 @@ if ($x == "g") {
     $type = "bronze";
     $title = _("Now Proofreading Bronze E-Texts");
     $state = SQL_CONDITION_BRONZE;
+    $group_clause = "";
     $info = [
         _("Below is the list of Bronze e-texts that are currently available for proofreading on this site. Bronze e-texts are those that our volunteers are now proofreading or formatting. After going through three proofreading and two formatting rounds, the e-text then goes to an experienced volunteer for final assembly (post-processing), after which the e-text is submitted to Project Gutenberg for your enjoyment and download."),
         _("Some of these e-texts are just beginning their journeys, others are almost done, and many variations in between. If you would like to help, log in and choose an activity from the navigation bar to see the lists of projects you are eligible to work in."),
@@ -83,4 +86,4 @@ $sortlist = [
     "ORDER BY modifieddate desc",
 ];
 
-list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&amp;", $per_page, $offset);
+list_projects($state, $sortlist[$sort], $group_clause, "list_etexts.php?x=$x&amp;sort=$sort&amp;", $per_page, $offset);

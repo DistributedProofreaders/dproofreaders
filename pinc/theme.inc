@@ -851,22 +851,6 @@ function show_completed_projects($terse = false)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function total_completed_projects()
-// return number of books posted to PG
-// (takes into account that some books are processed as several projects)
-{
-    $psd = get_project_status_descriptor('posted');
-    $result = DPDatabase::query("
-        SELECT COUNT(distinct postednum) as numproj
-        FROM projects
-        WHERE $psd->state_selector
-    ");
-    $row = mysqli_fetch_assoc($result);
-    return $row["numproj"];
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 function show_key_help_links()
 {
     $faq_central_url = get_faq_url("faq_central.php");

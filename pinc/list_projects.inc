@@ -33,20 +33,14 @@ function list_projects_tersely($where_condition, $order_clause, $limit_clause)
     echo "</ul>\n";
 }
 
-function list_projects($where_condition, $order_clause, $url_base, $per_page = 20, $offset = 0)
+function list_projects($where_condition, $order_clause, $group_clause, $url_base, $per_page = 20, $offset = 0)
 // List the specified projects,
 // giving brief information about each.
 // url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
 {
     global $code_url;
 
-    $num_found_rows = total_completed_projects();
-    if ($num_found_rows == 0) {
-        echo _("There are currently no projects in this category.");
-        return;
-    }
-
-    // now load the paged results
+    // first get the number of projects
     $sql = "
         SELECT
             projectid,
@@ -62,7 +56,16 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
             LEFT OUTER JOIN pg_books
             ON projects.postednum=pg_books.etext_number
         WHERE $where_condition
-        GROUP by postednum
+        $group_clause
+    ";
+    $num_found_rows = mysqli_num_rows(DPDatabase::query($sql));
+    if ($num_found_rows == 0) {
+        echo _("There are currently no projects in this category.");
+        return;
+    }
+
+    // now load the paged results by ordering, limiting and offsetting
+    $sql .= "
         $order_clause
         LIMIT $per_page OFFSET $offset
     ";
@@ -162,4 +165,17 @@ function list_projects($where_condition, $order_clause, $url_base, $per_page = 2
         echo "</li>";
     }
     echo "</ol>";
+}
+
+function total_completed_projects()
+// return number of books posted to PG
+// (takes into account that some books are processed as several projects)
+{
+    $psd = get_project_status_descriptor('posted');
+    $sql = "
+        SELECT COUNT(distinct postednum)
+        FROM projects
+        WHERE $psd->state_selector
+    ";
+    return mysqli_fetch_row(DPDatabase::query($sql))[0];
 }
