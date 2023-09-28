@@ -193,21 +193,30 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $pguser;
-
-    [$code, $msg] = $project->can_be_proofed_by_current_user();
-    if ($code != $project->CBP_OKAY) {
-        if ($code == $project->CBP_PROJECT_NOT_IN_ROUND) {
-            // Rather than blurbs that say it's not in a round,
-            // just don't have any blurbs.
-            $msg = null;
-        }
-        return [$msg, $msg];
-    }
+    global $project, $pguser, $code_url;
 
     $projectid = $project->projectid;
     $state = $project->state;
     $round = get_Round_for_project_state($state);
+
+    try {
+        $project->validate_can_be_proofed_by_current_user();
+    } catch (ProjectNotInRoundException $exception) {
+        // Rather than blurbs that say it's not in a round,
+        // just don't have any blurbs.
+        return [null, null];
+    } catch (UserNotQualifiedForRoundException $exception) {
+        $msg = $exception->getMessage() . "<br>" . sprintf(
+            // TRANSLATORS: %2$s is the round ID (eg: P1)
+            _('Please visit <a href="%1$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
+            "$code_url/tools/proofers/round.php?round_id=$round->id",
+            $round->id,
+        );
+        return [$msg, $msg];
+    } catch (ProjectException | UserAccessException $exception) {
+        $msg = $exception->getMessage();
+        return [$msg, $msg];
+    }
 
     $num_pages_available = $project->get_num_pages_in_state($round->page_avail_state);
 
@@ -219,13 +228,15 @@ function decide_blurbs()
         return [$blurb, $blurb];
     }
 
-    $blurb = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($blurb) {
+    try {
+        validate_user_can_get_pages_in_project($pguser, $project, $round);
+    } catch (UserAccessException $exception) {
+        $blurb = $exception->getMessage();
         return [$blurb, $blurb];
     }
 
     // Check whether the user is blocked by a daily page limit.
-    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // Arguably, you'd expect this to be determined in validate_user_can_get_pages_in_project(),
     // but we also want to produce a warning (when the project is covered by a DPL)
     // even when the user *isn't* blocked, which you can't really expect of that function.
     //

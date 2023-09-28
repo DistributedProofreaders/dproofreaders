@@ -125,8 +125,6 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 // Returns an LPage, unless no page is available,
 // in which case returns NULL and sets $err.
 {
-    global $preceding_proofer_restriction;
-
     // can throw NonexistentProjectException
     $project = new Project($projectid);
 
@@ -137,10 +135,28 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     }
 
     $round = get_Round_for_project_state($proj_state);
-    $err = can_user_get_pages_in_project($pguser, $project, $round);
-    if ($err) {
+
+    try {
+        [$imagefile, $state] = get_available_proof_page_array($project, $round, $pguser);
+    } catch (ProjectException | UserAccessException $exception) {
+        $err = $exception->getMessage();
         return null;
     }
+    $lpage = new LPage($project->projectid, $imagefile, $state, 0);
+
+    $lpage->checkout($pguser);
+
+    $err = null;
+    return $lpage;
+}
+
+function get_available_proof_page_array($project, $round, $pguser)
+// Returns an array [image, state] unless no page is available,
+// in which case throw an exception.
+{
+    global $preceding_proofer_restriction;
+
+    validate_user_can_get_pages_in_project($pguser, $project, $round);
 
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,
@@ -155,18 +171,10 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
         $page_array = get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction);
     }
     if (!$page_array) {
-        $err = _("No more files available for proofreading for this round of the project.");
-        return null;
+        throw new ProjectNoMorePagesException(_("The project has no more pages available for proofreading in this round."));
     }
 
-    [$imagefile, $state] = $page_array;
-
-    $lpage = new LPage($projectid, $imagefile, $state, 0);
-
-    $lpage->checkout($pguser);
-
-    $err = null;
-    return $lpage;
+    return $page_array;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -11,6 +11,63 @@ class NonuniqueUserException extends Exception
 {
 }
 
+// all user errors extend from here and in range 300-399
+class UserAccessException extends Exception
+{
+    public function __construct($message = "", $code = 300)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class UserNotLoggedInException extends UserAccessException
+{
+    public function __construct($message = "", $code = 301)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class UserNotQualifiedForRoundException extends UserAccessException
+{
+    public function __construct($message = "", $code = 302)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class BeginnersQuotaReachedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 303)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class BeginnersProjectQuotaReachedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 304)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class NoAccessToMentorsOnlyException extends UserAccessException
+{
+    public function __construct($message = "", $code = 305)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ReservedForNewProofreadersException extends UserAccessException
+{
+    public function __construct($message = "", $code = 306)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class User
 {
     private $table_row;

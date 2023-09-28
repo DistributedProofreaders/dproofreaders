@@ -199,6 +199,24 @@ class Round extends Stage
         // Give them the lowest honorific.
         return $honorific;
     }
+
+    // -----------
+
+    public function validate_user_can_access($user)
+    {
+        global $code_url;
+
+        $uao = $this->user_access($user);
+        if (!$uao->can_access) {
+            $message = sprintf(
+                // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)
+                _('You have not yet been cleared to work on projects in %1$s (%2$s).'),
+                $this->name,
+                $this->id,
+            );
+            throw new UserNotQualifiedForRoundException($message);
+        }
+    }
 }
 
 // ---------------------------

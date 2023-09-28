@@ -264,12 +264,11 @@ $ELR_round = get_Round_for_round_number(1);
 
 // -----------------------------------------------------------------------------
 
-function can_user_get_pages_in_project($username, $project, $round)
-// If the given user is allowed to get a new page
+function validate_user_can_get_pages_in_project($username, $project, $round)
+// Check if the given user is allowed to get a new page
 // of the given project in the given round
 // (via "Start Proofreading" or "Save and Do Another"),
-// return NULL.
-// Otherwise, return a string explaining why not.
+// Otherwise, throw an exception explaining why not.
 //
 // You can assume that this function will be called only if:
 // -- the current user has general access to the round, and
@@ -284,10 +283,8 @@ function can_user_get_pages_in_project($username, $project, $round)
     if ($project->difficulty == 'beginner') {
         if ($round->is_a_mentee_round()) {
             if (!user_can_work_on_beginner_pages_in_round($round)) {
-                return
-                    _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
-                    . " "
-                    . _("Perhaps you could try working on an EASY project.");
+                throw new BeginnersQuotaReachedException(_("You have reached your quota of pages from 'Beginners Only' projects in this round.
+                    Perhaps you could try working on an EASY project."));
             }
 
             if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
@@ -308,15 +305,13 @@ function can_user_get_pages_in_project($username, $project, $round)
                 ");
                 $row = mysqli_fetch_assoc($result);
                 if ($row["pagesdone"] >= $max_n_pages_per_project) {
-                    return
-                        _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
-                        . " "
-                        . _("Or you could try working on an EASY project.");
+                    throw new BeginnersProjectQuotaReachedException(_("You have reached your quota of pages from this 'Beginners Only' project,
+                        but you're welcome to work on a different one. Or you could try working on an EASY project."));
                 }
             }
         } elseif ($round->is_a_mentor_round()) {
             if (!user_can_work_on_beginner_pages_in_round($round)) {
-                return _("You do not have access to difficulty='beginner' (Mentors Only) projects in this round.");
+                throw new NoAccessToMentorsOnlyException(_("You do not have access to difficulty='beginner' (Mentors Only) projects in this round."));
             }
         } else {
             // In other rounds, difficulty='beginner' projects aren't handled specially.
@@ -362,18 +357,13 @@ function can_user_get_pages_in_project($username, $project, $round)
                 } else {
                     // No, experienced.
                     // So cannot proofread this project yet.
-                    return
-                        sprintf(
-                            _('This project is currently reserved for proofreaders who joined less than %1$d days ago or have done less than %2$s P1 pages.'),
-                            $days_on_site_threshold,
-                            $page_tally_threshold
-                        )
-                        . "<br>" .
-                        sprintf(
-                            _('It will become generally available %s.'),
-                            icu_date_template("long+time", $t_generally_available)
-                        )
-                    ;
+                    $message = sprintf(
+                        _('This project is currently reserved for proofreaders who joined less than %1$d days ago or have done less than %2$s P1 pages. It will become generally available %3$s.'),
+                        $days_on_site_threshold,
+                        $page_tally_threshold,
+                        icu_date_template("long+time", $t_generally_available)
+                    );
+                    throw new ReservedForNewProofreadersException($message);
                 }
             }
         } else {
@@ -381,9 +371,7 @@ function can_user_get_pages_in_project($username, $project, $round)
             // It is available to all (subject to other restrictions).
         }
     }
-
     // None of the above restrictions apply.
-    return null;
 }
 
 function get_reserve_length($project, $round)

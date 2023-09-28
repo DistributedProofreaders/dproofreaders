@@ -4,33 +4,6 @@
 
 class ApiTest extends ProjectUtils
 {
-    private $TEST_TEXT = "This is a test file";
-
-    // ----------------------------------------------------
-    // helper functions
-
-    protected function add_page($project, $base)
-    {
-        $source_project_dir = sys_get_temp_dir();
-        $txt_file_name = "$base.txt";
-        $txt_file_path = "$source_project_dir/$txt_file_name";
-        $fp = fopen($txt_file_path, 'w');
-        fwrite($fp, $this->TEST_TEXT);
-        fclose($fp);
-
-        $image_file_name = "$base.png";
-        $img_file_path = "{$project->dir}/$image_file_name";
-        $fp = fopen($img_file_path, 'w');
-        // write something into the image file so it is not too short
-        fwrite($fp, str_repeat("This is a test image file", 10));
-        fclose($fp);
-
-        project_add_page($project->projectid, $base, $image_file_name, $txt_file_path, $this->TEST_USERNAME_PM, time());
-    }
-
-    // ----------------------------------------------------
-    // tests
-
     public function test_get_invalid_project_info()
     {
         $this->expectExceptionCode(101);
