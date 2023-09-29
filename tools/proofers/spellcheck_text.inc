@@ -66,9 +66,10 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
                    "  pre { line-height: 2.7; }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
                    "  .hl-punc { background-color: yellow; color: black; }" .
-                   "  .hl-script-0 { background-color: lightgreen; color: black; }" .
-                   "  .hl-script-1 { background-color: aqua; color: black; }" .
-                   "  .hl-script-2 { background-color: mistyrose; color: black; }" .
+                   "  .hl-script-0 { background-color: CadetBlue; color: black; }" .
+                   "  .hl-script-1 { background-color: lightpink; color: black; }" .
+                   "  .hl-script-2 { background-color: lightgreen; color: black; }" .
+                   "  .hl-script-3 { background-color: mediumpurple; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
